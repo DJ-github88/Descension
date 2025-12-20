@@ -7,6 +7,7 @@ import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
+import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
@@ -34,6 +35,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const { updatePartyMember } = usePartyStore();
     const { updateResource, updateClassResource, activeCharacter, updateTempResource } = useCharacterStore();
     const { updateTokenState, getCreature, creatures } = useCreatureStore();
+    const { addCombatNotification } = useChatStore();
 
     // Get current player data for comparison
     const currentPlayerData = activeCharacter;
@@ -433,8 +435,145 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         }
     };
 
+    // Helper function to get character name from target
+    const getTargetName = () => {
+        if (!currentTarget) return 'Unknown';
+        if (targetType === 'creature') {
+            return currentTarget.name || 'Creature';
+        }
+        if (currentTarget.id === 'current-player') {
+            return characterState.name || 'Player';
+        }
+        const member = partyMembers.find(m => m.id === currentTarget.id);
+        return member?.name || currentTarget.name || 'Unknown';
+    };
+
+    // Helper function to get the actor name (current player, with GM suffix if in GM mode)
+    const getActorName = () => {
+        const actorName = currentPlayerData?.name || characterState.name || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+
+    // Helper function to log full restore/drain as a single combined message
+    const logFullResourceChange = (characterName, healthAmount, manaAmount, apAmount, isRestore) => {
+        const actorName = getActorName();
+        const parts = [];
+        
+        if (manaAmount > 0) {
+            parts.push(`${manaAmount} Mana`);
+        }
+        if (healthAmount > 0) {
+            parts.push(`${healthAmount} Health`);
+        }
+        if (apAmount > 0) {
+            parts.push(`${apAmount} Action Point${apAmount > 1 ? 's' : ''}`);
+        }
+        
+        if (parts.length === 0) return; // No changes to log
+        
+        // Format: "x Mana, y Health and z Action Points"
+        let resourceList = '';
+        if (parts.length === 1) {
+            resourceList = parts[0];
+        } else if (parts.length === 2) {
+            resourceList = `${parts[0]} and ${parts[1]}`;
+        } else {
+            resourceList = `${parts[0]}, ${parts[1]} and ${parts[2]}`;
+        }
+        
+        const actionWord = isRestore ? ['Replenished', 'Restored', 'Recovered'][Math.floor(Math.random() * 3)] : 'Drained';
+        const message = `${characterName} ${actionWord} ${resourceList}`;
+        
+        addCombatNotification({
+            type: isRestore ? 'combat_heal' : 'combat_hit',
+            [isRestore ? 'healer' : 'attacker']: actorName,
+            target: characterName,
+            [isRestore ? 'healing' : 'damage']: healthAmount || manaAmount || apAmount,
+            customMessage: message
+        });
+    };
+
+    // Helper function to generate varied log messages for resource changes (same as PartyHUD)
+    const logResourceChange = (characterName, resourceType, amount, isPositive) => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        
+        if (resourceType === 'health') {
+            // Use existing combat_heal and combat_hit types for health
+            if (isPositive) {
+                const messages = [
+                    `Healed ${characterName} for ${absAmount} health`,
+                    `${characterName} regained ${absAmount} health`,
+                    `${characterName} recovered ${absAmount} health`,
+                    `Restored ${absAmount} health to ${characterName}`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_heal',
+                    healer: actorName,
+                    target: characterName,
+                    healing: absAmount,
+                    customMessage: message
+                });
+            } else {
+                const messages = [
+                    `Hit ${characterName} for ${absAmount} damage`,
+                    `${characterName} took ${absAmount} damage`,
+                    `Dealt ${absAmount} damage to ${characterName}`,
+                    `${characterName} suffered ${absAmount} damage`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_hit',
+                    attacker: actorName,
+                    target: characterName,
+                    damage: absAmount,
+                    customMessage: message
+                });
+            }
+        } else {
+            // For mana and action points, create custom messages
+            const resourceNames = {
+                'mana': { positive: ['mana'], negative: ['mana'] },
+                'actionPoints': { positive: ['action points', 'AP'], negative: ['action points', 'AP'] }
+            };
+            const resource = resourceNames[resourceType] || { positive: [resourceType], negative: [resourceType] };
+            const variants = isPositive ? resource.positive : resource.negative;
+            const resourceName = variants[Math.floor(Math.random() * variants.length)];
+
+            let message = '';
+            if (isPositive) {
+                const messages = [
+                    `Restored ${absAmount} ${resourceName} to ${characterName}`,
+                    `${characterName} regained ${absAmount} ${resourceName}`,
+                    `${characterName} recovered ${absAmount} ${resourceName}`,
+                    `Replenished ${absAmount} ${resourceName} for ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                const messages = [
+                    `${characterName} lost ${absAmount} ${resourceName}`,
+                    `Drained ${absAmount} ${resourceName} from ${characterName}`,
+                    `${characterName} expended ${absAmount} ${resourceName}`,
+                    `${absAmount} ${resourceName} was drained from ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            // For non-health resources, use combat_hit format but with custom message
+            addCombatNotification({
+                type: 'combat_hit',
+                attacker: actorName,
+                target: characterName,
+                damage: absAmount,
+                resourceType: resourceType,
+                customMessage: message
+            });
+        }
+    };
+
     // Handle resource adjustments (similar to PartyHUD)
-    const handleResourceAdjust = (resourceType, adjustment) => {
+    const handleResourceAdjust = (resourceType, adjustment, skipLogging = false) => {
         if (!currentTarget) return;
 
         const tempFieldMap = {
@@ -537,6 +676,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         );
                     }, 50);
                 }
+                
+                // Log the resource change (unless logging is skipped)
+                if (adjustment !== 0 && !skipLogging) {
+                    const characterName = getTargetName();
+                    logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                }
             } else {
                 // Update party member through party store
                 const partyState = usePartyStore.getState();
@@ -636,6 +781,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             );
                         }, 50);
                     }
+                    
+                    // Log the resource change (unless logging is skipped)
+                    if (adjustment !== 0 && !skipLogging) {
+                        const characterName = getTargetName();
+                        logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                    }
                 }
             }
         } else if (targetType === 'creature') {
@@ -710,6 +861,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             console.error('❌ Grid system not available for creature floating text');
                         }
                     }
+                    
+                    // Log the resource change (unless logging is skipped)
+                    if (adjustment !== 0 && !skipLogging) {
+                        const characterName = getTargetName();
+                        logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                    }
                 }
             } else {
                 console.error('❌ Token not found for creature:', tokenId);
@@ -765,64 +922,358 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     // Handle full restore all (HP, mana, and AP)
     const handleFullRestoreAll = () => {
         if (!currentTarget || !targetData) return;
-        const health = getTargetResource('health');
-        const mana = getTargetResource('mana');
-        const actionPoints = getTargetResource('actionPoints');
-        handleResourceAdjust('health', health.max - health.current);
-        handleResourceAdjust('mana', mana.max - mana.current);
-        handleResourceAdjust('actionPoints', actionPoints.max - actionPoints.current);
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                // Get fresh data from character store
+                const characterState = useCharacterStore.getState();
+                const maxHp = characterState.health?.max || 0;
+                const currentHp = characterState.health?.current || 0;
+                const maxMp = characterState.mana?.max || 0;
+                const currentMp = characterState.mana?.current || 0;
+                const maxAp = characterState.actionPoints?.max || 0;
+                const currentAp = characterState.actionPoints?.current || 0;
+                const healthAmount = maxHp - currentHp;
+                const manaAmount = maxMp - currentMp;
+                const apAmount = maxAp - currentAp;
+                
+                handleResourceAdjust('health', healthAmount, true);
+                handleResourceAdjust('mana', manaAmount, true);
+                handleResourceAdjust('actionPoints', apAmount, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+                }
+            } else {
+                // Get fresh data from party store
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const maxHp = member.character.health?.max || 0;
+                    const currentHp = member.character.health?.current || 0;
+                    const maxMp = member.character.mana?.max || 0;
+                    const currentMp = member.character.mana?.current || 0;
+                    const maxAp = member.character.actionPoints?.max || 0;
+                    const currentAp = member.character.actionPoints?.current || 0;
+                    const healthAmount = maxHp - currentHp;
+                    const manaAmount = maxMp - currentMp;
+                    const apAmount = maxAp - currentAp;
+                    
+                    handleResourceAdjust('health', healthAmount, true);
+                    handleResourceAdjust('mana', manaAmount, true);
+                    handleResourceAdjust('actionPoints', apAmount, true);
+                    
+                    // Log as single combined message
+                    if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                        logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+                    }
+                }
+            }
+        } else if (targetType === 'creature') {
+            // For creatures, get fresh data from token state and target stats
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const maxHp = currentTarget.stats?.maxHp || 0;
+                const currentHp = token.state?.currentHp || 0;
+                const maxMp = currentTarget.stats?.maxMana || 0;
+                const currentMp = token.state?.currentMana || 0;
+                const maxAp = currentTarget.stats?.maxActionPoints || 0;
+                const currentAp = token.state?.currentActionPoints || 0;
+                const healthAmount = maxHp - currentHp;
+                const manaAmount = maxMp - currentMp;
+                const apAmount = maxAp - currentAp;
+                
+                handleResourceAdjust('health', healthAmount, true);
+                handleResourceAdjust('mana', manaAmount, true);
+                handleResourceAdjust('actionPoints', apAmount, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+                }
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle full drain all (HP, mana, and AP, including temporary)
     const handleFullDrainAll = () => {
         if (!currentTarget || !targetData) return;
-        const health = getTargetResource('health');
-        const mana = getTargetResource('mana');
-        const actionPoints = getTargetResource('actionPoints');
-        handleResourceAdjust('health', -(health.current + health.temp));
-        handleResourceAdjust('mana', -(mana.current + mana.temp));
-        handleResourceAdjust('actionPoints', -(actionPoints.current + actionPoints.temp));
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                // Get fresh data from character store
+                const characterState = useCharacterStore.getState();
+                const currentHp = characterState.health?.current || 0;
+                const tempHp = characterState.tempHealth || 0;
+                const currentMp = characterState.mana?.current || 0;
+                const tempMp = characterState.tempMana || 0;
+                const currentAp = characterState.actionPoints?.current || 0;
+                const tempAp = characterState.tempActionPoints || 0;
+                const healthAmount = currentHp + tempHp;
+                const manaAmount = currentMp + tempMp;
+                const apAmount = currentAp + tempAp;
+                
+                // Drain all resources including temporary
+                handleResourceAdjust('health', -healthAmount, true);
+                handleResourceAdjust('mana', -manaAmount, true);
+                handleResourceAdjust('actionPoints', -apAmount, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+                }
+            } else {
+                // Get fresh data from party store
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const currentHp = member.character.health?.current || 0;
+                    const tempHp = member.character.tempHealth || 0;
+                    const currentMp = member.character.mana?.current || 0;
+                    const tempMp = member.character.tempMana || 0;
+                    const currentAp = member.character.actionPoints?.current || 0;
+                    const tempAp = member.character.tempActionPoints || 0;
+                    const healthAmount = currentHp + tempHp;
+                    const manaAmount = currentMp + tempMp;
+                    const apAmount = currentAp + tempAp;
+                    
+                    // Drain all resources including temporary
+                    handleResourceAdjust('health', -healthAmount, true);
+                    handleResourceAdjust('mana', -manaAmount, true);
+                    handleResourceAdjust('actionPoints', -apAmount, true);
+                    
+                    // Log as single combined message
+                    if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                        logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+                    }
+                }
+            }
+        } else if (targetType === 'creature') {
+            // For creatures, get fresh data from token state
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const currentHp = token.state?.currentHp || 0;
+                const currentMp = token.state?.currentMana || 0;
+                const currentAp = token.state?.currentActionPoints || 0;
+                const healthAmount = currentHp;
+                const manaAmount = currentMp;
+                const apAmount = currentAp;
+                
+                // Drain all resources (creatures don't have temporary resources)
+                handleResourceAdjust('health', -healthAmount, true);
+                handleResourceAdjust('mana', -manaAmount, true);
+                handleResourceAdjust('actionPoints', -apAmount, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+                }
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle full heal (only health)
     const handleFullHeal = () => {
         if (!currentTarget || !targetData) return;
-        const health = getTargetResource('health');
-        handleResourceAdjust('health', health.max - health.current);
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                const maxHp = characterState.health?.max || 0;
+                const currentHp = characterState.health?.current || 0;
+                const healAmount = maxHp - currentHp;
+                handleResourceAdjust('health', healAmount);
+                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const maxHp = member.character.health?.max || 0;
+                    const currentHp = member.character.health?.current || 0;
+                    const healAmount = maxHp - currentHp;
+                    handleResourceAdjust('health', healAmount);
+                    if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+                }
+            }
+        } else if (targetType === 'creature') {
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const maxHp = currentTarget.stats?.maxHp || 0;
+                const currentHp = token.state?.currentHp || 0;
+                const healAmount = maxHp - currentHp;
+                handleResourceAdjust('health', healAmount);
+                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle kill (set health to 0, including temporary HP)
     const handleKill = () => {
         if (!currentTarget || !targetData) return;
-        const health = getTargetResource('health');
-        handleResourceAdjust('health', -(health.current + health.temp));
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                const currentHp = characterState.health?.current || 0;
+                const tempHp = characterState.tempHealth || 0;
+                handleResourceAdjust('health', -(currentHp + tempHp));
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const currentHp = member.character.health?.current || 0;
+                    const tempHp = member.character.tempHealth || 0;
+                    handleResourceAdjust('health', -(currentHp + tempHp));
+                }
+            }
+        } else if (targetType === 'creature') {
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const currentHp = token.state?.currentHp || 0;
+                handleResourceAdjust('health', -currentHp);
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle drain mana (set mana to 0, including temporary mana)
     const handleDrainMana = () => {
         if (!currentTarget || !targetData) return;
-        const mana = getTargetResource('mana');
-        handleResourceAdjust('mana', -(mana.current + mana.temp));
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                const currentMp = characterState.mana?.current || 0;
+                const tempMp = characterState.tempMana || 0;
+                const drainAmount = currentMp + tempMp;
+                handleResourceAdjust('mana', -drainAmount);
+                if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const currentMp = member.character.mana?.current || 0;
+                    const tempMp = member.character.tempMana || 0;
+                    const drainAmount = currentMp + tempMp;
+                    handleResourceAdjust('mana', -drainAmount);
+                    if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+                }
+            }
+        } else if (targetType === 'creature') {
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const currentMp = token.state?.currentMana || 0;
+                handleResourceAdjust('mana', -currentMp);
+                if (currentMp > 0) logResourceChange(characterName, 'mana', -currentMp, false);
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle full restore mana (set mana to max)
     const handleFullRestoreMana = () => {
         if (!currentTarget || !targetData) return;
-        const mana = getTargetResource('mana');
-        handleResourceAdjust('mana', mana.max - mana.current);
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                const maxMp = characterState.mana?.max || 0;
+                const currentMp = characterState.mana?.current || 0;
+                const restoreAmount = maxMp - currentMp;
+                handleResourceAdjust('mana', restoreAmount);
+                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const maxMp = member.character.mana?.max || 0;
+                    const currentMp = member.character.mana?.current || 0;
+                    const restoreAmount = maxMp - currentMp;
+                    handleResourceAdjust('mana', restoreAmount);
+                    if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+                }
+            }
+        } else if (targetType === 'creature') {
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const maxMp = currentTarget.stats?.maxMana || 0;
+                const currentMp = token.state?.currentMana || 0;
+                const restoreAmount = maxMp - currentMp;
+                handleResourceAdjust('mana', restoreAmount);
+                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+            }
+        }
         setShowContextMenu(false);
     };
 
     // Handle drain AP (set action points to 0, including temporary AP)
     const handleDrainAP = () => {
         if (!currentTarget || !targetData) return;
-        const actionPoints = getTargetResource('actionPoints');
-        handleResourceAdjust('actionPoints', -(actionPoints.current + actionPoints.temp));
+
+        const characterName = getTargetName();
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+
+            if (memberId === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                const currentAp = characterState.actionPoints?.current || 0;
+                const tempAp = characterState.tempActionPoints || 0;
+                const drainAmount = currentAp + tempAp;
+                handleResourceAdjust('actionPoints', -drainAmount);
+                if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    const currentAp = member.character.actionPoints?.current || 0;
+                    const tempAp = member.character.tempActionPoints || 0;
+                    const drainAmount = currentAp + tempAp;
+                    handleResourceAdjust('actionPoints', -drainAmount);
+                    if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+                }
+            }
+        } else if (targetType === 'creature') {
+            const tokenId = currentTarget.id;
+            const token = tokens.find(t => t.id === tokenId);
+            if (token) {
+                const currentAp = token.state?.currentActionPoints || 0;
+                handleResourceAdjust('actionPoints', -currentAp);
+                if (currentAp > 0) logResourceChange(characterName, 'actionPoints', -currentAp, false);
+            }
+        }
         setShowContextMenu(false);
     };
 
@@ -1261,15 +1712,19 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }
                 });
 
-                // Resource adjustment options - only show if GM mode and target is party member/player
-                if (isGMMode && (targetType === 'party_member' || targetType === 'player')) {
+                // Resource adjustment options - show if GM mode for all target types
+                if (isGMMode) {
                     menuItems.push({ type: 'separator' });
 
                     // Full Restore All
                     menuItems.push({
                         icon: <i className="fas fa-redo"></i>,
                         label: 'Full Restore All',
-                        onClick: handleFullRestoreAll,
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleFullRestoreAll();
+                        },
                         className: 'heal'
                     });
 
@@ -1277,7 +1732,11 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     menuItems.push({
                         icon: <i className="fas fa-battery-empty"></i>,
                         label: 'Full Drain All',
-                        onClick: handleFullDrainAll,
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleFullDrainAll();
+                        },
                         className: 'danger'
                     });
 
@@ -1291,7 +1750,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Damage (5)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('health', -5);
                                     setShowContextMenu(false);
                                 }
@@ -1299,7 +1760,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Damage (10)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('health', -10);
                                     setShowContextMenu(false);
                                 }
@@ -1308,7 +1771,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Heal (5)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('health', 5);
                                     setShowContextMenu(false);
                                 }
@@ -1316,7 +1781,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Heal (10)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('health', 10);
                                     setShowContextMenu(false);
                                 }
@@ -1325,13 +1792,21 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-heart"></i>,
                                 label: 'Full Heal',
-                                onClick: handleFullHeal,
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleFullHeal();
+                                },
                                 className: 'heal'
                             },
                             {
                                 icon: <i className="fas fa-skull"></i>,
                                 label: 'Kill',
-                                onClick: handleKill,
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleKill();
+                                },
                                 className: 'danger'
                             }
                         ]
@@ -1345,7 +1820,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Drain (5)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('mana', -5);
                                     setShowContextMenu(false);
                                 }
@@ -1353,7 +1830,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Drain (10)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('mana', -10);
                                     setShowContextMenu(false);
                                 }
@@ -1362,7 +1841,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Restore (5)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('mana', 5);
                                     setShowContextMenu(false);
                                 }
@@ -1370,7 +1851,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Restore (10)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('mana', 10);
                                     setShowContextMenu(false);
                                 }
@@ -1379,13 +1862,21 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-magic"></i>,
                                 label: 'Full Restore',
-                                onClick: handleFullRestoreMana,
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleFullRestoreMana();
+                                },
                                 className: 'heal'
                             },
                             {
                                 icon: <i className="fas fa-battery-empty"></i>,
                                 label: 'Drain All',
-                                onClick: handleDrainMana,
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDrainMana();
+                                },
                                 className: 'danger'
                             }
                         ]
@@ -1399,7 +1890,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Spend (1)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', -1);
                                     setShowContextMenu(false);
                                 }
@@ -1407,7 +1900,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Spend (2)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', -2);
                                     setShowContextMenu(false);
                                 }
@@ -1415,7 +1910,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-minus-circle"></i>,
                                 label: 'Spend (3)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', -3);
                                     setShowContextMenu(false);
                                 }
@@ -1424,7 +1921,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Restore (1)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', 1);
                                     setShowContextMenu(false);
                                 }
@@ -1432,7 +1931,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Restore (2)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', 2);
                                     setShowContextMenu(false);
                                 }
@@ -1440,7 +1941,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-plus-circle"></i>,
                                 label: 'Restore (3)',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     handleResourceAdjust('actionPoints', 3);
                                     setShowContextMenu(false);
                                 }
@@ -1449,10 +1952,37 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-bolt"></i>,
                                 label: 'Full Restore',
-                                onClick: () => {
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     if (!currentTarget || !targetData) return;
-                                    const actionPoints = getTargetResource('actionPoints');
-                                    handleResourceAdjust('actionPoints', actionPoints.max - actionPoints.current);
+
+                                    if (targetType === 'party_member' || targetType === 'player') {
+                                        const memberId = currentTarget.id;
+
+                                        if (memberId === 'current-player') {
+                                            const characterState = useCharacterStore.getState();
+                                            const maxAp = characterState.actionPoints?.max || 0;
+                                            const currentAp = characterState.actionPoints?.current || 0;
+                                            handleResourceAdjust('actionPoints', maxAp - currentAp);
+                                        } else {
+                                            const partyState = usePartyStore.getState();
+                                            const member = partyState.partyMembers.find(m => m.id === memberId);
+                                            if (member && member.character) {
+                                                const maxAp = member.character.actionPoints?.max || 0;
+                                                const currentAp = member.character.actionPoints?.current || 0;
+                                                handleResourceAdjust('actionPoints', maxAp - currentAp);
+                                            }
+                                        }
+                                    } else if (targetType === 'creature') {
+                                        const tokenId = currentTarget.id;
+                                        const token = tokens.find(t => t.id === tokenId);
+                                        if (token) {
+                                            const maxAp = currentTarget.stats?.maxActionPoints || 0;
+                                            const currentAp = token.state?.currentActionPoints || 0;
+                                            handleResourceAdjust('actionPoints', maxAp - currentAp);
+                                        }
+                                    }
                                     setShowContextMenu(false);
                                 },
                                 className: 'heal'
@@ -1460,7 +1990,11 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {
                                 icon: <i className="fas fa-battery-empty"></i>,
                                 label: 'Drain All',
-                                onClick: handleDrainAP,
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDrainAP();
+                                },
                                 className: 'danger'
                             }
                         ]

@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PlaguebringerResourceBar.css';
 
-const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
     const [localCorruption, setLocalCorruption] = useState(65);
     const [localAfflictions, setLocalAfflictions] = useState(4);
     const [selectedSpec, setSelectedSpec] = useState('virulentSpreader');
@@ -11,6 +14,53 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
+    
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
 
     const specConfigs = {
         virulentSpreader: { 
@@ -210,13 +260,29 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         <div className="plaguebringer-controls">
                             <button 
                                 className="plaguebringer-action-btn"
-                                onClick={() => setLocalCorruption(Math.max(0, localCorruption - 10))}
+                                onClick={() => {
+                                    const newValue = Math.max(0, localCorruption - 10);
+                                    const amount = localCorruption - newValue;
+                                    setLocalCorruption(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Corruption', amount, false, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                    }
+                                }}
                             >
                                 -10
                             </button>
                             <button 
                                 className="plaguebringer-action-btn"
-                                onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 10))}
+                                onClick={() => {
+                                    const newValue = Math.min(maxCorruption, localCorruption + 10);
+                                    const amount = newValue - localCorruption;
+                                    setLocalCorruption(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Corruption', amount, true, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                    }
+                                }}
                             >
                                 +10
                             </button>
@@ -224,25 +290,55 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         <div className="plaguebringer-quick-actions">
                             <button 
                                 className="plaguebringer-quick-btn"
-                                onClick={() => setLocalCorruption(Math.max(0, localCorruption - 5))}
+                                onClick={() => {
+                                    const newValue = Math.max(0, localCorruption - 5);
+                                    const amount = localCorruption - newValue;
+                                    setLocalCorruption(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Corruption', amount, false, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                    }
+                                }}
                             >
                                 -5
                             </button>
                             <button 
                                 className="plaguebringer-quick-btn"
-                                onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 5))}
+                                onClick={() => {
+                                    const newValue = Math.min(maxCorruption, localCorruption + 5);
+                                    const amount = newValue - localCorruption;
+                                    setLocalCorruption(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Corruption', amount, true, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                    }
+                                }}
                             >
                                 +5
                             </button>
                             <button 
                                 className="plaguebringer-quick-btn"
-                                onClick={() => setLocalCorruption(0)}
+                                onClick={() => {
+                                    const resetAmount = localCorruption;
+                                    setLocalCorruption(0);
+                                    if (resetAmount > 0) {
+                                        logClassResourceChange('Corruption', resetAmount, false, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', 0);
+                                    }
+                                }}
                             >
                                 Clear
                             </button>
                             <button 
                                 className="plaguebringer-quick-btn"
-                                onClick={() => setLocalCorruption(maxCorruption)}
+                                onClick={() => {
+                                    const gainAmount = maxCorruption - localCorruption;
+                                    setLocalCorruption(maxCorruption);
+                                    if (gainAmount > 0) {
+                                        logClassResourceChange('Corruption', gainAmount, true, 'corruption');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', maxCorruption);
+                                    }
+                                }}
                             >
                                 Max
                             </button>
@@ -255,13 +351,29 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         <div className="plaguebringer-controls">
                             <button 
                                 className="plaguebringer-action-btn"
-                                onClick={() => setLocalAfflictions(Math.max(0, localAfflictions - 1))}
+                                onClick={() => {
+                                    const newValue = Math.max(0, localAfflictions - 1);
+                                    const amount = localAfflictions - newValue;
+                                    setLocalAfflictions(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Affliction', amount, false, 'afflictions');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('afflictions', newValue);
+                                    }
+                                }}
                             >
                                 -1
                             </button>
                             <button 
                                 className="plaguebringer-action-btn"
-                                onClick={() => setLocalAfflictions(Math.min(maxAfflictions, localAfflictions + 1))}
+                                onClick={() => {
+                                    const newValue = Math.min(maxAfflictions, localAfflictions + 1);
+                                    const amount = newValue - localAfflictions;
+                                    setLocalAfflictions(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Affliction', amount, true, 'afflictions');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('afflictions', newValue);
+                                    }
+                                }}
                             >
                                 +1
                             </button>

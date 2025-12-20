@@ -51,6 +51,9 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const characterSubrace = useCharacterStore((state) => state.subrace);
   const characterBackground = useCharacterStore((state) => state.background);
   const characterRaceDisplayName = useCharacterStore((state) => state.raceDisplayName);
+  const characterPath = useCharacterStore((state) => state.path);
+  const characterPathDisplayName = useCharacterStore((state) => state.pathDisplayName);
+  const characterBackgroundDisplayName = useCharacterStore((state) => state.backgroundDisplayName);
 
   // Start party chat simulation when party members change
   useEffect(() => {
@@ -574,10 +577,26 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               filteredUsers.map((user) => {
                 const isCurrentUser = user.userId === currentUserPresence?.userId;
 
+                // For current user, merge character store data with online user data
+                const userData = isCurrentUser ? {
+                  ...user,
+                  characterName: characterName || user.characterName || user.name,
+                  name: characterName || user.name,
+                  level: characterLevel || user.level || 1,
+                  class: characterClass || user.class || 'Unknown',
+                  background: characterBackground || user.background,
+                  backgroundDisplayName: characterBackgroundDisplayName || user.backgroundDisplayName,
+                  path: characterPath || user.path,
+                  pathDisplayName: characterPathDisplayName || user.pathDisplayName,
+                  race: characterRace || user.race,
+                  subrace: characterSubrace || user.subrace,
+                  raceDisplayName: characterRaceDisplayName || user.raceDisplayName
+                } : user;
+
                 return (
                   <UserCard
                     key={user.userId}
-                    user={user}
+                    user={userData}
                     isCurrentUser={isCurrentUser}
                     showYouBadge={isCurrentUser}
                     showSessionInfo={true}
@@ -741,7 +760,22 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                   }
 
                   // Merge member data with online user data
-                  const userData = {
+                  // For current player, prioritize character store data
+                  const userData = isCurrentPlayer ? {
+                    characterName: characterName || member.name,
+                    name: characterName || member.name,
+                    level: characterLevel || member.character?.level || 1,
+                    class: characterClass || member.character?.class || 'Unknown',
+                    background: characterBackground || member.character?.background || displayData.background,
+                    backgroundDisplayName: characterBackgroundDisplayName || computedBackgroundDisplayName || displayData.backgroundDisplayName,
+                    path: characterPath || member.character?.path || displayData.path,
+                    pathDisplayName: characterPathDisplayName || member.character?.pathDisplayName || displayData.pathDisplayName,
+                    race: characterRace || member.character?.race || displayData.race,
+                    subrace: characterSubrace || member.character?.subrace || displayData.subrace,
+                    raceDisplayName: characterRaceDisplayName || member.character?.raceDisplayName || displayData.raceDisplayName,
+                    status: displayData.status || member.status,
+                    statusComment: displayData.statusComment
+                  } : {
                     ...member.character,
                     characterName: member.name,
                     name: member.name,

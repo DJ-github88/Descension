@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PyrofiendResourceBar.css';
 
 const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
@@ -156,6 +159,53 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
         }
     }, [showControls]);
 
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
+
     const handleSpecChange = (spec) => {
         setSelectedSpec(spec);
         setShowSpecSelector(false);
@@ -163,6 +213,10 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     const handleInfernoChange = (delta) => {
         const newLevel = Math.max(0, Math.min(maxInfernoLevel, infernoLevel + delta));
+        const actualAmount = Math.abs(newLevel - infernoLevel);
+        if (actualAmount > 0) {
+            logClassResourceChange('Inferno Level', actualAmount, delta > 0, 'infernoLevel');
+        }
         if (onClassResourceUpdate) {
             onClassResourceUpdate('current', newLevel);
         }
@@ -170,6 +224,10 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     const handleInfernoSet = (level) => {
         const newLevel = Math.max(0, Math.min(maxInfernoLevel, level));
+        const actualAmount = Math.abs(newLevel - infernoLevel);
+        if (actualAmount > 0) {
+            logClassResourceChange('Inferno Level', actualAmount, newLevel > infernoLevel, 'infernoLevel');
+        }
         if (onClassResourceUpdate) {
             onClassResourceUpdate('current', newLevel);
         }

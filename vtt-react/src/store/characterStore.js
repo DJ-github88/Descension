@@ -1550,6 +1550,14 @@ const useCharacterStore = create((set, get) => ({
         }));
     },
 
+    // Update background (syncs both background ID and backgroundDisplayName)
+    updateBackground: (backgroundId, backgroundDisplayName) => {
+        set(state => ({
+            background: backgroundId || '',
+            backgroundDisplayName: backgroundDisplayName || ''
+        }));
+    },
+
     // Update token settings
     updateTokenSettings: (field, value) => {
         set(state => ({

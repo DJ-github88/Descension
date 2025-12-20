@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WardenResourceBar.css';
 
-const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
     // Local state for dev testing
     const [localVP, setLocalVP] = useState(7);
     const [selectedSpec, setSelectedSpec] = useState('shadowblade');
@@ -88,12 +91,67 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
         }
     }, [showTooltip, localVP, selectedSpec, isInStealth, activeCages, isInAvatar]);
 
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
+
     const handleSpecChange = (spec) => {
         setSelectedSpec(spec);
     };
 
     const handleVPChange = (delta) => {
-        setLocalVP(prev => Math.max(0, Math.min(maxVP, prev + delta)));
+        setLocalVP(prev => {
+            const newValue = Math.max(0, Math.min(maxVP, prev + delta));
+            const actualAmount = Math.abs(newValue - prev);
+            if (actualAmount > 0) {
+                logClassResourceChange('Vengeance Point', actualAmount, delta > 0, 'vengeancePoints');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
+            return newValue;
+        });
     };
 
     // Get visual state based on spec and conditions
@@ -412,21 +470,45 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                             <div style={{ display: 'flex', gap: '4px' }}>
                                 <button 
                                     className="context-menu-button danger" 
-                                    onClick={(e) => { e.stopPropagation(); handleVPChange(-10); setIsInAvatar(true); setShowControls(false); }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const resetAmount = localVP;
+                                        handleVPChange(-10);
+                                        setIsInAvatar(true);
+                                        setShowControls(false);
+                                    }}
                                     style={{flex: 1}}
                                 >
                                     <i className="fas fa-star"></i> Avatar
                                 </button>
                                 <button 
                                     className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalVP(0); setShowControls(false); }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const resetAmount = localVP;
+                                        setLocalVP(0);
+                                        setShowControls(false);
+                                        if (resetAmount > 0) {
+                                            logClassResourceChange('Vengeance Point', resetAmount, false, 'vengeancePoints');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                        }
+                                    }}
                                     style={{flex: 1}}
                                 >
                                     <i className="fas fa-undo"></i> Reset
                                 </button>
                                 <button 
                                     className="context-menu-button" 
-                                    onClick={(e) => { e.stopPropagation(); setLocalVP(maxVP); setShowControls(false); }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const gainAmount = maxVP - localVP;
+                                        setLocalVP(maxVP);
+                                        setShowControls(false);
+                                        if (gainAmount > 0) {
+                                            logClassResourceChange('Vengeance Point', gainAmount, true, 'vengeancePoints');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
+                                        }
+                                    }}
                                     style={{flex: 1}}
                                 >
                                     <i className="fas fa-arrow-up"></i> Max

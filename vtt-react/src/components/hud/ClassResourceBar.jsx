@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import DemonConfigModal from './DemonConfigModal';
+import useChatStore from '../../store/chatStore';
+import useGameStore from '../../store/gameStore';
+import useCharacterStore from '../../store/characterStore';
 import PlaguebringerResourceBar from '../../data/classes/plaguebringer/components/PlaguebringerResourceBar';
 import PrimalistResourceBar from '../../data/classes/primalist/components/PrimalistResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
@@ -656,6 +659,68 @@ const ClassResourceBar = ({
             description: 'Class-specific resource for special abilities'
         }
     };
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    
+    // Get GM mode status
+    const isGMModeFromStore = useGameStore(state => state.isGMMode);
+    const effectiveGMMode = isGMMode || isGMModeFromStore;
+    
+    // Get current player name for actor name in logs
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name (current player, with GM suffix if in GM mode)
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return effectiveGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to get character name
+    const getCharacterName = () => {
+        if (character?.name) return character.name;
+        if (character?.character?.name) return character.character.name;
+        return currentPlayerName || 'Character';
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = getCharacterName();
+        
+        const resourceDisplayName = resourceName || 'Class Resource';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceDisplayName}`,
+                `${characterName} acquired ${absAmount} ${resourceDisplayName}`,
+                `${absAmount} ${resourceDisplayName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceDisplayName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceDisplayName}`,
+                `${characterName} used ${absAmount} ${resourceDisplayName}`,
+                `${absAmount} ${resourceDisplayName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceDisplayName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        // Use combat_resource type for class resources
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
+
     // Rage bar anchored tooltip handlers
     const handleRageBarEnter = () => {
         if (rageBarRef.current) {
@@ -1495,7 +1560,15 @@ const ClassResourceBar = ({
                                     <div className="chronarch-action-row">
                                         <button 
                                             className="chronarch-action-btn gain" 
-                                            onClick={() => setLocalTimeShards(Math.min(shardsMax, shardsValue + 1))}
+                                            onClick={() => {
+                                                const newValue = Math.min(shardsMax, shardsValue + 1);
+                                                const amount = newValue - shardsValue;
+                                                setLocalTimeShards(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Time Shard', amount, true, 'timeShards');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
+                                                }
+                                            }}
                                             title="Cast Spell (+1 Shard)"
                                         >
                                             <i className="fas fa-magic"></i>
@@ -1505,7 +1578,15 @@ const ClassResourceBar = ({
                                     <div className="chronarch-action-row">
                                         <button 
                                             className="chronarch-action-btn spend" 
-                                            onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 2))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, shardsValue - 2);
+                                                const amount = shardsValue - newValue;
+                                                setLocalTimeShards(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Time Shard', amount, false, 'timeShards');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
+                                                }
+                                            }}
                                             title="Flux (-2 Shards)"
                                         >
                                             <i className="fas fa-bolt"></i>
@@ -1513,7 +1594,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="chronarch-action-btn spend" 
-                                            onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 5))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, shardsValue - 5);
+                                                const amount = shardsValue - newValue;
+                                                setLocalTimeShards(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Time Shard', amount, false, 'timeShards');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
+                                                }
+                                            }}
                                             title="Major (-5 Shards)"
                                         >
                                             <i className="fas fa-fire"></i>
@@ -1524,7 +1613,15 @@ const ClassResourceBar = ({
 
                                 <div className="chronarch-quick-actions">
                                     <button 
-                                        onClick={() => { setLocalTimeShards(0); setShowTimeShardsMenu(false); }} 
+                                        onClick={() => {
+                                            const resetAmount = shardsValue;
+                                            setLocalTimeShards(0);
+                                            setShowTimeShardsMenu(false);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Time Shard', resetAmount, false, 'timeShards');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('timeShards', 0);
+                                            }
+                                        }} 
                                         className="chronarch-quick-btn"
                                         title="Reset to 0"
                                     >
@@ -1577,7 +1674,15 @@ const ClassResourceBar = ({
                                     <div className="chronarch-action-row">
                                         <button 
                                             className="chronarch-action-btn gain" 
-                                            onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 1))}
+                                            onClick={() => {
+                                                const newValue = Math.min(strainMax, strainValue + 1);
+                                                const amount = newValue - strainValue;
+                                                setLocalTemporalStrain(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Temporal Strain', amount, true, 'temporalStrain');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
+                                                }
+                                            }}
                                             title="Minor Strain (+1)"
                                         >
                                             <i className="fas fa-clock"></i>
@@ -1585,7 +1690,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="chronarch-action-btn gain" 
-                                            onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 3))}
+                                            onClick={() => {
+                                                const newValue = Math.min(strainMax, strainValue + 3);
+                                                const amount = newValue - strainValue;
+                                                setLocalTemporalStrain(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Temporal Strain', amount, true, 'temporalStrain');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
+                                                }
+                                            }}
                                             title="Major Strain (+3)"
                                         >
                                             <i className="fas fa-history"></i>
@@ -1595,7 +1708,15 @@ const ClassResourceBar = ({
                                     <div className="chronarch-action-row">
                                         <button 
                                             className="chronarch-action-btn heal" 
-                                            onClick={() => setLocalTemporalStrain(Math.max(0, strainValue - 1))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, strainValue - 1);
+                                                const amount = strainValue - newValue;
+                                                setLocalTemporalStrain(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Temporal Strain', amount, false, 'temporalStrain');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
+                                                }
+                                            }}
                                             title="Decay (-1 Strain)"
                                         >
                                             <i className="fas fa-leaf"></i>
@@ -1603,7 +1724,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="chronarch-action-btn danger" 
-                                            onClick={() => setLocalTemporalStrain(10)}
+                                            onClick={() => {
+                                                const newValue = 10;
+                                                const amount = Math.abs(newValue - strainValue);
+                                                setLocalTemporalStrain(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Temporal Strain', amount, newValue > strainValue, 'temporalStrain');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
+                                                }
+                                            }}
                                             title="Backlash (Set to 10)"
                                         >
                                             <i className="fas fa-exclamation-triangle"></i>
@@ -1614,7 +1743,15 @@ const ClassResourceBar = ({
 
                                 <div className="chronarch-quick-actions">
                                     <button 
-                                        onClick={() => { setLocalTemporalStrain(0); setShowTemporalStrainMenu(false); }} 
+                                        onClick={() => {
+                                            const resetAmount = strainValue;
+                                            setLocalTemporalStrain(0);
+                                            setShowTemporalStrainMenu(false);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Temporal Strain', resetAmount, false, 'temporalStrain');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', 0);
+                                            }
+                                        }} 
                                         className="chronarch-quick-btn"
                                         title="Reset to 0"
                                     >
@@ -1781,7 +1918,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button gain" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1));
+                                                const newValue = Math.min(maxCharges, chargesValue + 1);
+                                                const amount = newValue - chargesValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, true, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="+1 Attack Evil Caster"
                                         >
@@ -1791,7 +1934,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button gain" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1));
+                                                const newValue = Math.min(maxCharges, chargesValue + 1);
+                                                const amount = newValue - chargesValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, true, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="+1 Targeted by Spell"
                                         >
@@ -1808,7 +1957,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 1));
+                                                const newValue = Math.max(0, chargesValue - 1);
+                                                const amount = chargesValue - newValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="-1 Shadow Step"
                                         >
@@ -1818,7 +1973,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 2));
+                                                const newValue = Math.max(0, chargesValue - 2);
+                                                const amount = chargesValue - newValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="-2 Curse Eater"
                                         >
@@ -1828,7 +1989,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 3));
+                                                const newValue = Math.max(0, chargesValue - 3);
+                                                const amount = chargesValue - newValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="-3 Dark Pursuit"
                                         >
@@ -1838,7 +2005,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button danger" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 6));
+                                                const newValue = Math.max(0, chargesValue - 6);
+                                                const amount = chargesValue - newValue;
+                                                setLocalHexbreakerCharges(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
+                                                }
                                             }}
                                             title="-6 Hexbreaker Fury"
                                         >
@@ -1852,8 +2025,13 @@ const ClassResourceBar = ({
                                     <button 
                                         onClick={(e) => {
                                             e.stopPropagation();
+                                            const resetAmount = chargesValue;
                                             setLocalHexbreakerCharges(0);
                                             setShowChargesMenu(false);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Hexbreaker Charge', resetAmount, false, 'hexbreakerCharges');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', 0);
+                                            }
                                         }} 
                                         className="covenbane-quick-btn"
                                         title="Reset to 0"
@@ -1942,11 +2120,27 @@ const ClassResourceBar = ({
 
         // Helper functions for token management
         const addTokens = (amount) => {
-            setLocalBloodTokens(prev => prev + amount);
+            setLocalBloodTokens(prev => {
+                const newValue = prev + amount;
+                const actualAmount = newValue - prev;
+                if (actualAmount > 0) {
+                    logClassResourceChange('Blood Token', actualAmount, true, 'bloodTokens');
+                    if (onClassResourceUpdate) onClassResourceUpdate('bloodTokens', newValue);
+                }
+                return newValue;
+            });
         };
 
         const removeTokens = (amount) => {
-            setLocalBloodTokens(prev => Math.max(prev - amount, 0));
+            setLocalBloodTokens(prev => {
+                const newValue = Math.max(prev - amount, 0);
+                const actualAmount = prev - newValue;
+                if (actualAmount > 0) {
+                    logClassResourceChange('Blood Token', actualAmount, false, 'bloodTokens');
+                    if (onClassResourceUpdate) onClassResourceUpdate('bloodTokens', newValue);
+                }
+                return newValue;
+            });
         };
 
         const rollDice = (diceCount, diceSize) => {
@@ -2241,8 +2435,13 @@ const ClassResourceBar = ({
                                         className="deathcaller-quick-btn"
                                         onClick={(e) => {
                                             e.stopPropagation();
+                                            const resetAmount = tokensValue;
                                             setLocalBloodTokens(0);
                                             setShowTokensMenu(false);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Blood Token', resetAmount, false, 'bloodTokens');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('bloodTokens', 0);
+                                            }
                                         }}
                                     >
                                         <i className="fas fa-undo"></i>
@@ -2319,11 +2518,23 @@ const ClassResourceBar = ({
 
         // Helper functions
         const addDRP = (amount) => {
-            setLocalDRP(Math.min(localDRP + amount, drpMax));
+            const newValue = Math.min(localDRP + amount, drpMax);
+            const actualAmount = newValue - localDRP;
+            setLocalDRP(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('DRP', actualAmount, true, 'drp');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const removeDRP = (amount) => {
-            setLocalDRP(Math.max(localDRP - amount, 0));
+            const newValue = Math.max(localDRP - amount, 0);
+            const actualAmount = localDRP - newValue;
+            setLocalDRP(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('DRP', actualAmount, false, 'drp');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const simulateDamage = (damage) => {
@@ -3376,20 +3587,41 @@ const ClassResourceBar = ({
         // Adjustment functions
         const gainMadness = (amount) => {
             const newValue = Math.min(maxMadness, currentMadness + amount);
+            const actualAmount = newValue - currentMadness;
             setLocalMadness(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Madness', actualAmount, true, 'madness');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const spendMadness = (amount) => {
             const newValue = Math.max(0, currentMadness - amount);
+            const actualAmount = currentMadness - newValue;
             setLocalMadness(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Madness', actualAmount, false, 'madness');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const resetMadness = () => {
+            const resetAmount = currentMadness;
             setLocalMadness(0);
+            if (resetAmount > 0) {
+                logClassResourceChange('Madness', resetAmount, false, 'madness');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+            }
         };
 
         const setToConvulsion = () => {
-            setLocalMadness(20);
+            const newValue = 20;
+            const amount = Math.abs(newValue - currentMadness);
+            setLocalMadness(newValue);
+            if (amount > 0) {
+                logClassResourceChange('Madness', amount, newValue > currentMadness, 'madness');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         // Tooltip handlers
@@ -3617,12 +3849,22 @@ const ClassResourceBar = ({
         // Adjustment functions
         const gainThreads = (amount) => {
             const newValue = Math.min(maxThreads, currentThreads + amount);
+            const actualAmount = newValue - currentThreads;
             setLocalThreads(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Thread', actualAmount, true, 'threads');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const spendThreads = (amount) => {
             const newValue = Math.max(0, currentThreads - amount);
+            const actualAmount = currentThreads - newValue;
             setLocalThreads(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Thread', actualAmount, false, 'threads');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const resetThreads = () => {
@@ -3929,7 +4171,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button gain" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 1) }));
+                                                const newValue = Math.min(maxWI, wiValue + 1);
+                                                const amount = newValue - wiValue;
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Wild Instinct', amount, true, 'wildInstinct');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
                                             }}
                                             title="Gain 1 WI (Combat)"
                                         >
@@ -3939,7 +4187,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button gain" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 2) }));
+                                                const newValue = Math.min(maxWI, wiValue + 2);
+                                                const amount = newValue - wiValue;
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Wild Instinct', amount, true, 'wildInstinct');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
                                             }}
                                             title="Gain 2 WI (Action)"
                                         >
@@ -3956,7 +4210,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }));
+                                                const newValue = Math.max(0, wiValue - 1);
+                                                const amount = wiValue - newValue;
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
                                             }}
                                             title="Spend 1 WI (Transform)"
                                         >
@@ -3966,7 +4226,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 3) }));
+                                                const newValue = Math.max(0, wiValue - 3);
+                                                const amount = wiValue - newValue;
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
                                             }}
                                             title="Spend 3 WI (Ability)"
                                         >
@@ -3976,7 +4242,13 @@ const ClassResourceBar = ({
                                             className="context-menu-button spend" 
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 5) }));
+                                                const newValue = Math.max(0, wiValue - 5);
+                                                const amount = wiValue - newValue;
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: newValue }));
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Wild Instinct', amount, false, 'wildInstinct');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
                                             }}
                                             title="Spend 5 WI (Ultimate)"
                                         >
@@ -4300,7 +4572,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button gain" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 5) }));
+                                            const newValue = Math.min(maxSynergy, synergyValue + 5);
+                                            const amount = newValue - synergyValue;
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Synergy', amount, true, 'synergy');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('current', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Gain 5 Synergy"
                                     >
@@ -4310,7 +4590,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button gain" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 10) }));
+                                            const newValue = Math.min(maxSynergy, synergyValue + 10);
+                                            const amount = newValue - synergyValue;
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Synergy', amount, true, 'synergy');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('current', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Gain 10 Synergy"
                                     >
@@ -4327,7 +4615,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button spend" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 5) }));
+                                            const newValue = Math.max(0, synergyValue - 5);
+                                            const amount = synergyValue - newValue;
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Synergy', amount, false, 'synergy');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('current', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Spend 5 Synergy"
                                     >
@@ -4337,7 +4633,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button spend" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 10) }));
+                                            const newValue = Math.max(0, synergyValue - 10);
+                                            const amount = synergyValue - newValue;
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Synergy', amount, false, 'synergy');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('current', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Spend 10 Synergy"
                                     >
@@ -4354,7 +4658,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, activeTotems: Math.max(0, totemCount - 1) }));
+                                            const newValue = Math.max(0, totemCount - 1);
+                                            const amount = totemCount - newValue;
+                                            setPrimalistState(prev => ({ ...prev, activeTotems: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Totem', amount, false, 'totems');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('totems', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Remove 1 Totem"
                                     >
@@ -4364,7 +4676,15 @@ const ClassResourceBar = ({
                                         className="context-menu-button" 
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setPrimalistState(prev => ({ ...prev, activeTotems: Math.min(maxTotems, totemCount + 1) }));
+                                            const newValue = Math.min(maxTotems, totemCount + 1);
+                                            const amount = newValue - totemCount;
+                                            setPrimalistState(prev => ({ ...prev, activeTotems: newValue }));
+                                            if (amount > 0) {
+                                                logClassResourceChange('Totem', amount, true, 'totems');
+                                                if (onClassResourceUpdate) {
+                                                    onClassResourceUpdate('totems', newValue);
+                                                }
+                                            }
                                         }}
                                         title="Add 1 Totem"
                                     >
@@ -4400,8 +4720,21 @@ const ClassResourceBar = ({
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation();
+                                        const synergyReset = synergyValue;
+                                        const totemsReset = totemCount;
                                         setPrimalistState(prev => ({ ...prev, localSynergy: 0, activeTotems: 0 }));
                                         setShowSynergyMenu(false);
+                                        // Log resets
+                                        if (synergyReset > 0) {
+                                            logClassResourceChange('Synergy', synergyReset, false, 'synergy');
+                                        }
+                                        if (totemsReset > 0) {
+                                            logClassResourceChange('Totem', totemsReset, false, 'totems');
+                                        }
+                                        if (onClassResourceUpdate) {
+                                            onClassResourceUpdate('current', 0);
+                                            onClassResourceUpdate('totems', 0);
+                                        }
                                     }} 
                                     className="primalist-quick-btn"
                                     title="Reset All"
@@ -4616,7 +4949,15 @@ const ClassResourceBar = ({
                                     <div className="gambler-action-row">
                                         <button 
                                             className="gambler-action-btn gain" 
-                                            onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 1))}
+                                            onClick={() => {
+                                                const newValue = Math.min(maxFP, fpValue + 1);
+                                                const amount = newValue - fpValue;
+                                                setLocalFortunePoints(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Gain 1 FP (Success)"
                                         >
                                             <i className="fas fa-plus"></i>
@@ -4624,7 +4965,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="gambler-action-btn gain" 
-                                            onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 2))}
+                                            onClick={() => {
+                                                const newValue = Math.min(maxFP, fpValue + 2);
+                                                const amount = newValue - fpValue;
+                                                setLocalFortunePoints(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Gain 2 FP (Crit)"
                                         >
                                             <i className="fas fa-plus-circle"></i>
@@ -4634,7 +4983,15 @@ const ClassResourceBar = ({
                                     <div className="gambler-action-row">
                                         <button 
                                             className="gambler-action-btn spend" 
-                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 1))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, fpValue - 1);
+                                                const amount = fpValue - newValue;
+                                                setLocalFortunePoints(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 1 FP (Minor)"
                                         >
                                             <i className="fas fa-minus"></i>
@@ -4642,7 +4999,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="gambler-action-btn spend" 
-                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 3))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, fpValue - 3);
+                                                const amount = fpValue - newValue;
+                                                setLocalFortunePoints(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 3 FP (Moderate)"
                                         >
                                             <i className="fas fa-minus-circle"></i>
@@ -4650,7 +5015,15 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="gambler-action-btn spend" 
-                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 5))}
+                                            onClick={() => {
+                                                const newValue = Math.max(0, fpValue - 5);
+                                                const amount = fpValue - newValue;
+                                                setLocalFortunePoints(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 5 FP (Major)"
                                         >
                                             <i className="fas fa-star"></i>
@@ -4661,21 +5034,43 @@ const ClassResourceBar = ({
 
                                 <div className="gambler-quick-actions">
                                     <button 
-                                        onClick={() => setLocalFortunePoints(0)} 
+                                        onClick={() => {
+                                            const resetAmount = fpValue;
+                                            setLocalFortunePoints(0);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Fortune Point', resetAmount, false, 'fortunePoints');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                            }
+                                        }} 
                                         className="gambler-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
                                     <button 
-                                        onClick={() => setLocalFortunePoints(Math.floor(maxFP / 2))} 
+                                        onClick={() => {
+                                            const newValue = Math.floor(maxFP / 2);
+                                            const amount = Math.abs(newValue - fpValue);
+                                            setLocalFortunePoints(newValue);
+                                            if (amount > 0) {
+                                                logClassResourceChange('Fortune Point', amount, newValue > fpValue, 'fortunePoints');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                            }
+                                        }} 
                                         className="gambler-quick-btn"
                                         title={`Set to Half (${Math.floor(maxFP / 2)})`}
                                     >
                                         <i className="fas fa-balance-scale"></i>
                                     </button>
                                     <button 
-                                        onClick={() => setLocalFortunePoints(maxFP)} 
+                                        onClick={() => {
+                                            const gainAmount = maxFP - fpValue;
+                                            setLocalFortunePoints(maxFP);
+                                            if (gainAmount > 0) {
+                                                logClassResourceChange('Fortune Point', gainAmount, true, 'fortunePoints');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('current', maxFP);
+                                            }
+                                        }} 
                                         className="gambler-quick-btn"
                                         title={`Set to Max (${maxFP})`}
                                     >
@@ -4836,7 +5231,16 @@ const ClassResourceBar = ({
                                         <div className="huntress-action-row">
                                             <button 
                                                 className="huntress-action-btn gain" 
-                                                onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 1)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.min(maxQM, qmValue + 1);
+                                                    const amount = newValue - qmValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, true, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Gain 1 Mark (Hit)"
                                             >
                                                 <i className="fas fa-plus"></i>
@@ -4844,7 +5248,16 @@ const ClassResourceBar = ({
                                             </button>
                                             <button 
                                                 className="huntress-action-btn gain" 
-                                                onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 2)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.min(maxQM, qmValue + 2);
+                                                    const amount = newValue - qmValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, true, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Gain 2 Marks (Critical)"
                                             >
                                                 <i className="fas fa-plus-circle"></i>
@@ -4854,7 +5267,16 @@ const ClassResourceBar = ({
                                         <div className="huntress-action-row">
                                             <button 
                                                 className="huntress-action-btn spend" 
-                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 1)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, qmValue - 1);
+                                                    const amount = qmValue - newValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Spend 1 Mark (Companion)"
                                             >
                                                 <i className="fas fa-minus"></i>
@@ -4862,7 +5284,16 @@ const ClassResourceBar = ({
                                             </button>
                                             <button 
                                                 className="huntress-action-btn spend" 
-                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 2)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, qmValue - 2);
+                                                    const amount = qmValue - newValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Spend 2 Marks (Chain Attack)"
                                             >
                                                 <i className="fas fa-minus-circle"></i>
@@ -4870,7 +5301,16 @@ const ClassResourceBar = ({
                                             </button>
                                             <button 
                                                 className="huntress-action-btn spend" 
-                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 3)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, qmValue - 3);
+                                                    const amount = qmValue - newValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Spend 3 Marks (Specialization)"
                                             >
                                                 <i className="fas fa-star"></i>
@@ -4878,7 +5318,16 @@ const ClassResourceBar = ({
                                             </button>
                                             <button 
                                                 className="huntress-action-btn spend" 
-                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 5)); setShowQMMenu(false); }}
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, qmValue - 5);
+                                                    const amount = qmValue - newValue;
+                                                    setLocalQuarryMarks(newValue);
+                                                    setShowQMMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Quarry Mark', amount, false, 'quarryMarks');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', newValue);
+                                                    }
+                                                }}
                                                 title="Spend 5 Marks (Ultimate)"
                                             >
                                                 <i className="fas fa-fire"></i>
@@ -4913,14 +5362,30 @@ const ClassResourceBar = ({
 
                                     <div className="huntress-quick-actions">
                                         <button 
-                                            onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }} 
+                                            onClick={() => {
+                                                const resetAmount = qmValue;
+                                                setLocalQuarryMarks(0);
+                                                setShowQMMenu(false);
+                                                if (resetAmount > 0) {
+                                                    logClassResourceChange('Quarry Mark', resetAmount, false, 'quarryMarks');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', 0);
+                                                }
+                                            }} 
                                             className="huntress-quick-btn"
                                             title="Reset to 0"
                                         >
                                             <i className="fas fa-undo"></i>
                                         </button>
                                         <button 
-                                            onClick={() => { setLocalQuarryMarks(maxQM); setShowQMMenu(false); }} 
+                                            onClick={() => {
+                                                const gainAmount = maxQM - qmValue;
+                                                setLocalQuarryMarks(maxQM);
+                                                setShowQMMenu(false);
+                                                if (gainAmount > 0) {
+                                                    logClassResourceChange('Quarry Mark', gainAmount, true, 'quarryMarks');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', maxQM);
+                                                }
+                                            }} 
                                             className="huntress-quick-btn"
                                             title={`Set to Max (${maxQM})`}
                                         >
@@ -5203,7 +5668,13 @@ const ClassResourceBar = ({
                                                 className="context-menu-button gain" 
                                                 onClick={(e) => { 
                                                     e.stopPropagation();
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 1) })); 
+                                                    const newValue = Math.min(maxRunes, runesValue + 1);
+                                                    const amount = newValue - runesValue;
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Rune', amount, true, 'runes');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
+                                                    }
                                                 }} 
                                                 title="+1 Place"
                                             >
@@ -5213,7 +5684,13 @@ const ClassResourceBar = ({
                                                 className="context-menu-button gain" 
                                                 onClick={(e) => { 
                                                     e.stopPropagation();
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 3) })); 
+                                                    const newValue = Math.min(maxRunes, runesValue + 3);
+                                                    const amount = newValue - runesValue;
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Rune', amount, true, 'runes');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
+                                                    }
                                                 }} 
                                                 title="+3 Zone"
                                             >
@@ -5223,7 +5700,13 @@ const ClassResourceBar = ({
                                                 className="context-menu-button spend" 
                                                 onClick={(e) => { 
                                                     e.stopPropagation();
-                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.max(0, runesValue - 1) })); 
+                                                    const newValue = Math.max(0, runesValue - 1);
+                                                    const amount = runesValue - newValue;
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: newValue }));
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Rune', amount, false, 'runes');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
+                                                    }
                                                 }} 
                                                 title="-1 Detonate"
                                             >
@@ -5240,7 +5723,13 @@ const ClassResourceBar = ({
                                                 className="context-menu-button gain" 
                                                 onClick={(e) => { 
                                                     e.stopPropagation();
-                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: Math.min(maxInscriptions, inscriptionsValue + 1) })); 
+                                                    const newValue = Math.min(maxInscriptions, inscriptionsValue + 1);
+                                                    const amount = newValue - inscriptionsValue;
+                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: newValue }));
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Inscription', amount, true, 'inscriptions');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
+                                                    } 
                                                 }} 
                                                 title="+1 Inscribe"
                                             >
@@ -5250,7 +5739,13 @@ const ClassResourceBar = ({
                                                 className="context-menu-button spend" 
                                                 onClick={(e) => { 
                                                     e.stopPropagation();
-                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: Math.max(0, inscriptionsValue - 1) })); 
+                                                    const newValue = Math.max(0, inscriptionsValue - 1);
+                                                    const amount = inscriptionsValue - newValue;
+                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: newValue }));
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Inscription', amount, false, 'inscriptions');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
+                                                    }
                                                 }} 
                                                 title="-1 Remove"
                                             >
@@ -5352,7 +5847,13 @@ const ClassResourceBar = ({
         };
 
         const handleAdjustPhylactery = (amount) => {
-            setLocalPhylacteryHP(Math.max(0, Math.min(maxPhylactery, phylacteryValue + amount)));
+            const newValue = Math.max(0, Math.min(maxPhylactery, phylacteryValue + amount));
+            const actualAmount = Math.abs(newValue - phylacteryValue);
+            setLocalPhylacteryHP(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Phylactery HP', actualAmount, amount > 0, 'phylacteryHP');
+                if (onClassResourceUpdate) onClassResourceUpdate('phylacteryHP', newValue);
+            }
         };
 
         const handleToggleAura = () => {
@@ -5902,8 +6403,15 @@ const ClassResourceBar = ({
 
         const handleNoteAdjust = (noteIndex, delta) => {
             const newNotes = [...localNotes];
+            const oldValue = newNotes[noteIndex];
             newNotes[noteIndex] = Math.max(0, Math.min(maxPerNote, newNotes[noteIndex] + delta));
+            const actualAmount = Math.abs(newNotes[noteIndex] - oldValue);
             setLocalNotes(newNotes);
+            if (actualAmount > 0) {
+                const noteName = finalConfig.visual?.notes?.[noteIndex]?.name || 'Musical Note';
+                logClassResourceChange(noteName, actualAmount, delta > 0, 'musicalNotes');
+                if (onClassResourceUpdate) onClassResourceUpdate('notes', newNotes);
+            }
         };
 
         const handleNoteReset = (noteIndex) => {
@@ -6165,7 +6673,13 @@ const ClassResourceBar = ({
         };
 
         const handleVisionsAdjust = (delta) => {
-            setLocalVisions(Math.max(0, Math.min(maxVisions, localVisions + delta)));
+            const newValue = Math.max(0, Math.min(maxVisions, localVisions + delta));
+            const actualAmount = Math.abs(newValue - localVisions);
+            setLocalVisions(newValue);
+            if (actualAmount > 0) {
+                logClassResourceChange('Vision', actualAmount, delta > 0, 'visions');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
         };
 
         const handlePredictionSuccess = (type) => {
@@ -6204,7 +6718,12 @@ const ClassResourceBar = ({
 
         const handleRevelation = () => {
             const gain = 1;
-            setLocalVisions(Math.min(maxVisions, localVisions + gain));
+            const newValue = Math.min(maxVisions, localVisions + gain);
+            setLocalVisions(newValue);
+            if (gain > 0) {
+                logClassResourceChange('Vision', gain, true, 'visions');
+                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+            }
             setLastVisionGain(prev => [
                 { source: 'Revelation', amount: gain },
                 ...prev.slice(0, 2)
@@ -6328,21 +6847,43 @@ const ClassResourceBar = ({
                                     <div className="oracle-quick-adjust-row">
                                         <button 
                                             className="oracle-quick-btn" 
-                                            onClick={() => setLocalVisions(0)}
+                                            onClick={() => {
+                                                const resetAmount = visionsValue;
+                                                setLocalVisions(0);
+                                                if (resetAmount > 0) {
+                                                    logClassResourceChange('Vision', resetAmount, false, 'visions');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                                }
+                                            }}
                                             title="Clear (0)"
                                         >
                                             <i className="fas fa-eraser"></i>
                                         </button>
                                         <button 
                                             className="oracle-quick-btn" 
-                                            onClick={() => setLocalVisions(3)}
+                                            onClick={() => {
+                                                const newValue = 3;
+                                                const amount = Math.abs(newValue - visionsValue);
+                                                setLocalVisions(newValue);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Vision', amount, newValue > visionsValue, 'visions');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Reset (3)"
                                         >
                                             <i className="fas fa-undo"></i>
                                         </button>
                                         <button 
                                             className="oracle-quick-btn" 
-                                            onClick={() => setLocalVisions(maxVisions)}
+                                            onClick={() => {
+                                                const gainAmount = maxVisions - visionsValue;
+                                                setLocalVisions(maxVisions);
+                                                if (gainAmount > 0) {
+                                                    logClassResourceChange('Vision', gainAmount, true, 'visions');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', maxVisions);
+                                                }
+                                            }}
                                             title={`Max (${maxVisions})`}
                                         >
                                             <i className="fas fa-crown"></i>
@@ -7331,7 +7872,16 @@ const ClassResourceBar = ({
                                     <div className="berserker-action-row">
                                         <button 
                                             className="berserker-action-btn gain" 
-                                            onClick={() => { setLocalRage(Math.min(rageValue + 5, 150)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                const newValue = Math.min(rageValue + 5, 150);
+                                                const amount = newValue - rageValue;
+                                                setLocalRage(newValue);
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, true, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Gain 5 Rage"
                                         >
                                             <i className="fas fa-plus"></i>
@@ -7339,7 +7889,16 @@ const ClassResourceBar = ({
                                         </button>
                                         <button 
                                             className="berserker-action-btn spend" 
-                                            onClick={() => { setLocalRage(Math.max(rageValue - 5, 0)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                const newValue = Math.max(rageValue - 5, 0);
+                                                const amount = rageValue - newValue;
+                                                setLocalRage(newValue);
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, false, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 5 Rage"
                                         >
                                             <i className="fas fa-minus"></i>

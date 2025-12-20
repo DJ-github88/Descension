@@ -41,16 +41,12 @@ const UserCard = ({
     return '';
   };
 
-  // Helper to get path display name from pathData
-  const getPathDisplayName = (pathId) => {
-    if (!pathId) return '';
-
-    // Import path data
-    const { getPathData } = require('../../data/pathData');
-    const pathData = getPathData(pathId);
-    if (pathData) return pathData.name;
-
-    // If not found, return empty string
+  // Helper to get background from lore if available
+  const getBackgroundFromLore = (user) => {
+    // Check if user has lore object with background
+    if (user.lore?.background) {
+      return user.lore.background;
+    }
     return '';
   };
 
@@ -81,8 +77,11 @@ const UserCard = ({
     }
   };
 
-  const backgroundDisplayName = user.backgroundDisplayName || getBackgroundDisplayName(user.background);
-  const pathDisplayName = user.pathDisplayName || getPathDisplayName(user.path);
+  // Get background display name - check multiple sources
+  const backgroundDisplayName = 
+    user.backgroundDisplayName || 
+    getBackgroundDisplayName(user.background) ||
+    getBackgroundFromLore(user);
   const raceDisplayName = getRaceDisplayName(user);
 
   return (
@@ -120,7 +119,7 @@ const UserCard = ({
           )}
         </div>
 
-        {/* Character Details - Larger and More Readable */}
+        {/* Character Details - Clean intuitive overview */}
         <div className="user-details-new">
           {/* Level and Class - Large and prominent */}
           <div className="level-class-row">
@@ -128,18 +127,15 @@ const UserCard = ({
             <span className="class-text">{user.class || 'Unknown'}</span>
           </div>
 
-          {/* Path and Background badges */}
-          {(pathDisplayName || backgroundDisplayName) && (
-            <div className="badges-row">
-              {pathDisplayName && <span className="char-badge path-badge">{pathDisplayName}</span>}
-              {backgroundDisplayName && <span className="char-badge bg-badge">{backgroundDisplayName}</span>}
-            </div>
-          )}
-
-          {/* Race - Larger and more visible */}
-          {raceDisplayName && (
-            <div className="race-row">
-              <span className="race-text">{raceDisplayName}</span>
+          {/* Background and Race - Clean display without labels */}
+          {(backgroundDisplayName || raceDisplayName) && (
+            <div className="character-traits">
+              {backgroundDisplayName && (
+                <span className="character-trait">{backgroundDisplayName}</span>
+              )}
+              {raceDisplayName && (
+                <span className="character-trait">{raceDisplayName}</span>
+              )}
             </div>
           )}
         </div>

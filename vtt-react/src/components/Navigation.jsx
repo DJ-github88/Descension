@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
+import 'react-resizable/css/styles.css';
 import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import WowWindow from './windows/WowWindow';
@@ -28,7 +29,6 @@ import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './ErrorBoundary';
 // REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
-// REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
 import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';

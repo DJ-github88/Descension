@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
 import usePartyStore from '../../store/partyStore';
+import useGameStore from '../../store/gameStore';
+import useChatStore from '../../store/chatStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import StatTooltip from '../tooltips/StatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
@@ -411,6 +413,15 @@ export default function CharacterPanel() {
     const { addItem } = useInventoryStore(state => ({
         addItem: state.addItem
     }));
+
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    
+    // Get GM mode status
+    const isGMMode = useGameStore(state => state.isGMMode);
+    
+    // Get current player name for actor name in logs
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
 
     const [hoveredSlot, setHoveredSlot] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -1003,6 +1014,91 @@ export default function CharacterPanel() {
         </div>
     );
 
+    // Helper function to get the actor name (current player, with GM suffix if in GM mode)
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+
+    // Helper function to generate varied log messages for resource changes
+    const logResourceChange = (characterName, resourceType, amount, isPositive) => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        
+        if (resourceType === 'health') {
+            // Use existing combat_heal and combat_hit types for health
+            if (isPositive) {
+                const messages = [
+                    `Healed ${characterName} for ${absAmount} health`,
+                    `${characterName} regained ${absAmount} health`,
+                    `${characterName} recovered ${absAmount} health`,
+                    `Restored ${absAmount} health to ${characterName}`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_heal',
+                    healer: actorName,
+                    target: characterName,
+                    healing: absAmount,
+                    customMessage: message
+                });
+            } else {
+                const messages = [
+                    `Hit ${characterName} for ${absAmount} damage`,
+                    `${characterName} took ${absAmount} damage`,
+                    `Dealt ${absAmount} damage to ${characterName}`,
+                    `${characterName} suffered ${absAmount} damage`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_hit',
+                    attacker: actorName,
+                    target: characterName,
+                    damage: absAmount,
+                    customMessage: message
+                });
+            }
+        } else {
+            // For mana and action points, create custom messages
+            const resourceNames = {
+                'mana': { positive: ['mana'], negative: ['mana'] },
+                'actionPoints': { positive: ['action points', 'AP'], negative: ['action points', 'AP'] }
+            };
+            const resource = resourceNames[resourceType] || { positive: [resourceType], negative: [resourceType] };
+            const variants = isPositive ? resource.positive : resource.negative;
+            const resourceName = variants[Math.floor(Math.random() * variants.length)];
+
+            let message = '';
+            if (isPositive) {
+                const messages = [
+                    `Restored ${absAmount} ${resourceName} to ${characterName}`,
+                    `${characterName} regained ${absAmount} ${resourceName}`,
+                    `${characterName} recovered ${absAmount} ${resourceName}`,
+                    `Replenished ${absAmount} ${resourceName} for ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                const messages = [
+                    `${characterName} lost ${absAmount} ${resourceName}`,
+                    `Drained ${absAmount} ${resourceName} from ${characterName}`,
+                    `${characterName} expended ${absAmount} ${resourceName}`,
+                    `${absAmount} ${resourceName} was drained from ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            // For non-health resources, use combat_hit format but with custom message
+            addCombatNotification({
+                type: 'combat_hit',
+                attacker: actorName,
+                target: characterName,
+                damage: absAmount,
+                resourceType: resourceType,
+                customMessage: message
+            });
+        }
+    };
+
     // Handler for resource updates with overheal detection
     const handleResourceUpdate = (resourceType, newValue, maxValue) => {
         // Get current resource values
@@ -1028,6 +1124,11 @@ export default function CharacterPanel() {
         }
         
         // Normal update (no overheal or negative adjustment)
+        // Log the resource change if there's an actual adjustment
+        if (adjustment !== 0) {
+            const characterName = dataSource.name || name || 'Character';
+            logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+        }
         updateResource(resourceType, Math.max(0, Math.min(actualMax, newValue)), actualMax);
     };
 
@@ -1044,9 +1145,18 @@ export default function CharacterPanel() {
         const tempField = tempFieldMap[resourceType];
         const currentTemp = dataSource[tempField] || 0;
         
+        // Get character name for logging
+        const characterName = dataSource.name || name || 'Character';
+        
         if (asTemporary) {
             // Add as temporary resource
             const overhealAmount = (currentValue + adjustment) - maxValue;
+            
+            // Log the main resource change (up to max)
+            const mainAdjustment = maxValue - currentValue;
+            if (mainAdjustment > 0) {
+                logResourceChange(characterName, resourceType, mainAdjustment, true);
+            }
             
             // Set resource to max
             updateResource(resourceType, maxValue, maxValue);
@@ -1076,6 +1186,11 @@ export default function CharacterPanel() {
             }
         } else {
             // Just cap at max, don't add temporary
+            // Log the resource change
+            const mainAdjustment = maxValue - currentValue;
+            if (mainAdjustment > 0) {
+                logResourceChange(characterName, resourceType, mainAdjustment, true);
+            }
             updateResource(resourceType, maxValue, maxValue);
         }
         

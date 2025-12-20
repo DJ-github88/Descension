@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WitchDoctorResourceBar.css';
 
-const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
     // Local state for dev controls
     const [localEssence, setLocalEssence] = useState(8);
     const [selectedSpec, setSelectedSpec] = useState('shadow-priest');
@@ -22,6 +25,53 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
     const tooltipRef = useRef(null);
     
     const maxEssence = 15;
+    
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
     
     // Determine visual stage based on essence level
     const getStage = (essence) => {
@@ -292,16 +342,46 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                             <div className="compact-essence-section">
                                 <span className="compact-section-label">Essence:</span>
                                 <div className="compact-essence-btns">
-                                    <button onClick={() => setLocalEssence(Math.max(0, localEssence - 1))} title="Decrease Essence">
+                                    <button onClick={() => {
+                                        const newValue = Math.max(0, localEssence - 1);
+                                        const amount = localEssence - newValue;
+                                        setLocalEssence(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Voodoo Essence', amount, false, 'voodooEssence');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                        }
+                                    }} title="Decrease Essence">
                                         <i className="fas fa-minus"></i>
                                     </button>
-                                    <button onClick={() => setLocalEssence(0)} title="Clear Essence">
+                                    <button onClick={() => {
+                                        const resetAmount = localEssence;
+                                        setLocalEssence(0);
+                                        if (resetAmount > 0) {
+                                            logClassResourceChange('Voodoo Essence', resetAmount, false, 'voodooEssence');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                        }
+                                    }} title="Clear Essence">
                                         <i className="fas fa-times"></i>
                                     </button>
-                                    <button onClick={() => setLocalEssence(maxEssence)} title="Max Essence">
+                                    <button onClick={() => {
+                                        const gainAmount = maxEssence - localEssence;
+                                        setLocalEssence(maxEssence);
+                                        if (gainAmount > 0) {
+                                            logClassResourceChange('Voodoo Essence', gainAmount, true, 'voodooEssence');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', maxEssence);
+                                        }
+                                    }} title="Max Essence">
                                         <i className="fas fa-infinity"></i>
                                     </button>
-                                    <button onClick={() => setLocalEssence(Math.min(maxEssence, localEssence + 1))} title="Increase Essence">
+                                    <button onClick={() => {
+                                        const newValue = Math.min(maxEssence, localEssence + 1);
+                                        const amount = newValue - localEssence;
+                                        setLocalEssence(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Voodoo Essence', amount, true, 'voodooEssence');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                        }
+                                    }} title="Increase Essence">
                                         <i className="fas fa-plus"></i>
                                     </button>
                                 </div>

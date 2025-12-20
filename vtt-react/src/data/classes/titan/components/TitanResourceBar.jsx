@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/TitanResourceBar.css';
 
-const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
     const [localCharge, setLocalCharge] = useState(60);
     const [selectedDevotion, setSelectedDevotion] = useState('solara');
     const [selectedSpec, setSelectedSpec] = useState('celestialChampion');
@@ -202,9 +205,62 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
         setTimeout(() => setIsSwitching(false), 800);
     };
 
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
+
     const adjustCharge = (amount) => {
         const newCharge = Math.max(0, Math.min(maxCharge, localCharge + amount));
+        const actualAmount = Math.abs(newCharge - localCharge);
         setLocalCharge(newCharge);
+        
+        if (actualAmount > 0) {
+            logClassResourceChange('Celestial Charge', actualAmount, amount > 0, 'celestialCharge');
+            if (onClassResourceUpdate) onClassResourceUpdate('current', newCharge);
+        }
         
         if (amount > 0) {
             simulateCharging();
@@ -345,9 +401,32 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                     <div className="control-group charge-controls">
                         <div className="charge-buttons">
                             <div className="preset-buttons-row">
-                                <button onClick={() => setLocalCharge(0)}>0</button>
-                                <button onClick={() => setLocalCharge(50)}>50</button>
-                                <button onClick={() => setLocalCharge(100)}>100</button>
+                                <button onClick={() => {
+                                    const resetAmount = localCharge;
+                                    setLocalCharge(0);
+                                    if (resetAmount > 0) {
+                                        logClassResourceChange('Celestial Charge', resetAmount, false, 'celestialCharge');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                    }
+                                }}>0</button>
+                                <button onClick={() => {
+                                    const newValue = 50;
+                                    const amount = Math.abs(newValue - localCharge);
+                                    setLocalCharge(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Celestial Charge', amount, newValue > localCharge, 'celestialCharge');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                    }
+                                }}>50</button>
+                                <button onClick={() => {
+                                    const newValue = 100;
+                                    const amount = Math.abs(newValue - localCharge);
+                                    setLocalCharge(newValue);
+                                    if (amount > 0) {
+                                        logClassResourceChange('Celestial Charge', amount, newValue > localCharge, 'celestialCharge');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                    }
+                                }}>100</button>
                             </div>
                             <div className="adjust-buttons-row">
                                 <button onClick={() => adjustCharge(-10)}>-10</button>

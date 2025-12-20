@@ -27,6 +27,7 @@ export default function Lore() {
     const characterStore = useCharacterStore((state) => ({
         lore: state.lore,
         updateLore: state.updateLore,
+        updateBackground: state.updateBackground,
         tokenSettings: state.tokenSettings,
         updateTokenSettings: state.updateTokenSettings,
         race: state.race,
@@ -37,6 +38,7 @@ export default function Lore() {
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
     const { lore, updateLore } = dataSource;
+    const { updateBackground, background } = characterStore;
 
     // Token settings are only available when not in inspection mode
     const { tokenSettings, updateTokenSettings } = inspectionData ? { tokenSettings: null, updateTokenSettings: null } : characterStore;
@@ -57,6 +59,21 @@ export default function Lore() {
             updateLore('imageTransformations', defaultTransforms);
         }
     }, [lore.characterImage, lore.imageTransformations]);
+
+    // Sync existing lore.background to top-level background field if not already set
+    useEffect(() => {
+        if (lore.background && !inspectionData && updateBackground) {
+            const { getAllBackgrounds } = require('../../data/backgroundData');
+            const backgrounds = getAllBackgrounds();
+            const selectedBg = backgrounds.find(bg => bg.name === lore.background);
+            if (selectedBg) {
+                // Check if background is already synced
+                if (!background || background !== selectedBg.id) {
+                    updateBackground(selectedBg.id, selectedBg.name);
+                }
+            }
+        }
+    }, [lore.background, inspectionData, updateBackground, background]);
 
     // Get race and subrace data
     const { race, subrace, path } = dataSource;
@@ -128,6 +145,17 @@ export default function Lore() {
 
     const handleFieldChange = (field, value) => {
         updateLore(field, value);
+
+        // If background is changed, sync it to the top-level background field
+        if (field === 'background' && value && !inspectionData) {
+            // Find the background by name to get its ID
+            const { getAllBackgrounds } = require('../../data/backgroundData');
+            const backgrounds = getAllBackgrounds();
+            const selectedBg = backgrounds.find(bg => bg.name === value);
+            if (selectedBg) {
+                updateBackground(selectedBg.id, selectedBg.name);
+            }
+        }
 
         // If this is a character image field and we're setting a new image URL,
         // set default transformations if none exist

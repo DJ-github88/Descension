@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import useChatStore from '../../../../store/chatStore';
+import useGameStore from '../../../../store/gameStore';
+import useCharacterStore from '../../../../store/characterStore';
 import '../styles/ToxicologistResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 
-const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
     // Local state for dev testing
     const [localToxinVials, setLocalToxinVials] = useState(6);
     const [localContraptionParts, setLocalContraptionParts] = useState(3);
@@ -20,6 +23,53 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
+    
+    // Get chat store for combat notifications
+    const { addCombatNotification } = useChatStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+    
+    // Helper function to get the actor name
+    const getActorName = () => {
+        const actorName = currentPlayerName || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+    
+    // Helper function to log class resource changes
+    const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        const characterName = currentPlayerName || 'Character';
+        
+        let message = '';
+        if (isPositive) {
+            const messages = [
+                `${characterName} gained ${absAmount} ${resourceName}`,
+                `${characterName} acquired ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was added to ${characterName}`,
+                `${characterName} received ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                `${characterName} spent ${absAmount} ${resourceName}`,
+                `${characterName} used ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} was consumed by ${characterName}`,
+                `${characterName} expended ${absAmount} ${resourceName}`
+            ];
+            message = messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            amount: absAmount,
+            resourceType: resourceType,
+            isPositive: isPositive,
+            customMessage: message
+        });
+    };
 
     // Specialization configurations
     const specConfigs = {
@@ -480,7 +530,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button gain"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalToxinVials(Math.min(maxToxinVials, localToxinVials + 1));
+                                        const newValue = Math.min(maxToxinVials, localToxinVials + 1);
+                                        const amount = newValue - localToxinVials;
+                                        setLocalToxinVials(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Toxin Vial', amount, true, 'toxinVials');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
+                                        }
                                     }}
                                     title="+1 Vial"
                                 >
@@ -497,7 +553,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button spend"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalToxinVials(Math.max(0, localToxinVials - 1));
+                                        const newValue = Math.max(0, localToxinVials - 1);
+                                        const amount = localToxinVials - newValue;
+                                        setLocalToxinVials(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
+                                        }
                                     }}
                                     title="-1 Poison"
                                 >
@@ -507,7 +569,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button spend"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalToxinVials(Math.max(0, localToxinVials - 2));
+                                        const newValue = Math.max(0, localToxinVials - 2);
+                                        const amount = localToxinVials - newValue;
+                                        setLocalToxinVials(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
+                                        }
                                     }}
                                     title="-2 Concoction"
                                 >
@@ -517,7 +585,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button spend"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalToxinVials(Math.max(0, localToxinVials - 3));
+                                        const newValue = Math.max(0, localToxinVials - 3);
+                                        const amount = localToxinVials - newValue;
+                                        setLocalToxinVials(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Toxin Vial', amount, false, 'toxinVials');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', newValue);
+                                        }
                                     }}
                                     title="-3 Explosive"
                                 >
@@ -531,8 +605,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <button 
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    const gainAmount = maxToxinVials - localToxinVials;
                                     setLocalToxinVials(maxToxinVials);
                                     setShowToxinMenu(false);
+                                    if (gainAmount > 0) {
+                                        logClassResourceChange('Toxin Vial', gainAmount, true, 'toxinVials');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', maxToxinVials);
+                                    }
                                 }} 
                                 className="toxicologist-quick-btn"
                                 title="Reset to Max"
@@ -600,7 +679,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button gain"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalContraptionParts(Math.min(maxContraptionParts, localContraptionParts + 1));
+                                        const newValue = Math.min(maxContraptionParts, localContraptionParts + 1);
+                                        const amount = newValue - localContraptionParts;
+                                        setLocalContraptionParts(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Contraption Part', amount, true, 'contraptionParts');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('contraptionParts', newValue);
+                                        }
                                     }}
                                     title="+1 Part"
                                 >
@@ -617,7 +702,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button spend"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalContraptionParts(Math.max(0, localContraptionParts - 1));
+                                        const newValue = Math.max(0, localContraptionParts - 1);
+                                        const amount = localContraptionParts - newValue;
+                                        setLocalContraptionParts(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Contraption Part', amount, false, 'contraptionParts');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('contraptionParts', newValue);
+                                        }
                                     }}
                                     title="-1 Deploy Contraption"
                                 >
@@ -627,7 +718,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     className="context-menu-button spend"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setLocalContraptionParts(Math.max(0, localContraptionParts - 2));
+                                        const newValue = Math.max(0, localContraptionParts - 2);
+                                        const amount = localContraptionParts - newValue;
+                                        setLocalContraptionParts(newValue);
+                                        if (amount > 0) {
+                                            logClassResourceChange('Contraption Part', amount, false, 'contraptionParts');
+                                            if (onClassResourceUpdate) onClassResourceUpdate('contraptionParts', newValue);
+                                        }
                                     }}
                                     title="-2 Deploy Complex Device"
                                 >
@@ -641,8 +738,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <button 
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    const gainAmount = maxContraptionParts - localContraptionParts;
                                     setLocalContraptionParts(maxContraptionParts);
                                     setShowContraptionMenu(false);
+                                    if (gainAmount > 0) {
+                                        logClassResourceChange('Contraption Part', gainAmount, true, 'contraptionParts');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('contraptionParts', maxContraptionParts);
+                                    }
                                 }} 
                                 className="toxicologist-quick-btn"
                                 title="Reset to Max"

@@ -638,7 +638,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource, updateClassResource } = useCharacterStore();
     const { removeBuff } = useBuffStore();
-    const { addNotification } = useChatStore();
+    const { addNotification, addCombatNotification } = useChatStore();
     const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const currentPlayerData = useCharacterStore(state => ({
@@ -876,6 +876,139 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         resourceBarRefs.current[memberId] = refs;
     }, []);
 
+    // Helper function to get character name from memberId
+    const getCharacterName = (memberId) => {
+        if (memberId === 'current-player') {
+            return currentPlayerData.name || 'Player';
+        }
+        const member = partyMembers.find(m => m.id === memberId);
+        return member?.name || 'Unknown';
+    };
+
+    // Helper function to get the actor name (current player, with GM suffix if in GM mode)
+    const getActorName = () => {
+        const actorName = currentPlayerData.name || 'Player';
+        return isGMMode ? `${actorName} (GM)` : actorName;
+    };
+
+    // Helper function to log full restore/drain as a single combined message
+    const logFullResourceChange = (characterName, healthAmount, manaAmount, apAmount, isRestore) => {
+        const actorName = getActorName();
+        const parts = [];
+        
+        if (manaAmount > 0) {
+            parts.push(`${manaAmount} Mana`);
+        }
+        if (healthAmount > 0) {
+            parts.push(`${healthAmount} Health`);
+        }
+        if (apAmount > 0) {
+            parts.push(`${apAmount} Action Point${apAmount > 1 ? 's' : ''}`);
+        }
+        
+        if (parts.length === 0) return; // No changes to log
+        
+        // Format: "x Mana, y Health and z Action Points"
+        let resourceList = '';
+        if (parts.length === 1) {
+            resourceList = parts[0];
+        } else if (parts.length === 2) {
+            resourceList = `${parts[0]} and ${parts[1]}`;
+        } else {
+            resourceList = `${parts[0]}, ${parts[1]} and ${parts[2]}`;
+        }
+        
+        const actionWord = isRestore ? ['Replenished', 'Restored', 'Recovered'][Math.floor(Math.random() * 3)] : 'Drained';
+        const message = `${characterName} ${actionWord} ${resourceList}`;
+        
+        addCombatNotification({
+            type: isRestore ? 'combat_heal' : 'combat_hit',
+            [isRestore ? 'healer' : 'attacker']: actorName,
+            target: characterName,
+            [isRestore ? 'healing' : 'damage']: healthAmount || manaAmount || apAmount,
+            customMessage: message
+        });
+    };
+
+    // Helper function to generate varied log messages for resource changes
+    const logResourceChange = (characterName, resourceType, amount, isPositive) => {
+        const absAmount = Math.abs(amount);
+        const actorName = getActorName();
+        
+        if (resourceType === 'health') {
+            // Use existing combat_heal and combat_hit types for health
+            if (isPositive) {
+                const messages = [
+                    `Healed ${characterName} for ${absAmount} health`,
+                    `${characterName} regained ${absAmount} health`,
+                    `${characterName} recovered ${absAmount} health`,
+                    `Restored ${absAmount} health to ${characterName}`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_heal',
+                    healer: actorName,
+                    target: characterName,
+                    healing: absAmount,
+                    customMessage: message
+                });
+            } else {
+                const messages = [
+                    `Hit ${characterName} for ${absAmount} damage`,
+                    `${characterName} took ${absAmount} damage`,
+                    `Dealt ${absAmount} damage to ${characterName}`,
+                    `${characterName} suffered ${absAmount} damage`
+                ];
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                addCombatNotification({
+                    type: 'combat_hit',
+                    attacker: actorName,
+                    target: characterName,
+                    damage: absAmount,
+                    customMessage: message
+                });
+            }
+        } else {
+            // For mana and action points, create custom messages
+            const resourceNames = {
+                'mana': { positive: ['mana'], negative: ['mana'] },
+                'actionPoints': { positive: ['action points', 'AP'], negative: ['action points', 'AP'] }
+            };
+            const resource = resourceNames[resourceType] || { positive: [resourceType], negative: [resourceType] };
+            const variants = isPositive ? resource.positive : resource.negative;
+            const resourceName = variants[Math.floor(Math.random() * variants.length)];
+
+            let message = '';
+            if (isPositive) {
+                const messages = [
+                    `Restored ${absAmount} ${resourceName} to ${characterName}`,
+                    `${characterName} regained ${absAmount} ${resourceName}`,
+                    `${characterName} recovered ${absAmount} ${resourceName}`,
+                    `Replenished ${absAmount} ${resourceName} for ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                const messages = [
+                    `${characterName} lost ${absAmount} ${resourceName}`,
+                    `Drained ${absAmount} ${resourceName} from ${characterName}`,
+                    `${characterName} expended ${absAmount} ${resourceName}`,
+                    `${absAmount} ${resourceName} was drained from ${characterName}`
+                ];
+                message = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            // For non-health resources, use combat_hit format but with custom message
+            addCombatNotification({
+                type: 'combat_hit',
+                attacker: actorName,
+                target: characterName,
+                damage: absAmount,
+                resourceType: resourceType,
+                customMessage: message
+            });
+        }
+    };
+
     const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
         // Only handle positive adjustments (healing/restoring) for overheal detection
         if (adjustment > 0) {
@@ -911,10 +1044,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
 
         // Apply the adjustment (no overheal or negative adjustment)
-        applyResourceAdjustment(memberId, resourceType, adjustment, false);
+        applyResourceAdjustment(memberId, resourceType, adjustment, false, false);
     };
 
-    const applyResourceAdjustment = (memberId, resourceType, adjustment, asTemporary = false) => {
+    const applyResourceAdjustment = (memberId, resourceType, adjustment, asTemporary = false, skipLogging = false) => {
         const tempFieldMap = {
             'health': 'tempHealth',
             'mana': 'tempMana',
@@ -973,6 +1106,12 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
             // Show floating combat text for current player
             showFloatingTextForResource(memberId, resourceType, adjustment, 'current-player');
+            
+            // Log the resource change (only log if there's an actual change and logging is not skipped)
+            if (adjustment !== 0 && !asTemporary && !skipLogging) {
+                const characterName = getCharacterName(memberId);
+                logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+            }
         } else {
             // Update party member's resources
             const member = partyMembers.find(m => m.id === memberId);
@@ -1048,6 +1187,12 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
                 // Show floating combat text for party member
                 showFloatingTextForResource(memberId, resourceType, adjustment, memberId);
+                
+                // Log the resource change (only log if there's an actual change and logging is not skipped)
+                if (adjustment !== 0 && !asTemporary && !skipLogging) {
+                    const characterName = getCharacterName(memberId);
+                    logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                }
             }
         }
     };
@@ -1116,28 +1261,36 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (customAmountType !== 'xp' && numAmount <= 0) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         switch (customAmountType) {
             case 'damage':
                 handleResourceAdjust(memberId, 'health', -numAmount);
+                logResourceChange(characterName, 'health', -numAmount, false);
                 break;
             case 'heal':
                 handleResourceAdjust(memberId, 'health', numAmount);
+                logResourceChange(characterName, 'health', numAmount, true);
                 break;
             case 'mana-damage':
                 handleResourceAdjust(memberId, 'mana', -numAmount);
+                logResourceChange(characterName, 'mana', -numAmount, false);
                 break;
             case 'mana-heal':
                 handleResourceAdjust(memberId, 'mana', numAmount);
+                logResourceChange(characterName, 'mana', numAmount, true);
                 break;
             case 'ap-spend':
                 handleResourceAdjust(memberId, 'actionPoints', -numAmount);
+                logResourceChange(characterName, 'actionPoints', -numAmount, false);
                 break;
             case 'ap-restore':
                 handleResourceAdjust(memberId, 'actionPoints', numAmount);
+                logResourceChange(characterName, 'actionPoints', numAmount, true);
                 break;
             case 'xp':
                 handleAwardXP(memberId, numAmount);
+                // XP logging is handled in handleAwardXP
                 break;
         }
         setShowCustomAmountModal(false);
@@ -1146,31 +1299,87 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Handle awarding XP to a party member
     const handleAwardXP = (memberId, xpAmount) => {
+        const characterName = getCharacterName(memberId);
+        const absAmount = Math.abs(xpAmount);
+        
         if (memberId === 'current-player') {
             // Award XP to current player
             useCharacterStore.getState().awardExperience(xpAmount);
-            console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${Math.abs(xpAmount)} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
+            console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
         } else {
             // For other party members, we'd need to send this through multiplayer
             // For now, just log it
-            console.log(`💰 Would ${xpAmount > 0 ? 'award' : 'remove'} ${Math.abs(xpAmount)} XP ${xpAmount > 0 ? 'to' : 'from'} party member ${memberId}`);
+            console.log(`💰 Would ${xpAmount > 0 ? 'award' : 'remove'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} party member ${memberId}`);
             // TODO: Implement multiplayer XP award
         }
+
+        // Log to combat tab
+        const actorName = getActorName();
+        const xpMessages = xpAmount > 0 ? [
+            `${characterName} gained ${absAmount} experience`,
+            `${characterName} earned ${absAmount} XP`,
+            `${absAmount} experience was awarded to ${characterName}`,
+            `${characterName} received ${absAmount} experience points`
+        ] : [
+            `${absAmount} experience was removed from ${characterName}`,
+            `${characterName} lost ${absAmount} XP`,
+            `${absAmount} experience was deducted from ${characterName}`
+        ];
+        const xpMessage = xpMessages[Math.floor(Math.random() * xpMessages.length)];
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            resourceType: 'experience',
+            amount: absAmount,
+            isPositive: xpAmount > 0,
+            message: xpMessage
+        });
+
         setShowContextMenu(false);
     };
 
     // Handle level adjustment for a party member
     const handleLevelAdjust = (memberId, levelChange) => {
+        const characterName = getCharacterName(memberId);
+        const absChange = Math.abs(levelChange);
+        
         if (memberId === 'current-player') {
             // Adjust level for current player
             useCharacterStore.getState().adjustLevel(levelChange);
-            console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${Math.abs(levelChange)} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
+            console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
         } else {
             // For other party members, we'd need to send this through multiplayer
             // For now, just log it
-            console.log(`📊 Would ${levelChange > 0 ? 'add' : 'remove'} ${Math.abs(levelChange)} level(s) ${levelChange > 0 ? 'to' : 'from'} party member ${memberId}`);
+            console.log(`📊 Would ${levelChange > 0 ? 'add' : 'remove'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} party member ${memberId}`);
             // TODO: Implement multiplayer level adjustment
         }
+
+        // Log to combat tab - get level after change
+        const actorName = getActorName();
+        const newLevel = memberId === 'current-player' ? useCharacterStore.getState().level : 
+                         (partyMembers.find(m => m.id === memberId)?.character?.level || '?');
+        const levelMessages = levelChange > 0 ? [
+            `${characterName} reached level ${newLevel}`,
+            `${characterName} leveled up!`,
+            `${characterName} gained ${absChange} level${absChange > 1 ? 's' : ''}`,
+            `${characterName} advanced ${absChange} level${absChange > 1 ? 's' : ''}`
+        ] : [
+            `${characterName} lost ${absChange} level${absChange > 1 ? 's' : ''}`,
+            `${absChange} level${absChange > 1 ? 's' : ''} ${absChange > 1 ? 'were' : 'was'} removed from ${characterName}`,
+            `${characterName} was reduced by ${absChange} level${absChange > 1 ? 's' : ''}`
+        ];
+        const levelMessage = levelMessages[Math.floor(Math.random() * levelMessages.length)];
+        addCombatNotification({
+            type: 'combat_resource',
+            attacker: actorName,
+            target: characterName,
+            resourceType: 'level',
+            amount: absChange,
+            isPositive: levelChange > 0,
+            message: levelMessage
+        });
+
         setShowContextMenu(false);
     };
 
@@ -1179,17 +1388,22 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const maxHp = currentPlayerData.health?.max || 0;
             const currentHp = currentPlayerData.health?.current || 0;
-            handleResourceAdjust(memberId, 'health', maxHp - currentHp);
+            const healAmount = maxHp - currentHp;
+            handleResourceAdjust(memberId, 'health', healAmount);
+            if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const maxHp = member.character?.health?.max || 0;
                 const currentHp = member.character?.health?.current || 0;
-                handleResourceAdjust(memberId, 'health', maxHp - currentHp);
+                const healAmount = maxHp - currentHp;
+                handleResourceAdjust(memberId, 'health', healAmount);
+                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
             }
         }
         setShowContextMenu(false);
@@ -1200,6 +1414,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const maxHp = currentPlayerData.health?.max || 0;
@@ -1208,9 +1423,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const currentMp = currentPlayerData.mana?.current || 0;
             const maxAp = currentPlayerData.actionPoints?.max || 0;
             const currentAp = currentPlayerData.actionPoints?.current || 0;
-            handleResourceAdjust(memberId, 'health', maxHp - currentHp);
-            handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
-            handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+            const healthAmount = maxHp - currentHp;
+            const manaAmount = maxMp - currentMp;
+            const apAmount = maxAp - currentAp;
+            
+            // Skip individual logging - we'll log once at the end
+            applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+            applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+            applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+            
+            // Log as single combined message
+            if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+            }
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
@@ -1220,9 +1445,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const currentMp = member.character?.mana?.current || 0;
                 const maxAp = member.character?.actionPoints?.max || 0;
                 const currentAp = member.character?.actionPoints?.current || 0;
-                handleResourceAdjust(memberId, 'health', maxHp - currentHp);
-                handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
-                handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+                const healthAmount = maxHp - currentHp;
+                const manaAmount = maxMp - currentMp;
+                const apAmount = maxAp - currentAp;
+                
+                // Skip individual logging - we'll log once at the end
+                applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+                applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+                applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
+                }
             }
         }
         setShowContextMenu(false);
@@ -1233,6 +1468,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const currentHp = currentPlayerData.health?.current || 0;
@@ -1241,10 +1477,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const tempMp = currentPlayerData.tempMana || 0;
             const currentAp = currentPlayerData.actionPoints?.current || 0;
             const tempAp = currentPlayerData.tempActionPoints || 0;
-            // Drain all resources including temporary
-            handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
-            handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
-            handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+            const healthAmount = currentHp + tempHp;
+            const manaAmount = currentMp + tempMp;
+            const apAmount = currentAp + tempAp;
+            
+            // Drain all resources including temporary - skip individual logging
+            applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+            applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+            applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
+            
+            // Log as single combined message
+            if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+            }
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
@@ -1254,10 +1499,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const tempMp = member.character?.tempMana || 0;
                 const currentAp = member.character?.actionPoints?.current || 0;
                 const tempAp = member.character?.tempActionPoints || 0;
-                // Drain all resources including temporary
-                handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
-                handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
-                handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+                const healthAmount = currentHp + tempHp;
+                const manaAmount = currentMp + tempMp;
+                const apAmount = currentAp + tempAp;
+                
+                // Drain all resources including temporary - skip individual logging
+                applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+                applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+                applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
+                
+                // Log as single combined message
+                if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
+                    logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
+                }
             }
         }
         setShowContextMenu(false);
@@ -1291,19 +1545,24 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const currentMp = currentPlayerData.mana?.current || 0;
             const tempMp = currentPlayerData.tempMana || 0;
+            const drainAmount = currentMp + tempMp;
             // Drain both current and temporary mana
-            handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
+            handleResourceAdjust(memberId, 'mana', -drainAmount);
+            if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentMp = member.character?.mana?.current || 0;
                 const tempMp = member.character?.tempMana || 0;
+                const drainAmount = currentMp + tempMp;
                 // Drain both current and temporary mana
-                handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
+                handleResourceAdjust(memberId, 'mana', -drainAmount);
+                if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
             }
         }
         setShowContextMenu(false);
@@ -1314,17 +1573,22 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const maxMp = currentPlayerData.mana?.max || 0;
             const currentMp = currentPlayerData.mana?.current || 0;
-            handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+            const restoreAmount = maxMp - currentMp;
+            handleResourceAdjust(memberId, 'mana', restoreAmount);
+            if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const maxMp = member.character?.mana?.max || 0;
                 const currentMp = member.character?.mana?.current || 0;
-                handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+                const restoreAmount = maxMp - currentMp;
+                handleResourceAdjust(memberId, 'mana', restoreAmount);
+                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
             }
         }
         setShowContextMenu(false);
@@ -1335,19 +1599,24 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
+        const characterName = getCharacterName(memberId);
 
         if (memberId === 'current-player') {
             const currentAp = currentPlayerData.actionPoints?.current || 0;
             const tempAp = currentPlayerData.tempActionPoints || 0;
+            const drainAmount = currentAp + tempAp;
             // Drain both current and temporary AP
-            handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+            handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
+            if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentAp = member.character?.actionPoints?.current || 0;
                 const tempAp = member.character?.tempActionPoints || 0;
+                const drainAmount = currentAp + tempAp;
                 // Drain both current and temporary AP
-                handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+                handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
+                if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
             }
         }
         setShowContextMenu(false);

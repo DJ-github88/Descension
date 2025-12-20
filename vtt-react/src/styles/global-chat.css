@@ -414,12 +414,12 @@
   font-weight: 500;
 }
 
-/* User Details - Larger and More Readable */
+/* User Details - Natural reading flow with labels */
 .user-details-new {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 8px;
   width: 100%;
 }
 
@@ -442,7 +442,44 @@
   font-weight: 700;
 }
 
-/* Badges Row */
+/* Character Traits - Clean display of Background and Race */
+.character-traits {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.character-trait {
+  color: #3d2817;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Legacy styles - kept for backward compatibility if needed elsewhere */
+.user-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.user-detail-label {
+  color: #6d5a3a;
+  font-weight: 600;
+  min-width: fit-content;
+  flex-shrink: 0;
+}
+
+.user-detail-value {
+  color: #2d2416;
+  font-weight: 500;
+}
+
+/* Legacy badge styles - kept for backward compatibility if needed elsewhere */
 .badges-row {
   display: flex;
   align-items: center;
@@ -470,19 +507,6 @@
   background: #5a4a38;
   color: #fff;
   border: 1px solid #3d2817;
-}
-
-/* Race Row - Larger and More Visible */
-.race-row {
-  display: flex;
-  align-items: center;
-}
-
-.race-text {
-  font-size: 13px;
-  color: #3d2817;
-  font-weight: 500;
-  font-style: italic;
 }
 
 /* Friend and Ignored Note Display */

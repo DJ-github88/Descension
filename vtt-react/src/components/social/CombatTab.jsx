@@ -109,6 +109,20 @@ const CombatTab = () => {
 
     switch (type) {
       case 'combat_hit':
+        // Check if this is a resource change with custom message
+        if (notification.customMessage) {
+          return (
+            <div key={notification.id} className="chat-message combat-message hit">
+              <div className="message-header">
+                <span className="sender-name">{notification.attacker}</span>
+                <span className="timestamp">{formatTimestamp(timestamp)}</span>
+              </div>
+              <div className="message-content">
+                {notification.customMessage}
+              </div>
+            </div>
+          );
+        }
         return (
           <div key={notification.id} className="chat-message combat-message hit">
             <div className="message-header">
@@ -122,6 +136,20 @@ const CombatTab = () => {
         );
 
       case 'combat_heal':
+        // Check if this is a resource change with custom message
+        if (notification.customMessage) {
+          return (
+            <div key={notification.id} className="chat-message combat-message heal">
+              <div className="message-header">
+                <span className="sender-name">{notification.healer}</span>
+                <span className="timestamp">{formatTimestamp(timestamp)}</span>
+              </div>
+              <div className="message-content">
+                {notification.customMessage}
+              </div>
+            </div>
+          );
+        }
         return (
           <div key={notification.id} className="chat-message combat-message heal">
             <div className="message-header">
@@ -169,6 +197,20 @@ const CombatTab = () => {
             </div>
             <div className="message-content">
               <span style={{ fontWeight: '700', color: '#000' }}>Has been slain</span>
+            </div>
+          </div>
+        );
+
+      case 'combat_resource':
+        // Generic resource change notification (XP, level, etc.)
+        return (
+          <div key={notification.id} className="chat-message combat-message resource">
+            <div className="message-header">
+              <span className="sender-name">{notification.attacker || 'GM'}</span>
+              <span className="timestamp">{formatTimestamp(timestamp)}</span>
+            </div>
+            <div className="message-content">
+              {notification.message || notification.customMessage || `${notification.target} ${notification.isPositive ? 'gained' : 'lost'} ${notification.amount} ${notification.resourceType}`}
             </div>
           </div>
         );
