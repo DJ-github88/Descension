@@ -354,6 +354,8 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                       <option value="force">Force</option>
                       <option value="psychic">Psychic</option>
                       <option value="poison">Poison</option>
+                      <option value="thunder">Thunder</option>
+                      <option value="chaos">Chaos</option>
                       <option value="bludgeoning">Bludgeoning</option>
                       <option value="piercing">Piercing</option>
                       <option value="slashing">Slashing</option>

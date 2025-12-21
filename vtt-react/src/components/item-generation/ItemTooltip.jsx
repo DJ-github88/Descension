@@ -1196,7 +1196,8 @@ function ItemTooltip({ item }) {
         psychic: '#FF69B4',
         radiant: '#FFFACD',
         slashing: '#A52A2A',
-        thunder: '#0066ff'
+        thunder: '#0066ff',
+        chaos: '#ec4899'
     };
 
     // Check for chance-on-being-hit effects

@@ -1083,7 +1083,7 @@ const useCharacterStore = create((set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 'normal' };
@@ -1120,7 +1120,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
                     
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 'normal' };
@@ -1250,7 +1250,7 @@ const useCharacterStore = create((set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
                 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 'normal' };
@@ -2324,7 +2324,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
                     
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 'normal' };

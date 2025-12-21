@@ -352,7 +352,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
 
   if (!isOpen) return null;
 
-  const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'thunder', 'force', 'necrotic', 'poison', 'psychic', 'radiant', 'bludgeoning', 'piercing', 'slashing'];
+  const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'thunder', 'force', 'necrotic', 'poison', 'psychic', 'radiant', 'chaos', 'bludgeoning', 'piercing', 'slashing'];
   const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'speed', 'maxHp', 'criticalChance'];
 
   return (

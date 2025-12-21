@@ -1,53 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS } from './itemConstants';
-import { getEnv } from '../../config/env';
-
-const callOpenAI = async (prompt, temperature = 0.7) => {
-    const apiKey = getEnv('REACT_APP_OPENAI_API_KEY');
-    if (!apiKey) {
-        console.error('OpenAI API key not found');
-        throw new Error('OpenAI API key not configured');
-    }
-
-    try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: "gpt-3.5-turbo",
-                messages: [
-                    {
-                        role: "system",
-                        content: "You are a creative fantasy item description writer. Your descriptions should be vivid, engaging, and match the requested tone (funny or serious). For funny descriptions, use clever puns and humorous references while still describing the item's properties. Keep descriptions concise but memorable."
-                    },
-                    {
-                        role: "user",
-                        content: prompt
-                    }
-                ],
-                temperature: temperature,
-                max_tokens: 150,
-                presence_penalty: 0.5,
-                frequency_penalty: 0.5
-            })
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            console.error('OpenAI API Error:', error);
-            throw new Error(error.error?.message || 'API call failed');
-        }
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-    } catch (error) {
-        console.error('OpenAI API Error:', error);
-        throw error;
-    }
-};
 
 const PREFIXES = {
     weapon: ['Deadly', 'Savage', 'Cursed', 'Blessed', 'Ancient'],
@@ -378,7 +330,7 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
             // Add resistance for rare and above, or with a small chance for lower qualities
             if (['rare', 'epic', 'legendary', 'artifact'].includes(quality) || Math.random() < 0.3) {
                 // Add random resistance
-                const resistanceType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
+                const resistanceType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos']);
 
                 // Initialize resistances object if it doesn't exist
                 if (!stats.resistances) {
@@ -495,7 +447,7 @@ const generateWeaponStats = (quality, powerScale = 1) => {
     // Only add bonus damage type for uncommon and above
     let bonusDamageType = null;
     if (quality !== 'poor' && quality !== 'common' && bonusDamage > 0) {
-        bonusDamageType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
+        bonusDamageType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos']);
     }
 
     return {
@@ -653,13 +605,10 @@ Example: "A sleek dagger with a curved blade that gleams with a subtle blue shee
 
 Write a unique description in 2-3 sentences. Be creative and memorable, but stay under 100 words.`;
 
-        const description = await callOpenAI(prompt, 0.8);
-        if (!description) {
-            throw new Error('Failed to generate description');
-        }
-        return description.trim();
+        // OpenAI integration removed - use built-in description generation
+        return generateDescription(itemData.type, itemData.quality, itemData.name);
     } catch (error) {
-        console.error('Error generating AI description:', error);
+        console.error('Error generating description:', error);
         return generateDescription(itemData.type, itemData.quality, itemData.name);
     }
 };

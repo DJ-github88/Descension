@@ -154,6 +154,16 @@ const getStatDescription = (stat) => {
                 'Higher power means more devastating sonic and concussive magic'
             ]
         },
+        'Chaos Power': {
+            title: 'Chaos Spell Power',
+            color: '#ec4899',
+            effects: [
+                'Increases damage of chaos-based spells',
+                'Affects spells with unpredictable magical energy that defies categorization',
+                'Based on Intelligence and Spirit with magical equipment',
+                'Higher power means more devastating and unpredictable chaos magic'
+            ]
+        },
         'Lightning Damage': {
             title: 'Lightning Damage',
             color: '#FFE93B',
@@ -347,6 +357,15 @@ const getStatDescription = (stat) => {
                 'Increases damage of Psychic spells',
                 'Adds to Psychic spell damage rolls',
                 'Enhances mental magic and mind effects'
+            ]
+        },
+        'Chaos Spell Power': {
+            title: 'Chaos Spell Power',
+            color: '#ec4899',
+            effects: [
+                'Increases damage of Chaos spells',
+                'Adds to Chaos spell damage rolls',
+                'Enhances unpredictable magic and random effects'
             ]
         },
 

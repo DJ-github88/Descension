@@ -168,7 +168,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
         }
 
         // Handle individual spell damage types (fire, frost, etc.)
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'shadow', 'holy', 'nature', 'lightning', 'cold', 'acid', 'force', 'thunder'];
+        const spellDamageTypes = ['fire', 'frost', 'arcane', 'shadow', 'holy', 'nature', 'lightning', 'cold', 'acid', 'force', 'thunder', 'chaos'];
         spellDamageTypes.forEach(type => {
             const typeKey = `${type}Damage`;
             const spellPowerKey = `${type}SpellPower`;

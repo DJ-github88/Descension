@@ -103,6 +103,11 @@ const DAMAGE_TYPES = {
         name: 'Slashing',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg',
         color: '#B22222'
+    },
+    chaos: {
+        name: 'Chaos',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg',
+        color: '#ec4899'
     }
 };
 

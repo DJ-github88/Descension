@@ -287,7 +287,7 @@ const generateCombatStats = (type, subtype, quality, powerScale) => {
 
         // Add resistances for higher quality armor
         if (quality !== 'poor' && quality !== 'common') {
-            const resistanceTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder'];
+            const resistanceTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos'];
             const resistanceType = getRandomElement(resistanceTypes);
 
             combatStats.resistances = {
@@ -329,7 +329,7 @@ const generateWeaponStats = (subtype, quality, powerScale) => {
 
         // Add bonus damage type for rare and above
         if (quality !== 'uncommon') {
-            const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder'];
+            const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'chaos'];
             bonusDamageType = getRandomElement(damageTypes);
         }
     }

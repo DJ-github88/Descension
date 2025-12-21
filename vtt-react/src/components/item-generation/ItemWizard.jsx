@@ -647,6 +647,11 @@ const DAMAGE_TYPES = {
         name: 'Thunder',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg',
         color: '#0066ff'
+    },
+    chaos: {
+        name: 'Chaos',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg',
+        color: '#ec4899'
     }
 };
 

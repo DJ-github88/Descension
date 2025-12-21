@@ -227,6 +227,15 @@ export const DAMAGE_TYPE_MODIFIERS = [
     category: 'spell_damage',
     icon: 'spell_nature_thunderclap',
     derivedFrom: ['intelligence']
+  },
+  {
+    id: 'chaos_spell_power',
+    name: 'Chaos Spell Power',
+    description: 'Increases damage of chaos spells',
+    defaultValue: 0,
+    category: 'spell_damage',
+    icon: 'spell_shadow_charm',
+    derivedFrom: ['intelligence', 'spirit']
   }
 ];
 

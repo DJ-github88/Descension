@@ -82,6 +82,12 @@ const DAMAGE_TYPES = {
       color: '#0066ff', // Blue
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg'
     },
+    chaos: {
+      name: 'Chaos',
+      description: 'Unpredictable magical energy that defies categorization and creates random effects.',
+      color: '#ec4899', // Pink/Magenta
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg'
+    },
 
     // End of standard D&D damage types
   };
