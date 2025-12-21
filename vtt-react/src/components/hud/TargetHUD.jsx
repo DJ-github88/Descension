@@ -11,9 +11,45 @@ import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
+import { getBackgroundData } from '../../data/backgroundData';
+import { getCustomBackgroundData } from '../../data/customBackgroundData';
+import { getEnhancedPathData } from '../../data/enhancedPathData';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
+
+// Helper function to get background display name
+const getBackgroundDisplayName = (backgroundId, backgroundDisplayName) => {
+    if (backgroundDisplayName) {
+        return backgroundDisplayName;
+    }
+    if (backgroundId) {
+        const bgData = getBackgroundData(backgroundId);
+        if (bgData) {
+            return bgData.name;
+        }
+        // Try custom backgrounds
+        const customBgData = getCustomBackgroundData(backgroundId.toLowerCase());
+        if (customBgData) {
+            return customBgData.name;
+        }
+    }
+    return '';
+};
+
+// Helper function to get path/discipline display name
+const getPathDisplayName = (pathId, pathDisplayName) => {
+    if (pathDisplayName) {
+        return pathDisplayName;
+    }
+    if (pathId) {
+        const pathData = getEnhancedPathData(pathId);
+        if (pathData) {
+            return pathData.name;
+        }
+    }
+    return '';
+};
 
 const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const nodeRef = useRef(null);
@@ -96,6 +132,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     name: characterState.name,
                     class: characterState.class,
                     race: characterState.raceDisplayName || characterState.race,
+                    background: getBackgroundDisplayName(characterState.background, characterState.backgroundDisplayName),
+                    path: getPathDisplayName(characterState.path, characterState.pathDisplayName),
                     alignment: characterState.alignment,
                     exhaustionLevel: characterState.exhaustionLevel,
                     health: characterState.health,
@@ -113,6 +151,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         name: member.name,
                         class: member.character?.class || 'Unknown',
                         race: member.character?.raceDisplayName || member.character?.race || 'Unknown',
+                        background: getBackgroundDisplayName(member.character?.background, member.character?.backgroundDisplayName),
+                        path: getPathDisplayName(member.character?.path, member.character?.pathDisplayName),
                         alignment: member.character?.alignment || 'Neutral',
                         exhaustionLevel: member.character?.exhaustionLevel || 0,
                         health: member.character?.health || { current: 100, max: 100 },
@@ -131,6 +171,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     name: currentTarget.name || memberData.name,
                     class: characterData.class || 'Unknown',
                     race: characterData.raceDisplayName || characterData.race || 'Unknown',
+                    background: getBackgroundDisplayName(characterData.background, characterData.backgroundDisplayName),
+                    path: getPathDisplayName(characterData.path, characterData.pathDisplayName),
                     alignment: characterData.alignment || 'Neutral',
                     exhaustionLevel: characterData.exhaustionLevel || 0,
                     health: characterData.health || { current: 100, max: 100 },
@@ -1483,13 +1525,39 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 <div className="member-header">
                                     <div className="member-name">{targetData.name}</div>
                                     <div className="member-details">
-                                        <div className="member-race-class">
-                                            {targetData.isCreature
-                                                ? targetData.race
-                                                : `${targetData.race} ${targetData.class}`
-                                            }
-                                        </div>
-                                        <div className="member-alignment-exhaustion">
+                                        {targetData.isCreature ? (
+                                            <div className="member-race-class">
+                                                {targetData.race}
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {/* Line 1: Race */}
+                                                <div className="member-race">
+                                                    {targetData.race || 'Unknown Race'}
+                                                </div>
+                                                {/* Line 2: Background Class (Discipline) */}
+                                                {(() => {
+                                                    const classParts = [];
+                                                    if (targetData.background) {
+                                                        classParts.push(targetData.background);
+                                                    }
+                                                    if (targetData.class) {
+                                                        classParts.push(targetData.class);
+                                                    }
+                                                    if (targetData.path) {
+                                                        classParts.push(`(${targetData.path})`);
+                                                    }
+                                                    const classLine = classParts.join(' ');
+                                                    return classLine ? (
+                                                        <div className="member-class-background">
+                                                            {classLine}
+                                                        </div>
+                                                    ) : null;
+                                                })()}
+                                            </>
+                                        )}
+                                        {/* Line 3: Alignment */}
+                                        <div className="member-alignment">
                                             <span className="alignment">{targetData.alignment}</span>
                                             {targetData.exhaustionLevel > 0 && (
                                                 <span className="exhaustion">Exhausted {targetData.exhaustionLevel}</span>

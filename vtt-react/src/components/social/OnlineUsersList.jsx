@@ -182,6 +182,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             level: characterLevel || currentUserPresence?.level || 1,
             background: characterBackground || currentUserPresence?.background || '',
             backgroundDisplayName: backgroundDisplayName,
+            path: characterPath || currentUserPresence?.path || '',
+            pathDisplayName: characterPathDisplayName || currentUserPresence?.pathDisplayName || '',
             race: characterRace || currentUserPresence?.race || '',
             subrace: characterSubrace || currentUserPresence?.subrace || '',
             raceDisplayName: characterRaceDisplayName || currentUserPresence?.raceDisplayName || '',

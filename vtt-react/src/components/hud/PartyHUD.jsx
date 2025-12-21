@@ -12,6 +12,9 @@ import usePresenceStore from '../../store/presenceStore';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
+import { getBackgroundData } from '../../data/backgroundData';
+import { getCustomBackgroundData } from '../../data/customBackgroundData';
+import { getEnhancedPathData } from '../../data/enhancedPathData';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -23,6 +26,21 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
     const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
+    
+    // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
+    const currentPlayerStoreData = useCharacterStore(state => ({
+        race: state.race,
+        raceDisplayName: state.raceDisplayName,
+        class: state.class,
+        background: state.background,
+        backgroundDisplayName: state.backgroundDisplayName,
+        path: state.path,
+        pathDisplayName: state.pathDisplayName,
+        alignment: state.alignment
+    }));
+    
+    // Only use store data if this is the current player
+    const currentPlayerData = isCurrentPlayer ? currentPlayerStoreData : null;
     const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
     const [showTooltip, setShowTooltip] = useState(false);
@@ -302,15 +320,103 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                             )}
                         </div>
                         <div className="member-details">
-                            <div className="member-race-class">
-                                {(() => {
-                                    const race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
-                                    const characterClass = member.character?.class || 'Unknown Class';
-                                    return `${race} ${characterClass}`;
-                                })()}
-                            </div>
+                            {(() => {
+                                // For current player, use character store directly (more reliable)
+                                // For other members, use member.character
+                                let race, characterClass, background, path;
+                                
+                                if (isCurrentPlayer && currentPlayerData) {
+                                    race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
+                                    characterClass = currentPlayerData.class || 'Unknown Class';
+                                    
+                                    // Get background display name from character store
+                                    background = currentPlayerData.backgroundDisplayName || '';
+                                    if (!background && currentPlayerData.background) {
+                                        const bgData = getBackgroundData(currentPlayerData.background);
+                                        if (bgData) {
+                                            background = bgData.name;
+                                        } else {
+                                            const customBgData = getCustomBackgroundData(currentPlayerData.background.toLowerCase());
+                                            if (customBgData) {
+                                                background = customBgData.name;
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Get path display name from character store
+                                    path = currentPlayerData.pathDisplayName || '';
+                                    if (!path && currentPlayerData.path) {
+                                        const pathData = getEnhancedPathData(currentPlayerData.path);
+                                        if (pathData) {
+                                            path = pathData.name;
+                                        }
+                                    }
+                                } else {
+                                    race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
+                                    characterClass = member.character?.class || 'Unknown Class';
+                                    
+                                    // Get background display name
+                                    background = member.character?.backgroundDisplayName || '';
+                                    if (!background && member.character?.background) {
+                                        const bgId = member.character.background;
+                                        const bgData = getBackgroundData(bgId);
+                                        if (bgData) {
+                                            background = bgData.name;
+                                        } else {
+                                            const customBgData = getCustomBackgroundData(bgId.toLowerCase());
+                                            if (customBgData) {
+                                                background = customBgData.name;
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Get path/discipline display name
+                                    path = member.character?.pathDisplayName || '';
+                                    if (!path && member.character?.path) {
+                                        const pathId = member.character.path;
+                                        const pathData = getEnhancedPathData(pathId);
+                                        if (pathData) {
+                                            path = pathData.name;
+                                        }
+                                    }
+                                }
+                                
+                                // Format: Background Class (Discipline)
+                                const classParts = [];
+                                if (background) {
+                                    classParts.push(background);
+                                }
+                                if (characterClass) {
+                                    classParts.push(characterClass);
+                                }
+                                if (path) {
+                                    classParts.push(`(${path})`);
+                                }
+                                const classLine = classParts.join(' ');
+                                
+                                return (
+                                    <>
+                                        {/* Line 1: Race */}
+                                        <div className="member-race">
+                                            {race}
+                                        </div>
+                                        {/* Line 2: Background Class (Discipline) */}
+                                        {classLine && (
+                                            <div className="member-class-background">
+                                                {classLine}
+                                            </div>
+                                        )}
+                                    </>
+                                );
+                            })()}
+                            {/* Line 3: Alignment */}
                             <div className="member-alignment">
-                                <span className="alignment">{member.character?.alignment || 'Neutral'}</span>
+                                <span className="alignment">
+                                    {isCurrentPlayer && currentPlayerData 
+                                        ? (currentPlayerData.alignment || 'Neutral')
+                                        : (member.character?.alignment || 'Neutral')
+                                    }
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -566,6 +672,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 raceDisplayName: state.raceDisplayName,
                 class: state.class,
                 level: state.level,
+                background: state.background,
+                backgroundDisplayName: state.backgroundDisplayName,
+                path: state.path,
+                pathDisplayName: state.pathDisplayName,
                 health: state.health,
                 mana: state.mana,
                 actionPoints: state.actionPoints,
@@ -590,6 +700,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             raceDisplayName: characterData.raceDisplayName,
                             class: characterData.class,
                             level: characterData.level,
+                            background: characterData.background,
+                            backgroundDisplayName: characterData.backgroundDisplayName,
+                            path: characterData.path,
+                            pathDisplayName: characterData.pathDisplayName,
                             health: characterData.health,
                             mana: characterData.mana,
                             actionPoints: characterData.actionPoints,
@@ -647,6 +761,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         raceDisplayName: state.raceDisplayName,
         class: state.class,
         level: state.level,
+        background: state.background,
+        backgroundDisplayName: state.backgroundDisplayName,
+        path: state.path,
+        pathDisplayName: state.pathDisplayName,
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
         health: state.health,

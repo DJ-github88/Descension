@@ -1695,6 +1695,30 @@
     line-height: 1.1;
 }
 
+.member-race {
+    font-size: 10px;
+    color: #5e4a32;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1px;
+}
+
+.member-class-background {
+    font-size: 10px;
+    color: #5e4a32;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1px;
+}
+
+.member-alignment {
+    font-size: 10px;
+    line-height: 1.2;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
 .member-alignment-exhaustion {
     display: flex;
     gap: 6px;

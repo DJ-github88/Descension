@@ -958,11 +958,6 @@ const useCharacterStore = create((set, get) => ({
                             const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
                             const available = ALL_CLASS_SPELLS[value] || [];
                             
-                            console.log(`🔍 [Class Selection] ${value}:`, {
-                                totalSpells: available.length,
-                                sampleSpellIds: available.map(s => s.id).slice(0, 10),
-                                sampleSpellLevels: available.map(s => ({ id: s.id, level: s.level || 1, name: s.name })).slice(0, 10)
-                            });
                             
                             const level1Spells = available.filter(s => {
                                 const spellLevel = s.level || 1;
@@ -981,11 +976,6 @@ const useCharacterStore = create((set, get) => ({
                                 return isLevel1 && !isUnwanted && s.id; // Ensure spell has an ID
                             });
                             
-                            console.log(`🔍 [Class Selection] Level 1 spells for ${value}:`, {
-                                level1Count: level1Spells.length,
-                                level1SpellIds: level1Spells.map(s => s.id),
-                                level1SpellNames: level1Spells.map(s => s.name)
-                            });
                             
                             if (level1Spells.length > 0) {
                                 const shuffled = [...level1Spells].sort(() => Math.random() - 0.5);
@@ -999,12 +989,10 @@ const useCharacterStore = create((set, get) => ({
                         
                         // Fallback to classData if ALL_CLASS_SPELLS didn't work
                         if (selectedSpells.length === 0) {
-                            console.log(`⚠️ Falling back to classData for ${value}`);
                             const level1SpellIds = getLevel1SpellIds(classData);
                             if (level1SpellIds.length > 0) {
                                 const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
                                 selectedSpells = shuffled.slice(0, Math.min(3, level1SpellIds.length));
-                                console.log(`📝 Using classData spell IDs:`, selectedSpells);
                             }
                         }
 
@@ -1014,12 +1002,6 @@ const useCharacterStore = create((set, get) => ({
                                 known_spells: selectedSpells
                             };
 
-                            console.log(`✨ Auto-assigned ${selectedSpells.length} starter spells for ${value}:`, {
-                                selectedSpells,
-                                previousClass,
-                                newClass: value,
-                                characterLevel: state.level || 1
-                            });
                             
                             // After setting state, ensure spells are assigned for current level
                             // This handles cases where character is already level 2+ when class is selected
@@ -1027,7 +1009,6 @@ const useCharacterStore = create((set, get) => ({
                                 const currentState = get();
                                 const currentLevel = currentState.level || 1;
                                 if (currentLevel > 1) {
-                                    console.log(`📈 Character is level ${currentLevel}, assigning additional spells...`);
                                     get().assignSpellsForLevel(currentLevel, value);
                                 }
                             }, 100);
@@ -2523,7 +2504,9 @@ const useCharacterStore = create((set, get) => ({
                                 class: character.class,
                                 level: character.level,
                                 background: character.background,
-                                backgroundDisplayName: backgroundDisplayName
+                                backgroundDisplayName: backgroundDisplayName,
+                                path: character.path,
+                                pathDisplayName: character.pathDisplayName
                             }
                         });
                     }
@@ -2800,11 +2783,6 @@ const useCharacterStore = create((set, get) => ({
                     return spellLevel === 1;
                 });
                 
-                console.log(`🔍 [ensureClassStarterSpells] ${className}:`, {
-                    totalSpells: available.length,
-                    level1SpellsCount: level1Spells.length,
-                    level1SpellIds: level1Spells.map(s => s.id).slice(0, 10)
-                });
                 
                 if (level1Spells.length > 0) {
                     // Get currently known level 1 spells
@@ -2814,7 +2792,6 @@ const useCharacterStore = create((set, get) => ({
                     
                     // If we already have 3+ level 1 spells, don't reassign
                     if (knownLevel1SpellIds.size >= 3) {
-                        console.log(`✅ Already have ${knownLevel1SpellIds.size} level 1 spells for ${className}, skipping assignment`);
                         return false;
                     }
                     
@@ -2858,10 +2835,6 @@ const useCharacterStore = create((set, get) => ({
                                 ...state.class_spells,
                                 known_spells: updatedKnownSpells
                             }
-                        });
-                        console.log(`✨ Assigned ${starterIds.length} starter spells for ${className} (total: ${updatedKnownSpells.length}):`, {
-                            newSpells: starterIds,
-                            allKnownSpells: updatedKnownSpells
                         });
                         return true;
                     } else if (knownLevel1SpellIds.size < 3) {
@@ -2970,7 +2943,6 @@ const useCharacterStore = create((set, get) => ({
                             known_spells: selectionFallback
                         }
                     });
-                    console.log(`✨ Assigned ${selectionFallback.length} starter spells (fallback) for ${className}:`, selectionFallback);
                     return true;
                 }
             } catch (e) {
@@ -3377,12 +3349,6 @@ const useCharacterStore = create((set, get) => ({
                 }
             });
 
-            console.log(`✨ Auto-assigned ${spellsToAdd.length} spells for level ${targetLevel}:`, {
-                spellsToAdd,
-                totalKnownSpells: updatedKnownSpells.length,
-                characterClass,
-                targetLevel
-            });
         }
     },
 
@@ -3557,12 +3523,6 @@ const useCharacterStore = create((set, get) => ({
                         ...state.class_spells,
                         known_spells: updatedSpells
                     }
-                });
-                console.log(`✨ Learned new spell at level ${newLevel}:`, {
-                    spellId: choice.spellId,
-                    characterClass: state.class,
-                    totalKnownSpells: updatedSpells.length,
-                    newLevel
                 });
             } else {
                 console.warn(`⚠️ Attempted to learn spell ${choice.spellId} that is already known`);

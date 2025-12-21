@@ -20,6 +20,9 @@ import useDialogueStore from '../../store/dialogueStore';
 import useCombatStore from '../../store/combatStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
+import { getBackgroundData } from '../../data/backgroundData';
+import { getCustomBackgroundData } from '../../data/customBackgroundData';
+import { getEnhancedPathData } from '../../data/enhancedPathData';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -998,23 +1001,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Handle predicted combat actions from other players
       if (data.playerId !== currentPlayer?.id) {
         // Apply the action with lag compensation
-        console.log('Received combat action:', data);
       }
     });
 
     socket.on('combat_correction', (data) => {
       // Handle server corrections for predicted combat state
-      console.log('Received combat correction:', data);
       // Apply corrections to local combat state
       if (data.discrepancies && data.discrepancies.length > 0) {
         // Update local combat state to match server
-        console.log('Applying combat corrections:', data.discrepancies.length);
       }
     });
 
     socket.on('combat_state_sync', (data) => {
       // IMPROVEMENT: Full combat state synchronization with proper state restoration
-      console.log('⚔️ Received combat state sync:', data);
       
       if (data.combat) {
         const combatStore = useCombatStore.getState();
@@ -1045,7 +1044,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             // Restore round number if available
             if (data.combat.round !== undefined) {
               // Round is managed internally, but we can log it
-              console.log(`Combat restored: Round ${data.combat.round}, Turn ${data.combat.currentTurnIndex}`);
             }
           }
         } else {
@@ -1053,7 +1051,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const currentState = combatStore.getCombatState();
           if (currentState.isActive) {
             // Stop combat if it was active locally but not on server
-            console.log('Combat stopped on server, stopping locally');
           }
         }
       }
@@ -1068,7 +1065,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Update turn index and round
           if (data.newTurnIndex !== undefined) {
             // The combat store will be updated through the normal sync process
-            console.log('Turn changed to:', data.newTurnIndex, 'Round:', data.newRound);
           }
           break;
 
@@ -1077,7 +1073,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (data.combatantId && data.newInitiative !== undefined) {
             const combatStore = useCombatStore.getState();
             combatStore.updateInitiative(data.combatantId, data.newInitiative);
-            console.log('Updated initiative for', data.combatantId, 'to', data.newInitiative);
           }
           break;
       }
@@ -1434,12 +1429,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle full game state synchronization
     socket.on('full_game_state_sync', (data) => {
-      console.log('🔄 Receiving full game state sync:', {
-        tokens: Object.keys(data.tokens || {}).length,
-        gridItems: Object.keys(data.gridItems || {}).length,
-        characters: Object.keys(data.characters || {}).length,
-        hasCombat: !!data.combat
-      });
 
       // IMPROVEMENT: Sync tokens (creatures)
       if (data.tokens && Object.keys(data.tokens).length > 0) {
@@ -1551,7 +1540,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      console.log('✅ Full game state sync completed');
     });
 
     // Handle party updates
@@ -1686,7 +1674,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   fromNetwork: true
                 };
                 // This could trigger a notification or add to a shared roll history
-                console.log(`🎲 ${data.playerName} rolled:`, data.data);
               }
               break;
           }
@@ -1698,7 +1685,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('spell_cast', (data) => {
       // Only process casts from other players (not our own)
       if (data.casterId && data.casterId !== currentPlayer?.id) {
-        console.log(`✨ ${data.casterName} cast ${data.spellName}`);
         
         // Add notification to chat
         addNotification('combat', {
@@ -1718,7 +1704,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('ability_used', (data) => {
       // Only process abilities from other players
       if (data.usedBy && data.usedBy !== currentPlayer?.id) {
-        console.log(`⚔️ ${data.usedByName} used ${data.abilityName}`);
         
         // Add notification to chat
         addNotification('combat', {
@@ -1777,9 +1762,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Window updates are mostly informational - each player manages their own UI
       // But we can log for awareness or future features
       if (data.type === 'window_registered') {
-        console.log(`🪟 ${data.playerName} opened ${data.data.type}: ${data.data.id}`);
       } else if (data.type === 'window_focused') {
-        console.log(`🪟 ${data.playerName} focused window: ${data.data.id}`);
       }
     });
 
@@ -1813,14 +1796,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 // Since toggleOpen checks if it's not locked, we need to directly set the state
                 const containerStore = useContainerStore.getState();
                 // For now, we'll trust the sync - in a full implementation we'd verify
-                console.log(`📦 Container ${data.data.containerId} ${data.data.isOpen ? 'opened' : 'closed'} by ${data.playerName}`);
               }
               break;
 
             case 'container_lock_toggled':
               // Sync lock state
               if (data.data && data.data.containerId !== undefined) {
-                console.log(`🔒 Container ${data.data.containerId} ${data.data.isLocked ? 'locked' : 'unlocked'} by ${data.playerName}`);
               }
               break;
 
@@ -2182,7 +2163,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // IMPROVEMENT: Handle reconnection with better state recovery
     socket.on('reconnect', (attemptNumber) => {
-      console.log(`🔄 Reconnected to server (attempt ${attemptNumber})`);
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -2550,6 +2530,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Get active character data for current player
       const activeCharacter = getActiveCharacter();
       const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
+      
+      // Get character store state for display names (more reliable than stored character)
+      const characterStore = useCharacterStore.getState();
+      
+      // Resolve background display name
+      let backgroundDisplayName = characterStore.backgroundDisplayName || activeCharacter?.backgroundDisplayName || '';
+      if (!backgroundDisplayName && (characterStore.background || activeCharacter?.background)) {
+        const bgId = characterStore.background || activeCharacter?.background;
+        const bgData = getBackgroundData(bgId);
+        if (bgData) {
+          backgroundDisplayName = bgData.name;
+        } else {
+          const customBgData = getCustomBackgroundData(bgId?.toLowerCase());
+          if (customBgData) {
+            backgroundDisplayName = customBgData.name;
+          }
+        }
+      }
+      
+      // Resolve path display name
+      let pathDisplayName = characterStore.pathDisplayName || activeCharacter?.pathDisplayName || '';
+      if (!pathDisplayName && (characterStore.path || activeCharacter?.path)) {
+        const pathId = characterStore.path || activeCharacter?.path;
+        const pathData = getEnhancedPathData(pathId);
+        if (pathData) {
+          pathDisplayName = pathData.name;
+        }
+      }
 
       // Removed: Unused variable
 
@@ -2563,15 +2571,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         name: currentPlayerCharacterName,
         isGM: isGameMaster, // Include GM status for current player
         character: {
-          class: activeCharacter?.class || 'Unknown',
-          level: activeCharacter?.level || 1,
-          health: activeCharacter?.health || { current: 100, max: 100 },
-          mana: activeCharacter?.mana || { current: 50, max: 50 },
-          actionPoints: activeCharacter?.actionPoints || { current: 3, max: 3 },
-          race: activeCharacter?.race || 'Unknown',
-          raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown',
-          tokenSettings: activeCharacter?.tokenSettings || {}, // Include token settings, default to empty object
-          lore: activeCharacter?.lore || {} // Include lore (which contains characterImage), default to empty object
+          class: activeCharacter?.class || characterStore.class || 'Unknown',
+          level: activeCharacter?.level || characterStore.level || 1,
+          health: activeCharacter?.health || characterStore.health || { current: 100, max: 100 },
+          mana: activeCharacter?.mana || characterStore.mana || { current: 50, max: 50 },
+          actionPoints: activeCharacter?.actionPoints || characterStore.actionPoints || { current: 3, max: 3 },
+          race: activeCharacter?.race || characterStore.race || 'Unknown',
+          raceDisplayName: activeCharacter?.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
+          background: activeCharacter?.background || characterStore.background || '',
+          backgroundDisplayName: backgroundDisplayName,
+          path: activeCharacter?.path || characterStore.path || '',
+          pathDisplayName: pathDisplayName,
+          tokenSettings: activeCharacter?.tokenSettings || characterStore.tokenSettings || {}, // Include token settings, default to empty object
+          lore: activeCharacter?.lore || characterStore.lore || {} // Include lore (which contains characterImage), default to empty object
         }
       };
 
