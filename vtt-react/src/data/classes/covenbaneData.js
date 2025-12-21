@@ -1334,7 +1334,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         description: 'Become an entity of pure shadow and anti-magic.',
         grantedAbilities: [
           { id: 'shadow_entity', name: 'Shadow Entity', description: 'Physical damage reduced by 50%' },
-          { id: 'shadow_teleport', name: 'Shadow Step', description: 'Teleport 30ft as bonus action' },
+          { id: 'shadow_teleport', name: 'Shadow Step', description: 'Teleport 30ft using action points' },
           { id: 'wall_phasing', name: 'Wall Phasing', description: 'Pass through non-magical barriers' }
         ]
       },
@@ -1538,7 +1538,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         description: 'Become an instrument of divine justice.',
         grantedAbilities: [
           { id: 'divine_judge', name: 'Divine Judge', description: 'Instantly know the alignment of any creature' },
-          { id: 'execution_strike', name: 'Execution Strike', description: 'Deal 4d10 extra radiant damage to evil creatures' },
+          { id: 'execution_strike', name: 'Execution Strike', description: 'Deal extra radiant damage to evil creatures', damageFormula: '4d10' },
           { id: 'evil_immunity', name: 'Evil Immunity', description: 'Immune to damage from evil-aligned creatures' }
         ]
       },
@@ -1576,9 +1576,10 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         formula: '10d10',
         elementType: 'necrotic',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['magic_annihilation', 'reality_break']
+        }
       },
       resolution: 'DICE',
       utilityConfig: {
@@ -1586,10 +1587,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         selectedEffects: [{
           id: 'permanent_magic_ending',
           name: 'Permanent Magic Ending',
-          description: 'All magic permanently ends in the area, reality rejects magic forever',
-      level: 10,
-          duration: 1,
-          durationUnit: 'hours'
+          description: 'All magic permanently ends in the area, reality rejects magic forever'
         }],
         power: 'major'
       },
@@ -1637,7 +1635,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         description: 'Ascend to the pinnacle of shadow mastery for 3 rounds.',
         grantedAbilities: [
           { id: 'shadow_immunity', name: 'Shadow Immunity', description: 'Immune to all non-radiant damage' },
-          { id: 'instant_teleport', name: 'Instant Teleport', description: 'Teleport anywhere within 120ft as free action' },
+          { id: 'instant_teleport', name: 'Instant Teleport', description: 'Teleport anywhere within 120ft (no action points)' },
           { id: 'auto_crit_evil', name: 'Auto-Crit Evil', description: 'All attacks against evil creatures automatically crit' },
           { id: 'shadow_exhaustion', name: 'Shadow Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
         ]
@@ -1648,7 +1646,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_divine_incarnation',
       name: 'Divine Incarnation',
-      description: 'Channel the full power of divine justice for 3 rounds, becoming an avatar of righteous wrath. Evil creatures within 30ft take 3d8 radiant damage per round, you are immune to all damage from evil creatures, and can instantly kill evil creatures below 50 HP once per round. When transformation ends, gain 2 levels of exhaustion.',
+      description: 'Channel the full power of divine justice for 3 rounds, becoming an avatar of righteous wrath. Evil creatures within 30ft take radiant damage per round, you are immune to all damage from evil creatures, and can instantly kill evil creatures below 50 HP once per round. When transformation ends, gain 2 levels of exhaustion.',
       level: 10,
       effectTypes: ['transformation'],
       typeConfig: {
@@ -1678,7 +1676,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         newForm: 'Divine Incarnation',
         description: 'Become an avatar of divine justice for 3 rounds.',
         grantedAbilities: [
-          { id: 'divine_aura', name: 'Divine Aura', description: 'Evil creatures within 30ft take 3d8 radiant damage per round' },
+          { id: 'divine_aura', name: 'Divine Aura', description: 'Evil creatures within 30ft take radiant damage per round', damageFormula: '3d8' },
           { id: 'evil_immunity_full', name: 'Complete Evil Immunity', description: 'Immune to all damage and effects from evil creatures' },
           { id: 'execution_blow', name: 'Execution Blow', description: 'Once per round, instantly kill an evil creature below 50 HP' },
           { id: 'divine_exhaustion', name: 'Divine Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }

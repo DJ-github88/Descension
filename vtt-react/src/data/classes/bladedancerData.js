@@ -1398,7 +1398,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_dance_speed',
           name: 'Dancing Speed',
-          description: 'Brief speed boost from flowing through stances',
+          description: 'Gain +10 feet movement speed for 1 round from the fluid motion of flowing through stances. The seamless transitions between combat forms grant you exceptional mobility.',
           statModifier: {
             stat: 'movementSpeed',
             magnitude: 10,
@@ -1677,7 +1677,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'flowing_dodge_evasion',
           name: 'Flowing Evasion',
-          description: '+4 dodge bonus for 1 round',
+          description: 'Gain +4 dodge bonus for 1 round, making you significantly harder to hit as you flow between stances with fluid grace.',
           statModifier: {
             stat: 'dodge',
             magnitude: 4,
@@ -1735,7 +1735,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_mastery_power',
           name: 'Stance Mastery',
-          description: 'Double all effects from current stance abilities for 2 rounds',
+          description: 'Gain +2 stance power, doubling all effects from your current stance abilities for 2 rounds. This mastery amplifies every aspect of your active stance, making your combat forms significantly more potent.',
           statModifier: {
             stat: 'stancePower',
             magnitude: 2,
@@ -1811,7 +1811,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'bleeding',
           name: 'Bleeding Wound',
-          description: 'Target suffers ongoing bleed damage',
+          description: 'Target takes 1d4 physical damage per round for 3 rounds',
           statusType: 'bleeding',
           level: 'moderate'
         }],
@@ -1927,7 +1927,41 @@ Many players enhance the stance-dancing experience with:
         criticalConfig: {
           enabled: true,
           critType: 'dice',
-          critMultiplier: 2
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '2d8',
+          critEffects: ['teleport', 'advantage'],
+          teleportEffect: {
+            distance: 10,
+            behindTarget: true,
+            description: 'Teleport behind target on critical hit'
+          }
+        },
+        triggerConfig: {
+          effectTriggers: {
+            damage: {
+              logicType: 'OR',
+              compoundTriggers: [{
+                id: 'stance_check',
+                category: 'stance',
+                name: 'Shadow Step Stance',
+                parameters: {
+                  stance: 'shadow_step',
+                  perspective: 'self'
+                }
+              }]
+            }
+          },
+          conditionalEffects: {
+            damage: {
+              isConditional: true,
+              defaultEnabled: true,
+              baseFormula: '3d8 + agility',
+              conditionalFormulas: {
+                'stance_shadow_step': '3d8 + agility + 3d6'
+              }
+            }
+          }
         },
         description: 'Devastating strike from the shadows, enhanced when in Shadow Step stance'
       },
@@ -2176,7 +2210,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_harmony_power',
           name: 'Harmonic Power',
-          description: 'Combine benefits from multiple stances simultaneously for 3 rounds (requires concentration)',
+          description: 'Gain +1 to multi-stance benefits, allowing you to combine and maintain benefits from multiple stances simultaneously for 3 rounds. Requires concentration to maintain this harmony between stances.',
           statModifier: {
             stat: 'multiStanceBenefits',
             magnitude: 1,
@@ -2289,7 +2323,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'rapid_transitions',
           name: 'Rapid Flow',
-          description: 'Reduce stance transition cost by 1 (minimum 1) and generate +1 Momentum per transition',
+          description: 'Gain +1 stance transition cost reduction (minimum cost of 1), allowing you to change stances more efficiently. Additionally, each stance transition generates +1 Momentum, rewarding your fluid combat style.',
           statModifier: {
             stat: 'transitionCostReduction',
             magnitude: 1,
@@ -2298,7 +2332,7 @@ Many players enhance the stance-dancing experience with:
         }, {
           id: 'flow_momentum_bonus',
           name: 'Flow Momentum',
-          description: 'Successful attacks generate +1 additional Momentum',
+          description: 'Gain +1 momentum generation, causing successful attacks to generate +1 additional Momentum. Your flowing combat style builds power with each strike.',
           statModifier: {
             stat: 'momentumGeneration',
             magnitude: 1,
@@ -2597,7 +2631,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_echo_benefits',
           name: 'Echo Benefits',
-          description: 'Retain partial benefits from your last 2 stances',
+          description: 'Gain +2 to multi-stance echo, allowing you to retain partial benefits from your last 2 stances you used. This passive ability lets you maintain a lingering connection to recently used stances, creating a seamless flow between your combat forms.',
           statModifier: {
             stat: 'multiStanceEcho',
             magnitude: 2,
@@ -2851,7 +2885,7 @@ Many players enhance the stance-dancing experience with:
           {
             id: 'doubled_momentum',
             name: 'Endless Flow',
-            description: 'Momentum generation doubled'
+            description: 'Momentum generation is doubled for the duration, allowing you to build combat momentum twice as fast with each successful action.'
           }
         ]
       },

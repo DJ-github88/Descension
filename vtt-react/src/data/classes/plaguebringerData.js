@@ -312,7 +312,7 @@ After following the correct development path (usually 3 category spells), the ba
       headers: ['Base Affliction', 'Development Path', 'Final Affliction', 'Final Effect'],
       rows: [
         ['Curse of Agony', 'Weaken → Torment → Amplify Pain', 'Curse of True Agony', '2d10 psychic/turn for 3 turns, stun 2 turns'],
-        ['Blight of Despair', 'Weaken → Fester → Decay', 'Blight of Despair Enhanced', '-7 STR/DEX for 1 min, disadvantage on attacks'],
+        ['Blight of Despair', 'Weaken → Fester → Decay', 'Blight of Despair Enhanced', '-7 STR/AGI for 1 min, disadvantage on attacks'],
         ['Whisper of Decay', 'Torment → Fester → Corrupt', 'Scream of the Plagued', '15ft aura: random attacks for 1 min'],
         ['Venomous Touch', 'Infect → Weaken → Amplify Pain', 'Deadly Caress', '5d6 poison, -5 armor for 1 min'],
         ['Fever Dream', 'Torment → Nurture → Infect', 'Epidemic Nightmare', '3d6 psychic, spreads fear (DC 15) in 5ft'],
@@ -478,7 +478,7 @@ WEAKEN (Stage 2):
 
 TORMENT (Stage 3):
 • Damage: 3d6 per turn
-• Effect: -2 AC, disadvantage on STR/DEX saves, -10 ft speed
+• Effect: -2 AC, disadvantage on STR/AGI saves, -10 ft speed
 
 AMPLIFY PAIN (Final):
 • Immediate: 6d6 damage
@@ -509,7 +509,7 @@ Base → Corrupt → Wither → Soul Rot (Final)
 
 CORRUPT (Stage 2):
 • Damage: 2d6 psychic per turn
-• Effect: Disadvantage on WIS saves
+• Effect: Disadvantage on Spirit saves
 
 WITHER (Stage 3):
 • Damage: 3d6 psychic per turn
@@ -627,7 +627,7 @@ CATEGORY SPELLS (Evolution):
 • Weaken: Advance affliction, -2 armor
 • Torment: Advance affliction, -10 ft speed
 • Fester: Advance affliction, -50% healing
-• Corrupt: Advance affliction, -WIS saves
+• Corrupt: Advance affliction, -Spirit saves
 • Decay: Advance affliction, -75% healing
 • Wither: Advance affliction, -spell attack
 
@@ -821,7 +821,7 @@ Many players enhance the Plaguebringer experience with:
           {
             name: 'Mind Fracture',
             cost: '50 Corruption',
-            description: 'All afflicted enemies must make a Wisdom save (DC 15) or be stunned for 1 turn.'
+            description: 'All afflicted enemies must make a Spirit save (DC 15) or be stunned for 1 turn.'
           },
           {
             name: 'Psychic Cascade',
@@ -907,7 +907,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_curse_of_agony',
             name: 'Curse of Agony',
-            description: 'Plant a seed of suffering in your target. Deals 1d6 psychic damage per turn for 4 turns. Can be evolved through Weaken → Torment → Amplify Pain into Curse of True Agony.',
+            description: 'Plant a seed of suffering in your target. Deals 1d6 + intelligence psychic damage per turn for 4 rounds. Can be evolved through Weaken → Torment → Amplify Pain into Curse of True Agony.',
             spellType: 'ACTION',
             icon: 'spell_shadow_curseofsargeras',
             school: 'Necromancy',
@@ -946,28 +946,24 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '1d6',
-              modifier: 'INTELLIGENCE',
-              damageType: 'psychic',
-              attackType: 'spell_save'
-            },
-
-            effects: {
-              damage: {
-                overTime: {
-                  amount: '1d6 + INT',
-                  type: 'psychic',
-                  interval: 'round',
-                  duration: '4 rounds',
-                  description: 'Psychic damage each round'
-                }
+              formula: '1d6 + intelligence',
+              elementType: 'psychic',
+              damageType: 'direct',
+              attackType: 'spell_save',
+              hasDotEffect: true,
+              dotConfig: {
+                dotFormula: '1d6 + intelligence',
+                duration: 4,
+                tickFrequency: 'turn',
+                isProgressiveDot: false
               },
-              affliction: {
-                type: 'base_affliction',
-                name: 'Curse of Agony',
-                developmentPath: 'Weaken → Torment → Amplify Pain',
-                finalForm: 'Curse of True Agony',
-                trackable: true
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'spirit',
+                difficultyClass: 14,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
               }
             },
 
@@ -988,7 +984,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_venomous_touch',
             name: 'Venomous Touch',
-            description: 'Infect your target with virulent poison. Deals 1d8 poison damage initially. Can be evolved through Infect → Weaken → Amplify Pain into Deadly Caress.',
+            description: 'Infect your target with virulent poison. Deals poison damage initially. Can be evolved through Infect → Weaken → Amplify Pain into Deadly Caress.',
             spellType: 'ACTION',
             icon: 'ability_creature_poison_06',
             school: 'Necromancy',
@@ -1025,9 +1021,9 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '1d8',
-              modifier: 'INTELLIGENCE',
-              damageType: 'poison',
+              formula: '1d8 + intelligence',
+              elementType: 'poison',
+              damageType: 'direct',
               attackType: 'spell_save'
             },
 
@@ -1136,7 +1132,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_drain_vitality',
             name: 'Drain Vitality',
-            description: 'Drains the life from a melee target, reducing their maximum HP by 1d10+2 and damage dealt by -2. You gain the health drained as temporary HP. Advances Weaken-path afflictions.',
+            description: 'Drains the life from a melee target, reducing their maximum HP and damage dealt. You gain the health drained as temporary HP. Advances Weaken-path afflictions.',
             spellType: 'ACTION',
             icon: 'spell_shadow_lifedrain02',
             school: 'Necromancy',
@@ -1176,17 +1172,31 @@ Many players enhance the Plaguebringer experience with:
 
             resolution: 'AUTOMATIC',
 
-            effects: {
-              debuff: {
-                maxHpReduction: '1d10+2',
-                damageReduction: 2,
-                duration: '1 minute',
-                description: 'Reduced max HP and damage output'
-              },
-              healing: {
-                tempHp: '1d10+2',
-                description: 'Gain temporary HP equal to HP drained'
-              }
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'drained_vitality',
+                name: 'Drained Vitality',
+                description: 'Maximum HP reduced and damage output reduced for 1 minute',
+                statModifier: {
+                  stat: 'max_hp',
+                  magnitude: '1d10+2',
+                  magnitudeType: 'formula'
+                }
+              }],
+              durationValue: 1,
+              durationType: 'minutes',
+              durationUnit: 'minutes',
+              saveDC: 15,
+              saveType: 'constitution',
+              saveOutcome: 'halves',
+              canBeDispelled: true
+            },
+
+            healingConfig: {
+              formula: '1d10+2',
+              healingType: 'temporaryHP',
+              hasHotEffect: false
             },
 
             specialMechanics: {
@@ -1248,12 +1258,20 @@ Many players enhance the Plaguebringer experience with:
 
             resolution: 'AUTOMATIC',
 
-            effects: {
-              condition: {
-                type: 'confused',
-                duration: '2 rounds',
-                description: 'Target attacks nearest ally on next turn'
-              }
+            controlConfig: {
+              controlType: 'mind_control',
+              duration: 2,
+              durationUnit: 'rounds',
+              saveDC: 12,
+              saveType: 'spirit',
+              savingThrow: true,
+              effects: [{
+                id: 'confused',
+                name: 'Confused',
+                description: 'Target attacks nearest ally on next turn',
+                statusType: 'confused',
+                level: 'moderate'
+              }]
             },
 
             specialMechanics: {
@@ -1275,7 +1293,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_agonizing_wail',
             name: 'Agonizing Wail',
-            description: 'An excruciating wail targets a single enemy within 25 ft, dealing 2d4 psychic damage and paralyzing with fear, causing them to lose their next action/3 AP. Advances Torment-path afflictions.',
+            description: 'An excruciating wail targets a single enemy within 25 ft, dealing psychic damage and paralyzing with fear, causing them to lose their next action. Advances Torment-path afflictions.',
             spellType: 'ACTION',
             icon: 'spell_shadow_deathscream',
             school: 'Necromancy',
@@ -1311,25 +1329,34 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '2d4',
-              modifier: 'INTELLIGENCE',
-              damageType: 'psychic',
-              attackType: 'spell_save'
+              formula: '2d4 + intelligence',
+              elementType: 'psychic',
+              damageType: 'direct',
+              attackType: 'spell_save',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'spirit',
+                difficultyClass: 16,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
             },
 
-            effects: {
-              damage: {
-                instant: {
-                  amount: '2d4 + INT',
-                  type: 'psychic',
-                  description: 'Immediate psychic damage'
-                }
-              },
-              condition: {
-                type: 'paralyzed',
-                duration: '1 round',
-                description: 'Lose next action (3 AP)'
-              }
+            controlConfig: {
+              controlType: 'incapacitation',
+              duration: 1,
+              durationUnit: 'rounds',
+              saveDC: 16,
+              saveType: 'spirit',
+              savingThrow: true,
+              effects: [{
+                id: 'paralyzed_fear',
+                name: 'Paralyzed by Fear',
+                description: 'Paralyzed with fear, loses next action',
+                statusType: 'paralyzed',
+                level: 'severe'
+              }]
             },
 
             specialMechanics: {
@@ -1350,7 +1377,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_infectious_sores',
             name: 'Infectious Sores',
-            description: 'Infects a single target in melee range with open sores that burst if they move, spreading the infection to anyone within 5 ft, dealing 1d4 necrotic damage for 4 turns. Advances Fester-path afflictions.',
+            description: 'Infects a single target in melee range with open sores that burst if they move, spreading the infection to anyone within 5 ft, dealing necrotic damage. Advances Fester-path afflictions.',
             spellType: 'ACTION',
             icon: 'spell_shadow_contagion',
             school: 'Necromancy',
@@ -1387,27 +1414,23 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '1d4',
-              modifier: 'INTELLIGENCE',
-              damageType: 'necrotic',
-              attackType: 'spell_save'
-            },
-
-            effects: {
-              damage: {
-                overTime: {
-                  amount: '1d4',
-                  type: 'necrotic',
-                  interval: 'round',
-                  duration: '4 rounds',
-                  description: 'Necrotic damage each round'
-                }
+              formula: '1d4 + intelligence',
+              elementType: 'necrotic',
+              damageType: 'direct',
+              attackType: 'spell_save',
+              hasDotEffect: true,
+              dotConfig: {
+                dotFormula: '1d4',
+                duration: 4,
+                tickFrequency: 'turn',
+                isProgressiveDot: false
               },
-              contagion: {
-                spreadRange: 5,
-                spreadCondition: 'target_moves',
-                spreadDamage: '1d4',
-                description: 'Spreads to nearby creatures if target moves'
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 14,
+                saveOutcome: 'negates',
+                partialEffect: false
               }
             },
 
@@ -1435,7 +1458,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_plague_of_flies',
             name: 'Plague of Flies',
-            description: 'Summons a swarm of flies around a single target, causing distraction and 1d4 poison damage per turn, and reducing their sight range by 1d20 ft. Advances Fester-path afflictions.',
+            description: 'Summons a swarm of flies around a single target, causing distraction and poison damage per turn, and reducing their sight range. Advances Fester-path afflictions.',
             spellType: 'ACTION',
             icon: 'inv_misc_monsterspidercarapace_01',
             school: 'Conjuration',
@@ -1468,27 +1491,35 @@ Many players enhance the Plaguebringer experience with:
             resolution: 'AUTOMATIC',
 
             damageConfig: {
-              formula: '1d4',
-              modifier: 'INTELLIGENCE',
-              damageType: 'poison',
-              attackType: 'automatic'
+              formula: '1d4 + intelligence',
+              elementType: 'poison',
+              damageType: 'direct',
+              attackType: 'automatic',
+              hasDotEffect: true,
+              dotConfig: {
+                dotFormula: '1d4',
+                duration: 5,
+                tickFrequency: 'turn',
+                isProgressiveDot: false
+              }
             },
 
-            effects: {
-              damage: {
-                overTime: {
-                  amount: '1d4',
-                  type: 'poison',
-                  interval: 'round',
-                  duration: '5 rounds',
-                  description: 'Poison damage each round'
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'swarm_vision_reduction',
+                name: 'Swarm Vision Reduction',
+                description: 'Sight range reduced',
+                statModifier: {
+                  stat: 'sight_range',
+                  magnitude: '1d20',
+                  magnitudeType: 'formula'
                 }
-              },
-              debuff: {
-                visionReduction: '1d20 ft',
-                duration: '5 rounds',
-                description: 'Sight range reduced by 1d20 ft'
-              }
+              }],
+              durationValue: 5,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              canBeDispelled: true
             },
 
             specialMechanics: {
@@ -1544,17 +1575,25 @@ Many players enhance the Plaguebringer experience with:
 
             resolution: 'AUTOMATIC',
 
-            effects: {
-              amplification: {
-                multiplier: 2,
-                duration: '1 round',
-                description: 'Doubles damage of all existing afflictions'
-              },
-              condition: {
-                type: 'disoriented',
-                duration: '1 round',
-                description: 'Target is disoriented from pain - has disadvantage on attack rolls and ability checks, may move in a random direction on their turn'
-              }
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'amplified_pain',
+                name: 'Amplified Pain',
+                description: 'Doubles damage of all existing afflictions and causes disorientation',
+                statModifier: {
+                  stat: 'attack_rolls',
+                  magnitude: 1,
+                  magnitudeType: 'disadvantage'
+                }
+              }],
+              durationValue: 1,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 16,
+              saveType: 'constitution',
+              saveOutcome: 'halves',
+              canBeDispelled: true
             },
 
             specialMechanics: {
@@ -1621,12 +1660,25 @@ Many players enhance the Plaguebringer experience with:
 
             resolution: 'AUTOMATIC',
 
-            effects: {
-              amplification: {
-                multiplier: 3,
-                duration: '1 round',
-                description: 'Triples damage of all pain-related effects'
-              }
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'triple_pain',
+                name: 'Triple Pain',
+                description: 'Triples damage of all pain-related effects',
+                statModifier: {
+                  stat: 'affliction_damage',
+                  magnitude: 3,
+                  magnitudeType: 'multiplier'
+                }
+              }],
+              durationValue: 1,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 16,
+              saveType: 'constitution',
+              saveOutcome: 'halves',
+              canBeDispelled: true
             },
 
             specialMechanics: {
@@ -1651,7 +1703,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_necrotic_burst',
             name: 'Necrotic Burst',
-            description: 'A burst of necrotic energy on a single target within 10 ft causes 3d6 necrotic damage and permanently reduces their max HP by 2d10. Advances Decay-path afflictions.',
+            description: 'A burst of necrotic energy on a single target within 10 ft causes necrotic damage and permanently reduces their max HP. Advances Decay-path afflictions.',
             spellType: 'ACTION',
             icon: 'spell_shadow_deathanddecay',
             school: 'Necromancy',
@@ -1688,25 +1740,41 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '3d6',
-              modifier: 'INTELLIGENCE',
-              damageType: 'necrotic',
-              attackType: 'spell_save'
+              formula: '3d6 + intelligence',
+              elementType: 'necrotic',
+              damageType: 'direct',
+              attackType: 'spell_save',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 17,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              },
+              criticalConfig: {
+                critType: 'effect',
+                critEffects: ['permanent_decay']
+              }
             },
 
-            effects: {
-              damage: {
-                instant: {
-                  amount: '3d6 + INT',
-                  type: 'necrotic',
-                  description: 'Immediate necrotic damage'
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'permanent_decay',
+                name: 'Permanent Decay',
+                description: 'Permanently reduces max HP',
+                statModifier: {
+                  stat: 'max_hp',
+                  magnitude: '2d10',
+                  magnitudeType: 'formula',
+                  permanent: true
                 }
-              },
-              permanentDebuff: {
-                maxHpReduction: '2d10',
-                permanent: true,
-                description: 'Permanently reduces max HP by 2d10'
-              }
+              }],
+              durationValue: 0,
+              durationType: 'permanent',
+              durationUnit: 'permanent',
+              canBeDispelled: false
             },
 
             specialMechanics: {
@@ -1765,9 +1833,9 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '4d4',
-              modifier: 'INTELLIGENCE',
-              damageType: 'necrotic',
+              formula: '4d4 + intelligence',
+              elementType: 'necrotic',
+              damageType: 'direct',
               attackType: 'spell_save'
             },
 
@@ -1977,9 +2045,9 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '1d10',
-              modifier: 'INTELLIGENCE',
-              damageType: 'necrotic',
+              formula: '1d10 + intelligence',
+              elementType: 'necrotic',
+              damageType: 'direct',
               attackType: 'automatic'
             },
 
@@ -2121,9 +2189,9 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '4d6',
-              modifier: 'INTELLIGENCE',
-              damageType: 'poison',
+              formula: '4d6 + intelligence',
+              elementType: 'poison',
+              damageType: 'direct',
               attackType: 'spell_save'
             },
 
@@ -2205,7 +2273,8 @@ Many players enhance the Plaguebringer experience with:
 
             damageConfig: {
               formula: '2d6',
-              modifier: 'INTELLIGENCE',
+              elementType: 'poison',
+              damageType: 'direct',
               damageType: 'poison',
               attackType: 'spell_save'
             },

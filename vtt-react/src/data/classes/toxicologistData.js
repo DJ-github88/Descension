@@ -1000,6 +1000,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 2,
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Strike with poisoned blade'
       },
@@ -1007,36 +1008,36 @@ Many players enhance the Toxicologist experience with:
       resolution: 'ATTACK_ROLL',
 
       damageConfig: {
-        formula: '2d6',
-        modifier: 'AGILITY',
-        damageType: 'poison',
+        formula: '2d6 + agility',
+        elementType: 'poison',
+        damageType: 'direct',
         bonusDamage: {
           condition: 'venomancer_passive',
           amount: '+1d6',
           description: 'Venomancer passive adds +1d6 poison damage'
+        },
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d6',
+          duration: 4,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
         }
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '2d6 + AGI',
-            type: 'poison',
-            description: 'Immediate poison damage'
-          },
-          overTime: {
-            amount: '1d6',
-            type: 'poison',
-            interval: 'round',
-            duration: '4 rounds',
-            description: 'Ongoing poison damage'
-          }
-        },
-        debuff: {
-          type: 'poisoned',
-          duration: '4 rounds',
-          description: 'Target is poisoned (disadvantage on attack rolls and ability checks)'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'poisoned',
+          name: 'Poisoned',
+          description: 'Disadvantage on attack rolls and ability checks for 4 rounds',
+          statusType: 'poisoned',
+          level: 'moderate'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1084,6 +1085,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         mana: 6,
         toxinVials: 3,
+        actionPoints: 1,
         components: ['somatic', 'material'],
         somaticText: 'Throw vial at target location',
         materialText: 'Concentrated toxin vial'
@@ -1100,31 +1102,46 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '3d6',
-        modifier: 'INTELLIGENCE',
-        damageType: 'poison',
-        attackType: 'spell_save'
+        formula: '3d6 + intelligence',
+        elementType: 'poison',
+        damageType: 'area',
+        attackType: 'spell_save',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '3d6',
+          duration: 4,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
-      effects: {
-        damage: {
-          overTime: {
-            amount: '3d6',
-            type: 'poison',
-            interval: 'round',
-            duration: '4 rounds',
-            description: 'Poison damage each round in cloud'
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'weakened',
+          name: 'Weakened',
+          description: '-2 to attack rolls, saves, and ability checks for 4 rounds',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: -2,
+            magnitudeType: 'flat'
           }
-        },
-        debuff: {
-          type: 'weakened',
-          effect: '-2 to all rolls',
-          duration: '4 rounds',
-          description: 'All enemies in cloud have -2 to attack rolls, saves, and ability checks'
-        },
-        areaControl: {
-          description: 'Cloud persists for 4 rounds, damaging enemies who enter or start their turn in it'
-        }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'constitution',
+        saveOutcome: 'halves',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1172,6 +1189,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         contraptionParts: 1,
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Deploy contraption on ground'
       },
@@ -1179,31 +1197,25 @@ Many players enhance the Toxicologist experience with:
       resolution: 'AUTOMATIC',
 
       damageConfig: {
-        formula: '2d6',
-        modifier: 'INTELLIGENCE',
-        damageType: 'poison',
+        formula: '2d6 + intelligence',
+        elementType: 'poison',
+        damageType: 'direct',
         attackType: 'automatic'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '2d6 + INT',
-            type: 'poison',
-            description: 'Poison damage when triggered'
-          }
-        },
-        debuff: {
-          type: 'slowed',
-          effect: '-10ft movement',
-          duration: '2 rounds',
-          description: 'Enemies hit by trap are slowed'
-        },
-        trap: {
-          trigger: 'enemy_proximity',
-          triggerRadius: 5,
-          description: 'Activates when enemy enters 5ft radius'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'slowed',
+          name: 'Slowed',
+          description: 'Movement speed reduced by 10 feet for 2 rounds',
+          statusType: 'slowed',
+          level: 'moderate'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1249,6 +1261,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         mana: 8,
         contraptionParts: 4,
+        actionPoints: 1,
         components: ['somatic', 'verbal'],
         verbalText: 'Activate network protocol!',
         somaticText: 'Link contraptions with arcane energy'
@@ -1283,7 +1296,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_overcharged_trap',
       name: 'Overcharged Trap',
-      description: 'Deploy a supercharged contraption that deals massive damage and applies severe debuffs.',
+      description: 'Deploy a supercharged contraption that deals 5d8 + intelligence fire damage and applies severe debuffs.',
       spellType: 'ACTION',
       icon: 'inv_misc_enggizmos_32',
       school: 'Engineering',
@@ -1312,6 +1325,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         mana: 10,
         contraptionParts: 3,
+        actionPoints: 1,
         components: ['somatic', 'material'],
         somaticText: 'Deploy overcharged contraption',
         materialText: 'Enhanced contraption parts'
@@ -1328,31 +1342,43 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '5d8',
-        modifier: 'INTELLIGENCE',
-        damageType: 'fire',
-        attackType: 'spell_save'
+        formula: '5d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'area',
+        attackType: 'spell_save',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d6',
+          duration: 3,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '5d8 + INT',
-            type: 'fire',
-            description: 'Explosive damage when triggered'
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'burned',
+          name: 'Burned',
+          description: '-3 AC and takes 1d6 fire damage per round for 3 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: -3,
+            magnitudeType: 'flat'
           }
-        },
-        debuff: {
-          type: 'burned',
-          effect: '-3 AC, 1d6 fire damage per round',
-          duration: '3 rounds',
-          description: 'Enemies are burned and weakened'
-        },
-        trap: {
-          trigger: 'enemy_proximity',
-          triggerRadius: 15,
-          description: 'Activates when enemy enters 15ft radius'
-        }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1398,6 +1424,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 2,
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Apply crippling poison to weapon'
       },
@@ -1413,31 +1440,31 @@ Many players enhance the Toxicologist experience with:
       resolution: 'ATTACK_ROLL',
 
       damageConfig: {
-        formula: '1d8',
-        modifier: 'AGILITY',
-        damageType: 'poison',
+        formula: '1d8 + agility',
+        elementType: 'poison',
+        damageType: 'direct',
         attackType: 'weapon_attack'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '1d8 + AGI',
-            type: 'poison',
-            description: 'Minor poison damage'
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'crippled',
+          name: 'Crippled',
+          description: '-4 to attack rolls, -2 AC, -10ft movement, disadvantage on all saves for 5 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: -4,
+            magnitudeType: 'flat'
           }
-        },
-        debuff: {
-          type: 'crippled',
-          effects: [
-            '-4 to attack rolls',
-            '-2 AC',
-            '-10ft movement',
-            'Disadvantage on all saves'
-          ],
-          duration: '5 rounds',
-          description: 'Target is severely debilitated'
-        }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'constitution',
+        saveOutcome: 'halves',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1486,6 +1513,7 @@ Many players enhance the Toxicologist experience with:
         mana: 7,
         toxinVials: 3,
         contraptionParts: 1,
+        actionPoints: 1,
         components: ['somatic', 'material'],
         somaticText: 'Throw chaos grenade',
         materialText: 'Alchemical explosive'
@@ -1502,29 +1530,38 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '2d8',
-        modifier: 'INTELLIGENCE',
-        damageType: 'poison',
+        formula: '2d8 + intelligence',
+        elementType: 'poison',
+        damageType: 'area',
         additionalDamage: {
           formula: '2d8',
-          type: 'fire'
+          elementType: 'fire'
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         }
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '2d8 poison + 2d8 fire',
-            type: 'mixed',
-            description: 'Combined poison and fire damage'
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'constitution',
+        savingThrow: true,
+        effects: [{
+          id: 'confused',
+          name: 'Confused',
+          description: 'Attack random target (ally or enemy) for 2 rounds',
+          config: {
+            confusionType: 'random_target'
           }
-        },
-        condition: {
-          type: 'confused',
-          effect: 'Attack random target (ally or enemy)',
-          duration: '2 rounds',
-          description: 'Enemies are confused and attack randomly'
-        }
+        }]
       },
 
       specialMechanics: {
@@ -1571,6 +1608,7 @@ Many players enhance the Toxicologist experience with:
         mana: 12,
         toxinVials: 4,
         contraptionParts: 2,
+        actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Total system failure!',
         somaticText: 'Inject shutdown toxin',
@@ -1587,21 +1625,20 @@ Many players enhance the Toxicologist experience with:
 
       resolution: 'SAVING_THROW',
 
-      effects: {
-        incapacitation: {
-          effects: [
-            'Cannot take actions or reactions',
-            'Armor reduced to 0',
-            'Automatically fail all saves',
-            'Vulnerable to all damage types'
-          ],
-          duration: '2 rounds',
-          description: 'Target is completely helpless'
-        },
-        savingThrowEffect: {
-          onSuccess: 'Duration reduced to 1 round, can still take reactions',
-          onFailure: 'Full incapacitation for 2 rounds'
-        }
+      controlConfig: {
+        controlType: 'incapacitation',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'constitution',
+        savingThrow: true,
+        effects: [{
+          id: 'total_shutdown',
+          name: 'Total Shutdown',
+          description: 'Cannot take actions or reactions, armor reduced to 0, automatically fail all saves, vulnerable to all damage types',
+          statusType: 'incapacitated',
+          level: 'severe'
+        }]
       },
 
       specialMechanics: {
@@ -1647,6 +1684,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 1,
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Apply poison to weapon'
       },
@@ -1706,6 +1744,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 1,
+        actionPoints: 1,
         components: ['somatic', 'material'],
         somaticText: 'Administer antidote',
         materialText: 'Purifying reagents'
@@ -1713,17 +1752,29 @@ Many players enhance the Toxicologist experience with:
 
       resolution: 'AUTOMATIC',
 
-      effects: {
-        cure: {
-          removes: ['poison', 'disease'],
-          description: 'Cure all poison and disease effects'
-        },
-        buff: {
-          type: 'poison_resistance',
-          effect: '+2 to CON saves vs poison',
-          duration: '1 hour',
-          description: 'Temporary resistance to poison'
-        }
+      utilityConfig: {
+        utilityType: 'cure',
+        cures: ['poison', 'disease'],
+        description: 'Cure all poison and disease effects'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'poison_resistance',
+          name: 'Poison Resistance',
+          description: '+2 to Constitution saves vs poison for 1 hour',
+          statModifier: {
+            stat: 'constitution_saves',
+            magnitude: 2,
+            magnitudeType: 'flat',
+            condition: 'vs_poison'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        canBeDispelled: false
       },
 
       specialMechanics: {
@@ -1783,24 +1834,17 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '3d8',
-        modifier: 'INTELLIGENCE',
-        damageType: 'fire',
-        attackType: 'spell_save'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            amount: '3d8 + INT',
-            type: 'fire',
-            description: 'Explosive fire damage'
-          }
-        },
-        ignite: {
-          chance: 'Coin flip (heads)',
-          effect: '1d6 fire damage per round for 2 rounds',
-          description: 'May ignite flammable objects and enemies'
+        formula: '3d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'area',
+        attackType: 'spell_save',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 15,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         }
       },
 
@@ -1847,6 +1891,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 1,
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Throw smoke bomb'
       },
@@ -1866,7 +1911,7 @@ Many players enhance the Toxicologist experience with:
             'Can use to escape or reposition',
             'Provides cover for allies'
           ],
-          description: 'Creates tactical opportunities'
+          description: 'Creates tactical opportunities by manipulating the battlefield terrain and enemy positioning, allowing for strategic advantages in combat.'
         }
       },
 
@@ -1923,7 +1968,11 @@ Many players enhance the Toxicologist experience with:
         formula: '6d8 + intelligence',
         elementType: 'poison',
         damageType: 'persistent',
-        spreadMechanic: 'Spreads to enemies within 10 feet at start of their turn'
+        spreadMechanic: 'Spreads to enemies within 10 feet at start of their turn',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['pandemic_spread']
+        }
       },
 
       debuffConfig: {
@@ -1931,7 +1980,8 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'pandemic_plague',
           name: 'Pandemic Plague',
-          description: 'Takes 3d8 poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.'
+          description: 'Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.',
+          damageFormula: '3d8'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2122,7 +2172,11 @@ Many players enhance the Toxicologist experience with:
           difficultyClass: 20,
           saveOutcome: 'halves'
         },
-        specialRules: 'Ignores poison immunity. Creatures with poison resistance take full damage.'
+        specialRules: 'Ignores poison immunity. Creatures with poison resistance take full damage.',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['instant_death', 'poison_immunity_break']
+        }
       },
 
       cooldownConfig: {
@@ -2306,6 +2360,10 @@ Many players enhance the Toxicologist experience with:
           savingThrowType: 'constitution',
           difficultyClass: 22,
           saveOutcome: 'halves'
+        },
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['apocalypse_stun', 'plague_worldwide']
         }
       },
 
@@ -2465,7 +2523,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_poison_dart',
       name: 'Poison Dart',
-      description: 'Fire a poison dart dealing 1d6 poison damage and applying minor poison for 2 rounds.',
+      description: 'Fire a poison dart that deals 1d6 poison damage and applies minor poison.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2513,7 +2571,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_toxic_cloud',
       name: 'Toxic Cloud',
-      description: 'Create a small toxic cloud dealing 1d4 poison damage per round in a 10 foot radius for 3 rounds.',
+      description: 'Create a small toxic cloud that deals 1d4 poison damage to enemies in a 10-foot radius.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2610,7 +2668,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_venom_strike',
       name: 'Venom Strike',
-      description: 'Strike with concentrated venom dealing 4d8 poison damage.',
+      description: 'Strike with concentrated venom that deals poison damage.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2658,7 +2716,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_toxic_shock',
       name: 'Toxic Shock',
-      description: 'Shock an enemy with concentrated toxins, stunning them for 1 round and dealing 3d6 poison damage.',
+      description: 'Shock an enemy with concentrated toxins, stunning them and dealing poison damage.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
@@ -2724,7 +2782,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_poison_bomb',
       name: 'Poison Bomb',
-      description: 'Throw a poison bomb that explodes dealing 5d8 poison damage to all enemies in a 20 foot radius.',
+      description: 'Throw a poison bomb that explodes, dealing poison damage to all enemies in a radius.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2782,7 +2840,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_deadly_toxin',
       name: 'Deadly Toxin',
-      description: 'Apply a deadly toxin that deals 6d10 poison damage over 5 rounds.',
+      description: 'Apply a deadly toxin that deals poison damage over time.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2806,7 +2864,14 @@ Many players enhance the Toxicologist experience with:
       damageConfig: {
         formula: '6d10',
         elementType: 'poison',
-        damageType: 'direct'
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d10',
+          duration: 5,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        }
       },
 
       resourceCost: {
@@ -2831,7 +2896,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_toxic_wave',
       name: 'Toxic Wave',
-      description: 'Send a wave of toxic energy dealing 7d8 poison damage to all enemies in a line.',
+      description: 'Send a wave of toxic energy that deals poison damage to all enemies in a line.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2856,7 +2921,11 @@ Many players enhance the Toxicologist experience with:
       damageConfig: {
         formula: '7d8',
         elementType: 'poison',
-        damageType: 'area'
+        damageType: 'area',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['poison_burn']
+        }
       },
 
       resourceCost: {
@@ -2881,7 +2950,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_virulent_plague',
       name: 'Virulent Plague',
-      description: 'Release a virulent plague that spreads between enemies, dealing 8d8 poison damage.',
+      description: 'Release a virulent plague that spreads between enemies, dealing poison damage.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2906,7 +2975,11 @@ Many players enhance the Toxicologist experience with:
       damageConfig: {
         formula: '8d8',
         elementType: 'poison',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['plague_spread']
+        }
       },
 
       resourceCost: {

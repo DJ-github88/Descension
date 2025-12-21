@@ -1212,7 +1212,7 @@ Playing Gambler in person is uniquely satisfying because:
         school: 'Strategic Gambling',
         level: 7,
 
-        description: 'Challenge creature to Death Roll minigame. Both roll d20s with decreasing maximums until someone loses. Loser takes 1-10d10 psychic damage (winner chooses) and is stunned. Unwilling targets make Wisdom save.',
+        description: 'Challenge creature to Death Roll minigame. Both roll d20s with decreasing maximums until someone loses. Loser takes psychic damage (winner chooses) and is stunned. Unwilling targets make Spirit save.',
 
         typeConfig: {
           castTime: 1,
@@ -1271,24 +1271,6 @@ Playing Gambler in person is uniquely satisfying because:
           }]
         },
 
-        damageConfig: {
-          formula: '1-10d10',
-          damageType: 'psychic',
-          scalingType: 'winner_choice'
-        },
-
-        effects: {
-          damage: {
-            instant: {
-              formula: 'variable_d10',
-              type: 'psychic'
-            }
-          },
-          control: {
-            duration: 1,
-            type: 'stunned'
-          }
-        },
 
         specialMechanics: {
           fortunePoints: {
@@ -1300,7 +1282,7 @@ Playing Gambler in person is uniquely satisfying because:
             example: 'R1: You 15, Enemy 12 (max:12). R2: You 8, Enemy 11 (Enemy loses)'
           },
           savingThrow: {
-            type: 'Wisdom',
+            type: 'spirit',
             dc: '8 + proficiency + Charisma',
             onFail: 'Compelled to play'
           }
@@ -1347,14 +1329,6 @@ Playing Gambler in person is uniquely satisfying because:
           scalingType: 'critical_on_hit'
         },
 
-        effects: {
-          damage: {
-            conditional: {
-              onHit: 'automatic_critical_double_damage',
-              onMiss: 'self_damage_equal_to_would_be_hit'
-            }
-          }
-        },
 
         specialMechanics: {
           fortunePoints: {
@@ -1411,18 +1385,11 @@ Playing Gambler in person is uniquely satisfying because:
 
         damageConfig: {
           formula: '3d10',
-          damageType: 'force',
+          elementType: 'force',
+          damageType: 'direct',
           scalingType: 'accuracy_based'
         },
 
-        effects: {
-          damage: {
-            conditional: {
-              onAccurate: '3d10_to_target',
-              onInaccurate: '1d10_to_self'
-            }
-          }
-        },
 
         specialMechanics: {
           fortunePoints: {
@@ -1451,7 +1418,7 @@ Playing Gambler in person is uniquely satisfying because:
         school: 'Luck Manipulation',
         level: 2,
 
-        description: 'Flip a coin (1d2). Heads: +2 to all rolls for 1 hour. Tails: -2 to all rolls for 1 hour. Spend 1 Fortune Point to flip the result.',
+        description: 'Flip a coin. Heads: gain bonus to all rolls. Tails: take penalty to all rolls. Spend Fortune Points to flip the result.',
 
         typeConfig: {
           castTime: 1,
@@ -1471,6 +1438,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           mana: 3,
+          actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Nummus Fortunae!',
           materialText: 'A coin'
@@ -1478,14 +1446,24 @@ Playing Gambler in person is uniquely satisfying because:
 
         resolution: 'COIN_FLIP',
 
-        effects: {
-          buff: {
-            conditional: {
-              onHeads: '+2_to_all_rolls',
-              onTails: '-2_to_all_rolls'
-            },
-            duration: '1 hour'
-          }
+        buffConfig: {
+          buffType: 'statEnhancement',
+          effects: [{
+            id: 'coin_toss_buff',
+            name: 'Coin Toss Buff',
+            description: 'On heads: +2 to all rolls. On tails: -2 to all rolls.',
+            statModifier: {
+              stat: 'all_rolls',
+              magnitude: 2,
+              magnitudeType: 'flat',
+              condition: 'on_heads'
+            }
+          }],
+          durationValue: 1,
+          durationType: 'hours',
+          durationUnit: 'hours',
+          concentrationRequired: false,
+          canBeDispelled: true
         },
 
         specialMechanics: {
@@ -1545,6 +1523,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           mana: 3,
+          actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Perspicio Verum!',
           somaticText: 'Touch temple and point at target'
@@ -1552,13 +1531,23 @@ Playing Gambler in person is uniquely satisfying because:
 
         resolution: 'AUTOMATIC',
 
-        effects: {
-          buff: {
-            type: 'advantage',
-            checks: ['Insight', 'Perception'],
-            target: 'single_creature',
-            duration: '10 minutes'
-          }
+        buffConfig: {
+          buffType: 'skillEnhancement',
+          effects: [{
+            id: 'gamblers_insight',
+            name: "Gambler's Insight",
+            description: 'Gain advantage on Insight and Perception checks against target for 10 minutes',
+            skillModifier: {
+              skills: ['Insight', 'Perception'],
+              magnitude: 1,
+              magnitudeType: 'advantage'
+            }
+          }],
+          durationValue: 10,
+          durationType: 'minutes',
+          durationUnit: 'minutes',
+          concentrationRequired: false,
+          canBeDispelled: true
         },
 
         specialMechanics: {
@@ -1602,6 +1591,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           mana: 3,
+          actionPoints: 1,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Aurum Falsum!',
           somaticText: 'Conjure illusory treasure',
@@ -1610,13 +1600,17 @@ Playing Gambler in person is uniquely satisfying because:
 
         resolution: 'AUTOMATIC',
 
-        effects: {
-          illusion: {
-            type: 'visual_perfect',
-            value: 'up to 100gp',
-            duration: '1 hour or until touched',
-            detection: 'vanishes_on_touch'
-          }
+        utilityConfig: {
+          utilityType: 'illusion',
+          selectedEffects: [{
+            id: 'fools_gold',
+            name: "Fool's Gold",
+            description: 'Create illusory gold/treasure (up to 100gp value) that looks real but vanishes when touched'
+          }],
+          duration: 1,
+          durationUnit: 'hours',
+          concentration: false,
+          power: 'moderate'
         },
 
         specialMechanics: {
@@ -1703,7 +1697,7 @@ Playing Gambler in person is uniquely satisfying because:
       name: "Beginner's Luck",
       description: 'Channel the power of fortune to grant yourself advantage on your next ability check or attack roll.',
       level: 1,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'inv_misc_dice_01',
 
       typeConfig: {
@@ -1799,7 +1793,7 @@ Playing Gambler in person is uniquely satisfying because:
       name: 'Hot Streak',
       description: 'When fortune favors you, ride the wave! Each successful attack this turn grants bonus damage on the next.',
       level: 5,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_fire_immolation',
 
       typeConfig: {
@@ -1906,7 +1900,7 @@ Playing Gambler in person is uniquely satisfying because:
       name: 'Loaded Dice',
       description: 'Subtly manipulate the odds. Reroll any dice you roll this turn and take the better result.',
       level: 5,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'inv_misc_dice_02',
 
       typeConfig: {
@@ -2098,7 +2092,7 @@ Playing Gambler in person is uniquely satisfying because:
       name: 'Poker Face',
       description: 'Project an aura of unreadability, becoming immune to charm, fear, and mind-reading effects.',
       level: 6,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_shadow_unholyfrenzy',
 
       typeConfig: {
@@ -2323,7 +2317,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_lucky_shot',
       name: 'Lucky Shot',
-      description: 'Take a lucky shot that deals 4d8 damage on heads, or 2d8 on tails.',
+      description: 'Take a lucky shot that deals damage based on a coin flip.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2371,7 +2365,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_risky_maneuver',
       name: 'Risky Maneuver',
-      description: 'Attempt a risky maneuver - on heads gain +4 to all stats for 3 rounds, on tails lose 2d6 HP.',
+      description: 'Attempt a risky maneuver - on heads gain enhanced stats, on tails take damage.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -2429,7 +2423,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_double_down',
       name: 'Double Down',
-      description: 'Double down on your luck - on heads deal 5d10 damage, on tails take 3d6 damage.',
+      description: 'Double down on your luck - on heads deal damage, on tails take damage.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2536,7 +2530,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_jackpot_strike',
       name: 'Jackpot Strike',
-      description: 'Strike for the jackpot - on heads deal 6d12 critical damage, on tails deal 2d6 normal damage.',
+      description: 'Strike for the jackpot - on heads deal critical damage, on tails deal normal damage.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2590,7 +2584,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_all_in',
       name: 'All In',
-      description: 'Go all in - on heads deal 10d10 damage to all enemies, on tails take 5d8 damage yourself.',
+      description: 'Go all in - on heads deal damage to all enemies, on tails take damage yourself.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2615,7 +2609,11 @@ Playing Gambler in person is uniquely satisfying because:
       damageConfig: {
         formula: '10d10',
         elementType: 'force',
-        damageType: 'area'
+        damageType: 'area',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['all_in_stun']
+        }
       },
 
       resourceCost: {
@@ -2640,7 +2638,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_loaded_dice',
       name: 'Loaded Dice',
-      description: 'Use loaded dice to guarantee success - automatically deal 8d10 damage with no gamble.',
+      description: 'Use loaded dice to guarantee success - automatically deal damage with no gamble.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2664,7 +2662,12 @@ Playing Gambler in person is uniquely satisfying because:
       damageConfig: {
         formula: '8d10',
         elementType: 'force',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false
+        }
       },
 
       resourceCost: {
@@ -2689,7 +2692,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_divine_jackpot',
       name: 'Divine Jackpot',
-      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take massive damage.',
+      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take 20d12 force damage.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2714,7 +2717,11 @@ Playing Gambler in person is uniquely satisfying because:
       damageConfig: {
         formula: '20d12',
         elementType: 'force',
-        damageType: 'area'
+        damageType: 'area',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['divine_victory', 'instant_win']
+        }
       },
 
       resourceCost: {

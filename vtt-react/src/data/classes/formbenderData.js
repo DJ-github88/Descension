@@ -1657,7 +1657,18 @@ Frostfang
       damageConfig: {
         formula: '2d8 + strength',
         elementType: 'bludgeoning',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '1d8',
+          critEffects: ['wild_instinct_gain'],
+          wildInstinctGainConfig: {
+            amount: 1
+          }
+        }
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2652,7 +2663,7 @@ Frostfang
         newForm: 'Primal Avatar',
         description: 'Channel the essence of all primal forms simultaneously.',
         grantedAbilities: [
-          { id: 'all_form_benefits', name: 'All Form Benefits', description: 'Gain passive benefits of all four forms' },
+          { id: 'all_form_benefits', name: 'All Form Benefits', description: 'Gain the passive benefits of all four primal forms simultaneously: Feral Shifter (stealth bonuses and movement), Stormbringer (elemental damage and area effects), Earthwarden (defensive bonuses and terrain control), and Flamecaller (fire damage and burning effects). This ultimate form combines the strengths of every primal aspect.' },
           { id: 'free_switching', name: 'Free Switching', description: 'Form transitions cost 0 Wild Instinct' },
           { id: 'avatar_instinct', name: '+2 Wild Instinct/Round', description: 'Generate +2 Wild Instinct each round' },
           { id: 'avatar_stats', name: '+3 All Stats', description: 'Gain +3 to all attributes' }

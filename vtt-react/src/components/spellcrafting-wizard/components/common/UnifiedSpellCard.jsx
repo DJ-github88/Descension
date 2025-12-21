@@ -2719,7 +2719,7 @@ const UnifiedSpellCard = ({
                 <span
                   className="pf-resource-amount"
                   style={{
-                    color: resource.isRequired ? '#ff6b6b !important' : '#ffffff',
+                    color: '#ffffff',
                     fontWeight: resource.isRequired ? 'bold' : 'normal'
                   }}
                 >
@@ -4147,6 +4147,67 @@ const UnifiedSpellCard = ({
     return displayText;
   };
 
+  // Format trigger text for conditional display (e.g., "If below 50% health" instead of "When my health falls below 50%")
+  const formatTriggerForConditionalDisplay = (trigger) => {
+    if (!trigger) return 'Unknown trigger';
+
+    // Special handling for health_threshold to make it more concrete
+    // Also check if trigger name suggests it's a health threshold trigger
+    const isHealthThreshold = trigger.id === 'health_threshold' || 
+                              trigger.id?.includes('health_threshold') ||
+                              (trigger.name && /low health|health threshold|health.*below|health.*above/i.test(trigger.name));
+    
+    if (isHealthThreshold) {
+      const percentage = trigger.parameters?.percentage || 
+                        trigger.parameters?.health_threshold || 
+                        50; // Default to 50% if not specified
+      const comparison = trigger.parameters?.comparison || 'below';
+      const perspective = trigger.parameters?.perspective || 'self';
+      
+      // Map comparison values
+      const compMap = {
+        'less_than': 'below',
+        'greater_than': 'above',
+        'equal': 'at',
+        'below': 'below',  // Legacy support
+        'above': 'above',  // Legacy support
+        'equals': 'at'      // Legacy support
+      };
+      
+      const compText = compMap[comparison] || 'below';
+      
+      // For self perspective, simplify to just "If below X% health"
+      if (perspective === 'self') {
+        return `If ${compText} ${percentage}% health`;
+      } else {
+        // For other perspectives, include the target
+        const whoMap = {
+          'target': 'target',
+          'ally': 'ally',
+          'enemy': 'enemy',
+          'any': 'anyone'
+        };
+        return `If ${whoMap[perspective] || 'target'} ${compText} ${percentage}% health`;
+      }
+    }
+
+    // For all other triggers, convert "When" to "If" and simplify
+    let text = formatTriggerText(trigger);
+    
+    // Convert "When" to "If" - but don't add "If" if it already starts with "If"
+    if (text.startsWith('When ')) {
+      text = 'If ' + text.substring(5);
+    } else if (!text.startsWith('If ')) {
+      text = 'If ' + text;
+    }
+    
+    // Simplify common patterns
+    text = text.replace(/^If I /, 'If ');
+    text = text.replace(/^If my /, 'If ');
+    
+    return text;
+  };
+
   // Helper function to get damage type suffix for conditional formulas
   const getDamageTypeSuffix = () => {
     // Get damage types for appending to formulas
@@ -4891,6 +4952,11 @@ const UnifiedSpellCard = ({
           // Add duration
           baseDescription += ` for ${shieldDuration} round${shieldDuration !== 1 ? 's' : ''}`;
 
+          // Add overflow behavior to description if it converts to healing
+          if (overflow === 'convert_to_healing') {
+            baseDescription += ' and converts to healing';
+          }
+
           // Build bullet points for shield properties
           const shieldBullets = [];
 
@@ -4908,11 +4974,6 @@ const UnifiedSpellCard = ({
                             damageTypes === 'force' ? 'Force' :
                             damageTypes.charAt(0).toUpperCase() + damageTypes.slice(1);
             shieldBullets.push(`${typeText} only`);
-          }
-
-          // Add overflow behavior if not default
-          if (overflow === 'convert_to_healing') {
-            shieldBullets.push('Excess → Healing');
           }
 
           // Add break behavior if not default
@@ -5355,7 +5416,7 @@ const UnifiedSpellCard = ({
       if (stunLevel === 'full') {
         mechanicsParts.push('Cannot take actions or reactions');
       } else if (stunLevel === 'partial') {
-        mechanicsParts.push('Can take bonus actions only');
+        mechanicsParts.push('Can take limited actions only');
       } else if (stunLevel === 'dazed') {
         mechanicsParts.push('Disadvantage on attacks and ability checks');
       }
@@ -5855,7 +5916,7 @@ const UnifiedSpellCard = ({
 
     // DAZED EFFECT
     else if (effectId === 'dazed') {
-      mechanicsParts.push('Can take only one action or bonus action, not both');
+      mechanicsParts.push('Can take only limited actions per turn');
     }
 
     // STRENGTHENED EFFECT
@@ -6181,7 +6242,7 @@ const UnifiedSpellCard = ({
         effects.push({
           name: 'Damage Absorption',
           description: '',
-          mechanicsText: '',
+          mechanicsText: absorptionStats.map(stat => stat.value).join(', '),
           type: 'absorption',
           data: absorptionStats
         });
@@ -7624,7 +7685,7 @@ const UnifiedSpellCard = ({
         effects.push({
           name: 'Absorption Penalties',
           description: '',
-          mechanicsText: '',
+          mechanicsText: absorptionStats.map(stat => stat.value).join(', '),
           type: 'absorption',
           data: absorptionStats
         });
@@ -8324,6 +8385,116 @@ const UnifiedSpellCard = ({
             })()}
           </div>
         )}
+        {/* Trigger Condition Tag - Top Right of Header, to the left of priority tag (for creature abilities) */}
+        {spell?.triggerCondition && (
+          <div className="pf-trigger-condition-tag-above-header">
+            {(() => {
+              const { type, operator, value, statusEffect, resourceType, threshold, abilityName } = spell.triggerCondition;
+              
+              if (type === 'hp_percentage' || type === 'hp_percentage_target') {
+                if (operator === 'below') {
+                  const hpText = value <= 25 ? 'Low HP' : value <= 50 ? `Under ${value}%` : `HP < ${value}%`;
+                  return <span>{hpText}</span>;
+                } else if (operator === 'above') {
+                  return <span>HP > {value}%</span>;
+                } else {
+                  return <span>HP = {value}%</span>;
+                }
+              } else if (type === 'enemy_count') {
+                if (operator === 'at_least') {
+                  return <span>{value}+ Enemies</span>;
+                } else if (operator === 'at_most') {
+                  return <span>≤{value} Enemies</span>;
+                } else {
+                  return <span>{value} Enemies</span>;
+                }
+              } else if (type === 'ally_count') {
+                if (operator === 'at_least') {
+                  return <span>{value}+ Allies</span>;
+                } else if (operator === 'at_most') {
+                  return <span>≤{value} Allies</span>;
+                } else {
+                  return <span>{value} Allies</span>;
+                }
+              } else if (type === 'round_number') {
+                if (operator === 'at_least') {
+                  return <span>Round {value}+</span>;
+                } else if (operator === 'at_most') {
+                  return <span>Round ≤{value}</span>;
+                } else {
+                  return <span>Round {value}</span>;
+                }
+              } else if (type === 'turn_number') {
+                if (operator === 'at_least') {
+                  return <span>Turn {value}+</span>;
+                } else if (operator === 'at_most') {
+                  return <span>Turn ≤{value}</span>;
+                } else {
+                  return <span>Turn {value}</span>;
+                }
+              } else if (type === 'distance') {
+                if (operator === 'at_most') {
+                  return <span>Within {value}ft</span>;
+                } else if (operator === 'at_least') {
+                  return <span>Beyond {value}ft</span>;
+                } else {
+                  return <span>{value}ft away</span>;
+                }
+              } else if (type === 'status_effect_self' || type === 'status_effect_enemy') {
+                const effectName = statusEffect ? statusEffect.substring(0, 10) : 'Has Status';
+                return <span>{effectName}</span>;
+              } else if (type === 'resource_level') {
+                const resource = resourceType ? resourceType.charAt(0).toUpperCase() + resourceType.slice(1) : 'Resource';
+                if (operator === 'below') {
+                  return <span>Low {resource}</span>;
+                } else if (operator === 'above') {
+                  return <span>High {resource}</span>;
+                } else {
+                  return <span>{resource} = {value}%</span>;
+                }
+              } else if (type === 'action_points') {
+                if (operator === 'at_least') {
+                  return <span>{value}+ AP</span>;
+                } else if (operator === 'at_most') {
+                  return <span>≤{value} AP</span>;
+                } else {
+                  return <span>{value} AP</span>;
+                }
+              } else if (type === 'enemies_low_hp') {
+                const thresholdValue = threshold || 25;
+                const enemyText = value === 1 ? 'enemy' : 'enemies';
+                if (operator === 'at_least') {
+                  return <span>If {value}+ {enemyText} ≤{thresholdValue}% HP</span>;
+                } else if (operator === 'at_most') {
+                  return <span>If ≤{value} {enemyText} ≤{thresholdValue}% HP</span>;
+                } else {
+                  return <span>If {value} {enemyText} ≤{thresholdValue}% HP</span>;
+                }
+              } else if (type === 'surrounded') {
+                return <span>Surrounded</span>;
+              } else if (type === 'first_turn') {
+                return <span>First Turn</span>;
+              } else if (type === 'cooldown_ready') {
+                return <span>Ready</span>;
+              } else if (type === 'phase') {
+                const phaseText = value ? value.replace('phase', '').replace('Phase', '').trim() || 'Phase' : 'Phase';
+                return <span>{phaseText}</span>;
+              } else if (type === 'damage_taken') {
+                if (operator === 'at_least') {
+                  return <span>Took {value}+</span>;
+                } else if (operator === 'at_most') {
+                  return <span>Took ≤{value}</span>;
+                } else {
+                  return <span>Took {value}</span>;
+                }
+              } else if (type === 'ability_used') {
+                const abilName = abilityName ? abilityName.substring(0, 10) : 'Ability';
+                return <span>After {abilName}</span>;
+              }
+              return null;
+            })()}
+          </div>
+        )}
         {/* Header Main Row - Icon, Name, Resource Cost, Damage Types */}
         <div className="unified-spell-header-main">
           <div className="pf-spell-icon-container">
@@ -8553,7 +8724,7 @@ const UnifiedSpellCard = ({
                       <span className="healing-effect-name">Required</span>
                       {logicBadge && (
                         <span className="healing-effect-description">
-                          {' '}- {logicBadge}
+                          {' '}<span className="diamond-symbol">◆</span> {logicBadge}
                         </span>
                       )}
                     </div>
@@ -8572,31 +8743,52 @@ const UnifiedSpellCard = ({
                   </div>
                 );
               } else if (hasGlobalTriggers) {
-                const logicBadge = hasTriggerConfig.global.compoundTriggers.length > 1
-                  ? (hasTriggerConfig.global.logicType === 'AND' ? 'ALL' : 'ANY')
-                  : '';
-                const triggerTexts = hasTriggerConfig.global.compoundTriggers.map(trigger => formatTriggerText(trigger));
-                triggerHeader = (
-                  <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
-                    <div className="healing-effect">
-                      <span className="healing-effect-name">Triggers</span>
-                      {logicBadge && (
-                        <span className="healing-effect-description">
-                          {' '}- {logicBadge}
+                // Check if any effects have conditional formulas that use these global triggers
+                // If they do, don't show standalone trigger header (triggers will be shown with formulas)
+                const globalTriggerIds = hasTriggerConfig.global.compoundTriggers.map(t => t.id);
+                let hasGlobalConditionals = false;
+                
+                // Check damage conditional formulas
+                const damageConditionals = spell?.triggerConfig?.conditionalEffects?.damage?.conditionalFormulas ||
+                                         spell?.triggerConfig?.conditionalEffects?.damage_direct?.conditionalFormulas ||
+                                         spell?.triggerConfig?.conditionalEffects?.damage_dot?.conditionalFormulas ||
+                                         spell?.triggerConfig?.conditionalEffects?.damage_area?.conditionalFormulas;
+                if (damageConditionals) {
+                  hasGlobalConditionals = globalTriggerIds.some(id => damageConditionals[id] && id !== 'default');
+                }
+                
+                // Check healing conditional formulas if not found in damage
+                if (!hasGlobalConditionals) {
+                  const healingConditionals = spell?.triggerConfig?.conditionalEffects?.healing?.conditionalFormulas ||
+                                           spell?.triggerConfig?.conditionalEffects?.healing_direct?.conditionalFormulas ||
+                                           spell?.triggerConfig?.conditionalEffects?.healing_hot?.conditionalFormulas ||
+                                           spell?.triggerConfig?.conditionalEffects?.healing_shield?.conditionalFormulas;
+                  if (healingConditionals) {
+                    hasGlobalConditionals = globalTriggerIds.some(id => healingConditionals[id] && id !== 'default');
+                  }
+                }
+                
+                // Only show standalone trigger header if there are no conditional formulas using these triggers
+                // Display global triggers in an intuitive way - as a clear section
+                if (!hasGlobalConditionals) {
+                  const triggerTexts = hasTriggerConfig.global.compoundTriggers.map(trigger => formatTriggerForConditionalDisplay(trigger));
+                  triggerHeader = (
+                    <div className="healing-effect-item" style={{ marginBottom: '12px', paddingBottom: '12px', borderBottom: '2px solid rgba(139, 115, 85, 0.4)' }}>
+                      <div className="healing-effect">
+                        <span className="healing-effect-name" style={{ fontSize: '0.95em', fontWeight: '600', color: 'rgba(139, 115, 85, 0.9)' }}>
+                          Spell Triggers
                         </span>
-                      )}
-                    </div>
-                    <div className="healing-effect-details">
-                      <div className="healing-effect-mechanics">
+                      </div>
+                      <div className="damage-effect-details" style={{ marginTop: '8px' }}>
                         {triggerTexts.map((text, index) => (
-                          <div key={index}>
-                            {text}
+                          <div key={index} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: index > 0 ? '4px' : '0' }}>
+                            <strong>{text}</strong>
                           </div>
                         ))}
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               }
             }
 
@@ -8615,38 +8807,7 @@ const UnifiedSpellCard = ({
             } : null);
             const shouldRenderHealing = !!healingData;
 
-            // Build effect-specific trigger headers
-            const buildEffectTriggerHeader = (effectTriggers, effectType) => {
-              if (!effectTriggers?.compoundTriggers?.length) return null;
-              const logicBadge = effectTriggers.compoundTriggers.length > 1
-                ? (effectTriggers.logicType === 'AND' ? 'ALL' : 'ANY')
-                : '';
-              const triggerTexts = effectTriggers.compoundTriggers.map(trigger => formatTriggerText(trigger));
-              return (
-                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
-                  <div className="healing-effect">
-                    <span className="healing-effect-name">Triggers</span>
-                    {logicBadge && (
-                      <span className="healing-effect-description">
-                        {' '}- {logicBadge}
-                      </span>
-                    )}
-                  </div>
-                  <div className="healing-effect-details">
-                    <div className="healing-effect-mechanics">
-                      {triggerTexts.map((text, index) => (
-                        <div key={index}>
-                          {text}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            };
-
-            const damageTriggerHeader = hasDamageEffectTriggers ? buildEffectTriggerHeader(damageEffectTriggers, 'damage') : null;
-            const healingTriggerHeader = hasHealingEffectTriggers ? buildEffectTriggerHeader(healingEffectTriggers, 'healing') : null;
+            // Effect-specific triggers are now integrated into each effect item, so no standalone headers needed
 
             // Determine if we need to wrap effects in a border container
             // Wrap together if there are global triggers/required that affect multiple effects
@@ -8662,24 +8823,12 @@ const UnifiedSpellCard = ({
                     <div className="healing-effects-section">
                       {/* Global trigger/required state header */}
                       {hasGlobalTriggerOrRequired && triggerHeader && (
-                        <div className="healing-formula-line">
-                          <div className="healing-effects-list">
-                            {triggerHeader}
-                          </div>
-                        </div>
+                        triggerHeader
                       )}
 
                       {/* Damage Display - Only show if damage is actually configured */}
                       {shouldRenderDamage && (
                         <>
-                          {/* Effect-specific trigger header for damage when wrapped with global triggers */}
-                          {damageTriggerHeader && (
-                            <div className="healing-formula-line">
-                              <div className="healing-effects-list">
-                                {damageTriggerHeader}
-                              </div>
-                            </div>
-                          )}
                           <div className="damage-effects">
                             <div className="damage-effects-section">
                             {(() => {
@@ -8698,18 +8847,20 @@ const UnifiedSpellCard = ({
                                                            spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
                                 const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
                                 
-                                // Only return if we have conditional formulas (triggers are shown via conditional formulas)
-                                if (!hasConditionals) return null;
+                                // Get triggers (for display when no conditionals)
+                                const triggers = effectTriggers?.compoundTriggers || [];
+                                const triggerTexts = triggers.map(t => formatTriggerForConditionalDisplay(t));
                                 
-                                const formulas = Object.entries(conditionalFormulas)
+                                // Get conditional formulas if they exist
+                                const formulas = hasConditionals ? Object.entries(conditionalFormulas)
                                   .filter(([triggerId]) => triggerId !== 'default')
                                   .map(([triggerId, formula]) => {
                                     const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                                    const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
-                              return { triggerId, formula, triggerName };
-                                  });
+                                    const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
+                                    return { triggerId, formula, triggerName };
+                                  }) : [];
                                 
-                                return { formulas };
+                                return { triggers: triggerTexts, formulas };
                               };
 
                               // Main instant damage effect
@@ -8724,6 +8875,7 @@ const UnifiedSpellCard = ({
                                     description: '',
                                     mechanicsText: damageResult.instant,
                                     conditionalFormulas: instantTriggers?.formulas || [],
+                                    triggers: instantTriggers?.triggers || [],
                                     targeting: instantTargeting
                                   });
 
@@ -8735,6 +8887,7 @@ const UnifiedSpellCard = ({
                                     description: '',
                                     mechanicsText: damageResult.dot,
                                     conditionalFormulas: dotTriggers?.formulas || [],
+                                    triggers: dotTriggers?.triggers || [],
                                     targeting: dotTargeting
                                   });
                                 } else {
@@ -8770,6 +8923,7 @@ const UnifiedSpellCard = ({
                                     description: damageData?.description || '',
                                     mechanicsText: mechanicsText,
                                     conditionalFormulas: effectTriggers?.formulas || [],
+                                    triggers: effectTriggers?.triggers || [],
                                     targeting: effectTargeting,
                                     triggerCondition: damageData?.triggerCondition,
                                     isTriggeredArea: false
@@ -8866,7 +9020,7 @@ const UnifiedSpellCard = ({
                                           </span>
                                           {effect.description && effect.description !== effect.name && (
                                             <span className="damage-effect-description">
-                                              {" - "}{effect.description}
+                                              {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                             </span>
                                           )}
                                           {/* Targeting/Range badges */}
@@ -8902,20 +9056,31 @@ const UnifiedSpellCard = ({
                                             </div>
                                           </div>
                                         )}
-                                        {/* Conditional formulas */}
+                                        {/* Conditional formulas - triggers shown with formulas */}
                                         {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
                                           <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
                                             {effect.conditionalFormulas.map((cf, cfIndex) => {
                                               const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
                                               const damageTypeSuffix = getDamageTypeSuffix();
-                                              // Convert "When" to "If" for conditional display
-                                              const triggerText = cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`;
+                                              // triggerName is already formatted with formatTriggerForConditionalDisplay, so it's already in "If..." format
+                                              // Don't add another "If" if it already starts with "If"
+                                              const triggerText = cf.triggerName.startsWith('If ') ? cf.triggerName : (cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`);
                                               return (
                                                 <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
                                                   <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
                                                 </div>
                                               );
                                             })}
+                                          </div>
+                                        )}
+                                        {/* Standalone triggers (when no conditional formulas) - show below effect with divider */}
+                                        {(!effect.conditionalFormulas || effect.conditionalFormulas.length === 0) && effect.triggers && effect.triggers.length > 0 && (
+                                          <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                            {effect.triggers.map((triggerText, idx) => (
+                                              <div key={idx} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: idx > 0 ? '4px' : '0' }}>
+                                                <strong>{triggerText}</strong>
+                                              </div>
+                                            ))}
                                           </div>
                                         )}
                                       </div>
@@ -8932,13 +9097,6 @@ const UnifiedSpellCard = ({
                       {/* Healing Display - Only show if healing is actually configured */}
                       {shouldRenderDamage && shouldRenderHealing && (
                         <div style={{ marginTop: '8px' }}></div>
-                      )}
-                      {shouldRenderHealing && healingTriggerHeader && (
-                        <div className="healing-formula-line">
-                          <div className="healing-effects-list">
-                            {healingTriggerHeader}
-                          </div>
-                        </div>
                       )}
                       {shouldRenderHealing && (() => {
                         if (!healingData) return null;
@@ -8962,7 +9120,7 @@ const UnifiedSpellCard = ({
                             .filter(([triggerId]) => triggerId !== 'default')
                             .map(([triggerId, formula]) => {
                               const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                               return { triggerId, formula, triggerName };
                             });
                           
@@ -8977,7 +9135,7 @@ const UnifiedSpellCard = ({
                             const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
                             effects.push({
                               name: 'Shield Absorption',
-                              description: 'Absorbs damage',
+                              description: '', // Empty description - all info in mechanicsText
                               mechanicsText: healingResult.description,
                               conditionalFormulas: shieldTriggers?.formulas || []
                             });
@@ -9071,27 +9229,15 @@ const UnifiedSpellCard = ({
                             <div className="healing-effects-section">
                               {/* Show trigger/required state header if applicable */}
                               {(healingHasTriggers || healingHasRequiredState) && (
-                                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
-                                  <div className="healing-effect">
-                                    <span className="healing-effect-name">
-                                      {healingHasRequiredState ? 'Required' : 'Triggers'}
-                                    </span>
-                                    {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
-                                      <span className="healing-effect-description">
-                                        {' '}- {healingEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
-                                      </span>
-                                    )}
-                                  </div>
+                                <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
                                   {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
-                                    <div className="healing-effect-details">
-                                      <div className="healing-effect-mechanics">
-                                        {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
-                                          <div key={idx}>
-                                            {formatTriggerText(trigger)}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
+                                    <>
+                                      {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                                        <div key={idx} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: idx > 0 ? '4px' : '0' }}>
+                                          <strong>{formatTriggerForConditionalDisplay(trigger)}</strong>
+                                        </div>
+                                      ))}
+                                    </>
                                   )}
                                 </div>
                               )}
@@ -9215,11 +9361,7 @@ const UnifiedSpellCard = ({
                     {hasGlobalTriggerOrRequired && triggerHeader && (
                       <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
                         <div className="healing-effects-section">
-                          <div className="healing-formula-line">
-                            <div className="healing-effects-list">
-                              {triggerHeader}
-                            </div>
-                          </div>
+                          {triggerHeader}
                         </div>
                       </div>
                     )}
@@ -9229,13 +9371,6 @@ const UnifiedSpellCard = ({
                       <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
                         <div className="healing-effects-section">
                           {/* Effect-specific trigger header */}
-                          {damageTriggerHeader && (
-                            <div className="healing-formula-line">
-                              <div className="healing-effects-list">
-                                {damageTriggerHeader}
-                              </div>
-                            </div>
-                          )}
                           <div className="damage-effects">
                             <div className="damage-effects-section">
                               {(() => {
@@ -9259,16 +9394,16 @@ const UnifiedSpellCard = ({
                                   if (!hasTriggers && !hasConditionals) return null;
                                   
                                   // If we have triggers, always return them (even without conditionals)
-                                  const triggerTexts = hasTriggers ? effectTriggers.compoundTriggers.map(t => formatTriggerText(t)) : [];
+                                  const triggerTexts = hasTriggers ? effectTriggers.compoundTriggers.map(t => formatTriggerForConditionalDisplay(t)) : [];
                                   const formulas = hasConditionals ? Object.entries(conditionalFormulas)
                                     .filter(([triggerId]) => triggerId !== 'default')
                                     .map(([triggerId, formula]) => {
                                       const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                                       return { triggerId, formula, triggerName };
                                     }) : [];
                                   
-                                  return { triggerTexts, formulas };
+                                  return { triggers: triggerTexts, formulas };
                                 };
 
                                 // Main instant damage effect
@@ -9283,6 +9418,7 @@ const UnifiedSpellCard = ({
                                       description: '',
                                       mechanicsText: damageResult.instant,
                                       conditionalFormulas: instantTriggers?.formulas || [],
+                                      triggers: instantTriggers?.triggers || [],
                                       targeting: instantTargeting
                                     });
 
@@ -9294,6 +9430,7 @@ const UnifiedSpellCard = ({
                                       description: '',
                                       mechanicsText: damageResult.dot,
                                       conditionalFormulas: dotTriggers?.formulas || [],
+                                      triggers: dotTriggers?.triggers || [],
                                       targeting: dotTargeting
                                     });
                                   } else {
@@ -9412,7 +9549,7 @@ const UnifiedSpellCard = ({
                                             </span>
                                             {effect.description && effect.description !== effect.name && (
                                               <span className="damage-effect-description">
-                                                {" - "}{effect.description}
+                                                {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                               </span>
                                             )}
                                             {/* Targeting/Range badges */}
@@ -9449,9 +9586,12 @@ const UnifiedSpellCard = ({
                                               {effect.conditionalFormulas.map((cf, cfIndex) => {
                                                 const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
                                                 const damageTypeSuffix = getDamageTypeSuffix();
+                                                // triggerName is already formatted with formatTriggerForConditionalDisplay, so it's already in "If..." format
+                                                // Don't add another "If" if it already starts with "If"
+                                                const triggerText = cf.triggerName.startsWith('If ') ? cf.triggerName : (cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`);
                                                 return (
                                                   <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
-                                                    <strong>If {cf.triggerName}:</strong> {formattedFormula}{damageTypeSuffix}
+                                                    <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
                                                   </div>
                                                 );
                                               })}
@@ -9492,7 +9632,7 @@ const UnifiedSpellCard = ({
                                     .filter(([triggerId]) => triggerId !== 'default')
                                     .map(([triggerId, formula]) => {
                                       const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                                       return { triggerId, formula, triggerName };
                                     });
                                   
@@ -9654,7 +9794,7 @@ const UnifiedSpellCard = ({
                                             </span>
                                             {effect.description && effect.description !== effect.name && (
                                               <span className="damage-effect-description">
-                                                {" - "}{effect.description}
+                                                {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                               </span>
                                             )}
                                             {/* Targeting/Range badges */}
@@ -9696,9 +9836,12 @@ const UnifiedSpellCard = ({
                                           {effect.conditionalFormulas.map((cf, cfIndex) => {
                                             const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
                                             const damageTypeSuffix = getDamageTypeSuffix();
+                                            // triggerName is already formatted with formatTriggerForConditionalDisplay, so it's already in "If..." format
+                                            // Don't add another "If" if it already starts with "If"
+                                            const triggerText = cf.triggerName.startsWith('If ') ? cf.triggerName : (cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`);
                                             return (
                                               <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
-                                                <strong>If {cf.triggerName}:</strong> {formattedFormula}{damageTypeSuffix}
+                                                <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
                                               </div>
                                             );
                                           })}
@@ -9721,13 +9864,6 @@ const UnifiedSpellCard = ({
                       <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
                         <div className="healing-effects-section">
                           {/* Effect-specific trigger header */}
-                          {healingTriggerHeader && (
-                            <div className="healing-formula-line">
-                              <div className="healing-effects-list">
-                                {healingTriggerHeader}
-                              </div>
-                            </div>
-                          )}
                           {/* Healing effects content */}
                           <div className="healing-formula-line">
                             <div className="healing-effects-list">
@@ -9753,7 +9889,7 @@ const UnifiedSpellCard = ({
                                     .filter(([triggerId]) => triggerId !== 'default')
                                     .map(([triggerId, formula]) => {
                                       const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                                       return { triggerId, formula, triggerName };
                                     });
                                   
@@ -9768,7 +9904,7 @@ const UnifiedSpellCard = ({
                                     const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
                                     effects.push({
                                       name: 'Shield Absorption',
-                                      description: 'Absorbs damage',
+                                      description: '', // Empty description - all info in mechanicsText
                                       mechanicsText: healingResult.description,
                                       conditionalFormulas: shieldTriggers?.formulas || []
                                     });
@@ -9920,7 +10056,7 @@ const UnifiedSpellCard = ({
                             .filter(([triggerId]) => triggerId !== 'default')
                             .map(([triggerId, formula]) => {
                               const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                               return { triggerId, formula, triggerName };
                             });
                           
@@ -9935,7 +10071,7 @@ const UnifiedSpellCard = ({
                             const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
                             effects.push({
                               name: 'Shield Absorption',
-                              description: 'Absorbs damage',
+                              description: '', // Empty description - all info in mechanicsText
                               mechanicsText: healingResult.description,
                               conditionalFormulas: shieldTriggers?.formulas || []
                             });
@@ -10029,27 +10165,15 @@ const UnifiedSpellCard = ({
                             <div className="healing-effects-section">
                               {/* Show trigger/required state header if applicable */}
                               {(healingHasTriggers || healingHasRequiredState) && (
-                                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
-                                  <div className="healing-effect">
-                                    <span className="healing-effect-name">
-                                      {healingHasRequiredState ? 'Required' : 'Triggers'}
-                                    </span>
-                                    {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
-                                      <span className="healing-effect-description">
-                                        {' '}- {healingEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
-                                      </span>
-                                    )}
-                                  </div>
+                                <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
                                   {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
-                                    <div className="healing-effect-details">
-                                      <div className="healing-effect-mechanics">
-                                        {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
-                                          <div key={idx}>
-                                            {formatTriggerText(trigger)}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
+                                    <>
+                                      {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                                        <div key={idx} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: idx > 0 ? '4px' : '0' }}>
+                                          <strong>{formatTriggerForConditionalDisplay(trigger)}</strong>
+                                        </div>
+                                      ))}
+                                    </>
                                   )}
                                 </div>
                               )}
@@ -10405,6 +10529,9 @@ const UnifiedSpellCard = ({
                         'healing_per_kill': 'Healing Per Kill',
                         'ragegeneration': 'Rage Generation',
                         'rage_generation': 'Rage Generation',
+                        'momentumgeneration': 'Momentum Generation',
+                        'momentumGeneration': 'Momentum Generation',
+                        'momentum_generation': 'Momentum Generation',
                         'all_resistances': 'All Resistances',
                         'all_primary_stats': 'All Primary Stats',
                         // Spell power stats
@@ -10430,7 +10557,23 @@ const UnifiedSpellCard = ({
                         'psychic_resistance': 'Psychic Resistance',
                         'thunder_resistance': 'Thunder Resistance',
                         'physical_resistance': 'Physical Resistance',
-                        'damage_immunity': 'Damage Immunity'
+                        'damage_immunity': 'Damage Immunity',
+                        // Custom class-specific stats
+                        'multistancebenefits': 'Multi-Stance Benefits',
+                        'multiStanceBenefits': 'Multi-Stance Benefits',
+                        'multi_stance_benefits': 'Multi-Stance Benefits',
+                        'multistanceecho': 'Multi-Stance Echo',
+                        'multiStanceEcho': 'Multi-Stance Echo',
+                        'multi_stance_echo': 'Multi-Stance Echo',
+                        'stancepower': 'Stance Power',
+                        'stancePower': 'Stance Power',
+                        'stance_power': 'Stance Power',
+                        'transitioncostreduction': 'Stance Transition Cost Reduction',
+                        'transitionCostReduction': 'Stance Transition Cost Reduction',
+                        'transition_cost_reduction': 'Stance Transition Cost Reduction',
+                        'movementspeed': 'Movement Speed',
+                        'movementSpeed': 'Movement Speed',
+                        'movement_speed': 'Movement Speed'
                       };
 
                       // Get stat name from map, or format the stat name properly
@@ -10966,27 +11109,15 @@ const UnifiedSpellCard = ({
                   <div className="healing-effects-section">
                     {/* Show trigger/required state header if applicable */}
                     {(buffHasTriggers || buffHasRequiredState) && (
-                      <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
-                        <div className="healing-effect">
-                          <span className="healing-effect-name">
-                            {buffHasRequiredState ? 'Required' : 'Triggers'}
-                          </span>
-                          {buffHasTriggers && buffEffectTriggers.compoundTriggers.length > 0 && (
-                            <span className="healing-effect-description">
-                              {' '}- {buffEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
-                            </span>
-                          )}
-                        </div>
+                      <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
                         {buffHasTriggers && buffEffectTriggers.compoundTriggers.length > 0 && (
-                          <div className="healing-effect-details">
-                            <div className="healing-effect-mechanics">
-                              {buffEffectTriggers.compoundTriggers.map((trigger, idx) => (
-                                <div key={idx}>
-                                  {formatTriggerText(trigger)}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+                          <>
+                            {buffEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                              <div key={idx} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: idx > 0 ? '4px' : '0' }}>
+                                <strong>{formatTriggerForConditionalDisplay(trigger)}</strong>
+                              </div>
+                            ))}
+                          </>
                         )}
                       </div>
                     )}
@@ -11000,7 +11131,7 @@ const UnifiedSpellCard = ({
                               </span>
                               {effect.description && effect.description !== effect.name && (
                                 <span className="healing-effect-description">
-                                  {" - "}{effect.description}
+                                  {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                 </span>
                               )}
                               {/* Targeting/Range badges */}
@@ -11615,7 +11746,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -12197,7 +12328,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -12445,7 +12576,7 @@ const UnifiedSpellCard = ({
                             .filter(([triggerId]) => triggerId !== 'default')
                             .map(([triggerId, formula]) => {
                               const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                               return { triggerId, formula, triggerName };
                             });
                           
@@ -12546,7 +12677,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -12638,7 +12769,7 @@ const UnifiedSpellCard = ({
                             .filter(([triggerId]) => triggerId !== 'default')
                             .map(([triggerId, formula]) => {
                               const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
-                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              const triggerName = trigger ? formatTriggerForConditionalDisplay(trigger) : formatTriggerId(triggerId);
                               return { triggerId, formula, triggerName };
                             });
                           
@@ -12864,7 +12995,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>
@@ -13025,7 +13156,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>
@@ -13167,7 +13298,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" - "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>

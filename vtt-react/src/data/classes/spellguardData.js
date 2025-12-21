@@ -926,6 +926,27 @@ Many players enhance the Spellguard experience with:
 
       resolution: 'AUTOMATIC',
 
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'arcane_shield',
+          name: 'Arcane Shield',
+          description: 'Gain +2 AC and 10d6 absorption shield for 1 minute',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
       healingConfig: {
         useAbsorptionShield: true,
         shieldConfig: {
@@ -933,20 +954,6 @@ Many players enhance the Spellguard experience with:
           shieldAmount: '10d6',
           duration: 1,
           durationUnit: 'minutes'
-        }
-      },
-
-      effects: {
-        buff: {
-          armorClass: 2,
-          duration: 1,
-          durationType: 'minutes',
-          durationUnit: 'minutes'
-        },
-        shield: {
-          amount: '10d6',
-          type: 'arcane',
-          duration: 1
         }
       },
 
@@ -1262,7 +1269,7 @@ Many players enhance the Spellguard experience with:
           type: 'silence',
           duration: 1,
           durationType: 'turns',
-          description: 'Target cannot cast spells'
+          description: 'Target is completely silenced and cannot cast spells for the duration. All spellcasting attempts automatically fail.'
         }
       },
 
@@ -1877,7 +1884,8 @@ Many players enhance the Spellguard experience with:
 
       specialMechanics: {
         manaDrain: {
-          description: 'Drains 3d10 mana from each enemy hit. You regain half the total mana drained.',
+          description: 'Drains mana from each enemy hit. You regain half the total mana drained.',
+          formula: '3d10',
           restorePercentage: 50
         }
       },
@@ -2005,7 +2013,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_arcane_overload',
       name: 'Arcane Overload',
-      description: 'Overload a spellcaster with arcane energy, causing them to take massive damage.',
+      description: 'Overload a spellcaster with arcane energy, causing them to take 8d10 + intelligence force damage (plus bonus damage equal to target\'s remaining mana, max 50).',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_arcane_arcanetorrent',
@@ -2043,9 +2051,18 @@ Many players enhance the Spellguard experience with:
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         },
-        bonusEffects: 'Deals bonus damage equal to target\'s remaining mana (max 50)'
+        bonusEffects: 'Deals bonus damage equal to target\'s remaining mana (max 50)',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d10',
+          critEffects: ['mana_drain']
+        }
       },
 
       cooldownConfig: {
@@ -2062,7 +2079,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_mage_bane',
       name: 'Mage Bane',
-      description: 'Mark an enemy spellcaster. They take massive damage whenever they cast a spell.',
+      description: 'Mark an enemy spellcaster. They take 5d10 force damage whenever they cast a spell.',
       level: 8,
       spellType: 'ACTION',
       icon: 'spell_shadow_mindtwisting',
@@ -2097,7 +2114,8 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'mage_bane',
           name: 'Mage Bane',
-          description: 'Target takes 5d10 damage whenever they cast a spell for 1 minute'
+          description: 'Target takes 5d10 force damage whenever they cast a spell',
+          damageFormula: '5d10'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2171,7 +2189,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_arcane_annihilation',
       name: 'Arcane Annihilation',
-      description: 'Unleash devastating arcane power that destroys magical defenses and deals massive damage.',
+      description: 'Unleash devastating arcane power that destroys magical defenses and deals 12d8 + intelligence × 2 force damage.',
       level: 8,
       spellType: 'ACTION',
       icon: 'spell_arcane_blast',
@@ -2207,14 +2225,23 @@ Many players enhance the Spellguard experience with:
       damageConfig: {
         formula: '12d8 + intelligence * 2',
         elementType: 'force',
-        damageType: 'direct',
+        damageType: 'area',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 19,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         },
-        specialRules: 'Destroys all magical shields and barriers. Ignores spell resistance.'
+        specialRules: 'Destroys all magical shields and barriers. Ignores spell resistance.',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.0,
+          extraDice: '6d8',
+          critEffects: ['spell_destruction', 'stun']
+        }
       },
 
       cooldownConfig: {
@@ -2427,7 +2454,7 @@ Many players enhance the Spellguard experience with:
           { id: 'negation_armor', name: 'Negation Armor', description: '+8 armor against magical attacks' },
           { id: 'spell_immunity', name: 'Spell Immunity', description: 'Immune to all spell damage' },
           { id: 'antimagic_aura', name: 'Anti-Magic Aura', description: 'Spells cast within 20ft have disadvantage on attack rolls' },
-          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal 3d10 force damage to the caster' },
+          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal force damage to the caster', damageFormula: '3d10' },
           { id: 'negation_drain', name: 'Negation Drain (On End)', description: 'Lose all remaining AEP when transformation ends' }
         ],
         concentrationRequired: false,
@@ -2546,7 +2573,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_arcane_barrier',
       name: 'Arcane Barrier',
-      description: 'Create a powerful arcane barrier that absorbs up to 50 damage and reflects 2d8 force damage back at attackers.',
+      description: 'Create a powerful arcane barrier that absorbs damage and reflects force damage back at attackers.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
@@ -2569,7 +2596,7 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'arcane_barrier',
           name: 'Arcane Barrier',
-          description: 'Gain 50 temporary HP that reflects 2d8 force damage to attackers for 4 rounds',
+          description: 'Gain temporary HP that reflects force damage to attackers',
           temporaryHP: 50,
           reflectDamage: '2d8',
           reflectType: 'force'

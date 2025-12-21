@@ -91,7 +91,7 @@ export const WITCH_DOCTOR_DATA = {
 
 **Mana**: 50 - 6 = 44/60
 
-**Your Action (Bonus Action)**: Place "Totem of Healing" (4 mana)
+**Your Action (Action Points)**: Place "Totem of Healing" (4 mana)
 **Effect**: Totem heals allies for 1d6 HP per turn in 15 ft radius
 
 *A wooden totem carved with healing symbols rises from the ground, pulsing with spiritual energy.*
@@ -126,7 +126,7 @@ export const WITCH_DOCTOR_DATA = {
 
 **Mana**: 40 - 5 = 35/60
 
-**Your Action (Bonus Action)**: Cast "Curse of Decay" on Zombie #2 (5 mana)
+**Your Action (Action Points)**: Cast "Curse of Decay" on Zombie #2 (5 mana)
 **Effect**: Target takes 1d8 necrotic damage per turn, healing reduced by 50%
 
 **Voodoo Essence Generated**: +1 (curse cast) = **5/15**
@@ -706,7 +706,7 @@ Ogoun: ✓ (poison applied, ally nearby)
           'Ogoun and Papa Legba invocations cost -2 essence each',
           'Poisons generate +1 additional Voodoo Essence',
           'Enhanced weapon damage (+2d6 on poisoned weapons)',
-          'Can apply poisons as bonus action'
+          'Can apply poisons using action points'
         ],
         
         weaknesses: [
@@ -775,20 +775,32 @@ Ogoun: ✓ (poison applied, ally nearby)
         scalingType: 'dot'
       },
 
-      effects: {
-        damage: {
-          dot: {
-            formula: '2d6',
-            type: 'necrotic',
-            duration: 10,
-            interval: 'turn'
-          }
-        },
-        debuff: {
-          type: 'cursed',
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'necrotic',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d6',
           duration: 10,
-          description: 'Target is cursed and takes necrotic damage each turn'
+          tickFrequency: 'turn',
+          isProgressiveDot: false
         }
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'cursed',
+          name: 'Cursed',
+          description: 'Target is cursed and takes necrotic damage each turn for 10 rounds',
+          statusType: 'cursed',
+          level: 'moderate'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -832,7 +844,8 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       durationConfig: {
         durationType: 'rounds',
-        duration: 3
+        duration: 3,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -847,31 +860,39 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'necrotic',
-        scalingType: 'dot'
+        elementType: 'necrotic',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d6',
+          duration: 3,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 15,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
-      effects: {
-        damage: {
-          dot: {
-            formula: '2d6',
-            type: 'necrotic',
-            duration: 3,
-            interval: 'turn',
-            aoe: true
-          }
-        },
-        control: {
-          type: 'frightened',
-          duration: 3,
-          savingThrow: 'Wisdom',
-          dc: 15
-        },
-        zone: {
-          type: 'cursed_ground',
-          duration: 3,
-          description: 'Area becomes cursed ground'
-        }
+      controlConfig: {
+        controlType: 'fear',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'frightened',
+          name: 'Frightened',
+          description: 'Frightened by the ritual for 3 rounds',
+          statusType: 'frightened',
+          level: 'moderate'
+        }]
       },
 
       specialMechanics: {
@@ -919,7 +940,8 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       durationConfig: {
         durationType: 'rounds',
-        duration: 3
+        duration: 3,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -941,32 +963,41 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       damageConfig: {
         formula: '4d6',
-        damageType: 'necrotic',
-        scalingType: 'dot'
+        elementType: 'necrotic',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '4d6',
+          duration: 3,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
-      effects: {
-        resurrection: {
-          targets: 1,
-          condition: 'dead_within_1_minute',
-          healAmount: 'FULL_HP',
-          description: 'Resurrect one fallen ally'
-        },
-        damage: {
-          dot: {
-            formula: '4d6',
-            type: 'necrotic',
-            duration: 3,
-            interval: 'turn',
-            aoe: true,
-            targets: 'all_enemies_in_radius'
-          }
-        },
-        debuff: {
-          type: 'cursed',
-          duration: 3,
-          targets: 'all_enemies_in_radius'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'cursed',
+          name: 'Cursed',
+          description: 'Cursed by Baron Samedi for 3 rounds',
+          statusType: 'cursed',
+          level: 'severe'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'constitution',
+        saveOutcome: 'halves',
+        canBeDispelled: false
       },
 
       specialMechanics: {
@@ -1033,27 +1064,27 @@ Ogoun: ✓ (poison applied, ally nearby)
       healingConfig: {
         formula: '2d4',
         healingType: 'aoe_allies',
-        description: 'Heal all allies within 10 feet each turn'
+        hasHotEffect: true,
+        hotFormula: '2d4',
+        hotDuration: 10,
+        hotTickType: 'turn',
+        isProgressiveHot: false
       },
 
-      effects: {
-        healing: {
-          dot: {
-            formula: '2d4',
-            type: 'healing',
-            duration: 10,
-            interval: 'turn',
-            aoe: true,
-            targets: 'allies_in_radius'
-          }
-        },
-        summon: {
-          type: 'totem',
+      summoningConfig: {
+        creatureType: 'totem',
+        creatures: [{
+          id: 'healing_totem',
+          name: 'Healing Totem',
+          description: 'Totem that heals allies within 10 feet each turn. Can be destroyed by enemies (10 HP, 10 AC).',
+          size: 'Small',
+          type: 'construct',
           hp: 10,
-          ac: 10,
-          duration: 10,
-          description: 'Totem can be destroyed by enemies'
-        }
+          ac: 10
+        }],
+        duration: 10,
+        durationUnit: 'rounds',
+        maxSummons: 1
       },
 
       specialMechanics: {
@@ -1112,12 +1143,10 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       resolution: 'AUTOMATIC',
 
-      effects: {
-        cleanse: {
-          removes: ['curse', 'disease', 'poison'],
-          targets: 'single_ally',
-          description: 'Remove all negative conditions'
-        }
+      utilityConfig: {
+        utilityType: 'cure',
+        cures: ['curse', 'disease', 'poison'],
+        description: 'Remove all negative conditions from target'
       },
 
       specialMechanics: {
@@ -1180,30 +1209,31 @@ Ogoun: ✓ (poison applied, ally nearby)
       healingConfig: {
         formula: '3d8',
         healingType: 'aoe_allies',
-        description: 'Heal all allies in 30ft radius over 1 minute'
+        hasHotEffect: true,
+        hotFormula: '3d8',
+        hotDuration: 10,
+        hotTickType: 'turn',
+        isProgressiveHot: false
       },
 
-      effects: {
-        healing: {
-          dot: {
-            formula: '3d8',
-            type: 'healing',
-            duration: 10,
-            interval: 'turn',
-            aoe: true,
-            targets: 'allies_in_radius'
-          }
-        },
-        buff: {
-          ac_bonus: 2,
-          duration: 10,
-          targets: 'allies_in_radius'
-        },
-        immunity: {
-          type: 'fear',
-          duration: 10,
-          targets: 'allies_in_radius'
-        }
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'erzulie_protection',
+          name: "Erzulie's Protection",
+          description: '+2 AC, immunity to fear for 10 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          },
+          immunities: ['fear']
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -1324,7 +1354,8 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       durationConfig: {
         durationType: 'rounds',
-        duration: 3
+        duration: 3,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -1613,7 +1644,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'wd_hex_of_weakness',
       name: 'Hex of Weakness',
-      description: 'Reduce the target\'s Strength and Dexterity, making them vulnerable to physical attacks.',
+      description: 'Reduce the target\'s Strength and Agility, making them vulnerable to physical attacks.',
       spellType: 'ACTION',
       icon: 'spell_shadow_curseofachimonde',
       school: 'Necromancy',
@@ -2011,7 +2042,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_voodoo_doll',
       name: 'Voodoo Doll',
-      description: 'Create a voodoo doll of your enemy for 3 rounds (concentration). When you damage the doll, the enemy takes the same damage. Each round, you can attack the doll to deal 4d6 + Spirit necrotic damage to the target.',
+      description: 'Create a voodoo doll of your enemy for 3 rounds (concentration). When you damage the doll, the enemy takes the same damage. Each round, you can attack the doll to deal necrotic damage to the target.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -2068,7 +2099,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_invoke_simbi',
       name: 'Invoke Simbi',
-      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target for 4d8 + Spirit instantly, then 1d8 + Spirit/2 per round for 3 rounds. Target also gains +2 to spirit-based saves for 3 rounds.',
+      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target instantly, then provide ongoing healing per round. Target also gains enhanced spirit-based saves.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['healing', 'buff'],
@@ -2325,14 +2356,18 @@ Ogoun: ✓ (poison applied, ally nearby)
       damageConfig: {
         formula: '8d8 + spirit * 2',
         elementType: 'slashing',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['ogoun_fury_stun']
+        }
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'ogoun_fury',
           name: "Ogoun's Fury",
-          description: 'All allies gain +3 to attack rolls and +2d6 damage for 4 rounds',
+          description: 'All allies gain +3 to attack rolls and bonus damage for 4 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 3,
@@ -2566,7 +2601,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'erzulie_blessing',
           name: "Erzulie's Blessing",
-          description: 'All allies gain +4 to all stats, regenerate 3d8 HP per round, and gain +50% healing received for 5 rounds',
+          description: 'All allies gain +4 to all stats, regenerate HP per round, and gain +50% healing received for 5 rounds',
           statModifier: {
             stat: 'all_stats',
             magnitude: 4,
@@ -2630,6 +2665,10 @@ Ogoun: ✓ (poison applied, ally nearby)
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['baron_samedi_instant_death']
         }
       },
       debuffConfig: {
@@ -2643,7 +2682,8 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'cursed',
           name: 'Voodoo Curse',
-          description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls'
+          description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls',
+          damageFormula: '3d8'
         }]
       },
       targetingConfig: {
@@ -2817,7 +2857,8 @@ Ogoun: ✓ (poison applied, ally nearby)
         selectedEffects: [{
           id: 'papa_legba',
           name: 'Papa Legba',
-          description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds. Enemies who enter take 6d10 necrotic damage.'
+          description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds. Enemies who enter take necrotic damage.',
+          damageFormula: '6d10'
         }],
         duration: 10,
         durationUnit: 'rounds',

@@ -281,7 +281,7 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
         ],
         [
           'Astraeus (Star Sage)',
-          '+10 ft movement, advantage on Dexterity saves',
+          '+10 ft movement, advantage on Agility saves',
           'Starfall: 4d6 force damage to target, stun for 1 turn',
           'Take +1d6 damage from non-magical attacks'
         ],
@@ -400,7 +400,7 @@ RESTRICTION:
 BENEFITS:
 • Extra attack (3 attacks per action)
 • +2 AC from wind deflection
-• Advantage on DEX saves
+• Advantage on Agility saves
 
 ULTIMATE (1/day):
 Cyclone Strike: 3d8 slashing + knockback
@@ -698,20 +698,10 @@ Many players enhance the titan experience with:
 
       damageConfig: {
         formula: '1d6',
-        damageType: 'radiant',
+        elementType: 'radiant',
+        damageType: 'bonus',
         trigger: 'On melee attack',
         championBonus: '1d6 + 3 (50% increase)'
-      },
-
-      effects: {
-        damage: {
-          ongoing: {
-            formula: '1d6',
-            type: 'radiant',
-            trigger: 'melee_attack',
-            championBonus: '+3 damage'
-          }
-        }
       },
 
       specialMechanics: {
@@ -767,7 +757,8 @@ Many players enhance the titan experience with:
 
       damageConfig: {
         formula: '3d8',
-        damageType: 'radiant',
+        elementType: 'radiant',
+        damageType: 'area',
         championBonus: '4d8 + 6'
       },
 
@@ -783,23 +774,6 @@ Many players enhance the titan experience with:
           statusType: 'blinded',
           level: 'moderate'
         }]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d8',
-            type: 'radiant',
-            aoe: true,
-            radius: 10
-          }
-        },
-        debuff: {
-          duration: 1,
-          effect: 'blinded',
-          aoe: true,
-          radius: 10
-        }
       },
 
       specialMechanics: {
@@ -1004,7 +978,7 @@ Many players enhance the titan experience with:
           movementSpeed: '+10 feet (+15 for Celestial Champion)'
         },
         effects: [
-          'Advantage on Dexterity saving throws',
+          'Advantage on Agility saving throws',
           'Increased mobility and evasion',
           'Enhanced positioning capabilities'
         ]
@@ -1569,7 +1543,7 @@ Many players enhance the titan experience with:
       name: 'Celestial Armor',
       description: 'Summon celestial armor around yourself, gaining significant damage reduction and resistances.',
       level: 4,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_powerwordbarrier',
 
       typeConfig: {
@@ -1622,7 +1596,7 @@ Many players enhance the titan experience with:
       name: 'Divine Challenge',
       description: 'Issue a divine challenge to an enemy. They must attack you or suffer radiant damage.',
       level: 4,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_sealofblood',
 
       typeConfig: {
@@ -1655,7 +1629,8 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'divine_challenge',
           name: 'Divine Challenge',
-          description: 'Target must attack you. If they attack someone else, they take 3d6 radiant damage.'
+          description: 'Target must attack you. If they attack someone else, they take radiant damage.',
+          damageFormula: '3d6'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2003,7 +1978,7 @@ Many players enhance the titan experience with:
       name: 'Celestial Convergence',
       description: 'Combine the power of two devotions temporarily, gaining benefits from both.',
       level: 6,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_arcane_prismaticcloak',
 
       typeConfig: {
@@ -2100,7 +2075,8 @@ Many players enhance the titan experience with:
         ],
         specialAbilities: [{
           name: 'Burning Aura',
-          description: 'Enemies within 10 feet take 2d6 fire damage at start of their turn'
+          description: 'Enemies within 10 feet take fire damage at start of their turn',
+          damageFormula: '2d6'
         }],
         concentrationRequired: false,
         canBeDispelled: true
@@ -2217,14 +2193,23 @@ Many players enhance the titan experience with:
       damageConfig: {
         formula: '8d6 + strength',
         elementType: 'force',
-        damageType: 'direct',
+        damageType: 'area',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         },
-        specialRules: 'Each point can be targeted separately. Areas can overlap for stacking damage.'
+        specialRules: 'Each point can be targeted separately. Areas can overlap for stacking damage.',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d6',
+          critEffects: ['stun']
+        }
       },
 
       cooldownConfig: {
@@ -2288,7 +2273,7 @@ Many players enhance the titan experience with:
           name: 'Immovable',
           description: 'Cannot be moved, knocked prone, or teleported against your will'
         }],
-        restrictions: ['Cannot move', 'Disadvantage on Dexterity checks'],
+        restrictions: ['Cannot move', 'Disadvantage on Agility checks'],
         concentrationRequired: false,
         canBeDispelled: false
       },
@@ -2406,9 +2391,18 @@ Many players enhance the titan experience with:
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 19,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         },
-        bonusEffects: 'Deals double damage to undead and fiends'
+        bonusEffects: 'Deals double damage to undead and fiends',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.0,
+          extraDice: '6d10',
+          critEffects: ['divine_smite', 'stun']
+        }
       },
 
       cooldownConfig: {
@@ -2522,12 +2516,21 @@ Many players enhance the titan experience with:
       damageConfig: {
         formula: '5d10 radiant + 5d10 fire + 5d10 lightning + 5d10 cold + 5d10 force',
         elementType: 'mixed',
-        damageType: 'direct',
+        damageType: 'area',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 20,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.5,
+          extraDice: '3d10 per element',
+          critEffects: ['elemental_overload', 'stun']
         }
       },
 
@@ -2642,7 +2645,7 @@ Many players enhance the titan experience with:
           { type: 'all', resistanceAmount: 'immunity' }
         ],
         specialAbilities: [
-          { name: 'Solara\'s Wrath', description: 'All attacks deal +4d6 fire damage' },
+          { name: 'Solara\'s Wrath', description: 'All attacks deal bonus fire damage', damageFormula: '+4d6' },
           { name: 'Lunara\'s Grace', description: 'Regenerate 20 HP per turn' },
           { name: 'Astraeus\'s Speed', description: 'Gain an extra action each turn' },
           { name: 'Terranox\'s Might', description: 'Cannot be moved or knocked prone' },
@@ -2698,18 +2701,27 @@ Many players enhance the titan experience with:
       damageConfig: {
         formula: '20d10 + strength * 3',
         elementType: 'mixed',
-        damageType: 'direct',
+        damageType: 'area',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 22,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 4.0,
+          extraDice: '10d10',
+          critEffects: ['apocalyptic_devastation', 'stun', 'terrain_destruction']
         }
       },
 
       specialMechanics: {
         apocalypse: {
-          description: 'The battlefield is devastated. All enemies take massive damage. Terrain is transformed into difficult terrain.',
+          description: 'The battlefield is devastated. All enemies take 20d10 + strength × 3 mixed damage. Terrain is transformed into difficult terrain.',
           aftermath: 'Creates difficult terrain in the entire area for 1 hour'
         }
       },

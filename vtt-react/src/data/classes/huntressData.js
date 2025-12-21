@@ -398,7 +398,7 @@ Your current Quarry Marks are displayed on your character sheet as glowing marks
           name: 'Attack Command',
           cost: '1 AP',
           type: 'Command',
-          description: 'Command your companion to attack a target within 30 feet. Companion deals 1d8 + your proficiency bonus damage. Generates 1 Quarry Mark on hit.'
+          description: 'Command your companion to attack a target within 30 feet. Companion deals damage based on your proficiency bonus. Generates 1 Quarry Mark on hit.'
         },
         {
           name: 'Defend Command',
@@ -855,7 +855,8 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'slashing',
+        elementType: 'slashing',
+        damageType: 'direct',
         scalingType: 'chain_reduction'
       },
 
@@ -928,19 +929,9 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'slashing',
+        elementType: 'slashing',
+        damageType: 'area',
         scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          aoe: {
-            formula: '2d8',
-            type: 'slashing',
-            shape: 'circle',
-            radius: 10
-          }
-        }
       },
 
       specialMechanics: {
@@ -995,7 +986,8 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '3d8',
-        damageType: 'slashing',
+        elementType: 'slashing',
+        damageType: 'direct',
         scalingType: 'none'
       },
 
@@ -1330,7 +1322,8 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '4d8',
-        damageType: 'slashing',
+        elementType: 'slashing',
+        damageType: 'direct',
         scalingType: 'none'
       },
 
@@ -1684,7 +1677,8 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '1d6',
-        damageType: 'slashing',
+        elementType: 'slashing',
+        damageType: 'direct',
         scalingType: 'none'
       },
 
@@ -1756,7 +1750,8 @@ Use a die or paper to track companion HP:
 
       effects: {
         buff: {
-          description: '+2d6 damage on attacks against marked target',
+          description: 'Bonus damage on attacks against marked target',
+          damageFormula: '+2d6',
           duration: 5,
           durationUnit: 'rounds'
         }
@@ -1769,7 +1764,8 @@ Use a die or paper to track companion HP:
           description: 'Attacks against marked target generate +1 additional Quarry Mark'
         },
         companionSynergy: {
-          description: 'Companion deals +1d8 damage to marked target'
+          description: 'Companion deals bonus damage to marked target',
+          damageFormula: '+1d8'
         }
       },
 
@@ -1993,7 +1989,8 @@ Use a die or paper to track companion HP:
 
       effects: {
         buff: {
-          description: '+3 to all attack rolls, +10 movement speed, advantage on Agility saves, and +3d6 damage on all attacks for 5 rounds'
+          description: '+3 to all attack rolls, +10 movement speed, advantage on Agility saves, and bonus damage on all attacks for 5 rounds',
+          damageFormula: '+3d6'
         }
       },
 
@@ -2047,23 +2044,19 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '6d10 + agility * 1.5',
-        damageType: 'bludgeoning',
-        savingThrow: 'Agility',
-        saveDC: 16,
-        saveEffect: 'half'
-      },
-
-      effects: {
-        movement: {
-          description: 'Leap up to 50 feet to target location'
+        elementType: 'bludgeoning',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         },
-        damage: {
-          formula: '6d10 + agility * 1.5',
-          type: 'bludgeoning',
-          save: 'DC 16 Agility for half damage'
-        },
-        control: {
-          description: 'Targets that fail save are knocked prone'
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['knockdown']
         }
       },
 
@@ -2241,7 +2234,8 @@ Use a die or paper to track companion HP:
           durationUnit: 'rounds'
         },
         damage: {
-          description: 'Frightened enemies take 3d8 psychic damage at the start of their turns'
+          description: 'Frightened enemies take psychic damage at the start of their turns',
+          damageFormula: '3d8'
         }
       },
 
@@ -2293,14 +2287,11 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '12d8 + agility * 2',
-        damageType: 'slashing'
-      },
-
-      effects: {
-        damage: {
-          formula: '12d8 + agility * 2',
-          type: 'slashing',
-          description: 'Make 5 rapid glaive strikes'
+        elementType: 'slashing',
+        damageType: 'direct',
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['rapid_strikes_crit']
         }
       },
 
@@ -2376,7 +2367,8 @@ Use a die or paper to track companion HP:
           }
         },
         zone: {
-          description: 'Storm persists for 4 rounds, dealing 3d10 shadow damage per round to enemies in the area'
+          description: 'Storm persists for 4 rounds, dealing 3d10 shadow damage per round to enemies in the area',
+          damageFormula: '3d10'
         }
       },
 
@@ -2427,7 +2419,8 @@ Use a die or paper to track companion HP:
           description: 'Merge with companion, gaining +5 to all stats, +30 HP, and both your attacks combined'
         },
         buff: {
-          description: '+5 to all stats, +30 maximum HP, regenerate 5d10 HP per round, and can attack twice per turn for 5 rounds'
+          description: '+5 to all stats, +30 maximum HP, regenerate HP per round, and can attack twice per turn for 5 rounds',
+          healingFormula: '5d10'
         }
       },
 
@@ -2487,14 +2480,18 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '8d8 + agility',
-        damageType: 'slashing'
-      },
-
-      effects: {
-        damage: {
-          formula: '8d8 + agility slashing per round',
-          duration: 'up to 5 rounds',
-          description: 'Rain shadow glaives on all enemies in 40-foot radius each round'
+        elementType: 'slashing',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '8d8 + agility',
+          duration: 5,
+          tickFrequency: 'round',
+          isProgressiveDot: false
+        },
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['glaive_storm_crit']
         }
       },
 
@@ -2731,7 +2728,7 @@ Use a die or paper to track companion HP:
         damage: {
           formula: '50d20 + agility * 5',
           type: 'force',
-          description: 'Deals massive damage that ignores all resistances and immunities'
+          description: 'Deals 50d20 + agility × 5 force damage that ignores all resistances and immunities'
         },
         execute: {
           description: 'If target HP drops below 50% after this attack, target is instantly killed'

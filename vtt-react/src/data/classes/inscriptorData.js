@@ -127,7 +127,7 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 
 *You inscribe your own boots with runes of swiftness.*
 
-**Inscription 3 - Your Boots**: "Inscription of Haste" (+10 ft movement speed, advantage on Dex saves)
+**Inscription 3 - Your Boots**: "Inscription of Haste" (+10 ft movement speed, advantage on Agility saves)
 **Cost**: 4 mana | **Mana**: 27 - 4 = 23/60
 
 **Preparation Complete**: 5 runes placed (Amplification Zone active), 3 inscriptions applied
@@ -305,7 +305,7 @@ Shows 6 equipment slots with inscription status:
 - **Inscribed**: Glowing icon with rune overlay, inscription name displayed
 - **Example (Weapon)**: Glowing sword icon with fire rune, "Inscription of Power (+1d8 spell damage)"
 - **Example (Armor)**: Glowing armor icon with shield rune, "Inscription of Warding (+2 AC, resistance)"
-- **Example (Boots)**: Glowing boots icon with wind rune, "Inscription of Haste (+10 ft speed, adv on Dex saves)"
+- **Example (Boots)**: Glowing boots icon with wind rune, "Inscription of Haste (+10 ft speed, adv on Agility saves)"
 
 **Inscription Placement Interface** (at start of combat):
 - **Prompt**: "Inscribe up to 3 items (4 mana each)"
@@ -389,7 +389,7 @@ Inscriptors must balance mana between runes, inscriptions, and spells. Pre-comba
         ['Boots', 'Haste, Flight, Water Walking, Feather Fall', 'Mobility enhancement, terrain navigation', '3-5 mana'],
         ['Cape', 'Shadow, Protection, Blink, Camouflage', 'Utility, stealth, teleportation', '3-5 mana'],
         ['Belt', 'Strength, Vitality, Endurance, Regeneration', 'Physical enhancement, survivability', '3-5 mana'],
-        ['Pants', 'Agility, Resilience, Sprint, Steadfast', 'Dexterity, damage resistance, mobility', '3-5 mana']
+        ['Pants', 'Agility, Resilience, Sprint, Steadfast', 'Agility, damage resistance, mobility', '3-5 mana']
       ]
     },
     
@@ -512,7 +512,7 @@ ZONE SYNERGY (3+ runes):
 • Entire zone: Double fire damage dealt/taken
 
 DETONATION:
-• Damage: 4d8 fire (DEX save DC 15, half on save)
+• Damage: 4d8 fire (Agility save DC 15, half on save)
 • Lingering: Fire damage zone for 2 turns
 ═══════════════════════════════════
 
@@ -605,9 +605,9 @@ REFLECTION INSCRIPTION:
 **Turn 3 - Detonate for Burst**:
 1. "I detonate all runes!" (1 AP)
 2. Remove all 4 markers from map
-3. Destruction: 4d8 fire → [7,6,5,8] = 26 damage (DEX save)
+3. Destruction: 4d8 fire → [7,6,5,8] = 26 damage (Agility save)
 4. Frost: 3d6 cold → [5,4,6] = 15 damage (CON save)
-5. Lightning: 3d8 lightning → [7,6,8] = 21 damage (DEX save)
+5. Lightning: 3d8 lightning → [7,6,8] = 21 damage (Agility save)
 6. Protection: All allies gain 20 temp HP
 7. Lingering effects remain for 2 turns
 8. Active runes: **0 runes**
@@ -1077,7 +1077,7 @@ Many players enhance the Inscriptor experience with:
             saveDC: 15,
             saveType: 'agility',
             effect: '2d8 piercing damage to all within 15 ft',
-            description: 'Walls splinter, dealing 2d8 piercing damage (DC 15 DEX save)'
+            description: 'Walls splinter, dealing 2d8 piercing damage (DC 15 Agility save)'
           }
         }
       },
@@ -1616,7 +1616,7 @@ Many players enhance the Inscriptor experience with:
       resolution: 'SAVE',
 
       saveConfig: {
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveDC: 15,
         onSaveEffect: 'half'
       },
@@ -2324,6 +2324,19 @@ Many players enhance the Inscriptor experience with:
         formula: '12d8 + intelligence * 2',
         elementType: 'force',
         damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '6d8',
+          critEffects: ['rune_explosion'],
+          runeExplosionConfig: {
+            radius: 10,
+            damageFormula: '3d8',
+            elementType: 'force'
+          }
+        },
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2447,7 +2460,7 @@ Many players enhance the Inscriptor experience with:
           id: 'master_inscriber',
           name: 'Master Inscriber',
           description: 'All inscription, glyph, and rune spells cost 50% less mana, have +3 DC, and deal +100% damage for 5 rounds',
-          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions as a free action.'
+          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions without spending action points.'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2668,7 +2681,7 @@ Many players enhance the Inscriptor experience with:
           id: 'worldscript',
           name: 'Worldscript',
           description: 'Allies gain +5 to all stats, immunity to control effects, and regenerate 5d10 HP per round in the zone for 10 rounds',
-          customDescription: 'You have inscribed the laws of reality itself. Within the zone, allies gain godlike power while enemies are severely weakened. Allies gain +5 to all stats, immunity to all control effects, and regenerate 5d10 HP per round. Enemies take 10d10 damage per round and have all stats reduced by 5.'
+          customDescription: 'You have inscribed the laws of reality itself. Within the zone, allies gain godlike power while enemies are severely weakened. Allies gain +5 to all stats, immunity to all control effects, and regenerate 5d10 HP per round. Enemies take 10d10 force damage per round and have all stats reduced by 5.'
         }],
         durationValue: 10,
         durationType: 'rounds',
@@ -2733,7 +2746,7 @@ Many players enhance the Inscriptor experience with:
           id: 'master_of_runes',
           name: 'Master of Runes',
           description: 'All rune, glyph, and inscription spells cost 0 mana. You can place unlimited runes. All rune damage tripled.',
-          customDescription: 'You have achieved ultimate mastery over runic magic. All rune, glyph, inscription, and sigil spells cost 0 mana. You can place unlimited runes simultaneously. All rune/glyph/inscription damage is tripled. All saving throw DCs increased by 5. You can inscribe items as a free action.'
+          customDescription: 'You have achieved ultimate mastery over runic magic. All rune, glyph, inscription, and sigil spells cost 0 mana. You can place unlimited runes simultaneously. All rune/glyph/inscription damage is tripled. All saving throw DCs increased by 5. You can inscribe items without spending action points.'
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -2864,7 +2877,7 @@ Many players enhance the Inscriptor experience with:
           id: 'omniscript_power',
           name: 'Omniscript',
           description: 'Allies gain +10 to all stats, immunity to everything, and limitless power for 15 rounds',
-          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take massive damage per round, and cannot act.'
+          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take 25d12 + intelligence × 5 force damage, and cannot act.'
         }],
         durationValue: 15,
         durationType: 'rounds',
