@@ -89,7 +89,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             glowColor: '#FFD700',
             icon: 'fa-cog',
             passive: 'Mechanical Mastery',
-            passiveDesc: 'Deploy contraptions as bonus action. +1 contraption part max (total 6). Contraptions harder to detect (DC +3).'
+            passiveDesc: 'Deploy contraptions using action points. +1 contraption part max (total 6). Contraptions harder to detect (DC +3).'
         },
         saboteur: {
             name: 'Saboteur',
@@ -380,7 +380,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
                                 <div className="tooltip-label">Alchemical Expertise (Shared)</div>
-                                <div className="passive-desc">Craft poisons/concoctions as bonus action. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
+                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
                             </div>
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
@@ -410,7 +410,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
                                 <div className="tooltip-label">Alchemical Expertise (Shared)</div>
-                                <div className="passive-desc">Craft poisons/concoctions as bonus action. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
+                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
                             </div>
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
@@ -519,7 +519,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
                         <div className="toxicologist-info-text">
                             <div>Generation: +1d4 per short rest</div>
-                            <div>Crafting: Bonus action</div>
+                            <div>Crafting: Action points</div>
                         </div>
 
                         {/* Gain Actions */}
@@ -668,7 +668,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
                         <div className="toxicologist-info-text">
                             <div>Generation: +1 per short rest</div>
-                            <div>Deployment: {selectedSpec === 'gadgeteer' ? 'Bonus action' : 'Action'}</div>
+                            <div>Deployment: {selectedSpec === 'gadgeteer' ? 'Action points' : 'Action'}</div>
                         </div>
 
                         {/* Gain Actions */}

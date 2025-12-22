@@ -183,7 +183,7 @@ The class has a unique prediction mechanic where you declare what you think will
 *Three assassins remain. You have 7 Visions. Time to end this.*
 
 **Your Action**: Spend 5 Prophetic Visions to cast "Doom Prophecy" (10 mana + 5 Visions)
-**Effect**: All enemies within 30 ft must save DC 16 Wisdom or take 6d8 psychic damage and be frightened
+**Effect**: All enemies within 30 ft must save DC 16 Spirit or take 6d8 psychic damage and be frightened
 
 *You raise both hands. Your eyes GLOW with prophetic power. "I have seen your deaths. They are INEVITABLE."*
 
@@ -878,7 +878,7 @@ Many players enhance the Oracle experience with:
         
         specPassive: {
           name: 'Prophetic Clarity',
-          description: 'Your predictions grant +1 additional Vision when correct. You can make predictions as a free action (once per round). When you make a correct specific or precise prediction, you can immediately make another prediction for free.'
+          description: 'Your predictions grant +1 additional Vision when correct. You can make predictions without spending action points (once per round). When you make a correct specific or precise prediction, you can immediately make another prediction without spending action points.'
         },
         
         keyAbilities: [
@@ -921,7 +921,7 @@ Many players enhance the Oracle experience with:
         },
 
         keyAbilities: [
-          'Reveal Truth: Force a creature to answer one question truthfully (3 Visions, Wisdom save to resist)',
+          'Reveal Truth: Force a creature to answer one question truthfully (3 Visions, Spirit save to resist)',
           'Past Sight: Touch an object to see its complete history (2 Visions, 1 minute ritual)',
           'Piercing Gaze: See through all illusions and disguises within 60 feet for 1 minute (2 Visions)'
         ],
@@ -1067,7 +1067,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prophecy_of_doom',
       name: 'Prophecy of Doom',
-      description: 'Declare a dire prophecy about an enemy\'s fate for 3 rounds (concentration). If your prediction comes true within that time, they suffer the prophesied doom: 3d8 psychic damage and frightened for 1 round.',
+      description: 'Declare a dire prophecy about an enemy\'s fate for 3 rounds (concentration). If your prediction comes true within that time, they suffer the prophesied doom and are frightened.',
       spellType: 'ACTION',
       icon: 'spell_shadow_curseofachimonde',
       school: 'Divination',
@@ -1110,10 +1110,72 @@ Many players enhance the Oracle experience with:
         onFail: 'Target is cursed with prophesied doom'
       },
 
-      effects: {
-        primary: 'Declare a specific event (e.g., "You will miss your next attack" or "You will fall below half HP")',
-        secondary: 'If the prophecy comes true within 3 rounds, target takes 3d8 psychic damage and is frightened for 1 round',
-        tertiary: 'If prophecy comes true, you gain 2 Visions'
+      effectTypes: ['debuff', 'damage'],
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'prophesied_doom',
+          name: 'Prophesied Doom',
+          description: 'Cursed with a dire prophecy - if the predicted event occurs, suffer the doom',
+          statusType: 'cursed',
+          level: 'major'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        saveDC: 14,
+        saveType: 'spirit',
+        saveOutcome: 'negates',
+        triggerConfig: {
+          effectTriggers: {
+            debuff: {
+              logicType: 'OR',
+              compoundTriggers: [{
+                id: 'prophecy_fulfilled',
+                category: 'custom',
+                name: 'Prophecy Fulfilled',
+                parameters: {
+                  condition: 'prophecy_event_occurs',
+                  perspective: 'target'
+                }
+              }]
+            }
+          },
+          conditionalEffects: {
+            damage: {
+              isConditional: true,
+              defaultEnabled: false,
+              conditionalFormulas: {
+                'prophecy_fulfilled': '3d8'
+              }
+            },
+            debuff: {
+              isConditional: true,
+              defaultEnabled: false,
+              conditionalEffects: {
+                'prophecy_fulfilled': {
+                  id: 'frightened',
+                  name: 'Frightened',
+                  description: 'Frightened by the fulfillment of the prophecy',
+                  statusType: 'frightened',
+                  level: 'moderate',
+                  duration: 1,
+                  durationUnit: 'rounds'
+                }
+              }
+            }
+          }
+        }
+      },
+
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'psychic',
+        damageType: 'direct',
+        triggerCondition: 'prophecy_fulfilled',
+        triggerDescription: 'Damage occurs when the prophesied event comes true'
       },
 
       tags: ['seer', 'divination', 'curse', 'prediction', 'psychic']
@@ -1679,9 +1741,9 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prescient_dodge',
       name: 'Prescient Dodge',
-      description: 'See all incoming attacks before they happen for 3 rounds (concentration). Enemies have disadvantage on all attacks against you, and you automatically succeed on Dexterity saving throws.',
+      description: 'See all incoming attacks before they happen for 3 rounds (concentration). Enemies have disadvantage on all attacks against you, and you automatically succeed on Agility saving throws.',
       level: 7,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_elunesgrace',
       specialization: 'seer',
 
@@ -1713,7 +1775,7 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'prescient_dodge',
           name: 'Prescient Dodge',
-          description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Dexterity saving throws.'
+          description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Agility saving throws.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1783,7 +1845,28 @@ Many players enhance the Oracle experience with:
       damageConfig: {
         formula: '4d10',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '2d10',
+          critEffects: ['expose'],
+          exposeConfig: {
+            duration: 2,
+            durationUnit: 'rounds',
+            advantageOnAttacks: true
+          }
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
       cooldownConfig: {
@@ -1852,7 +1935,7 @@ Many players enhance the Oracle experience with:
       name: 'Perfect Foresight',
       description: 'Gain perfect knowledge of the immediate future. Know exactly what will happen in the next round.',
       level: 8,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_divineprovidence',
       specialization: 'seer',
 
@@ -2504,7 +2587,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_fate_strike',
       name: 'Fate Strike',
-      description: 'Strike with the power of fate, dealing 5d8 force damage with guaranteed hit.',
+      description: 'Strike with the power of fate, guaranteed to hit your target.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],

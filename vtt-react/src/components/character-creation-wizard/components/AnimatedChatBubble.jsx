@@ -57,7 +57,7 @@ const STEP_MESSAGES = {
   ],
   7: [ // Stat Allocation
     "Numbers and destiny intertwine! How shall we distribute your natural gifts?",
-    "Strength for warriors, Intelligence for mages, Wisdom for priests...",
+    "Strength for warriors, Intelligence for mages, Spirit for priests...",
     "Every point spent shapes the hero you'll become!",
     "Careful allocation now will save many regrets later in the dungeon!",
     "Your natural abilities are the foundation of your legendary status!",
@@ -119,16 +119,7 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
   const messageRef = useRef(null);
   const bubbleRef = useRef(null);
 
-  // Debug current step and messages
-  useEffect(() => {
-    console.log('ChatBubble Debug:', {
-      currentStep,
-      messagesAvailable: !!messages,
-      messageCount: messages ? messages.length : 0,
-      currentMessageIndex,
-      hasCurrentMessage: messages && messages[currentMessageIndex] ? true : false
-    });
-  }, [currentStep, messages, currentMessageIndex]);
+  // Debug logging removed for production
 
   // Typewriter effect
   useEffect(() => {
@@ -165,7 +156,6 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
       return;
     }
 
-    console.log('Starting typewriter for:', fullText);
 
     let charIndex = 0;
     setDisplayedText('');

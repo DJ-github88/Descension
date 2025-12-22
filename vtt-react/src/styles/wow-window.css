@@ -400,9 +400,51 @@
     min-width: 0;
     flex: 1;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: visible;
     text-overflow: ellipsis;
     line-height: 1.3;
+}
+
+.spellbook-tab-button .tab-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.spellbook-tab-button .tab-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(to bottom,
+        rgba(40, 30, 20, 0.95) 0%,
+        rgba(30, 20, 10, 0.95) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 4px;
+    color: #f0e6d2;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 10000;
+    pointer-events: none;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.spellbook-tab-button .tab-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(212, 175, 55, 0.6);
 }
 
 .spellbook-tab-button::after {

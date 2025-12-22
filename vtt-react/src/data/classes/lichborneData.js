@@ -2843,6 +2843,29 @@ Many players enhance the Lichborne experience with:
         formula: '6d6 + intelligence',
         elementType: 'cold',
         damageType: 'area',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '3d6',
+          critEffects: ['freeze'],
+          freezeConfig: {
+            duration: 1,
+            durationUnit: 'round',
+            saveDC: 17,
+            saveType: 'constitution',
+            speedReduction: 100
+          }
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
         description: 'All enemies in the zone take damage at the start of their turn'
       },
       debuffConfig: {

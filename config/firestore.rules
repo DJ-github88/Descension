@@ -33,8 +33,16 @@ service cloud.firestore {
       allow write: if false;
     }
     
-    // Multiplayer rooms - UPDATED RULES for better compatibility
+    // Multiplayer rooms - SECURITY: Restricted to room members only
     match /rooms/{roomId} {
+      // Helper function to check if user is room member
+      function isRoomMember() {
+        return request.auth != null && (
+          request.auth.uid == resource.data.gmId ||
+          (resource.data.members != null && request.auth.uid in resource.data.members)
+        );
+      }
+
       // Allow reading any room for authenticated users (they still need password to join)
       allow read: if request.auth != null;
 
@@ -42,11 +50,12 @@ service cloud.firestore {
       allow create: if request.auth != null &&
         request.auth.uid == request.resource.data.gmId;
 
-      // Allow GM to update room settings and game state
-      // Also allow any authenticated user to update gameState for multiplayer sync
+      // SECURITY: Only GM or room members can update gameState
+      // GM can update any field, members can only update gameState and lastActivity
       allow update: if request.auth != null &&
         (request.auth.uid == resource.data.gmId ||
-         ('gameState' in request.resource.data && 
+         (isRoomMember() && 
+          'gameState' in request.resource.data && 
           request.resource.data.keys().hasOnly(['gameState', 'lastActivity'])));
 
       // Allow GM to delete rooms

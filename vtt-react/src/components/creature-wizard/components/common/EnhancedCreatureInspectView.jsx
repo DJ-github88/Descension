@@ -7,6 +7,7 @@ import StatTooltip from '../../../tooltips/StatTooltip';
 import GeneralStatTooltip from '../../../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../../../tooltips/ResistanceTooltip';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import SmartTabButton from '../../../common/SmartTabButton';
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { WOW_ICON_BASE_URL } from '../../../item-generation/wowIcons';
 import { getQualityColor } from '../../../../constants/itemConstants';
@@ -577,7 +578,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             tooltip: true,
             modifier: calculateModifier(creature.stats.agility || 10),
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-            description: 'Dexterity and reflexes'
+            description: 'Agility and reflexes'
           },
           {
             label: 'Constitution',
@@ -1980,13 +1981,12 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       customHeader={
         <div className="spellbook-tab-container">
           {Object.entries(sections).map(([key, section]) => (
-            <button
+            <SmartTabButton
               key={key}
-              className={`spellbook-tab-button ${activeSection === key ? 'active' : ''}`}
+              title={section.title}
+              active={activeSection === key}
               onClick={() => setActiveSection(key)}
-            >
-              <span>{section.title}</span>
-            </button>
+            />
           ))}
         </div>
       }

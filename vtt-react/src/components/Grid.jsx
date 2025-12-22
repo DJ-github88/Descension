@@ -1203,20 +1203,41 @@ function GridComponent({
                     const firstRect = gridAlignmentRectangles[0];
                     const secondRect = rectangle;
 
-                    // Calculate average grid size from both rectangles
-                    const firstGridSize = Math.min(firstRect.width, firstRect.height) / effectiveZoom;
-                    const secondGridSize = Math.min(secondRect.width, secondRect.height) / effectiveZoom;
+                    // Get viewport dimensions for proper coordinate conversion
+                    const viewport = gridSystem.getViewportDimensions();
+
+                    // Calculate grid size from rectangle dimensions
+                    // Use average of width and height for each rectangle, then average both
+                    const firstGridSizeX = firstRect.width / effectiveZoom;
+                    const firstGridSizeY = firstRect.height / effectiveZoom;
+                    const firstGridSize = (firstGridSizeX + firstGridSizeY) / 2;
+                    
+                    const secondGridSizeX = secondRect.width / effectiveZoom;
+                    const secondGridSizeY = secondRect.height / effectiveZoom;
+                    const secondGridSize = (secondGridSizeX + secondGridSizeY) / 2;
+                    
                     const avgGridSize = (firstGridSize + secondGridSize) / 2;
 
-                    // Calculate world positions for both rectangles
-                    const firstWorld = gridSystem.screenToWorld(firstRect.start.x, firstRect.start.y);
-                    const secondWorld = gridSystem.screenToWorld(secondRect.start.x, secondRect.start.y);
+                    // Calculate world positions for rectangle corners (using viewport dimensions)
+                    const firstWorldStart = gridSystem.screenToWorld(
+                        Math.min(firstRect.start.x, firstRect.end.x),
+                        Math.min(firstRect.start.y, firstRect.end.y),
+                        viewport.width,
+                        viewport.height
+                    );
+                    const secondWorldStart = gridSystem.screenToWorld(
+                        Math.min(secondRect.start.x, secondRect.end.x),
+                        Math.min(secondRect.start.y, secondRect.end.y),
+                        viewport.width,
+                        viewport.height
+                    );
 
-                    // Calculate what the offset should be for each rectangle to align to grid
-                    const firstOffsetX = firstWorld.x % avgGridSize;
-                    const firstOffsetY = firstWorld.y % avgGridSize;
-                    const secondOffsetX = secondWorld.x % avgGridSize;
-                    const secondOffsetY = secondWorld.y % avgGridSize;
+                    // Calculate offsets to align grid so rectangle corners align with grid cell corners
+                    // The offset should position the grid so that the rectangle's top-left aligns with a grid corner
+                    const firstOffsetX = firstWorldStart.x % avgGridSize;
+                    const firstOffsetY = firstWorldStart.y % avgGridSize;
+                    const secondOffsetX = secondWorldStart.x % avgGridSize;
+                    const secondOffsetY = secondWorldStart.y % avgGridSize;
 
                     // Use the average of both offsets for better alignment
                     const avgOffsetX = (firstOffsetX + secondOffsetX) / 2;
@@ -1226,10 +1247,9 @@ function GridComponent({
                     setGridSize(avgGridSize);
                     setGridOffset(avgOffsetX, avgOffsetY);
 
-                    // Exit grid alignment mode
-                    clearGridAlignmentRectangles();
+                    // Keep rectangles visible so user can see what they aligned
+                    // Don't clear them - user can manually exit alignment mode when ready
                     setGridAlignmentStep(0);
-                    // Note: setGridAlignmentMode is not passed as prop, assuming it's handled elsewhere
                 }
             }
 
@@ -2968,6 +2988,7 @@ function GridComponent({
                             <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
                                 {gridAlignmentStep === 1 ? 'Step 1/2: Draw first grid cell' :
                                     gridAlignmentStep === 2 ? 'Step 2/2: Draw second grid cell for better accuracy' :
+                                    gridAlignmentStep === 0 && gridAlignmentRectangles.length > 0 ? 'Alignment complete! Grid has been aligned. Exit alignment mode when ready.' :
                                         'Drag to define grid cell size and position'}
                             </span>
                             {gridAlignmentStep === 2 && gridAlignmentRectangles.length > 0 && (
@@ -2986,8 +3007,22 @@ function GridComponent({
                                         onClick={() => {
                                             // Apply with just the first rectangle
                                             const firstRect = gridAlignmentRectangles[0];
-                                            const gridSize = Math.min(firstRect.width, firstRect.height) / effectiveZoom;
-                                            const startWorld = gridSystem.screenToWorld(firstRect.start.x, firstRect.start.y);
+                                            const viewport = gridSystem.getViewportDimensions();
+                                            
+                                            // Calculate grid size from rectangle dimensions (average of width and height)
+                                            const gridSizeX = firstRect.width / effectiveZoom;
+                                            const gridSizeY = firstRect.height / effectiveZoom;
+                                            const gridSize = (gridSizeX + gridSizeY) / 2;
+                                            
+                                            // Get world position of rectangle top-left corner
+                                            const startWorld = gridSystem.screenToWorld(
+                                                Math.min(firstRect.start.x, firstRect.end.x),
+                                                Math.min(firstRect.start.y, firstRect.end.y),
+                                                viewport.width,
+                                                viewport.height
+                                            );
+                                            
+                                            // Calculate offset to align grid with rectangle corner
                                             const newOffsetX = startWorld.x % gridSize;
                                             const newOffsetY = startWorld.y % gridSize;
 

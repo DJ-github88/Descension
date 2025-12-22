@@ -255,7 +255,7 @@ export const MARTYR_AVENGER = [
   {
     id: 'aven_t0_divine_judgment',
     name: 'Divine Judgment',
-    description: 'Pass divine judgment. Deal 2d6 radiant damage to one creature. Wisdom modifier + rank.',
+    description: 'Pass divine judgment. Deal 2d6 radiant damage to one creature. Spirit modifier + rank.',
     icon: 'spell_holy_righteousfury',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -275,7 +275,7 @@ export const MARTYR_AVENGER = [
   {
     id: 'aven_t1_wrathful_smite',
     name: 'Wrathful Smite',
-    description: 'Smite with divine wrath. Next attack deals +2d6 radiant damage and forces a Wisdom save.',
+    description: 'Smite with divine wrath. Next attack deals +2d6 radiant damage and forces a Spirit save.',
     icon: 'spell_holy_crusaderstrike',
     maxRanks: 3,
     position: { x: 3, y: 1 },

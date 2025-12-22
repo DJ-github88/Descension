@@ -65,6 +65,46 @@
   display: inline-block;
 }
 
+/* Trigger Condition Tag - Top Right of Header, positioned to the left of priority tag */
+.pf-trigger-condition-tag-above-header {
+  position: absolute;
+  top: -10px;
+  right: 140px; /* Positioned to the left of priority tag (which is at right: 12px) */
+  z-index: 10;
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid rgba(184, 50, 50, 0.9);
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(184, 50, 50, 0.9));
+  color: #ffffff;
+  box-shadow: 
+    0 2px 6px rgba(45, 24, 16, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  transform: rotate(-4deg); /* Tilted in opposite direction (counter-clockwise) */
+  transition: all var(--pf-transition-fast);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  pointer-events: none; /* Don't interfere with card interactions */
+  line-height: 1.2;
+}
+
+.pf-trigger-condition-tag-above-header:hover {
+  transform: rotate(-4deg) scale(1.05);
+  box-shadow: 
+    0 3px 8px rgba(45, 24, 16, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  border-color: rgba(220, 53, 69, 1);
+}
+
+.pf-trigger-condition-tag-above-header span {
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: inline-block;
+}
+
 /* Enhanced hover effects */
 .pf-spell-card:hover .pf-action-type-badge,
 .pf-spell-card:hover .pf-targeting-badge,
@@ -1141,7 +1181,7 @@
 .pf-resource-cost.health {
   background: transparent;
   border-color: transparent;
-  color: var(--pf-fire);
+  color: #ffffff;
 }
 
 .pf-resource-cost.health .pf-resource-icon::before {

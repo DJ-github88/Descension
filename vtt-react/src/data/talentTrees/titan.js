@@ -204,7 +204,7 @@ export const TITAN_EARTH_DOMINION = [
   {
     id: 'dominion_t2_geode_eruption',
     name: 'Geode Eruption',
-    description: 'You can cause crystals to erupt from the ground. Choose a point within 60 feet; creatures within 10 feet take 2d6 piercing damage per rank and must succeed on a Dexterity save or be restrained.',
+    description: 'You can cause crystals to erupt from the ground. Choose a point within 60 feet; creatures within 10 feet take 2d6 piercing damage per rank and must succeed on an Agility save or be restrained.',
     icon: 'spell_nature_earthquake',
     maxRanks: 3,
     position: { x: 4, y: 2 },

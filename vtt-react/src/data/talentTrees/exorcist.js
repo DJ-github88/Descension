@@ -317,7 +317,7 @@ export const EXORCIST_POSSESSED = [
   {
     id: 'poss_t3_psychic_corruption',
     name: 'Psychic Corruption',
-    description: 'Corrupt minds as well as bodies. Creatures within 30ft have disadvantage on Wisdom saves.',
+    description: 'Corrupt minds as well as bodies. Creatures within 30ft have disadvantage on Spirit saves.',
     icon: 'spell_shadow_mindrot',
     maxRanks: 3,
     position: { x: 3, y: 2 },

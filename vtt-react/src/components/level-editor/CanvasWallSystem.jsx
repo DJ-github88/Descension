@@ -13,7 +13,8 @@ const CanvasWallSystem = () => {
         cameraY, 
         zoomLevel, 
         playerZoom, 
-        gridSize, 
+        gridSize,
+        gridType,
         gridOffsetX, 
         gridOffsetY 
     } = useGameStore();
@@ -208,7 +209,8 @@ const CanvasWallSystem = () => {
         const shouldFilterByFOV = viewingFromToken && visibleAreaSet && !isGMMode && !isEditorMode;
         
         // First pass: collect all corner points where walls meet
-        const cornerPoints = new Map(); // key: "x,y" -> { count, wallTypes: Set }
+        // For hex grids, track actual edge vertices; for square grids, track grid centers
+        const cornerPoints = new Map(); // key: "x,y" or "worldX,worldY" -> { count, wallTypes: Set, worldPos }
         
         Object.entries(wallData).forEach(([wallKey, wallData_item]) => {
             const wallType = typeof wallData_item === 'string' ? wallData_item : wallData_item.type;
@@ -217,21 +219,43 @@ const CanvasWallSystem = () => {
             
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
             
-            // Track both endpoints
-            const key1 = `${x1},${y1}`;
-            const key2 = `${x2},${y2}`;
-            
-            if (!cornerPoints.has(key1)) {
-                cornerPoints.set(key1, { count: 0, wallTypes: new Set() });
+            if (gridType === 'hex') {
+                // For hex grids, track actual edge vertices
+                const edge = gridSystem.getHexEdge(x1, y1, x2, y2);
+                if (edge) {
+                    // Track both edge endpoints
+                    const key1 = `${edge.start.x.toFixed(2)},${edge.start.y.toFixed(2)}`;
+                    const key2 = `${edge.end.x.toFixed(2)},${edge.end.y.toFixed(2)}`;
+                    
+                    if (!cornerPoints.has(key1)) {
+                        cornerPoints.set(key1, { count: 0, wallTypes: new Set(), worldPos: { x: edge.start.x, y: edge.start.y } });
+                    }
+                    if (!cornerPoints.has(key2)) {
+                        cornerPoints.set(key2, { count: 0, wallTypes: new Set(), worldPos: { x: edge.end.x, y: edge.end.y } });
+                    }
+                    
+                    cornerPoints.get(key1).count++;
+                    cornerPoints.get(key1).wallTypes.add(wallType);
+                    cornerPoints.get(key2).count++;
+                    cornerPoints.get(key2).wallTypes.add(wallType);
+                }
+            } else {
+                // Square grid: track grid centers
+                const key1 = `${x1},${y1}`;
+                const key2 = `${x2},${y2}`;
+                
+                if (!cornerPoints.has(key1)) {
+                    cornerPoints.set(key1, { count: 0, wallTypes: new Set(), worldPos: null });
+                }
+                if (!cornerPoints.has(key2)) {
+                    cornerPoints.set(key2, { count: 0, wallTypes: new Set(), worldPos: null });
+                }
+                
+                cornerPoints.get(key1).count++;
+                cornerPoints.get(key1).wallTypes.add(wallType);
+                cornerPoints.get(key2).count++;
+                cornerPoints.get(key2).wallTypes.add(wallType);
             }
-            if (!cornerPoints.has(key2)) {
-                cornerPoints.set(key2, { count: 0, wallTypes: new Set() });
-            }
-            
-            cornerPoints.get(key1).count++;
-            cornerPoints.get(key1).wallTypes.add(wallType);
-            cornerPoints.get(key2).count++;
-            cornerPoints.get(key2).wallTypes.add(wallType);
         });
         
         // Render walls
@@ -405,9 +429,29 @@ const CanvasWallSystem = () => {
                 }
             }
 
-            // Get screen positions for wall endpoints using window dimensions to match tokens/items
-            const screenPos1 = gridToScreen(x1, y1, window.innerWidth, window.innerHeight);
-            const screenPos2 = gridToScreen(x2, y2, window.innerWidth, window.innerHeight);
+            // Get screen positions for wall endpoints
+            // For hex grids, draw along hex edges; for square grids, draw between centers
+            let screenPos1, screenPos2;
+            const gridSystem = getGridSystem();
+            
+            if (gridType === 'hex') {
+                // For hex grids, get the edge between the two hex coordinates
+                const edge = gridSystem.getHexEdge(x1, y1, x2, y2);
+                if (edge) {
+                    // Convert edge points to screen coordinates
+                    const viewport = gridSystem.getViewportDimensions();
+                    screenPos1 = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                    screenPos2 = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                } else {
+                    // Fallback to center-to-center if edge calculation fails
+                    screenPos1 = gridToScreen(x1, y1, window.innerWidth, window.innerHeight);
+                    screenPos2 = gridToScreen(x2, y2, window.innerWidth, window.innerHeight);
+                }
+            } else {
+                // Square grid: draw between grid centers
+                screenPos1 = gridToScreen(x1, y1, window.innerWidth, window.innerHeight);
+                screenPos2 = gridToScreen(x2, y2, window.innerWidth, window.innerHeight);
+            }
 
             // Calculate properties
             const wallThickness = Math.max(8, gridSize * effectiveZoom * 0.15);
@@ -606,12 +650,21 @@ const CanvasWallSystem = () => {
         cornerPoints.forEach((data, key) => {
             if (data.count < 2) return; // Only draw corners where 2+ walls meet
             
-            const [gx, gy] = key.split(',').map(Number);
+            let screenPos;
+            if (gridType === 'hex' && data.worldPos) {
+                // For hex grids, use the actual world position of the vertex
+                const viewport = gridSystem.getViewportDimensions();
+                screenPos = gridSystem.worldToScreen(data.worldPos.x, data.worldPos.y, viewport.width, viewport.height);
+            } else {
+                // Square grid: use grid coordinates
+                const [gx, gy] = key.split(',').map(Number);
+                
+                // Check if corner is in visible bounds
+                if (gx < startX || gx > endX || gy < startY || gy > endY) return;
+                
+                screenPos = gridToScreen(gx, gy, window.innerWidth, window.innerHeight);
+            }
             
-            // Check if corner is in visible bounds
-            if (gx < startX || gx > endX || gy < startY || gy > endY) return;
-            
-            const screenPos = gridToScreen(gx, gy, window.innerWidth, window.innerHeight);
             const wallThickness = Math.max(8, gridSize * effectiveZoom * 0.15);
             
             // Get the primary wall type for coloring

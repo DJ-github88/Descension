@@ -943,9 +943,9 @@ const StatusEffectConfigPopup = ({
                 <div className="toggle-icon">
                   {statusEffectData?.bonusAction ? '✓' : ''}
                 </div>
-                <span>Extra Bonus Action</span>
+                <span>Extra Action Points</span>
               </button>
-              <div className="option-description">Gain an additional bonus action each turn</div>
+              <div className="option-description">Gain additional action points each turn</div>
             </div>
 
             <div className="toggle-option">
@@ -974,7 +974,7 @@ const StatusEffectConfigPopup = ({
                 <div className="toggle-icon">
                   {statusEffectData?.dexSaveAdvantage ? '✓' : ''}
                 </div>
-                <span>Dexterity Save Advantage</span>
+                <span>Agility Save Advantage</span>
               </button>
             </div>
 
@@ -1105,7 +1105,7 @@ const StatusEffectConfigPopup = ({
                 <div className="toggle-icon">
                   {statusEffectData?.failStrengthDexterity ? '✓' : ''}
                 </div>
-                <span>Fail Strength/Dexterity Saves</span>
+                <span>Fail Strength/Agility Saves</span>
               </button>
             </div>
           </div>
@@ -3819,7 +3819,7 @@ const StatusEffectConfigPopup = ({
                   className={`effect-option-button ${statusEffectData?.attribute === 'agility' ? 'active' : ''}`}
                   onClick={() => updateEffectConfig('attribute', 'agility')}
                 >
-                  <span>Dexterity</span>
+                  <span>Agility</span>
                 </button>
                 <button
                   className={`effect-option-button ${statusEffectData?.attribute === 'constitution' ? 'active' : ''}`}

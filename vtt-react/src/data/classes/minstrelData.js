@@ -2006,11 +2006,30 @@ Before combat, decide which cadences you want to prioritize:
         formula: '6d10 + intelligence',
         elementType: 'thunder',
         damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '3d10',
+          critEffects: ['deafen', 'knockback'],
+          deafenConfig: {
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 17,
+            saveType: 'constitution'
+          },
+          knockbackConfig: {
+            distance: 15
+          }
+        },
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         }
       },
 

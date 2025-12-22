@@ -189,7 +189,6 @@ const getMiscTypeInfo = (item) => {
                     className: 'crafting-detail-value'
                 }
             ].filter(Boolean);
-            console.log('CRAFTING items for grid:', craftingItems);
             return [
                 {
                     component: 'crafting-details',
@@ -585,7 +584,6 @@ const renderTooltipEntry = (entry, index) => {
         }
 
         if (entry.component === 'crafting-details') {
-            console.log('Rendering crafting-details with items:', entry.items);
             return (
                 <div key={index} className="crafting-details-grid">
                     {entry.items.map((detail, detailIndex) => (

@@ -336,16 +336,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       const rawSpellIds = new Set(allClassSpells.map(s => s.id));
       const missingKnownSpells = activeCharKnownSpells.filter(id => !rawSpellIds.has(id));
       
-      console.log('🔍 [Category Creation - Raw Data]', {
-        characterClass,
-        activeCharacterLevel,
-        rawClassSpellsCount: allClassSpells.length,
-        knownSpellIds: activeCharKnownSpells,
-        knownSpellIdsSetSize: knownSpellIdsSet.size,
-        missingKnownSpells,
-        sampleRawSpellIds: allClassSpells.map(s => s.id).slice(0, 10),
-        sampleRawSpellNames: allClassSpells.map(s => s.name).slice(0, 10)
-      });
       
       // If we have missing known spells, log them with details
       if (missingKnownSpells.length > 0) {
@@ -372,17 +362,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             name.includes('cast major')
           );
           
-          console.log(`🔍 [Category Creation - Spell Filter Check] ${spell.id}`, {
-            name: spell.name,
-            level: spellLevel,
-            activeCharacterLevel,
-            isKnown,
-            isGeneral,
-            isUniversal,
-            isUnwanted,
-            levelCheck,
-            passes: !isGeneral && !isUniversal && !isUnwanted && isKnown && levelCheck
-          });
         }
         
         // Exclude general spells
@@ -419,14 +398,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       if (filteredClassSpells.length > 0) {
         const expectedSpellCount = filteredClassSpells.length;
         
-        console.log('🔍 [Category Creation - Filtered]', {
-          characterClass,
-          activeCharacterLevel,
-          filteredClassSpellsCount: filteredClassSpells.length,
-          expectedSpellCount,
-          filteredSpellIds: filteredClassSpells.map(s => s.id),
-          filteredSpellNames: filteredClassSpells.map(s => s.name)
-        });
         
         // Create a single class category with the filtered spells
         combined.push({
@@ -442,10 +413,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           className: characterClass
         });
       } else {
-        console.log('ℹ️ [Category Creation] Skipping class category, no visible class spells', {
-          characterClass,
-          activeCharacterLevel
-        });
       }
     }
 
@@ -552,11 +519,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
             // Add each spell to the library
             spellsToAdd.forEach(spell => {
-              console.log('📥 [SpellLibrary] Adding spell from Firebase:', spell.id, spell.name);
               dispatch({ type: 'ADD_SPELL_DIRECT', payload: spell });
             });
 
-            console.log(`📥 [SpellLibrary] Loaded ${spellsToAdd.length} spells from Firebase (${userSpells.length - spellsToAdd.length} filtered out)`);
           }
 
           setUserSpellsLoaded(true);
@@ -893,15 +858,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Apply filters and sorting to get displayed spells
   const filteredSpells = useMemo(() => {
-    // Debug logging to track spell filtering
-    console.log('🔍 [filteredSpells] Starting filteredSpells calculation:', {
-      librarySpellsCount: library.spells.length,
-      librarySpellIds: library.spells.map(s => s.id),
-      librarySpellNames: library.spells.map(s => s.name),
-      hasActiveCharacter,
-      hasClassSpells,
-      activeCategory
-    });
+    // Debug logging removed for production
 
     // Use class-based spells if available, otherwise fall back to library spells
     let spellsToFilter = [];
@@ -979,11 +936,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             // and the character has a path, they should be valid
             const hasPath = currentPath && currentPath !== '';
             if (!hasPath) {
-              console.log('🚫 [SpellLibrary] Filtering out discipline spell - character has no path:', {
-                spellId: spell.id,
-                spellName: spell.name,
-                characterPath: currentPath
-              });
             }
             return hasPath;
           }
@@ -1013,10 +965,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
     }
 
-    console.log('🔍 [filteredSpells] After including library.spells:', {
-      spellsToFilterCount: spellsToFilter.length,
-      spellIds: spellsToFilter.map(s => s.id)
-    });
 
     if (hasActiveCharacter && hasClassSpells) {
       // If we have an active category, show only spells from that category
@@ -1213,10 +1161,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     });
     const uniqueSpellsToFilter = Array.from(uniqueSpellsMap.values());
 
-    console.log('🔍 [filteredSpells] After deduplication:', {
-      uniqueSpellsCount: uniqueSpellsToFilter.length,
-      spellIds: uniqueSpellsToFilter.map(s => s.id)
-    });
 
     // Create a temporary library object for filtering
     const tempLibrary = {
@@ -1227,13 +1171,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     const filtered = filterSpells(tempLibrary, library.filters);
     const sorted = sortSpells(filtered, library.sortOrder);
 
-    console.log('🔍 [filteredSpells] Final result:', {
-      filteredCount: filtered.length,
-      sortedCount: sorted.length,
-      spellIds: sorted.map(s => s.id),
-      filterQuery: library.filters?.query,
-      filterCategories: library.filters?.categories
-    });
 
     return sorted;
   }, [

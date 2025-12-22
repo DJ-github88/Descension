@@ -3,7 +3,24 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcryptjs');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+
+// LAUNCH READINESS: Validate environment variables on startup (non-blocking)
+if (process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT) {
+  try {
+    const path = require('path');
+    const { validateEnvironment } = require(path.join(__dirname, '../scripts/validate-env'));
+    if (!validateEnvironment()) {
+      console.error('❌ Environment validation failed. Server will not start.');
+      process.exit(1);
+    }
+  } catch (error) {
+    console.warn('⚠️  Could not validate environment variables:', error.message);
+    // Don't exit in case validation script has issues - allow server to start with warnings
+  }
+}
 
 // Firebase service for persistence
 const firebaseService = require('./services/firebaseService');
@@ -17,6 +34,7 @@ const lagCompensation = require('./services/lagCompensation');
 const RealtimeSyncEngine = require('./services/realtimeSync');
 const { createValidationMiddleware } = require('./services/validationService');
 const rateLimitService = require('./services/rateLimitService');
+const { sanitizeChatMessage, sanitizeRoomName, sanitizePlayerName, createSanitizationMiddleware } = require('./services/sanitizationService');
 
 // Observability services (lightweight, performance-optimized)
 const logger = require('./services/logger');
@@ -26,14 +44,25 @@ const ErrorHandler = require('./services/errorHandler');
 const app = express();
 const server = http.createServer(app);
 
-// Configure CORS origins
-const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT
-  ? [
-    'https://windtunnel.netlify.app',
-    'https://mythrill.netlify.app',
-    'https://your-custom-domain.com'
-  ]
-  : [
+// Configure CORS origins from environment variables
+const getAllowedOrigins = () => {
+  // SECURITY: Use environment variable if set
+  if (process.env.ALLOWED_ORIGINS) {
+    return process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim());
+  }
+
+  // Fallback to defaults based on environment
+  const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+  if (isProduction) {
+    // Production defaults (remove placeholder domain)
+    return [
+      'https://windtunnel.netlify.app',
+      'https://mythrill.netlify.app'
+    ].filter(Boolean); // Remove any empty strings
+  }
+  
+  // Development defaults
+  return [
     'http://localhost:3000',
     'http://localhost:3001',
     'http://localhost:3002',
@@ -41,6 +70,9 @@ const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAIL
     'http://127.0.0.1:3001',
     'http://127.0.0.1:3002'
   ];
+};
+
+const allowedOrigins = getAllowedOrigins();
 
 // Initialize error handler
 const errorHandler = new ErrorHandler();
@@ -62,6 +94,12 @@ const io = socketIo(server, {
   allowEIO3: true // Allow Engine.IO v3 clients
 });
 
+// SECURITY: Add input sanitization middleware to Socket.IO (before validation)
+io.use(createSanitizationMiddleware({
+  logSanitization: process.env.NODE_ENV === 'development',
+  fieldsToSkip: ['password', 'passwordHash', 'token', 'id', 'roomId', 'socketId', 'playerId', 'characterId']
+}));
+
 // Add validation middleware to Socket.IO
 io.use(createValidationMiddleware({
   logErrors: true,
@@ -76,6 +114,65 @@ io.use(rateLimitService.createMiddleware({
   violationThreshold: 10
 }));
 
+// Add Firebase authentication middleware to Socket.IO
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.replace('Bearer ', '');
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+    
+    if (!token) {
+      // SECURITY: In production, require authentication
+      if (isProduction) {
+        logger.warn('Unauthenticated connection attempt in production', { 
+          socketId: socket.id, 
+          ip: socket.handshake.address 
+        });
+        return next(new Error('Authentication required'));
+      }
+      
+      // Allow connection but mark as unauthenticated for backward compatibility in development
+      socket.data.authenticated = false;
+      socket.data.userId = null;
+      logger.debug('Unauthenticated connection allowed (development mode)', { socketId: socket.id });
+      return next();
+    }
+
+    // Verify Firebase ID token
+    const decodedToken = await firebaseService.verifyIdToken(token);
+    if (decodedToken) {
+      socket.data.authenticated = true;
+      socket.data.userId = decodedToken.uid;
+      socket.data.email = decodedToken.email;
+      logger.info('Socket authenticated', { socketId: socket.id, userId: decodedToken.uid });
+    } else {
+      // SECURITY: In production, reject invalid tokens
+      if (isProduction) {
+        logger.warn('Invalid token in production', { socketId: socket.id, ip: socket.handshake.address });
+        return next(new Error('Invalid authentication token'));
+      }
+      
+      socket.data.authenticated = false;
+      socket.data.userId = null;
+      logger.warn('Socket authentication failed', { socketId: socket.id });
+    }
+    
+    next();
+  } catch (error) {
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+    logger.error('Socket authentication error', { socketId: socket.id, error: error.message });
+    
+    // SECURITY: In production, reject on authentication errors
+    if (isProduction) {
+      return next(new Error('Authentication failed'));
+    }
+    
+    // Allow connection for backward compatibility in development only
+    socket.data.authenticated = false;
+    socket.data.userId = null;
+    next();
+  }
+});
+
 // OPTIMIZED: Enhanced multiplayer services with performance controls
 // Initialize with reduced frequency to prevent lag
 const eventBatcher = new EventBatcher(io);
@@ -86,7 +183,6 @@ const handleCombatAction = (roomId, playerId, actionData, _predictedAction) => {
   const room = rooms.get(roomId);
   if (!room) {return;}
 
-  console.log('🎯 Processing combat action:', actionData.type, 'from player:', playerId);
 
   switch (actionData.type) {
   case 'next_turn':
@@ -138,7 +234,7 @@ const handleCombatAction = (roomId, playerId, actionData, _predictedAction) => {
     break;
 
   default:
-    console.log('Unknown combat action type:', actionData.type);
+    logger.debug('Unknown combat action type', { type: actionData.type, playerId });
   }
 };
 
@@ -204,7 +300,22 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json());
+// SECURITY: Add request size limit to prevent memory exhaustion attacks
+app.use(express.json({ limit: '1mb' })); // Limit JSON payloads to 1MB
+
+// SECURITY: Add HTTP rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Apply rate limiting to all API routes
+app.use('/api/', apiLimiter);
+
+// OpenAI rate limiter removed - endpoint no longer exists
 
 // Request tracing middleware (adds request IDs)
 app.use(requestTracer.attachRequestId.bind(requestTracer));
@@ -265,21 +376,45 @@ app.get('/rooms', (req, res) => {
   res.json(getPublicRooms());
 });
 
-// Debug endpoint to check room state
+// Debug endpoint to check room state - SECURITY: Only available in development
 app.get('/debug/rooms', (req, res) => {
+  // SECURITY: Only allow in development environment
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'Debug endpoints disabled in production' });
+  }
+
+  // SECURITY: Require authentication token in query or header
+  const authToken = req.query.token || req.headers['x-debug-token'];
+  const expectedToken = process.env.DEBUG_TOKEN;
+  
+  // SECURITY: Require strong token - no default fallback in production-like environments
+  if (!expectedToken || expectedToken === 'dev-debug-token-change-in-production') {
+    logger.warn('DEBUG_TOKEN not set or using default value', { ip: req.ip });
+    return res.status(500).json({ error: 'Debug endpoint not configured' });
+  }
+  
+  if (!authToken || authToken !== expectedToken) {
+    logger.warn('Unauthorized debug endpoint access attempt', { ip: req.ip });
+    return res.status(401).json({ error: 'Authentication required for debug endpoints' });
+  }
+
   const roomsDebug = Array.from(rooms.values()).map(room => ({
     id: room.id,
     name: room.name,
-    gm: room.gm,
+    gm: room.gm ? { id: room.gm.id, name: room.gm.name } : null, // Don't expose full GM data
     playerCount: room.players.size,
-    players: Array.from(room.players.values()),
+    players: Array.from(room.players.values()).map(p => ({ id: p.id, name: p.name })), // Limited player data
     isActive: room.isActive,
     gmDisconnectedAt: room.gmDisconnectedAt
   }));
 
   const playersDebug = Array.from(players.entries()).map(([socketId, player]) => ({
     socketId,
-    ...player
+    id: player.id,
+    name: player.name,
+    roomId: player.roomId,
+    isGM: player.isGM
+    // Don't expose sensitive data
   }));
 
   res.json({
@@ -294,7 +429,11 @@ app.get('/debug/rooms', (req, res) => {
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
-console.log('Mythrill VTT Server - Hybrid room system initialized');
+// MULTIPLAYER: Idempotency tracking for room creation (prevents duplicate rooms from double-clicks)
+const roomCreationAttempts = new Map(); // socketId -> { roomId, timestamp, roomName, gmName }
+const IDEMPOTENCY_WINDOW_MS = 5000; // 5 second window for idempotency
+
+logger.info('Mythrill VTT Server - Hybrid room system initialized');
 
 // Load persistent rooms from Firebase on startup
 const loadPersistentRooms = async() => {
@@ -304,9 +443,9 @@ const loadPersistentRooms = async() => {
       // Mark as inactive since no one is connected yet
       roomData.isActive = false;
       rooms.set(roomData.id, roomData);
-      console.log(`📂 Loaded persistent room: ${roomData.name} (${roomData.id})`);
+      logger.debug('Loaded persistent room', { roomId: roomData.id, roomName: roomData.name });
     }
-    console.log(`✅ Loaded ${persistentRooms.length} persistent rooms`);
+    logger.info(`Loaded ${persistentRooms.length} persistent rooms`);
   } catch (error) {
     console.error('❌ Error loading persistent rooms:', error);
   }
@@ -315,15 +454,39 @@ const loadPersistentRooms = async() => {
 // Initialize persistent rooms
 loadPersistentRooms();
 
+// Helper function to hash room password
+async function hashPassword(password) {
+  if (!password || password.trim() === '') {
+    return null; // No password means no hash
+  }
+  const saltRounds = 10;
+  return await bcrypt.hash(password, saltRounds);
+}
+
+// Helper function to verify room password
+async function verifyPassword(plainPassword, hashedPassword) {
+  if (!hashedPassword) {
+    // If no hash, check if password is also empty
+    return !plainPassword || plainPassword.trim() === '';
+  }
+  if (!plainPassword) {
+    return false;
+  }
+  return await bcrypt.compare(plainPassword, hashedPassword);
+}
+
 // Room management functions
 async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#4a90e2', _persistToFirebase = true) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
 
+  // Hash password before storing
+  const passwordHash = await hashPassword(password);
+
   const room = {
     id: roomId,
     name: roomName,
-    password: password, // Store the password
+    passwordHash: passwordHash, // Store hashed password, never plain text
     gm: {
       id: gmPlayerId,
       name: gmName,
@@ -374,6 +537,10 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
       realtimeSync.initializeRoom(roomId, room.gameState);
       memoryManager.trackObject(roomId, 'room', room, roomId);
       lagCompensation.initializeClient(gmSocketId, roomId);
+      // Initialize event batching for all rooms to optimize high-frequency events
+      if (eventBatcher) {
+        eventBatcher.initializeRoom(roomId);
+      }
       console.log('🎯 Enhanced services initialized for GM optimization');
     }
   } catch (error) {
@@ -415,39 +582,40 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
 }
 
 function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2', character = null) {
-  console.log('joinRoom called with:', { roomId, playerName, socketId, playerColor, hasCharacter: !!character });
   const room = rooms.get(roomId);
 
   if (!room) {
-    console.log('Room not found:', roomId, 'Available rooms:', Array.from(rooms.keys()));
+    logger.debug('Room not found', { roomId, availableRooms: Array.from(rooms.keys()) });
     return null;
   }
 
-  // Check if room is active (GM hasn't left)
-  if (!room.isActive) {
-    console.log('Room is inactive (GM has left):', room.name);
+  // MULTIPLAYER: Check if room is active (GM hasn't left)
+  // Allow reconnection even if room was marked inactive (GM might have reconnected)
+  if (!room.isActive && !room.gmDisconnectedAt) {
+    logger.debug('Room is inactive', { roomName: room.name });
     return { error: 'Room is inactive - the GM has left' };
   }
+  
+  // MULTIPLAYER: If GM disconnected but room still exists, allow reconnection
+  if (room.gmDisconnectedAt && room.gm.name === playerName) {
+    logger.info('GM reconnecting to room', { roomName: room.name });
+    room.isActive = true;
+    room.gmDisconnectedAt = null;
+  }
 
-  console.log('Room found:', room.name, 'Checking password...');
-
-  // Check password - handle both empty and non-empty passwords
-  const roomPassword = room.password || '';
-  const providedPassword = password || '';
-
-  if (roomPassword !== providedPassword) {
-    console.log('Password mismatch. Expected:', roomPassword ? '[HIDDEN]' : 'EMPTY', 'Received:', providedPassword ? '[HIDDEN]' : 'EMPTY');
+  // Verify password using bcrypt
+  const passwordValid = await verifyPassword(password, room.passwordHash);
+  if (!passwordValid) {
+    logger.debug('Password mismatch', { roomName: room.name });
     return { error: 'Incorrect password' };
   }
 
   // Check if this is the GM joining their own room
   if (room.gm.name === playerName) {
-    console.log('GM attempting to join their own room:', room.name);
-
     // Check if GM is already tracked (they should be from room creation)
     const existingGMPlayer = players.get(socketId);
     if (existingGMPlayer && existingGMPlayer.isGM) {
-      console.log('GM already tracked, skipping duplicate join');
+      logger.debug('GM already tracked', { roomName: room.name });
       return { room, player: room.gm, isGMReconnect: true };
     }
 
@@ -463,7 +631,7 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     // Update GM's character data if provided
     if (character) {
       room.gm.character = character;
-      console.log('👑 Updated GM character data:', {
+      logger.debug('Updated GM character data', {
         hasTokenSettings: !!character.tokenSettings,
         hasLore: !!character.lore,
         hasCharacterImage: !!character.lore?.characterImage
@@ -488,7 +656,7 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
   }
 
   if (room.players.size >= room.settings.maxPlayers) {
-    console.log('Room is full:', room.players.size, '>=', room.settings.maxPlayers);
+    logger.debug('Room is full', { roomName: room.name, currentPlayers: room.players.size, maxPlayers: room.settings.maxPlayers });
     return { error: 'Room is full' };
   }
   
@@ -531,13 +699,13 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     try {
       // Note: This would require user authentication, but for now we'll handle it differently
       // The client-side should handle Firebase room membership when authenticated
-      console.log(`📝 Player ${playerName} should be added to Firebase room ${room.persistentRoomId} members`);
+      logger.debug('Player should be added to Firebase room members', { playerName, persistentRoomId: room.persistentRoomId });
     } catch (error) {
-      console.warn('Failed to add player to Firebase room members:', error);
+      logger.warn('Failed to add player to Firebase room members', { error: error.message, playerName, persistentRoomId: room.persistentRoomId });
     }
   }
 
-  console.log(`🚀 Enhanced player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
+  logger.info('Player joined room', { playerName, roomName: room.name, totalPlayers: room.players.size + 1 });
   return { room, player };
 }
 
@@ -550,19 +718,19 @@ function leaveRoom(socketId) {
 
   if (player.isGM) {
     // GM left - immediately close the room
-    console.log(`GM left room, closing immediately: ${room.name} (${room.id})`);
+    logger.info('GM left room, closing immediately', { roomName: room.name, roomId: room.id });
     room.isActive = false;
     room.gmDisconnectedAt = Date.now();
     players.delete(socketId);
 
     // Remove the room immediately
     rooms.delete(player.roomId);
-    console.log(`Room closed: ${room.name} (${room.id})`);
+    logger.info('Room closed', { roomName: room.name, roomId: room.id });
 
     return { type: 'room_closed', room };
   } else {
     // Regular player left
-    console.log(`Player ${player.name} left room: ${room.name}`);
+    logger.info('Player left room', { playerName: player.name, roomName: room.name });
     room.players.delete(player.id);
     players.delete(socketId);
     return { type: 'player_left', room, player };
@@ -623,23 +791,136 @@ app.get('/metrics', async (req, res) => {
   }
 });
 
-// Debug endpoint to query recent logs
+// Debug endpoint to query recent logs - SECURITY: Only available in development
 app.get('/debug/logs', async (req, res) => {
+  // SECURITY: Only allow in development environment
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'Debug endpoints disabled in production' });
+  }
+
+  // SECURITY: Require authentication token in query or header
+  const authToken = req.query.token || req.headers['x-debug-token'];
+  const expectedToken = process.env.DEBUG_TOKEN;
+  
+  // SECURITY: Require strong token - no default fallback in production-like environments
+  if (!expectedToken || expectedToken === 'dev-debug-token-change-in-production') {
+    logger.warn('DEBUG_TOKEN not set or using default value', { ip: req.ip });
+    return res.status(500).json({ error: 'Debug endpoint not configured' });
+  }
+  
+  if (!authToken || authToken !== expectedToken) {
+    logger.warn('Unauthorized debug endpoint access attempt', { ip: req.ip });
+    return res.status(401).json({ error: 'Authentication required for debug endpoints' });
+  }
+
   try {
     const limit = parseInt(req.query.limit) || 100;
     const level = req.query.level || null;
     
     const logs = await logger.getRecentLogs(limit, level);
     
+    // SECURITY: Sanitize logs to remove sensitive information
+    const sanitizedLogs = logs.map(log => {
+      const sanitized = { ...log };
+      // Remove potential sensitive data
+      if (sanitized.message) {
+        sanitized.message = sanitized.message.replace(/password[=:]\s*[^\s,}]+/gi, 'password=***');
+        sanitized.message = sanitized.message.replace(/token[=:]\s*[^\s,}]+/gi, 'token=***');
+      }
+      return sanitized;
+    });
+    
     res.json({
-      count: logs.length,
-      logs: logs
+      count: sanitizedLogs.length,
+      logs: sanitizedLogs
     });
   } catch (error) {
     logger.error('Logs endpoint error', { error: error.message });
     res.status(500).json({ error: 'Failed to retrieve logs' });
   }
 });
+
+// OpenAI endpoint removed - item generation uses built-in logic
+
+// Helper function to update gameState using delta sync with conflict resolution
+async function updateGameStateWithDelta(roomId, newGameState, metadata = {}) {
+  try {
+    // Use delta sync with conflict resolution for simultaneous updates
+    const deltaUpdate = await deltaSync.createStateUpdateWithConflictResolution(roomId, newGameState, metadata);
+    
+    if (deltaUpdate && deltaUpdate.delta) {
+      // Use delta for efficient sync
+      return {
+        useDelta: true,
+        delta: deltaUpdate.delta,
+        versionId: deltaUpdate.id
+      };
+    }
+    
+    // Fallback to full state if delta is null (no changes)
+    return {
+      useDelta: false,
+      fullState: newGameState
+    };
+  } catch (error) {
+    logger.warn('Delta sync failed, using full state update', { roomId, error: error.message });
+    return {
+      useDelta: false,
+      fullState: newGameState
+    };
+  }
+}
+
+// Track player viewports for filtering updates
+const playerViewports = new Map(); // socketId -> { x, y, width, height, zoom }
+
+// Helper function to check if position is in viewport
+function isInViewport(position, viewport, margin = 200) {
+  if (!viewport) return true; // If no viewport, send all updates (fallback)
+  
+  const { x, y, width, height, zoom = 1 } = viewport;
+  const scaledWidth = (width || 1920) / zoom;
+  const scaledHeight = (height || 1080) / zoom;
+  
+  // Check if position is within viewport bounds (with margin for smooth updates)
+  return position.x >= (x - margin) && 
+         position.x <= (x + scaledWidth + margin) &&
+         position.y >= (y - margin) && 
+         position.y <= (y + scaledHeight + margin);
+}
+
+// Helper function to get viewport for a player
+function getPlayerViewport(socketId) {
+  return playerViewports.get(socketId);
+}
+
+// Helper function to validate room membership
+function validateRoomMembership(socket, roomId, requireGM = false) {
+  const player = players.get(socket.id);
+  if (!player) {
+    return { valid: false, error: 'Player not found' };
+  }
+
+  if (player.roomId !== roomId) {
+    return { valid: false, error: 'Not a member of this room' };
+  }
+
+  if (requireGM && !player.isGM) {
+    return { valid: false, error: 'GM privileges required' };
+  }
+
+  const room = rooms.get(roomId);
+  if (!room) {
+    return { valid: false, error: 'Room not found' };
+  }
+
+  // Additional check: verify player is actually in room's players map or is GM
+  if (!player.isGM && !room.players.has(player.id)) {
+    return { valid: false, error: 'Not a member of this room' };
+  }
+
+  return { valid: true, player, room };
+}
 
 // Helper to wrap socket handlers with error handling
 const wrapSocketHandler = (handler) => {
@@ -673,18 +954,66 @@ io.on('connection', (socket) => {
   socket.on('create_room', async(data) => {
     try {
       logger.debug('Received create_room request', { socketId: socket.id, roomName: data.roomName });
-      const { roomName, gmName, password } = data;
+      
+      // SECURITY: Sanitize user input
+      const roomName = sanitizeRoomName(data.roomName);
+      const gmName = sanitizePlayerName(data.gmName);
+      const password = data.password; // Password doesn't need sanitization (will be hashed)
 
       if (!roomName || !gmName) {
-        console.log('❌ Missing required fields:', { roomName, gmName, password: password ? '[HIDDEN]' : 'EMPTY' });
+        logger.warn('Missing required fields for room creation', { socketId: socket.id, hasRoomName: !!roomName, hasGmName: !!gmName });
         socket.emit('error', { message: 'Room name and GM name are required' });
         return;
       }
 
+      // MULTIPLAYER: Check for idempotency (prevent duplicate room creation from double-clicks)
+      const existingAttempt = roomCreationAttempts.get(socket.id);
+      const now = Date.now();
+      
+      if (existingAttempt && 
+          (now - existingAttempt.timestamp) < IDEMPOTENCY_WINDOW_MS &&
+          existingAttempt.roomName === roomName &&
+          existingAttempt.gmName === gmName) {
+        // Duplicate request within idempotency window - return existing room
+        logger.debug('Idempotent room creation request detected', { 
+          socketId: socket.id, 
+          existingRoomId: existingAttempt.roomId 
+        });
+        
+        const existingRoom = rooms.get(existingAttempt.roomId);
+        if (existingRoom) {
+          socket.join(existingRoom.id);
+          socket.emit('room_created', {
+            room: {
+              id: existingRoom.id,
+              name: existingRoom.name,
+              gm: existingRoom.gm,
+              players: Array.from(existingRoom.players.values()),
+              settings: existingRoom.settings
+            }
+          });
+          return;
+        }
+      }
+
       const room = await createRoom(roomName, gmName, socket.id, password, data.playerColor);
+      
+      // MULTIPLAYER: Track room creation for idempotency
+      roomCreationAttempts.set(socket.id, {
+        roomId: room.id,
+        timestamp: now,
+        roomName: roomName,
+        gmName: gmName
+      });
+      
+      // Clean up old idempotency entries
+      setTimeout(() => {
+        roomCreationAttempts.delete(socket.id);
+      }, IDEMPOTENCY_WINDOW_MS);
+      
       socket.join(room.id);
 
-      console.log('Room created successfully:', room.id, 'Total rooms:', rooms.size);
+      logger.info('Room created successfully', { roomId: room.id, totalRooms: rooms.size });
 
       socket.emit('room_created', {
         room: {
@@ -757,7 +1086,12 @@ io.on('connection', (socket) => {
   // Join an existing room
   socket.on('join_room', (data) => {
     console.log('🚪 Received join_room request:', data);
-    const { roomId, playerName, password, character } = data;
+    
+    // SECURITY: Sanitize user input
+    const roomId = data.roomId; // UUID, no sanitization needed
+    const playerName = sanitizePlayerName(data.playerName);
+    const password = data.password; // Password doesn't need sanitization
+    const character = data.character; // Character data will be validated separately
 
     // Enhanced parameter validation with detailed logging
     if (!roomId || !playerName) {
@@ -844,6 +1178,32 @@ io.on('connection', (socket) => {
       }
 
       console.log(`GM ${playerName} reconnected to room: ${room.name}`);
+    } else if (result.isReconnect) {
+      // MULTIPLAYER: Player reconnected - send full state
+      socket.emit('room_joined', {
+        room: {
+          id: room.id,
+          name: room.name,
+          gm: room.gm,
+          players: Array.from(room.players.values()),
+          settings: room.settings
+        },
+        player: player,
+        chatHistory: room.chatHistory,
+        gameState: room.gameState, // Send full game state for reconnection
+        isReconnect: true
+      });
+
+      // Notify other players that player reconnected
+      socket.to(roomId).emit('player_reconnected', {
+        player: {
+          id: player.id,
+          name: player.name
+        },
+        message: `${player.name} has reconnected`
+      });
+
+      console.log(`Player ${playerName} reconnected to room: ${room.name}`);
     } else {
       // Regular player join
       socket.emit('room_joined', {
@@ -981,21 +1341,31 @@ io.on('connection', (socket) => {
   // Handle chat messages
   socket.on('chat_message', async(data) => {
     console.log('💬 Received chat message:', data, 'from socket:', socket.id);
+    // SECURITY: Validate room membership
     const player = players.get(socket.id);
-    if (!player) {
+    if (!player || !player.roomId) {
       console.log('❌ Chat message from player not in room');
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
 
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      console.log('❌ Chat message but room not found');
-      socket.emit('error', { message: 'Room not found' });
+    const validation = validateRoomMembership(socket, player.roomId);
+    if (!validation.valid) {
+      socket.emit('error', { message: validation.error });
+      logger.warn('Unauthorized chat_message attempt', { socketId: socket.id, roomId: player.roomId });
       return;
     }
 
+    const room = validation.room;
+
     console.log('💬 Processing chat message from', player.name, 'in room', room.name);
+
+    // SECURITY: Sanitize chat message to prevent XSS
+    const sanitizedMessage = sanitizeChatMessage(data.message);
+    if (!sanitizedMessage || sanitizedMessage.trim() === '') {
+      socket.emit('error', { message: 'Message cannot be empty' });
+      return;
+    }
 
     // Get player color with improved lookup logic
     let playerColor = player.color || '#4a90e2'; // Use color from players tracking first
@@ -1021,7 +1391,7 @@ io.on('connection', (socket) => {
       playerName: player.name,
       playerColor: playerColor,
       isGM: player.isGM,
-      content: data.message,
+      content: sanitizedMessage, // Use sanitized message
       timestamp: new Date(),
       type: data.type || 'chat' // 'chat', 'system', 'roll', etc.
     };
@@ -1182,17 +1552,21 @@ io.on('connection', (socket) => {
 
   // Smart token movement with role-aware optimization
   socket.on('token_moved', async(data) => {
+    // SECURITY: Validate room membership
     const player = players.get(socket.id);
-    if (!player) {
+    if (!player || !player.roomId) {
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
 
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      socket.emit('error', { message: 'Room not found' });
+    const validation = validateRoomMembership(socket, player.roomId);
+    if (!validation.valid) {
+      socket.emit('error', { message: validation.error });
+      logger.warn('Unauthorized token_moved attempt', { socketId: socket.id, roomId: player.roomId });
       return;
     }
+
+    const room = validation.room;
 
     // Only apply enhanced services for GMs to prevent player lag
     let inputResult = null;
@@ -1319,9 +1693,42 @@ io.on('connection', (socket) => {
           tokenMoveData.sequence = inputResult.sequence;
         }
 
-        // Broadcast to room (includes sender since they're in the room)
-        // NOTE: io.to() already includes the sender, so no need for duplicate socket.emit()
-        io.to(player.roomId).emit('token_moved', tokenMoveData);
+        // OPTIMIZATION: Viewport-based filtering - only send to relevant clients
+        const roomSockets = io.sockets.adapter.rooms.get(player.roomId);
+        if (roomSockets) {
+          for (const socketId of roomSockets) {
+            const targetSocket = io.sockets.sockets.get(socketId);
+            if (!targetSocket) continue;
+            
+            const targetPlayer = players.get(socketId);
+            if (!targetPlayer) continue;
+            
+            // GM always receives all updates
+            if (targetPlayer.isGM) {
+              if (eventBatcher) {
+                eventBatcher.addPlayerEvent(player.roomId, targetPlayer.id, {
+                  type: 'token_moved',
+                  data: tokenMoveData
+                }, data.isDragging ? 'normal' : 'high');
+              } else {
+                targetSocket.emit('token_moved', tokenMoveData);
+              }
+            } else {
+              // For players: only send if token is in their viewport
+              const viewport = getPlayerViewport(socketId);
+              if (isInViewport(data.position, viewport)) {
+                if (eventBatcher) {
+                  eventBatcher.addPlayerEvent(player.roomId, targetPlayer.id, {
+                    type: 'token_moved',
+                    data: tokenMoveData
+                  }, data.isDragging ? 'normal' : 'high');
+                } else {
+                  targetSocket.emit('token_moved', tokenMoveData);
+                }
+              }
+            }
+          }
+        }
       }
 
       // DISABLED: Optimized Firebase causing performance issues
@@ -1344,17 +1751,21 @@ io.on('connection', (socket) => {
   // Handle character movement synchronization
   socket.on('character_moved', async(data) => {
     try {
+      // SECURITY: Validate room membership
       const player = players.get(socket.id);
-      if (!player) {
+      if (!player || !player.roomId) {
         socket.emit('error', { message: 'You are not in a room' });
         return;
       }
 
-      const room = rooms.get(player.roomId);
-      if (!room) {
-        socket.emit('error', { message: 'Room not found' });
+      const validation = validateRoomMembership(socket, player.roomId);
+      if (!validation.valid) {
+        socket.emit('error', { message: validation.error });
+        logger.warn('Unauthorized character_moved attempt', { socketId: socket.id, roomId: player.roomId });
         return;
       }
+
+      const room = validation.room;
 
       // Validate data
       if (!data || !data.position || typeof data.position.x !== 'number' || typeof data.position.y !== 'number') {
@@ -1404,9 +1815,16 @@ io.on('connection', (socket) => {
           serverTimestamp: now
         };
 
-        // Broadcast to room (includes sender since they're in the room)
-        // NOTE: io.to() already includes the sender, so no need for duplicate socket.emit()
-        io.to(player.roomId).emit('character_moved', movementData);
+        // OPTIMIZATION: Batch high-frequency character movement events
+        if (eventBatcher) {
+          eventBatcher.addEvent(player.roomId, {
+            type: 'character_moved',
+            data: movementData
+          }, data.isDragging ? 'normal' : 'high');
+        } else {
+          // Fallback to direct emit if batcher not available
+          io.to(player.roomId).emit('character_moved', movementData);
+        }
 
         console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
       }
@@ -1467,27 +1885,40 @@ io.on('connection', (socket) => {
 
   // Handle character sheet updates
   socket.on('character_updated', async(data) => {
+    // SECURITY: Validate room membership
     const player = players.get(socket.id);
-    if (!player) {
+    if (!player || !player.roomId) {
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
 
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      socket.emit('error', { message: 'Room not found' });
+    const validation = validateRoomMembership(socket, player.roomId);
+    if (!validation.valid) {
+      socket.emit('error', { message: validation.error });
+      logger.warn('Unauthorized character_updated attempt', { socketId: socket.id, roomId: player.roomId });
       return;
     }
 
-    // Update character in room game state
+    const room = validation.room;
+
+    // MIGRATION: Keep minimal character reference in gameState (session-only)
+    // Full character data is stored in top-level characters collection
     if (!room.gameState.characters) {
       room.gameState.characters = {};
     }
 
+    // Only store minimal session data in gameState, not full character data
     room.gameState.characters[data.characterId] = {
-      ...data.character,
+      characterId: data.characterId,
+      name: data.character.name,
       lastUpdatedBy: player.id,
-      lastUpdatedAt: new Date()
+      lastUpdatedAt: new Date(),
+      // Store only essential session data, not full character object
+      sessionData: {
+        health: data.character.health,
+        mana: data.character.mana,
+        actionPoints: data.character.actionPoints
+      }
     };
 
     // CRITICAL FIX: If this is the GM updating their character, also update room.gm.character
@@ -1528,10 +1959,22 @@ io.on('connection', (socket) => {
       }
     }
 
-    // Persist to Firebase
+    // Persist to Firebase using delta sync for efficiency
     try {
-      // Save room game state
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      // Use delta sync for efficient updates
+      const updateResult = await updateGameStateWithDelta(
+        player.roomId,
+        room.gameState,
+        { type: 'character_update', characterId: data.characterId, playerId: player.id }
+      );
+      
+      if (updateResult.useDelta) {
+        // Use optimized Firebase with delta (character updates are normal priority)
+        await optimizedFirebase.updateGameState(player.roomId, room.gameState, updateResult.delta, 'normal');
+      } else {
+        // Fallback to full state update
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      }
       
       // CRITICAL FIX: Also save individual character document to Firebase
       // This ensures character data is properly saved to user accounts
@@ -1590,31 +2033,47 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update character equipment in room game state
+    // MIGRATION: Keep minimal character reference in gameState (session-only)
+    // Full character data is stored in top-level characters collection
     if (!room.gameState.characters) {
       room.gameState.characters = {};
     }
 
-    // Update or create character data
+    // Only store minimal session data in gameState
     if (!room.gameState.characters[data.characterId]) {
-      room.gameState.characters[data.characterId] = {};
+      room.gameState.characters[data.characterId] = {
+        characterId: data.characterId,
+        lastUpdatedBy: player.id,
+        lastUpdatedAt: new Date()
+      };
     }
 
+    // Update only session metadata, not full character data
     room.gameState.characters[data.characterId] = {
       ...room.gameState.characters[data.characterId],
-      equipment: data.equipment,
-      stats: data.stats,
       lastEquipmentUpdate: {
         slot: data.slot,
         item: data.item,
         updatedBy: player.id,
         updatedAt: new Date()
-      }
+      },
+      lastUpdatedAt: new Date()
     };
 
-    // Persist to Firebase
+    // Persist to Firebase using delta sync for efficiency
     try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      const updateResult = await updateGameStateWithDelta(
+        player.roomId,
+        room.gameState,
+        { type: 'equipment_update', characterId: data.characterId, playerId: player.id }
+      );
+      
+      if (updateResult.useDelta) {
+        // Equipment updates are low priority (can be batched longer)
+        await optimizedFirebase.updateGameState(player.roomId, room.gameState, updateResult.delta, 'low');
+      } else {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      }
     } catch (error) {
       console.error('Failed to persist equipment update:', error);
     }
@@ -3158,10 +3617,11 @@ io.on('connection', (socket) => {
     }
 
     // Join room with user's character name
+    // Note: password should be provided by user, we can't use room.passwordHash (it's hashed)
     const joinData = {
       roomId,
       playerName: user.characterName,
-      password: password || room.password,
+      password: password || '', // User must provide password, empty string if none
       playerColor: '#4a90e2'
     };
 
@@ -3176,6 +3636,9 @@ io.on('connection', (socket) => {
   // Handle disconnection
   socket.on('disconnect', async() => {
     logger.info('Player disconnected', { socketId: socket.id });
+
+    // Clean up viewport tracking
+    playerViewports.delete(socket.id);
 
     // Clean up online user presence
     const user = Array.from(onlineUsers.values()).find(u => u.socketId === socket.id);
@@ -3246,6 +3709,9 @@ io.on('connection', (socket) => {
     memoryManager.markPlayerDisconnected(socket.id);
     lagCompensation.cleanupClient(socket.id);
     eventBatcher.cleanupClient(socket.id);
+    
+    // MULTIPLAYER: Clean up idempotency tracking
+    roomCreationAttempts.delete(socket.id);
 
     console.log(`🧹 Enhanced cleanup completed for socket ${socket.id}`);
   });

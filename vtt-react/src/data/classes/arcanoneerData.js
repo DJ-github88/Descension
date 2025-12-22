@@ -698,6 +698,7 @@ MANA COSTS:
         durationValue: 1,
         durationType: 'rounds',
         durationUnit: 'rounds',
+        durationUnit: 'rounds',
         saveDC: 12,
         saveType: 'constitution',
         saveOutcome: 'negates'
@@ -1940,6 +1941,20 @@ MANA COSTS:
         elementType: 'force',
         damageType: 'direct',
         secondaryElementType: 'nature',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '3d10',
+          critEffects: ['stun'],
+          stunConfig: {
+            duration: 1,
+            durationUnit: 'round',
+            saveDC: 16,
+            saveType: 'constitution'
+          }
+        },
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2003,6 +2018,28 @@ MANA COSTS:
         elementType: 'fire',
         damageType: 'direct',
         secondaryElementType: 'cold',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '4d10',
+          critEffects: ['burning', 'freeze'],
+          burningConfig: {
+            damagePerRound: '2d6',
+            duration: 3,
+            durationUnit: 'rounds',
+            saveDC: 17,
+            saveType: 'constitution'
+          },
+          freezeConfig: {
+            speedReduction: 50,
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 17,
+            saveType: 'constitution'
+          }
+        },
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2136,6 +2173,20 @@ MANA COSTS:
         elementType: 'radiant',
         damageType: 'direct',
         secondaryElementType: 'necrotic',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3,
+          critDiceOnly: false,
+          extraDice: '6d12',
+          critEffects: ['stun'],
+          stunConfig: {
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 18,
+            saveType: 'constitution'
+          }
+        },
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',

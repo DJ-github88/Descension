@@ -1400,7 +1400,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'savingThrows',
-            saveType: 'DEXTERITY',
+            saveType: 'AGILITY',
             description: 'Grants advantage on Dexterity saving throws'
           },
           {
@@ -1499,7 +1499,7 @@ BATTLE MAP:
     {
       id: 'prim_elemental_fury',
       name: 'Elemental Fury',
-      description: 'Unleash a devastating elemental storm for 3 rounds when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with +2d6 fire, lightning, and frost damage to attacks, plus increased attack speed and +10ft movement speed.',
+      description: 'Unleash a devastating elemental storm for 3 rounds when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with bonus fire, lightning, and frost damage to attacks, plus increased attack speed and movement speed.',
       spellType: 'REACTION',
       icon: 'spell_nature_wispheal',
       school: 'Elemental',
@@ -1537,21 +1537,24 @@ BATTLE MAP:
             stat: 'weaponDamage',
             damageType: 'FIRE',
             amount: '2d6',
-            description: 'Adds 2d6 fire damage to attacks'
+            description: 'Adds bonus fire damage to attacks',
+            damageFormula: '2d6'
           },
           {
             type: 'BUFF',
             stat: 'weaponDamage',
             damageType: 'LIGHTNING',
             amount: '2d6',
-            description: 'Adds 2d6 lightning damage to attacks'
+            description: 'Adds bonus lightning damage to attacks',
+            damageFormula: '2d6'
           },
           {
             type: 'BUFF',
             stat: 'weaponDamage',
             damageType: 'FROST',
             amount: '2d6',
-            description: 'Adds 2d6 frost damage to attacks'
+            description: 'Adds bonus frost damage to attacks',
+            damageFormula: '2d6'
           },
           {
             type: 'BUFF',
@@ -1731,7 +1734,7 @@ BATTLE MAP:
       resolution: {
         type: 'SAVING_THROW',
         savingThrow: {
-          ability: 'DEXTERITY',
+          ability: 'AGILITY',
           dc: 16,
           onSave: 'HALF_DAMAGE',
           onFail: 'FULL_DAMAGE_AND_PRONE'
@@ -2468,7 +2471,8 @@ BATTLE MAP:
         effects: [{
           id: 'natures_wrath_totem_power',
           name: "Nature's Wrath",
-          description: 'All active totems deal +2d6 damage and grant +2 to all stats for 4 rounds',
+          description: 'All active totems deal bonus damage and grant +2 to all stats for 4 rounds',
+          damageFormula: '+2d6',
           statModifier: {
             stat: 'all_stats',
             magnitude: 2,
@@ -2674,7 +2678,8 @@ BATTLE MAP:
         effects: [{
           id: 'grand_circle_power',
           name: 'Grand Totem Circle',
-          description: 'All allies gain +3 to all stats and regenerate 2d8 HP per round for 5 rounds',
+          description: 'All allies gain +3 to all stats and regenerate HP per round for 5 rounds',
+          healingFormula: '2d8',
           statModifier: {
             stat: 'all_stats',
             magnitude: 3,
@@ -2910,7 +2915,8 @@ BATTLE MAP:
         effects: [{
           id: 'eternal_empowerment',
           name: 'Eternal Empowerment',
-          description: 'All allies gain +4 to all stats, regenerate 3d10 HP per round, and gain immunity to one damage type of their choice for 10 rounds',
+          description: 'All allies gain +4 to all stats, regenerate HP per round, and gain immunity to one damage type of their choice for 10 rounds',
+          healingFormula: '3d10',
           statModifier: {
             stat: 'all_stats',
             magnitude: 4,

@@ -1,5 +1,6 @@
 // Firebase Admin SDK service for server-side operations
 const admin = require('firebase-admin');
+const logger = require('./logger');
 
 // Initialize Firebase Admin SDK
 let db = null;
@@ -22,7 +23,7 @@ const initializeFirebase = () => {
         credential: admin.credential.cert(serviceAccount),
         projectId: projectId
       });
-      console.log('✅ Firebase Admin initialized with service account');
+      logger.info('Firebase Admin initialized with service account');
     } else if (process.env.NODE_ENV === 'development') {
       // Initialize with default credentials (development)
       // This requires GOOGLE_APPLICATION_CREDENTIALS environment variable
@@ -30,9 +31,9 @@ const initializeFirebase = () => {
       admin.initializeApp({
         projectId: projectId
       });
-      console.log('✅ Firebase Admin initialized with default credentials');
+      logger.info('Firebase Admin initialized with default credentials');
     } else {
-      console.warn('⚠️ Firebase Admin not initialized - no credentials provided');
+      logger.warn('Firebase Admin not initialized - no credentials provided');
       return null;
     }
 
@@ -40,7 +41,7 @@ const initializeFirebase = () => {
     isInitialized = true;
     return db;
   } catch (error) {
-    console.error('❌ Firebase Admin initialization failed:', error);
+    logger.error('Firebase Admin initialization failed', { error: error.message });
     return null;
   }
 };
@@ -53,38 +54,169 @@ db = initializeFirebase();
  * @param {string} roomId - Room ID
  * @returns {Promise<Object|null>} - Room data or null
  */
+/**
+ * Get room data from Firestore (handles both single-document and split storage)
+ * @param {string} roomId - Room ID
+ * @returns {Promise<Object|null>} - Room data or null
+ */
 const getRoomData = async(roomId) => {
   if (!db) {
-    console.warn('Firebase not initialized, using in-memory rooms only');
+    logger.debug('Firebase not initialized, using in-memory rooms only');
     return null;
   }
 
   try {
-    const roomDoc = await db.collection('rooms').doc(roomId).get();
-    if (roomDoc.exists) {
-      return { id: roomDoc.id, ...roomDoc.data() };
+    // PERFORMANCE: Batch all queries in parallel to reduce latency
+    const [roomDoc, gameStateDoc, chatSnapshot] = await Promise.all([
+      db.collection('rooms').doc(roomId).get(),
+      db.collection('rooms').doc(roomId).collection('gameState').doc('current').get(),
+      db.collection('rooms').doc(roomId).collection('chat')
+        .orderBy('timestamp', 'desc')
+        .limit(100)
+        .get()
+    ]);
+
+    if (!roomDoc.exists) {
+      return null;
     }
-    return null;
+
+    const roomData = { id: roomDoc.id, ...roomDoc.data() };
+    
+    // Check if gameState is in subcollection (split storage)
+    if (gameStateDoc.exists) {
+      roomData.gameState = gameStateDoc.data();
+      // Remove timestamp from gameState
+      delete roomData.gameState.lastUpdated;
+    }
+
+    // Load chat history from subcollection if it exists
+    if (!chatSnapshot.empty) {
+      roomData.chatHistory = chatSnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .reverse(); // Reverse to get chronological order
+    } else if (!roomData.chatHistory) {
+      // Fallback to chatHistory in main document if subcollection doesn't exist
+      roomData.chatHistory = roomData.chatHistory || [];
+    }
+
+    // Convert players object back to Map
+    if (roomData.players && typeof roomData.players === 'object' && !(roomData.players instanceof Map)) {
+      roomData.players = new Map(Object.entries(roomData.players));
+    }
+
+    return roomData;
   } catch (error) {
-    console.error('Error fetching room from Firestore:', error);
+    logger.error('Error fetching room from Firestore', { error: error.message, roomId });
     return null;
   }
 };
 
 /**
+ * Split large room data into subcollections to avoid 1MB Firestore limit
+ * @param {string} roomId - Room ID
+ * @param {Object} roomData - Full room data
+ * @returns {Promise<boolean>} - Success status
+ */
+const saveRoomDataSplit = async(roomId, roomData) => {
+  if (!db) {
+    logger.debug('Firebase not initialized, room data not persisted');
+    return false;
+  }
+
+  try {
+    // Extract data that should be in subcollections
+    const gameState = roomData.gameState || {};
+    const chatHistory = roomData.chatHistory || [];
+    
+    // Core room data (small, stays in main document)
+    const coreRoomData = {
+      id: roomData.id,
+      name: roomData.name,
+      passwordHash: roomData.passwordHash,
+      gm: roomData.gm,
+      players: roomData.players ? Object.fromEntries(roomData.players) : {},
+      settings: roomData.settings || {},
+      isActive: roomData.isActive !== false,
+      createdAt: roomData.createdAt || admin.firestore.FieldValue.serverTimestamp(),
+      lastModified: admin.firestore.FieldValue.serverTimestamp(),
+      lastActivity: admin.firestore.FieldValue.serverTimestamp()
+    };
+
+    // Remove plain text password if it exists
+    delete coreRoomData.password;
+    
+    // Save core room data
+    await db.collection('rooms').doc(roomId).set(coreRoomData, { merge: true });
+
+    // Save gameState to subcollection (only if it exists and has data)
+    if (gameState && Object.keys(gameState).length > 0) {
+      const gameStateRef = db.collection('rooms').doc(roomId).collection('gameState').doc('current');
+      await gameStateRef.set({
+        ...gameState,
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+
+    // Save recent chat messages to subcollection (keep last 100)
+    if (chatHistory && chatHistory.length > 0) {
+      const recentMessages = chatHistory.slice(-100); // Keep last 100 messages
+      const batch = db.batch();
+      
+      // Delete old messages beyond limit
+      const chatRef = db.collection('rooms').doc(roomId).collection('chat');
+      const oldMessagesSnapshot = await chatRef.orderBy('timestamp', 'desc').offset(100).get();
+      oldMessagesSnapshot.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      
+      // Add new messages
+      for (const message of recentMessages) {
+        if (message.id) {
+          const messageRef = chatRef.doc(message.id);
+          batch.set(messageRef, {
+            ...message,
+            timestamp: message.timestamp || admin.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        }
+      }
+      
+      if (oldMessagesSnapshot.size > 0 || recentMessages.length > 0) {
+        await batch.commit();
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error saving split room data to Firestore:', error);
+    return false;
+  }
+};
+
+/**
  * Create or update room data in Firestore
+ * Uses split storage for large rooms to avoid 1MB limit
  * @param {string} roomId - Room ID
  * @param {Object} roomData - Room data
  * @returns {Promise<boolean>} - Success status
  */
 const saveRoomData = async(roomId, roomData) => {
   if (!db) {
-    console.warn('Firebase not initialized, room data not persisted');
+    logger.debug('Firebase not initialized, room data not persisted');
     return false;
   }
 
   try {
-    // Convert Maps to objects for Firestore
+    // Estimate document size (rough approximation)
+    const dataSize = JSON.stringify(roomData).length;
+    const sizeLimit = 900 * 1024; // 900KB threshold (leave margin for Firestore overhead)
+    
+    // Use split storage for large documents
+    if (dataSize > sizeLimit) {
+      logger.debug('Room exceeds size threshold, using split storage', { roomId, sizeKB: (dataSize / 1024).toFixed(2) });
+      return await saveRoomDataSplit(roomId, roomData);
+    }
+
+    // For smaller documents, use traditional single-document storage
     const firestoreData = {
       ...roomData,
       players: roomData.players ? Object.fromEntries(roomData.players) : {},
@@ -92,10 +224,18 @@ const saveRoomData = async(roomId, roomData) => {
       lastActivity: admin.firestore.FieldValue.serverTimestamp()
     };
 
+    // Remove plain text password if it exists (shouldn't, but safety check)
+    delete firestoreData.password;
+    
+    // Ensure passwordHash is present (or null for no password)
+    if (!firestoreData.passwordHash && roomData.passwordHash !== undefined) {
+      firestoreData.passwordHash = roomData.passwordHash;
+    }
+
     await db.collection('rooms').doc(roomId).set(firestoreData, { merge: true });
     return true;
   } catch (error) {
-    console.error('Error saving room to Firestore:', error);
+    logger.error('Error saving room to Firestore', { error: error.message, roomId });
     return false;
   }
 };
@@ -119,7 +259,7 @@ const updateRoomGameState = async(roomId, gameState) => {
     });
     return true;
   } catch (error) {
-    console.error('Error updating room game state:', error);
+    logger.error('Error updating room game state', { error: error.message, roomId });
     return false;
   }
 };
@@ -147,7 +287,7 @@ const addChatMessage = async(roomId, message) => {
     });
     return true;
   } catch (error) {
-    console.error('Error adding chat message:', error);
+    logger.error('Error adding chat message', { error: error.message, roomId });
     return false;
   }
 };
@@ -170,7 +310,7 @@ const setRoomActiveStatus = async(roomId, isActive) => {
     });
     return true;
   } catch (error) {
-    console.error('Error updating room active status:', error);
+    logger.error('Error updating room active status', { error: error.message, roomId });
     return false;
   }
 };
@@ -189,7 +329,7 @@ const deleteRoom = async(roomId) => {
     await db.collection('rooms').doc(roomId).delete();
     return true;
   } catch (error) {
-    console.error('Error deleting room:', error);
+    logger.error('Error deleting room', { error: error.message, roomId });
     return false;
   }
 };
@@ -203,12 +343,12 @@ const deleteRoom = async(roomId) => {
  */
 const saveCharacterDocument = async(characterId, characterData, userId) => {
   if (!db) {
-    console.warn('Firebase not initialized, character document not persisted');
+    logger.debug('Firebase not initialized, character document not persisted');
     return false;
   }
 
   if (!characterId || !userId) {
-    console.warn('Missing characterId or userId, cannot save character document');
+    logger.warn('Missing characterId or userId, cannot save character document');
     return false;
   }
 
@@ -264,10 +404,10 @@ const saveCharacterDocument = async(characterId, characterData, userId) => {
 
     // Save character document
     await db.collection('characters').doc(characterId).set(firestoreData, { merge: true });
-    console.log(`✅ Character document saved: ${characterData.name} (${characterId})`);
+    logger.info('Character document saved', { characterName: characterData.name, characterId });
     return true;
   } catch (error) {
-    console.error('Error saving character document to Firestore:', error);
+    logger.error('Error saving character document to Firestore', { error: error.message, characterId });
     return false;
   }
 };
@@ -289,7 +429,7 @@ const getUserData = async(userId) => {
     }
     return null;
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    logger.error('Error fetching user data', { error: error.message, userId });
     return null;
   }
 };
@@ -308,9 +448,49 @@ const verifyIdToken = async(idToken) => {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     return decodedToken;
   } catch (error) {
-    console.error('Error verifying ID token:', error);
+    logger.error('Error verifying ID token', { error: error.message });
     return null;
   }
+};
+
+/**
+ * Migrate nested characters from room.gameState.characters to top-level collection
+ * @param {string} roomId - Room ID
+ * @param {Object} nestedCharacters - Characters from room.gameState.characters
+ * @returns {Promise<number>} - Number of characters migrated
+ */
+const migrateNestedCharacters = async(roomId, nestedCharacters) => {
+  if (!db || !nestedCharacters) {
+    return 0;
+  }
+
+  let migratedCount = 0;
+  try {
+    for (const [characterId, characterData] of Object.entries(nestedCharacters)) {
+      // Skip if this is already a minimal reference (has characterId but no full data)
+      if (characterData.characterId && !characterData.stats && !characterData.inventory) {
+        continue; // Already migrated
+      }
+
+      // Check if character already exists in top-level collection
+      const charDoc = await db.collection('characters').doc(characterId).get();
+      if (charDoc.exists) {
+        continue; // Already exists, skip migration
+      }
+
+      // Extract userId from character data or use a default
+      const userId = characterData.userId || characterData.metadata?.userId || 'unknown';
+      
+      // Migrate to top-level collection
+      await saveCharacterDocument(characterId, characterData, userId);
+      migratedCount++;
+      logger.info('Migrated character from room to top-level collection', { characterId, roomId });
+    }
+  } catch (error) {
+    logger.error('Error migrating nested characters', { error: error.message, roomId });
+  }
+
+  return migratedCount;
 };
 
 /**
@@ -319,7 +499,7 @@ const verifyIdToken = async(idToken) => {
  */
 const loadPersistentRooms = async() => {
   if (!db) {
-    console.log('Firebase not initialized, skipping persistent room loading');
+    logger.debug('Firebase not initialized, skipping persistent room loading');
     return [];
   }
 
@@ -335,10 +515,43 @@ const loadPersistentRooms = async() => {
       if (roomData.players && typeof roomData.players === 'object') {
         roomData.players = new Map(Object.entries(roomData.players));
       }
+      // SECURITY: Remove plain text password if it exists (migration from old data)
+      if (roomData.password) {
+        logger.warn('Room has plain text password - should be migrated to passwordHash', { roomId: roomData.id });
+        delete roomData.password;
+      }
+      // Ensure passwordHash exists (or null for no password)
+      if (!roomData.hasOwnProperty('passwordHash')) {
+        roomData.passwordHash = null;
+      }
+      
+      // MIGRATION: Migrate nested characters to top-level collection if they exist
+      if (roomData.gameState && roomData.gameState.characters) {
+        // Migrate in background (don't block room loading)
+        migrateNestedCharacters(roomData.id, roomData.gameState.characters)
+          .then(count => {
+            if (count > 0) {
+              logger.info('Migrated characters from room', { count, roomId: roomData.id });
+            }
+          })
+          .catch(err => logger.error('Background character migration failed', { error: err.message, roomId: roomData.id }));
+        
+        // Clean up nested characters - keep only minimal references
+        const minimalCharacters = {};
+        for (const [characterId, characterData] of Object.entries(roomData.gameState.characters)) {
+          minimalCharacters[characterId] = {
+            characterId: characterId,
+            name: characterData.name || 'Unknown',
+            lastUpdatedAt: characterData.lastUpdatedAt || new Date()
+          };
+        }
+        roomData.gameState.characters = minimalCharacters;
+      }
+      
       rooms.push(roomData);
     });
 
-    console.log(`✅ Loaded ${rooms.length} persistent rooms from Firestore`);
+    logger.info(`Loaded ${rooms.length} persistent rooms from Firestore`);
     return rooms;
   } catch (error) {
     console.error('Error loading persistent rooms:', error);

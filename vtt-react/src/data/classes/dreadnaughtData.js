@@ -1640,21 +1640,29 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_shadow_step',
       name: 'Shadow Step',
-      description: 'Step through shadows to teleport up to 30 feet to an unoccupied space.',
+      description: 'Dissolve into shadows and teleport up to 30 feet to an unoccupied space. Shadows linger at your departure and arrival points, creating areas of darkness that obscure vision and slow movement.',
       level: 6,
       spellType: 'ACTION',
       icon: 'spell_shadow_shadowstep',
       school: 'Conjuration',
 
       typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_shadowstep',
+        tags: ['movement', 'teleport', 'shadow', 'utility', 'debuff', 'area'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'location',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 30,
+        targetRestrictions: ['location'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false,
+        propagationMethod: 'none'
       },
 
       resourceCost: {
@@ -1667,13 +1675,51 @@ Many players enhance the dreadnaught experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['teleport'],
+      effectTypes: ['utility', 'debuff'],
 
-      teleportConfig: {
-        range: 30,
-        requiresLineOfSight: false,
-        requiresUnoccupied: true,
-        dimension: 'shadow'
+      utilityConfig: {
+        utilityType: 'Teleport',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Teleport',
+          description: 'Teleport through shadows up to 30 feet',
+          distance: 30,
+          needsLineOfSight: false,
+          requiresUnoccupied: true
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'shadow_obscurement',
+          name: 'Shadow Obscurement',
+          description: 'Heavily obscured area - creatures have disadvantage on Perception checks and movement speed reduced by 10 feet',
+          statusType: 'obscured',
+          level: 'moderate',
+          statModifier: {
+            stat: 'speed',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        areaShape: 'circle',
+        areaParameters: { radius: 10 },
+        triggerCondition: 'area_entry',
+        triggerDescription: 'Creatures that enter or start their turn in the shadow areas are affected',
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       tags: ['movement', 'teleport', 'shadow', 'drp', 'level-6', 'dreadnaught']
@@ -1854,7 +1900,15 @@ Many players enhance the dreadnaught experience with:
         hotFormula: '2d6 + spirit',
         hotDuration: 1,
         hotTickType: 'turn',
-        canCrit: false
+        canCrit: false,
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
       debuffConfig: {
@@ -2272,9 +2326,23 @@ Many players enhance the dreadnaught experience with:
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
-        saveType: 'constitution',
-        saveDC: '8 + proficiency + spirit_mod',
-        halfDamage: true
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d6',
+          duration: 24,
+          tickFrequency: 'turn',
+          isProgressiveDot: false,
+          triggerCondition: 'start_of_turn',
+          triggerDescription: 'Creatures take 2d6 necrotic damage at the start of each turn while in the area'
+        }
       },
 
       terrainConfig: {
@@ -2301,14 +2369,7 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'eternal_night_drain',
             name: 'Life Drain',
-            description: 'Creatures take 2d6 necrotic damage per turn',
-            damageModifier: {
-              elementType: 'necrotic',
-              formula: '2d6',
-              damageType: 'dot',
-              dotDuration: 24,
-              dotTickType: 'turn'
-            }
+            description: 'Ongoing necrotic damage drains life from creatures in the area'
           }
         ],
         durationValue: 24,
@@ -2538,7 +2599,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_oblivion_strike',
       name: 'Oblivion Strike',
-      description: 'Strike an enemy with the power of oblivion, dealing 12d10 necrotic damage and erasing them from existence if they drop below 0 HP.',
+      description: 'Strike an enemy with the power of oblivion, erasing them from existence if they drop below 0 HP.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage'],

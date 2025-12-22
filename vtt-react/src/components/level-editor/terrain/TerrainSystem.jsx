@@ -209,6 +209,7 @@ const TerrainSystem = () => {
 
     const {
         gridSize,
+        gridType,
         gridOffsetX,
         gridOffsetY,
         cameraX,
@@ -294,46 +295,223 @@ const TerrainSystem = () => {
             endY = Math.ceil((cameraY + canvas.height / effectiveZoom - gridOffsetY) / gridSize) + 2;
         }
 
+        // Check grid type
+        const currentGridType = gridType || 'square';
+        const gridSystem = getGridSystem();
+        
         // Render terrain tiles
-        for (let gridX = startX; gridX <= endX; gridX++) {
-            for (let gridY = startY; gridY <= endY; gridY++) {
-                const tileKey = `${gridX},${gridY}`;
-                const terrainData_tile = terrainData[tileKey];
+        if (currentGridType === 'hex') {
+            // Hex grid rendering
+            const sqrt3 = Math.sqrt(3);
+            const hexRadius = gridSize / sqrt3; // Radius for proper tiling (no gaps)
+            
+            // Calculate hex bounds by converting viewport corners to hex coordinates
+            const viewportLeft = cameraX - canvas.width / effectiveZoom / 2;
+            const viewportRight = cameraX + canvas.width / effectiveZoom / 2;
+            const viewportTop = cameraY - canvas.height / effectiveZoom / 2;
+            const viewportBottom = cameraY + canvas.height / effectiveZoom / 2;
+            
+            const topLeftHex = gridSystem.worldToHex(viewportLeft, viewportTop);
+            const topRightHex = gridSystem.worldToHex(viewportRight, viewportTop);
+            const bottomLeftHex = gridSystem.worldToHex(viewportLeft, viewportBottom);
+            const bottomRightHex = gridSystem.worldToHex(viewportRight, viewportBottom);
+            
+            // Find min/max q and r values with padding to ensure full coverage
+            const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) - 2;
+            const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) + 2;
+            const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) - 2;
+            const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) + 2;
+            
+            for (let q = hexStartQ; q <= hexEndQ; q++) {
+                for (let r = hexStartR; r <= hexEndR; r++) {
+                    const tileKey = `${q},${r}`;
+                    const terrainData_tile = terrainData[tileKey];
 
-                // Handle both old format (string) and new format (object with type and variation)
-                let terrainType, variationIndex;
-                if (typeof terrainData_tile === 'string') {
-                    terrainType = terrainData_tile;
-                    variationIndex = 0;
-                } else if (terrainData_tile && typeof terrainData_tile === 'object') {
-                    terrainType = terrainData_tile.type;
-                    variationIndex = terrainData_tile.variation || 0;
-                } else {
-                    continue; // No terrain data for this tile
-                }
-
-                const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                if (!terrain) continue;
-
-                // CRITICAL: In GM mode, always show all terrain regardless of token visibility
-                // Only apply visibility filtering in player mode when viewing from a token
-                if (!isGMMode && viewingFromToken && visibleArea) {
-                    // Convert visibleArea array to Set for efficient lookup (if needed)
-                    const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-                    // Check if this tile is in the visible area
-                    if (!visibleAreaSet.has(tileKey)) {
-                        continue; // Skip rendering this tile - not visible (player mode only)
+                    // Handle both old format (string) and new format (object with type and variation)
+                    let terrainType, variationIndex;
+                    if (typeof terrainData_tile === 'string') {
+                        terrainType = terrainData_tile;
+                        variationIndex = 0;
+                    } else if (terrainData_tile && typeof terrainData_tile === 'object') {
+                        terrainType = terrainData_tile.type;
+                        variationIndex = terrainData_tile.variation || 0;
+                    } else {
+                        continue; // No terrain data for this hex
                     }
+
+                    const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                    if (!terrain) continue;
+
+                    // CRITICAL: In GM mode, always show all terrain regardless of token visibility
+                    if (!isGMMode && viewingFromToken && visibleArea) {
+                        const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+                        if (!visibleAreaSet.has(tileKey)) {
+                            continue;
+                        }
+                    }
+
+                    // Get hex center position
+                    const worldPos = gridSystem.hexToWorld(q, r);
+                    const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, canvas.width, canvas.height);
+                    const hexRadiusScreen = hexRadius * effectiveZoom;
+
+                    // Get hex corners for clipping
+                    const corners = gridSystem.getHexCorners(screenPos.x, screenPos.y, hexRadiusScreen);
+
+                    // Render terrain on hex
+                    if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+                        const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+                        
+                        if (!imageCache[tileVariationPath]) {
+                            const img = new Image();
+                            img.onload = () => renderTerrain();
+                            img.onerror = (error) => console.error('🎨 Failed to load terrain tile:', tileVariationPath, error);
+                            img.src = tileVariationPath;
+                            imageCache[tileVariationPath] = img;
+                        }
+
+                        const img = imageCache[tileVariationPath];
+                        if (img.complete && img.naturalWidth > 0) {
+                            // Create hex clipping path
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.moveTo(corners[0].x, corners[0].y);
+                            for (let i = 1; i < corners.length; i++) {
+                                ctx.lineTo(corners[i].x, corners[i].y);
+                            }
+                            ctx.closePath();
+                            ctx.clip();
+
+                            // Fill background
+                            ctx.globalAlpha = 1.0;
+                            if (terrainType === 'cobblestone') {
+                                ctx.fillStyle = '#2a2a2a';
+                            } else if (terrainType === 'grass') {
+                                ctx.fillStyle = '#3a5a3a';
+                            } else if (terrainType === 'dirt') {
+                                ctx.fillStyle = '#4a3a2a';
+                            } else if (terrainType === 'water') {
+                                ctx.fillStyle = '#1a2a4a';
+                            } else if (terrainType === 'sand') {
+                                ctx.fillStyle = '#4a4a2a';
+                            } else {
+                                ctx.fillStyle = '#2a2a2a';
+                            }
+                            
+                            // Fill hex shape
+                            ctx.beginPath();
+                            ctx.moveTo(corners[0].x, corners[0].y);
+                            for (let i = 1; i < corners.length; i++) {
+                                ctx.lineTo(corners[i].x, corners[i].y);
+                            }
+                            ctx.closePath();
+                            ctx.fill();
+
+                            // Draw image stretched to hex bounding box
+                            const hexBounds = {
+                                minX: Math.min(...corners.map(c => c.x)),
+                                maxX: Math.max(...corners.map(c => c.x)),
+                                minY: Math.min(...corners.map(c => c.y)),
+                                maxY: Math.max(...corners.map(c => c.y))
+                            };
+                            
+                            ctx.globalAlpha = 1.0;
+                            ctx.drawImage(
+                                img,
+                                hexBounds.minX,
+                                hexBounds.minY,
+                                hexBounds.maxX - hexBounds.minX,
+                                hexBounds.maxY - hexBounds.minY
+                            );
+
+                            ctx.restore();
+
+                            // Draw hex border
+                            ctx.globalAlpha = 0.8;
+                            ctx.strokeStyle = '#000000';
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(corners[0].x, corners[0].y);
+                            for (let i = 1; i < corners.length; i++) {
+                                ctx.lineTo(corners[i].x, corners[i].y);
+                            }
+                            ctx.closePath();
+                            ctx.stroke();
+                        } else {
+                            // Fallback to color
+                            ctx.globalAlpha = 0.7;
+                            ctx.fillStyle = terrain.color;
+                            ctx.beginPath();
+                            ctx.moveTo(corners[0].x, corners[0].y);
+                            for (let i = 1; i < corners.length; i++) {
+                                ctx.lineTo(corners[i].x, corners[i].y);
+                            }
+                            ctx.closePath();
+                            ctx.fill();
+                        }
+                    } else {
+                        // Standard terrain rendering for hex
+                        ctx.globalAlpha = 0.7;
+                        ctx.fillStyle = terrain.color;
+                        ctx.beginPath();
+                        ctx.moveTo(corners[0].x, corners[0].y);
+                        for (let i = 1; i < corners.length; i++) {
+                            ctx.lineTo(corners[i].x, corners[i].y);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+
+                        // Add border
+                        ctx.globalAlpha = 0.6;
+                        ctx.strokeStyle = terrain.color;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    ctx.globalAlpha = 1.0;
                 }
-                // In GM mode, continue rendering all terrain tiles
+            }
+        } else {
+            // Square grid rendering (original behavior)
+            for (let gridX = startX; gridX <= endX; gridX++) {
+                for (let gridY = startY; gridY <= endY; gridY++) {
+                    const tileKey = `${gridX},${gridY}`;
+                    const terrainData_tile = terrainData[tileKey];
 
-                // Use window dimensions for coordinate conversion to match tokens/items positioning
-                const screenPos = gridToScreen(gridX, gridY, window.innerWidth, window.innerHeight);
-                const tileSize = gridSize * effectiveZoom;
+                    // Handle both old format (string) and new format (object with type and variation)
+                    let terrainType, variationIndex;
+                    if (typeof terrainData_tile === 'string') {
+                        terrainType = terrainData_tile;
+                        variationIndex = 0;
+                    } else if (terrainData_tile && typeof terrainData_tile === 'object') {
+                        terrainType = terrainData_tile.type;
+                        variationIndex = terrainData_tile.variation || 0;
+                    } else {
+                        continue; // No terrain data for this tile
+                    }
 
-                // Use corner position directly (no centering needed since gridToScreen now uses corner)
-                const tileX = screenPos.x;
-                const tileY = screenPos.y;
+                    const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                    if (!terrain) continue;
+
+                    // CRITICAL: In GM mode, always show all terrain regardless of token visibility
+                    // Only apply visibility filtering in player mode when viewing from a token
+                    if (!isGMMode && viewingFromToken && visibleArea) {
+                        // Convert visibleArea array to Set for efficient lookup (if needed)
+                        const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+                        // Check if this tile is in the visible area
+                        if (!visibleAreaSet.has(tileKey)) {
+                            continue; // Skip rendering this tile - not visible (player mode only)
+                        }
+                    }
+                    // In GM mode, continue rendering all terrain tiles
+
+                    // Use window dimensions for coordinate conversion to match tokens/items positioning
+                    const screenPos = gridToScreen(gridX, gridY, window.innerWidth, window.innerHeight);
+                    const tileSize = gridSize * effectiveZoom;
+
+                    // Use corner position directly (no centering needed since gridToScreen now uses corner)
+                    const tileX = screenPos.x;
+                    const tileY = screenPos.y;
 
 
 
@@ -451,11 +629,12 @@ const TerrainSystem = () => {
                     );
                 }
 
-                // Reset alpha
-                ctx.globalAlpha = 1.0;
+                    // Reset alpha
+                    ctx.globalAlpha = 1.0;
+                }
             }
         }
-    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, viewingFromToken, visibleArea, isGMMode]);
+    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, gridType, cameraX, cameraY, gridOffsetX, gridOffsetY, viewingFromToken, visibleArea, isGMMode]);
 
     // Create terrain pattern for visual variety
     const createTerrainPattern = (ctx, terrain) => {

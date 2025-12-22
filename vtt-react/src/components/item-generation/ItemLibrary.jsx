@@ -611,14 +611,11 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         } else {
             // For new items, find the base "All Items" category
             const baseCategory = categories.find(c => c.isBaseCategory)?.id;
-            console.log('Base "All Items" category:', baseCategory);
 
             // Add to both the base category and the selected category if one exists
             const targetCategories = selectedCategory ? [baseCategory, selectedCategory] : [baseCategory];
-            console.log('Target categories for new item:', targetCategories);
 
             addItem(newItemData, targetCategories);
-            console.log('Called addItem with categories:', targetCategories);
         }
         setShowItemWizard(false);
     };
@@ -860,14 +857,12 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
 
                                                     // Only handle drops of items from the library
                                                     if (data.type === 'item') {
-                                                        console.log('Item dropped onto container:', data);
 
                                                         // Get the dragged item
                                                         const draggedItem = items.find(item => item.id === data.id);
 
                                                         // Don't allow dropping a container into itself or another container
                                                         if (draggedItem && draggedItem.type !== 'container') {
-                                                            console.log('Adding item to container:', draggedItem.name);
 
                                                             // Only auto-open the container if it's not locked and not already open
                                                             // For locked containers, we want to add items without opening them

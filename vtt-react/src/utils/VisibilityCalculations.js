@@ -419,9 +419,11 @@ function isWithinFovCone(tokenX, tokenY, targetX, targetY, fovAngle, facingAngle
  * @param {Object} lightSources - Light sources data (for future lighting integration)
  * @param {number} fovAngle - FOV angle in degrees (360 = full view, default 360)
  * @param {number} facingAngle - Direction token is facing in radians (null = 360 view)
- * @returns {Set} Set of visible tile keys "x,y"
+ * @param {string} gridType - Grid type ('square' or 'hex')
+ * @param {Object} gridSystem - Grid system instance for hex calculations
+ * @returns {Set} Set of visible tile keys "x,y" or "q,r" for hex
  */
-export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 'normal', wallData = {}, lightSources = {}, fovAngle = 360, facingAngle = null) {
+export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 'normal', wallData = {}, lightSources = {}, fovAngle = 360, facingAngle = null, gridType = 'square', gridSystem = null) {
     const visibleTiles = new Set();
     const tokenTileX = Math.floor(tokenX);
     const tokenTileY = Math.floor(tokenY);
@@ -442,33 +444,71 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
         effectiveRange = Math.min(effectiveRange, 6); // Usually limited range
     }
     
-    // Check all tiles within vision range
-    for (let dx = -effectiveRange; dx <= effectiveRange; dx++) {
-        for (let dy = -effectiveRange; dy <= effectiveRange; dy++) {
-            const targetX = tokenTileX + dx;
-            const targetY = tokenTileY + dy;
-            
-            // Skip if outside range (circular vision)
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance > effectiveRange) continue;
-            
-            // For blindsight, add all tiles within range regardless of walls
-            if (visionType === 'blindsight') {
-                visibleTiles.add(`${targetX},${targetY}`);
-                continue;
+    if (gridType === 'hex' && gridSystem) {
+        // Hex grid visibility calculation
+        const tokenQ = tokenTileX; // In hex, tokenX is q
+        const tokenR = tokenTileY; // In hex, tokenY is r
+        
+        // Check all hexes within vision range using hex distance
+        for (let q = tokenQ - effectiveRange; q <= tokenQ + effectiveRange; q++) {
+            for (let r = tokenR - effectiveRange; r <= tokenR + effectiveRange; r++) {
+                // Calculate hex distance
+                const hexDist = gridSystem.hexDistance(q, r, tokenQ, tokenR);
+                if (hexDist > effectiveRange) continue;
+                
+                const targetKey = `${q},${r}`;
+                
+                // For blindsight, add all hexes within range regardless of walls
+                if (visionType === 'blindsight') {
+                    visibleTiles.add(targetKey);
+                    continue;
+                }
+                
+                // Check if target is within FOV cone (if limited FOV is enabled)
+                // For hex, we need to convert to world coords for FOV check
+                const tokenWorld = gridSystem.hexToWorld(tokenQ, tokenR);
+                const targetWorld = gridSystem.hexToWorld(q, r);
+                if (!isWithinFovCone(tokenWorld.x, tokenWorld.y, targetWorld.x, targetWorld.y, fovAngle, facingAngle)) {
+                    continue;
+                }
+                
+                // Check line of sight to target hex (simplified for hex - could be improved)
+                const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType);
+                if (hasLOS) {
+                    visibleTiles.add(targetKey);
+                }
             }
-            
-            // Check if target is within FOV cone (if limited FOV is enabled)
-            if (!isWithinFovCone(tokenTileX, tokenTileY, targetX, targetY, fovAngle, facingAngle)) {
-                continue; // Skip tiles outside FOV cone
+        }
+    } else {
+        // Square grid visibility calculation (original behavior)
+        // Check all tiles within vision range
+        for (let dx = -effectiveRange; dx <= effectiveRange; dx++) {
+            for (let dy = -effectiveRange; dy <= effectiveRange; dy++) {
+                const targetX = tokenTileX + dx;
+                const targetY = tokenTileY + dy;
+                
+                // Skip if outside range (circular vision)
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance > effectiveRange) continue;
+                
+                // For blindsight, add all tiles within range regardless of walls
+                if (visionType === 'blindsight') {
+                    visibleTiles.add(`${targetX},${targetY}`);
+                    continue;
+                }
+                
+                // Check if target is within FOV cone (if limited FOV is enabled)
+                if (!isWithinFovCone(tokenTileX, tokenTileY, targetX, targetY, fovAngle, facingAngle)) {
+                    continue; // Skip tiles outside FOV cone
+                }
+                
+                // Check line of sight to target tile
+                const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType);
+                if (hasLOS) {
+                    visibleTiles.add(`${targetX},${targetY}`);
+                }
+                // Line of sight check complete (logging removed for performance)
             }
-            
-            // Check line of sight to target tile
-            const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData);
-            if (hasLOS) {
-                visibleTiles.add(`${targetX},${targetY}`);
-            }
-            // Line of sight check complete (logging removed for performance)
         }
     }
     
@@ -477,14 +517,15 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
 
 /**
  * Check if there's unobstructed line of sight between two tiles
- * @param {number} x1 - Starting tile x
- * @param {number} y1 - Starting tile y
- * @param {number} x2 - Target tile x
- * @param {number} y2 - Target tile y
+ * @param {number} x1 - Starting tile x (or q for hex)
+ * @param {number} y1 - Starting tile y (or r for hex)
+ * @param {number} x2 - Target tile x (or q for hex)
+ * @param {number} y2 - Target tile y (or r for hex)
  * @param {Object} wallData - Wall data from level editor store
+ * @param {string} gridType - Grid type ('square' or 'hex')
  * @returns {boolean} True if line of sight exists
  */
-export function hasLineOfSight(x1, y1, x2, y2, wallData) {
+export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square') {
     if (!wallData || Object.keys(wallData).length === 0) {
         // No walls to check - line of sight is clear
         return true;

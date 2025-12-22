@@ -183,6 +183,31 @@ module.exports = {
         })
       );
 
+      // SECURITY & PERFORMANCE: Remove console.logs in production
+      if (env === 'production') {
+        // Configure TerserPlugin to remove console.logs
+        // TerserPlugin is typically already in the minimizer array
+        if (webpackConfig.optimization && webpackConfig.optimization.minimizer) {
+          webpackConfig.optimization.minimizer.forEach((plugin) => {
+            // Check if this is TerserPlugin (works with both webpack 4 and 5)
+            if (plugin.constructor && plugin.constructor.name === 'TerserPlugin') {
+              // Update existing TerserPlugin options
+              plugin.options = {
+                ...plugin.options,
+                terserOptions: {
+                  ...(plugin.options?.terserOptions || {}),
+                  compress: {
+                    ...(plugin.options?.terserOptions?.compress || {}),
+                    drop_console: true, // Remove all console.* calls
+                    drop_debugger: true, // Remove debugger statements
+                  },
+                },
+              };
+            }
+          });
+        }
+      }
+
       return webpackConfig;
     },
   },

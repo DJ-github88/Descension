@@ -822,11 +822,12 @@ const ActionBar = () => {
             spellHoverTimeoutRef.current = null;
         }
 
-        // Hide tooltip immediately when leaving the spell
-        spellHideTimeoutRef.current = setTimeout(() => {
-            setShowSpellTooltip(false);
-            setTooltipSpell(null);
-        }, 50); // Very short delay to allow moving to tooltip
+        // Hide tooltip immediately when leaving the action slot
+        if (spellHideTimeoutRef.current) {
+            clearTimeout(spellHideTimeoutRef.current);
+        }
+        setShowSpellTooltip(false);
+        setTooltipSpell(null);
     };
 
     const handleSpellTooltipMouseEnter = () => {
@@ -1311,7 +1312,7 @@ const ActionBar = () => {
                     position={spellTooltipPosition}
                     onMouseEnter={handleSpellTooltipMouseEnter}
                     onMouseLeave={handleSpellTooltipMouseLeave}
-                    smartPositioning={true} // Enable smart positioning for action bar tooltips
+                    fullscreenMode={true} // Enable fullscreen modal mode with cloudy background for action bar tooltips
                 />
             )}
 

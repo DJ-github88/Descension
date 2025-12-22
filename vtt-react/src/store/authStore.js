@@ -164,7 +164,6 @@ const useAuthStore = create(
         try {
           // Clear any existing local rooms and characters from previous sessions
           // This ensures guests always start fresh with 0 rooms and 0 characters
-          console.log('🧹 Clearing existing local rooms and characters for fresh guest session');
 
           // Clear local rooms
           localStorage.removeItem('mythrill_local_rooms');
@@ -227,7 +226,6 @@ const useAuthStore = create(
             error: null
           });
 
-          console.log('✅ Guest login successful - starting with 0 rooms and 0 characters');
           return { success: true };
         } catch (error) {
           set({ error: error.message });
@@ -246,7 +244,6 @@ const useAuthStore = create(
 
           // If development bypass user, just disable development bypass
           if (isDevelopmentBypass) {
-            console.log('🧹 Disabling development bypass on sign out');
             set({
               user: null,
               userData: null,
@@ -254,14 +251,12 @@ const useAuthStore = create(
               isDevelopmentBypass: false,
               error: null
             });
-            console.log('✅ Development bypass disabled - user logged out');
             return { success: true };
           }
 
           // If guest user, just clear localStorage
           if (user?.isGuest) {
             // CRITICAL FIX: Clear all guest data when signing out
-            console.log('🧹 Clearing guest data on sign out');
             // Clear guest user data
             localStorage.removeItem('mythrill-guest-user');
             localStorage.removeItem('mythrill-guest-user-data');
@@ -290,7 +285,6 @@ const useAuthStore = create(
               error: null
             });
 
-            console.log('✅ Guest logged out - all guest data, local rooms, and joined rooms cleared');
             return { success: true };
           }
 
@@ -419,7 +413,6 @@ const useAuthStore = create(
             const parsedGuestUser = JSON.parse(guestUser);
             if (parsedGuestUser.isGuest) {
               // Only restore if explicitly logged in (not on page load)
-              console.log('✅ Restoring explicit guest login');
               const guestUserData = localStorage.getItem('mythrill-guest-user-data');
               if (guestUserData) {
                 try {
@@ -437,7 +430,6 @@ const useAuthStore = create(
           }
         } else if (guestUser) {
           // Guest user exists but no explicit login flag - clear it (prevent auto-login)
-          console.log('🧹 Clearing guest user on page load to prevent auto-login');
           localStorage.removeItem('mythrill-guest-user');
           localStorage.removeItem('mythrill-guest-user-data');
           localStorage.removeItem('mythrill-guest-initialized');

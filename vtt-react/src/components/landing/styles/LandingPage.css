@@ -304,20 +304,22 @@ body svg[data-icon] {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  border: 2px solid #a02622;
+  background: #5a6268 !important;
+  border: 2px solid #495057 !important;
   border-radius: 8px;
-  color: white;
+  color: white !important;
   font-family: 'Cinzel', serif;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 1 !important;
 }
 
 .logout-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-  background: linear-gradient(135deg, #e74c3c, #dc3545);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+  background: #6c757d !important;
+  border-color: #5a6268 !important;
 }
 
 .dev-bypass-btn {

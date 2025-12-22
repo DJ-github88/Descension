@@ -220,9 +220,11 @@ const AfterimageOverlay = () => {
             const realToken = allTokens.find(t => t.id === tokenId);
 
             if (realToken && realToken.position) {
-                // Calculate the real token's grid position
-                const realTokenGridX = Math.floor((realToken.position.x - gridOffsetX) / gridSize);
-                const realTokenGridY = Math.floor((realToken.position.y - gridOffsetY) / gridSize);
+                // Calculate the real token's grid position using grid system (supports both square and hex)
+                const gridSystem = getGridSystem();
+                const realTokenGridCoords = gridSystem.worldToGrid(realToken.position.x, realToken.position.y);
+                const realTokenGridX = realTokenGridCoords.x;
+                const realTokenGridY = realTokenGridCoords.y;
                 const realTokenTileKey = `${realTokenGridX},${realTokenGridY}`;
                 
                 // Check if the real token is in the visible area (accounts for walls/LOS)

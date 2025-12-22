@@ -20,8 +20,9 @@ class OptimizedFirebaseService {
     this.cache = new Map(); // key -> { data, timestamp, ttl }
     this.connectionPool = new Map(); // connection pooling
     
-    // Configuration
-    this.batchWriteDelay = 500; // ms to wait before batching writes
+    // Configuration - optimized for performance
+    this.batchWriteDelay = 500; // ms to wait before batching critical writes
+    this.nonCriticalBatchDelay = 2000; // ms to wait before batching non-critical writes (increased for better batching)
     this.maxBatchSize = 500; // max operations per batch
     this.cacheDefaultTTL = 30000; // 30 seconds
     this.retryAttempts = 3;
@@ -139,9 +140,9 @@ class OptimizedFirebaseService {
     if (!queue || queue.length === 0) {return;}
 
     // Clear timer
-    const timerId = this.writeTimers.get(roomId);
-    if (timerId) {
-      clearTimeout(timerId);
+    const timerData = this.writeTimers.get(roomId);
+    if (timerData) {
+      clearTimeout(timerData.timerId);
       this.writeTimers.delete(roomId);
     }
 

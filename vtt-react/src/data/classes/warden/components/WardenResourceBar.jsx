@@ -33,7 +33,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             sharedPassive: 'Relentless Hunter',
             sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
             uniquePassive: 'Shadow Strike + Umbral Veil',
-            uniquePassiveDesc: 'Stealth attacks: +1 VP (total 3 VP), +1d8 damage, hide as bonus action. After spending 3+ VP: invisible for 1 round.'
+            uniquePassiveDesc: 'Stealth attacks: +1 VP (total 3 VP), +1d8 damage, hide using action points. After spending 3+ VP: invisible for 1 round.'
         },
         jailer: {
             name: 'Jailer',

@@ -265,7 +265,7 @@ export const PRIMALIST_STORMBRINGER = [
   {
     id: 'stormbringer_t4_wind_rider',
     name: 'Wind Rider',
-    description: 'Wind Totem grants allies +20 ft movement speed per rank and advantage on Dexterity saves.',
+    description: 'Wind Totem grants allies +20 ft movement speed per rank and advantage on Agility saves.',
     icon: 'spell_nature_windfury',
     maxRanks: 2,
     position: { x: 3, y: 4 },
@@ -371,7 +371,7 @@ export const PRIMALIST_SPIRITCALLER = [
   {
     id: 'spiritcaller_t4_spirit_storm',
     name: 'Spirit Storm',
-    description: 'Once per combat, unleash a spirit storm. Enemies within totem range take 2d8 psychic damage per rank and are stunned on failed Wisdom save.',
+    description: 'Once per combat, unleash a spirit storm. Enemies within totem range take 2d8 psychic damage per rank and are stunned on failed Spirit save.',
     icon: 'spell_nature_invisibilitytotem',
     maxRanks: 2,
     position: { x: 1, y: 4 },

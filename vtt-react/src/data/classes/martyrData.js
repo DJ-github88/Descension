@@ -1303,14 +1303,25 @@ INTERVENE COUNT: 1
       },
 
       resolution: 'DICE',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          temporaryHP: {
-            formula: '1d6',
-            targets: 'all_allies_in_area'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'temporary_hp',
+          name: 'Temporary HP',
+          description: 'Gain 1d6 temporary HP',
+          statModifier: {
+            stat: 'temporary_hp',
+            magnitude: '1d6',
+            magnitudeType: 'dice'
           }
-        }
+        }],
+        durationValue: 0,
+        durationType: 'instant',
+        durationUnit: 'instant',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
       specialMechanics: {
@@ -1354,31 +1365,15 @@ INTERVENE COUNT: 1
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'radiant',
-        target: 'self'
+        elementType: 'radiant',
+        damageType: 'direct',
+        targetType: 'self'
       },
 
       healingConfig: {
-        formula: '4d4',
-        modifier: 'SPIRIT',
-        healingType: 'single_target'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'radiant',
-            target: 'self'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '4d4',
-            modifier: 'SPIRIT',
-            target: 'single'
-          }
-        }
+        formula: '4d4 + spirit',
+        healingType: 'single_target',
+        targetRestrictions: ['ally']
       },
 
       specialMechanics: {
@@ -1432,16 +1427,25 @@ INTERVENE COUNT: 1
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          resistance: {
-            type: 'all_damage',
-            duration: 1,
-            durationUnit: 'minutes',
-            target: 'single'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'resistance',
+          name: 'Resistance',
+          description: 'Gain resistance to all damage types for 1 minute',
+          statModifier: {
+            stat: 'damage_resistance',
+            magnitude: 0.5,
+            magnitudeType: 'percentage'
           }
-        }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
       specialMechanics: {
@@ -2251,8 +2255,9 @@ INTERVENE COUNT: 1
 
       specialMechanics: {
         scalingDamage: {
-          description: 'Deals +1d10 damage for every 10% health you are missing',
-          maxBonus: '10d10'
+          description: 'Damage scales with missing health percentage',
+          maxBonus: '10d10',
+          formula: '+1d10 per 10% missing health'
         }
       },
 
@@ -2426,7 +2431,16 @@ INTERVENE COUNT: 1
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d8',
+          critEffects: ['radiant_burn']
         }
       },
 
@@ -2724,7 +2738,16 @@ INTERVENE COUNT: 1
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 20,
-          saveOutcome: 'halves'
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.0,
+          extraDice: '6d10',
+          critEffects: ['divine_judgment', 'stun']
         }
       },
 

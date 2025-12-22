@@ -911,7 +911,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // Generate a preview item whenever settings change
     const generatePreviewItem = useCallback(() => {
-        console.log('Generating preview item...');
         const quality = RARITY_LEVELS[rarityLevel];
         const itemSubtype = subtype || (ITEM_SUBTYPES[type] ? Object.keys(ITEM_SUBTYPES[type])[0] : '');
 
@@ -1460,15 +1459,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             } : {})
         };
 
-        // Debug log for weapon slot and hand
-        if (type === 'weapon') {
-            console.log('Preview Item Weapon Info:', {
-                weaponSlot,
-                hand: weaponHand,
-                itemWeaponSlot: item.weaponSlot,
-                itemHand: item.hand
-            });
-        }
+        // Debug logging removed for production
 
         // Add equip effects for better tooltip formatting
         if (Object.keys(baseStats).length > 0 ||
@@ -1701,7 +1692,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // Generate initial preview on mount
     useEffect(() => {
-        console.log('Initial mount - generating preview with:', { type, subtype, rarityLevel, powerLevel });
         generatePreviewItem();
     }, [generatePreviewItem]);
 
@@ -2125,7 +2115,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                                 <div className="button-toggle-group">
                                     {Object.entries(WEAPON_SLOTS).map(([slot, data], index) => {
                                         // Debug: Log all weapon slots
-                                        if (index === 0) console.log('Weapon Slots:', Object.keys(WEAPON_SLOTS));
                                         return (
                                         <button
                                             key={slot}

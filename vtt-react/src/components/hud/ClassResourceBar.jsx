@@ -10068,7 +10068,7 @@ const ClassResourceBar = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">{specName} Passive</div>
                                             <div className="passive-desc">
-                                                {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions are free actions. Advantage on initiative.'}
+                                                {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
                                                 {oracleSpec === 'fateweaver' && 'Once per round: spend 1 Vision to force reroll within 60ft. You choose which result.'}
                                             </div>

@@ -30,9 +30,10 @@ class PerformanceMonitor {
     this.alertCooldown = 60000; // 1 minute between alerts
     this.lastAlerts = new Map();
 
-    // Performance monitoring disabled for better multiplayer performance
-    // this.startMonitoring();
-    console.log('📊 Performance Monitor initialized (monitoring disabled for performance)');
+    // Performance monitoring enabled with sampling to reduce overhead
+    // Use 1% sampling rate to minimize performance impact
+    this.samplingRate = 0.01; // 1% of events
+    this.startMonitoring();
   }
 
   /**
@@ -51,9 +52,14 @@ class PerformanceMonitor {
   }
 
   /**
-   * Collect system performance metrics
+   * Collect system performance metrics (with sampling)
    */
   collectSystemMetrics() {
+    // Apply sampling to reduce overhead
+    if (Math.random() > this.samplingRate) {
+      return;
+    }
+
     const timestamp = Date.now();
 
     // CPU Usage
@@ -83,7 +89,7 @@ class PerformanceMonitor {
       systemFree: freeMemory
     });
 
-    // Check thresholds
+    // Check thresholds (always check, not sampled)
     this.checkThresholds(cpuPercent, memoryPercent);
   }
 
@@ -130,15 +136,20 @@ class PerformanceMonitor {
   }
 
   /**
-   * Track request performance
+   * Track request performance (with sampling)
    */
   trackRequest(endpoint, duration, success = true) {
-    this.addMetric('requests', {
-      timestamp: Date.now(),
-      endpoint,
-      duration,
-      success
-    });
+    // Always track slow requests and errors, sample others
+    const shouldTrack = !success || duration > this.thresholds.responseTime || Math.random() < this.samplingRate;
+    
+    if (shouldTrack) {
+      this.addMetric('requests', {
+        timestamp: Date.now(),
+        endpoint,
+        duration,
+        success
+      });
+    }
 
     if (duration > this.thresholds.responseTime) {
       this.triggerAlert('requests', `Slow request: ${endpoint} took ${duration}ms`);
@@ -146,15 +157,20 @@ class PerformanceMonitor {
   }
 
   /**
-   * Track database query performance
+   * Track database query performance (with sampling)
    */
   trackDatabaseQuery(operation, duration, success = true) {
-    this.addMetric('database', {
-      timestamp: Date.now(),
-      operation,
-      duration,
-      success
-    });
+    // Always track slow queries and errors, sample others
+    const shouldTrack = !success || duration > this.thresholds.databaseQuery || Math.random() < this.samplingRate;
+    
+    if (shouldTrack) {
+      this.addMetric('database', {
+        timestamp: Date.now(),
+        operation,
+        duration,
+        success
+      });
+    }
 
     if (duration > this.thresholds.databaseQuery) {
       this.triggerAlert('database', `Slow database query: ${operation} took ${duration}ms`);
@@ -162,15 +178,18 @@ class PerformanceMonitor {
   }
 
   /**
-   * Track WebSocket performance
+   * Track WebSocket performance (with sampling)
    */
   trackWebSocketEvent(event, duration, playerCount) {
-    this.addMetric('websocket', {
-      timestamp: Date.now(),
-      event,
-      duration,
-      playerCount
-    });
+    // Sample websocket events to reduce overhead
+    if (Math.random() < this.samplingRate) {
+      this.addMetric('websocket', {
+        timestamp: Date.now(),
+        event,
+        duration,
+        playerCount
+      });
+    }
   }
 
   /**

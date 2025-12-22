@@ -13,6 +13,7 @@ const StaticFogOverlay = () => {
     // CRITICAL PERFORMANCE FIX: Don't subscribe to camera, zoom, or entire stores!
     // StaticFogOverlay is expensive - only subscribe to what actually needs to trigger re-renders
     const gridSize = useGameStore(state => state.gridSize);
+    const gridType = useGameStore(state => state.gridType);
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
     const gridOffsetY = useGameStore(state => state.gridOffsetY);
     // NOTE: NO zoomLevel, playerZoom subscription - causes re-renders during zoom/drag
@@ -438,12 +439,18 @@ const StaticFogOverlay = () => {
         // Combine visible areas from all tokens
         const allVisibleTiles = new Set();
         
+        // Get grid system and type
+        const gridSystem = getGridSystem();
+        const currentGridType = gridType || 'square';
+        
         // Process all creature tokens
         creatureTokens.forEach(token => {
             if (!token.position) return;
             
-            const gridX = Math.floor((token.position.x - gridOffsetX) / gridSize);
-            const gridY = Math.floor((token.position.y - gridOffsetY) / gridSize);
+            // Use grid system for coordinate conversion (supports both square and hex)
+            const gridCoords = gridSystem.worldToGrid(token.position.x, token.position.y);
+            const gridX = gridCoords.x;
+            const gridY = gridCoords.y;
             
             let visionRange = 6;
             let visionType = 'normal';
@@ -467,7 +474,9 @@ const StaticFogOverlay = () => {
                 respectLineOfSight ? wallData : {},
                 {},
                 fovAngle,
-                facingAngle
+                facingAngle,
+                currentGridType,
+                gridSystem
             );
             
             visibleTiles.forEach(tileKey => allVisibleTiles.add(tileKey));
@@ -477,8 +486,10 @@ const StaticFogOverlay = () => {
         (characterTokens || []).forEach(token => {
             if (!token.position) return;
             
-            const gridX = Math.floor((token.position.x - gridOffsetX) / gridSize);
-            const gridY = Math.floor((token.position.y - gridOffsetY) / gridSize);
+            // Use grid system for coordinate conversion (supports both square and hex)
+            const gridCoords = gridSystem.worldToGrid(token.position.x, token.position.y);
+            const gridX = gridCoords.x;
+            const gridY = gridCoords.y;
             
             let visionRange = 6;
             let visionType = 'normal';
@@ -502,7 +513,9 @@ const StaticFogOverlay = () => {
                 respectLineOfSight ? wallData : {},
                 {},
                 fovAngle,
-                facingAngle
+                facingAngle,
+                currentGridType,
+                gridSystem
             );
             
             visibleTiles.forEach(tileKey => allVisibleTiles.add(tileKey));
@@ -512,7 +525,7 @@ const StaticFogOverlay = () => {
         // Cache the result for use during drag
         cachedAllTokensVisibleAreaRef.current = result;
         return result;
-    }, [isTransitioning, isGMMode, creatureTokens, characterTokens, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
+    }, [isTransitioning, isGMMode, creatureTokens, characterTokens, dynamicFogEnabled, gridSize, gridType, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
 
     // Calculate visible area if viewing from token (for player mode)
     // CRITICAL PERFORMANCE FIX: Cache visible area during drag to prevent freezing
@@ -559,9 +572,14 @@ const StaticFogOverlay = () => {
             return null;
         }
         
-        // Convert world coordinates to grid coordinates
-        const gridX = Math.floor((tokenPosition.x - gridOffsetX) / gridSize);
-        const gridY = Math.floor((tokenPosition.y - gridOffsetY) / gridSize);
+        // Get grid system and type
+        const gridSystem = getGridSystem();
+        const currentGridType = gridType || 'square';
+        
+        // Convert world coordinates to grid coordinates (supports both square and hex)
+        const gridCoords = gridSystem.worldToGrid(tokenPosition.x, tokenPosition.y);
+        const gridX = gridCoords.x;
+        const gridY = gridCoords.y;
         
         // Get vision data for this token
         let visionRange = 6;
@@ -590,14 +608,16 @@ const StaticFogOverlay = () => {
             respectLineOfSight ? wallData : {},
             {},
             fovAngle,
-            facingAngle
+            facingAngle,
+            currentGridType,
+            gridSystem
         );
 
 
         // Cache the result for use during drag
         cachedVisibleAreaRef.current = visibleTiles;
         return visibleTiles;
-    }, [isTransitioning, isGMMode, allTokensVisibleArea, currentViewingToken, tokenPositionKey, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]); // Added tokenPositionKey to force recalculation
+    }, [isTransitioning, isGMMode, allTokensVisibleArea, currentViewingToken, tokenPositionKey, dynamicFogEnabled, gridSize, gridType, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]); // Added tokenPositionKey to force recalculation
 
     // Calculate visibility polygon for accurate token visibility (separate from tile-based visibleArea)
     // CRITICAL PERFORMANCE FIX: Cache polygon during drag to prevent freezing
@@ -820,9 +840,11 @@ const StaticFogOverlay = () => {
     // Helper function to determine fog state for a world position
     // In player mode, check explored areas; in GM mode, check all states
     const getFogState = useCallback((worldX, worldY) => {
-        // Convert world coordinates to grid coordinates
-        const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
-        const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
+        // Convert world coordinates to grid coordinates (supports both square and hex)
+        const gridSystem = getGridSystem();
+        const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+        const gridX = gridCoords.x;
+        const gridY = gridCoords.y;
         const tileKey = `${gridX},${gridY}`;
         
         // PERFORMANCE FIX: Read revealedAreas/exploredAreas from store when called

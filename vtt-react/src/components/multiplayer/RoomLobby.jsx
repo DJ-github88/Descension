@@ -536,7 +536,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           gmName: playerNameRef.current.trim(),
           maxPlayers: 6
         });
-        console.log('Persistent room created:', persistentRoomId);
       } catch (firebaseError) {
         console.warn('Firebase room creation failed, creating socket room only:', firebaseError);
         // Continue with socket room creation even if Firebase fails
@@ -552,7 +551,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           const conversionData = JSON.parse(convertingLocalRoom);
           gameState = conversionData.gameState;
           originalRoomId = conversionData.originalRoomId;
-          console.log('🔄 Including converted game state in room creation');
         } catch (error) {
           console.error('Error parsing conversion game state:', error);
         }
@@ -574,8 +572,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         })) : [] // Include party members (excluding current player who is the GM)
       };
 
-      console.log('Creating socket room with data:', roomData);
-      console.log('🎉 Party members to auto-invite:', roomData.partyMembers);
       socket.emit('create_room', roomData);
 
       // Try to refresh user rooms if Firebase is available
@@ -589,7 +585,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (persistentRoomId) {
         localStorage.setItem('roomDataChanged', 'true');
         localStorage.setItem('lastCreatedRoom', persistentRoomId);
-        console.log(`📝 Marked room data as changed for room: ${persistentRoomId}`);
       }
 
       // Mark local room as converted if this was a conversion
@@ -597,7 +592,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         try {
           const { default: localRoomService } = await import('../../services/localRoomService');
           localRoomService.markRoomAsConverted(originalRoomId, persistentRoomId);
-          console.log(`✅ Local room ${originalRoomId} marked as converted to ${persistentRoomId}`);
 
           // Clear conversion data
           localStorage.removeItem('convertingLocalRoom');
@@ -637,7 +631,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       playerColor: playerColor
     };
 
-    console.log('Joining persistent room:', joinData);
     socket.emit('join_room', joinData);
   };
 
@@ -688,8 +681,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       })) : [] // Include party members (excluding current player who is the GM)
     };
 
-    console.log('Creating room with data:', roomData);
-    console.log('🎉 Party members to auto-invite:', roomData.partyMembers);
     socket.emit('create_room', roomData);
   };
 

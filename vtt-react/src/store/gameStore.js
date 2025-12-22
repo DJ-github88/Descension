@@ -29,6 +29,7 @@ const initialState = {
 
     // Unified grid and camera system
     gridSize: 50,
+    gridType: 'square', // 'square' or 'hex' - grid type for the map
     gridOffsetX: 0,
     gridOffsetY: 0,
     gridLineColor: 'rgba(255, 255, 255, 0.8)', // White color for grid lines
@@ -85,7 +86,6 @@ const initialState = {
 // Handle storage quota exceeded for game store
 const handleGameStoreQuotaExceeded = (name, value) => {
     try {
-        console.log('Attempting to handle game store quota exceeded...');
 
         // Try to clean up other stores first
         const keysToClean = [];
@@ -99,7 +99,6 @@ const handleGameStoreQuotaExceeded = (name, value) => {
 
         keysToClean.forEach(key => {
             localStorage.removeItem(key);
-            console.log(`Removed temporary storage key: ${key}`);
         });
 
         // Try to optimize the game store data
@@ -118,7 +117,6 @@ const handleGameStoreQuotaExceeded = (name, value) => {
 
             const optimizedJson = JSON.stringify(optimizedValue);
             localStorage.setItem(name, optimizedJson);
-            console.log('Successfully saved optimized game store data');
 
             if (window.alert) {
                 alert('Storage space was running low. Background image data has been optimized. You may need to re-set your background image.');
@@ -137,6 +135,7 @@ const handleGameStoreQuotaExceeded = (name, value) => {
                 zoomLevel: value.zoomLevel || 1.0,
                 playerZoom: value.playerZoom || 1.0,
                 gridSize: value.gridSize || 50,
+                gridType: value.gridType || 'square',
                 gridOffsetX: value.gridOffsetX || 0,
                 gridOffsetY: value.gridOffsetY || 0,
                 gridLineColor: value.gridLineColor || 'rgba(212, 175, 55, 0.8)',
@@ -380,6 +379,13 @@ const useGameStore = create((set, get) => ({
             // Grid size management
             setGridSize: (size) => {
                 set({ gridSize: size });
+            },
+
+            // Grid type management
+            setGridType: (type) => {
+                if (type === 'square' || type === 'hex') {
+                    set({ gridType: type });
+                }
             },
 
             // Grid offset management
@@ -631,12 +637,10 @@ const useGameStore = create((set, get) => ({
             setWindowScale: (scale) => {
                 const state = get();
                 const clampedScale = Math.max(state.minWindowScale, Math.min(state.maxWindowScale, scale));
-                console.log('GameStore: Setting window scale from', state.windowScale, 'to', clampedScale);
                 set({ windowScale: clampedScale });
 
                 // Dispatch custom events to notify windows of scale changes
                 setTimeout(() => {
-                    console.log('GameStore: Dispatching windowScaleChanged event with scale', clampedScale);
                     window.dispatchEvent(new Event('resize'));
                     window.dispatchEvent(new CustomEvent('windowScaleChanged', {
                         detail: { scale: clampedScale }

@@ -715,7 +715,6 @@ const InventoryWindow = memo(() => {
 
     // Function to toggle container open state
     const toggleContainerOpen = (containerId) => {
-        console.log('toggleContainerOpen called for container ID:', containerId);
 
         // Find the container in inventory items
         const container = items.find(item => item.id === containerId);
@@ -735,7 +734,6 @@ const InventoryWindow = memo(() => {
             return; // Exit if container not found
         }
 
-        console.log('Found container:', containerToUse.name, containerToUse.id);
 
         // CRITICAL: Force container type to be 'container' if it's not already
         if (containerToUse.type !== 'container') {
@@ -799,11 +797,9 @@ const InventoryWindow = memo(() => {
 
         // If it's already open, close it; otherwise, open it
         if (isCurrentlyOpen) {
-            console.log('Closing container:', containerToUse.name, containerId);
             setLocalOpenContainers(prev => {
                 const newOpenContainers = new Set(prev);
                 newOpenContainers.delete(containerId);
-                console.log('Updated localOpenContainers after closing:', Array.from(newOpenContainers));
                 return newOpenContainers;
             });
 
@@ -818,22 +814,17 @@ const InventoryWindow = memo(() => {
 
                 newItemStoreOpenContainers.delete(containerId);
                 useItemStore.setState({ openContainers: newItemStoreOpenContainers });
-                console.log('Updated itemStore openContainers after closing:', Array.from(newItemStoreOpenContainers));
             } catch (error) {
                 console.error('Error updating itemStore openContainers:', error);
             }
         } else {
-            console.log('Opening container:', containerToUse.name, containerId);
-
             // First update the container properties if needed
             if (container) {
-                console.log('Updating inventory item:', containerId);
                 useInventoryStore.getState().updateItem(containerId, {
                     type: 'container',
                     containerProperties: containerToUse.containerProperties
                 });
             } else if (storeContainer) {
-                console.log('Updating item store item:', containerId);
                 useItemStore.getState().updateItem(containerId, {
                     type: 'container',
                     containerProperties: containerToUse.containerProperties
@@ -844,7 +835,6 @@ const InventoryWindow = memo(() => {
             setLocalOpenContainers(prev => {
                 const newOpenContainers = new Set(prev);
                 newOpenContainers.add(containerId);
-                console.log('Updated localOpenContainers after opening:', Array.from(newOpenContainers));
                 return newOpenContainers;
             });
 
@@ -859,7 +849,6 @@ const InventoryWindow = memo(() => {
 
                 newItemStoreOpenContainers.add(containerId);
                 useItemStore.setState({ openContainers: newItemStoreOpenContainers });
-                console.log('Updated itemStore openContainers after opening:', Array.from(newItemStoreOpenContainers));
             } catch (error) {
                 console.error('Error updating itemStore openContainers:', error);
             }
@@ -896,7 +885,6 @@ const InventoryWindow = memo(() => {
 
     // Helper functions for inventory management with shape support
     const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
-        console.log(`    🔍 isValidPosition check for ${itemToPlace.name} at ${row},${col}`);
 
         // Get the shape for the item to place
         let shape = itemToPlace.shape;
@@ -915,7 +903,6 @@ const InventoryWindow = memo(() => {
 
         // Get all occupied cells for this shape
         const occupiedCells = getOccupiedCells(shape);
-        console.log(`    Item will occupy ${occupiedCells.length} cells:`, occupiedCells);
 
         // Check if any occupied cell would go out of bounds or collide
         for (const cell of occupiedCells) {
@@ -957,14 +944,13 @@ const InventoryWindow = memo(() => {
                 });
 
                 if (collision) {
-                    console.log(`      ❌ Collision with ${item.name} at ${cellRow},${cellCol}`);
+                    // Collision detected
                 }
 
                 return collision;
             });
 
             if (isOccupied) {
-                console.log(`      Cell ${cellRow},${cellCol} is occupied!`);
                 return false;
             }
         }
@@ -1174,7 +1160,6 @@ const InventoryWindow = memo(() => {
         // Allow both move and copy operations
         e.dataTransfer.effectAllowed = 'copyMove';
 
-        console.log('📦 Inventory item drag started:', item.name, 'Global flag set:', window.isDraggingItem);
     };
 
     // Handle drag over for cells
@@ -1204,7 +1189,6 @@ const InventoryWindow = memo(() => {
             draggedItem.id
         );
 
-        console.log(`  Position valid: ${isValid}`);
 
         // Get all cells that would be occupied
         const tempItem = { ...draggedItem, position: { row, col } };
@@ -1244,7 +1228,6 @@ const InventoryWindow = memo(() => {
         window.isDraggingItem = false;
         window.draggedItemInfo = null;
         
-        console.log('🏁 Inventory item drag ended, global flag cleared');
     };
 
     // Handle drop for cells
@@ -2117,7 +2100,6 @@ const InventoryWindow = memo(() => {
                         label: 'DEBUG: Force Open Container',
                         onClick: () => {
                             // Debug function to manually create a container window
-                            console.log('DEBUG: Manually creating container window for:', item.name, item.id);
 
                             // Force container type to be 'container'
                             item.type = 'container';
@@ -2407,7 +2389,6 @@ const InventoryWindow = memo(() => {
                 }
 
                 // Return the ContainerWindow component
-                console.log('Rendering ContainerWindow for container:', container.name, container.id);
                 return (
                     <ContainerWindow
                         key={containerId}

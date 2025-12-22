@@ -56,7 +56,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_bloodlust',
     name: 'Bloodlust',
-    description: 'Rank 1: Critical hits generate +1d4 Rage. Rank 2: Critical hits generate +1d4 Rage. You can enter a Frenzied Rage State as a bonus action. Rank 3: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State as a bonus action. Rank 4: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State as a bonus action and reduce Rage decay by 1.',
+    description: 'Rank 1: Critical hits generate +1d4 Rage. Rank 2: Critical hits generate +1d4 Rage. You can enter a Frenzied Rage State using action points. Rank 3: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points. Rank 4: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points and reduce Rage decay by 1.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 4,
     position: { x: 0, y: 2 },

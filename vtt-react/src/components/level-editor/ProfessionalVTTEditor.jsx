@@ -343,11 +343,17 @@ const ProfessionalVTTEditor = () => {
             const worldX = (x / effectiveZoom) + cameraX;
             const worldY = (y / effectiveZoom) + cameraY;
 
-            // Convert to grid coordinates
-            const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
-            const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
-
-            return { gridX, gridY, worldX, worldY, screenX: x, screenY: y };
+            // Try to use grid system even in fallback (it should still work)
+            try {
+                const gridSystem = getGridSystem();
+                const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+                return { gridX: gridCoords.x, gridY: gridCoords.y, worldX, worldY, screenX: x, screenY: y };
+            } catch (fallbackError) {
+                // Last resort: use hardcoded calculation (only for square grids)
+                const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
+                const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
+                return { gridX, gridY, worldX, worldY, screenX: x, screenY: y };
+            }
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, playerZoom]);
 
@@ -1974,19 +1980,46 @@ const ProfessionalVTTEditor = () => {
             } else if (wallMode === 'rectangle') {
                 // Rectangle mode: place walls around a rectangle
                 console.log('🧱 Placing rectangle walls');
+                const gridSystem = getGridSystem();
+                const { gridType } = gridSystem.getGridState();
+                
                 const minX = Math.min(startPoint.gridX, endPoint.gridX);
                 const maxX = Math.max(startPoint.gridX, endPoint.gridX);
                 const minY = Math.min(startPoint.gridY, endPoint.gridY);
                 const maxY = Math.max(startPoint.gridY, endPoint.gridY);
 
-                // Top wall
-                setWall(minX, minY, maxX, minY, wallType);
-                // Bottom wall
-                setWall(minX, maxY, maxX, maxY, wallType);
-                // Left wall
-                setWall(minX, minY, minX, maxY, wallType);
-                // Right wall
-                setWall(maxX, minY, maxX, maxY, wallType);
+                if (gridType === 'hex') {
+                    // For hex grids, create walls along the hex boundary
+                    // Get all hexes in the rectangle
+                    const hexes = [];
+                    for (let q = minX; q <= maxX; q++) {
+                        for (let r = minY; r <= maxY; r++) {
+                            hexes.push({ q, r });
+                        }
+                    }
+                    
+                    // Find boundary hexes and create walls along their edges
+                    hexes.forEach(hex => {
+                        const neighbors = gridSystem.getHexNeighbors(hex.q, hex.r);
+                        neighbors.forEach(neighbor => {
+                            // If neighbor is outside the rectangle, create a wall
+                            if (neighbor.q < minX || neighbor.q > maxX || neighbor.r < minY || neighbor.r > maxY) {
+                                // Create wall between this hex and its neighbor
+                                setWall(hex.q, hex.r, neighbor.q, neighbor.r, wallType);
+                            }
+                        });
+                    });
+                } else {
+                    // Square grid: create 4 walls
+                    // Top wall
+                    setWall(minX, minY, maxX, minY, wallType);
+                    // Bottom wall
+                    setWall(minX, maxY, maxX, maxY, wallType);
+                    // Left wall
+                    setWall(minX, minY, minX, maxY, wallType);
+                    // Right wall
+                    setWall(maxX, minY, maxX, maxY, wallType);
+                }
             }
         } else if (currentPath.length > 0 &&
             selectedTool !== 'wall_draw' &&
@@ -2380,6 +2413,13 @@ const ProfessionalVTTEditor = () => {
                             </button>
                         </div>
                         <>
+                            <button 
+                                className="action-btn danger" 
+                                onClick={clearAllProfessionalData}
+                                style={{ width: '100%', marginBottom: '12px' }}
+                            >
+                                Clear All
+                            </button>
                             <div className="layer-list">
                                 {drawingLayers.map(layer => {
                                     // For grid layer, use actual grid visibility state
@@ -2435,45 +2475,28 @@ const ProfessionalVTTEditor = () => {
                                 })}
                             </div>
 
-                            <div className="layer-actions">
-                                {isInRoom ? (
-                                    <>
-                                        <button
-                                            className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
-                                            onClick={saveLevelEditorState}
-                                            title={`Save to Room: ${currentRoomId}`}
-                                        >
-                                            {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
-                                        </button>
-                                        <button
-                                            className="action-btn secondary"
-                                            onClick={loadLevelEditorState}
-                                            title={`Load from Room: ${currentRoomId}`}
-                                        >
-                                            📋 Load
-                                        </button>
-                                        <div className="room-status">
-                                            <small>Room: {currentRoomId}</small>
-                                            {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button className="action-btn primary" onClick={saveMapState}>
-                                            Save Map
-                                        </button>
-                                        <button className="action-btn secondary">
-                                            Load Map
-                                        </button>
-                                        <div className="room-status">
-                                            <small>Global Mode</small>
-                                        </div>
-                                    </>
-                                )}
-                                <button className="action-btn danger" onClick={clearAllProfessionalData}>
-                                    Clear All
-                                </button>
-                            </div>
+                            {isInRoom && (
+                                <div className="layer-actions">
+                                    <button
+                                        className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
+                                        onClick={saveLevelEditorState}
+                                        title={`Save to Room: ${currentRoomId}`}
+                                    >
+                                        {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
+                                    </button>
+                                    <button
+                                        className="action-btn secondary"
+                                        onClick={loadLevelEditorState}
+                                        title={`Load from Room: ${currentRoomId}`}
+                                    >
+                                        📋 Load
+                                    </button>
+                                    <div className="room-status">
+                                        <small>Room: {currentRoomId}</small>
+                                        {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
+                                    </div>
+                                </div>
+                            )}
                         </>
                     </div>
                 )}

@@ -100,8 +100,10 @@ const GridItem = ({ gridItem }) => {
       }
 
       // Not visible, but check if in explored area (for greyed out state)
-      const gridX = Math.floor((itemPosition.x - gridOffsetX) / gridSize);
-      const gridY = Math.floor((itemPosition.y - gridOffsetY) / gridSize);
+      // Use grid system for coordinate conversion (supports both square and hex)
+      const gridCoords = gridSystem.worldToGrid(itemPosition.x, itemPosition.y);
+      const gridX = gridCoords.x;
+      const gridY = gridCoords.y;
       if (getExploredArea && getExploredArea(gridX, gridY)) {
         return 'explored'; // Show greyed out
       }

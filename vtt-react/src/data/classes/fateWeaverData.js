@@ -1614,7 +1614,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'Stacked Deck',
       description: 'Manipulate probability to ensure your next three attacks or spells automatically hit.',
       level: 5,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'inv_misc_ticket_tarot_madness',
 
       typeConfig: {
@@ -1930,15 +1930,23 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['utility', 'teleport'],
+      effectTypes: ['utility'],
 
       utilityConfig: {
-        utilityType: 'teleport',
-        teleportConfig: {
-          range: 120,
-          targetType: 'group',
-          requiresSight: true
-        }
+        utilityType: 'Teleport',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Teleport',
+          description: 'Teleport yourself and up to 5 willing allies up to 120 feet',
+          distance: 120,
+          needsLineOfSight: true,
+          takesOthers: true,
+          maxOthers: 5
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'major'
       },
 
       cooldownConfig: {
@@ -2220,7 +2228,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'Double Down',
       description: 'Double the effect of your next spell. Also doubles any negative consequences.',
       level: 8,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_surgeoflight',
 
       typeConfig: {

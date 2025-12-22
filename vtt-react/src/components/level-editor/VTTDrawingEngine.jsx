@@ -253,19 +253,52 @@ const VTTDrawingEngine = () => {
     const renderRectanglePath = (ctx, points) => {
         if (points.length < 2) return;
 
-        const start = gridToScreen(points[0].gridX, points[0].gridY);
-        const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
-
-        const width = end.x - start.x;
-        const height = end.y - start.y;
-
-        ctx.beginPath();
-        ctx.rect(start.x, start.y, width, height);
+        const gridSystem = getGridSystem();
+        const { gridType } = gridSystem.getGridState();
         
-        if (ctx.fillStyle !== 'transparent') {
-            ctx.fill();
+        if (gridType === 'hex') {
+            // For hex grids, render a hex boundary shape
+            const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
+            const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
+            const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
+            const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
+            
+            // Get boundary points
+            const boundaryPoints = gridSystem.getHexBoundary(minX, maxX, minY, maxY);
+            
+            if (boundaryPoints.length > 0) {
+                ctx.beginPath();
+                const viewport = gridSystem.getViewportDimensions();
+                const firstPoint = gridSystem.worldToScreen(boundaryPoints[0].x, boundaryPoints[0].y, viewport.width, viewport.height);
+                ctx.moveTo(firstPoint.x, firstPoint.y);
+                
+                for (let i = 1; i < boundaryPoints.length; i++) {
+                    const screenPoint = gridSystem.worldToScreen(boundaryPoints[i].x, boundaryPoints[i].y, viewport.width, viewport.height);
+                    ctx.lineTo(screenPoint.x, screenPoint.y);
+                }
+                ctx.closePath();
+                
+                if (ctx.fillStyle !== 'transparent') {
+                    ctx.fill();
+                }
+                ctx.stroke();
+            }
+        } else {
+            // Square grid: render normal rectangle
+            const start = gridToScreen(points[0].gridX, points[0].gridY);
+            const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
+
+            const width = end.x - start.x;
+            const height = end.y - start.y;
+
+            ctx.beginPath();
+            ctx.rect(start.x, start.y, width, height);
+            
+            if (ctx.fillStyle !== 'transparent') {
+                ctx.fill();
+            }
+            ctx.stroke();
         }
-        ctx.stroke();
     };
 
     // Render circle
@@ -468,30 +501,77 @@ const VTTDrawingEngine = () => {
     const renderWallPath = (ctx, points, wallMode = 'continuous') => {
         if (points.length < 2) return;
 
+        const gridSystem = getGridSystem();
+        const { gridType } = gridSystem.getGridState();
+
         ctx.lineWidth = Math.max(4, 8 * effectiveZoom);
         ctx.strokeStyle = '#8B4513';
         ctx.lineCap = 'square';
 
         if (wallMode === 'rectangle') {
             // Render rectangle preview for rectangle wall mode
-            const start = gridToScreen(points[0].gridX, points[0].gridY);
-            const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
+            if (gridType === 'hex') {
+                // For hex grids, render hex boundary
+                const minX = Math.min(points[0].gridX, points[points.length - 1].gridX);
+                const maxX = Math.max(points[0].gridX, points[points.length - 1].gridX);
+                const minY = Math.min(points[0].gridY, points[points.length - 1].gridY);
+                const maxY = Math.max(points[0].gridY, points[points.length - 1].gridY);
+                
+                const boundaryPoints = gridSystem.getHexBoundary(minX, maxX, minY, maxY);
+                if (boundaryPoints.length > 0) {
+                    ctx.beginPath();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const firstPoint = gridSystem.worldToScreen(boundaryPoints[0].x, boundaryPoints[0].y, viewport.width, viewport.height);
+                    ctx.moveTo(firstPoint.x, firstPoint.y);
+                    
+                    for (let i = 1; i < boundaryPoints.length; i++) {
+                        const screenPoint = gridSystem.worldToScreen(boundaryPoints[i].x, boundaryPoints[i].y, viewport.width, viewport.height);
+                        ctx.lineTo(screenPoint.x, screenPoint.y);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+            } else {
+                // Square grid: render normal rectangle
+                const start = gridToScreen(points[0].gridX, points[0].gridY);
+                const end = gridToScreen(points[points.length - 1].gridX, points[points.length - 1].gridY);
 
-            const width = end.x - start.x;
-            const height = end.y - start.y;
+                const width = end.x - start.x;
+                const height = end.y - start.y;
 
-            ctx.beginPath();
-            ctx.rect(start.x, start.y, width, height);
-            ctx.stroke();
+                ctx.beginPath();
+                ctx.rect(start.x, start.y, width, height);
+                ctx.stroke();
+            }
         } else {
             // Render continuous line for continuous wall mode
             ctx.beginPath();
-            const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
-            ctx.moveTo(startPoint.x, startPoint.y);
+            
+            if (gridType === 'hex' && points.length === 2) {
+                // For hex grids with 2 points, draw along hex edge
+                const edge = gridSystem.getHexEdge(points[0].gridX, points[0].gridY, points[1].gridX, points[1].gridY);
+                if (edge) {
+                    const viewport = gridSystem.getViewportDimensions();
+                    const startPoint = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
+                    const endPoint = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
+                    ctx.moveTo(startPoint.x, startPoint.y);
+                    ctx.lineTo(endPoint.x, endPoint.y);
+                } else {
+                    // Fallback
+                    const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
+                    ctx.moveTo(startPoint.x, startPoint.y);
+                    const endPoint = gridToScreen(points[1].gridX, points[1].gridY);
+                    ctx.lineTo(endPoint.x, endPoint.y);
+                }
+            } else {
+                // Square grid or multi-point path
+                const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
+                ctx.moveTo(startPoint.x, startPoint.y);
 
-            for (let i = 1; i < points.length; i++) {
-                const point = gridToScreen(points[i].gridX, points[i].gridY);
-                ctx.lineTo(point.x, point.y);
+                for (let i = 1; i < points.length; i++) {
+                    const point = gridToScreen(points[i].gridX, points[i].gridY);
+                    ctx.lineTo(point.x, point.y);
+                }
             }
 
             ctx.stroke();

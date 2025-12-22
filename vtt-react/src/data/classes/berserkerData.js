@@ -902,7 +902,8 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'primal_awakening',
           name: 'Primal Awakening',
-          description: 'Your attacks deal +1d4 damage. The beast within stirs, making your strikes more savage and your rage burn brighter',
+          description: 'Your attacks deal bonus damage. The beast within stirs, making your strikes more savage and your rage burn brighter',
+          damageFormula: '+1d4',
           statModifier: {
             stat: 'damage',
             magnitude: '1d4',
@@ -1055,7 +1056,8 @@ When you cross a Rage State threshold, announce it dramatically:
         }, {
           id: 'war_cry_morale',
           name: 'War Morale',
-          description: 'Allies gain +1d4 damage bonus. Your inspiring battle cry fills them with the same primal fury that drives you',
+          description: 'Allies gain bonus damage. Your inspiring battle cry fills them with the same primal fury that drives you',
+          damageFormula: '+1d4',
           statModifier: {
             stat: 'damage',
             magnitude: '1d4',
@@ -2903,7 +2905,8 @@ When you cross a Rage State threshold, announce it dramatically:
           type: 'scaling_damage',
           baseFormula: '1d8',
           scaling: 'per_round_maintained',
-          description: 'Exhaustion damage scales with rounds: 1d8 × rounds maintained'
+          description: 'Exhaustion damage scales with rounds maintained',
+          damageFormula: '1d8 × rounds'
         }
       },
 
@@ -3108,7 +3111,8 @@ When you cross a Rage State threshold, announce it dramatically:
           {
             id: 'apex_exhaustion',
             name: 'Exhaustion (On End)',
-            description: 'Take 2d8 exhaustion damage when transformation ends'
+            description: 'Take exhaustion damage when transformation ends',
+            damageFormula: '2d8'
           }
         ]
       },

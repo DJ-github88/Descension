@@ -920,20 +920,22 @@ NEXT THRESHOLD: 20 = CONVULSION!
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6',
-        modifier: 'INTELLIGENCE',
-        damageType: 'psychic',
-        attackType: 'spell_attack'
+        formula: '2d6 + intelligence',
+        elementType: 'psychic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '2d6 + INT',
-            type: 'psychic',
-            description: 'Whispers from the void assault the target\'s mind'
-          }
-        }
+      effectTypes: ['damage'],
+
+      resourceGainConfig: {
+        resources: [{
+          type: 'madness',
+          formula: '1d4',
+          description: 'Generate 1d4 Madness Points'
+        }]
       },
 
       specialMechanics: {
@@ -951,12 +953,14 @@ NEXT THRESHOLD: 20 = CONVULSION!
       id: 'fp_mind_fracture',
       name: 'Mind Fracture',
       description: 'Fracture a target\'s mind with eldritch energy, causing confusion and glimpses of the void.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_mindsteal',
-      school: 'Psychic',
       level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
 
       typeConfig: {
+        school: 'psychic',
+        icon: 'spell_shadow_mindsteal',
+        tags: ['control', 'confusion', 'psychic', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -964,58 +968,57 @@ NEXT THRESHOLD: 20 = CONVULSION!
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        durationAmount: 3
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'confused',
+          name: 'Confused',
+          description: 'Cannot distinguish friend from foe, acts erratically for 3 rounds',
+          config: {
+            confusionType: 'complete'
+          }
+        }]
       },
 
       resourceCost: {
-        mana: 15,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Mens Fractura',
-        somaticText: 'Crushing gesture toward target\'s head'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'SAVING_THROW',
-      savingThrow: {
-        attribute: 'WISDOM',
-        dc: 'SPELL_DC',
-        onSuccess: 'half_duration',
-        onFailure: 'full_effect'
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      effects: {
-        condition: {
-          type: 'confused',
-          duration: '3 rounds',
-          description: 'Target cannot distinguish friend from foe, acts erratically'
-        }
-      },
-
-      specialMechanics: {
-        madnessGeneration: {
-          enabled: true,
-          formula: '1d6',
-          description: 'Generates 1d6 Madness Points when cast'
-        }
-      },
-
-      flavorText: 'Reality cracks. Sanity shatters. The void seeps through.'
+      resolution: 'DICE',
+      tags: ['control', 'confusion', 'psychic', 'universal']
     },
 
     {
       id: 'fp_tormenting_visions',
       name: 'Tormenting Visions',
       description: 'Fill a target\'s vision with horrifying eldritch horrors, dealing psychic damage over time.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
-      school: 'Psychic',
       level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
 
       typeConfig: {
+        school: 'psychic',
+        icon: 'spell_shadow_shadowwordpain',
+        tags: ['damage', 'psychic', 'dot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1023,44 +1026,39 @@ NEXT THRESHOLD: 20 = CONVULSION!
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 50
+        rangeDistance: 50,
+        targetRestrictions: ['enemy']
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        durationAmount: 4
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'psychic',
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d6',
+          duration: 4,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        }
       },
 
       resourceCost: {
-        mana: 20,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Visiones Cruciatus',
-        somaticText: 'Hands pressed to temples'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 20
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        damage: {
-          overTime: {
-            amount: '2d6',
-            type: 'psychic',
-            interval: 'round',
-            duration: '4 rounds',
-            description: 'Visions of eldritch horrors torment the target each round'
-          }
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      specialMechanics: {
-        madnessGeneration: {
-          enabled: true,
-          formula: '1d8',
-          description: 'Generates 1d8 Madness Points when cast'
-        }
-      },
-
-      flavorText: 'They see what lurks beyond. They cannot unsee it.'
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'dot', 'universal']
     },
 
     // MADNESS GENERATORS - Control & Debuffs
@@ -1098,7 +1096,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC',
         onSuccess: 'negated',
         onFailure: 'full_effect'
@@ -1162,7 +1160,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC_PLUS_PERSUASION',
         onSuccess: 'negated',
         onFailure: 'full_effect'
@@ -1454,7 +1452,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC_PLUS_MADNESS',
         onSuccess: 'negated',
         onFailure: 'full_effect'
@@ -1694,26 +1692,30 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC',
         onSuccess: 'half_damage',
         onFailure: 'full_damage'
       },
 
       damageConfig: {
-        formula: '8d6',
-        modifier: 'INTELLIGENCE',
-        damageType: 'psychic',
-        attackType: 'spell_save'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            amount: '8d6 + INT',
-            type: 'psychic',
-            description: 'Massive psychic damage to all enemies in 30 ft radius'
-          }
+        formula: '8d6 + intelligence',
+        elementType: 'psychic',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d6',
+          critEffects: ['psychic_shatter']
         }
       },
 
@@ -1832,7 +1834,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC',
         onSuccess: 'half_damage',
         onFailure: 'full_damage_and_paranoia'
@@ -2028,7 +2030,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC',
         onSuccess: 'negated',
         onFailure: 'full_effect'
@@ -2089,7 +2091,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       resolution: 'SAVING_THROW',
       savingThrow: {
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 'SPELL_DC',
         onSuccess: 'negated',
         onFailure: 'frightened_and_disadvantage'
@@ -2246,7 +2248,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
     {
       id: 'fp_illusion_bolt',
       name: 'Illusion Bolt',
-      description: 'Fire a bolt of illusory energy dealing 1d8 psychic damage.',
+      description: 'Fire a bolt of illusory energy that deals psychic damage.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2295,7 +2297,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
     {
       id: 'fp_false_healing',
       name: 'False Healing',
-      description: 'Pretend to heal an ally - appears to heal for 3d6 but actually does nothing.',
+      description: 'Pretend to heal an ally - appears to heal but actually does nothing.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['utility'],
@@ -2350,7 +2352,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
     {
       id: 'fp_deceptive_strike',
       name: 'Deceptive Strike',
-      description: 'Strike with deception, dealing 3d6 psychic damage and confusing the target for 1 round.',
+      description: 'Strike with deception, dealing psychic damage and confusing the target.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
@@ -2476,7 +2478,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
     {
       id: 'fp_reality_distortion',
       name: 'Reality Distortion',
-      description: 'Distort reality around enemies, dealing 8d8 psychic damage and disorienting them.',
+      description: 'Distort reality around enemies, dealing massive psychic damage and disorienting them.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -2499,9 +2501,24 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       damageConfig: {
-        formula: '8d8',
+        formula: '8d8 + intelligence',
         elementType: 'psychic',
-        damageType: 'area'
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d8',
+          critEffects: ['disoriented']
+        }
       },
 
       debuffConfig: {
@@ -2603,7 +2620,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
     {
       id: 'fp_ultimate_deception',
       name: 'Ultimate Deception',
-      description: 'Create the ultimate deception that makes enemies believe they won, then devastates them with 12d10 psychic damage.',
+      description: 'Create the ultimate deception that makes enemies believe they won, then devastates them with overwhelming psychic damage.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2626,9 +2643,24 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       damageConfig: {
-        formula: '12d10',
+        formula: '12d10 + intelligence',
         elementType: 'psychic',
-        damageType: 'area'
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.0,
+          extraDice: '6d10',
+          critEffects: ['psychic_shatter', 'stun']
+        }
       },
 
       resourceCost: {

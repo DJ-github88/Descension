@@ -140,7 +140,7 @@ Commanding demons is an art. Weaker demons are easier to control but less impact
 
 When a demon's DD reaches 0, it makes a saving throw specific to its type:
 - **Imp**: Charisma (Persuasion) DC 12 - "Please, master, I'll behave!"
-- **Shadow Hound**: Dexterity (Stealth) DC 14 - Tries to slip away into shadows
+- **Shadow Hound**: Agility (Stealth) DC 14 - Tries to slip away into shadows
 - **Wraith**: Intelligence (Arcana) DC 14 - Attempts to phase through bindings
 - **Abyssal Brute**: Constitution (Endurance) DC 16 - Brute force resistance
 - **Banshee**: Charisma (Performance) DC 15 - Wails to shatter bindings
@@ -275,7 +275,7 @@ d12 → d10 → d8 → d6 → 0 (Saving Throw Required)
 **When Dominance Die Reaches 0**:
 The demon must make a Dominance Saving Throw specific to its type:
 - **Imp**: Charisma (Persuasion) DC 12
-- **Shadow Hound**: Dexterity (Stealth) DC 14
+- **Shadow Hound**: Agility (Stealth) DC 14
 - **Abyssal Brute**: Constitution (Endurance) DC 16
 - **Banshee**: Charisma (Performance) DC 15
 - **Wraith**: Intelligence (Arcana) DC 14
@@ -963,7 +963,7 @@ RESTORATION AVAILABLE: Yes
       resolution: 'SKILL_CHECK',
       skillCheck: {
         skill: 'ARCANA',
-        attribute: 'WISDOM',
+        attribute: 'SPIRIT',
         dc: 12,
         onSuccess: 'Imp is bound with d12 Dominance Die',
         onFailure: 'Ritual fails, materials consumed'
@@ -1039,7 +1039,7 @@ RESTORATION AVAILABLE: Yes
       resolution: 'SKILL_CHECK',
       skillCheck: {
         skill: 'STEALTH',
-        attribute: 'DEXTERITY',
+        attribute: 'AGILITY',
         dc: 14,
         onSuccess: 'Shadow Hound is bound with d10 Dominance Die',
         onFailure: 'Ritual fails, Shadow Hound escapes into darkness'
@@ -1060,7 +1060,7 @@ RESTORATION AVAILABLE: Yes
           enabled: true,
           demonType: 'Shadow Hound',
           startingDD: 'd10',
-          savingThrow: 'Dexterity (Stealth) DC 14',
+          savingThrow: 'Agility (Stealth) DC 14',
           abilities: ['Shadow Bite (3d6 necrotic)', 'Shadow Step (teleport 30 ft)', 'Pack Tactics (advantage when ally nearby)']
         }
       },
@@ -1628,12 +1628,14 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_holy_smite',
       name: 'Holy Smite',
       description: 'Strike a target with holy energy, dealing radiant damage. Extra effective against demons and undead.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
-      school: 'Evocation',
       level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
 
       typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_holysmite',
+        tags: ['damage', 'holy', 'radiant', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1641,61 +1643,58 @@ RESTORATION AVAILABLE: Yes
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 50
+        rangeDistance: 50,
+        targetRestrictions: ['enemy']
       },
 
-      durationConfig: {
-        durationType: 'instant'
+      damageConfig: {
+        formula: '3d8 + spirit',
+        elementType: 'radiant',
+        damageType: 'direct',
+        attackType: 'spell_attack',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [
+            {
+              targetType: 'creature_type',
+              creatureTypes: ['fiend', 'undead'],
+              bonusFormula: '2d8',
+              description: 'Deals extra damage to demons and undead'
+            }
+          ]
+        }
       },
 
       resourceCost: {
-        mana: 15,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Lux Divina!',
-        somaticText: 'Thrust hand toward target'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d8',
-        modifier: 'WISDOM',
-        damageType: 'radiant',
-        attackType: 'spell_attack',
-        bonusDamage: '+2d8 vs demons/undead'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            amount: '3d8 + WIS',
-            type: 'radiant',
-            description: 'Holy damage, +2d8 against demons and undead'
-          }
-        }
-      },
-
-      specialMechanics: {
-        exorcism: {
-          enabled: true,
-          bonusVs: ['demons', 'undead'],
-          bonusDamage: '2d8'
-        }
-      },
-
-      flavorText: 'Divine light purges the unholy.'
+      tags: ['damage', 'holy', 'radiant', 'universal']
     },
 
     {
       id: 'exo_empower_demon',
       name: 'Empower Demon',
-      description: 'Channel energy into a bound demon for 3 rounds, enhancing its abilities. Demon gains +2 to attacks, +1d8 damage, and +2 AC.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_unholystrength',
-      school: 'Enhancement',
+      description: 'Channel energy into a bound demon, enhancing its combat abilities.',
       level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
 
       typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_unholystrength',
+        tags: ['buff', 'demon-enhancement', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1704,55 +1703,66 @@ RESTORATION AVAILABLE: Yes
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: 'bound_demon'
+        targetRestrictions: ['bound_demon']
       },
 
-      durationConfig: {
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'empower_demon',
+          name: 'Empowered Demon',
+          description: 'Gain +2 to attack rolls, +1d8 damage on all attacks, and +2 AC for 3 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
         durationType: 'rounds',
-        durationAmount: 3
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      damageConfig: {
+        formula: '1d8',
+        damageType: 'bonus',
+        appliesTo: 'all_attacks',
+        description: 'Adds 1d8 bonus damage to all demon attacks'
       },
 
       resourceCost: {
-        mana: 12,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Potentia Daemonis',
-        somaticText: 'Empowering gesture'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 12
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          attackBonus: '+2',
-          damageBonus: '+1d8',
-          acBonus: '+2',
-          duration: '3 rounds',
-          description: 'Demon gains +2 to attacks, +1d8 damage, and +2 AC'
-        }
-      },
-
-      specialMechanics: {
-        demonCommand: {
-          enabled: true,
-          commandType: 'empower',
-          note: 'Empowered actions still decrease DD normally'
-        }
-      },
-
-      flavorText: 'Power flows through the bond. The demon grows stronger.'
+      tags: ['buff', 'demon-enhancement', 'universal']
     },
 
     // POSSESSED SPEC SPELLS
     {
       id: 'exo_channel_demon_strength',
       name: 'Channel Demon Strength',
-      description: 'Channel your internal demon\'s strength for 5 rounds, gaining enhanced physical power. Gain +4 Strength and +2d6 necrotic damage on melee attacks. Possessed spec only.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_possession',
-      school: 'Enhancement',
+      description: 'Channel your internal demon\'s strength, gaining enhanced physical power.',
       level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
 
       typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_possession',
+        tags: ['buff', 'possession', 'self', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1762,49 +1772,63 @@ RESTORATION AVAILABLE: Yes
         rangeType: 'self'
       },
 
-      durationConfig: {
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'channel_demon_strength',
+          name: 'Demonic Strength',
+          description: 'Gain +4 Strength and +2d6 necrotic damage on all melee attacks for 5 rounds',
+          statModifier: {
+            stat: 'strength',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
         durationType: 'rounds',
-        durationAmount: 5
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'necrotic',
+        damageType: 'bonus',
+        appliesTo: 'melee_attacks',
+        description: 'Adds 2d6 necrotic damage to all melee attacks'
       },
 
       resourceCost: {
-        mana: 10,
-        components: ['verbal'],
-        verbalText: 'Guttural demonic growl'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          strengthBonus: '+4',
-          damageBonus: '+2d6 necrotic on melee attacks',
-          duration: '5 rounds',
-          description: 'Gain +4 Strength and +2d6 necrotic damage on melee attacks'
-        }
-      },
-
-      specialMechanics: {
-        possessedSpec: {
-          enabled: true,
-          specRequired: 'Possessed',
-          internalDominance: 'Decreases Internal DD by 1 step when cast'
-        }
-      },
-
-      flavorText: 'The demon within surges. Your body transforms.'
+      tags: ['buff', 'possession', 'self', 'possessed']
     },
 
     {
       id: 'exo_demonic_fury',
       name: 'Demonic Fury',
-      description: 'Unleash your internal demon\'s rage, gaining attack speed and ferocity. Possessed spec only.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
-      school: 'Enhancement',
+      description: 'Unleash your internal demon\'s rage, gaining attack speed and ferocity.',
       level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
 
       typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_unholyfrenzy',
+        tags: ['buff', 'possession', 'self', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1814,122 +1838,115 @@ RESTORATION AVAILABLE: Yes
         rangeType: 'self'
       },
 
-      durationConfig: {
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'demonic_fury',
+          name: 'Demonic Fury',
+          description: 'Gain +1 extra attack per turn, increased critical hit range (19-20), and +20 feet movement speed for 4 rounds',
+          statModifier: {
+            stat: 'extra_attacks',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
         durationType: 'rounds',
-        durationAmount: 4
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
       resourceCost: {
-        mana: 18,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Demonic roar',
-        somaticText: 'Claws manifest on hands'
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
       resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          extraAttack: '+1 attack per turn',
-          criticalRange: 'Increased (19-20)',
-          movementSpeed: '+20 ft',
-          duration: '4 rounds',
-          description: 'Gain extra attack, increased crit range, and bonus movement'
-        }
-      },
-
-      specialMechanics: {
-        possessedSpec: {
-          enabled: true,
-          specRequired: 'Possessed',
-          internalDominance: 'Decreases Internal DD by 2 steps when cast',
-          risk: 'High risk of losing control if Internal DD reaches 0'
-        }
-      },
-
-      flavorText: 'Fury unleashed. Control slipping. Power overwhelming.'
+      tags: ['buff', 'possession', 'self', 'possessed']
     },
 
     {
       id: 'exo_purifying_light',
       name: 'Purifying Light',
       description: 'Emit a burst of purifying light that damages demons and undead while healing allies.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing02',
-      school: 'Evocation',
       level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'healing'],
 
       typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_prayerofhealing02',
+        tags: ['damage', 'healing', 'holy', 'aoe', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
-        aoeType: 'radius',
-        aoeSize: 20
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 25,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Lux Purificans!',
-        somaticText: 'Arms spread wide, light emanating'
-      },
-
-      resolution: 'SAVING_THROW',
-      savingThrow: {
-        attribute: 'CONSTITUTION',
-        dc: 'SPELL_DC',
-        onSuccess: 'half_damage',
-        onFailure: 'full_damage',
-        appliesToEnemiesOnly: true
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy', 'ally']
       },
 
       damageConfig: {
-        formula: '4d6',
-        modifier: 'WISDOM',
-        damageType: 'radiant',
-        attackType: 'spell_save'
+        formula: '4d6 + spirit',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 15,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        },
+        conditionalDamage: {
+          enabled: true,
+          conditions: [
+            {
+              targetType: 'creature_type',
+              creatureTypes: ['fiend', 'undead'],
+              bonusFormula: '2d6',
+              description: 'Deals extra damage to demons and undead'
+            }
+          ]
+        }
       },
 
       healingConfig: {
-        formula: '2d6',
-        modifier: 'WISDOM',
-        healingType: 'aoe_allies'
+        formula: '2d6 + spirit',
+        healingType: 'aoe',
+        targetRestrictions: ['ally'],
+        description: 'Heals all allies in the area'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            amount: '4d6 + WIS',
-            type: 'radiant',
-            description: 'Radiant damage to demons and undead in radius'
-          }
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 25
         },
-        healing: {
-          instant: {
-            amount: '2d6 + WIS',
-            type: 'allies',
-            description: 'Heals all allies in radius'
-          }
-        }
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
 
-      specialMechanics: {
-        exorcism: {
-          enabled: true,
-          effectiveAgainst: ['demons', 'undead'],
-          alsoHeals: true
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      flavorText: 'Light purges darkness. The unholy burn. The faithful are restored.'
+      resolution: 'DICE',
+      tags: ['damage', 'healing', 'holy', 'aoe', 'universal']
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
@@ -2249,7 +2266,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       damageConfig: {
-        formula: '6d10',
+        formula: '6d10 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2259,6 +2276,13 @@ RESTORATION AVAILABLE: Yes
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.0,
+          extraDice: '3d10',
+          critEffects: ['radiant_burn']
         }
       },
 
@@ -2534,7 +2558,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       damageConfig: {
-        formula: '8d12',
+        formula: '8d12 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2544,6 +2568,13 @@ RESTORATION AVAILABLE: Yes
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          extraDice: '4d12',
+          critEffects: ['divine_burn', 'stun']
         }
       },
 
@@ -2703,7 +2734,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       damageConfig: {
-        formula: '10d12',
+        formula: '10d12 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2713,6 +2744,13 @@ RESTORATION AVAILABLE: Yes
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.0,
+          extraDice: '5d12',
+          critEffects: ['divine_annihilation', 'banishment']
         }
       },
 
@@ -2874,7 +2912,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       damageConfig: {
-        formula: '15d12',
+        formula: '15d12 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2884,6 +2922,13 @@ RESTORATION AVAILABLE: Yes
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3.5,
+          extraDice: '8d12',
+          critEffects: ['divine_annihilation', 'banishment', 'stun']
         }
       },
 
@@ -2936,7 +2981,7 @@ RESTORATION AVAILABLE: Yes
         description: 'Fully embrace the demon, becoming a terrifying lord of the infernal.',
         grantedAbilities: [
           { id: 'lord_stats', name: 'Infernal Might', description: '+8 to all attributes' },
-          { id: 'reality_warp', name: 'Reality Warp', description: 'Teleport up to 60ft as bonus action' },
+          { id: 'reality_warp', name: 'Reality Warp', description: 'Teleport up to 60ft using action points' },
           { id: 'infernal_command', name: 'Infernal Command', description: 'Command demons and undead within 60ft' },
           { id: 'terror_aura', name: 'Aura of Terror', description: 'Enemies within 30ft must save or be frightened' },
           { id: 'demon_immunities', name: 'Infernal Immunity', description: 'Immune to fire, necrotic, poison damage' },

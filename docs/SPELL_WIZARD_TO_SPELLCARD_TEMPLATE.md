@@ -2432,9 +2432,10 @@ Example: "1d4 cooldown"
    - Apply to **specific effects** (damage, healing, buff, etc.)
    - Determine **when** a specific effect activates
    - Can be stored under base types (`damage`, `healing`) OR subtypes (`damage_direct`, `healing_hot`, etc.)
-   - Displayed as a header section **before** the specific effect they apply to
-   - Format: "Triggers - ALL/ANY" followed by list of trigger conditions
-   - **Display regardless** of whether the effect is conditional
+   - **Integrated into each effect item** - displayed below the effect mechanics text with a divider
+   - When conditional formulas exist: triggers are shown with their formulas (e.g., "If below 25% health: 3d6 Necrotic Damage")
+   - When no conditional formulas: triggers appear as standalone text below the effect (e.g., "If below 50% health")
+   - Format uses intuitive "If..." style (e.g., "If below 50% health" instead of "Low Health")
 
 3. **Conditional Effects** (`triggerConfig.conditionalEffects`):
    - Modify **how** an effect works based on triggers
@@ -2453,8 +2454,9 @@ Example: "1d4 cooldown"
 
 **Global Triggers:**
 - Used for REACTION, PASSIVE, TRAP, and STATE spell types
-- Displayed as a header section before all effects (when wrapped together)
-- Format: "Triggers - ALL/ANY" followed by list of trigger conditions
+- Displayed in a "Spell Triggers" section at the top when they don't have conditional formulas
+- When conditional formulas exist: triggers are shown with their formulas in the effect sections (not as standalone)
+- Format: Clear "Spell Triggers" header with trigger conditions in intuitive "If..." format
 
 **Trigger Role:**
 - `mode`: 'CONDITIONAL', 'AUTO_CAST', 'BOTH'
@@ -2517,10 +2519,12 @@ Example: "1d4 cooldown"
   - `compoundTriggers[]` - Array of trigger objects (same structure as global triggers)
   - `targetingOverride` (string, optional) - Override targeting for this effect when triggered (e.g., 'nearest', 'farthest', 'lowest_health')
 - **Display Behavior**:
-  - Effect-specific triggers display **regardless** of whether the effect is marked as conditional
-  - They appear as a header section **before** the effect they apply to
-  - Format: "Triggers - ALL" or "Triggers - ANY" (if multiple triggers)
-  - Each trigger is formatted using `formatTriggerText()` and displayed as a list item
+  - Effect-specific triggers are **integrated into each effect item** (not shown as separate headers)
+  - They appear **below** the effect mechanics text with a divider (border-top styling)
+  - When conditional formulas exist: triggers are shown with their formulas (e.g., "If below 25% health: 3d6 Necrotic Damage")
+  - When no conditional formulas: triggers appear as standalone text (e.g., "If below 50% health")
+  - Format uses `formatTriggerForConditionalDisplay()` for intuitive "If..." style
+  - Health thresholds are more concrete (e.g., "If below 50% health" instead of "Low Health")
 - **Trigger Detection Logic**:
   - The spellcard uses `getEffectTriggersForType()` to find triggers
   - Checks subtypes in order: base type first, then specific subtypes
@@ -2610,19 +2614,20 @@ The wizard supports 7 trigger categories with multiple trigger types each:
 **Display Format:**
 
 **Global Triggers:**
-- **Location**: Displayed as a header section before all effects (when wrapped together)
+- **Location**: Displayed in a "Spell Triggers" section at the top (only when no conditional formulas use these triggers)
 - **Format**:
   ```
-  Triggers - ALL (or ANY if logicType === 'OR')
-  When {trigger1}
-  When {trigger2}
+  Spell Triggers
+  If {trigger1}
+  If {trigger2}
   ```
 - **Example**:
   ```
-  Triggers - ALL
-  When I take 10 pts of fire damage
-  When my health falls below 50%
+  Spell Triggers
+  If take 50 pts of damage
+  If below 50% health
   ```
+- **Note**: When global triggers have conditional formulas, they are shown with their formulas in the effect sections instead of as standalone triggers
 
 **Required Conditions:**
 - **Location**: Displayed as a header section before all effects
@@ -2640,36 +2645,40 @@ The wizard supports 7 trigger categories with multiple trigger types each:
   ```
 
 **Effect-Specific Triggers:**
-- **Location**: Displayed as a header section **immediately before** the specific effect they apply to
-- **When Wrapped with Global Triggers**: Appears before the damage/healing section
-- **When Wrapped Individually**: Appears before the individual effect section
+- **Location**: **Integrated into each effect item** - displayed below the effect mechanics text with a divider
 - **Format**:
+  - When conditional formulas exist: Triggers shown with formulas
+  - When no conditional formulas: Triggers shown as standalone text below effect
+- **Example for Damage with Conditional Formulas**:
   ```
-  Triggers - ALL (or ANY if logicType === 'OR')
-  When {trigger1}
-  When {trigger2}
-  ```
-- **Example for Damage**:
-  ```
-  Triggers - ALL
-  When I enter area
-  
-  Instant Damage
+  INSTANT DAMAGE
   2d6 Fire Damage
+  
+  If below 25% health: 3d6 Necrotic Damage
+  If target starts moving: 4d6 Fire Damage
+  ```
+- **Example for Damage without Conditional Formulas**:
+  ```
+  INSTANT DAMAGE
+  2d6 Fire Damage
+  
+  If below 50% health
+  If target starts moving
   ```
 - **Example for Healing**:
   ```
-  Triggers - ANY
-  When my health falls below 30%
-  When an ally takes damage
-  
   Healing
   2d8 + Spirit Healing
+  
+  If below 30% health: 4d8 + Spirit Healing
   ```
-- **Note**: Effect-specific triggers are found by checking all subtypes:
-  - For damage: checks `damage`, `damage_direct`, `damage_dot`, `damage_area`, `damage_combined`
-  - For healing: checks `healing`, `healing_direct`, `healing_hot`, `healing_shield`
+- **Note**: 
+  - Effect-specific triggers are found by checking all subtypes:
+    - For damage: checks `damage`, `damage_direct`, `damage_dot`, `damage_area`, `damage_combined`
+    - For healing: checks `healing`, `healing_direct`, `healing_hot`, `healing_shield`
   - Uses the first subtype found that has triggers
+  - Triggers use `formatTriggerForConditionalDisplay()` for intuitive formatting
+  - Health thresholds show concrete percentages (e.g., "If below 50% health" instead of "Low Health")
 
 **Conditional Effects (Conditional Formulas):**
 - **Location**: Displayed **below** the main effect mechanics text, separated by a border
@@ -2677,24 +2686,39 @@ The wizard supports 7 trigger categories with multiple trigger types each:
   ```
   If {trigger}: {formattedFormula} {damageType/healingType}
   ```
-- **Note**: Trigger text is converted from "When" to "If" for conditional display
+- **Note**: 
+  - Trigger text uses `formatTriggerForConditionalDisplay()` for intuitive "If..." format
+  - Health thresholds are more concrete (e.g., "If below 50% health" instead of "Low Health")
+  - Triggers are integrated into the effect item, not shown as separate headers
 - **Example**:
   ```
-  Instant Damage
+  INSTANT DAMAGE
   2d6 Fire Damage
   
-  If I take 10 pts of fire damage: 4d6 Fire Damage
-  If my health falls below 50%: 3d6 Fire Damage
+  If take 50 pts of damage: 4d6 Fire Damage
+  If below 50% health: 3d6 Necrotic Damage
   ```
 - **Display Logic**:
   - Only shown if `conditionalEffects[effectType].conditionalFormulas` exists
   - Maps trigger IDs from `conditionalFormulas` to trigger objects from `effectTriggers`
-  - Uses `formatTriggerText()` to format each trigger
+  - Uses `formatTriggerForConditionalDisplay()` to format each trigger (more intuitive than `formatTriggerText()`)
   - Uses `formatFormulaToPlainEnglish()` to format the formula
+  - When conditional formulas exist, standalone triggers are NOT shown (triggers are shown with their formulas)
 
-**Trigger Text Formatting (formatTriggerText function):**
+**Trigger Text Formatting:**
 
-The `formatTriggerText()` function converts trigger objects into human-readable text. Common formats:
+The spell card uses two formatting functions for triggers:
+
+1. **`formatTriggerText()`** - Basic trigger formatting (used for required conditions and legacy displays)
+2. **`formatTriggerForConditionalDisplay()`** - Intuitive conditional formatting (used for effect-specific triggers and conditional formulas)
+
+**formatTriggerForConditionalDisplay()** provides more intuitive formatting:
+- Converts "When" to "If" for conditional display
+- Makes health thresholds concrete (e.g., "If below 50% health" instead of "Low Health")
+- Simplifies trigger text for better readability
+- Handles all trigger types with consistent "If..." format
+
+**formatTriggerText()** - Basic trigger formatting (legacy/required conditions):
 
 - **Damage Triggers**:
   - `damage_taken`: "When {perspective} takes {amount} pts of {damageType} damage"
@@ -2710,7 +2734,9 @@ The `formatTriggerText()` function converts trigger objects into human-readable 
   - `movement_end`: "When {perspective}'s movement stops"
 
 - **Health/Resource Triggers**:
-  - `health_threshold`: "When {perspective}'s health {comparison} {percentage}%"
+  - `health_threshold`: 
+    - `formatTriggerText()`: "When {perspective}'s health {comparison} {percentage}%"
+    - `formatTriggerForConditionalDisplay()`: "If {comparison} {percentage}% health" (for self) or "If {target} {comparison} {percentage}% health" (for others)
   - `resource_threshold`: "When {resourceType} {comparison} {threshold}%"
   - `low_health`: "When below {threshold}% health"
 
@@ -4369,14 +4395,15 @@ Damage that applies over multiple rounds/turns.
 30. **getResourceIcon()** - Resource icon retrieval
 31. **getResourceColor()** - Resource color retrieval
 32. **formatComponentName()** - Component name formatting (hyphenated to title case)
-33. **formatTriggerText()** - Trigger text formatting (converts trigger objects to readable text)
-34. **formatTriggerId()** - Trigger ID formatting
-35. **normalizeSaveType()** - Save type normalization (maps D&D names to system names)
-36. **getEnhancedStatName()** - Enhanced stat name formatting with magnitude
-37. **getStatType()** - Stat type determination
-38. **getThematicResistanceDescription()** - Thematic resistance descriptions (vampiric, draining, siphoning, etc.)
-39. **getInfernoStageName()** - Inferno stage name formatting (for Pyrofiend)
-40. **getInfernoStageNameWithSuffix()** - Inferno stage name with suffix (for requirements)
+33. **formatTriggerText()** - Basic trigger text formatting (converts trigger objects to readable text, used for required conditions)
+34. **formatTriggerForConditionalDisplay()** - Intuitive conditional trigger formatting (converts triggers to "If..." format, makes health thresholds concrete)
+35. **formatTriggerId()** - Trigger ID formatting
+36. **normalizeSaveType()** - Save type normalization (maps D&D names to system names)
+37. **getEnhancedStatName()** - Enhanced stat name formatting with magnitude
+38. **getStatType()** - Stat type determination
+39. **getThematicResistanceDescription()** - Thematic resistance descriptions (vampiric, draining, siphoning, etc.)
+40. **getInfernoStageName()** - Inferno stage name formatting (for Pyrofiend)
+41. **getInfernoStageNameWithSuffix()** - Inferno stage name with suffix (for requirements)
 
 **Special Display Functions:**
 41. **formatCombinedHealing()** - Combined healing display (direct + HoT + shield)
@@ -4545,13 +4572,16 @@ The `UnifiedSpellCard` component is used throughout the application in the follo
 1. **Global Triggers** (`triggerConfig.global`)
    - Apply to entire spell
    - Used for REACTION, PASSIVE, TRAP, STATE spell types
-   - Displayed as header before all effects
+   - Displayed in "Spell Triggers" section at top (when no conditional formulas use these triggers)
+   - When conditional formulas exist: shown with formulas in effect sections
 
 2. **Effect-Specific Triggers** (`triggerConfig.effectTriggers`)
    - Apply to specific effects (damage, healing, etc.)
    - Can be stored under base types OR subtypes
-   - Displayed as header before the specific effect
-   - Display regardless of whether effect is conditional
+   - **Integrated into each effect item** - displayed below effect mechanics text with divider
+   - When conditional formulas exist: triggers shown with formulas (e.g., "If below 25% health: 3d6 Necrotic Damage")
+   - When no conditional formulas: triggers shown as standalone text (e.g., "If below 50% health")
+   - Format uses intuitive "If..." style with concrete health thresholds
 
 3. **Required Conditions** (`triggerConfig.requiredConditions`)
    - Conditions that must be met before spell can be cast
@@ -4562,6 +4592,8 @@ The `UnifiedSpellCard` component is used throughout the application in the follo
    - Modify how effects work based on triggers
    - Require effect-specific triggers to exist
    - Displayed below main effect text as "If {trigger}: {formula}"
+   - Uses `formatTriggerForConditionalDisplay()` for intuitive formatting
+   - Health thresholds show concrete percentages (e.g., "If below 50% health")
 
 ### Targeting Modes Summary
 

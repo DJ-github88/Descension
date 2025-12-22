@@ -1871,7 +1871,28 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         elementType: 'force',
         damageType: 'area',
         areaShape: 'circle',
-        areaParameters: { radius: 25 }
+        areaParameters: { radius: 25 },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '2d8',
+          critEffects: ['temporal_chaos'],
+          temporalChaosConfig: {
+            duration: 1,
+            durationUnit: 'round',
+            effects: ['age_acceleration', 'time_dilation', 'temporal_echo']
+          }
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
       },
 
       controlConfig: {

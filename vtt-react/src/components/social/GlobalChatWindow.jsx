@@ -19,6 +19,7 @@ import '../../styles/global-chat.css';
 const GlobalChatWindow = ({ isOpen, onClose }) => {
   const [splitPosition, setSplitPosition] = useState(35); // 35% for users list
   const [isDragging, setIsDragging] = useState(false);
+  const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(false);
 
   const { user } = useAuthStore();
   // Get character data from characterStore - use individual selectors to trigger updates
@@ -179,6 +180,11 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     }
   };
 
+  // Toggle users pane visibility
+  const toggleUsersPane = () => {
+    setIsUsersPaneHidden(!isUsersPaneHidden);
+  };
+
   if (!isOpen) return null;
 
   console.log('🎭 GlobalChatWindow rendering, isOpen:', isOpen);
@@ -194,7 +200,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         className="global-chat-window"
       >
         <div 
-          className={`global-chat-container ${isDragging ? 'dragging' : ''}`}
+          className={`global-chat-container ${isDragging ? 'dragging' : ''} ${isUsersPaneHidden ? 'users-pane-hidden' : ''}`}
           onMouseMove={isDragging ? handleMouseMove : undefined}
         >
           {/* Left Pane - Online Users */}
@@ -212,7 +218,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
           {/* Resizable Divider */}
           <div
             className="split-divider"
-            onMouseDown={handleMouseDown}
+            onMouseDown={!isUsersPaneHidden ? handleMouseDown : undefined}
+            style={{ cursor: isUsersPaneHidden ? 'default' : 'col-resize' }}
           >
             <div className="divider-handle">
               <i className="fas fa-grip-lines-vertical"></i>
@@ -222,8 +229,16 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
           {/* Right Pane - Tabbed Chat */}
           <div
             className="chat-pane"
-            style={{ width: `${100 - splitPosition}%` }}
+            style={{ width: isUsersPaneHidden ? '100%' : `${100 - splitPosition}%` }}
           >
+            {/* Toggle button for users pane - positioned on left side */}
+            <button
+              className="toggle-users-pane-btn"
+              onClick={toggleUsersPane}
+              title={isUsersPaneHidden ? 'Show Users List' : 'Hide Users List'}
+            >
+              <i className={isUsersPaneHidden ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
+            </button>
             <ChatTabs />
             <TabbedChat />
           </div>

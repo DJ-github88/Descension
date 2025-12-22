@@ -150,7 +150,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // CRITICAL FIX: NEVER update position from props while dragging
     // This prevents ANY external updates (including auto-save) from interfering with smooth dragging
     if (isDragging) {
-      console.log(`🚫 CreatureToken: Skipping position update - currently dragging`);
       return;
     }
 
@@ -159,10 +158,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // After dragging ends, wait for grace period before accepting external position updates
     // This prevents auto-save and server echoes from causing jumps
     if (timeSinceLastUpdate > 1000) {
-      console.log(`📍 CreatureToken: Updating localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
       setLocalPosition(position);
-    } else {
-      console.log(`🚫 CreatureToken: Skipping position update - within grace period (${timeSinceLastUpdate}ms < 1000ms)`);
     }
   }, [position, isDragging]);
   const gridSystem = getGridSystem();
@@ -730,7 +726,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             });
           }
         } else {
-          console.log('❌ MOVEMENT IS INVALID - Reverting');
           // Revert to start position
           updateTokenPositionWithSync(tokenId, dragStartPosition);
           updateTempMovementDistance(tokenId, 0);
@@ -838,17 +833,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             const apChanged = updatedToken.state.currentActionPoints !== prevState.currentActionPoints;
 
             if (healthChanged || manaChanged || apChanged) {
-              console.log('🔄 Token state changed for token:', tokenId, {
-                oldHp: prevState.currentHp,
-                newHp: updatedToken.state.currentHp,
-                oldMana: prevState.currentMana,
-                newMana: updatedToken.state.currentMana,
-                oldAP: prevState.currentActionPoints,
-                newAP: updatedToken.state.currentActionPoints
-              });
-
-
-
+              // Token state changed - update handled
               setForceUpdate(prev => prev + 1);
             }
           }
@@ -976,7 +961,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setContextMenuPosition({ x, y });
     setShowContextMenu(true);
 
-    console.log('Opening context menu at:', { x, y });
   };
 
   // State for conditions window
@@ -1190,22 +1174,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // Immediately set the flag to show the details window
     setShowDetailsWindow(true);
     setActiveTab('stats');
-    console.log('Opening details window for creature:', creature.name);
   };
 
   const handleCloseDetailsWindow = () => {
     setShowDetailsWindow(false);
-    console.log('Closing details window');
   };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    console.log('Switching to tab:', tab);
   };
 
   // Handle duplicate token
   const handleDuplicateToken = () => {
-    console.log('Duplicating token:', tokenId);
     duplicateToken(tokenId);
     setShowContextMenu(false);
   };
@@ -1216,7 +1196,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleEditCreature = () => {
     setShowCreatureEditor(true);
     setShowContextMenu(false);
-    console.log('Opening creature editor for:', creature.name);
   };
 
   // Handle rename token
@@ -1307,7 +1286,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const handleCloseCreatureEditor = () => {
     setShowCreatureEditor(false);
-    console.log('Closing creature editor');
   };
 
   // Handle targeting
@@ -1375,10 +1353,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         totalDistance
       } = pendingMovementConfirmation;
 
-      console.log('💰 CONFIRMING MOVEMENT:', {
-        requiredAP,
-        totalDistance: Math.round(totalDistance)
-      });
 
       // Update token position to final position (should already be there, but ensure it)
       updateTokenPositionWithSync(pendingTokenId, finalPosition);
@@ -1392,7 +1366,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (pendingMovementConfirmation) {
       const { tokenId: pendingTokenId, startPosition } = pendingMovementConfirmation;
 
-      console.log('❌ CANCELING MOVEMENT');
 
       // Revert token to start position
       updateTokenPositionWithSync(pendingTokenId, startPosition);
@@ -1443,15 +1416,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const maxHp = creature.stats.maxHp;
     const newHp = Math.min(maxHp, currentHp + amount);
 
-    console.log('💚 HEAL TOKEN:', {
-      tokenId,
-      creatureName: creature?.name,
-      amount,
-      currentHp,
-      maxHp,
-      newHp,
-      timestamp: new Date().toLocaleTimeString()
-    });
 
     updateTokenState(tokenId, {
       currentHp: newHp
@@ -1533,14 +1497,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const currentMana = token.state.currentMana || 0;
     const newMana = Math.max(0, currentMana - amount);
 
-    console.log('💙 MANA DAMAGE CREATURE TOKEN:', {
-      tokenId,
-      creatureName: creature.name,
-      amount,
-      currentMana,
-      newMana,
-      timestamp: new Date().toLocaleTimeString()
-    });
 
     updateTokenState(tokenId, {
       currentMana: newMana
@@ -1560,15 +1516,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const maxMana = creature.stats.maxMana || 0;
     const newMana = Math.min(maxMana, currentMana + amount);
 
-    console.log('💙 MANA HEAL CREATURE TOKEN:', {
-      tokenId,
-      creatureName: creature.name,
-      amount,
-      currentMana,
-      maxMana,
-      newMana,
-      timestamp: new Date().toLocaleTimeString()
-    });
 
     updateTokenState(tokenId, {
       currentMana: newMana
@@ -1688,13 +1635,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // 3. Token's playerId is 'current-player'
       // Block movement if token has a playerId that doesn't match
       if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
-        console.log('Cannot move creature token - not your token', {
-          tokenPlayerId,
-          currentPlayerId: currentPlayer?.id,
-          tokenId: token.id,
-          creatureId: token.creatureId
-        });
-        setShowTooltip(false);
+          // Cannot move - not your token
+          setShowTooltip(false);
         return;
       }
       
@@ -1704,12 +1646,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // Check if this creatureId belongs to the current player's character
         const { currentCharacterId } = useCharacterStore.getState();
         if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
-          console.log('Cannot move creature token - creature does not belong to you', {
-            creatureId: token.creatureId,
-            currentCharacterId,
-            tokenPlayerId,
-            currentPlayerId: currentPlayer?.id
-          });
+          // Cannot move - creature does not belong to you
           setShowTooltip(false);
           return;
         }
@@ -1725,7 +1662,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // If in combat and not this token's turn, prevent movement
     if (isInCombat && !isMyTurn) {
-      console.log('Cannot move token - not your turn in combat');
       setShowTooltip(false);
       return;
     }
@@ -2704,11 +2640,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               'Poisoned': 'Disadv. on attack rolls and ability checks',
               'Blinded': 'Can\'t see, auto-fails sight checks, adv. attacks vs target, target\'s attacks disadv.',
               'Deafened': 'Can\'t hear, auto-fails hearing checks',
-              'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on DEX saves, adv. attacks vs target',
+              'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on Agility saves, adv. attacks vs target',
               'Grappled': 'Speed 0, ends if grappler incapacitated or effect removed from grappler\'s reach',
               'Prone': 'Can only crawl, disadv. on attacks, adv. attacks vs target within 5ft (disadv. beyond 5ft)',
               'Incapacitated': 'Can\'t take actions or reactions',
-              'Unconscious': 'Incapacitated, unaware, auto-fails STR/DEX saves, prone, adv. attacks vs target, crit within 5ft'
+              'Unconscious': 'Incapacitated, unaware, auto-fails STR/AGI saves, prone, adv. attacks vs target, crit within 5ft'
             };
             
             return (

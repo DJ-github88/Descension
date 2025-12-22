@@ -8127,7 +8127,6 @@ const UnifiedSpellCard = ({
       };
       e.dataTransfer.setData('application/json', JSON.stringify(spellData));
       e.dataTransfer.effectAllowed = 'copy';
-      console.log('Dragging complete spell data from UnifiedSpellCard:', spellData);
     }
   };
 
@@ -8153,15 +8152,6 @@ const UnifiedSpellCard = ({
       // and works correctly regardless of window position or scroll
       const tooltipX = currentMouseX + 15;
       const tooltipY = currentMouseY - 10;
-
-      console.log('Spell tooltip position:', {
-        x: tooltipX,
-        y: tooltipY,
-        mouseX: currentMouseX,
-        mouseY: currentMouseY,
-        elementId: spell?.id,
-        elementName: spell?.name
-      }); // Debug log
       setTooltipPosition({ x: tooltipX, y: tooltipY });
       setShowTooltip(true);
     }, 300); // 300ms delay before showing tooltip

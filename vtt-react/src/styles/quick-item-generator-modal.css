@@ -19,8 +19,8 @@
     background: linear-gradient(to bottom, rgba(240, 230, 210, 0.98), rgba(230, 220, 200, 0.98));
     border: 3px solid #7a3b2e;
     border-radius: 12px;
-    width: 85vw; /* More reasonable width */
-    max-width: 1200px; /* Reasonable maximum width */
+    width: 90vw; /* Fixed: More reasonable width, not super wide */
+    max-width: 1000px; /* Fixed: Reduced from 1200px to prevent excessive width */
     height: 85vh; /* Increased height for more content */
     max-height: 900px; /* Increased maximum height */
     display: flex;
@@ -176,7 +176,7 @@
 }
 
 .quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
-    flex: 1.2 !important; /* Give settings panel slightly more space */
+    flex: 1 !important; /* Fixed: Equal flex to prevent weird sectioning */
     max-height: none !important;
     height: 100% !important;
     overflow-y: auto !important; /* Enable vertical scrolling */
@@ -190,10 +190,11 @@
     box-sizing: border-box !important;
     scrollbar-width: thin !important; /* Firefox scrollbar styling */
     scrollbar-color: #a08c70 transparent !important; /* Firefox scrollbar colors */
+    min-width: 0 !important; /* Fixed: Allow flex shrinking */
 }
 
 .quick-item-generator-modal .enhanced-quick-item-wizard .preview-panel {
-    flex: 0.8 !important; /* Preview panel takes remaining space */
+    flex: 1 !important; /* Fixed: Equal flex to match settings panel */
     max-height: none !important;
     height: 100% !important;
     overflow: visible !important;
@@ -207,6 +208,7 @@
     justify-content: flex-start !important;
     position: relative !important;
     box-sizing: border-box !important;
+    min-width: 0 !important; /* Fixed: Allow flex shrinking */
 }
 
 /* Footer that extends to sides and bottom */

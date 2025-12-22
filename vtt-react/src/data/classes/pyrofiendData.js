@@ -1104,7 +1104,21 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '3d6 + intelligence',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          critEffects: ['burning'],
+          burningConfig: {
+            damagePerRound: '1d6',
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 15,
+            saveType: 'constitution'
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1155,7 +1169,21 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '2d8 + intelligence',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        chanceOnHitConfig: {
+          enabled: true,
+          procType: 'dice',
+          diceThreshold: 17,
+          procChance: 20,
+          customEffects: ['burning'],
+          burningConfig: {
+            damagePerRound: '1d4',
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 14,
+            saveType: 'constitution'
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1196,7 +1224,7 @@ Many players enhance the experience by adding thematic elements:
         verbalText: 'Saltus Ignis!'
       },
 
-      resolution: 'NONE',
+      resolution: 'DICE',
       effectTypes: ['utility', 'damage'],
 
       utilityConfig: {
@@ -1216,24 +1244,13 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '1d6',
         elementType: 'fire',
-        damageType: 'direct'
-      },
-
-      triggerConfig: {
-        effectTriggers: {
-          damage_direct: {
-            logicType: 'AND',
-            compoundTriggers: [{
-              id: 'enter_area',
-              category: 'movement',
-              name: 'Enter Area',
-              parameters: {
-                perspective: 'any',
-                area_type: 'flame area'
-              }
-            }]
-          }
-        }
+        damageType: 'area',
+        triggerCondition: 'area_entry',
+        triggerDescription: 'Creatures that enter or start their turn in flame areas take 1d6 fire damage',
+        areaShape: 'circle',
+        areaParameters: { radius: 5 },
+        duration: 1,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: {
@@ -1378,22 +1395,37 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Spread arms wide'
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
-      buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'fieryAura',
-          name: 'Fiery Aura',
-          description: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns',
-          customDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns.'
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: true,
-        canBeDispelled: true
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_masterofelements',
+        tags: ['fire', 'damage', 'channeled'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        maxChannelDuration: 3,
+        durationUnit: 'ROUNDS',
+        interruptible: true,
+        movementAllowed: true,
+        tickFrequency: 'START_OF_TURN'
+      },
+
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'fire',
+        damageType: 'area',
+        triggerCondition: 'area_entry',
+        triggerDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns',
+        areaShape: 'circle',
+        areaParameters: { radius: 5 }
+      },
+
+      channelingConfig: {
+        type: 'persistent',
+        baseFormula: '1d6',
+        tickFrequency: 'round',
+        maxDuration: 3
       },
 
       cooldownConfig: {
@@ -1630,7 +1662,21 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '6d6 + intelligence * 2',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          critEffects: ['burning'],
+          burningConfig: {
+            damagePerRound: '1d6',
+            duration: 2,
+            durationUnit: 'rounds',
+            saveDC: 15,
+            saveType: 'constitution'
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1754,6 +1800,7 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'weakened',
           name: 'Weakened',
+          description: 'Reduces target strength by 2',
           statModifier: {
             stat: 'strength',
             magnitude: 2,
@@ -1762,6 +1809,7 @@ Many players enhance the experience by adding thematic elements:
         }],
         durationValue: 4,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         canBeDispelled: true
       },
 
@@ -1818,7 +1866,63 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '8d6 + intelligence * 2.5',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '2d6',
+          critEffects: ['burning', 'knockback'],
+          burningConfig: {
+            damagePerRound: '2d6',
+            duration: 3,
+            durationUnit: 'rounds',
+            saveDC: 16,
+            saveType: 'constitution'
+          },
+          knockbackConfig: {
+            distance: 10
+          }
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      triggerConfig: {
+        effectTriggers: {
+          damage: {
+            logicType: 'OR',
+            compoundTriggers: [{
+              id: 'resource_threshold',
+              category: 'health',
+              name: 'High Inferno Level',
+              parameters: {
+                resource_type: 'inferno',
+                threshold_type: 'percentage',
+                percentage: 70,
+                comparison: 'greater_than',
+                perspective: 'self'
+              }
+            }]
+          }
+        },
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: true,
+            baseFormula: '8d6 + intelligence * 2.5',
+            conditionalFormulas: {
+              'resource_threshold_70': '10d6 + intelligence * 3'
+            }
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1869,7 +1973,22 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '6d8 + intelligence * 2',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '3d8',
+          critEffects: ['burning'],
+          burningConfig: {
+            damagePerRound: '2d8',
+            duration: 4,
+            durationUnit: 'rounds',
+            saveDC: 17,
+            saveType: 'constitution'
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1919,6 +2038,7 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'fireDamageBoost',
           name: 'Fire Damage Boost',
+          description: 'Increases fire damage by 5',
           statModifier: {
             stat: 'fireDamage',
             magnitude: 5,
@@ -1927,6 +2047,7 @@ Many players enhance the experience by adding thematic elements:
         }],
         durationValue: 5,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: false,
         canBeDispelled: true
       },
@@ -1983,7 +2104,25 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '8d6 + intelligence * 2.5',
         elementType: 'fire',
-        damageType: 'direct'
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '4d6',
+          critEffects: ['burning', 'knockback'],
+          burningConfig: {
+            damagePerRound: '3d6',
+            duration: 3,
+            durationUnit: 'rounds',
+            saveDC: 18,
+            saveType: 'constitution'
+          },
+          knockbackConfig: {
+            distance: 15
+          }
+        }
       },
 
       cooldownConfig: {

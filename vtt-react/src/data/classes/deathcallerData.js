@@ -862,7 +862,8 @@ Keep a note of which curses are affecting you:
         passiveAbility: {
           name: 'Spectral Dominion',
           icon: 'spell_shadow_raisedead',
-          description: 'Your spectral allies have +25% health and deal an additional 1d4 necrotic damage. The speed penalty from Spectral Command is reduced by 10 feet per summon.'
+          description: 'Your spectral allies have +25% health and deal additional necrotic damage. The speed penalty from Spectral Command is reduced by 10 feet per summon.',
+          damageFormula: '1d4'
         },
 
         keyAbilities: [
@@ -900,7 +901,8 @@ Keep a note of which curses are affecting you:
         passiveAbility: {
           name: 'Void Touched',
           icon: 'spell_shadow_shadowwordpain',
-          description: 'Your psychic damage spells ignore resistance. Additionally, when you activate Deep Void to negate a spell, you gain a stack of Void Power (max 3), increasing your next psychic spell damage by 2d6 per stack.'
+          description: 'Your psychic damage spells ignore resistance. Additionally, when you activate Deep Void to negate a spell, you gain a stack of Void Power (max 3), increasing your next psychic spell damage per stack.',
+          damageFormula: '2d6'
         },
 
         keyAbilities: [
@@ -1306,7 +1308,8 @@ Keep a note of which curses are affecting you:
           thresholdValue: 0,
           thresholdType: 'above',
           modifiedFormula: '4d6 + (bloodTokens_spent * 1d6)',
-          description: 'Spend Blood Tokens for +1d6 damage each'
+          description: 'Spend Blood Tokens for bonus damage each',
+          damageFormula: '+1d6'
         }]
       },
       tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
@@ -1857,9 +1860,10 @@ Keep a note of which curses are affecting you:
         formula: '4d6',
         elementType: 'necrotic',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['anti_magic_stun']
+        }
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -2047,9 +2051,10 @@ Keep a note of which curses are affecting you:
           tickFrequency: 'round',
           isProgressiveDot: false
         },
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['necrotic_storm_crit']
+        }
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2203,9 +2208,10 @@ Keep a note of which curses are affecting you:
         formula: '6d8',
         elementType: 'necrotic',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['life_drain_crit']
+        }
       },
       healingConfig: {
         formula: '6d8',
@@ -2302,9 +2308,10 @@ Keep a note of which curses are affecting you:
         formula: '4d10',
         elementType: 'force',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['magic_nullification_crit']
+        }
       },
       utilityConfig: {
         utilityType: 'environment',

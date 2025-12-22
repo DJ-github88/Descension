@@ -8,6 +8,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     // Get grid settings from game store
     const {
         gridSize,
+        gridType,
         gridOffsetX,
         gridOffsetY,
         gridLineThickness,
@@ -20,6 +21,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         isBackgroundManipulationMode,
         isGridAlignmentMode,
         setGridSize,
+        setGridType,
         setGridOffset,
         setGridLineThickness,
         setGridLineOpacity,
@@ -308,32 +310,34 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                     <div className="active-background-section">
                         {backgrounds.map((bg) => (
                             <div key={bg.id} className={`background-card ${bg.id === activeBackgroundId ? 'active' : ''} ${bg.opacity === 0 ? 'invisible' : ''}`}>
-                                {/* Background Header */}
+                                {/* Background Header - Cleaner Layout */}
                                 <div className="background-header">
-                                    <div className="background-title">
-                                        {editingBackgroundId === bg.id ? (
-                                            <input
-                                                type="text"
-                                                className="background-name-input"
-                                                value={editingName}
-                                                onChange={handleNameChange}
-                                                onBlur={() => handleNameBlur(bg.id)}
-                                                onKeyDown={(e) => handleNameKeyDown(e, bg.id)}
-                                                autoFocus
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
-                                        ) : (
-                                            <span 
-                                                className="background-name"
-                                                onClick={() => handleNameClick(bg)}
-                                                title="Click to rename"
-                                            >
-                                                {bg.name || 'unnamed'}
-                                            </span>
-                                        )}
+                                    <div className="background-title-section">
                                         {bg.id === activeBackgroundId && (
                                             <span className="active-badge">ACTIVE</span>
                                         )}
+                                        <div className="background-title">
+                                            {editingBackgroundId === bg.id ? (
+                                                <input
+                                                    type="text"
+                                                    className="background-name-input"
+                                                    value={editingName}
+                                                    onChange={handleNameChange}
+                                                    onBlur={() => handleNameBlur(bg.id)}
+                                                    onKeyDown={(e) => handleNameKeyDown(e, bg.id)}
+                                                    autoFocus
+                                                    onClick={(e) => e.stopPropagation()}
+                                                />
+                                            ) : (
+                                                <span 
+                                                    className="background-name"
+                                                    onClick={() => handleNameClick(bg)}
+                                                    title="Click to rename"
+                                                >
+                                                    {bg.name || 'unnamed'}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="background-actions">
                                         <button
@@ -365,25 +369,30 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                 {/* Background Controls - Only for active background */}
                                 {bg.id === activeBackgroundId && (
                                     <div className="background-controls">
-                                        {/* Grid Alignment Toggle */}
+                                        {/* Grid Alignment Toggle - Improved Layout */}
                                         <div className="control-row">
                                             <label className="toggle-control">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={bg.sticksToGrid || false}
-                                                    onChange={(e) => {
-                                                        const isGridAligned = e.target.checked;
-                                                        const updates = { sticksToGrid: isGridAligned };
-                                                        if (isGridAligned) {
-                                                            const gameStore = useGameStore.getState();
-                                                            const { cameraX, cameraY } = gameStore;
-                                                            updates.position = { x: cameraX, y: cameraY };
-                                                        }
-                                                        updateBackground(bg.id, updates);
-                                                    }}
-                                                />
-                                                <span className="toggle-label">Grid-Aligned</span>
-                                                <small>Background moves with grid</small>
+                                                <div className="toggle-switch-wrapper">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={bg.sticksToGrid || false}
+                                                        onChange={(e) => {
+                                                            const isGridAligned = e.target.checked;
+                                                            const updates = { sticksToGrid: isGridAligned };
+                                                            if (isGridAligned) {
+                                                                const gameStore = useGameStore.getState();
+                                                                const { cameraX, cameraY } = gameStore;
+                                                                updates.position = { x: cameraX, y: cameraY };
+                                                            }
+                                                            updateBackground(bg.id, updates);
+                                                        }}
+                                                    />
+                                                    <span className="toggle-switch-visual"></span>
+                                                </div>
+                                                <div className="toggle-label-wrapper">
+                                                    <span className="toggle-label">Grid-Aligned</span>
+                                                    <small>Background moves with grid</small>
+                                                </div>
                                             </label>
                                         </div>
 
@@ -425,6 +434,27 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
                 {/* Grid Visibility and Alignment in a clean layout */}
                 <div className="grid-controls-layout">
+                    {/* Grid Type Selector */}
+                    <div className="grid-control-item">
+                        <label className="appearance-label">Grid Type</label>
+                        <div className="grid-type-selector">
+                            <button
+                                className={`grid-type-button ${gridType === 'square' ? 'active' : ''}`}
+                                onClick={() => setGridType('square')}
+                                title="Square Grid - Traditional square tiles"
+                            >
+                                <span>Square</span>
+                            </button>
+                            <button
+                                className={`grid-type-button ${gridType === 'hex' ? 'active' : ''}`}
+                                onClick={() => setGridType('hex')}
+                                title="Hex Grid - Hexagonal tiles for tactical gameplay"
+                            >
+                                <span>Hex</span>
+                            </button>
+                        </div>
+                    </div>
+
                     {/* Grid Visibility Toggle */}
                     <div className="grid-control-item">
                         <label className="grid-toggle">

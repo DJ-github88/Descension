@@ -424,13 +424,10 @@ const useCraftingStore = create(
       
       // Learn a recipe
       learnRecipe: (professionId, recipeId) => {
-        console.log('learnRecipe called:', professionId, recipeId);
         set(state => {
           const currentRecipes = state.knownRecipes[professionId] || [];
-          console.log('learnRecipe: currentRecipes for', professionId, '=', currentRecipes);
           if (!currentRecipes.includes(recipeId)) {
             const newRecipes = [...currentRecipes, recipeId];
-            console.log('learnRecipe: Adding recipe, new recipes =', newRecipes);
             return {
               knownRecipes: {
                 ...state.knownRecipes,
@@ -438,7 +435,6 @@ const useCraftingStore = create(
               }
             };
           }
-          console.log('learnRecipe: Recipe already known');
           return state;
         });
       },
@@ -476,11 +472,7 @@ const useCraftingStore = create(
       // Get recipes for a profession
       getRecipesForProfession: (professionId) => {
         const { availableRecipes } = get();
-        console.log('getRecipesForProfession: professionId =', professionId);
-        console.log('getRecipesForProfession: availableRecipes count =', availableRecipes.length);
-        console.log('getRecipesForProfession: first-aid recipes =', availableRecipes.filter(r => r.profession === 'first-aid').map(r => r.id));
         const filtered = availableRecipes.filter(recipe => recipe.profession === professionId);
-        console.log('getRecipesForProfession: filtered count =', filtered.length);
         return filtered;
       },
       
@@ -542,7 +534,6 @@ const useCraftingStore = create(
       name: 'crafting-storage',
       version: 3,
       migrate: (persistedState, version) => {
-        console.log('Crafting store migration: from version', version, 'to 3');
         // Always merge recipes to ensure all are present
         const currentRecipes = persistedState?.availableRecipes || [];
         const initialStateRecipes = initialState.availableRecipes;
@@ -552,7 +543,6 @@ const useCraftingStore = create(
         
         // Add new recipes that don't exist
         const newRecipes = initialStateRecipes.filter(r => !existingIds.has(r.id));
-        console.log('Crafting store migration: Adding', newRecipes.length, 'new recipes:', newRecipes.map(r => r.id));
         
         return {
           ...persistedState,
@@ -568,7 +558,6 @@ const useCraftingStore = create(
         const missingRecipes = currentRecipes.filter(r => !existingIds.has(r.id));
         
         if (missingRecipes.length > 0) {
-          console.log('Crafting store merge: Adding', missingRecipes.length, 'missing recipes');
           return {
             ...persistedState,
             availableRecipes: [...persistedRecipes, ...missingRecipes]

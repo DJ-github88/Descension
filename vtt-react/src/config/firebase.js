@@ -5,17 +5,29 @@ import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { getAnalytics } from 'firebase/analytics';
 
-// Firebase configuration using environment variables with fallback to hardcoded values
+// Firebase configuration using environment variables only (no hardcoded fallbacks for security)
+// All values must be provided via environment variables
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyDs9SSWy1J_aSX3LvHUBbI9fwi68cuaX7A",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "mythrill-ff7c6.firebaseapp.com",
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://mythrill-ff7c6-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "mythrill-ff7c6",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "mythrill-ff7c6.firebasestorage.app",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "715658408409",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:715658408409:web:3a926eba858e529d66a9c8",
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-WL4DX5LRYX"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
+
+// Build-time validation: Ensure all required Firebase config values are present
+const requiredConfigKeys = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+const missingKeys = requiredConfigKeys.filter(key => !firebaseConfig[key]);
+
+if (missingKeys.length > 0 && process.env.NODE_ENV === 'production') {
+  throw new Error(
+    `Missing required Firebase configuration: ${missingKeys.join(', ')}. ` +
+    `Please set REACT_APP_FIREBASE_${missingKeys.map(k => k.toUpperCase()).join(', REACT_APP_FIREBASE_')} environment variables.`
+  );
+}
 
 // Check if Firebase is configured with real credentials
 const isFirebaseConfigured = !!(
@@ -27,15 +39,7 @@ const isFirebaseConfigured = !!(
 // Demo mode for development - use demo auth when Firebase is not properly configured
 const isDemoMode = process.env.NODE_ENV === 'development' || !isFirebaseConfigured;
 
-// CRITICAL FIX: Enhanced debug logging for Firebase configuration tracking
-console.log('- NODE_ENV:', process.env.NODE_ENV);
-console.log('- isFirebaseConfigured:', isFirebaseConfigured);
-console.log('- isDemoMode:', isDemoMode);
-console.log('- Using env vars:', {
-  apiKey: !!process.env.REACT_APP_FIREBASE_API_KEY,
-  projectId: !!process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  authDomain: !!process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
-});
+// Firebase configuration tracking (debug logs removed for production)
 
 // Initialize Firebase only if configured
 let app = null;
@@ -62,10 +66,6 @@ if (app) {
     
     // Initialize Firebase Authentication and get a reference to the service
     auth = getAuth(app);
-    console.log('✅ Firebase Auth initialized', { 
-      appName: app.name,
-      authDomain: firebaseConfig.authDomain 
-    });
 
     // Set auth persistence to LOCAL (persists across browser sessions)
     setPersistence(auth, browserLocalPersistence)
@@ -77,24 +77,14 @@ if (app) {
 
     // Initialize Cloud Firestore and get a reference to the service
     db = getFirestore(app);
-    console.log('✅ Firestore initialized', { 
-      projectId: firebaseConfig.projectId,
-      databaseURL: firebaseConfig.databaseURL 
-    });
 
     // Initialize Realtime Database for presence tracking
     realtimeDb = getDatabase(app);
-    console.log('✅ Realtime Database initialized', { 
-      databaseURL: firebaseConfig.databaseURL 
-    });
 
     // Initialize Analytics (optional)
     if (typeof window !== 'undefined') {
       try {
         analytics = getAnalytics(app);
-        console.log('✅ Firebase Analytics initialized', { 
-          measurementId: firebaseConfig.measurementId 
-        });
       } catch (analyticsError) {
         console.warn('⚠️ Firebase Analytics initialization failed:', analyticsError);
       }
@@ -110,19 +100,6 @@ if (app) {
     googleProvider.addScope('email');
     googleProvider.addScope('profile');
 
-    
-    // CRITICAL FIX: Log final Firebase status for debugging
-    console.log('🔥 Firebase Services Status:', {
-      app: !!app,
-      auth: !!auth,
-      db: !!db,
-      realtimeDb: !!realtimeDb,
-      analytics: !!analytics,
-      googleProvider: !!googleProvider,
-      isConfigured: isFirebaseConfigured,
-      isDemoMode: isDemoMode,
-      canUseFirebase: isFirebaseConfigured && !isDemoMode
-    });
 
     // Development emulator setup (uncomment for local development)
     // if (process.env.NODE_ENV === 'development') {

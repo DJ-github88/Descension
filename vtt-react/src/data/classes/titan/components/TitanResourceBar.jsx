@@ -93,7 +93,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
         astralWarrior: {
             name: 'Astral Warrior',
             passive: 'Combat Versatility',
-            passiveDesc: 'Can switch devotions as bonus action (3 uses per long rest). Switching triggers burst effect. At devotion switch: short burst flash animation.'
+            passiveDesc: 'Can switch devotions using action points (3 uses per long rest). Switching triggers burst effect. At devotion switch: short burst flash animation.'
         }
     };
 

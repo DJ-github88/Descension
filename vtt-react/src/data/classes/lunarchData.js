@@ -429,7 +429,7 @@ You can only be in one phase at a time. However, certain ultimate abilities (lik
           ['New Moon', '3 rounds', 'Mana Regen: +1d4 per turn', 'Damage Reduction: -1d4 incoming', 'Stealth: +2 to checks'],
           ['Waxing Moon', '3 rounds', 'Spell Damage: +1d4', 'Healing Boost: +1d6', 'Movement: +10 feet'],
           ['Full Moon', '3 rounds', 'All Damage: +1d6', 'Crit Range: +2', 'Radiant Aura: 1d4 damage'],
-          ['Waning Moon', '3 rounds', 'Debuff Duration: +1d4 rounds', 'Mana Cost: -1d4 (min 1)', 'Wisdom Saves: Advantage']
+          ['Waning Moon', '3 rounds', 'Debuff Duration: +1d4 rounds', 'Mana Cost: -1d4 (min 1)', 'Spirit Saves: Advantage']
         ]
       },
       {
@@ -803,23 +803,9 @@ START: Always New Moon
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'radiant',
+        elementType: 'radiant',
+        damageType: 'direct',
         scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          base: {
-            formula: '1d8',
-            type: 'radiant'
-          },
-          phaseBonus: {
-            newMoon: '+1d4 (stealth damage)',
-            waxingMoon: '+1d4 (spell power)',
-            fullMoon: '+1d6 (maximum power)',
-            waningMoon: '+0 (no bonus)'
-          }
-        }
       },
 
       specialMechanics: {
@@ -871,7 +857,8 @@ START: Always New Moon
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'radiant',
+        elementType: 'radiant',
+        damageType: 'direct',
         scalingType: 'none'
       },
 
@@ -883,24 +870,10 @@ START: Always New Moon
         effects: [{
           id: 'marked',
           name: 'Marked',
-          description: 'Marked targets take +1d4 damage from your next spell - takes additional damage from marked source',
+          description: 'Marked targets take +1d4 damage from your next spell',
           statusType: 'marked',
           level: 'moderate'
         }]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d8',
-            type: 'radiant'
-          }
-        },
-        debuff: {
-          type: 'marked',
-          duration: 2,
-          bonusDamage: '1d4'
-        }
       },
 
       specialMechanics: {
@@ -2015,7 +1988,7 @@ START: Always New Moon
       name: 'Celestial Archery',
       description: 'Enter a state of perfect celestial archery, making every shot count.',
       level: 9,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'spell_holy_elunesgrace',
       specialization: 'universal',
 
@@ -2320,7 +2293,7 @@ START: Always New Moon
     {
       id: 'lunarch_moonlight_bolt',
       name: 'Moonlight Bolt',
-      description: 'Fire a bolt of moonlight dealing 1d8 radiant damage.',
+      description: 'Fire a bolt of moonlight that deals radiant damage.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2368,7 +2341,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_blessing',
       name: 'Lunar Blessing',
-      description: 'Bless an ally with lunar power, healing them for 1d8 + spirit.',
+      description: 'Bless an ally with lunar power, healing them.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['healing'],
@@ -2390,8 +2363,9 @@ START: Always New Moon
       },
 
       healingConfig: {
-        formula: '1d8',
-        healingType: 'instant'
+        formula: '1d8 + spirit',
+        healingType: 'single_target',
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
@@ -2469,7 +2443,7 @@ START: Always New Moon
     {
       id: 'lunarch_crescent_strike',
       name: 'Crescent Strike',
-      description: 'Strike with a crescent moon blade dealing 3d6 radiant damage.',
+      description: 'Strike with a crescent moon blade that deals radiant damage.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2578,7 +2552,7 @@ START: Always New Moon
     {
       id: 'lunarch_full_moon_radiance',
       name: 'Full Moon Radiance',
-      description: 'Channel the full moon to heal all allies in a 20 foot radius for 5d8 + spirit.',
+      description: 'Channel the full moon to heal all allies in a radius.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['healing'],
@@ -2600,8 +2574,9 @@ START: Always New Moon
       },
 
       healingConfig: {
-        formula: '5d8',
-        healingType: 'instant'
+        formula: '5d8 + spirit',
+        healingType: 'aoe',
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
@@ -2626,7 +2601,7 @@ START: Always New Moon
     {
       id: 'lunarch_eclipse_burst',
       name: 'Eclipse Burst',
-      description: 'Create an eclipse that deals 6d10 radiant damage to all enemies in a 25 foot radius.',
+      description: 'Create an eclipse that deals massive radiant damage to all enemies in a radius.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2649,7 +2624,7 @@ START: Always New Moon
       },
 
       damageConfig: {
-        formula: '6d10',
+        formula: '6d10 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2659,6 +2634,13 @@ START: Always New Moon
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.0,
+          extraDice: '3d10',
+          critEffects: ['radiant_burn']
         }
       },
 

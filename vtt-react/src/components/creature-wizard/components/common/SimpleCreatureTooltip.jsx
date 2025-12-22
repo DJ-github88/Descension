@@ -236,6 +236,150 @@ const SimpleCreatureTooltip = ({ creature }) => {
     return creature.abilities.slice(0, 2);
   };
 
+  // Format ability stats for display
+  const formatAbilityStats = (ability) => {
+    const stats = [];
+    
+    // Action Point Cost
+    if (ability.actionPointCost || ability.castingConfig?.actionPointCost) {
+      const apCost = ability.actionPointCost || ability.castingConfig?.actionPointCost;
+      stats.push(`${apCost} AP`);
+    }
+    
+    // Range
+    if (ability.range || ability.targetingConfig?.rangeDistance) {
+      const range = ability.range || ability.targetingConfig?.rangeDistance;
+      if (typeof range === 'number') {
+        stats.push(`${range} ft`);
+      } else if (range) {
+        stats.push(range);
+      }
+    }
+    
+    // Damage
+    if (ability.damage) {
+      const { diceCount, diceType, bonus, damageType } = ability.damage;
+      if (diceCount > 0) {
+        let damageText = `${diceCount}d${diceType}`;
+        if (bonus > 0) damageText += `+${bonus}`;
+        if (damageType && damageType !== 'physical') {
+          damageText += ` ${damageType}`;
+        }
+        stats.push(damageText);
+      }
+    } else if (ability.effects) {
+      // Check for damage effects
+      const damageEffect = ability.effects.find(e => e.type === 'damage' || e.type === 'DAMAGE');
+      if (damageEffect) {
+        if (damageEffect.formula) {
+          stats.push(damageEffect.formula);
+        } else if (damageEffect.damageType) {
+          stats.push(`Damage (${damageEffect.damageType})`);
+        }
+      }
+    }
+    
+    // Cooldown
+    if (ability.cooldown && ability.cooldown > 0) {
+      stats.push(`CD: ${ability.cooldown}r`);
+    }
+    
+    return stats;
+  };
+
+  // Format effects concisely for display
+  const formatAbilityEffects = (ability) => {
+    const effects = [];
+    
+    if (ability.effects && Array.isArray(ability.effects)) {
+      ability.effects.forEach(effect => {
+        const type = effect.type?.toLowerCase() || '';
+        
+        if (type === 'damage' || type === 'damage') {
+          const formula = effect.formula || '';
+          const damageType = effect.damageType || 'physical';
+          if (formula) {
+            effects.push(`${formula} ${damageType} damage`);
+          } else {
+            effects.push(`${damageType} damage`);
+          }
+        } else if (type === 'healing' || type === 'heal') {
+          const formula = effect.formula || effect.healingFormula || '';
+          if (formula) {
+            effects.push(`${formula} healing`);
+          } else {
+            effects.push('Healing');
+          }
+        } else if (type === 'buff') {
+          const buffName = effect.name || effect.buffName || 'Buff';
+          effects.push(buffName);
+        } else if (type === 'debuff') {
+          const debuffName = effect.name || effect.debuffName || 'Debuff';
+          effects.push(debuffName);
+        } else if (type === 'status') {
+          const statusName = effect.name || effect.statusName || 'Status Effect';
+          effects.push(statusName);
+        } else if (type === 'condition') {
+          const conditionName = effect.name || effect.conditionName || 'Condition';
+          effects.push(conditionName);
+        } else if (effect.name) {
+          effects.push(effect.name);
+        }
+      });
+    }
+    
+    // Check for damage config
+    if (ability.damageConfig) {
+      const formula = ability.damageConfig.formula || ability.damageConfig.damageFormula || '';
+      const damageType = ability.damageConfig.damageType || 
+                        (ability.damageConfig.damageTypes && ability.damageConfig.damageTypes[0]) || 
+                        'physical';
+      if (formula) {
+        effects.push(`${formula} ${damageType} damage`);
+      }
+    }
+    
+    // Check for healing config
+    if (ability.healingConfig) {
+      const formula = ability.healingConfig.formula || '';
+      if (formula) {
+        effects.push(`${formula} healing`);
+      } else {
+        effects.push('Healing');
+      }
+    }
+    
+    // Check for buff config
+    if (ability.buffConfig) {
+      if (ability.buffConfig.statModifiers && ability.buffConfig.statModifiers.length > 0) {
+        const mods = ability.buffConfig.statModifiers.map(mod => {
+          const stat = mod.stat.charAt(0).toUpperCase() + mod.stat.slice(1);
+          const sign = mod.value >= 0 ? '+' : '';
+          return `${sign}${mod.value} ${stat}`;
+        });
+        effects.push(`Buff: ${mods.join(', ')}`);
+      } else {
+        effects.push('Buff');
+      }
+    }
+    
+    // Check for debuff config
+    if (ability.debuffConfig) {
+      if (ability.debuffConfig.statModifiers && ability.debuffConfig.statModifiers.length > 0) {
+        const mods = ability.debuffConfig.statModifiers.map(mod => {
+          const stat = mod.stat.charAt(0).toUpperCase() + mod.stat.slice(1);
+          const sign = mod.value >= 0 ? '+' : '';
+          return `${sign}${mod.value} ${stat}`;
+        });
+        effects.push(`Debuff: ${mods.join(', ')}`);
+      } else {
+        effects.push('Debuff');
+      }
+    }
+    
+    return effects;
+  };
+
   // Get loot preview
   const getLootPreview = () => {
     if (!creature.lootTable) return null;
@@ -649,34 +793,116 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
             {/* Ability Cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {notableAbilities.slice(0, 2).map((ability, index) => (
-                <div key={index} style={{
-                  background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.25) 0%, rgba(139, 92, 246, 0.2) 100%)',
-                  border: '2px solid #8B4513',
-                  borderRadius: '8px',
-                  padding: '10px 12px',
-                  position: 'relative'
-                }}>
-                  <div style={{
-                    fontSize: '13px',
-                    fontWeight: '600',
-                    color: '#2d1810',
-                    marginBottom: '4px',
-                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
-                    lineHeight: '1.3'
+              {notableAbilities.slice(0, 2).map((ability, index) => {
+                const abilityStats = formatAbilityStats(ability);
+                const abilityEffects = formatAbilityEffects(ability);
+                const hasDescription = ability.description && ability.description.trim().length > 0;
+                
+                return (
+                  <div key={index} style={{
+                    background: 'linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(232, 220, 192, 0.9) 100%)',
+                    border: '2px solid #8B4513',
+                    borderRadius: '8px',
+                    padding: '10px 12px',
+                    position: 'relative',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
                   }}>
-                    {ability.name}
+                    <div style={{
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      color: '#2d1810',
+                      marginBottom: '6px',
+                      textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
+                      lineHeight: '1.3',
+                      fontFamily: 'Cinzel, serif'
+                    }}>
+                      {ability.name}
+                    </div>
+                    {/* Ability Stats */}
+                    {abilityStats.length > 0 && (
+                      <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '5px',
+                        marginBottom: '8px',
+                        fontSize: '11px',
+                        fontWeight: '600'
+                      }}>
+                        {abilityStats.map((stat, statIndex) => (
+                          <span key={statIndex} style={{
+                            background: 'rgba(139, 69, 19, 0.2)',
+                            border: '1px solid rgba(139, 69, 19, 0.5)',
+                            borderRadius: '4px',
+                            padding: '3px 7px',
+                            color: '#5a1e12',
+                            textShadow: '1px 1px 1px rgba(255, 255, 255, 0.8)',
+                            whiteSpace: 'nowrap',
+                            fontFamily: 'Crimson Text, serif'
+                          }}>
+                            {stat}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {/* Effects List */}
+                    {abilityEffects.length > 0 && (
+                      <div style={{
+                        fontSize: '11px',
+                        color: '#3a2a1a',
+                        lineHeight: '1.5',
+                        marginBottom: hasDescription ? '6px' : '0',
+                        fontFamily: 'Crimson Text, serif'
+                      }}>
+                        <div style={{
+                          fontWeight: '600',
+                          color: '#5a1e12',
+                          marginBottom: '3px',
+                          fontSize: '10px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
+                        }}>
+                          Effects:
+                        </div>
+                        <div style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '2px'
+                        }}>
+                          {abilityEffects.map((effect, effectIndex) => (
+                            <div key={effectIndex} style={{
+                              paddingLeft: '8px',
+                              position: 'relative'
+                            }}>
+                              <span style={{
+                                position: 'absolute',
+                                left: '0',
+                                color: '#8B4513',
+                                fontWeight: '700'
+                              }}>•</span>
+                              <span>{effect}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {/* Description */}
+                    {hasDescription && (
+                      <div style={{
+                        fontSize: '11px',
+                        color: '#3a2a1a',
+                        lineHeight: '1.4',
+                        fontStyle: 'italic',
+                        marginTop: abilityEffects.length > 0 ? '6px' : '0',
+                        paddingTop: abilityEffects.length > 0 ? '6px' : '0',
+                        borderTop: abilityEffects.length > 0 ? '1px solid rgba(139, 69, 19, 0.2)' : 'none',
+                        fontFamily: 'Crimson Text, serif'
+                      }}>
+                        {ability.description.length > 100 ? ability.description.substring(0, 100) + '...' : ability.description}
+                      </div>
+                    )}
                   </div>
-                  <div style={{
-                    fontSize: '12px',
-                    color: '#2d1810',
-                    lineHeight: '1.4',
-                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)'
-                  }}>
-                    {ability.description.length > 70 ? ability.description.substring(0, 70) + '...' : ability.description}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* More abilities indicator */}

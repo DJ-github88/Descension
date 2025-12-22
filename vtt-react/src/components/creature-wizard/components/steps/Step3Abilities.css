@@ -1208,6 +1208,30 @@
   gap: var(--pf-space-2, 8px);
 }
 
+.priority-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-1, 4px);
+}
+
+.priority-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1, 4px);
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-dark, #654321);
+  cursor: pointer;
+}
+
+.priority-toggle input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
 .priority-label {
   font-family: 'Crimson Text', serif;
   font-size: 13px;
@@ -1318,12 +1342,169 @@
 }
 
 .priority-hint {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: block;
+  font-family: 'Crimson Text', serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--pf-brown-medium, #8B4513);
+  font-weight: 500;
 }
 
 .priority-hint::before {
-  content: '💡';
+  content: '';
+  display: none;
+}
+
+/* Ability Trigger Condition Editor */
+.ability-trigger-editor {
+  background: rgba(184, 50, 50, 0.05);
+  border: 1px solid rgba(184, 50, 50, 0.2);
+  border-radius: var(--pf-border-radius, 6px);
+  padding: var(--pf-space-3, 12px);
+  margin-top: var(--pf-space-2, 8px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2, 8px);
+}
+
+.trigger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-1, 4px);
+}
+
+.trigger-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1, 4px);
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-dark, #654321);
+  cursor: pointer;
+}
+
+.trigger-toggle input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.trigger-text-input {
+  width: 100% !important;
+  max-width: 300px;
+}
+
+.trigger-label {
+  font-family: 'Crimson Text', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pf-brown-dark, #654321);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2, 8px);
+}
+
+.trigger-label i {
+  color: rgba(184, 50, 50, 0.8);
+}
+
+.trigger-type-selector,
+.trigger-operator-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2, 8px);
+}
+
+.trigger-type-selector label,
+.trigger-operator-selector label {
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-dark, #654321);
+}
+
+.trigger-type-select,
+.trigger-operator-select {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(184, 50, 50, 0.3);
+  border-radius: var(--pf-border-radius, 6px);
+  padding: 6px 10px;
+  font-family: 'Crimson Text', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pf-text-primary, #2d1810);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trigger-type-select:focus,
+.trigger-operator-select:focus {
+  outline: none;
+  border-color: rgba(184, 50, 50, 0.6);
+  box-shadow: 0 0 0 2px rgba(184, 50, 50, 0.2);
+  background: rgba(255, 255, 255, 1);
+}
+
+.trigger-value-input {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2, 8px);
+}
+
+.trigger-value-input label {
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-dark, #654321);
+  white-space: nowrap;
+}
+
+.trigger-input {
+  width: 80px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(184, 50, 50, 0.3);
+  border-radius: var(--pf-border-radius, 6px);
+  padding: 6px 8px;
+  font-family: 'Crimson Text', serif;
   font-size: 14px;
+  font-weight: 600;
+  color: var(--pf-text-primary, #2d1810);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.trigger-input:focus {
+  outline: none;
+  border-color: rgba(184, 50, 50, 0.6);
+  box-shadow: 0 0 0 2px rgba(184, 50, 50, 0.2);
+  background: rgba(255, 255, 255, 1);
+}
+
+.trigger-display {
+  font-size: 12px;
+  color: rgba(184, 50, 50, 0.8);
+  font-style: italic;
+  padding-top: 4px;
+  border-top: 1px solid rgba(184, 50, 50, 0.1);
+  background: transparent !important;
+}
+
+.trigger-hint {
+  display: block;
+  font-family: 'Crimson Text', serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(139, 69, 19, 0.95) !important;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.9) !important;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(184, 50, 50, 0.2);
+}
+
+.trigger-hint::before {
+  content: '';
+  display: none;
 }

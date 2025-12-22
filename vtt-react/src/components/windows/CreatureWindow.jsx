@@ -154,7 +154,7 @@ const CreatureWindow = memo(function CreatureWindow({
                   },
                   {
                     type: 'SPECIAL',
-                    description: 'Snicksnack can take the Hide action as a free action.'
+                    description: 'Snicksnack can take the Hide action without spending action points.'
                   }
                 ]
               }

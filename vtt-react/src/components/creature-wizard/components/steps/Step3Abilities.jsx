@@ -41,7 +41,8 @@ const DEFAULT_ABILITY = {
     cardPattern: 'any', // Card pattern: 'any', 'hearts', 'diamonds', 'clubs', 'spades', 'red', 'black', 'face', 'ace', 'ace_of_hearts', etc.
     coinCount: 1, // Number of coins to flip (for COINS resolution)
     coinPattern: 'any' // Coin pattern: 'any', 'heads', 'tails', 'all_heads', 'all_tails', 'majority_heads', 'majority_tails'
-  } // Default to full range
+  }, // Default to full range
+  triggerCondition: null // { type: 'hp_percentage' | 'enemy_count' | null, operator: 'below' | 'above' | 'equal' | 'at_least' | 'at_most', value: number }
 };
 
 const Step3Abilities = () => {
@@ -151,6 +152,15 @@ const Step3Abilities = () => {
     dispatch(wizardActionCreators.updateAbility(index, updatedAbility));
   };
 
+  // Handle updating ability trigger condition
+  const handleUpdateAbilityTriggerCondition = (index, triggerCondition) => {
+    const updatedAbility = {
+      ...wizardState.abilities[index],
+      triggerCondition: triggerCondition
+    };
+    dispatch(wizardActionCreators.updateAbility(index, updatedAbility));
+  };
+
   // Render the ability list
   const renderAbilityList = () => {
     if (wizardState.abilities.length === 0) {
@@ -173,6 +183,8 @@ const Step3Abilities = () => {
             id: ability.id || ability.spellId || `ability-${index}`,
             // Ensure name exists
             name: ability.name || 'Unnamed Ability',
+            // Ensure triggerCondition is passed through
+            triggerCondition: ability.triggerCondition || null
           };
 
           // Get priority range or default to full range
@@ -192,9 +204,26 @@ const Step3Abilities = () => {
               />
               {/* Priority Range Editor */}
               <div className="ability-priority-editor">
-                <label className="priority-label">
-                  <i className="fas fa-dice-d20"></i> Priority Range:
-                </label>
+                <div className="priority-header">
+                  <label className="priority-label">
+                    <i className="fas fa-dice-d20"></i> Priority Range:
+                  </label>
+                  <label className="priority-toggle">
+                    <input
+                      type="checkbox"
+                      checked={ability.priorityRange !== null && ability.priorityRange !== undefined}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleUpdateAbilityPriority(index, { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' });
+                        } else {
+                          handleUpdateAbilityPriority(index, null);
+                        }
+                      }}
+                    />
+                    <span>Enable</span>
+                  </label>
+                </div>
+                {ability.priorityRange !== null && ability.priorityRange !== undefined && (
                 <div className="priority-resolution-selector">
                   <label>Resolution:</label>
                   <select
@@ -215,7 +244,8 @@ const Step3Abilities = () => {
                     <option value="COINS">Coins</option>
                   </select>
                 </div>
-                {priorityRange.resolution === 'DICE' && (
+                )}
+                {ability.priorityRange !== null && ability.priorityRange !== undefined && priorityRange.resolution === 'DICE' && (
                   <>
                     <div className="priority-range-inputs">
                       <input
@@ -255,7 +285,7 @@ const Step3Abilities = () => {
                     </div>
                   </>
                 )}
-                {priorityRange.resolution === 'CARDS' && (
+                {ability.priorityRange !== null && ability.priorityRange !== undefined && priorityRange.resolution === 'CARDS' && (
                   <>
                     <div className="priority-range-inputs">
                       <label className="priority-count-label">Number of Cards:</label>
@@ -330,7 +360,7 @@ const Step3Abilities = () => {
                     </div>
                   </>
                 )}
-                {priorityRange.resolution === 'COINS' && (
+                {ability.priorityRange !== null && ability.priorityRange !== undefined && priorityRange.resolution === 'COINS' && (
                   <>
                     <div className="priority-range-inputs">
                       <label className="priority-count-label">Number of Coins:</label>
@@ -383,6 +413,556 @@ const Step3Abilities = () => {
                               priorityRange.coinPattern} to determine if this ability is used`}
                       </span>
                     </div>
+                  </>
+                )}
+              </div>
+              {/* Trigger Condition Editor */}
+              <div className="ability-trigger-editor">
+                <div className="trigger-header">
+                  <label className="trigger-label">
+                    <i className="fas fa-bolt"></i> Trigger Condition:
+                  </label>
+                  <label className="trigger-toggle">
+                    <input
+                      type="checkbox"
+                      checked={ability.triggerCondition !== null && ability.triggerCondition !== undefined}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            type: 'hp_percentage',
+                            operator: 'below',
+                            value: 50
+                          });
+                        } else {
+                          handleUpdateAbilityTriggerCondition(index, null);
+                        }
+                      }}
+                    />
+                    <span>Enable</span>
+                  </label>
+                </div>
+                {ability.triggerCondition !== null && ability.triggerCondition !== undefined && (
+                  <>
+                <div className="trigger-type-selector">
+                  <label>Condition Type:</label>
+                  <select
+                    value={ability.triggerCondition.type || 'hp_percentage'}
+                    onChange={(e) => {
+                      const newType = e.target.value;
+                      // Set appropriate defaults based on type
+                      let defaultOperator = 'below';
+                      let defaultValue = 50;
+                      
+                      if (newType === 'enemy_count' || newType === 'ally_count') {
+                        defaultOperator = 'at_least';
+                        defaultValue = 1;
+                      } else if (newType === 'round_number' || newType === 'turn_number') {
+                        defaultOperator = 'at_least';
+                        defaultValue = 1;
+                      } else if (newType === 'hp_percentage_target') {
+                        defaultOperator = 'below';
+                        defaultValue = 50;
+                      } else if (newType === 'distance') {
+                        defaultOperator = 'at_most';
+                        defaultValue = 30;
+                      } else if (newType === 'enemies_low_hp') {
+                        defaultOperator = 'at_least';
+                        defaultValue = 1;
+                      }
+                      
+                      handleUpdateAbilityTriggerCondition(index, {
+                        type: newType,
+                        operator: defaultOperator,
+                        value: defaultValue,
+                        // Clear type-specific fields when changing types
+                        statusEffect: undefined,
+                        resourceType: undefined
+                      });
+                    }}
+                    className="trigger-type-select"
+                  >
+                    <optgroup label="Health & Status">
+                      <option value="hp_percentage">Self HP Percentage</option>
+                      <option value="hp_percentage_target">Target HP Percentage</option>
+                      <option value="status_effect_self">Has Status Effect (Self)</option>
+                      <option value="status_effect_enemy">Enemy Has Status Effect</option>
+                      <option value="enemies_low_hp">Enemies with Low HP</option>
+                    </optgroup>
+                    <optgroup label="Combat Position">
+                      <option value="enemy_count">Enemy Count Nearby</option>
+                      <option value="ally_count">Ally Count Nearby</option>
+                      <option value="distance">Distance from Target</option>
+                      <option value="surrounded">Surrounded by Enemies</option>
+                    </optgroup>
+                    <optgroup label="Combat Timing">
+                      <option value="round_number">Round Number</option>
+                      <option value="turn_number">Turn Number</option>
+                      <option value="phase">Combat Phase</option>
+                      <option value="first_turn">First Turn of Combat</option>
+                    </optgroup>
+                    <optgroup label="Resources">
+                      <option value="resource_level">Resource Level (Mana/Stamina)</option>
+                      <option value="action_points">Action Points Available</option>
+                    </optgroup>
+                    <optgroup label="Strategic">
+                      <option value="cooldown_ready">Cooldown Ready</option>
+                      <option value="ability_used">Specific Ability Used</option>
+                      <option value="damage_taken">Damage Taken This Turn</option>
+                    </optgroup>
+                  </select>
+                </div>
+                {/* HP Percentage Conditions */}
+                {(ability.triggerCondition?.type === 'hp_percentage' || ability.triggerCondition?.type === 'hp_percentage_target') && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'below'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="below">Below</option>
+                        <option value="above">Above</option>
+                        <option value="equal">Equal To</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>HP %:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={ability.triggerCondition.value || 50}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(100, parseInt(e.target.value) || 0));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when {ability.triggerCondition.type === 'hp_percentage_target' ? 'target' : 'self'} HP is {ability.triggerCondition.operator === 'below' ? 'below' : 
+                                        ability.triggerCondition.operator === 'above' ? 'above' : 
+                                        'equal to'} {ability.triggerCondition.value}%
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Count-based Conditions */}
+                {(ability.triggerCondition?.type === 'enemy_count' || ability.triggerCondition?.type === 'ally_count' || ability.triggerCondition?.type === 'enemies_low_hp') && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'at_least'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="at_least">At Least</option>
+                        <option value="at_most">At Most</option>
+                        <option value="equal">Exactly</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>{ability.triggerCondition.type === 'enemies_low_hp' ? 'Enemies with Low HP:' : ability.triggerCondition.type === 'ally_count' ? 'Ally Count:' : 'Enemy Count:'}</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="20"
+                        value={ability.triggerCondition.value || 1}
+                        onChange={(e) => {
+                          const value = Math.max(1, Math.min(20, parseInt(e.target.value) || 1));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    {ability.triggerCondition.type === 'enemies_low_hp' && (
+                      <div className="trigger-value-input">
+                        <label>Low HP Threshold %:</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={ability.triggerCondition.threshold || 25}
+                          onChange={(e) => {
+                            const threshold = Math.max(0, Math.min(100, parseInt(e.target.value) || 25));
+                            handleUpdateAbilityTriggerCondition(index, {
+                              ...ability.triggerCondition,
+                              threshold
+                            });
+                          }}
+                          className="trigger-input"
+                        />
+                      </div>
+                    )}
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        {ability.triggerCondition.type === 'enemies_low_hp' 
+                          ? `Use when ${ability.triggerCondition.operator === 'at_least' ? 'at least' : ability.triggerCondition.operator === 'at_most' ? 'at most' : 'exactly'} ${ability.triggerCondition.value} enemy${ability.triggerCondition.value !== 1 ? 'ies' : ''} below ${ability.triggerCondition.threshold || 25}% HP`
+                          : ability.triggerCondition.type === 'ally_count'
+                          ? `Use when ${ability.triggerCondition.operator === 'at_least' ? 'at least' : ability.triggerCondition.operator === 'at_most' ? 'at most' : 'exactly'} ${ability.triggerCondition.value} ally${ability.triggerCondition.value !== 1 ? 'ies' : ''} nearby`
+                          : `Use when ${ability.triggerCondition.operator === 'at_least' ? 'at least' : ability.triggerCondition.operator === 'at_most' ? 'at most' : 'exactly'} ${ability.triggerCondition.value} enemy${ability.triggerCondition.value !== 1 ? 'ies' : ''} nearby`}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Round/Turn Number Conditions */}
+                {(ability.triggerCondition?.type === 'round_number' || ability.triggerCondition?.type === 'turn_number') && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'at_least'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="at_least">At Least</option>
+                        <option value="at_most">At Most</option>
+                        <option value="equal">Exactly</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>{ability.triggerCondition.type === 'round_number' ? 'Round Number:' : 'Turn Number:'}</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="50"
+                        value={ability.triggerCondition.value || 1}
+                        onChange={(e) => {
+                          const value = Math.max(1, Math.min(50, parseInt(e.target.value) || 1));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use on {ability.triggerCondition.type === 'round_number' ? 'round' : 'turn'} {ability.triggerCondition.operator === 'at_least' ? `${ability.triggerCondition.value} or later` : 
+                                        ability.triggerCondition.operator === 'at_most' ? `${ability.triggerCondition.value} or earlier` : 
+                                        ability.triggerCondition.value}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Distance Condition */}
+                {ability.triggerCondition?.type === 'distance' && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'at_most'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="at_most">Within</option>
+                        <option value="at_least">Beyond</option>
+                        <option value="equal">Exactly</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>Distance (ft):</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="200"
+                        value={ability.triggerCondition.value || 30}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(200, parseInt(e.target.value) || 30));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when target is {ability.triggerCondition.operator === 'at_most' ? 'within' : 
+                                          ability.triggerCondition.operator === 'at_least' ? 'beyond' : 
+                                          'exactly'} {ability.triggerCondition.value} feet
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Status Effect Conditions */}
+                {(ability.triggerCondition?.type === 'status_effect_self' || ability.triggerCondition?.type === 'status_effect_enemy') && (
+                  <>
+                    <div className="trigger-value-input">
+                      <label>Status Effect Name:</label>
+                      <input
+                        type="text"
+                        value={ability.triggerCondition.statusEffect || ''}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            statusEffect: e.target.value
+                          });
+                        }}
+                        className="trigger-input trigger-text-input"
+                        placeholder="e.g., Stunned, Poisoned, Burning"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when {ability.triggerCondition.type === 'status_effect_self' ? 'self' : 'enemy'} has status effect: {ability.triggerCondition.statusEffect || '(not set)'}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Resource Level Condition */}
+                {ability.triggerCondition?.type === 'resource_level' && (
+                  <>
+                    <div className="trigger-value-input">
+                      <label>Resource Type:</label>
+                      <select
+                        value={ability.triggerCondition.resourceType || 'mana'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            resourceType: e.target.value
+                          });
+                        }}
+                        className="trigger-type-select"
+                      >
+                        <option value="mana">Mana</option>
+                        <option value="stamina">Stamina</option>
+                        <option value="energy">Energy</option>
+                        <option value="rage">Rage</option>
+                        <option value="focus">Focus</option>
+                      </select>
+                    </div>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'below'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="below">Below</option>
+                        <option value="above">Above</option>
+                        <option value="equal">Equal To</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>Resource %:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={ability.triggerCondition.value || 50}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(100, parseInt(e.target.value) || 0));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when {ability.triggerCondition.resourceType || 'mana'} is {ability.triggerCondition.operator === 'below' ? 'below' : 
+                                        ability.triggerCondition.operator === 'above' ? 'above' : 
+                                        'equal to'} {ability.triggerCondition.value}%
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Action Points Condition */}
+                {ability.triggerCondition?.type === 'action_points' && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'at_least'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="at_least">At Least</option>
+                        <option value="at_most">At Most</option>
+                        <option value="equal">Exactly</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>Action Points:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="10"
+                        value={ability.triggerCondition.value || 1}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when {ability.triggerCondition.operator === 'at_least' ? 'at least' : 
+                                  ability.triggerCondition.operator === 'at_most' ? 'at most' : 
+                                  'exactly'} {ability.triggerCondition.value} action point{ability.triggerCondition.value !== 1 ? 's' : ''} available
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Simple Boolean Conditions */}
+                {(ability.triggerCondition?.type === 'surrounded' || 
+                  ability.triggerCondition?.type === 'first_turn' || 
+                  ability.triggerCondition?.type === 'cooldown_ready' ||
+                  ability.triggerCondition?.type === 'phase') && (
+                  <>
+                    {ability.triggerCondition.type === 'phase' && (
+                      <div className="trigger-value-input">
+                        <label>Combat Phase:</label>
+                        <select
+                          value={ability.triggerCondition.value || 'phase1'}
+                          onChange={(e) => {
+                            handleUpdateAbilityTriggerCondition(index, {
+                              ...ability.triggerCondition,
+                              value: e.target.value
+                            });
+                          }}
+                          className="trigger-type-select"
+                        >
+                          <option value="phase1">Phase 1</option>
+                          <option value="phase2">Phase 2</option>
+                          <option value="phase3">Phase 3</option>
+                          <option value="phase4">Phase 4</option>
+                          <option value="final">Final Phase</option>
+                        </select>
+                      </div>
+                    )}
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        {ability.triggerCondition.type === 'surrounded' 
+                          ? 'Use when surrounded by enemies'
+                          : ability.triggerCondition.type === 'first_turn'
+                          ? 'Use on the first turn of combat'
+                          : ability.triggerCondition.type === 'cooldown_ready'
+                          ? 'Use when cooldown is ready'
+                          : `Use during ${ability.triggerCondition.value || 'Phase 1'}`}
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Damage Taken Condition */}
+                {ability.triggerCondition?.type === 'damage_taken' && (
+                  <>
+                    <div className="trigger-operator-selector">
+                      <label>Condition:</label>
+                      <select
+                        value={ability.triggerCondition.operator || 'at_least'}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            operator: e.target.value
+                          });
+                        }}
+                        className="trigger-operator-select"
+                      >
+                        <option value="at_least">At Least</option>
+                        <option value="at_most">At Most</option>
+                        <option value="equal">Exactly</option>
+                      </select>
+                    </div>
+                    <div className="trigger-value-input">
+                      <label>Damage Amount:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="1000"
+                        value={ability.triggerCondition.value || 10}
+                        onChange={(e) => {
+                          const value = Math.max(0, Math.min(1000, parseInt(e.target.value) || 0));
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            value
+                          });
+                        }}
+                        className="trigger-input"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use when {ability.triggerCondition.operator === 'at_least' ? 'at least' : 
+                                  ability.triggerCondition.operator === 'at_most' ? 'at most' : 
+                                  'exactly'} {ability.triggerCondition.value} damage taken this turn
+                      </div>
+                    </div>
+                  </>
+                )}
+                {/* Ability Used Condition */}
+                {ability.triggerCondition?.type === 'ability_used' && (
+                  <>
+                    <div className="trigger-value-input">
+                      <label>Ability Name:</label>
+                      <input
+                        type="text"
+                        value={ability.triggerCondition.abilityName || ''}
+                        onChange={(e) => {
+                          handleUpdateAbilityTriggerCondition(index, {
+                            ...ability.triggerCondition,
+                            abilityName: e.target.value
+                          });
+                        }}
+                        className="trigger-input trigger-text-input"
+                        placeholder="e.g., Fireball, Charge"
+                      />
+                    </div>
+                    <div className="trigger-display">
+                      <div className="trigger-hint">
+                        Use after ability "{ability.triggerCondition.abilityName || '(not set)'}" is used
+                      </div>
+                    </div>
+                  </>
+                )}
                   </>
                 )}
               </div>
@@ -557,10 +1137,11 @@ const Step3Abilities = () => {
   // Handle creating a basic ability
   const handleCreateBasicAbility = (ability) => {
     console.log("Step3Abilities: handleCreateBasicAbility called with ability:", ability);
-    // Ensure priorityRange is set (default to full range if not provided)
+    // Ensure priorityRange and triggerCondition are set (defaults if not provided)
     const abilityWithPriority = {
       ...ability,
-      priorityRange: ability.priorityRange || { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' }
+      priorityRange: ability.priorityRange || { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' },
+      triggerCondition: ability.triggerCondition || null
     };
     dispatch(wizardActionCreators.addAbility(abilityWithPriority));
     setShowBasicAbilityCreator(false);
@@ -601,7 +1182,9 @@ const Step3Abilities = () => {
       // Store the original spell data for reference
       originalSpell: spell,
       // Default priority range (1-20 means always available)
-      priorityRange: { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' }
+      priorityRange: { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' },
+      // Default trigger condition (none)
+      triggerCondition: null
     };
 
     // Process spell effects based on the spell format

@@ -199,7 +199,6 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
     // Log save-related field changes for debugging
     if (key === 'savingThrow' || key === 'difficultyClass' || key === 'saveOutcome') {
-      console.log('Updated save-related field:', key, value);
     }
     // If updating the global magnitude or magnitudeType, don't apply to existing modifiers
     // Each stat now has its own magnitude and type
@@ -951,7 +950,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         slowed: {
           hindered: "Target's movement speed is halved",
-          lethargic: "Target can take either an action or a bonus action on their turn, not both",
+          lethargic: "Target can take only limited actions per turn",
           temporal: "Target acts as if under the Slow spell"
         },
         burning: {
@@ -1013,7 +1012,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         paralyzed: {
           partial: "Target is partially paralyzed (incapacitated but aware of surroundings)",
-          complete: "Target is completely paralyzed (incapacitated, can't move or speak, auto-fails STR/DEX saves)",
+          complete: "Target is completely paralyzed (incapacitated, can't move or speak, auto-fails STR/AGI saves)",
           magical: "Target is magically locked in stasis (cannot be moved, immune to further effects)"
         },
         poisoned: {
@@ -1022,9 +1021,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           paralyzing: "Target is paralyzed and takes 2d4 poison damage per round"
         },
         stunned: {
-          dazed: "Target is stunned (can't take actions/reactions, drops everything, can't speak, auto-fails STR/DEX saves)",
+          dazed: "Target is stunned (can't take actions/reactions, drops everything, can't speak, auto-fails STR/AGI saves)",
           unconscious: "Target falls unconscious for 1d4 hours",
-          electric: "Target is stunned and creatures within 5 feet must make a DEX save or be stunned as well"
+          electric: "Target is stunned and creatures within 5 feet must make an Agility save or be stunned as well"
         },
         restrained: {
           ensnared: "Target is restrained (0 speed, disadvantage on attacks, advantage on attacks against them)",
@@ -1037,8 +1036,8 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           temporal: "Target's speech and spellcasting are temporally displaced (always fail verbal components)"
         },
         slowed: {
-          hindered: "Target's speed is reduced to 5 feet and they have disadvantage on all DEX saves",
-          lethargic: "Target can only take an action OR bonus action once every 2 rounds",
+          hindered: "Target's speed is reduced to 5 feet and they have disadvantage on all Agility saves",
+          lethargic: "Target can only take limited actions once every 2 rounds",
           temporal: "Target is caught in a time distortion (can only take an action every other turn)"
         },
         burning: {

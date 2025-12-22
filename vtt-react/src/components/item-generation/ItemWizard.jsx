@@ -954,10 +954,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     onClose(formattedItem);
                 }
             } else if (!item && onCancel) {
-                console.log('Calling onCancel()');
                 onCancel();
             } else if (onClose) {
-                console.log('Calling onClose(null)');
                 onClose(null);
             }
         };
@@ -1251,7 +1249,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     }, [itemData.type]);
 
     const updateItemData = (newData) => {
-        console.log('updateItemData called with:', newData);
         setItemData(prevData => {
             // Create a new object with the updates
             const updatedData = { ...prevData, ...newData };
@@ -1342,7 +1339,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 };
             }
 
-            console.log('updateItemData result:', updatedData);
             return updatedData;
         });
     };
@@ -4698,7 +4694,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <button className="close-button" onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log('Close button clicked, calling handleClose()');
                             handleClose();
                         }}>×</button>
                     </div>

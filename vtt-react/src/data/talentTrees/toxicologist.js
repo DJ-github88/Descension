@@ -311,7 +311,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     id: 'sabotage_field_psychological',
     name: 'Psychological Warfare',
-    description: 'Your sabotage breaks minds before bodies. Enemies affected by your abilities have disadvantage on Wisdom saves and cannot benefit from morale bonuses. Fear effects last twice as long.',
+    description: 'Your sabotage breaks minds before bodies. Enemies affected by your abilities have disadvantage on Spirit saves and cannot benefit from morale bonuses. Fear effects last twice as long.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 3,
     position: { x: 3, y: 1 },

@@ -17,6 +17,11 @@ class ErrorHandler {
     };
     this.timeWindow = 5 * 60 * 1000; // 5 minutes
     
+    // MULTIPLAYER: Retry configuration for transient failures
+    this.retryableErrors = ['network', 'database', 'timeout'];
+    this.maxRetries = 3;
+    this.retryDelays = [100, 500, 2000]; // Exponential backoff delays in ms
+    
     logger.info('Error handler initialized');
   }
 
@@ -35,7 +40,8 @@ class ErrorHandler {
       userAgent: context.userAgent,
       socketId: context.socketId,
       roomId: context.roomId,
-      playerId: context.playerId
+      playerId: context.playerId,
+      retryable: this.isRetryable(error)
     };
 
     // Add to recent errors
@@ -55,6 +61,62 @@ class ErrorHandler {
 
     // Return sanitized error for client
     return this.sanitizeErrorForClient(errorInfo);
+  }
+
+  /**
+   * Check if an error is retryable (transient failure)
+   */
+  isRetryable(error) {
+    const errorType = this.categorizeError(error);
+    return this.retryableErrors.includes(errorType);
+  }
+
+  /**
+   * Execute a function with automatic retry for transient failures
+   * @param {Function} fn - Function to execute
+   * @param {Object} options - Retry options
+   * @returns {Promise} - Result of function execution
+   */
+  async executeWithRetry(fn, options = {}) {
+    const maxRetries = options.maxRetries || this.maxRetries;
+    const retryDelays = options.retryDelays || this.retryDelays;
+    let lastError;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error;
+        
+        // Check if error is retryable
+        if (!this.isRetryable(error)) {
+          throw error; // Don't retry non-retryable errors
+        }
+
+        // If this was the last attempt, throw the error
+        if (attempt === maxRetries) {
+          logger.warn('Max retries exceeded', {
+            attempts: attempt + 1,
+            error: error.message,
+            errorType: this.categorizeError(error)
+          });
+          throw error;
+        }
+
+        // Wait before retrying (exponential backoff)
+        const delay = retryDelays[attempt] || retryDelays[retryDelays.length - 1];
+        logger.debug('Retrying after transient failure', {
+          attempt: attempt + 1,
+          maxRetries,
+          delay,
+          error: error.message
+        });
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+
+    throw lastError;
   }
 
   /**

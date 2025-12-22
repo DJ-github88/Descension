@@ -9,9 +9,71 @@ const SpellTooltip = ({
   position,
   onMouseEnter,
   onMouseLeave,
-  smartPositioning = false // New prop to enable smart positioning for action bar
+  smartPositioning = false, // New prop to enable smart positioning for action bar
+  fullscreenMode = false // New prop to enable fullscreen modal mode with cloudy background
 }) => {
-  if (!spell || !position) return null;
+  if (!spell) return null;
+  
+  // Position is only required when not in fullscreen mode
+  if (!fullscreenMode && !position) return null;
+
+  // Fullscreen modal mode - shows cloudy background with centered spell card
+  if (fullscreenMode) {
+    const tooltipContent = (
+      <div
+        className="spellbook-popup-overlay"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999, // Lower than action bar to keep it visible
+          cursor: 'default',
+          margin: 0,
+          padding: 0,
+          pointerEvents: 'none' // Allow clicks to pass through to action bar
+        }}
+      >
+        <div
+          className="spellbook-popup-content"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          style={{
+            padding: '20px',
+            maxWidth: '600px',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            cursor: 'default',
+            pointerEvents: 'auto' // Re-enable pointer events for the spell card
+          }}
+        >
+          <UnifiedSpellCard
+            spell={spell}
+            variant="wizard"
+            rollableTableData={rollableTableData}
+            showActions={false}
+            showDescription={true}
+            showStats={true}
+            showTags={true}
+          />
+        </div>
+      </div>
+    );
+
+    // Render directly to body for fullscreen mode
+    return ReactDOM.createPortal(tooltipContent, document.body);
+  }
 
   // Tooltip dimensions
   const tooltipWidth = 580;
@@ -36,14 +98,6 @@ const SpellTooltip = ({
     // We'll use bottom positioning instead of top to achieve this
     y = position.y;
   }
-
-  console.log('SpellTooltip position:', {
-    x,
-    y,
-    originalPosition: position,
-    smartPositioning,
-    maxTooltipHeight
-  }); // Debug log
 
   // Create tooltip content
   const tooltipContent = (
@@ -118,10 +172,11 @@ SpellTooltip.propTypes = {
   position: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
-  }).isRequired,
+  }),
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  smartPositioning: PropTypes.bool
+  smartPositioning: PropTypes.bool,
+  fullscreenMode: PropTypes.bool
 };
 
 export default SpellTooltip;

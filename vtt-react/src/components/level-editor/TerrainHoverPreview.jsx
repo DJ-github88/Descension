@@ -11,7 +11,8 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         cameraX,
         cameraY,
         zoomLevel,
-        playerZoom
+        playerZoom,
+        gridType
     } = useGameStore();
 
     const effectiveZoom = zoomLevel * playerZoom;
@@ -71,41 +72,108 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
     }
 
     // For terrain tools, keep the grid-based preview
-    // Calculate brush pattern
-    const startOffset = Math.floor(brushSize / 2);
-    const tiles = [];
-
-    for (let dx = 0; dx < brushSize; dx++) {
-        for (let dy = 0; dy < brushSize; dy++) {
-            const tileX = gridX - startOffset + dx;
-            const tileY = gridY - startOffset + dy;
-            tiles.push({ x: tileX, y: tileY });
+    const gridSystem = getGridSystem();
+    const currentGridType = gridType || 'square';
+    
+    // Calculate brush pattern based on grid type
+    let tiles = [];
+    
+    if (currentGridType === 'hex') {
+        // For hex grids, use hex distance to find all hexes within brush range
+        // gridX is q, gridY is r for hex grids
+        const centerQ = gridX;
+        const centerR = gridY;
+        const brushRadius = Math.floor(brushSize / 2);
+        
+        // Get all hexes within hex distance
+        for (let q = centerQ - brushRadius; q <= centerQ + brushRadius; q++) {
+            for (let r = centerR - brushRadius; r <= centerR + brushRadius; r++) {
+                const hexDist = gridSystem.hexDistance(q, r, centerQ, centerR);
+                if (hexDist <= brushRadius) {
+                    tiles.push({ q, r, isHex: true });
+                }
+            }
+        }
+    } else {
+        // Square grid: calculate brush pattern
+        const startOffset = Math.floor(brushSize / 2);
+        for (let dx = 0; dx < brushSize; dx++) {
+            for (let dy = 0; dy < brushSize; dy++) {
+                const tileX = gridX - startOffset + dx;
+                const tileY = gridY - startOffset + dy;
+                tiles.push({ x: tileX, y: tileY, isHex: false });
+            }
         }
     }
 
     const tileSize = gridSize * effectiveZoom;
+    const borderColor = isEraser ? '#ff4444' : isFog ? '#8844ff' : '#44ff44';
+    const bgColor = isEraser ? 'rgba(255, 68, 68, 0.2)' : isFog ? 'rgba(136, 68, 255, 0.3)' : 'rgba(68, 255, 68, 0.2)';
 
     return (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
             {tiles.map((tile, index) => {
-                const screenPos = gridToScreen(tile.x, tile.y);
-
-                return (
-                    <div
-                        key={index}
-                        style={{
-                            position: 'absolute',
-                            left: screenPos.x,
-                            top: screenPos.y,
-                            width: tileSize,
-                            height: tileSize,
-                            border: isEraser ? '2px solid #ff4444' : isFog ? '2px solid #8844ff' : '2px solid #44ff44',
-                            backgroundColor: isEraser ? 'rgba(255, 68, 68, 0.2)' : isFog ? 'rgba(136, 68, 255, 0.3)' : 'rgba(68, 255, 68, 0.2)',
-                            pointerEvents: 'none',
-                            boxSizing: 'border-box'
-                        }}
-                    />
-                );
+                let screenPos;
+                
+                if (tile.isHex) {
+                    // Hex grid: get center position and hex corners
+                    const worldPos = gridSystem.hexToWorld(tile.q, tile.r);
+                    screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, window.innerWidth, window.innerHeight);
+                    
+                    const sqrt3 = Math.sqrt(3);
+                    const hexRadius = gridSize / sqrt3;
+                    const hexRadiusScreen = hexRadius * effectiveZoom;
+                    
+                    // Get hex corners relative to center (0,0)
+                    const corners = gridSystem.getHexCorners(0, 0, hexRadiusScreen);
+                    
+                    // Create SVG path for hex shape (coordinates relative to SVG center)
+                    const pathData = corners.map((corner, i) => 
+                        `${i === 0 ? 'M' : 'L'} ${corner.x + hexRadiusScreen} ${corner.y + hexRadiusScreen}`
+                    ).join(' ') + ' Z';
+                    
+                    return (
+                        <svg
+                            key={`hex-${index}`}
+                            width={hexRadiusScreen * 2}
+                            height={hexRadiusScreen * 2}
+                            style={{
+                                position: 'absolute',
+                                left: screenPos.x - hexRadiusScreen,
+                                top: screenPos.y - hexRadiusScreen,
+                                pointerEvents: 'none',
+                                overflow: 'visible'
+                            }}
+                        >
+                            <path
+                                d={pathData}
+                                fill={bgColor}
+                                stroke={borderColor}
+                                strokeWidth="2"
+                            />
+                        </svg>
+                    );
+                } else {
+                    // Square grid: use rectangle
+                    screenPos = gridToScreen(tile.x, tile.y);
+                    
+                    return (
+                        <div
+                            key={`square-${index}`}
+                            style={{
+                                position: 'absolute',
+                                left: screenPos.x,
+                                top: screenPos.y,
+                                width: tileSize,
+                                height: tileSize,
+                                border: `2px solid ${borderColor}`,
+                                backgroundColor: bgColor,
+                                pointerEvents: 'none',
+                                boxSizing: 'border-box'
+                            }}
+                        />
+                    );
+                }
             })}
         </div>
     );

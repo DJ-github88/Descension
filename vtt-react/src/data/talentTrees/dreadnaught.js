@@ -85,7 +85,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t3_reflective_towers',
     name: 'Reflective Towers',
-    description: 'When you resist damage, the attacker must succeed on a DC 13 Dexterity save or take shadow damage equal to half the resisted damage per rank from tower reflections.',
+    description: 'When you resist damage, the attacker must succeed on a DC 13 Agility save or take shadow damage equal to half the resisted damage per rank from tower reflections.',
     icon: 'spell_shadow_shadowworddominate',
     maxRanks: 3,
     position: { x: 4, y: 3 },

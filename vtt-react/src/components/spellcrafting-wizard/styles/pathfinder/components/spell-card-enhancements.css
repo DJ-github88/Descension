@@ -258,17 +258,17 @@
     color: #fde047 !important;
 }
 
-/* Health - Dark Red */
+/* Health - White */
 .pf-resource-cost.health {
-    color: #dc2626 !important;
+    color: #ffffff !important;
 }
 
 .pf-resource-cost.health .pf-resource-icon {
-    color: #dc2626 !important;
+    color: #ffffff !important;
 }
 
 .pf-resource-cost.health .pf-resource-amount {
-    color: #dc2626 !important;
+    color: #ffffff !important;
 }
 
 /* Focus - Green */
@@ -352,6 +352,12 @@
     color: var(--pf-text-secondary, #5d4037) !important;
     font-size: 12px !important;
     font-style: italic !important;
+}
+
+/* Diamond symbol should never be italic */
+.damage-effect-description .diamond-symbol,
+.healing-effect-description .diamond-symbol {
+    font-style: normal !important;
 }
 
 /* Targeting/Range badges for effect items - inline flow */
@@ -582,6 +588,18 @@
     font-style: italic !important;
     color: #5a1e12 !important;
     opacity: 0.9 !important;
+}
+
+/* Diamond symbol should never be italic in all contexts */
+.spell-library-tab .damage-effect-description .diamond-symbol,
+.spell-library-tab .healing-effect-description .diamond-symbol,
+.spellbook-layout .damage-effect-description .diamond-symbol,
+.spellbook-layout .healing-effect-description .diamond-symbol,
+.wizard-view .damage-effect-description .diamond-symbol,
+.wizard-view .healing-effect-description .diamond-symbol,
+.spellbook-hover-tooltip .damage-effect-description .diamond-symbol,
+.spellbook-hover-tooltip .healing-effect-description .diamond-symbol {
+    font-style: normal !important;
 }
 
 .spell-library-tab .damage-effect-mechanics,

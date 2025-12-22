@@ -531,7 +531,20 @@ export const CHAOS_WEAVER_DATA = {
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          extraDice: '1d6',
+          critEffects: ['entropy_spread'],
+          entropySpreadConfig: {
+            radius: 10,
+            damageFormula: '1d4',
+            damageType: 'necrotic'
+          }
+        }
       },
       debuffConfig: {
         debuffType: 'statReduction',

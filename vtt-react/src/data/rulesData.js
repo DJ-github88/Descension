@@ -99,7 +99,7 @@ GMs can mix and match these systems to create the perfect experience for their t
               rows: [
                 ['Constitution', 'CON', 'Health & Stamina', 'HP, Fortitude saves, Endurance'],
                 ['Strength', 'STR', 'Physical Power', 'Melee attacks, Athletics, Carrying capacity'],
-                ['Agility', 'AGI', 'Dexterity & Speed', 'Ranged attacks, Armor, Reflex saves, Stealth'],
+                ['Agility', 'AGI', 'Agility & Speed', 'Ranged attacks, Armor, Reflex saves, Stealth'],
                 ['Intelligence', 'INT', 'Reasoning & Memory', 'Arcane magic, Investigation, Knowledge'],
                 ['Spirit', 'SPI', 'Willpower & Insight', 'Divine magic, Perception, Will saves'],
                 ['Charisma', 'CHA', 'Force of Personality', 'Social skills, Leadership, Performance']
@@ -795,7 +795,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
                   title: 'Earthscar Grimheart Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
-                    ['Earth Whispers', 'Detection', 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Wisdom saves.'],
+                    ['Earth Whispers', 'Detection', 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Spirit saves.'],
                     ['Stone Skin', 'Defense', 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.'],
                     ['Deep Delving', 'Utility', 'Can tunnel through stone at half movement speed, but become obsessed with digging and must make Wisdom saves to stop.']
                   ]
@@ -981,7 +981,7 @@ Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
               title: 'Miss Consequences',
               headers: ['Roll', 'Consequence'],
               rows: [
-                ['1', 'Catastrophic Failure: Weapon breaks/malfunctions (1 AP + quick Dexterity check with a moderate difficulty die—typically d8—to fix)'],
+                ['1', 'Catastrophic Failure: Weapon breaks/malfunctions (1 AP + quick Agility check with a moderate difficulty die—typically d8—to fix)'],
                 ['2', 'Self-Inflicted Wound: Take 1d4 damage + Bleeding for 1d4 rounds'],
                 ['3', 'Overextension: Fall prone, end movement for this turn'],
                 ['4', 'Tactical Blunder: Next attack against you has advantage'],
@@ -1266,7 +1266,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   rows: [
                     ['Offer', 'The character\'s soul is offered a deal for resurrection'],
                     ['Price', 'The price is always significant—a task, sacrifice, or permanent change'],
-                    ['Wisdom Save', 'Upon resurrection, make a very hard Wisdom save (use a difficult die such as d12, up to d20 for severe spiritual resistance)'],
+                    ['Spirit Save', 'Upon resurrection, make a very hard Spirit save (use a difficult die such as d12, up to d20 for severe spiritual resistance)'],
                     ['Failure Consequence', 'On a failed save, roll on the "Resurrection Miracle" table'],
                     ['Soul Debt', 'The character now owes a debt that will come due at a critical moment']
                   ]
@@ -1279,7 +1279,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Resurrection Miracle Table',
-                  content: `Roll 1d20 when a character fails their Wisdom save after a devil's bargain. These effects are permanent and represent the price of cheating death through dark powers.`
+                  content: `Roll 1d20 when a character fails their Spirit save after a devil's bargain. These effects are permanent and represent the price of cheating death through dark powers.`
                 }
               ],
               tables: [
@@ -1293,12 +1293,12 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                     ['4', 'Death\'s Blessing. You have returned tougher, hardier. Add an extra +1d6 to your starting Base Position.'],
                     ['5', 'Tortured Bones. Your skeleton painfully reshapes itself, granting you a +2 Armor but reducing your Constitution by 2 due to constant pain.'],
                     ['6', 'Emptiness Within. Devoid of emotions and sensations, you traverse the world as a hollow shell, immune to fear and persuasion.'],
-                    ['7', 'Ghastly Whispers. Unseen voices fill your head, distracting and terrifying. Suffer a -1 penalty to Wisdom and have disadvantage on concentration checks.'],
+                    ['7', 'Ghastly Whispers. Unseen voices fill your head, distracting and terrifying. Suffer a -1 penalty to Spirit and have disadvantage on concentration checks.'],
                     ['8', 'Withering Strength. Your muscles deteriorate; permanently reduce your Strength by 2.'],
-                    ['9', 'Numb Senses. You lose your sharp reflexes; reduce your Dexterity by 2.'],
+                    ['9', 'Numb Senses. You lose your sharp reflexes; reduce your Agility by 2.'],
                     ['10', 'Mind Erosion. Lose proficiency in one Intelligence-based skill of your choice as your intellect falters.'],
                     ['11', 'Bleak Existence. You find no comfort in food, drink, or rest. All recovery from rest is halved, and you cannot benefit from potions.'],
-                    ['12', 'Echoes of the Void. You hear eerie, otherworldly sounds that distract and unsettle you, imposing disadvantage on Wisdom checks.'],
+                    ['12', 'Echoes of the Void. You hear eerie, otherworldly sounds that distract and unsettle you, imposing disadvantage on Spirit checks.'],
                     ['13', 'Absent Minded. Your mind wanders, no longer able to focus on the things that you took joy in. Reduce your starting Intelligence score by -1.'],
                     ['14', 'Lingering Cold. Your body is unnaturally cold, causing pain and stiffness. Reduce your Speed by 10 feet and gain vulnerability to fire damage, but resistance to cold damage.'],
                     ['15', 'Spectral Chains. You feel as if invisible chains bind you, slowing your movements and sapping your strength. Reduce your Speed by 5 feet and your Strength score by 1.'],
@@ -1411,20 +1411,20 @@ Proficient abilities are special actions that can be performed by characters who
               headers: ['Skill', 'Unlocks', 'As', 'Note', 'Cost'],
               rows: [
                     ['Acrobatics', 'Charged Squat', 'A', 'Jump up to 10 ft. (Acrobatics vs mod die, fail = prone). Step the die up once to add 5 ft.', '1 AP'],
-                    ['Animal Handling', 'Beast Command', 'A', 'Command your pet; start easy d6 and shift die based on pet Int/Wis vs yours.', '?'],
+                    ['Animal Handling', 'Beast Command', 'A', 'Command your pet; start easy d6 and shift die based on pet Int/Spirit vs yours.', '?'],
                     ['Arcana', 'Arcane Counter', 'A', 'Hold a counterspell vs next hostile cast within 30 ft; Arcana vs mod die, step die per spell level.', '1 AP'],
-                    ['Athletics', 'Grapple', 'A', 'Athletics vs target STR/DEX; on success they are restrained until your next turn.', '1 AP'],
+                    ['Athletics', 'Grapple', 'A', 'Athletics vs target STR/AGI; on success they are restrained until your next turn.', '1 AP'],
                     ['Deception', 'Misdirect', 'A', 'Within 10 ft; opposed vs target Int-based die (easy d6 to hard d10). Fail = surprised (no reactions, disadv on attacks).', '1 AP'],
                     ['History', 'Lore Recall', 'A', 'Recall a creature’s tricks within 30 ft; start mod d8, step up for tougher CR.', '1 AP'],
                     ['Insight', 'Flow State', 'A', 'Reduce damage taken by 2 until your next turn; Insight vs mod d8.', '1 AP'],
-                    ['Intimidation', 'Taunt', 'R', '15 ft; Intimidation vs Wisdom save. Fail = must attack you until they pass.', '1 AP'],
+                    ['Intimidation', 'Taunt', 'R', '15 ft; Intimidation vs Spirit save. Fail = must attack you until they pass.', '1 AP'],
                     ['Investigation', 'Deduct', 'A', 'Read a foe within 15 ft; Investigation vs mod d8, step up for higher CR.', '1 AP'],
                     ['Medicine', 'First Aid', 'A', '5 ft; easy d6. Stabilize to 1 HP (step die per exhaustion). Bandage once: heal 1d4 + Medicine mod.', '1 AP'],
                     ['Nature', 'Terrain Insight', 'A', 'Spot a terrain edge within 10 ft; Nature vs mod d8.', '1 AP'],
                     ['Perception', 'Heightened Senses', 'P', 'Gain +2 initiative.', '-'],
-                    ['Performance', 'Mesmer', 'A', '15 ft; Performance vs Wisdom save. Fail = lose next turn. Immune: eyeless, multiheaded, undead, celestials, fiends, fey, dragons, constructs. 1/use per combat.', '3 AP'],
-                    ['Persuasion', 'Persuade', 'A', 'Persuasion vs Wisdom save. Fail = confused (d10 table each turn; one save/turn).', '2 AP'],
-                    ['Religion', 'Divine Favor', 'A', '15 ft; Religion vs Wis/Int save. Roll d4 boon: temp HP, damage reduction, attack bonus, or save advantage. You always gain the boon; allies gain if they fail the save.', '2 AP'],
+                    ['Performance', 'Mesmer', 'A', '15 ft; Performance vs Spirit save. Fail = lose next turn. Immune: eyeless, multiheaded, undead, celestials, fiends, fey, dragons, constructs. 1/use per combat.', '3 AP'],
+                    ['Persuasion', 'Persuade', 'A', 'Persuasion vs Spirit save. Fail = confused (d10 table each turn; one save/turn).', '2 AP'],
+                    ['Religion', 'Divine Favor', 'A', '15 ft; Religion vs Spirit/Int save. Roll d4 boon: temp HP, damage reduction, attack bonus, or save advantage. You always gain the boon; allies gain if they fail the save.', '2 AP'],
                     ['Sleight of Hand', 'Disarm', 'R', '5 ft; needs free hand. Sleight vs STR save to disarm and equip the weapon.', '1 AP'],
                     ['Stealth', 'Stealthy Passage', 'A', 'Move through a foe’s space without provoking; Stealth vs easy d6. On success move 15 ft.', '1 AP'],
                     ['Survival', 'Trapping', 'A', 'Set a trap in a 5-ft square within 5 ft; Survival starts d10 (step down with high INT). Pick: Pitfall (4 AP) 1d6/10 ft & restrains; Snare (3 AP) hoists, attacks adv; Tripwire (2 AP) prone, may drop items.', '1 AP']
@@ -1464,7 +1464,7 @@ Some conditions interact with each other or with the environment to create enhan
                 ['Petrified', 'Transformed into solid substance, incapacitated, unaware of surroundings, attacks against you have advantage, automatically fail STR and AGI saves, have resistance to all damage'],
                 ['Poisoned', 'Disadvantage on attack rolls and ability checks'],
                 ['Prone', 'Can only crawl, disadvantage on attack rolls, melee attacks against you have advantage, ranged attacks against you have disadvantage'],
-                ['Restrained', 'Speed becomes 0, attacks against you have advantage, your attacks have disadvantage, disadvantage on DEX saves'],
+                ['Restrained', 'Speed becomes 0, attacks against you have advantage, your attacks have disadvantage, disadvantage on Agility saves'],
                 ['Stunned', 'Incapacitated, cannot move, automatically fail STR and AGI saves, attacks against you have advantage'],
                 ['Unconscious', 'Incapacitated, cannot move or speak, unaware of surroundings, drop whatever you\'re holding, fall prone, automatically fail STR and AGI saves, attacks against you have advantage and are critical hits if attacker is within 5 feet']
               ]
@@ -1659,12 +1659,12 @@ These systems add cultural immersion and social interaction opportunities.`
                   title: 'Rest Complications',
                   headers: ['d12', 'Complication', 'Effect'],
                   rows: [
-                    ['1', 'Nightmares', 'No rest benefit, make Wisdom save or gain exhaustion'],
+                    ['1', 'Nightmares', 'No rest benefit, make Spirit save or gain exhaustion'],
                     ['2', 'Equipment stolen', 'Lose 1d4 non-magical items'],
                     ['3', 'Attacked by creatures', 'Combat encounter, rest interrupted'],
                     ['4', 'Bad weather', 'Constitution save or gain exhaustion'],
                     ['5', 'Illness', 'Constitution save or become poisoned for 24 hours'],
-                    ['6', 'Disturbing discovery', 'Find something unsettling, Wisdom save or be frightened'],
+                    ['6', 'Disturbing discovery', 'Find something unsettling, Spirit save or be frightened'],
                     ['7', 'Lost', 'Navigation check required to continue journey'],
                     ['8', 'Equipment malfunction', 'One piece of equipment loses 1d4 durability'],
                     ['9', 'Restless sleep', 'Recover only half Hit Dice'],
@@ -1974,9 +1974,9 @@ Both dice use the weapon type to pick the correct outcome text.`
                   title: 'Social Skills',
                   headers: ['Skill', 'Use', 'Example', 'Opposed By'],
                   rows: [
-                    ['Persuasion', 'Convince through logic/emotion', 'Negotiate price, gain favor', 'Insight, Wisdom'],
+                    ['Persuasion', 'Convince through logic/emotion', 'Negotiate price, gain favor', 'Insight, Spirit'],
                     ['Deception', 'Mislead or lie', 'Bluff, disguise motives', 'Insight, Investigation'],
-                    ['Intimidation', 'Threaten or coerce', 'Extract information, force compliance', 'Courage, Wisdom'],
+                    ['Intimidation', 'Threaten or coerce', 'Extract information, force compliance', 'Courage, Spirit'],
                     ['Insight', 'Read intentions/emotions', 'Detect lies, gauge mood', 'Deception, Performance'],
                     ['Performance', 'Entertain or distract', 'Tell stories, create diversion', 'Insight, Perception']
                   ]
@@ -2318,7 +2318,7 @@ Both dice use the weapon type to pick the correct outcome text.`
                     ['Toxic Gas', 'Perception vs challenging die (d10)', 'Constitution save or poisoned', 'Hold breath, ventilate'],
                     ['Magical Ward', 'Arcana vs challenging/difficult die (d10–d12)', 'Spell effect triggers', 'Dispel magic'],
                     ['Quicksand', 'Survival vs moderate/challenging die (d8–d10)', 'Restrained, sinking', 'Rope, careful movement'],
-                    ['Rockslide', 'Perception vs challenging die (d10)', '4d6 bludgeoning', 'Dexterity save vs challenging die (d10) to dodge'],
+                    ['Rockslide', 'Perception vs challenging die (d10)', '4d6 bludgeoning', 'Agility save vs challenging die (d10) to dodge'],
                     ['Cursed Object', 'Arcana vs difficult die (d12)', 'Curse effect', 'Remove curse spell']
                   ]
                 }

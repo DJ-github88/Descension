@@ -110,7 +110,7 @@ Don't just focus on offense - successful dodges generate VP:
 
 *The criminal mastermind stands surrounded by his guards. You've hunted him for months. Today, justice is served.*
 
-**Your Action (Bonus Action)**: "Mark of the Hunt" on Criminal Mastermind (no cost)
+**Your Action (Action Points)**: "Mark of the Hunt" on Criminal Mastermind (no cost)
 **Effect**: Target is marked. You gain +1 VP per attack against marked target (total 2 VP per hit), deal +1d6 damage to marked target, can sense marked target's location
 
 *You focus on the criminal. A spectral mark appears above his head, visible only to you. He is MARKED.*
@@ -162,7 +162,7 @@ Don't just focus on offense - successful dodges generate VP:
 
 **Criminal Mastermind**: Takes 21 damage → HEAVILY DAMAGED (41 total damage so far)
 
-**Your Action (Bonus Action)**: Spend 1 VP to empower next attack
+**Your Action (Action Points)**: Spend 1 VP to empower next attack
 **Effect**: Next attack deals +1d6 damage
 
 **VP**: 5 - 1 = **4/10**
@@ -234,7 +234,7 @@ Don't just focus on offense - successful dodges generate VP:
 
 **VP Generated**: +2 (marked target) = **4/10**
 
-**Your Action (Bonus Action)**: Glaive Throw (2 VP, hits multiple enemies)
+**Your Action (Action Points)**: Glaive Throw (2 VP, hits multiple enemies)
 **Effect**: Throw glaive at 2 targets, returns to hand
 
 **VP**: 4 - 2 = **2/10**
@@ -280,7 +280,7 @@ Don't just focus on offense - successful dodges generate VP:
 **Your Reaction**: Evasive Maneuvers → Dodge, +1 VP
 **VP**: 9 + 1 = **10/10** (MAXIMUM!)
 
-**Your Action (Bonus Action)**: "AVATAR OF VENGEANCE" (10 VP, ultimate transformation)
+**Your Action (Action Points)**: "AVATAR OF VENGEANCE" (10 VP, ultimate transformation)
 **Effect**: Transform for 4 rounds, gain +4 to all stats, +2d8 damage on attacks, damage resistance, enhanced VP generation
 
 *You ROAR. Spectral energy ERUPTS from your body. Your glaives BLAZE with vengeful power. You become the AVATAR OF VENGEANCE.*
@@ -408,7 +408,7 @@ Your current Vengeance Points are displayed on your character sheet as glowing m
       abilities: [
         {
           name: 'Mark of the Hunt',
-          cost: 'Bonus Action',
+          cost: 'Action Points',
           type: 'Mark',
           description: 'Mark a target as your prey. Attacks against marked targets generate +1 VP (total 2 VP) and deal +1d6 damage. You can sense the marked target\'s direction within 1 mile. Only one target can be marked at a time.'
         },
@@ -416,7 +416,7 @@ Your current Vengeance Points are displayed on your character sheet as glowing m
           name: 'Vengeful Strike',
           cost: '1 VP',
           type: 'Enhancement',
-          description: 'Spend 1 VP to empower your next attack, dealing +1d6 damage. This can be used as a bonus action before attacking.'
+          description: 'Spend 1 VP to empower your next attack, dealing +1d6 damage. This can be used with action points before attacking.'
         },
         {
           name: 'Evasive Maneuvers',
@@ -707,7 +707,7 @@ Many players enhance the warden experience with:
           {
             name: 'Shadow Strike',
             icon: 'ability_stealth',
-            description: 'Attacks made from stealth generate +1 VP (total 3 VP: 1 base + 2 from stealth bonus) and deal +1d8 damage. You can hide as a bonus action after attacking.'
+            description: 'Attacks made from stealth generate +1 VP (total 3 VP: 1 base + 2 from stealth bonus) and deal +1d8 damage. You can hide using action points after attacking.'
           },
           {
             name: 'Umbral Veil',
@@ -797,7 +797,7 @@ Many players enhance the warden experience with:
           {
             name: 'Inexorable Pursuit',
             icon: 'ability_hunter_aspectoftheviper',
-            description: 'Marked targets cannot hide from you or become invisible. Additionally, dashing to a marked target costs no action points (free bonus action).'
+            description: 'Marked targets cannot hide from you or become invisible. Additionally, dashing to a marked target costs no action points.'
           },
           {
             name: 'Endless Vengeance',
@@ -948,7 +948,7 @@ Many players enhance the warden experience with:
           }
         },
         utility: {
-          hideAfter: 'Can hide as bonus action after attacking'
+          hideAfter: 'Can hide using action points after attacking'
         }
       },
 
@@ -963,7 +963,7 @@ Many players enhance the warden experience with:
           bonusVP: '+2 VP'
         },
         hideBonus: {
-          description: 'Can hide as bonus action after attacking (Shadowblade passive)'
+          description: 'Can hide using action points after attacking (Shadowblade passive)'
         }
       },
 
@@ -1392,7 +1392,7 @@ Many players enhance the warden experience with:
         },
         inexorablePursuit: {
           description: 'Vengeance Seeker spec: Dashing to marked target costs no action points',
-          freeMovement: 'Dash is a free bonus action for Vengeance Seekers'
+          freeMovement: 'Dash costs no action points for Vengeance Seekers'
         },
         markedSynergy: {
           description: 'Each strike against marked target generates 2 VP (1 base + 1 mark bonus)',
@@ -1692,7 +1692,7 @@ Many players enhance the warden experience with:
     {
       id: 'warden_hunters_resolve',
       name: 'Hunter\'s Resolve',
-      description: 'Call upon your inner strength to heal yourself for 2d8 HP and gain +2 AC for 2 rounds. If marked targets are within sight, effects are doubled (4d8 HP, +4 AC).',
+      description: 'Call upon your inner strength to heal yourself and gain defensive bonuses. If marked targets are within sight, effects are doubled.',
       spellType: 'ACTION',
       icon: 'spell_holy_restoration',
       school: 'Physical',
@@ -2270,8 +2270,15 @@ Many players enhance the warden experience with:
         criticalConfig: {
           enabled: true,
           critType: 'dice',
-          critMultiplier: 2,
-          critDiceOnly: false
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '4d10',
+          critEffects: ['execute'],
+          executeConfig: {
+            threshold: 0.25,
+            instantKill: false,
+            extraDamage: '2d10'
+          }
         }
       },
 

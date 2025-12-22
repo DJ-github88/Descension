@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useRef, lazy, Suspense } from 'react';
+import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
 
 // Lazy load the ItemTooltip component
@@ -40,28 +41,59 @@ const LootTab = () => {
   const [tooltipItem, setTooltipItem] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
+  // Calculate tooltip position based on mouse coordinates
+  const calculateTooltipPosition = (e) => {
+    // Get mouse coordinates - React synthetic events have clientX/clientY directly
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    
+    const tooltipWidth = 300;
+    const tooltipHeight = 400;
+    const offset = 12; // Small offset from cursor
+    
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Default: position to bottom-right of cursor
+    let x = mouseX + offset;
+    let y = mouseY + offset;
+
+    // Only adjust if tooltip would actually be cut off (not just close to edge)
+    // Check right edge - only flip if it would go off screen
+    if (x + tooltipWidth > windowWidth) {
+      // Position to the left of cursor instead
+      x = mouseX - tooltipWidth - offset;
+      // Only clamp if it's still off screen
+      if (x < 0) {
+        x = 0;
+      }
+    }
+
+    // Check bottom edge - only flip if it would go off screen
+    if (y + tooltipHeight > windowHeight) {
+      // Position above cursor instead
+      y = mouseY - tooltipHeight - offset;
+      // Only clamp if it's still off screen
+      if (y < 0) {
+        y = 0;
+      }
+    }
+
+    return { x, y };
+  };
+
   // Handle mouse enter to show tooltip
   const handleItemMouseEnter = (e, item) => {
     if (!item) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const windowWidth = window.innerWidth;
-
-    // Position tooltip above the item
-    let x = rect.left + (rect.width / 2) - 150;
-    let y = rect.top - 420;
-
-    // Ensure tooltip doesn't go off screen
-    const tooltipWidth = 300;
-    if (x < 10) x = 10;
-    if (x + tooltipWidth > windowWidth - 10) x = windowWidth - tooltipWidth - 10;
-
-    if (y < 10) {
-      y = rect.bottom + 10;
-    }
-
-    setTooltipPosition({ x, y });
+    setTooltipPosition(calculateTooltipPosition(e));
     setTooltipItem(item);
+  };
+
+  // Handle mouse move to update tooltip position
+  const handleItemMouseMove = (e) => {
+    if (tooltipItem) {
+      setTooltipPosition(calculateTooltipPosition(e));
+    }
   };
 
   // Handle mouse leave to hide tooltip
@@ -83,6 +115,7 @@ const LootTab = () => {
           className="chat-message loot-message"
           data-item-quality={quality.toLowerCase()}
           onMouseEnter={(e) => handleItemMouseEnter(e, notification.item)}
+          onMouseMove={handleItemMouseMove}
           onMouseLeave={handleItemMouseLeave}
         >
           <div className="message-header">
@@ -174,23 +207,27 @@ const LootTab = () => {
       {/* Item Tooltip */}
       {tooltipItem && (
         <Suspense fallback={null}>
-          <div
-            style={{
-              position: 'fixed',
-              left: `${tooltipPosition.x}px`,
-              top: `${tooltipPosition.y}px`,
-              zIndex: 99999,
-              pointerEvents: 'none'
-            }}
-          >
-            <ItemTooltip
-              item={{
-                ...tooltipItem,
-                quality: tooltipItem.quality || tooltipItem.rarity || 'common',
-                baseStats: tooltipItem.baseStats || {}
+          {createPortal(
+            <div
+              style={{
+                position: 'fixed',
+                left: `${tooltipPosition.x}px`,
+                top: `${tooltipPosition.y}px`,
+                zIndex: 99999,
+                pointerEvents: 'none',
+                transform: 'none' // Ensure no transform is applied
               }}
-            />
-          </div>
+            >
+              <ItemTooltip
+                item={{
+                  ...tooltipItem,
+                  quality: tooltipItem.quality || tooltipItem.rarity || 'common',
+                  baseStats: tooltipItem.baseStats || {}
+                }}
+              />
+            </div>,
+            document.body
+          )}
         </Suspense>
       )}
     </div>

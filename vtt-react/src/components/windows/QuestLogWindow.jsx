@@ -9,6 +9,7 @@ import QuestObjective from '../quest-log/QuestObjective';
 import QuestReward from '../quest-log/QuestReward';
 import QuestCard from '../quest-log/QuestCard';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import SmartTabButton from '../common/SmartTabButton';
 import '../../styles/quest-log-new.css';
 import '../../styles/quest-log-fixes.css';
 import '../../styles/party-hud.css'; // For context menu styles
@@ -508,13 +509,12 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
           customHeader={
             <div className="spellbook-tab-container">
               {tabs.map(tab => (
-                <button
+                <SmartTabButton
                   key={tab.id}
-                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                  title={tab.label}
+                  active={activeTab === tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                >
-                  <span>{tab.label}</span>
-                </button>
+                />
               ))}
             </div>
           }

@@ -40,6 +40,14 @@
   overflow: visible; /* Changed from hidden to allow status dropdown to show */
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+}
+
+.global-chat-container.users-pane-hidden .users-pane {
+  transform: translateX(-100%);
+  opacity: 0;
+  width: 0 !important;
+  overflow: hidden;
 }
 
 .chat-pane {
@@ -48,6 +56,8 @@
   display: flex;
   flex-direction: column;
   background: #f5e6d3;
+  position: relative;
+  transition: width 0.3s ease;
 }
 
 .split-divider {
@@ -58,7 +68,14 @@
   flex-shrink: 0;
   border-left: 1px solid #a89968;
   border-right: 1px solid #a89968;
-  transition: background 0.2s;
+  transition: background 0.2s, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.global-chat-container.users-pane-hidden .split-divider {
+  transform: translateX(-100%);
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 .split-divider:hover {
@@ -1203,7 +1220,7 @@
 .chat-tabs {
   display: flex;
   gap: 4px;
-  padding: 8px 12px 0 12px;
+  padding: 8px 12px 0 48px; /* Added left padding to make room for toggle button */
   background: #d4c4a8;
   border-bottom: 2px solid #a89968;
   overflow-x: auto;
@@ -1878,5 +1895,43 @@
   font-family: 'Courier New', monospace;
   letter-spacing: 0.5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== Toggle Users Pane Button ========== */
+.toggle-users-pane-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 101; /* Higher than chat tabs */
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: linear-gradient(to bottom, #d4c4a8, #c9b896);
+  border: 2px solid #a89968;
+  border-radius: 6px;
+  color: #3d2817;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+}
+
+.toggle-users-pane-btn:hover {
+  background: linear-gradient(to bottom, #c9b896, #b8a67d);
+  border-color: #8b7355;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-users-pane-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-users-pane-btn i {
+  font-size: 14px;
 }
 

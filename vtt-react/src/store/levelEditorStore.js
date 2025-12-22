@@ -1299,11 +1299,14 @@ const useLevelEditorStore = create((set, get) => ({
                     itemStoreModule
                 ]) => {
                     const gameStore = gameStoreModule.default.getState();
-                    const { gridSize, gridOffsetX, gridOffsetY } = gameStore;
+                    const { gridSize, gridType, gridOffsetX, gridOffsetY } = gameStore;
+                    const gridSystem = getGridSystem();
                     
                     // Convert old position to grid coordinates
-                    const oldGridX = Math.floor((oldPosition.x - gridOffsetX) / gridSize);
-                    const oldGridY = Math.floor((oldPosition.y - gridOffsetY) / gridSize);
+                    const oldWorldPos = { x: oldPosition.x, y: oldPosition.y };
+                    const oldGridCoords = gridSystem.worldToGrid(oldWorldPos.x, oldWorldPos.y);
+                    const oldGridX = oldGridCoords.x;
+                    const oldGridY = oldGridCoords.y;
                     
                     // Get vision range and type for this token
                     let visionRange = 6; // Default vision range
@@ -1325,7 +1328,9 @@ const useLevelEditorStore = create((set, get) => ({
                         state.respectLineOfSight ? state.wallData : {},
                         {},
                         fovAngle,
-                        facingAngle
+                        facingAngle,
+                        gridType || 'square',
+                        gridSystem
                     );
                     
                     // Create memory snapshots for all visible tiles

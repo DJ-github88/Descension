@@ -115,11 +115,20 @@ const ObjectSystem = () => {
         // Always render objects if we have them
         if (!environmentalObjects || environmentalObjects.length === 0) return;
 
-        // Calculate visible bounds for performance
-        const startX = Math.floor((cameraX - gridOffsetX) / gridSize) - 5;
-        const endX = Math.ceil((cameraX + canvas.width / effectiveZoom - gridOffsetX) / gridSize) + 5;
-        const startY = Math.floor((cameraY - gridOffsetY) / gridSize) - 5;
-        const endY = Math.ceil((cameraY + canvas.height / effectiveZoom - gridOffsetY) / gridSize) + 5;
+        // Calculate visible bounds for performance using grid system (supports both square and hex)
+        const gridSystem = getGridSystem();
+        const viewportLeft = cameraX - canvas.width / effectiveZoom / 2;
+        const viewportRight = cameraX + canvas.width / effectiveZoom / 2;
+        const viewportTop = cameraY - canvas.height / effectiveZoom / 2;
+        const viewportBottom = cameraY + canvas.height / effectiveZoom / 2;
+        
+        const topLeftGrid = gridSystem.worldToGrid(viewportLeft, viewportTop);
+        const bottomRightGrid = gridSystem.worldToGrid(viewportRight, viewportBottom);
+        
+        const startX = topLeftGrid.x - 5;
+        const endX = bottomRightGrid.x + 5;
+        const startY = topLeftGrid.y - 5;
+        const endY = bottomRightGrid.y + 5;
 
         // Render objects
         environmentalObjects.forEach(obj => {
