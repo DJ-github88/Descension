@@ -11,7 +11,7 @@ require('dotenv').config();
 if (process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT) {
   try {
     const path = require('path');
-    const { validateEnvironment } = require(path.join(__dirname, '../scripts/validate-env'));
+    const { validateEnvironment } = require(path.resolve(process.cwd(), 'scripts/validate-env'));
     if (!validateEnvironment()) {
       console.error('❌ Environment validation failed. Server will not start.');
       process.exit(1);
