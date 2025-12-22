@@ -579,7 +579,9 @@ const initialState = {
     visibilityPolygon: null, // Array of {x, y} points forming the raycast visibility polygon for accurate point-in-polygon checks
     
     // Memory/Afterimage system for previously explored areas
-    exploredAreas: {}, // { "x,y": boolean } - Areas that have been explored (permanently revealed)
+    exploredAreas: {}, // { "x,y": boolean } - Legacy tile-based explored areas (kept for backward compatibility)
+    exploredCircles: [], // [{ x, y, radius, timestamp }] - Circle-based explored areas (position in world coords, radius in world units)
+    exploredPolygons: [], // [{ points: [{x, y}], timestamp }] - Polygon-based explored areas matching vision shape
     memorySnapshots: {}, // { "x,y": { terrain, walls, objects, dndElements, timestamp } } - Snapshots of what was visible when last seen
     tokenAfterimages: {}, // { tokenId: { position: {x, y}, data: tokenData, lastSeenTimestamp } } - Afterimages of tokens that moved out of view
     afterimageEnabled: true, // Enable/disable afterimage system
@@ -1208,6 +1210,87 @@ const useLevelEditorStore = create((set, get) => ({
             // CRITICAL FIX: Bulk setter for explored areas (for syncing from server)
             setExploredAreas: (exploredAreas) => {
                 set({ exploredAreas: exploredAreas || {} });
+            },
+
+            // Add explored circle (position in world coords, radius in world units)
+            addExploredCircle: (worldX, worldY, radius) => {
+                const state = get();
+                const newCircle = {
+                    x: worldX,
+                    y: worldY,
+                    radius: radius,
+                    timestamp: Date.now()
+                };
+                // Merge with existing circles (remove overlapping/duplicate circles)
+                const existingCircles = state.exploredCircles || [];
+                // Simple deduplication: remove circles that are very close to this one
+                const filtered = existingCircles.filter(circle => {
+                    const dx = circle.x - worldX;
+                    const dy = circle.y - worldY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    // Remove if centers are within 10% of radius (likely same exploration)
+                    return distance > (Math.min(circle.radius, radius) * 0.1);
+                });
+                set({ exploredCircles: [...filtered, newCircle] });
+            },
+
+            // Add explored polygon (matches vision polygon shape exactly)
+            addExploredPolygon: (polygon) => {
+                if (!polygon || !Array.isArray(polygon) || polygon.length < 3) {
+                    return; // Invalid polygon
+                }
+                const state = get();
+                const newPolygon = {
+                    points: polygon.map(p => ({ x: p.x, y: p.y })), // Deep copy
+                    timestamp: Date.now()
+                };
+                // Keep recent polygons (last 100 to prevent memory issues)
+                const existingPolygons = state.exploredPolygons || [];
+                const recentPolygons = existingPolygons.slice(-99); // Keep last 99
+                set({ exploredPolygons: [...recentPolygons, newPolygon] });
+            },
+
+            // Check if a world position is within any explored circle or polygon
+            isPositionExplored: (worldX, worldY) => {
+                const state = get();
+                
+                // Helper function for point-in-polygon check
+                const isPointInPolygon = (x, y, polygon) => {
+                    if (!polygon || polygon.length < 3) return false;
+                    let inside = false;
+                    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                        const xi = polygon[i].x, yi = polygon[i].y;
+                        const xj = polygon[j].x, yj = polygon[j].y;
+                        const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                        if (intersect) inside = !inside;
+                    }
+                    return inside;
+                };
+                
+                // First check polygons (more accurate, matches vision shape)
+                const polygons = state.exploredPolygons || [];
+                for (const polygon of polygons) {
+                    if (isPointInPolygon(worldX, worldY, polygon.points)) {
+                        return true;
+                    }
+                }
+                
+                // Then check circles (fallback/simpler exploration)
+                const circles = state.exploredCircles || [];
+                for (const circle of circles) {
+                    const dx = worldX - circle.x;
+                    const dy = worldY - circle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance <= circle.radius) {
+                        return true;
+                    }
+                }
+                
+                // Fallback to tile-based check for backward compatibility
+                const gridSystem = require('../utils/InfiniteGridSystem').getGridSystem();
+                const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+                const key = `${gridCoords.x},${gridCoords.y}`;
+                return state.exploredAreas[key] || false;
             },
 
             getExploredArea: (x, y) => {
@@ -2113,6 +2196,8 @@ const useLevelEditorStore = create((set, get) => ({
                     wallData: state.wallData,
                     dndElements: state.dndElements,
                     fogOfWarData: state.fogOfWarData,
+                    fogOfWarPaths: state.fogOfWarPaths || [], // CRITICAL FIX: Save fog paths (including "cover entire map")
+                    fogErasePaths: state.fogErasePaths || [], // CRITICAL FIX: Save erase paths
                     drawingPaths: state.drawingPaths,
                     drawingLayers: state.drawingLayers,
                     lightSources: state.lightSources,
@@ -2135,6 +2220,8 @@ const useLevelEditorStore = create((set, get) => ({
                     wallData: mapData.wallData || {},
                     dndElements: mapData.dndElements || [],
                     fogOfWarData: mapData.fogOfWarData || {},
+                    fogOfWarPaths: mapData.fogOfWarPaths || [], // CRITICAL FIX: Load fog paths (including "cover entire map")
+                    fogErasePaths: mapData.fogErasePaths || [], // CRITICAL FIX: Load erase paths
                     exploredAreas: mapData.exploredAreas || {},
                     drawingPaths: mapData.drawingPaths || [],
                     drawingLayers: mapData.drawingLayers || initialState.drawingLayers,

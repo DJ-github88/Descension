@@ -2228,19 +2228,30 @@ const ProfessionalVTTEditor = () => {
                     if (mapState.dndElements && Array.isArray(mapState.dndElements) && mapState.dndElements.length > 0 && levelEditorState.setDndElements) {
                         levelEditorState.setDndElements(mapState.dndElements);
                     }
-                    // Always clear and load fog data for the new map (don't persist between maps)
-                    if (levelEditorState.setFogOfWarData) {
-                        levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
+                    // CRITICAL FIX: Only load fog data if map state has it, otherwise preserve current fog
+                    // This prevents clearing fog when opening editor on the same map
+                    if (mapState.fogOfWarData && Object.keys(mapState.fogOfWarData).length > 0 && levelEditorState.setFogOfWarData) {
+                        levelEditorState.setFogOfWarData(mapState.fogOfWarData);
                     }
-                    // Always clear and load fog paths for the new map (critical: fog should not persist)
-                    if (levelEditorState.setFogOfWarPaths) {
-                        // Clear existing fog paths first, then load new map's fog paths
-                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                    // CRITICAL FIX: Only load fog paths if map state has them, otherwise preserve current fog paths
+                    // This prevents clearing "cover entire map" fog when opening editor
+                    if (mapState.fogOfWarPaths && Array.isArray(mapState.fogOfWarPaths) && mapState.fogOfWarPaths.length > 0 && levelEditorState.setFogOfWarPaths) {
+                        // Only load if map has fog paths - otherwise preserve current fog (like "cover entire map")
+                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths);
                     }
-                    if (levelEditorState.setFogErasePaths) {
-                        // Clear existing fog erase paths first, then load new map's fog erase paths
-                        levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                    // CRITICAL FIX: Only load erase paths if map state has them, otherwise preserve current erase paths
+                    if (mapState.fogErasePaths && Array.isArray(mapState.fogErasePaths) && mapState.fogErasePaths.length > 0 && levelEditorState.setFogErasePaths) {
+                        levelEditorState.setFogErasePaths(mapState.fogErasePaths);
                     }
+                    // CRITICAL FIX: Preserve explored areas when editor opens - don't clear player's exploration progress
+                    // Only load explored areas from map if they exist, otherwise preserve current state
+                    if (mapState.exploredAreas && Object.keys(mapState.exploredAreas).length > 0 && levelEditorState.setExploredAreas) {
+                        // Merge with existing explored areas to preserve player progress
+                        const currentExplored = levelEditorState.exploredAreas || {};
+                        const mergedExplored = { ...currentExplored, ...mapState.exploredAreas };
+                        levelEditorState.setExploredAreas(mergedExplored);
+                    }
+                    // If map has no explored areas, preserve current explored areas (don't clear them)
                     // Always load drawings for the new map (clear if empty)
                     if (levelEditorState.setDrawingPaths) {
                         // Always load drawings - clear existing and load new map's drawings

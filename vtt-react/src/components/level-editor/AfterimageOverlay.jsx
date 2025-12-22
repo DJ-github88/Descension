@@ -148,23 +148,20 @@ const AfterimageOverlay = () => {
                 return; // Currently visible - show real-time view instead
             }
 
-            // Check if this tile was explored
-            if (!exploredAreas[tileKey]) {
+            // Check if this position is in an explored circle (not tile-based)
+            const levelEditorStore = useLevelEditorStore.getState();
+            const isExplored = levelEditorStore.isPositionExplored 
+                ? levelEditorStore.isPositionExplored(tileWorldPos.x, tileWorldPos.y)
+                : (exploredAreas[tileKey] || false);
+            
+            if (!isExplored) {
                 return; // Not explored - don't show afterimage
             }
 
             // Render shadowy afterimage with reduced opacity
+            // FIXED: No square rendering - afterimages are shown within explored circles
             ctx.save();
             ctx.globalAlpha = 0.4; // Shadowy appearance
-            ctx.fillStyle = 'rgba(100, 100, 100, 0.3)'; // Slightly lit up background
-            
-            // Draw a subtle background for explored areas
-            ctx.fillRect(
-                screenPos.x - tileSize / 2,
-                screenPos.y - tileSize / 2,
-                tileSize,
-                tileSize
-            );
 
             // Render terrain afterimage if available
             if (snapshot.terrain) {
@@ -193,8 +190,20 @@ const AfterimageOverlay = () => {
         // Render token afterimages (reuse viewport bounds from above)
         Object.entries(tokenAfterimages).forEach(([tokenId, afterimage]) => {
             const { position, data } = afterimage;
-            // Position is already in grid coordinates (x, y)
-            const tokenWorldPos = gridToWorld(position.x, position.y);
+            
+            // FIXED: Position can be in world coordinates (from lastSeenPositions) or grid coordinates
+            // Check if position has worldPosition (preferred) or use grid coordinates
+            let tokenWorldPos;
+            if (position.worldPosition) {
+                // Use world position directly (more accurate)
+                tokenWorldPos = position.worldPosition;
+            } else if (position.x !== undefined && position.y !== undefined) {
+                // Fallback: assume grid coordinates and convert
+                tokenWorldPos = gridToWorld(position.x, position.y);
+            } else {
+                return; // Invalid position
+            }
+            
             const screenPos = worldToScreen(tokenWorldPos.x, tokenWorldPos.y);
             
             // Viewport culling - skip if outside viewport
@@ -206,8 +215,11 @@ const AfterimageOverlay = () => {
             const tokenSize = gridSize * effectiveZoom * 0.8; // Slightly smaller than real token
 
             // Check if this position is in an explored area - afterimages should show in fog
-            const exploredTileKey = `${position.x},${position.y}`;
-            const isExplored = exploredAreas[exploredTileKey];
+            // FIXED: Use isPositionExplored to check circles instead of tile-based
+            const levelEditorStore = useLevelEditorStore.getState();
+            const isExplored = levelEditorStore.isPositionExplored 
+                ? levelEditorStore.isPositionExplored(tokenWorldPos.x, tokenWorldPos.y)
+                : (exploredAreas[`${Math.floor(position.x)},${Math.floor(position.y)}`] || false);
 
             if (!isExplored) {
                 // Not explored yet - don't show afterimage
@@ -217,15 +229,19 @@ const AfterimageOverlay = () => {
             // Check if the real token corresponding to this afterimage is currently visible
             // If the real token is visible (in the visibleAreaSet), don't show its afterimage
             const allTokens = [...creatureTokens, ...(characterTokens || [])];
-            const realToken = allTokens.find(t => t.id === tokenId);
+            const realToken = allTokens.find(t => {
+                // Match by ID, creatureId, or characterId
+                return t.id === tokenId || 
+                       t.creatureId === tokenId || 
+                       t.characterId === tokenId ||
+                       (data && ((t.creatureId === data.creatureId) || (t.characterId === data.characterId)));
+            });
 
             if (realToken && realToken.position) {
                 // Calculate the real token's grid position using grid system (supports both square and hex)
                 const gridSystem = getGridSystem();
                 const realTokenGridCoords = gridSystem.worldToGrid(realToken.position.x, realToken.position.y);
-                const realTokenGridX = realTokenGridCoords.x;
-                const realTokenGridY = realTokenGridCoords.y;
-                const realTokenTileKey = `${realTokenGridX},${realTokenGridY}`;
+                const realTokenTileKey = `${realTokenGridCoords.x},${realTokenGridCoords.y}`;
                 
                 // Check if the real token is in the visible area (accounts for walls/LOS)
                 if (visibleAreaSet.has(realTokenTileKey)) {

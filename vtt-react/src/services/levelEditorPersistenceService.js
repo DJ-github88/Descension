@@ -40,6 +40,8 @@ class LevelEditorPersistenceService {
 
           // Fog of war
           fogOfWarData: levelEditorData.fogOfWarData || {},
+          fogOfWarPaths: levelEditorData.fogOfWarPaths || [], // CRITICAL FIX: Save fog paths (including "cover entire map")
+          fogErasePaths: levelEditorData.fogErasePaths || [], // CRITICAL FIX: Save erase paths
 
           // Drawing system
           drawingPaths: levelEditorData.drawingPaths || [],

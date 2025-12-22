@@ -243,6 +243,8 @@ export const useLevelEditorPersistence = () => {
       environmentalObjects: levelEditorState.environmentalObjects,
       dndElements: levelEditorState.dndElements,
       fogOfWarData: levelEditorState.fogOfWarData,
+      fogOfWarPaths: levelEditorState.fogOfWarPaths || [], // CRITICAL FIX: Track fog paths changes
+      fogErasePaths: levelEditorState.fogErasePaths || [], // CRITICAL FIX: Track erase paths changes
       exploredAreas: levelEditorState.exploredAreas,
       drawingPaths: levelEditorState.drawingPaths,
       lightSources: levelEditorState.lightSources

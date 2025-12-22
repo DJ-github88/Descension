@@ -47,7 +47,8 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
     const currentVisibilityRef = useRef(new Map());
     
     // Minimum time a token must be visible before we consider it "seen" (prevents flicker)
-    const VISIBILITY_DEBOUNCE_MS = 100;
+    // REDUCED: Lower debounce for faster token appearance
+    const VISIBILITY_DEBOUNCE_MS = 50;
 
     // Get visibility data (same as CharacterToken uses)
     const { visibilityPolygon } = useLevelEditorStore();
@@ -67,10 +68,49 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
         const currentVisibleAreas = new Set(visibleArea || []);
 
-        // Mark ALL currently visible areas as explored
-        // This ensures that wherever the player has vision, it stays explored
+        // Get grid system for proper coordinate conversion (supports both square and hex)
+        const { getGridSystem } = require('../../utils/InfiniteGridSystem');
+        const gridSystem = getGridSystem();
+        const { gridType } = gridSystem.getGridState();
+
+        // Get viewing token's position and vision range to create explored circle
+        const viewingToken = viewingFromToken;
+        if (!viewingToken || !viewingToken.position) {
+            return;
+        }
+
+        // Get vision range and polygon for the viewing token
+        const tokenId = viewingToken.type === 'creature'
+            ? (viewingToken.creatureId || viewingToken.id)
+            : (viewingToken.characterId || viewingToken.id || viewingToken.playerId);
+        const levelEditorStore = useLevelEditorStore.getState();
+        const tokenVision = levelEditorStore.tokenVisionRanges[tokenId] || {};
+        const visionRange = tokenVision.range || 6; // Default 6 tiles
+        const visionRadiusInWorld = visionRange * gridSize; // Convert to world units
+
+        // CRITICAL FIX: Use visibility polygon to mark explored area (matches exact vision shape)
+        // This creates explored areas that match the round view the character sees
+        const visibilityPolygon = levelEditorStore.visibilityPolygon;
+        if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length >= 3) {
+            // Use the exact vision polygon shape for explored area
+            if (levelEditorStore.addExploredPolygon) {
+                levelEditorStore.addExploredPolygon(visibilityPolygon);
+            }
+        } else {
+            // Fallback to circle if no polygon available
+            if (levelEditorStore.addExploredCircle) {
+                levelEditorStore.addExploredCircle(
+                    viewingToken.position.x,
+                    viewingToken.position.y,
+                    visionRadiusInWorld
+                );
+            }
+        }
+
+        // Still create memory snapshots for individual tiles (for remembering what was seen)
+        // But explored area rendering will use circles
         currentVisibleAreas.forEach(tileKey => {
-            const [x, y] = tileKey.split(',').map(Number);
+            const [coord1, coord2] = tileKey.split(',').map(Number);
 
             // Get current state of this tile for memory snapshot
             const snapshotData = {
@@ -78,37 +118,35 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 // Get walls that touch this tile
                 walls: Object.entries(wallData).filter(([wallKey]) => {
                     const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-                    // Check if wall touches this tile
-                    return (x1 === x || x2 === x || y1 === y || y2 === y);
+                    // Check if wall touches this tile (works for both square and hex)
+                    return (x1 === coord1 || x2 === coord1 || y1 === coord2 || y2 === coord2);
                 }).map(([wallKey, wallData_item]) => ({ key: wallKey, data: wallData_item })),
-                // Get objects at this tile
+                // Get objects at this tile - FIXED: now uses grid system for hex grids
                 objects: environmentalObjects.filter(obj => {
                     if (!obj.position) return false;
-                    const objGridX = Math.floor((obj.position.x - gridOffsetX) / gridSize);
-                    const objGridY = Math.floor((obj.position.y - gridOffsetY) / gridSize);
-                    return objGridX === x && objGridY === y;
+                    const objGridCoords = gridSystem.worldToGrid(obj.position.x, obj.position.y);
+                    return objGridCoords.x === coord1 && objGridCoords.y === coord2;
                 }),
-                // Get D&D elements at this tile
+                // Get D&D elements at this tile - FIXED: now uses grid system for hex grids
                 dndElements: dndElements.filter(elem => {
                     if (!elem.position) return false;
-                    const elemGridX = Math.floor((elem.position.x - gridOffsetX) / gridSize);
-                    const elemGridY = Math.floor((elem.position.y - gridOffsetY) / gridSize);
-                    return elemGridX === x && elemGridY === y;
+                    const elemGridCoords = gridSystem.worldToGrid(elem.position.x, elem.position.y);
+                    return elemGridCoords.x === coord1 && elemGridCoords.y === coord2;
                 }),
-                // Get grid items at this tile
+                // Get grid items at this tile - FIXED: now uses grid system for hex grids
                 gridItems: gridItems.filter(item => {
                     if (!item.position) return false;
-                    const itemGridX = Math.floor((item.position.x - gridOffsetX) / gridSize);
-                    const itemGridY = Math.floor((item.position.y - gridOffsetY) / gridSize);
-                    return itemGridX === x && itemGridY === y;
+                    const itemGridCoords = gridSystem.worldToGrid(item.position.x, item.position.y);
+                    return itemGridCoords.x === coord1 && itemGridCoords.y === coord2;
                 })
             };
 
-            createMemorySnapshot(x, y, snapshotData);
-            setExploredArea(x, y, true);
+            createMemorySnapshot(coord1, coord2, snapshotData);
+            // Keep tile-based explored areas for backward compatibility and memory snapshots
+            setExploredArea(coord1, coord2, true);
         });
 
-        // Note: No need to track previous visible areas since we mark all visible areas as explored
+        // Note: Explored circles are now stored separately and rendered as soft circles
     }, [
         afterimageEnabled,
         dynamicFogEnabled,
@@ -186,12 +224,13 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                     becomingInvisible.delete(token.id);
                 }
 
-                // Only process visibility change if debounce time has passed
-                // This prevents flickering when visibility rapidly changes
+                // CRITICAL FIX: Immediately update last seen position when token becomes visible
+                // Don't wait for debounce - tokens should appear immediately when in view
                 const timeSinceChange = now - prevState.lastChangeTime;
                 const isStableVisible = prevState.visible && timeSinceChange > VISIBILITY_DEBOUNCE_MS;
                 
-                // Update "last seen" position - this is where the player saw the token
+                // Update "last seen" position immediately (don't wait for debounce)
+                // This ensures tokens appear as soon as they enter view
                 const fullTokenData = {
                     ...token,
                     state: token.state || {},
@@ -212,17 +251,18 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                     timestamp: now
                 });
 
-                // Only remove afterimage if visibility is STABLE (not flickering)
-                // This prevents afterimage from being cleared during brief visibility flickers
-                if (isStableVisible || timeSinceChange > VISIBILITY_DEBOUNCE_MS * 2) {
-                    const levelEditorStore = useLevelEditorStore.getState();
-                    if (levelEditorStore.tokenAfterimages[token.id]) {
-                        removeTokenAfterimage(token.id);
-                    }
+                // CRITICAL FIX: Remove afterimage immediately when token becomes visible
+                // Don't wait for stability - tokens should appear instantly when in view
+                const levelEditorStore = useLevelEditorStore.getState();
+                if (levelEditorStore.tokenAfterimages[token.id]) {
+                    removeTokenAfterimage(token.id);
                 }
 
-                // Update visibility state
+                // Update visibility state immediately (no debounce for becoming visible)
                 if (!prevState.visible) {
+                    currentVisibility.set(token.id, { visible: true, lastChangeTime: now });
+                } else {
+                    // Update timestamp even if already visible (for smooth transitions)
                     currentVisibility.set(token.id, { visible: true, lastChangeTime: now });
                 }
 
@@ -237,8 +277,9 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                     // Create afterimage at LAST SEEN position
                     const lastSeen = lastSeenPositions.get(token.id);
                     
-                    if (lastSeen) {
-                        // Use a delay to prevent flickering during rapid visibility changes
+                    if (lastSeen && lastSeen.worldPosition) {
+                        // REDUCED DELAY: Faster afterimage creation for better responsiveness
+                        // Use a shorter delay to prevent flickering during rapid visibility changes
                         const timerId = setTimeout(() => {
                             // Re-check that token is still invisible using visibleArea
                             let stillInvisible = true;
@@ -262,14 +303,20 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
                             if (stillInvisible) {
                                 if (!currentStore.tokenAfterimages[token.id]) {
-                                    // Create afterimage at the LAST SEEN position (not current position!)
-                                    updateTokenAfterimage(token.id, lastSeen.tokenData, lastSeen.gridPosition);
+                                    // Create afterimage at the LAST SEEN world position (more accurate than grid position)
+                                    // Store both grid and world position for compatibility
+                                    const afterimagePosition = {
+                                        ...lastSeen.gridPosition,
+                                        worldPosition: lastSeen.worldPosition
+                                    };
+                                    updateTokenAfterimage(token.id, lastSeen.tokenData, afterimagePosition);
+                                    // Keep tile-based explored area for backward compatibility
                                     setExploredArea(lastSeen.gridPosition.x, lastSeen.gridPosition.y, true);
                                 }
                             }
                             
                             becomingInvisible.delete(token.id);
-                        }, 300); // Longer delay to ensure stability
+                        }, 150); // Reduced delay for faster afterimage creation
 
                         becomingInvisible.set(token.id, timerId);
                     }

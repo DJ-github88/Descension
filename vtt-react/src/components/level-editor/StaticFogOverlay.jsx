@@ -850,7 +850,11 @@ const StaticFogOverlay = () => {
         // PERFORMANCE FIX: Read revealedAreas/exploredAreas from store when called
         const levelEditorState = useLevelEditorStore.getState();
         const revealedAreas = levelEditorState.revealedAreas || {};
-        const exploredAreas = levelEditorState.exploredAreas || {};
+        
+        // FIXED: Use isPositionExplored to check circle-based explored areas
+        const isExplored = levelEditorState.isPositionExplored 
+            ? levelEditorState.isPositionExplored(worldX, worldY)
+            : (levelEditorState.exploredAreas[tileKey] || false);
         
         // CRITICAL FIX: When viewing from a token, show both current vision AND explored areas
         // This creates proper fog of war where players see explored areas plus current vision
@@ -861,7 +865,7 @@ const StaticFogOverlay = () => {
                 return 'viewable'; // Currently visible - visibility mask will erase fog
             }
             // Show explored areas even when viewing from token - this is what the player has discovered
-            if (exploredAreas[tileKey]) {
+            if (isExplored) {
                 return 'explored'; // Previously explored - dimmed but visible
             }
             return 'covered'; // Not explored - fully covered fog
@@ -881,7 +885,7 @@ const StaticFogOverlay = () => {
         }
         
         // Check if previously explored (works in both GM and player mode)
-        if (exploredAreas[tileKey]) {
+        if (isExplored) {
             return 'explored'; // Previously explored but currently fogged
         }
         
@@ -1133,52 +1137,107 @@ const StaticFogOverlay = () => {
                 
                 // Then overlay explored areas with more transparent 'explored' fog
                 // This allows players to see terrain/afterimages in areas they've been
+                // FIXED: Now uses vision polygon shapes (round view) instead of blocky tiles
                 const levelEditorState = useLevelEditorStore.getState();
-                const exploredAreasData = levelEditorState.exploredAreas || {};
+                const exploredPolygons = levelEditorState.exploredPolygons || [];
+                const exploredCircles = levelEditorState.exploredCircles || [];
                 const visibleAreaSetLocal = visibleArea ? 
                     (visibleArea instanceof Set ? visibleArea : new Set(visibleArea)) : 
                     new Set();
                 
                 // Only render explored areas in player mode when viewing from token
-                if (viewingFromToken && !isGMMode && Object.keys(exploredAreasData).length > 0) {
+                if (viewingFromToken && !isGMMode && (exploredPolygons.length > 0 || exploredCircles.length > 0)) {
                     const exploredFogColor = getFogColor('explored');
-                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.globalCompositeOperation = 'source-over'; // Overlay explored fog
+                    ctx.globalAlpha = 1.0; // Full opacity for explored fog overlay
                     
-                    // Get viewport bounds in grid coordinates for culling
-                    const viewportMinGridX = Math.floor((viewportWorldBounds.minX - gridOffsetX) / gridSize) - 1;
-                    const viewportMaxGridX = Math.ceil((viewportWorldBounds.maxX - gridOffsetX) / gridSize) + 1;
-                    const viewportMinGridY = Math.floor((viewportWorldBounds.minY - gridOffsetY) / gridSize) - 1;
-                    const viewportMaxGridY = Math.ceil((viewportWorldBounds.maxY - gridOffsetY) / gridSize) + 1;
-                    
-                    // Iterate through explored areas and render them with explored color
-                    Object.keys(exploredAreasData).forEach(tileKey => {
-                        const [gridX, gridY] = tileKey.split(',').map(Number);
+                    // First render polygons (exact vision shape - matches round view)
+                    // FIXED: Add soft gradient edges for smooth appearance
+                    exploredPolygons.forEach(polygon => {
+                        if (!polygon.points || polygon.points.length < 3) return;
                         
-                        // Skip if outside viewport
-                        if (gridX < viewportMinGridX || gridX > viewportMaxGridX ||
-                            gridY < viewportMinGridY || gridY > viewportMaxGridY) {
-                            return;
+                        // Convert polygon points to screen coordinates
+                        const screenPoints = polygon.points.map(p => worldToScreen(p.x, p.y));
+                        
+                        // Quick viewport cull - check if any point is in viewport
+                        let inViewport = false;
+                        for (const screenPoint of screenPoints) {
+                            if (screenPoint.x >= -100 && screenPoint.x <= canvas.width + 100 &&
+                                screenPoint.y >= -100 && screenPoint.y <= canvas.height + 100) {
+                                inViewport = true;
+                                break;
+                            }
+                        }
+                        if (!inViewport) return;
+                        
+                        // Calculate center and approximate radius for gradient
+                        let centerX = 0, centerY = 0;
+                        let maxDist = 0;
+                        for (const p of screenPoints) {
+                            centerX += p.x;
+                            centerY += p.y;
+                        }
+                        centerX /= screenPoints.length;
+                        centerY /= screenPoints.length;
+                        
+                        // Find max distance from center for gradient radius
+                        for (const p of screenPoints) {
+                            const dx = p.x - centerX;
+                            const dy = p.y - centerY;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            maxDist = Math.max(maxDist, dist);
                         }
                         
-                        // Skip if currently visible (will be handled by visibility mask)
-                        if (visibleAreaSetLocal.has(tileKey)) {
-                            return;
+                        // Create radial gradient from center for soft edges
+                        const gradient = ctx.createRadialGradient(centerX, centerY, maxDist * 0.7, centerX, centerY, maxDist);
+                        // Parse explored fog color for gradient
+                        const rgbaMatch = exploredFogColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+                        if (rgbaMatch) {
+                            const r = parseInt(rgbaMatch[1]);
+                            const g = parseInt(rgbaMatch[2]);
+                            const b = parseInt(rgbaMatch[3]);
+                            const baseAlpha = rgbaMatch[4] ? parseFloat(rgbaMatch[4]) : 1.0;
+                            // Soft gradient: full opacity in center, fade to transparent at edges
+                            gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.9})`);
+                            gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.6})`);
+                            gradient.addColorStop(0.85, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.3})`);
+                            gradient.addColorStop(0.95, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.1})`);
+                            gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+                        } else {
+                            gradient.addColorStop(0, exploredFogColor);
+                            gradient.addColorStop(1, 'transparent');
                         }
                         
-                        // Calculate world position and screen position
-                        const worldX = (gridX * gridSize) + gridOffsetX + (gridSize / 2);
-                        const worldY = (gridY * gridSize) + gridOffsetY + (gridSize / 2);
+                        // Render polygon shape with soft gradient edges
+                        ctx.beginPath();
+                        ctx.moveTo(screenPoints[0].x, screenPoints[0].y);
+                        for (let i = 1; i < screenPoints.length; i++) {
+                            ctx.lineTo(screenPoints[i].x, screenPoints[i].y);
+                        }
+                        ctx.closePath();
+                        ctx.fillStyle = gradient;
+                        ctx.fill();
+                    });
+                    
+                    // Fallback: render circles if no polygons (simpler exploration)
+                    exploredCircles.forEach(circle => {
+                        const { x: worldX, y: worldY, radius: circleRadius } = circle;
                         const screenPos = worldToScreen(worldX, worldY);
-                        const tileScreenSize = gridSize * effectiveZoom;
+                        const circleScreenRadius = circleRadius * effectiveZoom;
                         
-                        // Render this tile with explored fog (more transparent)
-                        ctx.fillStyle = exploredFogColor;
-                        ctx.fillRect(
-                            screenPos.x - tileScreenSize / 2,
-                            screenPos.y - tileScreenSize / 2,
-                            tileScreenSize,
-                            tileScreenSize
-                        );
+                        // Skip if circle is completely outside viewport
+                        const padding = circleScreenRadius;
+                        if (screenPos.x + padding < 0 || screenPos.x - padding > canvas.width ||
+                            screenPos.y + padding < 0 || screenPos.y - padding > canvas.height) {
+                            return;
+                        }
+                        
+                        // Render explored area as a soft circle
+                        const exploredGradient = createFogGradient(ctx, screenPos.x, screenPos.y, circleScreenRadius, exploredFogColor);
+                        ctx.fillStyle = exploredGradient;
+                        ctx.beginPath();
+                        ctx.arc(screenPos.x, screenPos.y, circleScreenRadius, 0, Math.PI * 2);
+                        ctx.fill();
                     });
                 }
                 
@@ -1977,3 +2036,4 @@ export default React.memo(StaticFogOverlay, (prevProps, nextProps) => {
     // Zustand subscriptions will still trigger re-renders when store values actually change
     return true; // "Props are equal" - block parent-forced re-renders
 });
+
