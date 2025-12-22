@@ -52,7 +52,8 @@ const CharacterToken = ({
     const tooltipTimeoutRef = useRef(null);
 
     const lastPositionUpdateRef = useRef(Date.now());
-    const lastViewingTokenUpdateRef = useRef(0);
+    const rafIdRef = useRef(null); // For requestAnimationFrame batching
+    const pendingWorldPosRef = useRef(null); // Store pending world position for batched updates
 
     // Get character token data to find playerId
     const characterTokens = useCharacterTokenStore(state => state.characterTokens);
@@ -663,6 +664,38 @@ const CharacterToken = ({
         let lastNetworkUpdate = 0;
         let lastCombatUpdate = 0;
         let dragTimeoutId = null;
+        let lastLocalPositionUpdate = 0;
+
+        // PERFORMANCE: Batch DOM updates using requestAnimationFrame
+        const updateDOMPosition = (screenX, screenY) => {
+            if (tokenRef.current) {
+                tokenRef.current.style.left = `${screenX}px`;
+                tokenRef.current.style.top = `${screenY}px`;
+            }
+        };
+
+        // PERFORMANCE: Batch React state updates to reduce re-renders
+        const scheduleStateUpdate = (worldPos) => {
+            pendingWorldPosRef.current = worldPos;
+            
+            if (rafIdRef.current === null) {
+                rafIdRef.current = requestAnimationFrame(() => {
+                    if (pendingWorldPosRef.current) {
+                        const now = Date.now();
+                        // Only update React state periodically (every 50ms = ~20fps) to reduce re-renders
+                        if (now - lastLocalPositionUpdate > 50) {
+                            setLocalPosition({ 
+                                x: pendingWorldPosRef.current.x, 
+                                y: pendingWorldPosRef.current.y 
+                            });
+                            lastLocalPositionUpdate = now;
+                        }
+                        pendingWorldPosRef.current = null;
+                    }
+                    rafIdRef.current = null;
+                });
+            }
+        };
 
         const handleMouseMove = (e) => {
             // Track total drag distance for click vs drag detection
@@ -686,10 +719,7 @@ const CharacterToken = ({
                 window._isDraggingToken = true;
 
                 // Position token immediately at current mouse position for instant responsiveness
-                if (tokenRef.current) {
-                    tokenRef.current.style.left = `${screenX}px`;
-                    tokenRef.current.style.top = `${screenY}px`;
-                }
+                updateDOMPosition(screenX, screenY);
 
                 // Do initialization asynchronously to not block the first drag update
                 setTimeout(() => {
@@ -708,6 +738,12 @@ const CharacterToken = ({
 
             if (!isDraggingRef.current) return;
 
+            // PERFORMANCE: Prevent all default behaviors and stop propagation immediately
+            // This prevents parent components from re-rendering during drag
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
             // Get viewport dimensions for proper coordinate conversion
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
@@ -718,27 +754,20 @@ const CharacterToken = ({
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
 
-            // Update DOM position immediately for smooth dragging (most important for responsiveness)
-            if (tokenRef.current) {
-                tokenRef.current.style.left = `${screenX}px`;
-                tokenRef.current.style.top = `${screenY}px`;
-            }
+            // PERFORMANCE: Update DOM position immediately for smooth dragging (batched via RAF internally)
+            updateDOMPosition(screenX, screenY);
 
-            // Update local position for React state (this will trigger re-render with new position)
-            setLocalPosition({ x: worldPos.x, y: worldPos.y });
+            // PERFORMANCE: Batch React state updates to reduce re-renders
+            scheduleStateUpdate(worldPos);
 
-            // CRITICAL FIX: If this is the viewing token, update its position for visibility calculations
-            // Throttle to reduce performance impact during fast dragging
-            if (isViewingFrom && now - lastViewingTokenUpdateRef.current > 100) { // Update every ~10fps during drag
-                lastViewingTokenUpdateRef.current = now;
-                const levelEditorStore = useLevelEditorStore.getState();
-                const currentViewingToken = levelEditorStore.viewingFromToken;
-                if (currentViewingToken) {
-                    levelEditorStore.setViewingFromToken({
-                        ...currentViewingToken,
-                        position: { x: worldPos.x, y: worldPos.y }
-                    });
-                }
+            // PERFORMANCE: Don't update viewing token position during drag - only on drop
+            // This prevents expensive fog calculations from running during drag
+            // The fog calculations will run once when the drag ends, which is what we want
+            // We still track the position in a ref for use on drop
+            if (isViewingFrom) {
+                // Store the position in a ref for use when drag ends, but don't update the store
+                // This prevents expensive fog recalculations during drag
+                pendingWorldPosRef.current = worldPos;
             }
 
             // CRITICAL FIX: Update timestamp periodically to keep grace period active during long drags
@@ -854,7 +883,8 @@ const CharacterToken = ({
             // Update local position immediately to prevent visual jumps
             setLocalPosition({ x: snappedWorldPos.x, y: snappedWorldPos.y });
 
-            // If this is the viewing token, update its position in the level editor store for vision calculations
+            // PERFORMANCE: If this is the viewing token, update its position ONLY on drop (not during drag)
+            // This ensures fog calculations run once when drag ends, not continuously during drag
             if (isViewingFrom) {
                 const levelEditorStore = useLevelEditorStore.getState();
                 const currentViewingToken = levelEditorStore.viewingFromToken;
@@ -1016,6 +1046,12 @@ const CharacterToken = ({
             if (dragTimeoutId) {
                 clearTimeout(dragTimeoutId);
             }
+            // PERFORMANCE: Cancel any pending RAF updates
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current);
+                rafIdRef.current = null;
+            }
+            pendingWorldPosRef.current = null;
         };
     }, [
         isDragging,

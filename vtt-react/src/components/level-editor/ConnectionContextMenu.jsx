@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import UnifiedContextMenu from './UnifiedContextMenu';
 import ConnectionSelectorDialog from './ConnectionSelectorDialog';
 import ConnectionRenameDialog from './ConnectionRenameDialog';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 
-const ConnectionContextMenu = ({
+const ConnectionContextMenu = memo(({
     visible,
     x,
     y,
@@ -31,9 +31,8 @@ const ConnectionContextMenu = ({
         }
     }, [visible]);
 
-    console.log('🔗 ConnectionContextMenu render:', { visible, connection: connection?.id, x, y });
+    // PERFORMANCE: Early return if not visible - prevents unnecessary renders during drag
     if (!visible || !connection) {
-        console.log('🔗 ConnectionContextMenu not rendering:', { visible, hasConnection: !!connection });
         return null;
     }
 
@@ -134,7 +133,18 @@ const ConnectionContextMenu = ({
             )}
         </>
     );
-};
+}, (prevProps, nextProps) => {
+    // PERFORMANCE: Custom comparison to prevent re-renders during drag
+    // Only re-render if visible state changes or connection changes
+    if (prevProps.visible !== nextProps.visible) return false;
+    if (!nextProps.visible) return true; // Don't re-render if not visible
+    if (prevProps.connection?.id !== nextProps.connection?.id) return false;
+    if (prevProps.x !== nextProps.x || prevProps.y !== nextProps.y) return false;
+    // All other props can change without causing re-render when visible
+    return true; // Skip re-render
+});
+
+ConnectionContextMenu.displayName = 'ConnectionContextMenu';
 
 export default ConnectionContextMenu;
 
