@@ -581,7 +581,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
   return room;
 }
 
-function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2', character = null) {
+async function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2', character = null) {
   const room = rooms.get(roomId);
 
   if (!room) {
@@ -1084,7 +1084,7 @@ io.on('connection', (socket) => {
   });
   
   // Join an existing room
-  socket.on('join_room', (data) => {
+  socket.on('join_room', async (data) => {
     console.log('🚪 Received join_room request:', data);
     
     // SECURITY: Sanitize user input
@@ -1120,7 +1120,7 @@ io.on('connection', (socket) => {
     console.log('Attempting to join room:', roomId, 'Total rooms available:', rooms.size);
     console.log('Available room IDs:', Array.from(rooms.keys()));
 
-    const result = joinRoom(roomId, playerName, socket.id, password, data.playerColor, character);
+    const result = await joinRoom(roomId, playerName, socket.id, password, data.playerColor, character);
 
     if (!result) {
       console.log('❌ Room not found for join request:', roomId);
