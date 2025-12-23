@@ -353,7 +353,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropic_touch',
       name: 'Entropic Touch',
-      description: 'Infuse a target with entropic decay, dealing necrotic damage and reducing their armor by 1 for 3 rounds.',
+      description: 'Infuse a target with entropic decay. The chaotic energy eats away at their defenses, causing their armor to weaken and crumble as the entropy spreads through their form.',
       level: 1,
       icon: 'spell_shadow_antishadow',
       spellType: 'ACTION',
@@ -1198,7 +1198,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-decay_cascade',
       name: 'Decay Cascade',
-      description: 'Trigger a cascade of entropic decay that spreads through up to 5 targets. Deals necrotic damage and reduces Strength, Constitution, and Armor for 6 rounds. Targets may save to resist.',
+      description: 'Trigger a cascade of entropic decay that spreads through multiple targets. The chaotic energy flows from one victim to the next, weakening their bodies and defenses as the entropy consumes them. The decay spreads like a plague, leaving destruction in its wake.',
       level: 6,
       icon: 'spell_shadow_antishadow',
       spellType: 'ACTION',
@@ -1689,7 +1689,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-chaos_conduit',
       name: 'Chaos Conduit',
-      description: 'Become a living conduit for chaotic energy for 3 rounds, gaining immense but unstable power. Gain +4 to spell damage and all chaos spells gain +1 die, but you take 2d6 damage at the start of each turn.',
+      description: 'Become a living conduit for chaotic energy, gaining immense but unstable power. The raw chaos flows through you, amplifying your spells to devastating levels, but the uncontrolled energy tears at your body with each passing moment. The power is intoxicating but dangerous.',
       level: 9,
       icon: 'spell_arcane_portalorgrimmar',
       spellType: 'ACTION',
@@ -1731,7 +1731,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropy_wave',
       name: 'Entropy Wave',
-      description: 'Unleash a devastating wave of entropy in a 25-foot radius that decays and weakens everything it touches. Deals necrotic damage and reduces all stats by 2 and armor by 4 for 3 rounds. Targets may save for half damage.',
+      description: 'Unleash a devastating wave of entropy that decays and weakens everything it touches. The chaotic energy spreads outward in a destructive tide, consuming strength, vitality, and defenses. Those caught in the wave feel their very essence being eroded away.',
       level: 9,
       icon: 'spell_shadow_antishadow',
       spellType: 'ACTION',

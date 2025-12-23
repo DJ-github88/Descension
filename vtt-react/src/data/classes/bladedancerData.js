@@ -1398,7 +1398,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_dance_speed',
           name: 'Dancing Speed',
-          description: 'Gain +10 feet movement speed for 1 round from the fluid motion of flowing through stances. The seamless transitions between combat forms grant you exceptional mobility.',
+          description: 'The fluid motion of flowing through stances grants you exceptional mobility. The seamless transitions between combat forms make you move like water, flowing effortlessly across the battlefield.',
           statModifier: {
             stat: 'movementSpeed',
             magnitude: 10,
@@ -1701,7 +1701,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_mastery',
       name: 'Stance Mastery',
-      description: 'Demonstrate mastery of your current stance for 2 rounds, doubling its effects and gaining enhanced capabilities.',
+      description: 'Demonstrate mastery of your current stance, pushing it to its absolute limit. Every aspect of your combat form is amplified, making you a true master of that fighting style. Your movements become perfect, your strikes more precise, and your defenses impenetrable.',
       level: 3,
       spellType: 'ACTION',
       icon: 'ability_warrior_innerrage',
@@ -1735,7 +1735,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_mastery_power',
           name: 'Stance Mastery',
-          description: 'Gain +2 stance power, doubling all effects from your current stance abilities for 2 rounds. This mastery amplifies every aspect of your active stance, making your combat forms significantly more potent.',
+          description: 'This mastery amplifies every aspect of your active stance, making your combat forms significantly more potent. Every ability, every movement, every strike is enhanced to its absolute peak.',
           statModifier: {
             stat: 'stancePower',
             magnitude: 2,
@@ -1811,7 +1811,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'bleeding',
           name: 'Bleeding Wound',
-          description: 'Target takes 1d4 physical damage per round for 3 rounds',
+          description: 'The target bleeds from a deep wound, taking physical damage over time as blood continues to flow. The wound is severe and continues to cause harm.',
           statusType: 'bleeding',
           level: 'moderate'
         }],
@@ -2176,7 +2176,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_harmony',
       name: 'Stance Harmony',
-      description: 'Achieve perfect harmony between all stances for 3 rounds (concentration), gaining enhanced effects from multiple forms simultaneously.',
+      description: 'Achieve perfect harmony between all stances, allowing you to draw power from multiple fighting styles simultaneously. You flow seamlessly between forms, combining their strengths into a unified combat style that transcends any single stance. This perfect balance requires intense concentration to maintain.',
       level: 6,
       spellType: 'ACTION',
       icon: 'ability_druid_treeoflife',
@@ -2210,7 +2210,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_harmony_power',
           name: 'Harmonic Power',
-          description: 'Gain +1 to multi-stance benefits, allowing you to combine and maintain benefits from multiple stances simultaneously for 3 rounds. Requires concentration to maintain this harmony between stances.',
+          description: 'Allows you to combine and maintain benefits from multiple stances simultaneously. The perfect harmony between stances creates a unified combat style that transcends any single form. Requires concentration to maintain this delicate balance.',
           statModifier: {
             stat: 'multiStanceBenefits',
             magnitude: 1,

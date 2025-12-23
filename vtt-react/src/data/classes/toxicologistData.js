@@ -1296,7 +1296,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_overcharged_trap',
       name: 'Overcharged Trap',
-      description: 'Deploy a supercharged contraption that deals 5d8 + intelligence fire damage and applies severe debuffs.',
+      description: 'Deploy a supercharged contraption that explodes with devastating force. The device is overcharged with volatile chemicals, creating a massive fireball that engulfs everything in the area. The explosion leaves enemies burned and crippled, their defenses shattered by the blast.',
       spellType: 'ACTION',
       icon: 'inv_misc_enggizmos_32',
       school: 'Engineering',
@@ -1368,7 +1368,7 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'burned',
           name: 'Burned',
-          description: '-3 AC and takes 1d6 fire damage per round for 3 rounds',
+          description: 'Severely burned by the explosive force. Their armor is damaged and they continue to burn, taking fire damage over time as the flames consume them.',
           statModifier: {
             stat: 'armor',
             magnitude: -3,
@@ -1387,7 +1387,7 @@ Many players enhance the Toxicologist experience with:
           effect: 'Gadgeteers add +2d8 damage and +5ft radius (total 20ft)'
         },
         explosiveForce: {
-          description: 'Enemies hit are knocked back 10ft and knocked prone (STR save DC 15 to resist)'
+          description: 'The explosive force sends enemies flying backward and knocks them to the ground. The concussive blast is powerful enough to throw even the strongest foes off balance, though those with exceptional strength may resist being knocked down.'
         }
       },
 
@@ -1451,7 +1451,7 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'crippled',
           name: 'Crippled',
-          description: '-4 to attack rolls, -2 AC, -10ft movement, disadvantage on all saves for 5 rounds',
+          description: 'Severely crippled by the sabotage. Their attacks become clumsy and inaccurate, their armor is compromised, their movement is slowed, and they struggle to resist further effects. The sabotage has left them nearly helpless.',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: -4,
@@ -2555,8 +2555,7 @@ Many players enhance the Toxicologist experience with:
         resourceValues: {
           mana: 10
         },
-        actionPoints: 1,
-        components: ['somatic']
+        actionPoints: 1
       },
 
       cooldownConfig: {

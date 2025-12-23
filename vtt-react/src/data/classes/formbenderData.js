@@ -1682,8 +1682,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 1 },
         useFormulas: {},
-        actionPoints: 1,
-        components: ['somatic']
+        actionPoints: 1
       },
       cooldownConfig: {
         type: 'turn_based',
@@ -1723,8 +1722,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 1 },
         useFormulas: {},
-        actionPoints: 1,
-        components: ['somatic']
+        actionPoints: 1
       },
       cooldownConfig: {
         type: 'turn_based',
@@ -2768,8 +2766,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 4 },
         useFormulas: {},
-        actionPoints: 2,
-        components: ['verbal']
+        actionPoints: 2
       },
       cooldownConfig: {
         type: 'turn_based',

@@ -2262,7 +2262,7 @@ Many players enhance the titan experience with:
         durationUnit: 'rounds',
         statModifiers: [
           { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
-          { stat: 'damageReduction', magnitude: 10, magnitudeType: 'flat' }
+          { stat: 'damage_reduction', magnitude: 10, magnitudeType: 'flat' }
         ],
         resistances: [
           { type: 'physical', resistanceAmount: 'resistance' },

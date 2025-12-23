@@ -1159,7 +1159,7 @@ Playing Gambler in person is uniquely satisfying because:
         healingConfig: {
           formula: 'variable',
           healingType: 'direct',
-          description: 'Roll 1d100: 1-50 doubles HP, 51-90 heals to full, 91-100 drops to 0 HP'
+          description: 'Roll the dice of fate. The result could be miraculous healing, devastating loss, or anything in between. Fortune favors the bold, but also punishes the reckless.'
         },
 
         utilityConfig: {
@@ -2407,8 +2407,7 @@ Playing Gambler in person is uniquely satisfying because:
         resourceValues: {
           mana: 18
         },
-        actionPoints: 1,
-        components: ['verbal']
+        actionPoints: 1
       },
 
       cooldownConfig: {
@@ -2514,8 +2513,7 @@ Playing Gambler in person is uniquely satisfying because:
         resourceValues: {
           mana: 22
         },
-        actionPoints: 1,
-        components: ['verbal']
+        actionPoints: 1
       },
 
       cooldownConfig: {

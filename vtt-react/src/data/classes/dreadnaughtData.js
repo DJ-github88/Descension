@@ -1173,7 +1173,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_blood_to_shadow',
       name: 'Blood to Shadow',
-      description: 'Convert your own hit points into Dark Resilience Points. Sacrifice 5 HP to gain 1 DRP.',
+      description: 'Convert your own hit points into Dark Resilience Points. You channel your life force into shadowy energy, transforming physical vitality into dark power. The conversion is painful but necessary, trading immediate health for lasting resilience.',
       level: 3,
       spellType: 'ACTION',
       icon: 'spell_shadow_bloodboil',
@@ -1520,7 +1520,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_necrotic_wave',
       name: 'Necrotic Wave',
-      description: 'Send out a wave of necrotic energy that damages and weakens enemies in a 60-foot line. Enemies hit take damage and suffer disadvantage on saving throws against necrotic effects for 1 minute.',
+      description: 'Send out a wave of necrotic energy that damages and weakens enemies. The dark energy flows in a line, corrupting everything it touches. Those struck find their resistance to necrotic magic compromised, making them vulnerable to further dark effects.',
       level: 5,
       spellType: 'ACTION',
       icon: 'spell_shadow_unholyfrenzy',

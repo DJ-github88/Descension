@@ -770,7 +770,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_arrow',
       name: 'Lunar Arrow',
-      description: 'Fire an arrow infused with moonlight that deals damage based on your current lunar phase.',
+      description: 'Fire an arrow infused with moonlight. The arrow glows with the power of the current lunar phase, its intensity and properties shifting with the moon\'s cycle. In New Moon, it strikes from shadows with deadly precision. In Waxing Moon, it burns brighter. In Full Moon, it becomes a beacon of radiant destruction. In Waning Moon, it costs less to cast as the moon\'s power wanes.',
       spellType: 'ACTION',
       icon: 'ability_hunter_sentinelowl',
       school: 'Evocation',
@@ -823,7 +823,7 @@ START: Always New Moon
     {
       id: 'lunarch_sentinels_shot',
       name: "Sentinel's Shot",
-      description: 'Fire a powerful arrow that marks your target, causing them to take additional damage from your next spell.',
+      description: 'Fire an arrow that strikes with unerring accuracy, leaving a glowing mark on your target. The mark pulses with lunar energy, making the target vulnerable to your next spell. The mark\'s power intensifies during Full Moon, lasting longer and amplifying your magic more effectively.',
       spellType: 'ACTION',
       icon: 'ability_hunter_markedfordeath',
       school: 'Evocation',
@@ -1126,7 +1126,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_eclipse',
       name: 'Lunar Eclipse',
-      description: 'Channel the power of both the New Moon and Full Moon simultaneously for 2 rounds, gaining defensive and offensive benefits. Gain New Moon benefits (+1d4 mana/turn, -1d4 incoming damage), Full Moon benefits (+1d6 damage, +2 crit range), and a radiant aura dealing 1d4 damage to enemies within 10 feet.',
+      description: 'Channel the power of both the New Moon and Full Moon simultaneously, creating a perfect balance of light and shadow. The eclipse grants you both the defensive power of the New Moon and the offensive might of the Full Moon, while a radiant aura of lunar energy surrounds you, burning enemies who come too close.',
       spellType: 'ACTION',
       icon: 'spell_nature_nullifydisease',
       school: 'Transmutation',
@@ -1179,7 +1179,7 @@ START: Always New Moon
 
       specialMechanics: {
         dualPhase: {
-          description: 'Grants benefits from both New Moon and Full Moon simultaneously',
+          description: 'Gain benefits from both New Moon and Full Moon simultaneously. The eclipse creates a perfect balance where you draw power from both phases, becoming both a shield and a weapon. A radiant aura of lunar energy surrounds you, burning enemies who venture too close.',
           phaseLock: 'Your phase does not cycle during Eclipse duration',
           afterEffect: 'After Eclipse ends, you return to the phase you were in before casting'
         }
@@ -1694,7 +1694,7 @@ START: Always New Moon
     {
       id: 'lunarch_moonwell_surge',
       name: 'Moonwell Surge',
-      description: 'Create a surge of healing moonlight that restores health and cleanses conditions from allies.',
+      description: 'Create a surge of healing moonlight that washes over your allies. The silver light flows like liquid, mending wounds and cleansing their bodies of harmful effects. The healing continues to pulse through them, restoring vitality over time as the moonlight\'s power lingers.',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_holy_holynova',
@@ -1922,7 +1922,7 @@ START: Always New Moon
     {
       id: 'lunarch_moonfire_rain',
       name: 'Moonfire Rain',
-      description: 'Call down a devastating rain of moonfire that scorches the battlefield.',
+      description: 'Call down a rain of moonfire that scorches the battlefield. The sky fills with streaks of silver-white fire that crash down in a devastating deluge. The moonfire continues to burn on the ground, creating a zone of radiant destruction that lingers and continues to damage those caught within.',
       level: 9,
       spellType: 'ACTION',
       icon: 'spell_nature_starfall',
@@ -2223,7 +2223,7 @@ START: Always New Moon
     {
       id: 'lunarch_eternal_moonwell',
       name: 'Eternal Moonwell',
-      description: 'Create an eternal moonwell that continuously heals allies and damages enemies for the rest of combat.',
+      description: 'Create an eternal moonwell that pulses with lunar energy. The sacred pool glows with silver light, continuously healing allies who stand within its radiance while burning enemies with the same divine power. The moonwell persists throughout the entire combat, becoming a permanent fixture of healing and destruction.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_nature_tranquility',
@@ -2293,7 +2293,7 @@ START: Always New Moon
     {
       id: 'lunarch_moonlight_bolt',
       name: 'Moonlight Bolt',
-      description: 'Fire a bolt of moonlight that deals radiant damage.',
+      description: 'Fire a bolt of moonlight that channels lunar energy into a focused beam. The silver-white light streaks toward your target, leaving a trail of shimmering particles in its wake.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2443,7 +2443,7 @@ START: Always New Moon
     {
       id: 'lunarch_crescent_strike',
       name: 'Crescent Strike',
-      description: 'Strike with a crescent moon blade that deals radiant damage.',
+      description: 'Strike with a crescent moon blade formed of pure lunar energy. The blade glows with silver light and cuts through defenses with celestial precision, leaving trails of moonlight in its wake.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2601,7 +2601,7 @@ START: Always New Moon
     {
       id: 'lunarch_eclipse_burst',
       name: 'Eclipse Burst',
-      description: 'Create an eclipse that deals massive radiant damage to all enemies in a radius.',
+      description: 'Create an eclipse that blots out light, leaving only radiant destruction. The sky darkens as the moon passes before the sun, and from that darkness erupts a wave of pure lunar energy that consumes everything in its path.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],

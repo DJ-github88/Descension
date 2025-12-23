@@ -2152,7 +2152,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_virulent_touch',
             name: 'Virulent Touch',
-            description: 'Causes a virulent reaction in a single target in melee range, dealing 4d6 poison damage and infecting all within 5 ft with a simple plague that deals 1d4 poison damage per turn. Advances Infect-path afflictions.',
+            description: 'Causes a virulent reaction in a single target in melee range. Your touch spreads a terrible plague that infects the target and those nearby. The disease spreads rapidly, causing ongoing suffering and advancing existing infections to more severe stages.',
             spellType: 'ACTION',
             icon: 'ability_creature_disease_01',
             school: 'Necromancy',

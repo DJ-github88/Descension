@@ -598,7 +598,7 @@ MANA COSTS:
     {
       id: 'arc_spark_bolt',
       name: 'Spark Bolt',
-      description: 'A quick bolt of arcane energy that strikes your target. Simple and reliable.',
+      description: 'You channel raw arcane energy through your fingertips, condensing it into a crackling bolt of pure magical force. The spell manifests as a brilliant purple-white spark that streaks through the air with a distinctive hum, leaving a brief trail of shimmering energy in its wake. Upon impact, the bolt releases its stored arcane power in a small but precise burst, disrupting the target\'s magical defenses and dealing direct force damage. This is the foundation of arcane combat—simple, reliable, and endlessly versatile.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_arcane_arcanepotency',
@@ -624,8 +624,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Arcanum!',
-        somaticText: 'Point finger to fire bolt'
+        verbalText: 'Arcanum Ignis!',
+        somaticText: 'Extend index finger, arcane energy crackling and coalescing at the tip before launching forward'
       },
 
       resolution: 'DICE',
@@ -634,7 +634,8 @@ MANA COSTS:
       damageConfig: {
         formula: '1d4 + intelligence/4',
         elementType: 'arcane',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The bolt strikes with precise arcane force, disrupting the target\'s magical essence and dealing direct damage to their life force. The impact leaves a brief shimmering mark where the energy was absorbed.'
       },
 
       cooldownConfig: {
@@ -648,7 +649,7 @@ MANA COSTS:
     {
       id: 'arc_frost_touch',
       name: 'Frost Touch',
-      description: 'Your hand freezes as you touch an enemy, dealing cold damage and slowing them.',
+      description: 'You channel the essence of winter through your palm, causing your hand to glow with an ethereal blue-white light as rime frost spreads across your skin. When you make contact with your target, the freezing energy transfers instantly, causing their flesh to flash-freeze at the point of contact. Ice crystals spread outward from the touch point, numbing muscles and slowing their movements. The cold seeps deep into their bones, making every motion feel sluggish and heavy. Steam rises from where your frozen hand meets their warm skin, and they can feel the chill spreading through their limbs like a creeping numbness.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_frost_frostbolt',
@@ -673,8 +674,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Glacies!',
-        somaticText: 'Touch with frozen hand'
+        verbalText: 'Glacies Contactus!',
+        somaticText: 'Palm glows with blue-white frost energy, rime spreading across your hand as you reach out to touch the target'
       },
 
       resolution: 'DICE',
@@ -683,21 +684,21 @@ MANA COSTS:
       damageConfig: {
         formula: '1d4 + intelligence/4',
         elementType: 'cold',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The freezing touch causes instant tissue damage as cells rupture from rapid temperature change. Ice crystals form beneath the skin, and the target feels a deep, penetrating cold that makes their muscles ache.'
       },
 
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
           id: 'slowed',
-          name: 'Slowed',
-          description: 'Movement speed reduced by 10 feet',
+          name: 'Frozen Limbs',
+          description: 'The freezing energy has numbed your muscles and stiffened your joints. Your movement speed is reduced by 10 feet as every step feels heavy and sluggish. Ice crystals continue to form in your extremities, making quick movements difficult. The cold seeps deeper with each passing moment, and you can feel your reflexes slowing as your body struggles against the magical frost.',
           statusType: 'slow',
           level: 'minor'
         }],
         durationValue: 1,
         durationType: 'rounds',
-        durationUnit: 'rounds',
         durationUnit: 'rounds',
         saveDC: 12,
         saveType: 'constitution',
@@ -715,7 +716,7 @@ MANA COSTS:
     {
       id: 'arc_healing_light',
       name: 'Healing Light',
-      description: 'A gentle beam of healing energy that restores health to an ally.',
+      description: 'You channel the restorative power of life itself, causing your hands to glow with a warm, golden-white radiance that pulses with gentle energy. A beam of pure healing light extends from your fingertips, finding its way to your target like a homing beacon of warmth and comfort. As the light touches them, wounds begin to close, bruises fade, and the target feels a wave of soothing energy wash through their body. The light seems to seek out injuries, mending torn flesh, knitting broken skin, and easing pain with its gentle touch. The healing is accompanied by a feeling of warmth and vitality, as if the target is being bathed in the first rays of morning sunlight.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_holy_holybolt',
@@ -741,8 +742,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Sanare!',
-        somaticText: 'Channel healing light'
+        verbalText: 'Lux Sanare!',
+        somaticText: 'Hands glow with golden-white radiance, extending a beam of warm healing light toward the target'
       },
 
       resolution: 'DICE',
@@ -751,7 +752,8 @@ MANA COSTS:
       healingConfig: {
         formula: '1d6 + spirit/3',
         healingType: 'direct',
-        hasHotEffect: false
+        hasHotEffect: false,
+        description: 'The healing light mends wounds, closes cuts, and restores vitality. The target feels their pain fade as torn flesh knits together, and a warm, revitalizing energy flows through their body, restoring lost health and easing their suffering.'
       },
 
       cooldownConfig: {
@@ -765,7 +767,7 @@ MANA COSTS:
     {
       id: 'arc_arcane_missile',
       name: 'Arcane Missile',
-      description: 'A small bolt of pure arcane force that unerringly strikes your target.',
+      description: 'With a quick incantation, you weave together arcane and holy energies to create a small but unerring bolt of pure magical force. The missile manifests as a glowing orb of violet-white energy that hovers briefly before your hand, then streaks toward your target with impossible accuracy. Unlike other projectiles, this missile cannot be dodged or blocked by conventional means—it bends around obstacles and adjusts its trajectory mid-flight, guided by your will. The missile strikes with a sharp crack of released energy, delivering its payload of pure force directly to the target. The combination of arcane precision and holy guidance makes this spell both reliable and devastating.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_arcane_arcanetorrent',
@@ -791,7 +793,7 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal'],
-        verbalText: 'Missile!'
+        verbalText: 'Missile Arcanum!'
       },
 
       resolution: 'DICE',
@@ -800,7 +802,8 @@ MANA COSTS:
       damageConfig: {
         formula: '1d3 + intelligence/4',
         elementType: 'force',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The unerring missile strikes with pinpoint accuracy, delivering a concentrated burst of pure force energy. The impact feels like being struck by an invisible hammer, causing internal trauma as the force energy disrupts the target\'s body from within.'
       },
 
       cooldownConfig: {
@@ -814,7 +817,7 @@ MANA COSTS:
     {
       id: 'arc_nature_vine',
       name: 'Nature Vine',
-      description: 'A vine erupts from the ground, entangling your target and dealing nature damage.',
+      description: 'You channel the raw power of nature, causing the very earth beneath your target to come alive. The ground cracks and splits as thick, thorny vines erupt from the soil with explosive force, their green-brown tendrils reaching upward like grasping hands. The vines immediately wrap around your target\'s legs and torso, their thorns digging into flesh and clothing alike. As they constrict, the vines pulse with verdant energy, dealing nature damage while simultaneously binding the target in place. The thorns inject a mild toxin that causes the target\'s muscles to stiffen, making escape even more difficult. The vines continue to grow and tighten, their grip becoming more secure with each passing moment.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_nature_stranglevines',
@@ -840,8 +843,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Vinea!',
-        somaticText: 'Point at ground to summon vine',
+        verbalText: 'Vinea Crescere!',
+        somaticText: 'Point at the ground, causing the earth to crack as vines erupt upward',
         spheres: ['Nature', 'Nature']
       },
 
@@ -851,7 +854,8 @@ MANA COSTS:
       damageConfig: {
         formula: '1d4 + intelligence/4',
         elementType: 'nature',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The thorny vines dig deep into the target\'s flesh, their barbs tearing at skin and muscle. Nature energy flows through the thorns, causing the wounds to burn with an unnatural green fire as the vines continue to constrict.'
       },
 
       controlConfig: {
@@ -864,8 +868,8 @@ MANA COSTS:
         savingThrow: true,
         effects: [{
           id: 'snare',
-          name: 'Entangled',
-          description: 'Vines restrain the target, preventing movement',
+          name: 'Entangled by Vines',
+          description: 'Thick, thorny vines have wrapped around your legs and torso, their grip tightening with each passing moment. You are completely immobilized, unable to move from your current position. The thorns dig deeper with every struggle, and you can feel the vines pulsing with unnatural life as they continue to grow and constrict. Breaking free requires tremendous strength, and even then, the thorns will leave deep scratches and puncture wounds.',
           config: {
             restraintType: 'physical'
           }
@@ -886,7 +890,7 @@ MANA COSTS:
     {
       id: 'arc_steam_burst',
       name: 'Steam Burst',
-      description: 'Fire and Ice combine to create a scalding burst of steam that damages and disorients enemies.',
+      description: 'You masterfully combine the opposing forces of fire and ice, holding a sphere of flame in one hand and a shard of ice in the other. As you bring them together, the conflicting energies react violently, creating a massive cloud of superheated steam that erupts forward in a wide cone. The steam is scalding hot, causing immediate burns to exposed skin, while the rapid temperature change creates painful blisters. The thick, opaque cloud completely obscures vision, leaving targets blind and disoriented as they struggle to breathe in the suffocating mist. The steam continues to expand outward, carrying with it the dual nature of its creation—both the burning heat of fire and the numbing cold of ice.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_frost_frostbolt',
@@ -916,7 +920,7 @@ MANA COSTS:
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Vapor Eruptio!',
-        somaticText: 'Combine opposing hands of fire and ice',
+        somaticText: 'Hold fire sphere in one hand and ice shard in the other, then bring them together to create explosive steam',
         spheres: ['Fire', 'Ice']
       },
 
@@ -927,15 +931,16 @@ MANA COSTS:
         formula: '1d6 + intelligence/3',
         elementType: 'cold',
         damageType: 'direct',
-        secondaryElementType: 'fire'
+        secondaryElementType: 'fire',
+        description: 'The scalding steam causes immediate burns as it contacts exposed skin. The rapid temperature change from the fire-ice reaction creates painful blisters and causes tissue damage. Targets feel both the burning heat and the numbing cold simultaneously, creating a uniquely painful experience.'
       },
 
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
           id: 'disoriented',
-          name: 'Disoriented',
-          description: 'Blinded by scalding steam - cannot see, automatically fails sight-based checks, disadvantage on attack rolls (roll two d20s and take the lower result when attacking)',
+          name: 'Blinded by Steam',
+          description: 'Thick, opaque steam clouds your vision completely. You cannot see anything beyond a few inches in front of your face, and your eyes burn and water from the scalding mist. You automatically fail all sight-based perception checks and cannot target enemies beyond melee range. When attacking, you must roll two d20s and take the lower result, as you struggle to aim through the blinding steam. The steam also makes breathing difficult, causing you to cough and gasp, further reducing your combat effectiveness.',
           statusType: 'blinded',
           level: 'minor'
         }],
@@ -958,7 +963,7 @@ MANA COSTS:
     {
       id: 'arc_shadow_bolt',
       name: 'Shadow Bolt',
-      description: 'A bolt of dark energy that drains life from your target.',
+      description: 'You draw upon the void itself, pulling shadow and darkness into your palm where it coalesces into a writhing sphere of pure negative energy. The bolt appears to absorb light from its surroundings, creating a visible distortion in the air around it. When you hurl it forward, it leaves a trail of absolute darkness in its wake, as if it\'s tearing a hole through reality itself. Upon impact, the shadow energy doesn\'t just damage—it actively drains life force from the target, causing them to feel a deep, soul-chilling cold as their vitality is siphoned away. The bolt seems to feed on their life energy, growing darker and more potent as it consumes their essence.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_shadow_shadowbolt',
@@ -984,8 +989,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Umbra Sagitta!',
-        somaticText: 'Hurl dark energy',
+        verbalText: 'Umbra Vitae Draconis!',
+        somaticText: 'Pull shadow energy from the void into your palm, forming a writhing sphere of darkness before hurling it forward',
         spheres: ['Shadow', 'Shadow']
       },
 
@@ -995,7 +1000,8 @@ MANA COSTS:
       damageConfig: {
         formula: '1d8 + intelligence/3',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.'
       },
 
       cooldownConfig: {
@@ -1009,7 +1015,7 @@ MANA COSTS:
     {
       id: 'arc_celestial_ray',
       name: 'Celestial Ray',
-      description: 'A beam of pure magical light that damages enemies and heals allies in its path.',
+      description: 'You weave together arcane precision and holy power, creating a brilliant beam of pure celestial light that extends in a straight line before you. The ray is intelligent, somehow able to distinguish friend from foe—it burns enemies with searing radiant energy while simultaneously healing allies with its warm, restorative glow. The light is so bright it leaves afterimages in the eyes of those who witness it, and it seems to pulse with divine purpose. Enemies caught in the beam feel their flesh burn as if exposed to pure sunlight, while allies experience a wave of healing energy that mends wounds and restores vitality. The ray creates a visible path of light that lingers for a moment, marking the path of divine judgment and mercy.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_holy_holybolt',
@@ -1056,8 +1062,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Lux Arcanum!',
-        somaticText: 'Point finger to fire beam of light',
+        verbalText: 'Lux Arcanum Divinus!',
+        somaticText: 'Extend arm forward, palm open, as a brilliant beam of celestial light erupts from your fingertips',
         spheres: ['Arcane', 'Holy']
       },
 
@@ -1067,13 +1073,15 @@ MANA COSTS:
       damageConfig: {
         formula: '1d8 + intelligence/3',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageType: 'direct',
+        description: 'The celestial ray burns enemies with searing radiant energy, as if they\'ve been exposed to concentrated sunlight. Their flesh smokes and chars where the light touches, and they feel an intense burning sensation that seems to come from within their very soul.'
       },
 
       healingConfig: {
         formula: '1d6 + spirit/3',
         healingType: 'direct',
-        hasHotEffect: false
+        hasHotEffect: false,
+        description: 'The same celestial light that burns enemies heals allies, its warm radiance mending wounds, closing cuts, and restoring vitality. Allies feel a wave of comfort and strength wash through them as the light touches their skin.'
       },
 
       cooldownConfig: {
@@ -1217,7 +1225,7 @@ MANA COSTS:
     {
       id: 'arc_arcane_detonation',
       name: 'Arcane Detonation',
-      description: 'Pure arcane energy explodes in a burst, dealing force damage and disorienting enemies in the area.',
+      description: 'You compress pure arcane energy between your palms, feeling it build and intensify until it becomes unstable. When you release it, the energy explodes outward in a massive burst of violet-white force that ripples through the air like a shockwave. The detonation creates a visible distortion in reality itself, as if space is being torn apart by the raw magical power. The force wave strikes everything in the area simultaneously, dealing devastating damage and leaving targets disoriented as their senses are overwhelmed by the chaotic arcane energy. The explosion leaves behind a lingering field of unstable magic that continues to disrupt concentration and balance.',
       level: 3,
       spellType: 'ACTION',
       icon: 'spell_arcane_blast',
@@ -1246,7 +1254,7 @@ MANA COSTS:
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Arcanum Detonare!',
-        somaticText: 'Clap hands together to release arcane energy',
+        somaticText: 'Compress arcane energy between palms until it glows intensely, then clap hands together to release the explosive burst',
         spheres: ['Arcane', 'Arcane']
       },
 
@@ -1264,7 +1272,8 @@ MANA COSTS:
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
-        }
+        },
+        description: 'The arcane detonation strikes with pure force energy, hitting targets like an invisible battering ram. The shockwave causes internal trauma as organs are compressed and bones are rattled by the concussive blast. Those who manage to dive for cover still feel the force ripple through their bodies, though with reduced intensity.'
       },
 
       debuffConfig: {
@@ -1277,8 +1286,8 @@ MANA COSTS:
         saveOutcome: 'negates',
         effects: [{
           id: 'disoriented',
-          name: 'Disoriented',
-          description: 'Arcane energy disrupts focus, causing disorientation and reduced awareness - has -2 to all attack rolls and saving throws, may move in a random direction on their turn',
+          name: 'Arcane Disorientation',
+          description: 'The chaotic arcane energy has overwhelmed your senses and disrupted your mental focus. Your vision swims with afterimages of violet-white light, your ears ring with the echo of the detonation, and your balance feels off-kilter. You suffer -2 to all attack rolls and saving throws as you struggle to maintain concentration. There\'s a chance you may stumble in a random direction on your turn as your sense of direction is temporarily scrambled by the arcane disruption.',
           statusType: 'dazed',
           level: 'moderate'
         }]
@@ -1298,7 +1307,7 @@ MANA COSTS:
     {
       id: 'arc_firestorm',
       name: 'Firestorm',
-      description: 'A massive fire explosion that ignites everything in the area, dealing fire damage and leaving burning ground.',
+      description: 'You channel immense fire energy, causing the air around you to shimmer with heat distortion. As you raise your hands, flames begin to spiral outward, building into a massive vortex of fire that descends upon the target area like a meteor strike. The firestorm doesn\'t just explode—it creates a sustained inferno that continues to burn for several seconds, igniting everything in its path. The ground itself catches fire, creating a dangerous zone of burning terrain that continues to damage anyone who remains within it. The heat is so intense that the air itself seems to catch fire, and targets feel their skin blister and char even as they try to escape the conflagration.',
       level: 4,
       spellType: 'ACTION',
       icon: 'spell_fire_flameshock',
@@ -1326,8 +1335,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Ignis Tempestas!',
-        somaticText: 'Raise both hands and unleash flames',
+        verbalText: 'Ignis Tempestas Infernalis!',
+        somaticText: 'Raise both hands high as flames spiral outward, building into a massive fire vortex that descends upon the target area',
         spheres: ['Fire', 'Fire']
       },
 
@@ -1343,7 +1352,8 @@ MANA COSTS:
           duration: 2,
           tickFrequency: 'round',
           dotFormula: '1d4',
-          isProgressiveDot: false
+          isProgressiveDot: false,
+          description: 'The ground continues to burn with magical fire, and any remaining flames continue to lick at your skin, causing ongoing burn damage as the firestorm\'s effects persist.'
         },
         savingThrowConfig: {
           enabled: true,
@@ -1352,7 +1362,8 @@ MANA COSTS:
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
-        }
+        },
+        description: 'The firestorm strikes with devastating force, creating an explosion of flame that engulfs everything in the area. The initial blast causes severe burns, and those who fail to dive for cover are caught in the full force of the inferno. The ground itself ignites, creating a dangerous burning zone.'
       },
 
       cooldownConfig: {
@@ -1366,7 +1377,7 @@ MANA COSTS:
     {
       id: 'arc_frost_nova',
       name: 'Frost Nova',
-      description: 'A burst of freezing cold radiates from you, damaging and slowing all nearby enemies.',
+      description: 'You draw upon the deepest cold of the frozen wastes, causing your body to radiate an aura of absolute zero. As you spread your arms wide, a wave of freezing energy explodes outward in all directions, creating a visible shockwave of ice crystals and frozen air. The nova doesn\'t just damage—it flash-freezes everything in its path, causing water to instantly turn to ice, breath to crystallize, and movement to become sluggish as muscles stiffen from the cold. The ground becomes slick with ice, and a layer of frost coats every surface. Those caught in the blast feel their very blood begin to freeze, their movements becoming slow and laborious as their bodies struggle against the magical cold.',
       level: 4,
       spellType: 'ACTION',
       icon: 'spell_frost_frozenorb',
@@ -1393,8 +1404,8 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Glacies Nova!',
-        somaticText: 'Spread arms wide to unleash frost',
+        verbalText: 'Glacies Nova Absoluta!',
+        somaticText: 'Spread arms wide as your body radiates freezing energy, unleashing a wave of ice crystals in all directions',
         spheres: ['Ice', 'Ice']
       },
 
@@ -1412,7 +1423,8 @@ MANA COSTS:
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
-        }
+        },
+        description: 'The frost nova strikes with bone-chilling cold, causing immediate tissue damage as cells freeze and rupture. The cold penetrates deep, making targets feel as if their very blood is turning to ice. Those with strong constitutions can resist some of the damage, but even they feel the numbing effects of the magical cold.'
       },
 
       debuffConfig: {
@@ -1425,8 +1437,8 @@ MANA COSTS:
         saveOutcome: 'negates',
         effects: [{
           id: 'slow',
-          name: 'Slow',
-          description: 'Freezing cold reduces movement speed by half',
+          name: 'Frozen Solid',
+          description: 'The magical cold has penetrated deep into your muscles and joints, causing them to stiffen and freeze. Your movement speed is reduced by half as every step feels like wading through ice. Your fingers are numb, your joints ache, and your reflexes are slowed. The ground beneath you is slick with ice, making movement treacherous. Breaking free of this frozen state requires tremendous willpower and physical resilience.',
           statusType: 'slow',
           level: 'moderate'
         }]
@@ -1495,7 +1507,7 @@ MANA COSTS:
         effects: [{
           id: 'weakened',
           name: 'Weakened',
-          description: 'Reduces target strength',
+          description: 'Strength reduced by 2 for 2 rounds. The target\'s physical power is diminished, making them weaker and less effective in combat.',
           statModifier: {
             stat: 'strength',
             magnitude: 2,
@@ -1736,7 +1748,7 @@ MANA COSTS:
         effects: [{
           id: 'frost_armor',
           name: 'Frost Armor',
-          description: 'Grants +2 armor class',
+          description: 'Gain +2 armor class for the duration. A layer of protective ice forms around you, deflecting incoming attacks.',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -1745,7 +1757,7 @@ MANA COSTS:
         }, {
           id: 'cold_resistance',
           name: 'Cold Resistance',
-          description: 'Reduces cold damage taken by 50%',
+          description: 'Cold damage reduced by 50% for the duration. Your body adapts to freezing temperatures, making you highly resistant to ice and frost attacks.',
           statModifier: {
             stat: 'cold_resistance',
             magnitude: 50,

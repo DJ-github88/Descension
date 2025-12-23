@@ -603,7 +603,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_rewind',
       name: 'Temporal Rewind',
-      description: 'Rewind time slightly to undo 50% of damage taken last turn and heal additional wounds.',
+      description: 'Rewind time slightly, undoing some of the damage you took. The temporal energy flows backward through your wounds, partially reversing the injuries and healing additional damage. Time itself bends to your will, mending what was broken.',
       level: 2,
       icon: 'spell_nature_timestop',
       spellType: 'REACTION',
@@ -703,7 +703,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         effects: [{
           id: 'chrono_echo',
           name: 'Chrono Echo',
-          description: 'Creates temporal echoes in a 10ft radius that provide flanking opportunities and grant allies advantage on attacks against enemies within the area for 3 rounds',
+          description: 'Creates temporal echoes that provide flanking opportunities and grant allies advantage on attacks. The echoes are fragments of past and future actions, creating tactical advantages as allies can strike from multiple temporal angles.',
           config: {
             echoType: 'tactical',
             flankingBonus: true,

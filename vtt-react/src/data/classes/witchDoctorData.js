@@ -793,7 +793,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'cursed',
           name: 'Cursed',
-          description: 'Target is cursed and takes necrotic damage each turn for 10 rounds',
+          description: 'Target is cursed by the loa of death, taking necrotic damage each turn as dark magic eats away at their life force. The curse persists for an extended duration, slowly draining their vitality.',
           statusType: 'cursed',
           level: 'moderate'
         }],
@@ -889,7 +889,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'frightened',
           name: 'Frightened',
-          description: 'Frightened by the ritual for 3 rounds',
+          description: 'Frightened by the terrifying ritual. The dark power of Baron Samedi fills them with dread, making them cower in fear.',
           statusType: 'frightened',
           level: 'moderate'
         }]
@@ -987,7 +987,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'cursed',
           name: 'Cursed',
-          description: 'Cursed by Baron Samedi for 3 rounds',
+          description: 'Cursed by Baron Samedi. The loa of death marks them, causing them to suffer from dark magic that saps their strength and vitality.',
           statusType: 'cursed',
           level: 'severe'
         }],
@@ -1221,7 +1221,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'erzulie_protection',
           name: "Erzulie's Protection",
-          description: '+2 AC, immunity to fear for 10 rounds',
+          description: 'Protected by Erzulie\'s blessing. Their armor is enhanced and they become immune to fear, filled with the goddess\'s protective love.',
           statModifier: {
             stat: 'armor',
             magnitude: 2,

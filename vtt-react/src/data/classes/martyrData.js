@@ -967,7 +967,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_restorative_prayer',
       name: 'Restorative Prayer',
-      description: 'A gentle prayer that mends wounds and restores vitality to an ally.',
+      description: 'You clasp your hands together in prayer, feeling the divine power flow through you as your devotion to your cause strengthens. A warm, golden light emanates from your clasped hands, growing brighter as you speak the words of healing. The prayer is more than just words—it is a channel for divine mercy, a bridge between the mortal realm and the source of all healing. As you complete the prayer, a beam of gentle golden light extends from your hands to your target, carrying with it the power to mend wounds, close cuts, and restore vitality. The healing feels warm and comforting, like being bathed in the first rays of morning sunlight. With each use, your devotion grows, and the prayer becomes more powerful, allowing you to channel even greater healing energy.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_holy_heal',
@@ -994,7 +994,7 @@ INTERVENE COUNT: 1
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Sanatio Divina',
-        somaticText: 'Hands clasped in prayer'
+        somaticText: 'Hands clasped in prayer, golden light emanating from your fingers as divine energy flows through you'
       },
 
       resolution: 'DICE',
@@ -1003,7 +1003,8 @@ INTERVENE COUNT: 1
       healingConfig: {
         formula: '1d4 + spirit',
         healingType: 'direct',
-        hasHotEffect: false
+        hasHotEffect: false,
+        description: 'The restorative prayer mends wounds with gentle divine energy. Cuts close, bruises fade, and the target feels their pain ease as vitality is restored. The healing is accompanied by a sense of peace and comfort, as if the divine itself is watching over them.'
       },
 
       devotionRequired: 0,
@@ -1079,7 +1080,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_penance_of_pain',
       name: 'Penance of Pain',
-      description: 'Convert your own pain into healing power for an ally.',
+      description: 'You press your hand to one of your own wounds, feeling the pain intensify as you channel it through your body. This is the essence of the Martyr\'s path—suffering transformed into salvation. The pain doesn\'t diminish; instead, it becomes a conduit for divine power. You can feel your own life force being drawn from your wounds, but rather than being lost, it is transformed into healing energy that flows from your fingertips. The process is excruciating—every moment of channeling brings fresh agony as your pain is literally converted into life-giving power. But the result is worth it: your ally feels their wounds close, their pain fade, and their strength return, all paid for with your own suffering. This act of self-sacrifice strengthens your devotion, proving your commitment to protecting others at any cost.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_holy_penance',
@@ -1106,7 +1107,7 @@ INTERVENE COUNT: 1
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Dolor pro Beneficio!',
-        somaticText: 'Press hand to own wound'
+        somaticText: 'Press hand to your own wound, channeling your pain into healing energy that flows from your fingertips'
       },
 
       resolution: 'DICE',
@@ -1115,7 +1116,8 @@ INTERVENE COUNT: 1
       healingConfig: {
         formula: '(maxHealth - currentHealth) / 4',
         healingType: 'direct',
-        hasHotEffect: false
+        hasHotEffect: false,
+        description: 'Your pain becomes your ally\'s salvation. The healing energy flows from your wounds, carrying with it the power to mend their injuries. The more wounded you are, the more powerful the healing becomes—your suffering is the price of their recovery.'
       },
 
       devotionRequired: 1,
@@ -1271,7 +1273,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_divine_shield',
       name: 'Divine Shield',
-      description: 'Grants protective divine energy to allies, manifesting as temporary hit points.',
+      description: 'Grant protective divine energy to all allies within range. Golden light flows from your hands, forming shimmering shields around each ally. The divine protection absorbs incoming damage, protecting their actual health with a barrier of holy energy.',
       spellType: 'ACTION',
       icon: 'spell_holy_powerwordshield',
       school: 'Abjuration',
@@ -1310,7 +1312,7 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'temporary_hp',
           name: 'Temporary HP',
-          description: 'Gain 1d6 temporary HP',
+          description: 'The divine shield absorbs incoming damage, protecting your actual health with a barrier of holy energy that glows with golden light.',
           statModifier: {
             stat: 'temporary_hp',
             magnitude: '1d6',
@@ -1396,7 +1398,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_sanctuary_aura',
       name: 'Sanctuary Aura',
-      description: 'Surround an ally with a protective aura that reduces incoming damage.',
+      description: 'Surround an ally with a protective aura of divine energy. Golden light envelops them, creating a barrier that significantly reduces all incoming damage. The divine protection makes them nearly impervious to harm.',
       spellType: 'ACTION',
       icon: 'spell_holy_divineshield',
       school: 'Abjuration',
@@ -1511,9 +1513,9 @@ INTERVENE COUNT: 1
         }, {
           id: 'blessed_resilience_damage',
           name: 'Blessed Resilience (Damage)',
-          description: 'Reduces damage taken',
+          description: 'Divine protection surrounds you, absorbing and dispersing incoming attacks. The blessed resilience reduces all damage that reaches you.',
           statModifier: {
-            stat: 'damageReduction',
+            stat: 'damage_reduction',
             magnitude: 2,
             magnitudeType: 'flat'
           }
@@ -2064,7 +2066,7 @@ INTERVENE COUNT: 1
 
       specialMechanics: {
         storedDamage: {
-          description: 'Deals additional damage equal to damage taken since last rest',
+          description: 'The spell channels all the pain and suffering you\'ve endured since your last rest, converting it into divine retribution. The more you\'ve suffered, the more devastating the strike becomes, though there is a limit to how much pain can be channeled.',
           cap: 50
         }
       },
@@ -2086,7 +2088,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_sanctified_ground',
       name: 'Sanctified Ground',
-      description: 'Create a zone of holy ground that heals allies and damages undead/demons standing in it.',
+      description: 'Create a zone of holy ground that pulses with divine energy. The ground itself glows with golden light, healing allies who stand upon it while burning undead and demons with the same sacred power. The zone persists, becoming a sanctuary of healing and destruction.',
       level: 6,
       spellType: 'ACTION',
       icon: 'spell_holy_holynova',
@@ -2391,7 +2393,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_holy_wrath',
       name: 'Holy Wrath',
-      description: 'Unleash accumulated devotion as devastating holy damage to all enemies.',
+      description: 'Unleash all accumulated devotion as radiant damage to all enemies within range. Every moment of suffering, every wound taken, every sacrifice made is channeled into a cataclysmic burst of holy power that consumes your foes in divine fire.',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_holy_holywrath',
@@ -2446,7 +2448,7 @@ INTERVENE COUNT: 1
 
       specialMechanics: {
         devotionSpend: {
-          description: 'Consumes all Devotion. Deals +2 damage per Devotion spent.',
+          description: 'Consumes all accumulated Devotion, channeling every moment of suffering into devastating holy power. The more Devotion you\'ve built through sacrifice, the more devastating the strike becomes, though a minimum threshold must be reached.',
           minimum: 5
         }
       },

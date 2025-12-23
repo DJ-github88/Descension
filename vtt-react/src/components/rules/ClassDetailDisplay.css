@@ -1185,30 +1185,38 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 
 /* No scrollbar needed - all slots visible */
 
-/* Page Navigation */
-.spellbook-pagination {
+/* Page Navigation - Positioned at bottom of pages */
+.spellbook-pagination-left,
+.spellbook-pagination-right {
+  position: absolute;
+  bottom: 15px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: transparent;
-  border-top: none;
+  z-index: 10;
+}
+
+.spellbook-pagination-left {
+  left: 20px;
+}
+
+.spellbook-pagination-right {
+  right: 20px;
 }
 
 .spellbook-page-button {
-  padding: 10px 20px;
+  padding: 10px 16px;
   background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
   border: 2px solid #5a2e0a;
   border-radius: 6px;
   color: #f5e6d3;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 50px;
+  min-width: 45px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .spellbook-page-button:hover:not(:disabled) {
@@ -1224,11 +1232,22 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 
 .spellbook-page-indicator {
   font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  color: #5a1e12;
+  font-size: 0.95rem;
+  color: #f5e6d3;
   font-weight: 600;
-  min-width: 120px;
   text-align: center;
+  background: rgba(90, 30, 18, 0.85);
+  padding: 6px 14px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  min-width: 100px;
+  pointer-events: none;
 }
 
 /* Spell Grid (Old - keeping for fallback) */

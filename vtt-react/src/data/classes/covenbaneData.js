@@ -510,7 +510,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         effects: [{
           id: 'weakened_magic',
           name: 'Weakened Magic',
-          description: 'Reduces magical power and creates vulnerability',
+          description: 'Spell attack rolls reduced by 2 for 1 minute. The target\'s magical power is diminished, making their spells less accurate and easier to resist.',
           statModifier: {
             stat: 'spellAttack',
             magnitude: 2,
@@ -762,7 +762,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
           name: 'Precision Focus',
           description: 'Enhanced accuracy against evil magic users',
           statModifier: {
-            stat: 'attackBonus',
+            stat: 'attack',
             magnitude: 2,
             magnitudeType: 'flat'
           }
@@ -1105,7 +1105,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_storm',
       name: 'Hexbreaker Storm',
-      description: 'Summon a raging storm of anti-magic energy for 1 minute (concentration) that tears through evil magic users within 30 feet. Deals 3d8 radiant damage per round and weakens spellcasters.',
+      description: 'Summon a raging storm of anti-magic energy that tears through evil magic users. The storm creates a zone of pure anti-magic that disrupts spellcasting and weakens those who rely on magic. The energy burns with radiant fury, consuming magical power.',
       level: 7,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
@@ -1207,7 +1207,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_final_hour',
       name: 'Final Hour',
-      description: 'Enter a state of ultimate focus for 1 minute where every attack triggers Witch Hunter\'s Precision and grants major enhancements.',
+      description: 'Enter a state of ultimate focus for 1 minute where every attack triggers Witch Hunter\'s Precision. Your senses sharpen, your movements become fluid, and your strikes find their mark with unerring precision against demonic foes.',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'radiant',
@@ -1229,14 +1229,49 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 0
       },
       buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'ultimate_focus',
-          name: 'Ultimate Focus',
-          description: 'Every attack triggers Witch Hunter\'s Precision and grants major enhancements for 1 minute',
-          statusType: 'enhanced',
-          level: 'extreme'
-        }],
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'ultimate_focus_attack',
+            name: 'Perfect Precision',
+            description: 'Gain +4 to attack rolls for 1 minute. Your focus is so intense that every strike is perfectly aimed, making it nearly impossible to miss your target.',
+            statModifier: {
+              stat: 'attack',
+              magnitude: 4,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_damage',
+            name: 'Devastating Strikes',
+            description: 'Your attacks strike with overwhelming force, tearing through demonic defenses and leaving devastating wounds. Every strike carries the weight of your ultimate focus, making each blow more devastating than the last.',
+            statModifier: {
+              stat: 'damage',
+              magnitude: '2d6',
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_speed',
+            name: 'Flowing Movement',
+            description: 'Your movements become fluid and effortless, allowing you to reposition with deadly efficiency. You flow through combat like a shadow, your enhanced speed making you nearly untouchable.',
+            statModifier: {
+              stat: 'speed',
+              magnitude: 15,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_crit',
+            name: 'Critical Mastery',
+            description: 'Your enhanced focus allows you to find and exploit weak points with devastating precision. Your critical strikes become more frequent as you learn to read your enemies\' defenses and strike where they are most vulnerable.',
+            statModifier: {
+              stat: 'crit_range',
+              magnitude: 1,
+              magnitudeType: 'flat'
+            }
+          }
+        ],
         durationValue: 1,
         durationType: 'minutes',
         durationUnit: 'minutes',

@@ -920,7 +920,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_necrotic_bolt',
       name: 'Necrotic Bolt',
-      description: 'Fire a bolt of necrotic energy that deals damage and generates Blood Tokens from health sacrifice.',
+      description: 'Fire a bolt of dark necrotic energy that streaks toward your target. The bolt is formed from your own life force, drawn from your body as you cast. It strikes with unerring accuracy, leaving a trail of shadow in its wake. The necrotic energy saps the target\'s vitality on impact.',
       level: 1,
       effectTypes: ['damage'],
       typeConfig: {
@@ -976,7 +976,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_shadow_step',
       name: 'Shadow Step',
-      description: 'Teleport through shadows to a nearby location. If you teleport into shadows, your next attack deals bonus necrotic damage.',
+      description: 'Step into the shadows and emerge from darkness elsewhere. Your form dissolves into shadowy mist, flowing through the darkness itself. If you emerge from an area of shadow or darkness, the residual shadow energy clings to you, empowering your next strike with necrotic power.',
       level: 1,
       effectTypes: ['utility'],
       typeConfig: {
@@ -1252,7 +1252,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_death_s_embrace',
       name: 'Death\'s Embrace',
-      description: 'Unleash a powerful area attack that deals necrotic damage to all enemies in range. Can spend Blood Tokens for bonus damage.',
+      description: 'Unleash a wave of death energy that radiates outward from your body. The necrotic force spreads like a dark tide, washing over all enemies in range. The energy is drawn from your own life force, creating a devastating area of decay. You can channel additional Blood Tokens into the spell to intensify its power.',
       level: 3,
       effectTypes: ['damage'],
       typeConfig: {
@@ -1362,7 +1362,7 @@ Keep a note of which curses are affecting you:
           type: 'undead',
           tokenIcon: 'ability_ghoulfrenzy',
           stats: {
-            maxHp: 'health_sacrificed',
+            maxHp: 'equal to health sacrificed (2d8)',
             armor: 12,
             maxMana: 0
           },
@@ -1389,7 +1389,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_hex_of_weakness',
       name: 'Hex of Weakness',
-      description: 'Curse an enemy with necrotic weakness, reducing their defenses and dealing damage over time.',
+      description: 'Curse an enemy with a mark of necrotic weakness. Dark energy seeps into their defenses, making them vulnerable. The curse burns with necrotic fire, continuing to eat away at their defenses over time. Their ability to resist damage is compromised as the dark magic takes hold.',
       level: 3,
       effectTypes: ['debuff', 'damage'],
       typeConfig: {
@@ -1429,9 +1429,9 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'necrotic_weakness',
           name: 'Necrotic Weakness',
-          description: 'Reduced defenses and ongoing damage',
+          description: 'The necrotic curse weakens their defenses, making them more vulnerable to all attacks. Their ability to resist damage is compromised as the dark magic takes hold.',
           statModifier: {
-            stat: 'damageReduction',
+            stat: 'damage_reduction',
             magnitude: 2,
             magnitudeType: 'flat'
           }
@@ -1677,7 +1677,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_aura_of_decay',
       name: 'Aura of Decay',
-      description: 'Emanate an aura of death that damages enemies and weakens them. Enhanced by Frostwalker path.',
+      description: 'Emanate an aura of death that surrounds you with an oppressive field of necrotic energy. Enemies caught within the aura feel their life force being slowly drained away, their strength waning with each passing moment. The aura weakens their attacks and saps their vitality, creating a zone of decay around you.',
       level: 5,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
@@ -1718,7 +1718,7 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'decay_debuff',
           name: 'Decay',
-          description: 'Weakened by necrotic energy - damage output reduced',
+          description: 'The necrotic energy saps their strength, making all their attacks and abilities less effective. Their power wanes as the decay takes hold.',
           statusType: 'weakened',
           level: 'moderate'
         }],
@@ -1989,16 +1989,16 @@ Keep a note of which curses are affecting you:
         damageType: 'dot',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: 'turn_number * 1d6 * health_sacrificed',
+          dotFormula: 'turn_number * 1d6 * (health sacrificed)',
           duration: 5,
           tickFrequency: 'round',
           isProgressiveDot: true,
           progressiveStages: [
-            { round: 1, formula: '1d6 * health_sacrificed', description: 'Initial agony' },
-            { round: 2, formula: '2d6 * health_sacrificed', description: 'Growing pain' },
-            { round: 3, formula: '3d6 * health_sacrificed', description: 'Severe torment' },
-            { round: 4, formula: '4d6 * health_sacrificed', description: 'Excruciating pain' },
-            { round: 5, formula: '5d6 * health_sacrificed', description: 'Unbearable agony' }
+            { round: 1, formula: '1d6 × (health sacrificed)', description: 'Initial agony wracks the target\'s mind as the psychic torment begins to take hold.' },
+            { round: 2, formula: '2d6 × (health sacrificed)', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
+            { round: 3, formula: '3d6 × (health sacrificed)', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' },
+            { round: 4, formula: '4d6 × (health sacrificed)', description: 'Excruciating pain tears at their sanity, the curse reaching near-unbearable intensity.' },
+            { round: 5, formula: '5d6 × (health sacrificed)', description: 'Unbearable agony reaches its peak, the psychic torment at its most devastating.' }
           ]
         }
       },
@@ -2061,7 +2061,7 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'anti_magic_weakening',
           name: 'Anti-Magic Weakening',
-          description: 'Spells have disadvantage and mana cannot be regained - damage output and spell effectiveness reduced',
+          description: 'The anti-magic field severely weakens magical abilities. Spell attacks become unreliable and magical energy cannot be replenished. The field disrupts the very essence of magic itself.',
           statusType: 'weakened',
           level: 'major'
         }],
@@ -2124,7 +2124,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_final_hour',
       name: 'Final Hour',
-      description: 'Enter a state of ultimate focus where every attack becomes devastating.',
+      description: 'Enter a state of ultimate focus where every attack becomes devastating. Your senses sharpen, your movements become fluid, and your strikes find their mark with unerring precision.',
       level: 7,
       effectTypes: ['buff'],
       typeConfig: {
@@ -2153,14 +2153,49 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'ultimate_focus',
-          name: 'Ultimate Focus',
-          description: 'Every attack triggers enhanced effects and major enhancements',
-          statusType: 'enhanced',
-          level: 'extreme'
-        }],
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'ultimate_focus_attack',
+            name: 'Perfect Precision',
+            description: 'Gain +4 to attack rolls for 1 minute. Your focus is so intense that every strike is perfectly aimed.',
+            statModifier: {
+              stat: 'attack',
+              magnitude: 4,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_damage',
+            name: 'Devastating Strikes',
+            description: 'Your attacks strike with overwhelming force, tearing through defenses and leaving devastating wounds. Every strike carries the weight of your ultimate focus, making each blow more devastating than the last.',
+            statModifier: {
+              stat: 'damage',
+              magnitude: '2d6',
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_speed',
+            name: 'Flowing Movement',
+            description: 'Gain +15 feet movement speed for 1 minute. Your movements become fluid and effortless.',
+            statModifier: {
+              stat: 'speed',
+              magnitude: 15,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'ultimate_focus_crit',
+            name: 'Critical Mastery',
+            description: 'Your enhanced focus allows you to find and exploit weak points with devastating precision. Your critical strikes become more frequent as you learn to read your enemies\' defenses and strike where they are most vulnerable.',
+            statModifier: {
+              stat: 'crit_range',
+              magnitude: 1,
+              magnitudeType: 'flat'
+            }
+          }
+        ],
         durationValue: 1,
         durationType: 'minutes',
         durationUnit: 'minutes',
@@ -2232,13 +2267,13 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_shadow_ascendant',
       name: 'Shadow Ascendant',
-      description: 'Ascend into shadow form, becoming an entity of pure necrotic power.',
+      description: 'Ascend into shadow form, becoming an entity of pure necrotic power. Your physical form becomes partially incorporeal, granting damage reduction and enhanced mobility.',
       level: 8,
-      effectTypes: ['transformation'],
+      effectTypes: ['transformation', 'buff', 'utility'],
       typeConfig: {
         school: 'shadow',
         icon: 'spell_shadow_shadesofdarkness',
-        tags: ['transformation', 'mobility', 'damage']
+        tags: ['transformation', 'mobility', 'damage', 'defensive']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -2266,9 +2301,55 @@ Keep a note of which curses are affecting you:
         duration: 1,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['shadow_entity', 'teleportation', 'damage_reduction', 'wall_phasing']
+        newForm: 'Shadow Ascendant',
+        description: 'Become an entity of pure shadow and necrotic power, gaining enhanced defensive and mobility capabilities.'
       },
-      tags: ['transformation', 'mobility', 'damage']
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'shadow_entity',
+            name: 'Shadow Entity',
+            description: 'Physical damage reduced by 50% for 1 minute. Your form becomes partially incorporeal, allowing physical attacks to pass through you with reduced effectiveness.',
+            statModifier: {
+              stat: 'damage_reduction',
+              magnitude: 50,
+              magnitudeType: 'percentage'
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      utilityConfig: {
+        utilityType: 'Teleport',
+        selectedEffects: [
+          {
+            id: 'teleport',
+            name: 'Shadow Step',
+            distance: 30,
+            needsLineOfSight: false,
+            description: 'Teleport up to 30 feet through shadows as a bonus action. You can move through shadows and darkness instantly, appearing at any point within range.'
+          },
+          {
+            id: 'phasing',
+            name: 'Wall Phasing',
+            phasingDuration: 1,
+            canAttack: true,
+            canInteract: true,
+            maxThickness: 'unlimited',
+            description: 'Pass through non-magical barriers and obstacles of any thickness. You can move through walls, doors, and other solid objects that are not magically warded. You can attack and interact with objects while phasing.'
+          }
+        ],
+        duration: 1,
+        durationUnit: 'minutes',
+        concentration: false,
+        power: 'major'
+      },
+      tags: ['transformation', 'mobility', 'damage', 'defensive']
     },
 
     {
@@ -2383,7 +2464,7 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'apocalyptic_weakening',
           name: 'Apocalyptic Weakening',
-          description: 'Enemies cannot cast spells, teleport, or regain mana - damage output and abilities severely reduced',
+          description: 'The apocalyptic weakening renders enemies nearly powerless. Their magical abilities are completely suppressed, their attacks become feeble, and they cannot replenish their energy. The curse strips away their power at a fundamental level.',
           statusType: 'weakened',
           level: 'extreme'
         }],

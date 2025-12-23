@@ -618,7 +618,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_ember_spark',
       name: 'Ember Spark',
-      description: 'A tiny spark of demonic fire that ignites your target, causing minor burning over time.',
+      description: 'You channel a tiny fragment of demonic fire, feeling the infernal energy course through your veins as your Inferno Level rises. A small, malevolent spark forms at your fingertips—it glows with an unnatural red-orange light that seems to pulse with dark intent. When you launch it forward, the spark streaks through the air like a tiny comet, leaving a trail of black smoke in its wake. Upon impact, the spark doesn\'t just burn—it burrows into the target\'s flesh, where it continues to smolder and burn with demonic fire. The flames are persistent and hungry, refusing to be extinguished easily. Each time the fire flares up, it causes fresh pain as the demonic energy continues to consume the target from within.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_fire_flamebolt',
@@ -644,8 +644,8 @@ Many players enhance the experience by adding thematic elements:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Ignis!',
-        somaticText: 'Snap fingers to create spark'
+        verbalText: 'Ignis Daemonis!',
+        somaticText: 'Snap fingers together, a malevolent red-orange spark forming and launching forward'
       },
 
       resolution: 'DICE',
@@ -660,8 +660,10 @@ Many players enhance the experience by adding thematic elements:
           duration: 2,
           tickFrequency: 'round',
           dotFormula: '1d4',
-          isProgressiveDot: false
-        }
+          isProgressiveDot: false,
+          description: 'The demonic spark continues to burn within the target\'s flesh, causing persistent pain as the infernal fire refuses to be extinguished. Each flare-up brings fresh agony as the dark flames consume tissue and spread deeper.'
+        },
+        description: 'The ember spark strikes with immediate heat, causing instant burns as it burrows into the target. The demonic fire feels different from normal flames—it burns with a cold heat that seems to consume the very essence of life.'
       },
 
       cooldownConfig: {
@@ -731,7 +733,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_flicker',
       name: 'Flicker',
-      description: 'A quick flash of fire that streaks toward your target. Cheap and fast, but weak.',
+      description: 'A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. A basic spell perfect for quick attacks.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_fire_sealoffire',
@@ -780,7 +782,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_cooling_ember',
       name: 'Cooling Ember',
-      description: 'A calming spell that reduces your Inferno Level and heals you slightly. Essential for managing demonic corruption.',
+      description: 'A calming spell that soothes the infernal fire raging within you. The cooling ember draws away excess heat, restoring your body and helping you maintain control over your demonic corruption. Essential for managing the dangerous power you wield.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_fire_twilightflamebreath',
@@ -828,7 +830,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_heat_shield',
       name: 'Heat Shield',
-      description: 'Create a weak barrier of heat around yourself, providing minor protection.',
+      description: 'Create a barrier of heat around yourself. The shimmering air distorts vision as waves of heat radiate outward, absorbing and dispersing incoming attacks. The shield glows with inner fire, protecting you from harm.',
       level: 1,
       spellType: 'ACTION',
       icon: 'spell_shadow_antishadow',
@@ -864,9 +866,9 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'heat_shield_damage_reduction',
           name: 'Heat Shield',
-          description: 'Reduces incoming damage by 2 (flat reduction per hit)',
+          description: 'The heat shield absorbs and disperses incoming attacks, reducing the damage that reaches you. The shimmering barrier glows brighter as it absorbs more energy.',
           statModifier: {
-            stat: 'damageReduction',
+            stat: 'damage_reduction',
             magnitude: 2,
             magnitudeType: 'flat'
           }
@@ -892,7 +894,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_scorching_grasp',
       name: 'Scorching Grasp',
-      description: 'Flames envelop your hand as you touch an enemy, dealing moderate fire damage.',
+      description: 'Flames envelop your hand as you reach for your enemy. The searing heat burns through armor and flesh on contact, leaving scorched marks where your hand touches. The fire clings to the target, continuing to burn.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_fire_flameshock',
@@ -1267,7 +1269,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_infernal_blast',
       name: 'Infernal Blast',
-      description: 'A concentrated blast of demonic fire that deals significant damage to a single target.',
+      description: 'A concentrated blast of demonic fire that erupts from your hands. The infernal energy burns with intense heat, searing through defenses and leaving nothing but ash in its wake. The blast is focused and devastating.',
       level: 4,
       spellType: 'ACTION',
       icon: 'spell_fire_incinerate',
@@ -1749,7 +1751,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_infernal_brand_advanced',
       name: 'Infernal Brand (Advanced)',
-      description: 'Mark your enemy with a powerful burning brand that sears their flesh and weakens them.',
+      description: 'Mark your enemy with a burning brand that sears into their flesh. The infernal sigil glows with inner fire, continuing to burn and weaken them over time. The searing mark saps their strength as the flames consume them.',
       level: 6,
       spellType: 'ACTION',
       icon: 'spell_fire_sealoffire',
@@ -1800,7 +1802,7 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'weakened',
           name: 'Weakened',
-          description: 'Reduces target strength by 2',
+          description: 'The target\'s physical power is diminished by the searing heat, making them weaker and less effective in combat. The infernal brand saps their strength as it burns.',
           statModifier: {
             stat: 'strength',
             magnitude: 2,
@@ -2002,7 +2004,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_demonic_empowerment',
       name: 'Demonic Empowerment',
-      description: 'Channel demonic power to significantly increase your fire damage output.',
+      description: 'Channel demonic power to enhance your fire damage. Your connection to infernal flames intensifies, allowing you to deal +5 fire damage on all fire-based attacks for 5 rounds.',
       level: 7,
       spellType: 'CHANNELED',
       icon: 'spell_shadow_demonictactics',
@@ -2038,7 +2040,7 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'fireDamageBoost',
           name: 'Fire Damage Boost',
-          description: 'Increases fire damage by 5',
+          description: 'Fire damage increased by +5 for 5 rounds. All fire-based attacks deal additional damage as demonic power flows through your spells and abilities.',
           statModifier: {
             stat: 'fireDamage',
             magnitude: 5,
@@ -2066,7 +2068,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_meteor_shower',
       name: 'Meteor Shower',
-      description: 'Summon a shower of flaming meteors from the sky, devastating a large area.',
+      description: 'Summon a shower of flaming meteors from the sky. The meteors streak downward in a devastating rain of fire, crashing into the ground with explosive force. The impact creates waves of heat and flame that engulf everything in the area. On particularly devastating impacts, the meteors leave behind lingering flames and send enemies flying.',
       level: 8,
       spellType: 'ACTION',
       icon: 'spell_fire_meteorstorm',
@@ -2562,7 +2564,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_inferno_mastery',
       name: 'Inferno Mastery',
-      description: 'Master the art of infernal fire, gaining complete control over flame and dealing devastating damage.',
+      description: 'Master the art of infernal fire, unleashing a massive inferno that consumes everything in its path. This ultimate display of pyromantic power demonstrates complete control over flame, creating a cataclysmic explosion of fire that leaves nothing but ash and cinders.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_fire_masterofelements',

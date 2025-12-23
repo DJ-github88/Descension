@@ -1123,7 +1123,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Evocation',
       level: 2,
 
-      description: 'Draw cards one at a time, avoiding hearts and face cards. Each heart drawn deals 1d6 damage to you. Each face card (J, Q, K) deals 2d6 damage. Other cards grant positive effects: Aces grant advantage, numbered cards grant damage boosts. You may stop drawing at any time.',
+      description: 'Draw cards one at a time, playing a dangerous game with fate itself. Hearts bring pain, face cards bring greater suffering, but other cards offer power and advantage. The longer you draw, the greater the risk and reward. You may stop drawing at any time, but the temptation to continue is strong.',
 
       typeConfig: {
         castTime: 1,
@@ -1283,7 +1283,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Abjuration',
       level: 4,
 
-      description: 'Draw cards and attempt to match them in sequences (consecutive numbers) or sets (same rank). Completing a sequence of 3+ cards allows you to cast your next spell for free. Completing a set of 3+ cards heals you for 2d8 per card in the set. Failing to complete any sequence or set generates Threads.',
+      description: 'Draw cards and attempt to match them in sequences or sets. The patterns you create determine the power you gain. Sequences unlock free spellcasting, while sets restore your vitality. Failure to create patterns generates Threads of Destiny, weaving your fate into the cosmic tapestry.',
 
       typeConfig: {
         castTime: 1,

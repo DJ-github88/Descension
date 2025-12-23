@@ -761,38 +761,42 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           {/* Book Spine/Bookmark */}
           <div className="spellbook-spine"></div>
           
+          {/* Page Number Indicator in Center */}
+          <div className="spellbook-page-indicator">
+            Page {currentPage + 1} / {totalPages}
+          </div>
+          
           {/* Left Page */}
           <div className="spellbook-page spellbook-page-left">
             {renderSpellCategory(leftPageCategory, maxSpellsPerSide)}
+            {/* Previous Button at Bottom Left */}
+            <div className="spellbook-pagination-left">
+              <button
+                className="spellbook-page-button"
+                onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                disabled={currentPage === 0}
+                aria-label="Previous page"
+              >
+                <i className="fas fa-chevron-left"></i>
+              </button>
+            </div>
           </div>
 
           {/* Right Page */}
           <div className="spellbook-page spellbook-page-right">
             {renderSpellCategory(rightPageCategory, maxSpellsPerSide)}
+            {/* Next Button at Bottom Right */}
+            <div className="spellbook-pagination-right">
+              <button
+                className="spellbook-page-button"
+                onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
+                disabled={currentPage >= totalPages - 1}
+                aria-label="Next page"
+              >
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
-        </div>
-
-        {/* Page Navigation */}
-        <div className="spellbook-pagination">
-          <button
-            className="spellbook-page-button"
-            onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-            disabled={currentPage === 0}
-            aria-label="Previous page"
-          >
-            <i className="fas fa-chevron-left"></i>
-          </button>
-          <span className="spellbook-page-indicator">
-            Page {currentPage + 1} / {totalPages}
-          </span>
-          <button
-            className="spellbook-page-button"
-            onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
-            disabled={currentPage >= totalPages - 1}
-            aria-label="Next page"
-          >
-            <i className="fas fa-chevron-right"></i>
-          </button>
         </div>
 
         {/* Spell Popup Modal */}

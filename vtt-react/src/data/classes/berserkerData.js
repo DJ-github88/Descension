@@ -758,7 +758,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_basic_strike',
       name: 'Basic Strike',
-      description: 'Harness your primal fury in a devastating melee attack. Each swing stokes the flames of rage within you, building toward greater destruction.',
+      description: 'You channel the first stirrings of your inner fury into a devastating melee attack. As you swing, you can feel the rage building within you—a heat that starts in your chest and spreads through your arms, making every muscle burn with power. The strike itself is deceptively simple, but it carries the weight of your growing fury. With each successful hit, you feel the beast within you grow stronger, hungrier. Your vision begins to tinge red at the edges, and you can hear your own heartbeat thundering in your ears. This is the foundation of your power—every swing is a step closer to unleashing the full force of your rage.',
       level: 1,
       spellType: 'ACTION',
       icon: 'ability_warrior_savageblow',
@@ -783,7 +783,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0 },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Swing weapon with controlled fury'
+        somaticText: 'Swing weapon with controlled fury, feeling the rage build with each motion'
       },
 
       resolution: 'DICE',
@@ -793,6 +793,7 @@ When you cross a Rage State threshold, announce it dramatically:
         formula: '1d8 + strength',
         elementType: 'bludgeoning',
         damageType: 'direct',
+        description: 'The strike lands with brutal force, driven by your growing rage. Each successful hit feeds the fury within you, and you can feel your power escalating with every blow.'
       },
 
       cooldownConfig: {
@@ -940,7 +941,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_frenzied_slash',
       name: 'Frenzied Slash',
-      description: 'Your vision tinges red as you unleash a whirlwind of savage strikes. The beast within howls for blood, turning each swing into a masterpiece of controlled carnage.',
+      description: 'Your rage has reached the Frenzied state, and now the beast within you breaks free. Your vision completely tints red, and the world narrows to nothing but your target. You unleash a whirlwind of savage strikes, each one faster and more brutal than the last. Your weapon becomes an extension of your fury, moving with impossible speed as you strike again and again. The strikes are not controlled—they are pure, unadulterated violence, driven by the primal need to destroy. Blood sprays with each hit, and you can feel the rage surging through your veins like liquid fire. On critical hits, the force of your fury is so overwhelming that it sends enemies flying backward, their bodies unable to withstand the raw power of your unleashed rage.',
       level: 2,
       spellType: 'ACTION',
       icon: 'ability_warrior_cleave',
@@ -965,7 +966,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Unleash a frenzied strike'
+        somaticText: 'Unleash a whirlwind of savage strikes, your vision red with fury as the beast within takes control'
       },
 
       resolution: 'DICE',
@@ -998,6 +999,7 @@ When you cross a Rage State threshold, announce it dramatically:
             saveType: 'constitution'
           }
         },
+        description: 'The frenzied slash tears into your enemy with savage brutality. Each strike is driven by pure rage, and the damage escalates with your fury. On particularly devastating hits, your rage burns so hot that it literally sets your enemy on fire, the flames of your fury consuming them.'
       },
 
       cooldownConfig: {
@@ -1010,7 +1012,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_war_cry',
       name: 'War Cry',
-      description: 'Your voice becomes the thunder of charging hordes as you unleash a primal battle cry that ignites the fighting spirit in your allies. The air itself seems to bleed with your fury, inspiring courage and sharpening blades.',
+      description: 'You draw in a massive breath, feeling your rage build in your chest like a gathering storm. When you unleash your war cry, your voice becomes something more than human—it is the thunder of charging hordes, the roar of ancient beasts, the battle hymn of warriors long dead. The sound is so powerful it creates visible shockwaves in the air, and enemies within range are physically battered by the concussive force of your voice. Your allies feel their own fighting spirit ignite, their blood heating with the same primal fury that drives you. The war cry doesn\'t just inspire—it transforms, turning fear into courage and hesitation into action. The very air seems to vibrate with your fury, and for a moment, everyone within earshot shares in your rage.',
       level: 2,
       spellType: 'ACTION',
       icon: 'ability_warrior_warcry',
@@ -1036,7 +1038,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 1,
         components: ['verbal'],
-        verbalText: 'FOR GLORY!'
+        verbalText: 'FOR GLORY AND FURY!'
       },
 
       resolution: 'NONE',
@@ -1047,7 +1049,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'battle_fury',
           name: 'Battle Fury',
-          description: 'Gain +2 attack bonus. Ignited by the war cry, attacks strike with greater precision and power',
+          description: 'The war cry has ignited your fighting spirit, sharpening your focus and strengthening your strikes. You gain +2 to attack rolls as your rage channels into perfect precision. Every swing feels guided by the fury within you, striking with unerring accuracy.',
           statModifier: {
             stat: 'attack',
             magnitude: 2,
@@ -1056,7 +1058,7 @@ When you cross a Rage State threshold, announce it dramatically:
         }, {
           id: 'war_cry_morale',
           name: 'War Morale',
-          description: 'Allies gain bonus damage. Your inspiring battle cry fills them with the same primal fury that drives you',
+          description: 'Your allies are filled with the same primal fury that drives you. Their blood heats, their muscles tense, and they feel an overwhelming urge to fight. They gain +1d4 bonus damage as the war cry awakens the warrior within each of them.',
           damageFormula: '+1d4',
           statModifier: {
             stat: 'damage',
@@ -1075,6 +1077,7 @@ When you cross a Rage State threshold, announce it dramatically:
         formula: '1d4',
         elementType: 'thunder',
         damageType: 'direct',
+        description: 'The concussive force of your war cry strikes enemies like a physical blow, causing their ears to ring and their balance to falter. The sound itself is a weapon, battering them with pure sonic force.'
       },
 
       cooldownConfig: {
@@ -1088,7 +1091,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_bloodthirst',
       name: 'Bloodthirst',
-      description: 'Your hunger becomes insatiable as you tear into your foe, drinking deep of their life essence. Each drop of blood spilled fuels your relentless assault, healing your wounds and strengthening your fury.',
+      description: 'Your hunger becomes something primal and insatiable. As you strike your foe, you don\'t just damage them—you drink deep of their life essence, feeling their vitality flow into you like a dark river. The sensation is intoxicating: with each drop of blood spilled, you feel your own wounds close, your muscles strengthen, and your rage burn brighter. Your weapon seems to pulse with dark energy as it tears into flesh, and you can actually see the life force being drawn from your enemy, visible as a red mist that flows into your body. The more damage you deal, the more you heal, creating a vicious cycle of destruction and renewal. On critical hits, the life drain is so powerful that it visibly weakens your enemy, their movements becoming sluggish as their vitality is consumed.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_shadow_lifedrain',
@@ -1113,7 +1116,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Drain life essence from your foe'
+        somaticText: 'Strike with dark energy, visibly draining life force from your enemy as red mist flows into you'
       },
 
       resolution: 'DICE',
@@ -1150,12 +1153,13 @@ When you cross a Rage State threshold, announce it dramatically:
             saveType: 'constitution'
           }
         },
+        description: 'The bloodthirst strike tears into your enemy with necrotic force, actively draining their life essence. You can see their vitality being consumed, and they feel a deep cold spreading through their body as their life force is siphoned away.'
       },
 
       healingConfig: {
         formula: 'damageDealt / 2',
         healingType: 'direct',
-        description: 'Each drop of spilled blood becomes fuel for your unyielding vitality'
+        description: 'Each drop of spilled blood becomes fuel for your unyielding vitality. You feel the stolen life force flow through you, closing wounds, mending broken bones, and restoring your strength. The sensation is addictive—the more you drain, the stronger you become.'
       },
 
       cooldownConfig: {
@@ -2001,7 +2005,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'demoralized',
           name: 'Demoralized',
-          description: 'Your terrifying presence shakes their resolve',
+          description: 'Your terrifying presence shakes their resolve, making them less effective in combat. The primal fury in your voice and the savage intensity in your eyes cause their hands to tremble and their aim to falter.',
           statModifier: {
             stat: 'attack',
             magnitude: 2,
@@ -2266,7 +2270,7 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Final Stand',
           description: 'Gain 75% damage reduction for 2 rounds. Cannot move from your position.',
           statModifier: {
-            stat: 'damageReduction',
+            stat: 'damage_reduction',
             magnitude: 75,
             magnitudeType: 'percentage'
           }

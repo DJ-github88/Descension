@@ -888,7 +888,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_rune_destruction',
       name: 'Rune of Destruction',
-      description: 'Place a rune of destruction. Anyone within 5 ft deals and takes +1d6 fire damage. At 3+ runes, the entire zone doubles fire damage dealt and taken.',
+      description: 'Place a rune of destruction that radiates with fiery energy. The rune creates a zone of volatile magic where fire damage is amplified for both allies and enemies. When multiple runes are connected, the entire zone becomes a crucible of destruction, dramatically intensifying all fire damage.',
       spellType: 'ACTION',
       icon: 'spell_fire_sealoffire',
       school: 'Evocation',
@@ -955,7 +955,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_rune_vitality',
       name: 'Rune of Vitality',
-      description: 'Place a rune of vitality. Anyone within 5 ft heals 1d6 HP per turn. At 3+ runes, the entire zone heals 2d6 HP per turn.',
+      description: 'Place a rune of vitality that pulses with healing energy. The rune creates a zone of restoration where wounds mend over time. When multiple runes are connected, the entire zone becomes a sanctuary of healing, dramatically increasing the restorative power.',
       spellType: 'ACTION',
       icon: 'spell_holy_heal',
       school: 'Abjuration',
@@ -1095,7 +1095,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_flame_inscription',
       name: 'Flame Inscription',
-      description: 'Inscribe your weapon with the power of fire, causing it to deal an additional 1d8 fire damage.',
+      description: 'Inscribe your weapon with the power of fire. The runic symbols glow with inner heat, causing the weapon to burn with magical flames. Each strike leaves trails of fire and scorches your enemies.',
       spellType: 'ACTION',
       icon: 'spell_fire_flameblades',
       school: 'Transmutation',
@@ -1131,7 +1131,7 @@ Many players enhance the Inscriptor experience with:
           type: 'weapon-enhancement',
           bonus: '+1d8 fire damage',
           duration: 'combat',
-          description: 'Weapon deals additional 1d8 fire damage'
+          description: 'The weapon burns with magical flames, dealing additional fire damage with each strike. The runic fire clings to enemies, continuing to burn after impact.'
         }
       },
 

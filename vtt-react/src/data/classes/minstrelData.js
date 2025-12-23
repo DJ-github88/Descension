@@ -2091,7 +2091,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'heroic_might',
           name: 'Heroic Might',
-          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds',
+          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds. The heroic might empowers every strike, making allies more accurate and devastating in combat.',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 3,
@@ -2306,7 +2306,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'entranced',
           name: 'Entranced',
-          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds'
+          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds. The entrancing music leaves them vulnerable, their defenses weakened and their will compromised.'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2443,7 +2443,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'empowered_performance',
           name: 'Empowered Performance',
-          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources.',
+          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources. The empowered performance amplifies every aspect of your magic, making you a true master of musical spellcasting.',
           statModifier: {
             stat: 'spell_power',
             magnitude: 50,
@@ -2518,7 +2518,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'spirit_of_heroes',
           name: 'Spirit of Heroes',
-          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds'
+          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds. The spirit of heroes fills them with legendary power, making them nearly unstoppable.'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2586,7 +2586,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'accelerated_tempo',
           name: 'Accelerated Tempo',
-          description: 'Allies gain an extra action on each of their turns for 3 rounds'
+          description: 'Allies gain an extra action on each of their turns for 3 rounds. The accelerated tempo makes time itself move faster for your allies, allowing them to act with incredible speed.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2600,7 +2600,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'slowed_tempo',
           name: 'Slowed Tempo',
-          description: 'Enemies lose their reaction and have their speed halved for 3 rounds'
+          description: 'Enemies lose their reaction and have their speed halved for 3 rounds. The slowed tempo makes time crawl for your enemies, leaving them unable to react and moving at a snail\'s pace.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2680,7 +2680,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'legendary_inspiration',
           name: 'Legendary Inspiration',
-          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds',
+          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds. The legendary inspiration makes your allies nearly invincible, their every action enhanced and their defenses impenetrable.',
           statModifier: {
             stat: 'all_rolls',
             magnitude: 5,
@@ -2859,7 +2859,7 @@ Before combat, decide which cadences you want to prioritize:
     {
       id: 'minstrel_harmony_strike',
       name: 'Harmony Strike',
-      description: 'Strike with harmonic resonance, dealing 4d8 force damage and generating Note II and Note IV.',
+      description: 'Strike with harmonic resonance. The musical energy flows through your weapon, creating a devastating chord that resonates with destructive force. The strike generates powerful musical notes that can be used for future compositions.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],

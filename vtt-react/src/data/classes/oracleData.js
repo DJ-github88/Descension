@@ -1067,7 +1067,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prophecy_of_doom',
       name: 'Prophecy of Doom',
-      description: 'Declare a dire prophecy about an enemy\'s fate for 3 rounds (concentration). If your prediction comes true within that time, they suffer the prophesied doom and are frightened.',
+      description: 'Declare a dire prophecy about an enemy\'s fate. Your words weave a web of destiny around them, and if your prediction comes true, they suffer the prophesied doom. The weight of fate itself presses down upon them, filling them with dread.',
       spellType: 'ACTION',
       icon: 'spell_shadow_curseofachimonde',
       school: 'Divination',
@@ -1185,7 +1185,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_truth',
       name: 'Reveal Truth',
-      description: 'Compel a creature to speak only truth for 1 minute (concentration). Target must save or answer one question with complete honesty, unable to lie or deceive.',
+      description: 'Compel a creature to speak only truth. The power of truth itself forces them to answer honestly, unable to lie or deceive. Your question cuts through all falsehoods, revealing what they desperately try to hide.',
       spellType: 'ACTION',
       icon: 'spell_holy_searinglightpriest',
       school: 'Divination',
@@ -1632,7 +1632,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_weakness',
       name: 'Reveal Weakness',
-      description: 'Peer into a target\'s timeline to discover their greatest weakness for 4 rounds, making them vulnerable to all damage. Target takes 50% more damage from all sources. Target may save to halve the duration.',
+      description: 'Peer into a target\'s timeline to discover their greatest weakness. Your vision pierces through time itself, revealing every flaw and vulnerability. Once exposed, they become vulnerable to all damage, their defenses crumbling before your sight.',
       level: 6,
       spellType: 'ACTION',
       icon: 'spell_shadow_detectinvisibility',
@@ -1741,7 +1741,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prescient_dodge',
       name: 'Prescient Dodge',
-      description: 'See all incoming attacks before they happen for 3 rounds (concentration). Enemies have disadvantage on all attacks against you, and you automatically succeed on Agility saving throws.',
+      description: 'See all incoming attacks before they happen. Your prescience allows you to anticipate every strike, every spell, every threat. Enemies find it nearly impossible to hit you as you dodge attacks that haven\'t even been made yet.',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_holy_elunesgrace',
@@ -1795,7 +1795,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_expose_secrets',
       name: 'Expose Secrets',
-      description: 'Read the hidden truths in a creature\'s past for 1 minute, exposing all their secrets and weaknesses. All attacks against target have advantage, and target cannot benefit from invisibility, cover, or concealment. Target may save to resist.',
+      description: 'Read the hidden truths in a creature\'s past. Your vision pierces through time, revealing every secret, every weakness, every moment of vulnerability. Once exposed, they cannot hide from you, and all attacks against them find their mark with unerring precision.',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_shadow_mindtwisting',

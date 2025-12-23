@@ -1349,7 +1349,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
         madnessSpending: {
           enabled: true,
           formula: '1d6',
-          description: 'Spends 1d6 Madness Points. Heals for 2 HP per point spent.'
+          description: 'Spends accumulated Madness Points. The void takes your madness and converts it into healing energy, restoring your vitality in proportion to the madness consumed.'
         }
       },
 
@@ -1411,7 +1411,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
         madnessSpending: {
           enabled: true,
           formula: '1d6',
-          description: 'Spends 1d6 Madness Points. Deals +2 damage per point spent.'
+          description: 'Spends accumulated Madness Points. Your madness becomes raw destructive power, amplifying your attack with chaotic energy. The more madness you channel, the more devastating the strike becomes.'
         }
       },
 

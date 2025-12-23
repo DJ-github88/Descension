@@ -933,7 +933,7 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'arcane_shield',
           name: 'Arcane Shield',
-          description: 'Gain +2 AC and 10d6 absorption shield for 1 minute',
+          description: 'An arcane shield forms around you, enhancing your armor and creating a barrier that absorbs incoming damage. The shield glows with magical energy, protecting you from harm.',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -1020,7 +1020,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_barrier_of_protection',
       name: 'Barrier of Protection',
-      description: 'Create a protective barrier around all allies within 10 feet. The barrier absorbs damage for each ally and lasts for 1 minute.',
+      description: 'Create a protective barrier around all allies within range. The arcane energy forms shimmering shields that envelop each ally, absorbing incoming damage and protecting them from harm. The barriers pulse with protective magic.',
       spellType: 'ACTION',
       icon: 'spell_holy_prayerofhealing',
       school: 'Abjuration',
@@ -1145,7 +1145,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_arcane_nova',
       name: 'Arcane Nova',
-      description: 'Release stored arcane energy in a devastating burst around you. All enemies within 20 feet take arcane damage (save for half) and have their spell damage reduced by 2 for 1 turn.',
+      description: 'Release stored arcane energy in a devastating burst around you. The accumulated magical power explodes outward in a wave of pure arcane force, damaging enemies and disrupting their spellcasting. The burst leaves a lingering field that weakens magical attacks.',
       spellType: 'ACTION',
       icon: 'spell_arcane_blast',
       school: 'Evocation',
@@ -1389,7 +1389,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_spell_disruption',
       name: 'Spell Disruption',
-      description: 'Disrupt an enemy spell being cast, causing it to fail. This is a reaction that can be used when you see an enemy casting a spell within 60 feet.',
+      description: 'Disrupt an enemy spell being cast, causing it to fail. You sense the magical energy gathering and strike at the perfect moment, severing the connection between the caster and their spell. The disrupted magic fizzles harmlessly.',
       spellType: 'REACTION',
       icon: 'spell_shadow_curseofachimonde',
       school: 'Abjuration',
@@ -1439,7 +1439,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_reflective_aura',
       name: 'Reflective Aura',
-      description: 'Create an aura around yourself that reflects a portion of spell damage back at attackers for 1 minute. Reflects the next 10 points of spell damage taken.',
+      description: 'Create an aura around yourself that reflects spell damage back at attackers. The reflective field shimmers with arcane energy, catching incoming spells and turning them back against their casters. The aura has a limited capacity before it dissipates.',
       spellType: 'ACTION',
       icon: 'spell_holy_holyprotection',
       school: 'Abjuration',
@@ -1547,7 +1547,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_magic_nullification',
       name: 'Magic Nullification',
-      description: 'Create a 20-foot radius anti-magic zone centered on yourself. All magical effects within the zone are suppressed for 1 minute. Enemies cannot cast spells within the zone.',
+      description: 'Create an anti-magic zone centered on yourself. The area becomes a void of magical energy, suppressing all spells and magical effects. Enemies within the zone find their magic completely nullified, unable to cast spells or benefit from magical effects.',
       spellType: 'ACTION',
       icon: 'spell_shadow_antimagicshell',
       school: 'Abjuration',
@@ -1609,7 +1609,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_spell_reflection',
       name: 'Spell Reflection',
-      description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The reflected spell deals 150% damage and cannot be countered.',
+      description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The magical energy is caught and amplified, turning the caster\'s own spell against them with devastating force. The reflection cannot be countered.',
       spellType: 'REACTION',
       icon: 'spell_arcane_blink',
       school: 'Abjuration',
@@ -1665,7 +1665,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_control_magic',
       name: 'Control Magic',
-      description: 'Take control of a newly summoned creature or magical construct within 60 feet. The creature serves you for 1 minute or until dismissed.',
+      description: 'Take control of a newly summoned creature or magical construct. You seize the magical bonds that hold the creature, twisting them to serve you instead. The creature becomes your servant, following your commands until the control is broken or dismissed.',
       spellType: 'REACTION',
       icon: 'spell_shadow_charm',
       school: 'Enchantment',
