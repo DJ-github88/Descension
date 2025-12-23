@@ -53,7 +53,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   {
     id: 'universal_dodge',
     name: 'Dodge',
-    description: 'Makes it harder for attackers to hit you, increasing their miss chance (making rolls of 1-3 on a d8 miss, for example).',
+    description: 'Activate your Dodge Rating to avoid incoming attacks. Your Dodge Rating (every 15 Agility = 1 Rating) increases the miss range on attack dice. Each Dodge Rating adds 1 to the miss range. For example, with 1 Dodge Rating against a d6 attack: rolls 1-2 miss, 3-6 hit (6 crits). Crits cannot be dodged - the highest roll always hits.',
     level: 1,
     spellType: 'REACTION',
     effectTypes: ['buff'],
@@ -66,19 +66,19 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     },
     buffConfig: {
       buffType: 'statEnhancement',
-      effects: [{
-        id: 'dodge',
-        name: 'Dodge',
-        description: 'Increases attacker\'s miss chance',
+        effects: [{
+          id: 'dodge',
+          name: 'Dodge Active',
+          description: 'Your Dodge Rating is now active. Each point of Dodge Rating increases the miss range by 1 on incoming attack dice. Crits cannot be dodged.',
         statModifier: {
-          stat: 'dodge_chance',
-          magnitude: 25,
-          magnitudeType: 'percentage'
+          stat: 'dodge',
+          magnitude: 0,
+          magnitudeType: 'flat'
         }
       }],
       durationValue: 1,
-      durationType: 'instant',
-      durationUnit: 'instant',
+      durationType: 'rounds',
+      durationUnit: 'rounds',
       concentrationRequired: false,
       canBeDispelled: false
     },

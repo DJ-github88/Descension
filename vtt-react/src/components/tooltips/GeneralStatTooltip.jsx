@@ -441,17 +441,45 @@ const getStatDescription = (stat) => {
                 'Reduces physical damage taken',
                 'Base: Agility ÷ 2',
                 'Enhanced by armor equipment',
-                'Higher values provide better protection'
+                'Higher values provide better protection',
+                'Used to calculate Passive DR (Armor ÷ 10)',
+                'At 0 Armor, you have no passive damage reduction'
             ]
         },
         'Dodge': {
-            title: 'Dodge',
+            title: 'Dodge Rating',
             color: '#AAD372',
             effects: [
-                'Chance to completely avoid attacks',
-                'Base: Agility ÷ 3',
-                'Each point gives 1% dodge chance',
-                'Works against physical and some magical attacks'
+                'Every 15 Agility gives you 1 Dodge Rating',
+                'Only works when you use the Dodge reaction',
+                'Each point adds 1 to the miss range on attack dice',
+                'Example: 1 Dodge Rating vs d6 means 1-2 miss, 3-6 hit (6 still crits)',
+                'Can\'t dodge crits - the highest roll always hits',
+                'At 0 Dodge Rating, only the lowest roll misses (e.g., d6: 1 misses, 2-6 hit)'
+            ]
+        },
+        'Dodge Rating': {
+            title: 'Dodge Rating',
+            color: '#AAD372',
+            effects: [
+                'Every 15 Agility gives you 1 Dodge Rating',
+                'Only works when you use the Dodge reaction',
+                'Each point adds 1 to the miss range on attack dice',
+                'Example: 1 Dodge Rating vs d6 means 1-2 miss, 3-6 hit (6 still crits)',
+                'Can\'t dodge crits - the highest roll always hits',
+                'At 0 Dodge Rating, only the lowest roll misses (e.g., d6: 1 misses, 2-6 hit)'
+            ]
+        },
+        'Passive DR': {
+            title: 'Passive Damage Reduction',
+            color: '#8B7355',
+            effects: [
+                'Automatic damage reduction from your Armor',
+                'Base: Armor ÷ 10 (rounded down)',
+                'Reduces all incoming physical damage automatically',
+                'Works passively - no action required',
+                'Stacks with active Defend action for even more protection',
+                'At 0 Passive DR, you take full damage from attacks'
             ]
         },
         'Max Health': {

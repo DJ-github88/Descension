@@ -14,6 +14,7 @@ import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import SpellTooltip from './SpellTooltip';
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import { normalizeSpell } from '../../core/utils/spellNormalizer';
+import useCharacterStore from '../../../../store/characterStore';
 import '../../../../styles/item-tooltip.css';
 
 /**
@@ -43,6 +44,15 @@ const UnifiedSpellCard = ({
 }) => {
   // Get library context for proc system spell lookup
   const library = useSpellLibrary();
+  
+  // Get character stats for dynamic calculations (e.g., Dodge = Agility ÷ 3)
+  const characterStats = useCharacterStore((state) => ({
+    agility: state.stats?.agility || state.stats?.agi || 10,
+    derivedStats: state.derivedStats || {}
+  }));
+  
+  // Calculate current Dodge Rating (every 15 Agility = 1 Dodge Rating)
+  const currentDodgeValue = Math.floor((characterStats.agility || 10) / 15);
 
 
   // NORMALIZE SPELL DATA - Transform from any format into complete wizard format
@@ -2872,35 +2882,45 @@ const UnifiedSpellCard = ({
     const components = [];
 
     // Check for spell components in resourceCost
+    // Only add components if they have actual text - don't show empty components
     if (spell.resourceCost.components && spell.resourceCost.components.length > 0) {
       spell.resourceCost.components.forEach(component => {
         switch(component) {
           case 'verbal':
-            components.push({
-              type: 'verbal',
-              symbol: 'V',
-              name: 'Verbal',
-              description: formatComponentName(spell.resourceCost.verbalText) || 'Requires speaking magical words',
-              customText: spell.resourceCost.verbalText
-            });
+            // Only add verbal component if there's actual verbalText
+            if (spell.resourceCost.verbalText && spell.resourceCost.verbalText.trim()) {
+              components.push({
+                type: 'verbal',
+                symbol: 'V',
+                name: 'Verbal',
+                description: formatComponentName(spell.resourceCost.verbalText) || 'Requires speaking magical words',
+                customText: spell.resourceCost.verbalText
+              });
+            }
             break;
           case 'somatic':
-            components.push({
-              type: 'somatic',
-              symbol: 'S',
-              name: 'Somatic',
-              description: formatComponentName(spell.resourceCost.somaticText) || 'Requires specific hand gestures',
-              customText: spell.resourceCost.somaticText
-            });
+            // Only add somatic component if there's actual somaticText
+            if (spell.resourceCost.somaticText && spell.resourceCost.somaticText.trim()) {
+              components.push({
+                type: 'somatic',
+                symbol: 'S',
+                name: 'Somatic',
+                description: formatComponentName(spell.resourceCost.somaticText) || 'Requires specific hand gestures',
+                customText: spell.resourceCost.somaticText
+              });
+            }
             break;
           case 'material':
-            components.push({
-              type: 'material',
-              symbol: 'M',
-              name: 'Material',
-              description: formatComponentName(spell.resourceCost.materialComponents) || 'Requires specific materials',
-              customText: spell.resourceCost.materialComponents
-            });
+            // Only add material component if there's actual materialComponents
+            if (spell.resourceCost.materialComponents && spell.resourceCost.materialComponents.trim()) {
+              components.push({
+                type: 'material',
+                symbol: 'M',
+                name: 'Material',
+                description: formatComponentName(spell.resourceCost.materialComponents) || 'Requires specific materials',
+                customText: spell.resourceCost.materialComponents
+              });
+            }
             break;
         }
       });
@@ -10504,7 +10524,7 @@ const UnifiedSpellCard = ({
                         'armor': 'Armor',
                         'attack': 'Attack',
                         'damage': 'Damage',
-                        'dodge': 'Dodge',
+                        'dodge': 'Dodge Rating',
                         'hp_regen': 'Health Regeneration',
                         'mp_regen': 'Mana Regeneration',
                         'healing_power': 'Healing Power',
@@ -10745,7 +10765,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -10924,7 +10944,7 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11259,7 +11279,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11340,7 +11360,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11483,7 +11503,7 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11495,7 +11515,10 @@ const UnifiedSpellCard = ({
                               const rawStat = statMod.stat?.toLowerCase() || '';
                               const statName = statMap[rawStat] || 
                                              (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
-                              const magnitude = statMod.magnitude || 0;
+                              // Special handling for Dodge: if it's the universal_dodge spell with magnitude 0, use current Dodge value
+                              const originalMagnitude = statMod.magnitude || 0;
+                              const isDodgeReaction = spell.id === 'universal_dodge' && rawStat === 'dodge' && originalMagnitude === 0;
+                              let magnitude = isDodgeReaction ? currentDodgeValue : originalMagnitude;
                               const magnitudeType = statMod.magnitudeType || 'flat';
                               const typeText = magnitudeType === 'percentage' ? '%' : '';
                               
@@ -11518,7 +11541,9 @@ const UnifiedSpellCard = ({
                               const descriptionHasStatReduction = hasMagnitude && hasStatName;
                               
                               // Build mechanics text - suppress if description already explains the effect
-                              mechanicsText = descriptionHasStatReduction ? '' : `-${magnitude}${typeText} ${statName}`;
+                              // For Dodge reaction, show positive value (e.g., "+5 Dodge")
+                              const sign = (isDodgeReaction && magnitude > 0) ? '+' : (magnitude >= 0 ? '' : '');
+                              mechanicsText = descriptionHasStatReduction ? '' : `${sign}${magnitude}${typeText} ${statName}`;
                               
                               // Build description with duration and save
                               // Check if description already includes duration information
@@ -11889,6 +11914,33 @@ const UnifiedSpellCard = ({
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
 
                       mechanicsText = `${potency}Teleport up to ${distance} ft (${needsLineOfSight}${takesOthers})`;
+                    } else if (effect.id === 'phasing') {
+                      // Phasing effect - pass through solid objects
+                      const phasingDuration = effect.phasingDuration || utilityData.duration || 1;
+                      const canAttack = effect.canAttack !== false;
+                      const canInteract = effect.canInteract !== false;
+                      const maxThickness = effect.maxThickness || 'unlimited';
+                      const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
+                      
+                      // Use description if provided and detailed, otherwise build from parameters
+                      if (effect.description && effect.description.length > 50) {
+                        mechanicsText = `${potency}${effect.description}`;
+                      } else {
+                        let phasingDetails = `Pass through non-magical barriers and obstacles`;
+                        if (maxThickness !== 'unlimited' && typeof maxThickness === 'number') {
+                          phasingDetails += ` up to ${maxThickness} ft thick`;
+                        }
+                        if (canAttack) {
+                          phasingDetails += `. Can attack while phasing`;
+                        } else {
+                          phasingDetails += `. Cannot attack while phasing`;
+                        }
+                        if (!canInteract) {
+                          phasingDetails += `. Cannot interact with physical objects`;
+                        }
+                        
+                        mechanicsText = `${potency}${phasingDetails}`;
+                      }
                     } else if (!mechanicsText && effect.id === 'invisibility') {
                       // Invisibility effect
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
@@ -12914,12 +12966,6 @@ const UnifiedSpellCard = ({
 
                           // Build mechanics text from description field if available
                           let mechanicsText = transformationData.description || '';
-                          
-                          // Add special effects if present
-                          if (transformationData.specialEffects?.length > 0) {
-                            const effectsText = transformationData.specialEffects.join(', ');
-                            mechanicsText = mechanicsText ? `${mechanicsText} • ${effectsText}` : effectsText;
-                          }
 
                           const transformationTriggers = getTransformationTriggersAndFormulas('transformation');
                           
@@ -12960,6 +13006,190 @@ const UnifiedSpellCard = ({
                               description: categoryText,
                               mechanicsText: ability.description || `Grants ${ability.name.toLowerCase()}`
                             });
+                          });
+                        }
+
+                        // Handle special effects - convert to "Granted:" entries like grantedAbilities
+                        // Only process if grantedAbilities don't exist (to avoid duplicates)
+                        if (transformationData?.specialEffects?.length > 0 && !transformationData?.grantedAbilities?.length) {
+                          // Map special effect IDs to proper names and concrete TTRPG descriptions
+                          const specialEffectMap = {
+                            'shadow_entity': {
+                              name: 'Shadow Entity',
+                              description: 'Physical damage reduced by 50%. Your form becomes partially incorporeal, allowing physical attacks to pass through you with reduced effectiveness.'
+                            },
+                            'teleportation': {
+                              name: 'Teleportation',
+                              description: 'Teleport up to 30 feet as a bonus action. You can move through shadows and darkness instantly.'
+                            },
+                            'damage_reduction': {
+                              name: 'Necrotic Resilience',
+                              description: 'Reduce all incoming damage by 1d6 (flat reduction per hit). Your shadow form absorbs and disperses incoming attacks.'
+                            },
+                            'wall_phasing': {
+                              name: 'Wall Phasing',
+                              description: 'Pass through non-magical barriers and obstacles. You can move through walls, doors, and other solid objects that are not magically warded.'
+                            },
+                            'flight': {
+                              name: 'Flight',
+                              description: 'Gain fly speed 30 feet. You can hover and move through the air with ease.'
+                            },
+                            'invisibility': {
+                              name: 'Invisibility',
+                              description: 'Become invisible. Attacks against you have disadvantage, and you have advantage on stealth checks.'
+                            },
+                            'invisibility_to_enemies': {
+                              name: 'Invisibility to Enemies',
+                              description: 'Enemies cannot see you. You have advantage on stealth checks and attacks against you have disadvantage.'
+                            },
+                            'ethereal': {
+                              name: 'Ethereal Form',
+                              description: 'Pass through solid objects and barriers. You cannot interact with physical objects while ethereal.'
+                            },
+                            'incorporeal': {
+                              name: 'Incorporeal',
+                              description: 'Immune to bludgeoning, piercing, and slashing damage from non-magical sources. Physical attacks pass through you.'
+                            },
+                            'regeneration': {
+                              name: 'Regeneration',
+                              description: 'Regain 1d6 + Constitution modifier HP at the start of each turn. This healing cannot exceed your maximum HP.'
+                            },
+                            'damage_immunity': {
+                              name: 'Damage Immunity',
+                              description: 'Immune to specific damage types. All damage of the specified type is reduced to 0.'
+                            },
+                            'complete_immunity': {
+                              name: 'Complete Immunity',
+                              description: 'Immune to all damage. You take no damage from any source.'
+                            },
+                            'resistance': {
+                              name: 'Resistance',
+                              description: 'Reduce incoming damage by 50%. You take half damage from the specified damage types.'
+                            },
+                            'enhanced_senses': {
+                              name: 'Enhanced Senses',
+                              description: '+5 to Perception and Investigation checks. You can detect hidden entities and see through illusions.'
+                            },
+                            'supernatural_senses': {
+                              name: 'Supernatural Senses',
+                              description: 'Detect hidden entities within 60 feet. You can see through illusions and detect invisible creatures.'
+                            },
+                            'enhanced_speed': {
+                              name: 'Enhanced Speed',
+                              description: '+10 feet movement speed. Your movement is faster and more agile.'
+                            },
+                            'natural_weapons': {
+                              name: 'Natural Weapons',
+                              description: 'Claw attacks deal 1d6 + Strength modifier slashing damage. You gain natural melee weapons.'
+                            },
+                            'size_change': {
+                              name: 'Size Change',
+                              description: 'Size increases or decreases by one category. Your physical dimensions change accordingly.'
+                            },
+                            'elemental_form': {
+                              name: 'Elemental Form',
+                              description: 'Become an elemental. Gain elemental immunities and vulnerabilities based on element type.'
+                            },
+                            'phase_shift': {
+                              name: 'Phase Shift',
+                              description: 'Shift partially between planes. Gain ethereal properties and can pass through solid matter.'
+                            },
+                            'shadow_step': {
+                              name: 'Shadow Step',
+                              description: 'Teleport up to 30 feet through shadows as a bonus action. Requires shadows or darkness at destination.'
+                            },
+                            'shadow_manipulation': {
+                              name: 'Shadow Manipulation',
+                              description: 'Control and shape shadows within 30 feet. Create shadow barriers, weapons, or other constructs.'
+                            },
+                            'damage_absorption': {
+                              name: 'Damage Absorption',
+                              description: 'Absorb up to 2d6 damage, convert to temporary HP. Excess damage beyond absorption still applies.'
+                            },
+                            'spell_resistance': {
+                              name: 'Spell Resistance',
+                              description: 'Advantage on saving throws against spells. You are more resistant to magical effects.'
+                            },
+                            'magic_immunity': {
+                              name: 'Magic Immunity',
+                              description: 'Immune to spells and magical effects. Spells cannot target or affect you.'
+                            },
+                            'void_existence': {
+                              name: 'Void Existence',
+                              description: 'Exist between planes. Difficult to target, attacks against you have disadvantage.'
+                            },
+                            'teleport_anywhere': {
+                              name: 'Teleport Anywhere',
+                              description: 'Teleport to any location you can see or have visited. Range unlimited, requires line of sight or previous visit.'
+                            },
+                            'instant_teleport': {
+                              name: 'Instant Teleport',
+                              description: 'Teleport up to 60 feet as free action, no action point cost. Can be used multiple times per turn.'
+                            },
+                            'ignore_defenses': {
+                              name: 'Ignore Defenses',
+                              description: 'Attacks bypass armor class and damage resistances. Your attacks ignore target defenses.'
+                            },
+                            'instant_death_zone': {
+                              name: 'Instant Death Zone',
+                              description: 'Creatures with less than 50 HP die instantly in area. No saving throw, instant death.'
+                            },
+                            'complete_evil_immunity': {
+                              name: 'Complete Evil Immunity',
+                              description: 'Immune to all evil-aligned spells and effects. Evil creatures cannot harm you with magic.'
+                            },
+                            'necrotic_judgment': {
+                              name: 'Necrotic Judgment',
+                              description: 'Deal 2d8 necrotic damage to evil creatures. This damage cannot be reduced or resisted.'
+                            },
+                            'truth_compulsion': {
+                              name: 'Truth Compulsion',
+                              description: 'Targets must make DC 15 Charisma save or speak only truth. Cannot tell lies while affected.'
+                            },
+                            'zone_of_decay': {
+                              name: 'Zone of Decay',
+                              description: 'Creatures in area take 1d6 necrotic damage per round. Area persists for duration of transformation.'
+                            },
+                            'auto_crit': {
+                              name: 'Auto Crit',
+                              description: 'All attacks automatically score critical hits. Roll damage dice twice and add modifiers once.'
+                            },
+                            'evil_banishment': {
+                              name: 'Evil Banishment',
+                              description: 'Banish evil creatures. DC 17 Charisma save negates. On failure, creature is banished to another plane.'
+                            }
+                          };
+
+                          transformationData.specialEffects.forEach(effectId => {
+                            // Check if it's already a formatted string
+                            if (effectId.includes('(') || effectId.includes(':') || effectId.includes('+') || effectId.includes('d')) {
+                              // Already formatted, use as-is
+                              effects.push({
+                                name: `Granted: Special Effect`,
+                                description: 'Transformation Ability',
+                                mechanicsText: effectId
+                              });
+                            } else {
+                              // Look up in map or convert ID to readable format
+                              const effectData = specialEffectMap[effectId];
+                              if (effectData) {
+                                effects.push({
+                                  name: `Granted: ${effectData.name}`,
+                                  description: 'Transformation Ability',
+                                  mechanicsText: effectData.description
+                                });
+                              } else {
+                                // Fallback: convert ID to readable format
+                                const readableName = effectId.split('_').map(word => 
+                                  word.charAt(0).toUpperCase() + word.slice(1)
+                                ).join(' ');
+                                effects.push({
+                                  name: `Granted: ${readableName}`,
+                                  description: 'Transformation Ability',
+                                  mechanicsText: `Grants ${readableName.toLowerCase()}`
+                                });
+                              }
+                            }
                           });
                         }
 

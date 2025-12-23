@@ -1279,7 +1279,7 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6 + agility + (momentum_current * 1d4)',
+        formula: '2d6 + agility + (CurrentMomentum * 1d4)',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -1455,7 +1455,7 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + agility + (momentum_current / 2)',
+        formula: '1d8 + agility + (CurrentMomentum / 2)',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -1643,7 +1643,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flowing_dodge',
       name: 'Flowing Dodge',
-      description: 'Flow like water around attacks, gaining +4 dodge bonus for 1 round and positioning yourself for devastating counters.',
+      description: 'Reaction: When targeted by an attack, gain +4 Dodge for 1 round. Stacks with your base Dodge stat. Successful dodges grant +1 Momentum.',
       level: 3,
       spellType: 'REACTION',
       icon: 'ability_rogue_feint',
@@ -1677,7 +1677,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'flowing_dodge_evasion',
           name: 'Flowing Evasion',
-          description: 'Gain +4 dodge bonus for 1 round, making you significantly harder to hit as you flow between stances with fluid grace.',
+          description: '+4 Dodge for 1 round. Adds to your base Dodge (e.g., 5 base + 4 = 9 Dodge = 9% dodge chance).',
           statModifier: {
             stat: 'dodge',
             magnitude: 4,

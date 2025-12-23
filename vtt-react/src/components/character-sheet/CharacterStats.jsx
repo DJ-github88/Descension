@@ -984,13 +984,13 @@ export default function CharacterStats() {
                     description: 'Bonus reduction you roll when you take the Defend action'
                 },
                 {
-                    label: 'Dodge',
-                    value: Math.round(Math.floor((totalStats.agility || 10) / 3) || 0),
-                    baseValue: Math.round(Math.floor((stats.agility || 10) / 3) || 0),
+                    label: 'Dodge Rating',
+                    value: Math.floor((totalStats.agility || 10) / 15),
+                    baseValue: Math.floor((stats.agility || 10) / 15),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_evasion.jpg',
                     color: '#4b6b6b',
-                    description: 'Chance to avoid attacks entirely'
+                    description: `${Math.floor((totalStats.agility || 10) / 15)} Dodge Rating (15 Agility = 1 Rating)`
                 },
                 {
                     label: 'Max Health',
