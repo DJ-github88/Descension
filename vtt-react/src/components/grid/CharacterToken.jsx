@@ -433,19 +433,7 @@ const CharacterToken = ({
     }, [isMyTurn, tokenId, position, recordTurnStartPosition, getTurnStartPosition]);
 
     // Handle click outside to close context menu
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (showContextMenu && contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
-                setShowContextMenu(false);
-                setHoveredMenuItem(null);
-            }
-        };
-
-        if (showContextMenu) {
-            document.addEventListener('mousedown', handleClickOutside);
-            return () => document.removeEventListener('mousedown', handleClickOutside);
-        }
-    }, [showContextMenu]);
+    // Removed duplicate handleClickOutside - using the one below with better timing (click instead of mousedown)
 
     // Get character image or use default
     const getCharacterImage = () => {
@@ -1154,17 +1142,22 @@ const CharacterToken = ({
     // Close context menu when clicking outside and cleanup tooltip timeout
     useEffect(() => {
         const handleClickOutside = (e) => {
+            // Don't close if clicking on context menu or its children
             if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-                setShowContextMenu(false);
+                // Use a small delay to allow onClick handlers to execute first
+                setTimeout(() => {
+                    setShowContextMenu(false);
+                }, 10);
             }
         };
 
         if (showContextMenu) {
-            document.addEventListener('mousedown', handleClickOutside);
+            // Use click instead of mousedown to allow onClick handlers to execute first
+            document.addEventListener('click', handleClickOutside, true);
         }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside, true);
         };
     }, [showContextMenu]);
 
@@ -1467,17 +1460,19 @@ const CharacterToken = ({
     const [buffDebuffInitialType, setBuffDebuffInitialType] = useState(null);
 
     // Handle opening conditions window
-    const handleOpenConditions = () => {
+    const handleOpenConditions = useCallback(() => {
+        console.log('Opening conditions window for token:', tokenId);
         setShowConditionsWindow(true);
         setShowContextMenu(false);
-    };
+    }, [tokenId]);
 
     // Handle opening buff/debuff creator
-    const handleOpenBuffDebuffCreator = (type = null) => {
+    const handleOpenBuffDebuffCreator = useCallback((type = null) => {
+        console.log('Opening buff/debuff creator for token:', tokenId, 'type:', type);
         setBuffDebuffInitialType(type);
         setShowBuffDebuffCreator(true);
         setShowContextMenu(false);
-    };
+    }, [tokenId]);
 
     // Active condition effects mapped to visual overlays (token state + buff/debuff stores)
     const activeBuffs = useBuffStore(state => state.activeBuffs);
@@ -2073,6 +2068,7 @@ const CharacterToken = ({
                             onClick: (e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
+                                setShowContextMenu(false);
                                 handleOpenBuffDebuffCreator();
                             }
                         }
@@ -2210,6 +2206,7 @@ const CharacterToken = ({
                                                     margin: '1px 0'
                                                 }}
                                                 onClick={(e) => {
+                                                    e.preventDefault();
                                                     e.stopPropagation();
                                                     if (subItem.onClick) {
                                                         subItem.onClick(e);
