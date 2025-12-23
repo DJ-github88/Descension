@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import useItemStore from '../../store/itemStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -17,10 +17,13 @@ const GridItem = ({ gridItem }) => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragPosition, setDragPosition] = useState(null);
   const [dragStartPos, setDragStartPos] = useState(null);
-  const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const itemRef = useRef(null);
   const isDraggingRef = useRef(false);
   const justFinishedDragRef = useRef(false); // Track if we just finished a drag to prevent click from looting
+  
+  // FIXED: Use refs for screen position to enable imperative DOM updates (like tokens)
+  const screenPositionRef = useRef({ x: 0, y: 0 });
+  const worldPositionRef = useRef(null);
 
   const DRAG_THRESHOLD = 5; // Minimum pixels to move before starting drag
 
@@ -33,33 +36,27 @@ const GridItem = ({ gridItem }) => {
     }
   }, [gridItem.id]);
 
-  // Track viewport size for proper position calculation on window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Camera subscriptions needed for proper positioning when grid moves
-  const cameraX = useGameStore(state => state.cameraX);
-  const cameraY = useGameStore(state => state.cameraY);
+  // FIXED: Only subscribe to zoom for size calculations - camera changes are handled imperatively
+  // This prevents unnecessary re-renders during camera drag
   const zoomLevel = useGameStore(state => state.zoomLevel);
   const playerZoom = useGameStore(state => state.playerZoom);
   const gridSize = useGameStore(state => state.gridSize);
-  const gridOffsetX = useGameStore(state => state.gridOffsetX);
-  const gridOffsetY = useGameStore(state => state.gridOffsetY);
 
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
   
   // Get visibility data for FOV checks
-  const { viewingFromToken, dynamicFogEnabled, exploredAreas, getExploredArea } = useLevelEditorStore();
-  const { isGMMode } = useGameStore();
+  // PERFORMANCE FIX: Use selective subscriptions to prevent re-renders on unrelated store changes
+  const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
+  const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
+  const visibleArea = useLevelEditorStore(state => state.visibleArea);
+  const isGMMode = useGameStore(state => state.isGMMode);
+  
+  // Get visible area as a Set for fast lookup (matches token visibility logic)
+  const visibleAreaSet = useMemo(() => {
+    if (!visibleArea) return null;
+    return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+  }, [visibleArea]);
   
   // Get item position for visibility check
   const itemPosition = useMemo(() => {
@@ -73,18 +70,32 @@ const GridItem = ({ gridItem }) => {
   }, [gridItem.position, gridItem.gridPosition, gridSystem]);
   
   // Check if this item is visible based on FOV (only if viewing from a token)
-  // Returns: true = fully visible, false = hidden, 'explored' = in explored area but not visible (greyed out)
+  // CRITICAL: Items should be hidden when not in visibleAreaSet - afterimages will show them in explored areas
+  // Returns: true = fully visible, false = hidden
   const itemVisibilityState = useMemo(() => {
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
-    // This applies even in GM mode - when viewing from a token, we should only see what that token can see
     if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
-      // Check if item position is in visible area using distance-based visibility
+      // Check if item position is in visible area
       if (!itemPosition || itemPosition.x === undefined || itemPosition.y === undefined) {
         return false;
       }
 
-      // Simplified visibility check - check if item is close to viewing token
-      if (viewingFromToken && viewingFromToken.position) {
+      // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
+      if (visibleAreaSet && visibleAreaSet.size > 0) {
+        const itemGridCoords = gridSystem.worldToGrid(itemPosition.x, itemPosition.y);
+        const itemTileKey = `${itemGridCoords.x},${itemGridCoords.y}`;
+        // Only show item if it's in the visible area
+        return visibleAreaSet.has(itemTileKey);
+      }
+
+      // If visibleAreaSet exists but is empty, item is not visible
+      if (visibleAreaSet && visibleAreaSet.size === 0) {
+        return false;
+      }
+
+      // Distance-based fallback ONLY when visibleAreaSet is null (not yet calculated)
+      // This prevents items from being hidden during initialization
+      if (!visibleAreaSet && viewingFromToken && viewingFromToken.position) {
         const dx = itemPosition.x - viewingFromToken.position.x;
         const dy = itemPosition.y - viewingFromToken.position.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -92,32 +103,23 @@ const GridItem = ({ gridItem }) => {
         const maxDistance = visionRange * gridSize;
 
         if (distance <= maxDistance) {
-          return true; // Fully visible
+          return true; // Fully visible (fallback only during initialization)
         }
-      } else {
-        // If not viewing from a token, consider items visible
-        return true;
       }
 
-      // Not visible, but check if in explored area (for greyed out state)
-      // Use grid system for coordinate conversion (supports both square and hex)
-      const gridCoords = gridSystem.worldToGrid(itemPosition.x, itemPosition.y);
-      const gridX = gridCoords.x;
-      const gridY = gridCoords.y;
-      if (getExploredArea && getExploredArea(gridX, gridY)) {
-        return 'explored'; // Show greyed out
-      }
-
-      return false; // Hide
+      // Not in visible area - hide the item (afterimages will show it in explored areas)
+      return false;
     }
     
     // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridOffsetX, gridOffsetY, gridItem.id, gridItem.name, isGMMode, getExploredArea]);
+  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem]);
   
-  // Legacy compatibility - check if item should be visible at all
+  // Check if item should be visible at all
+  // CRITICAL: Items should only be visible when in visibleAreaSet
+  // Afterimages handle showing items in explored areas
   const isItemVisible = useMemo(() => {
-    return itemVisibilityState !== false;
+    return itemVisibilityState === true;
   }, [itemVisibilityState]);
 
   // Get the original item from the item store - use a more specific selector
@@ -133,36 +135,75 @@ const GridItem = ({ gridItem }) => {
 
 
 
-  // Convert coordinates to screen coordinates using the same system as CreatureToken
-  // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe to avoid 60fps re-renders during drag
-
-  const screenPosition = useMemo(() => {
-    // Use world coordinates if available (like creature tokens), otherwise fall back to grid coordinates
-    if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
-      // Use world coordinates directly (same as CreatureToken)
-      const screenPos = gridSystem.worldToScreen(gridItem.position.x, gridItem.position.y, viewportSize.width, viewportSize.height);
-      return screenPos;
-    } else if (gridItem.gridPosition) {
-      // Fallback to grid coordinates - use gridSystem to ensure consistency with tokens
-      const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
-      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportSize.width, viewportSize.height);
-      return screenPos;
+  // FIXED: Use imperative DOM updates for screen position (like tokens)
+  // This prevents floating/movement during camera drag by updating DOM directly
+  const updateScreenPosition = useCallback((worldPos) => {
+    if (!worldPos) return;
+    
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const newPosition = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+    
+    screenPositionRef.current = newPosition;
+    
+    const element = itemRef.current;
+    if (element) {
+      element.style.left = `${newPosition.x}px`;
+      element.style.top = `${newPosition.y}px`;
     }
-
+  }, [gridSystem]);
+  
+  // Get world position from gridItem (either world coords or grid coords)
+  const getWorldPosition = useCallback(() => {
+    if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
+      return { x: gridItem.position.x, y: gridItem.position.y };
+    } else if (gridItem.gridPosition) {
+      return gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+    }
     return { x: 0, y: 0 };
-  }, [
-    gridItem.position?.x,
-    gridItem.position?.y,
-    gridItem.gridPosition?.col,
-    gridItem.gridPosition?.row,
-    gridSystem,
-    cameraX,
-    cameraY,
-    zoomLevel,
-    playerZoom,
-    viewportSize.width,
-    viewportSize.height
-  ]);
+  }, [gridItem.position?.x, gridItem.position?.y, gridItem.gridPosition?.col, gridItem.gridPosition?.row, gridSystem]);
+  
+  // Update world position ref when gridItem changes
+  useEffect(() => {
+    const worldPos = getWorldPosition();
+    worldPositionRef.current = worldPos;
+    updateScreenPosition(worldPos);
+  }, [getWorldPosition, updateScreenPosition]);
+  
+  // FIXED: Subscribe to camera changes and update position imperatively (like tokens)
+  // This is the key fix for preventing floating during camera drag
+  useEffect(() => {
+    const unsubscribe = useGameStore.subscribe((state, prevState) => {
+      if (
+        state.cameraX !== prevState.cameraX ||
+        state.cameraY !== prevState.cameraY ||
+        state.zoomLevel !== prevState.zoomLevel ||
+        state.playerZoom !== prevState.playerZoom
+      ) {
+        // Update position immediately without React re-render
+        if (worldPositionRef.current) {
+          updateScreenPosition(worldPositionRef.current);
+        }
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [updateScreenPosition]);
+  
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (worldPositionRef.current) {
+        updateScreenPosition(worldPositionRef.current);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updateScreenPosition]);
+  
+  // Get current screen position (for initial render and when not using imperative updates)
+  const screenPosition = screenPositionRef.current;
 
   // Calculate orb size based on grid size and zoom
   const orbSize = useMemo(() => {
@@ -451,8 +492,9 @@ const GridItem = ({ gridItem }) => {
     return null;
   }
   
-  // Determine if item should be greyed out (in explored area but not currently visible)
-  const isGreyedOut = itemVisibilityState === 'explored';
+  // CRITICAL: Items are never greyed out - they're either visible or hidden
+  // Afterimages handle showing items in explored areas with ghostly appearance
+  const isGreyedOut = false;
 
   return (
     <>
@@ -464,8 +506,10 @@ const GridItem = ({ gridItem }) => {
         data-currency={itemForTooltip.type === 'currency' ? (itemForTooltip.currencyType || 'gold') : undefined}
         style={{
           position: 'absolute',
-          left: isDragging && dragPosition ? dragPosition.x : screenPosition.x,
-          top: isDragging && dragPosition ? dragPosition.y : screenPosition.y,
+          // CRITICAL: Always include position in React style to prevent jumping during re-renders
+          // When dragging, use drag position; otherwise use the ref value (updated imperatively)
+          left: isDragging && dragPosition ? dragPosition.x : screenPositionRef.current.x,
+          top: isDragging && dragPosition ? dragPosition.y : screenPositionRef.current.y,
           width: `${orbSize}px`,
           height: `${orbSize}px`,
           transform: 'translate(-50%, -50%)',

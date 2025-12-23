@@ -68,13 +68,11 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
 
     const handleTerrainSelect = (terrainId) => {
         setSelectedTerrainType(terrainId);
-        // Reset brush size to 1 when selecting a new terrain type
-        setBrushSize(1);
         // Auto-select terrain brush when terrain is selected
         onToolSelect('terrain_brush');
         onSettingsChange({
             selectedTerrainType: terrainId,
-            brushSize: 1  // Default to size 1
+            brushSize: brushSize  // Preserve current brush size
         });
     };
 

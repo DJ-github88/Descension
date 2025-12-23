@@ -891,10 +891,29 @@ const ObjectSystem = () => {
         };
     }, [isOverConnection, isEditorMode, isGMMode, isConnectionElement, hoveredGMNote, getObjectAtScreenPosition]);
 
-    // Update canvas when dependencies change
+    // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
+    const scheduledRenderRef = useRef(null);
+    
+    // Update canvas when dependencies change using RAF (no artificial throttling)
     useEffect(() => {
-        renderObjects();
-    }, [renderObjects]);
+        // Cancel any pending render
+        if (scheduledRenderRef.current) {
+            cancelAnimationFrame(scheduledRenderRef.current);
+        }
+        
+        // Schedule render for next frame - this naturally caps at 60fps
+        scheduledRenderRef.current = requestAnimationFrame(() => {
+            renderObjects();
+            scheduledRenderRef.current = null;
+        });
+        
+        return () => {
+            if (scheduledRenderRef.current) {
+                cancelAnimationFrame(scheduledRenderRef.current);
+                scheduledRenderRef.current = null;
+            }
+        };
+    }, [renderObjects, cameraX, cameraY, effectiveZoom]);
 
     // Handle window resize
     useEffect(() => {

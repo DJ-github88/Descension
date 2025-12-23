@@ -45,8 +45,13 @@
   touch-action: none;
   pointer-events: all; /* Ensure it can receive mouse events */
 
+  /* CRITICAL: Prevent any transition on position - causes floating during grid drag */
+  transition-property: filter, opacity, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+
   /* Performance optimizations */
-  will-change: transform;
+  will-change: left, top, transform;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   /* Optimize for animations - but don't clip condition rings */
@@ -146,6 +151,12 @@
   user-select: none;
   touch-action: none;
   pointer-events: all; /* Ensure it can receive mouse events */
+
+  /* CRITICAL: Prevent any transition on position - causes floating during grid drag */
+  transition-property: filter, opacity, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  will-change: left, top, transform;
 }
 
 .character-token:hover {

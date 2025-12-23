@@ -538,15 +538,38 @@ const StaticFogOverlay = () => {
         : null;
     
     // Clear cache when token position changes (outside useMemo to ensure it runs)
+    // FIXED: Also clear cache immediately when token is dropped (not dragging)
+    const wasDraggingTokenRef = React.useRef(false);
     React.useEffect(() => {
         if (!window._isDraggingCamera && !window._isDraggingToken && lastTokenPositionRef.current !== tokenPositionKey) {
             cachedVisibleAreaRef.current = null;
             lastTokenPositionRef.current = tokenPositionKey;
         }
+        // FIXED: Clear cache when drag ends to force immediate recalculation
+        if (!window._isDraggingToken && wasDraggingTokenRef.current) {
+            cachedVisibleAreaRef.current = null;
+            wasDraggingTokenRef.current = false;
+        }
+        // Track when drag starts
+        if (window._isDraggingToken) {
+            wasDraggingTokenRef.current = true;
+        }
     }, [tokenPositionKey]);
+    
+    // Separate effect to track drag state changes
+    React.useEffect(() => {
+        if (window._isDraggingToken) {
+            wasDraggingTokenRef.current = true;
+        } else if (wasDraggingTokenRef.current) {
+            // Just stopped dragging - clear cache on next render
+            cachedVisibleAreaRef.current = null;
+            wasDraggingTokenRef.current = false;
+        }
+    }, [window._isDraggingToken]);
     
     const visibleArea = React.useMemo(() => {
         // 🛑 PERFORMANCE: Return cached value during camera OR token drag
+        // FIXED: Don't use cache immediately after drag ends - force recalculation
         if ((window._isDraggingCamera || window._isDraggingToken) && cachedVisibleAreaRef.current) {
             return cachedVisibleAreaRef.current;
         }
@@ -1915,9 +1938,10 @@ const StaticFogOverlay = () => {
         // The fog needs to follow the grid in real time, but we throttle to maintain performance
         
         // PERFORMANCE FIX: Throttle renders based on drag state
-        // During drag: max 30fps (33ms) for real-time fog updates with performance
-        // During static: max 60fps (16ms) for responsiveness
-        const targetFrameTime = isDraggingCameraRef.current ? 33 : 16;
+        // IMPROVED: Slower updates during drag to reduce performance issues
+        // During drag: max 15fps (66ms) for real-time fog updates with better performance
+        // During static: max 30fps (33ms) for responsiveness
+        const targetFrameTime = isDraggingCameraRef.current ? 66 : 33;
         const now = performance.now();
         const timeSinceLastRender = now - lastRenderTimeRef.current;
 

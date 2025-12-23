@@ -6,6 +6,11 @@
     gap: 16px;
     height: 100%;
     overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    /* Extend fully to parent container edges by negating parent padding */
+    margin: -20px;
+    min-height: calc(100% + 40px);
 }
 
 /* .tool-section consolidated to global styles */

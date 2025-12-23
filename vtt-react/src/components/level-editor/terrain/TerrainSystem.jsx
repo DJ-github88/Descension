@@ -7,6 +7,9 @@ import { isPositionVisible } from '../../../utils/VisibilityCalculations';
 // Image cache for tile variations
 const imageCache = {};
 
+// Grayscale image cache to avoid expensive recalculations
+const grayscaleCache = {};
+
 // Professional terrain types with proper grid integration
 export const PROFESSIONAL_TERRAIN_TYPES = {
     // Natural Terrain
@@ -241,6 +244,145 @@ const TerrainSystem = () => {
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, effectiveZoom]);
 
+    // Helper function to check if a point is inside a polygon
+    const isPointInPolygon = useCallback((x, y, polygon) => {
+        if (!polygon || polygon.length < 3) return false;
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            const xi = polygon[i].x, yi = polygon[i].y;
+            const xj = polygon[j].x, yj = polygon[j].y;
+            const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
+    }, []);
+
+    // Helper function to check if a rectangle intersects with a polygon
+    const doesRectIntersectPolygon = useCallback((rectX, rectY, rectWidth, rectHeight, polygon) => {
+        if (!polygon || polygon.length < 3) return false;
+        
+        // Check if any corner of the rectangle is inside the polygon
+        const corners = [
+            { x: rectX, y: rectY },
+            { x: rectX + rectWidth, y: rectY },
+            { x: rectX + rectWidth, y: rectY + rectHeight },
+            { x: rectX, y: rectY + rectHeight }
+        ];
+        
+        for (const corner of corners) {
+            if (isPointInPolygon(corner.x, corner.y, polygon)) {
+                return true;
+            }
+        }
+        
+        // Check if any edge of the polygon intersects the rectangle
+        for (let i = 0; i < polygon.length; i++) {
+            const p1 = polygon[i];
+            const p2 = polygon[(i + 1) % polygon.length];
+            
+            // Check if polygon edge intersects rectangle
+            if (lineIntersectsRect(p1.x, p1.y, p2.x, p2.y, rectX, rectY, rectWidth, rectHeight)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }, [isPointInPolygon]);
+
+    // Helper function to check if a rectangle is fully contained in a polygon
+    const isRectFullyInPolygon = useCallback((rectX, rectY, rectWidth, rectHeight, polygon) => {
+        if (!polygon || polygon.length < 3) return false;
+        
+        // Check if all corners are inside the polygon
+        const corners = [
+            { x: rectX, y: rectY },
+            { x: rectX + rectWidth, y: rectY },
+            { x: rectX + rectWidth, y: rectY + rectHeight },
+            { x: rectX, y: rectY + rectHeight }
+        ];
+        
+        for (const corner of corners) {
+            if (!isPointInPolygon(corner.x, corner.y, polygon)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }, [isPointInPolygon]);
+
+    // Helper function to check if a line segment intersects a rectangle
+    const lineIntersectsRect = useCallback((x1, y1, x2, y2, rectX, rectY, rectWidth, rectHeight) => {
+        // Check if line segment is completely outside rectangle
+        const minX = Math.min(x1, x2);
+        const maxX = Math.max(x1, x2);
+        const minY = Math.min(y1, y2);
+        const maxY = Math.max(y1, y2);
+        
+        if (maxX < rectX || minX > rectX + rectWidth || maxY < rectY || minY > rectY + rectHeight) {
+            return false;
+        }
+        
+        // Check if line segment intersects any edge of the rectangle
+        const rectEdges = [
+            { x1: rectX, y1: rectY, x2: rectX + rectWidth, y2: rectY },
+            { x1: rectX + rectWidth, y1: rectY, x2: rectX + rectWidth, y2: rectY + rectHeight },
+            { x1: rectX + rectWidth, y1: rectY + rectHeight, x2: rectX, y2: rectY + rectHeight },
+            { x1: rectX, y1: rectY + rectHeight, x2: rectX, y2: rectY }
+        ];
+        
+        for (const edge of rectEdges) {
+            if (lineSegmentsIntersect(x1, y1, x2, y2, edge.x1, edge.y1, edge.x2, edge.y2)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }, []);
+
+    // Helper function to check if two line segments intersect
+    const lineSegmentsIntersect = useCallback((x1, y1, x2, y2, x3, y3, x4, y4) => {
+        const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        if (denom === 0) return false;
+        
+        const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+        const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+        
+        return t >= 0 && t <= 1 && u >= 0 && u <= 1;
+    }, []);
+
+    // Helper function to create a grayscale version of an image (cached for performance)
+    const createGrayscaleImage = useCallback((img, width, height, cacheKey) => {
+        // Use cache key to avoid recalculating same image
+        if (cacheKey && grayscaleCache[cacheKey]) {
+            return grayscaleCache[cacheKey];
+        }
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.drawImage(img, 0, 0, width, height);
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+        
+        for (let i = 0; i < data.length; i += 4) {
+            const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+            data[i] = gray;
+            data[i + 1] = gray;
+            data[i + 2] = gray;
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        
+        // Cache the result
+        if (cacheKey) {
+            grayscaleCache[cacheKey] = canvas;
+        }
+        
+        return canvas;
+    }, []);
+
     // Render terrain on canvas
     const renderTerrain = useCallback(() => {
         const canvas = canvasRef.current;
@@ -277,22 +419,25 @@ const TerrainSystem = () => {
         if (!terrainData || Object.keys(terrainData).length === 0) return;
 
         // Calculate visible grid bounds for performance using the grid system
+        // FIXED: Add padding to render partial tiles at viewport edges (prevents empty tiles)
+        const VIEWPORT_PADDING = 2; // Extra tiles to render at edges
         let startX, endX, startY, endY;
         try {
             const gridSystem = getGridSystem();
             // Use consistent viewport dimensions that account for editor panel
             const viewport = gridSystem.getViewportDimensions();
             const bounds = gridSystem.getVisibleGridBounds(viewport.width, viewport.height);
-            startX = bounds.minX;
-            endX = bounds.maxX;
-            startY = bounds.minY;
-            endY = bounds.maxY;
+            // Add padding to show partial tiles at edges
+            startX = bounds.minX - VIEWPORT_PADDING;
+            endX = bounds.maxX + VIEWPORT_PADDING;
+            startY = bounds.minY - VIEWPORT_PADDING;
+            endY = bounds.maxY + VIEWPORT_PADDING;
         } catch (error) {
-            // Fallback calculation
-            startX = Math.floor((cameraX - gridOffsetX) / gridSize) - 2;
-            endX = Math.ceil((cameraX + canvas.width / effectiveZoom - gridOffsetX) / gridSize) + 2;
-            startY = Math.floor((cameraY - gridOffsetY) / gridSize) - 2;
-            endY = Math.ceil((cameraY + canvas.height / effectiveZoom - gridOffsetY) / gridSize) + 2;
+            // Fallback calculation with padding
+            startX = Math.floor((cameraX - gridOffsetX) / gridSize) - 2 - VIEWPORT_PADDING;
+            endX = Math.ceil((cameraX + canvas.width / effectiveZoom - gridOffsetX) / gridSize) + 2 + VIEWPORT_PADDING;
+            startY = Math.floor((cameraY - gridOffsetY) / gridSize) - 2 - VIEWPORT_PADDING;
+            endY = Math.ceil((cameraY + canvas.height / effectiveZoom - gridOffsetY) / gridSize) + 2 + VIEWPORT_PADDING;
         }
 
         // Check grid type
@@ -317,10 +462,12 @@ const TerrainSystem = () => {
             const bottomRightHex = gridSystem.worldToHex(viewportRight, viewportBottom);
             
             // Find min/max q and r values with padding to ensure full coverage
-            const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) - 2;
-            const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) + 2;
-            const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) - 2;
-            const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) + 2;
+            // FIXED: Add extra padding to show partial hexes at viewport edges (prevents empty tiles)
+            const VIEWPORT_PADDING = 2; // Extra hexes to render at edges
+            const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) - 2 - VIEWPORT_PADDING;
+            const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) + 2 + VIEWPORT_PADDING;
+            const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) - 2 - VIEWPORT_PADDING;
+            const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) + 2 + VIEWPORT_PADDING;
             
             for (let q = hexStartQ; q <= hexEndQ; q++) {
                 for (let r = hexStartR; r <= hexEndR; r++) {
@@ -345,8 +492,29 @@ const TerrainSystem = () => {
                     // CRITICAL: In GM mode, always show all terrain regardless of token visibility
                     if (!isGMMode && viewingFromToken && visibleArea) {
                         const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-                        if (!visibleAreaSet.has(tileKey)) {
-                            continue;
+                        
+                        // Check if this hex is in the visible area OR explored area
+                        // FIXED: Always render explored hexes (they'll be dimmed by fog overlay)
+                        const isVisible = visibleAreaSet.has(tileKey);
+                        
+                        if (!isVisible) {
+                            // Check if hex is explored - if so, still render it (but it will be dimmed by fog)
+                            const levelEditorStore = useLevelEditorStore.getState();
+                            const worldPos = gridSystem.hexToWorld(q, r);
+                            
+                            // FIXED: Check both circle/polygon explored areas AND tile-based explored areas
+                            let isExplored = false;
+                            if (levelEditorStore.isPositionExplored) {
+                                isExplored = levelEditorStore.isPositionExplored(worldPos.x, worldPos.y);
+                            }
+                            // Also check tile-based explored areas as fallback
+                            if (!isExplored) {
+                                isExplored = levelEditorStore.exploredAreas[tileKey] || false;
+                            }
+                            
+                            if (!isExplored) {
+                                continue; // Skip rendering this hex - not visible and not explored
+                            }
                         }
                     }
 
@@ -493,18 +661,6 @@ const TerrainSystem = () => {
                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                     if (!terrain) continue;
 
-                    // CRITICAL: In GM mode, always show all terrain regardless of token visibility
-                    // Only apply visibility filtering in player mode when viewing from a token
-                    if (!isGMMode && viewingFromToken && visibleArea) {
-                        // Convert visibleArea array to Set for efficient lookup (if needed)
-                        const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-                        // Check if this tile is in the visible area
-                        if (!visibleAreaSet.has(tileKey)) {
-                            continue; // Skip rendering this tile - not visible (player mode only)
-                        }
-                    }
-                    // In GM mode, continue rendering all terrain tiles
-
                     // Use window dimensions for coordinate conversion to match tokens/items positioning
                     const screenPos = gridToScreen(gridX, gridY, window.innerWidth, window.innerHeight);
                     const tileSize = gridSize * effectiveZoom;
@@ -512,6 +668,108 @@ const TerrainSystem = () => {
                     // Use corner position directly (no centering needed since gridToScreen now uses corner)
                     const tileX = screenPos.x;
                     const tileY = screenPos.y;
+
+                    // PERFORMANCE: Skip expensive partial visibility checks during camera drag
+                    // Check if camera is dragging using window flag (avoids re-renders)
+                    const isDraggingCamera = window._isDraggingCamera || false;
+                    
+                    // Check for partial visibility (only in player mode when viewing from token, and not dragging)
+                    let isPartiallyVisible = false;
+                    let visibilityPolygon = null;
+                    if (!isGMMode && viewingFromToken && !isDraggingCamera) {
+                        const levelEditorStore = useLevelEditorStore.getState();
+                        visibilityPolygon = levelEditorStore.visibilityPolygon;
+                        
+                        if (visibilityPolygon && visibilityPolygon.length > 0) {
+                            // PERFORMANCE: Quick bounding box check to skip tiles clearly outside visibility
+                            // Calculate polygon bounding box in screen coordinates
+                            let polyMinX = Infinity, polyMaxX = -Infinity;
+                            let polyMinY = Infinity, polyMaxY = -Infinity;
+                            for (const p of visibilityPolygon) {
+                                const screenX = (p.x - cameraX) * effectiveZoom + width / 2;
+                                const screenY = (p.y - cameraY) * effectiveZoom + height / 2;
+                                polyMinX = Math.min(polyMinX, screenX);
+                                polyMaxX = Math.max(polyMaxX, screenX);
+                                polyMinY = Math.min(polyMinY, screenY);
+                                polyMaxY = Math.max(polyMaxY, screenY);
+                            }
+                            
+                            // Quick reject: if tile is completely outside polygon bounding box, skip
+                            const tileRight = tileX + tileSize;
+                            const tileBottom = tileY + tileSize;
+                            if (tileRight < polyMinX || tileX > polyMaxX || tileBottom < polyMinY || tileY > polyMaxY) {
+                                isPartiallyVisible = false;
+                            } else {
+                                // PERFORMANCE: Use simplified check - only check tile center and corners
+                                // This is much faster than full polygon intersection
+                                const tileCenterX = tileX + tileSize / 2;
+                                const tileCenterY = tileY + tileSize / 2;
+                                
+                                // Convert polygon to screen coordinates (only if tile might intersect)
+                                const screenPolygon = visibilityPolygon.map(p => {
+                                    const screenX = (p.x - cameraX) * effectiveZoom + width / 2;
+                                    const screenY = (p.y - cameraY) * effectiveZoom + height / 2;
+                                    return { x: screenX, y: screenY };
+                                });
+                                
+                                // Quick check: if center is in polygon, tile is fully visible
+                                const centerInPolygon = isPointInPolygon(tileCenterX, tileCenterY, screenPolygon);
+                                if (centerInPolygon) {
+                                    // Tile is fully visible, skip partial visibility rendering
+                                    isPartiallyVisible = false;
+                                } else {
+                                    // Check if any corner is in polygon (partial visibility)
+                                    const corners = [
+                                        { x: tileX, y: tileY },
+                                        { x: tileX + tileSize, y: tileY },
+                                        { x: tileX + tileSize, y: tileY + tileSize },
+                                        { x: tileX, y: tileY + tileSize }
+                                    ];
+                                    let cornersInPolygon = 0;
+                                    for (const corner of corners) {
+                                        if (isPointInPolygon(corner.x, corner.y, screenPolygon)) {
+                                            cornersInPolygon++;
+                                        }
+                                    }
+                                    // Partial visibility if some but not all corners are in polygon
+                                    isPartiallyVisible = cornersInPolygon > 0 && cornersInPolygon < 4;
+                                }
+                            }
+                        }
+                    }
+
+                    // CRITICAL: In GM mode, always show all terrain regardless of token visibility
+                    // Only apply visibility filtering in player mode when viewing from a token
+                    if (!isGMMode && viewingFromToken && visibleArea && !isPartiallyVisible) {
+                        // Convert visibleArea array to Set for efficient lookup (if needed)
+                        const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+                        
+                        // Check if this tile is in the visible area OR explored area
+                        // FIXED: Always render explored tiles (they'll be dimmed by fog overlay)
+                        const isVisible = visibleAreaSet.has(tileKey);
+                        
+                        if (!isVisible) {
+                            // Check if tile is explored - if so, still render it (but it will be dimmed by fog)
+                            const levelEditorStore = useLevelEditorStore.getState();
+                            const worldX = (gridX * gridSize) + gridOffsetX + (gridSize / 2);
+                            const worldY = (gridY * gridSize) + gridOffsetY + (gridSize / 2);
+                            
+                            // FIXED: Check both circle/polygon explored areas AND tile-based explored areas
+                            let isExplored = false;
+                            if (levelEditorStore.isPositionExplored) {
+                                isExplored = levelEditorStore.isPositionExplored(worldX, worldY);
+                            }
+                            // Also check tile-based explored areas as fallback
+                            if (!isExplored) {
+                                isExplored = levelEditorStore.exploredAreas[tileKey] || false;
+                            }
+                            
+                            if (!isExplored) {
+                                continue; // Skip rendering this tile - not visible and not explored
+                            }
+                        }
+                    }
+                    // In GM mode or if partially visible, continue rendering all terrain tiles
 
 
 
@@ -562,15 +820,60 @@ const TerrainSystem = () => {
                             tileSize
                         );
 
-                        // Then draw the actual tile image on top
-                        ctx.globalAlpha = 1.0;
-                        ctx.drawImage(
-                            img,
-                            tileX,
-                            tileY,
-                            tileSize,
-                            tileSize
-                        );
+                        // Handle partial visibility: render full tile, then apply grayscale to non-visible portion
+                        // PERFORMANCE: Skip expensive partial visibility rendering during camera drag
+                        if (isPartiallyVisible && visibilityPolygon && !isDraggingCamera) {
+                            // Convert polygon to screen coordinates
+                            const screenPolygon = visibilityPolygon.map(p => {
+                                const screenX = (p.x - cameraX) * effectiveZoom + width / 2;
+                                const screenY = (p.y - cameraY) * effectiveZoom + height / 2;
+                                return { x: screenX, y: screenY };
+                            });
+                            
+                            // Translate polygon points to tile-relative coordinates
+                            const tilePolygon = screenPolygon.map(p => ({
+                                x: p.x - tileX,
+                                y: p.y - tileY
+                            }));
+                            
+                            // Create a temporary canvas for compositing
+                            const tileCanvas = document.createElement('canvas');
+                            tileCanvas.width = tileSize;
+                            tileCanvas.height = tileSize;
+                            const tileCtx = tileCanvas.getContext('2d');
+                            
+                            // Step 1: Draw grayscale version of entire tile (this will be the base)
+                            // Use cache key based on image source to avoid recalculating
+                            const grayscaleCacheKey = `${tileVariationPath}_${tileSize}`;
+                            const grayscaleCanvas = createGrayscaleImage(img, tileSize, tileSize, grayscaleCacheKey);
+                            tileCtx.drawImage(grayscaleCanvas, 0, 0);
+                            
+                            // Step 2: Draw colored version only in the visible area (inside polygon)
+                            tileCtx.save();
+                            tileCtx.beginPath();
+                            tileCtx.moveTo(tilePolygon[0].x, tilePolygon[0].y);
+                            for (let i = 1; i < tilePolygon.length; i++) {
+                                tileCtx.lineTo(tilePolygon[i].x, tilePolygon[i].y);
+                            }
+                            tileCtx.closePath();
+                            tileCtx.clip(); // Clip to visible area
+                            tileCtx.drawImage(img, 0, 0, tileSize, tileSize); // Draw colored version
+                            tileCtx.restore();
+                            
+                            // Draw the composited tile to the main canvas
+                            ctx.globalAlpha = 1.0;
+                            ctx.drawImage(tileCanvas, tileX, tileY);
+                        } else {
+                            // Normal rendering: draw the actual tile image
+                            ctx.globalAlpha = 1.0;
+                            ctx.drawImage(
+                                img,
+                                tileX,
+                                tileY,
+                                tileSize,
+                                tileSize
+                            );
+                        }
 
                         // Add slim black border for water, sand, grass, dirt, and cobblestone tiles to improve visual definition
                         if (terrainType === 'water' || terrainType === 'sand' || terrainType === 'grass' || terrainType === 'dirt' || terrainType === 'cobblestone') {
@@ -595,26 +898,103 @@ const TerrainSystem = () => {
                     }
                 } else {
                     // Standard terrain rendering (existing logic)
-                    ctx.fillStyle = terrain.color;
-                    ctx.globalAlpha = 0.7; // Slightly reduced opacity to prevent over-saturation
-                    ctx.fillRect(
-                        tileX,
-                        tileY,
-                        tileSize,
-                        tileSize
-                    );
-
-                    // Add texture pattern if available (but don't overlap with base color)
-                    if (terrain.texture) {
-                        // Reset alpha for texture pattern
-                        ctx.globalAlpha = 0.2;
-                        ctx.fillStyle = createTerrainPattern(ctx, terrain);
+                    // PERFORMANCE: Skip expensive partial visibility for color-only terrain during drag
+                    // Color-only terrain is simpler, so partial visibility is less critical
+                    if (isPartiallyVisible && visibilityPolygon && !isDraggingCamera) {
+                        // Convert polygon to screen coordinates
+                        const screenPolygon = visibilityPolygon.map(p => {
+                            const screenX = (p.x - cameraX) * effectiveZoom + width / 2;
+                            const screenY = (p.y - cameraY) * effectiveZoom + height / 2;
+                            return { x: screenX, y: screenY };
+                        });
+                        
+                        // Translate polygon points to tile-relative coordinates
+                        const tilePolygon = screenPolygon.map(p => ({
+                            x: p.x - tileX,
+                            y: p.y - tileY
+                        }));
+                        
+                        // Create a temporary canvas for compositing
+                        const tileCanvas = document.createElement('canvas');
+                        tileCanvas.width = tileSize;
+                        tileCanvas.height = tileSize;
+                        const tileCtx = tileCanvas.getContext('2d');
+                        
+                        // Step 1: Draw grayscale version of entire tile (base)
+                        // Convert color to grayscale
+                        const colorMatch = terrain.color.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i);
+                        if (colorMatch) {
+                            const r = parseInt(colorMatch[1], 16);
+                            const g = parseInt(colorMatch[2], 16);
+                            const b = parseInt(colorMatch[3], 16);
+                            const gray = Math.round(r * 0.299 + g * 0.587 + b * 0.114);
+                            const grayColor = `rgb(${gray}, ${gray}, ${gray})`;
+                            tileCtx.fillStyle = grayColor;
+                            tileCtx.globalAlpha = 0.7;
+                            tileCtx.fillRect(0, 0, tileSize, tileSize);
+                        } else {
+                            tileCtx.fillStyle = terrain.color;
+                            tileCtx.globalAlpha = 0.7;
+                            tileCtx.fillRect(0, 0, tileSize, tileSize);
+                            // Apply grayscale filter
+                            const imageData = tileCtx.getImageData(0, 0, tileSize, tileSize);
+                            const data = imageData.data;
+                            for (let i = 0; i < data.length; i += 4) {
+                                const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+                                data[i] = gray;
+                                data[i + 1] = gray;
+                                data[i + 2] = gray;
+                            }
+                            tileCtx.putImageData(imageData, 0, 0);
+                        }
+                        
+                        // Step 2: Draw colored version only in the visible area (inside polygon)
+                        tileCtx.save();
+                        tileCtx.beginPath();
+                        tileCtx.moveTo(tilePolygon[0].x, tilePolygon[0].y);
+                        for (let i = 1; i < tilePolygon.length; i++) {
+                            tileCtx.lineTo(tilePolygon[i].x, tilePolygon[i].y);
+                        }
+                        tileCtx.closePath();
+                        tileCtx.clip(); // Clip to visible area
+                        tileCtx.fillStyle = terrain.color;
+                        tileCtx.globalAlpha = 0.7;
+                        tileCtx.fillRect(0, 0, tileSize, tileSize);
+                        
+                        // Add texture pattern if available
+                        if (terrain.texture) {
+                            tileCtx.globalAlpha = 0.2;
+                            tileCtx.fillStyle = createTerrainPattern(tileCtx, terrain);
+                            tileCtx.fillRect(0, 0, tileSize, tileSize);
+                        }
+                        tileCtx.restore();
+                        
+                        // Draw the composited tile to the main canvas
+                        ctx.globalAlpha = 1.0;
+                        ctx.drawImage(tileCanvas, tileX, tileY);
+                    } else {
+                        // Normal rendering
+                        ctx.fillStyle = terrain.color;
+                        ctx.globalAlpha = 0.7; // Slightly reduced opacity to prevent over-saturation
                         ctx.fillRect(
                             tileX,
                             tileY,
                             tileSize,
                             tileSize
                         );
+
+                        // Add texture pattern if available (but don't overlap with base color)
+                        if (terrain.texture) {
+                            // Reset alpha for texture pattern
+                            ctx.globalAlpha = 0.2;
+                            ctx.fillStyle = createTerrainPattern(ctx, terrain);
+                            ctx.fillRect(
+                                tileX,
+                                tileY,
+                                tileSize,
+                                tileSize
+                            );
+                        }
                     }
 
                     // Add border for better visibility
@@ -634,7 +1014,7 @@ const TerrainSystem = () => {
                 }
             }
         }
-    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, gridType, cameraX, cameraY, gridOffsetX, gridOffsetY, viewingFromToken, visibleArea, isGMMode]);
+    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, gridType, cameraX, cameraY, gridOffsetX, gridOffsetY, viewingFromToken, visibleArea, isGMMode, isPointInPolygon, doesRectIntersectPolygon, isRectFullyInPolygon, createGrayscaleImage]);
 
     // Create terrain pattern for visual variety
     const createTerrainPattern = (ctx, terrain) => {
@@ -695,14 +1075,29 @@ const TerrainSystem = () => {
         return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
     };
 
-    // Update canvas when dependencies change
+    // FIXED: Use RAF for smooth terrain rendering - no throttling to prevent floating
+    const scheduledRenderRef = useRef(null);
+    
+    // Update canvas when dependencies change using RAF (no artificial throttling)
     useEffect(() => {
-        // Use requestAnimationFrame to ensure canvas is properly sized
-        const rafId = requestAnimationFrame(() => {
+        // Cancel any pending render
+        if (scheduledRenderRef.current) {
+            cancelAnimationFrame(scheduledRenderRef.current);
+        }
+        
+        // Schedule render for next frame - this naturally caps at 60fps
+        scheduledRenderRef.current = requestAnimationFrame(() => {
             renderTerrain();
+            scheduledRenderRef.current = null;
         });
-        return () => cancelAnimationFrame(rafId);
-    }, [renderTerrain]);
+        
+        return () => {
+            if (scheduledRenderRef.current) {
+                cancelAnimationFrame(scheduledRenderRef.current);
+                scheduledRenderRef.current = null;
+            }
+        };
+    }, [renderTerrain, cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY]);
 
     // Handle window resize
     useEffect(() => {

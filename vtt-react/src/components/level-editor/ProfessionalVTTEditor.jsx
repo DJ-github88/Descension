@@ -16,7 +16,6 @@ import DrawingTools from './tools/DrawingTools';
 import TerrainTools from './tools/TerrainTools';
 import ObjectTools from './tools/ObjectTools';
 import WallTools from './tools/WallTools';
-import LightingTools from './tools/LightingTools';
 import FogTools from './tools/FogTools';
 import GridTools from './tools/GridTools';
 import TerrainHoverPreview from './TerrainHoverPreview';
@@ -205,18 +204,6 @@ const ProfessionalVTTEditor = () => {
                 { id: 'barrier_magic', name: 'Magic Barrier', icon: 'spell_holy_prayerofhealing', cursor: 'crosshair' },
                 { id: 'wall_select', name: 'Select', icon: 'ability_hunter_markedfordeath', cursor: 'pointer' },
                 { id: 'wall_erase', name: 'Erase Walls', icon: 'ability_warrior_cleave', cursor: 'crosshair' }
-            ]
-        },
-        lighting: {
-            name: 'Light',
-            icon: 'spell_fire_fireball',
-            tools: [
-                { id: 'light_torch', name: 'Torch', icon: 'spell_fire_fire', cursor: 'crosshair' },
-                { id: 'light_lantern', name: 'Lantern', icon: 'inv_misc_lantern_01', cursor: 'crosshair' },
-                { id: 'light_candle', name: 'Candle', icon: 'inv_misc_candle_01', cursor: 'crosshair' },
-                { id: 'light_magical', name: 'Magical Light', icon: 'spell_holy_surgeoflight', cursor: 'crosshair' },
-                { id: 'light_ambient', name: 'Ambient Zone', icon: 'spell_holy_holynova', cursor: 'crosshair' },
-                { id: 'shadow_caster', name: 'Shadow Caster', icon: 'spell_shadow_shadowbolt', cursor: 'crosshair' }
             ]
         },
         fog: {
@@ -955,8 +942,8 @@ const ProfessionalVTTEditor = () => {
             }
         }
 
-        // For select tool and light_select tool, let ObjectSystem handle the events
-        if (selectedTool === 'select' || selectedTool === 'light_select') {
+        // For select tool, let ObjectSystem handle the events
+        if (selectedTool === 'select') {
             // Don't prevent default or stop propagation - let ObjectSystem handle it
             return;
         }
@@ -985,54 +972,6 @@ const ProfessionalVTTEditor = () => {
                     setIsDrawing(true);
                 }
                 return;
-            case 'light_place':
-            case 'light_torch':
-            case 'light_lantern':
-            case 'light_candle':
-                // Place light source or lantern object - NO DRAWING STATE
-                const lightCoords = screenToGrid(e.clientX, e.clientY);
-                if (lightCoords && toolSettings.selectedLightType) {
-                    if (toolSettings.selectedLightType === 'lantern_object') {
-                        // Place physical lantern object with free positioning
-                        addEnvironmentalObject({
-                            id: `lantern_${Date.now()}`,
-                            type: 'lantern',
-                            gridX: lightCoords.gridX,
-                            gridY: lightCoords.gridY,
-                            worldX: lightCoords.worldX, // Store world coordinates for free positioning
-                            worldY: lightCoords.worldY,
-                            freePosition: true,
-                            showLight: true
-                        });
-                    } else {
-                        // Place regular light source
-                        // Light placement logic here - to be implemented
-                    }
-                }
-                return; // Don't set drawing state for light tools
-            case 'light_select':
-                // Select light source or lantern object - NO DRAWING STATE
-
-                // Get screen coordinates relative to the overlay
-                const lightSelectRect = overlayRef.current?.getBoundingClientRect();
-                if (lightSelectRect) {
-                    const relativeX = e.clientX - lightSelectRect.left;
-                    const relativeY = e.clientY - lightSelectRect.top;
-
-                    // Check for lantern objects at this screen position
-                    const clickedLantern = getObjectAtScreenPosition(relativeX, relativeY);
-                    if (clickedLantern && clickedLantern.type === 'lantern') {
-                        selectEnvironmentalObject(clickedLantern.id);
-                    } else {
-                        // Deselect all objects if nothing was clicked
-                        environmentalObjects.forEach(obj => {
-                            if (obj.selected) {
-                                selectEnvironmentalObject(null); // This should deselect all
-                            }
-                        });
-                    }
-                }
-                return; // Don't set drawing state for light tools
             case 'object_place':
                 // Check if we're placing a connection (via settings) or regular object
                 if (toolSettings?.selectedPlacementType === 'connection') {
@@ -1582,7 +1521,7 @@ const ProfessionalVTTEditor = () => {
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
-        if (selectedTool === 'select' || selectedTool === 'light_select') {
+        if (selectedTool === 'select') {
             return;
         }
 
@@ -1907,7 +1846,7 @@ const ProfessionalVTTEditor = () => {
 
     const handleMouseUp = useCallback(() => {
         // For select tools, let ObjectSystem handle the events
-        if (selectedTool === 'select' || selectedTool === 'light_select') {
+        if (selectedTool === 'select') {
             return;
         }
 
@@ -2023,10 +1962,6 @@ const ProfessionalVTTEditor = () => {
             }
         } else if (currentPath.length > 0 &&
             selectedTool !== 'wall_draw' &&
-            selectedTool !== 'light_place' &&
-            selectedTool !== 'light_torch' &&
-            selectedTool !== 'light_lantern' &&
-            selectedTool !== 'light_candle' &&
             selectedTool !== 'object_place' &&
             selectedTool !== 'object_select' &&
             selectedTool !== 'object_delete' &&
@@ -2132,7 +2067,7 @@ const ProfessionalVTTEditor = () => {
                     break;
                 case '4':
                     e.preventDefault();
-                    handleTabChange('lighting');
+                    handleTabChange('fog');
                     break;
                 case '5':
                     e.preventDefault();
@@ -2372,14 +2307,6 @@ const ProfessionalVTTEditor = () => {
                                 onSettingsChange={handleToolSettingsChange}
                             />
                         )}
-                        {activeTab === 'lighting' && (
-                            <LightingTools
-                                selectedTool={selectedTool}
-                                onToolSelect={handleToolSelect}
-                                settings={toolSettings}
-                                onSettingsChange={handleToolSettingsChange}
-                            />
-                        )}
                         {activeTab === 'fog' && (
                             <FogTools
                                 selectedTool={selectedTool}
@@ -2532,7 +2459,7 @@ const ProfessionalVTTEditor = () => {
                         height: '100%',
                         zIndex: 100,
                         cursor: vttTools[activeTab]?.tools.find(t => t.id === selectedTool)?.cursor || 'default',
-                        pointerEvents: (selectedTool === 'select' || selectedTool === 'light_select') ? 'none' : 'auto'
+                        pointerEvents: (selectedTool === 'select') ? 'none' : 'auto'
                     }}
                 />
             )}

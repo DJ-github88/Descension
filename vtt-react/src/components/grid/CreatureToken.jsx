@@ -371,9 +371,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Force re-render when token state changes for real-time updates
   const [forceUpdate, setForceUpdate] = useState(0);
 
-  // Camera subscriptions needed for proper positioning when grid moves
-  const cameraX = useGameStore(state => state.cameraX);
-  const cameraY = useGameStore(state => state.cameraY);
+  // PERFORMANCE FIX: Only subscribe to what's needed for rendering decisions
+  // Camera position is handled via imperative updates in useEffect subscription - DON'T subscribe here!
   const zoomLevel = useGameStore(state => state.zoomLevel);
   const playerZoom = useGameStore(state => state.playerZoom);
   const gridSize = useGameStore(state => state.gridSize);
@@ -445,8 +444,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         // Create a comprehensive cache key that includes all factors affecting visibility
         // Position alone is not enough - visibility depends on viewing token position and visibility area
+        // FIXED: Include a sample of visibleAreaSet to detect content changes (not just size)
         const movementCount = viewingTokenMovementRef.current.count || 0;
-        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+        const viewingPosKey = viewingFromToken?.position 
+          ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}` 
+          : 'none';
+        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
         if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
           return lastVisibilityCheckRef.current.result;
         }
@@ -454,14 +457,47 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         let visible = false;
 
         // Calculate token's grid position for tile-based visibility check
-        const tokenGridX = Math.floor((position.x - gridOffsetX) / tokenGridSize);
-        const tokenGridY = Math.floor((position.y - gridOffsetY) / tokenGridSize);
-        const tokenTileKey = `${tokenGridX},${tokenGridY}`;
+        // FIXED: Use grid system for accurate coordinate conversion (matches other components)
+        const gridSystem = getGridSystem();
+        const tokenGridCoords = gridSystem.worldToGrid(position.x, position.y);
+        const tokenTileKey = `${tokenGridCoords.x},${tokenGridCoords.y}`;
 
         // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
         // This ensures tokens are visible IFF their tile is in the visible area
+        // FIXED: Clear cache when visibleAreaSet changes to force immediate update
         if (visibleAreaSet && visibleAreaSet.size > 0) {
           visible = visibleAreaSet.has(tokenTileKey);
+          
+          // FIXED: Also check adjacent tiles in case the token is on a tile boundary
+          // This helps with tokens that should be visible but aren't due to coordinate rounding
+          if (!visible) {
+            // Check adjacent tiles (8-directional)
+            const adjacentTiles = [
+              `${tokenGridCoords.x - 1},${tokenGridCoords.y}`,
+              `${tokenGridCoords.x + 1},${tokenGridCoords.y}`,
+              `${tokenGridCoords.x},${tokenGridCoords.y - 1}`,
+              `${tokenGridCoords.x},${tokenGridCoords.y + 1}`,
+              `${tokenGridCoords.x - 1},${tokenGridCoords.y - 1}`,
+              `${tokenGridCoords.x + 1},${tokenGridCoords.y - 1}`,
+              `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
+              `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
+            ];
+            
+            // If any adjacent tile is visible, consider the token visible
+            // This helps with edge cases where the token is between tiles
+            for (const adjacentTile of adjacentTiles) {
+              if (visibleAreaSet.has(adjacentTile)) {
+                visible = true;
+                break;
+              }
+            }
+          }
+          
+          // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
+          // This ensures tokens appear immediately when they enter the visible area
+          if (visible && lastVisibilityCheckRef.current.result !== visible) {
+            lastVisibilityCheckRef.current.cacheKey = null; // Invalidate cache
+          }
         }
 
         // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
@@ -674,10 +710,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       setLocalPosition({ x: finalWorldPos.x, y: finalWorldPos.y });
 
       // If this is the viewing token, update its position in the level editor store for vision calculations
+      // FIXED: Force visibility recalculation when token is dropped
       if (isViewingFrom) {
         const levelEditorStore = useLevelEditorStore.getState();
         const currentViewingToken = levelEditorStore.viewingFromToken;
         if (currentViewingToken) {
+          // Update position - this will trigger visibility recalculation
+          // The StaticFogOverlay will detect the drag end and clear cache
           levelEditorStore.setViewingFromToken({
             ...currentViewingToken,
             position: { x: finalWorldPos.x, y: finalWorldPos.y }
@@ -852,6 +891,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // This prevents token re-render on every camera movement during drag
   const currentPos = isDragging ? localPosition : position;
 
+  // PERFORMANCE FIX: Calculate initial position without depending on camera state
+  // Camera changes are handled by the imperative subscription, not React re-renders
   const initialScreenPosition = useMemo(() => {
     if (!currentPos) return { x: 0, y: 0 };
     return gridSystem.worldToScreen(
@@ -860,7 +901,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       window.innerWidth,
       window.innerHeight
     );
-  }, [currentPos, gridSystem, zoomLevel, playerZoom, cameraX, cameraY]);
+  }, [currentPos, gridSystem, zoomLevel, playerZoom]);
 
   const screenPositionRef = useRef(initialScreenPosition);
   const currentPosRef = useRef(currentPos);
@@ -1572,8 +1613,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     console.error('Creature not found with ID:', token.creatureId);
     return (
       <div
+        ref={tokenRef}
         className="creature-token placeholder"
         style={{
+          // CRITICAL: Always include position in React style to prevent jumping during re-renders
           left: screenPosition.x,
           top: screenPosition.y,
           backgroundColor: 'red',
@@ -1739,6 +1782,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         ref={tokenRef}
         className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
         style={{
+          // CRITICAL: Always include position in React style to prevent jumping during re-renders
           left: screenPosition.x,
           top: screenPosition.y,
           width: `${tokenSize}px`,

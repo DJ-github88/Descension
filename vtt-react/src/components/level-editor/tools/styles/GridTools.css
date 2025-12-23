@@ -5,9 +5,12 @@
     gap: 16px;
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 20px;
+    padding: 20px;
     box-sizing: border-box;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    /* Extend fully to parent container edges by negating parent padding */
+    margin: -20px;
+    min-height: calc(100% + 40px);
 
     /* Fix blurry text rendering */
     text-rendering: optimizeLegibility;

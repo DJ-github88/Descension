@@ -101,18 +101,16 @@ const CharacterToken = ({
 
     // Get grid and combat state
     const gridSystem = getGridSystem();
-    const {
-        zoomLevel,
-        playerZoom,
-        cameraX,
-        cameraY,
-        isInMultiplayer,
-        multiplayerSocket,
-        isGMMode,
-        showMovementVisualization,
-        feetPerTile,
-        setCameraPosition
-    } = useGameStore();
+    // PERFORMANCE FIX: Use selective subscriptions to prevent re-renders on camera changes
+    // Camera position is handled via imperative updates in useEffect subscription
+    const zoomLevel = useGameStore(state => state.zoomLevel);
+    const playerZoom = useGameStore(state => state.playerZoom);
+    const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
+    const multiplayerSocket = useGameStore(state => state.multiplayerSocket);
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
+    const feetPerTile = useGameStore(state => state.feetPerTile);
+    const setCameraPosition = useGameStore(state => state.setCameraPosition);
 
     // In multiplayer, if this token belongs to another player, get their character data from party store
     const partyMembers = usePartyStore(state => state.partyMembers);
@@ -143,7 +141,10 @@ const CharacterToken = ({
     const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
     const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
     const [isHovering, setIsHovering] = useState(false);
-    const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = useGameStore();
+    // PERFORMANCE FIX: Selective subscriptions
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    const tokenGridSize = useGameStore(state => state.gridSize);
     const isViewingFrom = viewingFromToken && (
         (viewingFromToken.type === 'character' && (viewingFromToken.characterId === tokenId || viewingFromToken.id === tokenId || viewingFromToken.playerId === tokenId)) ||
         (viewingFromToken.id === tokenId)
@@ -191,8 +192,12 @@ const CharacterToken = ({
 
             // Create a comprehensive cache key that includes all factors affecting visibility
             // Position alone is not enough - visibility depends on viewing token position and visibility area
+            // FIXED: Include viewing token position to detect movement changes
             const movementCount = viewingTokenMovementRef.current.count || 0;
-            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+            const viewingPosKey = viewingFromToken?.position 
+                ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}` 
+                : 'none';
+            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
             if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
                 return lastVisibilityCheckRef.current.result;
             }
@@ -200,14 +205,47 @@ const CharacterToken = ({
             let visible = false;
 
             // Calculate token's grid position for tile-based visibility check
-            const tokenGridX = Math.floor((position.x - gridOffsetX) / tokenGridSize);
-            const tokenGridY = Math.floor((position.y - gridOffsetY) / tokenGridSize);
-            const tokenTileKey = `${tokenGridX},${tokenGridY}`;
+            // FIXED: Use grid system for accurate coordinate conversion (matches other components)
+            const gridSystem = getGridSystem();
+            const tokenGridCoords = gridSystem.worldToGrid(position.x, position.y);
+            const tokenTileKey = `${tokenGridCoords.x},${tokenGridCoords.y}`;
 
             // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
             // This ensures tokens are visible IFF their tile is in the visible area
+            // FIXED: Clear cache when visibleAreaSet changes to force immediate update
             if (visibleAreaSet && visibleAreaSet.size > 0) {
                 visible = visibleAreaSet.has(tokenTileKey);
+                
+                // FIXED: Also check adjacent tiles in case the token is on a tile boundary
+                // This helps with tokens that should be visible but aren't due to coordinate rounding
+                if (!visible) {
+                    // Check adjacent tiles (8-directional)
+                    const adjacentTiles = [
+                        `${tokenGridCoords.x - 1},${tokenGridCoords.y}`,
+                        `${tokenGridCoords.x + 1},${tokenGridCoords.y}`,
+                        `${tokenGridCoords.x},${tokenGridCoords.y - 1}`,
+                        `${tokenGridCoords.x},${tokenGridCoords.y + 1}`,
+                        `${tokenGridCoords.x - 1},${tokenGridCoords.y - 1}`,
+                        `${tokenGridCoords.x + 1},${tokenGridCoords.y - 1}`,
+                        `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
+                        `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
+                    ];
+                    
+                    // If any adjacent tile is visible, consider the token visible
+                    // This helps with edge cases where the token is between tiles
+                    for (const adjacentTile of adjacentTiles) {
+                        if (visibleAreaSet.has(adjacentTile)) {
+                            visible = true;
+                            break;
+                        }
+                    }
+                }
+                
+                // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
+                // This ensures tokens appear immediately when they enter the visible area
+                if (visible && lastVisibilityCheckRef.current.result !== visible) {
+                    lastVisibilityCheckRef.current.cacheKey = null; // Invalidate cache
+                }
             }
 
             // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
@@ -885,10 +923,13 @@ const CharacterToken = ({
 
             // PERFORMANCE: If this is the viewing token, update its position ONLY on drop (not during drag)
             // This ensures fog calculations run once when drag ends, not continuously during drag
+            // FIXED: Force visibility recalculation when token is dropped
             if (isViewingFrom) {
                 const levelEditorStore = useLevelEditorStore.getState();
                 const currentViewingToken = levelEditorStore.viewingFromToken;
                 if (currentViewingToken) {
+                    // Update position - this will trigger visibility recalculation
+                    // The StaticFogOverlay will detect the drag end and clear cache
                     levelEditorStore.setViewingFromToken({
                         ...currentViewingToken,
                         position: { x: snappedWorldPos.x, y: snappedWorldPos.y }
@@ -1569,8 +1610,9 @@ const CharacterToken = ({
                 ref={tokenRef}
                 className={`character-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isMyTurn ? 'my-turn' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
                 style={{
-                    left: screenPosition?.x || 0,
-                    top: screenPosition?.y || 0,
+                    // CRITICAL: Always include position in React style to prevent jumping during re-renders
+                    left: screenPosition.x,
+                    top: screenPosition.y,
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
                     borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),

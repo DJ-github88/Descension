@@ -9,6 +9,12 @@
   pointer-events: all;
   /* border is set dynamically via inline styles */
   box-sizing: border-box;
+  
+  /* CRITICAL: Prevent any transition on position - causes floating during grid drag */
+  transition-property: filter, opacity, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  will-change: left, top;
 
   /* Enhanced multi-layered shadows for depth */
   box-shadow:

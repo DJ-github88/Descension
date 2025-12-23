@@ -529,7 +529,6 @@ const initialState = {
         { id: 'drawings', name: 'Drawings', visible: true, locked: false },
         { id: 'walls', name: 'Walls', visible: true, locked: false },
         { id: 'objects', name: 'Objects', visible: true, locked: false },
-        { id: 'lighting', name: 'Lighting', visible: true, locked: false },
         { id: 'fog', name: 'Fog of War', visible: true, locked: false },
         { id: 'grid', name: 'Grid', visible: true, locked: false },
         { id: 'overlay', name: 'Overlay', visible: true, locked: false }
