@@ -450,52 +450,58 @@ function GridComponent({
                         );
                     }
                 } else {
-                    // In single player OR GM mode, look for tokens in priority order:
+                    // In single player OR GM mode, look for character tokens only (never creature tokens for player view):
                     // 1. Player token (isPlayerToken flag)
                     // 2. First character token
-                    // 3. First creature token (for GM testing)
+                    // CRITICAL: Never use creature tokens for player view - players can only view from character tokens
                     playerToken = currentCharacterTokens.find(token => token.isPlayerToken);
                     if (!playerToken && currentCharacterTokens.length > 0) {
                         playerToken = currentCharacterTokens[0];
                     }
-                    if (!playerToken && currentCreatureTokens.length > 0) {
-                        playerToken = { ...currentCreatureTokens[0], isCreature: true };
-                    }
+                    // Removed creature token fallback - players should never view from creature tokens
                 }
 
                 if (playerToken && playerToken.position) {
+                    // CRITICAL: Only allow character tokens for player view - never creature tokens
+                    // If somehow a creature token got through, skip it
+                    if (playerToken.isCreature) {
+                        return; // Don't set creature tokens as viewing tokens for players
+                    }
+
                     // Mark that we've set the view to prevent re-running
                     hasSetPlayerViewRef.current = true;
 
                     // Batch all state updates together using requestAnimationFrame
                     requestAnimationFrame(() => {
+                        const gameStore = useGameStore.getState();
                         const editorStore = useLevelEditorStore.getState();
 
-                        // Enable dynamic fog if not already enabled
-                        if (!editorStore.dynamicFogEnabled) {
-                            editorStore.setDynamicFogEnabled(true);
+                        // Only auto-enable view from token if GM has configured it
+                        if (gameStore.defaultViewFromToken) {
+                            // Enable dynamic fog if not already enabled
+                            if (!editorStore.dynamicFogEnabled) {
+                                editorStore.setDynamicFogEnabled(true);
+                            }
+
+                            // Set viewing token to player's character token (never creature tokens)
+                            const tokenData = {
+                                type: 'character',
+                                id: playerToken.id,
+                                characterId: playerToken.id,
+                                playerId: playerToken.playerId,
+                                position: playerToken.position
+                            };
+                            editorStore.setViewingFromToken(tokenData);
+
+                            // Center camera on token initially
+                            requestAnimationFrame(() => {
+                                gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
+                            });
+                        } else {
+                            // Default behavior: don't auto-enable view from token
+                            // Player must manually select it if they want fog of war restrictions
+                            editorStore.setViewingFromToken(null);
                         }
-
-                        // Set viewing token to player's token (enables fog of war view from token perspective)
-                        const tokenData = playerToken.isCreature ? {
-                            type: 'creature',
-                            id: playerToken.id,
-                            creatureId: playerToken.creatureId || playerToken.id,
-                            position: playerToken.position
-                        } : {
-                            type: 'character',
-                            id: playerToken.id,
-                            characterId: playerToken.id,
-                            playerId: playerToken.playerId,
-                            position: playerToken.position
-                        };
-                        editorStore.setViewingFromToken(tokenData);
-
-                        // Center camera on token initially
-                        requestAnimationFrame(() => {
-                            const gameStore = useGameStore.getState();
-                            gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
-                        });
                     });
                 }
             });

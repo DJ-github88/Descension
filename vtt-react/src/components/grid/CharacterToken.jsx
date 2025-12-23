@@ -323,6 +323,8 @@ const CharacterToken = ({
     }, [currentPos, gridSystem]);
 
     const screenPositionRef = useRef(initialScreenPosition);
+    const cameraUpdateRafRef = useRef(null);
+    const pendingCameraUpdateRef = useRef(false);
 
     const updateScreenPosition = useCallback((worldPosition) => {
         if (!worldPosition || !gridSystem) return;
@@ -351,9 +353,31 @@ const CharacterToken = ({
     }, [currentPos, updateScreenPosition]);
 
     // Update screen position when camera changes (imperative like CreatureToken)
+    // CRITICAL FIX: Batch position updates during camera drag to match camera RAF timing
+    // This prevents tokens from "hovering" during grid drag
     useEffect(() => {
         const handleCameraChange = () => {
-            updateScreenPosition(currentPosRef.current);
+            // Check if camera is being dragged
+            const isDraggingCamera = window._isDraggingCamera || false;
+            
+            if (isDraggingCamera) {
+                // During camera drag, batch updates via RAF to match camera update timing
+                // This prevents tokens from updating with intermediate camera values
+                pendingCameraUpdateRef.current = true;
+                
+                if (cameraUpdateRafRef.current === null) {
+                    cameraUpdateRafRef.current = requestAnimationFrame(() => {
+                        if (pendingCameraUpdateRef.current) {
+                            updateScreenPosition(currentPosRef.current);
+                            pendingCameraUpdateRef.current = false;
+                        }
+                        cameraUpdateRafRef.current = null;
+                    });
+                }
+            } else {
+                // When not dragging, update immediately for responsiveness
+                updateScreenPosition(currentPosRef.current);
+            }
         };
 
         const unsubscribe = useGameStore.subscribe((state, prevState) => {
@@ -363,13 +387,17 @@ const CharacterToken = ({
                 state.zoomLevel !== prevState.zoomLevel ||
                 state.playerZoom !== prevState.playerZoom
             ) {
-                // Update immediately without RAF throttling for responsiveness
                 handleCameraChange();
             }
         });
 
         return () => {
             unsubscribe();
+            // Clean up RAF on unmount
+            if (cameraUpdateRafRef.current !== null) {
+                cancelAnimationFrame(cameraUpdateRafRef.current);
+                cameraUpdateRafRef.current = null;
+            }
         };
     }, [updateScreenPosition]);
 

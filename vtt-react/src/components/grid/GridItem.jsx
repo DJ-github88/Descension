@@ -24,6 +24,8 @@ const GridItem = ({ gridItem }) => {
   // FIXED: Use refs for screen position to enable imperative DOM updates (like tokens)
   const screenPositionRef = useRef({ x: 0, y: 0 });
   const worldPositionRef = useRef(null);
+  const cameraUpdateRafRef = useRef(null);
+  const pendingCameraUpdateRef = useRef(false);
 
   const DRAG_THRESHOLD = 5; // Minimum pixels to move before starting drag
 
@@ -171,8 +173,35 @@ const GridItem = ({ gridItem }) => {
   }, [getWorldPosition, updateScreenPosition]);
   
   // FIXED: Subscribe to camera changes and update position imperatively (like tokens)
-  // This is the key fix for preventing floating during camera drag
+  // CRITICAL FIX: Batch position updates during camera drag to match camera RAF timing
+  // This prevents grid items from "hovering" during grid drag
   useEffect(() => {
+    const handleCameraChange = () => {
+      // Check if camera is being dragged
+      const isDraggingCamera = window._isDraggingCamera || false;
+      
+      if (isDraggingCamera) {
+        // During camera drag, batch updates via RAF to match camera update timing
+        // This prevents items from updating with intermediate camera values
+        pendingCameraUpdateRef.current = true;
+        
+        if (cameraUpdateRafRef.current === null) {
+          cameraUpdateRafRef.current = requestAnimationFrame(() => {
+            if (pendingCameraUpdateRef.current && worldPositionRef.current) {
+              updateScreenPosition(worldPositionRef.current);
+              pendingCameraUpdateRef.current = false;
+            }
+            cameraUpdateRafRef.current = null;
+          });
+        }
+      } else {
+        // When not dragging, update immediately for responsiveness
+        if (worldPositionRef.current) {
+          updateScreenPosition(worldPositionRef.current);
+        }
+      }
+    };
+
     const unsubscribe = useGameStore.subscribe((state, prevState) => {
       if (
         state.cameraX !== prevState.cameraX ||
@@ -180,14 +209,18 @@ const GridItem = ({ gridItem }) => {
         state.zoomLevel !== prevState.zoomLevel ||
         state.playerZoom !== prevState.playerZoom
       ) {
-        // Update position immediately without React re-render
-        if (worldPositionRef.current) {
-          updateScreenPosition(worldPositionRef.current);
-        }
+        handleCameraChange();
       }
     });
     
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      // Clean up RAF on unmount
+      if (cameraUpdateRafRef.current !== null) {
+        cancelAnimationFrame(cameraUpdateRafRef.current);
+        cameraUpdateRafRef.current = null;
+      }
+    };
   }, [updateScreenPosition]);
   
   // Handle window resize

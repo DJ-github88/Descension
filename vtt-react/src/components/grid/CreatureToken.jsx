@@ -906,6 +906,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const screenPositionRef = useRef(initialScreenPosition);
   const currentPosRef = useRef(currentPos);
   const cameraUpdateRafRef = useRef(null);
+  const pendingCameraUpdateRef = useRef(false);
 
   const updateScreenPosition = useCallback((worldPosition) => {
     if (!worldPosition) return;
@@ -933,9 +934,31 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     updateScreenPosition(currentPos);
   }, [currentPos, updateScreenPosition]);
 
+  // CRITICAL FIX: Batch position updates during camera drag to match camera RAF timing
+  // This prevents tokens from "hovering" during grid drag
   useEffect(() => {
     const handleCameraChange = () => {
-      updateScreenPosition(currentPosRef.current);
+      // Check if camera is being dragged
+      const isDraggingCamera = window._isDraggingCamera || false;
+      
+      if (isDraggingCamera) {
+        // During camera drag, batch updates via RAF to match camera update timing
+        // This prevents tokens from updating with intermediate camera values
+        pendingCameraUpdateRef.current = true;
+        
+        if (cameraUpdateRafRef.current === null) {
+          cameraUpdateRafRef.current = requestAnimationFrame(() => {
+            if (pendingCameraUpdateRef.current) {
+              updateScreenPosition(currentPosRef.current);
+              pendingCameraUpdateRef.current = false;
+            }
+            cameraUpdateRafRef.current = null;
+          });
+        }
+      } else {
+        // When not dragging, update immediately for responsiveness
+        updateScreenPosition(currentPosRef.current);
+      }
     };
 
     const unsubscribe = useGameStore.subscribe((state, prevState) => {
@@ -945,13 +968,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         state.zoomLevel !== prevState.zoomLevel ||
         state.playerZoom !== prevState.playerZoom
       ) {
-        // Update immediately without RAF throttling for responsiveness
         handleCameraChange();
       }
     });
 
     return () => {
       unsubscribe();
+      // Clean up RAF on unmount
+      if (cameraUpdateRafRef.current !== null) {
+        cancelAnimationFrame(cameraUpdateRafRef.current);
+        cameraUpdateRafRef.current = null;
+      }
     };
   }, [updateScreenPosition]);
 
@@ -1665,33 +1692,42 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Removed excessive logging for performance
 
-    // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
-    // For creature tokens, check if token has a playerId and if it matches current player
-    if (isInMultiplayer && !isGMMode && token) {
-      const { currentPlayer } = useGameStore.getState();
-      // Check if token has a playerId (character tokens have this)
-      const tokenPlayerId = token.playerId;
+    // CRITICAL FIX: Players (non-GM) cannot move creature tokens - only GM can move them
+    // Players can only move their own character tokens
+    if (!isGMMode) {
+      // In player mode, check if this is a creature token (not a character token)
+      // Creature tokens don't have playerId or isPlayerToken flag
+      const isCreatureToken = !token.playerId && !token.isPlayerToken;
       
-      // Allow movement if:
-      // 1. Token has no playerId (creature token that doesn't belong to anyone)
-      // 2. Token's playerId matches current player's ID
-      // 3. Token's playerId is 'current-player'
-      // Block movement if token has a playerId that doesn't match
-      if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
-          // Cannot move - not your token
-          setShowTooltip(false);
+      if (isCreatureToken) {
+        // Players cannot move creature tokens - only GM can
+        setShowTooltip(false);
         return;
       }
       
-      // CRITICAL FIX: Also check if this is a character token by checking creatureId
-      // Character tokens have creatureId that matches the character's ID
-      if (token.creatureId) {
-        // Check if this creatureId belongs to the current player's character
-        const { currentCharacterId } = useCharacterStore.getState();
-        if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
-          // Cannot move - creature does not belong to you
+      // For character tokens in multiplayer, check ownership
+      if (isInMultiplayer && token) {
+        const { currentPlayer } = useGameStore.getState();
+        const tokenPlayerId = token.playerId;
+        
+        // Allow movement if:
+        // 1. Token's playerId matches current player's ID
+        // 2. Token's playerId is 'current-player'
+        // Block movement if token has a playerId that doesn't match
+        if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
+          // Cannot move - not your token
           setShowTooltip(false);
           return;
+        }
+        
+        // Also check if this is a character token by checking creatureId
+        if (token.creatureId) {
+          const { currentCharacterId } = useCharacterStore.getState();
+          if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
+            // Cannot move - creature does not belong to you
+            setShowTooltip(false);
+            return;
+          }
         }
       }
     }
@@ -1975,7 +2011,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               handleDuplicateToken();
             }
           },
-          {
+          // CRITICAL: Only allow GM to view from creature tokens - players can only view from their own character tokens
+          ...(isGMMode ? [{
             icon: <i className="fas fa-eye"></i>,
             label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
             onClick: (e) => {
@@ -1992,7 +2029,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                                     if (!dynamicFogEnabled) {
                                         setDynamicFogEnabled(true);
                                     }
-                                    // Reset the disabled flag since player is explicitly enabling it
+                                    // Reset the disabled flag since GM is explicitly enabling it
                                     levelEditorStore.playerViewFromTokenDisabled = false;
                                     // Set this token as the viewing token (restricts fog reveal to token's vision)
                                     const tokenData = {
@@ -2008,7 +2045,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                                 }
                             },
                             className: isViewingFrom ? 'active' : ''
-                        },
+                        }] : []),
           {
             icon: <i className="fas fa-tag"></i>,
             label: 'Rename',

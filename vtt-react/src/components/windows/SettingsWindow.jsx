@@ -37,6 +37,10 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     // Cursor tracking settings (multiplayer only)
     const showCursorTracking = useGameStore(state => state.showCursorTracking);
     const setShowCursorTracking = useGameStore(state => state.setShowCursorTracking);
+    
+    // GM-only settings
+    const defaultViewFromToken = useGameStore(state => state.defaultViewFromToken);
+    const setDefaultViewFromToken = useGameStore(state => state.setDefaultViewFromToken);
 
     // Character store
     const characterLevel = useCharacterStore(state => state.level);
@@ -1059,6 +1063,68 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             </div>
                         </div>
                 </div>
+
+                {/* GM-Only Settings Section */}
+                {isGMMode && (
+                    <div style={{
+                        marginBottom: '24px',
+                        padding: '20px',
+                        background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.04))',
+                        border: '1px solid rgba(212, 175, 55, 0.15)',
+                        borderRadius: '8px'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            gap: '12px'
+                        }}>
+                            <i className="fas fa-crown" style={{
+                                fontSize: '20px',
+                                color: '#d4af37'
+                            }}></i>
+                            <div>
+                                <h3 style={{
+                                    margin: '0 0 4px 0',
+                                    color: '#d4af37',
+                                    fontSize: '20px',
+                                    fontFamily: 'Cinzel, serif',
+                                    fontWeight: '600'
+                                }}>
+                                    Game Master Settings
+                                </h3>
+                                <p style={{
+                                    margin: '0',
+                                    color: '#8b6f47',
+                                    fontSize: '14px',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Configure default player token behavior
+                                </p>
+                            </div>
+                        </div>
+                        <div className="settings-group">
+                            <div className="settings-group-title">Player Token Defaults</div>
+                            <div className="settings-group-description">Control how player tokens behave when first placed</div>
+
+                            <div className="control-group">
+                                <label className="control-label control-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={defaultViewFromToken}
+                                        onChange={(e) => setDefaultViewFromToken(e.target.checked)}
+                                        style={{ marginRight: '8px' }}
+                                    />
+                                    Default View from Token
+                                </label>
+                                <div className="control-help">
+                                    <p>When enabled, players will automatically view from their own token when they place it, enabling fog of war restrictions.</p>
+                                    <p>When disabled (default), players have full visibility and must manually select "View from Token" if they want fog of war restrictions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Multiplayer Session Card - only show when in multiplayer */}
                 {isInMultiplayer && (

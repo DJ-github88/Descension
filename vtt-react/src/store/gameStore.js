@@ -81,6 +81,9 @@ const initialState = {
     showCursorTracking: true, // Whether to show other players' cursors
     cursorUpdateThrottle: 50, // How often to send cursor updates (ms)
     cursorFadeTime: 3000, // How long cursors stay visible when not moving (ms)
+
+    // GM-only settings for player token behavior
+    defaultViewFromToken: false, // Whether players default to viewing from their own token (GM setting)
 };
 
 // Handle storage quota exceeded for game store
@@ -494,6 +497,11 @@ const useGameStore = create((set, get) => ({
 
             resetPlayerZoom: () => {
                 set({ playerZoom: 1.0 });
+            },
+
+            // GM-only settings for player token behavior
+            setDefaultViewFromToken: (enabled) => {
+                set({ defaultViewFromToken: enabled });
             },
 
             // Get effective zoom (GM zoom * player zoom)

@@ -37,7 +37,8 @@ const useCharacterTokenStore = create((set, get) => ({
                 };
 
 
-                // 🎯 AUTOMATICALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+                // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+                // Only auto-enable if GM has set defaultViewFromToken to true
                 Promise.all([
                     import('../store/gameStore'),
                     import('../store/levelEditorStore')
@@ -47,15 +48,23 @@ const useCharacterTokenStore = create((set, get) => ({
 
                     // Switch to player mode
                     gameStore.setGMMode(false);
-                    // Reset the disabled flag when placing a new token (so auto-enable works)
-                    levelEditorStore.playerViewFromTokenDisabled = false;
-                    // Enable view from this character token
-                    levelEditorStore.setViewingFromToken({
-                        id: newToken.id,
-                        type: 'character',
-                        characterId: playerId || 'local_player',
-                        position: position // Include position for visibility calculations
-                    });
+                    
+                    // Only auto-enable view from token if GM has configured it
+                    if (gameStore.defaultViewFromToken) {
+                        // Reset the disabled flag when placing a new token (so auto-enable works)
+                        levelEditorStore.playerViewFromTokenDisabled = false;
+                        // Enable view from this character token
+                        levelEditorStore.setViewingFromToken({
+                            id: newToken.id,
+                            type: 'character',
+                            characterId: playerId || 'local_player',
+                            position: position // Include position for visibility calculations
+                        });
+                    } else {
+                        // Default behavior: don't auto-enable view from token
+                        // Player must manually select it if they want fog of war restrictions
+                        levelEditorStore.setViewingFromToken(null);
+                    }
                     // NOTE: Removed automatic camera centering on token creation to prevent unwanted camera resets
                 }).catch(error => {
                     console.error('Failed to setup player view:', error);
