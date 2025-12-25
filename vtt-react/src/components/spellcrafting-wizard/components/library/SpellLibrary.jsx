@@ -965,23 +965,22 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
     }
 
-
-    if (hasActiveCharacter && hasClassSpells) {
+    // Handle general category filtering first - this should work regardless of active character or class spells
+    const isGeneralCategory = activeCategory ? GENERAL_CATEGORIES.some(cat => cat.id === activeCategory) : false;
+    
+    if (isGeneralCategory) {
+      // Filter general spells by category (excluding Attack spell)
+      const categoryGeneralSpells = filteredGeneralSpells.filter(spell =>
+        spell.categoryIds && spell.categoryIds.includes(activeCategory)
+      );
+      spellsToFilter = categoryGeneralSpells;
+    } else if (hasActiveCharacter && hasClassSpells) {
       // If we have an active category, show only spells from that category
       if (activeCategory) {
-        // Check if this is a general category
-        const isGeneralCategory = GENERAL_CATEGORIES.some(cat => cat.id === activeCategory);
-        
         // Check if this is a class category (starts with "class_")
         const isClassCategory = activeCategory.startsWith('class_');
 
-        if (isGeneralCategory) {
-          // Filter general spells by category (excluding Attack spell)
-          const categoryGeneralSpells = filteredGeneralSpells.filter(spell =>
-            spell.categoryIds && spell.categoryIds.includes(activeCategory)
-          );
-          spellsToFilter = categoryGeneralSpells;
-        } else if (activeCategory === 'racial_abilities') {
+        if (activeCategory === 'racial_abilities') {
           // Show only racial spells
           const racialSpells = filteredLibrarySpells.filter(spell => {
             const categoryIds = spell.categoryIds || [];
@@ -1146,8 +1145,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         // Include only known class spells and general spells (excluding Attack spell)
         spellsToFilter = [...spellsToFilter, ...knownClassSpells, ...filteredGeneralSpells];
       }
-    } else {
+    } else if (!isGeneralCategory) {
       // Fall back to traditional library spells + general spells (excluding Attack spell)
+      // Only do this if we're not filtering by a general category
       spellsToFilter = [...spellsToFilter, ...filteredGeneralSpells];
     }
 

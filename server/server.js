@@ -1027,12 +1027,16 @@ io.on('connection', (socket) => {
 
       // Broadcast room list update to all connected clients
       const publicRooms = getPublicRooms();
-      console.log('Broadcasting room list update:', publicRooms);
+      logger.debug('Broadcasting room list update', { roomCount: publicRooms.length });
       io.emit('room_list_updated', publicRooms);
 
       // Auto-invite party members if provided
       if (data.partyMembers && Array.isArray(data.partyMembers) && data.partyMembers.length > 0) {
-        console.log('🎉 Auto-inviting party members to room:', data.partyMembers.map(m => m.name));
+        logger.info('Auto-inviting party members to room', { 
+          roomName: room.name,
+          memberCount: data.partyMembers.length,
+          members: data.partyMembers.map(m => m.name)
+        });
 
         // Send invitations to each party member
         data.partyMembers.forEach(member => {
@@ -1054,9 +1058,13 @@ io.on('connection', (socket) => {
 
             // Send invitation to target user
             io.to(targetUser.socketId).emit('room_invitation', invitation);
-            console.log('📨 Party auto-invite sent:', gmName, '->', member.name, 'for room:', room.name);
+            logger.debug('Party auto-invite sent', { 
+              gmName, 
+              memberName: member.name, 
+              roomName: room.name 
+            });
           } else {
-            console.log('⚠️ Party member not online:', member.name);
+            logger.debug('Party member not online', { memberName: member.name });
           }
         });
       }
@@ -1085,7 +1093,11 @@ io.on('connection', (socket) => {
   
   // Join an existing room
   socket.on('join_room', async (data) => {
-    console.log('🚪 Received join_room request:', data);
+    logger.debug('Received join_room request', { 
+      socketId: socket.id,
+      roomId: data.roomId,
+      playerName: data.playerName 
+    });
     
     // SECURITY: Sanitize user input
     const roomId = data.roomId; // UUID, no sanitization needed
@@ -1095,7 +1107,7 @@ io.on('connection', (socket) => {
 
     // Enhanced parameter validation with detailed logging
     if (!roomId || !playerName) {
-      console.log('❌ Missing required fields for join:', {
+      logger.warn('Missing required fields for join', {
         roomId: roomId || 'MISSING',
         playerName: playerName || 'MISSING',
         password: password ? '[HIDDEN]' : 'EMPTY',
@@ -1107,7 +1119,7 @@ io.on('connection', (socket) => {
 
     // Additional validation for empty strings
     if (!roomId.trim() || !playerName.trim()) {
-      console.log('❌ Empty required fields for join:', {
+      logger.warn('Empty required fields for join', {
         roomId: roomId.trim() || 'EMPTY',
         playerName: playerName.trim() || 'EMPTY',
         password: password && password.trim() ? '[HIDDEN]' : 'EMPTY',
@@ -1117,19 +1129,26 @@ io.on('connection', (socket) => {
       return;
     }
 
-    console.log('Attempting to join room:', roomId, 'Total rooms available:', rooms.size);
-    console.log('Available room IDs:', Array.from(rooms.keys()));
+    logger.debug('Attempting to join room', { 
+      roomId, 
+      totalRooms: rooms.size,
+      availableRoomIds: Array.from(rooms.keys())
+    });
 
     const result = await joinRoom(roomId, playerName, socket.id, password, data.playerColor, character);
 
     if (!result) {
-      console.log('❌ Room not found for join request:', roomId);
+      logger.warn('Room not found for join request', { roomId, socketId: socket.id });
       socket.emit('error', { message: 'Room not found' });
       return;
     }
 
     if (result.error) {
-      console.log('❌ Join room error:', result.error);
+      logger.error('Join room error', { 
+        roomId, 
+        error: result.error,
+        socketId: socket.id 
+      });
       socket.emit('error', { message: result.error });
       return;
     }
@@ -1162,7 +1181,11 @@ io.on('connection', (socket) => {
       if (room.players && room.players.size > 0) {
         room.players.forEach((roomPlayer) => {
           if (roomPlayer.character) {
-            console.log(`👥 Sending player character data to GM ${playerName}:`, roomPlayer.name);
+            logger.debug('Sending player character data to GM', { 
+              gmName: playerName, 
+              playerName: roomPlayer.name,
+              roomId: room.id
+            });
             socket.emit('character_updated', {
               characterId: roomPlayer.character.id || roomPlayer.id,
               character: {
@@ -1177,7 +1200,11 @@ io.on('connection', (socket) => {
         });
       }
 
-      console.log(`GM ${playerName} reconnected to room: ${room.name}`);
+      logger.info('GM reconnected to room', { 
+        gmName: playerName, 
+        roomName: room.name,
+        roomId: room.id
+      });
     } else if (result.isReconnect) {
       // MULTIPLAYER: Player reconnected - send full state
       socket.emit('room_joined', {
@@ -1203,7 +1230,11 @@ io.on('connection', (socket) => {
         message: `${player.name} has reconnected`
       });
 
-      console.log(`Player ${playerName} reconnected to room: ${room.name}`);
+      logger.info('Player reconnected to room', { 
+        playerName, 
+        roomName: room.name,
+        roomId: room.id
+      });
     } else {
       // Regular player join
       socket.emit('room_joined', {
@@ -1219,8 +1250,11 @@ io.on('connection', (socket) => {
       });
 
       // Notify ALL players in the room (including the one who just joined)
-      console.log(`📢 Broadcasting player_joined event to room ${roomId} for player:`, player.name);
-      console.log('📢 Current players in room before broadcast:', Array.from(room.players.values()).map(p => p.name));
+      logger.debug('Broadcasting player_joined event', { 
+        roomId, 
+        playerName: player.name,
+        currentPlayers: Array.from(room.players.values()).map(p => p.name)
+      });
 
       // Calculate accurate player count: GM + regular players
       const totalPlayerCount = room.players.size + 1; // +1 for GM
@@ -1237,7 +1271,7 @@ io.on('connection', (socket) => {
       });
       
       // Log character data for debugging
-      console.log(`📤 Broadcasting player_joined for ${player.name}:`, {
+      logger.debug('Broadcasting player_joined', {
         hasCharacter: !!player.character,
         hasTokenSettings: !!player.character?.tokenSettings,
         hasLore: !!player.character?.lore,
@@ -1249,12 +1283,21 @@ io.on('connection', (socket) => {
         playerCount: totalPlayerCount
       });
 
-      console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${totalPlayerCount})`);
+      logger.info('Player joined room', { 
+        playerName, 
+        roomName: room.name,
+        roomId: room.id,
+        totalPlayers: totalPlayerCount
+      });
     }
 
     // Send current grid items to the newly joined player
     if (room.gameState.gridItems && Object.keys(room.gameState.gridItems).length > 0) {
-      console.log(`📦 Sending ${Object.keys(room.gameState.gridItems).length} grid items to ${playerName}`);
+      logger.debug('Sending grid items to player', { 
+        playerName,
+        gridItemCount: Object.keys(room.gameState.gridItems).length,
+        roomId: room.id
+      });
       socket.emit('sync_grid_items', {
         gridItems: room.gameState.gridItems
       });
@@ -1262,7 +1305,11 @@ io.on('connection', (socket) => {
 
     // Send current tokens to the newly joined player
     if (room.gameState.tokens && Object.keys(room.gameState.tokens).length > 0) {
-      console.log(`🎭 Sending ${Object.keys(room.gameState.tokens).length} tokens to ${playerName}`);
+      logger.debug('Sending tokens to player', { 
+        playerName,
+        tokenCount: Object.keys(room.gameState.tokens).length,
+        roomId: room.id
+      });
       socket.emit('sync_tokens', {
         tokens: room.gameState.tokens
       });
@@ -1270,7 +1317,11 @@ io.on('connection', (socket) => {
 
     // Send current character tokens to the newly joined player
     if (room.gameState.characterTokens && Object.keys(room.gameState.characterTokens).length > 0) {
-      console.log(`🎭 Sending ${Object.keys(room.gameState.characterTokens).length} character tokens to ${playerName}`);
+      logger.debug('Sending character tokens to player', { 
+        playerName,
+        characterTokenCount: Object.keys(room.gameState.characterTokens).length,
+        roomId: room.id
+      });
       socket.emit('sync_character_tokens', {
         characterTokens: room.gameState.characterTokens
       });
@@ -1278,7 +1329,7 @@ io.on('connection', (socket) => {
 
     // Send map data (terrain, fog, walls, etc.) to the newly joined player
     if (room.gameState.mapData && Object.keys(room.gameState.mapData).length > 0) {
-      console.log(`🗺️ Sending map data to ${playerName}`);
+      logger.debug('Sending map data to player', { playerName, roomId: room.id });
       socket.emit('map_updated', {
         mapData: {
           ...room.gameState.mapData,
@@ -1300,7 +1351,7 @@ io.on('connection', (socket) => {
     // CRITICAL FIX: Send all existing character data to the newly joined player
     // This ensures they see correct stats, images, and character data immediately
     if (room.gm && room.gm.character) {
-      console.log(`👑 Sending GM character data to ${playerName}`);
+      logger.debug('Sending GM character data to player', { playerName, roomId: room.id });
       socket.emit('character_updated', {
         characterId: room.gm.character.id || room.gm.id,
         character: {
@@ -1317,7 +1368,11 @@ io.on('connection', (socket) => {
     if (room.players && room.players.size > 0) {
       room.players.forEach((roomPlayer) => {
         if (roomPlayer.character) {
-          console.log(`👥 Sending player character data to ${playerName}:`, roomPlayer.name);
+          logger.debug('Sending player character data', { 
+            targetPlayer: playerName,
+            sourcePlayer: roomPlayer.name,
+            roomId: room.id
+          });
           socket.emit('character_updated', {
             characterId: roomPlayer.character.id || roomPlayer.id,
             character: {
@@ -1340,11 +1395,15 @@ io.on('connection', (socket) => {
   
   // Handle chat messages
   socket.on('chat_message', async(data) => {
-    console.log('💬 Received chat message:', data, 'from socket:', socket.id);
+    logger.debug('Received chat message', { 
+      socketId: socket.id,
+      messageLength: data.message?.length || 0,
+      roomId: data.roomId
+    });
     // SECURITY: Validate room membership
     const player = players.get(socket.id);
     if (!player || !player.roomId) {
-      console.log('❌ Chat message from player not in room');
+      logger.warn('Chat message from player not in room', { socketId: socket.id });
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
@@ -1358,7 +1417,11 @@ io.on('connection', (socket) => {
 
     const room = validation.room;
 
-    console.log('💬 Processing chat message from', player.name, 'in room', room.name);
+    logger.debug('Processing chat message', { 
+      playerName: player.name, 
+      roomName: room.name,
+      roomId: room.id
+    });
 
     // SECURITY: Sanitize chat message to prevent XSS
     const sanitizedMessage = sanitizeChatMessage(data.message);
@@ -1373,15 +1436,21 @@ io.on('connection', (socket) => {
     if (player.isGM) {
       // For GM, use the color from room.gm or fallback to player tracking
       playerColor = room.gm.color || player.color || '#d4af37'; // Gold default for GM
-      console.log('💬 Using GM color:', playerColor);
+      logger.debug('Using GM color for chat', { color: playerColor });
     } else {
       // For regular players, check room.players Map for most up-to-date color
       const roomPlayer = room.players.get(player.id);
       if (roomPlayer && roomPlayer.color) {
         playerColor = roomPlayer.color;
-        console.log('💬 Using room player color:', playerColor, 'for player:', player.name);
+        logger.debug('Using room player color for chat', { 
+          color: playerColor, 
+          playerName: player.name
+        });
       } else {
-        console.log('💬 Using tracked player color:', playerColor, 'for player:', player.name);
+        logger.debug('Using tracked player color for chat', { 
+          color: playerColor, 
+          playerName: player.name
+        });
       }
     }
 
@@ -1412,10 +1481,17 @@ io.on('connection', (socket) => {
     }
 
     // Broadcast to all players in the room
-    console.log(`📢 Broadcasting chat message to room ${player.roomId}:`, message.content);
+    logger.debug('Broadcasting chat message', { 
+      roomId: player.roomId,
+      messageLength: message.content?.length || 0
+    });
     io.to(player.roomId).emit('chat_message', message);
 
-    console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
+    logger.info('Chat message processed', { 
+      playerName: player.name, 
+      roomName: room.name,
+      roomId: room.id
+    });
   });
 
   // Handle typing indicators

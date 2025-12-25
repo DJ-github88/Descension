@@ -53,7 +53,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   {
     id: 'universal_dodge',
     name: 'Dodge',
-    description: 'Activate your Dodge Rating to avoid incoming attacks. Your Dodge Rating (every 15 Agility = 1 Rating) increases the miss range on attack dice. Each Dodge Rating adds 1 to the miss range. For example, with 1 Dodge Rating against a d6 attack: rolls 1-2 miss, 3-6 hit (6 crits). Crits cannot be dodged - the highest roll always hits.',
+    description: 'Add +1 Dodge Rating to your existing Dodge Rating for 1 round. Your Dodge Rating applies to any attack against you, increasing the miss range on attack dice. Each Dodge Rating adds 1 to the miss range. For example, with 2 Dodge Rating against a d6 attack: rolls 1-3 miss, 4-6 hit (6 crits). Crits cannot be dodged - the highest roll always hits.',
     level: 1,
     spellType: 'REACTION',
     effectTypes: ['buff'],
@@ -69,10 +69,10 @@ export const UNIVERSAL_COMBAT_SPELLS = [
         effects: [{
           id: 'dodge',
           name: 'Dodge Active',
-          description: 'Your Dodge Rating is now active. Each point of Dodge Rating increases the miss range by 1 on incoming attack dice. Crits cannot be dodged.',
+          description: 'Adds +1 Dodge Rating to your existing Dodge Rating. Your total Dodge Rating applies to any attack against you, increasing the miss range on attack dice. Crits cannot be dodged.',
         statModifier: {
           stat: 'dodge',
-          magnitude: 0,
+          magnitude: 1,
           magnitudeType: 'flat'
         }
       }],

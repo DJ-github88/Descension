@@ -11515,10 +11515,11 @@ const UnifiedSpellCard = ({
                               const rawStat = statMod.stat?.toLowerCase() || '';
                               const statName = statMap[rawStat] || 
                                              (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
-                              // Special handling for Dodge: if it's the universal_dodge spell with magnitude 0, use current Dodge value
+                              // Special handling for Dodge reaction: shows total Dodge Rating (base + 1 from reaction)
                               const originalMagnitude = statMod.magnitude || 0;
-                              const isDodgeReaction = spell.id === 'universal_dodge' && rawStat === 'dodge' && originalMagnitude === 0;
-                              let magnitude = isDodgeReaction ? currentDodgeValue : originalMagnitude;
+                              const isDodgeReaction = spell.id === 'universal_dodge' && rawStat === 'dodge';
+                              // For Dodge reaction, show total (base Dodge Rating + 1 from reaction)
+                              let magnitude = isDodgeReaction ? (currentDodgeValue + originalMagnitude) : originalMagnitude;
                               const magnitudeType = statMod.magnitudeType || 'flat';
                               const typeText = magnitudeType === 'percentage' ? '%' : '';
                               
@@ -11541,7 +11542,7 @@ const UnifiedSpellCard = ({
                               const descriptionHasStatReduction = hasMagnitude && hasStatName;
                               
                               // Build mechanics text - suppress if description already explains the effect
-                              // For Dodge reaction, show positive value (e.g., "+5 Dodge")
+                              // For Dodge reaction, show total Dodge Rating (e.g., "+2 Dodge Rating" = 1 base + 1 from reaction)
                               const sign = (isDodgeReaction && magnitude > 0) ? '+' : (magnitude >= 0 ? '' : '');
                               mechanicsText = descriptionHasStatReduction ? '' : `${sign}${magnitude}${typeText} ${statName}`;
                               

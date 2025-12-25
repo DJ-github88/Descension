@@ -451,10 +451,11 @@ const getStatDescription = (stat) => {
             color: '#AAD372',
             effects: [
                 'Every 15 Agility gives you 1 Dodge Rating',
-                'Only works when you use the Dodge reaction',
+                'Applies to any attack against you',
                 'Each point adds 1 to the miss range on attack dice',
                 'Example: 1 Dodge Rating vs d6 means 1-2 miss, 3-6 hit (6 still crits)',
                 'Can\'t dodge crits - the highest roll always hits',
+                'Use the Dodge reaction to add +1 Dodge Rating for 1 round',
                 'At 0 Dodge Rating, only the lowest roll misses (e.g., d6: 1 misses, 2-6 hit)'
             ]
         },
@@ -463,10 +464,11 @@ const getStatDescription = (stat) => {
             color: '#AAD372',
             effects: [
                 'Every 15 Agility gives you 1 Dodge Rating',
-                'Only works when you use the Dodge reaction',
+                'Applies to any attack against you',
                 'Each point adds 1 to the miss range on attack dice',
                 'Example: 1 Dodge Rating vs d6 means 1-2 miss, 3-6 hit (6 still crits)',
                 'Can\'t dodge crits - the highest roll always hits',
+                'Use the Dodge reaction to add +1 Dodge Rating for 1 round',
                 'At 0 Dodge Rating, only the lowest roll misses (e.g., d6: 1 misses, 2-6 hit)'
             ]
         },

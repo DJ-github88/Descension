@@ -19,6 +19,7 @@ import DialogueSystem from "./components/dialogue/DialogueSystem";
 import DialogueControls from "./components/dialogue/DialogueControls";
 import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
@@ -562,29 +563,63 @@ function GameScreen() {
     }, [isGMMode]);
 
     return (
-        <RoomProvider>
-            <div className="game-screen">
-                <FloatingCombatTextManager />
-                <Suspense fallback={<LoadingFallback message="Loading game..." />}>
-                    <Grid />
-                    <GridItemsManager />
-                    <AchievementNotificationOverlay />
-                    <HUDContainer />
-                    <ActionBar />
-                    <CombatSelectionWindow />
-                    <CombatTimeline />
-                    {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
-                    <DynamicFogManager disabled={!isGMMode} />
-                    <DynamicLightingManager disabled={!isGMMode} />
-                    <AtmosphericEffectsManager disabled={!isGMMode} />
-                    <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
-                    <DialogueSystem />
-                    {isGMMode && <DialogueControls />}
-                    <DiceRollingSystem />
-                </Suspense>
+        <ErrorBoundary name="GameScreen">
+            <RoomProvider>
+                <div className="game-screen">
+                    <ErrorBoundary name="CombatSystem">
+                        <FloatingCombatTextManager />
+                    </ErrorBoundary>
+                    <Suspense fallback={<LoadingFallback message="Loading game..." />}>
+                        <ErrorBoundary name="Grid">
+                            <Grid />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="GridItems">
+                            <GridItemsManager />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="Achievements">
+                            <AchievementNotificationOverlay />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="HUD">
+                            <HUDContainer />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="ActionBar">
+                            <ActionBar />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="CombatSelection">
+                            <CombatSelectionWindow />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="CombatTimeline">
+                            <CombatTimeline />
+                        </ErrorBoundary>
+                        {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
+                        {isGMMode && (
+                            <>
+                                <ErrorBoundary name="DynamicFog">
+                                    <DynamicFogManager disabled={!isGMMode} />
+                                </ErrorBoundary>
+                                <ErrorBoundary name="DynamicLighting">
+                                    <DynamicLightingManager disabled={!isGMMode} />
+                                </ErrorBoundary>
+                                <ErrorBoundary name="AtmosphericEffects">
+                                    <AtmosphericEffectsManager disabled={!isGMMode} />
+                                </ErrorBoundary>
+                            </>
+                        )}
+                        <ErrorBoundary name="MemorySnapshot">
+                            <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
+                        </ErrorBoundary>
+                        <ErrorBoundary name="Dialogue">
+                            <DialogueSystem />
+                            {isGMMode && <DialogueControls />}
+                        </ErrorBoundary>
+                        <ErrorBoundary name="DiceRolling">
+                            <DiceRollingSystem />
+                        </ErrorBoundary>
+                    </Suspense>
 
-            </div>
-        </RoomProvider>
+                </div>
+            </RoomProvider>
+        </ErrorBoundary>
     );
 }
 
@@ -912,7 +947,9 @@ const AppContent = ({
                     (() => {
                         return isAuthenticated ? (
                             <Suspense fallback={<LoadingFallback message="Loading account..." />}>
-                                <AccountDashboard user={user} />
+                                <ErrorBoundary name="AccountDashboard">
+                                    <AccountDashboard user={user} />
+                                </ErrorBoundary>
                             </Suspense>
                         ) : (
                             <Navigate to="/" replace />
@@ -933,7 +970,9 @@ const AppContent = ({
                 <Route path="/account/characters/create" element={
                     isAuthenticated ? (
                         <Suspense fallback={<LoadingFallback message="Loading character creation..." />}>
-                            <CharacterCreationPage user={user} />
+                            <ErrorBoundary name="CharacterCreation">
+                                <CharacterCreationPage user={user} />
+                            </ErrorBoundary>
                         </Suspense>
                     ) : (
                         <Navigate to="/" replace />
@@ -943,7 +982,9 @@ const AppContent = ({
                 <Route path="/account/characters/edit/:characterId" element={
                     isAuthenticated ? (
                         <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
-                            <CharacterCreationPage user={user} isEditing={true} />
+                            <ErrorBoundary name="CharacterEditor">
+                                <CharacterCreationPage user={user} isEditing={true} />
+                            </ErrorBoundary>
                         </Suspense>
                     ) : (
                         <Navigate to="/" replace />
@@ -978,26 +1019,30 @@ const AppContent = ({
 
                 <Route path="/multiplayer" element={
                     <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
-                        <MultiplayerApp
-                            onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                            onShowLogin={handleShowLogin}
-                            onShowUserProfile={handleShowUserProfile}
-                            isAuthenticated={isAuthenticated}
-                            user={user}
-                        />
+                        <ErrorBoundary name="MultiplayerApp">
+                            <MultiplayerApp
+                                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                                onShowLogin={handleShowLogin}
+                                onShowUserProfile={handleShowUserProfile}
+                                isAuthenticated={isAuthenticated}
+                                user={user}
+                            />
+                        </ErrorBoundary>
                     </Suspense>
                 } />
 
                 {/* CRITICAL FIX: Room code routing - allows /multiplayer/room-code */}
                 <Route path="/multiplayer/:roomCode" element={
                     <Suspense fallback={<LoadingFallback message="Loading multiplayer room..." />}>
-                        <MultiplayerApp
-                            onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                            onShowLogin={handleShowLogin}
-                            onShowUserProfile={handleShowUserProfile}
-                            isAuthenticated={isAuthenticated}
-                            user={user}
-                        />
+                        <ErrorBoundary name="MultiplayerRoom">
+                            <MultiplayerApp
+                                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                                onShowLogin={handleShowLogin}
+                                onShowUserProfile={handleShowUserProfile}
+                                isAuthenticated={isAuthenticated}
+                                user={user}
+                            />
+                        </ErrorBoundary>
                     </Suspense>
                 } />
 
