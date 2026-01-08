@@ -329,7 +329,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         // Send to server with actionId for tracking
         multiplayerSocket.emit('token_moved', {
-          tokenId: token.creatureId,
+          tokenId: token.id,
           position: position,
           actionId: actionId // For server confirmation tracking
         });
@@ -359,7 +359,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
   const isGMMode = useGameStore(state => state.isGMMode);
   const effectiveZoom = zoomLevel * playerZoom;
-  
+
   // Check if this token is being viewed from and get visibility data
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
@@ -377,7 +377,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     (viewingFromToken.type === 'creature' && (viewingFromToken.creatureId === token.creatureId || viewingFromToken.id === token.id)) ||
     (viewingFromToken.id === token.id)
   );
-  
+
   // Convert visibleArea array back to Set for efficient lookup (if it's an array)
   const visibleAreaSet = React.useMemo(() => {
     if (!visibleArea) return null;
@@ -387,16 +387,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Track viewing token movement to invalidate visibility cache
   const viewingTokenMovementRef = React.useRef({ count: 0, lastPos: null });
   React.useEffect(() => {
-      if (viewingFromToken?.position) {
-          const currentPos = viewingFromToken.position;
-          const lastPos = viewingTokenMovementRef.current.lastPos;
-          if (!lastPos ||
-              Math.abs(currentPos.x - lastPos.x) > 10 ||
-              Math.abs(currentPos.y - lastPos.y) > 10) {
-              viewingTokenMovementRef.current.count += 1;
-              viewingTokenMovementRef.current.lastPos = currentPos;
-          }
+    if (viewingFromToken?.position) {
+      const currentPos = viewingFromToken.position;
+      const lastPos = viewingTokenMovementRef.current.lastPos;
+      if (!lastPos ||
+        Math.abs(currentPos.x - lastPos.x) > 10 ||
+        Math.abs(currentPos.y - lastPos.y) > 10) {
+        viewingTokenMovementRef.current.count += 1;
+        viewingTokenMovementRef.current.lastPos = currentPos;
       }
+    }
   }, [viewingFromToken?.position]);
 
   // Check if this token is visible based on FOV (only if viewing from a token)
@@ -412,113 +412,113 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
     // GM mode should NOT restrict token visibility - GM can always see all tokens
     if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
-        // Check if token position is in visible area
-        if (!position || position.x === undefined || position.y === undefined) {
-          return false; // No position - hide token
-        }
+      // Check if token position is in visible area
+      if (!position || position.x === undefined || position.y === undefined) {
+        return false; // No position - hide token
+      }
 
-        // Get visibility polygon from store for accurate point-in-polygon check
-        const levelEditorStore = useLevelEditorStore.getState();
-        const visibilityPolygon = levelEditorStore.visibilityPolygon;
+      // Get visibility polygon from store for accurate point-in-polygon check
+      const levelEditorStore = useLevelEditorStore.getState();
+      const visibilityPolygon = levelEditorStore.visibilityPolygon;
 
-        // Create a comprehensive cache key that includes all factors affecting visibility
-        // Position alone is not enough - visibility depends on viewing token position and visibility area
-        // FIXED: Include a sample of visibleAreaSet to detect content changes (not just size)
-        const movementCount = viewingTokenMovementRef.current.count || 0;
-        const viewingPosKey = viewingFromToken?.position 
-          ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}` 
-          : 'none';
-        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
-        if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
-          return lastVisibilityCheckRef.current.result;
-        }
+      // Create a comprehensive cache key that includes all factors affecting visibility
+      // Position alone is not enough - visibility depends on viewing token position and visibility area
+      // FIXED: Include a sample of visibleAreaSet to detect content changes (not just size)
+      const movementCount = viewingTokenMovementRef.current.count || 0;
+      const viewingPosKey = viewingFromToken?.position
+        ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}`
+        : 'none';
+      const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
+      if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
+        return lastVisibilityCheckRef.current.result;
+      }
 
-        let visible = false;
+      let visible = false;
 
-        // Calculate token's grid position for tile-based visibility check
-        // FIXED: Use grid system for accurate coordinate conversion (matches other components)
-        const gridSystem = getGridSystem();
-        const tokenGridCoords = gridSystem.worldToGrid(position.x, position.y);
-        const tokenTileKey = `${tokenGridCoords.x},${tokenGridCoords.y}`;
+      // Calculate token's grid position for tile-based visibility check
+      // FIXED: Use grid system for accurate coordinate conversion (matches other components)
+      const gridSystem = getGridSystem();
+      const tokenGridCoords = gridSystem.worldToGrid(position.x, position.y);
+      const tokenTileKey = `${tokenGridCoords.x},${tokenGridCoords.y}`;
 
-        // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
-        // This ensures tokens are visible IFF their tile is in the visible area
-        // FIXED: Clear cache when visibleAreaSet changes to force immediate update
-        if (visibleAreaSet && visibleAreaSet.size > 0) {
-          visible = visibleAreaSet.has(tokenTileKey);
-          
-          // FIXED: Also check adjacent tiles in case the token is on a tile boundary
-          // This helps with tokens that should be visible but aren't due to coordinate rounding
-          if (!visible) {
-            // Check adjacent tiles (8-directional)
-            const adjacentTiles = [
-              `${tokenGridCoords.x - 1},${tokenGridCoords.y}`,
-              `${tokenGridCoords.x + 1},${tokenGridCoords.y}`,
-              `${tokenGridCoords.x},${tokenGridCoords.y - 1}`,
-              `${tokenGridCoords.x},${tokenGridCoords.y + 1}`,
-              `${tokenGridCoords.x - 1},${tokenGridCoords.y - 1}`,
-              `${tokenGridCoords.x + 1},${tokenGridCoords.y - 1}`,
-              `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
-              `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
-            ];
-            
-            // If any adjacent tile is visible, consider the token visible
-            // This helps with edge cases where the token is between tiles
-            for (const adjacentTile of adjacentTiles) {
-              if (visibleAreaSet.has(adjacentTile)) {
-                visible = true;
-                break;
-              }
+      // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
+      // This ensures tokens are visible IFF their tile is in the visible area
+      // FIXED: Clear cache when visibleAreaSet changes to force immediate update
+      if (visibleAreaSet && visibleAreaSet.size > 0) {
+        visible = visibleAreaSet.has(tokenTileKey);
+
+        // FIXED: Also check adjacent tiles in case the token is on a tile boundary
+        // This helps with tokens that should be visible but aren't due to coordinate rounding
+        if (!visible) {
+          // Check adjacent tiles (8-directional)
+          const adjacentTiles = [
+            `${tokenGridCoords.x - 1},${tokenGridCoords.y}`,
+            `${tokenGridCoords.x + 1},${tokenGridCoords.y}`,
+            `${tokenGridCoords.x},${tokenGridCoords.y - 1}`,
+            `${tokenGridCoords.x},${tokenGridCoords.y + 1}`,
+            `${tokenGridCoords.x - 1},${tokenGridCoords.y - 1}`,
+            `${tokenGridCoords.x + 1},${tokenGridCoords.y - 1}`,
+            `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
+            `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
+          ];
+
+          // If any adjacent tile is visible, consider the token visible
+          // This helps with edge cases where the token is between tiles
+          for (const adjacentTile of adjacentTiles) {
+            if (visibleAreaSet.has(adjacentTile)) {
+              visible = true;
+              break;
             }
           }
-          
-          // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
-          // This ensures tokens appear immediately when they enter the visible area
-          if (visible && lastVisibilityCheckRef.current.result !== visible) {
-            lastVisibilityCheckRef.current.cacheKey = null; // Invalidate cache
-          }
         }
 
-        // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
-        // This prevents tokens from being hidden during initialization
-        if (!visible && viewingFromToken && viewingFromToken.position &&
-            (!visibleAreaSet || visibleAreaSet.size === 0)) {
-          const viewingPos = viewingFromToken.position;
-          const dx = position.x - viewingPos.x;
-          const dy = position.y - viewingPos.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          // Get vision range for viewing token
-          const viewingTokenId = viewingFromToken.type === 'creature'
-            ? (viewingFromToken.creatureId || viewingFromToken.id)
-            : (viewingFromToken.characterId || viewingFromToken.id || viewingFromToken.playerId);
-          const viewingTokenVision = levelEditorStore.tokenVisionRanges[viewingTokenId];
-          const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
-          const visionRangeInWorld = visionRange * tokenGridSize;
-
-          // If token is within vision range, show it (only as fallback when no proper visibility data)
-          if (distance <= visionRangeInWorld) {
-            visible = true;
-          }
+        // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
+        // This ensures tokens appear immediately when they enter the visible area
+        if (visible && lastVisibilityCheckRef.current.result !== visible) {
+          lastVisibilityCheckRef.current.cacheKey = null; // Invalidate cache
         }
+      }
 
-        // Cache the result
-        lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
+      // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
+      // This prevents tokens from being hidden during initialization
+      if (!visible && viewingFromToken && viewingFromToken.position &&
+        (!visibleAreaSet || visibleAreaSet.size === 0)) {
+        const viewingPos = viewingFromToken.position;
+        const dx = position.x - viewingPos.x;
+        const dy = position.y - viewingPos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Only show token if it's currently visible
-        // Afterimages will show tokens at their remembered positions in explored areas
-        return visible;
+        // Get vision range for viewing token
+        const viewingTokenId = viewingFromToken.type === 'creature'
+          ? (viewingFromToken.creatureId || viewingFromToken.id)
+          : (viewingFromToken.characterId || viewingFromToken.id || viewingFromToken.playerId);
+        const viewingTokenVision = levelEditorStore.tokenVisionRanges[viewingTokenId];
+        const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
+        const visionRangeInWorld = visionRange * tokenGridSize;
+
+        // If token is within vision range, show it (only as fallback when no proper visibility data)
+        if (distance <= visionRangeInWorld) {
+          visible = true;
+        }
+      }
+
+      // Cache the result
+      lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
+
+      // Only show token if it's currently visible
+      // Afterimages will show tokens at their remembered positions in explored areas
+      return visible;
     }
-    
+
     // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
   }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet]);
-  
+
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {
     return tokenVisibilityState === true;
   }, [tokenVisibilityState]);
-  
+
   // Tokens are never greyed out - they're either fully visible or hidden
   // Afterimages show tokens at their remembered positions
   const isGreyedOut = false;
@@ -583,13 +583,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           // This prevents position jumps when GM starts dragging player tokens
           // The token's position prop is the source of truth
           const currentTokenPosition = position || { x: worldPos.x, y: worldPos.y };
-          
+
           // Snap to grid during drag to ensure consistency with final position
           const gridCoords = gridSystem.worldToGrid(currentTokenPosition.x, currentTokenPosition.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
           multiplayerSocket.emit('token_moved', {
-            tokenId: token.creatureId,
+            tokenId: token.id,
             position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position from token's actual position
             isDragging: true
           });
@@ -759,7 +759,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           window[`recent_move_${token.creatureId}`] = Date.now();
 
           multiplayerSocket.emit('token_moved', {
-            tokenId: token.creatureId,
+            tokenId: token.id,
             position: finalWorldPos,
             isDragging: false
           });
@@ -923,12 +923,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const handleCameraChange = () => {
       // Check if camera is being dragged
       const isDraggingCamera = window._isDraggingCamera || false;
-      
+
       if (isDraggingCamera) {
         // During camera drag, batch updates via RAF to match camera update timing
         // This prevents tokens from updating with intermediate camera values
         pendingCameraUpdateRef.current = true;
-        
+
         if (cameraUpdateRafRef.current === null) {
           cameraUpdateRafRef.current = requestAnimationFrame(() => {
             if (pendingCameraUpdateRef.current) {
@@ -1141,32 +1141,32 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // 2. We're not dragging
     // 3. We're in 100-degree FOV mode
     // 4. We're viewing from this token
-    
+
     // Early check - if we're in the right conditions, stop event propagation immediately
     // to prevent Grid's global wheel handler from interfering
     if (isHovering && !isDraggingRef.current && !isMouseDownRef.current && fovAngle === 100 && isViewingFrom) {
       // Stop propagation and prevent default BEFORE the Grid's handler gets it
       e.preventDefault();
       e.stopPropagation();
-      
+
       // Get token ID for this creature token
       const tokenIdToUse = token ? (token.creatureId || token.id) : tokenId;
-      
+
       // Get current facing direction (default to 0 if not set)
       const currentFacing = getTokenFacingDirection(tokenIdToUse) || 0;
-      
+
       // Rotate based on scroll delta - much more responsive rotation speed
       // Convert deltaY to radians with smooth, fluid rotation
       // Higher rotation speed (0.002) provides more responsive rotation per pixel scrolled
       const rotationSpeed = 0.002; // Smooth and fluid rotation
       const deltaAngle = -e.deltaY * rotationSpeed;
       const newFacing = currentFacing + deltaAngle;
-      
+
       // Normalize angle to -PI to PI range efficiently
       let normalizedFacing = newFacing;
       if (normalizedFacing > Math.PI) normalizedFacing -= 2 * Math.PI;
       if (normalizedFacing < -Math.PI) normalizedFacing += 2 * Math.PI;
-      
+
       // Update facing direction in store immediately for smooth, fluid rotation
       setTokenFacingDirection(tokenIdToUse, normalizedFacing);
     }
@@ -1681,18 +1681,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // In player mode, check if this is a creature token (not a character token)
       // Creature tokens don't have playerId or isPlayerToken flag
       const isCreatureToken = !token.playerId && !token.isPlayerToken;
-      
+
       if (isCreatureToken) {
         // Players cannot move creature tokens - only GM can
         setShowTooltip(false);
         return;
       }
-      
+
       // For character tokens in multiplayer, check ownership
       if (isInMultiplayer && token) {
         const { currentPlayer } = useGameStore.getState();
         const tokenPlayerId = token.playerId;
-        
+
         // Allow movement if:
         // 1. Token's playerId matches current player's ID
         // 2. Token's playerId is 'current-player'
@@ -1702,7 +1702,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           setShowTooltip(false);
           return;
         }
-        
+
         // Also check if this is a character token by checking creatureId
         if (token.creatureId) {
           const { currentCharacterId } = useCharacterStore.getState();
@@ -1822,14 +1822,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           boxShadow: creature.isShopkeeper
             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isViewingFrom
-            ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
-            : isMyTurn
-            ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
-            : isSelectedForCombat
-            ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
-            : isTargeted
-            ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
-            : '0 2px 8px rgba(0, 0, 0, 0.3)'
+              ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+              : isMyTurn
+                ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                : isSelectedForCombat
+                  ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                  : isTargeted
+                    ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                    : '0 2px 8px rgba(0, 0, 0, 0.3)'
         }}
         onContextMenu={handleContextMenu}
         onMouseEnter={showRenameInput ? undefined : handleMouseEnter}
@@ -1852,14 +1852,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           const pathId = `${tokenId}-${effect.key}-ring-path`;
           const label = (effect.label || effect.key || '').toString().toUpperCase();
           const separator = ' \u2022 ';
-          
+
           // Calculate ring radius - each subsequent ring is pushed outward
           // Base radius starts at 52 (in a 140x140 viewBox), increment by 14 per ring
           const baseRadius = 52;
           const radiusIncrement = 14;
           const radius = baseRadius + (index * radiusIncrement);
           const startY = 70 - radius; // Center is at 70,70
-          
+
           // Calculate circumference and how many times to repeat text
           // Circumference = 2 * PI * radius
           const circumference = 2 * Math.PI * radius;
@@ -1871,16 +1871,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           // Calculate exact fit - use floor to avoid overlap, minimum 3 repetitions
           const repeatCount = Math.max(3, Math.floor(circumference / estTextWidth));
           const wrappedText = Array(repeatCount).fill(labelWithSep).join('');
-          
+
           // Animation delay for visual variety (stagger rotation start)
           const animationDelay = index * -5; // seconds offset
-          
+
           // Calculate percentage-based sizing so rings scale with token zoom
           // Base extension is 30% beyond token, each ring adds 20% more
           const baseExtension = 30 + (index * 20);
-          
+
           return (
-            <div 
+            <div
               className={`condition-ring-wrapper condition-ring-${index}`}
               key={effect.key}
               style={{
@@ -1893,19 +1893,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 height: `${100 + (baseExtension * 2)}%`,
               }}
             >
-              <svg 
-                className={`condition-ring-svg ${effect.key}`} 
-                viewBox="0 0 140 140" 
+              <svg
+                className={`condition-ring-svg ${effect.key}`}
+                viewBox="0 0 140 140"
                 aria-hidden="true"
                 style={{ overflow: 'visible' }}
               >
                 <defs>
-                  <path 
-                    id={pathId} 
-                    d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`} 
+                  <path
+                    id={pathId}
+                    d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`}
                   />
                 </defs>
-                <text 
+                <text
                   className={`condition-ring-text condition-text-${effect.key}`}
                   textLength={circumference * 0.98}
                   lengthAdjust="spacing"
@@ -1996,36 +1996,36 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             icon: <i className="fas fa-eye"></i>,
             label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
             onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                const levelEditorStore = useLevelEditorStore.getState();
-                                if (isViewingFrom) {
-                                    // Deselect view from token
-                                    levelEditorStore.setViewingFromToken(null);
-                                } else if (position) {
-                                    // Enable dynamic fog if not already enabled
-                                    const { dynamicFogEnabled, setDynamicFogEnabled } = levelEditorStore;
-                                    if (!dynamicFogEnabled) {
-                                        setDynamicFogEnabled(true);
-                                    }
-                                    // Reset the disabled flag since GM is explicitly enabling it
-                                    levelEditorStore.playerViewFromTokenDisabled = false;
-                                    // Set this token as the viewing token (restricts fog reveal to token's vision)
-                                    const tokenData = {
-                                        type: 'creature',
-                                        id: token.id,
-                                        creatureId: token.creatureId,
-                                        position: position
-                                    };
-                                    levelEditorStore.setViewingFromToken(tokenData);
-                                    // Center camera on token initially (but don't lock it)
-                                    const gameStore = useGameStore.getState();
-                                    gameStore.setCameraPosition(position.x, position.y);
-                                }
-                            },
-                            className: isViewingFrom ? 'active' : ''
-                        }] : []),
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              const levelEditorStore = useLevelEditorStore.getState();
+              if (isViewingFrom) {
+                // Deselect view from token
+                levelEditorStore.setViewingFromToken(null);
+              } else if (position) {
+                // Enable dynamic fog if not already enabled
+                const { dynamicFogEnabled, setDynamicFogEnabled } = levelEditorStore;
+                if (!dynamicFogEnabled) {
+                  setDynamicFogEnabled(true);
+                }
+                // Reset the disabled flag since GM is explicitly enabling it
+                levelEditorStore.playerViewFromTokenDisabled = false;
+                // Set this token as the viewing token (restricts fog reveal to token's vision)
+                const tokenData = {
+                  type: 'creature',
+                  id: token.id,
+                  creatureId: token.creatureId,
+                  position: position
+                };
+                levelEditorStore.setViewingFromToken(tokenData);
+                // Center camera on token initially (but don't lock it)
+                const gameStore = useGameStore.getState();
+                gameStore.setCameraPosition(position.x, position.y);
+              }
+            },
+            className: isViewingFrom ? 'active' : ''
+          }] : []),
           {
             icon: <i className="fas fa-tag"></i>,
             label: 'Rename',
@@ -2516,263 +2516,263 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       {showTooltip && (() => {
         // Rendering tooltip
         return createPortal(
-        <div
-          className="pf-character-tooltip"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-            position: 'fixed',
-            zIndex: 10000,
-            backgroundColor: '#f0e6d2',
-            border: '2px solid #a08c70',
-            borderRadius: '8px',
-            padding: '12px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-            fontSize: '12px',
-            color: '#7a3b2e',
-            pointerEvents: 'none',
-            maxWidth: '280px',
-            minWidth: '200px',
-            transform: tooltipPosition.x > window.innerWidth - 200 ? 'translateX(-100%)' : 'none'
-          }}
-        >
-          {/* Creature Header */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            marginBottom: '8px',
-            borderBottom: '1px solid #a08c70',
-            paddingBottom: '6px'
-          }}>
-            <div
-              style={{
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                backgroundImage: token.state.customIcon
-                  ? `url(${token.state.customIcon})`
-                  : `url(${getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                border: `2px solid ${creature.tokenBorder}`
-              }}
-            />
-            <div>
-              <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                {token.state.customName || creature.name}
-              </div>
-              <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                {creature.race && `${creature.race} `}
-                {creature.size} {creature.type}
-                {creature.class && ` • ${creature.class}`}
+          <div
+            className="pf-character-tooltip"
+            style={{
+              left: tooltipPosition.x,
+              top: tooltipPosition.y,
+              position: 'fixed',
+              zIndex: 10000,
+              backgroundColor: '#f0e6d2',
+              border: '2px solid #a08c70',
+              borderRadius: '8px',
+              padding: '12px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              fontFamily: "'Bookman Old Style', 'Garamond', serif",
+              fontSize: '12px',
+              color: '#7a3b2e',
+              pointerEvents: 'none',
+              maxWidth: '280px',
+              minWidth: '200px',
+              transform: tooltipPosition.x > window.innerWidth - 200 ? 'translateX(-100%)' : 'none'
+            }}
+          >
+            {/* Creature Header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '8px',
+              borderBottom: '1px solid #a08c70',
+              paddingBottom: '6px'
+            }}>
+              <div
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  backgroundImage: token.state.customIcon
+                    ? `url(${token.state.customIcon})`
+                    : `url(${getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: `2px solid ${creature.tokenBorder}`
+                }}
+              />
+              <div>
+                <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  {token.state.customName || creature.name}
+                </div>
+                <div style={{ fontSize: '10px', opacity: 0.7 }}>
+                  {creature.race && `${creature.race} `}
+                  {creature.size} {creature.type}
+                  {creature.class && ` • ${creature.class}`}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Health and Resources */}
-          <div style={{ marginBottom: '8px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <span style={{ fontWeight: 'bold' }}>Health:</span>
-              <span style={{ color: (token.state.currentHp / creature.stats.maxHp) > 0.5 ? '#4CAF50' : (token.state.currentHp / creature.stats.maxHp) > 0.25 ? '#FF9800' : '#F44336' }}>
-                {token.state.currentHp}/{creature.stats.maxHp}
-              </span>
-            </div>
-            {creature.stats.maxMana > 0 && (
+            {/* Health and Resources */}
+            <div style={{ marginBottom: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span style={{ fontWeight: 'bold' }}>Mana:</span>
-                <span style={{ color: '#2196F3' }}>
-                  {token.state.currentMana || 0}/{creature.stats.maxMana}
+                <span style={{ fontWeight: 'bold' }}>Health:</span>
+                <span style={{ color: (token.state.currentHp / creature.stats.maxHp) > 0.5 ? '#4CAF50' : (token.state.currentHp / creature.stats.maxHp) > 0.25 ? '#FF9800' : '#F44336' }}>
+                  {token.state.currentHp}/{creature.stats.maxHp}
                 </span>
               </div>
-            )}
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ fontWeight: 'bold' }}>Action Points:</span>
-              <span style={{ color: '#9C27B0' }}>
-                {(() => {
-                  const combatState = useCombatStore.getState();
-                  const combatant = combatState.turnOrder.find(c => c.tokenId === tokenId);
-                  if (combatant && combatState.isInCombat) {
-                    return `${combatant.currentActionPoints}/${combatant.maxActionPoints}`;
-                  }
-                  // Fallback to token state or creature stats if not in combat
-                  const currentAP = token.state.currentActionPoints || creature.stats.currentActionPoints || creature.stats.maxActionPoints;
-                  const maxAP = creature.stats.maxActionPoints;
-                  return `${currentAP}/${maxAP}`;
-                })()}
-              </span>
-            </div>
-            {/* Movement info during combat */}
-            {isInCombat && (() => {
-              const combatState = useCombatStore.getState();
-              const movementInfo = combatState.getMovementInfo ? combatState.getMovementInfo(tokenId, [creature]) : null;
-              if (!movementInfo) return null;
-
-              return (
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
-                  <span style={{ fontWeight: 'bold' }}>Movement:</span>
-                  <span style={{ color: '#059669' }}>
-                    {Math.round(movementInfo.movementUsed)}/{movementInfo.unlockedMovement || movementInfo.creatureSpeed}ft
+              {creature.stats.maxMana > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ fontWeight: 'bold' }}>Mana:</span>
+                  <span style={{ color: '#2196F3' }}>
+                    {token.state.currentMana || 0}/{creature.stats.maxMana}
                   </span>
                 </div>
-              );
-            })()}
-          </div>
-
-          {/* Combat Status */}
-          {isInCombat && (
-            <div style={{
-              borderTop: '1px solid #a08c70',
-              paddingTop: '6px',
-              fontSize: '10px',
-              fontStyle: 'italic'
-            }}>
-              {isMyTurn ? (
-                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Current Turn</span>
-              ) : (
-                <span style={{ color: '#666' }}>Waiting for turn</span>
               )}
-            </div>
-          )}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ fontWeight: 'bold' }}>Action Points:</span>
+                <span style={{ color: '#9C27B0' }}>
+                  {(() => {
+                    const combatState = useCombatStore.getState();
+                    const combatant = combatState.turnOrder.find(c => c.tokenId === tokenId);
+                    if (combatant && combatState.isInCombat) {
+                      return `${combatant.currentActionPoints}/${combatant.maxActionPoints}`;
+                    }
+                    // Fallback to token state or creature stats if not in combat
+                    const currentAP = token.state.currentActionPoints || creature.stats.currentActionPoints || creature.stats.maxActionPoints;
+                    const maxAP = creature.stats.maxActionPoints;
+                    return `${currentAP}/${maxAP}`;
+                  })()}
+                </span>
+              </div>
+              {/* Movement info during combat */}
+              {isInCombat && (() => {
+                const combatState = useCombatStore.getState();
+                const movementInfo = combatState.getMovementInfo ? combatState.getMovementInfo(tokenId, [creature]) : null;
+                if (!movementInfo) return null;
 
-          {/* Target Status */}
-          {isTargeted && (
-            <div style={{
-              borderTop: '1px solid #a08c70',
-              paddingTop: '6px',
-              fontSize: '10px',
-              fontStyle: 'italic',
-              color: '#FF9800',
-              fontWeight: 'bold'
-            }}>
-              Targeted
+                return (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                    <span style={{ fontWeight: 'bold' }}>Movement:</span>
+                    <span style={{ color: '#059669' }}>
+                      {Math.round(movementInfo.movementUsed)}/{movementInfo.unlockedMovement || movementInfo.creatureSpeed}ft
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
-          )}
 
-          {/* Active Conditions - Combined from token state and buff/debuff stores */}
-          {(() => {
-            // Combine all active effects from different sources
-            const tokenConditions = token.state.conditions || [];
-            const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
-            const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
-            
-            // Build combined list, avoiding duplicates by name
-            const seenNames = new Set();
-            const allEffects = [];
-            
-            // Add from buff/debuff stores first (they have more data)
-            [...tokenBuffs, ...tokenDebuffs].forEach(effect => {
-              if (!seenNames.has(effect.name)) {
-                seenNames.add(effect.name);
-                allEffects.push({
-                  name: effect.name,
-                  description: effect.description,
-                  effectSummary: effect.effectSummary,
-                  type: effect.type || (tokenBuffs.includes(effect) ? 'buff' : 'debuff'),
-                  color: effect.color,
-                  icon: effect.icon,
-                  durationType: effect.durationType,
-                  durationValue: effect.durationValue,
-                  remainingRounds: effect.remainingRounds,
-                  endTime: effect.endTime,
-                  startTime: effect.startTime,
-                  duration: effect.duration
-                });
-              }
-            });
-            
-            // Add remaining conditions from token state
-            tokenConditions.forEach(condition => {
-              if (!seenNames.has(condition.name)) {
-                seenNames.add(condition.name);
-                allEffects.push(condition);
-              }
-            });
-            
-            if (allEffects.length === 0) return null;
-            
-            const conditionDescriptions = {
-              'Confused': 'Target must roll d10 each turn: 1-move random, 2-6-do nothing, 7-8-attack random, 9-10-act normal',
-              'Stunned': 'Target can\'t move, speak, or take actions/reactions',
-              'Paralyzed': 'Target can\'t move or speak, auto-fails STR/AGI saves, adv. attacks vs target, crit on hit within 5ft',
-              'Frightened': 'Disadv. on checks/attacks while source in sight, can\'t move closer to source',
-              'Charmed': 'Can\'t attack charmer, charmer has adv. on social checks, charmer chooses target\'s movement',
-              'Poisoned': 'Disadv. on attack rolls and ability checks',
-              'Blinded': 'Can\'t see, auto-fails sight checks, adv. attacks vs target, target\'s attacks disadv.',
-              'Deafened': 'Can\'t hear, auto-fails hearing checks',
-              'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on Agility saves, adv. attacks vs target',
-              'Grappled': 'Speed 0, ends if grappler incapacitated or effect removed from grappler\'s reach',
-              'Prone': 'Can only crawl, disadv. on attacks, adv. attacks vs target within 5ft (disadv. beyond 5ft)',
-              'Incapacitated': 'Can\'t take actions or reactions',
-              'Unconscious': 'Incapacitated, unaware, auto-fails STR/AGI saves, prone, adv. attacks vs target, crit within 5ft'
-            };
-            
-            return (
+            {/* Combat Status */}
+            {isInCombat && (
               <div style={{
                 borderTop: '1px solid #a08c70',
                 paddingTop: '6px',
-                fontSize: '10px'
+                fontSize: '10px',
+                fontStyle: 'italic'
               }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                  Active Effects:
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  {allEffects.slice(0, 4).map((effect, index) => {
-                    const remaining = getConditionRemaining(effect).label;
-                    const detailedDesc = conditionDescriptions[effect.name] || effect.effectSummary || effect.description || 'Effect active';
-                    const effectColor = effect.type === 'buff' ? '#32CD32' : effect.type === 'debuff' ? '#DC143C' : '#666';
+                {isMyTurn ? (
+                  <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Current Turn</span>
+                ) : (
+                  <span style={{ color: '#666' }}>Waiting for turn</span>
+                )}
+              </div>
+            )}
 
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          color: '#333',
-                          fontWeight: 500,
-                          lineHeight: '1.3',
-                          borderLeft: `3px solid ${effect.color || effectColor}`,
-                          paddingLeft: '6px'
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          {effect.icon && <i className={effect.icon} style={{ color: effect.color || effectColor, fontSize: '10px' }}></i>}
-                          <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
-                          {remaining && (
-                            <span style={{ color: '#666', fontSize: '9px' }}>
-                              ({remaining})
-                            </span>
+            {/* Target Status */}
+            {isTargeted && (
+              <div style={{
+                borderTop: '1px solid #a08c70',
+                paddingTop: '6px',
+                fontSize: '10px',
+                fontStyle: 'italic',
+                color: '#FF9800',
+                fontWeight: 'bold'
+              }}>
+                Targeted
+              </div>
+            )}
+
+            {/* Active Conditions - Combined from token state and buff/debuff stores */}
+            {(() => {
+              // Combine all active effects from different sources
+              const tokenConditions = token.state.conditions || [];
+              const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
+              const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
+
+              // Build combined list, avoiding duplicates by name
+              const seenNames = new Set();
+              const allEffects = [];
+
+              // Add from buff/debuff stores first (they have more data)
+              [...tokenBuffs, ...tokenDebuffs].forEach(effect => {
+                if (!seenNames.has(effect.name)) {
+                  seenNames.add(effect.name);
+                  allEffects.push({
+                    name: effect.name,
+                    description: effect.description,
+                    effectSummary: effect.effectSummary,
+                    type: effect.type || (tokenBuffs.includes(effect) ? 'buff' : 'debuff'),
+                    color: effect.color,
+                    icon: effect.icon,
+                    durationType: effect.durationType,
+                    durationValue: effect.durationValue,
+                    remainingRounds: effect.remainingRounds,
+                    endTime: effect.endTime,
+                    startTime: effect.startTime,
+                    duration: effect.duration
+                  });
+                }
+              });
+
+              // Add remaining conditions from token state
+              tokenConditions.forEach(condition => {
+                if (!seenNames.has(condition.name)) {
+                  seenNames.add(condition.name);
+                  allEffects.push(condition);
+                }
+              });
+
+              if (allEffects.length === 0) return null;
+
+              const conditionDescriptions = {
+                'Confused': 'Target must roll d10 each turn: 1-move random, 2-6-do nothing, 7-8-attack random, 9-10-act normal',
+                'Stunned': 'Target can\'t move, speak, or take actions/reactions',
+                'Paralyzed': 'Target can\'t move or speak, auto-fails STR/AGI saves, adv. attacks vs target, crit on hit within 5ft',
+                'Frightened': 'Disadv. on checks/attacks while source in sight, can\'t move closer to source',
+                'Charmed': 'Can\'t attack charmer, charmer has adv. on social checks, charmer chooses target\'s movement',
+                'Poisoned': 'Disadv. on attack rolls and ability checks',
+                'Blinded': 'Can\'t see, auto-fails sight checks, adv. attacks vs target, target\'s attacks disadv.',
+                'Deafened': 'Can\'t hear, auto-fails hearing checks',
+                'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on Agility saves, adv. attacks vs target',
+                'Grappled': 'Speed 0, ends if grappler incapacitated or effect removed from grappler\'s reach',
+                'Prone': 'Can only crawl, disadv. on attacks, adv. attacks vs target within 5ft (disadv. beyond 5ft)',
+                'Incapacitated': 'Can\'t take actions or reactions',
+                'Unconscious': 'Incapacitated, unaware, auto-fails STR/AGI saves, prone, adv. attacks vs target, crit within 5ft'
+              };
+
+              return (
+                <div style={{
+                  borderTop: '1px solid #a08c70',
+                  paddingTop: '6px',
+                  fontSize: '10px'
+                }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                    Active Effects:
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {allEffects.slice(0, 4).map((effect, index) => {
+                      const remaining = getConditionRemaining(effect).label;
+                      const detailedDesc = conditionDescriptions[effect.name] || effect.effectSummary || effect.description || 'Effect active';
+                      const effectColor = effect.type === 'buff' ? '#32CD32' : effect.type === 'debuff' ? '#DC143C' : '#666';
+
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            color: '#333',
+                            fontWeight: 500,
+                            lineHeight: '1.3',
+                            borderLeft: `3px solid ${effect.color || effectColor}`,
+                            paddingLeft: '6px'
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            {effect.icon && <i className={effect.icon} style={{ color: effect.color || effectColor, fontSize: '10px' }}></i>}
+                            <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
+                            {remaining && (
+                              <span style={{ color: '#666', fontSize: '9px' }}>
+                                ({remaining})
+                              </span>
+                            )}
+                          </div>
+                          {effect.effectSummary && (
+                            <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
+                              {effect.effectSummary}
+                            </div>
+                          )}
+                          {effect.description && effect.description !== effect.effectSummary && (
+                            <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
+                              {effect.description}
+                            </div>
+                          )}
+                          {!effect.effectSummary && !effect.description && conditionDescriptions[effect.name] && (
+                            <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
+                              {conditionDescriptions[effect.name]}
+                            </div>
                           )}
                         </div>
-                        {effect.effectSummary && (
-                          <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
-                            {effect.effectSummary}
-                          </div>
-                        )}
-                        {effect.description && effect.description !== effect.effectSummary && (
-                          <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
-                            {effect.description}
-                          </div>
-                        )}
-                        {!effect.effectSummary && !effect.description && conditionDescriptions[effect.name] && (
-                          <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
-                            {conditionDescriptions[effect.name]}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                  {allEffects.length > 4 && (
-                    <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
-                      +{allEffects.length - 4} more effects...
-                    </span>
-                  )}
+                      );
+                    })}
+                    {allEffects.length > 4 && (
+                      <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
+                        +{allEffects.length - 4} more effects...
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })()}
-        </div>,
-        document.body
-      );
+              );
+            })()}
+          </div>,
+          document.body
+        );
       })()}
 
       {/* Enhanced Creature Inspect View */}
@@ -3410,10 +3410,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             <h3 style={{ margin: '0 0 15px 0', color: '#8B4513' }}>
               Enter {
                 customAmountType === 'damage' ? 'Damage' :
-                customAmountType === 'heal' ? 'Heal' :
-                customAmountType === 'mana-damage' ? 'Mana Drain' :
-                customAmountType === 'mana-heal' ? 'Mana Restore' :
-                'Amount'
+                  customAmountType === 'heal' ? 'Heal' :
+                    customAmountType === 'mana-damage' ? 'Mana Drain' :
+                      customAmountType === 'mana-heal' ? 'Mana Restore' :
+                        'Amount'
               } Amount
             </h3>
             <input

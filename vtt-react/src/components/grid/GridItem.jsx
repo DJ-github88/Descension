@@ -21,7 +21,7 @@ const GridItem = ({ gridItem }) => {
   const itemRef = useRef(null);
   const isDraggingRef = useRef(false);
   const justFinishedDragRef = useRef(false); // Track if we just finished a drag to prevent click from looting
-  
+
   // FIXED: Use refs for screen position to enable imperative DOM updates (like tokens)
   const screenPositionRef = useRef({ x: 0, y: 0 });
   const worldPositionRef = useRef(null);
@@ -47,20 +47,20 @@ const GridItem = ({ gridItem }) => {
 
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
-  
+
   // Get visibility data for FOV checks
   // PERFORMANCE FIX: Use selective subscriptions to prevent re-renders on unrelated store changes
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
   const isGMMode = useGameStore(state => state.isGMMode);
-  
+
   // Get visible area as a Set for fast lookup (matches token visibility logic)
   const visibleAreaSet = useMemo(() => {
     if (!visibleArea) return null;
     return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
   }, [visibleArea]);
-  
+
   // Get item position for visibility check
   const itemPosition = useMemo(() => {
     if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
@@ -71,7 +71,7 @@ const GridItem = ({ gridItem }) => {
     }
     return null;
   }, [gridItem.position, gridItem.gridPosition, gridSystem]);
-  
+
   // Check if this item is visible based on FOV (only if viewing from a token)
   // CRITICAL: Items should be hidden when not in visibleAreaSet - afterimages will show them in explored areas
   // Returns: true = fully visible, false = hidden
@@ -113,11 +113,11 @@ const GridItem = ({ gridItem }) => {
       // Not in visible area - hide the item (afterimages will show it in explored areas)
       return false;
     }
-    
+
     // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
   }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem]);
-  
+
   // Check if item should be visible at all
   // CRITICAL: Items should only be visible when in visibleAreaSet
   // Afterimages handle showing items in explored areas
@@ -142,20 +142,20 @@ const GridItem = ({ gridItem }) => {
   // This prevents floating/movement during camera drag by updating DOM directly
   const updateScreenPosition = useCallback((worldPos) => {
     if (!worldPos) return;
-    
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const newPosition = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
-    
+
     screenPositionRef.current = newPosition;
-    
+
     const element = itemRef.current;
     if (element) {
       element.style.left = `${newPosition.x}px`;
       element.style.top = `${newPosition.y}px`;
     }
   }, [gridSystem]);
-  
+
   // Get world position from gridItem (either world coords or grid coords)
   const getWorldPosition = useCallback(() => {
     if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
@@ -165,14 +165,14 @@ const GridItem = ({ gridItem }) => {
     }
     return { x: 0, y: 0 };
   }, [gridItem.position?.x, gridItem.position?.y, gridItem.gridPosition?.col, gridItem.gridPosition?.row, gridSystem]);
-  
+
   // Update world position ref when gridItem changes
   useEffect(() => {
     const worldPos = getWorldPosition();
     worldPositionRef.current = worldPos;
     updateScreenPosition(worldPos);
   }, [getWorldPosition, updateScreenPosition]);
-  
+
   // FIXED: Subscribe to camera changes and update position imperatively (like tokens)
   // CRITICAL FIX: Batch position updates during camera drag to match camera RAF timing
   // This prevents grid items from "hovering" during grid drag
@@ -180,12 +180,12 @@ const GridItem = ({ gridItem }) => {
     const handleCameraChange = () => {
       // Check if camera is being dragged
       const isDraggingCamera = window._isDraggingCamera || false;
-      
+
       if (isDraggingCamera) {
         // During camera drag, batch updates via RAF to match camera update timing
         // This prevents items from updating with intermediate camera values
         pendingCameraUpdateRef.current = true;
-        
+
         if (cameraUpdateRafRef.current === null) {
           cameraUpdateRafRef.current = requestAnimationFrame(() => {
             if (pendingCameraUpdateRef.current && worldPositionRef.current) {
@@ -213,7 +213,7 @@ const GridItem = ({ gridItem }) => {
         handleCameraChange();
       }
     });
-    
+
     return () => {
       unsubscribe();
       // Clean up RAF on unmount
@@ -223,7 +223,7 @@ const GridItem = ({ gridItem }) => {
       }
     };
   }, [updateScreenPosition]);
-  
+
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
@@ -231,11 +231,11 @@ const GridItem = ({ gridItem }) => {
         updateScreenPosition(worldPositionRef.current);
       }
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [updateScreenPosition]);
-  
+
   // Get current screen position (for initial render and when not using imperative updates)
   const screenPosition = screenPositionRef.current;
 
@@ -337,6 +337,26 @@ const GridItem = ({ gridItem }) => {
         worldX: snappedWorldPos.x,
         worldY: snappedWorldPos.y
       });
+
+      // Sync with multiplayer during drag
+      const socket = useGameStore.getState().multiplayerSocket;
+      if (socket && socket.connected) {
+        socket.emit('grid_item_update', {
+          type: 'grid_item_moved',
+          data: {
+            gridItemId: gridItem.id,
+            newPosition: {
+              x: snappedWorldPos.x,
+              y: snappedWorldPos.y,
+              gridPosition: {
+                row: gridCoords.y,
+                col: gridCoords.x
+              }
+            },
+            isDragging: true
+          }
+        });
+      }
     };
 
     const handleGlobalMouseUp = (e) => {
@@ -471,7 +491,7 @@ const GridItem = ({ gridItem }) => {
       // All currency types use the same coin icon, CSS filters differentiate them
       return 'Container/Coins/golden-coin-single-isometric';
     }
-    
+
     // Handle miscellaneous items with subtypes
     if (type === 'miscellaneous') {
       const miscIcons = {
@@ -485,7 +505,7 @@ const GridItem = ({ gridItem }) => {
       };
       return miscIcons[subtype] || 'Misc/Profession Resources/resource-ore-cluster-orange-red-veins';
     }
-    
+
     // Handle accessory items with subtypes
     if (type === 'accessory') {
       const accessoryIcons = {
@@ -495,7 +515,7 @@ const GridItem = ({ gridItem }) => {
       };
       return accessoryIcons[subtype] || 'Armor/Finger/finger-simple-teal-diamond-ring';
     }
-    
+
     // Default local icons for different item types (using local paths, not WoW IDs)
     const typeIcons = {
       weapon: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt-simple',
@@ -548,30 +568,30 @@ const GridItem = ({ gridItem }) => {
     // Reset state
     setImageLoaded(false);
     setImageError(false);
-    
+
     const itemType = itemForTooltip.type;
     const itemSubtype = itemForTooltip.subtype;
     const itemCurrencyType = itemForTooltip.currencyType;
     const primaryIconId = iconId || getItemIcon(itemType, itemSubtype, itemCurrencyType);
     const fallbackIconId = getItemIcon(itemType, itemSubtype, itemCurrencyType);
-    
+
     // Always set effectiveIconId to something, even if we haven't loaded yet
     // This ensures we at least try to show an icon
     setEffectiveIconId(primaryIconId || fallbackIconId);
-    
+
     if (!primaryIconId && !fallbackIconId) {
       setImageError(true);
       return;
     }
-    
+
     let attempts = 0;
     const maxAttempts = 2; // Try primary, then fallback
-    
+
     const tryLoadIcon = (iconIdToTry, isFallback = false) => {
       attempts++;
       const img = new Image();
       const iconUrl = getIconUrl(iconIdToTry, 'items', true);
-      
+
       img.onload = () => {
         setImageLoaded(true);
         setImageError(false);
@@ -590,10 +610,10 @@ const GridItem = ({ gridItem }) => {
           setEffectiveIconId(fallbackIconId || iconIdToTry);
         }
       };
-      
+
       img.src = iconUrl;
     };
-    
+
     tryLoadIcon(primaryIconId, false);
   }, [iconId, itemForTooltip.type, itemForTooltip.subtype, itemForTooltip.currencyType]);
 
@@ -603,7 +623,7 @@ const GridItem = ({ gridItem }) => {
   if (!isItemVisible) {
     return null;
   }
-  
+
   // CRITICAL: Items are never greyed out - they're either visible or hidden
   // Afterimages handle showing items in explored areas with ghostly appearance
   const isGreyedOut = false;

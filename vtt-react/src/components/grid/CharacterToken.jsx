@@ -114,7 +114,7 @@ const CharacterToken = ({
 
     // In multiplayer, if this token belongs to another player, get their character data from party store
     const partyMembers = usePartyStore(state => state.partyMembers);
-    const partyMember = tokenPlayerId && isInMultiplayer 
+    const partyMember = tokenPlayerId && isInMultiplayer
         ? partyMembers.find(m => m.id === tokenPlayerId)
         : null;
 
@@ -131,7 +131,7 @@ const CharacterToken = ({
         lore: partyMember.character.lore || currentCharacterData.lore,
         tokenSettings: partyMember.character.tokenSettings || currentCharacterData.tokenSettings
     } : currentCharacterData;
-    
+
     // Check if this token is being viewed from and get visibility data
     // PERFORMANCE FIX: Only subscribe to what we actually need to prevent re-renders
     const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
@@ -149,13 +149,13 @@ const CharacterToken = ({
         (viewingFromToken.type === 'character' && (viewingFromToken.characterId === tokenId || viewingFromToken.id === tokenId || viewingFromToken.playerId === tokenId)) ||
         (viewingFromToken.id === tokenId)
     );
-    
+
     // Convert visibleArea array back to Set for efficient lookup (if it's an array)
     const visibleAreaSet = useMemo(() => {
         if (!visibleArea) return null;
         return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
     }, [visibleArea]);
-    
+
     // Track viewing token movement to invalidate visibility cache
     const viewingTokenMovementRef = useRef({ count: 0, lastPos: null });
     useEffect(() => {
@@ -194,8 +194,8 @@ const CharacterToken = ({
             // Position alone is not enough - visibility depends on viewing token position and visibility area
             // FIXED: Include viewing token position to detect movement changes
             const movementCount = viewingTokenMovementRef.current.count || 0;
-            const viewingPosKey = viewingFromToken?.position 
-                ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}` 
+            const viewingPosKey = viewingFromToken?.position
+                ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}`
                 : 'none';
             const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
             if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
@@ -215,7 +215,7 @@ const CharacterToken = ({
             // FIXED: Clear cache when visibleAreaSet changes to force immediate update
             if (visibleAreaSet && visibleAreaSet.size > 0) {
                 visible = visibleAreaSet.has(tokenTileKey);
-                
+
                 // FIXED: Also check adjacent tiles in case the token is on a tile boundary
                 // This helps with tokens that should be visible but aren't due to coordinate rounding
                 if (!visible) {
@@ -230,7 +230,7 @@ const CharacterToken = ({
                         `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
                         `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
                     ];
-                    
+
                     // If any adjacent tile is visible, consider the token visible
                     // This helps with edge cases where the token is between tiles
                     for (const adjacentTile of adjacentTiles) {
@@ -240,7 +240,7 @@ const CharacterToken = ({
                         }
                     }
                 }
-                
+
                 // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
                 // This ensures tokens appear immediately when they enter the visible area
                 if (visible && lastVisibilityCheckRef.current.result !== visible) {
@@ -359,12 +359,12 @@ const CharacterToken = ({
         const handleCameraChange = () => {
             // Check if camera is being dragged
             const isDraggingCamera = window._isDraggingCamera || false;
-            
+
             if (isDraggingCamera) {
                 // During camera drag, batch updates via RAF to match camera update timing
                 // This prevents tokens from updating with intermediate camera values
                 pendingCameraUpdateRef.current = true;
-                
+
                 if (cameraUpdateRafRef.current === null) {
                     cameraUpdateRafRef.current = requestAnimationFrame(() => {
                         if (pendingCameraUpdateRef.current) {
@@ -492,7 +492,7 @@ const CharacterToken = ({
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
         }
-            setShowTooltip(false);
+        setShowTooltip(false);
     };
 
     const showTooltipNow = useCallback(() => {
@@ -517,29 +517,29 @@ const CharacterToken = ({
         // 2. We're not dragging
         // 3. We're in 100-degree FOV mode
         // 4. We're viewing from this token
-        
+
         // Early check - if we're in the right conditions, stop event propagation immediately
         // to prevent Grid's global wheel handler from interfering
         if (isHovering && !isDragging && !isMouseDown && fovAngle === 100 && isViewingFrom) {
             // Stop propagation and prevent default BEFORE the Grid's handler gets it
             e.preventDefault();
             e.stopPropagation();
-            
+
             // Get current facing direction (default to 0 if not set)
             const currentFacing = getTokenFacingDirection(tokenId) || 0;
-            
+
             // Rotate based on scroll delta - much more responsive rotation speed
             // Convert deltaY to radians with smooth, fluid rotation
             // Higher rotation speed (0.002) provides more responsive rotation per pixel scrolled
             const rotationSpeed = 0.002; // Smooth and fluid rotation
             const deltaAngle = -e.deltaY * rotationSpeed;
             const newFacing = currentFacing + deltaAngle;
-            
+
             // Normalize angle to -PI to PI range efficiently
             let normalizedFacing = newFacing;
             if (normalizedFacing > Math.PI) normalizedFacing -= 2 * Math.PI;
             if (normalizedFacing < -Math.PI) normalizedFacing += 2 * Math.PI;
-            
+
             // Update facing direction in store immediately for smooth, fluid rotation
             setTokenFacingDirection(tokenId, normalizedFacing);
         }
@@ -619,17 +619,17 @@ const CharacterToken = ({
         if (isInMultiplayer && !isGMMode) {
             const { currentPlayer } = useGameStore.getState();
             const { name: characterName } = useCharacterStore.getState();
-            
+
             // Check multiple ways the token could be identified as the player's token:
             // 1. tokenPlayerId matches currentPlayer.id
             // 2. tokenPlayerId matches characterName (used when placing from HUD)
             // 3. tokenPlayerId is 'current-player'
             // 4. token.isPlayerToken is true (single-player compatibility)
-            const isOwnToken = tokenPlayerId === currentPlayer?.id || 
-                              tokenPlayerId === characterName ||
-                              tokenPlayerId === 'current-player' ||
-                              token?.isPlayerToken === true;
-            
+            const isOwnToken = tokenPlayerId === currentPlayer?.id ||
+                tokenPlayerId === characterName ||
+                tokenPlayerId === 'current-player' ||
+                token?.isPlayerToken === true;
+
             if (!isOwnToken) {
                 console.log('Cannot move character token - not your token', {
                     tokenPlayerId,
@@ -731,16 +731,16 @@ const CharacterToken = ({
         // PERFORMANCE: Batch React state updates to reduce re-renders
         const scheduleStateUpdate = (worldPos) => {
             pendingWorldPosRef.current = worldPos;
-            
+
             if (rafIdRef.current === null) {
                 rafIdRef.current = requestAnimationFrame(() => {
                     if (pendingWorldPosRef.current) {
                         const now = Date.now();
                         // Only update React state periodically (every 50ms = ~20fps) to reduce re-renders
                         if (now - lastLocalPositionUpdate > 50) {
-                            setLocalPosition({ 
-                                x: pendingWorldPosRef.current.x, 
-                                y: pendingWorldPosRef.current.y 
+                            setLocalPosition({
+                                x: pendingWorldPosRef.current.x,
+                                y: pendingWorldPosRef.current.y
                             });
                             lastLocalPositionUpdate = now;
                         }
@@ -838,6 +838,7 @@ const CharacterToken = ({
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
                     multiplayerSocket.emit('character_moved', {
+                        characterId: tokenPlayerId,
                         position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
                         isDragging: true
                     });
@@ -991,6 +992,7 @@ const CharacterToken = ({
                     if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
                         window[`recent_character_move_${tokenId}`] = Date.now();
                         multiplayerSocket.emit('character_moved', {
+                            characterId: tokenPlayerId,
                             position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                             isDragging: false
                         });
@@ -1007,6 +1009,7 @@ const CharacterToken = ({
                 if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
                     window[`recent_character_move_${tokenId}`] = Date.now();
                     multiplayerSocket.emit('character_moved', {
+                        characterId: tokenPlayerId,
                         position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                         isDragging: false
                     });
@@ -1635,12 +1638,12 @@ const CharacterToken = ({
                     boxShadow: isViewingFrom
                         ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : isMyTurn
-                        ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : isSelectedForCombat
-                        ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : isTargeted
-                        ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : '0 2px 8px rgba(0, 0, 0, 0.3)',
+                            ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                            : isSelectedForCombat
+                                ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                                : isTargeted
+                                    ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                                    : '0 2px 8px rgba(0, 0, 0, 0.3)',
                     backgroundColor: 'rgba(0, 0, 0, 0.1)',
                     cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
                     pointerEvents: 'all', // Ensure it can receive mouse events
@@ -1668,14 +1671,14 @@ const CharacterToken = ({
                     const pathId = `${tokenId}-${effect.key}-ring-path`;
                     const label = (effect.label || effect.key || '').toString().toUpperCase();
                     const separator = ' \u2022 ';
-                    
+
                     // Calculate ring radius - each subsequent ring is pushed outward
                     // Base radius starts at 52 (in a 140x140 viewBox), increment by 14 per ring
                     const baseRadius = 52;
                     const radiusIncrement = 14;
                     const radius = baseRadius + (index * radiusIncrement);
                     const startY = 70 - radius; // Center is at 70,70
-                    
+
                     // Calculate circumference and how many times to repeat text
                     // Circumference = 2 * PI * radius
                     const circumference = 2 * Math.PI * radius;
@@ -1687,16 +1690,16 @@ const CharacterToken = ({
                     // Calculate exact fit - use floor to avoid overlap, minimum 3 repetitions
                     const repeatCount = Math.max(3, Math.floor(circumference / estTextWidth));
                     const wrappedText = Array(repeatCount).fill(labelWithSep).join('');
-                    
+
                     // Animation delay for visual variety (stagger rotation start)
                     const animationDelay = index * -5; // seconds offset
-                    
+
                     // Calculate percentage-based sizing so rings scale with token zoom
                     // Base extension is 30% beyond token, each ring adds 20% more
                     const baseExtension = 30 + (index * 20);
-                    
+
                     return (
-                        <div 
+                        <div
                             className={`condition-ring-wrapper condition-ring-${index}`}
                             key={effect.key}
                             style={{
@@ -1709,19 +1712,19 @@ const CharacterToken = ({
                                 height: `${100 + (baseExtension * 2)}%`,
                             }}
                         >
-                            <svg 
-                                className={`condition-ring-svg ${effect.key}`} 
-                                viewBox="0 0 140 140" 
+                            <svg
+                                className={`condition-ring-svg ${effect.key}`}
+                                viewBox="0 0 140 140"
                                 aria-hidden="true"
                                 style={{ overflow: 'visible' }}
                             >
                                 <defs>
-                                    <path 
-                                        id={pathId} 
-                                        d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`} 
+                                    <path
+                                        id={pathId}
+                                        d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`}
                                     />
                                 </defs>
-                                <text 
+                                <text
                                     className={`condition-ring-text condition-text-${effect.key}`}
                                     textLength={circumference * 0.98}
                                     lengthAdjust="spacing"
@@ -1734,7 +1737,7 @@ const CharacterToken = ({
                         </div>
                     );
                 })}
-                
+
                 {/* Character Image with Transformations */}
                 <div
                     className="token-icon"
@@ -2430,9 +2433,9 @@ const CharacterToken = ({
                         const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
                         const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
                         const allEffects = [...tokenBuffs, ...tokenDebuffs];
-                        
+
                         if (allEffects.length === 0) return null;
-                        
+
                         return (
                             <div style={{
                                 borderTop: '1px solid #a08c70',
@@ -2446,7 +2449,7 @@ const CharacterToken = ({
                                     {allEffects.slice(0, 4).map((effect, index) => {
                                         const isBuff = tokenBuffs.includes(effect);
                                         const effectColor = effect.color || (isBuff ? '#32CD32' : '#DC143C');
-                                        
+
                                         return (
                                             <div
                                                 key={index}

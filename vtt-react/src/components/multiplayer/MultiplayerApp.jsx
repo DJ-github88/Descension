@@ -438,6 +438,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       setSocket(newSocket);
       setIsConnecting(true);
+
+      // Sync socket to presenceStore for global chat and invites
+      try {
+        import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+          usePresenceStore.getState().setSocket(newSocket);
+        });
+      } catch (e) {
+        console.warn('Could not sync socket to presenceStore:', e);
+      }
+
       newSocket.connect();
     };
 
@@ -543,7 +553,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('disconnect', (reason) => {
-      setConnectionStatus('disconnected');
+      // If disconnect was not intentional, show it as an error
+      setConnectionStatus(reason === 'io client disconnect' ? 'disconnected' : 'error');
       setConnectionQuality({ latency: 0, quality: 'disconnected' });
 
       // IMPROVEMENT: Clear latency check interval
@@ -560,10 +571,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           type: 'system',
           timestamp: new Date().toISOString()
         });
-      } else if (reason === 'transport close') {
+      } else if (reason === 'transport close' || reason === 'ping timeout') {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
-          content: 'Connection lost. Attempting to reconnect...',
+          content: `Connection lost (${reason}). Attempting to reconnect...`,
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -572,8 +583,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
-      // Update actual player count from server
-      setActualPlayerCount(data.playerCount);
+      // Update actual player count from server - Always add 1 for the GM
+      // The server typically counts only non-GM players in the players list
+      setActualPlayerCount(data.playerCount + 1);
 
       // Update connected players list - don't require currentRoom to be set yet
       setConnectedPlayers(prev => {
@@ -698,8 +710,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player count updates
     socket.on('player_count_updated', (data) => {
-      // Update the actual player count from server
-      setActualPlayerCount(data.playerCount);
+      // Update the actual player count from server - Always add 1 for the GM
+      setActualPlayerCount(data.playerCount + 1);
     });
 
     // Listen for party member additions from other clients
@@ -733,8 +745,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
-      // Update actual player count from server
-      setActualPlayerCount(data.playerCount);
+      // Update actual player count from server - Always add 1 for the GM
+      setActualPlayerCount(data.playerCount + 1);
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
@@ -870,7 +882,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Also add to party chat if message type is 'party' or if in party
       if (message.type === 'party' || message.type === 'chat') {
         import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
-          const { addPartyChatMessage, activeTab, setActiveTab } = usePresenceStore.getState();
+          const { addPartyChatMessage, activeTab } = usePresenceStore.getState();
           // Convert timestamp to ISO string if it's a Date object
           const timestamp = message.timestamp instanceof Date
             ? message.timestamp.toISOString()
@@ -886,14 +898,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             type: 'party'
           });
 
-          // If not on party tab, switch to it to show the message
-          if (activeTab !== 'party') {
-            setActiveTab('party');
-          }
+          // OPTIONAL: Switch to party tab? Removed to prevent disruption
+          // if (activeTab !== 'party') { setActiveTab('party'); }
         }).catch(error => {
           console.error('Failed to add party chat message:', error);
         });
       }
+    });
+
+    // Listen for global chat messages to sync with presence store
+    socket.on('global_chat_message', (message) => {
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        usePresenceStore.getState().addGlobalMessage(message);
+      }).catch(error => {
+        console.error('Failed to add global chat message:', error);
+      });
     });
 
     // Listen for token movements from other players
@@ -962,9 +981,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                     return; // Don't process position update since optimistic update already applied it
                   }
 
-                  // CRITICAL FIX: Find token by creatureId (not tokenId) to ensure correct token is updated
+                  // CRITICAL FIX: Find token by unique token ID (not creatureId)
                   const currentTokens = useCreatureStore.getState().tokens;
-                  const token = currentTokens.find(t => t.creatureId === update.targetId);
+                  const token = currentTokens.find(t => t.id === update.targetId);
                   if (token) {
                     // CRITICAL FIX: Only update position if it's significantly different to prevent micro-jumps
                     // This prevents position jumps when GM starts dragging player tokens
@@ -1007,38 +1026,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character movements from other players AND server confirmations
     socket.on('character_moved', (data) => {
-      const isOwnMovement = data.playerId === currentPlayer?.id ||
-        data.playerId === socket.id;
+      // CRITICAL FIX: Distinguish between sender (playerId) and target token (characterId)
+      // data.playerId is usually the socket.id or player database ID of the SENDER
+      // data.characterId is the ID of the character token being moved
+      const senderId = data.playerId;
+      const targetCharacterId = data.characterId || senderId; // Fallback to senderId for older clients
+
+      const isOwnMovement = senderId === currentPlayer?.id || senderId === socket.id;
 
       // For own movements, ignore server confirmations to prevent position jumps
-      // The client is authoritative for its own character position
       if (isOwnMovement) {
-        // Check if we recently sent this movement (within last 2000ms to handle long drags)
-        const recentMoveKey = `recent_character_move_${data.playerId}`;
-        const recentMoveTime = window[recentMoveKey] || 0;
-        const timeSinceMove = Date.now() - recentMoveTime;
-
-        if (timeSinceMove < 2000) {
-          // This is our own recent movement echoed back - ignore it completely
-          // Extended to 2000ms to handle long drag sessions
-          return;
-        }
-
-        // If it's been a while, this might be a legitimate server correction
-        // (e.g., after reconnection or desync), so apply it
-        try {
-          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-          updateCharacterTokenPosition(data.playerId, data.position);
-        } catch (error) {
-          console.error('Failed to update own character token position from server:', error);
-        }
         return;
       }
 
-
       // Process movement from other players
       // Throttle character token position updates
-      const throttleKey = `character_${data.playerId}`;
+      const throttleKey = `character_${targetCharacterId}`;
       const now = Date.now();
       const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
       const throttleMs = data.isDragging ? 33 : 16;
@@ -1049,7 +1052,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Update character token position for other players
         try {
           const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-          updateCharacterTokenPosition(data.playerId, data.position);
+          updateCharacterTokenPosition(targetCharacterId, data.position);
         } catch (error) {
           console.error('Failed to update character token position:', error);
         }
@@ -2346,6 +2349,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setSocket(socketConnection);
       setIsGM(isGameMaster);
 
+      // Sync socket to presenceStore in handleJoinRoom
+      try {
+        import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+          usePresenceStore.getState().setSocket(socketConnection);
+        });
+      } catch (e) {
+        console.warn('Could not sync socket to presenceStore in handleJoinRoom:', e);
+      }
+
       // Disable editor mode for test rooms (test rooms are not world builder mode)
       const isTestRoom = localStorage.getItem('isTestRoom') === 'true';
       if (isTestRoom) {
@@ -2455,7 +2467,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const { user } = useAuthStore.getState();
       const isGuest = user?.isGuest || false;
 
-      if (!activeCharacter && !isGuest) {
+      if (!activeCharacter && !isGuest && !isGameMaster) {
         // Try to get available characters
         const { characters } = useCharacterStore.getState();
         setIsJoiningRoom(false);
@@ -2638,9 +2650,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // If I am a player joining, I am already accounted for in the server's update or will be +1.
       // Better to rely on "GM + players.length" logic safely.
       // Set initial player count (GM + regular players)
-      // Note: room.players is an Array from server (Array.from()), and server now handles GM inclusion in count
-      const initialPlayerCount = room.players?.length || room.playerCount || 1;
-      setActualPlayerCount(initialPlayerCount);
+      // Set initial player count (GM + regular players)
+      // Note: room.players is an Array from server, and server now handles GM inclusion in count
+      // robust method: count unique players in our connectedPlayers list + 1 (ourselves)
+      const totalParticipants = (uniquePlayers ? uniquePlayers.length : 0) + 1;
+      setActualPlayerCount((room.playerCount ? room.playerCount + 1 : totalParticipants));
 
       // Integrate multiplayer players into party system
       // Get active character data for current player
