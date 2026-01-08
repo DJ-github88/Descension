@@ -1063,7 +1063,6 @@ io.on('connection', (socket) => {
         name: roomName,
         passwordHash: passwordHash, // Store hashed password (null = no password)
         hasPassword: !!passwordHash, // Flag for clients to know if password is required
-        gmUserId: data.userId || null, // Store GM's authenticated userId for reconnect verification
         gm: {
           id: socket.id, // Add id for player identification
           socketId: socket.id,
@@ -1174,27 +1173,14 @@ io.on('connection', (socket) => {
       const playerName = sanitizePlayerName(data.playerName);
 
       // Check if this is the GM reconnecting - IMPROVED: More robust GM detection
-      // CRITICAL FIX: Prevent same-name players from hijacking GM status
       // Only consider it a GM reconnect if:
       // 1. The room has a GM
       // 2. The name matches the GM's name
-      // 3. EITHER: 
-      //    a) This exact socket was already tracked as GM, OR
-      //    b) The GM socket disconnected AND this user has the same authenticated userId as the original GM
+      // 3. Either: the GM socket disconnected (room.gmDisconnectedAt is set) OR this exact socket was already tracked as GM
       const existingPlayer = players.get(socket.id);
-      
-      // For GM reconnect via disconnection, we need to verify it's actually the same user
-      // If authenticated, check userId match; if not authenticated, only allow socket-based reconnect
-      const canReconnectAsGM = existingPlayer && existingPlayer.isGM;
-      const isAuthenticatedGMReconnect = room.gmDisconnectedAt && 
-        room.gm.name === playerName &&
-        data.userId && // Requires authenticated userId
-        room.gmUserId && // Room must have stored original GM's userId
-        data.userId === room.gmUserId;
-      
       const isGMReconnect = room.gm &&
         room.gm.name === playerName &&
-        (canReconnectAsGM || isAuthenticatedGMReconnect);
+        (room.gmDisconnectedAt || (existingPlayer && existingPlayer.isGM));
 
       // SECURITY: Verify password if room has one (skip for GM reconnect)
       if (room.passwordHash && !isGMReconnect) {
@@ -1274,64 +1260,6 @@ io.on('connection', (socket) => {
         player: player,
         playerCount: room.players.size
       });
-
-      // CRITICAL FIX: Send current game state to newly joined player
-      // This ensures they see existing tokens, grid items, and map data
-      
-      // Send current grid items to the newly joined player
-      if (room.gameState.gridItems && Object.keys(room.gameState.gridItems).length > 0) {
-        logger.debug('Sending grid items to player', { 
-          playerName,
-          gridItemCount: Object.keys(room.gameState.gridItems).length,
-          roomId: data.roomId
-        });
-        socket.emit('sync_grid_items', {
-          gridItems: room.gameState.gridItems
-        });
-      }
-
-      // Send current tokens to the newly joined player
-      if (room.gameState.tokens && Object.keys(room.gameState.tokens).length > 0) {
-        logger.debug('Sending tokens to player', { 
-          playerName,
-          tokenCount: Object.keys(room.gameState.tokens).length,
-          roomId: data.roomId
-        });
-        socket.emit('sync_tokens', {
-          tokens: room.gameState.tokens
-        });
-      }
-
-      // Send current character tokens to the newly joined player
-      if (room.gameState.characterTokens && Object.keys(room.gameState.characterTokens).length > 0) {
-        logger.debug('Sending character tokens to player', { 
-          playerName,
-          characterTokenCount: Object.keys(room.gameState.characterTokens).length,
-          roomId: data.roomId
-        });
-        socket.emit('sync_character_tokens', {
-          characterTokens: room.gameState.characterTokens
-        });
-      }
-
-      // Send map data (terrain, fog, walls, etc.) to the newly joined player
-      if (room.gameState.mapData && Object.keys(room.gameState.mapData).length > 0) {
-        logger.debug('Sending map data to player', { playerName, roomId: data.roomId });
-        socket.emit('map_updated', {
-          mapData: {
-            ...room.gameState.mapData,
-            fogOfWar: room.gameState.fogOfWar,
-            fogOfWarPaths: room.gameState.mapData?.fogOfWarPaths,
-            fogErasePaths: room.gameState.mapData?.fogErasePaths,
-            terrainData: room.gameState.mapData?.terrainData,
-            wallData: room.gameState.mapData?.wallData,
-            drawingLayers: room.gameState.mapData?.drawingLayers,
-            drawingPaths: room.gameState.mapData?.drawingPaths
-          },
-          playerId: null, // Sync from server
-          isSync: true
-        });
-      }
 
       // Broadcast room list update (player counts changed)
       io.emit('room_list_updated', getPublicRooms());
@@ -1574,28 +1502,10 @@ io.on('connection', (socket) => {
       if (!room.gameState) room.gameState = {};
       if (!room.gameState.gridItems) room.gameState.gridItems = {};
 
-      // CRITICAL FIX: Handle the correct data structure from client
-      // Client sends: { type: 'grid_item_added'|'grid_item_removed'|'grid_item_moved', data: {...}, timestamp }
-      if (data.type === 'grid_item_added' && data.data?.item) {
-        const itemId = data.data.item.id || `grid_item_${Date.now()}`;
-        room.gameState.gridItems[itemId] = data.data.item;
-        logger.debug('Grid item added to game state', { itemId, roomId: player.roomId });
-      } else if (data.type === 'grid_item_removed' && data.data?.gridItemId) {
-        delete room.gameState.gridItems[data.data.gridItemId];
-        logger.debug('Grid item removed from game state', { gridItemId: data.data.gridItemId, roomId: player.roomId });
-      } else if (data.type === 'grid_item_moved' && data.data?.gridItemId && data.data?.newPosition) {
-        if (room.gameState.gridItems[data.data.gridItemId]) {
-          room.gameState.gridItems[data.data.gridItemId].position = data.data.newPosition;
-          logger.debug('Grid item moved in game state', { gridItemId: data.data.gridItemId, roomId: player.roomId });
-        }
-      }
+      room.gameState.gridItems[data.itemId] = data.item;
 
-      // Broadcast to other players in room with playerId for client-side filtering
-      socket.to(player.roomId).emit('grid_item_update', {
-        ...data,
-        playerId: player.id,
-        playerName: player.name
-      });
+      // Broadcast to other players in room
+      socket.to(player.roomId).emit('grid_item_update', data);
     } catch (error) {
       logger.error('Error handling grid_item_update', { error: error.message });
     }

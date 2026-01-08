@@ -427,8 +427,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       newSocket.on('connect_error', (error) => {
         console.error('Socket connection error:', error);
         setIsConnecting(false);
-        // CRITICAL FIX: Set connection status to error so UI shows the error state
-        setConnectionStatus('error');
         // Show connection error to user
         addNotificationRef.current('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -2189,9 +2187,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle connection errors
     socket.on('connect_error', (error) => {
       console.error('❌ Connection error:', error);
-      
-      // CRITICAL FIX: Set connection status to error so UI shows the error state
-      setConnectionStatus('error');
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -2235,8 +2230,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // IMPROVEMENT: Handle reconnection with better state recovery
     socket.on('reconnect', (attemptNumber) => {
-      // CRITICAL FIX: Reset connection status to connected on successful reconnect
-      setConnectionStatus('connected');
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -2435,9 +2428,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.error('Error in handleJoinRoom initialization:', error);
       setIsJoiningRoom(false);
       setConnectionStatus('error');
-      // CRITICAL FIX: Ensure GM mode is set correctly even on early return
-      // Joining players are never GM - only room creator is GM
-      setGMMode(isGameMaster);
       setError(`Failed to initialize room connection: ${error.message || 'Unknown error'}`);
       return; // Exit early if there's an error
     }
@@ -2470,9 +2460,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const { characters } = useCharacterStore.getState();
         setIsJoiningRoom(false);
         setConnectionStatus('error');
-        // CRITICAL FIX: Ensure GM mode is set correctly even on early return
-        // Joining players are never GM - only room creator is GM
-        setGMMode(isGameMaster);
         if (characters && characters.length > 0) {
           // Show a user-friendly message with actionable guidance
           const characterNames = characters.map(c => c.name).join(', ');
