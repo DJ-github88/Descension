@@ -585,7 +585,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_joined', (data) => {
       // Update actual player count from server - Always add 1 for the GM
       // The server typically counts only non-GM players in the players list
-      setActualPlayerCount(data.playerCount + 1);
+      setActualPlayerCount(data.playerCount);
 
       // Update connected players list - don't require currentRoom to be set yet
       setConnectedPlayers(prev => {
@@ -711,7 +711,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for player count updates
     socket.on('player_count_updated', (data) => {
       // Update the actual player count from server - Always add 1 for the GM
-      setActualPlayerCount(data.playerCount + 1);
+      setActualPlayerCount(data.playerCount);
     });
 
     // Listen for party member additions from other clients
@@ -746,7 +746,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Update actual player count from server - Always add 1 for the GM
-      setActualPlayerCount(data.playerCount + 1);
+      setActualPlayerCount(data.playerCount);
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);

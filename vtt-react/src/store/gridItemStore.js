@@ -221,14 +221,15 @@ const useGridItemStore = create((set, get) => ({
 
       // Then override with the critical grid item properties
       // This ensures these properties aren't overridden by the spread operator
-      id: generateId(),
-      itemId: item.id, // Reference to the original item
+      // CRITICAL: Preserve ID if it already exists (important for multiplayer sync)
+      id: item.addedAt ? item.id : generateId(),
+      itemId: item.itemId || item.id, // Reference to the original item
       // Store the original item store ID if available (for items from inventory)
       originalItemStoreId: item.originalItemStoreId || null,
       // IMPORTANT: Ensure position is set correctly and not overridden
       position: position, // { x, y } in pixels
       gridPosition: position.gridPosition, // { row, col } in grid coordinates
-      addedAt: new Date().toISOString(),
+      addedAt: item.addedAt || new Date().toISOString(),
 
       // Ensure critical properties are set correctly even if they weren't in the original item
       isContainer: item.type === 'container',

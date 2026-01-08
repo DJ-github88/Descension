@@ -142,9 +142,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Update local position when prop position changes (but not during dragging or shortly after)
   useEffect(() => {
-    // CRITICAL FIX: NEVER update position from props while dragging
-    // This prevents ANY external updates (including auto-save) from interfering with smooth dragging
-    if (isDragging) {
+    // CRITICAL FIX: NEVER update position from props while dragging or mouse is down
+    // This prevents ANY external updates (including auto-save) from interfering with smooth interactions
+    if (isDragging || isMouseDown) {
       return;
     }
 
@@ -155,7 +155,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (timeSinceLastUpdate > 1000) {
       setLocalPosition(position);
     }
-  }, [position, isDragging]);
+  }, [position, isDragging, isMouseDown]);
   const gridSystem = getGridSystem();
 
   // Expose grid system to window for combat store access
@@ -579,18 +579,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
       if (isInMultiplayer && token && multiplayerSocket) {
         if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
-          // CRITICAL FIX: Use the token's actual current position, not the calculated world position
-          // This prevents position jumps when GM starts dragging player tokens
-          // The token's position prop is the source of truth
-          const currentTokenPosition = position || { x: worldPos.x, y: worldPos.y };
+          // CRITICAL FIX: Use the current world position for real-time dragging
+          // This ensures other players see exactly where the token is being moved to
+          const currentTokenPosition = { x: worldPos.x, y: worldPos.y };
 
-          // Snap to grid during drag to ensure consistency with final position
+          // Snap to grid for network consistency
           const gridCoords = gridSystem.worldToGrid(currentTokenPosition.x, currentTokenPosition.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
           multiplayerSocket.emit('token_moved', {
             tokenId: token.id,
-            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position from token's actual position
+            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) },
             isDragging: true
           });
           lastNetworkUpdate = now;

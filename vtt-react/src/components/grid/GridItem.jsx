@@ -91,14 +91,9 @@ const GridItem = ({ gridItem }) => {
         return visibleAreaSet.has(itemTileKey);
       }
 
-      // If visibleAreaSet exists but is empty, item is not visible
-      if (visibleAreaSet && visibleAreaSet.size === 0) {
-        return false;
-      }
-
-      // Distance-based fallback ONLY when visibleAreaSet is null (not yet calculated)
+      // Distance-based fallback ONLY when visibleAreaSet is null or empty (initialization)
       // This prevents items from being hidden during initialization
-      if (!visibleAreaSet && viewingFromToken && viewingFromToken.position) {
+      if ((!visibleAreaSet || visibleAreaSet.size === 0) && viewingFromToken && viewingFromToken.position) {
         const dx = itemPosition.x - viewingFromToken.position.x;
         const dy = itemPosition.y - viewingFromToken.position.y;
         const distance = Math.sqrt(dx * dx + dy * dy);

@@ -64,8 +64,7 @@ const CharacterToken = ({
     useEffect(() => {
         // CRITICAL FIX: NEVER update position from props while dragging
         // This prevents ANY external updates from interfering with smooth dragging
-        if (isDragging) {
-            console.log(`🚫 Skipping position update - currently dragging`);
+        if (isDragging || isMouseDown) {
             return;
         }
 
@@ -80,7 +79,7 @@ const CharacterToken = ({
         } else {
             console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 100ms)`);
         }
-    }, [position, isDragging]);
+    }, [position, isDragging, isMouseDown]);
 
     // Get character data - use party member data if this is another player's token
     const currentCharacterData = useCharacterStore(state => ({
