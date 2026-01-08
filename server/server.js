@@ -1504,8 +1504,16 @@ io.on('connection', (socket) => {
 
       room.gameState.gridItems[data.itemId] = data.item;
 
-      // Broadcast to other players in room
-      socket.to(player.roomId).emit('grid_item_update', data);
+      // CRITICAL FIX: Persist to Firebase to ensure items survive reconnection
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist grid item update:', error);
+      }
+
+      // Broadcast to all players in room (including sender for confirmation)
+      // CRITICAL FIX: Changed from socket.to to io.to to include sender
+      io.to(player.roomId).emit('grid_item_update', data);
     } catch (error) {
       logger.error('Error handling grid_item_update', { error: error.message });
     }
