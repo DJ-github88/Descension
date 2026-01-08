@@ -1,0 +1,1538 @@
+/* ===== PATHFINDER VTT - APP STYLES ===== */
+
+/* Import spell tooltip styles */
+@import './styles/spell-tooltip.css';
+
+/* Import floating combat text styles */
+@import './components/combat/FloatingCombatText.css';
+
+/* Global styles to prevent text selection */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow text selection for input fields and text areas */
+input, textarea, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Game Screen Specific Styles - Prevent scrolling during gameplay */
+.spell-wizard-container {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--pf-gradient-parchment);
+  position: relative;
+  text-align: center;
+  color: var(--pf-text-primary);
+}
+
+.App {
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--pf-gradient-parchment);
+  position: relative;
+  text-align: center;
+  color: var(--pf-text-primary);
+}
+
+.App-header {
+  padding: var(--pf-space-6);
+  border-bottom: 2px solid var(--pf-brown-medium);
+  background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+}
+
+.App-main {
+  padding: var(--pf-space-6);
+}
+
+/* ===== PATHFINDER NAVIGATION ===== */
+
+.game-menu {
+  display: flex;
+  justify-content: center;
+  gap: var(--pf-space-6);
+  margin: var(--pf-space-6) 0;
+}
+
+.nav-button, .hud-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-3) var(--pf-space-6);
+  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-button:hover, .hud-button:hover {
+  background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-dark);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.nav-button:active, .hud-button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 2px rgba(139, 69, 19, 0.3),
+    inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+/* ===== PATHFINDER NAVIGATION BAR ===== */
+
+.navigation {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--pf-gradient-parchment);
+    border: 2px solid var(--pf-brown-medium);
+    border-radius: var(--pf-border-radius-lg);
+    box-shadow: var(--pf-shadow-parchment);
+    padding: var(--pf-space-2);
+    display: flex;
+    flex-direction: row;
+    gap: var(--pf-space-1);
+    align-items: center;
+    user-select: none;
+    cursor: move;
+    transform: translate(0, 0);
+    touch-action: none;
+    backdrop-filter: blur(4px);
+}
+
+.main-nav-button {
+    background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+    color: var(--pf-text-secondary);
+    border: 2px solid var(--pf-brown-medium);
+    padding: var(--pf-space-2);
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: var(--pf-border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--pf-transition-normal);
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    position: relative;
+    box-shadow:
+        0 2px 4px rgba(139, 69, 19, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.main-nav-button:hover {
+    background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
+    border-color: var(--pf-brown-dark);
+    color: var(--pf-text-primary);
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.main-nav-button:active {
+    background: linear-gradient(180deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+    transform: translateY(0px);
+    box-shadow:
+        0 1px 2px rgba(139, 69, 19, 0.3),
+        inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    stroke: var(--pf-text-secondary);
+    opacity: 0.9;
+    filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.3));
+}
+
+.main-nav-button.active {
+    background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+    border-color: var(--pf-gold-dark);
+    color: var(--pf-brown-darkest);
+    box-shadow:
+        0 4px 12px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.main-nav-button.active .nav-icon {
+    stroke: var(--pf-brown-darkest);
+    opacity: 1;
+}
+
+/* Mobile navigation and window sizing */
+@media (max-width: 768px) {
+    .App {
+        padding: var(--pf-space-mobile-4);
+    }
+
+    .navigation {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, 0);
+        bottom: var(--pf-space-mobile-4);
+        width: calc(100% - (2 * var(--pf-space-mobile-4)));
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--pf-space-mobile-2);
+        padding: var(--pf-space-mobile-2);
+    }
+
+    .main-nav-button {
+        width: var(--pf-touch-target-comfortable);
+        height: var(--pf-touch-target-comfortable);
+        padding: var(--pf-space-mobile-2);
+    }
+
+    .nav-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .wow-window,
+    .draggable-window,
+    .shop-window,
+    .item-wizard-modal,
+    .quick-item-generator-modal,
+    .categorize-modal {
+        max-width: 95vw;
+        max-height: 80vh;
+        left: 50% !important;
+        transform: translate(-50%, 0);
+    }
+}
+
+.hotkey {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: var(--pf-brown-dark);
+    color: var(--pf-text-on-dark);
+    padding: 1px 3px;
+    font-size: 9px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0px;
+    border-radius: 3px;
+    border: 1px solid var(--pf-brown-medium);
+    opacity: 0.8;
+    min-width: 12px;
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.main-nav-button:hover .hotkey {
+    opacity: 1;
+    background: var(--pf-brown-darkest);
+    border-color: var(--pf-brown-dark);
+}
+
+/* ===== PATHFINDER CREATURE LIBRARY ===== */
+
+.creature-library {
+  padding: var(--pf-space-6);
+  color: var(--pf-text-primary);
+  background: var(--pf-gradient-parchment);
+}
+
+.creature-types {
+  display: flex;
+  gap: var(--pf-space-3);
+  margin-bottom: var(--pf-space-6);
+  flex-wrap: wrap;
+}
+
+.add-creature-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  color: var(--pf-brown-darkest);
+  border: 2px solid var(--pf-gold-dark);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 4px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.add-creature-button:hover {
+  background: linear-gradient(180deg, var(--pf-gold), var(--pf-gold-dark));
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.creature-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+.creature-card {
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  box-shadow:
+    0 2px 8px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.creature-card:hover {
+  background: linear-gradient(145deg, var(--pf-parchment-light), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.creature-card.selected {
+  background: linear-gradient(145deg, var(--pf-gold-light), var(--pf-gold));
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow:
+    0 4px 16px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.creature-card h3 {
+  margin: 0 0 var(--pf-space-3) 0;
+  color: var(--pf-brown-dark);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.creature-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  padding: var(--pf-space-3);
+  border-radius: var(--pf-border-radius);
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.creature-attributes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  padding: var(--pf-space-3);
+  border-radius: var(--pf-border-radius);
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.creature-abilities {
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  padding: var(--pf-space-3);
+  border-radius: var(--pf-border-radius);
+  margin: var(--pf-space-3) 0;
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.creature-abilities h4 {
+  margin: 0 0 var(--pf-space-3) 0;
+  color: var(--pf-brown-dark);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+}
+
+.ability-item {
+  display: flex;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  margin-bottom: var(--pf-space-2);
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.1);
+}
+
+.add-ability-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+  color: var(--pf-text-secondary);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  font-size: 0.85rem;
+  margin-bottom: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.add-ability-button:hover {
+  background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-dark);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ===== PATHFINDER CREATURE LIBRARY GRID ===== */
+
+.creature-library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--pf-space-6);
+  background: var(--pf-gradient-parchment);
+}
+
+.creature-types {
+  display: flex;
+  gap: var(--pf-space-3);
+  justify-content: center;
+  margin-bottom: var(--pf-space-6);
+  flex-wrap: wrap;
+}
+
+.creature-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--pf-space-6);
+  padding: var(--pf-space-6);
+}
+
+.creature-resistances {
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  padding: var(--pf-space-3);
+  border-radius: var(--pf-border-radius);
+  margin: var(--pf-space-3) 0;
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.creature-resistances > div {
+  display: inline-block;
+  margin: var(--pf-space-1) var(--pf-space-2);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-secondary);
+  font-size: 0.85rem;
+  box-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.ability-item strong {
+  color: var(--pf-brown-dark);
+  display: block;
+  margin-bottom: var(--pf-space-1);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+}
+
+/* ===== PATHFINDER HUD ===== */
+
+.hud {
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-6);
+  margin: var(--pf-space-6) auto;
+  max-width: 600px;
+  color: var(--pf-text-primary);
+}
+
+/* ===== PATHFINDER COMBAT TRACKER ===== */
+
+.combat-tracker {
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-6);
+  margin: var(--pf-space-6) auto;
+  max-width: 800px;
+  color: var(--pf-text-primary);
+}
+
+.combat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-6);
+  padding-bottom: var(--pf-space-3);
+  border-bottom: 2px solid var(--pf-brown-light);
+}
+
+.turn-order {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.creature-turn-item {
+  display: flex;
+  align-items: center;
+  padding: var(--pf-space-3);
+  background: linear-gradient(145deg, var(--pf-parchment-light), var(--pf-parchment));
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  position: relative;
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.creature-turn-item:hover {
+  transform: translateX(5px);
+  background: linear-gradient(145deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-medium);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.creature-turn-item.active {
+  background: linear-gradient(145deg, var(--pf-gold-light), var(--pf-gold));
+  border-left: 4px solid var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow:
+    0 4px 12px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.creature-turn-item.selected {
+  border: 2px solid var(--pf-gold);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.creature-turn-item.targeted {
+  border: 2px solid #d32f2f;
+  box-shadow:
+    0 0 12px rgba(211, 47, 47, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.creature-initiative {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  color: var(--pf-brown-darkest);
+  border: 2px solid var(--pf-gold-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+  margin-right: var(--pf-space-4);
+  box-shadow:
+    0 2px 6px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.creature-info {
+  flex: 1;
+}
+
+.creature-name {
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-text-primary);
+}
+
+.creature-stats {
+  display: flex;
+  gap: var(--pf-space-4);
+  font-size: 0.9em;
+  color: var(--pf-text-muted);
+}
+
+.active-marker {
+  position: absolute;
+  right: var(--pf-space-4);
+  font-size: 1.5em;
+  color: var(--pf-gold);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.current-turn {
+  margin-top: var(--pf-space-6);
+  padding: var(--pf-space-4);
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  text-align: center;
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+/* ===== PATHFINDER COMBAT BUTTONS ===== */
+
+.start-combat-button,
+.end-combat-button,
+.next-turn-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-3) var(--pf-space-6);
+  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  border: 2px solid;
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.start-combat-button {
+  background: linear-gradient(180deg, #66bb6a, #4caf50);
+  color: var(--pf-text-on-dark);
+  border-color: #388e3c;
+}
+
+.start-combat-button:hover {
+  background: linear-gradient(180deg, #4caf50, #388e3c);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(76, 175, 80, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.end-combat-button {
+  background: linear-gradient(180deg, #ef5350, #f44336);
+  color: var(--pf-text-on-dark);
+  border-color: #d32f2f;
+}
+
+.end-combat-button:hover {
+  background: linear-gradient(180deg, #f44336, #d32f2f);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(244, 67, 54, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.next-turn-button {
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+  margin-top: var(--pf-space-3);
+}
+
+.next-turn-button:hover {
+  background: linear-gradient(180deg, var(--pf-gold), var(--pf-gold-dark));
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ===== PATHFINDER CREATURE CONTROLS ===== */
+
+.creature-controls {
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-6);
+  margin: var(--pf-space-6) auto;
+  max-width: 600px;
+  color: var(--pf-text-primary);
+}
+
+.creature-status {
+  margin-bottom: var(--pf-space-6);
+}
+
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.health-bar,
+.mana-bar,
+.ap-bar {
+  height: 28px;
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+/* Make bar-fill styles specific to health/mana/ap bars to avoid conflicts with class resource bars */
+.health-bar .bar-fill,
+.mana-bar .bar-fill,
+.ap-bar .bar-fill {
+  height: 100%;
+  transition: width var(--pf-transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-fill.health {
+  background: linear-gradient(180deg, #66bb6a, #4caf50);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.bar-fill.mana {
+  background: linear-gradient(180deg, #42a5f5, #2196f3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.bar-fill.ap {
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Make bar-text styles specific to health/mana/ap bars to avoid conflicts with class resource bars */
+.health-bar .bar-text,
+.mana-bar .bar-text,
+.ap-bar .bar-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pf-text-on-dark);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/* ===== PATHFINDER ABILITY LIST ===== */
+
+.ability-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--pf-space-3);
+  margin: var(--pf-space-3) 0;
+}
+
+.ability-button {
+  background: linear-gradient(145deg, var(--pf-parchment-light), var(--pf-parchment));
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  color: var(--pf-text-primary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-align: left;
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.ability-button:hover:not(.disabled) {
+  background: linear-gradient(145deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-medium);
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.ability-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--pf-parchment-darker);
+  border-color: var(--pf-brown-light);
+  color: var(--pf-text-muted);
+}
+
+.ability-name {
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-brown-dark);
+}
+
+.ability-cost {
+  font-size: 0.9em;
+  color: var(--pf-gold-dark);
+  font-weight: 600;
+}
+
+.ability-damage {
+  font-size: 0.9em;
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.ability-healing {
+  font-size: 0.9em;
+  color: #388e3c;
+  font-weight: 600;
+}
+
+/* ===== PATHFINDER QUICK ACTIONS ===== */
+
+.quick-actions {
+  display: flex;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-6);
+}
+
+.damage-button,
+.heal-button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-3);
+  border: 2px solid;
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.damage-button {
+  background: linear-gradient(180deg, #ef5350, #f44336);
+  color: var(--pf-text-on-dark);
+  border-color: #d32f2f;
+}
+
+.damage-button:hover {
+  background: linear-gradient(180deg, #f44336, #d32f2f);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(244, 67, 54, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.heal-button {
+  background: linear-gradient(180deg, #66bb6a, #4caf50);
+  color: var(--pf-text-on-dark);
+  border-color: #388e3c;
+}
+
+.heal-button:hover {
+  background: linear-gradient(180deg, #4caf50, #388e3c);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(76, 175, 80, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ===== PATHFINDER GRID STYLES ===== */
+
+.grid-tile {
+  position: absolute;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  pointer-events: none;
+  background: rgba(248, 244, 230, 0.05);
+}
+
+/* ===== PATHFINDER TOKEN STYLES ===== */
+
+.token {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pf-text-on-dark);
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  user-select: none;
+  border: 2px solid;
+  border-radius: var(--pf-border-radius);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.token.player {
+  background: linear-gradient(180deg, #5dade2, #3498db);
+  border-color: #2980b9;
+  z-index: 2;
+}
+
+.token.monster {
+  background: linear-gradient(180deg, #ec7063, #e74c3c);
+  border-color: #c0392b;
+  z-index: 1;
+}
+
+/* ===== PATHFINDER HUD STYLES (POSITIONED) ===== */
+
+.hud {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-4);
+  backdrop-filter: blur(5px);
+  min-width: 200px;
+  color: var(--pf-text-primary);
+}
+
+.stat-bar {
+  margin-bottom: var(--pf-space-2);
+}
+
+.stat-label {
+  font-size: 12px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  margin-bottom: var(--pf-space-1);
+  color: #000000;
+}
+
+.stat-bar-container {
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width var(--pf-transition-normal);
+}
+
+.stat-bar-fill.health {
+  background: linear-gradient(180deg, #66bb6a, #4caf50);
+}
+
+.stat-bar-fill.mana {
+  background: linear-gradient(180deg, #42a5f5, #2196f3);
+}
+
+.stat-bar-fill.ap {
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+}
+
+.stat-bar-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  color: var(--pf-text-on-dark);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== PATHFINDER BUTTON STYLES ===== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border: 2px solid;
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.button-primary {
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+}
+
+.button-primary:hover {
+  background: linear-gradient(180deg, var(--pf-gold), var(--pf-gold-dark));
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.button-danger {
+  background: linear-gradient(180deg, #ef5350, #f44336);
+  color: var(--pf-text-on-dark);
+  border-color: #d32f2f;
+}
+
+.button-danger:hover {
+  background: linear-gradient(180deg, #f44336, #d32f2f);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(244, 67, 54, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.button-warning {
+  background: linear-gradient(180deg, #ffb74d, #ff9800);
+  color: var(--pf-text-on-dark);
+  border-color: #f57c00;
+}
+
+.button-warning:hover {
+  background: linear-gradient(180deg, #ff9800, #f57c00);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(255, 152, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ===== PATHFINDER SIDEBAR STYLES ===== */
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  border-left: 2px solid var(--pf-brown-medium);
+  box-shadow: -4px 0 12px rgba(139, 69, 19, 0.3);
+  backdrop-filter: blur(5px);
+  padding: var(--pf-space-6);
+  overflow-y: auto;
+  color: var(--pf-text-primary);
+}
+
+/* ===== PATHFINDER INPUT STYLES ===== */
+
+input[type="number"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  text-align: center;
+  width: 50px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: 'Cinzel', serif;
+  padding: var(--pf-space-1) var(--pf-space-2);
+  transition: all var(--pf-transition-normal);
+  box-shadow: inset 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+/* Remove spinners for Webkit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Focus styles */
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  background: var(--pf-parchment-light);
+  box-shadow:
+    inset 0 1px 2px rgba(139, 69, 19, 0.1),
+    0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* ===== PATHFINDER DAMAGE TYPE GRID STYLES ===== */
+
+.wizard-step .damage-properties-section .damage-type-section .damage-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-3);
+  background: linear-gradient(145deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  margin-top: var(--pf-space-2);
+  box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--pf-brown-medium) var(--pf-parchment-darker);
+}
+
+/* Larger grid for item wizard */
+.item-wizard .damage-type-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-2);
+  max-height: 200px;
+  overflow-y: auto;
+
+  /* Optimize scrolling performance */
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto !important;
+  contain: layout style paint;
+}
+
+/* Medium grid for character sheet */
+.character-sheet .damage-type-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--pf-space-4);
+  padding: var(--pf-space-4);
+  background: none;
+}
+
+/* Pathfinder Scrollbar styles */
+.damage-type-grid::-webkit-scrollbar {
+  width: 12px;
+}
+
+.damage-type-grid::-webkit-scrollbar-track {
+  background: var(--pf-parchment-darker);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+}
+
+.damage-type-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--pf-brown-light), var(--pf-brown-medium));
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-medium);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.damage-type-grid::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--pf-brown-medium), var(--pf-brown-dark));
+}
+
+.damage-type-button {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-1);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.damage-type-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--type-color);
+  opacity: 0.1;
+  transition: opacity var(--pf-transition-normal);
+  border-radius: var(--pf-border-radius);
+  box-shadow: inset 0 0 15px var(--type-color);
+}
+
+.damage-type-button:hover {
+  border-color: var(--pf-brown-medium);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.damage-type-button:hover::before {
+  opacity: 0.15;
+  box-shadow: inset 0 0 20px var(--type-color);
+}
+
+.damage-type-button.selected {
+  border-color: var(--type-color);
+  background: linear-gradient(145deg, var(--pf-parchment-light), var(--pf-parchment));
+  box-shadow:
+    0 4px 12px rgba(139, 69, 19, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.damage-type-button.selected::before {
+  opacity: 0.2;
+  box-shadow: inset 0 0 25px var(--type-color);
+}
+
+.damage-type-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
+  z-index: 1;
+  transition: all var(--pf-transition-normal);
+}
+
+.damage-type-button .damage-type-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--pf-border-radius);
+  filter: drop-shadow(0 2px 4px rgba(139, 69, 19, 0.3));
+}
+
+.damage-type-button:hover .damage-type-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px var(--type-color));
+}
+
+.damage-type-button.selected .damage-type-icon {
+  filter: drop-shadow(0 0 12px var(--type-color));
+}
+
+.damage-type-tooltip {
+  position: absolute;
+  display: none;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--type-color);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  width: max-content;
+  max-width: 200px;
+  z-index: 99999;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  pointer-events: none;
+  left: 50%;
+  bottom: 100%;
+  transform: translate3d(-50%, 0, 999px);
+  margin-bottom: var(--pf-space-1);
+}
+
+.damage-type-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--type-color) transparent transparent transparent;
+}
+
+.damage-type-button:hover .damage-type-tooltip {
+  display: flex;
+}
+
+.damage-type-name {
+  font-size: 15px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-align: center;
+  color: #f0e6d2;
+  text-shadow:
+    1px 1px 2px rgba(0, 0, 0, 0.8),
+    0 0 4px var(--type-color),
+    0 0 8px var(--type-color);
+  line-height: 1.2;
+  white-space: nowrap;
+  margin-bottom: var(--pf-space-1);
+}
+
+.damage-type-description {
+  font-size: 13px;
+  color: var(--pf-text-secondary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ===== PATHFINDER ITEM QUALITY STYLES ===== */
+
+.item-name {
+  font-size: 1.2em;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  margin-bottom: var(--pf-space-2);
+  transition: color var(--pf-transition-normal), text-shadow var(--pf-transition-normal);
+}
+
+.item-name.quality-common {
+  color: var(--pf-text-primary);
+  text-shadow: 0 0 8px rgba(45, 24, 16, 0.3);
+}
+
+.item-name.quality-uncommon {
+  color: #1eff00;
+  text-shadow: 0 0 8px rgba(30, 255, 0, 0.3);
+}
+
+.item-name.quality-rare {
+  color: #0070dd;
+  text-shadow: 0 0 8px rgba(0, 112, 221, 0.3);
+}
+
+.item-name.quality-epic {
+  color: #a335ee;
+  text-shadow: 0 0 8px rgba(163, 53, 238, 0.3);
+}
+
+.item-name.quality-legendary {
+  color: #ff8000;
+  text-shadow: 0 0 8px rgba(255, 128, 0, 0.3);
+}
+
+.item-name.quality-artifact {
+  color: var(--pf-gold);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* ===== PATHFINDER SPELLBOOK WINDOW STYLES ===== */
+
+.spellbook-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  overflow: hidden;
+  /* Isolate spellbook styles */
+  isolation: isolate;
+}
+
+/* Simple protection: Character sheet uses its own specific classes */
+
+/* Scope spellbook tab styles to only apply within spellbook containers */
+.spellbook-layout .spellbook-tabs {
+  display: flex;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-4);
+  border-bottom: 2px solid var(--pf-brown-medium);
+  background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+}
+
+.spellbook-layout .spellbook-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  transition: all var(--pf-transition-normal);
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.spellbook-layout .spellbook-tab svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--pf-text-secondary);
+}
+
+.spellbook-layout .spellbook-tab.active {
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+  box-shadow:
+    0 4px 8px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.spellbook-layout .spellbook-tab.active svg {
+  stroke: var(--pf-brown-darkest);
+}
+
+.spellbook-layout .spellbook-tab:hover:not(.active) {
+  background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.spellbook-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pf-space-4);
+  background: var(--pf-gradient-parchment);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--pf-text-muted);
+}
+
+.empty-state h2 {
+  margin-bottom: var(--pf-space-4);
+  color: var(--pf-brown-dark);
+  font-family: 'Cinzel', serif;
+}
+
+/* Back Button Styling */
+.wow-nav-button.back-button {
+  background: linear-gradient(180deg, #8b4513, #654321);
+  border-color: #5a3a1a;
+}
+
+.wow-nav-button.back-button:hover {
+  background: linear-gradient(180deg, #a0522d, #8b4513);
+  border-color: #d4af37;
+  transform: scale(1.05);
+}
+
+.wow-nav-button.back-button .wow-nav-icon {
+  stroke: #f0e6d2;
+}
+
+.wow-nav-button.back-button:hover .wow-nav-icon {
+  stroke: #d4af37;
+}
+
+/* Premium Campaign Button Styling */
+.wow-nav-button.premium {
+  position: relative;
+  background: linear-gradient(145deg,
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(212, 175, 55, 0.05) 50%,
+    rgba(212, 175, 55, 0.1) 100%);
+  border: 2px solid var(--pf-gold, #d4af37);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.wow-nav-button.premium::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  background: var(--pf-gold, #d4af37);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(212, 175, 55, 0.6);
+  z-index: 2;
+}
+
+.wow-nav-button.premium::after {
+  content: '★';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: var(--pf-gold, #d4af37);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+.wow-nav-button.premium:hover {
+  background: linear-gradient(145deg,
+    rgba(212, 175, 55, 0.2) 0%,
+    rgba(212, 175, 55, 0.1) 50%,
+    rgba(212, 175, 55, 0.2) 100%);
+  border-color: #c19b26;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
+}
+
+.wow-nav-button.premium .wow-nav-icon {
+  stroke: var(--pf-gold, #d4af37);
+}

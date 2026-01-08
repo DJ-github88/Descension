@@ -1,0 +1,666 @@
+.wow-window {
+    background: #f0e6d2; /* Parchment background */
+    border: 1px solid #a08c70;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative; /* Changed from absolute to relative to avoid positioning conflicts */
+    min-width: 200px;
+    max-width: 1200px;
+    min-height: 100px;
+    padding: 0;
+    box-sizing: border-box;
+    /* Remove properties that cause blurry text */
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    padding: 8px 12px; /* Add top/bottom padding to move text away from edges */
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+    border-bottom: 2px solid #a08c70;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: move;
+    position: relative;
+}
+
+.window-header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ensure the entire header is draggable while preserving interactivity */
+.window-header .window-title {
+    pointer-events: none; /* Make title non-interactive for better dragging */
+}
+
+/* Ensure interactive elements work properly */
+.window-header .window-close,
+.window-header .window-header-tab,
+.window-header button {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* D&D/Pathfinder Theme Header */
+.dnd-theme-header {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23) !important; /* Rustic red gradient */
+    border-bottom: 2px solid #a08c70 !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Special styling for window headers containing spellbook tab containers */
+.window-header:has(.spellbook-tab-container) {
+    padding: 0 !important; /* Remove padding when containing spellbook tabs */
+    height: auto !important; /* Allow height to be determined by tab container */
+    background: none !important; /* Let tab container handle background */
+    border-bottom: none !important; /* Let tab container handle border */
+    box-shadow: none !important; /* Let tab container handle shadow */
+}
+
+/* Ensure the spellbook tab container fills the header properly */
+.window-header .spellbook-tab-container {
+    margin: 0 !important;
+    width: 100% !important;
+    height: 48px !important; /* Set consistent height */
+}
+
+/* Adjust close button positioning when inside spellbook tab container header */
+.window-header:has(.spellbook-tab-container) .window-close {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 20 !important; /* Higher z-index to appear above tabs */
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(240, 230, 210, 0.5) !important;
+}
+
+.window-title {
+    color: #f0e6d2 !important; /* Parchment color */
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    padding: 4px 10px !important; /* Add vertical padding for better spacing */
+    white-space: nowrap !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    line-height: 1.2 !important; /* Improve line height */
+}
+
+.window-title.centered {
+    flex: 1;
+    text-align: center;
+    margin: 0 8px;
+}
+
+.header-spacer {
+    width: 24px; /* Same width as close button to balance the layout */
+}
+
+.window-header-tabs {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    margin-left: 10px;
+    margin-right: 10px; /* Add space before close button */
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.window-header-tabs::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.window-header-tab {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 clamp(6px, 1.5vw, 12px);
+    background: transparent;
+    border: 1px solid rgba(240, 230, 210, 0.3);
+    border-radius: 4px;
+    color: #f0e6d2; /* Parchment color */
+    font-size: clamp(10px, 1.2vw, 14px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin: 0 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.window-header-tab:hover {
+    background-color: rgba(240, 230, 210, 0.2);
+    border-color: #f0e6d2;
+}
+
+.window-header-tab.active {
+    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+    color: #f0e6d2;
+    border-color: #f0e6d2;
+    font-weight: bold;
+}
+
+.window-header-tab .tab-icon-img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Icon-only tabs (when no label text) */
+.window-header-tab:has(.tab-icon-img):not(:has(span:not(:empty))) .tab-icon-img,
+.window-header-tab .tab-icon-img:only-child {
+    margin-right: 0;
+    width: 24px;
+    height: 24px;
+}
+
+/* Ensure icon-only tabs have proper padding */
+.window-header-tab:has(.tab-icon-img):not(:has(span:not(:empty))),
+.window-header-tab:has(.tab-icon-img:only-child) {
+    padding: 8px 12px;
+    min-width: 40px;
+    justify-content: center;
+}
+
+.window-close {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    border: 1px solid rgba(240, 230, 210, 0.3) !important;
+    color: #f0e6d2 !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin-left: auto !important; /* Push to the right */
+    position: relative !important;
+    z-index: 10 !important;
+    flex-shrink: 0 !important; /* Prevent shrinking */
+}
+
+.window-close:hover {
+    background-color: rgba(240, 230, 210, 0.2) !important;
+    color: #fff !important;
+    border-color: #f0e6d2 !important;
+}
+
+.window-content {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    padding: 0;
+    width: 100%;
+    height: calc(100% - 40px); /* Subtract header height */
+    box-sizing: border-box;
+    background: transparent; /* Make transparent so child components control their own backgrounds */
+
+    /* Ensure crisp text rendering instead of performance optimizations that blur text */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto !important;
+
+    /* Enhanced scroll responsiveness */
+    overscroll-behavior: contain;
+    scroll-padding: 0;
+    will-change: scroll-position;
+    /* Remove transform that conflicts with dragging */
+}
+
+/* Make resize handle invisible but keep functionality - exclude combat timeline */
+.wow-window .react-resizable-handle {
+    opacity: 0 !important;
+    background: transparent !important;
+}
+
+.wow-window:hover .react-resizable-handle-se {
+    opacity: 1 !important;
+    background: rgba(139, 69, 19, 0.8) !important;
+    border: 2px solid #8B4513 !important;
+    width: 20px !important;
+    height: 20px !important;
+    bottom: -10px !important;
+    right: -10px !important;
+    border-radius: 2px !important;
+    cursor: nw-resize !important;
+    z-index: 1000 !important;
+    position: absolute !important;
+    pointer-events: auto !important;
+}
+
+
+/* Disable transitions during dragging for better performance */
+.draggable-window.dragging .window-header-tab,
+.draggable-window.dragging .tab-button,
+.draggable-window.dragging .spellbook-tab,
+.draggable-window.dragging .window-close {
+    transition: none !important;
+}
+
+/* Disable transitions for wow-window but preserve transforms for react-draggable */
+.draggable-window.dragging .wow-window {
+    transition: none !important;
+}
+
+/* Disable transitions during resizing for smooth, responsive feedback */
+.draggable-window.resizing .window-header-tab,
+.draggable-window.resizing .tab-button,
+.draggable-window.resizing .spellbook-tab,
+.draggable-window.resizing .window-close,
+.draggable-window.resizing .wow-window,
+.draggable-window.resizing .window-content {
+    transition: none !important;
+}
+
+/* Performance optimizations during resize */
+.draggable-window.resizing .wow-window {
+    will-change: width, height !important;
+}
+
+/* Prevent size flickering during drag */
+.draggable-window.dragging .wow-window {
+    will-change: auto !important;
+}
+
+/* Allow resize handle to work regardless of drag state */
+.react-resizable-handle {
+    pointer-events: auto !important;
+}
+
+.wow-window .react-resizable-handle-se {
+    opacity: 0 !important;
+    background: transparent !important;
+    /* Keep functionality but hide until hover */
+}
+
+/* Legacy tab styles removed - all windows now use unified spellbook-tab-container system */
+
+/* ===== SPELLBOOK LAYOUT STYLES ===== */
+.spellbook-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: #f0e6d2; /* Parchment background */
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.spellbook-main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    background-color: #f0e6d2; /* Parchment background */
+}
+
+/* ===== SPELLBOOK HEADER TAB STYLES ===== */
+.spellbook-tab-container {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.95) 0%,
+        rgba(122, 59, 46, 0.9) 50%,
+        rgba(90, 30, 18, 0.85) 100%
+    );
+    border-bottom: 2px solid #8b7355;
+    border-radius: 0;
+    box-shadow:
+        inset 0 1px 0 rgba(240, 230, 210, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.15);
+    position: relative;
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
+    margin: 0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: hidden;
+}
+
+.spellbook-tab-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(240, 230, 210, 0.4) 20%,
+        rgba(240, 230, 210, 0.6) 50%,
+        rgba(240, 230, 210, 0.4) 80%,
+        transparent
+    );
+    z-index: 1;
+}
+
+.spellbook-tab-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(212, 175, 55, 0.6) 20%,
+        rgba(212, 175, 55, 0.8) 50%,
+        rgba(212, 175, 55, 0.6) 80%,
+        transparent
+    );
+    z-index: 1;
+}
+
+.spellbook-tab-button {
+    background: linear-gradient(to bottom,
+        rgba(240, 230, 210, 0.12) 0%,
+        rgba(213, 203, 176, 0.08) 50%,
+        rgba(160, 140, 112, 0.05) 100%
+    );
+    border: none;
+    color: #f0e6d2;
+    padding: 0 clamp(8px, 2vw, 16px);
+    margin: 0;
+    font-size: clamp(10px, 1.2vw, 14px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    letter-spacing: clamp(0px, 0.3px, 0.5px);
+    border-radius: 0;
+    box-shadow: none;
+    text-transform: uppercase;
+    min-width: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.spellbook-tab-button .tab-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.spellbook-tab-button .tab-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(to bottom,
+        rgba(40, 30, 20, 0.95) 0%,
+        rgba(30, 20, 10, 0.95) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 4px;
+    color: #f0e6d2;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 10000;
+    pointer-events: none;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.spellbook-tab-button .tab-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(212, 175, 55, 0.6);
+}
+
+.spellbook-tab-button::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent,
+        rgba(139, 115, 85, 0.3) 20%,
+        rgba(139, 115, 85, 0.3) 80%,
+        transparent
+    );
+}
+
+.spellbook-tab-button:first-child {
+    border-top-left-radius: 12px;
+}
+
+.spellbook-tab-button:last-child {
+    border-top-right-radius: 12px;
+}
+
+.spellbook-tab-button:last-child::after {
+    display: none;
+}
+
+.spellbook-tab-button:hover {
+    background: linear-gradient(to bottom,
+        rgba(240, 230, 210, 0.2) 0%,
+        rgba(213, 203, 176, 0.15) 50%,
+        rgba(160, 140, 112, 0.1) 100%
+    );
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    z-index: 2;
+}
+
+.spellbook-tab-button.active {
+    background: linear-gradient(to bottom,
+        rgba(240, 230, 210, 0.35) 0%,
+        rgba(213, 203, 176, 0.25) 50%,
+        rgba(160, 140, 112, 0.15) 100%
+    );
+    color: #fff;
+    font-weight: 700;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -3px 0 rgba(212, 175, 55, 0.7);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+    z-index: 3;
+}
+
+.spellbook-tab-button.active::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 8px;
+    right: 8px;
+    height: 4px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(212, 175, 55, 0.8),
+        rgba(212, 175, 55, 1),
+        rgba(212, 175, 55, 0.8),
+        transparent
+    );
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    /* Add subtle pulse animation */
+    animation: tabGlow 2s ease-in-out infinite alternate;
+}
+
+/* Subtle glow animation for active tab indicator */
+@keyframes tabGlow {
+    0% {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+    100% {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 12px rgba(212, 175, 55, 0.5);
+    }
+}
+
+/* ===== RESPONSIVE SPELLBOOK HEADER STYLES ===== */
+@media (max-width: 768px) {
+    .spellbook-tab-container {
+        padding: 0 4px;
+        gap: 2px;
+    }
+
+    .spellbook-tab-button {
+        /* Padding and font-size now handled by clamp() */
+        min-width: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .spellbook-tab-container {
+        padding: 0 2px;
+        gap: 1px;
+    }
+
+    .spellbook-tab-button {
+        /* Padding and font-size now handled by clamp() */
+        white-space: normal;
+        line-height: 1.2;
+    }
+}
+
+/* ===== MOBILE FULLSCREEN WINDOWS ===== */
+@media (max-width: 768px) {
+    /* Make windows fullscreen on mobile */
+    .wow-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important; /* Use dynamic viewport height */
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        transform: none !important;
+        z-index: 10000 !important;
+    }
+
+    /* Disable dragging on mobile */
+    .draggable-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        transform: none !important;
+        cursor: default !important;
+    }
+
+    .draggable-window-handle {
+        cursor: default !important;
+    }
+
+    /* Hide resize handle on mobile */
+    .wow-window .react-resizable-handle,
+    .wow-window .react-resizable-handle-se {
+        display: none !important;
+        pointer-events: none !important;
+    }
+
+    .wow-window:hover .react-resizable-handle-se {
+        display: none !important;
+    }
+
+    /* Ensure window content is scrollable */
+    .window-content {
+        height: calc(100vh - 40px) !important;
+        height: calc(100dvh - 40px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+    }
+
+    /* Adjust header for mobile */
+    .window-header {
+        height: 48px !important;
+        min-height: 48px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .window-title {
+        font-size: 14px !important;
+    }
+
+    /* Ensure close button is easily tappable */
+    .window-close {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        font-size: 28px !important;
+        z-index: 10001 !important;
+        position: relative !important;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .window-close:hover,
+    .window-close:active {
+        background-color: rgba(240, 230, 210, 0.3) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* Ensure close button is always clickable even when window is fullscreen */
+    .wow-window .window-header {
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    .wow-window .window-header .window-close {
+        position: absolute !important;
+        right: 8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 10001 !important;
+    }
+}

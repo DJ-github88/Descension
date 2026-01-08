@@ -1,0 +1,299 @@
+/* ===== CONSOLIDATED FORM GROUP STYLES ===== */
+/* This file consolidates all .form-group label styles to prevent conflicts */
+
+/* Base form group styling */
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Primary form group label styling - Pathfinder theme with beige color */
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b7355; /* Beige/tan color for better readability */
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+/* Ensure button styles take precedence over form label styles */
+.upload-btn,
+.upload-btn *,
+button.form-group label,
+label.upload-btn,
+.form-group .upload-btn {
+  color: #fff !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin-bottom: 0 !important;
+}
+
+/* Icon before labels */
+.form-group label::before {
+  content: '◆';
+  color: #8b7355;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+/* Required field indicator */
+.form-group label .required-asterisk {
+  color: #d32f2f;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* Optional field indicator */
+.form-group label .optional-label {
+  color: #6b5b47;
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* ===== CONTEXT-SPECIFIC OVERRIDES ===== */
+
+/* Item Wizard specific styling */
+.item-wizard-modal .form-group label {
+  color: var(--pf-text-primary, #5a1e12);
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Recipe Wizard specific styling */
+.recipe-wizard .form-group label {
+  color: var(--pf-text-primary, #2d1810) !important;
+  font-weight: 600 !important;
+  margin-bottom: var(--pf-space-2, 8px) !important;
+  font-family: 'Cinzel', serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-size: 14px !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Container Wizard specific styling */
+.container-wizard .form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #3a3a3a;
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.container-wizard .form-group label i {
+  width: 16px;
+  text-align: center;
+  color: #7a3b2e;
+}
+
+/* Auth Modal specific styling */
+.auth-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Character Manager specific styling */
+.character-manager .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #5e2e23;
+  font-size: 15px;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+/* User Profile specific styling */
+.user-profile .form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a4a3a;
+}
+
+/* Spell Wizard specific styling */
+.spell-wizard .form-group label,
+.spellcrafting-wizard .form-group label {
+  font-weight: 600;
+  color: #d4af37;
+  font-size: 0.95rem;
+}
+
+/* Mechanics popup specific styling */
+.mechanics-popup-body .form-group label,
+.mechanics-grid-item .form-group label {
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  margin-bottom: var(--pf-space-2);
+  text-shadow: var(--pf-text-shadow);
+}
+
+/* Lock/Unlock Modal specific styling */
+.lock-settings-modal .form-group label,
+.unlock-container-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffd100;
+  font-size: 14px;
+  text-shadow: 1px 1px 0 #000;
+  font-family: 'Times New Roman', serif;
+}
+
+.lock-settings-modal .form-group label i,
+.unlock-container-modal .form-group label i {
+  margin-right: 8px;
+  color: #ffd100;
+}
+
+/* Quick Item Generator specific styling */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffd100;
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Category Dialog specific styling */
+.category-dialog .form-group label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+/* Item Generation specific styling */
+.item-generation .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced Quick Item Wizard specific styling */
+.enhanced-quick-item-wizard .form-group label {
+  display: block;
+  font-size: 16px;
+  color: #5a1e12;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== FORM INPUT STYLING ===== */
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: rgba(213, 203, 176, 0.3);
+  border: 1px solid #a08c70;
+  border-radius: 4px;
+  color: #2d1810;
+  font-size: 0.9rem;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #7a3b2e;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(122, 59, 46, 0.2);
+  background-color: rgba(240, 230, 210, 0.5);
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-row.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group.half-width {
+  flex: 1;
+}
+
+/* Remove the ::before pseudo-element for specific contexts that don't want it */
+.no-label-icon .form-group label::before,
+.auth-modal .form-group label::before,
+.character-manager .form-group label::before,
+.user-profile .form-group label::before,
+.lock-settings-modal .form-group label::before,
+.unlock-container-modal .form-group label::before,
+.quick-item-generator-modal .form-group label::before,
+.category-dialog .form-group label::before,
+.item-generation .form-group label::before,
+.upload-btn::before,
+.upload-btn *::before,
+button.form-group label::before,
+label.upload-btn::before {
+  content: none;
+}
+
+/* ===== BUTTON STYLE PRESERVATION ===== */
+/* Ensure all button-related classes maintain their original styling */
+.upload-btn,
+.upload-btn span,
+.upload-btn i,
+button.upload-btn,
+label.upload-btn,
+.form-group .upload-btn,
+.form-group button,
+.form-group .btn,
+.form-group .button,
+button.form-group label {
+  /* Reset form label styles for buttons with proper upload button styling */
+  color: #fff !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin-bottom: 0 !important;
+  display: inline-flex !important;
+}

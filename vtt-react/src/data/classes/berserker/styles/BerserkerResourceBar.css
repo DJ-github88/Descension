@@ -1,0 +1,242 @@
+.berserker-resource-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 2px solid #444;
+  border-radius: 10px;
+  min-width: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.berserker-resource-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,0,0,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,0,0,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,0,0,0.1)"/></svg>');
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.rage-state-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.rage-state-name {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.rage-amount {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.rage-dice-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.rage-die {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #333 0%, #222 100%);
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 60px;
+  transition: all 0.3s ease;
+}
+
+.rage-die.animating {
+  animation: dieRoll 0.3s ease-in-out;
+}
+
+@keyframes dieRoll {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2) rotate(180deg); }
+  100% { transform: scale(1); }
+}
+
+.die-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.die-label {
+  font-size: 10px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.rage-bar-container {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #555;
+}
+
+.rage-bar-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.rage-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.rage-bar-fill.light {
+  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.rage-bar-fill.moderate {
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor, 0 0 45px currentColor;
+}
+
+.rage-bar-fill.intense {
+  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.rage-bar-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.1) 0px,
+    rgba(255,255,255,0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.rage-threshold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255,255,255,0.3);
+  z-index: 1;
+}
+
+.rage-threshold.danger {
+  background: #ff0000;
+  box-shadow: 0 0 5px #ff0000;
+}
+
+.overheat {
+  animation: overheatShake 0.5s infinite;
+}
+
+@keyframes overheatShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.overheat .rage-bar-fill {
+  background: linear-gradient(90deg, #8B0000, #DC143C, #FF4500) !important;
+  animation: overheatPulse 0.3s infinite alternate;
+}
+
+@keyframes overheatPulse {
+  0% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+.overheat-warning {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  background: rgba(255, 0, 0, 0.9);
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  animation: warningFlash 1s infinite;
+  z-index: 10;
+}
+
+@keyframes warningFlash {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* State-specific styling */
+.berserker-resource-bar[data-rage-state="Smoldering"] {
+  border-color: #8B4513;
+}
+
+.berserker-resource-bar[data-rage-state="Frenzied"] {
+  border-color: #FFA500;
+}
+
+.berserker-resource-bar[data-rage-state="Primal"] {
+  border-color: #FF6347;
+}
+
+.berserker-resource-bar[data-rage-state="Carnage"] {
+  border-color: #FF4500;
+}
+
+.berserker-resource-bar[data-rage-state="Cataclysm"] {
+  border-color: #DC143C;
+}
+
+.berserker-resource-bar[data-rage-state="Obliteration"] {
+  border-color: #8B0000;
+  box-shadow: 0 0 20px #8B0000;
+}

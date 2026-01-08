@@ -1,0 +1,276 @@
+.class-resource-bar.hexbreaker-charges {
+    background: transparent;
+    border: none;
+    height: auto;
+    width: 100%;
+    display: block;
+}
+
+/* Party HUD specific styles */
+.party-member-frame .class-resource-bar.hexbreaker-charges {
+    width: 100% !important;
+    min-width: 0;
+    flex: 0 1 auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    align-self: stretch;
+}
+
+.resource-bars-container .class-resource-bar.hexbreaker-charges {
+    width: 100% !important;
+    margin: 0;
+    align-self: stretch;
+}
+
+.hexbreaker-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 4px 6px;
+    box-shadow: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    min-height: 30px;
+    width: 100%;
+}
+
+/* Charges Display */
+.charges-display {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    min-height: 30px;
+}
+
+.charges-display:hover {
+    background: transparent;
+}
+
+.charges-grid {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+    z-index: 1;
+}
+
+.charge-indicator {
+    position: relative;
+    flex: 1;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.charge-indicator.filled {
+    border-color: rgba(192, 192, 192, 0.7);
+}
+
+.charge-indicator.max-glow {
+    animation: hexbreaker-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes hexbreaker-pulse {
+    0%, 100% {
+        box-shadow: 0 0 6px rgba(232, 232, 232, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 12px rgba(232, 232, 232, 0.8), 0 0 18px rgba(192, 192, 192, 0.4);
+    }
+}
+
+.charge-icon {
+    font-size: 10px;
+    color: #E8E8E8;
+    text-shadow: 0 0 4px rgba(192, 192, 192, 0.6);
+}
+
+.charges-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C0C0C0;
+    text-align: center;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Attack Counter */
+.attack-counter {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 3px 6px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    min-width: 45px;
+    height: 30px; /* Match charges-display height */
+    justify-content: center;
+}
+
+.attack-counter:hover {
+    background: transparent;
+}
+
+.counter-dots {
+    display: flex;
+    gap: 3px;
+}
+
+.counter-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    transition: all 0.2s ease;
+}
+
+.counter-dot.active {
+    border-color: rgba(192, 192, 192, 0.7);
+}
+
+.counter-dot.true-damage-ready {
+    animation: true-damage-pulse 1s ease-in-out infinite;
+}
+
+@keyframes true-damage-pulse {
+    0%, 100% {
+        box-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 8px rgba(255, 215, 0, 1), 0 0 12px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.counter-label {
+    display: none;
+}
+
+/* Hexbreaker charges menu now uses unified-context-menu.css system */
+
+/* Size Variations */
+.class-resource-bar.hexbreaker-charges.small .hexbreaker-container {
+    padding: 2px 4px;
+    gap: 4px;
+    min-height: 20px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-display {
+    padding: 0;
+    gap: 1px;
+    min-height: 20px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-grid {
+    gap: 2px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charge-indicator {
+    min-width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charge-icon {
+    font-size: 7px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-value {
+    font-size: 8px;
+    min-width: 20px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .attack-counter {
+    padding: 0;
+    min-width: 32px;
+    height: 20px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .counter-dot {
+    width: 5px;
+    height: 5px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .counter-label {
+    font-size: 7px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .hexbreaker-container {
+    padding: 6px 10px;
+    gap: 10px;
+    min-height: 36px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-display {
+    padding: 0;
+    gap: 8px;
+    min-height: 36px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-grid {
+    gap: 6px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charge-indicator {
+    min-width: 30px;
+    height: 24px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charge-icon {
+    font-size: 14px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-value {
+    font-size: 13px;
+    min-width: 32px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .attack-counter {
+    padding: 0;
+    min-width: 52px;
+    height: 36px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .counter-dot {
+    width: 10px;
+    height: 10px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .counter-label {
+    font-size: 10px;
+}
+
+/* ========================================
+   DEATHCALLER - ASCENSION PATHS & BLOOD TOKENS
+   ======================================== */

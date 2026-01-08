@@ -1,0 +1,429 @@
+.musical-notes-combo {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Default (normal/large) Minstrel sizing for rules page */
+.minstrel-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 6px;
+}
+
+.musical-notes-bar-wrapper {
+    flex: 1;
+    position: relative;
+    height: 40px;
+    min-width: 0; /* Allow flex shrinking */
+}
+
+.musical-notes-segments {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+}
+
+.musical-note-segment {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(180deg, rgba(250, 245, 235, 0.9) 0%, rgba(245, 240, 230, 0.95) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    overflow: visible; /* Allow adjustment menu to show outside segment */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-width: 35px;
+    max-width: 70px;
+}
+
+/* Small size (HUD) - compact version */
+.small .minstrel-container {
+    gap: 3px;
+    max-width: 100%; /* Fill available HUD width */
+}
+
+/* Party member frame constraints - prevent stretching */
+.party-member-frame .minstrel-container {
+    max-width: 200px; /* Constrain width in party frames */
+    width: auto; /* Don't stretch to 100% */
+    overflow: visible; /* Allow content to extend beyond container */
+}
+
+.party-member-frame .musical-note-segment {
+    min-width: 20px; /* Smaller minimum in party frames */
+    max-width: 30px; /* Smaller maximum in party frames */
+}
+
+.party-member-frame .musical-notes-bar-wrapper {
+    flex: none; /* Don't stretch in party frames */
+    overflow: visible; /* Allow menus to extend beyond wrapper */
+}
+
+.small .musical-notes-bar-wrapper {
+    height: 24px; /* Very compact height for HUD */
+}
+
+.small .musical-notes-segments {
+    gap: 1px;
+}
+
+.small .musical-note-segment {
+    border-radius: 3px;
+    min-width: 18px; /* Very small minimum for compact HUD */
+    max-width: 28px; /* Very small maximum for compact HUD */
+}
+
+.musical-note-segment:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+}
+
+.musical-note-segment.empty {
+    background: linear-gradient(180deg, rgba(250, 245, 235, 0.9) 0%, rgba(245, 240, 230, 0.95) 100%) !important;
+}
+
+.musical-note-segment.filled .note-numeral,
+.musical-note-segment.filled .note-count {
+    color: inherit; /* Use the glow color from parent .note-label */
+    font-weight: 700; /* Make it bolder for better visibility */
+    text-shadow: 
+        -1px -1px 0 rgba(0, 0, 0, 0.8),
+        1px -1px 0 rgba(0, 0, 0, 0.8),
+        -1px 1px 0 rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        0 0 2px rgba(0, 0, 0, 0.9); /* Dark outline for better contrast on light backgrounds */
+}
+
+.musical-note-segment.filled {
+    animation: noteGlow 2s ease-in-out infinite;
+}
+
+@keyframes noteGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+.note-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: height 0.3s ease;
+    border-radius: 0 0 3px 3px; /* Match parent's bottom border-radius */
+    pointer-events: none; /* Allow clicks to pass through to parent */
+}
+
+/* Default (normal/large) text sizing for rules page */
+.note-label {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2px;
+    pointer-events: none; /* Allow clicks to pass through to parent */
+}
+
+.note-numeral {
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: none;
+    color: #2d1810;
+    line-height: 1;
+}
+
+.note-count {
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: none;
+    color: #2d1810;
+    line-height: 1;
+}
+
+/* Small size (HUD) - compact text */
+.small .note-label {
+    gap: 0px;
+}
+
+.small .note-numeral {
+    font-size: 8px;
+}
+
+.small .note-count {
+    font-size: 7px;
+}
+
+/* ===== OBSOLETE MENU STYLES ===== */
+/* Note Adjustment Menu - OBSOLETE: Now uses unified-context-menu.css */
+/* All menu styles removed - now using unified-context-menu.css system */
+
+/* Default (normal/large) Minstrel Specialization Indicator for rules page */
+.minstrel-spec-indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.7) 0%, rgba(26, 15, 8, 0.8) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 40px; /* Match the bar height */
+    width: 40px; /* Square icon button */
+    flex-shrink: 0; /* Don't shrink the spec indicator */
+}
+
+.minstrel-spec-indicator:hover {
+    filter: brightness(1.2);
+}
+
+.minstrel-spec-indicator i {
+    font-size: 16px;
+}
+
+/* Small size (HUD) - compact spec indicator */
+.small .minstrel-spec-indicator {
+    padding: 4px;
+    border-radius: 3px;
+    height: 24px; /* Match the small bar height */
+    width: 24px; /* Square icon button */
+}
+
+.small .minstrel-spec-indicator i {
+    font-size: 11px;
+}
+
+/* Minstrel Specialization Menu - OBSOLETE: Now uses unified-context-menu.css */
+/* All menu styles removed - now using unified-context-menu.css system */
+
+/* ===== FORCE COMPACT SIZING IN ACCOUNT CONTEXT ===== */
+/* Override all class resource bars to be compact when displayed in character cards */
+
+.character-card .class-resource-bar,
+.character-card-compact .class-resource-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+/* Rage Bar (Berserker) */
+.character-card .rage-bar,
+.character-card-compact .rage-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+.character-card .rage-bar .rage-number,
+.character-card-compact .rage-bar .rage-number {
+    font-size: 0.65rem !important;
+}
+
+/* Time Shards & Strain (Chronomancer) */
+.character-card .time-shards-strain,
+.character-card-compact .time-shards-strain {
+    min-height: 14px !important;
+}
+
+.character-card .shard-icon,
+.character-card-compact .shard-icon {
+    font-size: 0.6rem !important;
+}
+
+/* Hexbreaker Charges */
+.character-card .hexbreaker-charges,
+.character-card-compact .hexbreaker-charges {
+    min-height: 14px !important;
+}
+
+/* Ascension Blood (Deathcaller) */
+.character-card .ascension-blood,
+.character-card-compact .ascension-blood {
+    min-height: 14px !important;
+}
+
+/* DRP Resilience */
+.character-card .drp-resilience,
+.character-card-compact .drp-resilience {
+    min-height: 14px !important;
+}
+
+/* Dominance Die Display */
+.character-card .dominance-die-display,
+.character-card-compact .dominance-die-display {
+    min-height: 14px !important;
+}
+
+/* Madness Gauge */
+.character-card .madness-gauge,
+.character-card-compact .madness-gauge {
+    min-height: 14px !important;
+}
+
+/* Threads of Destiny */
+.character-card .threads-of-destiny,
+.character-card-compact .threads-of-destiny {
+    min-height: 14px !important;
+}
+
+/* Wild Instinct Forms */
+.character-card .wild-instinct-forms,
+.character-card-compact .wild-instinct-forms {
+    min-height: 14px !important;
+}
+
+/* Fortune Points Gambling (Gambler) */
+.character-card .fortune-points-gambling,
+.character-card-compact .fortune-points-gambling {
+    min-height: 14px !important;
+}
+
+.character-card .spec-indicator,
+.character-card-compact .spec-indicator {
+    width: 14px !important;
+    height: 14px !important;
+    font-size: 0.6rem !important;
+}
+
+/* Quarry Marks & Companion (Huntress) */
+.character-card .quarry-marks-companion,
+.character-card-compact .quarry-marks-companion {
+    min-height: 14px !important;
+}
+
+/* Runes & Inscriptions */
+.character-card .runes-inscriptions,
+.character-card-compact .runes-inscriptions {
+    min-height: 14px !important;
+}
+
+/* Eternal Frost Phylactery (Lichborn) */
+.character-card .eternal-frost-phylactery,
+.character-card-compact .eternal-frost-phylactery {
+    min-height: 14px !important;
+}
+
+/* Lunar Phases (Lunarch) */
+.character-card .lunar-phases,
+.character-card-compact .lunar-phases {
+    min-height: 14px !important;
+}
+
+/* Devotion Gauge */
+.character-card .devotion-gauge,
+.character-card-compact .devotion-gauge {
+    min-height: 14px !important;
+}
+
+/* Stance Flow (Bladedancer) */
+.character-card .stance-flow,
+.character-card-compact .stance-flow {
+    min-height: 14px !important;
+}
+
+/* Elemental Spheres Display (Arcanoneer) */
+.character-card .elemental-spheres-display,
+.character-card-compact .elemental-spheres-display {
+    min-height: 14px !important;
+}
+
+.character-card .sphere-icon,
+.character-card-compact .sphere-icon {
+    width: 12px !important;
+    height: 12px !important;
+    font-size: 0.6rem !important;
+}
+
+/* ===== PATHFINDER-STYLE RESOURCE TOOLTIP ===== */
+.pathfinder-resource-tooltip {
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    min-width: 220px;
+    max-width: 280px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #5a1e12;
+}
+
+.pathfinder-tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pathfinder-tooltip-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a3b2e;
+    text-align: center;
+    border-bottom: 1px solid #8b7355;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.pathfinder-tooltip-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.pathfinder-resource-line {
+    font-size: 10px;
+    font-weight: bold;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.pathfinder-tooltip-description {
+    font-size: 9px;
+    color: #8b7355;
+    font-style: italic;
+    line-height: 1.2;
+    margin-top: 2px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
+}
+
+.pathfinder-tooltip-controls {
+    font-size: 8px;
+    color: #daa520;
+    line-height: 1.3;
+    margin-top: 2px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.pathfinder-tooltip-spec {
+    font-size: 9px;
+    color: #4a5d23;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 1px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.pathfinder-tooltip-limits {
+    font-size: 8px;
+    color: #8b4513;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 1px;
+    text-align: center;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}

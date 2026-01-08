@@ -1,0 +1,684 @@
+.class-resource-bar.runes-inscriptions {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Compact sizing for party HUD */
+.party-member-frame .runes-inscriptions {
+    max-width: 100% !important;
+}
+
+.party-member-frame .runes-inscriptions .ri-bar-content {
+    padding: 1px 2px !important;
+    gap: 2px !important;
+}
+
+.party-member-frame .runes-inscriptions .runes-display,
+.party-member-frame .runes-inscriptions .inscriptions-display {
+    font-size: 6px !important;
+}
+
+.party-member-frame .runes-inscriptions .rune-symbol,
+.party-member-frame .runes-inscriptions .inscription-symbol {
+    font-size: 8px !important;
+    margin: 0 1px !important;
+}
+
+.party-member-frame .runes-inscriptions .runes-segments,
+.party-member-frame .runes-inscriptions .inscriptions-segments {
+    gap: 1px !important;
+}
+
+.party-member-frame .runes-inscriptions .rune-segment,
+.party-member-frame .runes-inscriptions .inscription-segment {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+.party-member-frame .runes-inscriptions .runes-overflow-indicator,
+.party-member-frame .runes-inscriptions .inscriptions-overflow-indicator {
+    font-size: 8px !important;
+    margin-left: 2px !important;
+}
+
+.inscriptor-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Bar wrapper - contains the actual bar */
+.ri-bar-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.ri-bar-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    background:
+        linear-gradient(135deg, rgba(26, 15, 46, 0.25) 0%, rgba(46, 26, 10, 0.25) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(100, 149, 237, 0.05) 10px, rgba(100, 149, 237, 0.05) 20px);
+    border: 2px solid rgba(100, 149, 237, 0.4);
+    border-radius: 6px;
+    padding: 8px 10px;
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(100, 149, 237, 0.2),
+        0 0 30px rgba(255, 215, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.ri-bar-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg,
+        rgba(100, 149, 237, 0.3) 0%,
+        rgba(255, 215, 0, 0.3) 50%,
+        rgba(100, 149, 237, 0.3) 100%);
+    border-radius: 6px;
+    opacity: 0;
+    animation: runicPulse 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes runicPulse {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.ri-bar-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+/* Runes Section (Left) */
+.runes-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    min-width: 0;
+}
+
+.runes-segments {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.rune-segment {
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1;
+    height: 20px;
+    min-height: 11px;
+    border-radius: 3px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background-image:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, transparent 40%, rgba(100, 149, 237, 0.1) 50%, transparent 60%);
+}
+
+.rune-segment::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 1px solid rgba(100, 149, 237, 0.2);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.rune-segment.filled::before {
+    opacity: 1;
+}
+
+.rune-segment.filled {
+    animation: runePulse 2s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 8px rgba(100, 149, 237, 0.4),
+        0 0 10px rgba(100, 149, 237, 0.3);
+}
+
+.rune-segment.filled:hover {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+}
+
+@keyframes runePulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow:
+            inset 0 0 8px rgba(100, 149, 237, 0.4),
+            0 0 10px rgba(100, 149, 237, 0.3);
+    }
+    50% {
+        opacity: 0.9;
+        box-shadow:
+            inset 0 0 12px rgba(100, 149, 237, 0.6),
+            0 0 15px rgba(100, 149, 237, 0.5);
+    }
+}
+
+/* Separator between Runes and Inscriptions */
+.ri-separator {
+    width: 2px;
+    height: 24px;
+    border-left: 2px solid;
+    margin: 0 4px;
+    opacity: 0.6;
+}
+
+/* Inscriptions Section (Right) */
+.inscriptions-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    min-width: 0;
+}
+
+.inscriptions-segments {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.inscription-segment {
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1;
+    height: 20px;
+    min-height: 11px;
+    border-radius: 3px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background-image:
+        radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        linear-gradient(45deg, transparent 40%, rgba(255, 215, 0, 0.1) 50%, transparent 60%);
+}
+
+.inscription-segment::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.inscription-segment.filled::after {
+    opacity: 1;
+}
+
+.inscription-segment.filled {
+    animation: inscriptionPulse 2s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 8px rgba(255, 215, 0, 0.4),
+        0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.inscription-segment.filled:hover {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+}
+
+@keyframes inscriptionPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow:
+            inset 0 0 8px rgba(255, 215, 0, 0.4),
+            0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        opacity: 0.9;
+        box-shadow:
+            inset 0 0 12px rgba(255, 215, 0, 0.6),
+            0 0 15px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Section Value Display */
+.ri-section-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #FFF;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        0 0 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 0.5px;
+}
+
+/* Adjustment Menu */
+.ri-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 999999;
+    min-width: 280px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.ri-menu .menu-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+}
+
+.ri-menu .menu-section {
+    margin-bottom: 10px;
+}
+
+.ri-menu .menu-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5e2e23;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.ri-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ri-menu .menu-buttons button {
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    color: #3a3a3a;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.ri-menu .menu-buttons button:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ri-menu .menu-reset {
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    color: #3a3a3a;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    margin-top: 8px;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.ri-menu .menu-reset:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ri-menu .spec-section-menu {
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+    margin-bottom: 10px;
+}
+
+.spec-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+}
+
+.spec-option-button {
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid #000000 !important;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: #3a3a3a !important;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.spec-option-button:hover {
+    background: rgba(213, 203, 176, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.spec-option-button.active {
+    background: rgba(213, 203, 176, 0.9);
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    color: #3a3a3a !important;
+}
+
+.spec-option-button i {
+    font-size: 12px;
+}
+
+.spec-option-button span {
+    font-size: 10px;
+}
+
+/* Specialization Selector - Next to the bar */
+.inscriptor-spec-selector {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95)),
+        linear-gradient(135deg, rgba(26, 15, 46, 0.3) 0%, rgba(46, 26, 10, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.inscriptor-spec-selector:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 0 15px currentColor,
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.inscriptor-spec-selector i {
+    font-size: 14px;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.inscriptor-spec-selector .spec-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 6px;
+    z-index: 999999;
+    min-width: 160px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.inscriptor-spec-selector-inline {
+    position: relative;
+}
+
+.inscriptor-spec-selector-inline .spec-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 6px;
+    z-index: 999999;
+    min-width: 160px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.inscriptor-spec-selector .spec-menu-item,
+.inscriptor-spec-selector-inline .spec-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #3a3a3a;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.3);
+    margin-bottom: 3px;
+}
+
+.inscriptor-spec-selector .spec-menu-item:last-child,
+.inscriptor-spec-selector-inline .spec-menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.inscriptor-spec-selector .spec-menu-item:hover,
+.inscriptor-spec-selector-inline .spec-menu-item:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.inscriptor-spec-selector .spec-menu-item i,
+.inscriptor-spec-selector-inline .spec-menu-item i {
+    font-size: 12px;
+}
+
+.inscriptor-spec-selector .spec-menu-item.base {
+    border-left: 3px solid #6495ED;
+}
+
+.inscriptor-spec-selector .spec-menu-item.runebinder {
+    border-left: 3px solid #4169E1;
+}
+
+.inscriptor-spec-selector .spec-menu-item.enchanter {
+    border-left: 3px solid #FFD700;
+}
+
+.inscriptor-spec-selector .spec-menu-item.glyphweaver {
+    border-left: 3px solid #DC143C;
+}
+
+/* Size Variations */
+.class-resource-bar.runes-inscriptions.small .rune-segment,
+.class-resource-bar.runes-inscriptions.small .inscription-segment {
+    width: 16px;
+    height: 16px;
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment i,
+.class-resource-bar.runes-inscriptions.small .inscription-segment i {
+    font-size: 8px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-section-value {
+    font-size: 7px;
+}
+
+.class-resource-bar.runes-inscriptions.small {
+    max-width: 100%;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-container {
+    gap: 4px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-bar-content {
+    padding: 2px 4px;
+    border-width: 1px;
+    gap: 2px;
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment,
+.class-resource-bar.runes-inscriptions.small .inscription-segment {
+    height: 11px;
+    min-height: 11px;
+    font-size: 8px;
+    border-radius: 2px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-section-value {
+    font-size: 7px;
+    letter-spacing: 0;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-separator {
+    height: 14px;
+    margin: 0 1px;
+    width: 1px;
+}
+
+.class-resource-bar.runes-inscriptions.small .runes-segments,
+.class-resource-bar.runes-inscriptions.small .inscriptions-segments {
+    gap: 1px;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-spec-selector {
+    width: 20px;
+    height: 20px;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-spec-selector i {
+    font-size: 9px;
+}
+
+/* Reduce glow effects for small size */
+.class-resource-bar.runes-inscriptions.small .ri-bar-content {
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(100, 149, 237, 0.15),
+        0 0 15px rgba(255, 215, 0, 0.08);
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-bar-content::before {
+    display: none; /* Remove pulsing animation for small size */
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment.filled,
+.class-resource-bar.runes-inscriptions.small .inscription-segment.filled {
+    box-shadow:
+        inset 0 0 4px rgba(100, 149, 237, 0.3),
+        0 0 4px rgba(100, 149, 237, 0.2);
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment::before,
+.class-resource-bar.runes-inscriptions.small .inscription-segment::after {
+    display: none; /* Remove inner geometric patterns for small size */
+}
+
+.class-resource-bar.runes-inscriptions.large .rune-segment,
+.class-resource-bar.runes-inscriptions.large .inscription-segment {
+    width: 24px;
+    height: 24px;
+}
+
+.class-resource-bar.runes-inscriptions.large .rune-segment i,
+.class-resource-bar.runes-inscriptions.large .inscription-segment i {
+    font-size: 12px;
+}
+
+.class-resource-bar.runes-inscriptions.large .ri-section-value {
+    font-size: 10px;
+}
+
+.class-resource-bar.runes-inscriptions.large .inscriptor-spec-selector {
+    width: 38px;
+    height: 38px;
+}
+
+.class-resource-bar.runes-inscriptions.large .inscriptor-spec-selector i {
+    font-size: 16px;
+}
+
+/* ========================================
+   LICHBORNE - ETERNAL FROST PHYLACTERY
+   ======================================== */

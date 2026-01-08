@@ -1,0 +1,135 @@
+/* ===== FORCE COMPACT SIZING IN ACCOUNT CONTEXT ===== */
+/* Override all class resource bars to be compact when displayed in character cards */
+
+.character-card .class-resource-bar,
+.character-card-compact .class-resource-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+/* Rage Bar (Berserker) */
+.character-card .rage-bar,
+.character-card-compact .rage-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+.character-card .rage-bar .rage-number,
+.character-card-compact .rage-bar .rage-number {
+    font-size: 0.65rem !important;
+}
+
+/* Time Shards & Strain (Chronomancer) */
+.character-card .time-shards-strain,
+.character-card-compact .time-shards-strain {
+    min-height: 14px !important;
+}
+
+.character-card .shard-icon,
+.character-card-compact .shard-icon {
+    font-size: 0.6rem !important;
+}
+
+/* Hexbreaker Charges */
+.character-card .hexbreaker-charges,
+.character-card-compact .hexbreaker-charges {
+    min-height: 14px !important;
+}
+
+/* Ascension Blood (Deathcaller) */
+.character-card .ascension-blood,
+.character-card-compact .ascension-blood {
+    min-height: 14px !important;
+}
+
+/* DRP Resilience */
+.character-card .drp-resilience,
+.character-card-compact .drp-resilience {
+    min-height: 14px !important;
+}
+
+/* Dominance Die Display */
+.character-card .dominance-die-display,
+.character-card-compact .dominance-die-display {
+    min-height: 14px !important;
+}
+
+/* Madness Gauge */
+.character-card .madness-gauge,
+.character-card-compact .madness-gauge {
+    min-height: 14px !important;
+}
+
+/* Threads of Destiny */
+.character-card .threads-of-destiny,
+.character-card-compact .threads-of-destiny {
+    min-height: 14px !important;
+}
+
+/* Wild Instinct Forms */
+.character-card .wild-instinct-forms,
+.character-card-compact .wild-instinct-forms {
+    min-height: 14px !important;
+}
+
+/* Fortune Points Gambling (Gambler) */
+.character-card .fortune-points-gambling,
+.character-card-compact .fortune-points-gambling {
+    min-height: 14px !important;
+}
+
+.character-card .spec-indicator,
+.character-card-compact .spec-indicator {
+    width: 14px !important;
+    height: 14px !important;
+    font-size: 0.6rem !important;
+}
+
+/* Quarry Marks & Companion (Huntress) */
+.character-card .quarry-marks-companion,
+.character-card-compact .quarry-marks-companion {
+    min-height: 14px !important;
+}
+
+/* Runes & Inscriptions */
+.character-card .runes-inscriptions,
+.character-card-compact .runes-inscriptions {
+    min-height: 14px !important;
+}
+
+/* Eternal Frost Phylactery (Lichborn) */
+.character-card .eternal-frost-phylactery,
+.character-card-compact .eternal-frost-phylactery {
+    min-height: 14px !important;
+}
+
+/* Lunar Phases (Lunarch) */
+.character-card .lunar-phases,
+.character-card-compact .lunar-phases {
+    min-height: 14px !important;
+}
+
+/* Devotion Gauge */
+.character-card .devotion-gauge,
+.character-card-compact .devotion-gauge {
+    min-height: 14px !important;
+}
+
+/* Stance Flow (Bladedancer) */
+.character-card .stance-flow,
+.character-card-compact .stance-flow {
+    min-height: 14px !important;
+}
+
+/* Elemental Spheres Display (Arcanoneer) */
+.character-card .elemental-spheres-display,
+.character-card-compact .elemental-spheres-display {
+    min-height: 14px !important;
+}
+
+.character-card .sphere-icon,
+.character-card-compact .sphere-icon {
+    width: 12px !important;
+    height: 12px !important;
+    font-size: 0.6rem !important;
+}

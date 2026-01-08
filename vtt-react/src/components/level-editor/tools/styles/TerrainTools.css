@@ -1,0 +1,751 @@
+/* Terrain Tools Styles - Professional VTT */
+
+.terrain-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 20px; /* Add padding to prevent bottom cutoff */
+    box-sizing: border-box;
+}
+
+/* .tool-section consolidated to global styles */
+
+.tool-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a2a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 1px solid #8b7355;
+    border-bottom: 2px solid #8b7355;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 1px 2px rgba(58, 47, 26, 0.15);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-align: center;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tool Grid */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.terrain-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 60px;
+}
+
+.terrain-tool-btn:hover {
+    background: linear-gradient(to bottom, #f8f5ec, #ece6d9);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.terrain-tool-btn.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.terrain-tool-btn .tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.terrain-tool-btn .tool-name {
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* Brush Settings */
+.brush-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.brush-settings label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a2a;
+}
+
+.brush-size-controls {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.size-btn {
+    width: 40px;
+    height: 30px;
+    border: 2px solid #a08c70;
+    background: #f4f1e8;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.size-btn:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+}
+
+.size-btn.active {
+    background: #d4af37;
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+}
+
+/* Terrain Categories */
+.terrain-category {
+    margin-bottom: 12px;
+}
+
+.terrain-category .category-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 0 10px 0 !important;
+    padding: 6px 8px !important;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%) !important;
+    border: 1px solid #8b7355 !important;
+    border-bottom: 2px solid #8b7355 !important;
+    border-radius: 4px 4px 0 0 !important;
+    box-shadow: 0 1px 2px rgba(58, 47, 26, 0.15) !important;
+    min-height: auto !important;
+    width: auto !important;
+}
+
+.terrain-category .category-name {
+    font-size: 11px !important;
+    font-weight: bold !important;
+    color: #5a3a2a !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    text-align: center !important;
+    margin: 0 !important;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.terrain-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.terrain-tile {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Make it square */
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    background: #f4f1e8;
+    padding: 0;
+    border: 1px solid rgba(0,0,0,0.15);
+}
+
+.terrain-tile:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    border-color: rgba(0,0,0,0.3);
+}
+
+.terrain-tile.active {
+    box-shadow: 0 0 0 2px #d4af37, 0 2px 4px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+    border-color: #d4af37;
+}
+
+.terrain-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    padding: 4px;
+}
+
+/* Terrain tile image */
+.terrain-tile-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Color fallback for tiles without images */
+.terrain-color-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-size: 20px 20px;
+    background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%);
+}
+
+/* Terrain-specific textures using CSS */
+
+/* Stone - Rocky, rough texture with depth */
+.terrain-color-fallback.terrain-type-stone {
+    background-image:
+        radial-gradient(ellipse at 15% 25%, rgba(140, 140, 140, 0.5) 1.5px, transparent 1.5px),
+        radial-gradient(ellipse at 85% 75%, rgba(120, 120, 120, 0.4) 1.5px, transparent 1.5px),
+        radial-gradient(ellipse at 50% 50%, rgba(100, 100, 100, 0.3) 2px, transparent 2px),
+        radial-gradient(ellipse at 30% 60%, rgba(130, 130, 130, 0.35) 1px, transparent 1px),
+        radial-gradient(ellipse at 70% 40%, rgba(110, 110, 110, 0.35) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(90, 90, 90, 0.25) 0%, transparent 40%, rgba(115, 115, 115, 0.2) 100%),
+        linear-gradient(45deg, rgba(105, 105, 105, 0.2) 0%, transparent 50%);
+    background-size: 6px 8px, 8px 10px, 10px 12px, 5px 6px, 5px 6px, 100% 100%, 100% 100%;
+    background-position: 0 0, 3px 4px, 2px 2px, 1px 3px, 4px 2px, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 12px rgba(0, 0, 0, 0.4),
+        inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+        inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+    filter: contrast(1.1) brightness(0.95);
+}
+
+/* Grass - Textured, organic look with blades */
+.terrain-color-fallback.terrain-type-grass {
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            rgba(60, 100, 70, 0.15) 1px,
+            transparent 2px,
+            rgba(50, 90, 60, 0.12) 3px,
+            transparent 4px
+        ),
+        radial-gradient(ellipse at 25% 35%, rgba(65, 105, 75, 0.5) 1.5px, transparent 1.5px),
+        radial-gradient(ellipse at 75% 65%, rgba(55, 95, 65, 0.4) 1.5px, transparent 1.5px),
+        radial-gradient(ellipse at 50% 50%, rgba(45, 85, 55, 0.3) 1px, transparent 1px),
+        radial-gradient(ellipse at 40% 60%, rgba(70, 110, 80, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(70, 110, 80, 0.18) 0%, transparent 40%, rgba(55, 95, 65, 0.15) 100%),
+        linear-gradient(0deg, rgba(60, 100, 70, 0.12) 0%, transparent 50%);
+    background-size: 100% 3px, 4px 6px, 5px 7px, 3px 5px, 4px 5px, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 2px 1px, 1px 2px, 3px 1px, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 10px rgba(30, 60, 40, 0.25),
+        inset 0 1px 2px rgba(40, 80, 50, 0.2);
+    filter: contrast(1.15) brightness(1.05);
+}
+
+/* Dirt - Earthy, granular texture with clumps */
+.terrain-color-fallback.terrain-type-dirt {
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(110, 85, 55, 0.6) 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(95, 75, 45, 0.5) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(105, 85, 50, 0.4) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 35% 60%, rgba(100, 80, 50, 0.45) 1px, transparent 1px),
+        radial-gradient(circle at 65% 40%, rgba(90, 70, 40, 0.4) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(95, 75, 45, 0.25) 0%, transparent 40%, rgba(85, 65, 35, 0.2) 100%),
+        linear-gradient(-45deg, rgba(100, 80, 50, 0.2) 0%, transparent 50%);
+    background-size: 4px 4px, 5px 5px, 3px 3px, 2px 2px, 2px 2px, 100% 100%, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 0.5px 1.5px, 1.5px 0.5px, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 8px rgba(60, 45, 25, 0.4),
+        inset 1px 1px 3px rgba(70, 55, 30, 0.3);
+    filter: contrast(1.2) brightness(0.98);
+}
+
+/* Sand - Fine, grainy texture with depth */
+.terrain-color-fallback.terrain-type-sand {
+    background-image:
+        radial-gradient(circle at 15% 25%, rgba(210, 200, 160, 0.7) 1px, transparent 1px),
+        radial-gradient(circle at 85% 75%, rgba(200, 190, 150, 0.6) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(205, 195, 155, 0.5) 0.8px, transparent 0.8px),
+        radial-gradient(circle at 30% 60%, rgba(195, 185, 145, 0.55) 0.6px, transparent 0.6px),
+        radial-gradient(circle at 70% 40%, rgba(190, 180, 140, 0.5) 0.6px, transparent 0.6px),
+        linear-gradient(135deg, rgba(200, 190, 150, 0.25) 0%, transparent 40%, rgba(185, 175, 135, 0.2) 100%),
+        linear-gradient(45deg, rgba(195, 185, 145, 0.15) 0%, transparent 50%);
+    background-size: 2px 2px, 2.5px 2.5px, 1.8px 1.8px, 1.2px 1.2px, 1.2px 1.2px, 100% 100%, 100% 100%;
+    background-position: 0 0, 1px 1px, 0.5px 0.5px, 0.3px 0.8px, 0.8px 0.3px, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 6px rgba(150, 140, 100, 0.25),
+        inset 1px 1px 2px rgba(160, 150, 110, 0.2);
+    filter: contrast(1.1) brightness(1.02);
+}
+
+/* Water - Wavy, fluid texture with movement */
+.terrain-color-fallback.terrain-type-water {
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(70, 130, 180, 0.35) 0px,
+            rgba(60, 120, 170, 0.25) 1.5px,
+            rgba(70, 130, 180, 0.35) 3px,
+            rgba(65, 125, 175, 0.28) 4.5px,
+            rgba(70, 130, 180, 0.35) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(65, 125, 175, 0.3) 0px,
+            rgba(55, 115, 165, 0.2) 2px,
+            rgba(65, 125, 175, 0.3) 4px,
+            rgba(60, 120, 170, 0.25) 6px,
+            rgba(65, 125, 175, 0.3) 8px
+        ),
+        radial-gradient(ellipse at 25% 35%, rgba(80, 140, 190, 0.5) 2.5px, transparent 2.5px),
+        radial-gradient(ellipse at 75% 65%, rgba(75, 135, 185, 0.4) 2px, transparent 2px),
+        radial-gradient(ellipse at 50% 50%, rgba(85, 145, 195, 0.35) 1.5px, transparent 1.5px);
+    background-size: 100% 7px, 7px 100%, 18px 12px, 14px 10px, 12px 8px;
+    background-position: 0 0, 0 0, 0 0, 4px 3px, 2px 1px;
+    box-shadow: 
+        inset 0 0 12px rgba(40, 80, 120, 0.5),
+        inset 0 2px 4px rgba(50, 100, 150, 0.3),
+        0 0 8px rgba(70, 130, 180, 0.2);
+    animation: water-shimmer 4s ease-in-out infinite;
+    filter: brightness(1.05);
+}
+
+@keyframes water-shimmer {
+    0%, 100% { 
+        background-position: 0 0, 0 0, 0 0, 4px 3px, 2px 1px;
+        filter: brightness(1.05);
+    }
+    50% { 
+        background-position: 0 3.5px, 3.5px 0, 1px 0.5px, 6px 5px, 4px 3px;
+        filter: brightness(1.1);
+    }
+}
+
+/* Cobblestone - Stone block pattern with depth */
+.terrain-color-fallback.terrain-type-cobblestone {
+    background-image:
+        linear-gradient(90deg, rgba(110, 110, 110, 0.5) 1.5px, transparent 1.5px),
+        linear-gradient(0deg, rgba(110, 110, 110, 0.5) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 20% 20%, rgba(130, 130, 130, 0.4) 2px, transparent 2px),
+        radial-gradient(circle at 80% 80%, rgba(120, 120, 120, 0.35) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(125, 125, 125, 0.3) 1.5px, transparent 1.5px),
+        linear-gradient(135deg, rgba(95, 95, 95, 0.25) 0%, transparent 40%, rgba(105, 105, 105, 0.2) 100%);
+    background-size: 7px 7px, 7px 7px, 10px 10px, 10px 10px, 8px 8px, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 3.5px 3.5px, 1.5px 1.5px, 0 0;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset -1px -1px 2px rgba(140, 140, 140, 0.2);
+    filter: contrast(1.15) brightness(0.97);
+}
+
+/* Dungeon Floor - Rough stone floor */
+.terrain-color-fallback.terrain-type-dungeon_floor {
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(80, 80, 80, 0.5) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, rgba(70, 70, 70, 0.4) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(90, 90, 90, 0.3) 0%, transparent 50%),
+        linear-gradient(-45deg, rgba(85, 85, 85, 0.2) 0%, transparent 50%);
+    background-size: 5px 5px, 6px 6px, 100% 100%, 100% 100%;
+    background-position: 0 0, 2px 2px, 0 0, 0 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Marble Floor - Elegant veined pattern with polish */
+.terrain-color-fallback.terrain-type-marble_floor {
+    background-image:
+        linear-gradient(45deg, rgba(230, 230, 230, 0.35) 0%, transparent 25%, rgba(200, 200, 200, 0.2) 50%, transparent 75%),
+        linear-gradient(-45deg, rgba(210, 210, 210, 0.25) 0%, transparent 25%, rgba(190, 190, 190, 0.15) 50%, transparent 75%),
+        linear-gradient(90deg, rgba(220, 220, 220, 0.18) 0%, transparent 40%, rgba(200, 200, 200, 0.12) 100%),
+        radial-gradient(ellipse at 25% 35%, rgba(180, 180, 180, 0.5) 4px, transparent 4px),
+        radial-gradient(ellipse at 75% 65%, rgba(190, 190, 190, 0.4) 3px, transparent 3px),
+        radial-gradient(ellipse at 50% 50%, rgba(185, 185, 185, 0.3) 2px, transparent 2px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 25px 18px, 18px 14px, 12px 10px;
+    background-position: 0 0, 0 0, 0 0, 0 0, 12px 6px, 6px 3px;
+    box-shadow: 
+        inset 0 0 10px rgba(150, 150, 150, 0.35),
+        inset 1px 1px 3px rgba(200, 200, 200, 0.3),
+        0 0 5px rgba(240, 240, 240, 0.2);
+    filter: contrast(1.2) brightness(1.05);
+}
+
+/* Wooden Floor - Horizontal plank pattern */
+.terrain-color-fallback.terrain-type-wooden_floor {
+    background-image:
+        /* Plank separators (horizontal lines) */
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 11px,
+            rgba(90, 45, 12, 0.4) 12px,
+            rgba(90, 45, 12, 0.4) 13px,
+            transparent 14px
+        ),
+        /* Plank highlights (top edges) */
+        repeating-linear-gradient(
+            0deg,
+            rgba(150, 75, 30, 0.25) 0px,
+            transparent 1px,
+            transparent 11px,
+            rgba(150, 75, 30, 0.25) 12px,
+            transparent 13px
+        ),
+        /* Plank shadows (bottom edges) */
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 11px,
+            rgba(60, 30, 10, 0.3) 12px,
+            transparent 13px
+        ),
+        /* Subtle wood grain within planks */
+        repeating-linear-gradient(
+            90deg,
+            rgba(120, 60, 20, 0.15) 0px,
+            transparent 2px,
+            rgba(110, 55, 18, 0.12) 4px,
+            transparent 6px
+        ),
+        /* Base color variation */
+        linear-gradient(90deg, rgba(100, 50, 15, 0.2) 0%, transparent 50%);
+    background-size: 100% 14px, 100% 14px, 100% 14px, 8px 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 8px rgba(60, 30, 10, 0.4),
+        inset 0 1px 0 rgba(150, 75, 30, 0.2);
+    filter: contrast(1.2) brightness(0.96);
+}
+
+/* Mud - Thick, sticky texture */
+.terrain-color-fallback.terrain-type-mud {
+    background-image:
+        radial-gradient(circle at 25% 35%, rgba(80, 60, 40, 0.6) 2px, transparent 2px),
+        radial-gradient(circle at 75% 65%, rgba(70, 50, 30, 0.5) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(90, 70, 50, 0.4) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(75, 55, 35, 0.4) 0%, transparent 50%);
+    background-size: 6px 6px, 7px 7px, 3px 3px, 100% 100%;
+    background-position: 0 0, 3px 3px, 1px 1px, 0 0;
+    box-shadow: inset 0 0 8px rgba(40, 30, 20, 0.5);
+}
+
+/* Swamp - Dark, murky texture */
+.terrain-color-fallback.terrain-type-swamp {
+    background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(60, 80, 40, 0.5) 2px, transparent 2px),
+        radial-gradient(ellipse at 70% 60%, rgba(50, 70, 30, 0.4) 2px, transparent 2px),
+        repeating-linear-gradient(
+            45deg,
+            rgba(55, 75, 35, 0.3) 0px,
+            transparent 2px,
+            rgba(55, 75, 35, 0.3) 4px
+        ),
+        linear-gradient(135deg, rgba(45, 65, 25, 0.3) 0%, transparent 50%);
+    background-size: 8px 6px, 7px 5px, 6px 6px, 100% 100%;
+    background-position: 0 0, 4px 3px, 0 0, 0 0;
+    box-shadow: inset 0 0 10px rgba(30, 50, 15, 0.6);
+}
+
+/* Ice - Smooth, reflective texture with cracks */
+.terrain-color-fallback.terrain-type-ice {
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(210, 245, 255, 0.45) 0px,
+            rgba(190, 230, 245, 0.25) 0.8px,
+            rgba(200, 240, 250, 0.4) 1.6px,
+            rgba(180, 220, 240, 0.2) 2.4px,
+            rgba(210, 245, 255, 0.45) 3.2px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(200, 240, 250, 0.35) 0px,
+            rgba(180, 220, 240, 0.18) 1.5px,
+            rgba(190, 230, 245, 0.3) 3px,
+            rgba(170, 210, 235, 0.15) 4.5px,
+            rgba(200, 240, 250, 0.35) 6px
+        ),
+        radial-gradient(ellipse at 50% 50%, rgba(220, 255, 255, 0.6) 4px, transparent 4px),
+        linear-gradient(45deg, rgba(200, 240, 250, 0.2) 0%, transparent 50%);
+    background-size: 100% 3.2px, 6px 100%, 18px 12px, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 10px rgba(100, 150, 200, 0.4),
+        inset 1px 1px 3px rgba(150, 200, 250, 0.3),
+        0 0 8px rgba(150, 200, 250, 0.25),
+        0 0 4px rgba(200, 240, 250, 0.2);
+    filter: brightness(1.1) contrast(1.15);
+}
+
+/* Lava - Molten, glowing texture with intense heat */
+.terrain-color-fallback.terrain-type-lava {
+    background-image:
+        radial-gradient(circle at 25% 35%, rgba(255, 180, 50, 0.9) 4px, transparent 4px),
+        radial-gradient(circle at 75% 65%, rgba(255, 150, 0, 0.8) 4px, transparent 4px),
+        radial-gradient(circle at 50% 50%, rgba(255, 200, 70, 0.7) 3px, transparent 3px),
+        radial-gradient(circle at 30% 60%, rgba(255, 120, 0, 0.75) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 70% 40%, rgba(255, 130, 0, 0.7) 2.5px, transparent 2.5px),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 140, 0, 0.6) 0px,
+            rgba(255, 100, 0, 0.4) 1.5px,
+            rgba(255, 120, 0, 0.55) 3px,
+            rgba(255, 90, 0, 0.35) 4.5px,
+            rgba(255, 140, 0, 0.6) 6px
+        );
+    background-size: 12px 12px, 14px 14px, 8px 8px, 6px 6px, 6px 6px, 100% 9px;
+    background-position: 0 0, 6px 6px, 3px 3px, 1.5px 4px, 4px 1.5px, 0 0;
+    box-shadow: 
+        inset 0 0 18px rgba(255, 100, 0, 0.7),
+        inset 0 0 8px rgba(255, 150, 0, 0.5),
+        0 0 12px rgba(255, 150, 0, 0.5),
+        0 0 6px rgba(255, 200, 0, 0.3);
+    animation: lava-glow 1.5s ease-in-out infinite;
+    filter: brightness(1.05) contrast(1.2);
+}
+
+@keyframes lava-glow {
+    0%, 100% { 
+        box-shadow: 
+            inset 0 0 18px rgba(255, 100, 0, 0.7),
+            inset 0 0 8px rgba(255, 150, 0, 0.5),
+            0 0 12px rgba(255, 150, 0, 0.5),
+            0 0 6px rgba(255, 200, 0, 0.3);
+        filter: brightness(1.05) contrast(1.2);
+    }
+    50% { 
+        box-shadow: 
+            inset 0 0 22px rgba(255, 120, 0, 0.9),
+            inset 0 0 10px rgba(255, 180, 0, 0.7),
+            0 0 16px rgba(255, 180, 0, 0.7),
+            0 0 8px rgba(255, 220, 0, 0.5);
+        filter: brightness(1.15) contrast(1.3);
+    }
+}
+
+/* Acid Pool - Bubbling, corrosive texture */
+.terrain-color-fallback.terrain-type-acid {
+    background-image:
+        radial-gradient(circle at 25% 35%, rgba(100, 255, 100, 0.6) 2px, transparent 2px),
+        radial-gradient(circle at 75% 65%, rgba(80, 255, 80, 0.5) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(120, 255, 120, 0.4) 1px, transparent 1px),
+        repeating-linear-gradient(
+            45deg,
+            rgba(90, 255, 90, 0.4) 0px,
+            transparent 2px,
+            rgba(90, 255, 90, 0.4) 4px
+        );
+    background-size: 8px 8px, 9px 9px, 4px 4px, 6px 6px;
+    background-position: 0 0, 4px 4px, 2px 2px, 0 0;
+    box-shadow: inset 0 0 10px rgba(50, 200, 50, 0.5), 0 0 5px rgba(100, 255, 100, 0.3);
+    animation: acid-bubble 3s ease-in-out infinite;
+}
+
+@keyframes acid-bubble {
+    0%, 100% { 
+        background-position: 0 0, 4px 4px, 2px 2px, 0 0;
+    }
+    50% { 
+        background-position: 2px 2px, 6px 6px, 4px 4px, 1px 1px;
+    }
+}
+
+/* Pit - Deep, dark void with depth */
+.terrain-color-fallback.terrain-type-pit {
+    background-image:
+        radial-gradient(circle at 25% 35%, rgba(0, 0, 0, 0.7) 3px, transparent 3px),
+        radial-gradient(circle at 75% 65%, rgba(0, 0, 0, 0.6) 3px, transparent 3px),
+        radial-gradient(circle at 50% 50%, rgba(15, 15, 15, 0.5) 4px, transparent 4px),
+        radial-gradient(circle at 35% 60%, rgba(5, 5, 5, 0.55) 2px, transparent 2px),
+        radial-gradient(circle at 65% 40%, rgba(10, 10, 10, 0.5) 2px, transparent 2px),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, transparent 40%, rgba(20, 20, 20, 0.3) 100%),
+        linear-gradient(-135deg, rgba(5, 5, 5, 0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.8) 30%, rgba(20, 20, 20, 0.4) 70%, transparent 100%);
+    background-size: 7px 7px, 8px 8px, 12px 12px, 4px 4px, 4px 4px, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 3px 3px, 0 0, 1.5px 2px, 2px 1.5px, 0 0, 0 0, 0 0;
+    box-shadow: 
+        inset 0 0 18px rgba(0, 0, 0, 0.9),
+        inset 0 0 8px rgba(0, 0, 0, 0.7),
+        0 0 8px rgba(0, 0, 0, 0.6),
+        0 0 4px rgba(0, 0, 0, 0.4);
+    filter: contrast(1.3) brightness(0.7);
+}
+
+.terrain-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: #f0e6d2;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+    text-align: center;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(90, 58, 42, 0.85), rgba(58, 36, 26, 0.9));
+    padding: 3px 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.movement-cost {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: linear-gradient(to bottom, rgba(139, 69, 19, 0.9), rgba(90, 46, 12, 0.95));
+    color: #ffd700;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 2;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+}
+
+.damage-indicator {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: linear-gradient(to bottom, rgba(220, 20, 60, 0.9), rgba(139, 0, 0, 0.95));
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    z-index: 2;
+    border: 1px solid rgba(255, 100, 100, 0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+}
+
+/* Selected Terrain Info */
+.terrain-info {
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.terrain-details {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.terrain-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 2px solid #a08c70;
+    flex-shrink: 0;
+}
+
+.terrain-stats {
+    flex: 1;
+}
+
+.terrain-stats .terrain-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a3b2e;
+    margin-bottom: 2px;
+}
+
+.terrain-stats .terrain-description {
+    font-size: 10px;
+    color: #5a3a2a;
+    margin-bottom: 4px;
+    font-style: italic;
+}
+
+.terrain-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.terrain-properties span {
+    font-size: 9px;
+    font-weight: bold;
+    color: #7a3b2e;
+}
+
+.terrain-properties .damage {
+    color: #cc0000;
+}
+
+
+
+/* Scrollbar Styling */
+.terrain-tools::-webkit-scrollbar {
+    width: 6px;
+}
+
+.terrain-tools::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 3px;
+}
+
+.terrain-tools::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 3px;
+}
+
+.terrain-tools::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .terrain-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

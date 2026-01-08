@@ -1,0 +1,279 @@
+/* Lifelink Popup Styles */
+.lifelink-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.lifelink-popup-content {
+  background-color: #0c2033;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+  animation: popup-appear 0.3s ease-out;
+}
+
+.lifelink-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #2980b9;
+  background-color: rgba(41, 128, 185, 0.2);
+}
+
+.lifelink-popup-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.lifelink-popup-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #3498db;
+}
+
+.lifelink-popup-title h2 {
+  margin: 0;
+  color: #3498db;
+  font-size: 1.5rem;
+}
+
+.lifelink-popup-close {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.lifelink-popup-close:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #2ecc71;
+}
+
+.lifelink-popup-body {
+  padding: 20px;
+}
+
+.lifelink-section {
+  margin-bottom: 25px;
+}
+
+.lifelink-section h4 {
+  color: #3498db;
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+  padding-bottom: 8px;
+}
+
+.lifelink-option {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lifelink-option label {
+  color: #bdc3c7;
+  font-size: 0.9rem;
+}
+
+.lifelink-option input[type="number"],
+.lifelink-option input[type="text"],
+.lifelink-option select {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.lifelink-option input[type="number"]:focus,
+.lifelink-option input[type="text"]:focus,
+.lifelink-option select:focus {
+  outline: none;
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.3);
+}
+
+.lifelink-dice-formula {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.dice-formula-input {
+  display: flex;
+  gap: 10px;
+}
+
+.dice-count-input {
+  width: 60px;
+}
+
+.dice-type-input {
+  flex: 1;
+}
+
+.lifelink-formula-preview {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.lifelink-formula-preview code {
+  color: #2ecc71;
+  font-family: monospace;
+}
+
+.lifelink-examples {
+  margin-top: 15px;
+}
+
+.lifelink-examples h5 {
+  color: #3498db;
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+}
+
+.lifelink-example {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.lifelink-example.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.lifelink-example.clickable:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left-color: #3498db;
+}
+
+.lifelink-example code {
+  color: #2ecc71;
+  font-family: monospace;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.lifelink-example span {
+  color: #bdc3c7;
+  font-size: 0.8rem;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #3498db;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.toggle-switch label:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #3498db;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + label {
+  background-color: rgba(46, 204, 113, 0.3);
+  border-color: #2ecc71;
+}
+
+.toggle-switch input:checked + label:before {
+  transform: translateX(26px);
+  background-color: #2ecc71;
+}
+
+.lifelink-popup-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #2980b9;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(41, 128, 185, 0.1);
+}
+
+.lifelink-popup-save {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lifelink-popup-save:hover {
+  background-color: #27ae60;
+  transform: translateY(-1px);
+}
+
+@keyframes popup-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

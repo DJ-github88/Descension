@@ -1,0 +1,290 @@
+/* Portal Transfer Dialog - Magical Portal Theme */
+.portal-transfer-dialog {
+    padding: 24px;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #1a0f2e 0%, #2d1b3d 50%, #1a0f2e 100%);
+    color: #e6d7ff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-family: 'Cinzel', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Magical background effects */
+.portal-transfer-dialog::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+    animation: portalBackgroundPulse 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.portal-transfer-dialog > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Portal Header Section */
+.portal-header {
+    text-align: center;
+    padding: 16px;
+    background: rgba(74, 144, 226, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(74, 144, 226, 0.3);
+    margin-bottom: 8px;
+}
+
+.portal-title {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #b8860b;
+    text-shadow:
+        0 0 10px rgba(184, 134, 11, 0.8),
+        1px 1px 2px rgba(0, 0, 0, 0.8);
+    animation: portalNameGlow 3s ease-in-out infinite;
+}
+
+/* Portal Animations */
+@keyframes portalBackgroundPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes portalShimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes portalNameGlow {
+    0%, 100% {
+        color: #b8860b;
+        text-shadow:
+            0 0 10px rgba(184, 134, 11, 0.8),
+            1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+    50% {
+        color: #daa520;
+        text-shadow:
+            0 0 15px rgba(218, 165, 32, 1),
+            1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+}
+
+.portal-description {
+    margin: 0;
+    font-size: 14px;
+    color: #c9b037;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Transfer Question Section */
+.transfer-question {
+    text-align: center;
+    padding: 16px;
+    background: rgba(74, 144, 226, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.transfer-question p {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e6d7ff;
+}
+
+.destination-info {
+    margin: 18px 0;
+    padding: 16px;
+    background:
+        linear-gradient(135deg, rgba(74, 144, 226, 0.25) 0%, rgba(138, 43, 226, 0.15) 100%);
+    border: 2px solid rgba(74, 144, 226, 0.5);
+    border-radius: 10px;
+    box-shadow:
+        0 0 15px rgba(74, 144, 226, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.destination-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: portalShimmer 4s ease-in-out infinite;
+}
+
+.destination-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #87ceeb;
+    text-shadow:
+        0 0 8px rgba(135, 206, 235, 0.8),
+        1px 1px 2px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 1;
+}
+
+.transfer-prompt {
+    font-weight: bold;
+    color: #e6d7ff;
+    margin-top: 18px !important;
+    font-size: 17px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.no-destination {
+    padding: 18px;
+    background:
+        linear-gradient(135deg, rgba(220, 20, 60, 0.25) 0%, rgba(139, 0, 0, 0.15) 100%);
+    border: 2px solid rgba(220, 20, 60, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.2);
+}
+
+.no-destination p {
+    color: #ff6b6b;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Dialog Actions */
+.dialog-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.wow-button {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px solid rgba(160, 140, 112, 0.6);
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(107, 91, 71, 0.9) 0%, rgba(139, 115, 85, 0.9) 50%, rgba(107, 91, 71, 0.9) 100%);
+    color: #f0e6d2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+    text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(240, 230, 210, 0.3);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wow-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.wow-button:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.wow-button:hover:not(:disabled) {
+    background:
+        linear-gradient(135deg, rgba(139, 115, 85, 0.9) 0%, rgba(160, 140, 112, 0.9) 50%, rgba(139, 115, 85, 0.9) 100%);
+    border-color: rgba(160, 140, 112, 0.8);
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(240, 230, 210, 0.5);
+}
+
+.wow-button:active:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.wow-button.primary {
+    background:
+        linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(53, 122, 189, 0.9) 50%, rgba(74, 144, 226, 0.9) 100%);
+    border-color: rgba(74, 144, 226, 0.8);
+    color: #ffffff;
+    text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 10px rgba(74, 144, 226, 0.6);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(74, 144, 226, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.wow-button.primary:hover:not(:disabled) {
+    background:
+        linear-gradient(135deg, rgba(91, 160, 242, 0.9) 0%, rgba(74, 144, 226, 0.9) 50%, rgba(91, 160, 242, 0.9) 100%);
+    border-color: rgba(91, 160, 242, 0.8);
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(74, 144, 226, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(74, 144, 226, 0.8);
+}
+
+.wow-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Window styling */
+.portal-transfer-dialog-window {
+    z-index: 1000;
+}
+
+.portal-transfer-dialog-window .wow-window-header {
+    background: linear-gradient(135deg, #2a1810 0%, #3d2817 100%);
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.portal-transfer-dialog-window .wow-window-title {
+    color: #d4af37;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}

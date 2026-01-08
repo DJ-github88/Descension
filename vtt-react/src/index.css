@@ -1,0 +1,928 @@
+/* ===== PATHFINDER VTT - ROOT STYLES ===== */
+
+/* Import consolidated form group styles */
+@import './styles/consolidated-form-groups.css';
+
+/* Import shared CSS variables and consolidated selectors */
+@import './styles/shared/variables.css';
+@import './styles/optimized/consolidated-selectors.css';
+
+/* ===== CSS VARIABLES - PATHFINDER THEME ===== */
+:root {
+  /* Primary Parchment Colors */
+  --pf-parchment-light: #f8f4e6;
+  --pf-parchment: #ede4d3;
+  --pf-parchment-dark: #e8dcc6;
+  --pf-parchment-darker: #d5cbb0;
+
+  /* Rich Brown/Leather Colors */
+  --pf-brown-darkest: #2d1810;
+  --pf-brown-dark: #5a1e12;
+  --pf-brown-medium: #8B4513;
+  --pf-brown-light: #a08c70;
+  --pf-brown-lighter: #c4a373;
+
+  /* Text Colors - CHARACTER SHEET DEFAULTS */
+  --pf-text-primary: #5a1e12;
+  --pf-text-secondary: #5a1e12;
+  --pf-text-muted: #8B4513;
+  --pf-text-light: #a08c70;
+  --pf-text-on-dark: #f8f4e6;
+
+  /* Accent Colors */
+  --pf-gold: #d4af37;
+  --pf-gold-light: #f4d03f;
+  --pf-gold-dark: #b8860b;
+
+  /* Status Colors */
+  --pf-danger: #dc3545;
+  --pf-danger-dark: #c82333;
+
+  /* Gradients */
+  --pf-gradient-parchment:
+    linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
+    radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+
+  /* Shadows */
+  --pf-shadow-parchment:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+    0 0 0 1px rgba(139, 69, 19, 0.3),
+    0 0 20px rgba(139, 69, 19, 0.15);
+
+  /* Spacing */
+  --pf-space-1: 0.25rem;
+  --pf-space-2: 0.5rem;
+  --pf-space-3: 0.75rem;
+  --pf-space-4: 1rem;
+  --pf-space-6: 1.5rem;
+  --pf-space-8: 2rem;
+
+  /* Mobile Spacing */
+  --pf-space-mobile-1: 0.125rem;
+  --pf-space-mobile-2: 0.25rem;
+  --pf-space-mobile-3: 0.5rem;
+  --pf-space-mobile-4: 0.75rem;
+  --pf-space-mobile-6: 1rem;
+  --pf-space-mobile-8: 1.5rem;
+
+  /* Border Radius */
+  --pf-border-radius: 6px;
+  --pf-border-radius-lg: 12px;
+
+  /* Transitions */
+  --pf-transition-fast: 0.15s ease;
+  --pf-transition-normal: 0.25s ease;
+
+  /* Checkbox Variables */
+  --pf-checkbox-size: 16px;
+  --pf-checkbox-border: 2px;
+  --pf-checkbox-gap: 10px;
+
+  /* Mobile Touch Targets */
+  --pf-touch-target-min: 44px;
+  --pf-touch-target-comfortable: 48px;
+
+  /* Mobile Typography Scale */
+  --pf-font-size-mobile-xs: 0.75rem;
+  --pf-font-size-mobile-sm: 0.875rem;
+  --pf-font-size-mobile-base: 1rem;
+  --pf-font-size-mobile-lg: 1.125rem;
+  --pf-font-size-mobile-xl: 1.25rem;
+  --pf-font-size-mobile-2xl: 1.5rem;
+  --pf-font-size-mobile-3xl: 2rem;
+
+  /* Mobile Breakpoints */
+  --pf-breakpoint-mobile-sm: 480px;
+  --pf-breakpoint-mobile-md: 768px;
+  --pf-breakpoint-mobile-lg: 1024px;
+  --pf-breakpoint-mobile-xl: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  /* Allow scrolling by default - will be overridden for game screen */
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: var(--pf-brown-dark);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  /* Allow scrolling by default - will be overridden for game screen */
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--pf-gradient-parchment);
+  /* Ensure root is positioned for portals */
+  position: relative;
+}
+
+/* ===== PRODUCTION PORTAL FIXES ===== */
+
+/* Ensure portals render correctly in production */
+body {
+  position: relative;
+}
+
+/* Force portal containers to be visible */
+.wow-window,
+.draggable-window,
+.shop-window,
+.item-wizard-modal,
+.quick-item-generator-modal,
+.categorize-modal {
+  position: fixed !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure modal overlays work in production */
+.modal-backdrop,
+.shop-window-overlay,
+.quick-item-generator-overlay,
+.categorize-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9998 !important;
+  pointer-events: auto !important;
+}
+
+/* ===== PATHFINDER NOTIFICATIONS ===== */
+
+.inventory-full-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-4) var(--pf-space-6);
+  z-index: 9999;
+  transform: translateX(200%);
+  transition: transform var(--pf-transition-normal);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.inventory-full-notification.show {
+  transform: translateX(0);
+}
+
+.inventory-full-notification-content {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: var(--pf-brown-dark);
+}
+
+.inventory-full-notification-content span {
+  margin-left: var(--pf-space-3);
+  color: var(--pf-text-secondary);
+}
+
+/* ===== PATHFINDER SCROLLBARS ===== */
+
+/* Webkit Scrollbars */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pf-parchment-darker);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--pf-brown-light), var(--pf-brown-medium));
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-medium);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--pf-brown-medium), var(--pf-brown-dark));
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--pf-parchment-darker);
+}
+
+/* Firefox Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pf-brown-medium) var(--pf-parchment-darker);
+}
+
+/* ===== IMPROVED SCROLLING PERFORMANCE ===== */
+
+/* Remove smooth scrolling for better performance */
+* {
+  scroll-behavior: auto !important;
+}
+
+/* Optimize scrollable containers for performance while maintaining text clarity */
+.window-content,
+.container-window-content,
+.social-content,
+.settings-content,
+.map-grid,
+.wizard-main-content,
+.spellbook-layout,
+.character-window-content,
+.creature-window-content {
+  /* Ensure crisp text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Optimize scrolling performance without blurring text */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto !important;
+}
+
+/* ===== MOBILE-FIRST GLOBAL ENHANCEMENTS ===== */
+
+/* Mobile viewport optimizations */
+@media (max-width: 768px) {
+  /* Improve touch targets globally */
+  button,
+  .btn,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  .clickable,
+  .interactive {
+    min-height: var(--pf-touch-target-min);
+    min-width: var(--pf-touch-target-min);
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4);
+  }
+
+  /* Improve form inputs for mobile */
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: var(--pf-space-mobile-3);
+    border-radius: var(--pf-border-radius);
+  }
+
+  /* Better spacing for mobile */
+  .section,
+  .panel,
+  .card {
+    margin-bottom: var(--pf-space-mobile-6);
+    padding: var(--pf-space-mobile-4);
+  }
+
+  /* Optimize typography for mobile */
+  h1 { font-size: var(--pf-font-size-mobile-2xl); }
+  h2 { font-size: var(--pf-font-size-mobile-xl); }
+  h3 { font-size: var(--pf-font-size-mobile-lg); }
+  h4 { font-size: var(--pf-font-size-mobile-base); }
+  h5 { font-size: var(--pf-font-size-mobile-sm); }
+  h6 { font-size: var(--pf-font-size-mobile-xs); }
+
+  body {
+    font-size: var(--pf-font-size-mobile-base);
+    line-height: 1.5;
+  }
+
+  /* Improve modal and overlay handling on mobile */
+  .modal,
+  .overlay,
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+  }
+
+  /* Better scrolling on mobile */
+  .scrollable,
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Hide desktop-only elements on mobile */
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Intermediate touch targets */
+  button,
+  .btn,
+  [role="button"] {
+    min-height: 40px;
+    padding: var(--pf-space-3) var(--pf-space-4);
+  }
+
+  /* Adjust typography scale */
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .hover-effect:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Ensure active states are visible on touch */
+  button:active,
+  .btn:active,
+  [role="button"]:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+
+  /* Better focus indicators for keyboard navigation */
+  button:focus-visible,
+  .btn:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--pf-gold);
+    outline-offset: 2px;
+  }
+}
+
+/* High DPI screen optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders and shadows on high DPI screens */
+  .card,
+  .panel,
+  .modal {
+    border-width: 1px;
+  }
+
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* ===== MOBILE MODAL AND NAVIGATION PATTERNS ===== */
+
+/* Mobile Modal Improvements */
+@media (max-width: 768px) {
+  /* Full-screen mobile modals */
+  .mobile-modal,
+  .mobile-drawer,
+  .mobile-sheet {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    z-index: 10000 !important;
+    transform: none !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  /* Bottom sheet modals */
+  .bottom-sheet {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100vw !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    border-radius: 16px 16px 0 0 !important;
+    border: none !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .bottom-sheet.open {
+    transform: translateY(0) !important;
+  }
+
+  /* Side drawer for mobile navigation */
+  .mobile-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: var(--pf-gradient-parchment) !important;
+    border-right: 3px solid var(--pf-brown-medium) !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 10001 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .mobile-drawer.open {
+    transform: translateX(0) !important;
+  }
+
+  .mobile-drawer-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 10000 !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .mobile-drawer-overlay.open {
+    opacity: 1 !important;
+  }
+
+  /* Mobile modal header */
+  .mobile-modal-header,
+  .bottom-sheet-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6) !important;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+  }
+
+  .mobile-modal-title {
+    font-size: var(--pf-font-size-mobile-lg) !important;
+    font-weight: 700 !important;
+    color: var(--pf-text-primary) !important;
+    margin: 0 !important;
+  }
+
+  .mobile-modal-close {
+    background: none !important;
+    border: none !important;
+    font-size: var(--pf-font-size-mobile-xl) !important;
+    color: var(--pf-brown-medium) !important;
+    cursor: pointer !important;
+    padding: var(--pf-space-mobile-2) !important;
+    border-radius: 50% !important;
+    min-width: var(--pf-touch-target-min) !important;
+    min-height: var(--pf-touch-target-min) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .mobile-modal-close:hover {
+    background: rgba(139, 69, 19, 0.1) !important;
+    color: var(--pf-brown-dark) !important;
+  }
+
+  /* Mobile modal content */
+  .mobile-modal-content,
+  .bottom-sheet-content {
+    padding: var(--pf-space-mobile-6) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-height: calc(100vh - 120px) !important;
+  }
+
+  .bottom-sheet-content {
+    max-height: calc(80vh - 120px) !important;
+  }
+
+  /* Mobile modal actions */
+  .mobile-modal-actions {
+    display: flex !important;
+    gap: var(--pf-space-mobile-3) !important;
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6) !important;
+    border-top: 1px solid rgba(139, 69, 19, 0.2) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    margin-top: auto !important;
+    padding-bottom: max(var(--pf-space-mobile-4), env(safe-area-inset-bottom)) !important;
+  }
+
+  .mobile-modal-actions .btn {
+    flex: 1 !important;
+    min-height: var(--pf-touch-target-comfortable) !important;
+    font-size: var(--pf-font-size-mobile-base) !important;
+  }
+
+  /* Swipe gesture indicators */
+  .swipe-indicator {
+    display: flex !important;
+    justify-content: center !important;
+    padding: var(--pf-space-mobile-2) !important;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
+  }
+
+  .swipe-indicator::before {
+    content: '' !important;
+    width: 40px !important;
+    height: 4px !important;
+    background: rgba(139, 69, 19, 0.3) !important;
+    border-radius: 2px !important;
+  }
+
+  /* Mobile navigation hamburger button */
+  .hamburger-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: var(--pf-touch-target-min) !important;
+    height: var(--pf-touch-target-min) !important;
+    background: none !important;
+    border: 2px solid var(--pf-brown-medium) !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    padding: var(--pf-space-mobile-2) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .hamburger-btn:hover {
+    background: rgba(139, 69, 19, 0.1) !important;
+    border-color: var(--pf-brown-dark) !important;
+  }
+
+  .hamburger-btn span {
+    display: block !important;
+    width: 20px !important;
+    height: 2px !important;
+    background: var(--pf-brown-medium) !important;
+    margin: 2px 0 !important;
+    transition: all 0.2s ease !important;
+    border-radius: 1px !important;
+  }
+
+  .hamburger-btn.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px) !important;
+  }
+
+  .hamburger-btn.open span:nth-child(2) {
+    opacity: 0 !important;
+  }
+
+  .hamburger-btn.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px) !important;
+  }
+
+  /* Mobile bottom navigation */
+  .mobile-bottom-nav {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 60px !important;
+    background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%) !important;
+    border-top: 2px solid var(--pf-brown-medium) !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    padding: 0 var(--pf-space-mobile-2) !important;
+    padding-bottom: max(0px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .mobile-nav-item {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--pf-space-mobile-1) !important;
+    color: var(--pf-brown-medium) !important;
+    text-decoration: none !important;
+    font-size: var(--pf-font-size-mobile-xs) !important;
+    min-height: var(--pf-touch-target-min) !important;
+    transition: all 0.2s ease !important;
+    border-radius: 8px !important;
+  }
+
+  .mobile-nav-item:hover,
+  .mobile-nav-item.active {
+    color: var(--pf-gold) !important;
+    background: rgba(212, 175, 55, 0.1) !important;
+  }
+
+  .mobile-nav-item i {
+    font-size: var(--pf-font-size-mobile-lg) !important;
+    margin-bottom: var(--pf-space-mobile-1) !important;
+  }
+
+  /* Swipe gesture support */
+  .swipeable {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .swipe-left-hint,
+  .swipe-right-hint {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    pointer-events: none !important;
+    z-index: 10 !important;
+  }
+
+  .swipe-left-hint {
+    right: var(--pf-space-mobile-4) !important;
+  }
+
+  .swipe-right-hint {
+    left: var(--pf-space-mobile-4) !important;
+  }
+
+  .swipeable.show-hint .swipe-left-hint,
+  .swipeable.show-hint .swipe-right-hint {
+    opacity: 0.7 !important;
+  }
+
+  /* Pull to refresh indicator */
+  .pull-refresh-indicator {
+    position: absolute !important;
+    top: -50px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--pf-space-mobile-2) !important;
+    color: var(--pf-brown-medium) !important;
+    font-size: var(--pf-font-size-mobile-sm) !important;
+    transition: transform 0.3s ease !important;
+    z-index: 100 !important;
+  }
+
+  .pull-refresh-indicator.pulling {
+    transform: translateX(-50%) translateY(60px) !important;
+  }
+
+  .pull-refresh-indicator i {
+    animation: spin 1s linear infinite !important;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* Touch device gesture improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Better tap targets for all interactive elements */
+  a,
+  button,
+  [role="button"],
+  [onclick],
+  .clickable,
+  .tap-target {
+    position: relative;
+  }
+
+  a::after,
+  button::after,
+  [role="button"]::after,
+  [onclick]::after,
+  .clickable::after,
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: var(--pf-touch-target-min);
+    min-height: var(--pf-touch-target-min);
+    transform: translate(-50%, -50%);
+    border-radius: inherit;
+  }
+
+  /* Ripple effect for material design feel */
+  .ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .ripple:active::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ===== UNIFIED CHECKBOX SYSTEM ===== */
+/* Base checkbox container - use with component-specific prefixes */
+.pf-checkbox-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--pf-checkbox-gap);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(139, 115, 85, 0.3);
+  user-select: none;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  min-height: 36px;
+  box-sizing: border-box;
+}
+
+.pf-checkbox-container:hover {
+  background: rgba(213, 203, 176, 0.5);
+  border-color: rgba(139, 115, 85, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide the native checkbox */
+.pf-checkbox-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom checkbox design */
+.pf-checkbox-container::before {
+  content: '';
+  width: var(--pf-checkbox-size);
+  height: var(--pf-checkbox-size);
+  border: var(--pf-checkbox-border) solid var(--pf-brown-light);
+  border-radius: 3px;
+  background: var(--pf-parchment-light);
+  transition: all var(--pf-transition-normal);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Checked state */
+.pf-checkbox-container.checked::before {
+  background: var(--pf-brown-dark);
+  border-color: var(--pf-brown-darkest);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Checkmark */
+.pf-checkbox-container.checked::after {
+  content: '✓';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pf-parchment-light);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Label styling */
+.pf-checkbox-label {
+  font-size: 13px;
+  color: var(--pf-text-primary);
+  font-weight: 500;
+  flex: 1;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  line-height: 1.4;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Enhanced checked state */
+.pf-checkbox-container.checked {
+  border-color: var(--pf-brown-dark);
+  background: rgba(122, 59, 46, 0.1);
+}
+
+.pf-checkbox-container.checked:hover {
+  border-color: var(--pf-brown-darkest);
+  background: rgba(122, 59, 46, 0.15);
+}
+
+/* ===== COMPONENT-SPECIFIC CHECKBOX VARIATIONS ===== */
+
+/* Creature Library Checkboxes */
+.creature-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+}
+
+/* Spell Library Checkboxes */
+.spell-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+  gap: 8px; /* Slightly tighter spacing for spell lists */
+}
+
+/* Item Wizard Checkboxes */
+.item-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+  padding: 6px 10px; /* More compact for wizard forms */
+  min-height: 32px;
+}
+
+/* Level Editor Checkboxes */
+.level-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+  background: rgba(160, 140, 112, 0.1);
+  border-color: rgba(160, 140, 112, 0.2);
+}
+
+.level-checkbox-container:hover {
+  background: rgba(160, 140, 112, 0.2);
+  border-color: rgba(160, 140, 112, 0.4);
+}
+
+/* Settings Checkboxes */
+.settings-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+  padding: 6px 8px; /* Compact for settings panels */
+  min-height: 30px;
+}
+
+/* Filter-specific checkboxes (for sidebars) */
+.filter-checkbox-container {
+  /* Inherits all base styles from .pf-checkbox-container */
+  padding: 6px 10px;
+  gap: 8px;
+  min-height: 32px;
+}

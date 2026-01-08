@@ -1,0 +1,62 @@
+/* Multiplayer Mode Button Styles */
+.multiplayer-mode-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: 2px solid #28a745;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(40, 167, 69, 0.3);
+  
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.multiplayer-mode-button:hover {
+  background: linear-gradient(135deg, #34ce57 0%, #17a2b8 100%);
+  border-color: #34ce57;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(40, 167, 69, 0.5);
+}
+
+.multiplayer-mode-button:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .multiplayer-mode-button {
+    top: 10px;
+    right: 10px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation for attention */
+@keyframes pulse {
+  0% { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(40, 167, 69, 0.3); }
+  50% { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 25px rgba(40, 167, 69, 0.6); }
+  100% { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(40, 167, 69, 0.3); }
+}
+
+.multiplayer-mode-button {
+  animation: pulse 3s infinite;
+}

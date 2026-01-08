@@ -1,0 +1,161 @@
+/* MechanicThresholds.css - Pathfinder styling for state requirements and mechanic thresholds */
+
+/* State Requirements Styling */
+.effect-input {
+  width: 100%;
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-ui);
+}
+
+.effect-input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+}
+
+.effect-config-group {
+  margin-bottom: var(--pf-space-4);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.effect-config-group label {
+  display: block;
+  margin-bottom: var(--pf-space-2);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  font-family: var(--pf-font-ui);
+}
+
+/* Dice threshold display */
+.dice-threshold-display {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0 10px;
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dice-threshold-display .dice-icon {
+  font-size: 1.5rem;
+  margin-right: 8px;
+  color: #3b82f6;
+}
+
+.dice-threshold-display span {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #e2e8f0;
+}
+
+.threshold-chance {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* Resolution method selector */
+.resolution-method-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.resolution-method-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resolution-method-option input[type="radio"] {
+  margin: 0;
+}
+
+.resolution-method-option label {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+/* Card and coin configuration */
+.card-resolution-config,
+.coin-resolution-config {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 12px;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+}
+
+.card-resolution-config .form-group,
+.coin-resolution-config .form-group {
+  margin-bottom: 12px;
+}
+
+.card-resolution-config label,
+.coin-resolution-config label {
+  display: block;
+  margin-bottom: 6px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.card-resolution-config select,
+.coin-resolution-config select,
+.coin-resolution-config input {
+  width: 100%;
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.card-resolution-config select:focus,
+.coin-resolution-config select:focus,
+.coin-resolution-config input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Resolution options */
+.resolution-options {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* Threshold value input for dice/card/coin */
+.threshold-value-input {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Multi-threshold styling */
+.threshold-preview-value {
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 4px;
+  margin-right: 8px;
+  font-weight: bold;
+}

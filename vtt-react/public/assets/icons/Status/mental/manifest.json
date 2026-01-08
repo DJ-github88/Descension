@@ -1,0 +1,226 @@
+{
+  "category": "mental",
+  "count": 44,
+  "icons": [
+    {
+      "filename": "angry-mask-curse.png",
+      "name": "Angry Mask Curse",
+      "path": "mental/angry-mask-curse.png"
+    },
+    {
+      "filename": "brain-glowing-border-mental.png",
+      "name": "Brain Glowing Border Mental",
+      "path": "mental/brain-glowing-border-mental.png"
+    },
+    {
+      "filename": "brain-intelligence.png",
+      "name": "Brain Intelligence",
+      "path": "mental/brain-intelligence.png"
+    },
+    {
+      "filename": "brain-outline-glow-mental.png",
+      "name": "Brain Outline Glow Mental",
+      "path": "mental/brain-outline-glow-mental.png"
+    },
+    {
+      "filename": "brain-outline-intelligence.png",
+      "name": "Brain Outline Intelligence",
+      "path": "mental/brain-outline-intelligence.png"
+    },
+    {
+      "filename": "chaotic-cross.png",
+      "name": "Chaotic Cross",
+      "path": "mental/chaotic-cross.png"
+    },
+    {
+      "filename": "complex-interlock.png",
+      "name": "Complex Interlock",
+      "path": "mental/complex-interlock.png"
+    },
+    {
+      "filename": "complex-pattern.png",
+      "name": "Complex Pattern",
+      "path": "mental/complex-pattern.png"
+    },
+    {
+      "filename": "confused-face.png",
+      "name": "Confused Face",
+      "path": "mental/confused-face.png"
+    },
+    {
+      "filename": "confused-face_1.png",
+      "name": "Confused Face_1",
+      "path": "mental/confused-face_1.png"
+    },
+    {
+      "filename": "crescent-moon-stars-night.png",
+      "name": "Crescent Moon Stars Night",
+      "path": "mental/crescent-moon-stars-night.png"
+    },
+    {
+      "filename": "crescent-moon-stars-sleep.png",
+      "name": "Crescent Moon Stars Sleep",
+      "path": "mental/crescent-moon-stars-sleep.png"
+    },
+    {
+      "filename": "crescent-moon-z-sleep.png",
+      "name": "Crescent Moon Z Sleep",
+      "path": "mental/crescent-moon-z-sleep.png"
+    },
+    {
+      "filename": "dazed-blank.png",
+      "name": "Dazed Blank",
+      "path": "mental/dazed-blank.png"
+    },
+    {
+      "filename": "disoriented-quadrants.png",
+      "name": "Disoriented Quadrants",
+      "path": "mental/disoriented-quadrants.png"
+    },
+    {
+      "filename": "face-bone-cross-fear.png",
+      "name": "Face Bone Cross Fear",
+      "path": "mental/face-bone-cross-fear.png"
+    },
+    {
+      "filename": "face-fangs-eyes-rage.png",
+      "name": "Face Fangs Eyes Rage",
+      "path": "mental/face-fangs-eyes-rage.png"
+    },
+    {
+      "filename": "face-mask-x-curse.png",
+      "name": "Face Mask X Curse",
+      "path": "mental/face-mask-x-curse.png"
+    },
+    {
+      "filename": "fearful-face.png",
+      "name": "Fearful Face",
+      "path": "mental/fearful-face.png"
+    },
+    {
+      "filename": "fragmented-grid.png",
+      "name": "Fragmented Grid",
+      "path": "mental/fragmented-grid.png"
+    },
+    {
+      "filename": "fragmented-quadrants.png",
+      "name": "Fragmented Quadrants",
+      "path": "mental/fragmented-quadrants.png"
+    },
+    {
+      "filename": "glowing-maze-path.png",
+      "name": "Glowing Maze Path",
+      "path": "mental/glowing-maze-path.png"
+    },
+    {
+      "filename": "horned-mask-mental.png",
+      "name": "Horned Mask Mental",
+      "path": "mental/horned-mask-mental.png"
+    },
+    {
+      "filename": "joyful-mask-mental.png",
+      "name": "Joyful Mask Mental",
+      "path": "mental/joyful-mask-mental.png"
+    },
+    {
+      "filename": "letter-z-gradient-sleep.png",
+      "name": "Letter Z Gradient Sleep",
+      "path": "mental/letter-z-gradient-sleep.png"
+    },
+    {
+      "filename": "letter-z-pattern-sleep.png",
+      "name": "Letter Z Pattern Sleep",
+      "path": "mental/letter-z-pattern-sleep.png"
+    },
+    {
+      "filename": "mask-fear-confusion.png",
+      "name": "Mask Fear Confusion",
+      "path": "mental/mask-fear-confusion.png"
+    },
+    {
+      "filename": "maze-confusion.png",
+      "name": "Maze Confusion",
+      "path": "mental/maze-confusion.png"
+    },
+    {
+      "filename": "maze-pattern.png",
+      "name": "Maze Pattern",
+      "path": "mental/maze-pattern.png"
+    },
+    {
+      "filename": "menacing-face-fear.png",
+      "name": "Menacing Face Fear",
+      "path": "mental/menacing-face-fear.png"
+    },
+    {
+      "filename": "menacing-face-tusks-rage.png",
+      "name": "Menacing Face Tusks Rage",
+      "path": "mental/menacing-face-tusks-rage.png"
+    },
+    {
+      "filename": "menacing-face-wings-fear.png",
+      "name": "Menacing Face Wings Fear",
+      "path": "mental/menacing-face-wings-fear.png"
+    },
+    {
+      "filename": "monstrous-face-debuff.png",
+      "name": "Monstrous Face Debuff",
+      "path": "mental/monstrous-face-debuff.png"
+    },
+    {
+      "filename": "monstrous-face-rage.png",
+      "name": "Monstrous Face Rage",
+      "path": "mental/monstrous-face-rage.png"
+    },
+    {
+      "filename": "pinwheel-disoriented.png",
+      "name": "Pinwheel Disoriented",
+      "path": "mental/pinwheel-disoriented.png"
+    },
+    {
+      "filename": "radiating-daze.png",
+      "name": "Radiating Daze",
+      "path": "mental/radiating-daze.png"
+    },
+    {
+      "filename": "roaring-face-rage.png",
+      "name": "Roaring Face Rage",
+      "path": "mental/roaring-face-rage.png"
+    },
+    {
+      "filename": "screaming-face-fear.png",
+      "name": "Screaming Face Fear",
+      "path": "mental/screaming-face-fear.png"
+    },
+    {
+      "filename": "screaming-face-fear-rage.png",
+      "name": "Screaming Face Fear Rage",
+      "path": "mental/screaming-face-fear-rage.png"
+    },
+    {
+      "filename": "spiral-dizzy.png",
+      "name": "Spiral Dizzy",
+      "path": "mental/spiral-dizzy.png"
+    },
+    {
+      "filename": "stylized-face-mask.png",
+      "name": "Stylized Face Mask",
+      "path": "mental/stylized-face-mask.png"
+    },
+    {
+      "filename": "swirling-confusion.png",
+      "name": "Swirling Confusion",
+      "path": "mental/swirling-confusion.png"
+    },
+    {
+      "filename": "swirling-disorientation.png",
+      "name": "Swirling Disorientation",
+      "path": "mental/swirling-disorientation.png"
+    },
+    {
+      "filename": "three-z-sleep-circuit.png",
+      "name": "Three Z Sleep Circuit",
+      "path": "mental/three-z-sleep-circuit.png"
+    }
+  ]
+}

@@ -1,0 +1,1224 @@
+/* Quest-Based Skills System - Pathfinder Style */
+/* Matching the lore section's elegant design */
+
+/* Character Sheet Skills Container - Protected from external CSS conflicts */
+.character-sheet .skills-container,
+.skills-container {
+    display: flex !important;
+    flex-direction: row !important; /* Ensure horizontal layout */
+    height: 100%;
+    padding: 0; /* Remove padding to use full space */
+    margin: 0; /* Remove margin to use full space */
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 50%,
+        rgba(213, 203, 176, 0.85) 100%);
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    color: #5a1e12;
+}
+
+/* When skills-container only contains no-skill-selected, center it */
+.skills-container:has(> .no-skill-selected:only-child) {
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Fallback for browsers without :has() support - ensure no-skill-selected takes full width */
+.skills-container > .no-skill-selected:only-child {
+    width: 100%;
+    flex: 1;
+}
+
+/* Skills Sidebar - Pathfinder Style */
+.character-sheet .skills-sidebar,
+.skills-sidebar {
+    width: 260px !important;
+    flex-shrink: 0 !important;
+    background: linear-gradient(135deg,
+        rgba(213, 203, 176, 0.98) 0%,
+        rgba(200, 190, 160, 0.95) 100%);
+    border-right: 3px solid #8b7355;
+    padding: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto;
+    box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.15);
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+/* Collapsed Sidebar State */
+.skills-sidebar.collapsed {
+    width: 80px !important;
+}
+
+/* Sidebar Toggle Button */
+.skills-sidebar-toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg,
+        rgba(200, 190, 160, 0.9) 0%,
+        rgba(190, 180, 150, 0.85) 100%);
+    border: none;
+    border-bottom: 2px solid #8b7355;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skills-sidebar-toggle-button:hover {
+    background: linear-gradient(135deg,
+        rgba(220, 210, 180, 0.95) 0%,
+        rgba(210, 200, 170, 0.9) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.skills-toggle-icon {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.skills-sidebar.collapsed .skills-sidebar-toggle-button {
+    border-bottom: 2px solid #8b7355;
+}
+
+/* Search Container */
+.skills-search-container {
+    position: relative;
+    padding: 12px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    border-bottom: 2px solid #8b7355;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease, max-height 0.3s ease;
+}
+
+.skills-sidebar.collapsed .skills-search-container {
+    display: none;
+}
+
+.skills-search-input {
+    width: 100%;
+    padding: 8px 32px 8px 12px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(250, 245, 235, 0.85) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: #5a1e12;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skills-search-input::placeholder {
+    color: #8b7355;
+    opacity: 0.7;
+}
+
+.skills-search-input:focus {
+    border-color: #7a3b2e;
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.1),
+        0 0 0 3px rgba(122, 59, 46, 0.1);
+}
+
+.skills-search-clear {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b7355;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skills-search-clear:hover {
+    color: #7a3b2e;
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* Skill Category Section */
+.skill-category-section {
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+}
+
+/* Remove margin from first skill category section when inside creature-section-content */
+.creature-section-content .skills-sidebar .skill-category-section:first-child {
+    margin-top: 0 !important;
+}
+
+.skill-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg,
+        rgba(200, 190, 160, 0.9) 0%,
+        rgba(190, 180, 150, 0.85) 100%);
+    border-bottom: 2px solid #8b7355;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease, max-width 0.3s ease;
+}
+
+.skills-sidebar.collapsed .skill-category-header {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.skill-category-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid #8b7355;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.skill-category-icon-fa {
+    font-size: 16px;
+    color: #7a3b2e;
+}
+
+.skill-category-name {
+    flex: 1;
+    transition: opacity 0.2s ease, max-width 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.skills-sidebar.collapsed .skill-category-name {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+}
+
+.skills-sidebar.collapsed .skill-category-section,
+.skills-sidebar.collapsed .skill-list,
+.skills-sidebar.collapsed .skill-search-results {
+    display: none;
+}
+
+.category-toggle-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: auto;
+    flex-shrink: 0;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+/* Skill List */
+.skill-list {
+    background: linear-gradient(135deg,
+        rgba(230, 220, 200, 0.5) 0%,
+        rgba(220, 210, 190, 0.4) 100%);
+}
+
+.skill-list-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    background: transparent;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.skill-list-item:hover {
+    background: linear-gradient(90deg,
+        rgba(240, 230, 210, 0.8) 0%,
+        rgba(230, 220, 200, 0.6) 100%);
+    border-left: 2px solid #8b7355;
+    padding-left: 22px;
+}
+
+.skill-list-item.selected {
+    background: linear-gradient(90deg,
+        rgba(122, 59, 46, 0.2) 0%,
+        rgba(139, 115, 85, 0.15) 100%);
+    border-left: 4px solid #7a3b2e;
+    padding-left: 20px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skill-list-name {
+    font-weight: 700;
+    line-height: 1.3;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 1px rgba(0, 0, 0, 0.5);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.skill-rank-label {
+    font-weight: 500;
+    font-size: 11px;
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.skill-list-progress {
+    font-size: 10px;
+    color: #5a1e12;
+    font-weight: 700;
+    padding: 3px 7px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(240, 230, 210, 0.7) 100%);
+    border: 1px solid #8b7355;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Search Results */
+.skill-search-results {
+    flex: 1;
+}
+
+.no-search-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #8b7355;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Main Content Area - Protected from external CSS conflicts */
+.character-sheet .skills-content,
+.skills-content {
+    flex: 1 !important;
+    padding: 20px;
+    overflow-y: auto;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 50%,
+        rgba(213, 203, 176, 0.85) 100%);
+}
+
+/* Reduce padding when skills-content is inside creature-section-content */
+.creature-section-content .skills-content {
+    padding: 0 !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+}
+
+/* Make skills-container fill properly when inside creature-section-content */
+.creature-section-content .skills-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Center no-skill-selected when inside creature-section-content */
+.creature-section-content .skills-container:has(.no-skill-selected:only-child) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.creature-section-content .skills-container > .no-skill-selected:only-child {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Add padding to skill-detail-view when inside creature-section-content */
+.creature-section-content .skill-detail-view {
+    padding: 20px !important;
+    gap: 15px !important;
+}
+
+/* Ensure table-section keeps its padding when inside creature-section-content */
+.creature-section-content .skill-detail-view .table-section,
+.creature-section-content .table-section {
+    padding: 20px !important;
+}
+
+/* Ensure skill-detail-header keeps its padding */
+.creature-section-content .skill-detail-view .skill-detail-header {
+    padding: 20px !important;
+}
+
+/* Ensure skills-sidebar has no padding when inside creature-section-content */
+.creature-section-content .skills-sidebar {
+    padding: 0 !important;
+}
+
+/* No Skill Selected State */
+.no-skill-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    color: #8b7355;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* When skills-container only has no-skill-selected, center it properly */
+.skills-container:has(.no-skill-selected:only-child) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+}
+
+/* Fallback for browsers that don't support :has() */
+.skills-container > .no-skill-selected:only-child {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Rolling dice animation for no skill selected - 2D rotation */
+@keyframes diceRoll {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.no-skill-selected .dice-icon {
+    animation: diceRoll 2s linear infinite;
+    display: inline-block;
+    object-fit: contain;
+}
+
+/* Skill Detail View */
+.skill-detail-view {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.skill-detail-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(250, 245, 235, 0.95) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.skill-detail-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    border: 2px solid #8b7355;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.skill-detail-title-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skill-detail-name {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 8px rgba(255, 255, 255, 0.5);
+    line-height: 1.2;
+}
+
+.skill-detail-description {
+    font-size: 14px;
+    color: #6b4423;
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.skill-detail-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+/* Skill Stats Badges */
+.skill-detail-stats .skill-rank,
+.skill-rank {
+    padding: 4px 10px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(240, 230, 210, 0.8) 100%);
+    border-radius: 4px;
+    border: 1px solid #8b7355;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #5a1e12;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.skill-detail-stats .skill-modifier,
+.skill-modifier {
+    padding: 4px 10px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(250, 240, 230, 0.8) 100%);
+    border-radius: 4px;
+    border: 1px solid #7a3b2e;
+    color: #7a3b2e;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.skill-detail-stats .skill-progress,
+.skill-progress {
+    padding: 4px 10px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(240, 250, 245, 0.8) 100%);
+    border-radius: 4px;
+    border: 1px solid #4a7c59;
+    color: #4a7c59;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Roll Button */
+.roll-table-btn {
+    padding: 10px 16px;
+    border: 2px solid #5a2a0f;
+    border-radius: 6px;
+
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.roll-table-btn:hover {
+    background: linear-gradient(135deg, #a0521a 0%, #7a3b12 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Quest Section */
+.quest-section {
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(250, 245, 235, 0.95) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.quest-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.quest-toggle-btn {
+    padding: 8px 12px;
+    border: 1px solid #8b7355;
+    border-radius: 8px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5a2a0f;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.quest-toggle-btn:hover {
+    background: linear-gradient(135deg,
+        rgba(255, 245, 225, 0.95) 0%,
+        rgba(240, 225, 200, 0.95) 100%);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.quest-section h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #7a3b2e;
+    margin: 0 0 20px 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    padding-bottom: 12px;
+    border-bottom: 2px solid #d5cbb0;
+}
+
+.quest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quest-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.6) 0%,
+        rgba(230, 220, 200, 0.5) 100%);
+    border: 1px solid #d5cbb0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quest-item:hover {
+    background: linear-gradient(135deg,
+        rgba(250, 240, 220, 0.8) 0%,
+        rgba(240, 230, 210, 0.7) 100%);
+    border-color: #8b7355;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quest-item.completed {
+    background: linear-gradient(135deg,
+        rgba(74, 124, 89, 0.2) 0%,
+        rgba(93, 138, 107, 0.15) 100%);
+    border-color: #4a7c59;
+}
+
+.quest-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #8b7355;
+    flex-shrink: 0;
+}
+
+.quest-info {
+    flex: 1;
+}
+
+.quest-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a1e12;
+    margin: 0 0 4px 0;
+}
+
+.quest-description {
+    font-size: 13px;
+    color: #2c1810;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.quest-progress-chip {
+    margin-left: 6px;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, rgba(74, 124, 89, 0.12) 0%, rgba(74, 124, 89, 0.22) 100%);
+    border: 1px solid rgba(74, 124, 89, 0.35);
+    color: #2f5a42;
+    font-size: 11px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.quest-progress-btn {
+    margin-top: 6px;
+    padding: 4px 8px;
+    border: 1px solid #4a7c59;
+    background: linear-gradient(135deg, rgba(74, 124, 89, 0.12) 0%, rgba(74, 124, 89, 0.22) 100%);
+    border-radius: 6px;
+    color: #2f5a42;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.quest-progress-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(74, 124, 89, 0.18) 0%, rgba(74, 124, 89, 0.28) 100%);
+    border-color: #2f5a42;
+    transform: translateY(-1px);
+}
+
+.quest-progress-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.quest-unlocks {
+    font-size: 11px;
+    color: #4a7c59;
+    font-style: italic;
+}
+
+.quest-status {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a7c59;
+    width: 24px;
+    text-align: center;
+}
+
+.quest-rank-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #5a1e12;
+    background: linear-gradient(135deg, rgba(255, 250, 235, 0.95), rgba(244, 232, 200, 0.9));
+    border: 1px solid #c6a02d;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Table Section */
+.table-section {
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(250, 245, 235, 0.95) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.table-section h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #7a3b2e;
+    margin: 0 0 12px 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    padding-bottom: 12px;
+    border-bottom: 2px solid #d5cbb0;
+}
+
+.table-section p {
+    font-size: 13px;
+    color: #6b4423;
+    margin: 0 0 20px 0;
+    font-style: italic;
+}
+
+.table-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.table-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid transparent;
+    position: relative;
+    padding-left: 20px;
+}
+
+/* Colorblind-friendly skill roll outcome colors */
+/* Total Failure - Dark red/maroon (very dark, distinct) */
+.table-entry.total-failure {
+    border-left: 6px solid #8B0000;
+    background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.total-failure::before {
+    content: '⚠';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #8B0000;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #8B0000;
+    font-weight: bold;
+}
+
+/* Failure - Red-orange (distinct from dark red) */
+.table-entry.failure {
+    border-left: 5px solid #D84315;
+    background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.failure::before {
+    content: '✗';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #D84315;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #D84315;
+    font-weight: bold;
+}
+
+/* Partial Success / Mixed - Amber/yellow (warm, distinct) */
+.table-entry.normal,
+.table-entry.partial {
+    border-left: 5px solid #F57C00;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.normal::before,
+.table-entry.partial::before {
+    content: '➡';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #F57C00;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #F57C00;
+    font-weight: bold;
+}
+
+/* Success - Teal/blue-green (cool, distinct) */
+.table-entry.success {
+    border-left: 5px solid #00897B;
+    background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.success::before {
+    content: '✓';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #00897B;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #00897B;
+    font-weight: bold;
+}
+
+/* Critical Success - Bright blue (very distinct) */
+.table-entry.critical {
+    border-left: 6px solid #1976D2;
+    background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.critical::before {
+    content: '★';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #1976D2;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #1976D2;
+    font-weight: bold;
+}
+
+.roll-range {
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+/* Ensure roll-range doesn't get pushed by ::before icons */
+.table-entry.total-failure .roll-range,
+.table-entry.failure .roll-range,
+.table-entry.normal .roll-range,
+.table-entry.partial .roll-range,
+.table-entry.success .roll-range,
+.table-entry.critical .roll-range {
+    margin-left: 8px;
+}
+
+.roll-result {
+    flex: 1;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* Scrollbar Styling */
+.skills-content::-webkit-scrollbar,
+.skills-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.skills-content::-webkit-scrollbar-track,
+.skills-sidebar::-webkit-scrollbar-track {
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 4px;
+}
+
+.skills-content::-webkit-scrollbar-thumb,
+.skills-sidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8b7355 0%, #6b5a45 100%);
+    border-radius: 4px;
+}
+
+.skills-content::-webkit-scrollbar-thumb:hover,
+.skills-sidebar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 100%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .skills-sidebar {
+        width: 180px !important;
+    }
+
+    .skill-category-header {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+
+    .skill-list-item {
+        font-size: 11px;
+        padding: 5px 10px 5px 20px;
+    }
+
+    .skill-detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .skill-detail-name {
+        font-size: 22px;
+    }
+
+    .skill-detail-description {
+        font-size: 13px;
+    }
+}
+
+/* Die Selector Section */
+.die-selector-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.6) 0%,
+        rgba(230, 220, 200, 0.5) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+}
+
+.die-selector-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.die-selector-strip {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.die-selector-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.die-selector-icon:hover {
+    background: linear-gradient(135deg,
+        rgba(250, 240, 220, 1) 0%,
+        rgba(240, 230, 210, 0.95) 100%);
+    border-color: #6b5345;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.die-selector-icon.selected {
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.9) 0%,
+        rgba(107, 83, 69, 0.85) 100%);
+    border-color: #5a1e12;
+    box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.die-selector-icon.selected .die-number {
+    color: #f0e6d2;
+    font-weight: 700;
+}
+
+.die-number {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+}
+
+/* Weapon type icons for mastery selector */
+.damage-type-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+}
+
+.damage-type-option {
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+}
+.damage-type-option {
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Character sheet weapon type grid overrides:
+   keep the icons bigger and clustered without huge grid gutters */
+.character-sheet .weapon-type-grid.damage-type-grid {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 4px 0 0;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 640px;
+    grid-template-columns: none !important;
+}
+
+.character-sheet .weapon-type-option {
+    position: relative;
+    flex: 0 0 auto;
+    width: 112px;
+    height: 112px;
+    padding: 8px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        var(--weapon-rank-color-soft, rgba(248, 245, 240, 0.96)) 100%);
+    border: 1px solid var(--weapon-rank-color, #c6a02d);
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.12),
+        0 0 0 1px var(--weapon-rank-color-soft, rgba(198, 160, 45, 0.35));
+    overflow: visible;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.character-sheet .weapon-type-option.selected {
+    border-color: var(--weapon-rank-color, #b8941f);
+    box-shadow:
+        0 0 0 3px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.4)),
+        0 5px 14px rgba(0, 0, 0, 0.2),
+        inset 0 0 18px var(--weapon-rank-color-soft, rgba(184, 148, 31, 0.25));
+    transform: translateY(-2px);
+    background: linear-gradient(135deg,
+        rgba(255, 251, 235, 0.98) 0%,
+        var(--weapon-rank-color-soft, rgba(250, 240, 200, 0.95)) 100%);
+}
+
+.character-sheet .weapon-rank-chip {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 10px;
+    background: var(--weapon-rank-color, #c6a02d);
+    color: #fdfaf3;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.character-sheet .weapon-type-option.selected .weapon-rank-chip {
+    box-shadow: 0 4px 14px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.35));
+}
+
+.character-sheet .weapon-type-icon {
+    width: 96px !important;
+    height: 96px !important;
+    margin: 0;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.character-sheet .weapon-type-option.selected .weapon-type-icon {
+    filter: drop-shadow(0 0 10px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.6)));
+    transform: scale(1.04);
+}

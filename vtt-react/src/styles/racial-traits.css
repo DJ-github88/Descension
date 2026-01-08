@@ -1,0 +1,441 @@
+/* ===== PATHFINDER RACIAL TRAITS STYLING ===== */
+
+/* Import Pathfinder variables if not already available */
+:root {
+  --pf-brown-darkest: #2d1810;
+  --pf-brown-dark: #4a2c1a;
+  --pf-brown-medium: #6b3e2a;
+  --pf-brown-light: #8b5a3c;
+  --pf-cream: #f4f1e8;
+  --pf-cream-dark: #e8e0d0;
+  --pf-gold: #d4af37;
+  --pf-gold-dark: #b8941f;
+  --pf-text-primary: #5a1e12;
+  --pf-text-secondary: #5a1e12;
+  --pf-border-radius: 8px;
+  --pf-border-radius-lg: 12px;
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-6: 24px;
+  --pf-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
+  --pf-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
+  --pf-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
+  --pf-transition-normal: 0.2s ease;
+}
+
+/* ===== RACIAL TRAITS SECTION ===== */
+
+.racial-traits-section {
+  margin-top: var(--pf-space-6);
+  padding: var(--pf-space-4);
+  background: linear-gradient(135deg,
+    var(--pf-cream) 0%,
+    #f8f5f0 50%,
+    var(--pf-cream-dark) 100%);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow:
+    var(--pf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(107, 62, 42, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.racial-traits-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--pf-gold) 0%,
+    var(--pf-gold-dark) 50%,
+    var(--pf-gold) 100%);
+  z-index: 1;
+}
+
+.racial-traits-title {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--pf-brown-darkest);
+  margin: 0 0 var(--pf-space-4) 0;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.racial-traits-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--pf-gold);
+  margin: var(--pf-space-2) auto 0;
+  border-radius: 1px;
+}
+
+/* ===== RACIAL TRAITS GRID ===== */
+
+.racial-traits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+}
+
+/* ===== INDIVIDUAL TRAIT CARDS ===== */
+
+.racial-trait-card {
+  background: linear-gradient(135deg,
+    #fefcf8 0%,
+    var(--pf-cream) 50%,
+    #f0ede6 100%);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  box-shadow:
+    var(--pf-shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all var(--pf-transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.racial-trait-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--pf-gold) 50%,
+    transparent 100%);
+  opacity: 0;
+  transition: opacity var(--pf-transition-normal);
+}
+
+.racial-trait-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--pf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 1px rgba(212, 175, 55, 0.2);
+  border-color: var(--pf-brown-medium);
+}
+
+.racial-trait-card:hover::before {
+  opacity: 1;
+}
+
+/* ===== TRAIT HEADER ===== */
+
+.racial-trait-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--pf-space-2);
+  gap: var(--pf-space-2);
+}
+
+.racial-trait-name {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--pf-brown-darkest);
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.racial-trait-type {
+  background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #4a5568;
+}
+
+/* ===== TRAIT DESCRIPTION ===== */
+
+.racial-trait-description {
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--pf-text-secondary);
+  margin: 0;
+  text-align: justify;
+}
+
+/* ===== RACIAL INFO GRID ===== */
+
+.racial-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--pf-space-3);
+  padding-top: var(--pf-space-3);
+  border-top: 1px solid var(--pf-brown-light);
+}
+
+.racial-info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid rgba(107, 62, 42, 0.1);
+}
+
+.racial-info-label {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 600;
+  color: var(--pf-brown-darkest);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.racial-info-value {
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  color: var(--pf-text-secondary);
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .racial-traits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .racial-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .racial-trait-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .racial-trait-type {
+    align-self: flex-start;
+  }
+}
+
+/* ===== TRAIT TYPE VARIANTS - IMPROVED READABILITY ===== */
+
+.racial-trait-type[data-type="combat"] {
+  background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
+  color: #ffffff;
+  border-color: #9b2c2c;
+}
+
+.racial-trait-type[data-type="resistance"] {
+  background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+  color: #ffffff;
+  border-color: #2c5282;
+}
+
+.racial-trait-type[data-type="movement"] {
+  background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="communication"] {
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="perception"] {
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="social"] {
+  background: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+  color: #2d1810;
+  border-color: #b7791f;
+}
+
+.racial-trait-type[data-type="utility"] {
+  background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
+  color: #ffffff;
+  border-color: #4a5568;
+}
+
+.racial-trait-type[data-type="knowledge"] {
+  background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+  color: #ffffff;
+  border-color: #2c5282;
+}
+
+.racial-trait-type[data-type="nature"] {
+  background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="defense"] {
+  background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
+  color: #ffffff;
+  border-color: #2d3748;
+}
+
+.racial-trait-type[data-type="divination"] {
+  background: linear-gradient(135deg, #805ad5 0%, #b794f4 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="protection"] {
+  background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
+  color: #ffffff;
+  border-color: #2c5282;
+}
+
+.racial-trait-type[data-type="inspiration"] {
+  background: linear-gradient(135deg, #d69e2e 0%, #f6ad55 100%);
+  color: #2d1810;
+  border-color: #b7791f;
+  font-weight: 700;
+}
+
+.racial-trait-type[data-type="mental"] {
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="illusion"] {
+  background: linear-gradient(135deg, #9f7aea 0%, #d6bcfa 100%);
+  color: #2d1810;
+  border-color: #805ad5;
+}
+
+.racial-trait-type[data-type="transformation"] {
+  background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="hunting"] {
+  background: linear-gradient(135deg, #c53030 0%, #fc8181 100%);
+  color: #ffffff;
+  border-color: #9b2c2c;
+}
+
+.racial-trait-type[data-type="detection"] {
+  background: linear-gradient(135deg, #805ad5 0%, #b794f4 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="undead"] {
+  background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
+  color: #ffffff;
+  border-color: #2d3748;
+}
+
+.racial-trait-type[data-type="crafting"] {
+  background: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+  color: #2d1810;
+  border-color: #b7791f;
+}
+
+/* ===== CULTURAL BACKGROUND SECTION ===== */
+
+.racial-cultural-background {
+  margin-top: var(--pf-space-4);
+  padding: var(--pf-space-4);
+  background: linear-gradient(135deg,
+    rgba(212, 175, 55, 0.05) 0%,
+    rgba(212, 175, 55, 0.1) 50%,
+    rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.08);
+}
+
+.cultural-background-title {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--pf-brown-darkest);
+  margin: 0 0 var(--pf-space-3) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.cultural-background-title i {
+  color: var(--pf-gold);
+  font-size: 1rem;
+}
+
+.cultural-background-text {
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--pf-text-secondary);
+  margin: 0;
+  text-align: justify;
+}
+
+
+/* ===== RACIAL TRAIT ICON STRIP (Path-style selector) ===== */
+.racial-trait-icon-strip {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 2px solid var(--pf-gold);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(254,252,248,0.6) 0%, rgba(244,241,232,0.6) 100%);
+  overflow-x: auto;
+}
+
+.racial-trait-icon-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  padding: 2px;
+  background: rgba(255,255,255,0.8);
+  border: 2px solid var(--pf-gold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 0 0 auto;
+}
+
+.racial-trait-icon-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--pf-gold-dark);
+}
+
+.racial-trait-icon-btn.selected {
+  background: rgba(212,175,55,0.2);
+  border-color: var(--pf-gold-dark);
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.2);
+}
+
+.racial-trait-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}

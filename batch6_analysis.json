@@ -1,0 +1,123 @@
+[
+  {
+    "original_path": "Blacksmithing/Icon1.png",
+    "name": "gold-bar-rectangular-shiny",
+    "category": "Blacksmithing",
+    "description": "Rectangular gold bar with bright shiny golden-yellow color and reflective highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon2.png",
+    "name": "metallic-chisel-punch-bronze",
+    "category": "Blacksmithing",
+    "description": "Elongated metallic tool tapering to sharp point, golden-brown and dark grey, like a chisel or punch"
+  },
+  {
+    "original_path": "Blacksmithing/Icon3.png",
+    "name": "stack-three-gold-bars",
+    "category": "Blacksmithing",
+    "description": "Three stacked rectangular gold bars in bright shiny golden-yellow"
+  },
+  {
+    "original_path": "Blacksmithing/Icon4.png",
+    "name": "gold-ore-pile-nuggets",
+    "category": "Blacksmithing",
+    "description": "Triangular pile of dark brown-grey ore with scattered bright golden-yellow gold specks and chunks"
+  },
+  {
+    "original_path": "Blacksmithing/Icon5.png",
+    "name": "hammer-claw-metallic-grey-wooden-handle",
+    "category": "Blacksmithing",
+    "description": "Hammer with dark grey metallic head (flat face and clawed end) and golden-brown wooden handle"
+  },
+  {
+    "original_path": "Blacksmithing/Icon6.png",
+    "name": "golden-brown-cylindrical-rod",
+    "category": "Blacksmithing",
+    "description": "Golden-brown cylindrical rod, slightly tapered, possibly metallic or polished wood"
+  },
+  {
+    "original_path": "Blacksmithing/Icon7.png",
+    "name": "metallic-star-propeller-bronze",
+    "category": "Blacksmithing",
+    "description": "Stylized golden-brown metallic object with angular blade-like extensions radiating from center"
+  },
+  {
+    "original_path": "Blacksmithing/Icon8.png",
+    "name": "rolled-green-fabric-material",
+    "category": "Tailoring",
+    "description": "Rolled-up vibrant green material with fanned-out end showing folds"
+  },
+  {
+    "original_path": "Blacksmithing/Icon9.png",
+    "name": "metallic-ingot-trapezoidal-bronze",
+    "category": "Blacksmithing",
+    "description": "Stylized metallic object with rectangular base and pointed jagged shape extending upward"
+  },
+  {
+    "original_path": "Blacksmithing/Icon10.png",
+    "name": "coiled-brown-rope-hemp",
+    "category": "Tailoring",
+    "description": "Tightly wound coil of light earthy brown rope with visible twisted strands"
+  },
+  {
+    "original_path": "Blacksmithing/Icon11.png",
+    "name": "wooden-splinter-shard-grain",
+    "category": "Farming",
+    "description": "Irregular triangular piece of wood with horizontal grain lines and darker cracks"
+  },
+  {
+    "original_path": "Blacksmithing/Icon12.png",
+    "name": "stack-three-brown-blocks-ore",
+    "category": "Blacksmithing",
+    "description": "Stack of three rectangular brown blocks with rough texture, stepped arrangement"
+  },
+  {
+    "original_path": "Blacksmithing/Icon13.png",
+    "name": "stack-three-silver-ingots",
+    "category": "Blacksmithing",
+    "description": "Three stacked rectangular silver-grey ingots with bright white highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon14.png",
+    "name": "bundle-metallic-rods-wires",
+    "category": "Blacksmithing",
+    "description": "Bundle of dark grey metallic rods or wires with light blue-cyan highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon15.png",
+    "name": "golden-orange-ingot-bar",
+    "category": "Blacksmithing",
+    "description": "Rectangular golden-orange ingot with yellow highlights and metallic sheen"
+  },
+  {
+    "original_path": "Blacksmithing/Icon16.png",
+    "name": "golden-ring-textured-braided",
+    "category": "Blacksmithing",
+    "description": "Circular golden ring with textured braided or twisted appearance"
+  },
+  {
+    "original_path": "Blacksmithing/Icon17.png",
+    "name": "three-metallic-nails-screws",
+    "category": "Blacksmithing",
+    "description": "Three metallic silver-grey nails or screws with flat circular heads and pointed shafts"
+  },
+  {
+    "original_path": "Blacksmithing/Icon18.png",
+    "name": "three-dark-nails-metallic",
+    "category": "Blacksmithing",
+    "description": "Three dark grey nails in loose cluster, each with flat circular head and tapering shaft"
+  },
+  {
+    "original_path": "Blacksmithing/Icon19.png",
+    "name": "rolled-brown-leather-fabric",
+    "category": "Tailoring",
+    "description": "Rolled-up elongated brown object with folds and creases, like leather or fabric"
+  },
+  {
+    "original_path": "Blacksmithing/Icon20.png",
+    "name": "golden-brown-flat-rectangle-bar",
+    "category": "Blacksmithing",
+    "description": "Flat rectangular golden-brown object, possibly metal bar or wood plank"
+  }
+]
+

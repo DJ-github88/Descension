@@ -1,0 +1,2611 @@
+/* Background Selector Container */
+.background-selector-container {
+    font-family: 'Cinzel', serif;
+    color: #2c2416;
+    padding: 1.5rem;
+}
+
+/* Path Selection Section - Clean, no extra containers */
+.path-selection-section,
+.subpath-selection-section,
+.ability-selection-section {
+    font-family: 'Cinzel', serif;
+    color: #2c2416;
+    margin-bottom: 2rem;
+}
+
+/* ===== SPELL CARD BADGE OVERRIDES - NOW HANDLED GLOBALLY ===== */
+/* Badge styling moved to spell-card-enhancements.css for consistency across all contexts */
+
+/* Step Titles */
+.step-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 2rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Ability Count Badge */
+.ability-count-badge {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    margin-left: 0.5rem;
+}
+
+.background-selector-container .step-number {
+    display: none !important;
+}
+
+/* Background Grid */
+.background-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.background-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 252, 248, 0.9) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12), 0 2px 4px rgba(139, 69, 19, 0.08);
+    min-height: 160px;
+    position: relative;
+}
+
+.background-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.background-card:hover::before {
+    opacity: 1;
+}
+
+.background-card:hover {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 241, 232, 0.95) 100%);
+    border-color: #b8941f;
+    box-shadow: 0 8px 24px rgba(139, 69, 19, 0.18), 0 4px 8px rgba(139, 69, 19, 0.12);
+    transform: translateY(-4px);
+}
+
+.background-card.selected {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(244, 241, 232, 0.9) 100%);
+    border-color: #b8941f;
+    border-width: 3px;
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35), 0 6px 12px rgba(212, 175, 55, 0.25);
+    transform: translateY(-2px);
+}
+
+.background-card.selected::before {
+    opacity: 1;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #b8941f, #d4af37, #b8941f, transparent);
+}
+
+.background-card-header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    padding-bottom: 0.75rem;
+}
+
+.background-card-icon {
+    font-size: 2.75rem;
+    color: #b8941f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.22) 100%);
+    border: 3px solid rgba(212, 175, 55, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+.background-card:hover .background-card-icon {
+    transform: scale(1.08);
+    border-color: #d4af37;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.3) 100%);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.background-card.selected .background-card-icon {
+    border-color: #b8941f;
+    border-width: 3px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.35) 100%);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+}
+
+.background-card-title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0 0.5rem;
+}
+
+.background-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a0f08;
+    margin: 0;
+    margin-top: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    line-height: 1.3;
+}
+
+.background-card-description {
+    font-size: 0.85rem;
+    color: #5d4037;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+    font-style: italic;
+    padding: 0 0.5rem;
+    letter-spacing: 0.2px;
+    flex: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    max-height: none;
+}
+
+.background-card-overview-section {
+    margin-top: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.background-card-overview-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), #d4af37, rgba(212, 175, 55, 0.4), transparent);
+    margin: 0 auto 1.25rem auto;
+    border-radius: 2px;
+}
+
+.background-card-overview {
+    font-size: 0.95rem;
+    color: #4a3526;
+    text-align: center;
+    margin: 0;
+    line-height: 1.8;
+    font-family: 'Crimson Text', serif;
+    font-weight: 400;
+    padding: 0 0.75rem;
+    letter-spacing: 0.1px;
+}
+
+.background-card-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    padding-bottom: 0;
+    flex-shrink: 0;
+}
+
+.info-badges {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2c2416;
+    border: 1px solid #d4af37;
+}
+
+/* Language Card Specific Styling */
+.background-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    padding-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.background-card-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a0f08;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    line-height: 1.3;
+}
+
+.language-category-icon,
+.language-icon {
+    font-size: 2.5rem;
+    color: #b8941f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.25) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+    margin-bottom: 0.25rem;
+}
+
+.background-card:hover .language-category-icon,
+.background-card:hover .language-icon {
+    transform: scale(1.1);
+    border-color: #d4af37;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.35) 100%);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    color: #d4af37;
+}
+
+.language-category-card,
+.language-card {
+    min-height: 120px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.language-category-card .background-description,
+.language-card .background-description {
+    font-size: 0.8rem;
+    color: #5d4037;
+    text-align: center;
+    margin: 0.375rem 0;
+    line-height: 1.5;
+    font-weight: 500;
+    font-style: normal;
+    padding: 0;
+    flex: 1;
+}
+
+.language-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #b8941f;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    display: inline-block;
+    margin-left: 0.375rem;
+    vertical-align: middle;
+}
+
+.language-count-badge {
+    margin-top: auto;
+    padding: 0.625rem 0.875rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%);
+    font-size: 0.8rem;
+    border: 1.5px solid #d4af37;
+}
+
+.language-category-card:hover,
+.language-card:hover {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 241, 232, 0.95) 100%);
+    border-color: #b8941f;
+    box-shadow: 0 8px 24px rgba(139, 69, 19, 0.18), 0 4px 8px rgba(139, 69, 19, 0.12);
+    transform: translateY(-4px);
+}
+
+/* Compact Language Cards - Smaller, Button-like */
+.language-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.language-compact-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 252, 248, 0.95) 100%);
+    border: 1.5px solid #d4af37;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+    min-height: auto;
+    position: relative;
+}
+
+.language-compact-card:hover {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 241, 232, 0.97) 100%);
+    border-color: #b8941f;
+    box-shadow: 0 4px 16px rgba(139, 69, 19, 0.2);
+    transform: translateY(-2px);
+}
+
+.language-compact-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.language-compact-icon {
+    font-size: 1.5rem;
+    color: #b8941f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.2) 100%);
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.language-compact-card:hover .language-compact-icon {
+    transform: scale(1.05);
+    border-color: #d4af37;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.3) 100%);
+    color: #d4af37;
+}
+
+.language-compact-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a0f08;
+    margin: 0;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    flex: 1;
+}
+
+.language-compact-description {
+    font-size: 0.8rem;
+    color: #5d4037;
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 400;
+    font-style: italic;
+    padding: 0;
+}
+
+.language-compact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    margin-top: 0.25rem;
+}
+
+.language-sound,
+.language-example {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.language-sound i,
+.language-example i {
+    color: #b8941f;
+    font-size: 0.7rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+
+.language-sound-text,
+.language-example-text {
+    color: #5d4037;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.language-example-text {
+    font-family: 'Crimson Text', serif;
+    color: #8b4513;
+    font-weight: 600;
+}
+
+.language-example-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.language-example-translation {
+    font-size: 0.7rem;
+    color: #8b6914;
+    font-style: italic;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.language-compact-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #2c2416;
+    border: 1px solid #d4af37;
+    margin-top: auto;
+    width: fit-content;
+    align-self: center;
+}
+
+.language-compact-badge i {
+    font-size: 0.7rem;
+    color: #b8941f;
+}
+
+/* Language Sound & Example in Detail View */
+.language-sound-example {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.language-sound-detail,
+.language-example-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #2c1810;
+}
+
+.language-sound-detail i,
+.language-example-detail i {
+    color: #b8941f;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+
+.language-sound-detail strong,
+.language-example-detail strong {
+    color: #5a1e12;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.language-example-phrase {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    color: #8b4513;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.language-example-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.language-example-detail .language-example-translation {
+    font-size: 0.9rem;
+    color: #8b6914;
+    font-style: italic;
+    font-weight: 500;
+    margin-left: 0.75rem;
+    font-family: 'Crimson Text', serif;
+}
+
+/* Overview Section */
+.background-overview {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15);
+}
+
+.background-overview h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c2416;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #d4af37;
+}
+
+.background-overview p {
+    font-size: 1rem;
+    color: #2c1810;
+    line-height: 1.8;
+    margin: 0;
+    font-family: 'Crimson Text', serif;
+    text-align: justify;
+    font-weight: 500;
+}
+
+/* Mechanical Benefits */
+.mechanical-benefits {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15);
+}
+
+.mechanical-benefits h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c2416;
+    margin: 0 0 1.25rem 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #d4af37;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.benefit-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.benefit-card:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
+}
+
+.benefit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.benefit-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #2c2416;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    flex: 1;
+    letter-spacing: 0.3px;
+}
+
+.benefit-type {
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.benefit-type[data-type="stat"] {
+    background: rgba(68, 138, 255, 0.25);
+    color: #1e3a8a;
+    border: 1px solid rgba(68, 138, 255, 0.4);
+}
+
+.benefit-type[data-type="passive"] {
+    background: rgba(76, 175, 80, 0.25);
+    color: #1b5e20;
+    border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.benefit-description {
+    font-size: 0.95rem;
+    color: #5d4037;
+    margin: 0;
+    line-height: 1.7;
+    font-family: 'Crimson Text', serif;
+    flex: 1;
+}
+
+/* Sub-Background Grid */
+.sub-background-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.sub-background-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.sub-background-card:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
+}
+
+.sub-background-card.selected {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #b8941f;
+}
+
+.sub-background-icon {
+    font-size: 1.5rem;
+    color: #d4af37;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.sub-background-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0;
+    text-align: center;
+}
+
+.sub-background-description {
+    font-size: 0.9rem;
+    color: #5d4037;
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.sub-background-theme {
+    font-size: 0.8rem;
+    color: #5d4037;
+    text-align: center;
+    margin: 0.5rem 0;
+    font-style: italic;
+}
+
+.sub-background-abilities-count {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #8b6914;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 4px;
+}
+
+.sub-background-card.selected .sub-background-abilities-count {
+    background: rgba(44, 36, 22, 0.2);
+    color: #2c2416;
+}
+
+/* Ability Selection */
+.ability-selection-info {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ability-selection-info p {
+    margin: 0;
+    color: #2c2416;
+    font-size: 0.95rem;
+}
+
+.selection-counter {
+    font-weight: 600;
+    color: #d4af37;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 6px;
+}
+
+/* ===== ABILITY ICON GRID ===== */
+.ability-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.5) 0%, rgba(244, 241, 232, 0.5) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+}
+
+.ability-icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.ability-icon-card:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
+}
+
+.ability-icon-card.viewing {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #b8941f;
+}
+
+.ability-icon-card.selected {
+    border-color: #2d5016;
+    background: rgba(45, 80, 22, 0.15);
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.4), 0 4px 8px rgba(45, 80, 22, 0.2);
+    transform: scale(1.05);
+}
+
+.ability-icon-card.selected .ability-icon-image {
+    border-color: #2d5016;
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.selected-ability-notice {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(45, 80, 22, 0.1) 0%, rgba(45, 80, 22, 0.05) 100%);
+    border: 1px solid rgba(45, 80, 22, 0.3);
+    border-radius: 8px;
+    color: #2d5016;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.selected-ability-notice i {
+    margin-right: 0.5rem;
+    color: #2d5016;
+}
+
+.ability-icon-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #8b4513;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ability-icon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ability-icon-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2c2416;
+    text-align: center;
+    line-height: 1.2;
+}
+
+
+
+.ability-icon-selected-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #2d5016;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* ===== ABILITY DETAIL VIEW ===== */
+.ability-detail-view {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.ability-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #d4af37;
+}
+
+.ability-detail-header h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #2c2416;
+    margin: 0;
+}
+
+.ability-detail-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.ability-select-button,
+.ability-deselect-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ability-select-button {
+    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(45, 80, 22, 0.3);
+}
+
+.ability-select-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5016 100%);
+    box-shadow: 0 4px 8px rgba(45, 80, 22, 0.4);
+    transform: translateY(-2px);
+}
+
+.ability-select-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ability-deselect-button {
+    background: linear-gradient(135deg, #8b0000 0%, #cd5c5c 100%);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(139, 0, 0, 0.3);
+}
+
+.ability-deselect-button:hover {
+    background: linear-gradient(135deg, #cd5c5c 0%, #8b0000 100%);
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.ability-detail-card {
+    display: flex;
+    justify-content: center;
+}
+
+.ability-detail-card .pf-spell-card,
+.ability-detail-card .wow-spell-card {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.ability-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ability-card:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
+}
+
+.ability-card.selected {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #b8941f;
+}
+
+.ability-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ability-card.disabled:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #d4af37;
+}
+
+/* Ability Header */
+.ability-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ability-icon-container {
+    flex-shrink: 0;
+}
+
+.ability-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    border: 2px solid #d4af37;
+    object-fit: cover;
+}
+
+
+
+.ability-title-section {
+    flex: 1;
+}
+
+.ability-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 0.5rem 0;
+}
+
+.ability-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.ability-type {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ability-type[data-type="active"] {
+    background: rgba(255, 68, 68, 0.2);
+    color: #c62828;
+}
+
+.ability-type[data-type="passive"] {
+    background: rgba(76, 175, 80, 0.2);
+    color: #2e7d32;
+}
+
+.ability-effect-type {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Ability Description */
+.ability-description {
+    font-size: 0.9rem;
+    color: #5d4037;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+
+
+/* Ability Stats */
+.ability-stats {
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    font-size: 0.85rem;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: #000000;
+}
+
+.stat-value {
+    color: #5d4037;
+}
+
+
+
+/* Ability Details */
+.ability-details {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+}
+
+
+
+.ability-details p {
+    margin: 0;
+}
+
+/* Ability Restrictions */
+.ability-restrictions {
+    font-size: 0.8rem;
+    color: #c62828;
+    padding: 0.5rem;
+    background: rgba(198, 40, 40, 0.1);
+    border-radius: 4px;
+    margin-top: 0.75rem;
+}
+
+
+
+/* Selection Indicator */
+.selection-indicator {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #4caf50;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Restrictions Section */
+.restrictions-section {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.restrictions-section h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #2c2416;
+    margin: 0 0 1rem 0;
+}
+
+.restrictions-section ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: #5d4037;
+}
+
+.restrictions-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Roleplaying Section */
+.roleplaying-section {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.roleplaying-section h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #2c2416;
+    margin: 0 0 0.75rem 0;
+}
+
+.roleplaying-section p {
+    color: #5d4037;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.roleplaying-tips ul {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.5rem;
+    color: #5d4037;
+}
+
+.roleplaying-tips li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Thematic Section */
+.thematic-section {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.thematic-section h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #2c2416;
+    margin: 0 0 1rem 0;
+}
+
+.thematic-content {
+    display: grid;
+    gap: 1rem;
+}
+
+.thematic-item h5 {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #2c2416;
+    margin: 0 0 0.5rem 0;
+}
+
+.thematic-item p {
+    color: #5d4037;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #8b6914;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* View Containers with Padding */
+.language-categories-view,
+.language-list-view,
+.language-detail-view,
+.skill-categories-view,
+.skill-list-view,
+.skill-detail-view {
+    padding: 0 32px;
+}
+
+/* Benefits Section */
+.benefits-section {
+    margin-bottom: 28px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(245, 240, 232, 0.5) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+}
+
+.benefits-section h4 {
+    margin: 0 0 18px 0;
+    font-size: 16px;
+    color: #5a1e12;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 10px;
+    font-family: 'Cinzel', serif;
+}
+
+/* Benefits Grid */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.benefit-card {
+    background: #f5f0e8;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+}
+
+.benefit-card:hover {
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.15);
+    transform: translateY(-1px);
+}
+
+.benefit-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.benefit-content {
+    flex: 1;
+}
+
+.benefit-name {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #8b4513;
+    font-weight: 600;
+}
+
+.benefit-description {
+    margin: 0;
+    font-size: 12px;
+    color: #5d4a37;
+    line-height: 1.4;
+}
+
+/* Equipment List Section */
+.equipment-list-section {
+    background: transparent;
+    padding: 0;
+}
+
+.equipment-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+}
+
+.equipment-items li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #f5f0e8;
+    border: 1px solid #d4af37;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #3d2817;
+}
+
+.equipment-items li i {
+    color: #d4af37;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+/* Feature items styling - less cramped for longer text */
+.feature-items {
+    display: block !important;
+    grid-template-columns: none !important;
+}
+
+.feature-items li {
+    padding: 16px 20px !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.feature-items li i {
+    font-size: 16px !important;
+    margin-right: 12px;
+}
+
+/* Feature Section */
+.feature-section {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.feature-card {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%) !important;
+    border: 3px solid #d4af37 !important;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 8px 16px rgba(139, 69, 19, 0.2), 0 2px 4px rgba(139, 69, 19, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #ffd700, #d4af37);
+}
+
+.feature-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.feature-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37 !important;
+    font-size: 20px;
+    flex-shrink: 0;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.feature-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #8b4513 !important;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feature-description {
+    margin: 0;
+    line-height: 1.7;
+    color: #3d2817 !important;
+    font-size: 15px;
+    text-align: justify;
+    padding: 0 4px;
+}
+
+/* Back Button */
+.back-button {
+    margin: 0 0 20px 25px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+.back-button:hover {
+    background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3);
+}
+
+.back-button i {
+    font-size: 12px;
+}
+
+/* Step Description */
+.step-description {
+    margin: 0 0 24px 0;
+    padding: 16px;
+    background: var(--pf-card-bg);
+    border-left: 4px solid var(--pf-accent);
+    border-radius: 4px;
+    color: var(--pf-text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Quest Preview Styles */
+.quest-preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quest-preview-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.quest-preview-item:hover {
+    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.15);
+    transform: translateY(-1px);
+}
+
+.quest-preview-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border: 2px solid #d4af37;
+    flex-shrink: 0;
+}
+
+.quest-preview-info {
+    flex: 1;
+}
+
+.quest-preview-info strong {
+    display: block;
+    font-size: 16px;
+    color: #8b4513;
+    margin-bottom: 4px;
+    font-family: 'Cinzel', serif;
+}
+
+.quest-preview-info p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #5d4a37;
+    line-height: 1.4;
+}
+
+.quest-unlocks {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 4px;
+    font-size: 12px;
+    color: #8b4513;
+    font-weight: 600;
+}
+
+.quest-unlocks i {
+    color: #d4af37;
+}
+
+/* Table Preview Styles */
+.table-preview-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.table-preview-entry {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table-preview-entry:hover {
+    box-shadow: 0 3px 8px rgba(139, 69, 19, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Colorblind-friendly skill roll outcome colors */
+/* Total Failure - Dark red/maroon (very dark, distinct) */
+.table-preview-entry.total-failure {
+    border-left: 6px solid #8B0000;
+    background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-preview-entry.total-failure::before {
+    content: '⚠';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #8B0000;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #8B0000;
+    font-weight: bold;
+}
+
+/* Failure - Red-orange (distinct from dark red) */
+.table-preview-entry.failure {
+    border-left: 5px solid #D84315;
+    background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-preview-entry.failure::before {
+    content: '✗';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #D84315;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #D84315;
+    font-weight: bold;
+}
+
+/* Partial Success / Mixed - Amber/yellow (warm, distinct) */
+.table-preview-entry.normal,
+.table-preview-entry.partial {
+    border-left: 5px solid #F57C00;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-preview-entry.normal::before,
+.table-preview-entry.partial::before {
+    content: '➡';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #F57C00;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #F57C00;
+    font-weight: bold;
+}
+
+/* Success - Teal/blue-green (cool, distinct) */
+.table-preview-entry.success {
+    border-left: 5px solid #00897B;
+    background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-preview-entry.success::before {
+    content: '✓';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #00897B;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #00897B;
+    font-weight: bold;
+}
+
+/* Critical Success - Bright blue (very distinct) */
+.table-preview-entry.critical {
+    border-left: 6px solid #1976D2;
+    background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-preview-entry.critical::before {
+    content: '★';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #1976D2;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #1976D2;
+    font-weight: bold;
+}
+
+.roll-range {
+    font-weight: 700;
+    font-size: 16px;
+    color: #5a1e12;
+    min-width: 55px;
+    text-align: center;
+    padding: 6px 12px;
+    background: rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    flex-shrink: 0;
+}
+
+/* Ensure roll-range doesn't get pushed by ::before icons */
+.table-preview-entry.total-failure .roll-range,
+.table-preview-entry.failure .roll-range,
+.table-preview-entry.normal .roll-range,
+.table-preview-entry.partial .roll-range,
+.table-preview-entry.success .roll-range,
+.table-preview-entry.critical .roll-range {
+    margin-left: 8px;
+}
+
+.roll-result {
+    flex: 1;
+    font-size: 15px;
+    color: #2c1810;
+    line-height: 1.6;
+    font-weight: 500;
+    white-space: pre-line;
+}
+
+.table-preview-more {
+    padding: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: #8b4513;
+    font-style: italic;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .background-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .sub-background-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .ability-icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .background-grid,
+    .sub-background-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ability-icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .ability-selection-info {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .ability-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .ability-detail-actions {
+        width: 100%;
+    }
+
+    .ability-select-button,
+    .ability-deselect-button {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   LANGUAGE TYPE BADGE (Simplified)
+   ============================================ */
+.language-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f5f0e8;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #8b4513;
+    margin-bottom: 12px;
+}
+
+.language-type-badge i {
+    color: #d4af37;
+    font-size: 14px;
+}
+
+.language-type-description {
+    margin: 0;
+    font-size: 14px;
+    color: #5d4a37;
+    line-height: 1.6;
+}
+
+/* ============================================
+   SKILL CATEGORY BADGE (Simplified)
+   ============================================ */
+.skill-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #f5f0e8 0%, #ebe5d8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #5a1e12;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.skill-category-badge i {
+    color: #d4af37;
+    font-size: 16px;
+}
+
+.skill-category-description {
+    margin: 0;
+    font-size: 15px;
+    color: #2c1810;
+    line-height: 1.7;
+    font-weight: 500;
+}
+
+/* ============================================
+   ABILITY SCORES INLINE BADGES
+   ============================================ */
+.ability-scores-inline {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ability-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ability-score-badge.primary {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #1a0f08;
+    border: 2px solid #8b6914;
+}
+
+.ability-score-badge.primary i {
+    color: #1a0f08;
+    font-size: 16px;
+}
+
+.ability-score-badge.secondary {
+    background: linear-gradient(135deg, #f5f0e8 0%, #ebe5d8 100%);
+    color: #5a1e12;
+    border: 2px solid #d4af37;
+}
+
+.ability-score-badge.secondary i {
+    color: #d4af37;
+    font-size: 16px;
+}
+
+/* Simple Clean Skill Header */
+.skill-simple-header {
+    background: #ffffff;
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.skill-name-line {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.skill-name-line h2 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a0f08;
+}
+
+.skill-category-label {
+    font-size: 0.85rem;
+    color: #8b6914;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: rgba(212, 175, 55, 0.15);
+    border-radius: 4px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.skill-desc-line {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+    color: #2c1810;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.skill-stats-line {
+    display: flex;
+    gap: 16px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.stat-label {
+    font-size: 0.88rem;
+    color: #000000;
+    font-weight: 500;
+}
+
+.stat-label i {
+    color: #d4af37;
+    margin-right: 4px;
+    font-size: 0.8rem;
+}
+
+.stat-label strong {
+    color: #1a0f08;
+    font-weight: 700;
+}
+
+/* Compact Category Header */
+.category-header-compact {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+    border: 3px solid #d4af37;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(139, 69, 19, 0.2);
+}
+
+.category-header-compact h2 {
+    margin: 0 0 8px 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a0f08;
+}
+
+.category-header-compact p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #2c1810;
+    line-height: 1.6;
+    font-family: 'Crimson Text', serif;
+    font-weight: 500;
+}
+
+/* Compact Skills Grid */
+.skills-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-bottom: 2rem;
+}
+
+.skill-compact-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.skill-compact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.25);
+    border-color: #b8941f;
+}
+
+.skill-compact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 12px;
+}
+
+.skill-compact-header h4 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a0f08;
+}
+
+.skill-compact-stats {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.stat-badge.primary {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #1a0f08;
+    border: 1px solid #8b6914;
+}
+
+.stat-badge.secondary {
+    background: linear-gradient(135deg, #f5f0e8 0%, #ebe5d8 100%);
+    color: #5a1e12;
+    border: 1px solid #d4af37;
+}
+
+.stat-badge i {
+    font-size: 10px;
+}
+
+.skill-compact-description {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #2c1810;
+    line-height: 1.5;
+    font-family: 'Crimson Text', serif;
+    font-weight: 500;
+}
+
+/* Skills Explanation Box */
+.skills-explanation-box {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.12);
+}
+
+.skills-explanation-box h3 {
+    margin: 0 0 16px 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a0f08;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.skills-explanation-box h3 i {
+    color: #d4af37;
+    font-size: 1.1rem;
+}
+
+.skills-explanation-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.skill-explain-section h4 {
+    margin: 0 0 6px 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5a1e12;
+}
+
+.skill-explain-section p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #2c1810;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.skill-explain-section strong {
+    color: #1a0f08;
+    font-weight: 700;
+}
+
+/* Simple Category Cards */
+.skill-categories-simple {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.skill-category-simple-card {
+    background: #ffffff;
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.skill-category-simple-card:hover {
+    background: #f8f5f0;
+    border-color: #b8941f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15);
+}
+
+.skill-category-simple-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.skill-category-simple-header h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a0f08;
+}
+
+.skill-count-badge {
+    font-size: 0.8rem;
+    color: #8b6914;
+    font-weight: 600;
+    padding: 2px 8px;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 4px;
+}
+
+.skill-category-simple-desc {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #5a1e12;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Proficiency Selector Section */
+.proficiency-selector-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.6) 0%,
+        rgba(230, 220, 200, 0.5) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+}
+
+.proficiency-selector-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.proficiency-selector-strip {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.proficiency-selector-icon {
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 90px;
+}
+
+.proficiency-selector-icon:hover:not(.disabled) {
+    background: linear-gradient(135deg,
+        rgba(250, 240, 220, 1) 0%,
+        rgba(240, 230, 210, 0.95) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.proficiency-selector-icon.selected {
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.9) 0%,
+        rgba(107, 83, 69, 0.85) 100%);
+    border-color: #5a1e12;
+    box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.proficiency-selector-icon.selected .proficiency-name {
+    color: #f0e6d2;
+    font-weight: 700;
+}
+
+.proficiency-selector-icon.disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.proficiency-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Die Selector Section */
+.die-selector-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.6) 0%,
+        rgba(230, 220, 200, 0.5) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+}
+
+.die-selector-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.die-selector-strip {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.die-selector-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.die-selector-icon:hover {
+    background: linear-gradient(135deg,
+        rgba(250, 240, 220, 1) 0%,
+        rgba(240, 230, 210, 0.95) 100%);
+    border-color: #6b5345;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.die-selector-icon.selected {
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.9) 0%,
+        rgba(107, 83, 69, 0.85) 100%);
+    border-color: #5a1e12;
+    box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.die-selector-icon.selected .die-number {
+    color: #f0e6d2;
+    font-weight: 700;
+}
+
+.die-number {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+}
+
+/* Damage Type Selector */
+.damage-type-section {
+    margin-bottom: 22px;
+    padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(254, 252, 248, 0.8) 0%,
+        rgba(244, 241, 232, 0.75) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.damage-type-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+}
+
+.damage-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 100px));
+    justify-content: center;
+    gap: 6px;
+}
+
+.damage-type-option {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 240, 0.95) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.12);
+    outline: none;
+    width: 96px;
+    min-height: 78px;
+    justify-self: center;
+    align-self: center;
+}
+
+.damage-type-option:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(139, 69, 19, 0.18);
+    border-color: #b8941f;
+}
+
+.damage-type-option.selected {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 241, 232, 0.9) 100%);
+    border-color: #b8941f;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3), 0 6px 14px rgba(139, 69, 19, 0.2);
+}
+
+.damage-type-option:focus-visible {
+    box-shadow: 0 0 0 3px rgba(90, 30, 18, 0.25);
+}
+
+.damage-type-label {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+}
+
+/* Ensure all damage labels (piercing, slashing, bludgeoning) stay black in all states */
+.damage-type-option .damage-type-label,
+.damage-type-option.selected .damage-type-label,
+.damage-type-option:hover .damage-type-label {
+    color: #000;
+}
+
+.damage-type-hint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5d4a37;
+    line-height: 1.4;
+}
+
+.damage-type-tag {
+    align-self: flex-start;
+    padding: 4px 10px;
+    background: rgba(212, 175, 55, 0.18);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    border-radius: 999px;
+    color: #8b6914;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+/* Weapon mastery selector — mirror the character sheet presentation */
+.skill-detail-view .weapon-type-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 6px 0 0;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 720px;
+    grid-template-columns: none;
+}
+
+.skill-detail-view .weapon-type-option {
+    position: relative;
+    flex: 0 0 auto;
+    width: 118px;
+    min-height: 148px;
+    padding: 10px 8px 12px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        var(--weapon-rank-color-soft, rgba(248, 245, 240, 0.96)) 100%);
+    border: 1.5px solid var(--weapon-rank-color, #c6a02d);
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.12),
+        0 0 0 1px var(--weapon-rank-color-soft, rgba(198, 160, 45, 0.35));
+    overflow: visible;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    text-align: center;
+}
+
+.skill-detail-view .weapon-type-option.selected {
+    border-color: var(--weapon-rank-color, #b8941f);
+    box-shadow:
+        0 0 0 3px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.4)),
+        0 5px 14px rgba(0, 0, 0, 0.2),
+        inset 0 0 18px var(--weapon-rank-color-soft, rgba(184, 148, 31, 0.25));
+    transform: translateY(-2px);
+    background: linear-gradient(135deg,
+        rgba(255, 251, 235, 0.98) 0%,
+        var(--weapon-rank-color-soft, rgba(250, 240, 200, 0.95)) 100%);
+}
+
+.skill-detail-view .weapon-rank-chip {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 10px;
+    background: var(--weapon-rank-color, #c6a02d);
+    color: #fdfaf3;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.skill-detail-view .weapon-type-option.selected .weapon-rank-chip {
+    box-shadow: 0 4px 14px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.35));
+}
+
+.skill-detail-view .weapon-type-icon {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    margin: 6px 0 2px;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.skill-detail-view .weapon-type-option.selected .weapon-type-icon {
+    filter: drop-shadow(0 0 10px var(--weapon-rank-color-strong, rgba(184, 148, 31, 0.6)));
+    transform: scale(1.04);
+}
+
+.skill-detail-view .weapon-type-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a0f08;
+    margin: 2px 0 0;
+}
+
+.skill-detail-view .weapon-type-hint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5d4a37;
+    line-height: 1.3;
+}
+
+/* Compact variant for quest grid: smaller tiles, tighter spacing */
+.skill-detail-view .weapon-type-grid.compact-grid {
+    gap: 8px 10px;
+    max-width: 640px;
+}
+
+.skill-detail-view .weapon-type-option.compact-option {
+    width: 96px;
+    min-height: 126px;
+    padding: 8px 6px 10px;
+}
+
+.skill-detail-view .weapon-type-option.compact-option .weapon-rank-chip {
+    top: -8px;
+    padding: 3px 8px;
+    font-size: 10px;
+}
+
+.skill-detail-view .weapon-type-icon.compact-icon {
+    width: 70px;
+    height: 70px;
+    margin: 4px 0 0;
+}
+
+.skill-detail-view .weapon-type-option.compact-option .weapon-type-name {
+    font-size: 0.9rem;
+}
+
+.skill-detail-view .weapon-type-option.compact-option .weapon-type-hint {
+    font-size: 0.78rem;
+    line-height: 1.2;
+}

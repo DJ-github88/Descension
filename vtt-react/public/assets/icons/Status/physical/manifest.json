@@ -1,0 +1,31 @@
+{
+  "category": "physical",
+  "count": 5,
+  "icons": [
+    {
+      "filename": "character-silhouette-target.png",
+      "name": "Character Silhouette Target",
+      "path": "physical/character-silhouette-target.png"
+    },
+    {
+      "filename": "humanoid-figure-character.png",
+      "name": "Humanoid Figure Character",
+      "path": "physical/humanoid-figure-character.png"
+    },
+    {
+      "filename": "intestines-organ-disease.png",
+      "name": "Intestines Organ Disease",
+      "path": "physical/intestines-organ-disease.png"
+    },
+    {
+      "filename": "kidneys-organ-health.png",
+      "name": "Kidneys Organ Health",
+      "path": "physical/kidneys-organ-health.png"
+    },
+    {
+      "filename": "stomach-organ-sickness.png",
+      "name": "Stomach Organ Sickness",
+      "path": "physical/stomach-organ-sickness.png"
+    }
+  ]
+}

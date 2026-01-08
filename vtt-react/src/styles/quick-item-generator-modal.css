@@ -1,0 +1,713 @@
+/* Quick Item Generator Modal overlay - z-index managed by windowManagerStore */
+.quick-item-generator-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index set via inline styles by component */
+    backdrop-filter: blur(3px);
+}
+
+/* Quick Item Generator Modal */
+.quick-item-generator-modal {
+    position: relative; /* Changed from absolute to relative for proper centering */
+    background: linear-gradient(to bottom, rgba(240, 230, 210, 0.98), rgba(230, 220, 200, 0.98));
+    border: 3px solid #7a3b2e;
+    border-radius: 12px;
+    width: 90vw; /* Fixed: More reasonable width, not super wide */
+    max-width: 1000px; /* Fixed: Reduced from 1200px to prevent excessive width */
+    height: 85vh; /* Increased height for more content */
+    max-height: 900px; /* Increased maximum height */
+    display: flex;
+    flex-direction: column;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(122, 59, 46, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    padding: 0; /* Ensure no padding on the modal itself */
+    margin: 0; /* Ensure no margin on the modal itself */
+    animation: modalFadeIn 0.3s ease;
+    animation-fill-mode: both; /* Keep final animation state */
+    user-select: none;
+    --window-scale: 1; /* Default scale */
+}
+
+/* Add parchment texture background */
+.quick-item-generator-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
+    opacity: 0.1;
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(calc(0.95 * var(--window-scale, 1))) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(var(--window-scale, 1)) translateY(0);
+    }
+}
+
+/* Modal header */
+.quick-item-generator-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px; /* Reduced padding for more compact header */
+    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #7a3b2e 100%);
+    border-bottom: 3px solid #5e2e23;
+    border-radius: 12px 12px 0 0;
+    cursor: move;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+}
+
+.quick-item-generator-modal .modal-header h2 {
+    color: #f0e6d2;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+
+
+.quick-item-generator-modal .close-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: #f0e6d2;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 8px 12px;
+    line-height: 1;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(2px);
+    font-weight: 600;
+    z-index: 10;
+    position: relative;
+}
+
+.quick-item-generator-modal .close-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal content - Override global Pathfinder styles */
+.quick-item-generator-modal .modal-content {
+    flex: 1 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    z-index: 1 !important;
+    user-select: text !important;
+    padding: 0 !important; /* Override var(--pf-space-6) from global Pathfinder styles */
+    margin: 0 !important; /* Ensure no margin */
+    background: transparent !important; /* Override var(--pf-gradient-parchment) from global styles */
+    border: none !important; /* Remove any border */
+    box-sizing: border-box !important;
+}
+
+/* Enhanced quick item wizard integration */
+.quick-item-generator-modal .enhanced-quick-item-wizard {
+    border: none !important;
+    border-radius: 12px !important; /* Match the modal's border radius */
+    padding: 0 !important;
+    margin: 0 !important; /* Remove any margin */
+    width: 100% !important;
+    max-width: none !important;
+    box-shadow: none !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: transparent !important; /* Make background transparent so modal background shows */
+    height: 100% !important;
+    max-height: none !important;
+    overflow: hidden !important; /* Ensure no overflow creates borders */
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard h2 {
+    display: none; /* Hide the title since we have it in the modal header */
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .wizard-content {
+    flex: 1 !important;
+    overflow: visible !important; /* Allow child elements to handle their own overflow */
+    background: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    min-height: 0 !important;
+    padding: 0 !important; /* Remove all padding */
+    margin: 0 !important; /* Remove all margin */
+    width: 100% !important;
+    height: calc(100% - 90px) !important; /* Account for footer height + padding (60px + 30px) */
+    border: none !important; /* Remove any border */
+    box-sizing: border-box !important;
+    position: relative !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
+    flex: 1 !important; /* Fixed: Equal flex to prevent weird sectioning */
+    max-height: none !important;
+    height: 100% !important;
+    overflow-y: auto !important; /* Enable vertical scrolling */
+    overflow-x: hidden !important; /* Hide horizontal scrolling */
+    padding: 15px 15px 25px 25px !important; /* Add extra left padding for indentation and bottom padding for scrolling */
+    margin: 0 !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+    border-right: 3px solid #a08c70 !important;
+    backdrop-filter: blur(2px) !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    scrollbar-width: thin !important; /* Firefox scrollbar styling */
+    scrollbar-color: #a08c70 transparent !important; /* Firefox scrollbar colors */
+    min-width: 0 !important; /* Fixed: Allow flex shrinking */
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .preview-panel {
+    flex: 1 !important; /* Fixed: Equal flex to match settings panel */
+    max-height: none !important;
+    height: 100% !important;
+    overflow: visible !important;
+    padding: 15px !important; /* Reduced padding for more content space */
+    margin: 0 !important;
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.08), rgba(160, 140, 112, 0.08)) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important; /* Fixed: Allow flex shrinking */
+}
+
+/* Footer that extends to sides and bottom */
+.quick-item-generator-modal .enhanced-quick-item-wizard .button-group {
+    margin: 0 !important; /* Remove any margin */
+    padding: 15px 20px !important; /* Reduced padding for more compact footer */
+    border-top: 2px solid #a08c70 !important; /* Stronger border */
+    background: linear-gradient(to bottom, #e6dcc8, #d5cbb0) !important; /* Solid footer background */
+    background-color: #e6dcc8 !important; /* Fallback solid color */
+    flex-shrink: 0 !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* Align buttons to the right like container wizard */
+    gap: 15px !important; /* Balanced space between buttons */
+    width: 100% !important; /* Ensure full width */
+    box-sizing: border-box !important; /* Include padding in width calculation */
+    min-height: 60px !important; /* Reduced footer height for more content space */
+    opacity: 1 !important; /* Ensure footer is not transparent */
+    z-index: 10 !important; /* Ensure footer appears above other content */
+    border-radius: 0 0 9px 9px !important; /* Match modal border radius */
+    position: absolute !important; /* Position absolutely to extend to modal edges */
+    bottom: 0 !important; /* Stick to bottom of modal */
+    left: 0 !important; /* Extend to left edge of modal */
+    right: 0 !important; /* Extend to right edge of modal */
+}
+
+/* Currency slider styling */
+.quick-item-generator-modal .currency-slider.gold::-webkit-slider-thumb {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    border: 2px solid #b8860b;
+}
+
+.quick-item-generator-modal .currency-slider.silver::-webkit-slider-thumb {
+    background: linear-gradient(45deg, #c0c0c0, #e5e5e5);
+    border: 2px solid #808080;
+}
+
+.quick-item-generator-modal .currency-slider.copper::-webkit-slider-thumb {
+    background: linear-gradient(45deg, #b87333, #cd853f);
+    border: 2px solid #8b4513;
+}
+
+.quick-item-generator-modal .currency-slider.gold::-webkit-slider-track {
+    background: linear-gradient(to right, #8b4513, #ffd700);
+}
+
+.quick-item-generator-modal .currency-slider.silver::-webkit-slider-track {
+    background: linear-gradient(to right, #696969, #c0c0c0);
+}
+
+.quick-item-generator-modal .currency-slider.copper::-webkit-slider-track {
+    background: linear-gradient(to right, #654321, #b87333);
+}
+
+/* Button styling overrides for consistent Pathfinder theme */
+.quick-item-generator-modal .primary-button {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23) !important;
+    color: #f0e6d2 !important;
+    border: 2px solid #7a3b2e !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    min-width: 120px !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.quick-item-generator-modal .primary-button:hover {
+    background: linear-gradient(135deg, #8a4b3e, #6e3e33) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.quick-item-generator-modal .primary-button:disabled {
+    background: linear-gradient(135deg, #666, #555) !important;
+    color: #ccc !important;
+    border-color: #666 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.quick-item-generator-modal .secondary-button {
+    background: linear-gradient(135deg, #a08c70, #8a7660) !important;
+    color: #3a3a3a !important;
+    border: 2px solid #a08c70 !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    min-width: 120px !important;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.quick-item-generator-modal .secondary-button:hover {
+    background: linear-gradient(135deg, #b09c80, #9a8670) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Custom scrollbar styling for settings panel */
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2) !important;
+    border-radius: 4px !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel::-webkit-scrollbar-thumb {
+    background: #a08c70 !important;
+    border-radius: 4px !important;
+    transition: background 0.2s ease !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel::-webkit-scrollbar-thumb:hover {
+    background: #8b7355 !important;
+}
+
+/* Additional fixes to ensure proper layout and centering */
+.quick-item-generator-modal .wizard-content {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.quick-item-generator-modal .settings-panel,
+.quick-item-generator-modal .preview-panel {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure the modal is properly centered */
+.quick-item-generator-overlay {
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Prevent dragging issues */
+.quick-item-generator-modal * {
+    pointer-events: auto;
+}
+
+.quick-item-generator-modal .modal-header * {
+    pointer-events: none;
+}
+
+.quick-item-generator-modal .close-button {
+    pointer-events: auto !important;
+}
+
+.quick-item-generator-modal .modal-content * {
+    pointer-events: auto !important;
+}
+
+/* Fix any potential text input styling */
+.quick-item-generator-modal input[type="text"],
+.quick-item-generator-modal input[type="number"],
+.quick-item-generator-modal textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    color: #3a3a3a;
+    font-size: 15px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.quick-item-generator-modal input[type="text"]:focus,
+.quick-item-generator-modal input[type="number"]:focus,
+.quick-item-generator-modal textarea:focus {
+    outline: none;
+    border-color: #7a3b2e;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(122, 59, 46, 0.3);
+}
+
+/* Ensure proper scrollbar styling */
+.quick-item-generator-modal .settings-panel::-webkit-scrollbar,
+.quick-item-generator-modal .preview-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.quick-item-generator-modal .settings-panel::-webkit-scrollbar-track,
+.quick-item-generator-modal .preview-panel::-webkit-scrollbar-track {
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 4px;
+}
+
+.quick-item-generator-modal .settings-panel::-webkit-scrollbar-thumb,
+.quick-item-generator-modal .preview-panel::-webkit-scrollbar-thumb {
+    background: rgba(122, 59, 46, 0.3);
+    border-radius: 4px;
+}
+
+.quick-item-generator-modal .settings-panel::-webkit-scrollbar-thumb:hover,
+.quick-item-generator-modal .preview-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(122, 59, 46, 0.5);
+}
+
+/* Ensure tooltip preview is properly styled and uses full space */
+.quick-item-generator-modal .tooltip-preview {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    overflow: visible !important;
+    max-height: none !important;
+    padding: 15px !important; /* Minimal padding for maximum content space */
+    min-height: 400px !important; /* Good minimum height for tooltip display */
+    background: none !important; /* Remove background box */
+    border-radius: 0 !important; /* Remove border radius */
+    border: none !important; /* Remove border to eliminate weird box */
+    position: relative !important;
+    width: 100% !important; /* Ensure full width usage */
+    box-sizing: border-box !important;
+}
+
+.quick-item-generator-modal .tooltip-preview .item-tooltip {
+    margin: 0 !important;
+    position: static !important;
+    transform: none !important;
+    z-index: auto !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    /* Expand tooltip width for better visibility in preview */
+    max-width: 100% !important;
+    min-width: 300px !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Preview panel header styling */
+.quick-item-generator-modal .preview-panel h3 {
+    color: #7a3b2e !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin: 0 0 20px 0 !important;
+    padding: 0 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+/* Removed duplicate tooltip-preview definition - using the one above */
+
+/* Ensure text content in preview tooltips wraps properly */
+.quick-item-generator-modal .tooltip-preview .item-tooltip .item-name {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
+
+.quick-item-generator-modal .tooltip-preview .item-tooltip .item-description {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+/* Polish form elements - optimized spacing for full window utilization */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-group {
+    margin-bottom: 18px !important; /* Balanced spacing */
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Removed duplicate .quick-item-generator-modal .enhanced-quick-item-wizard .form-group label - using consolidated styles */
+
+/* Ensure all input elements use full width */
+.quick-item-generator-modal .enhanced-quick-item-wizard input,
+.quick-item-generator-modal .enhanced-quick-item-wizard select,
+.quick-item-generator-modal .enhanced-quick-item-wizard textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-section {
+    margin: 8px 0 !important; /* Reduced margins for maximum space utilization */
+    padding: 15px !important; /* Reduced padding for more content space */
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.08), rgba(160, 140, 112, 0.08)) !important;
+    border-radius: 8px !important;
+    border: 2px solid rgba(122, 59, 46, 0.2) !important;
+    position: relative !important;
+    backdrop-filter: blur(1px) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure all content uses full width */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-section > * {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Advanced Options Compact Design */
+.quick-item-generator-modal .advanced-options-compact {
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+}
+
+.quick-item-generator-modal .advanced-options-compact label {
+    font-size: 14px !important;
+    margin-bottom: 6px !important;
+    color: #5e2e23 !important;
+    font-weight: 600 !important;
+}
+
+.quick-item-generator-modal .advanced-options-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 8px !important;
+    padding: 8px !important;
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.05), rgba(160, 140, 112, 0.05)) !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(122, 59, 46, 0.15) !important;
+}
+
+.quick-item-generator-modal .advanced-option-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+}
+
+.quick-item-generator-modal .checkbox-label-compact {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 13px !important;
+    color: #5e2e23 !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+
+.quick-item-generator-modal .checkbox-label-compact input[type="checkbox"] {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+    accent-color: #7a3b2e !important;
+}
+
+.quick-item-generator-modal .checkbox-label-compact span {
+    user-select: none !important;
+    white-space: nowrap !important;
+}
+
+.quick-item-generator-modal .sub-option-toggle {
+    display: flex !important;
+    gap: 2px !important;
+    margin-top: 2px !important;
+    margin-left: 20px !important;
+}
+
+.quick-item-generator-modal .mini-toggle {
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid #a08c70 !important;
+    border-radius: 4px !important;
+    color: #5e2e23 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+    min-width: 28px !important;
+    text-align: center !important;
+}
+
+.quick-item-generator-modal .mini-toggle:hover {
+    background: rgba(122, 59, 46, 0.1) !important;
+    border-color: #7a3b2e !important;
+}
+
+.quick-item-generator-modal .mini-toggle.active {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23) !important;
+    color: #f0e6d2 !important;
+    border-color: #7a3b2e !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 1200px) {
+    .quick-item-generator-modal {
+        width: 90vw !important; /* Reasonable viewport width */
+        height: 90vh !important; /* Increased viewport height for more content */
+        max-height: 800px !important; /* Increased max height */
+    }
+
+    .quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
+        flex: 1.2 !important;
+        padding: 12px 12px 20px 20px !important; /* Maintain bottom padding for scrolling */
+    }
+
+    .quick-item-generator-modal .enhanced-quick-item-wizard .preview-panel {
+        flex: 0.8 !important;
+        padding: 12px !important; /* Reduced padding for smaller screens */
+    }
+
+    .quick-item-generator-modal .tooltip-preview .item-tooltip {
+        max-width: 100% !important;
+        min-width: 280px !important;
+    }
+
+    .quick-item-generator-modal .advanced-options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+        gap: 6px !important;
+    }
+}
+
+/* Ensure all form sections are visible and scrollable */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-section:last-child {
+    margin-bottom: 20px !important; /* Extra margin for last section */
+}
+
+/* Ensure damage type grids are properly visible */
+.quick-item-generator-modal .damage-type-grid {
+    margin-bottom: 15px !important;
+}
+
+/* Force proper scrolling behavior */
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
+    scroll-behavior: smooth !important;
+}
+
+/* Add proper spacing below weapon settings and other form sections */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-section {
+    margin-bottom: 25px !important; /* Ensure all form sections have bottom spacing */
+}
+
+/* Much more spacing for the last form section (weapon settings) */
+.quick-item-generator-modal .enhanced-quick-item-wizard .form-section:last-of-type {
+    margin-bottom: 50px !important; /* Much more margin for the last form section */
+}
+
+/* Additional bottom padding for the entire settings panel */
+.quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
+    padding-bottom: 40px !important; /* Extra bottom padding for the entire panel */
+}
+
+@media (max-width: 768px) {
+    .quick-item-generator-modal .enhanced-quick-item-wizard .wizard-content {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    .quick-item-generator-modal {
+        width: 98vw !important;
+        height: 95vh !important;
+    }
+
+    .quick-item-generator-modal .enhanced-quick-item-wizard .settings-panel {
+        flex: none !important;
+        padding: 25px !important;
+        border-right: none !important;
+        border-bottom: 2px solid #a08c70 !important;
+        max-height: 50vh !important;
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+
+    .quick-item-generator-modal .enhanced-quick-item-wizard .preview-panel {
+        flex: none !important;
+        padding: 25px !important;
+        border-left: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+        min-height: 200px !important;
+        height: auto !important;
+    }
+
+    .quick-item-generator-modal .tooltip-preview {
+        min-height: 150px !important;
+    }
+
+    .quick-item-generator-modal .tooltip-preview .item-tooltip {
+        max-width: 100% !important;
+        min-width: 250px !important;
+    }
+}

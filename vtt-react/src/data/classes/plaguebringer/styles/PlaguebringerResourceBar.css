@@ -1,0 +1,438 @@
+/* Plaguebringer Resource Bar Styles */
+
+.plaguebringer-resource-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Dual Resource Display */
+.plaguebringer-dual-bars {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(26, 46, 26, 0.15) 0%, rgba(26, 46, 26, 0.25) 100%);
+    border: 1px solid rgba(85, 107, 47, 0.4);
+    border-radius: 4px;
+    padding: 3px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.plaguebringer-resource-wrapper .spec-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    margin-bottom: 4px;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.plaguebringer-resource-wrapper .spec-option:last-child {
+    margin-bottom: 0;
+}
+
+.plaguebringer-resource-wrapper .spec-option:hover {
+    background: rgba(139, 69, 19, 0.2);
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+.plaguebringer-resource-wrapper .spec-option.selected {
+    background: rgba(139, 69, 19, 0.3);
+    border-color: rgba(139, 69, 19, 0.6);
+    font-weight: 600;
+}
+
+.plaguebringer-resource-wrapper .spec-option i {
+    font-size: 12px;
+    filter: drop-shadow(0 0 2px currentColor);
+}
+
+.plaguebringer-resource-wrapper .spec-option span {
+    color: #2c1810;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Corruption Bar (Top) */
+.corruption-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 20px;
+    padding: 2px;
+    background: linear-gradient(180deg, rgba(26, 46, 26, 0.4) 0%, rgba(26, 46, 26, 0.7) 100%);
+    border: 2px solid rgba(85, 107, 47, 0.5);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.corruption-bar.clickable {
+    cursor: pointer;
+}
+
+.corruption-bar:hover {
+    background: linear-gradient(180deg, rgba(26, 46, 26, 0.5) 0%, rgba(26, 46, 26, 0.8) 100%);
+    border-color: rgba(85, 107, 47, 0.7);
+}
+
+/* Afflictions Bar (Bottom) */
+.afflictions-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    padding: 1px 3px;
+    background: linear-gradient(180deg, rgba(47, 79, 47, 0.2) 0%, rgba(47, 79, 47, 0.3) 100%);
+    border: 1px solid rgba(85, 107, 47, 0.3);
+    border-radius: 3px;
+}
+
+.affliction-segment {
+    flex: 1;
+    min-width: 0;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.affliction-segment.active {
+    animation: afflictionPulse 2s ease-in-out infinite;
+}
+
+.affliction-segment.inactive {
+    opacity: 0.4;
+}
+
+.afflictions-label {
+    margin-left: 6px;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #556B2F;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.afflictions-label i {
+    font-size: 0.8rem;
+}
+
+@keyframes afflictionPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Corruption Fill - Progress bar */
+.corruption-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+    box-shadow: inset 0 0 8px rgba(154, 205, 50, 0.4);
+}
+
+/* Corruption Overlay - Text on top of bar */
+.corruption-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.corruption-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 1);
+    letter-spacing: 0.5px;
+}
+
+.afflictions-count {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 1);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.afflictions-count i {
+    font-size: 0.85rem;
+}
+
+
+/* Plaguebringer Menu - Now uses unified-context-menu system */
+/* Menu styles are defined in unified-context-menu.css */
+
+/* Pathfinder-Styled Tooltip */
+.unified-resourcebar-tooltip.pathfinder-tooltip {
+    position: fixed;
+    z-index: 999999999;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    font-family: 'Crimson Text', serif;
+    color: #2C2416;
+    min-width: 280px;
+    max-width: 350px;
+    pointer-events: none;
+}
+
+.unified-resourcebar-tooltip .tooltip-header {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #2C2416;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #8B7355;
+    padding-bottom: 6px;
+}
+
+.unified-resourcebar-tooltip .tooltip-section {
+    margin: 8px 0;
+}
+
+.unified-resourcebar-tooltip .tooltip-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2C2416;
+    margin-bottom: 4px;
+}
+
+.unified-resourcebar-tooltip .tooltip-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
+    margin: 8px 0;
+}
+
+.unified-resourcebar-tooltip .evolution-stages div {
+    font-size: 0.85rem;
+    padding: 2px 0;
+    color: #5a4a3a;
+}
+
+.unified-resourcebar-tooltip .evolution-stages .stage-active {
+    color: #2d1810;
+    font-weight: 600;
+}
+
+.unified-resourcebar-tooltip .corruption-gen {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 8px;
+    font-size: 0.85rem;
+}
+
+.unified-resourcebar-tooltip .corruption-gen strong {
+    color: #1a0a00;
+}
+
+.unified-resourcebar-tooltip .passive-desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #3a2a1a;
+}
+
+
+/* Tooltip Styles */
+.unified-resourcebar-tooltip {
+    background: linear-gradient(145deg, rgba(20, 30, 20, 0.98), rgba(30, 40, 30, 0.98));
+    border: 2px solid rgba(85, 107, 47, 0.6);
+    border-radius: 0;
+    padding: 12px;
+    min-width: 280px;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    font-family: 'Crimson Text', serif;
+    color: #E8DCC8;
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tooltip-header {
+    border-bottom: 1px solid rgba(85, 107, 47, 0.4);
+    padding-bottom: 8px;
+}
+
+.tooltip-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #9ACD32;
+    margin-bottom: 4px;
+}
+
+.tooltip-subtitle {
+    font-size: 0.9rem;
+    color: #C8B896;
+}
+
+.tooltip-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #9ACD32;
+}
+
+.section-content {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #D4C5A9;
+}
+
+/* Note: Obsolete tooltip classes removed - all tooltips now use Pathfinder style */
+
+.stage-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stage-breakdown div {
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.stage-active {
+    background: rgba(85, 107, 47, 0.3);
+    color: #9ACD32;
+    font-weight: 600;
+}
+
+.stage-inactive {
+    background: rgba(0, 0, 0, 0.2);
+    color: #8B7355;
+}
+
+
+/* Size Variants */
+.corruption-bar.small {
+    height: 18px;
+    padding: 1px;
+}
+
+.corruption-bar.small .corruption-number {
+    font-size: 0.7rem;
+}
+
+.affliction-segment.small {
+    height: 8px;
+}
+
+.afflictions-bar.small .afflictions-label {
+    font-size: 0.65rem;
+}
+
+.afflictions-bar.small .afflictions-label i {
+    font-size: 0.7rem;
+}
+
+
+/* Force compact sizing in account context */
+.character-card .corruption-bar,
+.character-card-compact .corruption-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+    padding: 1px !important;
+}
+
+.character-card .plaguebringer-dual-bars,
+.character-card-compact .plaguebringer-dual-bars {
+    padding: 2px !important;
+    gap: 2px !important;
+}
+
+.character-card .afflictions-bar,
+.character-card-compact .afflictions-bar {
+    padding: 1px 2px !important;
+}
+
+.character-card .affliction-segment,
+.character-card-compact .affliction-segment {
+    height: 8px !important;
+}
+
+.character-card .corruption-number,
+.character-card-compact .corruption-number {
+    font-size: 0.65rem !important;
+}
+
+.character-card .afflictions-label,
+.character-card-compact .afflictions-label {
+    font-size: 0.6rem !important;
+}
+
+.character-card .afflictions-label i,
+.character-card-compact .afflictions-label i {
+    font-size: 0.65rem !important;
+}
+
+.corruption-bar.large {
+    height: 24px;
+    padding: 3px;
+}
+
+.corruption-bar.large .corruption-number {
+    font-size: 0.8rem;
+}
+
+.affliction-segment.large {
+    height: 12px;
+}
+
+.afflictions-bar.large .afflictions-label {
+    font-size: 0.75rem;
+}
+
+.afflictions-bar.large .afflictions-label i {
+    font-size: 0.8rem;
+}
+

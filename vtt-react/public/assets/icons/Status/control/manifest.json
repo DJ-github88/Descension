@@ -1,0 +1,106 @@
+{
+  "category": "control",
+  "count": 20,
+  "icons": [
+    {
+      "filename": "anchored-rooted.png",
+      "name": "Anchored Rooted",
+      "path": "control/anchored-rooted.png"
+    },
+    {
+      "filename": "bell-silence-control.png",
+      "name": "Bell Silence Control",
+      "path": "control/bell-silence-control.png"
+    },
+    {
+      "filename": "bound-chain-x.png",
+      "name": "Bound Chain X",
+      "path": "control/bound-chain-x.png"
+    },
+    {
+      "filename": "chain-rope-knot-binding.png",
+      "name": "Chain Rope Knot Binding",
+      "path": "control/chain-rope-knot-binding.png"
+    },
+    {
+      "filename": "chained-bound.png",
+      "name": "Chained Bound",
+      "path": "control/chained-bound.png"
+    },
+    {
+      "filename": "entangled-knot.png",
+      "name": "Entangled Knot",
+      "path": "control/entangled-knot.png"
+    },
+    {
+      "filename": "entangled-waves.png",
+      "name": "Entangled Waves",
+      "path": "control/entangled-waves.png"
+    },
+    {
+      "filename": "gagged-silenced.png",
+      "name": "Gagged Silenced",
+      "path": "control/gagged-silenced.png"
+    },
+    {
+      "filename": "grasping-hand-restrain.png",
+      "name": "Grasping Hand Restrain",
+      "path": "control/grasping-hand-restrain.png"
+    },
+    {
+      "filename": "grid-cross-control.png",
+      "name": "Grid Cross Control",
+      "path": "control/grid-cross-control.png"
+    },
+    {
+      "filename": "interlocked-links.png",
+      "name": "Interlocked Links",
+      "path": "control/interlocked-links.png"
+    },
+    {
+      "filename": "lattice-grid-barrier.png",
+      "name": "Lattice Grid Barrier",
+      "path": "control/lattice-grid-barrier.png"
+    },
+    {
+      "filename": "linked-bound.png",
+      "name": "Linked Bound",
+      "path": "control/linked-bound.png"
+    },
+    {
+      "filename": "locked-bound.png",
+      "name": "Locked Bound",
+      "path": "control/locked-bound.png"
+    },
+    {
+      "filename": "locked-restrained.png",
+      "name": "Locked Restrained",
+      "path": "control/locked-restrained.png"
+    },
+    {
+      "filename": "magical-binding.png",
+      "name": "Magical Binding",
+      "path": "control/magical-binding.png"
+    },
+    {
+      "filename": "padlock-a-restricted.png",
+      "name": "Padlock A Restricted",
+      "path": "control/padlock-a-restricted.png"
+    },
+    {
+      "filename": "rope-knot-binding.png",
+      "name": "Rope Knot Binding",
+      "path": "control/rope-knot-binding.png"
+    },
+    {
+      "filename": "silence-mute.png",
+      "name": "Silence Mute",
+      "path": "control/silence-mute.png"
+    },
+    {
+      "filename": "speaker-x-mute-silence.png",
+      "name": "Speaker X Mute Silence",
+      "path": "control/speaker-x-mute-silence.png"
+    }
+  ]
+}

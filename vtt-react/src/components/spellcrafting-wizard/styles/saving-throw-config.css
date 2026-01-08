@@ -1,0 +1,1346 @@
+/* Saving Throw Configuration Styles */
+
+/* Main saving throw section */
+.saving-throw-section {
+  margin-bottom: 20px;
+}
+
+.saving-throw-config {
+  margin-top: 15px;
+}
+
+.config-section {
+  padding: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* Section header styling for saving throw configuration */
+.config-section .section-header {
+  background: var(--pf-gradient-parchment-dark);
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-base);
+  margin: calc(var(--pf-space-4) * -1) calc(var(--pf-space-4) * -1) var(--pf-space-3) calc(var(--pf-space-4) * -1);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Save type and DC row */
+.save-config-row {
+  display: flex;
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+}
+
+.save-type-selector,
+.save-dc-selector {
+  flex: 1;
+}
+
+.save-type-selector label,
+.save-dc-selector label {
+  display: block;
+  margin-bottom: var(--pf-space-2);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+.save-select,
+.save-dc-input {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+/* Compact styling for mechanics grid */
+.mechanics-grid-item .save-config-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .save-type-selector label,
+.mechanics-grid-item .save-dc-selector label {
+  font-size: var(--pf-text-xs);
+  margin-bottom: var(--pf-space-1);
+}
+
+.mechanics-grid-item .save-select,
+.mechanics-grid-item .save-dc-input {
+  padding: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+}
+
+/* Compact partial effect styling */
+.mechanics-grid-item .save-effect-row {
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .toggle-container {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+}
+
+.mechanics-grid-item .toggle-switch-label {
+  font-size: var(--pf-text-xs);
+  gap: var(--pf-space-1);
+}
+
+.mechanics-grid-item .partial-effect-config {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+}
+
+.mechanics-grid-item .formula-section {
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .formula-section-header {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-1);
+}
+
+.mechanics-grid-item .formula-input {
+  width: 100%;
+  padding: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-sm);
+  background: var(--pf-gradient-parchment);
+}
+
+/* Compact toggle switch styling */
+.mechanics-grid-item .toggle-switch-label {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-primary);
+  cursor: pointer;
+  font-weight: var(--pf-font-medium);
+}
+
+.mechanics-grid-item .toggle-slider {
+  position: relative;
+  width: 36px;
+  height: 18px;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  border: 2px solid #8b6914;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mechanics-grid-item .toggle-slider::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5e8 100%);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #8b6914;
+}
+
+.mechanics-grid-item input[type="checkbox"]:checked + .toggle-slider {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border-color: #8b6914;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mechanics-grid-item input[type="checkbox"]:checked + .toggle-slider::before {
+  transform: translateX(18px);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5e8 100%);
+}
+
+.mechanics-grid-item input[type="checkbox"] {
+  display: none;
+}
+
+.mechanics-grid-item .toggle-text {
+  font-size: var(--pf-text-xs);
+  line-height: 1.2;
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-medium);
+}
+
+.save-select:focus,
+.save-dc-input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+/* Config option styling */
+.config-section .config-option {
+  margin-bottom: var(--pf-space-4);
+}
+
+.config-section .config-option:last-child {
+  margin-bottom: 0;
+}
+
+.config-section .config-option label {
+  display: block;
+  margin-bottom: var(--pf-space-2);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+.config-section .config-option input[type="number"] {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+.config-section .config-option input[type="number"]:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+/* Effect options tabs styling for save types */
+.config-section .effect-options.tabs {
+  display: flex;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+  margin-top: var(--pf-space-2);
+}
+
+.config-section .effect-option-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  min-width: 100px;
+  max-width: 120px;
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  text-align: center;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+
+.config-section .effect-option-tab:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-gold);
+}
+
+.config-section .effect-option-tab.selected {
+  background: var(--pf-gradient-parchment-dark);
+  border-color: var(--pf-gold);
+  color: var(--pf-brown-dark);
+  box-shadow:
+    var(--pf-shadow-md),
+    0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.config-section .effect-option-tab-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pf-border-radius);
+  overflow: hidden;
+  margin-bottom: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.config-section .effect-option-tab-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.config-section .effect-option-tab.selected .effect-option-tab-icon {
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+/* Compact tooltip styling for save types */
+.compact-tooltip {
+  max-width: 280px;
+  min-width: 240px;
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow:
+    var(--pf-shadow-lg),
+    0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: var(--pf-font-ui);
+  overflow: hidden;
+}
+
+.compact-tooltip .pathfinder-tooltip-header {
+  background: var(--pf-gradient-parchment-dark);
+  padding: var(--pf-space-3);
+  border-bottom: 1px solid var(--pf-brown-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.compact-tooltip .pathfinder-tooltip-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.compact-tooltip .pathfinder-tooltip-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-brown-dark);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+}
+
+.compact-tooltip .pathfinder-tooltip-section {
+  padding: var(--pf-space-3);
+}
+
+.compact-tooltip .pathfinder-tooltip-description {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  line-height: var(--pf-leading-relaxed);
+  margin-bottom: var(--pf-space-2);
+}
+
+.compact-tooltip .pathfinder-tooltip-meta {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  font-style: italic;
+}
+
+.compact-tooltip .pathfinder-tooltip-label {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-gold);
+  font-style: normal;
+}
+
+/* Duration section styling improvements */
+.effect-config-section {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.effect-config-section h4 {
+  background: var(--pf-gradient-parchment-dark);
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-base);
+  margin: calc(var(--pf-space-4) * -1) calc(var(--pf-space-4) * -1) var(--pf-space-3) calc(var(--pf-space-4) * -1);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  border-radius: var(--pf-border-radius-lg) var(--pf-border-radius-lg) 0 0;
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.effect-config-option {
+  margin-bottom: var(--pf-space-4);
+}
+
+.effect-config-option:last-child {
+  margin-bottom: 0;
+}
+
+.effect-config-option label {
+  display: block;
+  margin-bottom: var(--pf-space-2);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-brown-dark);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+/* Duration type buttons styling */
+.effect-options {
+  display: flex;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+}
+
+.effect-option-button {
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  min-width: 120px;
+  text-align: center;
+}
+
+.effect-option-button:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-gold);
+}
+
+.effect-option-button.active {
+  background: var(--pf-gradient-parchment-dark);
+  border-color: var(--pf-gold);
+  color: var(--pf-brown-dark);
+  box-shadow:
+    var(--pf-shadow-md),
+    0 0 10px rgba(212, 175, 55, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: none;
+}
+
+.effect-option-button.active:hover {
+  background: var(--pf-gradient-parchment-dark);
+  transform: none;
+}
+
+/* Duration input fields */
+.effect-config-option input[type="number"],
+.effect-config-option select {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.effect-config-option input[type="number"]:focus,
+.effect-config-option select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+/* Duration time input container */
+.duration-time-input {
+  display: flex;
+  gap: var(--pf-space-2);
+  align-items: center;
+}
+
+.duration-time-input input {
+  flex: 0 0 120px; /* Increased from 80px for better visibility */
+}
+
+.duration-time-input select {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Toggle options styling */
+.toggle-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.toggle-button {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  min-width: 200px;
+}
+
+.toggle-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+}
+
+.toggle-button.active {
+  background: var(--pf-gradient-parchment-dark);
+  border-color: var(--pf-gold);
+  color: var(--pf-brown-dark);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: 3px;
+  background: var(--pf-gradient-parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--pf-gold);
+  font-weight: bold;
+}
+
+.toggle-button.active .toggle-icon {
+  background: var(--pf-gold);
+  color: var(--pf-brown-dark);
+  border-color: var(--pf-gold);
+}
+
+/* ===== STATUS EFFECT CONFIG POPUP IMPROVEMENTS ===== */
+
+/* Overlay for the popup */
+.status-effect-config-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(45, 24, 16, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(6px);
+}
+
+/* Main popup container */
+.status-effect-config-popup {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0e6d2 100%);
+  border: 3px solid #8b4513;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(139, 69, 19, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  max-width: 650px;
+  max-height: 85vh;
+  width: 95%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Improved header with better icon placement */
+.status-effect-config-popup .pathfinder-header {
+  background: linear-gradient(135deg, #a0702a 0%, #8b5a1f 100%);
+  border-bottom: 3px solid #8b5a1f;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+  border-radius: 12px 12px 0 0;
+}
+
+.status-effect-config-popup .header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  flex: 1;
+}
+
+/* Larger, better positioned icon */
+.status-effect-config-popup .effect-icon {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #d4af37;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+.status-effect-config-popup .header-content h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f8f5f0;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.status-effect-config-popup .close-button {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border: 2px solid #8b6914;
+  border-radius: 6px;
+  color: #2d1810;
+  font-size: 20px;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.status-effect-config-popup .close-button:hover {
+  background: linear-gradient(135deg, #f0d060 0%, #d4af37 100%);
+  border-color: #d4af37;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Improved tab navigation */
+.status-effect-config-popup .popup-tabs {
+  display: flex;
+  background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
+  border-bottom: 3px solid #8b4513;
+  padding: 0 20px;
+  gap: 8px;
+}
+
+.status-effect-config-popup .tab-button {
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  border: 2px solid #8b4513;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  color: #2d1810;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 140px;
+  text-align: center;
+  position: relative;
+  top: 3px;
+  margin-bottom: -3px;
+}
+
+.status-effect-config-popup .tab-button:hover {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0e6d2 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: #d4af37;
+}
+
+.status-effect-config-popup .tab-button.active {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+  border-color: #d4af37;
+  color: #2d1810;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+  z-index: 1;
+  border-bottom: 3px solid #ffffff;
+}
+
+.status-effect-config-popup .tab-button.active:hover {
+  background: var(--pf-gradient-parchment-light);
+  transform: translateY(-2px);
+}
+
+/* Popup content area */
+.status-effect-config-popup .popup-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+  max-height: calc(85vh - 140px);
+}
+
+/* Popup footer */
+.status-effect-config-popup .popup-footer {
+  background: var(--pf-gradient-parchment-dark);
+  border-top: 2px solid var(--pf-brown-medium);
+  padding: var(--pf-space-4);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--pf-space-3);
+}
+
+.status-effect-config-popup .popup-footer .pathfinder-button {
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  min-width: 100px;
+}
+
+.status-effect-config-popup .popup-footer .pathfinder-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* Partial effect row */
+.save-effect-row {
+  margin-bottom: 15px;
+}
+
+.effect-toggle {
+  margin-bottom: 15px;
+}
+
+.effect-toggle-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.effect-toggle-note {
+  font-size: 0.9em;
+  color: #888;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* Toggle Container - Match exactly with CriticalHitConfig and ChanceOnHitConfig */
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Toggle Switch Label */
+.toggle-switch-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.toggle-switch-label input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  /* Simplified Pathfinder theme toggle slider */
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+  background: #8b7355;
+  border: 1px solid #6b5635;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  position: relative;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background: #f5f0e8;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+input:checked + .toggle-slider {
+  background: #d4af37;
+  border-color: #b8941f;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+  background: #2d1810;
+}
+
+/* Toggle text removed as requested */
+
+/* Partial effect configuration */
+.partial-effect-config {
+  margin-top: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0e6d2 100%);
+  border-radius: 4px;
+  border: 2px solid #8b4513;
+}
+
+.formula-input-container {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.formula-input-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #d100ff;
+}
+
+.formula-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.formula-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+  border-radius: 4px;
+  border: 2px solid #8b4513;
+}
+
+.formula-section-header {
+  font-weight: 500;
+  color: #d100ff;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.formula-examples-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.formula-input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 2px solid #8b4513;
+  background: #ffffff;
+  color: #2d1810;
+  font-family: monospace;
+}
+
+.formula-examples-toggle {
+  padding: 6px 12px;
+  background: linear-gradient(to bottom, #602c66, #3d1c42);
+  border: 1px solid #8a3c96;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.formula-examples-toggle:hover {
+  background: linear-gradient(to bottom, #8a3c96, #602c66);
+  box-shadow: 0 0 5px rgba(138, 60, 150, 0.5);
+}
+
+.formula-hint {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.formula-hint p {
+  margin: 2px 0;
+}
+
+.formula-examples {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(40, 25, 40, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(96, 44, 102, 0.3);
+}
+
+.formula-examples h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #d100ff;
+  font-size: 14px;
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.example-item,
+.example-card,
+.saving-throw-config .example-card,
+.formula-examples-section .example-card {
+  padding: 12px;
+  background: linear-gradient(135deg, #f0ead6 0%, #e6d7c3 100%);
+  border: 2px solid #8b4513;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-family: 'Cinzel', serif;
+}
+
+.example-item:hover,
+.example-card:hover {
+  background: linear-gradient(135deg, #f5f0e3 0%, #ebe2cf 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.example-item.active,
+.example-card.active,
+.saving-throw-config .example-card.active,
+.formula-examples-section .example-card.active {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%) !important;
+  border-color: #8b4513 !important;
+  color: #2d1810 !important;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4) !important;
+}
+
+.example-formula {
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.example-description {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.example-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #2d1810;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.example-desc {
+  font-size: 11px;
+  color: #5d4e37;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
+.example-card.active .example-title,
+.example-card.active .example-desc {
+  color: #2d1810;
+}
+
+/* Formula input styling */
+.saving-throw-config .formula-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #8b4513;
+  border-radius: 4px;
+  background: #f9f6f0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #2d1810;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.saving-throw-config .formula-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 4px rgba(212, 175, 55, 0.3);
+}
+
+.saving-throw-config .formula-input:disabled,
+.saving-throw-config .formula-input[readonly] {
+  background: #e6e6e6;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Save description */
+.save-description {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(40, 25, 40, 0.3);
+  border-radius: 4px;
+  border-left: 3px solid #d100ff;
+}
+
+.save-description p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.save-formulas {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: rgba(50, 30, 50, 0.4);
+  border-radius: 4px;
+}
+
+.save-formula-item {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.save-formula-label {
+  width: 120px;
+  font-weight: 500;
+  color: #d100ff;
+}
+
+.save-formula {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 2px 6px;
+  background-color: rgba(50, 30, 50, 0.6);
+  border-radius: 3px;
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+}
+
+.examples-category {
+  margin-bottom: 20px;
+}
+
+.examples-category h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #d100ff;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(209, 0, 255, 0.3);
+  padding-bottom: 5px;
+}
+
+.formula-reference {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: rgba(50, 30, 50, 0.4);
+  border-radius: 4px;
+  border-left: 2px solid #d100ff;
+}
+
+.formula-ref-item {
+  margin: 3px 0;
+  font-size: 13px;
+}
+
+.formula-ref-label {
+  display: inline-block;
+  width: 100px;
+  font-weight: 500;
+  color: #d100ff;
+}
+
+.formula-ref-item code {
+  font-family: monospace;
+  background-color: rgba(50, 30, 50, 0.6);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.current-formulas {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(50, 30, 50, 0.4);
+  border-radius: 4px;
+  border-left: 2px solid #d100ff;
+}
+
+.current-formula {
+  margin: 5px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.formula-label {
+  font-weight: 500;
+  color: #d100ff;
+  margin-bottom: 3px;
+}
+
+.current-formula code {
+  font-family: monospace;
+  background-color: rgba(50, 30, 50, 0.6);
+  padding: 3px 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.formula-help {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: rgba(50, 30, 50, 0.4);
+  border-radius: 4px;
+  border-left: 2px solid #0d6efd;
+}
+
+.formula-help p {
+  margin: 3px 0;
+  font-size: 13px;
+}
+
+.formula-help code {
+  font-family: monospace;
+  background-color: rgba(50, 30, 50, 0.6);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+/* ===== STATUS EFFECT CONFIG CONTENT STYLING ===== */
+
+/* Effect configuration sections */
+.status-effect-config-popup .effect-config-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+  border: 2px solid #8b4513;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-effect-config-popup .effect-config-section h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d1810;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 8px;
+}
+
+/* Effect options grid */
+.status-effect-config-popup .effect-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.status-effect-config-popup .effect-option-button {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0e6d2 100%);
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  color: #2d1810;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-effect-config-popup .effect-option-button:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);
+  border-color: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.status-effect-config-popup .effect-option-button.active {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border-color: #8b6914;
+  color: #2d1810;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+/* Configuration options */
+.status-effect-config-popup .effect-config-option {
+  margin-bottom: var(--pf-space-3);
+}
+
+.status-effect-config-popup .effect-config-option label {
+  display: block;
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-brown-dark);
+  margin-bottom: var(--pf-space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-effect-config-popup .effect-config-option select,
+.status-effect-config-popup .effect-config-option input {
+  width: 100%;
+  padding: var(--pf-space-2);
+  background: #ffffff;
+  border: 2px solid #8b4513;
+  border-radius: var(--pf-border-radius);
+  color: #2d1810;
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.status-effect-config-popup .effect-config-option select:focus,
+.status-effect-config-popup .effect-config-option input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Option descriptions */
+.status-effect-config-popup .option-description,
+.status-effect-config-popup .no-options-message {
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  border: 1px solid #8b4513;
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  color: #5d4037;
+  font-size: var(--pf-text-sm);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Toggle options styling */
+.status-effect-config-popup .toggle-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.status-effect-config-popup .toggle-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.status-effect-config-popup .toggle-button {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-align: left;
+  width: 100%;
+}
+
+.status-effect-config-popup .toggle-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.status-effect-config-popup .toggle-button.active {
+  background: linear-gradient(135deg, #2d5016 0%, #1e3a0f 100%);
+  border-color: #2d5016;
+  color: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(45, 80, 22, 0.4);
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.status-effect-config-popup .toggle-icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 4px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--pf-success);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.status-effect-config-popup .toggle-button.active .toggle-icon {
+  background: var(--pf-success);
+  color: #ffffff;
+  border-color: var(--pf-success);
+}

@@ -1,0 +1,2654 @@
+{
+  "mismatches": [
+    {
+      "path": "Acid\\Poison Arrow.png",
+      "current_folder": "Acid",
+      "expected_folder": "Poison",
+      "filename": "Poison Arrow.png",
+      "reason": "Contains poison keywords"
+    },
+    {
+      "path": "Arcane\\Chaotic Corruption.png",
+      "current_folder": "Arcane",
+      "expected_folder": "Chaos",
+      "filename": "Chaotic Corruption.png",
+      "reason": "Contains chaos keywords"
+    },
+    {
+      "path": "Arcane\\Chaotic Shuffle.png",
+      "current_folder": "Arcane",
+      "expected_folder": "Chaos",
+      "filename": "Chaotic Shuffle.png",
+      "reason": "Contains chaos keywords"
+    },
+    {
+      "path": "Arcane\\Crystal Hand Grasp.png",
+      "current_folder": "Arcane",
+      "expected_folder": "Force",
+      "filename": "Crystal Hand Grasp.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Bone Fist.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Necrotic",
+      "filename": "Bone Fist.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Bludgeoning\\Bullet Impact.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Bullet Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Combat Grasping Claw.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Combat Grasping Claw.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Combat Whip Arrow.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Piercing",
+      "filename": "Combat Whip Arrow.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Bludgeoning\\Cosmic Impact.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Cosmic Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Cranium Skull Smash.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Necrotic",
+      "filename": "Cranium Skull Smash.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Bludgeoning\\Energy Impact.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Energy Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Execution.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Slashing",
+      "filename": "Execution.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Bludgeoning\\Forceful Punch.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Forceful Punch.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Hand Held Sword.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Slashing",
+      "filename": "Hand Held Sword.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Bludgeoning\\Impact Arrow Glow.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Impact Arrow Glow.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Impact Burst.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Impact Burst.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Impact Explosion 2.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Impact Explosion 2.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Impact Explosion.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Impact Explosion.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Impact Splash.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Impact Splash.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Magic Caster.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Arcane",
+      "filename": "Magic Caster.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Bludgeoning\\Peering Gaze.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Psychic",
+      "filename": "Peering Gaze.png",
+      "reason": "Contains psychic keywords"
+    },
+    {
+      "path": "Bludgeoning\\Punch Impact 2.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Punch Impact 2.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Punch Impact.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Punch Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Shattering Impact.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Force",
+      "filename": "Shattering Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Bludgeoning\\Skull Staff.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Necrotic",
+      "filename": "Skull Staff.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Bludgeoning\\Slim Sword.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Slashing",
+      "filename": "Slim Sword.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Bludgeoning\\Sparkling Object.png",
+      "current_folder": "Bludgeoning",
+      "expected_folder": "Lightning",
+      "filename": "Sparkling Object.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Chaos\\Ice and FIre.png",
+      "current_folder": "Chaos",
+      "expected_folder": "Fire",
+      "filename": "Ice and FIre.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Chaos\\Lightning Script.png",
+      "current_folder": "Chaos",
+      "expected_folder": "Lightning",
+      "filename": "Lightning Script.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Chaos\\Punch GUy.png",
+      "current_folder": "Chaos",
+      "expected_folder": "Bludgeoning",
+      "filename": "Punch GUy.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Fire\\Blazing Seeking Bolt.png",
+      "current_folder": "Fire",
+      "expected_folder": "Lightning",
+      "filename": "Blazing Seeking Bolt.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Fire\\Blood Dripping Blade.png",
+      "current_folder": "Fire",
+      "expected_folder": "Slashing",
+      "filename": "Blood Dripping Blade.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Fire\\Broken Skull Shackle.png",
+      "current_folder": "Fire",
+      "expected_folder": "Necrotic",
+      "filename": "Broken Skull Shackle.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Fire\\Clenched Fist Downward Strike.png",
+      "current_folder": "Fire",
+      "expected_folder": "Bludgeoning",
+      "filename": "Clenched Fist Downward Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Fire\\Conjure Wound.png",
+      "current_folder": "Fire",
+      "expected_folder": "Arcane",
+      "filename": "Conjure Wound.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Fire\\Corrode Armor.png",
+      "current_folder": "Fire",
+      "expected_folder": "Acid",
+      "filename": "Corrode Armor.png",
+      "reason": "Contains acid keywords"
+    },
+    {
+      "path": "Fire\\Corrosive Axe.png",
+      "current_folder": "Fire",
+      "expected_folder": "Acid",
+      "filename": "Corrosive Axe.png",
+      "reason": "Contains acid keywords"
+    },
+    {
+      "path": "Fire\\Corrosive Enchantment.png",
+      "current_folder": "Fire",
+      "expected_folder": "Arcane",
+      "filename": "Corrosive Enchantment.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Fire\\Corrosive Hug.png",
+      "current_folder": "Fire",
+      "expected_folder": "Acid",
+      "filename": "Corrosive Hug.png",
+      "reason": "Contains acid keywords"
+    },
+    {
+      "path": "Fire\\Dagger Rain.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Dagger Rain.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Dagger Upward Strike.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Dagger Upward Strike.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Dwarf Spears.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Dwarf Spears.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Fierce Punch.png",
+      "current_folder": "Fire",
+      "expected_folder": "Bludgeoning",
+      "filename": "Fierce Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Fire\\Flaming Fist.png",
+      "current_folder": "Fire",
+      "expected_folder": "Bludgeoning",
+      "filename": "Flaming Fist.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Fire\\Glistening Dagger.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Glistening Dagger.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Gravity Death.png",
+      "current_folder": "Fire",
+      "expected_folder": "Necrotic",
+      "filename": "Gravity Death.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Fire\\Hurled Blade.png",
+      "current_folder": "Fire",
+      "expected_folder": "Slashing",
+      "filename": "Hurled Blade.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Fire\\Inpenetrable Barrier of Chaos.png",
+      "current_folder": "Fire",
+      "expected_folder": "Chaos",
+      "filename": "Inpenetrable Barrier of Chaos.png",
+      "reason": "Contains chaos keywords"
+    },
+    {
+      "path": "Fire\\Power Slash.png",
+      "current_folder": "Fire",
+      "expected_folder": "Slashing",
+      "filename": "Power Slash.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Fire\\Puncturing Stab.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Puncturing Stab.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Redemptive Strike.png",
+      "current_folder": "Fire",
+      "expected_folder": "Bludgeoning",
+      "filename": "Redemptive Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Fire\\Sacred Summoning.png",
+      "current_folder": "Fire",
+      "expected_folder": "Radiant",
+      "filename": "Sacred Summoning.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Fire\\Sacred Symbol.png",
+      "current_folder": "Fire",
+      "expected_folder": "Radiant",
+      "filename": "Sacred Symbol.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Fire\\Spear Flip.png",
+      "current_folder": "Fire",
+      "expected_folder": "Piercing",
+      "filename": "Spear Flip.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Fire\\Thrown Sabers.png",
+      "current_folder": "Fire",
+      "expected_folder": "Slashing",
+      "filename": "Thrown Sabers.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Fire\\Upper Cut 2.png",
+      "current_folder": "Fire",
+      "expected_folder": "Slashing",
+      "filename": "Upper Cut 2.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Fire\\Upper Punch.png",
+      "current_folder": "Fire",
+      "expected_folder": "Bludgeoning",
+      "filename": "Upper Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Force\\Diagonal Energy Slash.png",
+      "current_folder": "Force",
+      "expected_folder": "Slashing",
+      "filename": "Diagonal Energy Slash.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Force\\Diagonal Light Beam.png",
+      "current_folder": "Force",
+      "expected_folder": "Radiant",
+      "filename": "Diagonal Light Beam.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Force\\Energy Burst Strike.png",
+      "current_folder": "Force",
+      "expected_folder": "Bludgeoning",
+      "filename": "Energy Burst Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Force\\Energy Slash.png",
+      "current_folder": "Force",
+      "expected_folder": "Slashing",
+      "filename": "Energy Slash.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Force\\Energy Strike.png",
+      "current_folder": "Force",
+      "expected_folder": "Bludgeoning",
+      "filename": "Energy Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Force\\Gathering Orb.png",
+      "current_folder": "Force",
+      "expected_folder": "Social",
+      "filename": "Gathering Orb.png",
+      "reason": "Contains social keywords"
+    },
+    {
+      "path": "Force\\Skull Burst.png",
+      "current_folder": "Force",
+      "expected_folder": "Necrotic",
+      "filename": "Skull Burst.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Force\\Sparkle Burst.png",
+      "current_folder": "Force",
+      "expected_folder": "Lightning",
+      "filename": "Sparkle Burst.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Force\\Vertical Light Beam.png",
+      "current_folder": "Force",
+      "expected_folder": "Radiant",
+      "filename": "Vertical Light Beam.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Frost\\Backstab.png",
+      "current_folder": "Frost",
+      "expected_folder": "Piercing",
+      "filename": "Backstab.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Frost\\Bone Shards.png",
+      "current_folder": "Frost",
+      "expected_folder": "Necrotic",
+      "filename": "Bone Shards.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Frost\\Demon Punch.png",
+      "current_folder": "Frost",
+      "expected_folder": "Bludgeoning",
+      "filename": "Demon Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Frost\\Enlightened Vision.png",
+      "current_folder": "Frost",
+      "expected_folder": "Radiant",
+      "filename": "Enlightened Vision.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Frost\\Spear Shatter.png",
+      "current_folder": "Frost",
+      "expected_folder": "Piercing",
+      "filename": "Spear Shatter.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Frost\\Spear Throw.png",
+      "current_folder": "Frost",
+      "expected_folder": "Piercing",
+      "filename": "Spear Throw.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Healing\\Healing Dagger.png",
+      "current_folder": "Healing",
+      "expected_folder": "Piercing",
+      "filename": "Healing Dagger.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Healing\\Heart Pierce.png",
+      "current_folder": "Healing",
+      "expected_folder": "Piercing",
+      "filename": "Heart Pierce.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Healing\\Radiant Beam of Healing.png",
+      "current_folder": "Healing",
+      "expected_folder": "Radiant",
+      "filename": "Radiant Beam of Healing.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Lightning\\Angelic Ascension.png",
+      "current_folder": "Lightning",
+      "expected_folder": "Radiant",
+      "filename": "Angelic Ascension.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Lightning\\Beast Punch.png",
+      "current_folder": "Lightning",
+      "expected_folder": "Bludgeoning",
+      "filename": "Beast Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Lightning\\Hammer Crush.png",
+      "current_folder": "Lightning",
+      "expected_folder": "Bludgeoning",
+      "filename": "Hammer Crush.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Nature\\Celestial Star.png",
+      "current_folder": "Nature",
+      "expected_folder": "Radiant",
+      "filename": "Celestial Star.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Nature\\Dagger Arrow.png",
+      "current_folder": "Nature",
+      "expected_folder": "Piercing",
+      "filename": "Dagger Arrow.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Nature\\Dagger Whirl.png",
+      "current_folder": "Nature",
+      "expected_folder": "Piercing",
+      "filename": "Dagger Whirl.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Nature\\Downward Arrow.png",
+      "current_folder": "Nature",
+      "expected_folder": "Piercing",
+      "filename": "Downward Arrow.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Nature\\Emerald Gathering.png",
+      "current_folder": "Nature",
+      "expected_folder": "Social",
+      "filename": "Emerald Gathering.png",
+      "reason": "Contains social keywords"
+    },
+    {
+      "path": "Nature\\Floral Blade.png",
+      "current_folder": "Nature",
+      "expected_folder": "Slashing",
+      "filename": "Floral Blade.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Nature\\Glowing Skull Warning.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Glowing Skull Warning.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Green Torch.png",
+      "current_folder": "Nature",
+      "expected_folder": "Fire",
+      "filename": "Green Torch.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Nature\\Haunting Skull.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Haunting Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Light Path.png",
+      "current_folder": "Nature",
+      "expected_folder": "Radiant",
+      "filename": "Light Path.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Nature\\Lightning Leaf.png",
+      "current_folder": "Nature",
+      "expected_folder": "Lightning",
+      "filename": "Lightning Leaf.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Nature\\Monstrous Skull Face.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Monstrous Skull Face.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Pixelated Skull Pattern.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Pixelated Skull Pattern.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Screaming Ghost Ornate.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Screaming Ghost Ornate.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Slice.png",
+      "current_folder": "Nature",
+      "expected_folder": "Frost",
+      "filename": "Slice.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Nature\\Sonic Boom.png",
+      "current_folder": "Nature",
+      "expected_folder": "Thunder",
+      "filename": "Sonic Boom.png",
+      "reason": "Contains thunder keywords"
+    },
+    {
+      "path": "Nature\\Spawn Chaos.png",
+      "current_folder": "Nature",
+      "expected_folder": "Chaos",
+      "filename": "Spawn Chaos.png",
+      "reason": "Contains chaos keywords"
+    },
+    {
+      "path": "Nature\\Spiked Skull.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Spiked Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Swirling Skull Face.png",
+      "current_folder": "Nature",
+      "expected_folder": "Necrotic",
+      "filename": "Swirling Skull Face.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Nature\\Teleporting Dagger.png",
+      "current_folder": "Nature",
+      "expected_folder": "Piercing",
+      "filename": "Teleporting Dagger.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Nature\\Upward Diagonal Arrow.png",
+      "current_folder": "Nature",
+      "expected_folder": "Piercing",
+      "filename": "Upward Diagonal Arrow.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Necrotic\\Corrosive Spit.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Acid",
+      "filename": "Corrosive Spit.png",
+      "reason": "Contains acid keywords"
+    },
+    {
+      "path": "Necrotic\\Dark Heart.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Shadow",
+      "filename": "Dark Heart.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Necrotic\\Dark Reaper.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Shadow",
+      "filename": "Dark Reaper.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Necrotic\\Flame Wave.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Fire",
+      "filename": "Flame Wave.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Necrotic\\FrostBite.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Frost",
+      "filename": "FrostBite.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Necrotic\\Gathering.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Social",
+      "filename": "Gathering.png",
+      "reason": "Contains social keywords"
+    },
+    {
+      "path": "Necrotic\\Gut Punch.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Bludgeoning",
+      "filename": "Gut Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Necrotic\\Heal Wound.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Healing",
+      "filename": "Heal Wound.png",
+      "reason": "Contains healing keywords"
+    },
+    {
+      "path": "Necrotic\\Hooded Mystic 2 1.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Arcane",
+      "filename": "Hooded Mystic 2 1.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Necrotic\\Hooded Mystic 2.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Arcane",
+      "filename": "Hooded Mystic 2.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Necrotic\\Ice Shards.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Frost",
+      "filename": "Ice Shards.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Necrotic\\Icey Escape.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Frost",
+      "filename": "Icey Escape.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Necrotic\\Maple Leaf.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Nature",
+      "filename": "Maple Leaf.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Necrotic\\Mind Read.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Psychic",
+      "filename": "Mind Read.png",
+      "reason": "Contains psychic keywords"
+    },
+    {
+      "path": "Necrotic\\Shadow.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Shadow",
+      "filename": "Shadow.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Necrotic\\Unholy Crystal.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Radiant",
+      "filename": "Unholy Crystal.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Necrotic\\Unholy Ritual.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Radiant",
+      "filename": "Unholy Ritual.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Necrotic\\Venomous Snakes.png",
+      "current_folder": "Necrotic",
+      "expected_folder": "Poison",
+      "filename": "Venomous Snakes.png",
+      "reason": "Contains poison keywords"
+    },
+    {
+      "path": "Piercing\\Assassins Blade.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Slashing",
+      "filename": "Assassins Blade.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Piercing\\Bloody Impact.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Force",
+      "filename": "Bloody Impact.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Piercing\\Bone Bow.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Necrotic",
+      "filename": "Bone Bow.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Piercing\\Bone Spear.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Necrotic",
+      "filename": "Bone Spear.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Piercing\\Cutthroat.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Slashing",
+      "filename": "Cutthroat.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Piercing\\Dark Thrust.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Shadow",
+      "filename": "Dark Thrust.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Piercing\\Dark Unstable.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Shadow",
+      "filename": "Dark Unstable.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Piercing\\Fiery Bow Arrow.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Fire",
+      "filename": "Fiery Bow Arrow.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Piercing\\Fiery Spear.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Fire",
+      "filename": "Fiery Spear.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Piercing\\Gloomy Pierce.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Shadow",
+      "filename": "Gloomy Pierce.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Piercing\\Ice Crystal Spear.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Frost",
+      "filename": "Ice Crystal Spear.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Piercing\\Night Dagger.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Shadow",
+      "filename": "Night Dagger.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Piercing\\Shadowy Impale.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Shadow",
+      "filename": "Shadowy Impale.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Piercing\\Sword Pierce.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Slashing",
+      "filename": "Sword Pierce.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Piercing\\Trident Strike.png",
+      "current_folder": "Piercing",
+      "expected_folder": "Bludgeoning",
+      "filename": "Trident Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Poison\\Death Bug.png",
+      "current_folder": "Poison",
+      "expected_folder": "Necrotic",
+      "filename": "Death Bug.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Poison\\Ghostly Menace.png",
+      "current_folder": "Poison",
+      "expected_folder": "Necrotic",
+      "filename": "Ghostly Menace.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Poison\\Vial of death.png",
+      "current_folder": "Poison",
+      "expected_folder": "Necrotic",
+      "filename": "Vial of death.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Psychic\\Ethereal Shadow.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Shadow",
+      "filename": "Ethereal Shadow.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt 1.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt 1.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt 2.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt 2.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt 3.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt 3.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt 4.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt 4.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt 6.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt 6.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Mind Bolt.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Mind Bolt.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Nullifying Punch.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Bludgeoning",
+      "filename": "Nullifying Punch.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Bolt.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Psionic Bolt.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Boom.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Thunder",
+      "filename": "Psionic Boom.png",
+      "reason": "Contains thunder keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Chill.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Frost",
+      "filename": "Psionic Chill.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Slice.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Frost",
+      "filename": "Psionic Slice.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Spark 2.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Psionic Spark 2.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Spark.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Psionic Spark.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Psionic Thunder.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Psionic Thunder.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Psychic\\Thunderous Doubt.png",
+      "current_folder": "Psychic",
+      "expected_folder": "Lightning",
+      "filename": "Thunderous Doubt.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Radiant\\Arrow Shot.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Piercing",
+      "filename": "Arrow Shot.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Radiant\\Cold CLothing.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Frost",
+      "filename": "Cold CLothing.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Radiant\\Gods Grasp.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Force",
+      "filename": "Gods Grasp.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Radiant\\Golden Fist.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Bludgeoning",
+      "filename": "Golden Fist.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Radiant\\Golden Knight.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Shadow",
+      "filename": "Golden Knight.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Radiant\\Holy Bolt.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Lightning",
+      "filename": "Holy Bolt.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Radiant\\Telepathic Blight.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Psychic",
+      "filename": "Telepathic Blight.png",
+      "reason": "Contains psychic keywords"
+    },
+    {
+      "path": "Radiant\\Vine Wall.png",
+      "current_folder": "Radiant",
+      "expected_folder": "Nature",
+      "filename": "Vine Wall.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Shadow\\Blood Wrapped Sword.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Slashing",
+      "filename": "Blood Wrapped Sword.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Shadow\\Bloody Knife Fist.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Bludgeoning",
+      "filename": "Bloody Knife Fist.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Shadow\\Blue Trailed Fireball.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Fire",
+      "filename": "Blue Trailed Fireball.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Shadow\\Cursed Sword.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Slashing",
+      "filename": "Cursed Sword.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Shadow\\Dark Spark.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Lightning",
+      "filename": "Dark Spark.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Shadow\\Dark Storm.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Lightning",
+      "filename": "Dark Storm.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Shadow\\Dark Tree Ominous.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Nature",
+      "filename": "Dark Tree Ominous.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Shadow\\Demonic Grasp.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Force",
+      "filename": "Demonic Grasp.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Shadow\\Ebon Blaze.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Fire",
+      "filename": "Ebon Blaze.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Shadow\\Ebon Inferno.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Fire",
+      "filename": "Ebon Inferno.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Shadow\\Enchanted Green Crossbow.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Enchanted Green Crossbow.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Fiery Platform Warrior.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Fire",
+      "filename": "Fiery Platform Warrior.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Shadow\\Ghostly Trio.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Ghostly Trio.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Gloomy Blight.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Radiant",
+      "filename": "Gloomy Blight.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Shadow\\Glowing Purple Skull.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Glowing Purple Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Grasping Appendages.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Force",
+      "filename": "Grasping Appendages.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Shadow\\Hooded Dagger Holder.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Piercing",
+      "filename": "Hooded Dagger Holder.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Shadow\\Hooded Mystic 3.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Hooded Mystic 3.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Magical Pink Dagger.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Magical Pink Dagger.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Necrotic Hand Rising 1.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Necrotic Hand Rising 1.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Purple Lightning Claw.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Lightning",
+      "filename": "Purple Lightning Claw.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Shadow\\Radiant Hand Cast.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Radiant",
+      "filename": "Radiant Hand Cast.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Shadow\\Red Robed Green Aura Mage.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Red Robed Green Aura Mage.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Screaming Ghost.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Screaming Ghost.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Serrated Magenta Dagger.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Serrated Magenta Dagger.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Shadowy Blaze.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Fire",
+      "filename": "Shadowy Blaze.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Shadow\\Shadowy Shock.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Lightning",
+      "filename": "Shadowy Shock.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Shadow\\Shadowy Wave.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Force",
+      "filename": "Shadowy Wave.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Shadow\\Skull Tome Of Corruption.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Skull Tome Of Corruption.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Sleeping Enchanted Fox.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Arcane",
+      "filename": "Sleeping Enchanted Fox.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Shadow\\Speeding Skull.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Necrotic",
+      "filename": "Speeding Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Shadow\\Whip Lightning Strike.png",
+      "current_folder": "Shadow",
+      "expected_folder": "Lightning",
+      "filename": "Whip Lightning Strike.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Slashing\\Axe Strike.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Bludgeoning",
+      "filename": "Axe Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Slashing\\Crushing Blow.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Bludgeoning",
+      "filename": "Crushing Blow.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Slashing\\Dual Daggers.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Piercing",
+      "filename": "Dual Daggers.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Slashing\\Enchanted Double Axe.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Arcane",
+      "filename": "Enchanted Double Axe.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Slashing\\Enchanted Sword Grip.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Arcane",
+      "filename": "Enchanted Sword Grip.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Slashing\\Enchanted Sword.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Arcane",
+      "filename": "Enchanted Sword.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Slashing\\Fiery Axe.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Fire",
+      "filename": "Fiery Axe.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Slashing\\Fiery Blade.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Fire",
+      "filename": "Fiery Blade.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Slashing\\Fiery Slash.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Fire",
+      "filename": "Fiery Slash.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Slashing\\Glowing Dagger.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Piercing",
+      "filename": "Glowing Dagger.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Slashing\\Shadow Assassin Strike.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Shadow",
+      "filename": "Shadow Assassin Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Slashing\\Throwing Dagger.png",
+      "current_folder": "Slashing",
+      "expected_folder": "Piercing",
+      "filename": "Throwing Dagger.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Social\\Crowned Skull.png",
+      "current_folder": "Social",
+      "expected_folder": "Necrotic",
+      "filename": "Crowned Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Social\\Single Leaf.png",
+      "current_folder": "Social",
+      "expected_folder": "Nature",
+      "filename": "Single Leaf.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Social\\Thunder.png",
+      "current_folder": "Social",
+      "expected_folder": "Lightning",
+      "filename": "Thunder.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Doubtful Thunder.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Lightning",
+      "filename": "Doubtful Thunder.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Frozen Feet.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Frost",
+      "filename": "Frozen Feet.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Thunder\\Hail Thunder.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Lightning",
+      "filename": "Hail Thunder.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Hammer Time.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Bludgeoning",
+      "filename": "Hammer Time.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Thunder\\Psionic Boulder Lift.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Psychic",
+      "filename": "Psionic Boulder Lift.png",
+      "reason": "Contains psychic keywords"
+    },
+    {
+      "path": "Thunder\\Scroll of Thunder.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Lightning",
+      "filename": "Scroll of Thunder.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Thunder Ice.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Frost",
+      "filename": "Thunder Ice.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Thunder\\Thunder Resonance.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Lightning",
+      "filename": "Thunder Resonance.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Thunderstorm.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Lightning",
+      "filename": "Thunderstorm.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Thunder\\Venomous Injection.png",
+      "current_folder": "Thunder",
+      "expected_folder": "Poison",
+      "filename": "Venomous Injection.png",
+      "reason": "Contains poison keywords"
+    },
+    {
+      "path": "Utility\\Adjustable Wrench.png",
+      "current_folder": "Utility",
+      "expected_folder": "Piercing",
+      "filename": "Adjustable Wrench.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Utility\\Bloody Horse Skull.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Bloody Horse Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Bloody Splash.png",
+      "current_folder": "Utility",
+      "expected_folder": "Force",
+      "filename": "Bloody Splash.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Utility\\Celestial Arc.png",
+      "current_folder": "Utility",
+      "expected_folder": "Radiant",
+      "filename": "Celestial Arc.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Utility\\Comet Strike.png",
+      "current_folder": "Utility",
+      "expected_folder": "Bludgeoning",
+      "filename": "Comet Strike.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Utility\\Cracked Lightning Column.png",
+      "current_folder": "Utility",
+      "expected_folder": "Lightning",
+      "filename": "Cracked Lightning Column.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Utility\\Crimson Gathering.png",
+      "current_folder": "Utility",
+      "expected_folder": "Social",
+      "filename": "Crimson Gathering.png",
+      "reason": "Contains social keywords"
+    },
+    {
+      "path": "Utility\\Dark Shadow.png",
+      "current_folder": "Utility",
+      "expected_folder": "Shadow",
+      "filename": "Dark Shadow.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Utility\\Dash Arrow.png",
+      "current_folder": "Utility",
+      "expected_folder": "Piercing",
+      "filename": "Dash Arrow.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Utility\\Dice Roll.png",
+      "current_folder": "Utility",
+      "expected_folder": "Frost",
+      "filename": "Dice Roll.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Utility\\Dual Blade Dash.png",
+      "current_folder": "Utility",
+      "expected_folder": "Slashing",
+      "filename": "Dual Blade Dash.png",
+      "reason": "Contains slashing keywords"
+    },
+    {
+      "path": "Utility\\Dual Firearms.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Dual Firearms.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Enchanted Hoe.png",
+      "current_folder": "Utility",
+      "expected_folder": "Arcane",
+      "filename": "Enchanted Hoe.png",
+      "reason": "Contains arcane keywords"
+    },
+    {
+      "path": "Utility\\Fiery Comet 1.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Comet 1.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Comet 2.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Comet 2.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Comet Projectile.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Comet Projectile.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Comet.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Comet.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Dash.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Dash.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Eye.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Eye.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Horizon.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Horizon.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Rage.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Rage.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Skull.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Skull.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Fiery Trail.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Fiery Trail.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Figure Swinging With Spear.png",
+      "current_folder": "Utility",
+      "expected_folder": "Piercing",
+      "filename": "Figure Swinging With Spear.png",
+      "reason": "Contains piercing keywords"
+    },
+    {
+      "path": "Utility\\Gathering.png",
+      "current_folder": "Utility",
+      "expected_folder": "Social",
+      "filename": "Gathering.png",
+      "reason": "Contains social keywords"
+    },
+    {
+      "path": "Utility\\Glowing Skull.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Glowing Skull.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Gnarled Roots.png",
+      "current_folder": "Utility",
+      "expected_folder": "Nature",
+      "filename": "Gnarled Roots.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Utility\\Golden Dollar Bones.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Golden Dollar Bones.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Grasping Hand Flame.png",
+      "current_folder": "Utility",
+      "expected_folder": "Fire",
+      "filename": "Grasping Hand Flame.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Utility\\Hammer Tool.png",
+      "current_folder": "Utility",
+      "expected_folder": "Bludgeoning",
+      "filename": "Hammer Tool.png",
+      "reason": "Contains bludgeoning keywords"
+    },
+    {
+      "path": "Utility\\Hanging Skull Emblem.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Hanging Skull Emblem.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Hooked Bone Tool.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Hooked Bone Tool.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Knight Helm.png",
+      "current_folder": "Utility",
+      "expected_folder": "Shadow",
+      "filename": "Knight Helm.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Utility\\Knight Helmet.png",
+      "current_folder": "Utility",
+      "expected_folder": "Shadow",
+      "filename": "Knight Helmet.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Utility\\Knight.png",
+      "current_folder": "Utility",
+      "expected_folder": "Shadow",
+      "filename": "Knight.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Utility\\Melting Crystal Shard.png",
+      "current_folder": "Utility",
+      "expected_folder": "Acid",
+      "filename": "Melting Crystal Shard.png",
+      "reason": "Contains acid keywords"
+    },
+    {
+      "path": "Utility\\Monstrous Skull Face.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Monstrous Skull Face.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Pile Skulls.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Pile Skulls.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Radiant Peace Sign Wings.png",
+      "current_folder": "Utility",
+      "expected_folder": "Radiant",
+      "filename": "Radiant Peace Sign Wings.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Utility\\Root Network.png",
+      "current_folder": "Utility",
+      "expected_folder": "Nature",
+      "filename": "Root Network.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Utility\\Skeletal Bone Armor.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Skeletal Bone Armor.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Skull Explosion.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Skull Explosion.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Skull Grimoire.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Skull Grimoire.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Thorned Flower.png",
+      "current_folder": "Utility",
+      "expected_folder": "Nature",
+      "filename": "Thorned Flower.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Utility\\Three Eyed Ghost.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Three Eyed Ghost.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Triple Skulls.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "Triple Skulls.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Utility\\Utility Device.png",
+      "current_folder": "Utility",
+      "expected_folder": "Frost",
+      "filename": "Utility Device.png",
+      "reason": "Contains frost keywords"
+    },
+    {
+      "path": "Utility\\Winged Angel.png",
+      "current_folder": "Utility",
+      "expected_folder": "Radiant",
+      "filename": "Winged Angel.png",
+      "reason": "Contains radiant keywords"
+    },
+    {
+      "path": "Utility\\creature-utility-skull-grimoire.png",
+      "current_folder": "Utility",
+      "expected_folder": "Necrotic",
+      "filename": "creature-utility-skull-grimoire.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Void\\Abyssal Portal.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Abyssal Portal.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Acorns On Mounds.png",
+      "current_folder": "Void",
+      "expected_folder": "Nature",
+      "filename": "Acorns On Mounds.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Void\\Bloody Void Cleave.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Bloody Void Cleave.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Burning Forge.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Burning Forge.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Chained Void Orb.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Chained Void Orb.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Cloaked Void Mage.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Cloaked Void Mage.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Contained Void Barrel.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Contained Void Barrel.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Crimson Void Hood.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Crimson Void Hood.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Crimson Void Shards.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Crimson Void Shards.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Crushing Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Crushing Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Dark Abyss.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Dark Abyss.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Dark Void 1.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Dark Void 1.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Dark Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Dark Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Ebon Abyss.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Ebon Abyss.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Ebon Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Ebon Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Ethereal Void Spirit.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Ethereal Void Spirit.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Fiery Demonic Beast.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Fiery Demonic Beast.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Fiery Scroll.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Fiery Scroll.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Fiery Void Claw.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Fiery Void Claw.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Gears In Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Gears In Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Gloomy Abyss.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Gloomy Abyss.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Hooded Void Mage.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Hooded Void Mage.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Lich With Green Orb.png",
+      "current_folder": "Void",
+      "expected_folder": "Necrotic",
+      "filename": "Lich With Green Orb.png",
+      "reason": "Contains necrotic keywords"
+    },
+    {
+      "path": "Void\\Lightning Reptile.png",
+      "current_folder": "Void",
+      "expected_folder": "Lightning",
+      "filename": "Lightning Reptile.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Void\\Lightning Spell Caster.png",
+      "current_folder": "Void",
+      "expected_folder": "Lightning",
+      "filename": "Lightning Spell Caster.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Void\\Mental Abyss.png",
+      "current_folder": "Void",
+      "expected_folder": "Psychic",
+      "filename": "Mental Abyss.png",
+      "reason": "Contains psychic keywords"
+    },
+    {
+      "path": "Void\\Pirate Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Pirate Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Poisoned Figure.png",
+      "current_folder": "Void",
+      "expected_folder": "Poison",
+      "filename": "Poisoned Figure.png",
+      "reason": "Contains poison keywords"
+    },
+    {
+      "path": "Void\\Screaming Fiery Figure.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Screaming Fiery Figure.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Screaming Void Ghoul.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Screaming Void Ghoul.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Segmented Void Arc.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Segmented Void Arc.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Shadowy Abyss.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Shadowy Abyss.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Shadowy Void Bust.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Shadowy Void Bust.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Teal Masked Void Mage.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Teal Masked Void Mage.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Threads of the Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Threads of the Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Torch Bearer.png",
+      "current_folder": "Void",
+      "expected_folder": "Fire",
+      "filename": "Torch Bearer.png",
+      "reason": "Contains fire keywords"
+    },
+    {
+      "path": "Void\\Void Archer.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Archer.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Arrow Absorption.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Arrow Absorption.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Axe Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Axe Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Channeling 1.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Channeling 1.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Channeling.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Channeling.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Claw Blood.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Claw Blood.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Claw Natural.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Claw Natural.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Claw Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Claw Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Claw Swipe.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Claw Swipe.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Conjuration.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Conjuration.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Crystal Shard.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Crystal Shard.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Detonator.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Detonator.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Empowered Greatsword.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Empowered Greatsword.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Energy Burst 1.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Energy Burst 1.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Energy Burst.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Energy Burst.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Energy Cascade.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Energy Cascade.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Energy Surge.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Energy Surge.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Energy Symbols.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Energy Symbols.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Entity Maw.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Entity Maw.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Eye Mask.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Eye Mask.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Fist Bump.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Fist Bump.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Fist Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Fist Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Flail Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Flail Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Grasp.png",
+      "current_folder": "Void",
+      "expected_folder": "Force",
+      "filename": "Void Grasp.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Void\\Void Hammer.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Hammer.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Hand Manipulation.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Hand Manipulation.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Hand Of Corruption.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Hand Of Corruption.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Houndmaster.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Houndmaster.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Kick.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Kick.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Lightning Claw.png",
+      "current_folder": "Void",
+      "expected_folder": "Lightning",
+      "filename": "Void Lightning Claw.png",
+      "reason": "Contains lightning keywords"
+    },
+    {
+      "path": "Void\\Void Magic Missiles.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Magic Missiles.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Meditation.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Meditation.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Moon Vines.png",
+      "current_folder": "Void",
+      "expected_folder": "Nature",
+      "filename": "Void Moon Vines.png",
+      "reason": "Contains nature keywords"
+    },
+    {
+      "path": "Void\\Void Orb Swirl.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Orb Swirl.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Portal Guardian.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Portal Guardian.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Portal Mage.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Portal Mage.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Potion.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Potion.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Projectiles.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Projectiles.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Push.png",
+      "current_folder": "Void",
+      "expected_folder": "Force",
+      "filename": "Void Push.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Void\\Void Raven.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Raven.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Rift Tear.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Rift Tear.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Rune Tag.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Rune Tag.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Rupture.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Rupture.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Scimitar.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Scimitar.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Scream Attack.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Scream Attack.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Scream.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Scream.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Scythe Chain.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Scythe Chain.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Scythe Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Scythe Strike.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Serpent Venom.png",
+      "current_folder": "Void",
+      "expected_folder": "Poison",
+      "filename": "Void Serpent Venom.png",
+      "reason": "Contains poison keywords"
+    },
+    {
+      "path": "Void\\Void Shard Sword.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Shard Sword.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Spell Cast.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Spell Cast.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Splash.png",
+      "current_folder": "Void",
+      "expected_folder": "Force",
+      "filename": "Void Splash.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Void\\Void Tendrils Lies.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Tendrils Lies.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Vortex Eruption.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Vortex Eruption.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void Wave.png",
+      "current_folder": "Void",
+      "expected_folder": "Force",
+      "filename": "Void Wave.png",
+      "reason": "Contains force keywords"
+    },
+    {
+      "path": "Void\\Void Weasel.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void Weasel.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Void.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Void.png",
+      "reason": "Contains shadow keywords"
+    },
+    {
+      "path": "Void\\Voidwing Blade Strike.png",
+      "current_folder": "Void",
+      "expected_folder": "Shadow",
+      "filename": "Voidwing Blade Strike.png",
+      "reason": "Contains shadow keywords"
+    }
+  ],
+  "statistics": {
+    "Acid": 5,
+    "Arcane": 34,
+    "Bludgeoning": 82,
+    "Chaos": 14,
+    "Fire": 152,
+    "Force": 86,
+    "Frost": 54,
+    "General": 0,
+    "Healing": 20,
+    "Lightning": 36,
+    "Nature": 162,
+    "Necrotic": 126,
+    "Piercing": 96,
+    "Poison": 29,
+    "Psychic": 100,
+    "Radiant": 70,
+    "Shadow": 193,
+    "Slashing": 93,
+    "Social": 33,
+    "Thunder": 16,
+    "Utility": 310,
+    "Void": 100,
+    "_average": 82.31818181818181,
+    "_total": 1811,
+    "_folders": 21
+  },
+  "suggestions": [
+    {
+      "from": "Utility",
+      "to": "General",
+      "suggested_count": 82,
+      "reason": "Utility has 310 icons (2.3x average), General has 0 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Acid",
+      "suggested_count": 77,
+      "reason": "Utility has 310 icons (2.3x average), Acid has 5 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Chaos",
+      "suggested_count": 68,
+      "reason": "Utility has 310 icons (2.3x average), Chaos has 14 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Thunder",
+      "suggested_count": 66,
+      "reason": "Utility has 310 icons (2.3x average), Thunder has 16 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Healing",
+      "suggested_count": 62,
+      "reason": "Utility has 310 icons (2.3x average), Healing has 20 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Poison",
+      "suggested_count": 53,
+      "reason": "Utility has 310 icons (2.3x average), Poison has 29 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Social",
+      "suggested_count": 49,
+      "reason": "Utility has 310 icons (2.3x average), Social has 33 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Arcane",
+      "suggested_count": 48,
+      "reason": "Utility has 310 icons (2.3x average), Arcane has 34 icons (0.4x average)"
+    },
+    {
+      "from": "Utility",
+      "to": "Lightning",
+      "suggested_count": 46,
+      "reason": "Utility has 310 icons (2.3x average), Lightning has 36 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "General",
+      "suggested_count": 55,
+      "reason": "Shadow has 193 icons (2.3x average), General has 0 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Acid",
+      "suggested_count": 55,
+      "reason": "Shadow has 193 icons (2.3x average), Acid has 5 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Chaos",
+      "suggested_count": 55,
+      "reason": "Shadow has 193 icons (2.3x average), Chaos has 14 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Thunder",
+      "suggested_count": 55,
+      "reason": "Shadow has 193 icons (2.3x average), Thunder has 16 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Healing",
+      "suggested_count": 55,
+      "reason": "Shadow has 193 icons (2.3x average), Healing has 20 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Poison",
+      "suggested_count": 53,
+      "reason": "Shadow has 193 icons (2.3x average), Poison has 29 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Social",
+      "suggested_count": 49,
+      "reason": "Shadow has 193 icons (2.3x average), Social has 33 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Arcane",
+      "suggested_count": 48,
+      "reason": "Shadow has 193 icons (2.3x average), Arcane has 34 icons (0.4x average)"
+    },
+    {
+      "from": "Shadow",
+      "to": "Lightning",
+      "suggested_count": 46,
+      "reason": "Shadow has 193 icons (2.3x average), Lightning has 36 icons (0.4x average)"
+    }
+  ]
+}

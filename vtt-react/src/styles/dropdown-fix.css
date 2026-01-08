@@ -1,0 +1,68 @@
+/* Dropdown Fix CSS
+ * This file contains fixes for the dropdown filters in the spell library
+ */
+
+/* Fix for dropdown icons in the spell library */
+.spell-library-tab select {
+  /* Adjust padding to make room for the icon */
+  padding: 5px 28px 5px 28px !important;
+  /* Use a custom dropdown arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Add a custom dropdown arrow */
+  background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+/* Fix for search input in the spell library */
+.spell-library-tab input[type="text"] {
+  padding: 5px 28px 5px 28px !important;
+}
+
+/* Fix for the icon positioning */
+.spell-library-tab .filter-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 12px;
+  pointer-events: none; /* Make sure the icon doesn't interfere with clicks */
+}
+
+/* Improve dropdown appearance */
+.spell-library-tab select:hover {
+  border-color: #3b82f6;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+
+.spell-library-tab select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5);
+}
+
+/* Style dropdown options */
+.spell-library-tab select option {
+  background-color: #1e293b;
+  color: #fff;
+  padding: 8px;
+}
+
+/* Fix for the dropdown container */
+.spell-library-tab .dropdown-container {
+  position: relative;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+/* Improve the filter container layout */
+.spell-library-tab .filter-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,270 @@
+/* ===== ACCOUNT DASHBOARD ISOLATION CSS ===== */
+/* This file provides complete isolation from game CSS that affects account dashboard */
+
+/* ===== COMPLETE ISOLATION FOR ACCOUNT DASHBOARD ===== */
+.account-main,
+.account-main * {
+  /* Reset all possible game-mode variables */
+  --pf-font-body: 'Cinzel', 'Times New Roman', serif !important;
+  --pf-font-ui: 'Cinzel', 'Times New Roman', serif !important;
+  --pf-font-display: 'Cinzel', 'Times New Roman', serif !important;
+  --pf-text-primary: #2d1810 !important;
+  --pf-text-secondary: #5a1e12 !important;
+  --pf-brown-medium: #8B4513 !important;
+  --pf-brown-light: #a08c70 !important;
+  --pf-gold: #d4af37 !important;
+}
+
+/* ===== CHARACTER STATS ISOLATION ===== */
+.account-main .character-stats,
+.account-main .character-primary-stats,
+.account-main .character-secondary-stats {
+  padding: 1rem !important;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(212, 175, 55, 0.1) !important;
+  font-family: 'Cinzel', 'Times New Roman', serif !important;
+  color: #2d1810 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+  height: auto !important;
+  min-height: auto !important;
+  position: relative !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+  contain: layout style !important;
+}
+
+/* ===== STAT GROUP ISOLATION ===== */
+.account-main .stat-group {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.75rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* ===== STAT ITEM ISOLATION ===== */
+.account-main .stat-item {
+  background: rgba(212, 175, 55, 0.1) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem !important;
+  text-align: center !important;
+  transition: all 0.3s ease !important;
+  font-family: 'Cinzel', 'Times New Roman', serif !important;
+  color: #2d1810 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+  height: auto !important;
+  min-height: auto !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.account-main .stat-item:hover {
+  background: rgba(212, 175, 55, 0.2) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+
+
+
+
+/* ===== BUTTON ISOLATION - Only override problematic game styles ===== */
+/* Remove overly broad button styling that conflicts with existing styles */
+/* Keep only essential isolation for cursor and basic interaction */
+
+/* ===== PREVENT GAME MODE OVERRIDES ===== */
+.account-main .character-stats::before,
+.account-main .character-stats::after,
+.account-main .stat-item::before,
+.account-main .stat-item::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* ===== FORCE ACCOUNT DASHBOARD LAYOUT ===== */
+.account-main {
+  isolation: isolate !important;
+  contain: layout style !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ===== OVERRIDE ANY PATHFINDER WIZARD STYLES ===== */
+.account-main .spellbook-layout,
+.account-main .wizard-container,
+.account-main .pathfinder-theme {
+  all: unset !important;
+}
+
+/* ===== CHARACTER PORTRAIT ISOLATION ===== */
+/* Override character-sheet.css portrait styles for account dashboard */
+.account-main .character-portrait {
+  width: 140px !important;
+  height: 140px !important;
+  border-radius: 50% !important;
+  border: 4px solid #d4af37 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 228, 166, 0.2) 100%) !important;
+  position: relative !important;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2) !important;
+  flex-shrink: 0 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+.account-main .character-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 50% !important;
+  transition: transform 0.3s ease !important;
+}
+
+.account-main .character-card:hover .character-portrait img {
+  transform: scale(1.05) !important;
+}
+
+.account-main .character-portrait .default-portrait-text {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%) !important;
+  font-size: 3.5rem !important;
+  font-weight: 700 !important;
+  color: #8b4513 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.account-main .character-level {
+  position: absolute !important;
+  bottom: -12px !important;
+  right: -12px !important;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%) !important;
+  color: #2c2416 !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  border: 3px solid #f4f1e8 !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+/* ===== CHARACTER NAME AND TITLE ISOLATION ===== */
+.account-main .character-name {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 0.5rem 0 !important;
+  color: #1a1a1a !important;
+  font-family: 'Cinzel', serif !important;
+  line-height: 1.2 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.account-main .character-title {
+  font-size: 1.1rem !important;
+  color: #555555 !important;
+  margin: 0 !important;
+  font-weight: 600 !important;
+  font-family: 'Cinzel', serif !important;
+  line-height: 1.3 !important;
+}
+
+/* ===== CAMPAIGN MANAGER LAYOUT ISOLATION ===== */
+/* Protect campaign manager from game-mode CSS interference */
+
+/* Use very high specificity to override any game-mode styles */
+.account-main .tab-content .campaign-manager-dashboard .cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+  gap: 20px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.account-main .tab-content .campaign-manager-dashboard .content-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 300px !important;
+  height: auto !important;
+  min-height: auto !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.account-main .tab-content .campaign-manager-dashboard .content-card .card-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 16px 18px !important;
+  margin: 0 !important;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.12) !important;
+  flex-wrap: wrap !important;
+  min-height: auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.account-main .tab-content .campaign-manager-dashboard .content-card .card-body {
+  padding: 18px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  flex: 1 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.account-main .tab-content .campaign-manager-dashboard .campaign-section-content {
+  min-height: 400px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ===== ALLOW TEST ROOM STYLES TO OVERRIDE ISOLATION ===== */
+.account-main .multiplayer-room-card.test-room,
+.account-main .multiplayer-room-card.test-room * {
+  /* Allow test room styles to take precedence */
+  all: revert !important;
+}
+
+

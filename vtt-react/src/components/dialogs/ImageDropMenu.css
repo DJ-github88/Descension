@@ -1,0 +1,251 @@
+/* Image Drop Context Menu - Pathfinder/D&D Style */
+
+.image-drop-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 15000;
+  pointer-events: none;
+}
+
+.image-drop-menu {
+  position: fixed;
+  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  border: 3px solid #8B4513;
+  border-radius: 12px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  min-width: 260px;
+  overflow: hidden;
+  pointer-events: all;
+  animation: menuSlideIn 0.2s ease-out;
+}
+
+.image-drop-menu.expanded {
+  min-width: 320px;
+}
+
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header with preview */
+.image-drop-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(to bottom, rgba(139, 69, 19, 0.15), transparent);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.2);
+}
+
+.image-drop-preview {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #8B4513;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.image-drop-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Menu Options */
+.image-drop-menu-options {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 4px;
+}
+
+.image-drop-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.image-drop-option:hover {
+  background: rgba(139, 69, 19, 0.12);
+}
+
+.image-drop-option i {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #8B4513;
+}
+
+.image-drop-option .option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.image-drop-option .option-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+}
+
+.image-drop-option .option-desc {
+  font-size: 11px;
+  color: #8b7355;
+}
+
+.image-drop-option.background-option:hover {
+  background: rgba(76, 175, 80, 0.15);
+}
+
+.image-drop-option.background-option i {
+  color: #4CAF50;
+}
+
+.image-drop-option.show-option:hover {
+  background: rgba(33, 150, 243, 0.15);
+}
+
+.image-drop-option.show-option i {
+  color: #2196F3;
+}
+
+.image-drop-option.cancel-option {
+  margin-top: 4px;
+  border-top: 1px solid rgba(139, 69, 19, 0.15);
+  padding-top: 12px;
+  justify-content: center;
+  gap: 8px;
+  color: #8b7355;
+  font-size: 13px;
+}
+
+.image-drop-option.cancel-option:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.image-drop-option.cancel-option i {
+  color: #8b7355;
+  font-size: 12px;
+}
+
+/* Description Form */
+.image-drop-description-form {
+  padding: 16px;
+}
+
+.image-drop-description-form .form-group {
+  margin-bottom: 14px;
+}
+
+.image-drop-description-form label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a1e12;
+  margin-bottom: 6px;
+}
+
+.image-drop-description-form input,
+.image-drop-description-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.image-drop-description-form input:focus,
+.image-drop-description-form textarea:focus {
+  outline: none;
+  border-color: #8B4513;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+}
+
+.image-drop-description-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.image-drop-description-form .form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.image-drop-description-form .btn-cancel,
+.image-drop-description-form .btn-show {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 2px solid;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.image-drop-description-form .btn-cancel {
+  background: transparent;
+  border-color: rgba(139, 69, 19, 0.3);
+  color: #8b7355;
+}
+
+.image-drop-description-form .btn-cancel:hover {
+  background: rgba(139, 69, 19, 0.1);
+  border-color: #8B4513;
+}
+
+.image-drop-description-form .btn-show {
+  background: linear-gradient(to bottom, #4a8c4a, #3d7a3d);
+  border-color: #2d5a2d;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.image-drop-description-form .btn-show:hover {
+  background: linear-gradient(to bottom, #5a9c5a, #4a8c4a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+

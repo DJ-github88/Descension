@@ -1,0 +1,93 @@
+.rest-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000; /* Very high z-index to appear above everything */
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.rest-overlay.fade-in {
+    animation: restOverlayFadeIn 0.8s ease-out forwards;
+}
+
+.rest-overlay.fade-out {
+    animation: restOverlayFadeOut 0.8s ease-out forwards;
+}
+
+@keyframes restOverlayFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes restOverlayFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.rest-overlay-content {
+    max-width: 60%;
+    min-width: 400px;
+    text-align: center;
+    padding: 40px;
+}
+
+.rest-text {
+    font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
+    font-size: 28px;
+    line-height: 1.6;
+    color: #f0e6d2;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 10px rgba(212, 175, 55, 0.3);
+    letter-spacing: 1px;
+    font-weight: 400;
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    margin-left: 4px;
+    animation: blink 1s infinite;
+    color: #d4af37;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.8);
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rest-overlay-content {
+        max-width: 90%;
+        min-width: 300px;
+        padding: 30px 20px;
+    }
+    
+    .rest-text {
+        font-size: 22px;
+    }
+}
+

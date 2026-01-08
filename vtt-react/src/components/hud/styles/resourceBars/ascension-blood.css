@@ -1,0 +1,456 @@
+.class-resource-bar.ascension-blood {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.deathcaller-dual-bars {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: linear-gradient(135deg, rgba(26, 13, 26, 0.2) 0%, rgba(45, 10, 10, 0.25) 100%);
+    border: 1px solid rgba(139, 0, 0, 0.4);
+    border-radius: 4px;
+    padding: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Party context styling - no frame */
+.class-resource-bar.ascension-blood.party-context .deathcaller-dual-bars {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    gap: 2px; /* Match resource-bars-container gap */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 24px; /* Allow natural height for two 10px bars + gap */
+}
+
+.class-resource-bar.ascension-blood.party-context .ascension-paths-bar {
+    background: transparent;
+    border: none;
+    padding: 1px 2px;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    position: relative;
+    height: 10px; /* Match regular resource bar height */
+}
+
+.class-resource-bar.ascension-blood.party-context .blood-tokens-bar {
+    background: transparent;
+    border: none;
+    padding: 1px 2px;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    position: relative;
+    height: 10px; /* Match regular resource bar height */
+}
+
+/* Party context path and token styling - ensure bars extend properly */
+.class-resource-bar.ascension-blood.party-context .paths-container {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    min-width: 0;
+    width: calc(100% - 30px); /* Leave space for the bar value, adjusted for smaller bars */
+}
+
+.class-resource-bar.ascension-blood.party-context .path-indicator {
+    flex: 1;
+    min-width: 0;
+    height: 8px; /* Fit within 10px bar height with padding */
+    border-radius: 2px;
+}
+
+.class-resource-bar.ascension-blood.party-context .tokens-container {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    min-width: 0;
+    width: calc(100% - 30px); /* Leave space for the bar value, adjusted for smaller bars */
+}
+
+.class-resource-bar.ascension-blood.party-context .tokens-bar-background {
+    flex: 1;
+    min-width: 0;
+    height: 8px; /* Fit within 10px bar height with padding */
+    border-radius: 2px;
+}
+
+/* Disable hover effects in party context */
+.class-resource-bar.ascension-blood.party-context .ascension-paths-bar:hover,
+.class-resource-bar.ascension-blood.party-context .blood-tokens-bar:hover {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* Ascension Paths Bar (Top) */
+.ascension-paths-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 6px;
+    background: linear-gradient(180deg, rgba(26, 13, 26, 0.25) 0%, rgba(26, 13, 26, 0.35) 100%);
+    border: 1px solid rgba(139, 0, 0, 0.4);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+    overflow: visible;
+}
+
+.ascension-paths-bar:hover {
+    background: linear-gradient(180deg, rgba(26, 13, 26, 0.35) 0%, rgba(26, 13, 26, 0.45) 100%);
+    border-color: rgba(139, 0, 0, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25), 0 0 6px rgba(139, 0, 0, 0.4);
+}
+
+/* Blood Tokens Bar (Bottom) */
+.blood-tokens-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 6px;
+    background: linear-gradient(180deg, rgba(45, 10, 10, 0.25) 0%, rgba(45, 10, 10, 0.35) 100%);
+    border: 1px solid rgba(178, 34, 34, 0.4);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.blood-tokens-bar:hover {
+    background: linear-gradient(180deg, rgba(45, 10, 10, 0.35) 0%, rgba(45, 10, 10, 0.45) 100%);
+    border-color: rgba(178, 34, 34, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25), 0 0 6px rgba(178, 34, 34, 0.4);
+}
+
+/* Paths Container */
+.paths-container {
+    display: flex;
+    gap: 3px;
+    flex: 1;
+    overflow: visible;
+}
+
+.path-indicator {
+    flex: 1;
+    height: 16px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    position: relative;
+    overflow: visible;
+}
+
+.path-indicator.inactive {
+    background: linear-gradient(180deg, rgba(26, 13, 26, 0.4) 0%, rgba(26, 13, 26, 0.6) 100%);
+}
+
+.path-indicator.active {
+    animation: pathActivate 0.3s ease;
+}
+
+.path-icon {
+    display: inline-block;
+    line-height: 1;
+}
+
+@keyframes pathActivate {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Blood Tokens Bar Background */
+.tokens-bar-background {
+    position: relative;
+    flex: 1;
+    height: 16px;
+    background: linear-gradient(180deg, rgba(26, 13, 26, 0.5) 0%, rgba(26, 13, 26, 0.7) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.tokens-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 2px 0 0 2px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Bar Value Display */
+.ascension-paths-bar .bar-value,
+.blood-tokens-bar .bar-value {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 1),
+        0 2px 4px rgba(0, 0, 0, 1),
+        1px 1px 2px rgba(0, 0, 0, 1),
+        -1px -1px 2px rgba(0, 0, 0, 1);
+    min-width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Party context bar value positioning - center on bars */
+.class-resource-bar.ascension-blood.party-context .ascension-paths-bar .bar-value,
+.class-resource-bar.ascension-blood.party-context .blood-tokens-bar .bar-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    min-width: 24px; /* Smaller for compact party bars */
+    font-size: 9px; /* Smaller font for compact display */
+    text-align: center;
+}
+
+/* Paths Menu */
+.paths-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    min-width: 220px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.paths-menu .menu-header {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7a3b2e;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.paths-menu .paths-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.paths-menu .paths-grid button {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    padding: 6px 8px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-weight: 500;
+}
+
+.paths-menu .paths-grid button.active {
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.3) 0%, rgba(139, 69, 19, 0.4) 100%);
+    border-color: #7a3b2e;
+    color: #7a3b2e;
+    font-weight: 700;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.paths-menu .paths-grid button:hover:not(:disabled) {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.paths-menu .paths-grid button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(200, 190, 170, 0.3);
+}
+
+/* Tokens Menu */
+.tokens-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    min-width: 200px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.tokens-menu .menu-header {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7a3b2e;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.tokens-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.tokens-menu .menu-buttons button {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    padding: 6px 8px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-weight: 500;
+}
+
+.tokens-menu .menu-buttons button:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.paths-menu .menu-reset,
+.tokens-menu .menu-reset {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    padding: 6px 8px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    font-weight: 500;
+}
+
+.paths-menu .menu-reset:hover,
+.tokens-menu .menu-reset:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Size Variations */
+.class-resource-bar.ascension-blood.small .deathcaller-dual-bars {
+    padding: 4px;
+    gap: 2px;
+}
+
+.class-resource-bar.ascension-blood.small .ascension-paths-bar,
+.class-resource-bar.ascension-blood.small .blood-tokens-bar {
+    padding: 2px 4px;
+    gap: 3px;
+}
+
+.class-resource-bar.ascension-blood.small .path-indicator {
+    height: 11px;
+    font-size: 7px;
+}
+
+.class-resource-bar.ascension-blood.small .tokens-bar-background {
+    height: 11px;
+}
+
+.class-resource-bar.ascension-blood.small .bar-value {
+    font-size: 9px;
+    min-width: 26px;
+}
+
+.class-resource-bar.ascension-blood.large .deathcaller-dual-bars {
+    padding: 7px;
+    gap: 4px;
+}
+
+.class-resource-bar.ascension-blood.large .ascension-paths-bar,
+.class-resource-bar.ascension-blood.large .blood-tokens-bar {
+    padding: 4px 7px;
+    gap: 5px;
+}
+
+.class-resource-bar.ascension-blood.large .path-indicator {
+    height: 16px;
+    font-size: 11px;
+}
+
+.class-resource-bar.ascension-blood.large .tokens-bar-background {
+    height: 16px;
+}
+
+.class-resource-bar.ascension-blood.large .bar-value {
+    font-size: 12px;
+    min-width: 36px;
+}
+
+/* ========================================
+   DRP Resilience (Dreadnaught)
+   ======================================== */

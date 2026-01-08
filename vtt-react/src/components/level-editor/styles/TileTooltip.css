@@ -1,0 +1,254 @@
+/* Tile Tooltip - Simple Clean Style */
+.tile-tooltip {
+    position: fixed;
+    z-index: 2147483647; /* Maximum z-index value to ensure tooltips always appear above windows */
+    max-width: 300px;
+    min-width: 200px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    pointer-events: none;
+    animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.tile-tooltip .tooltip-header {
+    background: #f5f5f5;
+    color: #333;
+    padding: 6px 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.tile-tooltip .coordinates {
+    font-size: 11px;
+}
+
+/* Tooltip content removed - using unified Pathfinder tooltip system */
+
+.tile-tooltip .tooltip-section {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+}
+
+.tile-tooltip .tooltip-section:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.tile-tooltip .section-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.tile-tooltip .section-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 11px;
+    text-transform: none;
+}
+
+.tile-tooltip .terrain-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+}
+
+.tile-tooltip .section-details {
+    margin-left: 16px;
+}
+
+.tile-tooltip .terrain-description,
+.tile-tooltip .object-description,
+.tile-tooltip .wall-description,
+.tile-tooltip .dnd-description,
+.tile-tooltip .fog-description {
+    font-size: 11px;
+    color: #666;
+    margin: 2px 0;
+    line-height: 1.3;
+    font-style: normal;
+}
+
+.tile-tooltip .terrain-stats {
+    margin-top: 4px;
+}
+
+.tile-tooltip .stat {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: normal;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.tile-tooltip .object-item,
+.tile-tooltip .wall-item,
+.tile-tooltip .dnd-item {
+    margin-bottom: 4px;
+    padding: 4px;
+    background: #f9f9f9;
+    border-radius: 2px;
+    border-left: 2px solid #ccc;
+}
+
+.tile-tooltip .object-item:last-child,
+.tile-tooltip .wall-item:last-child,
+.tile-tooltip .dnd-item:last-child {
+    margin-bottom: 0;
+}
+
+.tile-tooltip .object-name,
+.tile-tooltip .wall-name,
+.tile-tooltip .dnd-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 11px;
+    display: block;
+}
+
+.tile-tooltip .fog-section {
+    background: #f5f5f5;
+    border-radius: 2px;
+    padding: 4px;
+    border: 1px solid #ddd;
+}
+
+.tile-tooltip .fog-section .section-title {
+    color: #666;
+}
+
+/* Simple clean overrides */
+.tile-tooltip,
+.unified-tooltip-style {
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    color: #333 !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tile-tooltip .tooltip-header,
+.unified-tooltip-style .tooltip-header {
+    background: #f5f5f5 !important;
+    color: #333 !important;
+    padding: 6px 8px !important;
+    border-bottom: 1px solid #ddd !important;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 11px !important;
+    text-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Tooltip content overrides removed - using unified Pathfinder tooltip system */
+
+.tile-tooltip .section-title,
+.unified-tooltip-style .section-title {
+    color: #333 !important;
+    font-weight: bold !important;
+    font-size: 11px !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    background: transparent !important;
+}
+
+/* Simple tooltip item styling */
+.tile-tooltip .tooltip-item {
+    padding: 2px 0;
+    font-size: 12px;
+    color: #333;
+    line-height: 1.3;
+}
+
+.tile-tooltip .tooltip-item:first-child {
+    padding-top: 0;
+}
+
+.tile-tooltip .tooltip-item:last-child {
+    padding-bottom: 0;
+}
+
+/* Scrollbar styling removed - using unified Pathfinder tooltip system */
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .tile-tooltip {
+        max-width: 250px;
+        min-width: 180px;
+        font-size: 12px;
+    }
+
+    .tile-tooltip .tooltip-header {
+        padding: 6px 10px;
+    }
+
+    .tile-tooltip .tooltip-content {
+        padding: 10px;
+    }
+
+    .tile-tooltip .coordinates {
+        font-size: 12px;
+    }
+
+    .tile-tooltip .section-title {
+        font-size: 12px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .tile-tooltip {
+        border-width: 4px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-tooltip .section-title {
+        color: #000;
+    }
+
+    .tile-tooltip .terrain-description,
+    .tile-tooltip .object-description,
+    .tile-tooltip .wall-description,
+    .tile-tooltip .dnd-description,
+    .tile-tooltip .fog-description {
+        color: #333;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .tile-tooltip {
+        animation: none;
+    }
+
+    @keyframes tooltipFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+}

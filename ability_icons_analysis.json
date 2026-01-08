@@ -1,0 +1,522 @@
+{
+  "folders": {
+    "Acid": {
+      "total": 5,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Arcane": {
+      "total": 34,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Bludgeoning": {
+      "total": 82,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Chaos": {
+      "total": 14,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Fire": {
+      "total": 152,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Force": {
+      "total": 86,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Frost": {
+      "total": 54,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "General": {
+      "total": 0,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Healing": {
+      "total": 20,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Lightning": {
+      "total": 36,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Nature": {
+      "total": 162,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Necrotic": {
+      "total": 126,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Piercing": {
+      "total": 96,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Poison": {
+      "total": 29,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Psychic": {
+      "total": 100,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Radiant": {
+      "total": 70,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Shadow": {
+      "total": 193,
+      "generic_count": 38,
+      "generic_icons": [
+        {
+          "folder": "Shadow",
+          "filename": "Dark Empty 1.png",
+          "path": "Shadow\\Dark Empty 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Empty 2.png",
+          "path": "Shadow\\Dark Empty 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Empty 3.png",
+          "path": "Shadow\\Dark Empty 3.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Empty 4.png",
+          "path": "Shadow\\Dark Empty 4.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Empty 5.png",
+          "path": "Shadow\\Dark Empty 5.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 1.png",
+          "path": "Shadow\\Dark Nothing 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 2.png",
+          "path": "Shadow\\Dark Nothing 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 3.png",
+          "path": "Shadow\\Dark Nothing 3.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 4.png",
+          "path": "Shadow\\Dark Nothing 4.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 5.png",
+          "path": "Shadow\\Dark Nothing 5.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 6.png",
+          "path": "Shadow\\Dark Nothing 6.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Dark Nothing 7.png",
+          "path": "Shadow\\Dark Nothing 7.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Empty 1.png",
+          "path": "Shadow\\Ebon Empty 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Empty 2.png",
+          "path": "Shadow\\Ebon Empty 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Nothing 1.png",
+          "path": "Shadow\\Ebon Nothing 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Nothing 2.png",
+          "path": "Shadow\\Ebon Nothing 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Nothing 3.png",
+          "path": "Shadow\\Ebon Nothing 3.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Nothing 4.png",
+          "path": "Shadow\\Ebon Nothing 4.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Ebon Nothing 5.png",
+          "path": "Shadow\\Ebon Nothing 5.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Gloomy Empty 1.png",
+          "path": "Shadow\\Gloomy Empty 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Gloomy Empty 2.png",
+          "path": "Shadow\\Gloomy Empty 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Gloomy Nothing 1.png",
+          "path": "Shadow\\Gloomy Nothing 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Gloomy Nothing 2.png",
+          "path": "Shadow\\Gloomy Nothing 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Gloomy Nothing 3.png",
+          "path": "Shadow\\Gloomy Nothing 3.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 1.png",
+          "path": "Shadow\\Shadowy Empty 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 10.png",
+          "path": "Shadow\\Shadowy Empty 10.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 11.png",
+          "path": "Shadow\\Shadowy Empty 11.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 12.png",
+          "path": "Shadow\\Shadowy Empty 12.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 2.png",
+          "path": "Shadow\\Shadowy Empty 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 3.png",
+          "path": "Shadow\\Shadowy Empty 3.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 4.png",
+          "path": "Shadow\\Shadowy Empty 4.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 5.png",
+          "path": "Shadow\\Shadowy Empty 5.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 6.png",
+          "path": "Shadow\\Shadowy Empty 6.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 7.png",
+          "path": "Shadow\\Shadowy Empty 7.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Empty 9.png",
+          "path": "Shadow\\Shadowy Empty 9.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Nothing 1.png",
+          "path": "Shadow\\Shadowy Nothing 1.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Nothing 2.png",
+          "path": "Shadow\\Shadowy Nothing 2.png"
+        },
+        {
+          "folder": "Shadow",
+          "filename": "Shadowy Nothing 3.png",
+          "path": "Shadow\\Shadowy Nothing 3.png"
+        }
+      ]
+    },
+    "Slashing": {
+      "total": 93,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Social": {
+      "total": 33,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Thunder": {
+      "total": 16,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Utility": {
+      "total": 310,
+      "generic_count": 0,
+      "generic_icons": []
+    },
+    "Void": {
+      "total": 100,
+      "generic_count": 0,
+      "generic_icons": []
+    }
+  },
+  "total_icons": 1811,
+  "generic_icons": [
+    {
+      "folder": "Shadow",
+      "filename": "Dark Empty 1.png",
+      "path": "Shadow\\Dark Empty 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Empty 2.png",
+      "path": "Shadow\\Dark Empty 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Empty 3.png",
+      "path": "Shadow\\Dark Empty 3.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Empty 4.png",
+      "path": "Shadow\\Dark Empty 4.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Empty 5.png",
+      "path": "Shadow\\Dark Empty 5.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 1.png",
+      "path": "Shadow\\Dark Nothing 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 2.png",
+      "path": "Shadow\\Dark Nothing 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 3.png",
+      "path": "Shadow\\Dark Nothing 3.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 4.png",
+      "path": "Shadow\\Dark Nothing 4.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 5.png",
+      "path": "Shadow\\Dark Nothing 5.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 6.png",
+      "path": "Shadow\\Dark Nothing 6.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Dark Nothing 7.png",
+      "path": "Shadow\\Dark Nothing 7.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Empty 1.png",
+      "path": "Shadow\\Ebon Empty 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Empty 2.png",
+      "path": "Shadow\\Ebon Empty 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Nothing 1.png",
+      "path": "Shadow\\Ebon Nothing 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Nothing 2.png",
+      "path": "Shadow\\Ebon Nothing 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Nothing 3.png",
+      "path": "Shadow\\Ebon Nothing 3.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Nothing 4.png",
+      "path": "Shadow\\Ebon Nothing 4.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Ebon Nothing 5.png",
+      "path": "Shadow\\Ebon Nothing 5.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Gloomy Empty 1.png",
+      "path": "Shadow\\Gloomy Empty 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Gloomy Empty 2.png",
+      "path": "Shadow\\Gloomy Empty 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Gloomy Nothing 1.png",
+      "path": "Shadow\\Gloomy Nothing 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Gloomy Nothing 2.png",
+      "path": "Shadow\\Gloomy Nothing 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Gloomy Nothing 3.png",
+      "path": "Shadow\\Gloomy Nothing 3.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 1.png",
+      "path": "Shadow\\Shadowy Empty 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 10.png",
+      "path": "Shadow\\Shadowy Empty 10.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 11.png",
+      "path": "Shadow\\Shadowy Empty 11.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 12.png",
+      "path": "Shadow\\Shadowy Empty 12.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 2.png",
+      "path": "Shadow\\Shadowy Empty 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 3.png",
+      "path": "Shadow\\Shadowy Empty 3.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 4.png",
+      "path": "Shadow\\Shadowy Empty 4.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 5.png",
+      "path": "Shadow\\Shadowy Empty 5.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 6.png",
+      "path": "Shadow\\Shadowy Empty 6.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 7.png",
+      "path": "Shadow\\Shadowy Empty 7.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Empty 9.png",
+      "path": "Shadow\\Shadowy Empty 9.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Nothing 1.png",
+      "path": "Shadow\\Shadowy Nothing 1.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Nothing 2.png",
+      "path": "Shadow\\Shadowy Nothing 2.png"
+    },
+    {
+      "folder": "Shadow",
+      "filename": "Shadowy Nothing 3.png",
+      "path": "Shadow\\Shadowy Nothing 3.png"
+    }
+  ],
+  "statistics": {
+    "total_folders": 22,
+    "average_icons_per_folder": 82.31818181818181,
+    "min_icons": 0,
+    "max_icons": 310,
+    "folders_below_average": [
+      "Acid",
+      "Arcane",
+      "Bludgeoning",
+      "Chaos",
+      "Frost",
+      "General",
+      "Healing",
+      "Lightning",
+      "Poison",
+      "Radiant",
+      "Social",
+      "Thunder"
+    ],
+    "folders_above_average": [
+      "Shadow",
+      "Utility"
+    ]
+  }
+}

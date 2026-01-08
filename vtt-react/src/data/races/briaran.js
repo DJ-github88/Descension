@@ -1,0 +1,16 @@
+export const briaran = {
+    id: 'briaran',
+    name: 'Briaran',
+    description: 'Fae-touched folk with thorns growing from their skin like living contracts. Skin marked by thorny patterns that shift and bloom. Hair often intertwined with vines and thorns. Eyes carry an otherworldly glint, reflecting moonlight even in daylight. Hands bear scars from thorns that turn inward when promises break. They smell of roses and old blood. Their thorns respond to spoken words, growing when promises are made.',
+    icon: 'fas fa-leaf',
+    overview: 'The Briaran are people whose ancestors made bargains with fae entities in moonlit groves. Binding their bloodlines to supernatural contracts. Through generations of these pacts, their skin has been marked by thorns that grow like living contracts. Enforcing their word with physical pain. They are organized into courts and communities bound by strict etiquette and unbreakable promises. The Briaran don\'t choose to be bound. It\'s their heritage, passed down through bloodlines that cannot break the ancient bargains.',
+    culturalBackground: `Briaran society is built on the ancient pacts their ancestors made with fae entities. Communities organized into courts bound by etiquette and obligation. Each court traces its founding to legendary bargains made in moonlit groves. Traditions enforcing the word given centuries ago. Briaran settlements are built around great thorn hedges that bloom with impossible flowers. Halls filled with the scent of blood and roses. Children are taught from birth the dance of words. Every promise must be honored. Every slight avenged. Every favor repaid threefold. Their skin sprouts thorns like living contracts. Beautiful and deadly reminders of bargains that cannot be broken. Court elders pass down the old ways. How to make binding promises. How to enforce contracts. How to navigate the labyrinth of fae etiquette. Breaking a bargain isn't just dishonorable. It's physically painful. The thorns turning inward to punish the oathbreaker. Court disputes settle through ritual duels and the testimony of thorns that remember every promise made. They are a people bound by word and thorn. Their mastery of contracts unmatched but their freedom forever limited by ancient bargains.`,
+    variantDiversity: 'The Briaran are divided into three major court bloodlines: The Oathbound are bound to noble fae courts and excel in diplomacy, the Thornscar rejected civilization for primal freedom, and the Dusk-Walkers navigate the twilight boundary between light and shadow.',
+    integrationNotes: {
+        actionPointSystem: 'Briaran abilities focus on social manipulation, nature magic, and binding contracts. Their fae nature provides unique diplomatic and magical options.',
+        backgroundSynergy: 'Briaran excel in backgrounds emphasizing charisma, nature magic, and social interaction. Their binding contracts create interesting roleplay opportunities.',
+        classCompatibility: 'Briaran make excellent diplomats, nature casters, and support characters. Their social abilities and nature magic enhance classes that rely on charisma and natural magic.'
+    }
+};
+
+export default briaran;

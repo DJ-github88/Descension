@@ -1,0 +1,954 @@
+/* Statistics Step Styling - D&D/Pathfinder Theme with Tabs */
+
+/* Ensure no gaps in wizard step */
+.wizard-step {
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-step .step-title {
+  margin-bottom: 20px;
+}
+
+/* Tab Navigation */
+.stats-tabs {
+  display: flex;
+  background: linear-gradient(to bottom, #e6dcc6, #d5cbb0);
+  border-radius: 12px 12px 0 0;
+  border: 2px solid #a08c70;
+  border-bottom: none;
+  overflow: hidden;
+  margin-bottom: 0;
+  margin-top: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 0;
+}
+
+.stats-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(122, 59, 46, 0.3);
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5a1e12;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  margin: 0;
+}
+
+.stats-tab:last-child {
+  border-right: none;
+}
+
+.stats-tab:hover {
+  background: linear-gradient(to bottom, #f0e6d2, #e6dcc6);
+  color: #7a3b2e;
+}
+
+.stats-tab.active {
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+  color: #f0e6d2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stats-tab i {
+  font-size: 18px;
+}
+
+/* Tab Content Container */
+.wizard-step .stats-container {
+  background: #f0e6d2 !important;
+  border: 2px solid #a08c70 !important;
+  border-radius: 0 0 12px 12px !important;
+  padding: 0 !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important;
+  min-height: 500px !important;
+  max-height: 700px !important;
+  display: block !important;
+  flex-direction: unset !important;
+  gap: unset !important;
+  margin-top: 0 !important;
+  border-top: none !important;
+  overflow: hidden !important;
+}
+
+.wizard-step .stats-container .tab-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tab content with padding for non-skills tabs */
+.wizard-step .stats-container .tab-content > .stats-builder,
+.wizard-step .stats-container .tab-content > .combat-stats-container,
+.wizard-step .stats-container .tab-content > .resistances-container {
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Skills tab content should also scroll */
+.wizard-step .stats-container .tab-content > .skills-container {
+  overflow-y: auto;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Core Stats Tab */
+.stats-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.stats-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7a3b2e;
+  margin: 0 0 10px 0;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.stats-description {
+  font-size: 16px;
+  color: #5a1e12;
+  margin: 0;
+  font-style: italic;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.core-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.core-stat-item {
+  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  border: 2px solid #a08c70;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.core-stat-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #7a3b2e;
+}
+
+.core-stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #7a3b2e, #5e2e23);
+  border-radius: 3px 3px 0 0;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #a08c70;
+}
+
+.stat-header label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #5a1e12;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-input-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.stat-input {
+  flex: 1;
+  background: #fff;
+  border: 2px solid #d5cbb0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3a3a3a;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-input:focus {
+  border-color: #7a3b2e;
+  outline: none;
+  box-shadow: 0 0 12px rgba(122, 59, 46, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fafafa;
+}
+
+.creature-wizard .stat-modifier {
+  color: #f0e6d2;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  min-width: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Combat Tab */
+.combat-stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.combat-section {
+  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  border: 2px solid #a08c70;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: visible;
+}
+
+.combat-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #7a3b2e, #5e2e23);
+  border-radius: 3px 3px 0 0;
+}
+
+.combat-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #7a3b2e;
+  margin: 0 0 20px 0;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+  border-bottom: 1px solid rgba(122, 59, 46, 0.3);
+  padding-bottom: 10px;
+}
+
+.combat-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.movement-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.combat-stat-item,
+.movement-stat-item {
+  background: #fff;
+  border: 2px solid #d5cbb0;
+  border-radius: 10px;
+  padding: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.combat-stat-item:hover,
+.movement-stat-item:hover {
+  border-color: #7a3b2e;
+  box-shadow: 0 4px 8px rgba(122, 59, 46, 0.2);
+  transform: translateY(-2px);
+}
+
+.combat-input,
+.movement-input {
+  width: 100%;
+  background: #fafafa;
+  border: 2px solid #d5cbb0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3a3a3a;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.combat-input:focus,
+.movement-input:focus {
+  border-color: #7a3b2e;
+  outline: none;
+  box-shadow: 0 0 8px rgba(122, 59, 46, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+/* Resistances Tab */
+.resistances-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.resistances-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.resistances-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7a3b2e;
+  margin: 0 0 10px 0;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.resistances-description {
+  font-size: 16px;
+  color: #5a1e12;
+  margin: 0;
+  font-style: italic;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.damage-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.damage-type-card {
+  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  border: 2px solid #a08c70;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.damage-type-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #7a3b2e;
+}
+
+.damage-type-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #7a3b2e, #5e2e23);
+  border-radius: 3px 3px 0 0;
+}
+
+.damage-type-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(122, 59, 46, 0.2);
+}
+
+.damage-type-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #a08c70;
+}
+
+.damage-type-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #7a3b2e;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: capitalize;
+}
+
+.damage-type-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.resistance-control,
+.power-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resistance-control label,
+.power-control label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resistance-select,
+.power-input {
+  background: #fff;
+  border: 2px solid #d5cbb0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a3a3a;
+  transition: all 0.3s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.resistance-select:focus,
+.power-input:focus {
+  border-color: #7a3b2e;
+  outline: none;
+  box-shadow: 0 0 8px rgba(122, 59, 46, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #fafafa;
+}
+
+.resistance-select:hover {
+  border-color: #a08c70;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Skills Tab - Scoped to wizard-step to override global skills.css */
+.wizard-step .skills-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 25px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 30px !important;
+  overflow-y: auto !important;
+  max-height: 500px !important;
+}
+
+.wizard-step .skills-header {
+  text-align: center !important;
+  margin-bottom: 20px !important;
+}
+
+.wizard-step .skills-header h3 {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #7a3b2e !important;
+  margin: 0 0 10px 0 !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+}
+
+.wizard-step .skills-description {
+  font-size: 16px !important;
+  color: #5a1e12 !important;
+  margin: 0 !important;
+  font-style: italic !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+}
+
+.wizard-step .skills-category-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+}
+
+.wizard-step .skill-category-section {
+  background: #faf7f0 !important;
+  border: 1.5px solid #a08c70 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.wizard-step .skill-category-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 16px !important;
+  background: rgba(213, 203, 176, 0.6) !important;
+  border-bottom: 1.5px solid #8b7355 !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #5a1e12 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  transition: all 0.2s ease !important;
+}
+
+.wizard-step .skill-category-header:hover {
+  background: rgba(220, 210, 185, 0.8) !important;
+}
+
+.wizard-step .skill-category-icon {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 4px !important;
+  border: 1.5px solid #8b7355 !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  object-fit: cover !important;
+}
+
+.wizard-step .skill-category-name {
+  flex: 1 !important;
+}
+
+.wizard-step .category-toggle-icon {
+  font-size: 12px !important;
+  color: #7a3b2e !important;
+  transition: transform 0.3s ease !important;
+  margin-left: auto !important;
+}
+
+.wizard-step .skill-category-header:hover .category-toggle-icon {
+  color: #5e2e23 !important;
+  transform: scale(1.2) !important;
+}
+
+.wizard-step .skills-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 6px !important;
+  padding: 12px !important;
+  background: rgba(240, 230, 210, 0.15) !important;
+}
+
+.wizard-step .skill-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 16px !important;
+  background: #ffffff !important;
+  border: 1.5px solid #d5cbb0 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  gap: 16px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.wizard-step .skill-row:hover {
+  border-color: #a08c70 !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wizard-step .skill-row.selected {
+  border-color: #7a3b2e !important;
+  border-width: 2px !important;
+  background: #faf7f0 !important;
+  box-shadow: 0 2px 6px rgba(122, 59, 46, 0.15) !important;
+}
+
+.wizard-step .skill-row-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.wizard-step .skill-checkbox {
+  width: 20px !important;
+  height: 20px !important;
+  cursor: pointer !important;
+  accent-color: #7a3b2e !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.wizard-step .skill-row-icon {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 5px !important;
+  border: 1.5px solid #8b7355 !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  object-fit: cover !important;
+}
+
+.wizard-step .skill-row-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.wizard-step .skill-row-name {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #5a1e12 !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  text-transform: capitalize !important;
+  letter-spacing: 0.3px !important;
+}
+
+.wizard-step .skill-row-stats {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.wizard-step .skill-row-modifier {
+  padding: 3px 8px !important;
+  background: rgba(122, 59, 46, 0.1) !important;
+  border-radius: 4px !important;
+  border: 1px solid #7a3b2e !important;
+  color: #7a3b2e !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.wizard-step .skill-row-stat {
+  padding: 3px 8px !important;
+  background: rgba(139, 115, 85, 0.1) !important;
+  border-radius: 4px !important;
+  border: 1px solid #8b7355 !important;
+  color: #5a1e12 !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.wizard-step .skill-row-right {
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.wizard-step .skill-proficiency-select {
+  padding: 8px 32px 8px 12px !important;
+  border: 1.5px solid #d5cbb0 !important;
+  border-radius: 6px !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #3a3a3a !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  min-width: 160px !important;
+  appearance: none !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 10px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a1e12' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-color: #ffffff !important;
+}
+
+.wizard-step .skill-proficiency-select:focus {
+  outline: none !important;
+  border-color: #7a3b2e !important;
+  box-shadow: 0 0 12px rgba(122, 59, 46, 0.35), 
+              inset 0 1px 2px rgba(255, 255, 255, 0.8),
+              0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wizard-step .skill-proficiency-select:disabled {
+  background: linear-gradient(to bottom, #f0f0f0, #e8e8e8) !important;
+  color: #999 !important;
+  cursor: not-allowed !important;
+  opacity: 0.65 !important;
+  border-color: #d0d0d0 !important;
+  box-shadow: none !important;
+}
+
+.wizard-step .skill-proficiency-select:not(:disabled):hover {
+  border-color: #a08c70 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+.wizard-step .skill-proficiency-select.UNTRAINED:not(:disabled) {
+  border-color: #6b6b6b !important;
+  background-color: #f8f8f8 !important;
+}
+
+.wizard-step .skill-proficiency-select.NOVICE:not(:disabled) {
+  border-color: #8b7355 !important;
+  background-color: #f5f0e8 !important;
+}
+
+.wizard-step .skill-proficiency-select.TRAINED:not(:disabled) {
+  border-color: #4a7c59 !important;
+  background-color: #f0f7f3 !important;
+}
+
+.wizard-step .skill-proficiency-select.APPRENTICE:not(:disabled) {
+  border-color: #5d8a6b !important;
+  background-color: #ecf5f1 !important;
+}
+
+.wizard-step .skill-proficiency-select.ADEPT:not(:disabled) {
+  border-color: #2563eb !important;
+  background-color: #e8f0ff !important;
+}
+
+.wizard-step .skill-proficiency-select.EXPERT:not(:disabled) {
+  border-color: #7a3b2e !important;
+  background-color: #f5ebe6 !important;
+}
+
+.wizard-step .skill-proficiency-select.MASTER:not(:disabled) {
+  border-color: #9d4edd !important;
+  background-color: #f5e8ff !important;
+}
+
+/* Resistance Color Coding */
+/* Default/None state */
+.resistance-select.none {
+  border-color: #d5cbb0;
+  background: #fff;
+  color: #3a3a3a;
+}
+
+/* Increased Damage Taken */
+.resistance-select.susceptible {
+  border-color: #e65100;
+  background: rgba(230, 81, 0, 0.08);
+  color: #bf360c;
+  font-weight: 600;
+}
+
+.resistance-select.exposed {
+  border-color: #d84315;
+  background: rgba(216, 67, 21, 0.08);
+  color: #bf360c;
+  font-weight: 600;
+}
+
+.resistance-select.vulnerable {
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.08);
+  color: #b71c1c;
+  font-weight: 600;
+}
+
+/* Reduced Damage Taken */
+.resistance-select.guarded {
+  border-color: #1565c0;
+  background: rgba(21, 101, 192, 0.08);
+  color: #0d47a1;
+  font-weight: 600;
+}
+
+.resistance-select.resistant {
+  border-color: #283593;
+  background: rgba(40, 53, 147, 0.08);
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.resistance-select.immune {
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.08);
+  color: #1b5e20;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .core-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .combat-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .damage-types-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+}
+
+@media (max-width: 768px) {
+  .stats-tabs {
+    flex-direction: column;
+    border-radius: 12px;
+    border-bottom: 2px solid #a08c70;
+  }
+
+  .stats-tab {
+    padding: 15px 20px;
+    font-size: 14px;
+  }
+
+  .stats-tab:not(:last-child)::after {
+    display: none;
+  }
+
+  .stats-container {
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .core-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .combat-stats-grid,
+  .movement-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .damage-types-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .stats-header h3,
+  .resistances-header h3,
+  .creature-wizard .skills-header h3 {
+    font-size: 20px;
+  }
+
+  .core-stat-item,
+  .combat-stat-item,
+  .movement-stat-item,
+  .damage-type-card {
+    padding: 15px;
+  }
+
+  .creature-wizard .skill-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .creature-wizard .skill-row-right {
+    width: 100%;
+  }
+
+  .creature-wizard .skill-proficiency-select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .core-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    padding: 15px;
+  }
+
+  .stat-input-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .creature-wizard .stat-modifier {
+    align-self: center;
+    min-width: 80px;
+  }
+}
+
+/* Fallback icon styling */
+.fallback-icon {
+  width: 28px;
+  height: 28px;
+  background-color: #8B4513;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #a08c70;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip styling */
+.tooltip-style {
+  background-color: #f0e6d2 !important;
+  color: #3a3a3a !important;
+  border: 1px solid #a08c70 !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+  font-size: 14px !important;
+  max-width: 250px !important;
+  z-index: 99999 !important;
+}

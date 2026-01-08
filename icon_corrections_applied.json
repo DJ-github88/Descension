@@ -1,0 +1,1674 @@
+{
+  "corrections": [
+    {
+      "original_path": "Fire\\Corrosive Axe.png",
+      "new_path": "Acid/Corrosive Axe.png",
+      "corrected_at": "2025-12-29T09:43:03.634107"
+    },
+    {
+      "original_path": "Fire\\Corrosive Hug.png",
+      "new_path": "Acid/Corrosive Hug.png",
+      "corrected_at": "2025-12-29T09:43:03.634107"
+    },
+    {
+      "original_path": "Necrotic\\Corrosive Spit.png",
+      "new_path": "Acid/Corrosive Spit.png",
+      "corrected_at": "2025-12-29T09:43:03.634107"
+    },
+    {
+      "original_path": "Bludgeoning\\Magic Caster.png",
+      "new_path": "Arcane/Magic Caster.png",
+      "corrected_at": "2025-12-29T09:43:03.634107"
+    },
+    {
+      "original_path": "Fire\\Conjure Wound.png",
+      "new_path": "Arcane/Conjure Wound.png",
+      "corrected_at": "2025-12-29T09:43:03.649739"
+    },
+    {
+      "original_path": "Fire\\Corrosive Enchantment.png",
+      "new_path": "Arcane/Corrosive Enchantment.png",
+      "corrected_at": "2025-12-29T09:43:03.651706"
+    },
+    {
+      "original_path": "Shadow\\Enchanted Green Crossbow.png",
+      "new_path": "Arcane/Enchanted Green Crossbow.png",
+      "corrected_at": "2025-12-29T09:43:03.652703"
+    },
+    {
+      "original_path": "Shadow\\Magical Pink Dagger.png",
+      "new_path": "Arcane/Magical Pink Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.653704"
+    },
+    {
+      "original_path": "Shadow\\Red Robed Green Aura Mage.png",
+      "new_path": "Arcane/Red Robed Green Aura Mage.png",
+      "corrected_at": "2025-12-29T09:43:03.654707"
+    },
+    {
+      "original_path": "Shadow\\Serrated Magenta Dagger.png",
+      "new_path": "Arcane/Serrated Magenta Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Shadow\\Sleeping Enchanted Fox.png",
+      "new_path": "Arcane/Sleeping Enchanted Fox.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Slashing\\Enchanted Double Axe.png",
+      "new_path": "Arcane/Enchanted Double Axe.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Slashing\\Enchanted Sword Grip.png",
+      "new_path": "Arcane/Enchanted Sword Grip.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Slashing\\Enchanted Sword.png",
+      "new_path": "Arcane/Enchanted Sword.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Utility\\Enchanted Hoe.png",
+      "new_path": "Arcane/Enchanted Hoe.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Chaos\\Punch GUy.png",
+      "new_path": "Bludgeoning/Punch GUy.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Fire\\Clenched Fist Downward Strike.png",
+      "new_path": "Bludgeoning/Clenched Fist Downward Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Fire\\Fierce Punch.png",
+      "new_path": "Bludgeoning/Fierce Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Fire\\Flaming Fist.png",
+      "new_path": "Bludgeoning/Flaming Fist.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Fire\\Redemptive Strike.png",
+      "new_path": "Bludgeoning/Redemptive Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Fire\\Upper Punch.png",
+      "new_path": "Bludgeoning/Upper Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Force\\Energy Burst Strike.png",
+      "new_path": "Bludgeoning/Energy Burst Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Force\\Energy Strike.png",
+      "new_path": "Bludgeoning/Energy Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Frost\\Demon Punch.png",
+      "new_path": "Bludgeoning/Demon Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Lightning\\Beast Punch.png",
+      "new_path": "Bludgeoning/Beast Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Lightning\\Hammer Crush.png",
+      "new_path": "Bludgeoning/Hammer Crush.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Necrotic\\Gut Punch.png",
+      "new_path": "Bludgeoning/Gut Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Piercing\\Trident Strike.png",
+      "new_path": "Bludgeoning/Trident Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.655167"
+    },
+    {
+      "original_path": "Psychic\\Nullifying Punch.png",
+      "new_path": "Bludgeoning/Nullifying Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.667304"
+    },
+    {
+      "original_path": "Radiant\\Golden Fist.png",
+      "new_path": "Bludgeoning/Golden Fist.png",
+      "corrected_at": "2025-12-29T09:43:03.669376"
+    },
+    {
+      "original_path": "Shadow\\Bloody Knife Fist.png",
+      "new_path": "Bludgeoning/Bloody Knife Fist.png",
+      "corrected_at": "2025-12-29T09:43:03.669376"
+    },
+    {
+      "original_path": "Slashing\\Axe Strike.png",
+      "new_path": "Bludgeoning/Axe Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.670304"
+    },
+    {
+      "original_path": "Slashing\\Crushing Blow.png",
+      "new_path": "Bludgeoning/Crushing Blow.png",
+      "corrected_at": "2025-12-29T09:43:03.670304"
+    },
+    {
+      "original_path": "Thunder\\Hammer Time.png",
+      "new_path": "Bludgeoning/Hammer Time.png",
+      "corrected_at": "2025-12-29T09:43:03.671328"
+    },
+    {
+      "original_path": "Utility\\Comet Strike.png",
+      "new_path": "Bludgeoning/Comet Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Hammer Tool.png",
+      "new_path": "Bludgeoning/Hammer Tool.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Chaos\\Ice and FIre.png",
+      "new_path": "Fire/Ice and FIre.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Nature\\Green Torch.png",
+      "new_path": "Fire/Green Torch.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Necrotic\\Flame Wave.png",
+      "new_path": "Fire/Flame Wave.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Piercing\\Fiery Bow Arrow.png",
+      "new_path": "Fire/Fiery Bow Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Piercing\\Fiery Spear.png",
+      "new_path": "Fire/Fiery Spear 1.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Shadow\\Blue Trailed Fireball.png",
+      "new_path": "Fire/Blue Trailed Fireball.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Shadow\\Ebon Blaze.png",
+      "new_path": "Fire/Ebon Blaze.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Shadow\\Ebon Inferno.png",
+      "new_path": "Fire/Ebon Inferno.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Shadow\\Fiery Platform Warrior.png",
+      "new_path": "Fire/Fiery Platform Warrior.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Shadow\\Shadowy Blaze.png",
+      "new_path": "Fire/Shadowy Blaze.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Slashing\\Fiery Axe.png",
+      "new_path": "Fire/Fiery Axe.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Slashing\\Fiery Blade.png",
+      "new_path": "Fire/Fiery Blade.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Slashing\\Fiery Slash.png",
+      "new_path": "Fire/Fiery Slash.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Dual Firearms.png",
+      "new_path": "Fire/Dual Firearms.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Comet 1.png",
+      "new_path": "Fire/Fiery Comet 1.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Comet 2.png",
+      "new_path": "Fire/Fiery Comet 2.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Comet Projectile.png",
+      "new_path": "Fire/Fiery Comet Projectile.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Comet.png",
+      "new_path": "Fire/Fiery Comet 3.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Dash.png",
+      "new_path": "Fire/Fiery Dash.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Eye.png",
+      "new_path": "Fire/Fiery Eye.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Horizon.png",
+      "new_path": "Fire/Fiery Horizon.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Rage.png",
+      "new_path": "Fire/Fiery Rage.png",
+      "corrected_at": "2025-12-29T09:43:03.672199"
+    },
+    {
+      "original_path": "Utility\\Fiery Skull.png",
+      "new_path": "Fire/Fiery Skull 1.png",
+      "corrected_at": "2025-12-29T09:43:03.683826"
+    },
+    {
+      "original_path": "Utility\\Fiery Trail.png",
+      "new_path": "Fire/Fiery Trail.png",
+      "corrected_at": "2025-12-29T09:43:03.683826"
+    },
+    {
+      "original_path": "Utility\\Grasping Hand Flame.png",
+      "new_path": "Fire/Grasping Hand Flame.png",
+      "corrected_at": "2025-12-29T09:43:03.684824"
+    },
+    {
+      "original_path": "Void\\Burning Forge.png",
+      "new_path": "Fire/Burning Forge.png",
+      "corrected_at": "2025-12-29T09:43:03.685826"
+    },
+    {
+      "original_path": "Void\\Fiery Demonic Beast.png",
+      "new_path": "Fire/Fiery Demonic Beast.png",
+      "corrected_at": "2025-12-29T09:43:03.685826"
+    },
+    {
+      "original_path": "Void\\Fiery Scroll.png",
+      "new_path": "Fire/Fiery Scroll.png",
+      "corrected_at": "2025-12-29T09:43:03.686821"
+    },
+    {
+      "original_path": "Void\\Fiery Void Claw.png",
+      "new_path": "Fire/Fiery Void Claw.png",
+      "corrected_at": "2025-12-29T09:43:03.686821"
+    },
+    {
+      "original_path": "Void\\Screaming Fiery Figure.png",
+      "new_path": "Fire/Screaming Fiery Figure.png",
+      "corrected_at": "2025-12-29T09:43:03.687567"
+    },
+    {
+      "original_path": "Void\\Torch Bearer.png",
+      "new_path": "Fire/Torch Bearer.png",
+      "corrected_at": "2025-12-29T09:43:03.700700"
+    },
+    {
+      "original_path": "Arcane\\Crystal Hand Grasp.png",
+      "new_path": "Force/Crystal Hand Grasp.png",
+      "corrected_at": "2025-12-29T09:43:03.701703"
+    },
+    {
+      "original_path": "Bludgeoning\\Bullet Impact.png",
+      "new_path": "Force/Bullet Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.701703"
+    },
+    {
+      "original_path": "Bludgeoning\\Combat Grasping Claw.png",
+      "new_path": "Force/Combat Grasping Claw.png",
+      "corrected_at": "2025-12-29T09:43:03.702701"
+    },
+    {
+      "original_path": "Bludgeoning\\Cosmic Impact.png",
+      "new_path": "Force/Cosmic Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.702701"
+    },
+    {
+      "original_path": "Bludgeoning\\Energy Impact.png",
+      "new_path": "Force/Energy Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.703700"
+    },
+    {
+      "original_path": "Bludgeoning\\Forceful Punch.png",
+      "new_path": "Force/Forceful Punch.png",
+      "corrected_at": "2025-12-29T09:43:03.703700"
+    },
+    {
+      "original_path": "Bludgeoning\\Impact Arrow Glow.png",
+      "new_path": "Force/Impact Arrow Glow.png",
+      "corrected_at": "2025-12-29T09:43:03.703700"
+    },
+    {
+      "original_path": "Bludgeoning\\Impact Burst.png",
+      "new_path": "Force/Impact Burst.png",
+      "corrected_at": "2025-12-29T09:43:03.704702"
+    },
+    {
+      "original_path": "Bludgeoning\\Impact Explosion 2.png",
+      "new_path": "Force/Impact Explosion 2.png",
+      "corrected_at": "2025-12-29T09:43:03.705251"
+    },
+    {
+      "original_path": "Bludgeoning\\Impact Explosion.png",
+      "new_path": "Force/Impact Explosion.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Bludgeoning\\Impact Splash.png",
+      "new_path": "Force/Impact Splash.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Bludgeoning\\Punch Impact 2.png",
+      "new_path": "Force/Punch Impact 2.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Bludgeoning\\Punch Impact.png",
+      "new_path": "Force/Punch Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Bludgeoning\\Shattering Impact.png",
+      "new_path": "Force/Shattering Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Piercing\\Bloody Impact.png",
+      "new_path": "Force/Bloody Impact.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Radiant\\Gods Grasp.png",
+      "new_path": "Force/Gods Grasp.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Shadow\\Demonic Grasp.png",
+      "new_path": "Force/Demonic Grasp.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Shadow\\Grasping Appendages.png",
+      "new_path": "Force/Grasping Appendages.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Shadow\\Shadowy Wave.png",
+      "new_path": "Force/Shadowy Wave.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Utility\\Bloody Splash.png",
+      "new_path": "Force/Bloody Splash.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Void\\Void Grasp.png",
+      "new_path": "Force/Void Grasp.png",
+      "corrected_at": "2025-12-29T09:43:03.705420"
+    },
+    {
+      "original_path": "Void\\Void Push.png",
+      "new_path": "Force/Void Push.png",
+      "corrected_at": "2025-12-29T09:43:03.724686"
+    },
+    {
+      "original_path": "Void\\Void Splash.png",
+      "new_path": "Force/Void Splash.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Void\\Void Wave.png",
+      "new_path": "Force/Void Wave.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Nature\\Slice.png",
+      "new_path": "Frost/Slice.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Necrotic\\FrostBite.png",
+      "new_path": "Frost/FrostBite.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Necrotic\\Ice Shards.png",
+      "new_path": "Frost/Ice Shards.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Necrotic\\Icey Escape.png",
+      "new_path": "Frost/Icey Escape.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Piercing\\Ice Crystal Spear.png",
+      "new_path": "Frost/Ice Crystal Spear.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Psychic\\Psionic Chill.png",
+      "new_path": "Frost/Psionic Chill.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Psychic\\Psionic Slice.png",
+      "new_path": "Frost/Psionic Slice.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Radiant\\Cold CLothing.png",
+      "new_path": "Frost/Cold CLothing.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Thunder\\Frozen Feet.png",
+      "new_path": "Frost/Frozen Feet.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Thunder\\Thunder Ice.png",
+      "new_path": "Frost/Thunder Ice.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Utility\\Dice Roll.png",
+      "new_path": "Frost/Dice Roll.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Utility\\Utility Device.png",
+      "new_path": "Frost/Utility Device.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Necrotic\\Heal Wound.png",
+      "new_path": "Healing/Heal Wound.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Bludgeoning\\Sparkling Object.png",
+      "new_path": "Lightning/Sparkling Object.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Chaos\\Lightning Script.png",
+      "new_path": "Lightning/Lightning Script.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Fire\\Blazing Seeking Bolt.png",
+      "new_path": "Lightning/Blazing Seeking Bolt.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Force\\Sparkle Burst.png",
+      "new_path": "Lightning/Sparkle Burst.png",
+      "corrected_at": "2025-12-29T09:43:03.725293"
+    },
+    {
+      "original_path": "Nature\\Lightning Leaf.png",
+      "new_path": "Lightning/Lightning Leaf.png",
+      "corrected_at": "2025-12-29T09:43:03.733783"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt 1.png",
+      "new_path": "Lightning/Mind Bolt 1.png",
+      "corrected_at": "2025-12-29T09:43:03.734788"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt 2.png",
+      "new_path": "Lightning/Mind Bolt 2.png",
+      "corrected_at": "2025-12-29T09:43:03.734788"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt 3.png",
+      "new_path": "Lightning/Mind Bolt 3.png",
+      "corrected_at": "2025-12-29T09:43:03.735784"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt 4.png",
+      "new_path": "Lightning/Mind Bolt 4.png",
+      "corrected_at": "2025-12-29T09:43:03.735784"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt 6.png",
+      "new_path": "Lightning/Mind Bolt 6.png",
+      "corrected_at": "2025-12-29T09:43:03.736786"
+    },
+    {
+      "original_path": "Psychic\\Mind Bolt.png",
+      "new_path": "Lightning/Mind Bolt.png",
+      "corrected_at": "2025-12-29T09:43:03.736786"
+    },
+    {
+      "original_path": "Psychic\\Psionic Bolt.png",
+      "new_path": "Lightning/Psionic Bolt.png",
+      "corrected_at": "2025-12-29T09:43:03.736786"
+    },
+    {
+      "original_path": "Psychic\\Psionic Spark 2.png",
+      "new_path": "Lightning/Psionic Spark 2.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Psychic\\Psionic Spark.png",
+      "new_path": "Lightning/Psionic Spark.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Psychic\\Psionic Thunder.png",
+      "new_path": "Lightning/Psionic Thunder.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Psychic\\Thunderous Doubt.png",
+      "new_path": "Lightning/Thunderous Doubt.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Radiant\\Holy Bolt.png",
+      "new_path": "Lightning/Holy Bolt.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Shadow\\Dark Spark.png",
+      "new_path": "Lightning/Dark Spark.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Shadow\\Dark Storm.png",
+      "new_path": "Lightning/Dark Storm.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Shadow\\Purple Lightning Claw.png",
+      "new_path": "Lightning/Purple Lightning Claw.png",
+      "corrected_at": "2025-12-29T09:43:03.737808"
+    },
+    {
+      "original_path": "Shadow\\Shadowy Shock.png",
+      "new_path": "Lightning/Shadowy Shock.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Shadow\\Whip Lightning Strike.png",
+      "new_path": "Lightning/Whip Lightning Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Social\\Thunder.png",
+      "new_path": "Lightning/Thunder.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Thunder\\Doubtful Thunder.png",
+      "new_path": "Lightning/Doubtful Thunder.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Thunder\\Hail Thunder.png",
+      "new_path": "Lightning/Hail Thunder.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Thunder\\Scroll of Thunder.png",
+      "new_path": "Lightning/Scroll of Thunder.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Thunder\\Thunder Resonance.png",
+      "new_path": "Lightning/Thunder Resonance.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Thunder\\Thunderstorm.png",
+      "new_path": "Lightning/Thunderstorm.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Utility\\Cracked Lightning Column.png",
+      "new_path": "Lightning/Cracked Lightning Column.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Void\\Lightning Reptile.png",
+      "new_path": "Lightning/Lightning Reptile.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Void\\Lightning Spell Caster.png",
+      "new_path": "Lightning/Lightning Spell Caster.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Void\\Void Lightning Claw.png",
+      "new_path": "Lightning/Void Lightning Claw.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Necrotic\\Maple Leaf.png",
+      "new_path": "Nature/Maple Leaf 1.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Radiant\\Vine Wall.png",
+      "new_path": "Nature/Vine Wall.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Shadow\\Dark Tree Ominous.png",
+      "new_path": "Nature/Dark Tree Ominous.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Social\\Single Leaf.png",
+      "new_path": "Nature/Single Leaf.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Utility\\Gnarled Roots.png",
+      "new_path": "Nature/Gnarled Roots.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Utility\\Root Network.png",
+      "new_path": "Nature/Root Network.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Utility\\Thorned Flower.png",
+      "new_path": "Nature/Thorned Flower.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Void\\Acorns On Mounds.png",
+      "new_path": "Nature/Acorns On Mounds.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Void\\Void Moon Vines.png",
+      "new_path": "Nature/Void Moon Vines.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Bludgeoning\\Bone Fist.png",
+      "new_path": "Necrotic/Bone Fist.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Bludgeoning\\Cranium Skull Smash.png",
+      "new_path": "Necrotic/Cranium Skull Smash.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Bludgeoning\\Skull Staff.png",
+      "new_path": "Necrotic/Skull Staff.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Fire\\Broken Skull Shackle.png",
+      "new_path": "Necrotic/Broken Skull Shackle.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Fire\\Gravity Death.png",
+      "new_path": "Necrotic/Gravity Death.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Force\\Skull Burst.png",
+      "new_path": "Necrotic/Skull Burst.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Frost\\Bone Shards.png",
+      "new_path": "Necrotic/Bone Shards.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Glowing Skull Warning.png",
+      "new_path": "Necrotic/Glowing Skull Warning.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Haunting Skull.png",
+      "new_path": "Necrotic/Haunting Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Monstrous Skull Face.png",
+      "new_path": "Necrotic/Monstrous Skull Face.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Pixelated Skull Pattern.png",
+      "new_path": "Necrotic/Pixelated Skull Pattern.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Screaming Ghost Ornate.png",
+      "new_path": "Necrotic/Screaming Ghost Ornate.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Spiked Skull.png",
+      "new_path": "Necrotic/Spiked Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Nature\\Swirling Skull Face.png",
+      "new_path": "Necrotic/Swirling Skull Face.png",
+      "corrected_at": "2025-12-29T09:43:03.750613"
+    },
+    {
+      "original_path": "Piercing\\Bone Bow.png",
+      "new_path": "Necrotic/Bone Bow.png",
+      "corrected_at": "2025-12-29T09:43:03.766245"
+    },
+    {
+      "original_path": "Piercing\\Bone Spear.png",
+      "new_path": "Necrotic/Bone Spear.png",
+      "corrected_at": "2025-12-29T09:43:03.766245"
+    },
+    {
+      "original_path": "Poison\\Death Bug.png",
+      "new_path": "Necrotic/Death Bug.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Poison\\Ghostly Menace.png",
+      "new_path": "Necrotic/Ghostly Menace.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Poison\\Vial of death.png",
+      "new_path": "Necrotic/Vial of death.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Ghostly Trio.png",
+      "new_path": "Necrotic/Ghostly Trio.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Glowing Purple Skull.png",
+      "new_path": "Necrotic/Glowing Purple Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Necrotic Hand Rising 1.png",
+      "new_path": "Necrotic/Necrotic Hand Rising 1.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Screaming Ghost.png",
+      "new_path": "Necrotic/Screaming Ghost.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Skull Tome Of Corruption.png",
+      "new_path": "Necrotic/Skull Tome Of Corruption.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Shadow\\Speeding Skull.png",
+      "new_path": "Necrotic/Speeding Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Social\\Crowned Skull.png",
+      "new_path": "Necrotic/Crowned Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Bloody Horse Skull.png",
+      "new_path": "Necrotic/Bloody Horse Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Glowing Skull.png",
+      "new_path": "Necrotic/Glowing Skull.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Golden Dollar Bones.png",
+      "new_path": "Necrotic/Golden Dollar Bones.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Hanging Skull Emblem.png",
+      "new_path": "Necrotic/Hanging Skull Emblem.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Hooked Bone Tool.png",
+      "new_path": "Necrotic/Hooked Bone Tool.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Monstrous Skull Face.png",
+      "new_path": "Necrotic/Monstrous Skull Face 1.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Pile Skulls.png",
+      "new_path": "Necrotic/Pile Skulls.png",
+      "corrected_at": "2025-12-29T09:43:03.767251"
+    },
+    {
+      "original_path": "Utility\\Skeletal Bone Armor.png",
+      "new_path": "Necrotic/Skeletal Bone Armor.png",
+      "corrected_at": "2025-12-29T09:43:03.783871"
+    },
+    {
+      "original_path": "Utility\\Skull Explosion.png",
+      "new_path": "Necrotic/Skull Explosion.png",
+      "corrected_at": "2025-12-29T09:43:03.783871"
+    },
+    {
+      "original_path": "Utility\\Skull Grimoire.png",
+      "new_path": "Necrotic/Skull Grimoire.png",
+      "corrected_at": "2025-12-29T09:43:03.783871"
+    },
+    {
+      "original_path": "Utility\\Three Eyed Ghost.png",
+      "new_path": "Necrotic/Three Eyed Ghost.png",
+      "corrected_at": "2025-12-29T09:43:03.799499"
+    },
+    {
+      "original_path": "Utility\\Triple Skulls.png",
+      "new_path": "Necrotic/Triple Skulls.png",
+      "corrected_at": "2025-12-29T09:43:03.799499"
+    },
+    {
+      "original_path": "Utility\\creature-utility-skull-grimoire.png",
+      "new_path": "Necrotic/creature-utility-skull-grimoire.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Void\\Lich With Green Orb.png",
+      "new_path": "Necrotic/Lich With Green Orb.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Bludgeoning\\Combat Whip Arrow.png",
+      "new_path": "Piercing/Combat Whip Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Dagger Rain.png",
+      "new_path": "Piercing/Dagger Rain.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Dagger Upward Strike.png",
+      "new_path": "Piercing/Dagger Upward Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Dwarf Spears.png",
+      "new_path": "Piercing/Dwarf Spears.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Glistening Dagger.png",
+      "new_path": "Piercing/Glistening Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Puncturing Stab.png",
+      "new_path": "Piercing/Puncturing Stab.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Spear Flip.png",
+      "new_path": "Piercing/Spear Flip.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Frost\\Backstab.png",
+      "new_path": "Piercing/Backstab.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Frost\\Spear Shatter.png",
+      "new_path": "Piercing/Spear Shatter.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Frost\\Spear Throw.png",
+      "new_path": "Piercing/Spear Throw.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Healing\\Healing Dagger.png",
+      "new_path": "Piercing/Healing Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Healing\\Heart Pierce.png",
+      "new_path": "Piercing/Heart Pierce.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Dagger Arrow.png",
+      "new_path": "Piercing/Dagger Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Dagger Whirl.png",
+      "new_path": "Piercing/Dagger Whirl.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Downward Arrow.png",
+      "new_path": "Piercing/Downward Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Teleporting Dagger.png",
+      "new_path": "Piercing/Teleporting Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Upward Diagonal Arrow.png",
+      "new_path": "Piercing/Upward Diagonal Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Radiant\\Arrow Shot.png",
+      "new_path": "Piercing/Arrow Shot.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Shadow\\Hooded Dagger Holder.png",
+      "new_path": "Piercing/Hooded Dagger Holder.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Slashing\\Dual Daggers.png",
+      "new_path": "Piercing/Dual Daggers.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Slashing\\Glowing Dagger.png",
+      "new_path": "Piercing/Glowing Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Slashing\\Throwing Dagger.png",
+      "new_path": "Piercing/Throwing Dagger.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Utility\\Adjustable Wrench.png",
+      "new_path": "Piercing/Adjustable Wrench.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Utility\\Dash Arrow.png",
+      "new_path": "Piercing/Dash Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Utility\\Figure Swinging With Spear.png",
+      "new_path": "Piercing/Figure Swinging With Spear.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Acid\\Poison Arrow.png",
+      "new_path": "Poison/Poison Arrow.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Necrotic\\Venomous Snakes.png",
+      "new_path": "Poison/Venomous Snakes.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Thunder\\Venomous Injection.png",
+      "new_path": "Poison/Venomous Injection.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Void\\Poisoned Figure.png",
+      "new_path": "Poison/Poisoned Figure.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Void\\Void Serpent Venom.png",
+      "new_path": "Poison/Void Serpent Venom.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Necrotic\\Mind Read.png",
+      "new_path": "Psychic/Mind Read.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Radiant\\Telepathic Blight.png",
+      "new_path": "Psychic/Telepathic Blight.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Thunder\\Psionic Boulder Lift.png",
+      "new_path": "Psychic/Psionic Boulder Lift.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Void\\Mental Abyss.png",
+      "new_path": "Psychic/Mental Abyss.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Sacred Summoning.png",
+      "new_path": "Radiant/Sacred Summoning.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Fire\\Sacred Symbol.png",
+      "new_path": "Radiant/Sacred Symbol.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Healing\\Radiant Beam of Healing.png",
+      "new_path": "Radiant/Radiant Beam of Healing.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Lightning\\Angelic Ascension.png",
+      "new_path": "Radiant/Angelic Ascension.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Nature\\Celestial Star.png",
+      "new_path": "Radiant/Celestial Star.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Necrotic\\Unholy Crystal.png",
+      "new_path": "Radiant/Unholy Crystal.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Necrotic\\Unholy Ritual.png",
+      "new_path": "Radiant/Unholy Ritual.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Shadow\\Radiant Hand Cast.png",
+      "new_path": "Radiant/Radiant Hand Cast.png",
+      "corrected_at": "2025-12-29T09:43:03.800476"
+    },
+    {
+      "original_path": "Utility\\Celestial Arc.png",
+      "new_path": "Radiant/Celestial Arc.png",
+      "corrected_at": "2025-12-29T09:43:03.816110"
+    },
+    {
+      "original_path": "Utility\\Radiant Peace Sign Wings.png",
+      "new_path": "Radiant/Radiant Peace Sign Wings.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Utility\\Winged Angel.png",
+      "new_path": "Radiant/Winged Angel.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Necrotic\\Dark Heart.png",
+      "new_path": "Shadow/Dark Heart.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Necrotic\\Dark Reaper.png",
+      "new_path": "Shadow/Dark Reaper.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Necrotic\\Shadow.png",
+      "new_path": "Shadow/Shadow.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Piercing\\Dark Thrust.png",
+      "new_path": "Shadow/Dark Thrust.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Piercing\\Dark Unstable.png",
+      "new_path": "Shadow/Dark Unstable.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Piercing\\Gloomy Pierce.png",
+      "new_path": "Shadow/Gloomy Pierce.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Piercing\\Shadowy Impale.png",
+      "new_path": "Shadow/Shadowy Impale.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Psychic\\Ethereal Shadow.png",
+      "new_path": "Shadow/Ethereal Shadow 1.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Slashing\\Shadow Assassin Strike.png",
+      "new_path": "Shadow/Shadow Assassin Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Utility\\Dark Shadow.png",
+      "new_path": "Shadow/Dark Shadow.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Abyssal Portal.png",
+      "new_path": "Shadow/Abyssal Portal.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Bloody Void Cleave.png",
+      "new_path": "Shadow/Bloody Void Cleave.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Chained Void Orb.png",
+      "new_path": "Shadow/Chained Void Orb.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Cloaked Void Mage.png",
+      "new_path": "Shadow/Cloaked Void Mage.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Contained Void Barrel.png",
+      "new_path": "Shadow/Contained Void Barrel.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Crimson Void Hood.png",
+      "new_path": "Shadow/Crimson Void Hood.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Crimson Void Shards.png",
+      "new_path": "Shadow/Crimson Void Shards.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Crushing Void.png",
+      "new_path": "Shadow/Crushing Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Dark Abyss.png",
+      "new_path": "Shadow/Dark Abyss.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Dark Void 1.png",
+      "new_path": "Shadow/Dark Void 1.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Dark Void.png",
+      "new_path": "Shadow/Dark Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Ebon Abyss.png",
+      "new_path": "Shadow/Ebon Abyss.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Ebon Void.png",
+      "new_path": "Shadow/Ebon Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Ethereal Void Spirit.png",
+      "new_path": "Shadow/Ethereal Void Spirit.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Gears In Void.png",
+      "new_path": "Shadow/Gears In Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Gloomy Abyss.png",
+      "new_path": "Shadow/Gloomy Abyss.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Hooded Void Mage.png",
+      "new_path": "Shadow/Hooded Void Mage.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Pirate Void.png",
+      "new_path": "Shadow/Pirate Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Screaming Void Ghoul.png",
+      "new_path": "Shadow/Screaming Void Ghoul.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Segmented Void Arc.png",
+      "new_path": "Shadow/Segmented Void Arc.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Shadowy Abyss.png",
+      "new_path": "Shadow/Shadowy Abyss.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Shadowy Void Bust.png",
+      "new_path": "Shadow/Shadowy Void Bust.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Teal Masked Void Mage.png",
+      "new_path": "Shadow/Teal Masked Void Mage.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Threads of the Void.png",
+      "new_path": "Shadow/Threads of the Void.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Archer.png",
+      "new_path": "Shadow/Void Archer.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Arrow Absorption.png",
+      "new_path": "Shadow/Void Arrow Absorption.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Axe Strike.png",
+      "new_path": "Shadow/Void Axe Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Channeling 1.png",
+      "new_path": "Shadow/Void Channeling 1.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Channeling.png",
+      "new_path": "Shadow/Void Channeling.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Claw Blood.png",
+      "new_path": "Shadow/Void Claw Blood.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Claw Natural.png",
+      "new_path": "Shadow/Void Claw Natural.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Claw Strike.png",
+      "new_path": "Shadow/Void Claw Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Claw Swipe.png",
+      "new_path": "Shadow/Void Claw Swipe.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Conjuration.png",
+      "new_path": "Shadow/Void Conjuration.png",
+      "corrected_at": "2025-12-29T09:43:03.817268"
+    },
+    {
+      "original_path": "Void\\Void Crystal Shard.png",
+      "new_path": "Shadow/Void Crystal Shard.png",
+      "corrected_at": "2025-12-29T09:43:03.832901"
+    },
+    {
+      "original_path": "Void\\Void Detonator.png",
+      "new_path": "Shadow/Void Detonator.png",
+      "corrected_at": "2025-12-29T09:43:03.832901"
+    },
+    {
+      "original_path": "Void\\Void Empowered Greatsword.png",
+      "new_path": "Shadow/Void Empowered Greatsword.png",
+      "corrected_at": "2025-12-29T09:43:03.832901"
+    },
+    {
+      "original_path": "Void\\Void Energy Burst 1.png",
+      "new_path": "Shadow/Void Energy Burst 1.png",
+      "corrected_at": "2025-12-29T09:43:03.833910"
+    },
+    {
+      "original_path": "Void\\Void Energy Burst.png",
+      "new_path": "Shadow/Void Energy Burst.png",
+      "corrected_at": "2025-12-29T09:43:03.834911"
+    },
+    {
+      "original_path": "Void\\Void Energy Cascade.png",
+      "new_path": "Shadow/Void Energy Cascade.png",
+      "corrected_at": "2025-12-29T09:43:03.834911"
+    },
+    {
+      "original_path": "Void\\Void Energy Surge.png",
+      "new_path": "Shadow/Void Energy Surge.png",
+      "corrected_at": "2025-12-29T09:43:03.834911"
+    },
+    {
+      "original_path": "Void\\Void Energy Symbols.png",
+      "new_path": "Shadow/Void Energy Symbols.png",
+      "corrected_at": "2025-12-29T09:43:03.834911"
+    },
+    {
+      "original_path": "Void\\Void Entity Maw.png",
+      "new_path": "Shadow/Void Entity Maw.png",
+      "corrected_at": "2025-12-29T09:43:03.835911"
+    },
+    {
+      "original_path": "Void\\Void Eye Mask.png",
+      "new_path": "Shadow/Void Eye Mask.png",
+      "corrected_at": "2025-12-29T09:43:03.835911"
+    },
+    {
+      "original_path": "Void\\Void Fist Bump.png",
+      "new_path": "Shadow/Void Fist Bump.png",
+      "corrected_at": "2025-12-29T09:43:03.835911"
+    },
+    {
+      "original_path": "Void\\Void Fist Strike.png",
+      "new_path": "Shadow/Void Fist Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.835911"
+    },
+    {
+      "original_path": "Void\\Void Flail Strike.png",
+      "new_path": "Shadow/Void Flail Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.836911"
+    },
+    {
+      "original_path": "Void\\Void Hammer.png",
+      "new_path": "Shadow/Void Hammer.png",
+      "corrected_at": "2025-12-29T09:43:03.836911"
+    },
+    {
+      "original_path": "Void\\Void Hand Manipulation.png",
+      "new_path": "Shadow/Void Hand Manipulation.png",
+      "corrected_at": "2025-12-29T09:43:03.836911"
+    },
+    {
+      "original_path": "Void\\Void Hand Of Corruption.png",
+      "new_path": "Shadow/Void Hand Of Corruption.png",
+      "corrected_at": "2025-12-29T09:43:03.837910"
+    },
+    {
+      "original_path": "Void\\Void Houndmaster.png",
+      "new_path": "Shadow/Void Houndmaster.png",
+      "corrected_at": "2025-12-29T09:43:03.837910"
+    },
+    {
+      "original_path": "Void\\Void Kick.png",
+      "new_path": "Shadow/Void Kick.png",
+      "corrected_at": "2025-12-29T09:43:03.837910"
+    },
+    {
+      "original_path": "Void\\Void Magic Missiles.png",
+      "new_path": "Shadow/Void Magic Missiles.png",
+      "corrected_at": "2025-12-29T09:43:03.837910"
+    },
+    {
+      "original_path": "Void\\Void Meditation.png",
+      "new_path": "Shadow/Void Meditation.png",
+      "corrected_at": "2025-12-29T09:43:03.838910"
+    },
+    {
+      "original_path": "Void\\Void Orb Swirl.png",
+      "new_path": "Shadow/Void Orb Swirl.png",
+      "corrected_at": "2025-12-29T09:43:03.838910"
+    },
+    {
+      "original_path": "Void\\Void Portal Guardian.png",
+      "new_path": "Shadow/Void Portal Guardian.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Portal Mage.png",
+      "new_path": "Shadow/Void Portal Mage.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Potion.png",
+      "new_path": "Shadow/Void Potion.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Projectiles.png",
+      "new_path": "Shadow/Void Projectiles.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Raven.png",
+      "new_path": "Shadow/Void Raven.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Rift Tear.png",
+      "new_path": "Shadow/Void Rift Tear.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Rune Tag.png",
+      "new_path": "Shadow/Void Rune Tag.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Rupture.png",
+      "new_path": "Shadow/Void Rupture.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Scimitar.png",
+      "new_path": "Shadow/Void Scimitar.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Scream Attack.png",
+      "new_path": "Shadow/Void Scream Attack.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Scream.png",
+      "new_path": "Shadow/Void Scream.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Scythe Chain.png",
+      "new_path": "Shadow/Void Scythe Chain.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Scythe Strike.png",
+      "new_path": "Shadow/Void Scythe Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Shard Sword.png",
+      "new_path": "Shadow/Void Shard Sword.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Spell Cast.png",
+      "new_path": "Shadow/Void Spell Cast.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Tendrils Lies.png",
+      "new_path": "Shadow/Void Tendrils Lies.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Vortex Eruption.png",
+      "new_path": "Shadow/Void Vortex Eruption.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void Weasel.png",
+      "new_path": "Shadow/Void Weasel.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Void.png",
+      "new_path": "Shadow/Void.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Void\\Voidwing Blade Strike.png",
+      "new_path": "Shadow/Voidwing Blade Strike.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Bludgeoning\\Execution.png",
+      "new_path": "Slashing/Execution.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Bludgeoning\\Hand Held Sword.png",
+      "new_path": "Slashing/Hand Held Sword.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Bludgeoning\\Slim Sword.png",
+      "new_path": "Slashing/Slim Sword.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Fire\\Blood Dripping Blade.png",
+      "new_path": "Slashing/Blood Dripping Blade.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Fire\\Hurled Blade.png",
+      "new_path": "Slashing/Hurled Blade.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Fire\\Power Slash.png",
+      "new_path": "Slashing/Power Slash.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Fire\\Thrown Sabers.png",
+      "new_path": "Slashing/Thrown Sabers.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Fire\\Upper Cut 2.png",
+      "new_path": "Slashing/Upper Cut 2.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Force\\Diagonal Energy Slash.png",
+      "new_path": "Slashing/Diagonal Energy Slash.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Force\\Energy Slash.png",
+      "new_path": "Slashing/Energy Slash.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Nature\\Floral Blade.png",
+      "new_path": "Slashing/Floral Blade.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Piercing\\Assassins Blade.png",
+      "new_path": "Slashing/Assassins Blade.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Piercing\\Cutthroat.png",
+      "new_path": "Slashing/Cutthroat.png",
+      "corrected_at": "2025-12-29T09:43:03.839421"
+    },
+    {
+      "original_path": "Piercing\\Sword Pierce.png",
+      "new_path": "Slashing/Sword Pierce.png",
+      "corrected_at": "2025-12-29T09:43:03.850587"
+    },
+    {
+      "original_path": "Shadow\\Blood Wrapped Sword.png",
+      "new_path": "Slashing/Blood Wrapped Sword.png",
+      "corrected_at": "2025-12-29T09:43:03.850587"
+    },
+    {
+      "original_path": "Shadow\\Cursed Sword.png",
+      "new_path": "Slashing/Cursed Sword 1.png",
+      "corrected_at": "2025-12-29T09:43:03.851589"
+    },
+    {
+      "original_path": "Utility\\Dual Blade Dash.png",
+      "new_path": "Slashing/Dual Blade Dash.png",
+      "corrected_at": "2025-12-29T09:43:03.851589"
+    },
+    {
+      "original_path": "Nature\\Sonic Boom.png",
+      "new_path": "Thunder/Sonic Boom.png",
+      "corrected_at": "2025-12-29T09:43:03.852589"
+    }
+  ],
+  "metadata": {
+    "created": "2025-12-29T09:43:03.634107",
+    "total_entries": 333,
+    "last_updated": "2025-12-29T09:43:03.852589"
+  }
+}

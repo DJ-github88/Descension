@@ -1,0 +1,123 @@
+[
+  {
+    "original_path": "Icon21.png",
+    "name": "brown-wooden-handle-tool",
+    "category": "Misc",
+    "description": "Brown wooden handle or tool component"
+  },
+  {
+    "original_path": "Icon22.png",
+    "name": "golden-brown-handle-blue-shaft-tool",
+    "category": "Engineering",
+    "description": "Hand tool with golden-brown cylindrical handle and light blue-grey grooved shaft, like a file or reamer"
+  },
+  {
+    "original_path": "Icon23.png",
+    "name": "stack-folded-brown-material",
+    "category": "Tailoring",
+    "description": "Stack of overlapping folded material in warm brown and golden tones, possibly leather or fabric"
+  },
+  {
+    "original_path": "Icon24.png",
+    "name": "blue-flowing-shard-lightning",
+    "category": "Enchanting",
+    "description": "Elongated blue flowing shape with cyan highlights, resembling a magical shard or stylized lightning bolt"
+  },
+  {
+    "original_path": "Icon25.png",
+    "name": "rolled-material-orange-binding-needle",
+    "category": "Tailoring",
+    "description": "Light brown rolled material secured with orange-red string, pierced by a metallic blue-grey sewing needle"
+  },
+  {
+    "original_path": "Icon26.png",
+    "name": "purple-potion-bottle-elixir",
+    "category": "First Aid",
+    "description": "Glass potion bottle with glowing purple liquid and brown cork stopper"
+  },
+  {
+    "original_path": "Icon27.png",
+    "name": "dark-tongs-tweezers-metallic",
+    "category": "Blacksmithing",
+    "description": "Pair of dark metallic tongs or tweezers with blue-grey highlights"
+  },
+  {
+    "original_path": "Icon28.png",
+    "name": "green-pod-segmented-base",
+    "category": "Herbs",
+    "description": "Bright green elongated pod-like object on a dark segmented chain-like base"
+  },
+  {
+    "original_path": "Icon29.png",
+    "name": "dark-ingots-orange-gold-glowing",
+    "category": "Blacksmithing",
+    "description": "Stack of dark metallic ingots with bright orange and gold glowing lines suggesting heat or magic"
+  },
+  {
+    "original_path": "Icon30.png",
+    "name": "blue-ore-crystal-cluster",
+    "category": "Ore",
+    "description": "Cluster of blue crystalline ore"
+  },
+  {
+    "original_path": "Icon31.png",
+    "name": "gold-ore-rocky-cluster",
+    "category": "Ore",
+    "description": "Cluster of golden rocky ore"
+  },
+  {
+    "original_path": "Icon32.png",
+    "name": "dark-plating-magenta-glow",
+    "category": "Engineering",
+    "description": "Dark angular metallic plating with bright glowing magenta energy channels"
+  },
+  {
+    "original_path": "Icon33.png",
+    "name": "pink-ring-band",
+    "category": "Misc",
+    "description": "Thick pink ring-shaped band with glossy appearance"
+  },
+  {
+    "original_path": "Icon34.png",
+    "name": "green-potion-bottle-elixir",
+    "category": "First Aid",
+    "description": "Glass bottle with glowing green liquid and brown cork stopper"
+  },
+  {
+    "original_path": "Icon35.png",
+    "name": "golden-mound-pile",
+    "category": "Misc",
+    "description": "Bright golden triangular or mounded shape on a lighter golden-brown base"
+  },
+  {
+    "original_path": "Icon36.png",
+    "name": "orange-yellow-striped-ribbon",
+    "category": "Tailoring",
+    "description": "Coiled striped ribbon in alternating orange and yellow bands"
+  },
+  {
+    "original_path": "Icon37.png",
+    "name": "purple-rolled-fabric-silk",
+    "category": "Tailoring",
+    "description": "Rolled-up purple fabric or silk material on a golden-brown base"
+  },
+  {
+    "original_path": "Icon38.png",
+    "name": "dark-blue-orb-energy-core",
+    "category": "Enchanting",
+    "description": "Dark blue spherical orb with lighter blue highlights and radiating dark lines, like a magical energy core"
+  },
+  {
+    "original_path": "Icon39.png",
+    "name": "green-leaf-yellow-crystal-bloom",
+    "category": "Herbs",
+    "description": "Green leaf and yellow multi-faceted crystalline or floral element on light brown textured surface"
+  },
+  {
+    "original_path": "Icon40.png",
+    "name": "green-herbs-leaves-pile",
+    "category": "Herbs",
+    "description": "Small pile of green leaves or herbs"
+  }
+]
+

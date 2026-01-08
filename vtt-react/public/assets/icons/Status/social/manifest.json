@@ -1,0 +1,16 @@
+{
+  "category": "social",
+  "count": 2,
+  "icons": [
+    {
+      "filename": "bardic-note.png",
+      "name": "Bardic Note",
+      "path": "social/bardic-note.png"
+    },
+    {
+      "filename": "musical-note.png",
+      "name": "Musical Note",
+      "path": "social/musical-note.png"
+    }
+  ]
+}

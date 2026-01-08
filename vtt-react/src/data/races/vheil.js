@@ -1,0 +1,16 @@
+export const vheil = {
+
+        id: 'vheil',
+        name: 'Vheil',
+        description: 'Pale folk from border regions where reality grows thin. Skin never tans, stays white as bone. Eyes see layers others can\'t, pupils sometimes reflecting things that aren\'t there. Bodies thin and light, as if not fully anchored to this world. Hair colorless or silver-white. They move quietly, their footsteps making no sound on some surfaces. Touch feels cold, like touching mist.',
+        icon: 'fas fa-ghost',
+        overview: 'The Vheil are pale-skinned folk whose ancestors settled in border regions where the veil between worlds grows thin. Through generations of living in these liminal spaces, their bloodlines have been marked by the ethereal. Their skin never tanning. Their eyes seeing layers of reality others cannot perceive. They are organized into communities that follow the thin places. Settlements built where the mundane world borders the unseen. The Vheil don\'t choose to see spirits. It\'s in their blood, passed down through ancestral lines that have served as bridges between realms for centuries.',
+        culturalBackground: `Vheil communities follow the thin places. Settlements built where the veil between worlds grows thin. Their camps are quiet affairs, lit by pale lanterns that cast no heat. Children taught from birth to recognize the signs of the other side. Each community traces its lineage to ancestors who first learned to commune with spirits. Traditions passed down through generations. Vheil children are raised knowing they'll inherit the sight. Learning to recognize when mist lingers too long. When shadows walk alone. When something unseen watches. Community elders pass down the old ways. How to speak with the dead. How to navigate the spaces between worlds. How to serve as mediators for the restless. They trade in guidance and mediation. Their services valuable but costly. Those who seek Vheil help pay in coin, warmth, or pieces of their own peace. Community disputes settle through spirit-counsel and the wisdom of elders who have seen too much. They are a people bound by duty and haunted by visions. Their role as bridges between worlds both gift and curse.`,
+        variantDiversity: 'The Vheil are divided into two major bloodlines: The Spirit-Talkers dedicate themselves to communication with the dead and serving as intermediaries, while the Between-Walkers traverse the boundaries between planes and explore the spaces between worlds.',
+        integrationNotes: {
+            actionPointSystem: 'Vheil abilities focus on perception, communication with otherworldly entities, and brief planar transitions. Their ethereal nature provides unique utility and defensive options.',
+            backgroundSynergy: 'Vheil excel in backgrounds emphasizing wisdom, spirituality, and supernatural knowledge. Their connection to other planes complements mystical and divine paths.',
+            classCompatibility: 'Vheil make excellent clerics, mediums, and support casters. Their ability to perceive hidden threats and communicate with spirits provides valuable party utility.',
+};
+
+export default vheil;

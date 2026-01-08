@@ -1,0 +1,186 @@
+{
+  "category": "debuff",
+  "count": 36,
+  "icons": [
+    {
+      "filename": "broken-fragmented-disc.png",
+      "name": "Broken Fragmented Disc",
+      "path": "debuff/broken-fragmented-disc.png"
+    },
+    {
+      "filename": "broken-loop.png",
+      "name": "Broken Loop",
+      "path": "debuff/broken-loop.png"
+    },
+    {
+      "filename": "broken-split-symbol-debuff.png",
+      "name": "Broken Split Symbol Debuff",
+      "path": "debuff/broken-split-symbol-debuff.png"
+    },
+    {
+      "filename": "cocoon-vulnerable.png",
+      "name": "Cocoon Vulnerable",
+      "path": "debuff/cocoon-vulnerable.png"
+    },
+    {
+      "filename": "divided-split-state.png",
+      "name": "Divided Split State",
+      "path": "debuff/divided-split-state.png"
+    },
+    {
+      "filename": "document-x-negation.png",
+      "name": "Document X Negation",
+      "path": "debuff/document-x-negation.png"
+    },
+    {
+      "filename": "downward-arrow.png",
+      "name": "Downward Arrow",
+      "path": "debuff/downward-arrow.png"
+    },
+    {
+      "filename": "downward-arrow-horns-debuff.png",
+      "name": "Downward Arrow Horns Debuff",
+      "path": "debuff/downward-arrow-horns-debuff.png"
+    },
+    {
+      "filename": "downward-arrow-target.png",
+      "name": "Downward Arrow Target",
+      "path": "debuff/downward-arrow-target.png"
+    },
+    {
+      "filename": "downward-chevron.png",
+      "name": "Downward Chevron",
+      "path": "debuff/downward-chevron.png"
+    },
+    {
+      "filename": "downward-debuff.png",
+      "name": "Downward Debuff",
+      "path": "debuff/downward-debuff.png"
+    },
+    {
+      "filename": "downward-spike-vulnerability.png",
+      "name": "Downward Spike Vulnerability",
+      "path": "debuff/downward-spike-vulnerability.png"
+    },
+    {
+      "filename": "fluctuating-unstable.png",
+      "name": "Fluctuating Unstable",
+      "path": "debuff/fluctuating-unstable.png"
+    },
+    {
+      "filename": "fragmented-broken-debuff.png",
+      "name": "Fragmented Broken Debuff",
+      "path": "debuff/fragmented-broken-debuff.png"
+    },
+    {
+      "filename": "fragmented-scatter.png",
+      "name": "Fragmented Scatter",
+      "path": "debuff/fragmented-scatter.png"
+    },
+    {
+      "filename": "glowing-skull-curse.png",
+      "name": "Glowing Skull Curse",
+      "path": "debuff/glowing-skull-curse.png"
+    },
+    {
+      "filename": "healing-blocked.png",
+      "name": "Healing Blocked",
+      "path": "debuff/healing-blocked.png"
+    },
+    {
+      "filename": "orange-skull-death.png",
+      "name": "Orange Skull Death",
+      "path": "debuff/orange-skull-death.png"
+    },
+    {
+      "filename": "shield-blocked-debuff.png",
+      "name": "Shield Blocked Debuff",
+      "path": "debuff/shield-blocked-debuff.png"
+    },
+    {
+      "filename": "shield-blocked-debuff_1.png",
+      "name": "Shield Blocked Debuff_1",
+      "path": "debuff/shield-blocked-debuff_1.png"
+    },
+    {
+      "filename": "shield-x-negation.png",
+      "name": "Shield X Negation",
+      "path": "debuff/shield-x-negation.png"
+    },
+    {
+      "filename": "skull-death-curse.png",
+      "name": "Skull Death Curse",
+      "path": "debuff/skull-death-curse.png"
+    },
+    {
+      "filename": "skull-surprised-death.png",
+      "name": "Skull Surprised Death",
+      "path": "debuff/skull-surprised-death.png"
+    },
+    {
+      "filename": "undead-bone.png",
+      "name": "Undead Bone",
+      "path": "debuff/undead-bone.png"
+    },
+    {
+      "filename": "vulnerability-down.png",
+      "name": "Vulnerability Down",
+      "path": "debuff/vulnerability-down.png"
+    },
+    {
+      "filename": "weight-kg-burden.png",
+      "name": "Weight Kg Burden",
+      "path": "debuff/weight-kg-burden.png"
+    },
+    {
+      "filename": "weight-kg-encumbrance.png",
+      "name": "Weight Kg Encumbrance",
+      "path": "debuff/weight-kg-encumbrance.png"
+    },
+    {
+      "filename": "x-decorative-frame-negation.png",
+      "name": "X Decorative Frame Negation",
+      "path": "debuff/x-decorative-frame-negation.png"
+    },
+    {
+      "filename": "x-glow-negation.png",
+      "name": "X Glow Negation",
+      "path": "debuff/x-glow-negation.png"
+    },
+    {
+      "filename": "x-negation-debuff.png",
+      "name": "X Negation Debuff",
+      "path": "debuff/x-negation-debuff.png"
+    },
+    {
+      "filename": "x-negation-glow.png",
+      "name": "X Negation Glow",
+      "path": "debuff/x-negation-glow.png"
+    },
+    {
+      "filename": "x-negation-removal.png",
+      "name": "X Negation Removal",
+      "path": "debuff/x-negation-removal.png"
+    },
+    {
+      "filename": "x-negation-removal_1.png",
+      "name": "X Negation Removal_1",
+      "path": "debuff/x-negation-removal_1.png"
+    },
+    {
+      "filename": "x-pattern-multiple-elements.png",
+      "name": "X Pattern Multiple Elements",
+      "path": "debuff/x-pattern-multiple-elements.png"
+    },
+    {
+      "filename": "x-symbol-glow-negation.png",
+      "name": "X Symbol Glow Negation",
+      "path": "debuff/x-symbol-glow-negation.png"
+    },
+    {
+      "filename": "x-symbol-negation.png",
+      "name": "X Symbol Negation",
+      "path": "debuff/x-symbol-negation.png"
+    }
+  ]
+}

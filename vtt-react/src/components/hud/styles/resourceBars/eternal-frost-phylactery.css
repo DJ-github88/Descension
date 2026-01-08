@@ -1,0 +1,691 @@
+.class-resource-bar.eternal-frost-phylactery {
+    background: transparent;
+    border: none;
+    height: auto;
+    min-height: fit-content; /* Ensure it grows with content */
+}
+
+/* Small size for party HUD */
+.class-resource-bar.eternal-frost-phylactery.small {
+    min-height: 28px; /* Minimum height for small phylactery bar */
+}
+
+.lichborne-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    contain: layout style;
+}
+
+.phylactery-bar-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Phylactery Bar Content - Frozen Soul Container */
+.phylactery-bar-content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 32px; /* Ensure minimum height for segments */
+    background:
+        linear-gradient(180deg,
+            rgba(15, 25, 45, 0.8) 0%,
+            rgba(20, 30, 55, 0.9) 50%,
+            rgba(10, 20, 40, 0.95) 100%),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 8px,
+            rgba(100, 150, 200, 0.08) 8px,
+            rgba(100, 150, 200, 0.08) 16px);
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.6),
+        inset 0 -1px 3px rgba(100, 150, 200, 0.2),
+        0 0 15px rgba(0, 100, 150, 0.3);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* Small size adjustments for party HUD */
+.small .phylactery-bar-content {
+    min-height: 24px; /* Smaller min-height for compact HUD */
+    padding: 4px 6px;
+}
+
+.phylactery-bar-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.15) 25%,
+        rgba(135, 206, 235, 0.2) 50%,
+        rgba(0, 255, 255, 0.15) 75%,
+        transparent 100%);
+    animation: frostSweep 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.phylactery-bar-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(135, 206, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(100, 150, 200, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes frostSweep {
+    0%, 100% {
+        left: -100%;
+        opacity: 0.3;
+    }
+    50% {
+        left: 100%;
+        opacity: 0.6;
+    }
+}
+
+/* Phylactery Value Display - Frozen Soul Count */
+.phylactery-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-shadow:
+        0 0 8px rgba(0, 255, 255, 0.8),
+        0 0 4px rgba(135, 206, 235, 1),
+        1px 1px 3px rgba(0, 0, 0, 1),
+        -1px -1px 3px rgba(0, 0, 0, 1);
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 0.5px;
+    animation: soulCountGlow 2s ease-in-out infinite;
+}
+
+@keyframes soulCountGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 8px rgba(0, 255, 255, 0.8),
+            0 0 4px rgba(135, 206, 235, 1),
+            1px 1px 3px rgba(0, 0, 0, 1);
+    }
+    50% {
+        text-shadow:
+            0 0 12px rgba(0, 255, 255, 1),
+            0 0 6px rgba(135, 206, 235, 1),
+            1px 1px 3px rgba(0, 0, 0, 1);
+    }
+}
+
+/* Phylactery Segments - Frozen Soul Shards */
+.phylactery-segments {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+}
+
+.phylactery-segment {
+    flex: 1;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    background-clip: padding-box;
+    overflow: hidden;
+}
+
+.phylactery-segment::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.phylactery-segment:hover::before {
+    left: 100%;
+}
+
+.phylactery-segment::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 40%;
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 100%);
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.phylactery-segment.filled::after {
+    opacity: 1;
+}
+
+.phylactery-segment.filled {
+    animation: frostShardPulse 2.5s ease-in-out infinite;
+}
+
+.phylactery-segment.filled.aura-active {
+    animation: frostShardPulseActive 1.8s ease-in-out infinite;
+}
+
+.phylactery-segment.empty {
+    opacity: 0.25;
+    background: linear-gradient(135deg,
+        rgba(20, 30, 50, 0.4) 0%,
+        rgba(30, 40, 60, 0.3) 100%);
+    border-color: rgba(100, 120, 150, 0.3);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes frostShardPulse {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+        box-shadow:
+            inset 0 0 4px rgba(135, 206, 235, 0.3),
+            0 0 6px rgba(135, 206, 235, 0.2);
+    }
+    50% {
+        opacity: 0.95;
+        filter: brightness(1.3);
+        box-shadow:
+            inset 0 0 6px rgba(135, 206, 235, 0.5),
+            0 0 10px rgba(135, 206, 235, 0.4);
+    }
+}
+
+@keyframes frostShardPulseActive {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1.3) saturate(1.2);
+        box-shadow:
+            inset 0 0 6px rgba(0, 255, 255, 0.5),
+            0 0 10px rgba(0, 255, 255, 0.4),
+            0 0 15px rgba(0, 255, 255, 0.2);
+    }
+    50% {
+        opacity: 0.98;
+        filter: brightness(1.5) saturate(1.4);
+        box-shadow:
+            inset 0 0 8px rgba(0, 255, 255, 0.7),
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.3);
+    }
+}
+
+/* Phylactery Adjustment Menu - Frozen Necromancy Interface */
+.phylactery-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: -20px;
+    right: -20px;
+    width: calc(100% + 40px);
+    background:
+        linear-gradient(135deg,
+            rgba(10, 20, 40, 0.98) 0%,
+            rgba(15, 25, 45, 0.98) 50%,
+            rgba(20, 30, 50, 0.98) 100%),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 20px,
+            rgba(0, 255, 255, 0.03) 20px,
+            rgba(0, 255, 255, 0.03) 40px);
+    border: 2px solid rgba(0, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 3px rgba(135, 206, 235, 0.3),
+        0 0 30px rgba(0, 255, 255, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+    overflow: hidden;
+    min-width: 0;
+    contain: layout style paint;
+}
+
+.phylactery-menu .menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    contain: layout style;
+}
+
+.phylactery-menu .menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    text-align: left;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
+    margin-bottom: 2px;
+}
+
+.phylactery-menu .menu-value {
+    font-size: 13px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+.phylactery-menu .menu-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.phylactery-menu .menu-buttons button {
+    flex: 1;
+    padding: 6px 10px;
+    background:
+        linear-gradient(180deg,
+            rgba(0, 150, 200, 0.3) 0%,
+            rgba(0, 100, 150, 0.4) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 255, 0.1) 2px,
+            rgba(0, 255, 255, 0.1) 4px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 4px;
+    color: #87CEEB;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.2),
+        0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+.phylactery-menu .menu-buttons button:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.5) 0%,
+            rgba(0, 150, 200, 0.6) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.4),
+        0 0 12px rgba(0, 255, 255, 0.6);
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8);
+}
+
+.phylactery-menu .menu-info {
+    font-size: 8px;
+    color: #87CEEB;
+    text-align: center;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.8;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    margin: 0;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.phylactery-menu .spec-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.phylactery-menu .spec-buttons-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 4px 0;
+    padding: 0 4px;
+    position: relative;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.phylactery-menu .spec-passive-text {
+    width: 100%;
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* Hide spec-buttons that are NOT inside phylactery-menu or qm-menu - show only those inside */
+.spec-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+}
+
+/* Explicitly show qm-menu and warden-menu spec buttons - must come after the hide rule */
+.qm-menu .spec-button,
+.warden-menu .spec-button {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    pointer-events: auto !important;
+}
+
+.phylactery-menu .spec-button,
+.phylactery-menu .spec-buttons-inline .spec-button {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    pointer-events: auto !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    background:
+        linear-gradient(180deg,
+            rgba(0, 150, 200, 0.15) 0%,
+            rgba(0, 100, 150, 0.2) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 255, 0.03) 3px,
+            rgba(0, 255, 255, 0.03) 6px);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transform: none !important;
+}
+
+.phylactery-menu .spec-button i,
+.phylactery-menu .spec-buttons-inline .spec-button i {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.phylactery-menu .spec-button:hover,
+.phylactery-menu .spec-buttons-inline .spec-button:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 180, 220, 0.25) 0%,
+            rgba(0, 120, 170, 0.3) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 255, 0.06) 3px,
+            rgba(0, 255, 255, 0.06) 6px);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow:
+        0 0 10px rgba(0, 255, 255, 0.3),
+        inset 0 1px 2px rgba(0, 255, 255, 0.1);
+    transform: none !important;
+}
+
+.phylactery-menu .spec-button.selected,
+.phylactery-menu .spec-buttons-inline .spec-button.selected {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.3) 0%,
+            rgba(0, 150, 200, 0.4) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 255, 0.08) 3px,
+            rgba(0, 255, 255, 0.08) 6px);
+    box-shadow:
+        0 0 15px rgba(0, 255, 255, 0.5),
+        inset 0 1px 3px rgba(0, 255, 255, 0.2);
+    transform: none !important;
+}
+
+/* Aura Toggle Button - Eternal Frost Activation */
+.aura-toggle-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aura-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.aura-toggle-btn:hover::before {
+    left: 100%;
+}
+
+.aura-toggle-btn.inactive {
+    background:
+        linear-gradient(180deg,
+            rgba(60, 70, 90, 0.4) 0%,
+            rgba(40, 50, 70, 0.5) 100%);
+    border-color: rgba(100, 120, 150, 0.5);
+    color: #8899AA;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 6px rgba(100, 120, 150, 0.2);
+}
+
+.aura-toggle-btn.active {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.4) 0%,
+            rgba(0, 150, 200, 0.5) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 4px,
+            rgba(0, 255, 255, 0.1) 4px,
+            rgba(0, 255, 255, 0.1) 8px);
+    border-color: #00FFFF;
+    color: #FFFFFF;
+    box-shadow:
+        inset 0 1px 3px rgba(135, 206, 235, 0.4),
+        0 0 15px rgba(0, 255, 255, 0.6),
+        0 0 25px rgba(0, 255, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 255, 255, 1);
+    animation: eternalFrostButtonPulse 2s ease-in-out infinite;
+}
+
+.aura-toggle-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+}
+
+@keyframes eternalFrostButtonPulse {
+    0%, 100% {
+        box-shadow:
+            inset 0 1px 3px rgba(135, 206, 235, 0.4),
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 25px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow:
+            inset 0 1px 3px rgba(135, 206, 235, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.8),
+            0 0 35px rgba(0, 255, 255, 0.5);
+    }
+}
+
+/* Specialization Selector - Lichborne Paths */
+.spec-toggle-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 3px 8px;
+    color: #87CEEB;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spec-toggle-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00FFFF;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.spec-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.lichborne-container .spec-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background:
+        linear-gradient(180deg,
+            rgba(0, 150, 200, 0.2) 0%,
+            rgba(0, 100, 150, 0.25) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 255, 0.05) 3px,
+            rgba(0, 255, 255, 0.05) 6px);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+    color: #87CEEB;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.2),
+        0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+.spec-option:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.3) 0%,
+            rgba(0, 150, 200, 0.35) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.3),
+        0 0 12px rgba(0, 255, 255, 0.4);
+    color: #FFFFFF;
+}
+
+.spec-option.selected {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 255, 255, 0.4) 0%,
+            rgba(0, 200, 255, 0.45) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 3px rgba(135, 206, 235, 0.4),
+        0 0 15px rgba(0, 255, 255, 0.6),
+        0 0 25px rgba(0, 255, 255, 0.3);
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8);
+}
+
+.spec-option i {
+    font-size: 13px;
+    color: #87CEEB;
+}
+
+.spec-option.selected i {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 255, 1));
+}
+
+.spec-option span {
+    flex: 1;
+    font-weight: bold;
+}
+
+/* ========================================
+   LUNARCH - LUNAR PHASES
+   ======================================== */

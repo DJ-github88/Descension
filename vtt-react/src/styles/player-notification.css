@@ -1,0 +1,191 @@
+/* Player Join/Leave Notification Styles - Pathfinder Theme */
+.player-notification {
+    position: fixed;
+    top: 25%;
+    right: 20px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    border-radius: 12px;
+    padding: 16px 20px;
+    color: #2d1810;
+    z-index: 9999;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-out;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+        0 0 0 1px rgba(139, 69, 19, 0.3);
+    backdrop-filter: blur(8px);
+    min-width: 300px;
+    max-width: 400px;
+    font-family: 'Cinzel', serif;
+    border: 2px solid #8b4513;
+}
+
+.player-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.player-notification.fade-out {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.player-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.player-name,
+.room-name {
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: none;
+    color: #5d3a1a;
+}
+
+.action-text {
+    font-size: 14px;
+    color: #5d4037;
+    opacity: 0.9;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+}
+
+/* Join notification styling */
+.player-notification.join {
+    border-color: #28a745;
+}
+
+.player-notification.join .player-icon {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-color: #1e7e34;
+}
+
+.player-notification.join .player-name {
+    color: #2e7d32;
+}
+
+/* Leave notification styling */
+.player-notification.leave {
+    border-color: #dc3545;
+}
+
+.player-notification.leave .player-icon {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border-color: #bd2130;
+}
+
+.player-notification.leave .player-name {
+    color: #c62828;
+}
+
+/* Room created notification styling */
+.player-notification.room-created {
+    border-color: #d4af37;
+}
+
+.player-notification.room-created .player-icon {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #2d1810;
+    border-color: #997404;
+}
+
+.player-notification.room-created .room-name {
+    color: #8a6d3b;
+}
+
+/* Room created pulse animation */
+@keyframes roomCreatedPulse {
+    0%, 100% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.2),
+            inset 0 0 0 1px rgba(212, 175, 55, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.2),
+            inset 0 0 0 1px rgba(212, 175, 55, 0.8),
+            0 0 20px rgba(212, 175, 55, 0.3);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .player-notification {
+        right: 10px;
+        min-width: 280px;
+        max-width: calc(100vw - 20px);
+    }
+    
+    .player-notification-content {
+        gap: 12px;
+    }
+    
+    .player-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .player-name,
+    .room-name {
+        font-size: 15px;
+    }
+    
+    .action-text {
+        font-size: 13px;
+    }
+}
+
+/* Achievement notification styling - Pathfinder Beige Theme */
+.player-notification.achievement {
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    border: 2px solid #8B4513;
+    color: #2d1810;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+        0 0 0 1px rgba(139, 69, 19, 0.3),
+        0 0 20px rgba(139, 69, 19, 0.15);
+}
+
+/* Stack multiple notifications */
+.player-notification:nth-of-type(2) {
+    top: calc(20% + 80px);
+}
+
+.player-notification:nth-of-type(3) {
+    top: calc(20% + 160px);
+}
+
+.player-notification:nth-of-type(4) {
+    top: calc(20% + 240px);
+}

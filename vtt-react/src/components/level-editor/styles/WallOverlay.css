@@ -1,0 +1,143 @@
+/* Wall Overlay Styles - D&D/Pathfinder Theme */
+
+.wall-overlay {
+    position: fixed;
+    pointer-events: none;
+}
+
+/* Door hit area - invisible clickable zone over doors */
+.door-hit-area {
+    /* Invisible but clickable */
+}
+
+.wall-element {
+    position: absolute;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.wall-element:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.wall-element.hovered {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+    z-index: 12 !important;
+}
+
+/* Wall tooltip styles removed - now using unified TileTooltip component */
+
+/* Context Menu Styles */
+.context-menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 999998;
+}
+
+.wall-context-menu {
+    position: fixed;
+    background: linear-gradient(135deg, #2c1810 0%, #3d2317 100%);
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    z-index: 999999;
+    min-width: 150px;
+    font-family: 'Cinzel', serif;
+    overflow: hidden;
+}
+
+.context-menu-item {
+    padding: 10px 15px;
+    color: #f4f1e8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* .context-menu-item:last-child consolidated to global styles */
+
+.context-menu-item:hover {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c1810;
+    transform: translateX(2px);
+}
+
+/* Material-specific patterns for enhanced visual appeal */
+.wall-element.stone-wall {
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px),
+        radial-gradient(circle at 80% 80%, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 8px 8px, 12px 12px;
+}
+
+.wall-element.wooden-wall {
+    background-image:
+        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 4px 100%, 100% 8px;
+}
+
+.wall-element.brick-wall {
+    background-image:
+        linear-gradient(0deg, rgba(0,0,0,0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 100% 16px, 32px 100%;
+}
+
+.wall-element.metal-wall {
+    background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%);
+    background-size: 6px 6px;
+}
+
+.wall-element.magical-barrier {
+    animation: magical-shimmer 2s ease-in-out infinite alternate;
+}
+
+.wall-element.force-wall {
+    animation: force-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes magical-shimmer {
+    0% {
+        box-shadow: 0 0 15px rgba(138,43,226,0.8), inset 0 0 10px rgba(255,255,255,0.2);
+    }
+    100% {
+        box-shadow: 0 0 25px rgba(138,43,226,1), inset 0 0 15px rgba(255,255,255,0.4);
+    }
+}
+
+@keyframes force-pulse {
+    0% {
+        box-shadow: 0 0 12px rgba(0,191,255,0.6), inset 0 0 8px rgba(255,255,255,0.3);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(0,191,255,0.9), inset 0 0 12px rgba(255,255,255,0.5);
+    }
+}
+
+/* Selection Context Menu Styles */
+.selection-context-menu .context-menu-item:hover {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c1810;
+    transform: translateX(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .context-menu-item {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+}

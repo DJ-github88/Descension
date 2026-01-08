@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Virtual Tabletop Game" />
+
+    <!-- Enhanced Process and Global polyfills - must be first -->
+    <script>
+      (function() {
+        'use strict';
+
+        // Immediate global setup
+        if (typeof window !== 'undefined') {
+          // Set up global immediately
+          if (typeof window.global === 'undefined') {
+            window.global = window;
+          }
+          if (typeof global === 'undefined') {
+            window.global = window;
+          }
+
+          // Enhanced process polyfill - create it even if it exists to ensure consistency
+          const processPolyfill = {
+            env: {
+              NODE_ENV: 'development',
+              PUBLIC_URL: '',
+              REACT_APP_OPENAI_API_KEY: '',
+              BROWSER: true
+            },
+              browser: true,
+              version: '16.0.0',
+              versions: {
+                node: '16.0.0'
+              },
+              platform: 'browser',
+              arch: 'x64',
+              title: 'browser',
+              argv: [],
+              argv0: 'node',
+              execArgv: [],
+              pid: 1,
+              ppid: 0,
+              nextTick: function(callback) {
+                if (typeof callback === 'function') {
+                  setTimeout(callback, 0);
+                }
+              },
+              cwd: function() {
+                return '/';
+              },
+              chdir: function() {
+                // No-op in browser
+              },
+              exit: function() {
+                // No-op in browser
+              },
+              kill: function() {
+                // No-op in browser
+              },
+              umask: function() {
+                return 0;
+              },
+              uptime: function() {
+                return 0;
+              },
+              hrtime: function() {
+                return [0, 0];
+              },
+              memoryUsage: function() {
+                return {
+                  rss: 0,
+                  heapTotal: 0,
+                  heapUsed: 0,
+                  external: 0
+                };
+              }
+            };
+
+          // Set process globally in multiple ways - always override
+          window.process = processPolyfill;
+          window.global.process = processPolyfill;
+
+          // Also try to set as direct global variable
+          try {
+            // Make it non-configurable to prevent overwriting
+            Object.defineProperty(window, 'process', {
+              value: processPolyfill,
+              writable: true,
+              configurable: true,
+              enumerable: true
+            });
+
+            // Also set on global
+            Object.defineProperty(window.global, 'process', {
+              value: processPolyfill,
+              writable: true,
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            // Fallback if defineProperty fails
+            window.process = processPolyfill;
+            window.global.process = processPolyfill;
+          }
+
+          // Additional safety - set as direct variable if possible
+          try {
+            if (typeof process === 'undefined') {
+              window.process = processPolyfill;
+            }
+          } catch (e) {
+            // Ignore errors
+          }
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Fallback icon styles for missing FontAwesome icons -->
+    <style>
+      /* Fallback for missing icons - show text instead of empty boxes */
+      .fas::before, .fab::before, .far::before {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome 6 Pro", sans-serif !important;
+      }
+
+      /* Specific fallbacks for commonly used icons */
+      .fa-home::before { content: "🏠"; font-family: sans-serif; }
+      .fa-info::before { content: "ℹ️"; font-family: sans-serif; }
+      .fa-star::before { content: "⭐"; font-family: sans-serif; }
+      .fa-user::before { content: "👤"; font-family: sans-serif; }
+      .fa-bolt::before { content: "⚡"; font-family: sans-serif; }
+      .fa-fire::before { content: "🔥"; font-family: sans-serif; }
+      .fa-users::before { content: "👥"; font-family: sans-serif; }
+      .fa-cog::before { content: "⚙️"; font-family: sans-serif; }
+      .fa-map::before { content: "🗺️"; font-family: sans-serif; }
+    </style>
+    <title>VTT Game</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

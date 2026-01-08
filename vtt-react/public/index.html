@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Mythrill - The Ultimate Fantasy TTRPG Experience. Create characters, join parties, and experience tabletop gaming like never before." />
+    <!-- Deployment tracking: 2025-08-26-token-fixes-v3 -->
+
+    <!-- Resource hints for performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://wow.zamimg.com">
+    <link rel="dns-prefetch" href="https://mythrill-ff7c6.firebaseapp.com">
+
+    <!-- Enhanced Process and Global polyfills - must be first -->
+    <script>
+      (function() {
+        'use strict';
+
+        // Immediate global setup
+        if (typeof window !== 'undefined') {
+          // Set up global immediately
+          if (typeof window.global === 'undefined') {
+            window.global = window;
+          }
+          if (typeof global === 'undefined') {
+            window.global = window;
+          }
+
+          // Enhanced process polyfill - create it even if it exists to ensure consistency
+          // Let the JavaScript polyfill handle environment variables properly
+          const processPolyfill = {
+            env: {
+              BROWSER: true
+            },
+              browser: true,
+              version: '16.0.0',
+              versions: {
+                node: '16.0.0'
+              },
+              platform: 'browser',
+              arch: 'x64',
+              title: 'browser',
+              argv: [],
+              argv0: 'node',
+              execArgv: [],
+              pid: 1,
+              ppid: 0,
+              nextTick: function(callback) {
+                if (typeof callback === 'function') {
+                  setTimeout(callback, 0);
+                }
+              },
+              cwd: function() {
+                return '/';
+              },
+              chdir: function() {
+                // No-op in browser
+              },
+              exit: function() {
+                // No-op in browser
+              },
+              kill: function() {
+                // No-op in browser
+              },
+              umask: function() {
+                return 0;
+              },
+              uptime: function() {
+                return 0;
+              },
+              hrtime: function() {
+                return [0, 0];
+              },
+              memoryUsage: function() {
+                return {
+                  rss: 0,
+                  heapTotal: 0,
+                  heapUsed: 0,
+                  external: 0
+                };
+              }
+            };
+
+          // Set process globally in multiple ways - always override
+          window.process = processPolyfill;
+          window.global.process = processPolyfill;
+
+          // Also try to set as direct global variable
+          try {
+            // Make it non-configurable to prevent overwriting
+            Object.defineProperty(window, 'process', {
+              value: processPolyfill,
+              writable: true,
+              configurable: true,
+              enumerable: true
+            });
+
+            // Also set on global
+            Object.defineProperty(window.global, 'process', {
+              value: processPolyfill,
+              writable: true,
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            // Fallback if defineProperty fails
+            window.process = processPolyfill;
+            window.global.process = processPolyfill;
+          }
+
+          // Additional safety - set as direct variable if possible
+          try {
+            if (typeof process === 'undefined') {
+              window.process = processPolyfill;
+            }
+          } catch (e) {
+            // Ignore errors
+          }
+        }
+      })();
+    </script>
+
+    <!-- Custom minimal FontAwesome CSS - only load icons we actually use -->
+    <style>
+      /* FontAwesome base styles */
+      .fas, .far, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands";
+        font-weight: 900;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .far { font-weight: 400; }
+      .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+
+      /* Only the icons we actually use */
+      .fa-gem::before { content: "\f3a5"; }
+      .fa-dragon::before { content: "\f6d5"; }
+      .fa-dice-d20::before { content: "\f6cf"; }
+      .fa-magic::before { content: "\f0d0"; }
+      .fa-users::before { content: "\f0c0"; }
+      .fa-hammer::before { content: "\f6e3"; }
+      .fa-user-shield::before { content: "\f505"; }
+      .fa-google::before { content: "\f1a0"; }
+      .fa-shield-alt::before { content: "\f3ed"; }
+      .fa-cloud::before { content: "\f0c2"; }
+      .fa-sign-in-alt::before { content: "\f2f6"; }
+      .fa-info-circle::before { content: "\f05a"; }
+      .fa-home::before { content: "\f015"; }
+      .fa-info::before { content: "\f129"; }
+      .fa-star::before { content: "\f005"; }
+      .fa-user::before { content: "\f007"; }
+      .fa-cog::before { content: "\f013"; }
+      .fa-gem::before { content: "\f3a5"; }
+      .fa-crown::before { content: "\f521"; }
+      .fa-user-cog::before { content: "\f4fe"; }
+      .fa-chevron-up::before { content: "\f077"; }
+      .fa-store::before { content: "\f54e"; }
+      .fa-heart::before { content: "\f004"; }
+      .fa-tint::before { content: "\f043"; }
+      .fa-bolt::before { content: "\f0e7"; }
+      .fa-chart-bar::before { content: "\f080"; }
+      .fa-fire::before { content: "\f06d"; }
+      .fa-wand-sparkles::before { content: "\e2ca"; }
+      .fa-skull::before { content: "\f54c"; }
+      .fa-hand-sparkles::before { content: "\e05d"; }
+      .fa-plus::before { content: "\f067"; }
+      .fa-minus::before { content: "\f068"; }
+      .fa-trash::before { content: "\f1f8"; }
+      .fa-times::before { content: "\f00d"; }
+      .fa-leaf::before { content: "\f06c"; }
+      .fa-moon::before { content: "\f186"; }
+      .fa-sun::before { content: "\f185"; }
+      .fa-coins::before { content: "\f51e"; }
+      .fa-snowflake::before { content: "\f2dc"; }
+      .fa-hand-paper::before { content: "\f256"; }
+      .fa-ban::before { content: "\f05e"; }
+    </style>
+    <!-- Load FontAwesome CSS and fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Optimize Google Fonts loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Load fonts asynchronously to prevent render blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap"></noscript>
+    <title>VTT Game</title>
+    <!-- Force deployment refresh -->
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

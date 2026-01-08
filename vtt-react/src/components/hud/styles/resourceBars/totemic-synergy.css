@@ -1,0 +1,637 @@
+.class-resource-bar.totemic-synergy {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+    width: 100%;
+}
+
+.primal-energy-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+/* Party Context - Ensure proper HUD fitting */
+.class-resource-bar.totemic-synergy.party-context .primal-energy-container {
+    gap: 1px; /* Tight gap for party layout */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.class-resource-bar.totemic-synergy.party-context .energy-flow-background {
+    height: 12px; /* Smaller height for party context */
+}
+
+
+.class-resource-bar.totemic-synergy.party-context .energy-value {
+    font-size: 8px; /* Smaller text for party context */
+}
+
+/* Remove any remaining totem-related elements that shouldn't appear */
+.totem-count-overlay,
+.carving-spirit,
+.totem-carvings,
+.totem-spirit-core,
+.totem-glow-ring,
+.totem-connection,
+.connection-spark,
+.spirit-orb {
+    display: none !important;
+}
+
+/* Default primal-energy-row styling - commented out to ensure proper containment */
+/*
+.primal-energy-row {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    position: relative;
+}
+*/
+
+/* Party Context - Remove frame and use dark grey background */
+.class-resource-bar.totemic-synergy.party-context .primal-energy-row {
+    background: rgba(40, 40, 40, 0.8);
+    border: none;
+    border-radius: 0;
+    padding: 1px 2px;
+    box-shadow: none;
+}
+
+/* Party Context - Hide totem row and show totems as bubbles on synergy bar */
+.class-resource-bar.totemic-synergy.party-context .primal-energy-row.totem-row {
+    display: none;
+}
+
+.class-resource-bar.totemic-synergy.party-context .synergy-row {
+    position: relative;
+}
+
+/* Elemental Spheres on top of the synergy bar */
+.class-resource-bar.totemic-synergy .energy-flow-background {
+    position: relative;
+}
+
+.elemental-spheres-overlay {
+    position: absolute;
+    top: -6px;
+    left: 1px;
+    right: 1px;
+    height: 24px;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1px;
+}
+
+.elemental-sphere {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(0.5px);
+}
+
+.elemental-sphere.active {
+    border-color: currentColor;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor, inset 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+.elemental-sphere.fire.active {
+    color: #FF4500;
+    border-color: #FF4500;
+}
+
+.elemental-sphere.frost.active {
+    color: #00BFFF;
+    border-color: #00BFFF;
+}
+
+.elemental-sphere.storm.active {
+    color: #9370DB;
+    border-color: #9370DB;
+}
+
+.elemental-sphere.earth.active,
+.elemental-sphere.nature.active {
+    color: #32CD32;
+    border-color: #32CD32;
+}
+
+.elemental-sphere.healing.active {
+    color: #FF69B4;
+    border-color: #FF69B4;
+}
+
+.elemental-sphere.protection.active {
+    color: #FFD700;
+    border-color: #FFD700;
+}
+
+.elemental-sphere.spirit.active {
+    color: #9370DB;
+    border-color: #9370DB;
+}
+
+.elemental-sphere.inactive {
+    opacity: 0.7;
+    filter: grayscale(50%);
+}
+
+.sphere-icon {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.8));
+}
+
+@keyframes sphereGlow {
+    0%, 100% {
+        box-shadow: 0 0 8px currentColor, inset 0 0 4px rgba(255, 255, 255, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 12px currentColor, inset 0 0 6px rgba(255, 255, 255, 0.5);
+        transform: scale(1.1);
+    }
+}
+
+/* Totem bubbles integrated into the synergy bar */
+.class-resource-bar.totemic-synergy.party-context .energy-flow-background {
+    position: relative;
+}
+
+.class-resource-bar.totemic-synergy.party-context .totem-symbols-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.class-resource-bar.totemic-synergy.party-context .totem-bubble {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(100, 100, 100, 0.6);
+    transition: all 0.3s ease;
+    z-index: 15; /* Higher than energy value (z-index: 10) */
+}
+
+.class-resource-bar.totemic-synergy.party-context .totem-bubble.active {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    border-color: #FFD700;
+    box-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+    animation: totemBubblePulse 2s ease-in-out infinite;
+}
+
+@keyframes totemBubblePulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: 0 0 6px rgba(255, 215, 0, 1);
+    }
+}
+
+/* Primal Energy Flow Background */
+.energy-flow-background {
+    flex: 1;
+    height: 18px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 9px;
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    position: relative;
+    overflow: hidden;
+    boxShadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Energy Waves Animation */
+.energy-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.energy-wave {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    animation: energyWave 3s infinite linear;
+}
+
+@keyframes energyWave {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Energy Fill with Particles */
+.energy-fill {
+    height: 100%;
+    border-radius: 7px;
+    transition: width 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.energy-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.1) 10px,
+        rgba(255,255,255,0.1) 20px
+    );
+    animation: energyShimmer 2s infinite linear;
+}
+
+@keyframes energyShimmer {
+    0% { transform: translateX(-20px); }
+    100% { transform: translateX(20px); }
+}
+
+@keyframes energyPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.energy-particle {
+    position: absolute;
+    top: 20%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    animation: particleFloat 2s infinite ease-in-out;
+}
+
+@keyframes particleFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-4px) scale(1.2); opacity: 1; }
+}
+
+/* Tribal Energy Markings */
+.energy-markings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.energy-mark {
+    position: absolute;
+    top: 2px;
+    width: 1px;
+    height: 8px;
+    opacity: 0.3;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.energy-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: serif;
+    font-size: 10px;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.synergy-spirit-awakened {
+    font-family: serif;
+    font-size: 8px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    z-index: 25;
+    animation: spiritAwaken 1s infinite alternate;
+    border: 2px solid;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Remove the AWAKENED indicator completely */
+.synergy-spirit-awakened {
+    display: none !important; /* Remove the annoying AWAKENED indicator entirely */
+}
+
+/* Subtle AWAKENED status indication in synergy text */
+.class-resource-bar.totemic-synergy .energy-value.awakened {
+    color: #FFD700; /* Gold color for awakened status */
+    font-weight: bold;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+}
+
+@keyframes spiritAwaken {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+
+
+
+
+
+/* Size variations for Primalist Energy Flow */
+.class-resource-bar.totemic-synergy.small .energy-flow-background {
+    height: 14px;
+}
+
+.class-resource-bar.totemic-synergy.small .elemental-spheres-overlay {
+    top: -4px;
+    height: 18px;
+    left: 1px;
+    right: 1px;
+    gap: 0px;
+}
+
+.class-resource-bar.totemic-synergy.small .elemental-sphere {
+    width: 14px;
+    height: 14px;
+    border-width: 1px;
+}
+
+.class-resource-bar.totemic-synergy.small .sphere-icon {
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.class-resource-bar.totemic-synergy.small .energy-value {
+    font-size: 8px;
+}
+
+.class-resource-bar.totemic-synergy.small .energy-mark {
+    height: 6px;
+}
+
+.class-resource-bar.totemic-synergy.small .synergy-spirit-awakened {
+    font-size: 6px;
+    padding: 1px 4px;
+}
+
+.class-resource-bar.totemic-synergy.large .energy-flow-background {
+    height: 22px;
+}
+
+.class-resource-bar.totemic-synergy.large .elemental-spheres-overlay {
+    top: -8px;
+    height: 32px;
+    left: 2px;
+    right: 2px;
+    gap: 2px;
+}
+
+.class-resource-bar.totemic-synergy.large .elemental-sphere {
+    width: 24px;
+    height: 24px;
+}
+
+.class-resource-bar.totemic-synergy.large .sphere-icon {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.class-resource-bar.totemic-synergy.large .energy-value {
+    font-size: 12px;
+}
+
+.class-resource-bar.totemic-synergy.large .energy-mark {
+    height: 10px;
+}
+
+.class-resource-bar.totemic-synergy.large .synergy-spirit-awakened {
+    font-size: 9px;
+    padding: 3px 8px;
+}
+
+/* Stance Menu (Compact) */
+.stance-menu-compact {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    padding: 8px;
+    z-index: 3200;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    min-width: 180px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #5a1e12;
+}
+
+.stance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.stance-option-compact {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(240, 240, 210, 0.8), rgba(245, 245, 220, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stance-option-compact:hover:not(.disabled) {
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.9), rgba(250, 250, 230, 1));
+    border-color: #7a3b2e;
+    transform: scale(1.05);
+}
+
+.stance-option-compact.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.stance-option-compact i {
+    font-size: 20px;
+}
+
+.stance-cost-compact {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(139, 69, 19, 0.9);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #f5f5dc;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Bladedancer Tooltips */
+.bladedancer-tooltip-header {
+    font-weight: 600;
+    font-size: 12px;
+    color: #3498DB;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+/* Chaos Weaver Tooltip Columns */
+.chaos-weaver-tooltip .bladedancer-tooltip-header {
+    color: #D946EF;
+}
+
+.chaos-tooltip-columns {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.chaos-tooltip-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.chaos-tooltip-column .bladedancer-tooltip-label {
+    color: #9333EA;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.chaos-tooltip-column .bladedancer-tooltip-mechanics {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bladedancer-tooltip-section {
+    margin-bottom: 8px;
+}
+
+.bladedancer-tooltip-section:last-child {
+    margin-bottom: 0;
+}
+
+.bladedancer-tooltip-label {
+    font-weight: 600;
+    font-size: 10px;
+    color: #5a3825;
+    margin-bottom: 2px;
+}
+
+.bladedancer-tooltip-value {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #4a3020;
+}
+
+.bladedancer-tooltip-mechanics {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.bladedancer-tooltip-mechanic {
+    font-size: 10px;
+    line-height: 1.3;
+    color: #4a3020;
+}
+
+.bladedancer-tooltip-mechanic strong {
+    color: #5a3825;
+    font-weight: 600;
+}
+
+.bladedancer-stance-bonuses {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+/* Note: Obsolete bladedancer-stance-bonus-col classes removed - all tooltips now use Pathfinder style */
+
+.bladedancer-stance-type {
+    font-size: 10px;
+    color: #7a6a4a;
+    font-style: italic;
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* Size Variations */
+.class-resource-bar.stance-flow.small .stance-flow-compact {
+    height: 20px;
+}
+
+.class-resource-bar.stance-flow.small .stance-icon-center {
+    width: 30px;
+    height: 30px;
+}
+
+.class-resource-bar.stance-flow.small .stance-icon-center i {
+    font-size: 14px;
+}
+
+.class-resource-bar.stance-flow.large .stance-flow-compact {
+    height: 32px;
+}
+
+.class-resource-bar.stance-flow.large .stance-icon-center {
+    width: 44px;
+    height: 44px;
+}
+
+.class-resource-bar.stance-flow.large .stance-icon-center i {
+    font-size: 22px;
+}
+
+/* ========================================
+   CHRONARCH TIME SHARDS & TEMPORAL STRAIN
+   ======================================== */

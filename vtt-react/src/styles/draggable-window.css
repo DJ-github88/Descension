@@ -1,0 +1,120 @@
+.draggable-window {
+    box-sizing: border-box;
+    /* Remove properties that cause blurry text */
+    transform-origin: top left;
+    /* Ensure crisp text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    pointer-events: auto;
+
+    /* Add smooth transition when not dragging - shorter for better responsiveness */
+    transition: transform 0.08s cubic-bezier(0.2, 0, 0.2, 1);
+
+    /* Performance optimizations */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    /* Optimize for animations */
+    contain: layout style paint;
+}
+
+/* Disable transition during dragging for performance */
+.draggable-window.dragging {
+    transition: none !important;
+    /* Additional performance optimizations during drag */
+    will-change: transform;
+    pointer-events: none; /* Prevent hover effects during drag */
+    /* Optimize rendering during drag */
+    contain: layout style paint;
+    /* Maintain transform origin for scaling */
+    transform-origin: top left !important;
+}
+
+/* Disable transition during resizing for smooth, responsive feedback */
+.draggable-window.resizing,
+.draggable-window.resizing * {
+    transition: none !important;
+}
+
+.draggable-window.resizing {
+    /* Performance optimizations during resize */
+    will-change: width, height, transform;
+    contain: layout style;
+    /* Maintain transform origin for scaling */
+    transform-origin: top left !important;
+}
+
+/* Ensure resize handle stays interactive during resize */
+.draggable-window.resizing .react-resizable-handle {
+    pointer-events: auto !important;
+}
+
+/* Re-enable pointer events for the drag handle */
+.draggable-window.dragging .window-header,
+.draggable-window.dragging .draggable-window-handle {
+    pointer-events: auto;
+}
+
+.draggable-window-handle {
+    cursor: move;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Ensure smooth transitions when dragging - z-index managed by windowManagerStore */
+.draggable-window.react-draggable-dragging {
+    transition: none !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    /* z-index managed by parent component via inline styles */
+    /* Maintain transform origin for proper scaling during drag */
+    transform-origin: top left !important;
+}
+
+/* Prevent text selection during drag */
+.draggable-window.react-draggable-dragging * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+}
+
+/* ===== MOBILE FULLSCREEN WINDOWS ===== */
+@media (max-width: 768px) {
+    /* Disable dragging functionality on mobile */
+    .draggable-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        transform: none !important;
+        transition: none !important;
+        cursor: default !important;
+        pointer-events: auto !important;
+    }
+
+    /* Disable drag handle on mobile */
+    .draggable-window-handle {
+        cursor: default !important;
+        pointer-events: auto !important;
+    }
+
+    /* Prevent dragging on mobile */
+    .draggable-window.dragging {
+        transform: none !important;
+        transition: none !important;
+        pointer-events: auto !important;
+    }
+
+    .draggable-window.react-draggable-dragging {
+        transform: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+    }
+}

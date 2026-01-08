@@ -1,0 +1,15 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "cd server && npm ci && npm start"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+
+[environments.production]
+variables = {
+  NODE_ENV = "production",
+  FIREBASE_PROJECT_ID = "mythrill-ff7c6",
+  FIREBASE_SERVICE_ACCOUNT_KEY = "$FIREBASE_SERVICE_ACCOUNT_KEY"
+}

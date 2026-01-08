@@ -1,0 +1,171 @@
+[
+  {
+    "original_path": "Blacksmithing/Icon21.png",
+    "name": "golden-brown-curved-horn-tusk",
+    "category": "Misc",
+    "description": "Golden-brown C-shaped curved object with horizontal ridges, resembling a polished horn or tusk"
+  },
+  {
+    "original_path": "Blacksmithing/Icon22.png",
+    "name": "coiled-golden-brown-rope",
+    "category": "Tailoring",
+    "description": "Coiled light golden-brown rope in circular shape with overlapping loops"
+  },
+  {
+    "original_path": "Blacksmithing/Icon23.png",
+    "name": "folded-light-brown-material",
+    "category": "Tailoring",
+    "description": "Folded piece of light brown or beige material with darker brown fold lines"
+  },
+  {
+    "original_path": "Blacksmithing/Icon24.png",
+    "name": "dark-metallic-ore-chunk-rust",
+    "category": "Blacksmithing",
+    "description": "Rough rectangular block of dark grey-brown ore with orange-rust highlights and metallic sheen"
+  },
+  {
+    "original_path": "Blacksmithing/Icon25.png",
+    "name": "pickaxe-silver-grey-golden-handle",
+    "category": "Blacksmithing",
+    "description": "Pickaxe with silver-grey metallic head and light golden-brown wooden handle"
+  },
+  {
+    "original_path": "Blacksmithing/Icon26.png",
+    "name": "stack-three-silver-bars-blue-reflections",
+    "category": "Blacksmithing",
+    "description": "Three stacked silver-grey metallic bars with blueish reflections and white highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon27.png",
+    "name": "dark-brown-cylindrical-ore-nugget",
+    "category": "Blacksmithing",
+    "description": "Elongated dark brown cylindrical object with orange-red highlights, like ore or ingot"
+  },
+  {
+    "original_path": "Blacksmithing/Icon28.png",
+    "name": "grey-metallic-ore-crystalline",
+    "category": "Blacksmithing",
+    "description": "Rough irregular grey metallic object with blue and light grey highlights, crystalline appearance"
+  },
+  {
+    "original_path": "Blacksmithing/Icon29.png",
+    "name": "pliers-pincers-bronze-handles-steel-jaws",
+    "category": "Blacksmithing",
+    "description": "Pair of pliers with golden-brown bronze handles and silvery-grey steel jaws"
+  },
+  {
+    "original_path": "Blacksmithing/Icon30.png",
+    "name": "golden-fan-shaped-ribbed",
+    "category": "Blacksmithing",
+    "description": "Golden-brown fan-shaped object with vertical ribbed texture and metallic appearance"
+  },
+  {
+    "original_path": "Blacksmithing/Icon31.png",
+    "name": "grey-silver-metallic-plate-ingot",
+    "category": "Blacksmithing",
+    "description": "Rectangular grey-silver metallic plate or ingot with rough textured appearance"
+  },
+  {
+    "original_path": "Blacksmithing/Icon32.png",
+    "name": "tree-stump-growth-rings",
+    "category": "Farming",
+    "description": "Brown tree stump with visible concentric growth rings on flat top surface"
+  },
+  {
+    "original_path": "Blacksmithing/Icon33.png",
+    "name": "brown-textured-rectangular-ingot",
+    "category": "Blacksmithing",
+    "description": "Warm brown rectangular object with rough hammered texture and golden highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon34.png",
+    "name": "tightly-coiled-brown-rope",
+    "category": "Tailoring",
+    "description": "Tightly coiled brown rope with multiple stacked loops and visible twisted strands"
+  },
+  {
+    "original_path": "Blacksmithing/Icon35.png",
+    "name": "golden-brown-oval-nugget-ore",
+    "category": "Blacksmithing",
+    "description": "Irregular oval golden-brown metallic nugget with rough textured surface"
+  },
+  {
+    "original_path": "Blacksmithing/Icon36.png",
+    "name": "hand-tool-golden-handle-blue-shaft",
+    "category": "Engineering",
+    "description": "Hand tool with golden-brown cylindrical handle and light blue-grey grooved shaft"
+  },
+  {
+    "original_path": "Blacksmithing/Icon37.png",
+    "name": "stack-three-golden-brown-planks",
+    "category": "Farming",
+    "description": "Three stacked diagonal golden-brown flat objects, possibly planks or ingots"
+  },
+  {
+    "original_path": "Blacksmithing/Icon38.png",
+    "name": "dark-cylindrical-knurled-handle",
+    "category": "Engineering",
+    "description": "Dark grey cylindrical object with horizontal knurled texture pattern"
+  },
+  {
+    "original_path": "Blacksmithing/Icon39.png",
+    "name": "grey-silver-metallic-ingot-raw",
+    "category": "Blacksmithing",
+    "description": "Elongated grey-silver metallic ingot with irregular textured surface"
+  },
+  {
+    "original_path": "Blacksmithing/Icon40.png",
+    "name": "dark-golden-brown-braided-ring",
+    "category": "Blacksmithing",
+    "description": "Dark golden-brown or bronze circular band with interwoven braided texture"
+  },
+  {
+    "original_path": "Blacksmithing/Icon41.png",
+    "name": "stack-three-grey-silver-ingots",
+    "category": "Blacksmithing",
+    "description": "Three stacked greyish-silver metallic ingots with dark shading and bright highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon42.png",
+    "name": "dark-metallic-hook-curved",
+    "category": "Blacksmithing",
+    "description": "Dark grey C-shaped or hook-like metallic object with silver highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon43.png",
+    "name": "two-intertwined-golden-roots-horns",
+    "category": "Misc",
+    "description": "Two intertwined golden-brown curved objects resembling gnarled roots or horns"
+  },
+  {
+    "original_path": "Blacksmithing/Icon44.png",
+    "name": "stack-three-golden-bars-shiny",
+    "category": "Blacksmithing",
+    "description": "Three stacked bright golden-yellow bars with metallic sheen and highlights"
+  },
+  {
+    "original_path": "Blacksmithing/Icon45.png",
+    "name": "dark-grey-teardrop-ore-ingot",
+    "category": "Blacksmithing",
+    "description": "Elongated dark grey teardrop-shaped metallic object with silver highlights and reddish-brown hints"
+  },
+  {
+    "original_path": "Blacksmithing/Icon46.png",
+    "name": "golden-brown-rope-knot-loop",
+    "category": "Tailoring",
+    "description": "Golden-brown rope tied into loose figure-eight knot or loop"
+  },
+  {
+    "original_path": "Blacksmithing/Icon47.png",
+    "name": "cluster-green-scales-leaves",
+    "category": "Herbs",
+    "description": "Cluster of overlapping green scale-like or leaf-like objects in fanned pattern"
+  },
+  {
+    "original_path": "Blacksmithing/Icon48.png",
+    "name": "hand-tool-brown-handle-serrated-blade",
+    "category": "Engineering",
+    "description": "Hand tool with light brown curved handle and grey metallic serrated blade"
+  }
+]
+

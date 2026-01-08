@@ -1,0 +1,714 @@
+/* ===== RACE SELECTOR CONTAINER ===== */
+
+.race-selector-container {
+    padding: 1.5rem;
+}
+
+/* ===== STEP TITLES ===== */
+
+.step-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c2416;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== RACE SELECTION STEP ===== */
+
+.race-selection-step {
+    margin-bottom: 2rem;
+}
+
+.race-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.race-card {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.race-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #d4af37 0%, #b8941f 50%, #d4af37 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.race-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+    border-color: #b8941f;
+}
+
+.race-card:hover::before {
+    opacity: 1;
+}
+
+.race-card.selected {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    border-color: #8b6914;
+    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.race-card.selected::before {
+    opacity: 1;
+    background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.5) 50%, #fff 100%);
+}
+
+.race-card.selected .race-card-name,
+.race-card.selected .race-card-description {
+    color: #2c2416;
+}
+
+.race-card-icon {
+    font-size: 2.5rem;
+    color: #d4af37;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.race-card.selected .race-card-icon {
+    color: #2c2416;
+}
+
+.race-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 0.5rem 0;
+    text-align: center;
+}
+
+.race-card-description {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.4;
+    margin: 0 0 0.75rem 0;
+    text-align: center;
+}
+
+.race-card-info {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.info-badge {
+    background: rgba(212, 175, 55, 0.2);
+    color: #2c2416;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.race-card.selected .info-badge {
+    background: rgba(44, 36, 22, 0.2);
+}
+
+/* ===== VARIANT SELECTION STEP ===== */
+
+.variant-selection-step {
+    margin-bottom: 2rem;
+}
+
+.variant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.variant-card {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border: 2px solid #8b5a3c;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.variant-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 90, 60, 0.3);
+    border-color: #6b3e2a;
+}
+
+.variant-card.selected {
+    background: linear-gradient(135deg, #8b5a3c 0%, #6b3e2a 100%);
+    border-color: #4a2c1a;
+    box-shadow: 0 4px 8px rgba(139, 90, 60, 0.4);
+}
+
+.variant-card.selected .variant-card-name,
+.variant-card.selected .variant-card-description {
+    color: #f4f1e8;
+}
+
+.variant-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 0.5rem 0;
+}
+
+.variant-card-description {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.4;
+    margin: 0 0 0.75rem 0;
+}
+
+.stat-modifiers-mini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.stat-mod {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+}
+
+.stat-mod.positive {
+    background: rgba(139, 69, 19, 0.3);
+    color: #8b4513;
+    border: 1px solid #a0522d;
+}
+
+.stat-mod.negative {
+    background: rgba(244, 67, 54, 0.3);
+    color: #c62828;
+    border: 1px solid #f44336;
+}
+
+.variant-card.selected .stat-mod.positive {
+    background: rgba(212, 175, 55, 0.3);
+    color: #f4f1e8;
+    border-color: #d4af37;
+}
+
+.variant-card.selected .stat-mod.negative {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffccbc;
+    border-color: #ff8a65;
+}
+
+/* ===== VARIANT DETAILS VIEW ===== */
+
+.variant-details-view {
+    background: linear-gradient(135deg, #fefcf8 0%, #f8f5f0 50%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+    margin-top: 1rem;
+}
+
+.variant-details-view .step-title {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #d4af37;
+}
+
+.details-layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    align-items: start;
+}
+
+/* ===== LEFT COLUMN: STATS & INFO ===== */
+
+.details-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.race-selector-container .stat-block {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1.5px solid #d4af37 !important;
+    border-radius: 8px !important;
+    padding: 0.25rem 0.875rem !important;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15) !important;
+}
+
+.stat-block-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2c2416;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0.5rem 0 0 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid #d4af37;
+}
+
+/* Scoped to race-selector-container to avoid global conflicts */
+.race-selector-container .stat-modifiers-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.15rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0.6rem 0 0.4rem 0;
+}
+
+/* Scoped with highest specificity to override all global .stat-modifier rules */
+.race-selector-container .stat-block .stat-modifiers-row .stat-modifier {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.15rem 0.2rem !important;
+    border-radius: 2px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.5rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0px !important;
+    white-space: nowrap !important;
+    transition: all 0.2s ease !important;
+    min-height: 1.4rem !important;
+    max-height: 1.4rem !important;
+    height: 1.4rem !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    flex: 1 1 0 !important;
+    flex-shrink: 1 !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    color: inherit !important;
+}
+
+.race-selector-container .stat-block .stat-modifiers-row .stat-modifier:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Colorblind-friendly colors matching site theme: Gold/brown for positive, muted red-brown for negative */
+.race-selector-container .stat-block .stat-modifiers-row .stat-modifier.positive {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(184, 148, 31, 0.2) 100%) !important;
+    color: #8b6914 !important;
+    border: none !important;
+}
+
+.race-selector-container .stat-block .stat-modifiers-row .stat-modifier.negative {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.25) 0%, rgba(107, 62, 42, 0.2) 100%) !important;
+    color: #6b3e2a !important;
+    border: none !important;
+}
+
+.race-selector-container .stat-block .stat-modifiers-row .stat-modifier.neutral {
+    background: linear-gradient(135deg, rgba(113, 128, 150, 0.2) 0%, rgba(160, 174, 192, 0.15) 100%) !important;
+    color: #5a4a3a !important;
+    border: none !important;
+}
+
+.info-block {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    padding: 0.25rem 0.875rem;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+}
+
+.info-block-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0.5rem 0 0.2rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1.5px solid #d4af37;
+    padding-bottom: 0.15rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1rem;
+    width: 100%;
+    margin: 0.6rem 0 0.5rem 0;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 0.7rem;
+    line-height: 1;
+}
+
+.info-row-no-bg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0.6rem 0 0.5rem 0 !important;
+}
+
+.info-row-full {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    padding-top: 0.2rem;
+    margin-top: 0.1rem;
+}
+
+.info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #5a4a3a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 4rem;
+}
+
+.info-value {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #2c2416;
+    letter-spacing: 0.2px;
+    flex: 1;
+    text-align: left;
+    line-height: 1.1;
+}
+
+/* ===== RIGHT COLUMN: TRAITS ===== */
+
+.details-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.traits-block {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid #d4af37;
+    border-radius: 10px;
+    padding: 1.25rem;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+}
+
+.traits-block-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 0.5rem;
+}
+
+.traits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.trait-card {
+    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
+    border-left: 3px solid #d4af37;
+    border-radius: 6px;
+    padding: 0.75rem;
+}
+
+.trait-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+}
+
+.trait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0;
+}
+
+.trait-type {
+    background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
+    color: #ffffff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.trait-description {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ===== CULTURAL & INTEGRATION SECTIONS ===== */
+
+.cultural-section,
+.integration-section {
+    margin-top: 1.5rem;
+    padding: 0.25rem 0.875rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+}
+
+.cultural-title,
+.integration-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0.5rem 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cultural-title i,
+.integration-title i {
+    color: #d4af37;
+}
+
+.cultural-text {
+    font-size: 0.9rem;
+    color: #5d4037;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+    text-align: justify;
+}
+
+.integration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.integration-card {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 0.75rem;
+    border-radius: 6px;
+    border-left: 3px solid #d4af37;
+    margin-bottom: 0.75rem;
+}
+
+.integration-card h5 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c2416;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.integration-card p {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ===== EMPTY STATE ===== */
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #8b5a3c;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ===== TRAIT ICONS ===== */
+
+.traits-icons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.trait-icon-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 2px solid #d4af37;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.trait-icon-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.trait-icon-item.selected {
+    border-color: #b8941f;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+}
+
+.trait-icon-item.selected::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: #b8941f;
+    border-radius: 2px;
+}
+
+.trait-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.trait-spell-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1024px) {
+    .details-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* ===== LOADING STATES ===== */
+
+.race-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: #666;
+}
+
+.race-loading i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #d4af37;
+}
+
+.race-loading p {
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.loading-more-races {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    color: #666;
+    grid-column: 1 / -1;
+}
+
+.loading-more-races i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #d4af37;
+}
+
+.loading-more-races p {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .race-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .variant-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

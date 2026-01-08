@@ -1,0 +1,323 @@
+/* Class Resource Bar Styles */
+
+/* Import individual class resource bar styles */
+@import './resourceBars/base.css';
+@import './resourceBars/minstrel.css';
+@import './resourceBars/oracle.css';
+@import './resourceBars/mayhem-modifiers-display.css';
+@import './resourceBars/chaosweaver.css';
+@import './resourceBars/elemental-spheres-display.css';
+@import './resourceBars/rage-bar.css';
+@import './resourceBars/stance-flow.css';
+@import './resourceBars/totemic-synergy.css';
+@import './resourceBars/time-shards-strain.css';
+@import './resourceBars/hexbreaker-charges.css';
+@import './resourceBars/ascension-blood.css';
+@import './resourceBars/drp-resilience.css';
+@import './resourceBars/dominance-die-display.css';
+@import './resourceBars/madness-gauge.css';
+@import './resourceBars/threads-of-destiny.css';
+@import './resourceBars/wild-instinct-forms.css';
+@import './resourceBars/fortune-points-gambling.css';
+@import './resourceBars/quarry-marks-companion.css';
+@import './resourceBars/runes-inscriptions.css';
+@import './resourceBars/eternal-frost-phylactery.css';
+@import './resourceBars/lunar-phases.css';
+@import './resourceBars/devotion-gauge.css';
+@import './resourceBars/musical-notes-combo.css';
+
+.class-resource-wrapper {
+    position: relative;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.class-resource-wrapper.clickable {
+    cursor: pointer;
+}
+
+.class-resource-wrapper.clickable:hover {
+    opacity: 0.9;
+}
+
+/* Base Resource Bar */
+.class-resource-bar {
+    position: relative;
+    height: 16px;
+    border-radius: 8px;
+    overflow: visible; /* Allow content to be visible */
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(160, 140, 112, 0.6);
+    margin-bottom: 2px; /* Add spacing between resource bars */
+}
+
+/* Remove base background/border for custom resource bars to avoid grey track behind */
+.class-resource-bar.rage-bar,
+.class-resource-bar.mayhem-modifiers-display,
+.class-resource-bar.time-shards-strain,
+.class-resource-bar.hexbreaker-charges,
+.class-resource-bar.ascension-blood,
+.class-resource-bar.drp-resilience,
+.class-resource-bar.dominance-die-display,
+.class-resource-bar.madness-gauge,
+.class-resource-bar.threads-of-destiny,
+.class-resource-bar.wild-instinct-forms,
+.class-resource-bar.fortune-points-gambling,
+.class-resource-bar.quarry-marks-companion,
+.class-resource-bar.runes-inscriptions,
+.class-resource-bar.eternal-frost-phylactery,
+.class-resource-bar.lunar-phases,
+.class-resource-bar.musical-notes-combo,
+.class-resource-bar.prophetic-visions-bar,
+.class-resource-bar.devotion-gauge,
+.class-resource-bar.stance-flow,
+.class-resource-bar.elemental-spheres-display,
+.class-resource-bar.totemic-synergy {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.class-resource-bar.small {
+    height: 12px;
+}
+
+.class-resource-bar.large {
+    height: 20px;
+}
+
+/* Progress Bar (Default) */
+.progress-bar .bar-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.progress-bar .bar-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Orbs Display (Pyrofiend) */
+.orbs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.orbs-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.orb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.orb.active {
+    animation: pulse 2s infinite;
+}
+
+.orb.inactive {
+    opacity: 0.4;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Musical Staff (Minstrel) */
+.musical-staff {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.staff-container {
+    position: relative;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+.staff-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.staff-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.staff-line:nth-child(1) { top: 20%; }
+.staff-line:nth-child(2) { top: 35%; }
+.staff-line:nth-child(3) { top: 50%; }
+.staff-line:nth-child(4) { top: 65%; }
+.staff-line:nth-child(5) { top: 80%; }
+
+.notes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.note {
+    position: absolute;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.note.active {
+    animation: noteGlow 1.5s infinite;
+}
+
+@keyframes noteGlow {
+    0%, 100% { text-shadow: 0 0 4px currentColor; }
+    50% { text-shadow: 0 0 8px currentColor; }
+}
+
+/* Gauge Display (Chronarch) */
+.gauge-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.gauge-container {
+    position: relative;
+    height: 16px;
+    margin-bottom: 2px;
+}
+
+.gauge-background {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+}
+
+.gauge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.threshold-marker {
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: 16px;
+    border-radius: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.gauge-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+/* Vortex Display (Old Chaos Weaver - kept for compatibility) */
+.vortex-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.vortex-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.chaos-vortex {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 0, 128, 0.8), rgba(255, 0, 255, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 3s linear infinite;
+}
+
+.vortex-center {
+    font-size: 12px;
+}
+
+.entropy-counter {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 8px;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.dice-display {
+    display: flex;
+    gap: 2px;
+}
+

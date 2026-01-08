@@ -1,0 +1,491 @@
+/* ===== MAYHEM MODIFIERS DISPLAY (CHAOS WEAVER) ===== */
+.mayhem-modifiers-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 8px;
+    min-height: 140px;
+}
+
+.mayhem-modifiers-display.small {
+    min-height: auto;
+    padding: 4px;
+}
+
+.mayhem-modifiers-display.large {
+    min-height: auto;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HUD version - matches HP/Mana/AP bar styling */
+.mayhem-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: row; /* Controls on the left */
+}
+
+.mayhem-bar-container-hud {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mayhem-bar-background {
+    position: relative;
+    width: 100%;
+    height: 20px; /* Thinner to fit HUD properly */
+    background: linear-gradient(180deg, rgba(30, 15, 30, 0.8), rgba(20, 10, 25, 0.9));
+    border: 1px solid rgba(147, 51, 234, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.mayhem-bar-fill-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(147, 51, 234, 0.7) 0%,
+        rgba(217, 70, 239, 0.8) 50%,
+        rgba(147, 51, 234, 0.7) 100%
+    );
+    background-size: 200% 100%;
+    transition: width 0.3s ease;
+    animation: chaosShiftHUD 3s linear infinite;
+}
+
+@keyframes chaosShiftHUD {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.mayhem-bar-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Cinzel', serif;
+    color: #f8f4e6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Mayhem Controls (HUD) */
+.mayhem-controls-hud {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.mayhem-btn {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid rgba(147, 51, 234, 0.5);
+    border-radius: 3px;
+    color: #D946EF;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 9px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.mayhem-btn:hover {
+    background: rgba(147, 51, 234, 0.4);
+    border-color: rgba(147, 51, 234, 0.7);
+}
+
+.mayhem-btn:active {
+    transform: scale(0.92);
+}
+
+.mayhem-btn.mayhem-menu-btn {
+    color: #D946EF;
+}
+
+/* Mayhem popup menu - Chaos Weaver specific styling */
+.mayhem-modifiers-display .mayhem-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin-top: 16px !important;
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9)) !important;
+    border: 2px solid rgba(139, 69, 19, 0.6) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    min-width: 160px !important;
+    z-index: 3050 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    /* Ensure menu is only visible when explicitly shown */
+    pointer-events: auto !important;
+}
+
+.mayhem-menu-row {
+    display: contents;
+}
+
+.mayhem-modifiers-display .mayhem-menu-item {
+    font-family: 'Crimson Text', serif !important;
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+    background: rgba(101, 67, 33, 0.8) !important;
+    border: 2px solid rgba(139, 69, 19, 0.8) !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+.mayhem-modifiers-display .mayhem-menu-item:hover {
+    background: rgba(139, 69, 19, 0.9) !important;
+    border-color: rgba(160, 82, 45, 1.0) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mayhem-modifiers-display .mayhem-menu-item:active {
+    transform: scale(0.95) !important;
+}
+
+/* Full display - clean bar container */
+.mayhem-bar-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mayhem-modifiers-display.large .mayhem-bar-container {
+    height: 60px;
+}
+
+/* Main modifier bar - chaotic design */
+.mayhem-modifier-bar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(135deg, rgba(74, 14, 78, 0.4) 0%, rgba(88, 28, 135, 0.3) 50%, rgba(74, 14, 78, 0.4) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(147, 51, 234, 0.05) 10px, rgba(147, 51, 234, 0.05) 20px);
+    border: 2px solid rgba(147, 51, 234, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow:
+        0 0 10px rgba(147, 51, 234, 0.3),
+        inset 0 0 20px rgba(74, 14, 78, 0.5);
+    animation: barPulse 3s ease-in-out infinite;
+}
+
+.mayhem-modifier-bar:hover {
+    background:
+        linear-gradient(135deg, rgba(74, 14, 78, 0.5) 0%, rgba(88, 28, 135, 0.4) 50%, rgba(74, 14, 78, 0.5) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(147, 51, 234, 0.08) 10px, rgba(147, 51, 234, 0.08) 20px);
+    border-color: rgba(147, 51, 234, 0.8);
+    box-shadow:
+        0 0 15px rgba(147, 51, 234, 0.5),
+        inset 0 0 20px rgba(74, 14, 78, 0.5);
+}
+
+@keyframes barPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 10px rgba(147, 51, 234, 0.3),
+            inset 0 0 20px rgba(74, 14, 78, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 15px rgba(147, 51, 234, 0.5),
+            inset 0 0 25px rgba(74, 14, 78, 0.6);
+    }
+}
+
+/* Filled portion of the bar - chaotic animated gradient */
+.mayhem-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(147, 51, 234, 0.7) 0%,
+        rgba(217, 70, 239, 0.8) 25%,
+        rgba(168, 85, 247, 0.7) 50%,
+        rgba(217, 70, 239, 0.8) 75%,
+        rgba(147, 51, 234, 0.7) 100%
+    );
+    background-size: 200% 100%;
+    transition: width 0.3s ease;
+    border-radius: 10px 0 0 10px;
+    animation: chaosShift 4s linear infinite;
+}
+
+@keyframes chaosShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* Chaotic energy particles */
+.mayhem-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.mayhem-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #D946EF;
+    box-shadow: 0 0 8px rgba(217, 70, 239, 0.8);
+    animation: particleFloat 3s ease-in-out infinite;
+    opacity: 0;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+}
+
+/* Individual modifier segments overlay with jagged effect */
+.mayhem-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    pointer-events: none;
+}
+
+.mayhem-segment {
+    flex: 1;
+    border-right: 2px solid rgba(147, 51, 234, 0.2);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.mayhem-segment:last-child {
+    border-right: none;
+}
+
+.mayhem-segment.active {
+    border-color: rgba(217, 70, 239, 0.6);
+    animation: segmentFlicker 2s ease-in-out infinite;
+}
+
+@keyframes segmentFlicker {
+    0%, 100% {
+        border-color: rgba(217, 70, 239, 0.6);
+    }
+    50% {
+        border-color: rgba(217, 70, 239, 0.3);
+    }
+}
+
+/* Chaotic glitch overlay */
+.mayhem-glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(217, 70, 239, 0.1) 50%,
+        transparent 100%
+    );
+    background-size: 50% 100%;
+    animation: glitchSweep 5s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+@keyframes glitchSweep {
+    0% {
+        background-position: -100% 0;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 200% 0;
+        opacity: 0;
+    }
+}
+
+/* Count display in center - chaotic styling */
+.mayhem-count-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #FFF;
+    text-shadow:
+        0 0 6px rgba(217, 70, 239, 1),
+        0 0 12px rgba(147, 51, 234, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.9);
+    z-index: 2;
+    pointer-events: none;
+    animation: textGlitch 4s ease-in-out infinite;
+}
+
+@keyframes textGlitch {
+    0%, 90%, 100% {
+        text-shadow:
+            0 0 6px rgba(217, 70, 239, 1),
+            0 0 12px rgba(147, 51, 234, 0.8),
+            0 2px 4px rgba(0, 0, 0, 0.9);
+    }
+    92%, 94%, 96% {
+        text-shadow:
+            -2px 0 6px rgba(217, 70, 239, 1),
+            2px 0 12px rgba(147, 51, 234, 0.8),
+            0 2px 4px rgba(0, 0, 0, 0.9);
+    }
+}
+
+.mayhem-icon {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(217, 70, 239, 0.8));
+    animation: iconSpin 8s linear infinite;
+}
+
+@keyframes iconSpin {
+    0%, 95% {
+        transform: rotate(0deg);
+    }
+    96%, 98% {
+        transform: rotate(15deg);
+    }
+    97%, 99% {
+        transform: rotate(-15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.mayhem-modifiers-display.large .mayhem-icon {
+    font-size: 24px;
+}
+
+.mayhem-count {
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.mayhem-modifiers-display.large .mayhem-count {
+    font-size: 18px;
+}
+
+/* Chaotic Wave Animation */
+@keyframes chaoticWave {
+    0% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+    25% {
+        background-position: 100% 30%;
+        filter: hue-rotate(15deg);
+    }
+    50% {
+        background-position: 200% 70%;
+        filter: hue-rotate(-10deg);
+    }
+    75% {
+        background-position: 300% 20%;
+        filter: hue-rotate(25deg);
+    }
+    100% {
+        background-position: 400% 50%;
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* Force compact sizing in account context */
+.character-card .mayhem-modifiers-display,
+.character-card-compact .mayhem-modifiers-display {
+    min-height: 16px !important;
+    padding: 2px !important;
+}
+
+.character-card .mayhem-bar-container,
+.character-card-compact .mayhem-bar-container {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+.character-card .modifier-icon,
+.character-card-compact .modifier-icon {
+    min-width: 12px !important;
+    height: 14px !important;
+    font-size: 0.6rem !important;
+}

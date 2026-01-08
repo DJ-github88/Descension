@@ -1,0 +1,234 @@
+/* ===== UNIFIED PF-TAB STYLING ===== */
+/* Consistent tab button styling across all spellcrafting components */
+
+.pf-tab-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--pf-space-4, 16px);
+  padding: var(--pf-space-2, 8px);
+  background: var(--pf-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
+  border-radius: var(--pf-border-radius, 8px);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Base pf-tab styling - applies to all tab buttons */
+.pf-tab {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-2, 8px) var(--pf-space-4, 16px);
+  min-height: 36px;
+  min-width: 80px;
+  
+  /* Background and borders */
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius, 8px);
+  
+  /* Typography */
+  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-size: var(--pf-text-sm, 14px);
+  font-weight: var(--pf-font-medium, 500);
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  user-select: none;
+  
+  /* Effects */
+  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+}
+
+/* Hover state */
+.pf-tab:hover {
+  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  border-color: var(--pf-gold, #d4af37);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+}
+
+/* Active/Selected state */
+.pf-tab.pf-tab-active,
+.pf-tab.active {
+  background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
+  color: var(--pf-brown-darkest, #2d1810);
+  border-color: var(--pf-gold-dark, #b8860b);
+  box-shadow: 
+    var(--pf-shadow-inset, inset 0 2px 4px rgba(45, 24, 16, 0.1)),
+    0 0 10px rgba(212, 175, 55, 0.3);
+  transform: none;
+  font-weight: var(--pf-font-semibold, 600);
+}
+
+.pf-tab.pf-tab-active:hover,
+.pf-tab.active:hover {
+  background: var(--pf-gradient-gold-hover, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
+  transform: none;
+  box-shadow: 
+    var(--pf-shadow-inset, inset 0 2px 4px rgba(45, 24, 16, 0.1)),
+    0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Disabled state */
+.pf-tab:disabled,
+.pf-tab.disabled {
+  background: var(--pf-parchment-darker, #d5cbb0);
+  color: var(--pf-text-light, #a08c70);
+  border-color: var(--pf-brown-light, #a08c70);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+}
+
+.pf-tab:disabled:hover,
+.pf-tab.disabled:hover {
+  background: var(--pf-parchment-darker, #d5cbb0);
+  border-color: var(--pf-brown-light, #a08c70);
+  transform: none;
+  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+}
+
+/* ===== SPECIALIZED TAB VARIANTS ===== */
+
+/* Horizontal tab group (default) */
+.pf-tab-group.horizontal {
+  flex-direction: row;
+}
+
+.pf-tab-group.horizontal .pf-tab {
+  flex: 1;
+  border-right: none;
+  margin-right: 12px;
+}
+
+.pf-tab-group.horizontal .pf-tab:not(:last-child) {
+  border-right: 1px solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius, 8px);
+}
+
+.pf-tab-group.horizontal .pf-tab:not(:first-child) {
+  border-radius: var(--pf-border-radius, 8px);
+}
+
+
+/* Vertical tab group */
+.pf-tab-group.vertical {
+  flex-direction: column;
+  width: fit-content;
+}
+
+.pf-tab-group.vertical .pf-tab {
+  width: 100%;
+  border-bottom: none;
+}
+
+.pf-tab-group.vertical .pf-tab:not(:last-child) {
+  border-bottom: 1px solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius, 8px) var(--pf-border-radius, 8px) 0 0;
+}
+
+.pf-tab-group.vertical .pf-tab:not(:first-child) {
+  border-radius: 0 0 var(--pf-border-radius, 8px) var(--pf-border-radius, 8px);
+}
+
+.pf-tab-group.vertical .pf-tab:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* Small tabs */
+.pf-tab.small {
+  padding: var(--pf-space-1, 4px) var(--pf-space-3, 12px);
+  min-height: 28px;
+  font-size: var(--pf-text-xs, 12px);
+}
+
+/* Large tabs */
+.pf-tab.large {
+  padding: var(--pf-space-3, 12px) var(--pf-space-6, 24px);
+  min-height: 44px;
+  font-size: var(--pf-text-lg, 18px);
+}
+
+/* Icon tabs */
+.pf-tab .pf-tab-icon {
+  margin-right: var(--pf-space-2, 8px);
+  font-size: 1.2em;
+}
+
+.pf-tab.icon-only {
+  padding: var(--pf-space-2, 8px);
+  min-width: 36px;
+}
+
+.pf-tab.icon-only .pf-tab-icon {
+  margin-right: 0;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .pf-tab {
+    padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
+    min-height: 32px;
+    font-size: var(--pf-text-sm, 14px);
+  }
+  
+  .pf-tab.small {
+    padding: var(--pf-space-1, 4px) var(--pf-space-2, 8px);
+    min-height: 24px;
+    font-size: var(--pf-text-xs, 12px);
+  }
+  
+  .pf-tab.large {
+    padding: var(--pf-space-2, 8px) var(--pf-space-4, 16px);
+    min-height: 36px;
+    font-size: var(--pf-text-base, 16px);
+  }
+  
+  .pf-tab-group {
+    gap: var(--pf-space-1, 4px);
+    padding: var(--pf-space-1, 4px);
+  }
+}
+
+/* ===== THEME VARIANTS ===== */
+
+/* Danger/Error tabs */
+.pf-tab.danger {
+  background: linear-gradient(145deg, #dc3545 0%, #c82333 50%, #a71e2a 100%);
+  color: var(--pf-text-on-dark, #f8f4e6);
+  border-color: var(--pf-danger-dark, #a71e2a);
+}
+
+.pf-tab.danger:hover {
+  background: linear-gradient(145deg, #e74c3c 0%, #dc3545 50%, #c82333 100%);
+}
+
+/* Success tabs */
+.pf-tab.success {
+  background: linear-gradient(145deg, #28a745 0%, #218838 50%, #1e7e34 100%);
+  color: var(--pf-text-on-dark, #f8f4e6);
+  border-color: var(--pf-success-dark, #1e7e34);
+}
+
+.pf-tab.success:hover {
+  background: linear-gradient(145deg, #34ce57 0%, #28a745 50%, #218838 100%);
+}
+
+/* Warning tabs */
+.pf-tab.warning {
+  background: linear-gradient(145deg, #ffc107 0%, #e0a800 50%, #d39e00 100%);
+  color: var(--pf-brown-darkest, #2d1810);
+  border-color: var(--pf-warning-dark, #d39e00);
+}
+
+.pf-tab.warning:hover {
+  background: linear-gradient(145deg, #ffcd39 0%, #ffc107 50%, #e0a800 100%);
+}

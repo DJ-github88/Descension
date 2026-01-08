@@ -1,0 +1,291 @@
+[
+  {
+    "original_path": "Gems/Icon1.png",
+    "name": "dark-tablet-cyan-portal-lightning-crystals",
+    "category": "Enchanting",
+    "description": "Dark grey tablet with glowing cyan interior, lightning patterns, flanked by blue crystal pillars with floating orbs"
+  },
+  {
+    "original_path": "Gems/Icon2.png",
+    "name": "purple-gem-faceted-metallic-frame",
+    "category": "Gems",
+    "description": "Vibrant magenta-purple faceted gem with dark grey metallic frame, spiky top, and claw-like bottom attachments"
+  },
+  {
+    "original_path": "Gems/Icon3.png",
+    "name": "green-plant-totem-brown-base",
+    "category": "Herbs",
+    "description": "Stylized plant-like entity with green conical foliage, brown base, and detached green leaf elements"
+  },
+  {
+    "original_path": "Gems/Icon4.png",
+    "name": "dark-sphere-blue-crystal-shards-orbiting",
+    "category": "Gems",
+    "description": "Dark spherical object with bright blue faceted gem embedded in center, surrounded by floating blue crystal shards"
+  },
+  {
+    "original_path": "Gems/Icon5.png",
+    "name": "dark-ore-pile-glowing-orange-red-spots",
+    "category": "Ore",
+    "description": "Dark brown-grey irregular pile with numerous glowing orange-red incandescent spots, like molten ore"
+  },
+  {
+    "original_path": "Gems/Icon6.png",
+    "name": "dark-blue-sphere-teal-orbiting-arcs",
+    "category": "Gems",
+    "description": "Dark blue glossy sphere with three curved teal-colored arcs orbiting around it, suggesting energy flow"
+  },
+  {
+    "original_path": "Gems/Icon7.png",
+    "name": "magical-mirror-blue-flame-pillars",
+    "category": "Enchanting",
+    "description": "Rectangular dark-framed mirror with light blue reflective surface, flanked by dark blue pillars with flame-like tips"
+  },
+  {
+    "original_path": "Gems/Icon8.png",
+    "name": "purple-gem-hexagonal-metallic-setting",
+    "category": "Gems",
+    "description": "Elongated hexagonal purple gem with ornate dark grey metallic setting, arrow-like top and bottom extensions"
+  },
+  {
+    "original_path": "Gems/Icon9.png",
+    "name": "green-crystal-totem-segmented-brown-bands",
+    "category": "Herbs",
+    "description": "Vertically segmented green crystal-like structure with dark brown horizontal bands, side square elements"
+  },
+  {
+    "original_path": "Gems/Icon10.png",
+    "name": "dark-sphere-blue-eye-wing-handles",
+    "category": "Enchanting",
+    "description": "Dark sphere with bright blue circular center, curved blue wing-like side protrusions, and pointed blue base"
+  },
+  {
+    "original_path": "Gems/Icon11.png",
+    "name": "dark-triangular-pyramid-glowing-orange-red",
+    "category": "Ore",
+    "description": "Dark triangular pyramid with textured surface, studded with numerous glowing orange-red fiery spots in branching pattern"
+  },
+  {
+    "original_path": "Gems/Icon12.png",
+    "name": "blue-orb-metallic-teal-frame-ornate",
+    "category": "Gems",
+    "description": "Luminous blue spherical orb encased in ornate light teal metallic frame with ribbon-like bands and decorative point"
+  },
+  {
+    "original_path": "Gems/Icon13.png",
+    "name": "fiery-crystal-cluster-shards-orange-yellow",
+    "category": "Gems",
+    "description": "Jagged cluster of fiery crystalline shards in red, orange, and yellow, with smaller teardrop flame element"
+  },
+  {
+    "original_path": "Gems/Icon14.png",
+    "name": "golden-fishing-rod-lightning-spark",
+    "category": "Misc",
+    "description": "Golden fishing rod with reel, fishing line, lure, and orange-yellow lightning bolt spark emanating from tip"
+  },
+  {
+    "original_path": "Gems/Icon15.png",
+    "name": "purple-crystal-cluster-wand-shard",
+    "category": "Gems",
+    "description": "Large jagged cluster of purple faceted crystals with smaller purple wand-like shard in upper right"
+  },
+  {
+    "original_path": "Gems/Icon16.png",
+    "name": "blue-crystal-cluster-droplet",
+    "category": "Gems",
+    "description": "Jagged formation of dark blue crystals with cyan highlights, smaller light blue droplet in upper right"
+  },
+  {
+    "original_path": "Gems/Icon17.png",
+    "name": "dark-spiky-mound-skull-icon",
+    "category": "Misc",
+    "description": "Dark spiky mound with sharp pointed spikes, light beige highlights, small grey skull icon in upper right"
+  },
+  {
+    "original_path": "Gems/Icon18.png",
+    "name": "green-leaves-pods-cluster-single-leaf",
+    "category": "Herbs",
+    "description": "Cluster of green elongated curved segments resembling leaves or pods, with smaller detached green leaf"
+  },
+  {
+    "original_path": "Gems/Icon19.png",
+    "name": "fiery-plant-crystals-red-orange-yellow",
+    "category": "Herbs",
+    "description": "Fiery plant-like or crystalline cluster in red, orange, yellow with sparks, smaller flame icon in upper right"
+  },
+  {
+    "original_path": "Gems/Icon20.png",
+    "name": "golden-lightning-bolt-fragmented-yellow-aura",
+    "category": "Enchanting",
+    "description": "Fragmented golden-orange lightning bolt with jagged segments, yellow energy trails, smaller lightning bolt above"
+  },
+  {
+    "original_path": "Gems/Icon21.png",
+    "name": "purple-star-gem-four-pointed-magenta",
+    "category": "Gems",
+    "description": "Large four-pointed purple star with bright magenta center, four smaller purple triangular elements, purple shard"
+  },
+  {
+    "original_path": "Gems/Icon22.png",
+    "name": "blue-flying-object-fins-cyan-droplet",
+    "category": "Misc",
+    "description": "Sharp angular blue object with multiple fin-like protrusions, cyan highlights, light blue droplet in upper right"
+  },
+  {
+    "original_path": "Gems/Icon23.png",
+    "name": "dark-icy-fist-gauntlet-cyan-skull",
+    "category": "Misc",
+    "description": "Dark spiky fist-shaped mass with cyan highlights suggesting ice, small grey skull icon in upper right"
+  },
+  {
+    "original_path": "Gems/Icon24.png",
+    "name": "green-crystal-totem-braided-root-thorns",
+    "category": "Herbs",
+    "description": "Tall green vertically segmented structure with twisted braided appearance, pointed top, spiky root protrusions"
+  },
+  {
+    "original_path": "Gems/Icon25.png",
+    "name": "light-blue-gem-octagonal-emerald-cut",
+    "category": "Gems",
+    "description": "Shiny light blue octagonal gem with emerald cut, white sparkle highlights, faceted appearance"
+  },
+  {
+    "original_path": "Gems/Icon26.png",
+    "name": "teal-gem-rhombus-diamond-faceted",
+    "category": "Gems",
+    "description": "Teal-turquoise faceted gem in rhombus/diamond shape, bright highlights on upper-left facets"
+  },
+  {
+    "original_path": "Gems/Icon27.png",
+    "name": "golden-brown-gem-bipyramidal-diamond",
+    "category": "Gems",
+    "description": "Golden-brown bipyramidal gem with two pyramid halves, golden-yellow highlights, darker horizontal band"
+  },
+  {
+    "original_path": "Gems/Icon28.png",
+    "name": "dark-octagon-purple-crystals-five-symmetrical",
+    "category": "Gems",
+    "description": "Dark octagonal stone with central diamond purple crystal, four smaller arrow-like purple crystals at edges"
+  },
+  {
+    "original_path": "Gems/Icon29.png",
+    "name": "light-block-red-worm-spikes-protrusions",
+    "category": "Misc",
+    "description": "Light-colored block with numerous dark red worm-like or spike-like protrusions embedded across surfaces"
+  },
+  {
+    "original_path": "Gems/Icon30.png",
+    "name": "cosmic-orb-swirling-blue-pink-magenta",
+    "category": "Gems",
+    "description": "Spherical orb with dark blue-purple base, swirling patterns of electric blue, bright pink, and magenta"
+  },
+  {
+    "original_path": "Gems/Icon31.png",
+    "name": "octagonal-gem-gold-frame-blue-silver-sparkle",
+    "category": "Gems",
+    "description": "Octagonal gem with light blue-silver core, two concentric gold borders, white sparkle pixels"
+  },
+  {
+    "original_path": "Gems/Icon32.png",
+    "name": "teal-diamond-emerald-green-corner-brackets",
+    "category": "Gems",
+    "description": "Large faceted teal-emerald diamond with four L-shaped corner bracket elements, glossy appearance"
+  },
+  {
+    "original_path": "Gems/Icon33.png",
+    "name": "orange-red-diamond-gem-fiery-glow",
+    "category": "Gems",
+    "description": "Rhombus-shaped gem in vibrant oranges and reds, bright yellow center, darker bottom, fiery appearance"
+  },
+  {
+    "original_path": "Gems/Icon34.png",
+    "name": "dark-octagon-magenta-gem-purple-petals-golden-dots",
+    "category": "Gems",
+    "description": "Dark octagonal base with central bright magenta gem, four purple petal-like elements with golden center dots, blue speckles"
+  },
+  {
+    "original_path": "Gems/Icon35.png",
+    "name": "light-block-red-orange-glowing-growths",
+    "category": "Misc",
+    "description": "Light grey-beige block covered with numerous red-orange glowing crystalline or organic growths, fiery appearance"
+  },
+  {
+    "original_path": "Gems/Icon36.png",
+    "name": "dark-hexagon-purple-pink-blue-swirls",
+    "category": "Gems",
+    "description": "Dark purple-black hexagonal gem with internal swirling patterns of electric blue, bright pink, and magenta"
+  },
+  {
+    "original_path": "Gems/Icon37.png",
+    "name": "fiery-crest-flame-shield-teardrop",
+    "category": "Misc",
+    "description": "Stylized upward-pointing flame or fiery crest in reds, oranges, yellows, smaller teardrop flame in upper right"
+  },
+  {
+    "original_path": "Gems/Icon38.png",
+    "name": "yellow-gold-lightning-bolts-two",
+    "category": "Enchanting",
+    "description": "Large yellow-gold lightning bolt with jagged shape, smaller orange-yellow lightning bolt in upper right"
+  },
+  {
+    "original_path": "Gems/Icon39.png",
+    "name": "purple-five-pointed-star-magenta-aura-pendant",
+    "category": "Gems",
+    "description": "Ornate five-pointed purple star with bright pink center, magenta aura, dark purple extensions, bell pendant"
+  },
+  {
+    "original_path": "Gems/Icon40.png",
+    "name": "blue-curved-claw-arm-green-glowing-pixels",
+    "category": "Misc",
+    "description": "Curved blue-teal claw or arm structure with bright green glowing pixels embedded, smaller blue droplet above"
+  },
+  {
+    "original_path": "Gems/Icon41.png",
+    "name": "dark-armored-figure-metallic-skull-icon",
+    "category": "Misc",
+    "description": "Dark metallic armored humanoid figure with silver-bronze highlights, small grey skull icon in upper right"
+  },
+  {
+    "original_path": "Gems/Icon42.png",
+    "name": "green-leaves-cluster-single-detached",
+    "category": "Herbs",
+    "description": "Cluster of interconnected green leaves oriented diagonally, smaller detached green leaf floating above"
+  },
+  {
+    "original_path": "Gems/Icon43.png",
+    "name": "fiery-diamond-crystal-faceted-flame",
+    "category": "Gems",
+    "description": "Large faceted diamond-shaped crystal in fiery reds, oranges, yellows, smaller teardrop flame in upper right"
+  },
+  {
+    "original_path": "Gems/Icon44.png",
+    "name": "golden-orange-lightning-bolt-two",
+    "category": "Enchanting",
+    "description": "Large golden-orange lightning bolt with brown shadows, smaller identical lightning bolt in upper right"
+  },
+  {
+    "original_path": "Gems/Icon45.png",
+    "name": "purple-star-ornate-magenta-glow-wand",
+    "category": "Gems",
+    "description": "Ornate five-pointed purple star with pink center, magenta aura, dark purple wing extensions, bell pendant, purple wand"
+  },
+  {
+    "original_path": "Gems/Icon46.png",
+    "name": "blue-curved-wave-hair-droplet",
+    "category": "Misc",
+    "description": "Curved vibrant blue wave-like shape with cyan highlights, smaller light blue teardrop droplet above"
+  },
+  {
+    "original_path": "Gems/Icon47.png",
+    "name": "dark-skull-cyan-highlights-miniature",
+    "category": "Misc",
+    "description": "Large dark skull with light blue-cyan highlights suggesting metallic or glowing quality, smaller skull icon above"
+  },
+  {
+    "original_path": "Gems/Icon48.png",
+    "name": "green-leaves-two-detached-cluster",
+    "category": "Herbs",
+    "description": "Two green leaves, one large with central vein and branches, one smaller floating above, pixel art style"
+  }
+]
+

@@ -1,0 +1,895 @@
+import { create } from 'zustand';
+import { Creature, Ability, creatureTypes, abilityTypes } from "../game/creatures";
+
+const initialState = {
+    creatures: [],
+    tokens: [],
+    inCombat: false,
+    currentTurn: null,
+    turnOrder: [],
+    selectedCreature: null,
+    targetedCreature: null,
+
+    // Global GM/Player mode for controlling access to features
+    isGMMode: true, // GM can see all features, Player mode restricts access
+
+    // Multiplayer state
+    isInMultiplayer: false,
+    multiplayerRoom: null,
+    onLeaveMultiplayer: null, // Function to call when leaving multiplayer
+    multiplayerSocket: null, // Socket connection for real-time sync
+
+    // Enhanced background system - support for multiple layers
+    backgrounds: [], // [{ id, url, position: {x, y}, scale, opacity, zIndex, name, sticksToGrid }]
+    activeBackgroundId: null,
+
+    // Legacy background support (for backwards compatibility)
+    backgroundImage: null,
+    backgroundImageUrl: '',
+
+    // Unified grid and camera system
+    gridSize: 50,
+    gridType: 'square', // 'square' or 'hex' - grid type for the map
+    gridOffsetX: 0,
+    gridOffsetY: 0,
+    gridLineColor: 'rgba(255, 255, 255, 0.8)', // White color for grid lines
+    gridLineThickness: 2, // Thicker lines for better visibility
+    gridLineOpacity: 0.8, // Separate opacity control for grid lines
+    gridBackgroundColor: '#d4c5b9', // Darker beige background color for the grid canvas
+    gridMovesWithBackground: false, // Whether grid moves with background or stays on top
+
+    // Camera and zoom (moved from level editor store)
+    cameraX: 0,
+    cameraY: 0,
+    zoomLevel: 1.0, // GM-controlled base zoom level
+    minZoom: 0.3, // Further increased to prevent grid combining
+    maxZoom: 5.0,
+
+    // Player navigation zoom (separate from GM zoom)
+    playerZoom: 1.0,
+    minPlayerZoom: 0.1, // Allow extreme zoom out for overview
+    maxPlayerZoom: 10.0, // Allow extreme zoom in for detail
+
+    // Grid rendering settings
+    showGrid: true,
+    gridExtent: 10000, // Performance optimization - not used for infinite grid bounds
+
+    // Grid alignment mode for direct grid interaction
+    isGridAlignmentMode: false,
+    gridAlignmentStep: 0, // 0: not active, 1: first rectangle, 2: second rectangle, 3: apply
+    gridAlignmentRectangles: [], // Store drawn rectangles for multi-step alignment
+
+    // Background manipulation mode for resizing and moving backgrounds
+    isBackgroundManipulationMode: false,
+
+    // Window scaling system
+    // Note: 0.6889 is the new baseline (displayed as 100% in UI, 83% of previous 0.83)
+    windowScale: 0.6889,
+    minWindowScale: 0.6,  // Displayed as 60% in UI
+    maxWindowScale: 1.5,  // Displayed as 150% in UI
+
+    // Movement and distance settings
+    feetPerTile: 5, // How many feet each grid tile represents
+
+    // Movement visualization settings
+    showMovementVisualization: true,
+    movementLineColor: '#FFD700', // Gold color for movement lines
+    movementLineWidth: 3,
+    movementLineDashArray: '8,4', // Dotted line pattern
+
+    // Cursor tracking settings for multiplayer
+    showCursorTracking: true, // Whether to show other players' cursors
+    cursorUpdateThrottle: 50, // How often to send cursor updates (ms)
+    cursorFadeTime: 3000, // How long cursors stay visible when not moving (ms)
+
+    // GM-only settings for player token behavior
+    defaultViewFromToken: false, // Whether players default to viewing from their own token (GM setting)
+
+    // Rest overlay state
+    restOverlayOpen: false,
+    restOverlayType: null, // 'short' or 'long'
+};
+
+// Handle storage quota exceeded for game store
+const handleGameStoreQuotaExceeded = (name, value) => {
+    try {
+
+        // Try to clean up other stores first
+        const keysToClean = [];
+        for (let key in localStorage) {
+            if (localStorage.hasOwnProperty(key) && key !== name) {
+                if (key.includes('temp-') || key.includes('cache-') || key.includes('backup-')) {
+                    keysToClean.push(key);
+                }
+            }
+        }
+
+        keysToClean.forEach(key => {
+            localStorage.removeItem(key);
+        });
+
+        // Try to optimize the game store data
+        try {
+            // Remove large background image data if present
+            const optimizedValue = {
+                ...value,
+                backgroundImage: null, // Remove large background image data
+                backgroundImageUrl: value.backgroundImageUrl || '', // Keep URL reference
+                // Keep other essential data
+                creatures: (value.creatures || []).slice(0, 50), // Limit creatures
+                tokens: (value.tokens || []).slice(0, 50), // Limit tokens
+                items: (value.items || []).slice(0, 100), // Limit items
+                containers: (value.containers || []).slice(0, 20) // Limit containers
+            };
+
+            const optimizedJson = JSON.stringify(optimizedValue);
+            localStorage.setItem(name, optimizedJson);
+
+            if (window.alert) {
+                alert('Storage space was running low. Background image data has been optimized. You may need to re-set your background image.');
+            }
+            return;
+        } catch (optimizeError) {
+            console.error('Error optimizing game store data:', optimizeError);
+        }
+
+        // Last resort: save minimal game store data
+        try {
+            const minimalValue = {
+                // Keep only essential game state
+                cameraX: value.cameraX || 0,
+                cameraY: value.cameraY || 0,
+                zoomLevel: value.zoomLevel || 1.0,
+                playerZoom: value.playerZoom || 1.0,
+                gridSize: value.gridSize || 50,
+                gridType: value.gridType || 'square',
+                gridOffsetX: value.gridOffsetX || 0,
+                gridOffsetY: value.gridOffsetY || 0,
+                gridLineColor: value.gridLineColor || 'rgba(212, 175, 55, 0.8)',
+                gridLineThickness: value.gridLineThickness || 2,
+                windowScale: value.windowScale || 1.0,
+                // Remove all large data
+                backgroundImage: null,
+                backgroundImageUrl: '',
+                creatures: [],
+                tokens: [],
+                items: [],
+                containers: [],
+                backgrounds: []
+            };
+
+            const minimalJson = JSON.stringify(minimalValue);
+            localStorage.setItem(name, minimalJson);
+
+            if (window.alert) {
+                alert('Storage space was critically low. Only essential game settings have been preserved. You will need to re-add background images and game entities.');
+            }
+        } catch (minimalError) {
+            if (window.alert) {
+                alert('Critical storage error in game store. Please refresh the page and consider clearing browser data.');
+            }
+        }
+    } catch (error) {
+        // Error in handleGameStoreQuotaExceeded
+    }
+};
+
+const useGameStore = create((set, get) => ({
+    ...initialState,
+
+            // Initialize store
+            initializeStore: () => {
+                set({
+                    creatures: [],
+                    tokens: []
+                });
+            },
+
+            // REMOVED: updateTokenPosition - deprecated function removed
+            // All token position updates should go through creatureStore
+
+            // Remove token
+            removeToken: (creatureId) => {
+                set(state => ({
+                    tokens: state.tokens.filter(token => token.creatureId !== creatureId)
+                }));
+            },
+
+            // Add new creature with optional abilities
+            addCreature: (name, type, abilities = []) => {
+                const creature = new Creature(name, type);
+                abilities.forEach(ability => creature.addAbility(ability));
+
+                set(state => {
+                    // Check if creature already exists
+                    if (state.creatures.some(c => c.id === creature.id)) {
+                        return state;
+                    }
+
+                    return {
+                        creatures: [...state.creatures, creature],
+                        tokens: [
+                            ...state.tokens,
+                            {
+                                creatureId: creature.id,
+                                position: { x: 100, y: 100 }
+                            }
+                        ]
+                    };
+                });
+            },
+
+            // Update creature stats
+            updateCreature: (id, updates) => {
+                set(state => ({
+                    creatures: state.creatures.map(c =>
+                        c.id === id ? { ...c, ...updates } : c
+                    )
+                }));
+            },
+
+            // Add ability to creature
+            addAbilityToCreature: (creatureId, ability) => {
+                const state = get();
+                const creature = state.creatures.find(c => c.id === creatureId);
+                if (creature && !creature.abilities.some(a => a.id === ability.id)) {
+                    creature.addAbility(ability);
+                    set({
+                        creatures: state.creatures.map(c =>
+                            c.id === creatureId ? creature : c
+                        )
+                    });
+                }
+            },
+
+            // Use ability
+            useAbility: (creatureId, abilityId, targetId) => {
+                const state = get();
+                const creature = state.creatures.find(c => c.id === creatureId);
+                const target = state.creatures.find(c => c.id === targetId);
+                const ability = creature?.abilities.find(a => a.id === abilityId);
+
+                if (!creature || !target || !ability || !ability.canUse(creature)) {
+                    return;
+                }
+
+                const damage = ability.calculateDamage(creature, target);
+                const healing = ability.calculateHealing(creature);
+
+                set(state => ({
+                    creatures: state.creatures.map(c => {
+                        if (c.id === targetId) {
+                            c.takeDamage(damage);
+                        }
+                        if (c.id === creatureId && healing > 0) {
+                            c.heal(healing);
+                        }
+                        return c;
+                    })
+                }));
+            },
+
+            // Start combat
+            startCombat: (combatantIds) => {
+                const state = get();
+                const combatants = state.creatures.filter(c =>
+                    combatantIds.includes(c.id)
+                );
+
+                if (combatants.length === 0) return;
+
+                const turnOrder = combatants
+                    .map(c => ({
+                        id: c.id,
+                        initiative: c.rollInitiative()
+                    }))
+                    .sort((a, b) => b.initiative - a.initiative);
+
+                set({
+                    inCombat: true,
+                    turnOrder,
+                    currentTurn: turnOrder[0]?.id
+                });
+            },
+
+            // End current turn
+            endTurn: () => {
+                const state = get();
+                if (!state.inCombat || state.turnOrder.length === 0) return;
+
+                const currentIndex = state.turnOrder.findIndex(
+                    c => c.id === state.currentTurn
+                );
+                const nextIndex = (currentIndex + 1) % state.turnOrder.length;
+                const nextCreature = state.creatures.find(
+                    c => c.id === state.turnOrder[nextIndex].id
+                );
+
+                if (nextCreature) {
+                    nextCreature.resetActionPoints();
+                    set({ currentTurn: state.turnOrder[nextIndex].id });
+                }
+            },
+
+            // End combat
+            endCombat: () => {
+                set({
+                    inCombat: false,
+                    turnOrder: [],
+                    currentTurn: null
+                });
+            },
+
+            // Legacy background image management (for backwards compatibility)
+            setBackgroundImage: (imageData) => {
+                set({ backgroundImage: imageData });
+            },
+
+            setBackgroundImageUrl: (url) => {
+                set({ backgroundImageUrl: url });
+            },
+
+            // Enhanced background management
+            addBackground: (backgroundData) => {
+                const state = get();
+                const newBackground = {
+                    id: Date.now().toString(),
+                    position: { x: 0, y: 0 },
+                    scale: 1.0,
+                    opacity: 1.0,
+                    rotation: 0, // Default rotation
+                    zIndex: state.backgrounds.length,
+                    name: `Background ${state.backgrounds.length + 1}`,
+                    sticksToGrid: false, // Default to static background
+                    ...backgroundData
+                };
+                set({
+                    backgrounds: [...state.backgrounds, newBackground],
+                    activeBackgroundId: newBackground.id
+                });
+                return newBackground.id;
+            },
+
+            removeBackground: (backgroundId) => {
+                const state = get();
+                const newBackgrounds = state.backgrounds.filter(bg => bg.id !== backgroundId);
+                set({
+                    backgrounds: newBackgrounds,
+                    activeBackgroundId: state.activeBackgroundId === backgroundId
+                        ? (newBackgrounds.length > 0 ? newBackgrounds[0].id : null)
+                        : state.activeBackgroundId
+                });
+            },
+
+            updateBackground: (backgroundId, updates) => {
+                const state = get();
+                set({
+                    backgrounds: state.backgrounds.map(bg =>
+                        bg.id === backgroundId ? { ...bg, ...updates } : bg
+                    )
+                });
+            },
+
+            setActiveBackground: (backgroundId) => {
+                set({ activeBackgroundId: backgroundId });
+            },
+
+            reorderBackground: (backgroundId, newZIndex) => {
+                const state = get();
+                set({
+                    backgrounds: state.backgrounds.map(bg =>
+                        bg.id === backgroundId ? { ...bg, zIndex: newZIndex } : bg
+                    )
+                });
+            },
+
+            // Grid size management
+            setGridSize: (size) => {
+                set({ gridSize: size });
+            },
+
+            // Grid type management
+            setGridType: (type) => {
+                if (type === 'square' || type === 'hex') {
+                    set({ gridType: type });
+                }
+            },
+
+            // Grid offset management
+            setGridOffset: (offsetX, offsetY) => {
+                set({
+                    gridOffsetX: offsetX,
+                    gridOffsetY: offsetY
+                });
+            },
+
+            resetGridOffset: () => {
+                set({
+                    gridOffsetX: 0,
+                    gridOffsetY: 0
+                });
+            },
+
+            // Grid line color management
+            setGridLineColor: (color) => {
+                set({ gridLineColor: color });
+            },
+
+            // Grid line thickness management
+            setGridLineThickness: (thickness) => {
+                set({ gridLineThickness: thickness });
+            },
+
+            // Grid line opacity management
+            setGridLineOpacity: (opacity) => {
+                set({ gridLineOpacity: opacity });
+            },
+
+            // Grid background color management
+            setGridBackgroundColor: (color) => {
+                set({ gridBackgroundColor: color });
+            },
+
+            // Grid positioning management
+            setGridMovesWithBackground: (movesWithBackground) => {
+                set({ gridMovesWithBackground: movesWithBackground });
+            },
+
+
+
+            // Camera and zoom management
+            setCameraPosition: (x, y) => {
+                set({ cameraX: x, cameraY: y });
+            },
+
+            moveCameraBy: (deltaX, deltaY) => {
+                const state = get();
+                set({
+                    cameraX: state.cameraX + deltaX,
+                    cameraY: state.cameraY + deltaY
+                });
+            },
+
+            setZoomLevel: (zoom) => {
+                const state = get();
+                const clampedZoom = Math.max(state.minZoom, Math.min(state.maxZoom, zoom));
+                set({ zoomLevel: clampedZoom });
+            },
+
+            zoomIn: () => {
+                const state = get();
+                const newZoom = state.zoomLevel * 1.25;
+                const clampedZoom = Math.min(state.maxZoom, newZoom);
+                set({ zoomLevel: clampedZoom });
+            },
+
+            zoomOut: () => {
+                const state = get();
+                const newZoom = state.zoomLevel / 1.25;
+                const clampedZoom = Math.max(state.minZoom, newZoom);
+                set({ zoomLevel: clampedZoom });
+            },
+
+            resetZoom: () => {
+                set({ zoomLevel: 1.0 });
+            },
+
+            resetCamera: () => {
+                set({ cameraX: 0, cameraY: 0, zoomLevel: 1.0, playerZoom: 1.0 });
+            },
+
+            // Player zoom management (separate from GM zoom)
+            setPlayerZoom: (zoom) => {
+                const state = get();
+                const clampedZoom = Math.max(state.minPlayerZoom, Math.min(state.maxPlayerZoom, zoom));
+                set({ playerZoom: clampedZoom });
+            },
+
+            playerZoomIn: () => {
+                const state = get();
+                const newZoom = state.playerZoom * 1.25;
+                const clampedZoom = Math.min(state.maxPlayerZoom, newZoom);
+                set({ playerZoom: clampedZoom });
+            },
+
+            playerZoomOut: () => {
+                const state = get();
+                const newZoom = state.playerZoom / 1.25;
+                const clampedZoom = Math.max(state.minPlayerZoom, newZoom);
+                set({ playerZoom: clampedZoom });
+            },
+
+            resetPlayerZoom: () => {
+                set({ playerZoom: 1.0 });
+            },
+
+            // GM-only settings for player token behavior
+            setDefaultViewFromToken: (enabled) => {
+                set({ defaultViewFromToken: enabled });
+            },
+
+            // Get effective zoom (GM zoom * player zoom)
+            getEffectiveZoom: () => {
+                const state = get();
+                return state.zoomLevel * state.playerZoom;
+            },
+
+            // Grid display management
+            setShowGrid: (show) => {
+                set({ showGrid: show });
+            },
+
+            setGridExtent: (extent) => {
+                set({ gridExtent: extent });
+            },
+
+            // Short Rest - Recover some resources based on Spirit
+            takeShortRest: () => {
+                // Show rest overlay
+                set({ restOverlayOpen: true, restOverlayType: 'short' });
+
+                // Import stores dynamically to avoid circular dependencies
+                const usePartyStore = require('./partyStore').default;
+                const useCharacterStore = require('./characterStore').default;
+                const { calculateDerivedStats, applyRacialModifiers } = require('../utils/characterUtils');
+                const { calculateEquipmentBonuses } = require('../utils/characterUtils');
+                const { getEncumbranceState } = require('../store/inventoryStore').default;
+
+                // Get party members
+                const partyStore = usePartyStore.getState();
+                const partyMembers = partyStore.partyMembers || [];
+
+                // Update each party member
+                partyMembers.forEach(member => {
+                    if (member.id === 'current-player') {
+                        // Update current player from character store
+                        const charStore = useCharacterStore.getState();
+                        const stats = charStore.stats || {};
+                        const spirit = stats.spirit || 10;
+                        
+                        // Calculate Spirit modifier (spirit - 10) / 2, minimum 0
+                        const spiritModifier = Math.max(0, Math.floor((spirit - 10) / 2));
+                        
+                        // Short rest recovery formula: Base 25% + (Spirit modifier * 5%) for HP and Mana
+                        // Minimum 25%, maximum 75% recovery
+                        const recoveryPercent = Math.min(0.75, 0.25 + (spiritModifier * 0.05));
+                        
+                        const health = charStore.health || { current: 0, max: 0 };
+                        const mana = charStore.mana || { current: 0, max: 0 };
+                        const actionPoints = charStore.actionPoints || { current: 0, max: 0 };
+                        
+                        // Calculate recovery amounts
+                        const healthRecovery = Math.floor(health.max * recoveryPercent);
+                        const manaRecovery = Math.floor(mana.max * recoveryPercent);
+                        
+                        // Apply recovery (don't exceed max)
+                        const newHealth = Math.min(health.max, health.current + healthRecovery);
+                        const newMana = Math.min(mana.max, mana.current + manaRecovery);
+                        
+                        // Reset action points to max
+                        const newActionPoints = actionPoints.max;
+                        
+                        // Update character store
+                        useCharacterStore.getState().updateResource('health', newHealth, health.max);
+                        useCharacterStore.getState().updateResource('mana', newMana, mana.max);
+                        useCharacterStore.getState().updateResource('actionPoints', newActionPoints, actionPoints.max);
+                        
+                        // Reset temporary resources
+                        useCharacterStore.getState().updateTempResource('health', 0);
+                        useCharacterStore.getState().updateTempResource('mana', 0);
+                        useCharacterStore.getState().updateTempResource('actionPoints', 0);
+                    } else {
+                        // Update party member
+                        const memberChar = member.character || {};
+                        const stats = memberChar.stats || {};
+                        const spirit = stats.spirit || 10;
+                        
+                        // Calculate Spirit modifier
+                        const spiritModifier = Math.max(0, Math.floor((spirit - 10) / 2));
+                        const recoveryPercent = Math.min(0.75, 0.25 + (spiritModifier * 0.05));
+                        
+                        const health = memberChar.health || { current: 0, max: 0 };
+                        const mana = memberChar.mana || { current: 0, max: 0 };
+                        const actionPoints = memberChar.actionPoints || { current: 0, max: 0 };
+                        
+                        const healthRecovery = Math.floor(health.max * recoveryPercent);
+                        const manaRecovery = Math.floor(mana.max * recoveryPercent);
+                        
+                        const newHealth = Math.min(health.max, health.current + healthRecovery);
+                        const newMana = Math.min(mana.max, mana.current + manaRecovery);
+                        const newActionPoints = actionPoints.max;
+                        
+                        // Update party member
+                        partyStore.updatePartyMember(member.id, {
+                            character: {
+                                ...memberChar,
+                                health: { ...health, current: newHealth },
+                                mana: { ...mana, current: newMana },
+                                actionPoints: { ...actionPoints, current: newActionPoints },
+                                tempHealth: 0,
+                                tempMana: 0,
+                                tempActionPoints: 0
+                            }
+                        });
+                    }
+                });
+
+                // Also update creatures (for backwards compatibility)
+                set(state => ({
+                    creatures: state.creatures.map(creature => {
+                        const healthRecovery = Math.floor(creature.maxHealth / 4);
+                        const newHealth = Math.min(creature.health + healthRecovery, creature.maxHealth);
+                        const manaRecovery = Math.floor(creature.maxMana / 2);
+                        const newMana = Math.min(creature.mana + manaRecovery, creature.maxMana);
+                        return {
+                            ...creature,
+                            health: newHealth,
+                            mana: newMana,
+                            actionPoints: creature.maxActionPoints
+                        };
+                    })
+                }));
+            },
+
+            // Long Rest - Fully recover all resources
+            takeLongRest: () => {
+                // Show rest overlay
+                set({ restOverlayOpen: true, restOverlayType: 'long' });
+
+                // Import stores dynamically to avoid circular dependencies
+                const usePartyStore = require('./partyStore').default;
+                const useCharacterStore = require('./characterStore').default;
+
+                // Get party members
+                const partyStore = usePartyStore.getState();
+                const partyMembers = partyStore.partyMembers || [];
+
+                // Update each party member
+                partyMembers.forEach(member => {
+                    if (member.id === 'current-player') {
+                        // Update current player from character store
+                        const charStore = useCharacterStore.getState();
+                        const health = charStore.health || { current: 0, max: 0 };
+                        const mana = charStore.mana || { current: 0, max: 0 };
+                        const actionPoints = charStore.actionPoints || { current: 0, max: 0 };
+                        
+                        // Fully restore to max
+                        useCharacterStore.getState().updateResource('health', health.max, health.max);
+                        useCharacterStore.getState().updateResource('mana', mana.max, mana.max);
+                        useCharacterStore.getState().updateResource('actionPoints', actionPoints.max, actionPoints.max);
+                        
+                        // Reset temporary resources
+                        useCharacterStore.getState().updateTempResource('health', 0);
+                        useCharacterStore.getState().updateTempResource('mana', 0);
+                        useCharacterStore.getState().updateTempResource('actionPoints', 0);
+                    } else {
+                        // Update party member
+                        const memberChar = member.character || {};
+                        const health = memberChar.health || { current: 0, max: 0 };
+                        const mana = memberChar.mana || { current: 0, max: 0 };
+                        const actionPoints = memberChar.actionPoints || { current: 0, max: 0 };
+                        
+                        // Fully restore to max
+                        partyStore.updatePartyMember(member.id, {
+                            character: {
+                                ...memberChar,
+                                health: { ...health, current: health.max },
+                                mana: { ...mana, current: mana.max },
+                                actionPoints: { ...actionPoints, current: actionPoints.max },
+                                tempHealth: 0,
+                                tempMana: 0,
+                                tempActionPoints: 0
+                            }
+                        });
+                    }
+                });
+
+                // Also update creatures (for backwards compatibility)
+                set(state => ({
+                    creatures: state.creatures.map(creature => {
+                        return {
+                            ...creature,
+                            health: creature.maxHealth,
+                            mana: creature.maxMana,
+                            actionPoints: creature.maxActionPoints,
+                            exhaustion: Math.max(0, (creature.exhaustion || 0) - 1)
+                        };
+                    })
+                }));
+            },
+
+            // Rest overlay management
+            showRestOverlay: (restType) => {
+                set({ restOverlayOpen: true, restOverlayType: restType });
+            },
+
+            hideRestOverlay: () => {
+                set({ restOverlayOpen: false, restOverlayType: null });
+            },
+
+            // GM/Player mode toggle
+            setGMMode: (isGMMode) => {
+                set({ isGMMode });
+            },
+
+            toggleGMMode: () => {
+                const state = get();
+                set({ isGMMode: !state.isGMMode });
+            },
+
+            // Grid alignment mode toggle
+            setGridAlignmentMode: (isGridAlignmentMode) => {
+                set({
+                    isGridAlignmentMode,
+                    gridAlignmentStep: isGridAlignmentMode ? 1 : 0,
+                    gridAlignmentRectangles: isGridAlignmentMode ? [] : []
+                });
+            },
+
+            // Grid alignment step management
+            setGridAlignmentStep: (step) => {
+                set({ gridAlignmentStep: step });
+            },
+
+            addGridAlignmentRectangle: (rectangle) => {
+                const state = get();
+                set({
+                    gridAlignmentRectangles: [...state.gridAlignmentRectangles, rectangle]
+                });
+            },
+
+            clearGridAlignmentRectangles: () => {
+                set({ gridAlignmentRectangles: [] });
+            },
+
+            // Background manipulation mode toggle
+            setBackgroundManipulationMode: (isBackgroundManipulationMode) => {
+                set({ isBackgroundManipulationMode });
+            },
+
+            // Bulk setters for map switching
+            setBackgrounds: (backgrounds) => {
+                set({ backgrounds: backgrounds || [] });
+            },
+
+            setCreatures: (creatures) => {
+                set({ creatures: creatures || [] });
+            },
+
+            setTokens: (tokens) => {
+                set({ tokens: tokens || [] });
+            },
+
+            // Camera and view state setters
+            setCameraAndZoom: (cameraX, cameraY, zoomLevel) => {
+                set({
+                    cameraX: cameraX || 0,
+                    cameraY: cameraY || 0,
+                    zoomLevel: zoomLevel || 1.0
+                });
+            },
+
+            // Grid state setters
+            setGridState: (gridSize, gridOffsetX, gridOffsetY, gridLineColor, gridLineThickness) => {
+                set({
+                    gridSize: gridSize || 50,
+                    gridOffsetX: gridOffsetX || 0,
+                    gridOffsetY: gridOffsetY || 0,
+                    gridLineColor: gridLineColor || 'rgba(212, 175, 55, 0.8)',
+                    gridLineThickness: gridLineThickness || 2
+                });
+            },
+
+            // Legacy background setters
+            setLegacyBackground: (backgroundImage, backgroundImageUrl) => {
+                set({
+                    backgroundImage: backgroundImage || null,
+                    backgroundImageUrl: backgroundImageUrl || ''
+                });
+            },
+
+            // Window scale management
+            setWindowScale: (scale) => {
+                const state = get();
+                const clampedScale = Math.max(state.minWindowScale, Math.min(state.maxWindowScale, scale));
+                set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
+            },
+
+            windowScaleUp: () => {
+                const state = get();
+                const newScale = state.windowScale * 1.1;
+                const clampedScale = Math.min(state.maxWindowScale, newScale);
+                set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
+            },
+
+            windowScaleDown: () => {
+                const state = get();
+                const newScale = state.windowScale / 1.1;
+                const clampedScale = Math.max(state.minWindowScale, newScale);
+                set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
+            },
+
+            resetWindowScale: () => {
+                set({ windowScale: 0.6889 });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: 1.0 }
+                    }));
+                }, 50);
+            },
+
+            // Movement and distance settings
+            setFeetPerTile: (feet) => {
+                const clampedFeet = Math.max(1, Math.min(50, feet)); // Reasonable range
+                set({ feetPerTile: clampedFeet });
+            },
+
+            // Movement visualization settings
+            setShowMovementVisualization: (show) => set({ showMovementVisualization: show }),
+            setMovementLineColor: (color) => set({ movementLineColor: color }),
+            setMovementLineWidth: (width) => set({ movementLineWidth: width }),
+
+            // Multiplayer management
+            setMultiplayerState: (isInMultiplayer, room, onLeaveCallback, socket = null) => {
+                set({
+                    isInMultiplayer,
+                    multiplayerRoom: room,
+                    onLeaveMultiplayer: onLeaveCallback,
+                    multiplayerSocket: socket
+                });
+            },
+
+            leaveMultiplayer: () => {
+                const state = get();
+                if (state.onLeaveMultiplayer) {
+                    state.onLeaveMultiplayer();
+                }
+                set({
+                    isInMultiplayer: false,
+                    multiplayerRoom: null,
+                    onLeaveMultiplayer: null,
+                    multiplayerSocket: null
+                });
+            },
+
+            // Multiplayer token movement (deprecated - use creatureStore instead)
+            updateTokenPositionMultiplayer: (creatureId, position) => {
+                // This method is deprecated to avoid dual store conflicts
+                console.warn('gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
+            }
+}));
+
+const initializeStore = () => {
+    useGameStore.getState().initializeStore();
+};
+
+initializeStore();
+
+export default useGameStore;

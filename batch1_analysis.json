@@ -1,0 +1,123 @@
+[
+  {
+    "original_path": "Icon1.png",
+    "name": "rolled-material-stack-leather-fabric",
+    "category": "Tailoring",
+    "description": "Stack of rolled-up material in warm orange and brown tones, likely leather or fabric"
+  },
+  {
+    "original_path": "Icon2.png",
+    "name": "green-leaves-scales-cluster",
+    "category": "Herbs",
+    "description": "Cluster of overlapping green leaves or scales arranged in a fanned pattern"
+  },
+  {
+    "original_path": "Icon3.png",
+    "name": "spool-golden-brown-thread-twine",
+    "category": "Tailoring",
+    "description": "Spool of golden-brown thread or twine with loose end extending"
+  },
+  {
+    "original_path": "Icon4.png",
+    "name": "red-potion-bottle-elixir",
+    "category": "First Aid",
+    "description": "Glass potion bottle with glowing red liquid and brown cork stopper"
+  },
+  {
+    "original_path": "Icon5.png",
+    "name": "three-blue-microphones-tools",
+    "category": "Engineering",
+    "description": "Three stylized blue objects resembling microphones or club-like tools in radial pattern"
+  },
+  {
+    "original_path": "Icon6.png",
+    "name": "stack-gold-coins-currency",
+    "category": "Misc",
+    "description": "Stack of three octagonal gold coins with bronze-gold metallic appearance"
+  },
+  {
+    "original_path": "Icon7.png",
+    "name": "dark-ingots-orange-glowing-veins",
+    "category": "Blacksmithing",
+    "description": "Stack of dark ingots with bright orange-red glowing veins suggesting heat or magic"
+  },
+  {
+    "original_path": "Icon8.png",
+    "name": "dark-rocks-purple-glowing-energy",
+    "category": "Enchanting",
+    "description": "Pile of dark jagged rocks infused with glowing purple magical energy"
+  },
+  {
+    "original_path": "Icon9.png",
+    "name": "gauntlets-green-glowing-panels",
+    "category": "Blacksmithing",
+    "description": "Pair of dark gauntlets with bright green glowing panels on knuckles"
+  },
+  {
+    "original_path": "Icon10.png",
+    "name": "metal-chain-steel-links",
+    "category": "Blacksmithing",
+    "description": "Metal chain with interconnected oval links in bluish-grey steel color"
+  },
+  {
+    "original_path": "Icon11.png",
+    "name": "red-powder-granular-tray",
+    "category": "Herbs",
+    "description": "Pile of red powder or granular material on a light-colored tray"
+  },
+  {
+    "original_path": "Icon12.png",
+    "name": "light-beige-pebble-egg",
+    "category": "Misc",
+    "description": "Light-colored rounded pebble or egg-like object with smooth surface"
+  },
+  {
+    "original_path": "Icon13.png",
+    "name": "golden-chrysalis-larva",
+    "category": "Misc",
+    "description": "Golden segmented chrysalis or large insect larva with ribbed body"
+  },
+  {
+    "original_path": "Icon14.png",
+    "name": "blue-scales-cluster-patch",
+    "category": "Misc",
+    "description": "Collection of overlapping blue scales arranged in an irregular patch"
+  },
+  {
+    "original_path": "Icon15.png",
+    "name": "coiled-purple-rope",
+    "category": "Tailoring",
+    "description": "Coiled purple rope with multiple loops and twisted braided appearance"
+  },
+  {
+    "original_path": "Icon16.png",
+    "name": "teal-crystal-bronze-base",
+    "category": "Gems",
+    "description": "Dark teal faceted crystal on a golden-brown ornate metallic base"
+  },
+  {
+    "original_path": "Icon17.png",
+    "name": "blue-scissors-metallic",
+    "category": "Tailoring",
+    "description": "Pair of metallic blue scissors with open blades and loop handles"
+  },
+  {
+    "original_path": "Icon18.png",
+    "name": "light-blue-pearl-grey-casing",
+    "category": "Gems",
+    "description": "Light blue spherical pearl nestled within a grey shell-like casing"
+  },
+  {
+    "original_path": "Icon19.png",
+    "name": "purple-gem-crystal-shiny",
+    "category": "Gems",
+    "description": "Shiny rectangular purple gem with magenta and pink highlights"
+  },
+  {
+    "original_path": "Icon20.png",
+    "name": "green-faceted-gem-crystal",
+    "category": "Gems",
+    "description": "Faceted green gem with irregular oval shape and vibrant emerald color"
+  }
+]
+

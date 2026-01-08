@@ -1,0 +1,36 @@
+{
+  "category": "defensive",
+  "count": 6,
+  "icons": [
+    {
+      "filename": "defensive-tower.png",
+      "name": "Defensive Tower",
+      "path": "defensive/defensive-tower.png"
+    },
+    {
+      "filename": "fortified-castle.png",
+      "name": "Fortified Castle",
+      "path": "defensive/fortified-castle.png"
+    },
+    {
+      "filename": "fortified-rook.png",
+      "name": "Fortified Rook",
+      "path": "defensive/fortified-rook.png"
+    },
+    {
+      "filename": "fortified-structure.png",
+      "name": "Fortified Structure",
+      "path": "defensive/fortified-structure.png"
+    },
+    {
+      "filename": "fortified-tower.png",
+      "name": "Fortified Tower",
+      "path": "defensive/fortified-tower.png"
+    },
+    {
+      "filename": "protective-bell.png",
+      "name": "Protective Bell",
+      "path": "defensive/protective-bell.png"
+    }
+  ]
+}

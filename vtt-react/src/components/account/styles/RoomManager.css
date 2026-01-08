@@ -1,0 +1,1392 @@
+/* Room Manager Styles - Modern Clean Theme */
+.room-manager {
+  padding: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: 12px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #1f2937;
+  min-height: 300px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.room-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.room-manager-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+}
+
+.room-manager-header h2 i {
+  color: #3b82f6;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.refresh-message {
+  background: rgba(5, 150, 105, 0.1);
+  border: 1px solid rgba(5, 150, 105, 0.3);
+  color: #047857;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin: 0 16px;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Fixed position refresh message that doesn't move other elements */
+.refresh-message-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(5, 150, 105, 0.1);
+  border: 1px solid rgba(5, 150, 105, 0.3);
+  color: #047857;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.refresh-rooms-btn {
+  background: #059669;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.refresh-rooms-btn:hover:not(:disabled) {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+.refresh-rooms-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.refresh-rooms-btn i {
+  font-size: 12px;
+}
+
+.refresh-status-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.2s;
+}
+
+.refresh-status-btn:hover:not(:disabled) {
+  background: #357abd;
+}
+
+.refresh-status-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.refresh-status-btn i {
+  font-size: 12px;
+}
+
+.room-limits {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tier-info .tier-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
+  color: #2d1810;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #8B4513;
+}
+
+/* Development tier styling */
+.tier-info .tier-badge.development {
+  background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+  color: white;
+  border: 1px solid #17a2b8;
+  box-shadow: 0 2px 4px rgba(23, 162, 184, 0.3);
+}
+
+.usage-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 100px;
+}
+
+.usage-text {
+  font-size: 11px;
+  color: #5a1e12;
+  font-weight: 600;
+}
+
+.usage-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(139, 69, 19, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.usage-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.error-message {
+  background: #fee2e2;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.room-actions {
+  margin-bottom: 24px;
+}
+
+.create-room-btn,
+.create-local-room-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.create-room-btn:hover:not(:disabled),
+.create-local-room-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.create-room-btn:disabled,
+.create-local-room-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.limit-message {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.limit-message-section {
+  margin-bottom: 8px;
+}
+
+.limit-message-section .limit-message {
+  margin-top: 0;
+  padding: 6px 10px;
+  background: #fee2e2;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.loading, .auth-required, .no-rooms, .no-local-rooms {
+  text-align: center;
+  padding: 30px 20px;
+  color: #5a1e12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.loading i, .auth-required i, .no-rooms i, .no-local-rooms i {
+  font-size: 32px;
+  color: #d4af37;
+  margin-bottom: 8px;
+}
+
+.auth-required h3, .no-rooms h3, .no-local-rooms h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #5a1e12;
+}
+
+.no-local-rooms p {
+  margin: 0 0 12px 0;
+  color: #6b7280;
+  line-height: 1.4;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+}
+
+.empty-state-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-state-actions .create-room-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.empty-state-actions .create-room-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.empty-state-actions .create-room-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.friends-hint {
+  margin: 0;
+  padding: 8px 16px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  color: #92400e;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.friends-hint i {
+  color: #f59e0b;
+}
+
+.rooms-list {
+  display: grid;
+  gap: 16px;
+}
+
+.room-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.room-card:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #d1d5db;
+}
+
+/* Room header styling moved to specific card contexts */
+
+.room-title h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.room-role {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.room-status {
+  margin-top: 8px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-indicator i {
+  font-size: 10px;
+}
+
+.status-indicator span {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.room-actions-menu {
+  display: flex;
+  gap: 8px;
+}
+
+.join-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.join-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.room-description {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.room-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.stat i {
+  color: #9ca3af;
+  width: 16px;
+  font-size: 14px;
+}
+
+/* Delete Confirmation Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.delete-confirm-modal {
+  background: #f8f4e6;
+  border: 2px solid #8B4513;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  font-family: 'Cinzel', serif;
+}
+
+.delete-confirm-modal h3 {
+  margin: 0 0 16px 0;
+  color: #5a1e12;
+  font-size: 18px;
+}
+
+.delete-confirm-modal p {
+  margin: 0 0 20px 0;
+  color: #2d1810;
+  line-height: 1.5;
+}
+
+.warning-text {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancel-btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #4b5563;
+}
+
+.confirm-delete-btn {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.confirm-delete-btn:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+}
+
+/* Create Local Room Modal */
+.create-local-room-modal {
+  background: #f8f4e6;
+  border: 2px solid #8B4513;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  font-family: 'Cinzel', serif;
+  position: relative;
+  margin: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.create-local-room-modal h3 {
+  margin: 0 0 16px 0;
+  color: #5a1e12;
+  font-size: 18px;
+}
+
+.create-local-room-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.create-local-room-modal input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #8B4513;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2d1810;
+}
+
+.create-local-room-modal input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .room-manager-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .refresh-rooms-btn,
+  .refresh-status-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .refresh-rooms-btn i,
+  .refresh-status-btn i {
+    font-size: 11px;
+  }
+
+  .room-limits {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .room-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .room-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Simple Pathfinder Test Room - Clean and Working */
+.pathfinder-test-room {
+  background: linear-gradient(135deg, #f5f1e8 0%, #ede4d3 100%) !important;
+  border: 2px solid #8b4513 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2) !important;
+  overflow: hidden !important;
+}
+
+.pathfinder-test-room:hover {
+  border-color: #d4af37 !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Pathfinder Quest Card Layout */
+.pathfinder-quest-card {
+  padding: 0;
+}
+
+.quest-header {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  color: #f5f1e8;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.quest-header h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f5f1e8;
+}
+
+.quest-type {
+  font-size: 12px;
+  opacity: 0.9;
+  color: #f5f1e8;
+}
+
+.quest-body {
+  padding: 20px;
+}
+
+.quest-description {
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.quest-description h4 {
+  margin: 0 0 8px 0;
+  color: #8b4513;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.quest-description p {
+  margin: 0;
+  color: #5a3a1a;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.quest-features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.quest-features span {
+  color: #8b4513;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.grid-preview-simple {
+  background: rgba(139, 69, 19, 0.08);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.grid-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8b4513;
+  margin-bottom: 8px;
+}
+
+.tavern-battle-map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border: 2px solid rgba(139, 69, 19, 0.5);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(139, 69, 19, 0.1);
+}
+
+.map-tile {
+  aspect-ratio: 1;
+  position: relative;
+  border: 0.5px solid rgba(139, 69, 19, 0.2);
+}
+
+/* Floor tiles */
+.map-tile.floor {
+  background: linear-gradient(45deg, #d4af37 25%, #b8860b 25%, #b8860b 50%, #d4af37 50%, #d4af37 75%, #b8860b 75%);
+  background-size: 4px 4px;
+}
+
+/* Wall tiles */
+.map-tile.wall {
+  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+  border: 0.5px solid #5a2d0c;
+}
+
+/* Furniture overlays */
+.map-tile.table::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  right: 20%;
+  bottom: 20%;
+  background: #8b4513;
+  border-radius: 2px;
+  border: 0.5px solid #654321;
+}
+
+.map-tile.chair::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  right: 30%;
+  bottom: 30%;
+  background: #654321;
+  border-radius: 1px;
+}
+
+.map-tile.barrel::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  right: 25%;
+  bottom: 25%;
+  background: #8b4513;
+  border-radius: 50%;
+  border: 0.5px solid #654321;
+}
+
+/* Room Grid Preview Container */
+.room-grid-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+  flex: 1;
+  min-height: 80px;
+}
+
+/* Legacy preview styles - kept for backward compatibility with other components */
+.grid-preview-image {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(45deg, #f5f1e8 25%, transparent 25%),
+              linear-gradient(-45deg, #f5f1e8 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, #f5f1e8 75%),
+              linear-gradient(-45deg, transparent 75%, #f5f1e8 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
+.tavern-preview-image {
+  width: 64px;
+  height: 64px;
+  background: #8B4513;
+  border: 2px solid rgba(139, 69, 19, 0.5);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tavern-preview-image::after {
+  content: '🏠';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}
+
+.grid-status {
+  font-size: 11px;
+  color: #8b4513;
+  opacity: 0.8;
+}
+
+.quest-footer {
+  padding: 16px 20px;
+  background: rgba(139, 69, 19, 0.05);
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  text-align: center;
+}
+
+.pathfinder-btn {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #2c1810;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+}
+
+.pathfinder-btn:hover {
+  background: linear-gradient(135deg, #b8860b 0%, #9a7209 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.4);
+}
+
+/* Hide delete button for test rooms */
+.multiplayer-rooms-section .multiplayer-room-card.test-room .delete-btn {
+  display: none;
+}
+
+/* Test rooms use standard grid layout */
+
+/* Rooms Sections */
+.local-rooms-section,
+.multiplayer-rooms-section,
+.friends-rooms-section {
+  margin-bottom: 16px;
+}
+
+/* Room Manager specific section headers - override global styles */
+.room-manager .section-header,
+.room-manager .local-rooms-section .section-header,
+.room-manager .multiplayer-rooms-section .section-header,
+.room-manager .friends-rooms-section .section-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 10px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+  flex: none !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+}
+
+.room-manager .section-header h3,
+.room-manager .local-rooms-section .section-header h3,
+.room-manager .multiplayer-rooms-section .section-header h3,
+.room-manager .friends-rooms-section .section-header h3 {
+  margin: 0 !important;
+  font-size: 16px !important;
+  color: #1f2937 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-weight: 600 !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Use standard button styling instead of hardcoded local room buttons */
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.create-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.create-btn:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Use standard grid and card styling for local rooms */
+
+/* Unified Room Cards Grid - used by both local and multiplayer rooms */
+.room-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 12px;
+  min-height: 100px;
+}
+
+/* Ensure no-rooms messages are properly centered in the grid */
+.room-cards-grid .no-rooms,
+.room-cards-grid .no-local-rooms {
+  grid-column: 1 / -1;
+  place-self: center;
+}
+
+/* Legacy support for existing multiplayer-rooms-grid */
+.multiplayer-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+/* Test rooms use same grid layout as other rooms - no special centering */
+.room-cards-grid .room-card-test,
+.multiplayer-rooms-grid .multiplayer-room-card.test-room {
+  /* Remove special centering and full-width behavior */
+  /* Test rooms now use standard grid layout like local rooms */
+}
+
+/* Legacy multiplayer room card styles - only apply to old-style cards not using RoomCard component */
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) {
+  background: #ffffff;
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+  border-color: #2563eb;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.2;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-role {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #3b82f6;
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-description {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
+  margin: 0;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .stat i {
+  color: #9ca3af;
+  width: 16px;
+  font-size: 14px;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .room-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .join-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .join-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .delete-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .delete-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.multiplayer-rooms-section .multiplayer-room-card:not(.room-card) .status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Friends Rooms Section */
+.friends-room-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.friends-room-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b, #d97706, #b45309);
+}
+
+.friends-room-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+  border-color: #d97706;
+}
+
+.friends-room-card .room-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.friends-room-card .room-info {
+  flex: 1;
+}
+
+.friends-room-card .room-name {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #92400e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.friends-room-card .room-name::before {
+  content: '▶';
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.friends-room-card .room-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #a16207;
+}
+
+.friends-room-card .room-participants {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.friends-room-card .room-participants i {
+  color: #d97706;
+}
+
+.friends-room-card .room-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid currentColor;
+}
+
+.friends-room-card .room-status-badge i {
+  font-size: 8px;
+}
+
+.friends-room-card .friend-info {
+  text-align: right;
+}
+
+.friends-room-card .friend-playing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 600;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.friends-room-card .friend-playing i {
+  color: #f59e0b;
+}
+
+.friends-room-card .room-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friends-room-card .room-description {
+  font-size: 14px;
+  color: #a16207;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.friends-room-card .room-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.friends-room-card .join-room-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+.friends-room-card .join-room-btn:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.no-friends-rooms {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px dashed #f59e0b;
+  border-radius: 12px;
+  color: #92400e;
+}
+
+.no-friends-rooms i {
+  font-size: 48px;
+  color: #d97706;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.no-friends-rooms h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.no-friends-rooms p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.8;
+  max-width: 400px;
+  margin: 0 auto;
+}

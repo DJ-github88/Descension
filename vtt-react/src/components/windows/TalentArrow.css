@@ -1,0 +1,134 @@
+/* Talent Arrow Styling - Pathfinder Beige Theme */
+
+.talent-arrows-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.talent-arrow {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Vertical Arrow Styles - WoW Classic Style */
+.talent-arrow-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.talent-arrow-vertical .arrow-line {
+  width: 3px;
+  flex: 1;
+  background: rgba(139, 69, 19, 0.6);
+  border-radius: 1.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.talent-arrow-vertical .arrow-head {
+  display: none; /* Remove arrowheads for cleaner look */
+}
+
+/* Horizontal Arrow Styles */
+.talent-arrow-horizontal {
+  display: flex;
+  align-items: center;
+}
+
+.talent-arrow-horizontal .arrow-line {
+  height: 6px;
+  flex: 1;
+  background: linear-gradient(90deg,
+    rgba(139, 69, 19, 0.9) 0%,
+    rgba(139, 69, 19, 1) 50%,
+    rgba(139, 69, 19, 0.9) 100%
+  );
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 6px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset -1px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.talent-arrow-horizontal .arrow-head {
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 12px solid var(--pf-brown-medium, #8B4513);
+  transition: all 0.3s ease;
+  filter: drop-shadow(3px 0 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Diagonal/SVG Arrow Styles - Thin connecting lines */
+.talent-arrow-diagonal .arrow-path {
+  fill: none;
+  stroke: rgba(139, 69, 19, 0.6);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+.talent-arrow-diagonal .arrow-marker {
+  display: none; /* Remove arrowheads */
+}
+
+/* Long-distance arrow styling - slightly thicker for visibility */
+.talent-arrow-diagonal.long-distance .arrow-path {
+  stroke-width: 3;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+/* Active Arrow States (prerequisite learned) - Thin green glow */
+.talent-arrow.active .arrow-line {
+  background: rgba(92, 184, 92, 0.9);
+  box-shadow: 0 0 8px rgba(92, 184, 92, 0.6);
+}
+
+.talent-arrow-diagonal.active .arrow-path {
+  stroke: rgba(92, 184, 92, 0.9);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px rgba(92, 184, 92, 0.6));
+}
+
+/* Long-distance active arrows */
+.talent-arrow-diagonal.long-distance.active .arrow-path {
+  stroke-width: 3;
+  filter: drop-shadow(0 0 8px rgba(92, 184, 92, 0.7));
+}
+
+/* Inactive Arrow States (prerequisite not learned) */
+.talent-arrow.inactive .arrow-line {
+  opacity: 0.4;
+  background: rgba(93, 78, 55, 0.5);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.talent-arrow-diagonal.inactive .arrow-path {
+  opacity: 0.4;
+  stroke: rgba(93, 78, 55, 0.5);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+
+
+/* Responsive arrow sizing */
+@media (max-width: 768px) {
+  .talent-arrow-vertical .arrow-line {
+    width: 2px;
+  }
+
+  .talent-arrow-diagonal .arrow-path {
+    stroke-width: 2;
+  }
+}
+
