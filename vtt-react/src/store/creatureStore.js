@@ -26,7 +26,7 @@ const useCreatureStore = create((set, get) => ({
     // Track this movement to prevent echo-induced position resets
     const now = Date.now();
     const moveKey = `creature_${creature.id}`;
-    
+
     // Clean up old movements periodically
     if (now - lastCleanup > CLEANUP_INTERVAL) {
       const cutoff = now - CLEANUP_INTERVAL;
@@ -37,7 +37,7 @@ const useCreatureStore = create((set, get) => ({
       }
       lastCleanup = now;
     }
-    
+
     // Track this movement
     recentTokenMovements.set(moveKey, {
       position: position,
@@ -52,7 +52,7 @@ const useCreatureStore = create((set, get) => ({
     if (sendToServer && !shouldIgnore) {
       // Import game store dynamically to avoid circular dependencies
       const gameStore = require('./gameStore').default;
-      
+
       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
         // Include velocity for lag compensation
         const tokenData = {
@@ -61,7 +61,7 @@ const useCreatureStore = create((set, get) => ({
           position: position,
           velocity: creature.velocity || { x: 0, y: 0 }
         };
-        
+
         gameStore.multiplayerSocket.emit('creature_added', tokenData);
       }
     }
@@ -78,11 +78,11 @@ const useCreatureStore = create((set, get) => ({
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
     const now = Date.now();
     const moveKey = `creature_${tokenId}`;
-    
+
     // Check if this is a server echo (received within 100ms of local movement)
     const existingMove = recentTokenMovements.get(moveKey);
     const shouldIgnore = existingMove && (now - existingMove.timestamp) < 100;
-    
+
     if (!shouldIgnore) {
       // Track this server update for echo prevention
       recentTokenMovements.set(moveKey, {
@@ -90,12 +90,12 @@ const useCreatureStore = create((set, get) => ({
         velocity: velocity || { x: 0, y: 0 },
         timestamp: now
       });
-      
+
       // Update token in array
       const updatedTokens = state.creatureTokens.map(token =>
         token.id === tokenId ? { ...token, position } : token
       );
-      
+
       return { creatureTokens: updatedTokens };
     }
   }),
@@ -103,10 +103,10 @@ const useCreatureStore = create((set, get) => ({
   // Remove creature token from grid
   removeCreatureToken: (tokenId) => set(state => {
     const updatedTokens = state.creatureTokens.filter(token => token.id !== tokenId);
-    
+
     // Clear movement tracking for this token
     recentTokenMovements.delete(`creature_${tokenId}`);
-    
+
     return { creatureTokens: updatedTokens };
   }),
 
@@ -115,7 +115,7 @@ const useCreatureStore = create((set, get) => ({
     const updatedTokens = state.creatureTokens.map(token =>
       token.id === tokenId ? { ...token, state: { ...token.state, ...stateUpdates } } : token
     );
-    
+
     // Import game store dynamically to broadcast to other players
     try {
       const gameStore = require('./gameStore').default;
@@ -128,18 +128,18 @@ const useCreatureStore = create((set, get) => ({
     } catch (error) {
       console.warn('Could not broadcast creature state update:', error);
     }
-    
+
     return { creatureTokens: updatedTokens };
   }),
 
   // Process loot item (creature death rewards)
   processCreatureLoot: (tokenId, lootData) => set(state => {
     const lootItems = processCreatureLoot(lootData);
-    
+
     const updatedTokens = state.creatureTokens.map(token =>
       token.id === tokenId ? { ...token, loot: lootItems } : token
     );
-    
+
     return { creatureTokens: updatedTokens };
   }),
 
@@ -154,3 +154,52 @@ const useCreatureStore = create((set, get) => ({
 }));
 
 export default useCreatureStore;
+// Creature types and sizes
+export const CREATURE_TYPES = {
+  ABERRATION: 'aberration',
+  BEAST: 'beast',
+  CELESTIAL: 'celestial',
+  CONSTRUCT: 'construct',
+  DRAGON: 'dragon',
+  ELEMENTAL: 'elemental',
+  FEY: 'fey',
+  FIEND: 'fiend',
+  GIANT: 'giant',
+  HUMANOID: 'humanoid',
+  MONSTROSITY: 'monstrosity',
+  OOZE: 'ooze',
+  PLANT: 'plant',
+  UNDEAD: 'undead'
+};
+
+export const CREATURE_SIZES = {
+  TINY: 'tiny',
+  SMALL: 'small',
+  MEDIUM: 'medium',
+  LARGE: 'large',
+  HUGE: 'huge',
+  GARGANTUAN: 'gargantuan'
+};
+
+export const getCreatureSizeMapping = (size) => {
+  if (!size) return { width: 1, height: 1 };
+
+  const sizeLower = size.toLowerCase();
+
+  switch (sizeLower) {
+    case 'tiny':
+    case 'small':
+    case 'medium':
+      return { width: 1, height: 1 };
+    case 'large':
+      return { width: 2, height: 2 };
+    case 'huge':
+      return { width: 3, height: 3 };
+    case 'gargantuan':
+      return { width: 4, height: 4 };
+    case 'colossal':
+      return { width: 5, height: 5 }; // Or larger depending on rules
+    default:
+      return { width: 1, height: 1 };
+  }
+};
