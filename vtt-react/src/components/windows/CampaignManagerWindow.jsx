@@ -1105,8 +1105,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                     </button>
                                 </div>
                                 <div className="players-list">
-                                    {campaignData.players.length > 0 ? (
-                                        campaignData.players.map(player => (
+                                    {(campaignData.players || []).length > 0 ? (
+                                        (campaignData.players || []).map(player => (
                                             <div key={player.id} className="player-card-expanded">
                                                 <div className="player-card-header">
                                                     <div className="player-avatar">
@@ -1220,8 +1220,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             </button>
                         </div>
                         <div className="sessions-list">
-                            {campaignData.sessions.length > 0 ? (
-                                campaignData.sessions.map(session => (
+                            {(campaignData.sessions || []).length > 0 ? (
+                                (campaignData.sessions || []).map(session => (
                                     <div key={session.id} className="session-card">
                                         <div className="session-header">
                                             <div className="session-title-section">
@@ -1305,8 +1305,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             </button>
                         </div>
                         <div className="npcs-grid">
-                            {campaignData.npcs.length > 0 ? (
-                                campaignData.npcs.map(npc => (
+                            {(campaignData.npcs || []).length > 0 ? (
+                                (campaignData.npcs || []).map(npc => (
                                     <div key={npc.id} className="npc-card">
                                         <div className="npc-header">
                                             <input
@@ -1406,8 +1406,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             </button>
                         </div>
                         <div className="locations-grid">
-                            {campaignData.locations.length > 0 ? (
-                                campaignData.locations.map(location => (
+                            {(campaignData.locations || []).length > 0 ? (
+                                (campaignData.locations || []).map(location => (
                                     <div key={location.id} className="location-card" style={{
                                         backgroundColor: '#f9f6f0',
                                         border: '2px solid #8b7355',
@@ -1581,8 +1581,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             </button>
                         </div>
                         <div className="plots-list">
-                            {campaignData.plotThreads.length > 0 ? (
-                                campaignData.plotThreads.map(plotThread => (
+                            {(campaignData.plotThreads || []).length > 0 ? (
+                                (campaignData.plotThreads || []).map(plotThread => (
                                     <div key={plotThread.id} className="plot-card" style={{
                                         backgroundColor: '#f9f6f0',
                                         border: '2px solid #8b7355',
