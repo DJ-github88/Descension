@@ -399,7 +399,7 @@ function GridComponent({
     // Works in both GM mode (for testing) and Player mode (for gameplay)
     // CRITICAL: Also runs on initial load to enable memory system immediately
     const isInitialLoadRef = useRef(true);
-    
+
     useEffect(() => {
         // Track mode changes
         const justSwitchedToPlayerMode = previousGMModeRef.current && !isGMMode;
@@ -431,7 +431,7 @@ function GridComponent({
 
         // Check if player has explicitly disabled view from token
         const { playerViewFromTokenDisabled } = useLevelEditorStore.getState();
-        
+
         // Run on initial load OR when mode switches to player mode
         // ALSO run if viewingFromToken is not set (for auto-detection on any load) - ONLY for players
         // BUT don't auto-enable if player has explicitly disabled it
@@ -449,12 +449,12 @@ function GridComponent({
                 const currentCharacterTokens = characterStore.characterTokens || [];
                 const currentCreatureTokens = creatureStore.tokens || [];
                 let playerToken = null;
-                
+
                 if (isInMultiplayer && multiplayerRoom && !isGMMode) {
                     // In multiplayer PLAYER mode, find token by current player's ID
                     const currentPlayerId = multiplayerRoom.gm?.id ||
-                                           (multiplayerRoom.players &&
-                                            Array.from(multiplayerRoom.players.values())[0]?.id);
+                        (multiplayerRoom.players &&
+                            Array.from(multiplayerRoom.players.values())[0]?.id);
 
                     if (currentPlayerId) {
                         playerToken = currentCharacterTokens.find(token =>
@@ -761,14 +761,28 @@ function GridComponent({
             // reset the state to prevent it from getting stuck
             if (isDraggingCharacterToken) {
                 const gridElement = gridRef.current;
-                if (gridElement && !gridElement.contains(event.target)) {
+                // CRITICAL FIX: Check if the click is within the grid bounds
+                // Use more robust check - also accept clicks on the canvas-container or anything inside gridElement
+                const isOnGrid = gridElement && (
+                    gridElement.contains(event.target) ||
+                    event.target === gridElement ||
+                    event.target.closest('.canvas-container') ||
+                    event.target.closest('.grid-canvas') ||
+                    event.target.classList.contains('grid-overlay')
+                );
+
+                if (!isOnGrid) {
+                    // Click was outside the grid, cancel placement
                     setIsDraggingCharacterToken(false);
                 }
+                // If click IS on grid, don't reset - let the grid's own click handler process it
             }
         };
 
-        document.addEventListener('click', handleGlobalClick, true);
-        return () => document.removeEventListener('click', handleGlobalClick, true);
+        // Use bubbling phase (false) instead of capture phase (true)
+        // This ensures grid's own handlers run first to place the token
+        document.addEventListener('click', handleGlobalClick, false);
+        return () => document.removeEventListener('click', handleGlobalClick, false);
     }, [isDraggingCharacterToken]);
 
     // Background manipulation handlers
@@ -777,21 +791,21 @@ function GridComponent({
         if (e.button !== 0) {
             return;
         }
-        
+
         e.preventDefault();
         e.stopPropagation();
-        
+
         // Find the background to get its initial position
         const draggedBackground = backgrounds.find(bg => bg.id === backgroundId);
         if (!draggedBackground) {
             return;
         }
-        
+
         setIsDraggingBackground(true);
         setDraggingBackgroundId(backgroundId); // Track which background we're dragging
         setIsResizingBackground(false); // Make sure we're not resizing
         setIsRotatingBackground(false); // Make sure we're not rotating
-        
+
         const rect = gridRef.current?.getBoundingClientRect();
         if (rect) {
             // Store the screen position where drag started
@@ -939,9 +953,9 @@ function GridComponent({
         // (unless clicking on other interactive elements like tokens, items, etc.)
         if (isBackgroundManipulationMode && e.button === 0 && activeBackgroundId) {
             const target = e.target;
-            
+
             // Don't drag background if clicking on interactive elements
-            const isInteractiveElement = 
+            const isInteractiveElement =
                 target.classList.contains('grid-item-orb') ||
                 target.classList.contains('creature-token') ||
                 target.classList.contains('character-token') ||
@@ -949,16 +963,16 @@ function GridComponent({
                 target.closest('.character-token') ||
                 target.closest('.grid-item-orb') ||
                 (target.dataset && target.dataset.manipulationHandle);
-            
+
             if (!isInteractiveElement) {
                 // Check if clicking on the active background element using data attribute
                 const backgroundElement = target.closest('[data-background-id]');
                 const isOnBackground = backgroundElement && backgroundElement.getAttribute('data-background-id') === activeBackgroundId;
-                
+
                 // Also check for background image style as fallback
                 const style = window.getComputedStyle(target);
                 const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
-                
+
                 // Allow dragging if clicking on background or empty grid space
                 if (isOnBackground || hasBackgroundImage || target === gridRef.current || target.closest('#grid-overlay')) {
                     // Handle background drag directly here
@@ -1229,11 +1243,11 @@ function GridComponent({
                     const firstGridSizeX = firstRect.width / effectiveZoom;
                     const firstGridSizeY = firstRect.height / effectiveZoom;
                     const firstGridSize = (firstGridSizeX + firstGridSizeY) / 2;
-                    
+
                     const secondGridSizeX = secondRect.width / effectiveZoom;
                     const secondGridSizeY = secondRect.height / effectiveZoom;
                     const secondGridSize = (secondGridSizeX + secondGridSizeY) / 2;
-                    
+
                     const avgGridSize = (firstGridSize + secondGridSize) / 2;
 
                     // Calculate world positions for rectangle corners (using viewport dimensions)
@@ -1395,7 +1409,7 @@ function GridComponent({
         if (isBackgroundManipulationMode && activeBackgroundId && !insideWindow) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
             if (activeBackground) {
                 if (e.ctrlKey) {
@@ -1438,7 +1452,7 @@ function GridComponent({
             const now = Date.now();
             const timeSinceLastZoom = now - lastZoomTimeRef.current;
             const absDeltaY = Math.abs(e.deltaY);
-            
+
             // Touchpad pinch gestures typically have smaller deltas (< 50)
             // Process these more aggressively for better responsiveness
             const isLikelyTouchpad = absDeltaY < 50;
@@ -1643,7 +1657,7 @@ function GridComponent({
                 const dy = p1.y - p0.y;
                 const dist = Math.max(1, Math.hypot(dx, dy));
                 const baseRatio = dist / pinchRef.current.startDist;
-                
+
                 // IMPROVEMENT: Add sensitivity multiplier for more responsive pinch zoom
                 // Apply sensitivity by adjusting the ratio (1.0 = no change, >1.0 = more sensitive)
                 const sensitivityMultiplier = 1.15; // 15% more sensitive
@@ -2032,12 +2046,12 @@ function GridComponent({
             // Handle file drops (images from desktop) - GM only
             if (isGMMode && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 const file = e.dataTransfer.files[0];
-                
+
                 // Check if it's an image file
                 if (file.type.startsWith('image/')) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // Read the file as data URL
                     const reader = new FileReader();
                     reader.onload = (event) => {
@@ -2213,7 +2227,7 @@ function GridComponent({
             if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem) {
                 e.preventDefault();
             }
-            
+
             // Allow file drops (images) for GMs
             if (isGMMode && e.dataTransfer.types.includes('Files')) {
                 e.preventDefault();
@@ -2391,7 +2405,7 @@ function GridComponent({
                 elementAtPoint.closest('.portal-element') ||
                 elementAtPoint.closest('.dnd-element.portal-element')
             );
-            
+
             if (isConnectionElement) {
                 // Let the connection handle its own context menu - don't prevent default here
                 // The connection's onContextMenu will handle it
@@ -3126,8 +3140,8 @@ function GridComponent({
                             <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
                                 {gridAlignmentStep === 1 ? 'Step 1/2: Draw first grid cell' :
                                     gridAlignmentStep === 2 ? 'Step 2/2: Draw second grid cell for better accuracy' :
-                                    gridAlignmentStep === 0 && gridAlignmentRectangles.length > 0 ? 'Alignment complete! Grid has been aligned. Exit alignment mode when ready.' :
-                                        'Drag to define grid cell size and position'}
+                                        gridAlignmentStep === 0 && gridAlignmentRectangles.length > 0 ? 'Alignment complete! Grid has been aligned. Exit alignment mode when ready.' :
+                                            'Drag to define grid cell size and position'}
                             </span>
                             {gridAlignmentStep === 2 && gridAlignmentRectangles.length > 0 && (
                                 <div style={{ marginTop: '10px' }}>
@@ -3146,12 +3160,12 @@ function GridComponent({
                                             // Apply with just the first rectangle
                                             const firstRect = gridAlignmentRectangles[0];
                                             const viewport = gridSystem.getViewportDimensions();
-                                            
+
                                             // Calculate grid size from rectangle dimensions (average of width and height)
                                             const gridSizeX = firstRect.width / effectiveZoom;
                                             const gridSizeY = firstRect.height / effectiveZoom;
                                             const gridSize = (gridSizeX + gridSizeY) / 2;
-                                            
+
                                             // Get world position of rectangle top-left corner
                                             const startWorld = gridSystem.screenToWorld(
                                                 Math.min(firstRect.start.x, firstRect.end.x),
@@ -3159,7 +3173,7 @@ function GridComponent({
                                                 viewport.width,
                                                 viewport.height
                                             );
-                                            
+
                                             // Calculate offset to align grid with rectangle corner
                                             const newOffsetX = startWorld.x % gridSize;
                                             const newOffsetY = startWorld.y % gridSize;

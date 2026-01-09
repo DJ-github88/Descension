@@ -1418,6 +1418,10 @@ io.on('connection', (socket) => {
   });
   */
 
+  // DISABLED: Duplicate token_created handler - there's a more sophisticated one at line ~3419
+  // Having two handlers causes conflicts and the first one only broadcasts to others (socket.to)
+  // while the enhanced one broadcasts to all including sender (io.to)
+  /*
   // Token created handler
   socket.on('token_created', async (data) => {
     try {
@@ -1460,7 +1464,11 @@ io.on('connection', (socket) => {
       logger.error('Error handling token_created', { error: error.message });
     }
   });
+  */
 
+  // DISABLED: Duplicate map_update handler - there's a more sophisticated one at line ~2961
+  // Having two handlers causes conflicts and uses wrong event name (map_update vs map_updated)
+  /*
   // Map update handler
   socket.on('map_update', async (data) => {
     try {
@@ -1492,6 +1500,7 @@ io.on('connection', (socket) => {
       logger.error('Error handling map_update', { error: error.message });
     }
   });
+  */
 
   // Grid item update handler
   socket.on('grid_item_update', async (data) => {
