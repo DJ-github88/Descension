@@ -121,6 +121,31 @@ const getLastAccountInfo = () => {
  */
 const createStorageConfig = (name, options = {}) => ({
     name,
+    storage: {
+        getItem: (key) => {
+            const str = safeLocalStorageGet(key);
+            if (!str) return null;
+            try {
+                return JSON.parse(str);
+            } catch (error) {
+                console.error(`Error parsing stored data for ${key}:`, error);
+                return null;
+            }
+        },
+        setItem: (key, value) => {
+            try {
+                const result = safeLocalStorageItem(key, JSON.stringify(value));
+                if (!result.success) {
+                    console.error(`Failed to save ${key}:`, result.error);
+                }
+            } catch (error) {
+                console.error(`Error stringifying data for ${key}:`, error);
+            }
+        },
+        removeItem: (key) => {
+            safeLocalStorageRemove(key);
+        }
+    },
     ...options
 });
 
