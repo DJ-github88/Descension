@@ -1524,12 +1524,11 @@ io.on('connection', (socket) => {
         console.error('Failed to persist grid item update:', error);
       }
 
-      // Broadcast to all players in room (including sender for confirmation)
-      // CRITICAL FIX: Changed from socket.to to io.to to include sender
-      // Include playerId so clients can correctly filter their own updates
-      io.to(player.roomId).emit('grid_item_update', {
+      // Broadcast to all OTHER players in room to avoid echo/jumping for the sender
+      // Include playerId so clients can still verify if needed
+      socket.to(player.roomId).emit('grid_item_update', {
         ...data,
-        playerId: player.id
+        playerId: socket.id
       });
     } catch (error) {
       logger.error('Error handling grid_item_update', { error: error.message });
@@ -3439,8 +3438,8 @@ io.on('connection', (socket) => {
       room.gameState.tokens = {};
     }
 
-    // Create a unique token ID to prevent conflicts
-    const tokenId = data.token.id || `token_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    // Create a unique token ID to prevent conflicts - handle missing token object safely
+    const tokenId = (data.token && data.token.id) || data.tokenId || `token_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
     // Store token with comprehensive data
     const tokenData = {
@@ -3467,9 +3466,9 @@ io.on('connection', (socket) => {
     // Broadcast token creation to ALL players in the room (including creator for confirmation)
     io.to(player.roomId).emit('token_created', {
       creature: data.creature,
-      token: { ...data.token, id: tokenId },
+      token: { ...(data.token || {}), id: tokenId },
       position: data.position,
-      playerId: player.id,
+      playerId: socket.id,
       playerName: player.name,
       timestamp: new Date(),
       isSync: false // Mark as new creation, not sync

@@ -1203,7 +1203,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addToken(data.creature.id, data.position, false, data.token.id);
 
         // Show notification in chat only for new creations from other players, not syncs or own creations
-        if (!isSync && data.playerId !== currentPlayer?.id) {
+        const myPlayerId = socket.id;
+        if (!isSync && data.playerId !== myPlayerId) {
           addNotification('social', {
             sender: { name: 'System', class: 'system', level: 0 },
             content: `${data.playerName} placed ${data.creature.name} on the grid`,
@@ -1216,8 +1217,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
-      // Don't process our own token creation
-      if (data.playerId === currentPlayer?.id) {
+      // Use socket.id for reliable self-filtering
+      const myPlayerId = socket.id;
+      if (data.playerId === myPlayerId) {
         return;
       }
 
@@ -1234,7 +1236,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
 
         // Show notification in chat only if it's not our own creation
-        if (data.playerId !== currentPlayer?.id) {
+        if (data.playerId !== myPlayerId) {
           addNotification('social', {
             sender: { name: 'System', class: 'system', level: 0 },
             content: `${data.playerName} placed their character token on the grid`,
@@ -1907,26 +1909,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const gridItemStore = useGridItemStore.getState();
 
         // Only process updates from other players (not our own)
-        if (data.playerId !== currentPlayer?.id) {
+        // Use socket.id for the most reliable comparison in mixed environments
+        const myPlayerId = socket.id;
+        if (data.playerId !== myPlayerId) {
           switch (data.type) {
             case 'grid_item_added':
-              // Add item to grid
+              // Add item to grid - pass false to avoid sync loop
               if (data.data && data.data.item && data.data.position) {
                 gridItemStore.addItemToGrid(data.data.item, data.data.position, false);
               }
               break;
 
             case 'grid_item_removed':
-              // Remove item from grid
+              // Remove item from grid - pass false to avoid sync loop
               if (data.data && data.data.gridItemId) {
-                gridItemStore.removeItemFromGrid(data.data.gridItemId);
+                gridItemStore.removeItemFromGrid(data.data.gridItemId, false);
               }
               break;
 
             case 'grid_item_moved':
-              // Move item on grid
+              // Move item on grid - pass false to avoid sync loop
               if (data.data && data.data.gridItemId && data.data.newPosition) {
-                gridItemStore.updateItemPosition(data.data.gridItemId, data.data.newPosition);
+                gridItemStore.updateItemPosition(data.data.gridItemId, data.data.newPosition, false);
               }
               break;
           }

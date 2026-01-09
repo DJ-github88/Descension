@@ -335,7 +335,7 @@ const useGridItemStore = create((set, get) => ({
     return newState;
   }),
 
-  removeItemFromGrid: (gridItemId) => set((state) => {
+  removeItemFromGrid: (gridItemId, sendToServer = true) => set((state) => {
     const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
 
     // Find the item being removed to check if it's a temporary item
@@ -351,10 +351,12 @@ const useGridItemStore = create((set, get) => ({
     const newItems = currentItems.filter(item => item?.id !== gridItemId);
 
     // Sync with multiplayer
-    get().syncGridItemUpdate('grid_item_removed', {
-      gridItemId,
-      itemData: itemBeingRemoved
-    });
+    if (sendToServer) {
+      get().syncGridItemUpdate('grid_item_removed', {
+        gridItemId,
+        itemData: itemBeingRemoved
+      });
+    }
 
     return {
       gridItems: newItems,
@@ -853,7 +855,7 @@ const useGridItemStore = create((set, get) => ({
   }),
 
   // Update item position on the grid
-  updateItemPosition: (gridItemId, newPosition) => set((state) => {
+  updateItemPosition: (gridItemId, newPosition, sendToServer = true) => set((state) => {
     const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
     const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
 
@@ -876,10 +878,12 @@ const useGridItemStore = create((set, get) => ({
     };
 
     // Sync with multiplayer
-    get().syncGridItemUpdate('grid_item_moved', {
-      gridItemId,
-      newPosition
-    });
+    if (sendToServer) {
+      get().syncGridItemUpdate('grid_item_moved', {
+        gridItemId,
+        newPosition
+      });
+    }
 
     return {
       gridItems: updatedItems,
