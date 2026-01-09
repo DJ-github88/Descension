@@ -3362,27 +3362,30 @@ function GridComponent({
                         style={{
                             position: 'fixed',
                             top: '20px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            color: '#FFD700',
+                            right: '20px',
+                            backgroundColor: '#d4c5b9', // Pathfinder beige
+                            color: '#f0e6d2', // Light beige text for readability
                             padding: '15px 25px',
-                            borderRadius: '12px',
-                            fontSize: '16px',
-                            fontWeight: 'bold',
+                            borderRadius: '8px', // Rounded corners
+                            fontSize: '14px',
+                            fontWeight: '600', // Semi-bold
+                            fontFamily: "'Garamond', 'Georgia', serif", // Pathfinder font family
                             zIndex: 10001,
                             textAlign: 'center',
                             pointerEvents: 'none',
-                            border: '2px solid #FFD700',
-                            boxShadow: '0 4px 20px rgba(255, 215, 0, 0.3)',
-                            animation: 'pulse 2s infinite'
+                            border: '2px solid #8b7355', // Darker beige border
+                            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)', // Subtle shadow
+                            animation: 'fadeIn 0.3s ease-in', // Fade in animation
+                            maxWidth: '300px'
                         }}
                     >
-                        CHARACTER TOKEN PLACEMENT MODE<br />
-                        <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#FFF' }}>
-                            Left-click anywhere on the grid to place your token<br />
-                            Right-click or press ESC to cancel
-                        </span>
+                        <div style={{ marginBottom: '8px' }}>
+                            CHARACTER TOKEN PLACEMENT MODE
+                        </div>
+                        <div style={{ fontSize: '13px', fontWeight: '400', lineHeight: '1.4' }}>
+                            <div>Left-click anywhere on the grid to place your token</div>
+                            <div style={{ marginTop: '4px' }}>Right-click or press ESC to cancel</div>
+                        </div>
                     </div>
                 )}
 

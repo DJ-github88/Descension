@@ -1502,7 +1502,7 @@ io.on('connection', (socket) => {
       if (!room.gameState) room.gameState = {};
       if (!room.gameState.gridItems) room.gameState.gridItems = {};
 
-      room.gameState.gridItems[data.itemId] = data.item;
+      room.gameState.gridItems[data.data.gridItemId] = data.data;
 
       // CRITICAL FIX: Persist to Firebase to ensure items survive reconnection
       try {
@@ -1528,23 +1528,45 @@ io.on('connection', (socket) => {
       const room = rooms.get(player.roomId);
       if (!room) return;
 
-      // Add dropped item to game state
+      // CRITICAL FIX: Initialize gridItems correctly for loot orb sync
       if (!room.gameState) room.gameState = {};
-      if (!room.gameState.droppedItems) room.gameState.droppedItems = {};
+      if (!room.gameState.gridItems) room.gameState.gridItems = {};
 
-      const itemId = data.itemId || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      room.gameState.droppedItems[itemId] = {
-        ...data,
-        id: itemId,
-        droppedBy: socket.id
+      // Create unique item ID to prevent conflicts
+      const gridItemId = data.item.id || `griditem_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
+      // Store grid item with comprehensive data
+      const gridItemData = {
+        ...data.item,
+        id: gridItemId,
+        position: data.position,
+        gridPosition: data.gridPosition,
+        droppedBy: player.id,
+        droppedByName: player.name,
+        droppedAt: new Date()
       };
 
-      // Broadcast to all players in room
+      room.gameState.gridItems[gridItemId] = gridItemData;
+
+      // Persist to Firebase
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist item drop:', error);
+      }
+
+      // Broadcast item drop to ALL players in room (including dropper for confirmation)
       io.to(player.roomId).emit('item_dropped', {
-        ...data,
-        itemId: itemId,
-        playerId: socket.id
+        item: { ...data.item, id: gridItemId },
+        position: data.position,
+        gridPosition: data.gridPosition,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: new Date(),
+        isSync: false // Mark as new drop, not sync
       });
+
+      console.log(`📦 Item ${data.item.name} (${gridItemId}) dropped by ${player.name} at`, data.position);
     } catch (error) {
       logger.error('Error handling item_dropped', { error: error.message });
     }
@@ -3442,7 +3464,7 @@ io.on('connection', (socket) => {
   // REMOVED: Duplicate character_token_created handler - handled above
 
   // Handle item looting
-  socket.on('item_looted', async(data) => {
+  socket.on('item_looted', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -3457,7 +3479,7 @@ io.on('connection', (socket) => {
 
     let itemRemoved = false;
 
-    // Remove item from room game state if it was a grid item
+    // CRITICAL FIX: Remove item from gridItems for loot orb sync
     if (data.gridItemId && room.gameState.gridItems) {
       const gridItem = room.gameState.gridItems[data.gridItemId];
       if (gridItem) {
@@ -3465,7 +3487,7 @@ io.on('connection', (socket) => {
         delete room.gameState.gridItems[data.gridItemId];
         itemRemoved = true;
 
-        // Persist the removal to Firebase
+        // Persist to Firebase
         try {
           await firebaseService.updateRoomGameState(player.roomId, room.gameState);
         } catch (error) {
@@ -3476,7 +3498,7 @@ io.on('connection', (socket) => {
       }
     }
 
-    // Broadcast loot event to all players in the room (including the looter for confirmation)
+    // Broadcast loot event to all players in room (including looter for confirmation)
     io.to(player.roomId).emit('item_looted', {
       item: data.item,
       quantity: data.quantity,
