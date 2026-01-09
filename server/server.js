@@ -981,15 +981,25 @@ io.on('connection', (socket) => {
       console.error('Failed to persist token creation:', error);
     }
 
-    // FIXED: Broadcast to ALL players in room (including creator for confirmation)
-    io.to(player.roomId).emit('token_created', {
+    // CRITICAL FIX: Send confirmation to creator first
+    socket.emit('token_create_confirmed', {
+      creature: data.creature,
+      token: { ...(data.token || {}), id: tokenId },
+      position: data.position,
+      playerId: socket.id,
+      timestamp: new Date(),
+      success: true
+    });
+
+    // Broadcast to OTHER players only (creator already has confirmation)
+    socket.to(player.roomId).emit('token_created', {
       creature: data.creature,
       token: { ...(data.token || {}), id: tokenId },
       position: data.position,
       playerId: socket.id,
       playerName: player.name,
       timestamp: new Date(),
-      isSync: false
+      isSync: true
     });
 
     console.log(`🎭 Token ${data.creature.name} (${tokenId}) created by ${player.name} at`, data.position);
@@ -1100,9 +1110,16 @@ io.on('connection', (socket) => {
       }
     }
 
-    // FIXED: Broadcast to ALL players (including creator) for immediate visibility
-    // Also include a flag to prevent echo-induced resets on the creator's side
-    io.to(player.roomId).emit('token_moved', {
+    // CRITICAL FIX: Calculate velocity for lag compensation
+    const previousPos = existingToken?.position || data.position;
+    const timeDelta = existingToken?.lastMovedAt ? (now - new Date(existingToken.lastMovedAt).getTime()) : 100;
+    const calculatedVelocity = {
+      x: timeDelta > 0 ? (data.position.x - previousPos.x) / (timeDelta / 1000) : 0,
+      y: timeDelta > 0 ? (data.position.y - previousPos.y) / (timeDelta / 1000) : 0
+    };
+
+    // CRITICAL FIX: Broadcast to OTHER players only (not sender) to prevent echo-induced resets
+    socket.to(player.roomId).emit('token_moved', {
       tokenId: tokenId,
       creatureId: data.creature?.id,
       position: data.position,
@@ -1110,7 +1127,7 @@ io.on('connection', (socket) => {
       playerName: player.name,
       isDragging: data.isDragging || false,
       serverTimestamp: now,
-      // FIXED: Include actionId to help clients identify their own movements
+      velocity: data.velocity || calculatedVelocity,
       actionId: data.actionId || `move_${now}`
     });
 
@@ -1185,8 +1202,17 @@ io.on('connection', (socket) => {
       console.error('Failed to persist character token creation:', error);
     }
 
-    // FIXED: Broadcast to ALL players (including creator)
-    io.to(player.roomId).emit('character_token_created', {
+    // CRITICAL FIX: Send confirmation to creator first
+    socket.emit('character_token_create_confirmed', {
+      tokenId: data.tokenId,
+      playerId: player.id,
+      position: data.position,
+      timestamp: new Date(),
+      success: true
+    });
+
+    // Broadcast to OTHER players only (creator already has confirmation)
+    socket.to(player.roomId).emit('character_token_created', {
       tokenId: data.tokenId,
       playerId: player.id,
       playerName: player.name,
@@ -1262,14 +1288,24 @@ io.on('connection', (socket) => {
       }
     }
 
-    // FIXED: Broadcast to ALL players (including mover for confirmation)
-    io.to(player.roomId).emit('character_moved', {
+    // CRITICAL FIX: Calculate velocity for lag compensation
+    const charToken = room.gameState.characterTokens[playerId];
+    const prevCharPos = charToken?.position || data.position;
+    const charTimeDelta = charToken?.lastMovedAt ? (now - new Date(charToken.lastMovedAt).getTime()) : 100;
+    const charVelocity = {
+      x: charTimeDelta > 0 ? (data.position.x - prevCharPos.x) / (charTimeDelta / 1000) : 0,
+      y: charTimeDelta > 0 ? (data.position.y - prevCharPos.y) / (charTimeDelta / 1000) : 0
+    };
+
+    // CRITICAL FIX: Broadcast to OTHER players only (not sender) to prevent echo-induced resets
+    socket.to(player.roomId).emit('character_moved', {
       position: data.position,
       playerId: player.id,
       playerName: player.name,
       isDragging: data.isDragging || false,
       timestamp: new Date(),
-      serverTimestamp: now
+      serverTimestamp: now,
+      velocity: data.velocity || charVelocity
     });
 
     console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
@@ -1514,8 +1550,8 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // FIXED: Broadcast map update to ALL players in room immediately for live updates
-    io.to(player.roomId).emit('map_updated', {
+    // CRITICAL FIX: Broadcast map update to OTHER players only (not GM who made changes) to prevent state conflicts
+    socket.to(player.roomId).emit('map_updated', {
       mapData: {
         ...room.gameState.mapData,
         fogOfWar: room.gameState.fogOfWar,
@@ -1532,7 +1568,7 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
 
-    console.log(`🗺️ Map updated by GM ${player.name} - broadcasted to all players in room ${player.roomId}`);
+    console.log(`🗺️ Map updated by GM ${player.name} - broadcasted to other players in room ${player.roomId}`);
   });
 
   // Handle combat state changes
@@ -1773,8 +1809,17 @@ io.on('connection', (socket) => {
       console.error('Failed to persist item drop:', error);
     }
 
-    // FIXED: Broadcast item drop to ALL players (including dropper for confirmation)
-    io.to(player.roomId).emit('item_dropped', {
+    // CRITICAL FIX: Send confirmation to dropper first
+    socket.emit('item_drop_confirmed', {
+      item: { ...data.item, id: gridItemId },
+      position: data.position,
+      gridPosition: data.gridPosition,
+      success: true,
+      timestamp: new Date()
+    });
+
+    // Broadcast item drop to OTHER players only (dropper already has confirmation)
+    socket.to(player.roomId).emit('item_dropped', {
       item: { ...data.item, id: gridItemId },
       position: data.position,
       gridPosition: data.gridPosition,
@@ -1833,17 +1878,46 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // FIXED: Remove item from gridItems for loot orb sync
+    // CRITICAL FIX: Verify item exists before removing
+    let itemRemoved = false;
+    let removedItem = null;
+
     if (data.gridItemId && room.gameState.gridItems) {
       const gridItem = room.gameState.gridItems[data.gridItemId];
       if (gridItem) {
+        removedItem = { ...gridItem };
         delete room.gameState.gridItems[data.gridItemId];
+        itemRemoved = true;
         console.log(`🎁 Removing looted item ${data.gridItemId} from server state`);
+      } else {
+        console.warn(`⚠️ Item ${data.gridItemId} not found in grid items - may have already been looted`);
       }
     }
 
-    // Broadcast loot event to all players in room (including looter for confirmation)
-    io.to(player.roomId).emit('item_looted', {
+    // CRITICAL FIX: Persist to Firebase BEFORE broadcasting to ensure consistency
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist item loot:', error);
+      // If persistence fails, re-add the item to prevent desync
+      if (removedItem && data.gridItemId) {
+        room.gameState.gridItems[data.gridItemId] = removedItem;
+        socket.emit('error', { message: 'Failed to loot item - please try again' });
+        return;
+      }
+    }
+
+    // CRITICAL FIX: Send confirmation to looter first
+    socket.emit('item_loot_confirmed', {
+      item: data.item,
+      quantity: data.quantity,
+      gridItemId: data.gridItemId,
+      success: itemRemoved,
+      timestamp: new Date()
+    });
+
+    // Broadcast loot event to OTHER players only (looter already has confirmation)
+    socket.to(player.roomId).emit('item_looted', {
       item: data.item,
       quantity: data.quantity,
       source: data.source,
@@ -1852,10 +1926,10 @@ io.on('connection', (socket) => {
       playerId: player.id,
       playerName: player.name,
       timestamp: new Date(),
-      itemRemoved: true
+      itemRemoved: itemRemoved
     });
 
-    console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source}`);
+    console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source} (removed: ${itemRemoved})`);
   });
 
   // Handle full game state synchronization request
