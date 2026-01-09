@@ -15,6 +15,7 @@ import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useCombatStore from '../../store/combatStore';
@@ -909,12 +910,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for global chat messages to sync with presence store
     socket.on('global_chat_message', (message) => {
       console.log('📨 Client received global_chat_message:', message);
-      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+      try {
         usePresenceStore.getState().addGlobalMessage(message);
         console.log('✅ Global message added to store');
-      }).catch(error => {
+      } catch (error) {
         console.error('❌ Failed to add global chat message:', error);
-      });
+      }
     });
 
     // Listen for token movements from other players
@@ -1247,8 +1248,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
-      // Import character token store dynamically to avoid circular dependencies
-      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+      try {
         const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
 
         // Add character token directly from server data (bypasses multiplayer sending)
@@ -1268,9 +1268,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             timestamp: new Date().toISOString()
           });
         }
-      }).catch(error => {
-        console.error('Failed to import characterTokenStore:', error);
-      });
+      } catch (error) {
+        console.error('Failed to update character tokens:', error);
+      }
     });
 
     // Listen for loot events from other players
@@ -1352,25 +1352,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token synchronization when joining a room
     socket.on('sync_character_tokens', (data) => {
-
-      // Import character token store dynamically to avoid circular dependencies
-      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
-        const { addCharacterTokenFromServer } = useCharacterTokenStore.getState();
+      try {
+        const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
+        const { addCharacterTokenFromServer: storeAddFromServer } = useCharacterTokenStore.getState();
 
         // Add each character token without sending back to server
         Object.values(data.characterTokens).forEach(tokenData => {
-
-          if (addCharacterTokenFromServer) {
-            addCharacterTokenFromServer(tokenData.id, tokenData.position, tokenData.playerId);
+          if (storeAddFromServer) {
+            storeAddFromServer(tokenData.id, tokenData.position, tokenData.playerId);
           } else {
             // Fallback method
-            const { addCharacterToken } = useCharacterTokenStore.getState();
             addCharacterToken(tokenData.position, tokenData.playerId, false); // false = don't send to server
           }
         });
-      }).catch(error => {
-        console.error('Failed to import characterTokenStore for sync:', error);
-      });
+      } catch (error) {
+        console.error('Failed to sync character tokens:', error);
+      }
     });
 
     // Listen for character updates from other players
@@ -1539,7 +1536,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // IMPROVEMENT: Sync character tokens (player characters on map)
       if (data.characterTokens && Object.keys(data.characterTokens).length > 0) {
-        import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+        try {
           const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
           Object.values(data.characterTokens).forEach(tokenData => {
             if (tokenData.playerId && tokenData.position) {
@@ -1551,9 +1548,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               }
             }
           });
-        }).catch(error => {
+        } catch (error) {
           console.warn('Failed to sync character tokens:', error);
-        });
+        }
       }
 
       // IMPROVEMENT: Sync grid items
