@@ -1282,18 +1282,40 @@ io.on('connection', (socket) => {
       y: timeDelta > 0 ? (data.position.y - previousPos.y) / (timeDelta / 1000) : 0
     };
 
-    // CRITICAL FIX: Broadcast to OTHER players only (not sender) to prevent echo-induced resets
-    socket.to(player.roomId).emit('token_moved', {
-      tokenId: tokenId,
-      creatureId: data.creature?.id,
-      position: data.position,
-      playerId: player.id,
-      playerName: player.name,
-      isDragging: data.isDragging || false,
-      serverTimestamp: now,
-      velocity: data.velocity || calculatedVelocity,
-      actionId: data.actionId || `move_${now}`
-    });
+    // Persist to Firebase
+    // FIXED: Use movement debouncer for dragging events to prevent Firebase write spam
+    if (data.isDragging) {
+      movementDebouncer.queueMove(player.roomId, tokenId, {
+        position: data.position,
+        velocity: data.velocity || calculatedVelocity, // Use calculatedVelocity here
+        playerId: player.id,
+        socketId: socket.id, // Needed for except() broadcasting
+        isDragging: true,
+        actionId: data.actionId
+      });
+      // Don't persist or broadcast immediately - let debouncer handle it
+    } else {
+      // Final move - update immediately and persist
+      try {
+        // Queue batched write instead of immediate await
+        firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist token movement:', error);
+      }
+
+      // Broadcast to OTHER players only
+      socket.to(player.roomId).emit('token_moved', {
+        tokenId: tokenId,
+        creatureId: data.creature?.id,
+        position: data.position,
+        playerId: player.id,
+        playerName: player.name,
+        isDragging: false,
+        serverTimestamp: now,
+        velocity: data.velocity || calculatedVelocity, // Use calculatedVelocity here
+        actionId: data.actionId || `move_${now}`
+      });
+    }
 
     console.log(`🔷 Token ${tokenId} moved by ${player.name}`, data.position);
   });
