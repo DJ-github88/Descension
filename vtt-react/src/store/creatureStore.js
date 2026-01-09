@@ -37,7 +37,7 @@ export const CREATURE_SIZE_GRID_MAPPING = {
   [CREATURE_SIZES.SMALL]: { width: 1, height: 1, scale: 0.8 },     // 80% of a grid square
   [CREATURE_SIZES.MEDIUM]: { width: 1, height: 1, scale: 1.0 },    // Full grid square (default)
   [CREATURE_SIZES.LARGE]: { width: 2, height: 2, scale: 1.0 },     // 2x2 grid squares
-  [CREATURE_SIZES.HUGE]: { width: 3, height: 3, scale: 1.0 },      // 3x3 grid squares
+  [CREATURE_SIZES.HUGE]: { width: 3, height: 3, scale: 1.0 },     // 3x3 grid squares
   [CREATURE_SIZES.GARGANTUAN]: { width: 4, height: 4, scale: 1.0 } // 4x4 grid squares
 };
 
@@ -120,6 +120,12 @@ const DEFAULT_STATS = {
   skills: {}
 };
 
+// CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets
+// This prevents the token from jumping back to old positions when the server broadcasts
+// the position back to all players (including the original sender)
+const recentTokenMovements = new Map();
+
+// Use creature store
 const useCreatureStore = create(
   persist(
     (set, get) => ({
@@ -149,7 +155,7 @@ const useCreatureStore = create(
       tokens: [], // [{creatureId, position: {x, y}, state: {...}}]
 
       // Window position persistence for external preview
-      windowPosition: null, // Will be set when user moves the window
+      windowPosition: null, // Will be set when user moves to window
       windowSize: { width: 1200, height: 800 }, // Default size
 
       // Actions
@@ -176,15 +182,15 @@ const useCreatureStore = create(
       })),
 
       deleteCategory: (id) => set(state => {
-        // Don't delete the base category
+        // Don't delete base category
         if (id === BASE_CATEGORY.id) {
           return state;
         }
 
-        // Remove the category from all creatures
+        // Remove category from all creatures
         const updatedCreatureCategories = {};
-        Object.entries(state.creatureCategories).forEach(([creatureId, categoryIds]) => {
-          updatedCreatureCategories[creatureId] = categoryIds.filter(catId => catId !== id);
+        Object.entries(state.creatureCategories).forEach(([creatureId]) => {
+          updatedCreatureCategories[creatureId] = state.creatureCategories[creatureId].filter(catId => catId !== id);
         });
 
         return {
@@ -217,24 +223,9 @@ const useCreatureStore = create(
             currency: { gold: { min: 0, max: 0 }, silver: { min: 0, max: 0 }, copper: { min: 0, max: 0 } },
             items: []
           },
-          // Shopkeeper properties
           isShopkeeper: creature.isShopkeeper || false,
           shopInventory: creature.shopInventory || {
             items: [], // Array of { itemId, customPrice: { gold: 0, silver: 0, copper: 0 }, quantity: 1 }
-            restockOnLongRest: creature.shopInventory?.restockOnLongRest || false,
-            shopName: creature.shopInventory?.shopName || '',
-            shopDescription: creature.shopInventory?.shopDescription || '',
-            buyRates: creature.shopInventory?.buyRates || {
-              default: 30,
-              categories: {
-                weapon: 50,
-                armor: 50,
-                consumable: 50,
-                accessory: 45,
-                container: 40,
-                miscellaneous: 35
-              }
-            }
           },
           dateCreated: new Date().toISOString(),
           lastModified: new Date().toISOString()
@@ -254,7 +245,7 @@ const useCreatureStore = create(
           categorySet.add(categories);
         }
 
-        // Create new creatureCategories state with the updated categories
+        // Create new creatureCategories state with updated categories
         const newCreatureCategories = {
           ...state.creatureCategories,
           [newCreature.id]: Array.from(categorySet)
@@ -270,22 +261,13 @@ const useCreatureStore = create(
       updateCreature: (id, updates) => set(state => ({
         creatures: state.creatures.map(creature =>
           creature.id === id
-            ? {
-              ...creature,
-              ...updates,
-              lastModified: new Date().toISOString()
-            }
+            ? { ...creature, ...updates, lastModified: new Date().toISOString() }
             : creature
         )
       })),
 
       deleteCreature: (id) => set(state => ({
-        creatures: state.creatures.filter(creature => creature.id !== id),
-        creatureCategories: Object.fromEntries(
-          Object.entries(state.creatureCategories).filter(([creatureId]) => creatureId !== id)
-        ),
-        selectedCreature: state.selectedCreature === id ? null : state.selectedCreature,
-        tokens: state.tokens.filter(token => token.creatureId !== id)
+        creatures: state.creatures.filter(creature => creature.id !== id)
       })),
 
       // Token actions
@@ -296,79 +278,42 @@ const useCreatureStore = create(
       // Special method for loading tokens from saved state (bypasses existing token checks)
       loadToken: (tokenData) => set(state => {
 
-        // Find the creature for this token
-        const creature = state.creatures.find(c => c.id === tokenData.creatureId);
-        if (!creature) {
-          console.warn('⚠️ Creature not found for token:', tokenData.creatureId);
-          return state;
-        }
-
-        // Check if token already exists (avoid duplicates)
-        const existingTokenIndex = state.tokens.findIndex(t => t.id === tokenData.id);
-        if (existingTokenIndex >= 0) {
-          const updatedTokens = [...state.tokens];
-          updatedTokens[existingTokenIndex] = {
-            ...tokenData,
-            // Ensure we have the creature reference
-            creature: creature
-          };
-          return { tokens: updatedTokens };
-        }
-
-        // Add new token
-        const newToken = {
-          ...tokenData,
-          creature: creature,
-          // Ensure we have proper state structure
-          state: tokenData.state || {
-            currentHp: creature.stats?.maxHp || 10,
-            currentMana: creature.stats?.maxMana || 0,
-            currentActionPoints: creature.stats?.maxActionPoints || 2,
-            conditions: [],
-            notes: ''
-          }
-        };
-
-        return { tokens: [...state.tokens, newToken] };
-      }),
-
-      addToken: (creatureId, position, sendToServer = true, tokenId = null, initialState = null) => set(state => {
-
         // Try multiple approaches to find the creature
         let creature = null;
 
         // 1. Direct ID match
-        creature = state.creatures.find(c => c.id === creatureId);
+        creature = state.creatures.find(c => c.id === tokenData.creatureId);
 
-        // 2. String comparison (in case the ID is a string)
-        if (!creature && typeof creatureId === 'string') {
-          creature = state.creatures.find(c => c.id.toString() === creatureId);
+        // 2. String comparison (in case of creature ID being a string)
+        if (!creature && typeof tokenData.creatureId === 'string') {
+          creature = state.creatures.find(c => c.id.toString() === tokenData.creatureId);
         }
 
         // 3. Trim whitespace and try again (in case of whitespace issues)
-        if (!creature && typeof creatureId === 'string') {
-          const trimmedId = creatureId.trim();
-          creature = state.creatures.find(c => c.id === trimmedId || c.id.toString() === trimmedId);
+        if (!creature && typeof tokenData.creatureId === 'string') {
+          const trimmedId = tokenData.creatureId.trim();
+          creature = state.creatures.find(c => c.id.toString() === trimmedId || c.id === trimmedId);
         }
 
         // 4. Case-insensitive search (in case of case differences)
-        if (!creature && typeof creatureId === 'string') {
+        if (!creature && typeof tokenData.creatureId === 'string') {
           creature = state.creatures.find(c =>
-            c.id.toString().toLowerCase() === creatureId.toLowerCase()
+            c.id.toString().toLowerCase() === tokenData.creatureId.toLowerCase()
           );
         }
 
         if (!creature) {
-          console.error('❌ Failed to add token: Creature not found with ID:', creatureId);
+          console.error('❌ Failed to add token: Creature not found with ID:', tokenData.creatureId);
           console.error('🔍 Searched in creatures:', state.creatures.map(c => ({ id: c.id, name: c.name })));
           console.error('❌ REFUSING TO USE FALLBACK - This would create wrong tokens');
           return state; // Don't use fallback, just return unchanged state
         }
 
-        // CRITICAL FIX: Use the provided tokenId if we're syncing, otherwise check for existing
-        const targetTokenId = tokenId || uuidv4();
+        // CRITICAL FIX: Use provided tokenId if we're syncing with server
+        // Otherwise use the creature's ID or generate a new one
+        const targetTokenId = tokenData.tokenId || creature.id;
 
-        // If we're syncing an existing token, check if it already exists by its token ID
+        // If we're syncing an existing token, check if it already exists
         const existingByTokenId = state.tokens.find(t => t.id === targetTokenId);
         if (existingByTokenId) {
           // If it exists, just return state as is or update position if needed
@@ -379,22 +324,13 @@ const useCreatureStore = create(
         const newToken = {
           id: targetTokenId,
           creatureId: creature.id,
-          position,
-          state: initialState || {
+          position: tokenData.position,
+          state: tokenData.state || {
             currentHp: creature.stats?.maxHp || 10,
             currentMana: creature.stats?.maxMana || 0,
             currentActionPoints: creature.stats?.maxActionPoints || 2,
             conditions: [],
-            notes: '',
-            // Set custom icon if creature has a custom token image
-            ...(creature.customTokenImage && {
-              customIcon: creature.customTokenImage,
-              iconScale: creature.imageTransformations?.scale ? (creature.imageTransformations.scale * 100) : 100,
-              iconPosition: {
-                x: creature.imageTransformations?.positionX ? (50 + creature.imageTransformations.positionX / 2) : 50,
-                y: creature.imageTransformations?.positionY ? (50 - creature.imageTransformations.positionY / 2) : 50
-              }
-            })
+            notes: ''
           }
         };
 
@@ -405,9 +341,8 @@ const useCreatureStore = create(
           ]
         };
 
-
-        // Send to multiplayer server if enabled
-        if (sendToServer) {
+        // Send to multiplayer server if enabled (only if we're syncing, not creating from local)
+        if (tokenData.sendToServer !== false) {
           // Import game store dynamically to avoid circular dependencies
           import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
@@ -415,7 +350,7 @@ const useCreatureStore = create(
               gameStore.multiplayerSocket.emit('token_created', {
                 creature: creature,
                 token: newToken,
-                position: position
+                position: tokenData.position
               });
             }
           }).catch(error => {
@@ -426,37 +361,90 @@ const useCreatureStore = create(
         return newState;
       }),
 
-      updateTokenPosition: (tokenId, position) => set(state => ({
-        tokens: state.tokens.map(token =>
+      updateTokenPosition: (tokenId, position) => set(state => {
+        // CRITICAL FIX: Ignore stale server echoes to prevent position jumps
+        // Check if we recently moved this token (within last 100ms)
+        const recentMoveKey = `token_${tokenId}`;
+        const now = Date.now();
+
+        if (!global.recentTokenMovements) {
+          global.recentTokenMovements = new Map();
+        }
+        const recentMove = global.recentTokenMovements.get(recentMoveKey);
+
+        if (recentMove && (now - recentMove.timestamp) < 100) {
+          console.log(`🚫 Ignoring stale token position update for ${tokenId} (${now - recentMove.timestamp}ms old)`);
+          return;
+        }
+
+        // Track this movement to prevent future echoes
+        global.recentTokenMovements.set(recentMoveKey, {
+          tokenId,
+          position,
+          timestamp: now
+        });
+
+        const updatedTokens = state.tokens.map(token =>
           token.id === tokenId
             ? { ...token, position }
             : token
-        )
-      })),
+        );
+
+        // CRITICAL FIX: Only send to server if position actually changed
+        // This prevents unnecessary network traffic during rapid updates
+        const existingToken = state.tokens.find(t => t.id === tokenId);
+        const hasPositionChanged = !existingToken ||
+          Math.abs(existingToken.position.x - position.x) > 0.1 ||
+          Math.abs(existingToken.position.y - position.y) > 0.1;
+
+        if (hasPositionChanged) {
+          // Import game store dynamically
+          import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('token_moved', {
+                tokenId: tokenId,
+                position: position,
+                isDragging: false // Mark as final position
+              });
+            }
+          }).catch(error => {
+            console.error('Failed to import gameStore for token position update:', error);
+          });
+        }
+
+        console.log(`🔷 Token ${tokenId} moved to`, position);
+        return { tokens: updatedTokens };
+      }),
 
       updateTokenState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
-        const updatedTokens = state.tokens.map(token => {
-          if (token.id === tokenId) {
-            const oldState = token.state;
-            const newState = { ...oldState, ...stateUpdates };
-
-            return {
+        const updatedTokens = state.tokens.map(token =>
+          token.id === tokenId
+            ? {
               ...token,
-              state: newState
-            };
-          }
-          return token;
-        });
+              state: {
+                ...token.state,
+                ...stateUpdates,
+                lastModified: new Date().toISOString()
+              }
+            }
+            : token
+        );
 
-        // Send to multiplayer server if enabled and requested
+        // Send state updates to server if requested
         if (sendToServer) {
-          const gameStore = require('./gameStore').default.getState();
-          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-            gameStore.multiplayerSocket.emit('token_updated', {
-              tokenId,
-              stateUpdates
-            });
-          }
+          // Import game store dynamically
+          import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('token_updated', {
+                tokenId: tokenId,
+                stateUpdates: stateUpdates
+              });
+            }
+          }).catch(error => {
+            console.error('Failed to import gameStore for token state update:', error);
+          });
         }
 
         return { tokens: updatedTokens };
@@ -468,40 +456,34 @@ const useCreatureStore = create(
 
       duplicateToken: (tokenId) => set(state => {
         // Find the token to duplicate
-        const tokenToDuplicate = state.tokens.find(token => token.id === tokenId);
+        const tokenToDuplicate = state.tokens.find(t => t.id === tokenId);
 
         if (!tokenToDuplicate) {
           console.error('Failed to duplicate token: Token not found with ID:', tokenId);
           return state;
         }
 
-        // Create a new token with the same properties but a new ID
+        // Create a new token with same properties but a new ID
         const newToken = {
           id: uuidv4(),
           creatureId: tokenToDuplicate.creatureId,
           position: {
-            // Offset the position slightly to make it clear it's a new token
+            // Offset position slightly to make it clear it's a new token
             x: tokenToDuplicate.position.x + 20,
             y: tokenToDuplicate.position.y + 20
           },
-          state: {
-            ...tokenToDuplicate.state
-          }
+          state: tokenToDuplicate.state
         };
 
-
-
-        return {
-          tokens: [
-            ...state.tokens,
-            newToken
-          ]
+        const newState = {
+          tokens: [...state.tokens, newToken]
         };
+
+        return newState;
       }),
 
       // Clean up expired conditions from all tokens
-      cleanupExpiredConditions: () => {
-        const state = get();
+      cleanupExpiredConditions: () => set(state => {
         const currentTime = Date.now();
         let hasChanges = false;
 
@@ -511,7 +493,7 @@ const useCreatureStore = create(
           }
 
           const validConditions = token.state.conditions.filter(condition => {
-            // If no duration info, keep the condition (permanent)
+            // If no duration info, keep as permanent condition
             if (!condition.duration && !condition.durationType) {
               return true;
             }
@@ -533,6 +515,7 @@ const useCreatureStore = create(
             return true;
           });
 
+          // Check if any condition changed
           if (validConditions.length !== token.state.conditions.length) {
             hasChanges = true;
             return {
@@ -552,12 +535,13 @@ const useCreatureStore = create(
         }
 
         return state;
-      },
+      }),
 
       // Get a creature with processed loot items
       getCreature: (id) => {
         const creature = get().creatures.find(c => c.id === id);
         if (!creature) return null;
+
         // Import item store dynamically to avoid circular dependencies
         const useItemStore = require('../store/itemStore').default;
         const itemStore = useItemStore.getState();
@@ -581,6 +565,7 @@ const useCreatureStore = create(
         set({ windowSize: size });
       }
     }),
+
     createStorageConfig('creature-store')
   )
 );
@@ -588,7 +573,7 @@ const useCreatureStore = create(
 // Note: Initialization is now handled by initCreatureStore.js to avoid duplicates
 // This prevents race conditions and multiple initialization calls
 
-// Expose store for debugging
+// Expose store for debugging (if needed)
 if (typeof window !== 'undefined') {
   window.creatureStore = useCreatureStore;
 }
