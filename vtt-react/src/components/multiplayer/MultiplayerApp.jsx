@@ -2649,12 +2649,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // If I am the creator/GM, I might not be in the players list yet, or I count as +1
       // If I am a player joining, I am already accounted for in the server's update or will be +1.
       // Better to rely on "GM + players.length" logic safely.
-      // Set initial player count (GM + regular players)
-      // Set initial player count (GM + regular players)
-      // Note: room.players is an Array from server, and server now handles GM inclusion in count
-      // robust method: count unique players in our connectedPlayers list + 1 (ourselves)
-      const totalParticipants = (uniquePlayers ? uniquePlayers.length : 0) + 1;
-      setActualPlayerCount((room.playerCount ? room.playerCount + 1 : totalParticipants));
+      // Set initial player count - server already includes GM in the count
+      // Use room.playerCount directly when available (most reliable)
+      // Fallback: count unique players + 1 (ourselves)
+      const fallbackCount = (uniquePlayers ? uniquePlayers.length : 0) + 1;
+      setActualPlayerCount(room.playerCount || fallbackCount);
 
       // Integrate multiplayer players into party system
       // Get active character data for current player

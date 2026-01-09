@@ -1379,6 +1379,9 @@ io.on('connection', (socket) => {
     }
   });
 
+  // DISABLED: Duplicate token_moved handler - there's a more sophisticated one at line 2414
+  // Having two handlers causes duplicate broadcasts and position conflicts (GM seeing tokens reset)
+  /*
   // Token moved handler - critical for game sync
   socket.on('token_moved', async (data) => {
     try {
@@ -1413,6 +1416,7 @@ io.on('connection', (socket) => {
       logger.error('Error handling token_moved', { error: error.message });
     }
   });
+  */
 
   // Token created handler
   socket.on('token_created', async (data) => {
@@ -1513,7 +1517,11 @@ io.on('connection', (socket) => {
 
       // Broadcast to all players in room (including sender for confirmation)
       // CRITICAL FIX: Changed from socket.to to io.to to include sender
-      io.to(player.roomId).emit('grid_item_update', data);
+      // Include playerId so clients can correctly filter their own updates
+      io.to(player.roomId).emit('grid_item_update', {
+        ...data,
+        playerId: player.id
+      });
     } catch (error) {
       logger.error('Error handling grid_item_update', { error: error.message });
     }

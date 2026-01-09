@@ -471,13 +471,13 @@ const ClassResourceBar = ({
     const setLocalAttackCounter = (value) => setCovenbaneState(prev => ({ ...prev, localAttackCounter: value }));
     const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
     const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
-    const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({ 
-        ...prev, 
-        localAscensionPaths: typeof valueOrFn === 'function' ? valueOrFn(prev.localAscensionPaths) : valueOrFn 
+    const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({
+        ...prev,
+        localAscensionPaths: typeof valueOrFn === 'function' ? valueOrFn(prev.localAscensionPaths) : valueOrFn
     }));
-    const setLocalBloodTokens = (valueOrFn) => setDeathcallerState(prev => ({ 
-        ...prev, 
-        localBloodTokens: typeof valueOrFn === 'function' ? valueOrFn(prev.localBloodTokens) : valueOrFn 
+    const setLocalBloodTokens = (valueOrFn) => setDeathcallerState(prev => ({
+        ...prev,
+        localBloodTokens: typeof valueOrFn === 'function' ? valueOrFn(prev.localBloodTokens) : valueOrFn
     }));
     const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
     const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
@@ -630,11 +630,11 @@ const ClassResourceBar = ({
 
     // Get chat store for combat notifications (must be before early return)
     const { addCombatNotification } = useChatStore();
-    
+
     // Get GM mode status (must be before early return)
     const isGMModeFromStore = useGameStore(state => state.isGMMode);
     const effectiveGMMode = isGMMode || isGMModeFromStore;
-    
+
     // Get current player name for actor name in logs (must be before early return)
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
 
@@ -666,28 +666,28 @@ const ClassResourceBar = ({
     };
 
     const finalConfig = config || defaultConfig;
-    
+
     // Helper function to get the actor name (current player, with GM suffix if in GM mode)
     const getActorName = () => {
         const actorName = currentPlayerName || 'Player';
         return effectiveGMMode ? `${actorName} (GM)` : actorName;
     };
-    
+
     // Helper function to get character name
     const getCharacterName = () => {
         if (character?.name) return character.name;
         if (character?.character?.name) return character.character.name;
         return currentPlayerName || 'Character';
     };
-    
+
     // Helper function to log class resource changes
     const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
         const characterName = getCharacterName();
-        
+
         const resourceDisplayName = resourceName || 'Class Resource';
-        
+
         let message = '';
         if (isPositive) {
             const messages = [
@@ -706,7 +706,7 @@ const ClassResourceBar = ({
             ];
             message = messages[Math.floor(Math.random() * messages.length)];
         }
-        
+
         // Use combat_resource type for class resources
         addCombatNotification({
             type: 'combat_resource',
@@ -784,7 +784,7 @@ const ClassResourceBar = ({
             // Wait for tooltip and bar refs to be available (they might be in a portal)
             const tooltip = tooltipRef.current;
             const bar = resourceBarWrapperRef.current;
-            
+
             if (!tooltip || !bar) {
                 // If refs aren't ready, try again
                 requestAnimationFrame(updatePosition);
@@ -793,41 +793,41 @@ const ClassResourceBar = ({
 
             const tooltipRect = tooltip.getBoundingClientRect();
             const barRect = bar.getBoundingClientRect();
-            
+
             // Check if bar has valid position (might not be laid out yet)
             if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
                 // Bar might not be positioned yet, try again
                 requestAnimationFrame(updatePosition);
                 return;
             }
-            
+
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             const margin = 8;
-            
+
             // Find the HUD container (party-hud or party-member-frame) to position tooltip below it
             let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
             let hudBottom = barRect.bottom;
-            
+
             if (hudContainer) {
                 const hudRect = hudContainer.getBoundingClientRect();
                 hudBottom = hudRect.bottom;
             }
-            
+
             // Check if tooltip has valid dimensions (not 0x0)
             // If dimensions aren't ready yet, use estimated dimensions
             const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
             const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
-            
+
             // Position tooltip below the HUD container, centered horizontally relative to the resource bar
             let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
             let top = hudBottom + margin;
-            
+
             // If dimensions weren't ready, schedule another update
             if (tooltipRect.width === 0 || tooltipRect.height === 0) {
                 requestAnimationFrame(updatePosition);
             }
-            
+
             // Adjust horizontal position to keep tooltip in viewport
             if (left < margin) {
                 left = margin;
@@ -835,7 +835,7 @@ const ClassResourceBar = ({
             if (left + tooltipWidth > viewportWidth - margin) {
                 left = viewportWidth - tooltipWidth - margin;
             }
-            
+
             // Ensure tooltip doesn't go off bottom of viewport
             if (top + tooltipHeight > viewportHeight - margin) {
                 // If there's not enough space below, position above the HUD instead
@@ -850,7 +850,7 @@ const ClassResourceBar = ({
                     top = margin;
                 }
             }
-            
+
             // Apply position directly to tooltip element - use cssText to override all styles
             // But preserve padding and border-radius from CSS
             tooltip.style.position = 'fixed';
@@ -868,11 +868,11 @@ const ClassResourceBar = ({
         requestAnimationFrame(() => {
             requestAnimationFrame(updatePosition);
         });
-        
+
         // Also add a small timeout as fallback for portal rendering
         const timeoutId = setTimeout(updatePosition, 50);
         const timeoutId2 = setTimeout(updatePosition, 100);
-        
+
         return () => {
             clearTimeout(timeoutId);
             clearTimeout(timeoutId2);
@@ -1167,7 +1167,7 @@ const ClassResourceBar = ({
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
         }
-        
+
         // Show tooltip immediately on hover
         setShowTooltip(true);
     };
@@ -1298,14 +1298,14 @@ const ClassResourceBar = ({
     const renderProgressBar = () => {
         const hasChaoticWave = finalConfig.visual.effects?.includes('chaotic-wave');
 
-        // Debug logging
-        console.log('ClassResourceBar Debug:', {
-            characterClass,
-            hasChaoticWave,
-            effects: finalConfig.visual.effects,
-            activeColor: finalConfig.visual.activeColor,
-            percentage
-        });
+        // Debug logging disabled to prevent console flooding
+        // console.log('ClassResourceBar Debug:', {
+        //     characterClass,
+        //     hasChaoticWave,
+        //     effects: finalConfig.visual.effects,
+        //     activeColor: finalConfig.visual.activeColor,
+        //     percentage
+        // });
 
         return (
             <div className={`class-resource-bar progress-bar ${size}`}>
@@ -1561,8 +1561,8 @@ const ClassResourceBar = ({
 
                                 <div className="chronarch-actions">
                                     <div className="chronarch-action-row">
-                                        <button 
-                                            className="chronarch-action-btn gain" 
+                                        <button
+                                            className="chronarch-action-btn gain"
                                             onClick={() => {
                                                 const newValue = Math.min(shardsMax, shardsValue + 1);
                                                 const amount = newValue - shardsValue;
@@ -1579,8 +1579,8 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="chronarch-action-row">
-                                        <button 
-                                            className="chronarch-action-btn spend" 
+                                        <button
+                                            className="chronarch-action-btn spend"
                                             onClick={() => {
                                                 const newValue = Math.max(0, shardsValue - 2);
                                                 const amount = shardsValue - newValue;
@@ -1595,8 +1595,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-bolt"></i>
                                             <span>-2</span>
                                         </button>
-                                        <button 
-                                            className="chronarch-action-btn spend" 
+                                        <button
+                                            className="chronarch-action-btn spend"
                                             onClick={() => {
                                                 const newValue = Math.max(0, shardsValue - 5);
                                                 const amount = shardsValue - newValue;
@@ -1615,7 +1615,7 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="chronarch-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={() => {
                                             const resetAmount = shardsValue;
                                             setLocalTimeShards(0);
@@ -1624,14 +1624,14 @@ const ClassResourceBar = ({
                                                 logClassResourceChange('Time Shard', resetAmount, false, 'timeShards');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('timeShards', 0);
                                             }
-                                        }} 
+                                        }}
                                         className="chronarch-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowTimeShardsMenu(false)} 
+                                    <button
+                                        onClick={() => setShowTimeShardsMenu(false)}
                                         className="chronarch-quick-btn"
                                         title="Close"
                                     >
@@ -1675,8 +1675,8 @@ const ClassResourceBar = ({
 
                                 <div className="chronarch-actions">
                                     <div className="chronarch-action-row">
-                                        <button 
-                                            className="chronarch-action-btn gain" 
+                                        <button
+                                            className="chronarch-action-btn gain"
                                             onClick={() => {
                                                 const newValue = Math.min(strainMax, strainValue + 1);
                                                 const amount = newValue - strainValue;
@@ -1691,8 +1691,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-clock"></i>
                                             <span>+1</span>
                                         </button>
-                                        <button 
-                                            className="chronarch-action-btn gain" 
+                                        <button
+                                            className="chronarch-action-btn gain"
                                             onClick={() => {
                                                 const newValue = Math.min(strainMax, strainValue + 3);
                                                 const amount = newValue - strainValue;
@@ -1709,8 +1709,8 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="chronarch-action-row">
-                                        <button 
-                                            className="chronarch-action-btn heal" 
+                                        <button
+                                            className="chronarch-action-btn heal"
                                             onClick={() => {
                                                 const newValue = Math.max(0, strainValue - 1);
                                                 const amount = strainValue - newValue;
@@ -1725,8 +1725,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-leaf"></i>
                                             <span>-1</span>
                                         </button>
-                                        <button 
-                                            className="chronarch-action-btn danger" 
+                                        <button
+                                            className="chronarch-action-btn danger"
                                             onClick={() => {
                                                 const newValue = 10;
                                                 const amount = Math.abs(newValue - strainValue);
@@ -1745,7 +1745,7 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="chronarch-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={() => {
                                             const resetAmount = strainValue;
                                             setLocalTemporalStrain(0);
@@ -1754,14 +1754,14 @@ const ClassResourceBar = ({
                                                 logClassResourceChange('Temporal Strain', resetAmount, false, 'temporalStrain');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', 0);
                                             }
-                                        }} 
+                                        }}
                                         className="chronarch-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowTemporalStrainMenu(false)} 
+                                    <button
+                                        onClick={() => setShowTemporalStrainMenu(false)}
                                         className="chronarch-quick-btn"
                                         title="Close"
                                     >
@@ -1917,8 +1917,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Gain</div>
                                     <div className="covenbane-action-grid">
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxCharges, chargesValue + 1);
@@ -1933,8 +1933,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-plus"></i> +1
                                         </button>
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxCharges, chargesValue + 1);
@@ -1956,8 +1956,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Spend</div>
                                     <div className="covenbane-action-grid four-col">
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 1);
@@ -1972,8 +1972,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus"></i> -1
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 2);
@@ -1988,8 +1988,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus"></i> -2
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 3);
@@ -2004,8 +2004,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus"></i> -3
                                         </button>
-                                        <button 
-                                            className="context-menu-button danger" 
+                                        <button
+                                            className="context-menu-button danger"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 6);
@@ -2025,7 +2025,7 @@ const ClassResourceBar = ({
 
                                 {/* Quick Actions */}
                                 <div className="covenbane-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const resetAmount = chargesValue;
@@ -2035,18 +2035,18 @@ const ClassResourceBar = ({
                                                 logClassResourceChange('Hexbreaker Charge', resetAmount, false, 'hexbreakerCharges');
                                                 if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', 0);
                                             }
-                                        }} 
+                                        }}
                                         className="covenbane-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                         <span>Reset</span>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowChargesMenu(false);
-                                        }} 
+                                        }}
                                         className="covenbane-quick-btn"
                                         title="Close"
                                     >
@@ -2096,7 +2096,7 @@ const ClassResourceBar = ({
                 } else {
                     currentPaths = [...prev];
                 }
-                
+
                 // If path is currently inactive, try to activate it
                 if (!currentPaths[index]) {
                     // Can only activate paths sequentially (can't skip)
@@ -2271,13 +2271,13 @@ const ClassResourceBar = ({
                                     {finalConfig.paths.map((path, i) => {
                                         // Get current paths array - use the one from renderAscensionBlood scope
                                         const currentPaths = Array.isArray(localAscensionPaths) ? localAscensionPaths : [true, false, false, false, false, false, false];
-                                        
+
                                         // Path is disabled if: it's not active AND it's not the first path AND the previous path is not active
                                         const isDisabled = !currentPaths[i] && i > 0 && !currentPaths[i - 1];
-                                        
+
                                         // Path can be activated if: it's the first path OR all previous paths are active
                                         const canActivate = i === 0 || currentPaths.slice(0, i).every(p => p === true);
-                                        
+
                                         return (
                                             <button
                                                 key={i}
@@ -2308,16 +2308,16 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="deathcaller-quick-actions">
-                                    <button 
-                                        onClick={() => { setLocalAscensionPaths([false, false, false, false, false, false, false]); setShowPathsMenu(false); }} 
+                                    <button
+                                        onClick={() => { setLocalAscensionPaths([false, false, false, false, false, false, false]); setShowPathsMenu(false); }}
                                         className="deathcaller-quick-btn"
                                         title="Reset All Paths"
                                     >
                                         <i className="fas fa-undo"></i>
                                         <span>Reset</span>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowPathsMenu(false)} 
+                                    <button
+                                        onClick={() => setShowPathsMenu(false)}
                                         className="deathcaller-quick-btn"
                                         title="Close"
                                     >
@@ -2363,7 +2363,7 @@ const ClassResourceBar = ({
                                 <div style={{ marginBottom: '6px' }}>
                                     <div className="deathcaller-menu-section-label">Gain Tokens</div>
                                     <div className="deathcaller-tokens-grid">
-                                        <button 
+                                        <button
                                             className="deathcaller-token-btn gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -2373,7 +2373,7 @@ const ClassResourceBar = ({
                                             <i className="fas fa-plus-circle"></i>
                                             <span>+1d6</span>
                                         </button>
-                                        <button 
+                                        <button
                                             className="deathcaller-token-btn gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -2383,7 +2383,7 @@ const ClassResourceBar = ({
                                             <i className="fas fa-plus-circle"></i>
                                             <span>+2d8</span>
                                         </button>
-                                        <button 
+                                        <button
                                             className="deathcaller-token-btn gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -2399,7 +2399,7 @@ const ClassResourceBar = ({
                                 <div style={{ marginBottom: '6px', paddingTop: '6px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
                                     <div className="deathcaller-menu-section-label">Spend Tokens</div>
                                     <div className="deathcaller-tokens-grid">
-                                        <button 
+                                        <button
                                             className="deathcaller-token-btn spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -2409,7 +2409,7 @@ const ClassResourceBar = ({
                                             <i className="fas fa-minus-circle"></i>
                                             <span>-5</span>
                                         </button>
-                                        <button 
+                                        <button
                                             className="deathcaller-token-btn spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -2420,7 +2420,7 @@ const ClassResourceBar = ({
                                             <span>-10</span>
                                         </button>
                                     </div>
-                                    <button 
+                                    <button
                                         className="deathcaller-token-btn spend danger"
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -2434,7 +2434,7 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="deathcaller-quick-actions" style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
-                                    <button 
+                                    <button
                                         className="deathcaller-quick-btn"
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -2450,7 +2450,7 @@ const ClassResourceBar = ({
                                         <i className="fas fa-undo"></i>
                                         <span>Reset</span>
                                     </button>
-                                    <button 
+                                    <button
                                         className="deathcaller-quick-btn"
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -2633,8 +2633,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Adjust</div>
                                     <div className="dreadnaught-action-grid">
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 addDRP(5);
@@ -2643,8 +2643,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-plus"></i> +5
                                         </button>
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 addDRP(10);
@@ -2653,8 +2653,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-plus-circle"></i> +10
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 removeDRP(5);
@@ -2663,8 +2663,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus"></i> -5
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 removeDRP(10);
@@ -2680,8 +2680,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Simulate Damage</div>
                                     <div className="dreadnaught-damage-grid">
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 simulateDamage(25);
@@ -2690,8 +2690,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-heart-broken"></i> 25
                                         </button>
-                                        <button 
-                                            className="context-menu-button danger" 
+                                        <button
+                                            className="context-menu-button danger"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 simulateDamage(50);
@@ -2725,33 +2725,33 @@ const ClassResourceBar = ({
 
                                 {/* Quick Actions */}
                                 <div className="dreadnaught-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setLocalDRP(0);
-                                        }} 
+                                        }}
                                         className="dreadnaught-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                         <span>Reset</span>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setLocalDRP(drpMax);
-                                        }} 
+                                        }}
                                         className="dreadnaught-quick-btn"
                                         title={`Set to Max (${drpMax})`}
                                     >
                                         <i className="fas fa-maximize"></i>
                                         <span>Max</span>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowDRPMenu(false);
-                                        }} 
+                                        }}
                                         className="dreadnaught-quick-btn"
                                         title="Close"
                                     >
@@ -2980,7 +2980,7 @@ const ClassResourceBar = ({
                                 setShowTooltip(false);
                             }}
                         >
-                            <div 
+                            <div
                                 className="mayhem-bar-background"
                             >
                                 <div
@@ -3257,7 +3257,7 @@ const ClassResourceBar = ({
 
         // Map DD value to percentage (d12=100%, d10=75%, d8=50%, d6=25%, 0=0%)
         const ddToPercentage = (dd) => {
-            switch(dd) {
+            switch (dd) {
                 case 12: return 100;
                 case 10: return 75;
                 case 8: return 50;
@@ -3270,7 +3270,7 @@ const ClassResourceBar = ({
         // Get color based on DD value
         const getDDColor = (dd) => {
             if (!isDemonBound) return finalConfig.visual.baseColor;
-            switch(dd) {
+            switch (dd) {
                 case 12: return finalConfig.visual.activeColor; // Gold - safe
                 case 10: return '#F4C430'; // Yellow-gold - good
                 case 8: return finalConfig.visual.warningColor; // Orange - moderate risk
@@ -3428,18 +3428,18 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="exorcist-slot-controls">
-                                    <button 
-                                        className="exorcist-control-btn" 
-                                        onClick={prevDemon} 
+                                    <button
+                                        className="exorcist-control-btn"
+                                        onClick={prevDemon}
                                         disabled={boundDemons.length <= 1}
                                         title="Previous Slot"
                                     >
                                         <i className="fas fa-chevron-left"></i>
                                     </button>
                                     <span className="exorcist-slot-display">{selectedDemonIndex + 1}/{boundDemons.length}</span>
-                                    <button 
-                                        className="exorcist-control-btn" 
-                                        onClick={nextDemon} 
+                                    <button
+                                        className="exorcist-control-btn"
+                                        onClick={nextDemon}
                                         disabled={boundDemons.length <= 1}
                                         title="Next Slot"
                                     >
@@ -3450,27 +3450,27 @@ const ClassResourceBar = ({
                                 {isDemonBound && (
                                     <div className="exorcist-dominance-controls">
                                         <div className="exorcist-dominance-row">
-                                            <button 
-                                                className="exorcist-action-btn decrease" 
-                                                onClick={decreaseDD} 
+                                            <button
+                                                className="exorcist-action-btn decrease"
+                                                onClick={decreaseDD}
                                                 disabled={currentDD === 0}
                                                 title="Demon Acts (-1 DD)"
                                             >
                                                 <i className="fas fa-arrow-down"></i>
                                                 <span>-1</span>
                                             </button>
-                                            <button 
-                                                className="exorcist-action-btn increase" 
-                                                onClick={increaseDD} 
+                                            <button
+                                                className="exorcist-action-btn increase"
+                                                onClick={increaseDD}
                                                 disabled={currentDD === 12}
                                                 title="Replenish (+1 DD)"
                                             >
                                                 <i className="fas fa-arrow-up"></i>
                                                 <span>+1</span>
                                             </button>
-                                            <button 
-                                                className="exorcist-action-btn restore" 
-                                                onClick={restoreDD} 
+                                            <button
+                                                className="exorcist-action-btn restore"
+                                                onClick={restoreDD}
                                                 disabled={currentDD === 12}
                                                 title="Max Dominance (d12)"
                                             >
@@ -3483,8 +3483,8 @@ const ClassResourceBar = ({
 
                                 <div className="exorcist-demon-management">
                                     {!currentDemon || currentDD === 0 ? (
-                                        <button 
-                                            className="exorcist-demon-btn" 
+                                        <button
+                                            className="exorcist-demon-btn"
                                             onClick={() => {
                                                 setDemonConfigMode('create');
                                                 setDemonConfigInitialData(null);
@@ -3496,8 +3496,8 @@ const ClassResourceBar = ({
                                         </button>
                                     ) : (
                                         <>
-                                            <button 
-                                                className="exorcist-demon-btn" 
+                                            <button
+                                                className="exorcist-demon-btn"
                                                 onClick={() => {
                                                     setDemonConfigMode('edit');
                                                     setDemonConfigInitialData(currentDemon);
@@ -3507,8 +3507,8 @@ const ClassResourceBar = ({
                                             >
                                                 <i className="fas fa-edit"></i>
                                             </button>
-                                            <button 
-                                                className="exorcist-demon-btn danger" 
+                                            <button
+                                                className="exorcist-demon-btn danger"
                                                 onClick={() => {
                                                     if (window.confirm(`Release ${currentDemon.name}?`)) {
                                                         const updatedDemons = [...boundDemons];
@@ -3526,22 +3526,22 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="exorcist-slots-controls">
-                                    <button 
-                                        className="exorcist-slot-btn" 
+                                    <button
+                                        className="exorcist-slot-btn"
                                         onClick={() => {
                                             if (boundDemons.length >= 4) {
                                                 alert('Maximum 4 demon slots (Demonologist spec)');
                                                 return;
                                             }
                                             setBoundDemons([...boundDemons, null]);
-                                        }} 
+                                        }}
                                         disabled={boundDemons.length >= 4}
                                         title={`Add Slot (${boundDemons.length}/4 max)`}
                                     >
                                         <i className="fas fa-plus"></i>
                                     </button>
-                                    <button 
-                                        className="exorcist-slot-btn danger" 
+                                    <button
+                                        className="exorcist-slot-btn danger"
                                         onClick={() => {
                                             if (boundDemons.length <= 1) {
                                                 alert('Must have at least 1 demon slot');
@@ -3554,7 +3554,7 @@ const ClassResourceBar = ({
                                                 setSelectedDemonIndex(updatedDemons.length - 1);
                                                 setLocalDominanceDie(updatedDemons[updatedDemons.length - 1]?.dd || 0);
                                             }
-                                        }} 
+                                        }}
                                         disabled={boundDemons.length <= 1}
                                         title="Remove Slot"
                                     >
@@ -3563,9 +3563,9 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="exorcist-quick-actions">
-                                    <button 
-                                        onClick={() => setShowDominanceMenu(false)} 
-                                        className="exorcist-quick-btn" 
+                                    <button
+                                        onClick={() => setShowDominanceMenu(false)}
+                                        className="exorcist-quick-btn"
                                         title="Close"
                                     >
                                         <i className="fas fa-times"></i>
@@ -3774,23 +3774,23 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="falseprophet-quick-actions">
-                                    <button 
-                                        onClick={() => { resetMadness(); setShowMadnessMenu(false); }} 
-                                        className="falseprophet-quick-btn danger" 
+                                    <button
+                                        onClick={() => { resetMadness(); setShowMadnessMenu(false); }}
+                                        className="falseprophet-quick-btn danger"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={setToConvulsion} 
-                                        className="falseprophet-quick-btn danger" 
+                                    <button
+                                        onClick={setToConvulsion}
+                                        className="falseprophet-quick-btn danger"
                                         title="Set to 20 (Convulsion)"
                                     >
                                         <i className="fas fa-exclamation-triangle"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowMadnessMenu(false)} 
-                                        className="falseprophet-quick-btn" 
+                                    <button
+                                        onClick={() => setShowMadnessMenu(false)}
+                                        className="falseprophet-quick-btn"
                                         title="Close"
                                     >
                                         <i className="fas fa-times"></i>
@@ -4193,8 +4193,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Gain</div>
                                     <div className="formbender-action-grid gain-grid">
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxWI, wiValue + 1);
@@ -4209,8 +4209,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-plus"></i> +1
                                         </button>
-                                        <button 
-                                            className="context-menu-button gain" 
+                                        <button
+                                            className="context-menu-button gain"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxWI, wiValue + 2);
@@ -4232,8 +4232,8 @@ const ClassResourceBar = ({
                                 <div className="context-menu-section">
                                     <div className="context-menu-section-header">Spend</div>
                                     <div className="formbender-action-grid">
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, wiValue - 1);
@@ -4248,8 +4248,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus"></i> -1
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, wiValue - 3);
@@ -4264,8 +4264,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-minus-circle"></i> -3
                                         </button>
-                                        <button 
-                                            className="context-menu-button spend" 
+                                        <button
+                                            className="context-menu-button spend"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, wiValue - 5);
@@ -4304,23 +4304,23 @@ const ClassResourceBar = ({
 
                                 {/* Quick Actions */}
                                 <div className="formbender-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setFormbenderState(prev => ({ ...prev, localWildInstinct: 0 }));
                                             setShowWIMenu(false);
-                                        }} 
+                                        }}
                                         className="formbender-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                         <span>Reset</span>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowWIMenu(false);
-                                        }} 
+                                        }}
                                         className="formbender-quick-btn"
                                         title="Close"
                                     >
@@ -4381,11 +4381,11 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="formbender-quick-actions">
-                                    <button 
+                                    <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowFormMenu(false);
-                                        }} 
+                                        }}
                                         className="formbender-quick-btn"
                                         title="Close"
                                     >
@@ -4594,8 +4594,8 @@ const ClassResourceBar = ({
                             <div className="context-menu-section">
                                 <div className="context-menu-section-header">Gain</div>
                                 <div className="primalist-action-grid">
-                                    <button 
-                                        className="context-menu-button gain" 
+                                    <button
+                                        className="context-menu-button gain"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.min(maxSynergy, synergyValue + 5);
@@ -4612,8 +4612,8 @@ const ClassResourceBar = ({
                                     >
                                         <i className="fas fa-plus"></i> +5
                                     </button>
-                                    <button 
-                                        className="context-menu-button gain" 
+                                    <button
+                                        className="context-menu-button gain"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.min(maxSynergy, synergyValue + 10);
@@ -4637,8 +4637,8 @@ const ClassResourceBar = ({
                             <div className="context-menu-section">
                                 <div className="context-menu-section-header">Spend</div>
                                 <div className="primalist-action-grid">
-                                    <button 
-                                        className="context-menu-button spend" 
+                                    <button
+                                        className="context-menu-button spend"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.max(0, synergyValue - 5);
@@ -4655,8 +4655,8 @@ const ClassResourceBar = ({
                                     >
                                         <i className="fas fa-minus"></i> -5
                                     </button>
-                                    <button 
-                                        className="context-menu-button spend" 
+                                    <button
+                                        className="context-menu-button spend"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.max(0, synergyValue - 10);
@@ -4680,8 +4680,8 @@ const ClassResourceBar = ({
                             <div className="context-menu-section">
                                 <div className="context-menu-section-header">Totems: {totemCount}/{maxTotems}</div>
                                 <div className="primalist-totem-controls">
-                                    <button 
-                                        className="context-menu-button" 
+                                    <button
+                                        className="context-menu-button"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.max(0, totemCount - 1);
@@ -4698,8 +4698,8 @@ const ClassResourceBar = ({
                                     >
                                         <i className="fas fa-minus"></i> -1
                                     </button>
-                                    <button 
-                                        className="context-menu-button" 
+                                    <button
+                                        className="context-menu-button"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const newValue = Math.min(maxTotems, totemCount + 1);
@@ -4743,7 +4743,7 @@ const ClassResourceBar = ({
 
                             {/* Quick Actions */}
                             <div className="primalist-quick-actions">
-                                <button 
+                                <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         const synergyReset = synergyValue;
@@ -4761,18 +4761,18 @@ const ClassResourceBar = ({
                                             onClassResourceUpdate('current', 0);
                                             onClassResourceUpdate('totems', 0);
                                         }
-                                    }} 
+                                    }}
                                     className="primalist-quick-btn"
                                     title="Reset All"
                                 >
                                     <i className="fas fa-undo"></i>
                                     <span>Reset</span>
                                 </button>
-                                <button 
+                                <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setShowSynergyMenu(false);
-                                    }} 
+                                    }}
                                     className="primalist-quick-btn"
                                     title="Close"
                                 >
@@ -4952,165 +4952,165 @@ const ClassResourceBar = ({
                                     zIndex: 100000
                                 }}
                             >
-                            <div className="context-menu-main gambler-menu">
-                                <div className="menu-title">Fortune Points: {fpValue}/{maxFP}</div>
+                                <div className="context-menu-main gambler-menu">
+                                    <div className="menu-title">Fortune Points: {fpValue}/{maxFP}</div>
 
-                                <div className="gambler-specs">
-                                    {Object.entries(specs).map(([key, spec]) => (
+                                    <div className="gambler-specs">
+                                        {Object.entries(specs).map(([key, spec]) => (
+                                            <button
+                                                key={key}
+                                                className={`gambler-spec-btn ${gamblerSpec === key ? 'active' : ''}`}
+                                                onClick={() => {
+                                                    setGamblerSpec(key);
+                                                    setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
+                                                }}
+                                                title={spec.name}
+                                            >
+                                                <i className={key === 'card-sharp' ? 'fas fa-hand-paper' : key === 'high-roller' ? 'fas fa-dice' : key === 'fortune-teller' ? 'fas fa-crystal-ball' : (spec.icon || 'fas fa-question')}></i>
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div className="gambler-actions">
+                                        <div className="gambler-action-row">
+                                            <button
+                                                className="gambler-action-btn gain"
+                                                onClick={() => {
+                                                    const newValue = Math.min(maxFP, fpValue + 1);
+                                                    const amount = newValue - fpValue;
+                                                    setLocalFortunePoints(newValue);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                    }
+                                                }}
+                                                title="Gain 1 FP (Success)"
+                                            >
+                                                <i className="fas fa-plus"></i>
+                                                <span>+1</span>
+                                            </button>
+                                            <button
+                                                className="gambler-action-btn gain"
+                                                onClick={() => {
+                                                    const newValue = Math.min(maxFP, fpValue + 2);
+                                                    const amount = newValue - fpValue;
+                                                    setLocalFortunePoints(newValue);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                    }
+                                                }}
+                                                title="Gain 2 FP (Crit)"
+                                            >
+                                                <i className="fas fa-plus-circle"></i>
+                                                <span>+2</span>
+                                            </button>
+                                        </div>
+                                        <div className="gambler-action-row">
+                                            <button
+                                                className="gambler-action-btn spend"
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, fpValue - 1);
+                                                    const amount = fpValue - newValue;
+                                                    setLocalFortunePoints(newValue);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                    }
+                                                }}
+                                                title="Spend 1 FP (Minor)"
+                                            >
+                                                <i className="fas fa-minus"></i>
+                                                <span>-1</span>
+                                            </button>
+                                            <button
+                                                className="gambler-action-btn spend"
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, fpValue - 3);
+                                                    const amount = fpValue - newValue;
+                                                    setLocalFortunePoints(newValue);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                    }
+                                                }}
+                                                title="Spend 3 FP (Moderate)"
+                                            >
+                                                <i className="fas fa-minus-circle"></i>
+                                                <span>-3</span>
+                                            </button>
+                                            <button
+                                                className="gambler-action-btn spend"
+                                                onClick={() => {
+                                                    const newValue = Math.max(0, fpValue - 5);
+                                                    const amount = fpValue - newValue;
+                                                    setLocalFortunePoints(newValue);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                    }
+                                                }}
+                                                title="Spend 5 FP (Major)"
+                                            >
+                                                <i className="fas fa-star"></i>
+                                                <span>-5</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="gambler-quick-actions">
                                         <button
-                                            key={key}
-                                            className={`gambler-spec-btn ${gamblerSpec === key ? 'active' : ''}`}
                                             onClick={() => {
-                                                setGamblerSpec(key);
-                                                setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
+                                                const resetAmount = fpValue;
+                                                setLocalFortunePoints(0);
+                                                if (resetAmount > 0) {
+                                                    logClassResourceChange('Fortune Point', resetAmount, false, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                                }
                                             }}
-                                            title={spec.name}
+                                            className="gambler-quick-btn"
+                                            title="Reset to 0"
                                         >
-                                            <i className={key === 'card-sharp' ? 'fas fa-hand-paper' : key === 'high-roller' ? 'fas fa-dice' : key === 'fortune-teller' ? 'fas fa-crystal-ball' : (spec.icon || 'fas fa-question')}></i>
+                                            <i className="fas fa-undo"></i>
                                         </button>
-                                    ))}
-                                </div>
-
-                                <div className="gambler-actions">
-                                    <div className="gambler-action-row">
-                                        <button 
-                                            className="gambler-action-btn gain" 
+                                        <button
                                             onClick={() => {
-                                                const newValue = Math.min(maxFP, fpValue + 1);
-                                                const amount = newValue - fpValue;
+                                                const newValue = Math.floor(maxFP / 2);
+                                                const amount = Math.abs(newValue - fpValue);
                                                 setLocalFortunePoints(newValue);
                                                 if (amount > 0) {
-                                                    logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
+                                                    logClassResourceChange('Fortune Point', amount, newValue > fpValue, 'fortunePoints');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
                                                 }
                                             }}
-                                            title="Gain 1 FP (Success)"
+                                            className="gambler-quick-btn"
+                                            title={`Set to Half (${Math.floor(maxFP / 2)})`}
                                         >
-                                            <i className="fas fa-plus"></i>
-                                            <span>+1</span>
+                                            <i className="fas fa-balance-scale"></i>
                                         </button>
-                                        <button 
-                                            className="gambler-action-btn gain" 
+                                        <button
                                             onClick={() => {
-                                                const newValue = Math.min(maxFP, fpValue + 2);
-                                                const amount = newValue - fpValue;
-                                                setLocalFortunePoints(newValue);
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Fortune Point', amount, true, 'fortunePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                const gainAmount = maxFP - fpValue;
+                                                setLocalFortunePoints(maxFP);
+                                                if (gainAmount > 0) {
+                                                    logClassResourceChange('Fortune Point', gainAmount, true, 'fortunePoints');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', maxFP);
                                                 }
                                             }}
-                                            title="Gain 2 FP (Crit)"
+                                            className="gambler-quick-btn"
+                                            title={`Set to Max (${maxFP})`}
                                         >
-                                            <i className="fas fa-plus-circle"></i>
-                                            <span>+2</span>
+                                            <i className="fas fa-crown"></i>
                                         </button>
-                                    </div>
-                                    <div className="gambler-action-row">
-                                        <button 
-                                            className="gambler-action-btn spend" 
-                                            onClick={() => {
-                                                const newValue = Math.max(0, fpValue - 1);
-                                                const amount = fpValue - newValue;
-                                                setLocalFortunePoints(newValue);
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 1 FP (Minor)"
+                                        <button
+                                            onClick={() => setShowFPMenu(false)}
+                                            className="gambler-quick-btn"
+                                            title="Close"
                                         >
-                                            <i className="fas fa-minus"></i>
-                                            <span>-1</span>
-                                        </button>
-                                        <button 
-                                            className="gambler-action-btn spend" 
-                                            onClick={() => {
-                                                const newValue = Math.max(0, fpValue - 3);
-                                                const amount = fpValue - newValue;
-                                                setLocalFortunePoints(newValue);
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 3 FP (Moderate)"
-                                        >
-                                            <i className="fas fa-minus-circle"></i>
-                                            <span>-3</span>
-                                        </button>
-                                        <button 
-                                            className="gambler-action-btn spend" 
-                                            onClick={() => {
-                                                const newValue = Math.max(0, fpValue - 5);
-                                                const amount = fpValue - newValue;
-                                                setLocalFortunePoints(newValue);
-                                                if (amount > 0) {
-                                                    logClassResourceChange('Fortune Point', amount, false, 'fortunePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                                }
-                                            }}
-                                            title="Spend 5 FP (Major)"
-                                        >
-                                            <i className="fas fa-star"></i>
-                                            <span>-5</span>
+                                            <i className="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
-
-                                <div className="gambler-quick-actions">
-                                    <button 
-                                        onClick={() => {
-                                            const resetAmount = fpValue;
-                                            setLocalFortunePoints(0);
-                                            if (resetAmount > 0) {
-                                                logClassResourceChange('Fortune Point', resetAmount, false, 'fortunePoints');
-                                                if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
-                                            }
-                                        }} 
-                                        className="gambler-quick-btn"
-                                        title="Reset to 0"
-                                    >
-                                        <i className="fas fa-undo"></i>
-                                    </button>
-                                    <button 
-                                        onClick={() => {
-                                            const newValue = Math.floor(maxFP / 2);
-                                            const amount = Math.abs(newValue - fpValue);
-                                            setLocalFortunePoints(newValue);
-                                            if (amount > 0) {
-                                                logClassResourceChange('Fortune Point', amount, newValue > fpValue, 'fortunePoints');
-                                                if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
-                                            }
-                                        }} 
-                                        className="gambler-quick-btn"
-                                        title={`Set to Half (${Math.floor(maxFP / 2)})`}
-                                    >
-                                        <i className="fas fa-balance-scale"></i>
-                                    </button>
-                                    <button 
-                                        onClick={() => {
-                                            const gainAmount = maxFP - fpValue;
-                                            setLocalFortunePoints(maxFP);
-                                            if (gainAmount > 0) {
-                                                logClassResourceChange('Fortune Point', gainAmount, true, 'fortunePoints');
-                                                if (onClassResourceUpdate) onClassResourceUpdate('current', maxFP);
-                                            }
-                                        }} 
-                                        className="gambler-quick-btn"
-                                        title={`Set to Max (${maxFP})`}
-                                    >
-                                        <i className="fas fa-crown"></i>
-                                    </button>
-                                    <button 
-                                        onClick={() => setShowFPMenu(false)} 
-                                        className="gambler-quick-btn"
-                                        title="Close"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
                             </div>,
                             document.body
                         )}
@@ -5255,8 +5255,8 @@ const ClassResourceBar = ({
 
                                     <div className="huntress-actions">
                                         <div className="huntress-action-row">
-                                            <button 
-                                                className="huntress-action-btn gain" 
+                                            <button
+                                                className="huntress-action-btn gain"
                                                 onClick={() => {
                                                     const newValue = Math.min(maxQM, qmValue + 1);
                                                     const amount = newValue - qmValue;
@@ -5272,8 +5272,8 @@ const ClassResourceBar = ({
                                                 <i className="fas fa-plus"></i>
                                                 <span>+1</span>
                                             </button>
-                                            <button 
-                                                className="huntress-action-btn gain" 
+                                            <button
+                                                className="huntress-action-btn gain"
                                                 onClick={() => {
                                                     const newValue = Math.min(maxQM, qmValue + 2);
                                                     const amount = newValue - qmValue;
@@ -5291,8 +5291,8 @@ const ClassResourceBar = ({
                                             </button>
                                         </div>
                                         <div className="huntress-action-row">
-                                            <button 
-                                                className="huntress-action-btn spend" 
+                                            <button
+                                                className="huntress-action-btn spend"
                                                 onClick={() => {
                                                     const newValue = Math.max(0, qmValue - 1);
                                                     const amount = qmValue - newValue;
@@ -5308,8 +5308,8 @@ const ClassResourceBar = ({
                                                 <i className="fas fa-minus"></i>
                                                 <span>-1</span>
                                             </button>
-                                            <button 
-                                                className="huntress-action-btn spend" 
+                                            <button
+                                                className="huntress-action-btn spend"
                                                 onClick={() => {
                                                     const newValue = Math.max(0, qmValue - 2);
                                                     const amount = qmValue - newValue;
@@ -5325,8 +5325,8 @@ const ClassResourceBar = ({
                                                 <i className="fas fa-minus-circle"></i>
                                                 <span>-2</span>
                                             </button>
-                                            <button 
-                                                className="huntress-action-btn spend" 
+                                            <button
+                                                className="huntress-action-btn spend"
                                                 onClick={() => {
                                                     const newValue = Math.max(0, qmValue - 3);
                                                     const amount = qmValue - newValue;
@@ -5342,8 +5342,8 @@ const ClassResourceBar = ({
                                                 <i className="fas fa-star"></i>
                                                 <span>-3</span>
                                             </button>
-                                            <button 
-                                                className="huntress-action-btn spend" 
+                                            <button
+                                                className="huntress-action-btn spend"
                                                 onClick={() => {
                                                     const newValue = Math.max(0, qmValue - 5);
                                                     const amount = qmValue - newValue;
@@ -5387,7 +5387,7 @@ const ClassResourceBar = ({
                                     </div>
 
                                     <div className="huntress-quick-actions">
-                                        <button 
+                                        <button
                                             onClick={() => {
                                                 const resetAmount = qmValue;
                                                 setLocalQuarryMarks(0);
@@ -5396,13 +5396,13 @@ const ClassResourceBar = ({
                                                     logClassResourceChange('Quarry Mark', resetAmount, false, 'quarryMarks');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', 0);
                                                 }
-                                            }} 
+                                            }}
                                             className="huntress-quick-btn"
                                             title="Reset to 0"
                                         >
                                             <i className="fas fa-undo"></i>
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={() => {
                                                 const gainAmount = maxQM - qmValue;
                                                 setLocalQuarryMarks(maxQM);
@@ -5411,14 +5411,14 @@ const ClassResourceBar = ({
                                                     logClassResourceChange('Quarry Mark', gainAmount, true, 'quarryMarks');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('quarryMarks', maxQM);
                                                 }
-                                            }} 
+                                            }}
                                             className="huntress-quick-btn"
                                             title={`Set to Max (${maxQM})`}
                                         >
                                             <i className="fas fa-crown"></i>
                                         </button>
-                                        <button 
-                                            onClick={() => setShowQMMenu(false)} 
+                                        <button
+                                            onClick={() => setShowQMMenu(false)}
                                             className="huntress-quick-btn"
                                             title="Close"
                                         >
@@ -5527,113 +5527,113 @@ const ClassResourceBar = ({
                     {/* Combined Runes & Inscriptions Bar */}
                     <div className="ri-bar-wrapper" ref={inscriptorBarRef} style={{ width: '100%', minWidth: 0 }}>
                         <div className="ri-bar-content" style={{ width: '100%', minWidth: 0 }}>
-                        {/* Runes Section */}
-                        <div
-                            className="runes-section"
-                            onClick={handleBarClick}
-                            onMouseEnter={handleRunesBarEnter}
-                            onMouseLeave={handleBarLeave}
-                            style={{
-                                cursor: 'pointer',
-                                flex: maxRunes > maxInscriptions ? '3' : '1'
-                            }}
-                        >
-                            {/* Runes Value Display - Centered */}
-                            <div className="ri-section-value runes-value">
-                                {runesValue}/{maxRunes}
-                            </div>
-                            <div className="runes-segments">
-                                {Array.from({ length: Math.min(maxRunes, maxRunes > maxInscriptions ? 12 : 8) }, (_, index) => {
-                                    const runeSymbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ']; // Elder Futhark runes
-                                    const maxVisualRunes = maxRunes > maxInscriptions ? 12 : 8;
-                                    return (
-                                        <div
-                                            key={`rune-${index}`}
-                                            className={`rune-segment ${index < Math.min(runesValue, maxVisualRunes) ? 'filled' : 'empty'}`}
-                                            style={{
-                                                backgroundColor: index < Math.min(runesValue, maxVisualRunes) ? specs.runes.activeColor : specs.runes.baseColor,
-                                                borderColor: specs.runes.segmentBorder,
-                                                boxShadow: index < Math.min(runesValue, maxVisualRunes) ? `0 0 6px ${specs.runes.glowColor}` : 'none',
-                                                fontSize: maxRunes > maxInscriptions ? '12px' : '14px',
-                                                fontWeight: 'bold',
-                                                color: index < Math.min(runesValue, maxVisualRunes) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
-                                            }}
-                                        >
-                                            {runeSymbols[index % runeSymbols.length]}
+                            {/* Runes Section */}
+                            <div
+                                className="runes-section"
+                                onClick={handleBarClick}
+                                onMouseEnter={handleRunesBarEnter}
+                                onMouseLeave={handleBarLeave}
+                                style={{
+                                    cursor: 'pointer',
+                                    flex: maxRunes > maxInscriptions ? '3' : '1'
+                                }}
+                            >
+                                {/* Runes Value Display - Centered */}
+                                <div className="ri-section-value runes-value">
+                                    {runesValue}/{maxRunes}
+                                </div>
+                                <div className="runes-segments">
+                                    {Array.from({ length: Math.min(maxRunes, maxRunes > maxInscriptions ? 12 : 8) }, (_, index) => {
+                                        const runeSymbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ']; // Elder Futhark runes
+                                        const maxVisualRunes = maxRunes > maxInscriptions ? 12 : 8;
+                                        return (
+                                            <div
+                                                key={`rune-${index}`}
+                                                className={`rune-segment ${index < Math.min(runesValue, maxVisualRunes) ? 'filled' : 'empty'}`}
+                                                style={{
+                                                    backgroundColor: index < Math.min(runesValue, maxVisualRunes) ? specs.runes.activeColor : specs.runes.baseColor,
+                                                    borderColor: specs.runes.segmentBorder,
+                                                    boxShadow: index < Math.min(runesValue, maxVisualRunes) ? `0 0 6px ${specs.runes.glowColor}` : 'none',
+                                                    fontSize: maxRunes > maxInscriptions ? '12px' : '14px',
+                                                    fontWeight: 'bold',
+                                                    color: index < Math.min(runesValue, maxVisualRunes) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
+                                                }}
+                                            >
+                                                {runeSymbols[index % runeSymbols.length]}
+                                            </div>
+                                        );
+                                    })}
+                                    {maxRunes > (maxRunes > maxInscriptions ? 12 : 8) && (
+                                        <div className="runes-overflow-indicator" style={{
+                                            color: '#FFD700',
+                                            fontSize: '10px',
+                                            fontWeight: 'bold',
+                                            marginLeft: '2px'
+                                        }}>
+                                            +{Math.max(0, Math.min(runesValue, maxRunes) - (maxRunes > maxInscriptions ? 12 : 8))}
                                         </div>
-                                    );
-                                })}
-                                {maxRunes > (maxRunes > maxInscriptions ? 12 : 8) && (
-                                    <div className="runes-overflow-indicator" style={{
-                                        color: '#FFD700',
-                                        fontSize: '10px',
-                                        fontWeight: 'bold',
-                                        marginLeft: '2px'
-                                    }}>
-                                        +{Math.max(0, Math.min(runesValue, maxRunes) - (maxRunes > maxInscriptions ? 12 : 8))}
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Separator */}
-                        <div className="ri-separator" style={{ borderColor: specColor }}></div>
+                            {/* Separator */}
+                            <div className="ri-separator" style={{ borderColor: specColor }}></div>
 
-                        {/* Inscriptions Section */}
-                        <div
-                            className="inscriptions-section"
-                            onClick={handleBarClick}
-                            onMouseEnter={handleInscriptionsBarEnter}
-                            onMouseLeave={handleBarLeave}
-                            style={{
-                                cursor: 'pointer',
-                                flex: maxInscriptions > maxRunes ? '3' : '1'
-                            }}
-                        >
-                            {/* Inscriptions Value Display - Centered */}
-                            <div className="ri-section-value inscriptions-value">
-                                {inscriptionsValue}/{maxInscriptions}
-                            </div>
-                            <div className="inscriptions-segments">
-                                {Array.from({ length: Math.min(maxInscriptions, maxRunes > maxInscriptions ? 2 : 6) }, (_, index) => {
-                                    const inscriptionSymbols = ['◈', '◆', '◇', '◉', '○', '●']; // Mystical geometric symbols
-                                    const maxVisualInscriptions = maxRunes > maxInscriptions ? 2 : 6;
-                                    return (
-                                        <div
-                                            key={`inscription-${index}`}
-                                            className={`inscription-segment ${index < Math.min(inscriptionsValue, maxVisualInscriptions) ? 'filled' : 'empty'}`}
-                                            style={{
-                                                backgroundColor: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? specs.inscriptions.activeColor : specs.inscriptions.baseColor,
-                                                borderColor: specs.inscriptions.segmentBorder,
-                                                boxShadow: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? `0 0 6px ${specs.inscriptions.glowColor}` : 'none',
-                                                fontSize: maxRunes > maxInscriptions ? '8px' : '12px',
-                                                fontWeight: 'bold',
-                                                color: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
-                                            }}
-                                        >
-                                            {inscriptionSymbols[index]}
+                            {/* Inscriptions Section */}
+                            <div
+                                className="inscriptions-section"
+                                onClick={handleBarClick}
+                                onMouseEnter={handleInscriptionsBarEnter}
+                                onMouseLeave={handleBarLeave}
+                                style={{
+                                    cursor: 'pointer',
+                                    flex: maxInscriptions > maxRunes ? '3' : '1'
+                                }}
+                            >
+                                {/* Inscriptions Value Display - Centered */}
+                                <div className="ri-section-value inscriptions-value">
+                                    {inscriptionsValue}/{maxInscriptions}
+                                </div>
+                                <div className="inscriptions-segments">
+                                    {Array.from({ length: Math.min(maxInscriptions, maxRunes > maxInscriptions ? 2 : 6) }, (_, index) => {
+                                        const inscriptionSymbols = ['◈', '◆', '◇', '◉', '○', '●']; // Mystical geometric symbols
+                                        const maxVisualInscriptions = maxRunes > maxInscriptions ? 2 : 6;
+                                        return (
+                                            <div
+                                                key={`inscription-${index}`}
+                                                className={`inscription-segment ${index < Math.min(inscriptionsValue, maxVisualInscriptions) ? 'filled' : 'empty'}`}
+                                                style={{
+                                                    backgroundColor: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? specs.inscriptions.activeColor : specs.inscriptions.baseColor,
+                                                    borderColor: specs.inscriptions.segmentBorder,
+                                                    boxShadow: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? `0 0 6px ${specs.inscriptions.glowColor}` : 'none',
+                                                    fontSize: maxRunes > maxInscriptions ? '8px' : '12px',
+                                                    fontWeight: 'bold',
+                                                    color: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
+                                                }}
+                                            >
+                                                {inscriptionSymbols[index]}
+                                            </div>
+                                        );
+                                    })}
+                                    {maxInscriptions > (maxRunes > maxInscriptions ? 2 : 6) && (
+                                        <div className="inscriptions-overflow-indicator" style={{
+                                            color: '#FFD700',
+                                            fontSize: '9px',
+                                            fontWeight: 'bold',
+                                            marginLeft: '2px'
+                                        }}>
+                                            +{Math.max(0, Math.min(inscriptionsValue, maxInscriptions) - (maxRunes > maxInscriptions ? 2 : 6))}
                                         </div>
-                                    );
-                                })}
-                                {maxInscriptions > (maxRunes > maxInscriptions ? 2 : 6) && (
-                                    <div className="inscriptions-overflow-indicator" style={{
-                                        color: '#FFD700',
-                                        fontSize: '9px',
-                                        fontWeight: 'bold',
-                                        marginLeft: '2px'
-                                    }}>
-                                        +{Math.max(0, Math.min(inscriptionsValue, maxInscriptions) - (maxRunes > maxInscriptions ? 2 : 6))}
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
-                        </div>
 
                         </div>
 
                         {/* Adjustment Menu */}
                         {showRunesMenu && ReactDOM.createPortal(
-                            <div 
-                                className="unified-context-menu compact inscriptor-menu-container" 
+                            <div
+                                className="unified-context-menu compact inscriptor-menu-container"
                                 onClick={(e) => e.stopPropagation()}
                                 style={{
                                     position: 'fixed',
@@ -5690,9 +5690,9 @@ const ClassResourceBar = ({
                                     <div className="context-menu-section">
                                         <div className="context-menu-section-header">Runes</div>
                                         <div className="inscriptor-action-grid">
-                                            <button 
-                                                className="context-menu-button gain" 
-                                                onClick={(e) => { 
+                                            <button
+                                                className="context-menu-button gain"
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     const newValue = Math.min(maxRunes, runesValue + 1);
                                                     const amount = newValue - runesValue;
@@ -5701,14 +5701,14 @@ const ClassResourceBar = ({
                                                         logClassResourceChange('Rune', amount, true, 'runes');
                                                         if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
                                                     }
-                                                }} 
+                                                }}
                                                 title="+1 Place"
                                             >
                                                 <i className="fas fa-plus"></i> +1
                                             </button>
-                                            <button 
-                                                className="context-menu-button gain" 
-                                                onClick={(e) => { 
+                                            <button
+                                                className="context-menu-button gain"
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     const newValue = Math.min(maxRunes, runesValue + 3);
                                                     const amount = newValue - runesValue;
@@ -5717,14 +5717,14 @@ const ClassResourceBar = ({
                                                         logClassResourceChange('Rune', amount, true, 'runes');
                                                         if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
                                                     }
-                                                }} 
+                                                }}
                                                 title="+3 Zone"
                                             >
                                                 <i className="fas fa-plus"></i> +3
                                             </button>
-                                            <button 
-                                                className="context-menu-button spend" 
-                                                onClick={(e) => { 
+                                            <button
+                                                className="context-menu-button spend"
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     const newValue = Math.max(0, runesValue - 1);
                                                     const amount = runesValue - newValue;
@@ -5733,7 +5733,7 @@ const ClassResourceBar = ({
                                                         logClassResourceChange('Rune', amount, false, 'runes');
                                                         if (onClassResourceUpdate) onClassResourceUpdate('runes', newValue);
                                                     }
-                                                }} 
+                                                }}
                                                 title="-1 Detonate"
                                             >
                                                 <i className="fas fa-minus"></i> -1
@@ -5745,9 +5745,9 @@ const ClassResourceBar = ({
                                     <div className="context-menu-section">
                                         <div className="context-menu-section-header">Inscriptions</div>
                                         <div className="inscriptor-action-grid inscriptions-grid">
-                                            <button 
-                                                className="context-menu-button gain" 
-                                                onClick={(e) => { 
+                                            <button
+                                                className="context-menu-button gain"
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     const newValue = Math.min(maxInscriptions, inscriptionsValue + 1);
                                                     const amount = newValue - inscriptionsValue;
@@ -5755,15 +5755,15 @@ const ClassResourceBar = ({
                                                     if (amount > 0) {
                                                         logClassResourceChange('Inscription', amount, true, 'inscriptions');
                                                         if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
-                                                    } 
-                                                }} 
+                                                    }
+                                                }}
                                                 title="+1 Inscribe"
                                             >
                                                 <i className="fas fa-plus"></i> +1
                                             </button>
-                                            <button 
-                                                className="context-menu-button spend" 
-                                                onClick={(e) => { 
+                                            <button
+                                                className="context-menu-button spend"
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     const newValue = Math.max(0, inscriptionsValue - 1);
                                                     const amount = inscriptionsValue - newValue;
@@ -5772,7 +5772,7 @@ const ClassResourceBar = ({
                                                         logClassResourceChange('Inscription', amount, false, 'inscriptions');
                                                         if (onClassResourceUpdate) onClassResourceUpdate('inscriptions', newValue);
                                                     }
-                                                }} 
+                                                }}
                                                 title="-1 Remove"
                                             >
                                                 <i className="fas fa-minus"></i> -1
@@ -5782,34 +5782,34 @@ const ClassResourceBar = ({
 
                                     {/* Quick Actions */}
                                     <div className="inscriptor-quick-actions">
-                                        <button 
-                                            className="inscriptor-quick-btn" 
-                                            onClick={(e) => { 
+                                        <button
+                                            className="inscriptor-quick-btn"
+                                            onClick={(e) => {
                                                 e.stopPropagation();
-                                                setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 })); 
-                                            }} 
+                                                setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 }));
+                                            }}
                                             title="Reset All"
                                         >
                                             <i className="fas fa-undo"></i>
                                             <span>Reset</span>
                                         </button>
-                                        <button 
-                                            className="inscriptor-quick-btn" 
-                                            onClick={(e) => { 
+                                        <button
+                                            className="inscriptor-quick-btn"
+                                            onClick={(e) => {
                                                 e.stopPropagation();
-                                                setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions })); 
-                                            }} 
+                                                setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions }));
+                                            }}
                                             title="Set to Max"
                                         >
                                             <i className="fas fa-crown"></i>
                                             <span>Max</span>
                                         </button>
-                                        <button 
-                                            className="inscriptor-quick-btn" 
-                                            onClick={(e) => { 
+                                        <button
+                                            className="inscriptor-quick-btn"
+                                            onClick={(e) => {
                                                 e.stopPropagation();
-                                                setShowRunesMenu(false); 
-                                            }} 
+                                                setShowRunesMenu(false);
+                                            }}
                                             title="Close"
                                         >
                                             <i className="fas fa-times"></i>
@@ -5951,8 +5951,8 @@ const ClassResourceBar = ({
 
                     {/* Adjustment Menu */}
                     {showPhylacteryMenu && phylacteryBarRef.current && ReactDOM.createPortal(
-                        <div 
-                            className="unified-context-menu compact lichborne-menu-container" 
+                        <div
+                            className="unified-context-menu compact lichborne-menu-container"
                             onClick={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
@@ -6270,8 +6270,8 @@ const ClassResourceBar = ({
 
                     {/* Phase Menu */}
                     {showLunarPhaseMenu && lunarPhaseBarRef.current && ReactDOM.createPortal(
-                        <div 
-                            className="unified-context-menu compact lunarch-menu-container" 
+                        <div
+                            className="unified-context-menu compact lunarch-menu-container"
                             onClick={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
@@ -6804,7 +6804,7 @@ const ClassResourceBar = ({
 
                     {/* Visions Adjustment Menu */}
                     {showVisionsMenu && visionsBarRef.current && ReactDOM.createPortal(
-                        <div 
+                        <div
                             className={`unified-context-menu compact oracle-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onClick={(e) => e.stopPropagation()}
                             style={{
@@ -6851,18 +6851,18 @@ const ClassResourceBar = ({
 
                                 <div className="oracle-adjust-controls">
                                     <div className="oracle-adjust-row">
-                                        <button 
-                                            className="oracle-action-btn decrease" 
-                                            onClick={() => handleVisionsAdjust(-1)} 
+                                        <button
+                                            className="oracle-action-btn decrease"
+                                            onClick={() => handleVisionsAdjust(-1)}
                                             disabled={visionsValue === 0}
                                             title="Decrease Visions (-1)"
                                         >
                                             <i className="fas fa-minus"></i>
                                             <span>-1</span>
                                         </button>
-                                        <button 
-                                            className="oracle-action-btn increase" 
-                                            onClick={() => handleVisionsAdjust(1)} 
+                                        <button
+                                            className="oracle-action-btn increase"
+                                            onClick={() => handleVisionsAdjust(1)}
                                             disabled={visionsValue === maxVisions}
                                             title="Increase Visions (+1)"
                                         >
@@ -6871,8 +6871,8 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="oracle-quick-adjust-row">
-                                        <button 
-                                            className="oracle-quick-btn" 
+                                        <button
+                                            className="oracle-quick-btn"
                                             onClick={() => {
                                                 const resetAmount = visionsValue;
                                                 setLocalVisions(0);
@@ -6885,8 +6885,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-eraser"></i>
                                         </button>
-                                        <button 
-                                            className="oracle-quick-btn" 
+                                        <button
+                                            className="oracle-quick-btn"
                                             onClick={() => {
                                                 const newValue = 3;
                                                 const amount = Math.abs(newValue - visionsValue);
@@ -6900,8 +6900,8 @@ const ClassResourceBar = ({
                                         >
                                             <i className="fas fa-undo"></i>
                                         </button>
-                                        <button 
-                                            className="oracle-quick-btn" 
+                                        <button
+                                            className="oracle-quick-btn"
                                             onClick={() => {
                                                 const gainAmount = maxVisions - visionsValue;
                                                 setLocalVisions(maxVisions);
@@ -6919,16 +6919,16 @@ const ClassResourceBar = ({
 
                                 <div className="oracle-predictions">
                                     <div className="oracle-prediction-row">
-                                        <button 
-                                            className="oracle-prediction-btn success" 
+                                        <button
+                                            className="oracle-prediction-btn success"
                                             onClick={() => handlePredictionSuccess('simple')}
                                             title={`Simple (+1${oracleSpec === 'seer' ? '+1' : ''})`}
                                         >
                                             <i className="fas fa-check"></i>
                                             <span>+1</span>
                                         </button>
-                                        <button 
-                                            className="oracle-prediction-btn success" 
+                                        <button
+                                            className="oracle-prediction-btn success"
                                             onClick={() => handlePredictionSuccess('moderate')}
                                             title={`Moderate (+2${oracleSpec === 'seer' ? '+1' : ''})`}
                                         >
@@ -6937,16 +6937,16 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="oracle-prediction-row">
-                                        <button 
-                                            className="oracle-prediction-btn success" 
+                                        <button
+                                            className="oracle-prediction-btn success"
                                             onClick={() => handlePredictionSuccess('complex')}
                                             title={`Complex (+3${oracleSpec === 'seer' ? '+1' : ''})`}
                                         >
                                             <i className="fas fa-star"></i>
                                             <span>+3</span>
                                         </button>
-                                        <button 
-                                            className="oracle-prediction-btn danger" 
+                                        <button
+                                            className="oracle-prediction-btn danger"
                                             onClick={handlePredictionFailure}
                                             title="Failed Prediction"
                                         >
@@ -6957,8 +6957,8 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="oracle-other-actions">
-                                    <button 
-                                        className="oracle-action-btn special" 
+                                    <button
+                                        className="oracle-action-btn special"
                                         onClick={handleRevelation}
                                         title="Revelation (+1 Vision)"
                                     >
@@ -6968,9 +6968,9 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="oracle-quick-actions">
-                                    <button 
-                                        onClick={() => setShowVisionsMenu(false)} 
-                                        className="oracle-quick-btn" 
+                                    <button
+                                        onClick={() => setShowVisionsMenu(false)}
+                                        className="oracle-quick-btn"
                                         title="Close"
                                     >
                                         <i className="fas fa-times"></i>
@@ -7161,8 +7161,8 @@ const ClassResourceBar = ({
 
                     {/* Devotion Menu */}
                     {showDevotionMenu && devotionBarRef.current && ReactDOM.createPortal(
-                        <div 
-                            className="unified-context-menu compact martyr-menu-container" 
+                        <div
+                            className="unified-context-menu compact martyr-menu-container"
                             onClick={(e) => e.stopPropagation()}
                             style={{
                                 position: 'fixed',
@@ -7190,18 +7190,18 @@ const ClassResourceBar = ({
                                 <div className="menu-title">Level {currentLevel}: {currentStage.name}</div>
 
                                 <div className="martyr-level-controls">
-                                    <button 
-                                        className="martyr-control-btn" 
-                                        onClick={() => handleLevelChange(currentLevel - 1)} 
+                                    <button
+                                        className="martyr-control-btn"
+                                        onClick={() => handleLevelChange(currentLevel - 1)}
                                         disabled={currentLevel === 0}
                                         title="Decrease Level"
                                     >
                                         <i className="fas fa-minus"></i>
                                     </button>
                                     <span className="martyr-level-display">{currentLevel}/{maxLevel}</span>
-                                    <button 
-                                        className="martyr-control-btn" 
-                                        onClick={() => handleLevelChange(currentLevel + 1)} 
+                                    <button
+                                        className="martyr-control-btn"
+                                        onClick={() => handleLevelChange(currentLevel + 1)}
                                         disabled={currentLevel === maxLevel}
                                         title="Increase Level"
                                     >
@@ -7220,15 +7220,15 @@ const ClassResourceBar = ({
                                             max="150"
                                         />
                                         <div className="martyr-damage-quick-btns">
-                                            <button 
-                                                onClick={() => handleDamageChange(currentDamage + 10)} 
+                                            <button
+                                                onClick={() => handleDamageChange(currentDamage + 10)}
                                                 className="martyr-quick-btn"
                                                 title="Add 10 Damage"
                                             >
                                                 +10
                                             </button>
-                                            <button 
-                                                onClick={() => handleDamageChange(currentDamage + 20)} 
+                                            <button
+                                                onClick={() => handleDamageChange(currentDamage + 20)}
                                                 className="martyr-quick-btn"
                                                 title="Add 20 Damage"
                                             >
@@ -7259,15 +7259,15 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="martyr-quick-actions">
-                                    <button 
-                                        onClick={() => handleDamageChange(0)} 
+                                    <button
+                                        onClick={() => handleDamageChange(0)}
                                         className="martyr-quick-btn"
                                         title="Reset Damage to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowDevotionMenu(false)} 
+                                    <button
+                                        onClick={() => setShowDevotionMenu(false)}
                                         className="martyr-quick-btn"
                                         title="Close"
                                     >
@@ -7325,7 +7325,7 @@ const ClassResourceBar = ({
                                     <div className="tooltip-section">
                                         <div className="tooltip-label">{specData.name} Passives</div>
                                         <div className="passive-desc">
-                                            <strong>Shared:</strong> {specData.sharedPassive.description}<br/>
+                                            <strong>Shared:</strong> {specData.sharedPassive.description}<br />
                                             <strong>Unique:</strong> {specData.uniquePassive.description}
                                         </div>
                                     </div>
@@ -7677,12 +7677,11 @@ const ClassResourceBar = ({
                                     (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
                                 }
                             >
-                                <i className={`fas ${
-                                    diceButtonMode === 'roll' ? 'fa-dice' :
-                                    diceButtonMode === 'spec' ? 'fa-exchange-alt' :
-                                    diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
-                                    'fa-arrows-alt' // architect-swap
-                                }`}></i>
+                                <i className={`fas ${diceButtonMode === 'roll' ? 'fa-dice' :
+                                        diceButtonMode === 'spec' ? 'fa-exchange-alt' :
+                                            diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
+                                                'fa-arrows-alt' // architect-swap
+                                    }`}></i>
                             </button>
 
                             <button
@@ -7718,12 +7717,11 @@ const ClassResourceBar = ({
                                     (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
                                 }
                             >
-                                <i className={`fas ${
-                                    diceButtonMode === 'roll' ? 'fa-dice' :
-                                    diceButtonMode === 'spec' ? 'fa-exchange-alt' :
-                                    diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
-                                    'fa-arrows-alt' // architect-swap
-                                }`}></i>
+                                <i className={`fas ${diceButtonMode === 'roll' ? 'fa-dice' :
+                                        diceButtonMode === 'spec' ? 'fa-exchange-alt' :
+                                            diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
+                                                'fa-arrows-alt' // architect-swap
+                                    }`}></i>
                             </button>
 
                             <button
@@ -7754,8 +7752,8 @@ const ClassResourceBar = ({
 
         return (
             <TooltipPortal>
-                <div 
-                    ref={tooltipRef} 
+                <div
+                    ref={tooltipRef}
                     className="unified-resourcebar-tooltip pathfinder-tooltip"
                 >
                     {diceButtonMode === 'roll' && (
@@ -7896,8 +7894,8 @@ const ClassResourceBar = ({
 
                                 <div className="berserker-actions">
                                     <div className="berserker-action-row">
-                                        <button 
-                                            className="berserker-action-btn gain" 
+                                        <button
+                                            className="berserker-action-btn gain"
                                             onClick={() => {
                                                 const newValue = Math.min(rageValue + 5, 150);
                                                 const amount = newValue - rageValue;
@@ -7913,8 +7911,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-plus"></i>
                                             <span>+5</span>
                                         </button>
-                                        <button 
-                                            className="berserker-action-btn spend" 
+                                        <button
+                                            className="berserker-action-btn spend"
                                             onClick={() => {
                                                 const newValue = Math.max(rageValue - 5, 0);
                                                 const amount = rageValue - newValue;
@@ -7932,16 +7930,16 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="berserker-action-row">
-                                        <button 
-                                            className="berserker-action-btn gain" 
+                                        <button
+                                            className="berserker-action-btn gain"
                                             onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}
                                             title="Gain 10 Rage"
                                         >
                                             <i className="fas fa-plus-circle"></i>
                                             <span>+10</span>
                                         </button>
-                                        <button 
-                                            className="berserker-action-btn spend" 
+                                        <button
+                                            className="berserker-action-btn spend"
                                             onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}
                                             title="Spend 10 Rage"
                                         >
@@ -7950,16 +7948,16 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="berserker-action-row">
-                                        <button 
-                                            className="berserker-action-btn gain" 
+                                        <button
+                                            className="berserker-action-btn gain"
                                             onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}
                                             title="Gain 20 Rage"
                                         >
                                             <i className="fas fa-arrow-up"></i>
                                             <span>+20</span>
                                         </button>
-                                        <button 
-                                            className="berserker-action-btn spend" 
+                                        <button
+                                            className="berserker-action-btn spend"
                                             onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}
                                             title="Spend 20 Rage"
                                         >
@@ -7989,8 +7987,8 @@ const ClassResourceBar = ({
                                             }
                                         }}
                                     />
-                                    <button 
-                                        className="berserker-set-btn" 
+                                    <button
+                                        className="berserker-set-btn"
                                         onClick={() => {
                                             const v = parseInt(rageInputValue);
                                             if (!isNaN(v)) {
@@ -8006,9 +8004,9 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="berserker-quick-actions">
-                                    <button 
-                                        onClick={() => setShowRageMenu(false)} 
-                                        className="berserker-quick-btn" 
+                                    <button
+                                        onClick={() => setShowRageMenu(false)}
+                                        className="berserker-quick-btn"
                                         title="Close"
                                     >
                                         <i className="fas fa-times"></i>
@@ -8275,16 +8273,16 @@ const ClassResourceBar = ({
 
                                 <div className="bladedancer-actions">
                                     <div className="bladedancer-action-row">
-                                        <button 
-                                            className="bladedancer-action-btn gain" 
+                                        <button
+                                            className="bladedancer-action-btn gain"
                                             onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 1))}
                                             title="Gain 1 Momentum (Hit)"
                                         >
                                             <i className="fas fa-plus"></i>
                                             <span>+1</span>
                                         </button>
-                                        <button 
-                                            className="bladedancer-action-btn gain" 
+                                        <button
+                                            className="bladedancer-action-btn gain"
                                             onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 2))}
                                             title="Gain 2 Momentum (Crit)"
                                         >
@@ -8293,16 +8291,16 @@ const ClassResourceBar = ({
                                         </button>
                                     </div>
                                     <div className="bladedancer-action-row">
-                                        <button 
-                                            className="bladedancer-action-btn spend" 
+                                        <button
+                                            className="bladedancer-action-btn spend"
                                             onClick={() => setLocalMomentum(Math.max(0, momentumValue - 2))}
                                             title="Spend 2 Momentum (Ability)"
                                         >
                                             <i className="fas fa-minus"></i>
                                             <span>-2</span>
                                         </button>
-                                        <button 
-                                            className="bladedancer-action-btn spend" 
+                                        <button
+                                            className="bladedancer-action-btn spend"
                                             onClick={() => setLocalMomentum(Math.max(0, momentumValue - 4))}
                                             title="Spend 4 Momentum (Ability)"
                                         >
@@ -8313,22 +8311,22 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="bladedancer-quick-actions">
-                                    <button 
-                                        onClick={() => { setLocalMomentum(0); setShowMomentumMenu(false); }} 
+                                    <button
+                                        onClick={() => { setLocalMomentum(0); setShowMomentumMenu(false); }}
                                         className="bladedancer-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => { setLocalMomentum(momentumMax); setShowMomentumMenu(false); }} 
+                                    <button
+                                        onClick={() => { setLocalMomentum(momentumMax); setShowMomentumMenu(false); }}
                                         className="bladedancer-quick-btn"
                                         title={`Set to Max (${momentumMax})`}
                                     >
                                         <i className="fas fa-crown"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowMomentumMenu(false)} 
+                                    <button
+                                        onClick={() => setShowMomentumMenu(false)}
                                         className="bladedancer-quick-btn"
                                         title="Close"
                                     >
@@ -8372,8 +8370,8 @@ const ClassResourceBar = ({
 
                                 <div className="bladedancer-actions">
                                     <div className="bladedancer-action-row">
-                                        <button 
-                                            className="bladedancer-action-btn gain" 
+                                        <button
+                                            className="bladedancer-action-btn gain"
                                             onClick={() => setLocalFlourish(Math.min(flourishMax, flourishValue + 1))}
                                             disabled={flourishValue >= flourishMax}
                                             title="Earn 1 Flourish"
@@ -8381,8 +8379,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-plus"></i>
                                             <span>+1</span>
                                         </button>
-                                        <button 
-                                            className="bladedancer-action-btn spend" 
+                                        <button
+                                            className="bladedancer-action-btn spend"
                                             onClick={() => setLocalFlourish(Math.max(0, flourishValue - 1))}
                                             disabled={flourishValue === 0}
                                             title="Spend 1 Flourish"
@@ -8394,22 +8392,22 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="bladedancer-quick-actions">
-                                    <button 
-                                        onClick={() => { setLocalFlourish(0); setShowFlourishMenu(false); }} 
+                                    <button
+                                        onClick={() => { setLocalFlourish(0); setShowFlourishMenu(false); }}
                                         className="bladedancer-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => { setLocalFlourish(flourishMax); setShowFlourishMenu(false); }} 
+                                    <button
+                                        onClick={() => { setLocalFlourish(flourishMax); setShowFlourishMenu(false); }}
                                         className="bladedancer-quick-btn"
                                         title={`Set to Max (${flourishMax})`}
                                     >
                                         <i className="fas fa-crown"></i>
                                     </button>
-                                    <button 
-                                        onClick={() => setShowFlourishMenu(false)} 
+                                    <button
+                                        onClick={() => setShowFlourishMenu(false)}
                                         className="bladedancer-quick-btn"
                                         title="Close"
                                     >
@@ -8491,8 +8489,8 @@ const ClassResourceBar = ({
                                 </div>
 
                                 <div className="bladedancer-quick-actions">
-                                    <button 
-                                        onClick={() => setShowStanceMenu(false)} 
+                                    <button
+                                        onClick={() => setShowStanceMenu(false)}
                                         className="bladedancer-quick-btn"
                                         title="Close"
                                     >
@@ -8525,11 +8523,11 @@ const ClassResourceBar = ({
                                                 setShowSpecPassiveMenu(false);
                                             }}
                                             style={{
-                                                background: selectedSpecialization === spec 
-                                                    ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%)' 
+                                                background: selectedSpecialization === spec
+                                                    ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%)'
                                                     : 'linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(240, 240, 210, 0.9) 100%)',
-                                                border: selectedSpecialization === spec 
-                                                    ? '2px solid rgba(139, 69, 19, 0.8)' 
+                                                border: selectedSpecialization === spec
+                                                    ? '2px solid rgba(139, 69, 19, 0.8)'
                                                     : '1px solid rgba(139, 69, 19, 0.4)',
                                                 borderRadius: '4px',
                                                 padding: '8px',
@@ -8619,23 +8617,23 @@ const ClassResourceBar = ({
     const renderTooltip = () => {
         // Classes that handle their own tooltips don't need finalConfig.tooltip
         const handlesOwnTooltips = finalConfig.visual?.type === 'musical-notes-combo' ||
-                                   finalConfig.visual?.type === 'time-shards-strain' ||
-                                   finalConfig.visual?.type === 'mayhem-modifiers' ||
-                                   finalConfig.visual?.type === 'ascension-blood' ||
-                                   finalConfig.visual?.type === 'hexbreaker-charges' ||
-                                   finalConfig.visual?.type === 'drp-resilience' ||
-                                   finalConfig.visual?.type === 'dominance-die' ||
-                                   finalConfig.visual?.type === 'madness-gauge' ||
-                                   finalConfig.visual?.type === 'threads-of-destiny' ||
-                                   finalConfig.visual?.type === 'fortune-points-gambling' ||
-                                   finalConfig.visual?.type === 'quarry-marks-companion' ||
-                                   finalConfig.visual?.type === 'runes-inscriptions' ||
-                                   finalConfig.visual?.type === 'eternal-frost-phylactery' ||
-                                   finalConfig.visual?.type === 'lunar-phases' ||
-                                   finalConfig.visual?.type === 'prophetic-visions' ||
-                                   finalConfig.visual?.type === 'corruption-bar' ||
-                                   finalConfig.visual?.type === 'dual-resource' ||
-                                   finalConfig.visual?.type === 'vengeance-points';
+            finalConfig.visual?.type === 'time-shards-strain' ||
+            finalConfig.visual?.type === 'mayhem-modifiers' ||
+            finalConfig.visual?.type === 'ascension-blood' ||
+            finalConfig.visual?.type === 'hexbreaker-charges' ||
+            finalConfig.visual?.type === 'drp-resilience' ||
+            finalConfig.visual?.type === 'dominance-die' ||
+            finalConfig.visual?.type === 'madness-gauge' ||
+            finalConfig.visual?.type === 'threads-of-destiny' ||
+            finalConfig.visual?.type === 'fortune-points-gambling' ||
+            finalConfig.visual?.type === 'quarry-marks-companion' ||
+            finalConfig.visual?.type === 'runes-inscriptions' ||
+            finalConfig.visual?.type === 'eternal-frost-phylactery' ||
+            finalConfig.visual?.type === 'lunar-phases' ||
+            finalConfig.visual?.type === 'prophetic-visions' ||
+            finalConfig.visual?.type === 'corruption-bar' ||
+            finalConfig.visual?.type === 'dual-resource' ||
+            finalConfig.visual?.type === 'vengeance-points';
 
         // Hide tooltip when menus are open to prevent conflicts
         if (showWIMenu || showSynergyMenu) return null;
@@ -8670,7 +8668,7 @@ const ClassResourceBar = ({
         }
 
         // Check if there's any content to show in the tooltip
-        const hasTooltipContent = 
+        const hasTooltipContent =
             (modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description) ||
             (finalConfig.type === 'spheres' && sphereCount > 0) ||
             (finalConfig.type === 'dual-resource' && bladedancerHoverSection) ||
@@ -8699,8 +8697,8 @@ const ClassResourceBar = ({
 
         return (
             <TooltipPortal>
-                <div 
-                    ref={tooltipRef} 
+                <div
+                    ref={tooltipRef}
                     className="unified-resourcebar-tooltip pathfinder-tooltip"
                 >
                     {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description && (
@@ -9047,7 +9045,7 @@ const ClassResourceBar = ({
                                     <div className="tooltip-section">
                                         <div className="tooltip-label">True Damage Scaling</div>
                                         <div className="passive-desc">
-                                            Base: +1d6 true damage<br/>
+                                            Base: +1d6 true damage<br />
                                             At 6 charges: +4d8 true damage
                                         </div>
                                     </div>
@@ -9277,7 +9275,7 @@ const ClassResourceBar = ({
                                 const isDemonBound = currentDemon && currentDD > 0;
 
                                 const getDDState = (dd) => {
-                                    switch(dd) {
+                                    switch (dd) {
                                         case 12: return { name: 'Full Control', color: '#FFD700' };
                                         case 10: return { name: 'Good Control', color: '#F4C430' };
                                         case 8: return { name: 'Moderate Risk', color: '#FF8C00' };
@@ -9596,7 +9594,7 @@ const ClassResourceBar = ({
                         const maxFP = currentSpec.max || 21;
 
                         return (
-                        <div>
+                            <div>
                                 <div className="tooltip-header">Fortune Points</div>
 
                                 <div className="tooltip-section">

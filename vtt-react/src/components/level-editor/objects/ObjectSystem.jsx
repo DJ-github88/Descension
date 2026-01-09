@@ -42,7 +42,7 @@ const ObjectSystem = () => {
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [selectedObject, setSelectedObject] = useState(null);
-    
+
     // GM Notes hover state
     const [hoveredGMNote, setHoveredGMNote] = useState(null);
     const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
@@ -121,10 +121,10 @@ const ObjectSystem = () => {
         const viewportRight = cameraX + canvas.width / effectiveZoom / 2;
         const viewportTop = cameraY - canvas.height / effectiveZoom / 2;
         const viewportBottom = cameraY + canvas.height / effectiveZoom / 2;
-        
+
         const topLeftGrid = gridSystem.worldToGrid(viewportLeft, viewportTop);
         const bottomRightGrid = gridSystem.worldToGrid(viewportRight, viewportBottom);
-        
+
         const startX = topLeftGrid.x - 5;
         const endX = bottomRightGrid.x + 5;
         const startY = topLeftGrid.y - 5;
@@ -279,7 +279,7 @@ const ObjectSystem = () => {
         ctx.strokeStyle = '#00ff00';
         ctx.lineWidth = 3;
         ctx.setLineDash([]);
-        ctx.strokeRect(screenPos.x - width/2 - 2, screenPos.y - height/2 - 2, width + 4, height + 4);
+        ctx.strokeRect(screenPos.x - width / 2 - 2, screenPos.y - height / 2 - 2, width + 4, height + 4);
         ctx.restore();
     };
 
@@ -304,8 +304,8 @@ const ObjectSystem = () => {
         ctx.lineWidth = 2;
 
         handles.forEach(handle => {
-            ctx.fillRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
-            ctx.strokeRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
+            ctx.fillRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
+            ctx.strokeRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
         });
 
         ctx.restore();
@@ -465,13 +465,13 @@ const ObjectSystem = () => {
             // Also check for images in MapLibraryWindow (map-thumbnail, map-placeholder)
             const isBackgroundImage = allElementsAtPoint.some(el => {
                 if (!el) return false;
-                
+
                 // Check if element is within MapLibraryWindow components (map-thumbnail, map-placeholder)
                 const isInMapThumbnail = el.closest('.map-thumbnail') || el.closest('.map-placeholder');
                 if (isInMapThumbnail) {
                     return true;
                 }
-                
+
                 // Check if it's an img element (could be a background image)
                 if (el.tagName === 'IMG') {
                     // Check if the img is within a Resizable component or background container
@@ -499,7 +499,7 @@ const ObjectSystem = () => {
                         parent = parent.parentElement;
                     }
                 }
-                
+
                 const style = window.getComputedStyle(el);
                 // Check if element has a background image
                 const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
@@ -527,7 +527,7 @@ const ObjectSystem = () => {
             });
 
             if (isBackgroundImage) {
-                console.log('ObjectSystem: ignoring click on background image (not in manipulation mode)');
+                // console.log('ObjectSystem: ignoring click on background image (not in manipulation mode)');
                 return; // Let the background image's own event handler deal with it
             }
         }
@@ -608,7 +608,7 @@ const ObjectSystem = () => {
         const target = e.target;
         const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
         const elementAtPoint = allElementsAtPoint[0];
-        
+
         const isTokenOrHUD = (el) => {
             if (!el) return false;
             return (
@@ -622,13 +622,13 @@ const ObjectSystem = () => {
                 el.closest?.('.party-member-frame')
             );
         };
-        
+
         // Check ALL elements at the point (not just the top one) to find connections underneath the canvas
         const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
         const hasTokenOrHUD = allElementsAtPoint.some(el => isTokenOrHUD(el));
-        
+
         if (connectionElement) {
-            console.log('🔗 ObjectSystem: detected connection element, triggering its context menu', { 
+            console.log('🔗 ObjectSystem: detected connection element, triggering its context menu', {
                 connectionElement: {
                     tag: connectionElement.tagName,
                     classes: connectionElement.classList ? Array.from(connectionElement.classList) : [],
@@ -640,7 +640,7 @@ const ObjectSystem = () => {
                     dataset: el.dataset
                 }))
             });
-            
+
             // Manually trigger the connection's context menu since the canvas intercepted the event
             // Create a new context menu event and dispatch it to the connection element
             const contextMenuEvent = new MouseEvent('contextmenu', {
@@ -651,16 +651,16 @@ const ObjectSystem = () => {
                 button: 2,
                 buttons: 2
             });
-            
+
             // Dispatch to the connection element so its handler runs
             connectionElement.dispatchEvent(contextMenuEvent);
-            
+
             // Prevent default to stop our handler from continuing
             e.preventDefault();
             e.stopPropagation();
             return;
         }
-        
+
         if (hasTokenOrHUD) {
             console.log('ObjectSystem: ignoring right-click on token or HUD element');
             return; // Let the token's or HUD's own event handler deal with it
@@ -741,16 +741,16 @@ const ObjectSystem = () => {
         // Check for hover over GM notes (works in both editor and GM mode)
         if (!isDragging && !isResizing) {
             const hoveredObject = getObjectAtScreenPosition(screenX, screenY);
-            
+
             // Check if hovering over a GM note
             if (hoveredObject && hoveredObject.type === 'gmNotes' && (isEditorMode || isGMMode)) {
                 if (hoveredGMNote?.id !== hoveredObject.id) {
                     setHoveredGMNote(hoveredObject);
                     setGmNoteTooltipPosition({ x: e.clientX, y: e.clientY });
-                    
+
                     // Dispatch event for TileOverlay to show tooltip
                     const hoverEvent = new CustomEvent('gmNoteHover', {
-                        detail: { 
+                        detail: {
                             gmNote: hoveredObject,
                             position: { x: e.clientX, y: e.clientY }
                         }
@@ -760,7 +760,7 @@ const ObjectSystem = () => {
                     // Update tooltip position
                     setGmNoteTooltipPosition({ x: e.clientX, y: e.clientY });
                     const hoverEvent = new CustomEvent('gmNoteHover', {
-                        detail: { 
+                        detail: {
                             gmNote: hoveredObject,
                             position: { x: e.clientX, y: e.clientY }
                         }
@@ -773,7 +773,7 @@ const ObjectSystem = () => {
                 const leaveEvent = new CustomEvent('gmNoteHoverLeave');
                 document.dispatchEvent(leaveEvent);
             }
-            
+
             // Check for hover over resize handles when not dragging/resizing (editor mode only)
             if (isEditorMode) {
                 const selectedObject = environmentalObjects.find(obj => obj.selected);
@@ -784,7 +784,7 @@ const ObjectSystem = () => {
                     setHoveredHandle(null);
                 }
             }
-            
+
             if (!isEditorMode) {
                 return; // Don't continue with editor-specific logic
             }
@@ -855,7 +855,7 @@ const ObjectSystem = () => {
         setDragOffset({ x: 0, y: 0 });
         setInitialScale(1);
         setInitialMousePos({ x: 0, y: 0 });
-        
+
         // Reset connection tracking
         setIsOverConnection(false);
         connectionElementRef.current = null;
@@ -866,7 +866,7 @@ const ObjectSystem = () => {
         const handleGlobalMouseMove = (e) => {
             const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
             const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
-            
+
             if (connectionElement) {
                 // Over a connection - disable canvas pointer events so connection can receive events
                 if (canvasRef.current && !isOverConnection) {
@@ -893,20 +893,20 @@ const ObjectSystem = () => {
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);
-    
+
     // Update canvas when dependencies change using RAF (no artificial throttling)
     useEffect(() => {
         // Cancel any pending render
         if (scheduledRenderRef.current) {
             cancelAnimationFrame(scheduledRenderRef.current);
         }
-        
+
         // Schedule render for next frame - this naturally caps at 60fps
         scheduledRenderRef.current = requestAnimationFrame(() => {
             renderObjects();
             scheduledRenderRef.current = null;
         });
-        
+
         return () => {
             if (scheduledRenderRef.current) {
                 cancelAnimationFrame(scheduledRenderRef.current);
@@ -943,7 +943,7 @@ const ObjectSystem = () => {
                     // We check for connections in all event handlers to avoid blocking them
                     pointerEvents: (isEditorMode || isGMMode) ? 'auto' : 'none',
                     cursor: isDragging ? 'grabbing' :
-                            isResizing ? getCursorForHandle(resizeHandle) :
+                        isResizing ? getCursorForHandle(resizeHandle) :
                             hoveredHandle ? getCursorForHandle(hoveredHandle) : 'pointer'
                 }}
                 onMouseDown={handleMouseDown}
