@@ -908,15 +908,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for global chat messages to sync with presence store
     socket.on('global_chat_message', (message) => {
+      console.log('📨 Client received global_chat_message:', message);
       import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
         usePresenceStore.getState().addGlobalMessage(message);
+        console.log('✅ Global message added to store');
       }).catch(error => {
-        console.error('Failed to add global chat message:', error);
+        console.error('❌ Failed to add global chat message:', error);
       });
     });
 
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
+      console.log('📨 Client received token_moved:', data);
       const isDragging = data.isDragging;
 
       // CRITICAL FIX: Use creatureId as primary identifier (not tokenId)
@@ -1211,6 +1214,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
+      console.log('📨 Client received token_created:', data);
       const isSync = data.isSync;
 
       // Always add token for sync events, and for new creations (server handles deduplication)
@@ -1219,7 +1223,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
-        addToken(data.creature.id, data.position, false, data.token.id);
+        // Pass initial state to ensure correct stats
+        addToken(data.creature.id, data.position, false, data.token.id, data.token.state);
 
         // Show notification in chat only for new creations from other players, not syncs or own creations
         const myPlayerId = socket.id;

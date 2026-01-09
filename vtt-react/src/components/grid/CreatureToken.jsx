@@ -758,7 +758,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           window[`recent_move_${token.creatureId}`] = Date.now();
 
           multiplayerSocket.emit('token_moved', {
-            tokenId: token.id,
+            tokenId: tokenId, // Correctly send tokenId as recognized by server
             position: finalWorldPos,
             isDragging: false
           });

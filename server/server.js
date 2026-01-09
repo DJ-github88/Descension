@@ -2437,6 +2437,8 @@ io.on('connection', (socket) => {
       room.gameState.tokens = {};
     }
 
+    console.log(`🔷 Server received token_moved for ${data.tokenId || data.creatureId} from ${player.name}`);
+
     // Find token by either tokenId or creatureId for backward compatibility
     let tokenKey = data.tokenId;
     let existingToken = room.gameState.tokens[tokenKey];
