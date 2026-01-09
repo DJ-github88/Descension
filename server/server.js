@@ -115,6 +115,92 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
+// Movement Debouncing Service to reduce network spam during drags
+class MovementDebouncer {
+  constructor(debounceMs = 50) {
+    this.pendingMoves = new Map(); // roomId_tokenId -> {position, velocity, timestamp, playerId}
+    this.debounceMs = debounceMs;
+    this.flushInterval = null;
+    this.startDebouncer();
+  }
+
+  // Queue a movement update
+  queueMove(roomId, tokenId, moveData) {
+    const key = `${roomId}_${tokenId}`;
+    this.pendingMoves.set(key, {
+      roomId,
+      tokenId,
+      ...moveData,
+      timestamp: Date.now()
+    });
+  }
+
+  // Flush all pending movements
+  flush(io, rooms, players) {
+    if (this.pendingMoves.size === 0) return;
+
+    const movesToProcess = Array.from(this.pendingMoves.values());
+    this.pendingMoves.clear();
+
+    movesToProcess.forEach(move => {
+      const room = rooms.get(move.roomId);
+      if (!room) return;
+
+      // Update room state
+      if (!room.gameState.tokens) {
+        room.gameState.tokens = {};
+      }
+
+      const existingToken = room.gameState.tokens[move.tokenId];
+      if (existingToken) {
+        room.gameState.tokens[move.tokenId] = {
+          ...existingToken,
+          position: move.position,
+          velocity: move.velocity,
+          lastMovedBy: move.playerId,
+          lastMovedAt: new Date()
+        };
+
+        // Broadcast debounced movement
+        const player = players.get(move.socketId);
+        if (player) {
+          io.to(move.roomId).except(move.socketId).emit('token_moved', {
+            tokenId: move.tokenId,
+            position: move.position,
+            velocity: move.velocity,
+            playerId: move.playerId,
+            playerName: player.name,
+            isDragging: move.isDragging,
+            serverTimestamp: Date.now(),
+            actionId: move.actionId,
+            debounced: true
+          });
+        }
+      }
+
+      // Queue batched Firebase write
+      firebaseBatchWriter.queueWrite(move.roomId, room.gameState);
+    });
+  }
+
+  startDebouncer() {
+    this.flushInterval = setInterval(() => {
+      // Will be called with io, rooms, players from server context
+      if (this.flushCallback) {
+        this.flushCallback();
+      }
+    }, this.debounceMs);
+  }
+
+  stop() {
+    if (this.flushInterval) {
+      clearInterval(this.flushInterval);
+    }
+  }
+}
+
+const movementDebouncer = new MovementDebouncer(50); // 50ms debounce = 20 updates/sec max
+
 // Configure CORS origins from environment variables
 const getAllowedOrigins = () => {
   // SECURITY: Use environment variable if set
@@ -899,6 +985,13 @@ function leaveRoom(socketId) {
 io.on('connection', (socket) => {
   logger.info('Player connected', { socketId: socket.id });
 
+  // Hook up movement debouncer flush callback
+  if (!movementDebouncer.flushCallback) {
+    movementDebouncer.flushCallback = () => {
+      movementDebouncer.flush(io, rooms, players);
+    };
+  }
+
   // Minimal handler for testing
   socket.on('ping', (data, callback) => {
     if (callback) callback('pong');
@@ -1380,6 +1473,75 @@ io.on('connection', (socket) => {
     });
 
     console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+  });
+
+  // CONFLICT RESOLUTION: Handle HP/Mana/Resource incremental updates
+  // Uses increment/decrement operations to prevent race conditions
+  socket.on('character_resource_delta', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Validate delta data
+    if (!data.characterId || !data.deltas) {
+      socket.emit('error', { message: 'Invalid resource delta data' });
+      return;
+    }
+
+    // Initialize characters if needed
+    if (!room.gameState.characters) {
+      room.gameState.characters = {};
+    }
+
+    const character = room.gameState.characters[data.characterId];
+    if (!character || !character.sessionData) {
+      socket.emit('error', { message: 'Character not found in room state' });
+      return;
+    }
+
+    // Apply deltas (additive operations resolve conflicts automatically)
+    const appliedDeltas = {};
+
+    if (data.deltas.health !== undefined) {
+      const newHealth = (character.sessionData.health || 0) + data.deltas.health;
+      character.sessionData.health = Math.max(0, newHealth); // Clamp to 0 minimum
+      appliedDeltas.health = character.sessionData.health;
+    }
+
+    if (data.deltas.mana !== undefined) {
+      const newMana = (character.sessionData.mana || 0) + data.deltas.mana;
+      character.sessionData.mana = Math.max(0, newMana);
+      appliedDeltas.mana = character.sessionData.mana;
+    }
+
+    if (data.deltas.actionPoints !== undefined) {
+      const newAP = (character.sessionData.actionPoints || 0) + data.deltas.actionPoints;
+      character.sessionData.actionPoints = Math.max(0, newAP);
+      appliedDeltas.actionPoints = character.sessionData.actionPoints;
+    }
+
+    // Track operation for conflict detection
+    character.lastUpdatedBy = player.id;
+    character.lastUpdatedAt = new Date();
+    character.version = (character.version || 0) + 1;
+
+    // Queue batched Firebase write
+    firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+
+    // Broadcast delta and new values to ALL players
+    io.to(player.roomId).emit('character_resource_updated', {
+      characterId: data.characterId,
+      deltas: data.deltas,
+      newValues: appliedDeltas,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      version: character.version,
+      timestamp: new Date()
+    });
+
+    console.log(`⚡ Character ${data.characterId} resources updated by ${player.name}:`, data.deltas, '→', appliedDeltas);
   });
 
   // Handle character state updates
