@@ -2536,7 +2536,8 @@ io.on('connection', (socket) => {
           playerId: player.id,
           playerName: player.name,
           isDragging: data.isDragging || false,
-          serverTimestamp: now
+          serverTimestamp: now,
+          actionId: data.actionId // Pass actionId back to client for optimistic update confirmation
         };
 
         // Add enhanced data only for GM optimization
@@ -2861,7 +2862,8 @@ io.on('connection', (socket) => {
       characterId: data.characterId,
       character: {
         ...data.character,
-        playerId: player.id // Include playerId for client-side identification
+        ...data.character,
+        playerId: data.character.playerId || player.id // Use provided playerId (for GM updates) or sender's ID
       },
       updatedBy: player.id,
       updatedByName: player.name,

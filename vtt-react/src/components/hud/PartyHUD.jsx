@@ -2175,38 +2175,27 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
             }
 
-            // CRITICAL FIX: Emit character update to server for multiplayer synchronization
-            // This ensures GM resource changes are synced to all players
-            if (socket && socket.connected && adjustment !== 0 && !skipLogging) {
-                // Get the character from party store
-                const member = partyMembers.find(m => m.id === memberId);
-                if (member && member.character) {
-                    try {
-                        const { getActiveCharacter } = require('../../store/characterStore').default;
-                        const activeCharacter = getActiveCharacter();
-
-                        if (activeCharacter && activeCharacter.id === memberId) {
-                            // Send character_updated event to server
+            // Emit update for current player
+            if (socket && socket.connected && adjustment !== 0) {
+                const { getActiveCharacter } = require('../../store/characterStore').default;
+                const activeCharacter = getActiveCharacter();
+                if (activeCharacter) {
+                    // We need to construct the updated character data or fetch it again
+                    // Since store updates are synchronous, we might be able to fetch valid data
+                    // But safer to reconstruct with what we know if possible, or just rely on store
+                    setTimeout(() => {
+                        const updatedChar = getActiveCharacter();
+                        if (updatedChar) {
                             socket.emit('character_updated', {
-                                characterId: activeCharacter.id,
-                                character: {
-                                    name: activeCharacter.name,
-                                    class: activeCharacter.class,
-                                    level: activeCharacter.level,
-                                    race: activeCharacter.race,
-                                    subrace: activeCharacter.subrace,
-                                    health: member.character.health,
-                                    mana: member.character.mana,
-                                    actionPoints: member.character.actionPoints,
-                                    classResource: member.character.classResource
-                                }
+                                characterId: updatedChar.id,
+                                character: updatedChar
                             });
                         }
-                    } catch (error) {
-                        console.error('Failed to emit character_updated for resource change:', error);
-                    }
+                    }, 0);
                 }
             }
+
+
             // Update party member's resources
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
@@ -2287,6 +2276,24 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     const characterName = getCharacterName(memberId);
                     logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
                 }
+            }
+
+            // Emit update for party member (GM updating another player)
+            if (socket && socket.connected && adjustment !== 0) {
+                // Use setTimeout to ensure store has updated
+                setTimeout(() => {
+                    const usePartyStore = require('../../store/partyStore').default;
+                    const updatedMember = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+                    if (updatedMember && updatedMember.character) {
+                        socket.emit('character_updated', {
+                            characterId: memberId,
+                            character: {
+                                ...updatedMember.character,
+                                playerId: memberId // Ensure playerId is correct for the target
+                            }
+                        });
+                    }
+                }, 0);
             }
         }
     };
