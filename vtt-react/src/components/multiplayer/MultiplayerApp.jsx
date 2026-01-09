@@ -1239,16 +1239,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addToken(data.creature.id, data.position, false, data.token.id, data.token.state);
       }
 
-        // Show notification in chat only for new creations from other players, not syncs or own creations
-        const myPlayerId = socket.id;
-        if (!isSync && data.playerId !== myPlayerId) {
-          addNotification('social', {
-            sender: { name: 'System', class: 'system', level: 0 },
-            content: `${data.playerName} placed ${data.creature.name} on the grid`,
-            type: 'system',
-            timestamp: new Date().toISOString()
-          });
-        }
+      // Show notification in chat only for new creations from other players, not syncs or own creations
+      if (!isSync && data.playerId !== myPlayerId) {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${data.playerName} placed ${data.creature.name} on the grid`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
       }
     });
 
