@@ -833,6 +833,109 @@ io.on('connection', (socket) => {
     if (callback) callback('pong');
   });
 
+  // RESTORED: Handle room creation
+  socket.on('create_room', async (data) => {
+    try {
+      const room = await createRoom(
+        data.roomName,
+        data.gmName,
+        socket.id,
+        data.password,
+        data.playerColor,
+        true // persist to firebase
+      );
+
+      // Handle persistent room data
+      if (data.persistentRoomId) {
+        room.persistentRoomId = data.persistentRoomId;
+        if (data.gameState) {
+          room.gameState = { ...room.gameState, ...data.gameState };
+        }
+      }
+
+      // Update GM character data
+      if (data.character && room.gm) {
+        room.gm.character = data.character;
+      }
+
+      // Join the socket.io room
+      socket.join(room.id);
+
+      // Emit room_joined event (RoomLobby expects this)
+      socket.emit('room_joined', {
+        room,
+        player: room.gm,
+        isGM: true,
+        sessionId: socket.id
+      });
+
+      // Also emit room_created for specific handling
+      socket.emit('room_created', {
+        room,
+        playerId: room.gm.id,
+        isGM: true
+      });
+
+      // Broadcast update to all clients for lobby list
+      io.emit('room_list_updated', getPublicRooms());
+
+      console.log(`✅ Room ${room.id} created by ${data.gmName}`);
+    } catch (error) {
+      console.error('Create room error:', error);
+      socket.emit('error', { message: error.message || 'Failed to create room' });
+    }
+  });
+
+  // RESTORED: Handle joining a room
+  socket.on('join_room', async (data) => {
+    try {
+      const result = await joinRoom(
+        data.roomId,
+        data.playerName,
+        socket.id,
+        data.password,
+        data.playerColor,
+        data.character
+      );
+
+      if (!result) {
+        socket.emit('error', { message: 'Room not found' });
+        return;
+      }
+
+      if (result.error) {
+        socket.emit('error', { message: result.error });
+        return;
+      }
+
+      const { room, player, isGMReconnect } = result;
+
+      // Join socket room
+      socket.join(room.id);
+
+      // Emit success to joiner
+      socket.emit('room_joined', {
+        room,
+        player,
+        isGM: player.isGM,
+        isGMReconnect,
+        sessionId: socket.id
+      });
+
+      // Notify others in room
+      socket.to(room.id).emit('player_joined', {
+        player,
+        isGM: player.isGM
+      });
+
+      console.log(`✅ Player ${player.name} joined room ${room.id}`);
+
+    } catch (error) {
+      console.error('Join room error:', error);
+      socket.emit('error', { message: error.message || 'Failed to join room' });
+    }
+  });
+
   // ========== CRITICAL FIX: Token Synchronization ==========
   // Handle token creation - FIXED: Use io.to() so GM sees their own tokens
   socket.on('token_created', async (data) => {
