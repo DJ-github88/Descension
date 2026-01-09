@@ -2114,6 +2114,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         };
         const tempField = tempFieldMap[resourceType];
 
+        // Get socket for multiplayer synchronization
+        const socket = window.multiplayerSocket;
+
         if (memberId === 'current-player') {
             // Update current player's resources in character store
             const currentValue = currentPlayerData[resourceType]?.current || 0;
@@ -2163,15 +2166,47 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 updateResource(resourceType, newValue, maxValue);
             }
 
-            // Show floating combat text for current player
-            showFloatingTextForResource(memberId, resourceType, adjustment, 'current-player');
+            // Show floating combat text for party member
+            showFloatingTextForResource(memberId, resourceType, adjustment, memberId);
 
-            // Log the resource change (only log if there's an actual change and logging is not skipped)
+            // Log resource change (only log if there's an actual change and logging is not skipped)
             if (adjustment !== 0 && !asTemporary && !skipLogging) {
                 const characterName = getCharacterName(memberId);
                 logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
             }
-        } else {
+
+            // CRITICAL FIX: Emit character update to server for multiplayer synchronization
+            // This ensures GM resource changes are synced to all players
+            if (socket && socket.connected && adjustment !== 0 && !skipLogging) {
+                // Get the character from party store
+                const member = partyMembers.find(m => m.id === memberId);
+                if (member && member.character) {
+                    try {
+                        const { getActiveCharacter } = require('../../store/characterStore').default;
+                        const activeCharacter = getActiveCharacter();
+
+                        if (activeCharacter && activeCharacter.id === memberId) {
+                            // Send character_updated event to server
+                            socket.emit('character_updated', {
+                                characterId: activeCharacter.id,
+                                character: {
+                                    name: activeCharacter.name,
+                                    class: activeCharacter.class,
+                                    level: activeCharacter.level,
+                                    race: activeCharacter.race,
+                                    subrace: activeCharacter.subrace,
+                                    health: member.character.health,
+                                    mana: member.character.mana,
+                                    actionPoints: member.character.actionPoints,
+                                    classResource: member.character.classResource
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Failed to emit character_updated for resource change:', error);
+                    }
+                }
+            }
             // Update party member's resources
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {

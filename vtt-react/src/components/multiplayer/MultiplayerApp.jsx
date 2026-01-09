@@ -1217,15 +1217,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('token_created', (data) => {
       console.log('📨 Client received token_created:', data);
       const isSync = data.isSync;
+      const myPlayerId = socket.id; // Use socket.id for reliable self-identification
 
-      // Always add token for sync events, and for new creations (server handles deduplication)
+      // CRITICAL FIX: Check if this is our own token creation being echoed back
+      const isOwnTokenCreation = data.playerId === myPlayerId;
+
+      if (isOwnTokenCreation && !isSync) {
+        // This is our own token creation being echoed back by server
+        // DON'T add it to the store again - we already added it when we created it
+        console.log('🔄 Skipping duplicate token from own creation');
+        return;
+      }
+
+      // Only add token for sync events, and for new creations from other players
       if (isSync || !isSync) {
-        // First ensure the creature exists in the store
+        // First ensure that creature exists in the store
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
         // Pass initial state to ensure correct stats
         addToken(data.creature.id, data.position, false, data.token.id, data.token.state);
+      }
 
         // Show notification in chat only for new creations from other players, not syncs or own creations
         const myPlayerId = socket.id;
