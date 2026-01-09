@@ -185,7 +185,7 @@ function processGenericClassSpells(spells, className, determineSpecialization) {
 // Each archetype is COMPLETE with all necessary configurations
 
 const SPELL_ARCHETYPES = {
-  
+
   // 1. CONE AOE DAMAGE - Showcases cone targeting
   damage_cone_aoe: {
     effectTypes: ['damage'],
@@ -218,10 +218,10 @@ const SPELL_ARCHETYPES = {
       validTargets: ['enemy'],
       requiresLineOfSight: true
     },
-    resourceCost: { 
-      mana: 30, 
-      health: 0, 
-      stamina: 0, 
+    resourceCost: {
+      mana: 30,
+      health: 0,
+      stamina: 0,
       focus: 0,
       components: ['verbal', 'somatic'],
       materialComponents: '',
@@ -272,8 +272,8 @@ const SPELL_ARCHETYPES = {
         ]
       }
     },
-    resourceCost: { 
-      mana: 20, 
+    resourceCost: {
+      mana: 20,
       components: ['verbal'],
       actionPoints: 0
     },
@@ -304,8 +304,8 @@ const SPELL_ARCHETYPES = {
       validTargets: ['ally', 'self'],
       requiresLineOfSight: true
     },
-    resourceCost: { 
-      mana: 25, 
+    resourceCost: {
+      mana: 25,
       components: ['verbal', 'somatic'],
       actionPoints: 1
     },
@@ -326,28 +326,28 @@ const getElementTypeForSpecialization = (specializationId) => {
     'wildfire': 'fire',
     'hellfire': 'fire',
     'blaze': 'fire',
-    
+
     // Arcane-based
     'prism_mage': 'arcane',
     'sphere_architect': 'arcane',
     'entropy_weaver': 'chaos',
-    
+
     // Healing/Restoration
     'soulsinger': 'radiant',
     'redeemer': 'radiant',
     'rewinding': 'radiant',
-    
+
     // Control/Debuff
     'dissonance': 'psychic',
     'stasis': 'force',
     'protector': 'radiant',
-    
+
     // Damage/Offense
     'battlechoir': 'thunder',
     'avenger': 'radiant',
     'displacement': 'force'
   };
-  
+
   return elementMap[specializationId] || 'arcane';
 };
 
@@ -361,10 +361,10 @@ const generateSpellName = (specializationName, archetypeKey) => {
 
   const template = nameTemplates[archetypeKey] || ['Spell'];
   const suffix = template[Math.floor(Math.random() * template.length)];
-  
+
   // Use first word of specialization name
   const specPrefix = specializationName.split(' ')[0];
-  
+
   return `${specPrefix} ${suffix}`;
 };
 
@@ -465,13 +465,13 @@ if (CLASS_DATA_MAP['Arcanoneer']?.spells || CLASS_DATA_MAP['Arcanoneer']?.exampl
   const arcanoneerSpells = CLASS_DATA_MAP['Arcanoneer'].spells || CLASS_DATA_MAP['Arcanoneer'].exampleSpells;
   const processed = processArcanoneerSpells(arcanoneerSpells);
   generatedSpells['Arcanoneer'] = processed;
-  console.log(`✅ Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Arcanoneer spells not found in CLASS_DATA_MAP', {
-    hasArcanoneer: !!CLASS_DATA_MAP['Arcanoneer'],
-    hasSpells: !!CLASS_DATA_MAP['Arcanoneer']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Arcanoneer']?.exampleSpells
-  });
+  // console.warn('⚠️ Arcanoneer spells not found in CLASS_DATA_MAP', {
+  //   hasArcanoneer: !!CLASS_DATA_MAP['Arcanoneer'],
+  //   hasSpells: !!CLASS_DATA_MAP['Arcanoneer']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Arcanoneer']?.exampleSpells
+  // });
 }
 
 // Pyrofiend
@@ -486,13 +486,13 @@ if (CLASS_DATA_MAP['Minstrel']?.spells || CLASS_DATA_MAP['Minstrel']?.exampleSpe
   const minstrelSpells = CLASS_DATA_MAP['Minstrel'].spells || CLASS_DATA_MAP['Minstrel'].exampleSpells;
   const processed = processMinstrelSpells(minstrelSpells);
   generatedSpells['Minstrel'] = processed;
-  console.log(`✅ Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Minstrel spells not found in CLASS_DATA_MAP', {
-    hasMinstrel: !!CLASS_DATA_MAP['Minstrel'],
-    hasSpells: !!CLASS_DATA_MAP['Minstrel']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Minstrel']?.exampleSpells
-  });
+  // console.warn('⚠️ Minstrel spells not found in CLASS_DATA_MAP', {
+  //   hasMinstrel: !!CLASS_DATA_MAP['Minstrel'],
+  //   hasSpells: !!CLASS_DATA_MAP['Minstrel']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Minstrel']?.exampleSpells
+  // });
 }
 
 // Chronarch
@@ -500,13 +500,13 @@ if (CLASS_DATA_MAP['Chronarch']?.spells || CLASS_DATA_MAP['Chronarch']?.exampleS
   const chronarchSpells = CLASS_DATA_MAP['Chronarch'].spells || CLASS_DATA_MAP['Chronarch'].exampleSpells;
   const processed = processChronarchSpells(chronarchSpells);
   generatedSpells['Chronarch'] = processed;
-  console.log(`✅ Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Chronarch spells not found in CLASS_DATA_MAP', {
-    hasChronarch: !!CLASS_DATA_MAP['Chronarch'],
-    hasSpells: !!CLASS_DATA_MAP['Chronarch']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Chronarch']?.exampleSpells
-  });
+  // console.warn('⚠️ Chronarch spells not found in CLASS_DATA_MAP', {
+  //   hasChronarch: !!CLASS_DATA_MAP['Chronarch'],
+  //   hasSpells: !!CLASS_DATA_MAP['Chronarch']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Chronarch']?.exampleSpells
+  // });
 }
 
 // Martyr
@@ -514,13 +514,13 @@ if (CLASS_DATA_MAP['Martyr']?.spells || CLASS_DATA_MAP['Martyr']?.exampleSpells)
   const martyrSpells = CLASS_DATA_MAP['Martyr'].spells || CLASS_DATA_MAP['Martyr'].exampleSpells;
   const processed = processMartyrSpells(martyrSpells);
   generatedSpells['Martyr'] = processed;
-  console.log(`✅ Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Martyr spells not found in CLASS_DATA_MAP', {
-    hasMartyr: !!CLASS_DATA_MAP['Martyr'],
-    hasSpells: !!CLASS_DATA_MAP['Martyr']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Martyr']?.exampleSpells
-  });
+  // console.warn('⚠️ Martyr spells not found in CLASS_DATA_MAP', {
+  //   hasMartyr: !!CLASS_DATA_MAP['Martyr'],
+  //   hasSpells: !!CLASS_DATA_MAP['Martyr']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Martyr']?.exampleSpells
+  // });
 }
 
 // Fate Weaver
@@ -543,13 +543,13 @@ if (CLASS_DATA_MAP['Fate Weaver']?.spells || CLASS_DATA_MAP['Fate Weaver']?.exam
   const processed = fateWeaverSpells
     .map(spell => normalizeClassSpell(spell, 'Fate Weaver', determineFateWeaverSpecialization));
   generatedSpells['Fate Weaver'] = processed;
-  console.log(`✅ Loaded ${processed.length} Fate Weaver spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Fate Weaver spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Fate Weaver spells not found in CLASS_DATA_MAP', {
-    hasFateWeaver: !!CLASS_DATA_MAP['Fate Weaver'],
-    hasSpells: !!CLASS_DATA_MAP['Fate Weaver']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Fate Weaver']?.exampleSpells
-  });
+  // console.warn('⚠️ Fate Weaver spells not found in CLASS_DATA_MAP', {
+  //   hasFateWeaver: !!CLASS_DATA_MAP['Fate Weaver'],
+  //   hasSpells: !!CLASS_DATA_MAP['Fate Weaver']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Fate Weaver']?.exampleSpells
+  // });
 }
 
 // Chaos Weaver
@@ -557,13 +557,13 @@ if (CLASS_DATA_MAP['Chaos Weaver']?.spells || CLASS_DATA_MAP['Chaos Weaver']?.ex
   const chaosWeaverSpells = CLASS_DATA_MAP['Chaos Weaver'].spells || CLASS_DATA_MAP['Chaos Weaver'].exampleSpells;
   const processed = processChaosWeaverSpells(chaosWeaverSpells);
   generatedSpells['Chaos Weaver'] = processed;
-  console.log(`✅ Loaded ${processed.length} Chaos Weaver spells into ALL_CLASS_SPELLS`);
+  // console.log(`✅ Loaded ${processed.length} Chaos Weaver spells into ALL_CLASS_SPELLS`);
 } else {
-  console.warn('⚠️ Chaos Weaver spells not found in CLASS_DATA_MAP', {
-    hasChaosWeaver: !!CLASS_DATA_MAP['Chaos Weaver'],
-    hasSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.spells,
-    hasExampleSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells
-  });
+  // console.warn('⚠️ Chaos Weaver spells not found in CLASS_DATA_MAP', {
+  //   hasChaosWeaver: !!CLASS_DATA_MAP['Chaos Weaver'],
+  //   hasSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.spells,
+  //   hasExampleSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells
+  // });
 }
 
 // ===== PROCESS REMAINING CLASSES =====
@@ -582,9 +582,9 @@ remainingClasses.forEach(className => {
     const spells = classData.spells || classData.exampleSpells;
     const processed = processGenericSpells(spells, className);
     generatedSpells[className] = processed;
-    console.log(`✅ Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
+    // console.log(`✅ Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
   } else {
-    console.warn(`⚠️ ${className} spells not found in CLASS_DATA_MAP`);
+    // console.warn(`⚠️ ${className} spells not found in CLASS_DATA_MAP`);
   }
 });
 
@@ -602,7 +602,7 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
 
   spells.forEach(spell => {
     const issues = [];
-    
+
     // Required fields
     if (!spell.id) issues.push('missing id');
     if (!spell.name) issues.push('missing name');
@@ -610,18 +610,18 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
     if (!Array.isArray(spell.categoryIds)) issues.push('invalid categoryIds');
     if (!spell.spellType) issues.push('missing spellType');
     if (!spell.level) issues.push('missing level');
-    
+
     // Track missing fields
     issues.forEach(issue => {
       validation.missingFields[issue] = (validation.missingFields[issue] || 0) + 1;
     });
-    
+
     // Track specializations
     if (spell.specialization) {
-      validation.specializationCounts[spell.specialization] = 
+      validation.specializationCounts[spell.specialization] =
         (validation.specializationCounts[spell.specialization] || 0) + 1;
     }
-    
+
     if (issues.length === 0) {
       validation.validSpells++;
     } else {
@@ -632,9 +632,9 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
       });
     }
   });
-  
+
   validationResults[className] = validation;
-  
+
   // Log results
   if (validation.invalidSpells.length > 0) {
     console.error(`❌ ${className}: ${validation.invalidSpells.length}/${validation.totalSpells} invalid spells`, {
@@ -650,16 +650,16 @@ const totalValid = Object.values(validationResults).reduce((sum, v) => sum + v.v
 const totalInvalid = Object.values(validationResults).reduce((sum, v) => sum + v.invalidSpells.length, 0);
 
 // Log summary of loaded spells by class
-console.log('🎲 SPELL GENERATOR SUMMARY:', {
-  totalSpells,
-  totalValid,
-  totalInvalid,
-  classesWithSpells: Object.entries(validationResults).map(([className, results]) => ({
-    className,
-    totalSpells: results.totalSpells,
-    validSpells: results.validSpells
-  })).filter(c => c.totalSpells > 0)
-});
+// console.log('🎲 SPELL GENERATOR SUMMARY:', {
+//   totalSpells,
+//   totalValid,
+//   totalInvalid,
+//   classesWithSpells: Object.entries(validationResults).map(([className, results]) => ({
+//     className,
+//     totalSpells: results.totalSpells,
+//     validSpells: results.validSpells
+//   })).filter(c => c.totalSpells > 0)
+// });
 
 // ===== ADD UNIVERSAL COMBAT SPELLS TO ALL CLASSES =====
 // These spells are available to all classes
@@ -759,7 +759,7 @@ function determineMinstrelSpecialization(spell) {
 
   // Check for damage or offensive buffs
   if (spell.damageConfig || spell.effects?.damage ||
-      (spell.effects?.buff && (spell.effects.buff.type === 'attack-bonus' || spell.effects.buff.type === 'damage-bonus'))) {
+    (spell.effects?.buff && (spell.effects.buff.type === 'attack-bonus' || spell.effects.buff.type === 'damage-bonus'))) {
     return 'battlechoir';
   }
 

@@ -117,6 +117,26 @@ const useGridItemStore = create((set, get) => ({
   addItemToGrid: (item, position, sendToServer = true) => set((state) => {
     // Check if we can stack this item with an existing one
     const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
+
+    // Check if item with this ID already exists (crucial for multiplayer sync)
+    // If it exists and isn't a stackable type being consolidated, update it instead of adding
+    const existingByIdIndex = item.id ? state.gridItems.findIndex(gi => gi.id === item.id) : -1;
+    if (existingByIdIndex >= 0 && (!isStackableType || item.stackable === false)) {
+      const updatedGridItems = [...state.gridItems];
+      updatedGridItems[existingByIdIndex] = {
+        ...updatedGridItems[existingByIdIndex],
+        ...item,
+        position: position,
+        gridPosition: position.gridPosition
+      };
+
+      return {
+        gridItems: updatedGridItems,
+        lastUpdate: Date.now()
+      };
+    }
+
+    // Check if we can stack this item with an existing one
     if (isStackableType && item.stackable !== false) {
       const existingItemIndex = state.gridItems.findIndex(gridItem =>
         gridItem.name === item.name &&
