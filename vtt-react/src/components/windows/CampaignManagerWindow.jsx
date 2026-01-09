@@ -13,21 +13,21 @@ import campaignService from '../../services/campaignService';
 
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
-  if (!isOpen) return null;
+    if (!isOpen) return null;
 
-  return ReactDOM.createPortal(
-    <div className="campaign-modal-overlay" onClick={onCancel}>
-      <div className="campaign-modal-content confirm-modal" onClick={e => e.stopPropagation()}>
-        <h3>{title}</h3>
-        <p>{message}</p>
-        <div className="campaign-modal-actions">
-          <button className="campaign-modal-btn cancel" onClick={onCancel}>Cancel</button>
-          <button className="campaign-modal-btn confirm danger" onClick={onConfirm}>Delete</button>
-        </div>
-      </div>
-    </div>,
-    document.body
-  );
+    return ReactDOM.createPortal(
+        <div className="campaign-modal-overlay" onClick={onCancel}>
+            <div className="campaign-modal-content confirm-modal" onClick={e => e.stopPropagation()}>
+                <h3>{title}</h3>
+                <p>{message}</p>
+                <div className="campaign-modal-actions">
+                    <button className="campaign-modal-btn cancel" onClick={onCancel}>Cancel</button>
+                    <button className="campaign-modal-btn confirm danger" onClick={onConfirm}>Delete</button>
+                </div>
+            </div>
+        </div>,
+        document.body
+    );
 };
 
 // Campaign Management Window with tabbed interface
@@ -58,14 +58,14 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         selectedCreatures: [],
         selectedSpells: []
     });
-    
+
     // Modal state
     const [showInputModal, setShowInputModal] = useState(false);
     const [inputModalConfig, setInputModalConfig] = useState({ title: '', placeholder: '', onSubmit: null });
     const [inputValue, setInputValue] = useState('');
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [confirmModalConfig, setConfirmModalConfig] = useState({ message: '', onConfirm: null });
-    
+
     // Library browser state
     const [libraryBrowser, setLibraryBrowser] = useState({
         isOpen: false,
@@ -197,11 +197,11 @@ function CampaignManagerWindow({ isOpen, onClose }) {
     // Load campaigns and current campaign
     useEffect(() => {
         const loadedCampaigns = campaignService.getCampaigns();
-        
+
         // Get current campaign or create default
         let currentId = campaignService.getCurrentCampaignId();
         let finalCampaigns = loadedCampaigns;
-        
+
         if (!currentId && loadedCampaigns.length > 0) {
             currentId = loadedCampaigns[0].id;
             campaignService.setCurrentCampaign(currentId);
@@ -212,10 +212,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             campaignService.setCurrentCampaign(currentId);
             finalCampaigns = campaignService.getCampaigns();
         }
-        
+
         setCampaigns(finalCampaigns);
         setCurrentCampaignId(currentId);
-        
+
         // Load current campaign data with defaults
         if (currentId) {
             const campaign = campaignService.getCampaign(currentId);
@@ -236,20 +236,20 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             };
             setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
         }
-        
+
         setIsInitialized(true);
     }, []);
 
     // Save campaign data when it changes (only after initialization)
     useEffect(() => {
         if (!isInitialized || !currentCampaignId) return;
-        
+
         const timeoutId = setTimeout(() => {
             campaignService.updateCampaign(currentCampaignId, {
                 campaignData: campaignData
             });
         }, 500);
-        
+
         return () => clearTimeout(timeoutId);
     }, [campaignData, currentCampaignId]);
 
@@ -305,7 +305,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             message: 'Are you sure you want to remove this player?',
             onConfirm: () => {
                 updateCampaignData({
-                    players: campaignData.players.filter(p => p.id !== playerId)
+                    players: (campaignData.players || []).filter(p => p.id !== playerId)
                 });
             }
         });
@@ -314,7 +314,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     const updatePlayer = (playerId, updates) => {
         updateCampaignData({
-            players: campaignData.players.map(p =>
+            players: (campaignData.players || []).map(p =>
                 p.id === playerId ? { ...p, ...updates } : p
             )
         });
@@ -342,7 +342,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     const updateSession = (sessionId, updates) => {
         updateCampaignData({
-            sessions: campaignData.sessions.map(s =>
+            sessions: (campaignData.sessions || []).map(s =>
                 s.id === sessionId ? { ...s, ...updates } : s
             )
         });
@@ -353,7 +353,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             message: 'Are you sure you want to delete this session?',
             onConfirm: () => {
                 updateCampaignData({
-                    sessions: campaignData.sessions.filter(s => s.id !== sessionId)
+                    sessions: (campaignData.sessions || []).filter(s => s.id !== sessionId)
                 });
             }
         });
@@ -388,7 +388,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     const updateNPC = (npcId, updates) => {
         updateCampaignData({
-            npcs: campaignData.npcs.map(npc =>
+            npcs: (campaignData.npcs || []).map(npc =>
                 npc.id === npcId ? { ...npc, ...updates } : npc
             )
         });
@@ -399,7 +399,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             message: 'Are you sure you want to remove this NPC?',
             onConfirm: () => {
                 updateCampaignData({
-                    npcs: campaignData.npcs.filter(npc => npc.id !== npcId)
+                    npcs: (campaignData.npcs || []).filter(npc => npc.id !== npcId)
                 });
             }
         });
@@ -433,7 +433,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     const updateLocation = (locationId, updates) => {
         updateCampaignData({
-            locations: campaignData.locations.map(location =>
+            locations: (campaignData.locations || []).map(location =>
                 location.id === locationId ? { ...location, ...updates } : location
             )
         });
@@ -444,7 +444,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             message: 'Are you sure you want to remove this location?',
             onConfirm: () => {
                 updateCampaignData({
-                    locations: campaignData.locations.filter(location => location.id !== locationId)
+                    locations: (campaignData.locations || []).filter(location => location.id !== locationId)
                 });
             }
         });
@@ -479,7 +479,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     const updatePlotThread = (plotThreadId, updates) => {
         updateCampaignData({
-            plotThreads: campaignData.plotThreads.map(plotThread =>
+            plotThreads: (campaignData.plotThreads || []).map(plotThread =>
                 plotThread.id === plotThreadId ? { ...plotThread, ...updates } : plotThread
             )
         });
@@ -490,7 +490,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             message: 'Are you sure you want to remove this plot thread?',
             onConfirm: () => {
                 updateCampaignData({
-                    plotThreads: campaignData.plotThreads.filter(plotThread => plotThread.id !== plotThreadId)
+                    plotThreads: (campaignData.plotThreads || []).filter(plotThread => plotThread.id !== plotThreadId)
                 });
             }
         });
@@ -907,9 +907,9 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 setCampaignData(newCampaign.campaignData || freshData);
                                             }}
                                             className="campaign-input"
-                                            style={{ 
+                                            style={{
                                                 padding: '10px 12px',
-                                                cursor: 'pointer', 
+                                                cursor: 'pointer',
                                                 fontSize: '13px',
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -1029,13 +1029,13 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                             updateCampaignData({ name: newName });
                                             // Update campaign name in the service and dropdown
                                             if (currentCampaignId) {
-                                                campaignService.updateCampaign(currentCampaignId, { 
+                                                campaignService.updateCampaign(currentCampaignId, {
                                                     name: newName,
                                                     campaignData: { ...campaignData, name: newName }
                                                 });
                                                 // Update local campaigns state to refresh dropdown
                                                 const idStr = String(currentCampaignId);
-                                                setCampaigns(prev => prev.map(c => 
+                                                setCampaigns(prev => prev.map(c =>
                                                     String(c.id) === idStr ? { ...c, name: newName } : c
                                                 ));
                                             }
@@ -1056,7 +1056,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                     />
                                 </div>
                             </div>
-                            
+
                             <div className="campaign-stats-grid">
                                 <div className="campaign-stat-card">
                                     <div className="stat-icon">
@@ -1700,7 +1700,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 <input
                                                     type="text"
                                                     value={Array.isArray(plotThread.relatedNPCs) ? plotThread.relatedNPCs.join(', ') : (plotThread.relatedNPCs || '')}
-                                                    onChange={(e) => updatePlotThread(plotThread.id, { 
+                                                    onChange={(e) => updatePlotThread(plotThread.id, {
                                                         relatedNPCs: e.target.value ? e.target.value.split(',').map(n => n.trim()).filter(n => n) : []
                                                     })}
                                                     className="plot-input"
@@ -1720,7 +1720,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 <input
                                                     type="text"
                                                     value={Array.isArray(plotThread.relatedLocations) ? plotThread.relatedLocations.join(', ') : (plotThread.relatedLocations || '')}
-                                                    onChange={(e) => updatePlotThread(plotThread.id, { 
+                                                    onChange={(e) => updatePlotThread(plotThread.id, {
                                                         relatedLocations: e.target.value ? e.target.value.split(',').map(l => l.trim()).filter(l => l) : []
                                                     })}
                                                     className="plot-input"
@@ -1776,13 +1776,13 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                     <i className="fas fa-plus-circle"></i>
                                     Create Shareable Content
                                 </h3>
-                                
+
                                 <div className="shareable-form">
                                     <div className="form-row">
                                         <div className="form-group">
                                             <label>Type</label>
-                                            <select 
-                                                value={newShareableType} 
+                                            <select
+                                                value={newShareableType}
                                                 onChange={(e) => setNewShareableType(e.target.value)}
                                                 className="shareable-select"
                                             >
@@ -1790,7 +1790,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 <option value="image">Image</option>
                                             </select>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label>Title</label>
                                             <input
@@ -1801,12 +1801,12 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 className="shareable-input"
                                             />
                                         </div>
-                                        
+
                                         {newShareableType === 'text' && (
                                             <div className="form-group">
                                                 <label>Style</label>
-                                                <select 
-                                                    value={newShareableBackground} 
+                                                <select
+                                                    value={newShareableBackground}
                                                     onChange={(e) => setNewShareableBackground(e.target.value)}
                                                     className="shareable-select"
                                                 >
@@ -1818,7 +1818,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                             </div>
                                         )}
                                     </div>
-                                    
+
                                     {newShareableType === 'text' ? (
                                         <div className="form-group">
                                             <label>Content</label>
@@ -1850,7 +1850,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     }}
                                                     style={{ display: 'none' }}
                                                 />
-                                                <button 
+                                                <button
                                                     className="upload-btn"
                                                     onClick={() => shareableFileInputRef.current?.click()}
                                                 >
@@ -1858,17 +1858,17 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     Choose Image
                                                 </button>
                                                 {newShareableContent && (
-                                                    <img 
-                                                        src={newShareableContent} 
-                                                        alt="Preview" 
+                                                    <img
+                                                        src={newShareableContent}
+                                                        alt="Preview"
                                                         className="shareable-preview"
                                                     />
                                                 )}
                                             </div>
                                         </div>
                                     )}
-                                    
-                                    <button 
+
+                                    <button
                                         className="shareable-add-btn"
                                         onClick={() => {
                                             if (newShareableTitle && newShareableContent) {
@@ -1889,14 +1889,14 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                     </button>
                                 </div>
                             </div>
-                            
+
                             {/* Shareables Library */}
                             <div className="shareables-library">
                                 <h3 className="section-title">
                                     <i className="fas fa-folder-open"></i>
                                     Shareable Library ({shareables.length})
                                 </h3>
-                                
+
                                 {shareables.length === 0 ? (
                                     <div className="shareables-empty">
                                         <i className="fas fa-share-alt"></i>
@@ -1923,7 +1923,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     </span>
                                                 </div>
                                                 <div className="shareable-actions">
-                                                    <button 
+                                                    <button
                                                         className="action-btn show"
                                                         onClick={() => showToPlayers({
                                                             type: shareable.type,
@@ -1936,7 +1936,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     >
                                                         <i className="fas fa-eye"></i>
                                                     </button>
-                                                    <button 
+                                                    <button
                                                         className="action-btn delete"
                                                         onClick={() => removeShareable(shareable.id)}
                                                         title="Delete"
@@ -1959,28 +1959,28 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         <div className="homebrew-workspace">
                             {/* Homebrew Sub-navigation */}
                             <div className="homebrew-subtabs">
-                                <button 
+                                <button
                                     className={`homebrew-subtab ${homebrewSubTab === 'items' ? 'active' : ''}`}
                                     onClick={() => setHomebrewSubTab('items')}
                                 >
                                     <i className="fas fa-sword"></i>
                                     Items ({((campaignData.selectedItems || []).length) + (Array.isArray(campaignData.homebrew?.items) ? campaignData.homebrew.items.length : (campaignData.homebrew?.items ? Object.keys(campaignData.homebrew.items).length : 0))})
                                 </button>
-                                <button 
+                                <button
                                     className={`homebrew-subtab ${homebrewSubTab === 'monsters' ? 'active' : ''}`}
                                     onClick={() => setHomebrewSubTab('monsters')}
                                 >
                                     <i className="fas fa-dragon"></i>
                                     Monsters ({((campaignData.selectedCreatures || []).length) + (Array.isArray(campaignData.homebrew?.monsters) ? campaignData.homebrew.monsters.length : (campaignData.homebrew?.monsters ? Object.keys(campaignData.homebrew.monsters).length : 0))})
                                 </button>
-                                <button 
+                                <button
                                     className={`homebrew-subtab ${homebrewSubTab === 'spells' ? 'active' : ''}`}
                                     onClick={() => setHomebrewSubTab('spells')}
                                 >
                                     <i className="fas fa-hat-wizard"></i>
                                     Spells ({((campaignData.selectedSpells || []).length) + (Array.isArray(campaignData.homebrew?.spells) ? campaignData.homebrew.spells.length : (campaignData.homebrew?.spells ? Object.keys(campaignData.homebrew.spells).length : 0))})
                                 </button>
-                                <button 
+                                <button
                                     className={`homebrew-subtab ${homebrewSubTab === 'lore' ? 'active' : ''}`}
                                     onClick={() => setHomebrewSubTab('lore')}
                                 >
@@ -2006,7 +2006,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                         {/* Library Items */}
                                         {(campaignData.selectedItems || []).length > 0 && (
                                             <div className="library-section">
@@ -2015,8 +2015,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </h4>
                                                 <div className="homebrew-grid">
                                                     {(campaignData.selectedItems || []).map(item => (
-                                                        <div 
-                                                            key={item.id} 
+                                                        <div
+                                                            key={item.id}
                                                             className="homebrew-card library-card"
                                                             onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
                                                             onMouseMove={handleMouseMove}
@@ -2038,7 +2038,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 <textarea
                                                                     value={item.notes || ''}
                                                                     onChange={(e) => {
-                                                                        const updated = (campaignData.selectedItems || []).map(i => 
+                                                                        const updated = (campaignData.selectedItems || []).map(i =>
                                                                             i.id === item.id ? { ...i, notes: e.target.value } : i
                                                                         );
                                                                         updateCampaignData({ selectedItems: updated });
@@ -2053,7 +2053,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </div>
                                             </div>
                                         )}
-                                        
+
                                         {/* Custom Homebrew Items */}
                                         {(campaignData.homebrew?.items || []).length > 0 && (
                                             <h4 className="library-section-title">
@@ -2137,7 +2137,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                         {/* Library Creatures */}
                                         {(campaignData.selectedCreatures || []).length > 0 && (
                                             <div className="library-section">
@@ -2146,8 +2146,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </h4>
                                                 <div className="homebrew-grid">
                                                     {(campaignData.selectedCreatures || []).map(creature => (
-                                                        <div 
-                                                            key={creature.id} 
+                                                        <div
+                                                            key={creature.id}
                                                             className="homebrew-card monster-card library-card"
                                                             onMouseEnter={(e) => handleMouseEnter(e, null, creature, null)}
                                                             onMouseMove={handleMouseMove}
@@ -2169,7 +2169,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 <textarea
                                                                     value={creature.notes || ''}
                                                                     onChange={(e) => {
-                                                                        const updated = (campaignData.selectedCreatures || []).map(c => 
+                                                                        const updated = (campaignData.selectedCreatures || []).map(c =>
                                                                             c.id === creature.id ? { ...c, notes: e.target.value } : c
                                                                         );
                                                                         updateCampaignData({ selectedCreatures: updated });
@@ -2184,7 +2184,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </div>
                                             </div>
                                         )}
-                                        
+
                                         {/* Custom Homebrew Monsters */}
                                         {(campaignData.homebrew?.monsters || []).length > 0 && (
                                             <h4 className="library-section-title">
@@ -2292,7 +2292,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                         {/* Library Spells */}
                                         {(campaignData.selectedSpells || []).length > 0 && (
                                             <div className="library-section">
@@ -2301,8 +2301,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </h4>
                                                 <div className="homebrew-grid">
                                                     {(campaignData.selectedSpells || []).map(spell => (
-                                                        <div 
-                                                            key={spell.id} 
+                                                        <div
+                                                            key={spell.id}
                                                             className="homebrew-card spell-card library-card"
                                                             onMouseEnter={(e) => handleMouseEnter(e, null, null, spell)}
                                                             onMouseMove={handleMouseMove}
@@ -2325,7 +2325,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 <textarea
                                                                     value={spell.notes || ''}
                                                                     onChange={(e) => {
-                                                                        const updated = (campaignData.selectedSpells || []).map(s => 
+                                                                        const updated = (campaignData.selectedSpells || []).map(s =>
                                                                             s.id === spell.id ? { ...s, notes: e.target.value } : s
                                                                         );
                                                                         updateCampaignData({ selectedSpells: updated });
@@ -2340,7 +2340,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 </div>
                                             </div>
                                         )}
-                                        
+
                                         {/* Custom Homebrew Spells */}
                                         {(campaignData.homebrew?.spells || []).length > 0 && (
                                             <h4 className="library-section-title">
@@ -2494,7 +2494,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 <input
                                                                     type="text"
                                                                     value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
-                                                                    onChange={(e) => updateLoreArticle(article.id, { 
+                                                                    onChange={(e) => updateLoreArticle(article.id, {
                                                                         tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
                                                                     })}
                                                                     placeholder="e.g., kingdom, war, ancient, forbidden..."
@@ -2739,7 +2739,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                     </div>
                 </div>
             )}
-            
+
             {/* Confirm Modal */}
             <ConfirmModal
                 isOpen={confirmModal.isOpen}
@@ -2809,8 +2809,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 </TooltipPortal>
             )}
             {hoveredSpell && (
-                <SpellTooltip 
-                    spell={hoveredSpell} 
+                <SpellTooltip
+                    spell={hoveredSpell}
                     position={tooltipPosition}
                 />
             )}
