@@ -1946,20 +1946,44 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // FIXED: Send complete game state including character tokens
+    // COMPREHENSIVE: Send complete game state including ALL syncable elements
+    const mapData = room.gameState.mapData || {};
     const fullState = {
+      // Token data
       tokens: room.gameState.tokens || {},
       gridItems: room.gameState.gridItems || {},
       characters: room.gameState.characters || {},
-      characterTokens: room.gameState.characterTokens || {}, // CRITICAL FIX: Include character tokens
-      mapData: room.gameState.mapData || {},
-      fogOfWar: room.gameState.fogOfWar || {}, // CRITICAL FIX: Include fog of war
+      characterTokens: room.gameState.characterTokens || {},
+
+      // Container data
+      containers: room.gameState.containers || {},
+
+      // Map data with all sub-elements
+      mapData: {
+        ...mapData,
+        terrainData: mapData.terrainData || {},
+        wallData: mapData.wallData || {},
+        fogOfWarPaths: mapData.fogOfWarPaths || [],
+        fogErasePaths: mapData.fogErasePaths || [],
+        exploredAreas: mapData.exploredAreas || {},
+        drawingPaths: mapData.drawingPaths || [],
+        drawingLayers: mapData.drawingLayers || [],
+        lightSources: mapData.lightSources || {},
+        environmentalObjects: mapData.environmentalObjects || []
+      },
+      fogOfWar: room.gameState.fogOfWar || {},
+
+      // GM-only data (only send to GM)
+      gmNotes: player.isGM ? (room.gameState.gmNotes || {}) : undefined,
+
+      // Combat state
       combat: room.gameState.combat || {
         isActive: false,
         currentTurnIndex: 0,
         turnOrder: [],
         round: 0
       },
+
       // Include all connected players for party sync
       players: Array.from(room.players.values()).map(p => ({
         id: p.id,
@@ -1967,6 +1991,7 @@ io.on('connection', (socket) => {
         character: p.character || null,
         color: p.color
       })),
+
       // Include GM data if available
       gm: room.gm ? {
         id: room.gm.id,
@@ -1974,6 +1999,7 @@ io.on('connection', (socket) => {
         character: room.gm.character || null,
         color: room.gm.color
       } : null,
+
       chatHistory: room.chatHistory || [],
       timestamp: new Date()
     };
@@ -2160,6 +2186,606 @@ io.on('connection', (socket) => {
       roomName: room?.name,
       timestamp: new Date()
     });
+  });
+
+  // ========== COMPREHENSIVE MULTIPLAYER SYNC HANDLERS ==========
+
+  // Handle container updates (chests, crates, etc.)
+  socket.on('container_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize containers if needed
+    if (!room.gameState.containers) {
+      room.gameState.containers = {};
+    }
+
+    // Update container state
+    if (data.containerId) {
+      room.gameState.containers[data.containerId] = {
+        ...room.gameState.containers[data.containerId],
+        ...data.container,
+        lastUpdatedBy: player.id,
+        lastUpdatedAt: new Date()
+      };
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist container update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('container_updated', {
+      containerId: data.containerId,
+      container: data.container,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`📦 Container ${data.containerId} updated by ${player.name}`);
+  });
+
+  // Handle creature token addition (from GM or players)
+  socket.on('creature_added', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Only GM can add creature tokens
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only GM can add creature tokens' });
+      return;
+    }
+
+    // Initialize tokens if needed
+    if (!room.gameState.tokens) {
+      room.gameState.tokens = {};
+    }
+
+    const tokenId = data.id || `creature_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
+    room.gameState.tokens[tokenId] = {
+      id: tokenId,
+      creatureId: data.creatureId,
+      position: data.position,
+      velocity: data.velocity || { x: 0, y: 0 },
+      createdBy: player.id,
+      createdAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist creature addition:', error);
+    }
+
+    // Send confirmation to creator
+    socket.emit('creature_add_confirmed', {
+      id: tokenId,
+      position: data.position,
+      success: true
+    });
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('creature_added', {
+      id: tokenId,
+      creatureId: data.creatureId,
+      position: data.position,
+      velocity: data.velocity,
+      createdBy: player.id,
+      createdByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🐉 Creature token ${tokenId} added by GM ${player.name}`);
+  });
+
+  // Handle creature state updates
+  socket.on('creature_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    if (!room.gameState.tokens || !room.gameState.tokens[data.tokenId]) {
+      return;
+    }
+
+    // Update creature state
+    room.gameState.tokens[data.tokenId] = {
+      ...room.gameState.tokens[data.tokenId],
+      ...data.stateUpdates,
+      lastUpdatedBy: player.id,
+      lastUpdatedAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist creature update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('creature_updated', {
+      tokenId: data.tokenId,
+      stateUpdates: data.stateUpdates,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+  });
+
+  // Handle grid item updates (loot orbs, objects on grid)
+  socket.on('grid_item_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize grid items if needed
+    if (!room.gameState.gridItems) {
+      room.gameState.gridItems = {};
+    }
+
+    const { updateType, itemId, itemData, position } = data;
+
+    switch (updateType) {
+      case 'add':
+        room.gameState.gridItems[itemId] = {
+          ...itemData,
+          id: itemId,
+          position: position,
+          addedBy: player.id,
+          addedAt: new Date()
+        };
+        break;
+      case 'move':
+        if (room.gameState.gridItems[itemId]) {
+          room.gameState.gridItems[itemId].position = position;
+          room.gameState.gridItems[itemId].lastMovedBy = player.id;
+          room.gameState.gridItems[itemId].lastMovedAt = new Date();
+        }
+        break;
+      case 'remove':
+        delete room.gameState.gridItems[itemId];
+        break;
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist grid item update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('grid_item_updated', {
+      updateType,
+      itemId,
+      itemData,
+      position,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`📍 Grid item ${itemId} ${updateType} by ${player.name}`);
+  });
+
+  // Handle wall placement/updates
+  socket.on('wall_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can modify walls' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize wall data if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+    if (!room.gameState.mapData.wallData) {
+      room.gameState.mapData.wallData = {};
+    }
+
+    const { wallId, wallData, updateType } = data;
+
+    switch (updateType) {
+      case 'add':
+      case 'update':
+        room.gameState.mapData.wallData[wallId] = {
+          ...wallData,
+          id: wallId,
+          lastUpdatedBy: player.id,
+          lastUpdatedAt: new Date()
+        };
+        break;
+      case 'remove':
+        delete room.gameState.mapData.wallData[wallId];
+        break;
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist wall update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('wall_updated', {
+      wallId,
+      wallData,
+      updateType,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+
+    console.log(`🧱 Wall ${wallId} ${updateType} by GM ${player.name}`);
+  });
+
+  // Handle terrain placement/updates
+  socket.on('terrain_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can modify terrain' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize terrain data if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+    if (!room.gameState.mapData.terrainData) {
+      room.gameState.mapData.terrainData = {};
+    }
+
+    // Apply terrain updates (can be batch updates)
+    if (data.terrainData) {
+      room.gameState.mapData.terrainData = {
+        ...room.gameState.mapData.terrainData,
+        ...data.terrainData
+      };
+    }
+
+    // Handle single tile update
+    if (data.tileKey && data.terrainType !== undefined) {
+      if (data.terrainType === null) {
+        delete room.gameState.mapData.terrainData[data.tileKey];
+      } else {
+        room.gameState.mapData.terrainData[data.tileKey] = data.terrainType;
+      }
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist terrain update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('terrain_updated', {
+      terrainData: room.gameState.mapData.terrainData,
+      tileKey: data.tileKey,
+      terrainType: data.terrainType,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+
+    console.log(`🌲 Terrain updated by GM ${player.name}`);
+  });
+
+  // Handle door state changes (open/close/lock)
+  socket.on('door_state_changed', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Only GM can lock/unlock doors, anyone can open/close
+    if (data.state === 'locked' && !player.isGM) {
+      socket.emit('error', { message: 'Only GM can lock doors' });
+      return;
+    }
+
+    // Update door state in wall data
+    if (room.gameState.mapData?.wallData?.[data.doorId]) {
+      room.gameState.mapData.wallData[data.doorId].state = data.state;
+      room.gameState.mapData.wallData[data.doorId].lastInteractedBy = player.id;
+      room.gameState.mapData.wallData[data.doorId].lastInteractedAt = new Date();
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist door state change:', error);
+    }
+
+    // Broadcast to ALL players (door interaction visible to everyone)
+    io.to(player.roomId).emit('door_state_changed', {
+      doorId: data.doorId,
+      state: data.state,
+      interactedBy: player.id,
+      interactedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🚪 Door ${data.doorId} ${data.state} by ${player.name}`);
+  });
+
+  // Handle GM notes (private notes visible only to GM)
+  socket.on('gm_note_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can manage notes' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize GM notes if needed
+    if (!room.gameState.gmNotes) {
+      room.gameState.gmNotes = {};
+    }
+
+    const { noteId, noteData, updateType } = data;
+
+    switch (updateType) {
+      case 'add':
+      case 'update':
+        room.gameState.gmNotes[noteId] = {
+          ...noteData,
+          id: noteId,
+          lastUpdatedAt: new Date()
+        };
+        break;
+      case 'remove':
+        delete room.gameState.gmNotes[noteId];
+        break;
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist GM note update:', error);
+    }
+
+    // GM notes are private - only emit confirmation back to GM
+    socket.emit('gm_note_confirmed', {
+      noteId,
+      noteData,
+      updateType,
+      timestamp: new Date()
+    });
+
+    console.log(`📝 GM note ${noteId} ${updateType} by ${player.name}`);
+  });
+
+  // Handle light source updates
+  socket.on('light_source_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can modify light sources' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize light sources if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+    if (!room.gameState.mapData.lightSources) {
+      room.gameState.mapData.lightSources = {};
+    }
+
+    const { lightId, lightData, updateType } = data;
+
+    switch (updateType) {
+      case 'add':
+      case 'update':
+        room.gameState.mapData.lightSources[lightId] = {
+          ...lightData,
+          id: lightId,
+          lastUpdatedAt: new Date()
+        };
+        break;
+      case 'remove':
+        delete room.gameState.mapData.lightSources[lightId];
+        break;
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist light source update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('light_source_updated', {
+      lightId,
+      lightData,
+      updateType,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+
+    console.log(`💡 Light source ${lightId} ${updateType} by GM ${player.name}`);
+  });
+
+  // Handle fog of war updates (dedicated handler for real-time fog painting)
+  socket.on('fog_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can modify fog of war' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize fog data if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+
+    // Update fog paths
+    if (data.fogOfWarPaths !== undefined) {
+      room.gameState.mapData.fogOfWarPaths = data.fogOfWarPaths;
+    }
+    if (data.fogErasePaths !== undefined) {
+      room.gameState.mapData.fogErasePaths = data.fogErasePaths;
+    }
+    if (data.exploredAreas !== undefined) {
+      room.gameState.mapData.exploredAreas = data.exploredAreas;
+    }
+
+    // Only persist on finalize (not during continuous painting)
+    if (data.finalize) {
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist fog update:', error);
+      }
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('fog_updated', {
+      fogOfWarPaths: data.fogOfWarPaths,
+      fogErasePaths: data.fogErasePaths,
+      exploredAreas: data.exploredAreas,
+      finalize: data.finalize,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+  });
+
+  // Handle drawing path updates (free drawing on grid)
+  socket.on('drawing_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can draw on the map' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize drawing data if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+
+    if (data.drawingPaths !== undefined) {
+      room.gameState.mapData.drawingPaths = data.drawingPaths;
+    }
+    if (data.drawingLayers !== undefined) {
+      room.gameState.mapData.drawingLayers = data.drawingLayers;
+    }
+
+    // Only persist on finalize
+    if (data.finalize) {
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist drawing update:', error);
+      }
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('drawing_updated', {
+      drawingPaths: data.drawingPaths,
+      drawingLayers: data.drawingLayers,
+      finalize: data.finalize,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+  });
+
+  // Handle environmental object updates (furniture, decorations, etc.)
+  socket.on('environmental_object_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can modify environmental objects' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Initialize environmental objects if needed
+    if (!room.gameState.mapData) {
+      room.gameState.mapData = {};
+    }
+    if (!room.gameState.mapData.environmentalObjects) {
+      room.gameState.mapData.environmentalObjects = [];
+    }
+
+    const { objectId, objectData, updateType } = data;
+
+    switch (updateType) {
+      case 'add':
+        room.gameState.mapData.environmentalObjects.push({
+          ...objectData,
+          id: objectId || `env_${Date.now()}`,
+          addedAt: new Date()
+        });
+        break;
+      case 'update':
+        room.gameState.mapData.environmentalObjects = room.gameState.mapData.environmentalObjects.map(obj =>
+          obj.id === objectId ? { ...obj, ...objectData, lastUpdatedAt: new Date() } : obj
+        );
+        break;
+      case 'remove':
+        room.gameState.mapData.environmentalObjects = room.gameState.mapData.environmentalObjects.filter(obj =>
+          obj.id !== objectId
+        );
+        break;
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist environmental object update:', error);
+    }
+
+    // Broadcast to other players
+    socket.to(player.roomId).emit('environmental_object_updated', {
+      objectId,
+      objectData,
+      updateType,
+      environmentalObjects: room.gameState.mapData.environmentalObjects,
+      updatedBy: player.id,
+      timestamp: new Date()
+    });
+
+    console.log(`🏠 Environmental object ${objectId} ${updateType} by GM ${player.name}`);
   });
 
   // Player left notification - notify remaining players
