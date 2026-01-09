@@ -84,7 +84,7 @@ const useQuestStore = create(
       questCategories: {}, // {questId: Set(categoryIds)}
       selectedQuest: null,
       selectedCategory: BASE_CATEGORY.id,
-      
+
       // Filters
       filters: {
         query: '',
@@ -93,7 +93,7 @@ const useQuestStore = create(
         minLevel: 0,
         maxLevel: 60
       },
-      
+
       // Sort order
       sortOrder: {
         field: 'title',
@@ -103,7 +103,7 @@ const useQuestStore = create(
       // Window position persistence
       windowPosition: null, // Will be set when user moves the window
       windowSize: { width: 900, height: 700 }, // Default size
-      
+
       // Actions
       addQuest: (quest, categories = null) => set(state => {
         const newQuest = {
@@ -139,127 +139,127 @@ const useQuestStore = create(
           selectedQuest: newQuest.id
         };
       }),
-      
+
       updateQuest: (id, updates) => set(state => ({
-        quests: state.quests.map(quest => 
-          quest.id === id 
-            ? { 
-                ...quest, 
-                ...updates, 
-                lastModified: new Date().toISOString() 
-              } 
+        quests: (state.quests || []).map(quest =>
+          quest.id === id
+            ? {
+              ...quest,
+              ...updates,
+              lastModified: new Date().toISOString()
+            }
             : quest
         )
       })),
-      
+
       deleteQuest: (id) => set(state => ({
-        quests: state.quests.filter(quest => quest.id !== id),
+        quests: (state.quests || []).filter(quest => quest.id !== id),
         questCategories: (() => {
-          const { [id]: _, ...rest } = state.questCategories;
+          const { [id]: _, ...rest } = (state.questCategories || {});
           return rest;
         })(),
         selectedQuest: state.selectedQuest === id ? null : state.selectedQuest
       })),
-      
+
       setSelectedQuest: (id) => set({ selectedQuest: id }),
-      
+
       setSelectedCategory: (id) => set({ selectedCategory: id }),
-      
+
       updateObjectiveProgress: (questId, objectiveId, progress) => set(state => ({
-        quests: state.quests.map(quest => 
-          quest.id === questId 
+        quests: (state.quests || []).map(quest =>
+          quest.id === questId
             ? {
-                ...quest,
-                objectives: quest.objectives.map(obj => 
-                  obj.id === objectiveId
-                    ? { ...obj, progress }
-                    : obj
-                ),
-                lastModified: new Date().toISOString()
-              }
+              ...quest,
+              objectives: (quest.objectives || []).map(obj =>
+                obj.id === objectiveId
+                  ? { ...obj, progress }
+                  : obj
+              ),
+              lastModified: new Date().toISOString()
+            }
             : quest
         )
       })),
-      
+
       completeObjective: (questId, objectiveId) => set(state => ({
-        quests: state.quests.map(quest => 
-          quest.id === questId 
+        quests: (state.quests || []).map(quest =>
+          quest.id === questId
             ? {
-                ...quest,
-                objectives: quest.objectives.map(obj => 
-                  obj.id === objectiveId
-                    ? { 
-                        ...obj, 
-                        progress: obj.type === 'visit' ? true : obj.count,
-                        completed: true 
-                      }
-                    : obj
-                ),
-                lastModified: new Date().toISOString()
-              }
+              ...quest,
+              objectives: (quest.objectives || []).map(obj =>
+                obj.id === objectiveId
+                  ? {
+                    ...obj,
+                    progress: obj.type === 'visit' ? true : obj.count,
+                    completed: true
+                  }
+                  : obj
+              ),
+              lastModified: new Date().toISOString()
+            }
             : quest
         )
       })),
-      
+
       completeQuest: (id) => set(state => ({
-        quests: state.quests.map(quest => 
-          quest.id === id 
-            ? { 
-                ...quest, 
-                status: 'completed',
-                lastModified: new Date().toISOString() 
-              } 
-            : quest
-        )
-      })),
-      
-      failQuest: (id) => set(state => ({
-        quests: state.quests.map(quest => 
-          quest.id === id 
-            ? { 
-                ...quest, 
-                status: 'failed',
-                lastModified: new Date().toISOString() 
-              } 
-            : quest
-        )
-      })),
-      
-      resetQuest: (id) => set(state => ({
-        quests: state.quests.map(quest =>
+        quests: (state.quests || []).map(quest =>
           quest.id === id
             ? {
-                ...quest,
-                status: 'active',
-                objectives: quest.objectives.map(obj => ({
-                  ...obj,
-                  progress: 0,
-                  completed: false
-                })),
-                lastModified: new Date().toISOString()
-              }
+              ...quest,
+              status: 'completed',
+              lastModified: new Date().toISOString()
+            }
+            : quest
+        )
+      })),
+
+      failQuest: (id) => set(state => ({
+        quests: (state.quests || []).map(quest =>
+          quest.id === id
+            ? {
+              ...quest,
+              status: 'failed',
+              lastModified: new Date().toISOString()
+            }
+            : quest
+        )
+      })),
+
+      resetQuest: (id) => set(state => ({
+        quests: (state.quests || []).map(quest =>
+          quest.id === id
+            ? {
+              ...quest,
+              status: 'active',
+              objectives: (quest.objectives || []).map(obj => ({
+                ...obj,
+                progress: 0,
+                completed: false
+              })),
+              lastModified: new Date().toISOString()
+            }
             : quest
         )
       })),
 
       // Remove quest entirely
       removeQuest: (id) => set(state => ({
-        quests: state.quests.filter(quest => quest.id !== id)
+        quests: (state.quests || []).filter(quest => quest.id !== id)
       })),
 
       // Reactivate a failed quest
       reactivateQuest: (id) => set(state => ({
-        quests: state.quests.map(quest =>
+        quests: (state.quests || []).map(quest =>
           quest.id === id
             ? {
-                ...quest,
-                status: 'active',
-                lastModified: new Date().toISOString()
-              }
+              ...quest,
+              status: 'active',
+              lastModified: new Date().toISOString()
+            }
             : quest
         )
       })),
-      
+
       // Filter actions
       setFilters: (filters) => set({ filters }),
 

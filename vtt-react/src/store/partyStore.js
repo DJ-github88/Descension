@@ -19,14 +19,14 @@ const initialState = {
     // Current party information
     currentParty: null,
     isInParty: false,
-    
+
     // Party members data
     partyMembers: [], // Array of party member objects
-    
+
     // Party invitations
     pendingInvites: [], // Invites sent by this player
     receivedInvites: [], // Invites received by this player
-    
+
     // Party settings
     partySettings: {
         allowInvites: true,
@@ -34,7 +34,7 @@ const initialState = {
         showMemberLocations: true,
         shareResources: true
     },
-    
+
     // HUD display settings
     hudSettings: {
         showPartyHUD: true,
@@ -121,8 +121,8 @@ const usePartyStore = create(
                 }
 
                 // Check for duplicate members by ID OR by name to prevent duplicate HUDs
-                const existingMemberById = state.partyMembers.find(member => member.id === memberData.id);
-                const existingMemberByName = state.partyMembers.find(member => member.name === memberData.name);
+                const existingMemberById = (state.partyMembers || []).find(member => member.id === memberData.id);
+                const existingMemberByName = (state.partyMembers || []).find(member => member.name === memberData.name);
 
                 if (existingMemberById) {
                     return false;
@@ -149,7 +149,7 @@ const usePartyStore = create(
 
 
                 // Add new member without changing leadership
-                const updatedMembers = [...state.partyMembers, newMember];
+                const updatedMembers = [...(state.partyMembers || []), newMember];
 
                 // Keep existing leadership structure
                 set(state => ({
@@ -164,10 +164,10 @@ const usePartyStore = create(
 
             removePartyMember: (memberId) => {
                 const state = get();
-                const memberToRemove = state.partyMembers.find(member => member.id === memberId);
+                const memberToRemove = (state.partyMembers || []).find(member => member.id === memberId);
 
                 set(state => ({
-                    partyMembers: state.partyMembers.filter(member => member.id !== memberId)
+                    partyMembers: (state.partyMembers || []).filter(member => member.id !== memberId)
                 }));
 
                 // Sync with multiplayer
@@ -182,7 +182,7 @@ const usePartyStore = create(
 
             updatePartyMember: (memberId, updates) => {
                 set(state => {
-                    const updatedMembers = state.partyMembers.map(member => {
+                    const updatedMembers = (state.partyMembers || []).map(member => {
                         if (member.id === memberId) {
                             return { ...member, ...updates };
                         }
@@ -206,7 +206,7 @@ const usePartyStore = create(
                 };
 
                 set(state => ({
-                    pendingInvites: [...state.pendingInvites, invite]
+                    pendingInvites: [...(state.pendingInvites || []), invite]
                 }));
 
                 // Add chat notification
@@ -229,7 +229,7 @@ const usePartyStore = create(
                 };
 
                 set(state => ({
-                    receivedInvites: [...state.receivedInvites, invite]
+                    receivedInvites: [...(state.receivedInvites || []), invite]
                 }));
 
                 // Add chat notification
@@ -243,19 +243,19 @@ const usePartyStore = create(
 
             acceptPartyInvite: (inviteId) => {
                 const state = get();
-                const invite = state.receivedInvites.find(inv => inv.id === inviteId);
-                
+                const invite = (state.receivedInvites || []).find(inv => inv.id === inviteId);
+
                 if (invite) {
                     // Join the party (this would typically involve network communication)
                     set(state => ({
-                        receivedInvites: state.receivedInvites.filter(inv => inv.id !== inviteId)
+                        receivedInvites: (state.receivedInvites || []).filter(inv => inv.id !== inviteId)
                     }));
                 }
             },
 
             declinePartyInvite: (inviteId) => {
                 set(state => ({
-                    receivedInvites: state.receivedInvites.filter(inv => inv.id !== inviteId)
+                    receivedInvites: (state.receivedInvites || []).filter(inv => inv.id !== inviteId)
                 }));
             },
 

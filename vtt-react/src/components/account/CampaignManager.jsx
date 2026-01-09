@@ -27,13 +27,13 @@ export const canAccessCampaignManager = (subscriptionTier) => {
 // Simple Input Modal Component - Uses Portal to render at document root for proper z-index
 const InputModal = ({ isOpen, title, placeholder, onConfirm, onCancel }) => {
   const [value, setValue] = useState('');
-  
+
   useEffect(() => {
     if (isOpen) setValue('');
   }, [isOpen]);
-  
+
   if (!isOpen) return null;
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value.trim()) {
@@ -41,7 +41,7 @@ const InputModal = ({ isOpen, title, placeholder, onConfirm, onCancel }) => {
       setValue('');
     }
   };
-  
+
   return ReactDOM.createPortal(
     <div className="campaign-modal-overlay" onClick={onCancel}>
       <div className="campaign-modal-content input-modal" onClick={e => e.stopPropagation()}>
@@ -68,7 +68,7 @@ const InputModal = ({ isOpen, title, placeholder, onConfirm, onCancel }) => {
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
   if (!isOpen) return null;
-  
+
   return ReactDOM.createPortal(
     <div className="campaign-modal-overlay" onClick={onCancel}>
       <div className="campaign-modal-content confirm-modal" onClick={e => e.stopPropagation()}>
@@ -87,17 +87,17 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 const CampaignManager = ({ user }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const [homebrewSubTab, setHomebrewSubTab] = useState('items');
-  
+
   // Modal state
   const [inputModal, setInputModal] = useState({ isOpen: false, title: '', placeholder: '', callback: null });
   const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', callback: null });
-  
+
   // Library browser state
-  const [libraryBrowser, setLibraryBrowser] = useState({ 
-    isOpen: false, 
-    libraryType: LIBRARY_TYPES.CREATURES, 
+  const [libraryBrowser, setLibraryBrowser] = useState({
+    isOpen: false,
+    libraryType: LIBRARY_TYPES.CREATURES,
     title: '',
-    onSelect: null 
+    onSelect: null
   });
 
   // Tooltip state
@@ -194,7 +194,7 @@ const CampaignManager = ({ user }) => {
       document.removeEventListener('wheel', handleWheel);
     };
   }, [hoveredCreature]);
-  
+
   // Campaign management state
   const [campaigns, setCampaigns] = useState([]);
   const [currentCampaignId, setCurrentCampaignId] = useState(null);
@@ -229,11 +229,11 @@ const CampaignManager = ({ user }) => {
   // Load campaigns and current campaign
   useEffect(() => {
     const loadedCampaigns = campaignService.getCampaigns();
-    
+
     // Get current campaign or create default
     let currentId = campaignService.getCurrentCampaignId();
     let finalCampaigns = loadedCampaigns;
-    
+
     if (!currentId && loadedCampaigns.length > 0) {
       currentId = loadedCampaigns[0].id;
       campaignService.setCurrentCampaign(currentId);
@@ -244,10 +244,10 @@ const CampaignManager = ({ user }) => {
       campaignService.setCurrentCampaign(currentId);
       finalCampaigns = campaignService.getCampaigns();
     }
-    
+
     setCampaigns(finalCampaigns);
     setCurrentCampaignId(currentId);
-    
+
     // Load current campaign data with defaults
     if (currentId) {
       const campaign = campaignService.getCampaign(currentId);
@@ -268,7 +268,7 @@ const CampaignManager = ({ user }) => {
       };
       setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
     }
-    
+
     // Mark as initialized after first load
     setIsInitialized(true);
   }, []);
@@ -277,7 +277,7 @@ const CampaignManager = ({ user }) => {
   useEffect(() => {
     // Don't save during initial load
     if (!isInitialized || !currentCampaignId) return;
-    
+
     // Debounce saves to prevent loops
     const timeoutId = setTimeout(() => {
       campaignService.updateCampaign(currentCampaignId, {
@@ -289,7 +289,7 @@ const CampaignManager = ({ user }) => {
         forceSave();
       }
     }, 500);
-    
+
     return () => clearTimeout(timeoutId);
   }, [campaignData, currentCampaignId, isInitialized]);
 
@@ -301,33 +301,33 @@ const CampaignManager = ({ user }) => {
   const showInputModal = (title, placeholder, callback) => {
     setInputModal({ isOpen: true, title, placeholder, callback });
   };
-  
+
   const hideInputModal = () => {
     setInputModal({ isOpen: false, title: '', placeholder: '', callback: null });
   };
-  
+
   const handleInputConfirm = (value) => {
     if (inputModal.callback) {
       inputModal.callback(value);
     }
     hideInputModal();
   };
-  
+
   const showConfirmModal = (title, message, callback) => {
     setConfirmModal({ isOpen: true, title, message, callback });
   };
-  
+
   const hideConfirmModal = () => {
     setConfirmModal({ isOpen: false, title: '', message: '', callback: null });
   };
-  
+
   const handleConfirm = () => {
     if (confirmModal.callback) {
       confirmModal.callback();
     }
     hideConfirmModal();
   };
-  
+
   // Library browser helpers
   const openLibraryBrowser = (libraryType, title, onSelectCallback) => {
     setLibraryBrowser({
@@ -337,7 +337,7 @@ const CampaignManager = ({ user }) => {
       onSelect: onSelectCallback
     });
   };
-  
+
   const closeLibraryBrowser = () => {
     setLibraryBrowser({
       isOpen: false,
@@ -346,7 +346,7 @@ const CampaignManager = ({ user }) => {
       onSelect: null
     });
   };
-  
+
   // Add creature from library
   const addCreatureFromLibrary = () => {
     openLibraryBrowser(LIBRARY_TYPES.CREATURES, 'Add Creature to Campaign', (selectedItems) => {
@@ -364,7 +364,7 @@ const CampaignManager = ({ user }) => {
       });
     });
   };
-  
+
   // Add item from library
   const addItemFromLibrary = () => {
     openLibraryBrowser(LIBRARY_TYPES.ITEMS, 'Add Item to Campaign', (selectedItems) => {
@@ -384,7 +384,7 @@ const CampaignManager = ({ user }) => {
       });
     });
   };
-  
+
   // Add spell from library
   const addSpellFromLibrary = () => {
     openLibraryBrowser(LIBRARY_TYPES.SPELLS, 'Add Spell to Campaign', (selectedItems) => {
@@ -404,7 +404,7 @@ const CampaignManager = ({ user }) => {
       });
     });
   };
-  
+
   // Remove library item
   const removeLibraryCreature = (itemId) => {
     // Clear hover state if this creature is being hovered
@@ -415,7 +415,7 @@ const CampaignManager = ({ user }) => {
       selectedCreatures: (campaignData.selectedCreatures || []).filter(c => c.id !== itemId)
     });
   };
-  
+
   const removeLibraryItem = (itemId) => {
     // Clear hover state if this item is being hovered
     if (hoveredItem && hoveredItem.id === itemId) {
@@ -425,7 +425,7 @@ const CampaignManager = ({ user }) => {
       selectedItems: (campaignData.selectedItems || []).filter(i => i.id !== itemId)
     });
   };
-  
+
   const removeLibrarySpell = (itemId) => {
     // Clear hover state if this spell is being hovered
     if (hoveredSpell && hoveredSpell.id === itemId) {
@@ -631,7 +631,7 @@ const CampaignManager = ({ user }) => {
   const updateQuestObjective = (questId, objectiveId, updates) => {
     const quest = (campaignData.quests || []).find(q => q.id === questId);
     if (quest) {
-      const updatedObjectives = (quest.objectives || []).map(obj => 
+      const updatedObjectives = (quest.objectives || []).map(obj =>
         obj.id === objectiveId ? { ...obj, ...updates } : obj
       );
       updateQuest(questId, { objectives: updatedObjectives });
@@ -807,7 +807,7 @@ const CampaignManager = ({ user }) => {
         onConfirm={handleInputConfirm}
         onCancel={hideInputModal}
       />
-      
+
       {/* Confirm Modal */}
       <ConfirmModal
         isOpen={confirmModal.isOpen}
@@ -816,7 +816,7 @@ const CampaignManager = ({ user }) => {
         onConfirm={handleConfirm}
         onCancel={hideConfirmModal}
       />
-      
+
       {/* Library Browser Modal */}
       <LibraryBrowserModal
         isOpen={libraryBrowser.isOpen}
@@ -1026,7 +1026,7 @@ const CampaignManager = ({ user }) => {
 
       {/* Section Content */}
       <div className="campaign-section-content">
-        
+
         {/* ============ OVERVIEW ============ */}
         {activeSection === 'overview' && (
           <div className="overview-section">
@@ -1066,10 +1066,10 @@ const CampaignManager = ({ user }) => {
                   </div>
                   <div className="stat-item">
                     <span className="stat-value">
-                      {(campaignData.homebrew?.items?.length || 0) + 
-                       (campaignData.homebrew?.monsters?.length || 0) + 
-                       (campaignData.homebrew?.spells?.length || 0) + 
-                       (campaignData.homebrew?.lore?.length || 0)}
+                      {(campaignData.homebrew?.items?.length || 0) +
+                        (campaignData.homebrew?.monsters?.length || 0) +
+                        (campaignData.homebrew?.spells?.length || 0) +
+                        (campaignData.homebrew?.lore?.length || 0)}
                     </span>
                     <span className="stat-label">Homebrew</span>
                   </div>
@@ -1085,8 +1085,8 @@ const CampaignManager = ({ user }) => {
                   </button>
                 </div>
                 <div className="players-quick-list">
-                  {campaignData.players.length > 0 ? (
-                    campaignData.players.map(player => (
+                  {(campaignData.players || []).length > 0 ? (
+                    (campaignData.players || []).map(player => (
                       <div key={player.id} className="player-quick-item">
                         <div className="player-avatar-small">{player.name.charAt(0)}</div>
                         <div className="player-quick-info">
@@ -1137,8 +1137,8 @@ const CampaignManager = ({ user }) => {
               </button>
             </div>
             <div className="cards-list">
-              {campaignData.sessions.length > 0 ? (
-                campaignData.sessions.map(session => (
+              {(campaignData.sessions || []).length > 0 ? (
+                (campaignData.sessions || []).map(session => (
                   <div key={session.id} className="content-card session-card">
                     <div className="card-header">
                       <input
@@ -1210,8 +1210,8 @@ const CampaignManager = ({ user }) => {
               </button>
             </div>
             <div className="cards-grid">
-              {campaignData.npcs.length > 0 ? (
-                campaignData.npcs.map(npc => (
+              {(campaignData.npcs || []).length > 0 ? (
+                (campaignData.npcs || []).map(npc => (
                   <div key={npc.id} className="content-card npc-card">
                     <div className="card-header">
                       <input
@@ -1287,8 +1287,8 @@ const CampaignManager = ({ user }) => {
               </button>
             </div>
             <div className="cards-grid">
-              {campaignData.locations.length > 0 ? (
-                campaignData.locations.map(location => (
+              {(campaignData.locations || []).length > 0 ? (
+                (campaignData.locations || []).map(location => (
                   <div key={location.id} className="content-card location-card">
                     <div className="card-header">
                       <input
@@ -1440,9 +1440,9 @@ const CampaignManager = ({ user }) => {
                       </div>
                       <div className="field">
                         <label>
-                          Objectives 
-                          <button 
-                            className="mini-add-btn" 
+                          Objectives
+                          <button
+                            className="mini-add-btn"
                             onClick={() => addQuestObjective(quest.id)}
                             style={{ marginLeft: '10px', width: '24px', height: '24px', fontSize: '0.7rem' }}
                           >
@@ -1451,7 +1451,7 @@ const CampaignManager = ({ user }) => {
                         </label>
                         <div className="quest-objectives">
                           {(quest.objectives || []).length > 0 ? (
-                            quest.objectives.map(obj => (
+                            (quest.objectives || []).map(obj => (
                               <div key={obj.id} className="quest-objective">
                                 <input
                                   type="checkbox"
@@ -1467,8 +1467,8 @@ const CampaignManager = ({ user }) => {
                                   className={`small-input ${obj.completed ? 'completed' : ''}`}
                                   style={{ flex: 1, textDecoration: obj.completed ? 'line-through' : 'none', opacity: obj.completed ? 0.6 : 1 }}
                                 />
-                                <button 
-                                  className="remove-btn" 
+                                <button
+                                  className="remove-btn"
                                   onClick={() => removeQuestObjective(quest.id, obj.id)}
                                   style={{ width: '24px', height: '24px' }}
                                 >
@@ -1522,8 +1522,8 @@ const CampaignManager = ({ user }) => {
               </button>
             </div>
             <div className="cards-list">
-              {campaignData.plotThreads.length > 0 ? (
-                campaignData.plotThreads.map(plot => (
+              {(campaignData.plotThreads || []).length > 0 ? (
+                (campaignData.plotThreads || []).map(plot => (
                   <div key={plot.id} className="content-card plot-card">
                     <div className="card-header">
                       <input
@@ -1568,7 +1568,7 @@ const CampaignManager = ({ user }) => {
                         <input
                           type="text"
                           value={Array.isArray(plot.relatedNPCs) ? plot.relatedNPCs.join(', ') : ''}
-                          onChange={(e) => updatePlotThread(plot.id, { 
+                          onChange={(e) => updatePlotThread(plot.id, {
                             relatedNPCs: e.target.value ? e.target.value.split(',').map(n => n.trim()).filter(n => n) : []
                           })}
                           placeholder="NPC names (comma-separated)..."
@@ -1629,7 +1629,7 @@ const CampaignManager = ({ user }) => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Library Items */}
                   {(campaignData.selectedItems || []).length > 0 && (
                     <div className="library-items-section">
@@ -1671,7 +1671,7 @@ const CampaignManager = ({ user }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Custom Homebrew Items */}
                   {(campaignData.homebrew?.items || []).length > 0 && (
                     <div className="homebrew-items-section">
@@ -1907,7 +1907,7 @@ const CampaignManager = ({ user }) => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Library Creatures */}
                   {(campaignData.selectedCreatures || []).length > 0 && (
                     <div className="library-items-section">
@@ -1949,7 +1949,7 @@ const CampaignManager = ({ user }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Custom Homebrew Creatures */}
                   {(campaignData.homebrew?.monsters || []).length > 0 && (
                     <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew</h4>
@@ -2009,7 +2009,7 @@ const CampaignManager = ({ user }) => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Library Spells */}
                   {(campaignData.selectedSpells || []).length > 0 && (
                     <div className="library-items-section">
@@ -2052,7 +2052,7 @@ const CampaignManager = ({ user }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Custom Homebrew Spells */}
                   {(campaignData.homebrew?.spells || []).length > 0 && (
                     <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew</h4>
@@ -2069,7 +2069,7 @@ const CampaignManager = ({ user }) => {
                             </div>
                             <div className="field-row">
                               <select value={spell.level} onChange={(e) => updateHomebrewSpell(spell.id, { level: parseInt(e.target.value) })} className="small-select">
-                                {[0,1,2,3,4,5,6,7,8,9].map(l => <option key={l} value={l}>{l === 0 ? 'Cantrip' : `Level ${l}`}</option>)}
+                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(l => <option key={l} value={l}>{l === 0 ? 'Cantrip' : `Level ${l}`}</option>)}
                               </select>
                               <select value={spell.school} onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })} className="small-select">
                                 <option value="abjuration">Abjuration</option>
@@ -2114,19 +2114,19 @@ const CampaignManager = ({ user }) => {
                             <div className="integrated-header">
                               <input type="text" value={article.title} onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })} className="card-title-input" />
                               <select value={article.category} onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })} className="small-select">
-                              <option value="history">History</option>
-                              <option value="religion">Religion</option>
-                              <option value="faction">Faction</option>
-                              <option value="legend">Legend</option>
-                              <option value="culture">Culture</option>
-                              <option value="geography">Geography</option>
-                              <option value="magic">Magic</option>
-                            </select>
-                            <label className="secret-toggle">
-                              <input type="checkbox" checked={article.isSecret || false} onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })} />
-                              <i className="fas fa-eye-slash"></i>
-                            </label>
-                            <button className="remove-btn" onClick={() => removeLoreArticle(article.id)}><i className="fas fa-times"></i></button>
+                                <option value="history">History</option>
+                                <option value="religion">Religion</option>
+                                <option value="faction">Faction</option>
+                                <option value="legend">Legend</option>
+                                <option value="culture">Culture</option>
+                                <option value="geography">Geography</option>
+                                <option value="magic">Magic</option>
+                              </select>
+                              <label className="secret-toggle">
+                                <input type="checkbox" checked={article.isSecret || false} onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })} />
+                                <i className="fas fa-eye-slash"></i>
+                              </label>
+                              <button className="remove-btn" onClick={() => removeLoreArticle(article.id)}><i className="fas fa-times"></i></button>
                             </div>
                             <textarea value={article.content} onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })} placeholder="Write your lore article here..." rows={6} />
                             <div className="field">
@@ -2202,8 +2202,8 @@ const CampaignManager = ({ user }) => {
         </TooltipPortal>
       )}
       {hoveredSpell && (
-        <SpellTooltip 
-          spell={hoveredSpell} 
+        <SpellTooltip
+          spell={hoveredSpell}
           position={tooltipPosition}
         />
       )}

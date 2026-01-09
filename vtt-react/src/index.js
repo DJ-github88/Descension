@@ -21,10 +21,10 @@ if (typeof window !== 'undefined') {
 
     // Define it in the window object with a getter/setter
     Object.defineProperty(window, 'title', {
-        get: function() {
+        get: function () {
             return document.title || '';
         },
-        set: function(value) {
+        set: function (value) {
             document.title = value || '';
         },
         configurable: true,
@@ -37,15 +37,19 @@ var title = typeof document !== 'undefined' ? (document.title || '') : '';
 let titleVar = typeof document !== 'undefined' ? (document.title || '') : '';
 const titleConst = typeof document !== 'undefined' ? (document.title || '') : '';
 
+import ErrorBoundary from './components/common/ErrorBoundary';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Temporarily disable StrictMode to prevent socket recreation issues in multiplayer
 const AppWrapper = ({ children }) => children;
 
 root.render(
-  <AppWrapper>
-    <App />
-  </AppWrapper>
+    <ErrorBoundary>
+        <AppWrapper>
+            <App />
+        </AppWrapper>
+    </ErrorBoundary>
 );
 
 // Register service worker for caching and performance

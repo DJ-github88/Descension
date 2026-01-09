@@ -87,7 +87,7 @@ const handleStorageQuotaExceeded = (name, value) => {
             const data = JSON.parse(value);
             if (data && data.maps) {
                 // Further optimize maps by removing non-essential data
-                const compressedMaps = data.maps.map(map => ({
+                const compressedMaps = (data.maps || []).map(map => ({
                     id: map.id,
                     name: map.name,
                     createdAt: map.createdAt,
@@ -136,8 +136,8 @@ const handleStorageQuotaExceeded = (name, value) => {
             if (data && data.maps && data.maps.length > 1) {
                 // Keep only the current map and one backup
                 const currentMapId = data.currentMapId;
-                const currentMap = data.maps.find(m => m.id === currentMapId);
-                const otherMaps = data.maps.filter(m => m.id !== currentMapId).slice(0, 1);
+                const currentMap = (data.maps || []).find(m => m.id === currentMapId);
+                const otherMaps = (data.maps || []).filter(m => m.id !== currentMapId).slice(0, 1);
 
                 const minimalData = {
                     maps: currentMap ? [currentMap, ...otherMaps] : data.maps.slice(0, 2),
@@ -258,7 +258,7 @@ const useMapStore = create(
             getCurrentMap: () => {
                 const state = get();
                 const currentId = state.getCurrentMapId();
-                return state.maps.find(map => map.id === currentId) || state.maps[0];
+                return (state.maps || []).find(map => map.id === currentId) || (state.maps || [])[0];
             },
 
             // Map CRUD operations
@@ -289,7 +289,7 @@ const useMapStore = create(
 
             updateMap: (mapId, updates) => {
                 set(state => ({
-                    maps: state.maps.map(map =>
+                    maps: (state.maps || []).map(map =>
                         map.id === mapId
                             ? { ...map, ...updates, lastModified: Date.now() }
                             : map
@@ -299,7 +299,7 @@ const useMapStore = create(
 
             deleteMap: (mapId) => {
                 set(state => {
-                    const newMaps = state.maps.filter(map => map.id !== mapId);
+                    const newMaps = (state.maps || []).filter(map => map.id !== mapId);
                     // Ensure we always have at least one map
                     if (newMaps.length === 0) {
                         newMaps.push(createDefaultMap('Default Map'));
@@ -318,7 +318,7 @@ const useMapStore = create(
 
             duplicateMap: (mapId) => {
                 const state = get();
-                const originalMap = state.maps.find(map => map.id === mapId);
+                const originalMap = (state.maps || []).find(map => map.id === mapId);
                 if (!originalMap) return null;
 
                 const duplicatedMap = {
@@ -339,7 +339,7 @@ const useMapStore = create(
             // Map navigation
             switchToMap: (mapId) => {
                 const state = get();
-                const targetMap = state.maps.find(map => map.id === mapId);
+                const targetMap = (state.maps || []).find(map => map.id === mapId);
                 if (!targetMap) return false;
 
                 set({ currentMapId: mapId });
@@ -393,11 +393,11 @@ const useMapStore = create(
                 };
 
                 set(state => ({
-                    maps: state.maps.map(map =>
+                    maps: (state.maps || []).map(map =>
                         map.id === mapId
                             ? {
                                 ...map,
-                                portals: [...map.portals, portal],
+                                portals: [...(map.portals || []), portal],
                                 lastModified: Date.now()
                             }
                             : map
@@ -409,11 +409,11 @@ const useMapStore = create(
 
             updatePortal: (mapId, portalId, updates) => {
                 set(state => ({
-                    maps: state.maps.map(map =>
+                    maps: (state.maps || []).map(map =>
                         map.id === mapId
                             ? {
                                 ...map,
-                                portals: map.portals.map(portal =>
+                                portals: (map.portals || []).map(portal =>
                                     portal.id === portalId
                                         ? { ...portal, ...updates }
                                         : portal
@@ -427,11 +427,11 @@ const useMapStore = create(
 
             removePortal: (mapId, portalId) => {
                 set(state => ({
-                    maps: state.maps.map(map =>
+                    maps: (state.maps || []).map(map =>
                         map.id === mapId
                             ? {
                                 ...map,
-                                portals: map.portals.filter(portal => portal.id !== portalId),
+                                portals: (map.portals || []).filter(portal => portal.id !== portalId),
                                 lastModified: Date.now()
                             }
                             : map
@@ -443,11 +443,11 @@ const useMapStore = create(
             activatePortal: (portalId) => {
                 const state = get();
                 const currentMap = state.getCurrentMap();
-                const portal = currentMap.portals.find(p => p.id === portalId);
+                const portal = (currentMap?.portals || []).find(p => p.id === portalId);
 
                 if (!portal || !portal.isActive) return false;
 
-                const destinationMap = state.maps.find(map => map.id === portal.destinationMapId);
+                const destinationMap = (state.maps || []).find(map => map.id === portal.destinationMapId);
                 if (!destinationMap) return false;
 
                 // Switch to destination map
@@ -463,7 +463,7 @@ const useMapStore = create(
             // Map switching functionality
             switchToMap: async (mapId) => {
                 const state = get();
-                const targetMap = state.maps.find(map => map.id === mapId);
+                const targetMap = (state.maps || []).find(map => map.id === mapId);
 
                 if (!targetMap) {
                     throw new Error(`Map with ID ${mapId} not found`);
@@ -508,20 +508,20 @@ const useMapStore = create(
                     // Clear and load tokens for the new map
                     const { default: useCreatureStore } = await import('./creatureStore');
                     const { default: useCharacterTokenStore } = await import('./characterTokenStore');
-                    
+
                     // Clear existing tokens first
                     if (useCreatureStore.getState().clearTokens) {
                         useCreatureStore.getState().clearTokens();
                     } else {
                         useCreatureStore.setState({ tokens: [] });
                     }
-                    
+
                     if (useCharacterTokenStore.getState().clearCharacterTokens) {
                         useCharacterTokenStore.getState().clearCharacterTokens();
                     } else {
                         useCharacterTokenStore.setState({ characterTokens: [] });
                     }
-                    
+
                     // Load tokens for the new map
                     if (mapState.tokens && mapState.tokens.length > 0) {
                         const creatureStore = useCreatureStore.getState();
@@ -531,7 +531,7 @@ const useMapStore = create(
                             }
                         });
                     }
-                    
+
                     // Load character tokens for the new map
                     if (mapState.characterTokens && mapState.characterTokens.length > 0) {
                         const characterTokenStore = useCharacterTokenStore.getState();
@@ -544,7 +544,7 @@ const useMapStore = create(
 
                     // Update level editor store with new map data
                     const levelEditorState = useLevelEditorStore.getState();
-                    
+
                     // Use setter methods if available, otherwise use setState directly
                     if (levelEditorState.setTerrainData) {
                         levelEditorState.setTerrainData(mapState.terrainData || {});
@@ -573,7 +573,7 @@ const useMapStore = create(
                     if (levelEditorState.setDrawingLayers) {
                         levelEditorState.setDrawingLayers(mapState.drawingLayers || []);
                     }
-                    
+
                     // Also update grid items
                     const { default: useGridItemStore } = await import('./gridItemStore');
                     if (useGridItemStore && mapState.gridItems) {
@@ -607,7 +607,7 @@ const useMapStore = create(
 
             updatePortalTemplate: (templateId, updates) => {
                 set(state => ({
-                    portalTemplates: state.portalTemplates.map(template =>
+                    portalTemplates: (state.portalTemplates || []).map(template =>
                         template.id === templateId
                             ? { ...template, ...updates }
                             : template
@@ -617,14 +617,14 @@ const useMapStore = create(
 
             removePortalTemplate: (templateId) => {
                 set(state => ({
-                    portalTemplates: state.portalTemplates.filter(template => template.id !== templateId)
+                    portalTemplates: (state.portalTemplates || []).filter(template => template.id !== templateId)
                 }));
             },
 
             // Create portal from template
             createPortalFromTemplate: (templateId, mapId, position) => {
                 const state = get();
-                const template = state.portalTemplates.find(t => t.id === templateId);
+                const template = (state.portalTemplates || []).find(t => t.id === templateId);
                 if (!template) return null;
 
                 const portalData = {

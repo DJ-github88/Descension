@@ -40,10 +40,10 @@ const useSpellbookStore = create(
         };
 
         set(state => ({
-          spells: [...state.spells, spell],
-          collections: state.collections.map(col =>
+          spells: [...(state.spells || []), spell],
+          collections: (state.collections || []).map(col =>
             col.id === 'custom'
-              ? { ...col, spells: [...col.spells, spell.id] }
+              ? { ...col, spells: [...(col.spells || []), spell.id] }
               : col
           )
         }));
@@ -51,7 +51,7 @@ const useSpellbookStore = create(
 
       updateSpell: (id, updates) => {
         set(state => ({
-          spells: state.spells.map(spell =>
+          spells: (state.spells || []).map(spell =>
             spell.id === id ? { ...spell, ...updates } : spell
           )
         }));
@@ -59,10 +59,10 @@ const useSpellbookStore = create(
 
       deleteSpell: (id) => {
         set(state => ({
-          spells: state.spells.filter(spell => spell.id !== id),
-          collections: state.collections.map(col => ({
+          spells: (state.spells || []).filter(spell => spell.id !== id),
+          collections: (state.collections || []).map(col => ({
             ...col,
-            spells: col.spells.filter(spellId => spellId !== id)
+            spells: (col.spells || []).filter(spellId => spellId !== id)
           }))
         }));
       },
@@ -77,15 +77,15 @@ const useSpellbookStore = create(
         };
 
         set(state => ({
-          collections: [...state.collections, collection]
+          collections: [...(state.collections || []), collection]
         }));
       },
 
       addSpellToCollection: (spellId, collectionId) => {
         set(state => ({
-          collections: state.collections.map(col =>
-            col.id === collectionId && !col.spells.includes(spellId)
-              ? { ...col, spells: [...col.spells, spellId] }
+          collections: (state.collections || []).map(col =>
+            col.id === collectionId && !(col.spells || []).includes(spellId)
+              ? { ...col, spells: [...(col.spells || []), spellId] }
               : col
           )
         }));
@@ -93,9 +93,9 @@ const useSpellbookStore = create(
 
       removeSpellFromCollection: (spellId, collectionId) => {
         set(state => ({
-          collections: state.collections.map(col =>
+          collections: (state.collections || []).map(col =>
             col.id === collectionId
-              ? { ...col, spells: col.spells.filter(id => id !== spellId) }
+              ? { ...col, spells: (col.spells || []).filter(id => id !== spellId) }
               : col
           )
         }));

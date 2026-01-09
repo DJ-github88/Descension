@@ -130,7 +130,7 @@ const useSocialStore = create(
       // Migration: Reset friends if they don't have friendId
       migrateFriends: () => {
         const { friends } = get();
-        const needsMigration = friends.some(f => !f.friendId);
+        const needsMigration = (friends || []).some(f => !f.friendId);
 
         if (needsMigration) {
           set({ friends: [...SAMPLE_FRIENDS] });
@@ -140,7 +140,7 @@ const useSocialStore = create(
       // Friend actions
       addFriend: (friend) => set(state => {
         // Check if friend already exists
-        const exists = state.friends.some(f => f.name.toLowerCase() === friend.name.toLowerCase());
+        const exists = (state.friends || []).some(f => f.name.toLowerCase() === friend.name.toLowerCase());
         if (exists) return state;
 
         const newFriend = {
@@ -157,12 +157,12 @@ const useSocialStore = create(
       }),
 
       removeFriend: (id) => set(state => ({
-        friends: state.friends.filter(friend => friend.id !== id),
+        friends: (state.friends || []).filter(friend => friend.id !== id),
         selectedFriend: state.selectedFriend === id ? null : state.selectedFriend
       })),
 
       updateFriend: (id, updates) => set(state => ({
-        friends: state.friends.map(friend =>
+        friends: (state.friends || []).map(friend =>
           friend.id === id
             ? { ...friend, ...updates }
             : friend
@@ -170,7 +170,7 @@ const useSocialStore = create(
       })),
 
       setFriendNote: (id, note) => set(state => ({
-        friends: state.friends.map(friend =>
+        friends: (state.friends || []).map(friend =>
           friend.id === id
             ? { ...friend, note }
             : friend
@@ -182,7 +182,7 @@ const useSocialStore = create(
       // Ignore actions
       addIgnored: (ignored) => set(state => {
         // Check if already ignored
-        const exists = state.ignored.some(i => i.name.toLowerCase() === ignored.name.toLowerCase());
+        const exists = (state.ignored || []).some(i => i.name.toLowerCase() === ignored.name.toLowerCase());
         if (exists) return state;
 
         const newIgnored = {
@@ -199,7 +199,7 @@ const useSocialStore = create(
 
       removeIgnored: (id) => {
         set(state => {
-          const newIgnored = state.ignored.filter(ignored => {
+          const newIgnored = (state.ignored || []).filter(ignored => {
             return ignored.id !== id;
           });
 
@@ -211,7 +211,7 @@ const useSocialStore = create(
       },
 
       setIgnoredNote: (id, note) => set(state => ({
-        ignored: state.ignored.map(ignored =>
+        ignored: (state.ignored || []).map(ignored =>
           ignored.id === id
             ? { ...ignored, note }
             : ignored
