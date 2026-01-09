@@ -11,7 +11,8 @@ import { create } from 'zustand';
 import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
 
 // Global recent token movements tracking (window scope for echo prevention)
-const recentTokenMovements = window.recentTokenMovements || new Map();
+// Fallback to new Map if window is not defined (SSR compatibility)
+const recentTokenMovements = (typeof window !== 'undefined' && window.recentTokenMovements) || new Map();
 
 // Cleanup throttle - only clean up old movements every 10 seconds
 const CLEANUP_INTERVAL = 10000;
@@ -67,7 +68,7 @@ const useCreatureStore = create((set, get) => ({
     }
 
     // Update creature tokens array
-    const updatedTokens = state.creatureTokens.map(token =>
+    const updatedTokens = (state.creatureTokens || []).map(token =>
       token.id === creature.id ? { ...token, position } : token
     );
 
@@ -92,7 +93,7 @@ const useCreatureStore = create((set, get) => ({
       });
 
       // Update token in array
-      const updatedTokens = state.creatureTokens.map(token =>
+      const updatedTokens = (state.creatureTokens || []).map(token =>
         token.id === tokenId ? { ...token, position } : token
       );
 
@@ -102,7 +103,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Remove creature token from grid
   removeCreatureToken: (tokenId) => set(state => {
-    const updatedTokens = state.creatureTokens.filter(token => token.id !== tokenId);
+    const updatedTokens = (state.creatureTokens || []).filter(token => token.id !== tokenId);
 
     // Clear movement tracking for this token
     recentTokenMovements.delete(`creature_${tokenId}`);
@@ -112,7 +113,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Update creature state (HP, Mana, conditions)
   updateCreatureState: (tokenId, stateUpdates) => set(state => {
-    const updatedTokens = state.creatureTokens.map(token =>
+    const updatedTokens = (state.creatureTokens || []).map(token =>
       token.id === tokenId ? { ...token, state: { ...token.state, ...stateUpdates } } : token
     );
 
@@ -136,7 +137,7 @@ const useCreatureStore = create((set, get) => ({
   processCreatureLoot: (tokenId, lootData) => set(state => {
     const lootItems = processCreatureLoot(lootData);
 
-    const updatedTokens = state.creatureTokens.map(token =>
+    const updatedTokens = (state.creatureTokens || []).map(token =>
       token.id === tokenId ? { ...token, loot: lootItems } : token
     );
 
@@ -149,7 +150,7 @@ const useCreatureStore = create((set, get) => ({
   // Get creature token by ID
   getCreatureToken: (tokenId) => {
     const state = get();
-    return state.creatureTokens.find(token => token.id === tokenId);
+    return (state.creatureTokens || []).find(token => token.id === tokenId);
   }
 }));
 
