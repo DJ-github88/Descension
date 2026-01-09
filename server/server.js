@@ -44,6 +44,77 @@ const ErrorHandler = require('./services/errorHandler');
 const app = express();
 const server = http.createServer(app);
 
+// Firebase Write Batching Service to prevent quota exhaustion
+class FirebaseBatchWriter {
+  constructor(flushInterval = 2000, maxBatchSize = 50) {
+    this.pendingWrites = new Map(); // roomId -> {gameState, timestamp}
+    this.flushInterval = flushInterval;
+    this.maxBatchSize = maxBatchSize;
+    this.startBatchProcessor();
+  }
+
+  // Queue a write to be batched
+  queueWrite(roomId, gameState) {
+    this.pendingWrites.set(roomId, {
+      gameState: { ...gameState },
+      timestamp: Date.now()
+    });
+
+    // Flush immediately if batch is full
+    if (this.pendingWrites.size >= this.maxBatchSize) {
+      this.flush();
+    }
+  }
+
+  // Flush all pending writes
+  async flush() {
+    if (this.pendingWrites.size === 0) return;
+
+    const writesToProcess = Array.from(this.pendingWrites.entries());
+    this.pendingWrites.clear();
+
+    const writePromises = writesToProcess.map(async ([roomId, data]) => {
+      try {
+        await firebaseService.updateRoomGameState(roomId, data.gameState);
+        logger.debug(`Batched write completed for room ${roomId}`);
+      } catch (error) {
+        logger.error(`Batched write failed for room ${roomId}:`, error);
+      }
+    });
+
+    await Promise.allSettled(writePromises);
+  }
+
+  // Start periodic batch processor
+  startBatchProcessor() {
+    this.batchInterval = setInterval(() => {
+      this.flush();
+    }, this.flushInterval);
+  }
+
+  // Stop batch processor
+  stop() {
+    if (this.batchInterval) {
+      clearInterval(this.batchInterval);
+    }
+    this.flush(); // Final flush
+  }
+}
+
+const firebaseBatchWriter = new FirebaseBatchWriter();
+
+// Graceful shutdown handler
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...');
+  await firebaseBatchWriter.flush();
+  process.exit(0);
+});
+process.on('SIGTERM', async () => {
+  console.log('Shutting down gracefully...');
+  await firebaseBatchWriter.flush();
+  process.exit(0);
+});
+
 // Configure CORS origins from environment variables
 const getAllowedOrigins = () => {
   // SECURITY: Use environment variable if set
@@ -1550,8 +1621,8 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // CRITICAL FIX: Broadcast map update to OTHER players only (not GM who made changes) to prevent state conflicts
-    socket.to(player.roomId).emit('map_updated', {
+    // FIXED: Broadcast map update to ALL players INCLUDING GM (client has window._isReceivingMapUpdate flag to prevent infinite loops)
+    io.to(player.roomId).emit('map_updated', {
       mapData: {
         ...room.gameState.mapData,
         fogOfWar: room.gameState.fogOfWar,
@@ -1568,7 +1639,7 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
 
-    console.log(`🗺️ Map updated by GM ${player.name} - broadcasted to other players in room ${player.roomId}`);
+    console.log(`🗺️ Map updated by GM ${player.name} - broadcasted to all players in room ${player.roomId}`);
   });
 
   // Handle combat state changes

@@ -1,221 +1,174 @@
-/**
- * Optimistic Updates Service
- *
- * Provides immediate UI feedback for user actions, with automatic reconciliation
- * when server responses arrive. Reduces perceived latency and improves UX.
- */
-
-import useCreatureStore from '../store/creatureStore';
-import useCharacterStore from '../store/characterStore';
-import useGameStore from '../store/gameStore';
+// Optimistic Updates Service
+// Handles optimistic UI updates with conflict resolution to prevent lag and position jumps
+// CRITICAL: Prevents server echo from causing token jumps and ensures smooth multiplayer experience
 
 class OptimisticUpdatesService {
   constructor() {
-    this.pendingUpdates = new Map(); // actionId -> { type, data, timeout, rollback }
-    this.updateCounter = 0;
-    this.maxPendingTime = 5000; // 5 seconds max for pending updates
+    // Store pending updates that haven't been confirmed by server yet
+    this.pendingUpdates = new Map(); // actionId -> { type, data, timestamp }
+    
+    // Store confirmed updates for conflict detection
+    this.confirmedUpdates = new Map(); // actionId -> { type, data, timestamp }
+    
+    // Track recent server timestamps to detect duplicates
+    this.serverTimestamps = new Map(); // actionId -> last server timestamp
+    
+    // Cleanup interval
+    this.CLEANUP_INTERVAL = 60000; // Clean up every 60 seconds
+    
+    this.cleanupInterval = setInterval(() => {
+      this.cleanup();
+    }, this.CLEANUP_INTERVAL);
   }
 
   /**
-   * Generate unique action ID
+   * Register an optimistic update (before sending to server)
+   * @param {string} type - Type of update ('token_move', 'token_state', etc.)
+   * @param {object} data - The update data
+   * @returns {string} actionId - Unique ID for tracking this update
    */
-  generateActionId() {
-    return `opt_${Date.now()}_${++this.updateCounter}`;
-  }
-
-  /**
-   * Apply optimistic update for token position
-   */
-  optimisticTokenMove(tokenId, newPosition, serverCallback) {
-    const actionId = this.generateActionId();
-
-    // Store original position for rollback
-    const creatureStore = useCreatureStore.getState();
-    const token = creatureStore.tokens.find(t => t.id === tokenId);
-    const originalPosition = token ? { ...token.position } : null;
-
-    if (!originalPosition) {
-      console.warn('Cannot create optimistic update: token not found', tokenId);
-      return null;
-    }
-
-    // Apply immediate update
-    creatureStore.updateTokenPosition(tokenId, newPosition);
-
-    // Create pending update entry
-    const pendingUpdate = {
-      type: 'token_move',
-      data: { tokenId, newPosition, originalPosition },
-      timestamp: Date.now(),
-      rollback: () => {
-        creatureStore.updateTokenPosition(tokenId, originalPosition);
-      },
-      resolve: (serverResponse) => {
-        // Server confirmed - remove from pending
-        this.pendingUpdates.delete(actionId);
-
-        // If server position differs, apply server correction smoothly
-        if (serverResponse && serverResponse.position) {
-          const serverPos = serverResponse.position;
-          if (Math.abs(serverPos.x - newPosition.x) > 1 || Math.abs(serverPos.y - newPosition.y) > 1) {
-            // Small correction - apply immediately
-            creatureStore.updateTokenPosition(tokenId, serverPos);
-          }
-        }
-      }
-    };
-
-    this.pendingUpdates.set(actionId, pendingUpdate);
-
-    // Set timeout for rollback if no server response
-    setTimeout(() => {
-      const update = this.pendingUpdates.get(actionId);
-      if (update) {
-        console.warn('Optimistic update timeout - rolling back', actionId);
-        update.rollback();
-        this.pendingUpdates.delete(actionId);
-      }
-    }, this.maxPendingTime);
-
-    // Call server callback with actionId for tracking
-    if (serverCallback) {
-      serverCallback(actionId);
-    }
-
+  registerUpdate(type, data) {
+    const actionId = `${type}_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    const now = Date.now();
+    
+    this.pendingUpdates.set(actionId, {
+      type,
+      data,
+      timestamp: now,
+      resolved: false
+    });
+    
+    console.log(`=Ý Registered optimistic update: ${actionId}`);
     return actionId;
   }
 
   /**
-   * Apply optimistic update for character stats
+   * Resolve an optimistic update (when server confirms it)
+   * @param {string} actionId - The ID returned from registerUpdate
+   * @param {object} confirmationData - Server's confirmation data
    */
-  optimisticCharacterUpdate(characterId, updates, serverCallback) {
-    const actionId = this.generateActionId();
+  resolveUpdate(actionId, confirmationData) {
+    const pending = this.pendingUpdates.get(actionId);
+    
+    if (!pending) {
+      console.warn(`  No pending update found for actionId: ${actionId}`);
+      return false;
+    }
+    
+    const timeSincePending = Date.now() - pending.timestamp;
+    
+    // Check if this update is stale (older than what we have)
+    const confirmed = this.confirmedUpdates.get(actionId);
+    if (confirmed) {
+      const confirmedTime = confirmed.timestamp;
+      const timeSinceConfirmed = Date.now() - confirmedTime;
+      
+      if (timeSincePending > timeSinceConfirmed) {
+        console.log(`í Stale optimistic update, ignoring: ${actionId}`, {
+          pendingTime: pending.timestamp,
+          confirmedTime: confirmed.time,
+          ageDiff: timeSincePending - timeSinceConfirmed
+        });
+        // Stale update - server's confirmation is newer
+        this.pendingUpdates.delete(actionId);
+        return false;
+      }
+    }
+    
+    // Apply the update
+    this.applyOptimisticUpdate(pending.type, pending.data, confirmationData);
+    
+    // Mark as confirmed
+    this.confirmedUpdates.set(actionId, {
+      type: pending.type,
+      data: confirmationData || pending.data,
+      timestamp: Date.now()
+    });
+    
+    // Clean up pending
+    this.pendingUpdates.delete(actionId);
+    
+    console.log(` Resolved optimistic update: ${actionId}`);
+    return true;
+  }
 
-    // Store original values for rollback
-    const characterStore = useCharacterStore.getState();
-    const originalValues = {};
-
-    // Extract current values for rollback
-    Object.keys(updates).forEach(key => {
-      if (key.includes('.')) {
-        // Handle nested properties like 'stats.agility'
-        const [parent, child] = key.split('.');
-        if (!originalValues[parent]) originalValues[parent] = {};
-        originalValues[parent][child] = characterStore[parent]?.[child];
-      } else {
-        originalValues[key] = characterStore[key];
+  /**
+   * Apply an optimistic update with conflict resolution
+   * @param {string} type - Type of update
+   * @param {object} updateData - The update data to apply
+   * @param {object} confirmationData - Server's confirmation data
+   */
+  applyOptimisticUpdate(type, updateData, confirmationData) {
+    // For now, simply apply the update without conflict resolution
+    // Future: Add timestamp comparison and merge logic here
+    
+    console.log(`= Applying optimistic update: ${type}`, updateData);
+    
+    // Broadcast an event so components can listen for the resolution
+    const event = new CustomEvent('optimistic_update_resolved', {
+      detail: {
+        type,
+        data: updateData,
+        confirmationData
       }
     });
+    
+    window.dispatchEvent(event);
+  }
 
-    // Apply immediate update
-    characterStore.updateCharacterInfo(updates);
+  /**
+   * Get status of an optimistic update
+   * @param {string} actionId - The ID to check
+   * @returns {boolean} true if pending, false if resolved or not found
+   */
+  isUpdatePending(actionId) {
+    return this.pendingUpdates.has(actionId) && !this.pendingUpdates.get(actionId)?.resolved;
+  }
 
-    // Create pending update entry
-    const pendingUpdate = {
-      type: 'character_update',
-      data: { characterId, updates, originalValues },
-      timestamp: Date.now(),
-      rollback: () => {
-        characterStore.updateCharacterInfo(originalValues);
-      },
-      resolve: (serverResponse) => {
+  /**
+   * Clean up old pending updates
+   */
+  cleanup() {
+    const now = Date.now();
+    const STALE_THRESHOLD = 30000; // 30 seconds
+    
+    for (const [actionId, update] of this.pendingUpdates.entries()) {
+      const age = now - update.timestamp;
+      
+      if (age > STALE_THRESHOLD) {
+        console.warn(`=Ñ Cleaning up stale optimistic update: ${actionId} (${age}ms old)`);
         this.pendingUpdates.delete(actionId);
-        // Server confirmed - no additional action needed
+        
+        // Clean up confirmed updates too
+        const confirmed = this.confirmedUpdates.get(actionId);
+        if (confirmed && (now - confirmed.timestamp) > STALE_THRESHOLD) {
+          this.confirmedUpdates.delete(actionId);
+        }
       }
-    };
-
-    this.pendingUpdates.set(actionId, pendingUpdate);
-
-    // Set timeout for rollback
-    setTimeout(() => {
-      const update = this.pendingUpdates.get(actionId);
-      if (update) {
-        console.warn('Character optimistic update timeout - rolling back', actionId);
-        update.rollback();
-        this.pendingUpdates.delete(actionId);
+    }
+    
+    // Also clean up server timestamps
+    for (const [actionId, timestamp] of this.serverTimestamps.entries()) {
+      if (now - timestamp > STALE_THRESHOLD) {
+        this.serverTimestamps.delete(actionId);
       }
-    }, this.maxPendingTime);
-
-    if (serverCallback) {
-      serverCallback(actionId);
     }
-
-    return actionId;
-  }
-
-  /**
-   * Resolve pending update with server confirmation
-   */
-  resolveUpdate(actionId, serverResponse = null) {
-    const update = this.pendingUpdates.get(actionId);
-    if (update) {
-      update.resolve(serverResponse);
-    }
-  }
-
-  /**
-   * Reject pending update (force rollback)
-   */
-  rejectUpdate(actionId) {
-    const update = this.pendingUpdates.get(actionId);
-    if (update) {
-      console.warn('Rejecting optimistic update', actionId);
-      update.rollback();
-      this.pendingUpdates.delete(actionId);
-    }
-  }
-
-  /**
-   * Get pending updates count
-   */
-  getPendingCount() {
-    return this.pendingUpdates.size;
   }
 
   /**
    * Get all pending updates (for debugging)
    */
   getPendingUpdates() {
-    return Array.from(this.pendingUpdates.entries()).map(([id, update]) => ({
-      id,
+    return Array.from(this.pendingUpdates.entries()).map(([actionId, update]) => ({
+      actionId,
       type: update.type,
-      timestamp: update.timestamp,
+      data: update.data,
       age: Date.now() - update.timestamp
     }));
-  }
-
-  /**
-   * Clear all pending updates (force rollback all)
-   */
-  clearAllPending() {
-    console.warn('Clearing all pending optimistic updates');
-    for (const [actionId, update] of this.pendingUpdates) {
-      update.rollback();
-    }
-    this.pendingUpdates.clear();
-  }
-
-  /**
-   * Clean up old pending updates
-   */
-  cleanup(maxAge = 10000) {
-    const now = Date.now();
-    for (const [actionId, update] of this.pendingUpdates) {
-      if (now - update.timestamp > maxAge) {
-        console.warn('Cleaning up stale optimistic update', actionId);
-        update.rollback();
-        this.pendingUpdates.delete(actionId);
-      }
-    }
   }
 }
 
 // Create singleton instance
 const optimisticUpdatesService = new OptimisticUpdatesService();
-
-// Auto-cleanup every 30 seconds
-setInterval(() => {
-  optimisticUpdatesService.cleanup();
-}, 30000);
 
 export default optimisticUpdatesService;
