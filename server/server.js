@@ -1620,28 +1620,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Request full sync handler - sends current game state to requesting player
-  socket.on('request_full_sync', () => {
-    try {
-      const player = players.get(socket.id);
-      if (!player) return;
-
-      const room = rooms.get(player.roomId);
-      if (!room) return;
-
-      // Send full game state to the requesting player
-      socket.emit('full_sync', {
-        gameState: room.gameState || {},
-        players: Array.from(room.players.values()),
-        gm: room.gm,
-        chatHistory: room.chatHistory || []
-      });
-
-      logger.debug('Full sync sent to player', { socketId: socket.id, roomId: player.roomId });
-    } catch (error) {
-      logger.error('Error handling request_full_sync', { error: error.message });
-    }
-  });
 
   // Player left notification - notify remaining players
   socket.on('leave_room', () => {
@@ -3477,6 +3455,38 @@ io.on('connection', (socket) => {
     console.log(`🎭 Token ${data.creature.name} (${tokenId}) created by ${player.name} at`, data.position);
   });
 
+  // Handle token state updates (HP, Mana, AP, etc.)
+  socket.on('token_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room || !room.gameState.tokens) return;
+
+    const { tokenId, stateUpdates } = data;
+    if (!room.gameState.tokens[tokenId]) return;
+
+    // Update state
+    room.gameState.tokens[tokenId].state = {
+      ...room.gameState.tokens[tokenId].state,
+      ...stateUpdates
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist token update:', error);
+    }
+
+    // Broadcast to others in the room
+    socket.to(player.roomId).emit('token_updated', {
+      tokenId,
+      stateUpdates,
+      updatedBy: player.id
+    });
+  });
+
   // REMOVED: Duplicate character_token_created handler - handled above
 
   // Handle item looting
@@ -3574,6 +3584,7 @@ io.on('connection', (socket) => {
         character: room.gm.character || null,
         color: room.gm.color
       } : null,
+      chatHistory: room.chatHistory || [],
       timestamp: new Date()
     };
 

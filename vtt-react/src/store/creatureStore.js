@@ -271,10 +271,10 @@ const useCreatureStore = create(
         creatures: state.creatures.map(creature =>
           creature.id === id
             ? {
-                ...creature,
-                ...updates,
-                lastModified: new Date().toISOString()
-              }
+              ...creature,
+              ...updates,
+              lastModified: new Date().toISOString()
+            }
             : creature
         )
       })),
@@ -332,7 +332,7 @@ const useCreatureStore = create(
         return { tokens: [...state.tokens, newToken] };
       }),
 
-      addToken: (creatureId, position, sendToServer = true, tokenId = null) => set(state => {
+      addToken: (creatureId, position, sendToServer = true, tokenId = null, initialState = null) => set(state => {
 
         // Try multiple approaches to find the creature
         let creature = null;
@@ -363,23 +363,24 @@ const useCreatureStore = create(
           console.error('🔍 Searched in creatures:', state.creatures.map(c => ({ id: c.id, name: c.name })));
           console.error('❌ REFUSING TO USE FALLBACK - This would create wrong tokens');
           return state; // Don't use fallback, just return unchanged state
-        } else {
         }
 
-        // CRITICAL FIX: Don't move existing tokens when addToken is called
-        // Check if a token for this creature already exists
-        const existingToken = state.tokens.find(t => t.creatureId === creature.id);
-        if (existingToken) {
-          // Return the state unchanged - do NOT move existing tokens
+        // CRITICAL FIX: Use the provided tokenId if we're syncing, otherwise check for existing
+        const targetTokenId = tokenId || uuidv4();
+
+        // If we're syncing an existing token, check if it already exists by its token ID
+        const existingByTokenId = state.tokens.find(t => t.id === targetTokenId);
+        if (existingByTokenId) {
+          // If it exists, just return state as is or update position if needed
           return state;
         }
 
-        // Create a new token with provided ID or generate new one
+        // Create a new token with provided data
         const newToken = {
-          id: tokenId || uuidv4(),
+          id: targetTokenId,
           creatureId: creature.id,
           position,
-          state: {
+          state: initialState || {
             currentHp: creature.stats?.maxHp || 10,
             currentMana: creature.stats?.maxMana || 0,
             currentActionPoints: creature.stats?.maxActionPoints || 2,
@@ -433,13 +434,11 @@ const useCreatureStore = create(
         )
       })),
 
-      updateTokenState: (tokenId, stateUpdates) => set(state => {
+      updateTokenState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
         const updatedTokens = state.tokens.map(token => {
           if (token.id === tokenId) {
             const oldState = token.state;
-            const newState = { ...token.state, ...stateUpdates };
-
-
+            const newState = { ...oldState, ...stateUpdates };
 
             return {
               ...token,
@@ -448,6 +447,17 @@ const useCreatureStore = create(
           }
           return token;
         });
+
+        // Send to multiplayer server if enabled and requested
+        if (sendToServer) {
+          const gameStore = require('./gameStore').default.getState();
+          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            gameStore.multiplayerSocket.emit('token_updated', {
+              tokenId,
+              stateUpdates
+            });
+          }
+        }
 
         return { tokens: updatedTokens };
       }),
@@ -494,35 +504,35 @@ const useCreatureStore = create(
         const state = get();
         const currentTime = Date.now();
         let hasChanges = false;
-        
+
         const updatedTokens = state.tokens.map(token => {
           if (!token.state?.conditions || token.state.conditions.length === 0) {
             return token;
           }
-          
+
           const validConditions = token.state.conditions.filter(condition => {
             // If no duration info, keep the condition (permanent)
             if (!condition.duration && !condition.durationType) {
               return true;
             }
-            
+
             // Round-based conditions are handled by combat store when turns end
             if (condition.durationType === 'rounds') {
               // Check if remainingRounds exists and is > 0
               const remainingRounds = condition.remainingRounds ?? condition.durationValue;
               return remainingRounds > 0;
             }
-            
+
             // Time-based conditions: check if appliedAt + duration has passed
             if (condition.appliedAt && condition.duration) {
               const endTime = condition.appliedAt + condition.duration;
               return endTime > currentTime;
             }
-            
+
             // If we can't determine expiration, keep it
             return true;
           });
-          
+
           if (validConditions.length !== token.state.conditions.length) {
             hasChanges = true;
             return {
@@ -533,14 +543,14 @@ const useCreatureStore = create(
               }
             };
           }
-          
+
           return token;
         });
-        
+
         if (hasChanges) {
           return { tokens: updatedTokens };
         }
-        
+
         return state;
       },
 

@@ -1590,6 +1590,18 @@ const useCharacterStore = create((set, get) => ({
                 newDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, newResource, state.race, state.subrace);
             }
 
+            // CRITICAL FIX: Debounced auto-save to Firebase/Multiplayer for resource changes
+            if (state.currentCharacterId) {
+                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
+                characterAutoSaveTimer = setTimeout(() => {
+                    try {
+                        get().saveCurrentCharacter();
+                    } catch (error) {
+                        console.warn('Failed to auto-save character after updateResource:', error);
+                    }
+                }, CHARACTER_AUTO_SAVE_DELAY);
+            }
+
             return {
                 [resource]: newResource,
                 ...(resource === 'health' ? { derivedStats: newDerivedStats } : {})
@@ -1623,7 +1635,17 @@ const useCharacterStore = create((set, get) => ({
                 lastUpdate: Date.now()
             };
 
-
+            // CRITICAL FIX: Debounced auto-save for class resource changes
+            if (state.currentCharacterId) {
+                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
+                characterAutoSaveTimer = setTimeout(() => {
+                    try {
+                        get().saveCurrentCharacter();
+                    } catch (error) {
+                        console.warn('Failed to auto-save character after updateClassResource:', error);
+                    }
+                }, CHARACTER_AUTO_SAVE_DELAY);
+            }
 
             return {
                 classResource: updatedResource

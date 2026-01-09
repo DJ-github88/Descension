@@ -938,8 +938,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000 &&
         data.playerId === socket.id;
 
+      // CRITICAL FIX: Even if it's our own movement, we MUST resolve any pending actionId
+      // to clear the optimistic update. Otherwise, it might revert or jump later.
+      if (data.actionId) {
+        optimisticUpdatesService.resolveUpdate(data.actionId, { position: data.position });
+      }
+
       if (isOwnMovement || hasRecentLocalMovement) {
-        return;
+        // If we don't have an actionId, we can skip processing since it's redundant
+        if (!data.actionId) return;
       }
 
       // CRITICAL FIX: Always update token position when receiving movement from server
@@ -976,9 +983,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 if (update.type === 'token') {
                   // Check if this is a confirmation for an optimistic update
                   if (data.actionId) {
-                    // This is a server confirmation for our optimistic update
-                    optimisticUpdatesService.resolveUpdate(data.actionId, { position: update.position });
-                    return; // Don't process position update since optimistic update already applied it
+                    // Already resolved above for better responsiveness
+                    return;
                   }
 
                   // CRITICAL FIX: Find token by unique token ID (not creatureId)
@@ -987,7 +993,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   if (token) {
                     // CRITICAL FIX: Only update position if it's significantly different to prevent micro-jumps
                     // This prevents position jumps when GM starts dragging player tokens
-                    const currentTokenPosition = token.state.position || { x: 0, y: 0 };
+                    // FIX: position is a top-level property of token, not in token.state
+                    const currentTokenPosition = token.position || { x: 0, y: 0 };
                     const distance = Math.sqrt(
                       Math.pow(update.position.x - currentTokenPosition.x, 2) +
                       Math.pow(update.position.y - currentTokenPosition.y, 2)
@@ -1022,6 +1029,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           tokenUpdateThrottleRef.current.delete(throttleKey);
         }, 100);
       }
+    });
+
+    // Listen for token state updates (HP, Mana, AP) from other players
+    socket.on('token_updated', (data) => {
+      const { tokenId, stateUpdates, updatedBy } = data;
+
+      // Skip if we are the one who sent it
+      if (updatedBy === socket.id) return;
+
+      const { updateTokenState } = require('../../store/creatureStore').default.getState();
+      // Apply update locally, but don't re-emit to server
+      updateTokenState(tokenId, stateUpdates, false);
     });
 
     // Listen for character movements from other players AND server confirmations
@@ -1508,17 +1527,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (tokenData.creature) {
             addCreature(tokenData.creature);
           }
-          addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
+          // Pass the tokenData.state as the initialState to preserve HP/Mana/Conditions
+          addToken(tokenData.creatureId, tokenData.position, false, tokenData.id, tokenData.state);
         });
       }
 
       // IMPROVEMENT: Sync character tokens (player characters on map)
       if (data.characterTokens && Object.keys(data.characterTokens).length > 0) {
         import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
-          const { addCharacterToken } = useCharacterTokenStore.getState();
+          const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
           Object.values(data.characterTokens).forEach(tokenData => {
             if (tokenData.playerId && tokenData.position) {
-              addCharacterToken(tokenData.playerId, tokenData.position, false);
+              if (addCharacterTokenFromServer) {
+                addCharacterTokenFromServer(tokenData.id, tokenData.position, tokenData.playerId);
+              } else {
+                // CORRECTED ARGUMENT ORDER: (position, playerId, sendToServer)
+                addCharacterToken(tokenData.position, tokenData.playerId, false);
+              }
             }
           });
         }).catch(error => {
@@ -2328,6 +2353,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('cursor_update'); // IMPROVEMENT: Clean up cursor update handler
       socket.off('area_remove'); // IMPROVEMENT: Clean up area remove handler
       socket.off('full_game_state_sync');
+      socket.off('global_chat_message');
+      socket.off('character_updated');
+      socket.off('token_updated');
       socket.off('sync_error');
       socket.off('connect_error');
       socket.off('reconnect');

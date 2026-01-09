@@ -152,7 +152,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // After dragging ends, wait for grace period before accepting external position updates
     // This prevents auto-save and server echoes from causing jumps
-    if (timeSinceLastUpdate > 1000) {
+    if (timeSinceLastUpdate > 100) { // Reduced from 1000ms to 100ms
       setLocalPosition(position);
     }
   }, [position, isDragging, isMouseDown]);
