@@ -1422,6 +1422,46 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // Listen for grid item position updates from other players
+    socket.on('grid_item_update', (data) => {
+      const { type, data: updateData, playerId } = data;
+
+      // Skip if it's our own update (we already applied it locally)
+      if (playerId === socket.id) return;
+
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { updateItemPosition, removeItemFromGrid, gridItems } = useGridItemStore.getState();
+
+        if (type === 'grid_item_moved' && updateData.gridItemId && updateData.newPosition) {
+          console.log('📦 Received grid item move from other player:', updateData.gridItemId);
+          updateItemPosition(updateData.gridItemId, updateData.newPosition, false);
+        } else if (type === 'grid_item_removed' && updateData.gridItemId) {
+          console.log('📦 Received grid item removal from other player:', updateData.gridItemId);
+          const itemExists = gridItems.find(item => item.id === updateData.gridItemId);
+          if (itemExists) {
+            removeItemFromGrid(updateData.gridItemId);
+          }
+        }
+      }).catch(error => {
+        console.error('Failed to import gridItemStore for grid item update:', error);
+      });
+    });
+
+    // Listen for items dropped by other players
+    socket.on('item_dropped', (data) => {
+      // Skip if it's our own drop (we already have it locally)
+      if (data.playerId === socket.id) return;
+
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { addItemToGrid } = useGridItemStore.getState();
+
+        console.log('📦 Received item drop from other player:', data.item?.name);
+        addItemToGrid(data.item, data.position, false);
+      }).catch(error => {
+        console.error('Failed to import gridItemStore for item drop:', error);
+      });
+    });
+
     // Listen for token synchronization when joining a room
     socket.on('sync_tokens', (data) => {
 

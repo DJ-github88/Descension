@@ -2113,6 +2113,85 @@ io.on('connection', (socket) => {
     console.log(`📦 Item ${data.item.name} (${gridItemId}) dropped by ${player.name} at`, data.position);
   });
 
+  // Handle grid item position updates (moves)
+  socket.on('grid_item_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    if (!room.gameState.gridItems) {
+      room.gameState.gridItems = {};
+    }
+
+    const { type, data: updateData, timestamp } = data;
+
+    if (type === 'grid_item_moved' && updateData.gridItemId && updateData.newPosition) {
+      const gridItemId = updateData.gridItemId;
+      const existingItem = room.gameState.gridItems[gridItemId];
+
+      if (existingItem) {
+        // Update item position
+        room.gameState.gridItems[gridItemId] = {
+          ...existingItem,
+          position: updateData.newPosition,
+          gridPosition: updateData.newPosition.gridPosition,
+          lastMovedBy: player.id,
+          lastMovedAt: new Date()
+        };
+
+        // Persist to Firebase
+        try {
+          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+        } catch (error) {
+          console.error('Failed to persist grid item move:', error);
+        }
+
+        // Broadcast to other players
+        socket.to(player.roomId).emit('grid_item_update', {
+          type: 'grid_item_moved',
+          data: updateData,
+          playerId: player.id,
+          playerName: player.name,
+          timestamp: Date.now()
+        });
+
+        console.log(`📦 Grid item ${gridItemId} moved by ${player.name} to`, updateData.newPosition);
+      }
+    } else if (type === 'grid_item_removed' && updateData.gridItemId) {
+      const gridItemId = updateData.gridItemId;
+
+      if (room.gameState.gridItems[gridItemId]) {
+        delete room.gameState.gridItems[gridItemId];
+
+        // Persist to Firebase
+        try {
+          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+        } catch (error) {
+          console.error('Failed to persist grid item removal:', error);
+        }
+
+        // Broadcast to other players
+        socket.to(player.roomId).emit('grid_item_update', {
+          type: 'grid_item_removed',
+          data: updateData,
+          playerId: player.id,
+          playerName: player.name,
+          timestamp: Date.now()
+        });
+
+        console.log(`📦 Grid item ${gridItemId} removed by ${player.name}`);
+      }
+    }
+  });
+
   // Handle token state updates (HP, Mana, AP, etc.)
   socket.on('token_updated', async (data) => {
     const player = players.get(socket.id);

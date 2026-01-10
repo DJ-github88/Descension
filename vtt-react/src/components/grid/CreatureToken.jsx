@@ -317,10 +317,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Helper function to update token position with enhanced multiplayer sync
   const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
-    // Use optimistic updates for immediate feedback in multiplayer
+    // 1. Always update locally immediately (true optimistic UI)
+    // This prevents the "jump back" issue where the token reverts to old position until server responds
+    updateTokenPosition(tokenId, position);
+
+    // 2. Handle Multiplayer Sync
     if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
-      // Apply optimistic update immediately
-      const actionId = optimisticUpdatesService.optimisticTokenMove(tokenId, position, (actionId) => {
+      // Apply optimistic update tracking
+      optimisticUpdatesService.optimisticTokenMove(tokenId, position, (actionId) => {
         // Track local movement to prevent race conditions
         window[`recent_move_${token.creatureId}`] = Date.now();
 
@@ -331,9 +335,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           actionId: actionId // For server confirmation tracking
         });
       });
-    } else {
-      // Not multiplayer - just update locally
-      updateTokenPosition(tokenId, position);
     }
   };
 
@@ -709,9 +710,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }
         } else {
           updateTokenPositionWithSync(tokenId, finalWorldPos);
-          if (isInMultiplayer && token && multiplayerSocket?.connected) {
-            multiplayerSocket.emit('token_moved', { tokenId, position: finalWorldPos, isDragging: false });
-          }
         }
 
         if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
