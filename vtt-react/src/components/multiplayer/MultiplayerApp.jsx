@@ -1327,6 +1327,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for character token movement from other players
+    socket.on('character_moved', (data) => {
+      const { characterId, position } = data;
+      const currentId = currentPlayerRef.current?.id;
+      const currentName = currentPlayerRef.current?.name;
+
+      // Skip our own movements (we handle them locally)
+      if (characterId === currentId || characterId === currentName || characterId === 'current-player') {
+        return;
+      }
+
+      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+        const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+        // Update position (store logic handles finding the token)
+        updateCharacterTokenPosition(characterId, position);
+      }).catch(err => console.error('Failed to sync character move', err));
+    });
+
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
       // Use socket.id for reliable self-filtering

@@ -308,8 +308,9 @@ const CharacterToken = ({
     // Removed enhanced multiplayer hook - was causing conflicts
 
     // Calculate screen position (imperative approach like CreatureToken)
-    // Use localPosition during dragging for immediate visual feedback
-    const currentPos = isDragging ? localPosition : position;
+    // Use localPosition always - it helps prevent visual jumping from server echoes
+    // because localPosition is protected by the grace period logic in useEffect
+    const currentPos = localPosition;
 
     const initialScreenPosition = useMemo(() => {
         if (!currentPos) return { x: 0, y: 0 };
@@ -456,8 +457,6 @@ const CharacterToken = ({
 
         setIsHovering(true);
 
-        // Removed excessive logging for performance
-
         // Clear any existing timeout
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
@@ -474,8 +473,6 @@ const CharacterToken = ({
 
         setTooltipPosition({ x: adjustedX, y: adjustedY });
 
-        // Removed excessive logging for performance
-
         // Show tooltip after 1.5 second delay
         tooltipTimeoutRef.current = setTimeout(() => {
             // Removed excessive logging for performance
@@ -486,7 +483,6 @@ const CharacterToken = ({
     // Handle mouse leave (hide tooltip)
     const handleMouseLeave = () => {
         setIsHovering(false);
-        // Removed excessive logging for performance
         // Clear timeout and hide tooltip
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
@@ -612,8 +608,6 @@ const CharacterToken = ({
         e.stopPropagation();
         e.preventDefault(); // Prevent text selection during drag
 
-        // Removed excessive logging for performance
-
         // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
         if (isInMultiplayer && !isGMMode) {
             const { currentPlayer } = useGameStore.getState();
@@ -627,10 +621,12 @@ const CharacterToken = ({
             const isOwnToken = tokenPlayerId === currentPlayer?.id ||
                 tokenPlayerId === characterName ||
                 tokenPlayerId === 'current-player' ||
-                token?.isPlayerToken === true;
+                token?.isPlayerToken === true ||
+                // Fallback: if tokenPlayerId matches valid character name even if auth mismatch
+                (characterName && tokenPlayerId === characterName);
 
             if (!isOwnToken) {
-                console.log('Cannot move character token - not your token', {
+                console.warn('Cannot move character token - NOT OWNER', {
                     tokenPlayerId,
                     currentPlayerId: currentPlayer?.id,
                     characterName,
@@ -655,32 +651,26 @@ const CharacterToken = ({
         totalDragDistanceRef.current = 0; // Reset drag distance tracking
         setShowTooltip(false);
 
-        // Calculate the offset from the cursor to the token's current screen position
-        // This is the key to making the token follow the cursor correctly
-        // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
-
         // Calculate screen position directly at drag start for accuracy
+        // Use currentPos (localPosition) to ensure we drag from where the token VISUALLY is
+        const dragStartPos = currentPos;
         const currentScreenPos = gridSystem ? gridSystem.worldToScreen(
-            position.x,
-            position.y,
+            dragStartPos.x,
+            dragStartPos.y,
             window.innerWidth,
             window.innerHeight
         ) : { x: 0, y: 0 };
 
         // Calculate the offset from the cursor to the token's current screen position
-        // This is the key to making the token follow the cursor correctly
-        // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
         const calculatedOffset = {
             x: e.clientX - currentScreenPos.x,
             y: e.clientY - currentScreenPos.y
         };
 
-        // Removed excessive logging for performance
-
         setDragOffset(calculatedOffset);
 
         // Store the starting position for potential movement
-        setDragStartPosition({ x: position.x, y: position.y });
+        setDragStartPosition({ x: dragStartPos.x, y: dragStartPos.y });
 
         // Removed excessive logging for performance
     };
