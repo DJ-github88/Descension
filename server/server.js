@@ -640,7 +640,7 @@ function getPublicRooms() {
     .map(room => ({
       id: room.id,
       name: room.name,
-      playerCount: room.players.size, // GM is already in room.players, don't add +1
+      playerCount: room.players.size + 1, // Include GM (+1) as they are the first "player" in the room
       maxPlayers: room.settings?.maxPlayers || 6,
       gm: room.gm.name,
       createdAt: room.createdAt,
@@ -1114,7 +1114,8 @@ io.on('connection', (socket) => {
       // Notify others in room
       socket.to(room.id).emit('player_joined', {
         player,
-        isGM: player.isGM
+        isGM: player.isGM,
+        playerCount: room.players.size + 1 // Total including GM
       });
 
       console.log(`✅ Player ${player.name} joined room ${room.id}`);
@@ -3086,10 +3087,10 @@ io.on('connection', (socket) => {
     // Notify others - send in format client expects
     socket.to(roomId).emit('player_left', {
       player: {
-        id: socket.id,
+        id: player.id,
         name: playerName
       },
-      playerCount: room.players.size
+      playerCount: room.players.size + 1 // Include GM (+1) in total count
     });
 
     // Clean up player tracking
@@ -3099,6 +3100,56 @@ io.on('connection', (socket) => {
     io.emit('room_list_updated', getPublicRooms());
 
     logger.info('Player left room', { socketId: socket.id, roomId: roomId, playerName: playerName });
+  });
+
+  // Handle player disconnection (tab closed, internet lost, etc.)
+  socket.on('disconnect', () => {
+    const player = players.get(socket.id);
+    if (!player) {
+      logger.info('Unregistered socket disconnected', { socketId: socket.id });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      players.delete(socket.id);
+      logger.info('Player disconnected from non-existent room', { socketId: socket.id, playerName: player.name });
+      return;
+    }
+
+    if (player.isGM) {
+      // Mark GM as disconnected but keep room for potential reconnection
+      room.isActive = false;
+      room.gmDisconnectedAt = new Date();
+
+      // Notify others in the room
+      socket.to(room.id).emit('gm_disconnected', {
+        gmName: player.name,
+        timestamp: new Date()
+      });
+
+      logger.info('GM disconnected - room marked inactive', { roomId: room.id, gmName: player.name });
+    } else {
+      // Regular player disconnected - remove from room
+      room.players.delete(player.id);
+
+      // Notify others in the room
+      socket.to(room.id).emit('player_left', {
+        player: {
+          id: player.id,
+          name: player.name
+        },
+        playerCount: room.players.size + 1 // Total including GM
+      });
+
+      logger.info('Player disconnected', { roomId: room.id, playerName: player.name });
+    }
+
+    // Clean up player tracking
+    players.delete(socket.id);
+
+    // Broadcast list update to lobby users
+    io.emit('room_list_updated', getPublicRooms());
   });
 });
 

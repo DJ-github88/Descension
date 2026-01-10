@@ -2374,7 +2374,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
-  const handleJoinRoom = async (room, socketConnection, isGameMaster) => {
+  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject) => {
     setIsJoiningRoom(true);
     setConnectionStatus('connecting');
 
@@ -2414,18 +2414,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      // Set current player info - use character name if available
+      // Set current player info - use explicit playerObject from server if available
       const activeCharacter = getActiveCharacter();
-      if (isGameMaster) {
+
+      if (playerObject) {
+        currentPlayerData = {
+          ...playerObject,
+          name: activeCharacter?.name || playerObject.character?.name || playerObject.name,
+          isGM: isGameMaster
+        };
+      } else if (isGameMaster) {
+        // Fallback for GM if playerObject is somehow missing
         currentPlayerData = {
           ...room.gm,
           name: activeCharacter?.name || room.gm?.character?.name || room.gm?.name || 'Game Master',
-          isGM: true // Explicitly set GM status
+          isGM: true
         };
-        setCurrentPlayer(currentPlayerData);
       } else {
-        // Find the current player in the room's players
-        // Handle Map, Array, or Object formats safely
+        // Fallback for regular player - less reliable
         let playersList = [];
         if (Array.isArray(room.players)) {
           playersList = room.players;
@@ -2439,10 +2445,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         currentPlayerData = {
           ...lastPlayer,
           name: activeCharacter?.name || lastPlayer.character?.name || lastPlayer.name,
-          isGM: false // Explicitly set non-GM status for joining players
+          isGM: false
         };
-        setCurrentPlayer(currentPlayerData);
       }
+
+      setCurrentPlayer(currentPlayerData);
+
+      // Set initial player count
+      let initialCount = 0;
+      if (Array.isArray(room.players)) {
+        initialCount = room.players.length;
+      } else if (room.players instanceof Map) {
+        initialCount = room.players.size;
+      } else if (room.players && typeof room.players === 'object') {
+        initialCount = Object.keys(room.players).length;
+      }
+      setActualPlayerCount(initialCount + 1); // Total including GM
 
       // Add player to Firebase room members for persistence (if authenticated)
       try {

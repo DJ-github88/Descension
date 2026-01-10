@@ -351,19 +351,34 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         // For guest users, save the joined room to localStorage
         try {
           const { user } = useAuthStore.getState();
-          if (user?.isGuest) {
-            const guestRoomData = {
-              id: data.room.persistentRoomId,
-              name: data.room.name,
-              description: data.room.description || '',
-              password: data.room.password || '',
-              createdAt: new Date().toISOString(),
-              lastActivity: new Date().toISOString(),
-              userRole: 'player',
-              isMultiplayer: true
-            };
-            localStorage.setItem('mythrill-guest-joined-room', JSON.stringify(guestRoomData));
+          const guestRoomsJson = localStorage.getItem('mythrill-guest-joined-rooms') || '[]';
+          let guestRooms = [];
+          try {
+            guestRooms = JSON.parse(guestRoomsJson);
+            if (!Array.isArray(guestRooms)) guestRooms = [];
+          } catch (e) {
+            guestRooms = [];
           }
+
+          const guestRoomData = {
+            id: data.room.persistentRoomId,
+            name: data.room.name,
+            description: data.room.description || '',
+            password: data.room.password || '',
+            createdAt: new Date().toISOString(),
+            lastActivity: new Date().toISOString(),
+            userRole: 'player',
+            isMultiplayer: true
+          };
+
+          // Remove existing entry for this room and add to top
+          guestRooms = guestRooms.filter(r => r.id !== data.room.persistentRoomId);
+          guestRooms.unshift(guestRoomData);
+
+          // Limit to 5 most recent rooms
+          if (guestRooms.length > 5) guestRooms = guestRooms.slice(0, 5);
+
+          localStorage.setItem('mythrill-guest-joined-rooms', JSON.stringify(guestRooms));
         } catch (error) {
           console.warn('Could not save guest joined room:', error);
         }
@@ -372,7 +387,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       // Use explicit isGM flag from server (much more reliable than name comparison)
       const isGM = data.isGM || data.isGMReconnect || false;
 
-      onJoinRoomRef.current(data.room, socket, isGM);
+      onJoinRoomRef.current(data.room, socket, isGM, data.player);
     };
 
     const handleError = (data) => {

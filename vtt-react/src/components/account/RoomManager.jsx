@@ -152,9 +152,9 @@ const RoomManager = () => {
 
       // Check if server is available and room is live
       const serverUrl = process.env.REACT_APP_SOCKET_URL ||
-                       (process.env.NODE_ENV === 'production' ?
-                        'https://descension-mythrill.up.railway.app' :
-                        'http://localhost:3001');
+        (process.env.NODE_ENV === 'production' ?
+          'https://descension-mythrill.up.railway.app' :
+          'http://localhost:3001');
 
       const response = await fetch(`${serverUrl}/rooms`, {
         method: 'GET',
@@ -194,7 +194,7 @@ const RoomManager = () => {
       }
 
       setRoomStatuses(statusMap);
-      
+
       // Show feedback
       const totalChecked = rooms.length + friendsRooms.length;
       if (totalChecked > 0) {
@@ -217,20 +217,20 @@ const RoomManager = () => {
       // Auto-check status on load, but don't show loading state
       const autoCheck = async () => {
         const statusMap = new Map();
-        
+
         for (const room of rooms) {
           const status = await checkRoomStatus(room.id);
           statusMap.set(room.id, status);
         }
-        
+
         for (const room of friendsRooms) {
           const status = await checkRoomStatus(room.id);
           statusMap.set(room.id, status);
         }
-        
+
         setRoomStatuses(statusMap);
       };
-      
+
       autoCheck();
     } else {
       // Clear statuses if no rooms
@@ -338,7 +338,7 @@ const RoomManager = () => {
       }
 
       showToast('Local room deleted', 'success', 3000);
-      
+
       setShowLocalDeleteConfirm(false);
       setLocalRoomToDelete(null);
     } catch (error) {
@@ -451,45 +451,60 @@ const RoomManager = () => {
         const localRoomsData = localRoomService.getLocalRooms();
         const localRoomCount = localRoomsData.length;
 
-        // Check for joined multiplayer room (stored in localStorage for guests)
+        // Check for joined multiplayer rooms (stored in localStorage for guests)
         let joinedMultiplayerRooms = [];
-        const guestJoinedRoom = localStorage.getItem('mythrill-guest-joined-room');
+        const guestJoinedRoomsJson = localStorage.getItem('mythrill-guest-joined-rooms');
+        const legacyGuestJoinedRoom = localStorage.getItem('mythrill-guest-joined-room');
 
-        if (guestJoinedRoom) {
-          try {
-            const roomData = JSON.parse(guestJoinedRoom);
-            // Verify the room still exists on the server
-            const serverUrl = process.env.REACT_APP_SOCKET_URL ||
-                             (process.env.NODE_ENV === 'production' ?
-                              'https://descension-mythrill.up.railway.app' :
-                              'http://localhost:3001');
-
-            try {
-              const response = await fetch(`${serverUrl}/rooms`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                signal: AbortSignal.timeout(5000)
-              });
-
-              if (response.ok) {
-                const activeRooms = await response.json();
-                const roomStillExists = activeRooms.some(r => r.id === roomData.id);
-
-                if (roomStillExists) {
-                  joinedMultiplayerRooms = [roomData];
-                } else {
-                  // Room no longer exists, clear it
-                  localStorage.removeItem('mythrill-guest-joined-room');
-                }
-              }
-            } catch (serverError) {
-              console.warn('Could not verify room on server:', serverError);
-              // Still show the room even if we can't verify
-              joinedMultiplayerRooms = [roomData];
-            }
-          } catch (parseError) {
-            console.error('Error parsing guest joined room:', parseError);
+        let rawGuestRooms = [];
+        try {
+          if (guestJoinedRoomsJson) {
+            rawGuestRooms = JSON.parse(guestJoinedRoomsJson);
+            if (!Array.isArray(rawGuestRooms)) rawGuestRooms = [];
+          } else if (legacyGuestJoinedRoom) {
+            // Migrate legacy single room to new list format
+            const roomData = JSON.parse(legacyGuestJoinedRoom);
+            rawGuestRooms = [roomData];
+            localStorage.setItem('mythrill-guest-joined-rooms', JSON.stringify(rawGuestRooms));
             localStorage.removeItem('mythrill-guest-joined-room');
+          }
+        } catch (e) {
+          console.warn('Error parsing guest joined rooms:', e);
+        }
+
+        if (rawGuestRooms.length > 0) {
+          try {
+            // Verify the rooms still exist on the server
+            const serverUrl = process.env.REACT_APP_SOCKET_URL ||
+              (process.env.NODE_ENV === 'production' ?
+                'https://descension-mythrill.up.railway.app' :
+                'http://localhost:3002'); // Fixed port to 3002 for dev
+
+            const response = await fetch(`${serverUrl}/rooms`, {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+              signal: AbortSignal.timeout(5000)
+            });
+
+            if (response.ok) {
+              const activeRooms = await response.json();
+              const activeRoomIds = new Set(activeRooms.map(r => r.id));
+
+              // Filter out rooms that no longer exist
+              joinedMultiplayerRooms = rawGuestRooms.filter(room => activeRoomIds.has(room.id));
+
+              // Update localStorage if some rooms were removed
+              if (joinedMultiplayerRooms.length !== rawGuestRooms.length) {
+                localStorage.setItem('mythrill-guest-joined-rooms', JSON.stringify(joinedMultiplayerRooms));
+              }
+            } else {
+              // Server error, keep all rooms for now
+              joinedMultiplayerRooms = rawGuestRooms;
+            }
+          } catch (serverError) {
+            console.warn('Could not verify rooms on server:', serverError);
+            // Still show the rooms even if we can't verify
+            joinedMultiplayerRooms = rawGuestRooms;
           }
         }
 
@@ -614,12 +629,12 @@ const RoomManager = () => {
 
   const formatLastActivity = (timestamp) => {
     if (!timestamp) return 'Unknown';
-    
+
     const date = timestamp.seconds ? new Date(timestamp.seconds * 1000) : new Date(timestamp);
     const now = new Date();
     const diffMs = now - date;
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) {
       return 'Today';
     } else if (diffDays === 1) {
@@ -853,59 +868,59 @@ const RoomManager = () => {
             friendsRooms.map(room => {
               const status = roomStatuses.get(room.id);
               const statusInfo = getRoomStatusIndicator(room.id);
-              
+
               return (
-              <div key={room.id} className="room-card friends-room-card">
-                <div className="room-card-header">
-                  <div className="room-info">
-                    <h4 className="room-name">{room.name}</h4>
-                    <div className="room-meta">
-                      <span className="room-participants">
-                        <i className="fas fa-users"></i>
-                        {room.participants.length} player{room.participants.length !== 1 ? 's' : ''}
-                      </span>
-                      {status && (
-                        <span className="room-status-badge" style={{ color: statusInfo.color }}>
-                          <i className={statusInfo.icon}></i>
-                          {statusInfo.text}
+                <div key={room.id} className="room-card friends-room-card">
+                  <div className="room-card-header">
+                    <div className="room-info">
+                      <h4 className="room-name">{room.name}</h4>
+                      <div className="room-meta">
+                        <span className="room-participants">
+                          <i className="fas fa-users"></i>
+                          {room.participants.length} player{room.participants.length !== 1 ? 's' : ''}
                         </span>
-                      )}
+                        {status && (
+                          <span className="room-status-badge" style={{ color: statusInfo.color }}>
+                            <i className={statusInfo.icon}></i>
+                            {statusInfo.text}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="friend-info">
+                      <div className="friend-playing">
+                        <i className="fas fa-gamepad"></i>
+                        <span>{room.friendCharacterName}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="friend-info">
-                    <div className="friend-playing">
-                      <i className="fas fa-gamepad"></i>
-                      <span>{room.friendCharacterName}</span>
+
+                  <div className="room-card-body">
+                    <div className="room-description">
+                      Join your friend <strong>{room.friendCharacterName}</strong> in this multiplayer session!
+                    </div>
+
+                    <div className="room-actions">
+                      <button
+                        className="join-room-btn"
+                        onClick={() => {
+                          // Store room selection for joining
+                          const password = prompt(`Enter password for "${room.name}":`);
+                          if (password !== null && password.trim()) {
+                            localStorage.setItem('selectedRoomId', room.id);
+                            localStorage.setItem('selectedRoomPassword', password.trim());
+                            localStorage.removeItem('isTestRoom');
+                            navigate('/multiplayer');
+                          }
+                        }}
+                      >
+                        <i className="fas fa-sign-in-alt"></i>
+                        Join Game
+                      </button>
                     </div>
                   </div>
                 </div>
-
-                <div className="room-card-body">
-                  <div className="room-description">
-                    Join your friend <strong>{room.friendCharacterName}</strong> in this multiplayer session!
-                  </div>
-
-                  <div className="room-actions">
-                    <button
-                      className="join-room-btn"
-                      onClick={() => {
-                        // Store room selection for joining
-                        const password = prompt(`Enter password for "${room.name}":`);
-                        if (password !== null && password.trim()) {
-                          localStorage.setItem('selectedRoomId', room.id);
-                          localStorage.setItem('selectedRoomPassword', password.trim());
-                          localStorage.removeItem('isTestRoom');
-                          navigate('/multiplayer');
-                        }
-                      }}
-                    >
-                      <i className="fas fa-sign-in-alt"></i>
-                      Join Game
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
+              );
             })
           )}
         </div>
@@ -965,20 +980,20 @@ const RoomManager = () => {
               </div>
             </div>
           ) : (
-          rooms.map(room => {
-            return (
-              <RoomCard
-                key={room.id}
-                room={room}
-                onJoin={handleJoinRoom}
-                onDelete={room.userRole === 'gm' ? handleDeleteRoom : null}
-                onUpdateRoom={handleUpdateMultiplayerRoom}
-                showDeleteButton={room.userRole === 'gm'}
-                className="room-card-unified"
-              />
-            );
-          })
-        )}
+            rooms.map(room => {
+              return (
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  onJoin={handleJoinRoom}
+                  onDelete={room.userRole === 'gm' ? handleDeleteRoom : null}
+                  onUpdateRoom={handleUpdateMultiplayerRoom}
+                  showDeleteButton={room.userRole === 'gm'}
+                  className="room-card-unified"
+                />
+              );
+            })
+          )}
         </div>
       </div>
 
