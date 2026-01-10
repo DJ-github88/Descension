@@ -41,7 +41,7 @@ export class InfiniteGridSystem {
      * Hex coordinate conversion utilities
      * Using axial coordinates (q, r) for hex grids
      */
-    
+
     /**
      * Convert world coordinates to hex axial coordinates (q, r)
      * Flat-top hexagon orientation
@@ -50,16 +50,16 @@ export class InfiniteGridSystem {
         const { gridSize, gridOffsetX, gridOffsetY } = this.getGridState();
         const sqrt3 = Math.sqrt(3);
         const radius = gridSize / sqrt3;
-        
+
         // Adjust for offset
         const x = worldX - gridOffsetX;
         const y = worldY - gridOffsetY;
-        
+
         // Convert to hex coordinates (flat-top)
         // Inverse of hexToWorld transformation
-        const q = (sqrt3/3 * x - 1/3 * y) / radius;
-        const r = (2/3 * y) / radius;
-        
+        const q = (sqrt3 / 3 * x - 1 / 3 * y) / radius;
+        const r = (2 / 3 * y) / radius;
+
         // Round to nearest hex
         return this.hexRound(q, r);
     }
@@ -77,11 +77,11 @@ export class InfiniteGridSystem {
         // - Use radius as the base unit for coordinate conversion
         const sqrt3 = Math.sqrt(3);
         const radius = gridSize / sqrt3;
-        
+
         // Standard axial to pixel conversion for flat-top hexes
         const x = radius * (sqrt3 * q + sqrt3 / 2 * r);
-        const y = radius * (3/2 * r);
-        
+        const y = radius * (3 / 2 * r);
+
         return {
             x: x + gridOffsetX,
             y: y + gridOffsetY
@@ -97,17 +97,17 @@ export class InfiniteGridSystem {
         let rq = Math.round(q);
         let rr = Math.round(r);
         const rs = Math.round(s);
-        
+
         const qDiff = Math.abs(rq - q);
         const rDiff = Math.abs(rr - r);
         const sDiff = Math.abs(rs - s);
-        
+
         if (qDiff > rDiff && qDiff > sDiff) {
             rq = -rr - rs;
         } else if (rDiff > sDiff) {
             rr = -rq - rs;
         }
-        
+
         return { q: rq, r: rr };
     }
 
@@ -135,6 +135,36 @@ export class InfiniteGridSystem {
     }
 
     /**
+     * Calculate distance between two world positions in feet
+     * Supports both square and hex grids
+     */
+    calculateDistance(startPos, endPos) {
+        if (!startPos || !endPos) return 0;
+
+        const { gridType, gridSize } = this.getGridState();
+        const feetPerTile = 5; // Standard D&D 5 feet per tile
+
+        if (gridType === 'hex') {
+            // Convert world positions to hex coordinates
+            const startHex = this.worldToHex(startPos.x, startPos.y);
+            const endHex = this.worldToHex(endPos.x, endPos.y);
+
+            // Calculate hex distance
+            const hexDist = this.hexDistance(startHex.q, startHex.r, endHex.q, endHex.r);
+            return hexDist * feetPerTile;
+        }
+
+        // Square grid - calculate Euclidean distance and convert to feet
+        const dx = endPos.x - startPos.x;
+        const dy = endPos.y - startPos.y;
+        const worldDistance = Math.sqrt(dx * dx + dy * dy);
+        const tileDistance = worldDistance / gridSize;
+
+        return tileDistance * feetPerTile;
+    }
+
+
+    /**
      * Get hex corner positions for rendering (flat-top)
      * For flat-top hexagons, the first point is at the top
      */
@@ -160,18 +190,18 @@ export class InfiniteGridSystem {
         const { gridSize } = this.getGridState();
         const sqrt3 = Math.sqrt(3);
         const hexRadius = gridSize / sqrt3;
-        
+
         // Get world positions of both hexes
         const world1 = this.hexToWorld(q1, r1);
         const world2 = this.hexToWorld(q2, r2);
-        
+
         // Calculate the direction from hex1 to hex2
         const dq = q2 - q1;
         const dr = r2 - r1;
-        
+
         // Get corners for hex1
         const corners1 = this.getHexCorners(world1.x, world1.y, hexRadius);
-        
+
         // Determine which edge based on neighbor direction
         // For flat-top hexes, neighbors are:
         // 0: (1, 0) - right
@@ -180,7 +210,7 @@ export class InfiniteGridSystem {
         // 3: (-1, 1) - bottom-left
         // 4: (0, 1) - bottom
         // 5: (0, -1) - top
-        
+
         let edgeIndex1, edgeIndex2;
         if (dq === 1 && dr === 0) {
             // Right neighbor - edge is between corners 1 and 2 (right side)
@@ -212,14 +242,14 @@ export class InfiniteGridSystem {
             let minDist = Infinity;
             let bestEdge1 = null;
             let bestEdge2 = null;
-            
+
             for (let i = 0; i < 6; i++) {
                 const nextI = (i + 1) % 6;
                 const edgeMid1 = {
                     x: (corners1[i].x + corners1[nextI].x) / 2,
                     y: (corners1[i].y + corners1[nextI].y) / 2
                 };
-                
+
                 // Find closest point on hex2
                 for (let j = 0; j < 6; j++) {
                     const nextJ = (j + 1) % 6;
@@ -227,7 +257,7 @@ export class InfiniteGridSystem {
                         x: (corners2[j].x + corners2[nextJ].x) / 2,
                         y: (corners2[j].y + corners2[nextJ].y) / 2
                     };
-                    
+
                     const dx = edgeMid1.x - edgeMid2.x;
                     const dy = edgeMid1.y - edgeMid2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
@@ -238,7 +268,7 @@ export class InfiniteGridSystem {
                     }
                 }
             }
-            
+
             if (bestEdge1 && bestEdge2) {
                 // Use the edge from hex1
                 return {
@@ -252,7 +282,7 @@ export class InfiniteGridSystem {
             }
             return null;
         }
-        
+
         // Return the shared edge
         return {
             start: corners1[edgeIndex1],
@@ -272,7 +302,7 @@ export class InfiniteGridSystem {
         const { gridSize } = this.getGridState();
         const sqrt3 = Math.sqrt(3);
         const hexRadius = gridSize / sqrt3;
-        
+
         // Create a set of hexes in the rectangle for fast lookup
         const hexSet = new Set();
         for (let q = minQ; q <= maxQ; q++) {
@@ -280,10 +310,10 @@ export class InfiniteGridSystem {
                 hexSet.add(`${q},${r}`);
             }
         }
-        
+
         // Find all boundary edges (edges between a hex in the rectangle and a hex outside)
         const boundaryEdges = [];
-        
+
         for (let q = minQ; q <= maxQ; q++) {
             for (let r = minR; r <= maxR; r++) {
                 const neighbors = this.getHexNeighbors(q, r);
@@ -306,19 +336,19 @@ export class InfiniteGridSystem {
                 });
             }
         }
-        
+
         if (boundaryEdges.length === 0) {
             return [];
         }
-        
+
         // For preview purposes, collect all unique vertices from boundary edges
         // This creates a simplified boundary shape
         const vertexMap = new Map(); // key: "x,y" -> point
-        
+
         boundaryEdges.forEach(edge => {
             const key1 = `${edge.start.x.toFixed(3)},${edge.start.y.toFixed(3)}`;
             const key2 = `${edge.end.x.toFixed(3)},${edge.end.y.toFixed(3)}`;
-            
+
             if (!vertexMap.has(key1)) {
                 vertexMap.set(key1, edge.start);
             }
@@ -326,23 +356,23 @@ export class InfiniteGridSystem {
                 vertexMap.set(key2, edge.end);
             }
         });
-        
+
         // Convert to array and sort by angle from center for proper ordering
         const centerX = (minQ + maxQ) / 2;
         const centerY = (minR + maxR) / 2;
         const centerWorld = this.hexToWorld(centerX, centerY);
-        
+
         const boundaryPoints = Array.from(vertexMap.values()).sort((a, b) => {
             const angleA = Math.atan2(a.y - centerWorld.y, a.x - centerWorld.x);
             const angleB = Math.atan2(b.y - centerWorld.y, b.x - centerWorld.x);
             return angleA - angleB;
         });
-        
+
         // Close the boundary
         if (boundaryPoints.length > 0) {
             boundaryPoints.push(boundaryPoints[0]);
         }
-        
+
         return boundaryPoints;
     }
 
@@ -453,13 +483,13 @@ export class InfiniteGridSystem {
      */
     worldToGrid(worldX, worldY) {
         const { gridType } = this.getGridState();
-        
+
         if (gridType === 'hex') {
             const hex = this.worldToHex(worldX, worldY);
             // Return as {x, y} for compatibility, using q as x and r as y
             return { x: hex.q, y: hex.r };
         }
-        
+
         // Square grid (original behavior)
         const { gridSize, gridOffsetX, gridOffsetY } = this.getGridState();
         return {
@@ -474,12 +504,12 @@ export class InfiniteGridSystem {
      */
     gridToWorld(gridX, gridY) {
         const { gridType } = this.getGridState();
-        
+
         if (gridType === 'hex') {
             // gridX is q, gridY is r for hex
             return this.hexToWorld(gridX, gridY);
         }
-        
+
         // Square grid (original behavior)
         const { gridSize, gridOffsetX, gridOffsetY } = this.getGridState();
         return {
@@ -495,7 +525,7 @@ export class InfiniteGridSystem {
      */
     gridToWorldCorner(gridX, gridY) {
         const { gridType, gridSize } = this.getGridState();
-        
+
         if (gridType === 'hex') {
             // For hex, get center then calculate top-left of bounding box
             const center = this.hexToWorld(gridX, gridY);
@@ -505,7 +535,7 @@ export class InfiniteGridSystem {
                 y: center.y - hexHeight / 2
             };
         }
-        
+
         // Square grid (original behavior)
         const { gridOffsetX, gridOffsetY } = this.getGridState();
         return {
@@ -642,7 +672,7 @@ export class InfiniteGridSystem {
 
         // Check grid type
         const { gridType } = this.getGridState();
-        
+
         if (gridType === 'hex') {
             // Generate hex tiles
             // Calculate hex bounds by converting world bounds to hex coordinates
@@ -650,28 +680,28 @@ export class InfiniteGridSystem {
             const topRightHex = this.worldToHex(worldRight, worldTop);
             const bottomLeftHex = this.worldToHex(worldLeft, worldBottom);
             const bottomRightHex = this.worldToHex(worldRight, worldBottom);
-            
+
             // Find min/max q and r values with generous padding to ensure full coverage
             const hexStartQ = Math.min(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) - 3;
             const hexEndQ = Math.max(topLeftHex.q, topRightHex.q, bottomLeftHex.q, bottomRightHex.q) + 3;
             const hexStartR = Math.min(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) - 3;
             const hexEndR = Math.max(topLeftHex.r, topRightHex.r, bottomLeftHex.r, bottomRightHex.r) + 3;
-            
+
             for (let q = hexStartQ; q <= hexEndQ && tiles.length < maxTotalTiles; q++) {
                 for (let r = hexStartR; r <= hexEndR && tiles.length < maxTotalTiles; r++) {
                     const worldPos = this.hexToWorld(q, r);
                     const screenPos = this.gridWorldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
-                    
+
                     const baseMargin = effectiveTileSize * 1.5;
                     const adaptiveMargin = safeZoomLevel < 0.1 ? baseMargin * 0.5 :
-                                         safeZoomLevel < 0.3 ? baseMargin * 1.0 :
-                                         safeZoomLevel < 0.5 ? baseMargin * 1.2 :
-                                         safeZoomLevel < 1.0 ? baseMargin * 1.5 :
-                                         baseMargin * 2.0;
-                    
+                        safeZoomLevel < 0.3 ? baseMargin * 1.0 :
+                            safeZoomLevel < 0.5 ? baseMargin * 1.2 :
+                                safeZoomLevel < 1.0 ? baseMargin * 1.5 :
+                                    baseMargin * 2.0;
+
                     if (screenPos.x >= -adaptiveMargin && screenPos.x <= viewportWidth + adaptiveMargin &&
                         screenPos.y >= -adaptiveMargin && screenPos.y <= viewportHeight + adaptiveMargin) {
-                        
+
                         tiles.push({
                             gridX: q,
                             gridY: r,
@@ -696,10 +726,10 @@ export class InfiniteGridSystem {
                     // Optimized viewport margin for better performance at low zoom
                     const baseMargin = effectiveTileSize * 1.5; // Reduced base margin
                     const adaptiveMargin = safeZoomLevel < 0.1 ? baseMargin * 0.5 :
-                                         safeZoomLevel < 0.3 ? baseMargin * 1.0 :
-                                         safeZoomLevel < 0.5 ? baseMargin * 1.2 :
-                                         safeZoomLevel < 1.0 ? baseMargin * 1.5 :
-                                         baseMargin * 2.0; // More conservative margins
+                        safeZoomLevel < 0.3 ? baseMargin * 1.0 :
+                            safeZoomLevel < 0.5 ? baseMargin * 1.2 :
+                                safeZoomLevel < 1.0 ? baseMargin * 1.5 :
+                                    baseMargin * 2.0; // More conservative margins
 
                     // Generous viewport culling to ensure tiles extend beyond visible area
                     if (screenPos.x >= -adaptiveMargin && screenPos.x <= viewportWidth + adaptiveMargin &&
@@ -731,13 +761,13 @@ export class InfiniteGridSystem {
      */
     generateGridLines(viewportWidth, viewportHeight) {
         const { gridType } = this.getGridState();
-        
+
         if (gridType === 'hex') {
             // For hex grids, we'll render hex outlines directly in the renderer
             // Return empty array as hex rendering is handled differently
             return [];
         }
-        
+
         // Square grid (original behavior)
         const { gridSize, zoomLevel } = this.getGridState();
         const bounds = this.getVisibleGridBounds(viewportWidth, viewportHeight);

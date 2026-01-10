@@ -85,13 +85,15 @@ const useCreatureStore = create((set, get) => ({
           const gameStore = require('./gameStore').default;
 
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-            // Include velocity for lag compensation
+            // CRITICAL FIX: Include full creature data for multiplayer sync
+            // Other clients need the complete creature info to render the token
             const tokenSyncData = {
               id: tokenId,
               creatureId: creatureId,
               position: position,
               velocity: creatureData.velocity || { x: 0, y: 0 },
-              state: creatureData.state // Include state if available
+              state: creatureData.state, // Include state if available
+              creature: creatureData // Include full creature data for receiving clients
             };
 
             gameStore.multiplayerSocket.emit('creature_added', tokenSyncData);
