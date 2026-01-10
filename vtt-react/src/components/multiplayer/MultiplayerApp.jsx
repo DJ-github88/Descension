@@ -369,8 +369,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Get Firebase auth token if user is authenticated (not development bypass and not guest)
       let authToken = null;
       try {
-        const authStore = require('../../store/authStore').default;
-        const authState = authStore.getState();
+        const authState = useAuthStore.getState();
         if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && authState.user.getIdToken) {
           authToken = await authState.user.getIdToken();
         }
@@ -956,18 +955,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
       console.log('📨 Client received token_moved:', data);
-      const isDragging = data.isDragging;
-
-      // CRITICAL FIX: Use creatureId as primary identifier (not tokenId)
-      // This ensures GM moving player tokens shows the correct token moving
-      const targetId = data.creatureId || data.tokenId;
-
       // Enhanced check to prevent processing our own movements with improved conflict detection
+      const tokenId = data.tokenId || data.id;
+      const creatureId = data.creatureId;
+      const targetId = tokenId || creatureId;
+
       // CRITICAL FIX: Only skip if it's our own movement AND we're the one who moved it
-      // If GM moves our token, we should still see it move
-      // CRITICAL FIX: data.playerId is socket.id from server, so compare with socket.id
-      const isOwnMovement = (data.playerId === socket.id) &&
-        (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
+      // Use tokenId for specific token tracking, fallback to creatureId
+      const isDraggingOurToken = (window.multiplayerDragState && (
+        window.multiplayerDragState.has(`token_${tokenId}`) ||
+        window.multiplayerDragState.has(`token_${creatureId}`)
+      ));
+
+      const isOwnMovement = (data.playerId === socket.id) && isDraggingOurToken;
 
       // Additional check for recent local movements to prevent race conditions
       // CRITICAL FIX: Only skip if we recently moved this token ourselves

@@ -55,9 +55,6 @@ const getQualityColor = (quality) => {
 
 // Helper function to log movement to combat chat
 const logMovementToCombat = (tokenId, creatures, distance, startPos, endPos) => {
-  const useChatStore = require('../../store/chatStore').default;
-  const useCreatureStore = require('../../store/creatureStore').default;
-
   const { addCombatNotification } = useChatStore.getState();
   const { tokens } = useCreatureStore.getState();
 
@@ -543,7 +540,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         if (!window.multiplayerDragState) {
           window.multiplayerDragState = new Map();
         }
-        window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+        window.multiplayerDragState.set(`token_${tokenId}`, true);
         // Removed excessive logging for performance
 
         // Start movement visualization if enabled (works in and out of combat)
@@ -785,7 +782,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // Clear drag state globally to allow network updates again
       if (window.multiplayerDragState) {
-        window.multiplayerDragState.delete(`token_${token.creatureId}`);
+        window.multiplayerDragState.delete(`token_${tokenId}`);
         // Removed excessive logging for performance
       }
     };
@@ -818,8 +815,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // PERFORMANCE: Clear global token drag flag
         window._isDraggingToken = false;
         setIsMouseDown(false);
-        if (window.multiplayerDragState && token) {
-          window.multiplayerDragState.delete(`token_${token.creatureId}`);
+        if (window.multiplayerDragState) {
+          window.multiplayerDragState.delete(`token_${tokenId}`);
         }
         window.tokenInteractionActive = false;
         window.tokenInteractionTimestamp = null;

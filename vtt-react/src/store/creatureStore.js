@@ -44,12 +44,22 @@ const useCreatureStore = create((set, get) => ({
 
   // Add creature token to the grid
   addCreatureToken: (creature, position, sendToServer = true) => {
-    const creatureData = typeof creature === 'string' ? { id: creature } : creature;
+    // If creature is an ID string, we'll need to find its full data
+    const creatureId = typeof creature === 'string' ? creature : creature.id;
+    const libraryCreatures = get().creatures || [];
+    const creatureData = typeof creature === 'object' ? creature : (libraryCreatures.find(c => c.id === creatureId) || { id: creatureId });
 
     set(state => {
+      // For adding from library, we ALWAYS want a unique token ID
+      // If we're updating an existing token, we should use updateCreaturePosition
+      // But addCreatureToken is sometimes called with an existing token object
+      const tokenId = (typeof creature === 'object' && creature.tokenId)
+        ? creature.tokenId
+        : `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
       // Track this movement to prevent echo-induced position resets
       const now = Date.now();
-      const moveKey = `creature_${creatureData.id}`;
+      const moveKey = `creature_${tokenId}`;
 
       // Clean up old movements periodically
       if (now - lastCleanup > CLEANUP_INTERVAL) {
@@ -69,60 +79,50 @@ const useCreatureStore = create((set, get) => ({
         velocity: creatureData.velocity || { x: 0, y: 0 }
       });
 
-      // Check if this is a recent local movement (within 100ms) to ignore server echo
-      const existingMove = recentTokenMovements.get(`creature_${creatureData.id}`);
-      const shouldIgnore = existingMove && (now - existingMove.timestamp) < 100;
-
-      if (sendToServer && !shouldIgnore) {
+      if (sendToServer) {
         // Import game store dynamically to avoid circular dependencies
         try {
           const gameStore = require('./gameStore').default;
 
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
             // Include velocity for lag compensation
-            const tokenData = {
-              id: creatureData.id,
-              creatureId: creatureData.id,
+            const tokenSyncData = {
+              id: tokenId,
+              creatureId: creatureId,
               position: position,
-              velocity: creatureData.velocity || { x: 0, y: 0 }
+              velocity: creatureData.velocity || { x: 0, y: 0 },
+              state: creatureData.state // Include state if available
             };
 
-            gameStore.multiplayerSocket.emit('creature_added', tokenData);
+            gameStore.multiplayerSocket.emit('creature_added', tokenSyncData);
           }
         } catch (e) {
           console.warn('GameStore not available for multiplayer sync');
         }
       }
 
-      // Update creature tokens array
-      const updatedTokens = (state.creatureTokens || []).map(token =>
-        token.id === creatureData.id ? { ...token, position } : token
-      );
+      // Initialize state for new token
+      const initialState = creatureData.state || {
+        currentHp: creatureData.stats?.currentHp || creatureData.stats?.maxHp || 35,
+        currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 0,
+        currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 2,
+        conditions: creatureData.state?.conditions || [],
+        hiddenFromPlayers: creatureData.state?.hiddenFromPlayers || false,
+        customIcon: creatureData.state?.customIcon || null,
+        iconScale: creatureData.state?.iconScale || 100,
+        iconPosition: creatureData.state?.iconPosition || { x: 50, y: 50 }
+      };
 
-      // If token doesn't exist in the list, we might need to add it?
-      // But addCreatureToken seems to behave like an update here if it exists.
-      // Let's check if we should add it if it doesn't exist.
-      const exists = updatedTokens.some(t => t.id === creatureData.id);
-      if (!exists) {
-        // Initialize state if it doesn't exist (important for tokens added from library)
-        const initialState = creatureData.state || {
-          currentHp: creatureData.stats?.currentHp || creatureData.stats?.maxHp || 35,
-          currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 0,
-          currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 2,
-          conditions: creatureData.state?.conditions || [],
-          hiddenFromPlayers: creatureData.state?.hiddenFromPlayers || false,
-          customIcon: creatureData.state?.customIcon || null,
-          iconScale: creatureData.state?.iconScale || 100,
-          iconPosition: creatureData.state?.iconPosition || { x: 50, y: 50 }
-        };
+      const newToken = {
+        ...creatureData,
+        id: tokenId,
+        creatureId: creatureId,
+        position,
+        state: initialState,
+        addedAt: Date.now()
+      };
 
-        updatedTokens.push({
-          ...creatureData,
-          id: creatureData.id,
-          position,
-          state: initialState
-        });
-      }
+      const updatedTokens = [...(state.creatureTokens || []), newToken];
 
       return {
         creatureTokens: updatedTokens,
@@ -181,6 +181,25 @@ const useCreatureStore = create((set, get) => ({
   // Alias for removeCreatureToken
   removeToken: (tokenId) => {
     get().removeCreatureToken(tokenId);
+  },
+
+  // Duplicate a token
+  duplicateToken: (tokenId) => {
+    const token = get().creatureTokens.find(t => t.id === tokenId);
+    if (!token) return;
+
+    // Offset slightly for the new token
+    const newPosition = {
+      x: token.position.x + 20,
+      y: token.position.y + 20
+    };
+
+    // Use regular addCreatureToken to add the duplicate
+    get().addCreatureToken({
+      ...token,
+      tokenId: undefined, // Let it generate a new one
+      id: token.creatureId // Use original creatureId as the base
+    }, newPosition);
   },
 
   // Window management actions
