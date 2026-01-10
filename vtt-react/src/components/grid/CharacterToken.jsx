@@ -626,11 +626,18 @@ const CharacterToken = ({
                 (characterName && tokenPlayerId === characterName);
 
             if (!isOwnToken) {
-                console.warn('Cannot move character token - NOT OWNER', {
+                console.warn('Cannot move character token - NOT OWNER. detailed check:', {
                     tokenPlayerId,
                     currentPlayerId: currentPlayer?.id,
                     characterName,
-                    isPlayerToken: token?.isPlayerToken
+                    isPlayerToken: token?.isPlayerToken,
+                    tokenName: token?.name,
+                    tokenId: tokenId,
+                    matchPlayerId: tokenPlayerId === currentPlayer?.id,
+                    matchCharacterName: tokenPlayerId === characterName,
+                    matchCurrentPlayerString: tokenPlayerId === 'current-player',
+                    matchIsPlayerToken: token?.isPlayerToken === true,
+                    matchFallback: (characterName && tokenPlayerId === characterName)
                 });
                 setShowTooltip(false);
                 return;

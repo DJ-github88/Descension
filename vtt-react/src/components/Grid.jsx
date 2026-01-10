@@ -320,11 +320,11 @@ function GridComponent({
 
     // Get character tokens from the store
     const {
-        characterTokens,
+        characterTokens = [],
         addCharacterToken,
         updateCharacterTokenPosition,
         removeCharacterToken
-    } = useCharacterTokenStore();
+    } = useCharacterTokenStore() || {};
 
     // Get level editor state
     const {

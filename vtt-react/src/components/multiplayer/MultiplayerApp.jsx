@@ -145,6 +145,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     addCreature: state.addCreature,
     addToken: state.addToken
   }));
+  const { updateCharacterTokenPosition, addCharacterTokenFromServer } = useCharacterTokenStore((state) => ({
+    updateCharacterTokenPosition: state.updateCharacterTokenPosition,
+    addCharacterTokenFromServer: state.addCharacterTokenFromServer
+  }));
   const { setMultiplayerSocket } = useDialogueStore((state) => ({
     setMultiplayerSocket: state.setMultiplayerSocket
   }));
@@ -731,6 +735,42 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_count_updated', (data) => {
       // Update the actual player count from server - Always add 1 for the GM
       setActualPlayerCount(data.playerCount);
+    });
+
+    // Listen for creature token creation
+    socket.on('token_created', (data) => {
+      if (data && data.position) {
+        // (creature, position, sendToServer, forcedTokenId, isSyncEvent)
+        addToken(
+          data.creature || data.token?.creatureId,
+          data.position,
+          false, // Don't send back to server
+          data.tokenId || data.token?.id,
+          true // isSyncEvent
+        );
+      }
+    });
+
+    // Listen for character token creation
+    socket.on('character_token_created', (data) => {
+      if (data && data.position) {
+        addCharacterTokenFromServer(data.tokenId, data.position, data.playerId);
+      }
+    });
+
+    // Listen for creature token movement
+    socket.on('token_moved', (data) => {
+      if (data && data.tokenId && data.position) {
+        // Use the existing update function which handles interpolation/smoothing
+        updateCreatureTokenPosition(data.tokenId, data.position);
+      }
+    });
+
+    // Listen for character token movement
+    socket.on('character_moved', (data) => {
+      if (data && data.tokenId && data.position) {
+        updateCharacterTokenPosition(data.tokenId, data.position);
+      }
     });
 
     // Listen for party member additions from other clients
