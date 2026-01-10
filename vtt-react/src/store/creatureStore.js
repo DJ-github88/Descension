@@ -22,58 +22,106 @@ const useCreatureStore = create((set, get) => ({
   // Creature tokens on the grid
   creatureTokens: [],
 
-  // Add creature token to the grid
-  addCreatureToken: (creature, position, sendToServer = true) => set(state => {
-    // Track this movement to prevent echo-induced position resets
-    const now = Date.now();
-    const moveKey = `creature_${creature.id}`;
+  // ALIASES for compatibility with older code/components
+  tokens: [], // Alias for creatureTokens
+  creatures: [], // For library reference
 
-    // Clean up old movements periodically
-    if (now - lastCleanup > CLEANUP_INTERVAL) {
-      const cutoff = now - CLEANUP_INTERVAL;
-      for (const [key, data] of recentTokenMovements.entries()) {
-        if (data.timestamp && data.timestamp < cutoff) {
-          recentTokenMovements.delete(key);
+  // Window state for Creature Library
+  windowPosition: null,
+  windowSize: { width: 900, height: 650 },
+
+  // Library Management
+  setCreatures: (creatures) => set({ creatures }),
+
+  addCreature: (creature) => set(state => ({
+    creatures: [...state.creatures, {
+      ...creature,
+      id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      dateCreated: new Date().toISOString(),
+      lastModified: new Date().toISOString()
+    }]
+  })),
+
+  // Add creature token to the grid
+  addCreatureToken: (creature, position, sendToServer = true) => {
+    const creatureData = typeof creature === 'string' ? { id: creature } : creature;
+
+    set(state => {
+      // Track this movement to prevent echo-induced position resets
+      const now = Date.now();
+      const moveKey = `creature_${creatureData.id}`;
+
+      // Clean up old movements periodically
+      if (now - lastCleanup > CLEANUP_INTERVAL) {
+        const cutoff = now - CLEANUP_INTERVAL;
+        for (const [key, data] of recentTokenMovements.entries()) {
+          if (data.timestamp && data.timestamp < cutoff) {
+            recentTokenMovements.delete(key);
+          }
+        }
+        lastCleanup = now;
+      }
+
+      // Track this movement
+      recentTokenMovements.set(moveKey, {
+        position: position,
+        timestamp: now,
+        velocity: creatureData.velocity || { x: 0, y: 0 }
+      });
+
+      // Check if this is a recent local movement (within 100ms) to ignore server echo
+      const existingMove = recentTokenMovements.get(`creature_${creatureData.id}`);
+      const shouldIgnore = existingMove && (now - existingMove.timestamp) < 100;
+
+      if (sendToServer && !shouldIgnore) {
+        // Import game store dynamically to avoid circular dependencies
+        try {
+          const gameStore = require('./gameStore').default;
+
+          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            // Include velocity for lag compensation
+            const tokenData = {
+              id: creatureData.id,
+              creatureId: creatureData.id,
+              position: position,
+              velocity: creatureData.velocity || { x: 0, y: 0 }
+            };
+
+            gameStore.multiplayerSocket.emit('creature_added', tokenData);
+          }
+        } catch (e) {
+          console.warn('GameStore not available for multiplayer sync');
         }
       }
-      lastCleanup = now;
-    }
 
-    // Track this movement
-    recentTokenMovements.set(moveKey, {
-      position: position,
-      timestamp: now,
-      velocity: creature.velocity || { x: 0, y: 0 }
-    });
+      // Update creature tokens array
+      const updatedTokens = (state.creatureTokens || []).map(token =>
+        token.id === creatureData.id ? { ...token, position } : token
+      );
 
-    // Check if this is a recent local movement (within 100ms) to ignore server echo
-    const existingMove = recentTokenMovements.get(`creature_${creature.id}`);
-    const shouldIgnore = existingMove && (now - existingMove.timestamp) < 100;
-
-    if (sendToServer && !shouldIgnore) {
-      // Import game store dynamically to avoid circular dependencies
-      const gameStore = require('./gameStore').default;
-
-      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-        // Include velocity for lag compensation
-        const tokenData = {
-          id: creature.id,
-          creatureId: creature.id,
-          position: position,
-          velocity: creature.velocity || { x: 0, y: 0 }
-        };
-
-        gameStore.multiplayerSocket.emit('creature_added', tokenData);
+      // If token doesn't exist in the list, we might need to add it?
+      // But addCreatureToken seems to behave like an update here if it exists.
+      // Let's check if we should add it if it doesn't exist.
+      const exists = updatedTokens.some(t => t.id === creatureData.id);
+      if (!exists) {
+        updatedTokens.push({
+          ...creatureData,
+          id: creatureData.id,
+          position
+        });
       }
-    }
 
-    // Update creature tokens array
-    const updatedTokens = (state.creatureTokens || []).map(token =>
-      token.id === creature.id ? { ...token, position } : token
-    );
+      return {
+        creatureTokens: updatedTokens,
+        tokens: updatedTokens // Keep alias in sync
+      };
+    });
+  },
 
-    return { creatureTokens: updatedTokens };
-  }),
+  // Alias for addCreatureToken
+  addToken: (creature, position, sendToServer = true) => {
+    get().addCreatureToken(creature, position, sendToServer);
+  },
 
   // Update creature token position
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
@@ -97,7 +145,10 @@ const useCreatureStore = create((set, get) => ({
         token.id === tokenId ? { ...token, position } : token
       );
 
-      return { creatureTokens: updatedTokens };
+      return {
+        creatureTokens: updatedTokens,
+        tokens: updatedTokens // Keep alias in sync
+      };
     }
   }),
 
@@ -108,8 +159,20 @@ const useCreatureStore = create((set, get) => ({
     // Clear movement tracking for this token
     recentTokenMovements.delete(`creature_${tokenId}`);
 
-    return { creatureTokens: updatedTokens };
+    return {
+      creatureTokens: updatedTokens,
+      tokens: updatedTokens // Keep alias in sync
+    };
   }),
+
+  // Alias for removeCreatureToken
+  removeToken: (tokenId) => {
+    get().removeCreatureToken(tokenId);
+  },
+
+  // Window management actions
+  setWindowPosition: (position) => set({ windowPosition: position }),
+  setWindowSize: (size) => set({ windowSize: size }),
 
   // Update creature state (HP, Mana, conditions)
   updateCreatureState: (tokenId, stateUpdates) => set(state => {
@@ -130,7 +193,10 @@ const useCreatureStore = create((set, get) => ({
       console.warn('Could not broadcast creature state update:', error);
     }
 
-    return { creatureTokens: updatedTokens };
+    return {
+      creatureTokens: updatedTokens,
+      tokens: updatedTokens // Keep alias in sync
+    };
   }),
 
   // Process loot item (creature death rewards)
@@ -141,11 +207,65 @@ const useCreatureStore = create((set, get) => ({
       token.id === tokenId ? { ...token, loot: lootItems } : token
     );
 
-    return { creatureTokens: updatedTokens };
+    return {
+      creatureTokens: updatedTokens,
+      tokens: updatedTokens // Keep alias in sync
+    };
+  }),
+
+  // Clean up expired conditions from all creature tokens
+  cleanupExpiredConditions: () => set(state => {
+    const currentTime = Date.now();
+    let hasChanges = false;
+
+    const updatedTokens = (state.creatureTokens || []).map(token => {
+      if (!token.state?.conditions || token.state.conditions.length === 0) {
+        return token;
+      }
+
+      const validConditions = token.state.conditions.filter(condition => {
+        // Round-based conditions: check remaining rounds
+        if (condition.durationType === 'rounds') {
+          const remainingRounds = condition.remainingRounds ?? condition.durationValue;
+          return remainingRounds > 0;
+        }
+
+        // Time-based conditions: check if appliedAt + duration has passed
+        if (condition.appliedAt && condition.duration) {
+          const endTime = condition.appliedAt + condition.duration;
+          return endTime > currentTime;
+        }
+
+        return true;
+      });
+
+      if (validConditions.length !== token.state.conditions.length) {
+        hasChanges = true;
+        return {
+          ...token,
+          state: {
+            ...token.state,
+            conditions: validConditions
+          }
+        };
+      }
+      return token;
+    });
+
+    if (hasChanges) {
+      return {
+        creatureTokens: updatedTokens,
+        tokens: updatedTokens
+      };
+    }
+    return state;
   }),
 
   // Clear all creature tokens
-  clearCreatureTokens: () => set({ creatureTokens: [] }),
+  clearCreatureTokens: () => set({
+    creatureTokens: [],
+    tokens: []
+  }),
 
   // Get creature token by ID
   getCreatureToken: (tokenId) => {

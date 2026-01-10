@@ -197,8 +197,8 @@ const FriendsList = () => {
   };
 
   // Filter friends by online status
-  const onlineFriends = friends.filter(friend => friend.status === 'online' || friend.status === 'away');
-  const offlineFriends = friends.filter(friend => friend.status === 'offline');
+  const onlineFriends = (friends || []).filter(friend => friend.status === 'online' || friend.status === 'away');
+  const offlineFriends = (friends || []).filter(friend => friend.status === 'offline');
 
   // Render a friend entry using UserCard
   const renderFriendEntry = (friend) => {
@@ -275,7 +275,7 @@ const FriendsList = () => {
 
       {/* Friends List */}
       <div className="friends-list">
-        {friends.length === 0 ? (
+        {(!friends || friends.length === 0) ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-user-friends"></i>
@@ -379,10 +379,10 @@ const FriendsList = () => {
           onClose={closeContextMenu}
           onWhisper={handleWhisper}
           onInvite={handleInvite}
-          onAddFriend={() => {}}
+          onAddFriend={() => { }}
           onRemoveFriend={handleRemoveFriend}
-          onAddIgnore={() => {}}
-          onRemoveIgnore={() => {}}
+          onAddIgnore={() => { }}
+          onRemoveIgnore={() => { }}
           onAddNote={handleAddNote}
         />
       )}

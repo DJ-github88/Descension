@@ -47,7 +47,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     };
 
     // Get online friends for inviting
-    const onlineFriends = friends.filter(friendId => {
+    const onlineFriends = (friends || []).filter(friendId => {
         const onlineUser = onlineUsers.find(user => user.uid === friendId);
         return onlineUser && onlineUser.status !== 'offline';
     }).map(friendId => {
@@ -164,7 +164,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                         <button className="party-action-button create" onClick={handleCreateParty}>
                             <i className="fas fa-users"></i> Create Party
                         </button>
-                        
+
                         {/* Test button for adding demo members */}
                         <button className="party-action-button test" onClick={handleAddTestMember}>
                             <i className="fas fa-plus"></i> Add Test Member (Demo)
@@ -206,7 +206,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                         </div>
                                     </div>
                                     {isPartyLeader() && member.id !== 'current-player' && (
-                                        <button 
+                                        <button
                                             className="remove-member-button"
                                             onClick={() => handleRemoveMember(member.id)}
                                         >
@@ -222,7 +222,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                             {isPartyLeader() && (
                                 <>
                                     {!showInviteForm ? (
-                                        <button 
+                                        <button
                                             className="party-action-button invite"
                                             onClick={() => setShowInviteForm(true)}
                                         >
@@ -291,7 +291,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                             )}
                                         </div>
                                     )}
-                                    
+
                                     {/* Test button for adding demo members */}
                                     <button className="party-action-button test" onClick={handleAddTestMember}>
                                         <i className="fas fa-plus"></i> Add Test Member
@@ -299,11 +299,11 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                 </>
                             )}
 
-                            <button 
+                            <button
                                 className="party-action-button leave"
                                 onClick={handleLeaveParty}
                             >
-                                <i className="fas fa-sign-out-alt"></i> 
+                                <i className="fas fa-sign-out-alt"></i>
                                 {isPartyLeader() ? 'Disband Party' : 'Leave Party'}
                             </button>
                         </div>
@@ -334,13 +334,13 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                     <span>Party: {invite.partyName}</span>
                                 </div>
                                 <div className="invite-actions">
-                                    <button 
+                                    <button
                                         className="accept-button"
                                         onClick={() => handleAcceptInvite(invite.id)}
                                     >
                                         Accept
                                     </button>
-                                    <button 
+                                    <button
                                         className="decline-button"
                                         onClick={() => handleDeclineInvite(invite.id)}
                                     >
