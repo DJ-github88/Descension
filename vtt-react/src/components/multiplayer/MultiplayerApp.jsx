@@ -191,6 +191,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
+  const currentPlayerRef = useRef(currentPlayer);
   const addPartyMemberRef = useRef(addPartyMember);
   const removePartyMemberRef = useRef(removePartyMember);
   const addUserRef = useRef(addUser);
@@ -208,6 +209,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     currentRoomRef.current = currentRoom;
   }, [currentRoom]);
+
+  useEffect(() => {
+    currentPlayerRef.current = currentPlayer;
+  }, [currentPlayer]);
+
+  // IsGM Ref
+  const isGMRef = useRef(isGM);
+  useEffect(() => {
+    isGMRef.current = isGM;
+  }, [isGM]);
 
   // Track viewport changes for selective sync optimization
   useEffect(() => {
@@ -597,7 +608,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
 
         // Don't add current player to connected players list (they're handled separately)
-        if (currentPlayer && data.player.id === currentPlayer.id) {
+        if (currentPlayerRef.current && data.player.id === currentPlayerRef.current.id) {
           return prev;
         }
 
@@ -606,8 +617,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       // Show player join notification (only if currentRoom is set)
-      if (currentRoom) {
-        showPlayerJoinNotification(data.player.name, currentRoom.name);
+      if (currentRoomRef.current) {
+        showPlayerJoinNotification(data.player.name, currentRoomRef.current.name);
       }
 
 
@@ -615,9 +626,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const playerCharacterName = data.player.character?.name || data.player.name;
 
       // Skip adding ourselves to prevent duplicate HUDs - check both ID and name
-      const isCurrentPlayer = data.player.id === currentPlayer?.id ||
-        playerCharacterName === currentPlayer?.name ||
-        data.player.name === currentPlayer?.name;
+      const isCurrentPlayer = data.player.id === currentPlayerRef.current?.id ||
+        playerCharacterName === currentPlayerRef.current?.name ||
+        data.player.name === currentPlayerRef.current?.name;
 
       if (!isCurrentPlayer) {
 
@@ -719,14 +730,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('party_member_added', (data) => {
       // Get current character name for comparison
       const activeCharacter = getActiveCharacter();
-      const currentCharacterName = activeCharacter?.name || currentPlayer?.name;
+      const currentCharacterName = activeCharacter?.name || currentPlayerRef.current?.name;
 
       // Add the party member to our local party store
       // Skip if this is our own data being broadcast back to us (check both player name and character name)
       const isOwnMember = data.member && (
-        data.member.name === currentPlayer?.name ||
+        data.member.name === currentPlayerRef.current?.name ||
         data.member.name === currentCharacterName ||
-        data.member.id === currentPlayer?.id ||
+        data.member.id === currentPlayerRef.current?.id ||
         data.member.id === 'current-player'
       );
 
@@ -738,7 +749,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_left', (data) => {
       // CRITICAL FIX: Check if the leaving player is the current player
       // If so, navigate to landing page (they were disconnected)
-      if (data.player.id === currentPlayer?.id) {
+      if (data.player.id === currentPlayerRef.current?.id) {
         handleLeaveRoom();
         setTimeout(() => {
           navigate('/', { replace: true });
@@ -755,7 +766,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       // Show player leave notification
-      showPlayerLeaveNotification(data.player.name, currentRoom?.name || 'Room');
+      showPlayerLeaveNotification(data.player.name, currentRoomRef.current?.name || 'Room');
 
       // Remove from party system (ensure it's removed)
       try {
@@ -795,7 +806,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     socket.on('gm_disconnected', (data) => {
       // For players, we should notify and return to landing page
-      if (!isGM) {
+      if (!isGMRef.current) {
         // Show specialized GM disconnect notification
         showGMDisconnectedNotification(data.gmName || 'Unknown');
 
@@ -983,7 +994,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const throttleKey = `${targetId}_${data.playerId}`;
       const now = Date.now();
       const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
-      const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
+      const throttleMs = isGMRef.current ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
 
       if (now - lastUpdate >= throttleMs) {
         tokenUpdateThrottleRef.current.set(throttleKey, now);
@@ -1079,7 +1090,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const senderId = data.playerId;
       const targetCharacterId = data.characterId || senderId; // Fallback to senderId for older clients
 
-      const isOwnMovement = senderId === currentPlayer?.id || senderId === socket.id;
+      const isOwnMovement = senderId === currentPlayerRef.current?.id || senderId === socket.id;
 
       // For own movements, ignore server confirmations to prevent position jumps
       if (isOwnMovement) {
@@ -1116,7 +1127,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Combat lag compensation event handlers
     socket.on('combat_action', (data) => {
       // Handle predicted combat actions from other players
-      if (data.playerId !== currentPlayer?.id) {
+      if (data.playerId !== currentPlayerRef.current?.id) {
         // Apply the action with lag compensation
       }
     });
@@ -1197,7 +1208,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle cursor updates from other players
     socket.on('cursor_update', (data) => {
-      if (data.playerId !== currentPlayer?.id && showCursorTracking) {
+      if (data.playerId !== currentPlayerRef.current?.id && showCursorTracking) {
         setOtherPlayerCursors(prev => ({
           ...prev,
           [data.playerId]: {
@@ -1214,7 +1225,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Reduced console logging to prevent performance impact
 
       // Only add item if it's not our own drop (to avoid duplicates) or if it's a sync
-      if (data.playerId !== currentPlayer?.id || isSync) {
+      if (data.playerId !== currentPlayerRef.current?.id || isSync) {
         // Import the grid item store dynamically to avoid circular dependencies
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { addItemToGrid } = useGridItemStore.getState();
@@ -1223,7 +1234,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           addItemToGrid(data.item, data.position, false);
 
           // Show notification in chat only for new drops from other players, not syncs or own drops
-          if (!isSync && data.playerId !== currentPlayer?.id) {
+          if (!isSync && data.playerId !== currentPlayerRef.current?.id) {
             addNotification('social', {
               sender: { name: 'System', class: 'system', level: 0 },
               content: `${data.playerName} dropped ${data.item.name} on the grid`,
@@ -1321,7 +1332,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       // Show in social chat only if it's not our own loot action
-      if (data.playerId !== currentPlayer?.id) {
+      if (data.playerId !== currentPlayerRef.current?.id) {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
@@ -1331,10 +1342,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Remove the item from grid if it was successfully removed on server
+      // Remove the item from grid if it was successfully removed on server
       // For currency items, also process our own removals to ensure synchronization
       // For other items, only remove if this is from another player (our own removals are handled immediately)
       const shouldRemove = data.gridItemId && data.itemRemoved && (
-        data.playerId !== currentPlayer?.id || // Other player's loot
+        data.playerId !== currentPlayerRef.current?.id || // Other player's loot
         (data.item && data.item.type === 'currency') // Our own currency loot (needs server confirmation)
       );
 
@@ -1407,7 +1419,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for character updates from other players
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
-      if (data.character?.playerId && data.character.playerId !== currentPlayer?.id) {
+      if (data.character?.playerId && data.character.playerId !== currentPlayerRef.current?.id) {
 
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.character.raceDisplayName || 'Unknown';
@@ -1522,7 +1534,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_equipment_updated', (data) => {
 
       // Only process updates from other players (not our own)
-      if (data.updatedBy !== currentRoom?.gm?.id && data.updatedByName !== currentRoom?.gm?.name) {
+      if (data.updatedBy !== currentRoomRef.current?.gm?.id && data.updatedByName !== currentRoomRef.current?.gm?.name) {
         // Show notification in chat
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -1654,7 +1666,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // IMPROVEMENT: Sync party members from server state
       if (data.players && Array.isArray(data.players)) {
         data.players.forEach(playerData => {
-          if (playerData.id !== currentPlayer?.id && playerData.character) {
+          if (playerData.id !== currentPlayerRef.current?.id && playerData.character) {
             updatePartyMember(playerData.id, {
               name: playerData.name,
               character: playerData.character,
@@ -1682,7 +1694,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const partyStore = usePartyStore.getState();
 
         // Only process updates from other players (not our own)
-        if (data.playerId !== currentPlayer?.id) {
+        if (data.playerId !== currentPlayerRef.current?.id) {
           switch (data.type) {
             case 'member_added':
               // Add the new party member
@@ -1720,7 +1732,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const buffStore = useBuffStore.getState();
 
         // Only process updates from other players (not our own)
-        if (data.playerId !== currentPlayer?.id) {
+        if (data.playerId !== currentPlayerRef.current?.id) {
           switch (data.type) {
             case 'buff_added':
               // Add the new buff
@@ -1747,7 +1759,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const debuffStore = useDebuffStore.getState();
 
         // Only process updates from other players (not our own)
-        if (data.playerId !== currentPlayer?.id) {
+        if (data.playerId !== currentPlayerRef.current?.id) {
           switch (data.type) {
             case 'debuff_added':
               // Add the new debuff
@@ -2102,7 +2114,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for area remove operations from GM
     socket.on('area_remove', (data) => {
       // Only process removals from other players (not our own)
-      if (data.removedBy !== currentPlayer?.id) {
+      if (data.removedBy !== currentPlayerRef.current?.id) {
         import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
           const levelEditorStore = useLevelEditorStore.getState();
           const { removeToken } = require('../../store/creatureStore').default.getState();
@@ -2155,7 +2167,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for dialogue messages from other players
     socket.on('dialogue_message', (data) => {
       // Only process dialogue from other players (not our own)
-      if (data.dialogueData?.playerId !== currentPlayer?.id) {
+      if (data.dialogueData?.playerId !== currentPlayerRef.current?.id) {
         import('../../store/dialogueStore').then(({ default: useDialogueStore }) => {
           const { handleMultiplayerDialogue } = useDialogueStore.getState();
           handleMultiplayerDialogue(data.dialogueData);
@@ -2186,8 +2198,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           senderName: message.senderName || 'Unknown',
           senderClass: message.senderClass || 'Unknown',
           senderLevel: message.senderLevel || 1,
-          recipientId: message.recipientId || currentPlayer?.id,
-          recipientName: message.recipientName || currentPlayer?.name || 'Unknown',
+          recipientId: message.recipientId || currentPlayerRef.current?.id,
+          recipientName: message.recipientName || currentPlayerRef.current?.name || 'Unknown',
           content: message.content,
           timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
           type: 'whisper_received'
@@ -2272,7 +2284,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle game session launch
     socket.on('game_session_launched', (data) => {
       // Show game session invitation popup for players (not GM)
-      if (!isGM) {
+      if (!isGMRef.current) {
         // Show popup invitation
         setPendingGameSessionInvitations(prev => [...prev, {
           id: `session_${Date.now()}`,
@@ -2285,7 +2297,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle game session response (for GM)
     socket.on('game_session_response', (data) => {
-      if (isGM) {
+      if (isGMRef.current) {
         addNotification('social', {
           sender: { name: data.playerName, class: 'player', level: 0 },
           content: `${data.playerName} has ${data.accepted ? 'accepted' : 'declined'} the game session invitation.`,
@@ -2307,7 +2319,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       // IMPROVEMENT: Rejoin room if we were in one
-      if (currentRoom && currentPlayer) {
+      if (currentRoomRef.current && currentPlayerRef.current) {
         // Small delay to ensure socket is fully connected
         setTimeout(() => {
           // Request full sync to get latest game state
@@ -2336,7 +2348,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   health: activeCharacter.health,
                   mana: activeCharacter.mana,
                   actionPoints: activeCharacter.actionPoints,
-                  playerId: currentPlayer.id
+                  playerId: currentPlayerRef.current.id
                 }
               });
             } catch (error) {
