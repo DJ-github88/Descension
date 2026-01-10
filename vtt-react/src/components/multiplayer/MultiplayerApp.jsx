@@ -954,7 +954,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
-      console.log('📨 Client received token_moved:', data);
+      // Enhanced debug logging for multiplayer sync testing
+      const myRole = isGMRef.current ? 'GM' : 'Player';
+      console.log(`📨 [${myRole}] Received token_moved:`, {
+        tokenId: data.tokenId || data.id,
+        creatureId: data.creatureId,
+        position: data.position,
+        isDragging: data.isDragging,
+        fromPlayerId: data.playerId,
+        isFromSelf: data.playerId === socket.id
+      });
+
       // Enhanced check to prevent processing our own movements with improved conflict detection
       const tokenId = data.tokenId || data.id;
       const creatureId = data.creatureId;
@@ -1045,6 +1055,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                     const shouldUpdate = data.isDragging || distance > 1 || distance === 0; // Accept dragging, significant changes, or exact matches
 
                     if (shouldUpdate) {
+                      const myRole = isGMRef.current ? 'GM' : 'Player';
+                      console.log(`✅ [${myRole}] Updating token position:`, {
+                        tokenId: token.id,
+                        from: { x: Math.round(currentTokenPosition.x), y: Math.round(currentTokenPosition.y) },
+                        to: { x: Math.round(update.position.x), y: Math.round(update.position.y) },
+                        distance: Math.round(distance)
+                      });
                       updateCreatureTokenPosition(token.id, update.position);
                     }
                   } else {
@@ -1222,7 +1239,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
       const isSync = data.isSync;
-      // Reduced console logging to prevent performance impact
+      const myRole = isGMRef.current ? 'GM' : 'Player';
+      console.log(`📨 [${myRole}] Received item_dropped:`, {
+        itemName: data.item?.name,
+        itemId: data.item?.id,
+        position: data.position,
+        fromPlayer: data.playerName,
+        isSync: data.isSync,
+        isFromSelf: data.playerId === currentPlayerRef.current?.id
+      });
 
       // Only add item if it's not our own drop (to avoid duplicates) or if it's a sync
       if (data.playerId !== currentPlayerRef.current?.id || isSync) {
@@ -1250,7 +1275,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
-      console.log('📨 Client received token_created:', data);
+      const myRole = isGMRef.current ? 'GM' : 'Player';
+      console.log(`📨 [${myRole}] Received token_created:`, {
+        creatureName: data.creature?.name,
+        creatureId: data.creature?.id,
+        tokenId: data.token?.id,
+        position: data.position,
+        fromPlayer: data.playerName,
+        isSync: data.isSync,
+        isFromSelf: data.playerId === socket.id
+      });
       const isSync = data.isSync;
       const myPlayerId = socket.id; // Use socket.id for reliable self-identification
 
@@ -2560,24 +2594,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         activeCharacter = await loadActiveCharacter();
       }
 
-      // If still no active character, check if any characters exist and suggest activation
-      // SKIP this check for guest users - they don't need persistent characters
+      // If still no active character, show a warning but ALLOW joining
+      // Players can now join without an active character and set one up later
       const { user } = useAuthStore.getState();
       const isGuest = user?.isGuest || false;
 
       if (!activeCharacter && !isGuest && !isGameMaster) {
-        // Try to get available characters
+        // Show a warning but don't block joining
         const { characters } = useCharacterStore.getState();
-        setIsJoiningRoom(false);
-        setConnectionStatus('error');
         if (characters && characters.length > 0) {
-          // Show a user-friendly message with actionable guidance
-          const characterNames = characters.map(c => c.name).join(', ');
-          setError(`Please select and activate a character before joining multiplayer rooms. Available characters: ${characterNames}. Go to Account > Characters to activate one.`);
+          console.warn('⚠️ No active character selected. Player can select one later.');
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `You joined without an active character. Go to Account > Characters to select one for the full experience.`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
         } else {
-          setError('You need to create a character before joining multiplayer rooms. Go to Account > Characters to create your first character.');
+          console.warn('⚠️ No characters available. Player can create one later.');
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `You joined without a character. Go to Account > Characters to create one.`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
         }
-        return;
+        // Continue joining - don't return/block
       }
 
       // Start character session for tracking changes during multiplayer

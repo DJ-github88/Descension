@@ -96,6 +96,13 @@ const useCreatureStore = create((set, get) => ({
               creature: creatureData // Include full creature data for receiving clients
             };
 
+            console.log('📤 Sending creature_added to server:', {
+              creatureName: creatureData.name,
+              tokenId: tokenId,
+              creatureId: creatureId,
+              position: { x: Math.round(position.x), y: Math.round(position.y) }
+            });
+
             gameStore.multiplayerSocket.emit('creature_added', tokenSyncData);
           }
         } catch (e) {
