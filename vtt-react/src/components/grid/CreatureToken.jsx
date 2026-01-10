@@ -101,7 +101,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const tokenRef = useRef(null);
   const lastPointerTypeRef = useRef('mouse');
   const longPressHandlers = useLongPressContextMenu();
-  const lastPositionUpdateRef = useRef(Date.now());
+  const lastPositionUpdateRef = useRef(0);
 
   const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
   const { isInMultiplayer, multiplayerSocket } = useGameStore();

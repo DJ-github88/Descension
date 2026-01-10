@@ -51,7 +51,7 @@ const CharacterToken = ({
     const contextMenuRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
 
-    const lastPositionUpdateRef = useRef(Date.now());
+    const lastPositionUpdateRef = useRef(0);
     const rafIdRef = useRef(null); // For requestAnimationFrame batching
     const pendingWorldPosRef = useRef(null); // Store pending world position for batched updates
 
