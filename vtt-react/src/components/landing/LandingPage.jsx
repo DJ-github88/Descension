@@ -7,12 +7,19 @@ import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user }) => {
 
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState(() => {
+    return localStorage.getItem('landingActiveSection') || 'home';
+  });
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
+
+  // Save active section to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('landingActiveSection', activeSection);
+  }, [activeSection]);
 
   // Development bypass handler
   const handleDevelopmentBypass = async () => {
@@ -26,28 +33,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
   // Logout handler
   const handleLogout = async () => {
-    console.log('🔄 Logout handler called - starting logout process');
-    console.log('🔍 Current auth state from props:', { isAuthenticated, user: user ? 'exists' : 'null' });
-    console.log('🔍 Current auth state from store:', {
-      authStoreIsAuthenticated,
-      authStoreUser: authStoreUser ? 'exists' : 'null',
-      authStoreIsDevelopmentBypass
-    });
-
     try {
-      console.log('🔄 Calling signOut method...');
-      const result = await signOut();
-      console.log('✅ SignOut result:', result);
-
-      // Check auth state immediately after signOut
-      const authState = useAuthStore.getState();
-      console.log('🔍 Auth state immediately after signOut:', {
-        isAuthenticated: authState.isAuthenticated,
-        user: authState.user ? 'exists' : 'null',
-        isDevelopmentBypass: authState.isDevelopmentBypass
-      });
-
-      console.log('✅ Logout completed successfully');
+      await signOut();
     } catch (error) {
       console.error('❌ Logout failed:', error);
     }
@@ -63,13 +50,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Ensure we always start on the home section when navigating to landing page
+  // Handle navigation to landing page
   useEffect(() => {
-    setActiveSection('home');
-    setShowCommunity(false); // Also reset community chat
-    // Scroll to top when navigating to landing page
-    window.scrollTo(0, 0);
-    console.log('LandingPage: Reset to home section and scrolled to top');
+    // Only scroll to top when the pathname explicitly changes to /
+    // This happens when navigating TO the landing page from another page
+    if (location.pathname === '/') {
+      window.scrollTo(0, 0);
+      setShowCommunity(false);
+    }
   }, [location.pathname]);
 
   const scrollToTop = () => {
@@ -145,7 +133,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <li>No traditional leveling - quest-based progression</li>
             </ul>
           </div>
-          
+
           <div className="info-card">
             <h3>Setting & Lore</h3>
             <p>Enter a world where magic and technology intertwine, ancient mysteries await discovery, and heroes forge their own destinies.</p>
@@ -153,7 +141,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <p><em>Rich lore and world-building content coming soon...</em></p>
             </div>
           </div>
-          
+
           <div className="info-card">
             <h3>Getting Started</h3>
             <p>New to Mythrill? Our comprehensive guides will help you create your first character and understand the game mechanics.</p>
@@ -240,7 +228,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
   // Map background path
   const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
-  
+
   return (
     <>
       <div
@@ -249,123 +237,123 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           '--map-background-url': `url("${mapImagePath}")`
         }}
       >
-      <header className="landing-header">
-        <div className="header-content">
-          <div className="logo">
-            <i className="fas fa-gem"></i>
-            <span>Mythrill</span>
-          </div>
-          
-          <nav className="main-nav">
-            {navigation.map(item => (
-              <button
-                key={item.id}
-                className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-                onClick={() => setActiveSection(item.id)}
-              >
-                <i className={item.icon}></i>
-                {item.label}
-              </button>
-            ))}
-          </nav>
-          
-          <div className="header-actions">
-            <button
-              className="community-btn"
-              onClick={handleCommunityClick}
-              title="Community Chat"
-            >
-              <i className="fas fa-users"></i>
-              Community
-            </button>
+        <header className="landing-header">
+          <div className="header-content">
+            <div className="logo">
+              <i className="fas fa-gem"></i>
+              <span>Mythrill</span>
+            </div>
 
-            {/* Show Account and Logout buttons if logged in, otherwise show Login and Dev Preview */}
-            {authStoreIsAuthenticated && authStoreUser ? (
-              <>
+            <nav className="main-nav">
+              {navigation.map(item => (
+                <button
+                  key={item.id}
+                  className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+                  onClick={() => setActiveSection(item.id)}
+                >
+                  <i className={item.icon}></i>
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+
+            <div className="header-actions">
+              <button
+                className="community-btn"
+                onClick={handleCommunityClick}
+                title="Community Chat"
+              >
+                <i className="fas fa-users"></i>
+                Community
+              </button>
+
+              {/* Show Account and Logout buttons if logged in, otherwise show Login and Dev Preview */}
+              {authStoreIsAuthenticated && authStoreUser ? (
+                <>
+                  <button
+                    type="button"
+                    className="account-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Account button clicked - navigating to /account');
+                      console.log('Current location:', window.location.href);
+                      try {
+                        navigate('/account', { replace: false });
+                        console.log('Navigation called successfully');
+                      } catch (error) {
+                        console.error('Navigation failed:', error);
+                      }
+                    }}
+                  >
+                    <i className="fas fa-user-circle"></i>
+                    Account
+                  </button>
+                  <button
+                    type="button"
+                    className="logout-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleLogout();
+                    }}
+                  >
+                    <i className="fas fa-sign-out-alt"></i>
+                    Logout
+                  </button>
+                </>
+              ) : authStoreIsDevelopmentBypass ? (
                 <button
                   type="button"
                   className="account-btn"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Account button clicked - navigating to /account');
-                    console.log('Current location:', window.location.href);
-                    try {
-                      navigate('/account', { replace: false });
-                      console.log('Navigation called successfully');
-                    } catch (error) {
-                      console.error('Navigation failed:', error);
-                    }
+                    console.log('Account button clicked (dev bypass) - navigating to /account');
+                    navigate('/account', { replace: false });
                   }}
                 >
                   <i className="fas fa-user-circle"></i>
                   Account
                 </button>
-                <button
-                  type="button"
-                  className="logout-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleLogout();
-                  }}
-                >
-                  <i className="fas fa-sign-out-alt"></i>
-                  Logout
-                </button>
-              </>
-            ) : authStoreIsDevelopmentBypass ? (
-              <button 
-                type="button"
-                className="account-btn" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log('Account button clicked (dev bypass) - navigating to /account');
-                  navigate('/account', { replace: false });
-                }}
-              >
-                <i className="fas fa-user-circle"></i>
-                Account
-              </button>
-            ) : (
-              <>
-                <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
-                  <i className="fas fa-cog"></i>
-                  Dev Preview
-                </button>
-                <button className="login-btn" onClick={onShowLogin}>
-                  <i className="fas fa-user"></i>
-                  Login
-                </button>
-              </>
-            )}
+              ) : (
+                <>
+                  <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
+                    <i className="fas fa-cog"></i>
+                    Dev Preview
+                  </button>
+                  <button className="login-btn" onClick={onShowLogin}>
+                    <i className="fas fa-user"></i>
+                    Login
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="landing-main">
-        {activeSection === 'home' && renderHomeSection()}
-        {activeSection === 'rules' && renderRulesSection()}
-        {activeSection === 'membership' && renderMembershipSection()}
-      </main>
+        <main className="landing-main">
+          {activeSection === 'home' && renderHomeSection()}
+          {activeSection === 'rules' && renderRulesSection()}
+          {activeSection === 'membership' && renderMembershipSection()}
+        </main>
 
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <button
-          className="scroll-to-top"
-          onClick={scrollToTop}
-          title="Back to top"
-        >
-          <i className="fas fa-chevron-up"></i>
-        </button>
-      )}
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <button
+            className="scroll-to-top"
+            onClick={scrollToTop}
+            title="Back to top"
+          >
+            <i className="fas fa-chevron-up"></i>
+          </button>
+        )}
 
-      {/* Global Chat Window */}
-      <GlobalChatWindowWrapper
-        isOpen={showCommunity}
-        onClose={() => setShowCommunity(false)}
-      />
+        {/* Global Chat Window */}
+        <GlobalChatWindowWrapper
+          isOpen={showCommunity}
+          onClose={() => setShowCommunity(false)}
+        />
       </div>
     </>
   );
