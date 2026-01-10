@@ -642,8 +642,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         document.removeEventListener('pointerup', handlePointerUp);
         document.removeEventListener('pointercancel', handlePointerUp);
 
-        // Final snap to grid
-        const gridCoords = gridSystem.worldToGrid(localPosition.x, localPosition.y);
+        // Final snap to grid - recalculate from current mouse position to ensure accuracy
+        // Do not rely on localPosition state which might be stale from batched updates
+        const screenX = e.clientX - dragOffset.x;
+        const screenY = e.clientY - dragOffset.y;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const rawWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+        const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
         const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
         setLocalPosition(finalWorldPos);

@@ -839,15 +839,11 @@ const CharacterToken = ({
                         isDragging: true
                     });
                     lastNetworkUpdate = now;
-                    // Removed logging for performance
                 }
             }
 
             // CRITICAL FIX: Update movement visualization and distance calculation during drag
             if (dragStartPosition && now - lastCombatUpdate > 100) { // 10fps for combat updates (reduced for performance)
-                // CRITICAL FIX: Snap position to tile center for clean distance display
-                // This makes the movement line point to tile centers and shows clean distance increments
-                const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                 const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
                 // Update movement visualization if enabled - use SNAPPED position for clean line
@@ -901,21 +897,18 @@ const CharacterToken = ({
             e.stopPropagation();
 
             // Calculate final screen position
+            // Final snap to grid - recalculate from current mouse position to ensure accuracy
             const screenX = e.clientX - dragOffset.x;
             const screenY = e.clientY - dragOffset.y;
-
-            // Get viewport dimensions for proper coordinate conversion
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
 
-            // Convert screen position to world coordinates
-            const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-
-            // Convert world coordinates to grid coordinates
-            const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
-
-            // Snap to grid center in world coordinates
+            const rawWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+            const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
             const snappedWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+            // Log final position for debugging
+            console.log('CharacterToken MouseUp Final Pos:', snappedWorldPos);
 
             // Capture afterimage and explored area from old position before moving
             const levelEditorStore = useLevelEditorStore.getState();

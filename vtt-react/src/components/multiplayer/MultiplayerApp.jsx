@@ -140,14 +140,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setMultiplayerIntegration: state.setMultiplayerIntegration,
     clearMultiplayerIntegration: state.clearMultiplayerIntegration
   }));
-  const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore((state) => ({
+  const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken, removeToken, clearCreatureTokens } = useCreatureStore((state) => ({
     updateTokenPosition: state.updateTokenPosition,
     addCreature: state.addCreature,
-    addToken: state.addToken
+    addToken: state.addToken,
+    removeToken: state.removeToken,
+    clearCreatureTokens: state.clearCreatureTokens
   }));
-  const { updateCharacterTokenPosition, addCharacterTokenFromServer } = useCharacterTokenStore((state) => ({
+  const { updateCharacterTokenPosition, addCharacterTokenFromServer, removeCharacterToken, clearCharacterTokens } = useCharacterTokenStore((state) => ({
     updateCharacterTokenPosition: state.updateCharacterTokenPosition,
-    addCharacterTokenFromServer: state.addCharacterTokenFromServer
+    addCharacterTokenFromServer: state.addCharacterTokenFromServer,
+    removeCharacterToken: state.removeCharacterToken,
+    clearCharacterTokens: state.clearCharacterTokens
   }));
   const { setMultiplayerSocket } = useDialogueStore((state) => ({
     setMultiplayerSocket: state.setMultiplayerSocket
@@ -402,6 +406,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             password: roomPasswordRef.current || '',
             isReconnect: true
           });
+
+          // Clear tokens when reconnecting/switching rooms
+          clearCreatureTokens();
+          clearCharacterTokens();
+          console.log('🧹 Cleared tokens for room rejoin');
         }
 
         // Show connection success notification
@@ -791,6 +800,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.member && !isOwnMember) {
         addPartyMember(data.member);
       }
+    });
+
+    // Listen for token removal
+    socket.on('token_removed', (data) => {
+      if (data && data.tokenId) {
+        removeToken(data.tokenId, false); // false = don't send back to server
+      }
+    });
+
+    // Listen for character token removal
+    socket.on('character_token_removed', (data) => {
+      if (data && data.tokenId) {
+        removeCharacterToken(data.tokenId, false); // false = don't send back to server
+      }
+    });
+
+    // Clean up tokens when joining a new room
+    // This listener handles the 'room_joined' confirmation or room state sync
+    socket.on('room_state_sync', () => {
+      // Optional: Could clear tokens here if the server sends a full state sync event
+      // typically join_room response handles initial load, but clearing old state is good practice
+      console.log('🧹 Clearing tokens for new room synchronization');
+      clearCreatureTokens();
+      clearCharacterTokens();
     });
 
     socket.on('player_left', (data) => {

@@ -191,11 +191,23 @@ const useCreatureStore = create((set, get) => ({
   }),
 
   // Remove creature token from grid
-  removeCreatureToken: (tokenId) => set(state => {
+  removeCreatureToken: (tokenId, sendToServer = true) => set(state => {
     const updatedTokens = (state.creatureTokens || []).filter(token => token.id !== tokenId);
 
     // Clear movement tracking for this token
     recentTokenMovements.delete(`creature_${tokenId}`);
+
+    // Sync with Multiplayer server if enabled
+    if (sendToServer) {
+      try {
+        const gameStore = require('./gameStore').default;
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          gameStore.multiplayerSocket.emit('token_removed', { tokenId });
+        }
+      } catch (error) {
+        console.warn('Could not broadcast token removal:', error);
+      }
+    }
 
     return {
       creatureTokens: updatedTokens,
@@ -204,8 +216,8 @@ const useCreatureStore = create((set, get) => ({
   }),
 
   // Alias for removeCreatureToken
-  removeToken: (tokenId) => {
-    get().removeCreatureToken(tokenId);
+  removeToken: (tokenId, sendToServer = true) => {
+    get().removeCreatureToken(tokenId, sendToServer);
   },
 
   // Duplicate a token

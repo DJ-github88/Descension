@@ -172,9 +172,23 @@ const useCharacterTokenStore = create(
       }),
 
       // Remove a character token
-      removeCharacterToken: (tokenId) => set(state => ({
-        characterTokens: state.characterTokens.filter(token => token.id !== tokenId)
-      })),
+      removeCharacterToken: (tokenId, sendToServer = true) => set(state => {
+        // Sync with Multiplayer server if enabled
+        if (sendToServer) {
+          import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('character_token_removed', { tokenId });
+            }
+          }).catch(error => {
+            console.error('Failed to import gameStore for character token removal:', error);
+          });
+        }
+
+        return {
+          characterTokens: state.characterTokens.filter(token => token.id !== tokenId)
+        };
+      }),
 
       // Clear all character tokens
       clearCharacterTokens: () => set({ characterTokens: [] }),
