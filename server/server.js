@@ -3075,31 +3075,47 @@ io.on('connection', (socket) => {
     if (!player) return;
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {
+      players.delete(socket.id);
+      return;
+    }
 
     const roomId = player.roomId;
     const playerName = player.name;
 
-    // Remove player from room
-    room.players.delete(player.id);
+    if (player.isGM) {
+      // GM leaving - mark room inactive and notify players
+      room.isActive = false;
+      room.gmDisconnectedAt = new Date();
+
+      socket.to(roomId).emit('gm_disconnected', {
+        gmName: playerName,
+        timestamp: new Date()
+      });
+
+      logger.info('GM left room', { roomId: roomId, gmName: playerName });
+    } else {
+      // Regular player leaving
+      room.players.delete(player.id);
+
+      // Notify others
+      socket.to(roomId).emit('player_left', {
+        player: {
+          id: player.id,
+          name: playerName
+        },
+        playerCount: room.players.size + 1 // Total including GM
+      });
+
+      logger.info('Player left room', { roomId: roomId, playerName: playerName });
+    }
+
+    // Common cleanup
     socket.leave(roomId);
-
-    // Notify others - send in format client expects
-    socket.to(roomId).emit('player_left', {
-      player: {
-        id: player.id,
-        name: playerName
-      },
-      playerCount: room.players.size + 1 // Include GM (+1) in total count
-    });
-
-    // Clean up player tracking
     players.delete(socket.id);
 
-    // Broadcast room list update
+    // Broadcast list update to lobby users
     io.emit('room_list_updated', getPublicRooms());
-
-    logger.info('Player left room', { socketId: socket.id, roomId: roomId, playerName: playerName });
   });
 
   // Handle player disconnection (tab closed, internet lost, etc.)

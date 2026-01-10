@@ -19,7 +19,7 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useCombatStore from '../../store/combatStore';
-import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
+import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData } from '../../data/customBackgroundData';
@@ -791,6 +791,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setTimeout(() => {
         navigate('/', { replace: true });
       }, 200);
+    });
+
+    socket.on('gm_disconnected', (data) => {
+      // For players, we should notify and return to landing page
+      if (!isGM) {
+        // Show specialized GM disconnect notification
+        showGMDisconnectedNotification(data.gmName || 'Unknown');
+
+        // Add to chat notification system as well
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Game Master ${data.gmName || 'Unknown'} has disconnected. Returning to landing page...`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+
+        // Use handleLeaveRoom to clean up state
+        handleLeaveRoom();
+
+        // Navigate back to starter page (landing page) after a short delay to allow reading the notification
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 1500);
+      }
     });
 
     // Handle being kicked/removed from room

@@ -107,10 +107,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         const handleClickOutside = (event) => {
             // Check if the click is inside any context menu
             const isInsideContextMenu = event.target.closest('.context-menu-container') ||
-                                      event.target.closest('.buff-context-menu') ||
-                                      event.target.closest('.debuff-context-menu') ||
-                                      event.target.closest('.condition-context-menu') ||
-                                      event.target.closest('.unified-context-menu');
+                event.target.closest('.buff-context-menu') ||
+                event.target.closest('.debuff-context-menu') ||
+                event.target.closest('.condition-context-menu') ||
+                event.target.closest('.unified-context-menu');
 
             if (!isInsideContextMenu) {
                 if (showContextMenu) {
@@ -213,7 +213,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 // Use token state for current values, target stats for max values
                 // This ensures real-time updates when HP/mana/AP changes
                 health = {
-                    current: token.state.currentHp || 0,
+                    current: token.state?.currentHp || 0,
                     max: currentTarget.stats?.maxHp || 35
                 };
                 mana = {
@@ -362,19 +362,19 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     // Ensure resource data is properly structured
     const safeHealth = (targetData.health && typeof targetData.health === 'object' &&
-                       typeof targetData.health.current === 'number' &&
-                       typeof targetData.health.max === 'number')
-                       ? targetData.health : { current: 0, max: 1 };
+        typeof targetData.health.current === 'number' &&
+        typeof targetData.health.max === 'number')
+        ? targetData.health : { current: 0, max: 1 };
 
     const safeMana = (targetData.mana && typeof targetData.mana === 'object' &&
-                     typeof targetData.mana.current === 'number' &&
-                     typeof targetData.mana.max === 'number')
-                     ? targetData.mana : { current: 0, max: 0 };
+        typeof targetData.mana.current === 'number' &&
+        typeof targetData.mana.max === 'number')
+        ? targetData.mana : { current: 0, max: 0 };
 
     const safeActionPoints = (targetData.actionPoints && typeof targetData.actionPoints === 'object' &&
-                             typeof targetData.actionPoints.current === 'number' &&
-                             typeof targetData.actionPoints.max === 'number')
-                             ? targetData.actionPoints : { current: 0, max: 1 };
+        typeof targetData.actionPoints.current === 'number' &&
+        typeof targetData.actionPoints.max === 'number')
+        ? targetData.actionPoints : { current: 0, max: 1 };
 
     // Get target ID for buffs/debuffs
     const getTargetId = () => {
@@ -401,7 +401,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     // Get buffs/debuffs, also check 'player' if targetId is 'current-player'
     let targetBuffs = targetId ? getBuffsForTarget(targetId) : [];
     let targetDebuffs = targetId ? getDebuffsForTarget(targetId) : [];
-    
+
     // If targeting current player and no buffs found, also check 'player' ID
     if (targetType === 'party_member' || targetType === 'player') {
         if (currentTarget.id === 'current-player' && targetBuffs.length === 0 && targetDebuffs.length === 0) {
@@ -492,7 +492,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const handleClassResourceUpdate = (field, value) => {
         if (targetType === 'party_member' || targetType === 'player') {
             const memberId = currentTarget?.id;
-            
+
             if (memberId === 'current-player') {
                 // Update current player's class resource in character store
                 updateClassResource(field, value);
@@ -539,7 +539,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const logFullResourceChange = (characterName, healthAmount, manaAmount, apAmount, isRestore) => {
         const actorName = getActorName();
         const parts = [];
-        
+
         if (manaAmount > 0) {
             parts.push(`${manaAmount} Mana`);
         }
@@ -549,9 +549,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (apAmount > 0) {
             parts.push(`${apAmount} Action Point${apAmount > 1 ? 's' : ''}`);
         }
-        
+
         if (parts.length === 0) return; // No changes to log
-        
+
         // Format: "x Mana, y Health and z Action Points"
         let resourceList = '';
         if (parts.length === 1) {
@@ -561,10 +561,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         } else {
             resourceList = `${parts[0]}, ${parts[1]} and ${parts[2]}`;
         }
-        
+
         const actionWord = isRestore ? ['Replenished', 'Restored', 'Recovered'][Math.floor(Math.random() * 3)] : 'Drained';
         const message = `${characterName} ${actionWord} ${resourceList}`;
-        
+
         addCombatNotification({
             type: isRestore ? 'combat_heal' : 'combat_hit',
             [isRestore ? 'healer' : 'attacker']: actorName,
@@ -578,7 +578,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const logResourceChange = (characterName, resourceType, amount, isPositive) => {
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
-        
+
         if (resourceType === 'health') {
             // Use existing combat_heal and combat_hit types for health
             if (isPositive) {
@@ -673,7 +673,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const characterState = useCharacterStore.getState();
                 const currentResource = characterState[resourceType];
                 if (!currentResource) return;
-                
+
                 const currentValue = currentResource.current || 0;
                 const maxValue = currentResource.max || 0;
                 const currentTemp = characterState[tempField] || 0;
@@ -757,7 +757,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         );
                     }, 50);
                 }
-                
+
                 // Log the resource change (unless logging is skipped)
                 if (adjustment !== 0 && !skipLogging) {
                     const characterName = getTargetName();
@@ -771,7 +771,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 if (member && member.character) {
                     const currentResource = member.character[resourceType];
                     if (!currentResource) return;
-                    
+
                     const currentValue = currentResource.current || 0;
                     const maxValue = currentResource.max || 0;
                     const currentTemp = member.character[tempField] || 0;
@@ -862,7 +862,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             );
                         }, 50);
                     }
-                    
+
                     // Log the resource change (unless logging is skipped)
                     if (adjustment !== 0 && !skipLogging) {
                         const characterName = getTargetName();
@@ -877,15 +877,15 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
             if (token) {
                 const safeResource = resourceType === 'health' ? safeHealth :
-                                   resourceType === 'mana' ? safeMana : safeActionPoints;
+                    resourceType === 'mana' ? safeMana : safeActionPoints;
                 const currentValue = safeResource.current;
                 const maxValue = safeResource.max;
                 const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
 
                 // Map resource types to token state properties
                 const stateKey = resourceType === 'health' ? 'currentHp' :
-                               resourceType === 'mana' ? 'currentMana' :
-                               resourceType === 'actionPoints' ? 'currentActionPoints' : null;
+                    resourceType === 'mana' ? 'currentMana' :
+                        resourceType === 'actionPoints' ? 'currentActionPoints' : null;
 
                 if (stateKey) {
                     updateTokenState(token.id, {
@@ -942,7 +942,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             console.error('❌ Grid system not available for creature floating text');
                         }
                     }
-                    
+
                     // Log the resource change (unless logging is skipped)
                     if (adjustment !== 0 && !skipLogging) {
                         const characterName = getTargetName();
@@ -958,15 +958,15 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     // Helper function to get target resource values
     const getTargetResource = (resourceType) => {
         if (!currentTarget || !targetData) return { current: 0, max: 0, temp: 0 };
-        
+
         if (targetType === 'party_member' || targetType === 'player') {
             const memberId = currentTarget.id;
             if (memberId === 'current-player') {
                 if (!currentPlayerData) return { current: 0, max: 0, temp: 0 };
                 const resource = currentPlayerData[resourceType];
                 if (!resource) return { current: 0, max: 0, temp: 0 };
-                const tempField = resourceType === 'health' ? 'tempHealth' : 
-                                 resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
+                const tempField = resourceType === 'health' ? 'tempHealth' :
+                    resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
                 return {
                     current: resource?.current || 0,
                     max: resource?.max || 0,
@@ -978,8 +978,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 if (member && member.character) {
                     const resource = member.character[resourceType];
                     if (!resource) return { current: 0, max: 0, temp: 0 };
-                    const tempField = resourceType === 'health' ? 'tempHealth' : 
-                                     resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
+                    const tempField = resourceType === 'health' ? 'tempHealth' :
+                        resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
                     return {
                         current: resource?.current || 0,
                         max: resource?.max || 0,
@@ -989,7 +989,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             }
         } else if (targetType === 'creature') {
             const safeResource = resourceType === 'health' ? safeHealth :
-                               resourceType === 'mana' ? safeMana : safeActionPoints;
+                resourceType === 'mana' ? safeMana : safeActionPoints;
             if (!safeResource) return { current: 0, max: 0, temp: 0 };
             return {
                 current: safeResource.current || 0,
@@ -1021,11 +1021,11 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const healthAmount = maxHp - currentHp;
                 const manaAmount = maxMp - currentMp;
                 const apAmount = maxAp - currentAp;
-                
+
                 handleResourceAdjust('health', healthAmount, true);
                 handleResourceAdjust('mana', manaAmount, true);
                 handleResourceAdjust('actionPoints', apAmount, true);
-                
+
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                     logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
@@ -1044,11 +1044,11 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const healthAmount = maxHp - currentHp;
                     const manaAmount = maxMp - currentMp;
                     const apAmount = maxAp - currentAp;
-                    
+
                     handleResourceAdjust('health', healthAmount, true);
                     handleResourceAdjust('mana', manaAmount, true);
                     handleResourceAdjust('actionPoints', apAmount, true);
-                    
+
                     // Log as single combined message
                     if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                         logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
@@ -1069,11 +1069,11 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const healthAmount = maxHp - currentHp;
                 const manaAmount = maxMp - currentMp;
                 const apAmount = maxAp - currentAp;
-                
+
                 handleResourceAdjust('health', healthAmount, true);
                 handleResourceAdjust('mana', manaAmount, true);
                 handleResourceAdjust('actionPoints', apAmount, true);
-                
+
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                     logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
@@ -1104,12 +1104,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const healthAmount = currentHp + tempHp;
                 const manaAmount = currentMp + tempMp;
                 const apAmount = currentAp + tempAp;
-                
+
                 // Drain all resources including temporary
                 handleResourceAdjust('health', -healthAmount, true);
                 handleResourceAdjust('mana', -manaAmount, true);
                 handleResourceAdjust('actionPoints', -apAmount, true);
-                
+
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                     logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
@@ -1128,12 +1128,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const healthAmount = currentHp + tempHp;
                     const manaAmount = currentMp + tempMp;
                     const apAmount = currentAp + tempAp;
-                    
+
                     // Drain all resources including temporary
                     handleResourceAdjust('health', -healthAmount, true);
                     handleResourceAdjust('mana', -manaAmount, true);
                     handleResourceAdjust('actionPoints', -apAmount, true);
-                    
+
                     // Log as single combined message
                     if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                         logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
@@ -1151,12 +1151,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const healthAmount = currentHp;
                 const manaAmount = currentMp;
                 const apAmount = currentAp;
-                
+
                 // Drain all resources (creatures don't have temporary resources)
                 handleResourceAdjust('health', -healthAmount, true);
                 handleResourceAdjust('mana', -manaAmount, true);
                 handleResourceAdjust('actionPoints', -apAmount, true);
-                
+
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                     logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
@@ -1422,7 +1422,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             // Find the target token and remove the condition
             let targetToken = null;
             let isCharacterToken = false;
-            
+
             if (targetType === 'creature') {
                 targetToken = tokens.find(t => t.id === currentTarget.id);
             } else if (targetType === 'party_member' || targetType === 'player') {
@@ -1434,12 +1434,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     isCharacterToken = true;
                 }
             }
-            
+
             if (targetToken?.state?.conditions) {
                 const updatedConditions = targetToken.state.conditions.filter(c =>
                     !(c.id === condition.id || c.name === condition.name)
                 );
-                
+
                 if (isCharacterToken) {
                     const { updateCharacterTokenState } = useCharacterTokenStore.getState();
                     updateCharacterTokenState(targetToken.id, { conditions: updatedConditions });
@@ -1708,7 +1708,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     targetConditions = memberToken?.state?.conditions || [];
                                 }
                             }
-                            
+
                             // Format time helper for conditions
                             const formatConditionTime = (condition) => {
                                 if (!condition.duration && !condition.durationType) return '∞';
@@ -1724,212 +1724,212 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 }
                                 return '∞';
                             };
-                            
-                            return (targetBuffs.length > 0 || targetDebuffs.length > 0 || targetConditions.length > 0) && (
-                            <div
-                                className="target-conditions-beneath"
-                                style={{
-                                    position: 'absolute',
-                                    top: '100%',
-                                    left: '0',
-                                    width: '100%',
-                                    marginTop: '4px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '4px',
-                                    pointerEvents: 'none'
-                                }}
-                            >
-                                {/* Buffs Row */}
-                                {targetBuffs.length > 0 && (
-                                    <div className="target-buffs" style={{ display: 'flex', gap: '4px' }}>
-                                        {targetBuffs.map((buff) => {
-                                            const remainingTime = getRemainingTime(buff.id);
-                                            const tooltipContent = {
-                                                title: buff.name,
-                                                effectSummary: buff.effectSummary,
-                                                description: buff.description,
-                                                duration: formatTime(remainingTime, buff.durationType)
-                                            };
-                                            return (
-                                                <div
-                                                    key={buff.id}
-                                                    style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        alignItems: 'center',
-                                                        pointerEvents: 'auto'
-                                                    }}
-                                                >
-                                                    <div
-                                                        className="buff-icon"
-                                                        style={{
-                                                            backgroundColor: buff.color || '#32CD32'
-                                                        }}
-                                                        onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
-                                                        onMouseLeave={handleTooltipHide}
-                                                        onContextMenu={(e) => handleConditionRightClick(e, buff, 'buff')}
-                                                    >
-                                                        {buff.icon && buff.icon.startsWith('/assets/') ? (
-                                                            <img
-                                                                src={buff.icon}
-                                                                alt={buff.name}
-                                                                onError={(e) => {
-                                                                    e.target.style.display = 'none';
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <i className={buff.icon || 'fas fa-plus'}></i>
-                                                        )}
-                                                    </div>
-                                                    <div style={{
-                                                        fontSize: '10px',
-                                                        color: '#f0e6d2',
-                                                        fontWeight: 'bold',
-                                                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                                        marginTop: '2px',
-                                                        fontFamily: 'Cinzel, serif'
-                                                    }}>
-                                                        {formatTime(remainingTime, buff.durationType)}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                )}
 
-                                {/* Debuffs Row */}
-                                {targetDebuffs.length > 0 && (
-                                    <div className="target-debuffs" style={{ display: 'flex', gap: '4px' }}>
-                                        {targetDebuffs.map((debuff) => {
-                                            const remainingTime = getDebuffRemainingTime(debuff.id);
-                                            const tooltipContent = {
-                                                title: debuff.name,
-                                                effectSummary: debuff.effectSummary,
-                                                description: debuff.description,
-                                                duration: formatTime(remainingTime, debuff.durationType)
-                                            };
-                                            return (
-                                                <div
-                                                    key={debuff.id}
-                                                    style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        alignItems: 'center',
-                                                        pointerEvents: 'auto'
-                                                    }}
-                                                >
+                            return (targetBuffs.length > 0 || targetDebuffs.length > 0 || targetConditions.length > 0) && (
+                                <div
+                                    className="target-conditions-beneath"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '100%',
+                                        left: '0',
+                                        width: '100%',
+                                        marginTop: '4px',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '4px',
+                                        pointerEvents: 'none'
+                                    }}
+                                >
+                                    {/* Buffs Row */}
+                                    {targetBuffs.length > 0 && (
+                                        <div className="target-buffs" style={{ display: 'flex', gap: '4px' }}>
+                                            {targetBuffs.map((buff) => {
+                                                const remainingTime = getRemainingTime(buff.id);
+                                                const tooltipContent = {
+                                                    title: buff.name,
+                                                    effectSummary: buff.effectSummary,
+                                                    description: buff.description,
+                                                    duration: formatTime(remainingTime, buff.durationType)
+                                                };
+                                                return (
                                                     <div
-                                                        className="debuff-icon"
+                                                        key={buff.id}
                                                         style={{
-                                                            backgroundColor: debuff.color || '#DC143C'
-                                                        }}
-                                                        onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
-                                                        onMouseLeave={handleTooltipHide}
-                                                        onContextMenu={(e) => handleConditionRightClick(e, debuff, 'debuff')}
-                                                    >
-                                                        {debuff.icon && debuff.icon.startsWith('/assets/') ? (
-                                                            <img
-                                                                src={debuff.icon}
-                                                                alt={debuff.name}
-                                                                onError={(e) => {
-                                                                    e.target.style.display = 'none';
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <i className={debuff.icon || 'fas fa-minus'}></i>
-                                                        )}
-                                                    </div>
-                                                    <div style={{
-                                                        fontSize: '10px',
-                                                        color: '#f0e6d2',
-                                                        fontWeight: 'bold',
-                                                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                                        marginTop: '2px',
-                                                        fontFamily: 'Cinzel, serif'
-                                                    }}>
-                                                        {formatTime(remainingTime, debuff.durationType)}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                )}
-                                
-                                {/* Conditions Row */}
-                                {targetConditions.length > 0 && (
-                                    <div className="target-conditions" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                                        {targetConditions.map((condition) => {
-                                            const conditionData = CONDITIONS[condition.id] || CONDITIONS[condition.name?.toLowerCase()] || {
-                                                name: condition.name || condition.id,
-                                                icon: condition.icon || '/assets/icons/Status/buff/star-emblem-power.png',
-                                                color: condition.color || '#FFD700',
-                                                description: condition.description || ''
-                                            };
-                                            
-                                            const tooltipContent = {
-                                                title: conditionData.name,
-                                                description: conditionData.description,
-                                                duration: formatConditionTime(condition)
-                                            };
-                                            
-                                            return (
-                                                <div
-                                                    key={condition.id || condition.name}
-                                                    style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        alignItems: 'center',
-                                                        pointerEvents: 'auto'
-                                                    }}
-                                                >
-                                                    <div
-                                                        className="condition-icon"
-                                                        style={{
-                                                            backgroundColor: conditionData.color,
-                                                            width: '32px',
-                                                            height: '32px',
-                                                            borderRadius: '4px',
                                                             display: 'flex',
+                                                            flexDirection: 'column',
                                                             alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            border: '2px solid rgba(255, 255, 255, 0.3)',
-                                                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                                                            pointerEvents: 'auto'
                                                         }}
-                                                        onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
-                                                        onMouseLeave={handleTooltipHide}
-                                                        onContextMenu={(e) => handleConditionRightClick(e, { ...condition, type: 'condition', targetId: targetType === 'creature' ? currentTarget.id : (currentTarget.id === 'current-player' ? 'current-player' : currentTarget.id) }, 'condition')}
                                                     >
-                                                        {conditionData.icon && conditionData.icon.startsWith('/assets/') ? (
-                                                            <img
-                                                                src={conditionData.icon}
-                                                                alt={conditionData.name}
-                                                                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                                onError={(e) => {
-                                                                    e.target.style.display = 'none';
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <i className={conditionData.icon || 'fas fa-circle'} style={{ fontSize: '16px', color: '#fff' }}></i>
-                                                        )}
+                                                        <div
+                                                            className="buff-icon"
+                                                            style={{
+                                                                backgroundColor: buff.color || '#32CD32'
+                                                            }}
+                                                            onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
+                                                            onMouseLeave={handleTooltipHide}
+                                                            onContextMenu={(e) => handleConditionRightClick(e, buff, 'buff')}
+                                                        >
+                                                            {buff.icon && buff.icon.startsWith('/assets/') ? (
+                                                                <img
+                                                                    src={buff.icon}
+                                                                    alt={buff.name}
+                                                                    onError={(e) => {
+                                                                        e.target.style.display = 'none';
+                                                                    }}
+                                                                />
+                                                            ) : (
+                                                                <i className={buff.icon || 'fas fa-plus'}></i>
+                                                            )}
+                                                        </div>
+                                                        <div style={{
+                                                            fontSize: '10px',
+                                                            color: '#f0e6d2',
+                                                            fontWeight: 'bold',
+                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                            marginTop: '2px',
+                                                            fontFamily: 'Cinzel, serif'
+                                                        }}>
+                                                            {formatTime(remainingTime, buff.durationType)}
+                                                        </div>
                                                     </div>
-                                                    <div style={{
-                                                        fontSize: '10px',
-                                                        color: '#f0e6d2',
-                                                        fontWeight: 'bold',
-                                                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                                        marginTop: '2px',
-                                                        fontFamily: 'Cinzel, serif'
-                                                    }}>
-                                                        {formatConditionTime(condition)}
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+
+                                    {/* Debuffs Row */}
+                                    {targetDebuffs.length > 0 && (
+                                        <div className="target-debuffs" style={{ display: 'flex', gap: '4px' }}>
+                                            {targetDebuffs.map((debuff) => {
+                                                const remainingTime = getDebuffRemainingTime(debuff.id);
+                                                const tooltipContent = {
+                                                    title: debuff.name,
+                                                    effectSummary: debuff.effectSummary,
+                                                    description: debuff.description,
+                                                    duration: formatTime(remainingTime, debuff.durationType)
+                                                };
+                                                return (
+                                                    <div
+                                                        key={debuff.id}
+                                                        style={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'center',
+                                                            pointerEvents: 'auto'
+                                                        }}
+                                                    >
+                                                        <div
+                                                            className="debuff-icon"
+                                                            style={{
+                                                                backgroundColor: debuff.color || '#DC143C'
+                                                            }}
+                                                            onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
+                                                            onMouseLeave={handleTooltipHide}
+                                                            onContextMenu={(e) => handleConditionRightClick(e, debuff, 'debuff')}
+                                                        >
+                                                            {debuff.icon && debuff.icon.startsWith('/assets/') ? (
+                                                                <img
+                                                                    src={debuff.icon}
+                                                                    alt={debuff.name}
+                                                                    onError={(e) => {
+                                                                        e.target.style.display = 'none';
+                                                                    }}
+                                                                />
+                                                            ) : (
+                                                                <i className={debuff.icon || 'fas fa-minus'}></i>
+                                                            )}
+                                                        </div>
+                                                        <div style={{
+                                                            fontSize: '10px',
+                                                            color: '#f0e6d2',
+                                                            fontWeight: 'bold',
+                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                            marginTop: '2px',
+                                                            fontFamily: 'Cinzel, serif'
+                                                        }}>
+                                                            {formatTime(remainingTime, debuff.durationType)}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                )}
-                            </div>
-                        );
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+
+                                    {/* Conditions Row */}
+                                    {targetConditions.length > 0 && (
+                                        <div className="target-conditions" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                                            {targetConditions.map((condition) => {
+                                                const conditionData = CONDITIONS[condition.id] || CONDITIONS[condition.name?.toLowerCase()] || {
+                                                    name: condition.name || condition.id,
+                                                    icon: condition.icon || '/assets/icons/Status/buff/star-emblem-power.png',
+                                                    color: condition.color || '#FFD700',
+                                                    description: condition.description || ''
+                                                };
+
+                                                const tooltipContent = {
+                                                    title: conditionData.name,
+                                                    description: conditionData.description,
+                                                    duration: formatConditionTime(condition)
+                                                };
+
+                                                return (
+                                                    <div
+                                                        key={condition.id || condition.name}
+                                                        style={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'center',
+                                                            pointerEvents: 'auto'
+                                                        }}
+                                                    >
+                                                        <div
+                                                            className="condition-icon"
+                                                            style={{
+                                                                backgroundColor: conditionData.color,
+                                                                width: '32px',
+                                                                height: '32px',
+                                                                borderRadius: '4px',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                border: '2px solid rgba(255, 255, 255, 0.3)',
+                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                                                            }}
+                                                            onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
+                                                            onMouseLeave={handleTooltipHide}
+                                                            onContextMenu={(e) => handleConditionRightClick(e, { ...condition, type: 'condition', targetId: targetType === 'creature' ? currentTarget.id : (currentTarget.id === 'current-player' ? 'current-player' : currentTarget.id) }, 'condition')}
+                                                        >
+                                                            {conditionData.icon && conditionData.icon.startsWith('/assets/') ? (
+                                                                <img
+                                                                    src={conditionData.icon}
+                                                                    alt={conditionData.name}
+                                                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                                                    onError={(e) => {
+                                                                        e.target.style.display = 'none';
+                                                                    }}
+                                                                />
+                                                            ) : (
+                                                                <i className={conditionData.icon || 'fas fa-circle'} style={{ fontSize: '16px', color: '#fff' }}></i>
+                                                            )}
+                                                        </div>
+                                                        <div style={{
+                                                            fontSize: '10px',
+                                                            color: '#f0e6d2',
+                                                            fontWeight: 'bold',
+                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                            marginTop: '2px',
+                                                            fontFamily: 'Cinzel, serif'
+                                                        }}>
+                                                            {formatConditionTime(condition)}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            );
                         })()}
                     </div>
                 </Draggable>

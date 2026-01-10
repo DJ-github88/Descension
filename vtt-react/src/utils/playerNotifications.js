@@ -17,7 +17,7 @@ export const showPlayerJoinNotification = (playerName, roomName) => {
       </div>
     </div>
   `;
-  
+
   document.body.appendChild(notification);
 
   // Add animation class after a small delay to trigger the animation
@@ -52,7 +52,7 @@ export const showPlayerLeaveNotification = (playerName, roomName) => {
       </div>
     </div>
   `;
-  
+
   document.body.appendChild(notification);
 
   // Add animation class after a small delay to trigger the animation
@@ -87,7 +87,7 @@ export const showRoomCreatedNotification = (roomName) => {
       </div>
     </div>
   `;
-  
+
   document.body.appendChild(notification);
 
   // Add animation class after a small delay to trigger the animation
@@ -104,4 +104,39 @@ export const showRoomCreatedNotification = (roomName) => {
       }
     }, 300);
   }, 4000);
+};
+
+export const showGMDisconnectedNotification = (gmName) => {
+  if (typeof window === 'undefined') return;
+
+  const notification = document.createElement('div');
+  notification.className = 'player-notification leave gm-disconnected';
+  notification.innerHTML = `
+    <div class="player-notification-content">
+      <div class="player-icon">
+        <i class="fas fa-crown" style="color: #ffd700;"></i>
+      </div>
+      <div class="player-info">
+        <span class="player-name">GM ${gmName || 'Unknown'}</span>
+        <span class="action-text">has disconnected. Session ended.</span>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(notification);
+
+  // Add animation class after a small delay to trigger the animation
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+
+  // Remove notification after 6 seconds (longer for such an important message)
+  setTimeout(() => {
+    notification.classList.add('fade-out');
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 6000);
 };

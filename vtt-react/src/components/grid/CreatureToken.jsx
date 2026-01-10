@@ -849,7 +849,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
           if (prevState) {
             // Check if health, mana, or AP changed
-            const healthChanged = updatedToken.state.currentHp !== prevState.currentHp;
+            const healthChanged = (updatedToken.state?.currentHp || 0) !== (prevState.currentHp || 0);
             const manaChanged = updatedToken.state.currentMana !== prevState.currentMana;
             const apChanged = updatedToken.state.currentActionPoints !== prevState.currentActionPoints;
 
@@ -997,8 +997,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (!token || !creature) return 0;
     // Force recalculation when forceUpdate changes
     const _ = forceUpdate;
-    return (token.state.currentHp / creature.stats.maxHp) * 100;
-  }, [token?.state.currentHp, creature?.stats.maxHp, forceUpdate]);
+    return ((token.state?.currentHp || 0) / (creature.stats?.maxHp || 1)) * 100;
+  }, [token?.state?.currentHp, creature?.stats?.maxHp, forceUpdate]);
   // Handle context menu
   const handleContextMenu = (e) => {
     // Prevent the default browser context menu
@@ -1433,7 +1433,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleDamageToken = (amount) => {
     if (!token) return;
 
-    const currentHp = token.state.currentHp;
+    const currentHp = token.state?.currentHp || 0;
     const newHp = Math.max(0, currentHp - amount);
 
     updateTokenState(tokenId, {
@@ -1462,7 +1462,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleHealToken = (amount) => {
     if (!token || !creature) return;
 
-    const currentHp = token.state.currentHp;
+    const currentHp = token.state?.currentHp || 0;
     const maxHp = creature.stats.maxHp;
     const newHp = Math.min(maxHp, currentHp + amount);
 
@@ -1524,7 +1524,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleFullHeal = () => {
     if (!token || !creature) return;
     const maxHp = creature.stats.maxHp;
-    const healAmount = maxHp - token.state.currentHp;
+    const healAmount = maxHp - (token.state?.currentHp || 0);
     if (healAmount > 0) {
       handleHealToken(healAmount);
     }
@@ -1534,7 +1534,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Handle kill (set health to 0)
   const handleKill = () => {
     if (!token || !creature) return;
-    const damageAmount = token.state.currentHp;
+    const damageAmount = token.state?.currentHp || 0;
     if (damageAmount > 0) {
       handleDamageToken(damageAmount);
     }
@@ -1781,7 +1781,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }, 100);
   };
   // Check if token should be hidden from players
-  const isHiddenFromPlayers = token.state.hiddenFromPlayers;
+  const isHiddenFromPlayers = token.state?.hiddenFromPlayers;
   const shouldHideToken = isHiddenFromPlayers && !isGMMode;
 
   // Don't render the token if it should be hidden
@@ -1921,11 +1921,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         <div
           className="token-icon"
           style={{
-            backgroundImage: `url(${token.state.customIcon || getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`,
+            backgroundImage: `url(${token.state?.customIcon || getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`,
             width: '100%',
             height: '100%',
-            backgroundSize: `${token.state.iconScale || 100}%`,
-            backgroundPosition: `${token.state.iconPosition?.x || 50}% ${token.state.iconPosition?.y || 50}%`,
+            backgroundSize: `${token.state?.iconScale || 100}%`,
+            backgroundPosition: `${token.state?.iconPosition?.x || 50}% ${token.state?.iconPosition?.y || 50}%`,
             borderRadius: '50%'
           }}
         ></div>

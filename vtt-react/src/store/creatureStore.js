@@ -104,10 +104,23 @@ const useCreatureStore = create((set, get) => ({
       // Let's check if we should add it if it doesn't exist.
       const exists = updatedTokens.some(t => t.id === creatureData.id);
       if (!exists) {
+        // Initialize state if it doesn't exist (important for tokens added from library)
+        const initialState = creatureData.state || {
+          currentHp: creatureData.stats?.currentHp || creatureData.stats?.maxHp || 35,
+          currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 0,
+          currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 2,
+          conditions: creatureData.state?.conditions || [],
+          hiddenFromPlayers: creatureData.state?.hiddenFromPlayers || false,
+          customIcon: creatureData.state?.customIcon || null,
+          iconScale: creatureData.state?.iconScale || 100,
+          iconPosition: creatureData.state?.iconPosition || { x: 50, y: 50 }
+        };
+
         updatedTokens.push({
           ...creatureData,
           id: creatureData.id,
-          position
+          position,
+          state: initialState
         });
       }
 
