@@ -80,6 +80,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [preselectedRoom, setPreselectedRoom] = useState(null);
+  const [usePasswordProtection, setUsePasswordProtection] = useState(false); // Toggle for optional password
 
   // Use refs to store current values and avoid recreating socket listeners
   const onJoinRoomRef = useRef(onJoinRoom);
@@ -1239,19 +1240,43 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               />
             </div>
 
-            <div className="form-input-group password-optional">
-              <label htmlFor="roomPassword">Room Password:</label>
-              <input
-                id="roomPassword"
-                type="password"
-                value={roomPassword}
-                onChange={(e) => setRoomPassword(e.target.value)}
-                placeholder="Leave empty for no password, or enter a password"
-                disabled={isConnecting}
-                maxLength={50}
-                className="form-input"
-              />
+            <div className="form-input-group password-toggle-group">
+              <label className="password-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={usePasswordProtection}
+                  onChange={(e) => {
+                    setUsePasswordProtection(e.target.checked);
+                    if (!e.target.checked) {
+                      setRoomPassword(''); // Clear password when unchecked
+                    }
+                  }}
+                  disabled={isConnecting}
+                  className="password-checkbox"
+                />
+                <span className="password-checkbox-text">
+                  <i className={usePasswordProtection ? 'fas fa-lock' : 'fas fa-lock-open'}></i>
+                  Add Password Protection
+                </span>
+              </label>
             </div>
+
+            {usePasswordProtection && (
+              <div className="form-input-group password-field">
+                <label htmlFor="roomPassword">Room Password:</label>
+                <input
+                  id="roomPassword"
+                  type="password"
+                  value={roomPassword}
+                  onChange={(e) => setRoomPassword(e.target.value)}
+                  placeholder="Enter password for room access"
+                  disabled={isConnecting}
+                  maxLength={50}
+                  className="form-input"
+                  autoFocus
+                />
+              </div>
+            )}
 
             <div className="create-buttons">
               <button
@@ -1278,7 +1303,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <div className="gm-info">
               <p><strong>Note:</strong> You will be the Game Master (GM) of this room.</p>
               <p>As GM, you have full control over the game state and can manage players.</p>
-              <p><strong>Password Required:</strong> All players must enter the password to join.</p>
+              {usePasswordProtection && (
+                <p><strong>Password Protected:</strong> Players will need the password to join this room.</p>
+              )}
+              {!usePasswordProtection && (
+                <p><strong>Open Room:</strong> Anyone with the room code can join without a password.</p>
+              )}
               {!isAuthenticated && (
                 <p><strong>Tip:</strong> Sign in to create persistent rooms that save your progress!</p>
               )}

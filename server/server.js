@@ -741,14 +741,39 @@ async function hashPassword(password) {
 
 // Helper function to verify room password
 async function verifyPassword(plainPassword, hashedPassword) {
-  if (!hashedPassword) {
-    // If no hash, check if password is also empty
-    return !plainPassword || plainPassword.trim() === '';
+  // Normalize password values - treat null, undefined, and empty string as "no password"
+  const normalizedPlainPassword = (plainPassword === null || plainPassword === undefined || plainPassword === '') ? null : plainPassword.trim();
+  const hasRoomPassword = hashedPassword !== null && hashedPassword !== undefined;
+
+  logger.debug('Password verification details', {
+    hasRoomPassword,
+    providedPasswordType: typeof plainPassword,
+    providedPasswordEmpty: !normalizedPlainPassword,
+    normalizedToNull: normalizedPlainPassword === null
+  });
+
+  // Case 1: Room has no password
+  if (!hasRoomPassword) {
+    // Allow if user also provided no password (or empty string)
+    if (!normalizedPlainPassword) {
+      logger.debug('Room has no password, user provided none - ALLOWED');
+      return true;
+    }
+    // User provided a password for a room that has none - still allow (weird but not harmful)
+    logger.debug('Room has no password, user provided one anyway - ALLOWED');
+    return true;
   }
-  if (!plainPassword) {
+
+  // Case 2: Room has a password but user didn't provide one
+  if (!normalizedPlainPassword) {
+    logger.debug('Room requires password but none provided - DENIED');
     return false;
   }
-  return await bcrypt.compare(plainPassword, hashedPassword);
+
+  // Case 3: Both have passwords - verify with bcrypt
+  const matches = await bcrypt.compare(normalizedPlainPassword, hashedPassword);
+  logger.debug('Password comparison result', { matches });
+  return matches;
 }
 
 // Room management functions

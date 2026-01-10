@@ -15,11 +15,11 @@ import { getDefaultCreatureIconByType } from './assetManager';
 export const convertToCreatureIcon = (iconId, creatureType) => {
   // If already a creature icon path (contains known creature folder), return as-is
   const creatureFolders = [
-    'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human', 
-    'Kobolds', 'Monsters', 'More Demons', 'More Elves', 'More Humans', 
+    'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human',
+    'Kobolds', 'Monsters', 'More Demons', 'More Elves', 'More Humans',
     'More Monsters', 'More Undead', 'Orc and Goblins', 'Pirates', 'Undead'
   ];
-  
+
   if (iconId && iconId.includes('/')) {
     const firstSegment = iconId.split('/')[0];
     if (creatureFolders.some(folder => iconId.startsWith(folder + '/'))) {
@@ -27,24 +27,24 @@ export const convertToCreatureIcon = (iconId, creatureType) => {
       return iconId;
     }
   }
-  
+
   // If it's an ability icon path or WoW icon ID, convert to creature icon
   const abilityFolders = ['combat', 'defensive', 'magic', 'movement', 'social', 'utility'];
   if (iconId && iconId.includes('/') && abilityFolders.includes(iconId.split('/')[0])) {
     // It's an ability icon, convert to creature icon based on type
     return getDefaultCreatureIconByType(creatureType);
   }
-  
+
   if (iconId && (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_'))) {
     // It's a WoW icon ID, convert to creature icon based on type
     return getDefaultCreatureIconByType(creatureType);
   }
-  
+
   // If empty or unknown, use default based on type
   if (!iconId || iconId.trim() === '') {
     return getDefaultCreatureIconByType(creatureType);
   }
-  
+
   // Unknown format, use default
   return getDefaultCreatureIconByType(creatureType);
 };
@@ -59,12 +59,12 @@ export const migrateCreatureIcons = (updateCreature, creatures) => {
   let migrated = 0;
   let skipped = 0;
   const errors = [];
-  
+
   creatures.forEach(creature => {
     try {
       const currentIcon = creature.tokenIcon;
       const newIcon = convertToCreatureIcon(currentIcon, creature.type);
-      
+
       // Only update if the icon actually changed
       if (currentIcon !== newIcon) {
         updateCreature(creature.id, { tokenIcon: newIcon });
@@ -78,7 +78,7 @@ export const migrateCreatureIcons = (updateCreature, creatures) => {
       console.error(`[Icon Migration] Error migrating ${creature.name}:`, error);
     }
   });
-  
+
   return {
     migrated,
     skipped,
@@ -92,26 +92,40 @@ export const migrateCreatureIcons = (updateCreature, creatures) => {
  * This should be called from the app initialization
  */
 export const runCreatureIconMigration = () => {
-  // Dynamically import to avoid circular dependencies
-  import('../store/creatureStore').then(({ default: useCreatureStore }) => {
-    const store = useCreatureStore.getState();
-    const creatures = store.creatures || [];
-    
+  // Dynamically import both stores - creatureStore for data, gameStore for updateCreature method
+  Promise.all([
+    import('../store/creatureStore'),
+    import('../store/gameStore')
+  ]).then(([{ default: useCreatureStore }, { default: useGameStore }]) => {
+    const creatureState = useCreatureStore.getState();
+    const gameState = useGameStore.getState();
+
+    // Get creatures from creatureStore (library reference)
+    const creatures = creatureState.creatures || [];
+
     if (creatures.length === 0) {
       console.log('[Icon Migration] No creatures to migrate');
       return;
     }
-    
+
+    // Use updateCreature from gameStore (where the method exists)
+    const updateCreature = gameState.updateCreature;
+
+    if (typeof updateCreature !== 'function') {
+      console.warn('[Icon Migration] updateCreature method not available, skipping migration');
+      return;
+    }
+
     console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures...`);
-    const results = migrateCreatureIcons(store.updateCreature, creatures);
-    
+    const results = migrateCreatureIcons(updateCreature, creatures);
+
     console.log('[Icon Migration] Complete:', {
       migrated: results.migrated,
       skipped: results.skipped,
       errors: results.errors.length,
       total: results.total
     });
-    
+
     if (results.errors.length > 0) {
       console.warn('[Icon Migration] Errors:', results.errors);
     }
