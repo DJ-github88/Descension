@@ -895,11 +895,28 @@ const useGridItemStore = create((set, get) => ({
   syncGridItemUpdate: (updateType, data) => {
     const gameStore = useGameStore.getState();
     if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-      gameStore.multiplayerSocket.emit('grid_item_update', {
-        type: updateType,
-        data: data,
-        timestamp: Date.now()
-      });
+      // CRITICAL FIX: Use correct event name based on update type
+      // Server expects 'item_dropped' for new items, 'grid_item_update' for moves/removes
+      if (updateType === 'grid_item_added') {
+        // Server expects 'item_dropped' with { item, position, gridPosition }
+        console.log('📤 Sending item_dropped to server:', {
+          itemName: data.item?.name,
+          itemId: data.item?.id,
+          position: data.position
+        });
+        gameStore.multiplayerSocket.emit('item_dropped', {
+          item: data.item,
+          position: data.position,
+          gridPosition: data.gridPosition
+        });
+      } else {
+        // For moves and removes, use the existing format
+        gameStore.multiplayerSocket.emit('grid_item_update', {
+          type: updateType,
+          data: data,
+          timestamp: Date.now()
+        });
+      }
     }
   },
 }));
