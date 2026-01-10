@@ -186,6 +186,8 @@ const useCreatureStore = create((set, get) => ({
         tokens: updatedTokens // Keep alias in sync
       };
     }
+
+    return state; // Explicitly return state if ignoring
   }),
 
   // Remove creature token from grid
