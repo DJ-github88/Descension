@@ -1020,7 +1020,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Batch updates for better performance
         const updateData = {
           type: 'token',
-          targetId: data.creatureId || targetId, // CRITICAL FIX: Use creatureId to find correct token
+          targetId: targetId || data.creatureId, // CRITICAL FIX: Use targetId (tokenId) first, fallback to creatureId
           position: data.position,
           timestamp: now
         };
@@ -1044,9 +1044,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                     return;
                   }
 
-                  // CRITICAL FIX: Find token by unique token ID (not creatureId)
+                  // CRITICAL FIX: Find token by unique token ID token OR creatureId
                   const currentTokens = useCreatureStore.getState().tokens;
-                  const token = currentTokens.find(t => t.id === update.targetId);
+                  const token = currentTokens.find(t => t.id === update.targetId || t.creatureId === update.targetId);
                   if (token) {
                     // CRITICAL FIX: Only update position if it's significantly different to prevent micro-jumps
                     // This prevents position jumps when GM starts dragging player tokens
