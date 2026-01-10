@@ -150,8 +150,8 @@ const useCreatureStore = create((set, get) => ({
   },
 
   // Alias for addCreatureToken
-  addToken: (creature, position, sendToServer = true) => {
-    get().addCreatureToken(creature, position, sendToServer);
+  addToken: (creature, position, sendToServer = true, forcedTokenId = null, isSyncEvent = false) => {
+    get().addCreatureToken(creature, position, sendToServer, forcedTokenId, isSyncEvent);
   },
 
   // Update creature token position

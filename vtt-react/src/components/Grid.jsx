@@ -239,6 +239,7 @@ function GridComponent({
     const [isDraggingCreature, setIsDraggingCreature] = useState(false);
     const [draggedCreatureId, setDraggedCreatureId] = useState(null);
     const [isDraggingCharacterToken, setIsDraggingCharacterToken] = useState(false);
+    const [draggedCharacterData, setDraggedCharacterData] = useState(null);
     const gridRef = useRef(null);
     const longPressHandlers = useLongPressContextMenu();
 
@@ -730,10 +731,9 @@ function GridComponent({
     useEffect(() => {
         const handleCreateCharacterToken = (event) => {
             const { character, isSelf } = event.detail;
-            if (isSelf) {
-                // Start character token dragging mode - token will follow mouse until clicked
-                setIsDraggingCharacterToken(true);
-            }
+            // Always allow dragging/dropping token regardless of isSelf (allows GM to drop players)
+            setDraggedCharacterData(character);
+            setIsDraggingCharacterToken(true);
         };
 
         window.addEventListener('createCharacterToken', handleCreateCharacterToken);
@@ -2458,7 +2458,16 @@ function GridComponent({
 
                 // Get current player ID for multiplayer
                 // In multiplayer, use character name as player ID since getCurrentPlayer is not available globally
-                const characterName = useCharacterStore.getState().name;
+                // Use the dragged character's name if available (context menu drop), otherwise fallback to active character
+                const characterName = draggedCharacterData?.name || useCharacterStore.getState().name;
+
+                if (!characterName) {
+                    console.error('No character selected for token placement');
+                    setIsDraggingCharacterToken(false);
+                    setDraggedCharacterData(null);
+                    return;
+                }
+
                 const playerId = isInMultiplayer ? characterName : null;
 
                 // Place the character token with player ID for multiplayer uniqueness
@@ -2466,6 +2475,7 @@ function GridComponent({
 
                 // Exit placement mode
                 setIsDraggingCharacterToken(false);
+                setDraggedCharacterData(null);
             }
             return;
         }
