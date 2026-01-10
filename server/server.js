@@ -644,7 +644,7 @@ function getPublicRooms() {
       maxPlayers: room.settings?.maxPlayers || 6,
       gm: room.gm.name,
       createdAt: room.createdAt,
-      hasPassword: true, // All rooms now have passwords
+      hasPassword: !!room.passwordHash, // Check if room actually has a password
       gmOnline: room.isActive !== false // Indicate if GM is currently online
     }));
 }
@@ -973,7 +973,7 @@ async function joinRoom(roomId, playerName, socketId, password, playerColor = '#
     color: playerColor || '#4a90e2' // Ensure color is always set
   });
 
-  logger.info('Player joined room', { playerName, roomName, roomName: room.name, totalPlayers: room.players.size + 1 });
+  logger.info('Player joined room', { playerName, roomName: room.name, totalPlayers: room.players.size + 1 });
   logger.debug('joinRoom completed successfully', { roomId, playerName, isGM: playerName === room.gm.name });
   return { room, player };
 }

@@ -904,7 +904,15 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [passwordInput, setPasswordInput] = useState('');
 
   const handleQuickJoin = (room) => {
-    // Show password modal instead of using prompt
+    // If room has no password, join directly without showing modal
+    if (!room.hasPassword) {
+      setRoomId(room.id);
+      setJoinPassword('');
+      handleJoinRoom(room.id, '');
+      return;
+    }
+
+    // Show password modal for password-protected rooms
     setSelectedRoom(room);
     setPasswordInput('');
     setShowPasswordModal(true);
@@ -1241,23 +1249,27 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             </div>
 
             <div className="form-input-group password-toggle-group">
-              <label className="password-checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={usePasswordProtection}
-                  onChange={(e) => {
-                    setUsePasswordProtection(e.target.checked);
-                    if (!e.target.checked) {
-                      setRoomPassword(''); // Clear password when unchecked
-                    }
-                  }}
-                  disabled={isConnecting}
-                  className="password-checkbox"
-                />
-                <span className="password-checkbox-text">
+              <label className="password-toggle-label">
+                <span className="password-toggle-text">
                   <i className={usePasswordProtection ? 'fas fa-lock' : 'fas fa-lock-open'}></i>
-                  Add Password Protection
+                  Password Protection
                 </span>
+
+                <div className="toggle-switch-container">
+                  <input
+                    type="checkbox"
+                    checked={usePasswordProtection}
+                    onChange={(e) => {
+                      setUsePasswordProtection(e.target.checked);
+                      if (!e.target.checked) {
+                        setRoomPassword(''); // Clear password when unchecked
+                      }
+                    }}
+                    disabled={isConnecting}
+                    className="toggle-switch-input"
+                  />
+                  <span className="toggle-switch-slider"></span>
+                </div>
               </label>
             </div>
 

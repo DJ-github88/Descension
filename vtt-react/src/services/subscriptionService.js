@@ -28,15 +28,30 @@ export const SUBSCRIPTION_TIERS = {
     price: 0,
     description: 'Perfect for getting started with online campaigns'
   },
+  DEV_PREVIEW: {
+    id: 'dev_preview',
+    name: 'Dev Preview',
+    roomLimit: 3,
+    characterLimit: 50,
+    features: [
+      'Cloud character save',
+      '50 character slots',
+      '3 persistent rooms',
+      'Unlimited local play',
+      'Dev Preview access'
+    ],
+    price: 0,
+    description: 'Development preview account'
+  },
   SUBSCRIBER: {
     id: 'subscriber',
     name: 'Campaign Master',
-    roomLimit: 5,
+    roomLimit: 3,
     characterLimit: 6,
     features: [
       'Cloud character save',
       '6 character slots',
-      '5 persistent rooms',
+      '3 persistent rooms',
       'Unlimited local play',
       'Advanced multiplayer features',
       'Priority support',
@@ -48,12 +63,12 @@ export const SUBSCRIPTION_TIERS = {
   PREMIUM: {
     id: 'premium',
     name: 'Guild Leader',
-    roomLimit: 20,
+    roomLimit: 10,
     characterLimit: 24,
     features: [
       'Cloud character save',
       '24 character slots',
-      '20 persistent rooms',
+      '10 persistent rooms',
       'Unlimited local play',
       'All multiplayer features',
       'Priority support',
@@ -102,21 +117,13 @@ class SubscriptionService {
 
     // CRITICAL FIX: Check for dev/demo mode AFTER guest check
     // This ensures dev users get the correct tier (50 characters) but guests still get 1
-    
+
     // Check for development bypass (dev mode)
     try {
       const { default: useAuthStore } = await import('../store/authStore');
       const authState = useAuthStore.getState();
       if (authState.isDevelopmentBypass || checkUserId === 'dev-user-123' || checkUserId?.startsWith('dev-user-')) {
-        return {
-          id: 'demo',
-          name: 'Demo Mode',
-          roomLimit: 999,
-          characterLimit: 50,
-          features: ['Unlimited rooms', '50 character slots', 'All features unlocked', 'Demo mode'],
-          price: 0,
-          description: 'Demo mode with extensive access for testing'
-        };
+        return SUBSCRIPTION_TIERS.DEV_PREVIEW;
       }
     } catch (error) {
       console.warn('Could not check dev bypass:', error);
@@ -128,15 +135,8 @@ class SubscriptionService {
       if (isDemoMode) {
         // Only return demo tier if user is authenticated (not guest)
         if (auth.currentUser || (checkUserId && !checkUserId.startsWith('guest-'))) {
-          return {
-            id: 'demo',
-            name: 'Demo Mode',
-            roomLimit: 999,
-            characterLimit: 50,
-            features: ['Unlimited rooms', '50 character slots', 'All features unlocked', 'Demo mode'],
-            price: 0,
-            description: 'Demo mode with extensive access for testing'
-          };
+          // In demo mode, give Dev Preview tier instead of unlimited
+          return SUBSCRIPTION_TIERS.DEV_PREVIEW;
         }
       }
     } catch (error) {
@@ -190,7 +190,7 @@ class SubscriptionService {
   async canCreateRoom(currentRoomCount, userId = null) {
     const tier = await this.getUserTier(userId);
     const remaining = Math.max(0, tier.roomLimit - currentRoomCount);
-    
+
     return {
       canCreate: currentRoomCount < tier.roomLimit,
       tier: tier,
@@ -305,7 +305,7 @@ class SubscriptionService {
     // CRITICAL FIX: Use getUserTier which now checks dev/demo mode FIRST
     // This ensures dev users get 50 characters, guest users get 1 character
     const tier = await this.getUserTier(userId);
-    
+
     const characterLimit = tier.characterLimit;
     const remaining = Math.max(0, characterLimit - currentCharacterCount);
 
