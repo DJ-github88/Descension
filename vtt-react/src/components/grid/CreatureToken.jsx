@@ -527,314 +527,246 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     let dragTimeoutId = null;
 
     const handleMouseMove = (e) => {
-      // Removed excessive logging for performance
+      try {
+        // Start dragging immediately if mouse is down and we're not dragging yet
+        if (isMouseDownRef.current && !isDraggingRef.current) {
+          setIsDragging(true);
+          isDraggingRef.current = true;
+          // PERFORMANCE: Set global flag to prevent expensive fog recalculations during token drag
+          window._isDraggingToken = true;
 
-      // Start dragging immediately if mouse is down and we're not dragging yet
-      if (isMouseDownRef.current && !isDraggingRef.current) {
-        setIsDragging(true);
-        isDraggingRef.current = true;
-        // PERFORMANCE: Set global flag to prevent expensive fog recalculations during token drag
-        window._isDraggingToken = true;
+          // Track drag state globally to prevent feedback loops in multiplayer
+          if (!window.multiplayerDragState) {
+            window.multiplayerDragState = new Map();
+          }
+          window.multiplayerDragState.set(`token_${tokenId}`, true);
 
-        // Track drag state globally to prevent feedback loops in multiplayer
-        if (!window.multiplayerDragState) {
-          window.multiplayerDragState = new Map();
+          // Start movement visualization if enabled (works in and out of combat)
+          if (showMovementVisualization && typeof startMovementVisualization === 'function') {
+            startMovementVisualization(tokenId, { x: position.x, y: position.y });
+          }
         }
-        window.multiplayerDragState.set(`token_${tokenId}`, true);
-        // Removed excessive logging for performance
 
-        // Start movement visualization if enabled (works in and out of combat)
-        if (showMovementVisualization) {
-          startMovementVisualization(tokenId, { x: position.x, y: position.y });
+        if (!isDraggingRef.current) return;
+
+        // Prevent all default behaviors and stop propagation immediately
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        // Calculate new screen position IMMEDIATELY for responsive visual feedback
+        const screenX = e.clientX - dragOffset.x;
+        const screenY = e.clientY - dragOffset.y;
+
+        // Get viewport dimensions for proper coordinate conversion
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Convert screen position back to world coordinates
+        const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+
+        // Update local position for React state
+        setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+        const now = Date.now();
+
+        // Send real-time position updates to multiplayer server during drag
+        if (isInMultiplayer && token && multiplayerSocket && multiplayerSocket.connected) {
+          if (now - lastNetworkUpdate > 33) { // 30fps
+            // Snap to grid for network consistency
+            const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+            const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+            multiplayerSocket.emit('token_moved', {
+              tokenId: token.id,
+              position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) },
+              isDragging: true
+            });
+            lastNetworkUpdate = now;
+          }
         }
-      }
 
-      if (!isDraggingRef.current) return;
-
-      // Prevent all default behaviors and stop propagation immediately
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-
-      // Calculate new screen position IMMEDIATELY for responsive visual feedback
-      const screenX = e.clientX - dragOffset.x;
-      const screenY = e.clientY - dragOffset.y;
-
-      // Get viewport dimensions for proper coordinate conversion
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      // Convert screen position back to world coordinates
-      const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-
-      // Update local position for React state (this will trigger re-render with new position)
-      setLocalPosition({ x: worldPos.x, y: worldPos.y });
-
-      // Handle expensive operations with simple time-based throttling (no RAF)
-      const now = Date.now();
-
-      // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
-      if (isInMultiplayer && token && multiplayerSocket) {
-        if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
-          // CRITICAL FIX: Use the current world position for real-time dragging
-          // This ensures other players see exactly where the token is being moved to
-          const currentTokenPosition = { x: worldPos.x, y: worldPos.y };
-
-          // Snap to grid for network consistency
-          const gridCoords = gridSystem.worldToGrid(currentTokenPosition.x, currentTokenPosition.y);
+        // Update movement visualization and distance calculation during drag
+        if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps
+          const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-          multiplayerSocket.emit('token_moved', {
-            tokenId: token.id,
-            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) },
-            isDragging: true
-          });
-          lastNetworkUpdate = now;
+          if (showMovementVisualization && typeof updateMovementVisualization === 'function') {
+            updateMovementVisualization({ x: snappedPos.x, y: snappedPos.y });
+          }
+
+          // Update temporary distance in store
+          if (typeof updateTempMovementDistance === 'function') {
+            const distance = gridSystem.calculateDistance(dragStartPosition, snappedPos);
+            updateTempMovementDistance(tokenId, distance);
+          }
+          lastCombatUpdate = now;
         }
-      }
-
-      // CRITICAL FIX: Update movement visualization and distance calculation during drag (works in and out of combat)
-      if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
-        // CRITICAL FIX: Snap position to tile center for clean distance display
-        // This makes the movement line point to tile centers and shows clean distance increments
-        const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
-        const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-
-        // Update movement visualization if enabled - use SNAPPED position for clean line
-        if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
-          updateMovementVisualization({ x: snappedPos.x, y: snappedPos.y });
-        }
-
-        // Calculate movement distance (used for both combat distance and facing direction)
-        const dx = snappedPos.x - dragStartPosition.x;
-        const dy = snappedPos.y - dragStartPosition.y;
-        const worldDistance = Math.sqrt(dx * dx + dy * dy);
-
-        // Calculate and update temporary movement distance for tooltip (only needed in combat)
-        if (isInCombat) {
-          // CRITICAL FIX: Use snapped positions for tile-based distance calculation
-          const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
-          const distance = tileDistance * feetPerTile;
-          updateTempMovementDistance(tokenId, distance);
-        }
-
-        lastCombatUpdate = now;
+      } catch (error) {
+        console.error('Error in handleMouseMove:', error);
       }
     };
 
     const handleMouseUp = (e) => {
-      // Removed excessive logging for performance
+      try {
+        if (!isMouseDownRef.current) return;
 
-      // Handle mouse up for both dragging and non-dragging cases
-      if (e.button !== 0) return; // Only handle left mouse button
-
-      // If we were just mouse down but never started dragging, this is a simple click
-      if (isMouseDownRef.current && !isDraggingRef.current) {
+        // Cleanup global flags
         setIsMouseDown(false);
         isMouseDownRef.current = false;
-        setMouseDownPosition(null);
-        setDragStartPosition(null);
-        return;
-      }
+        window.tokenInteractionActive = false;
+        window.tokenInteractionTimestamp = null;
 
-      // If we're not dragging, nothing to do
-      if (!isDraggingRef.current) {
-        // Removed excessive logging for performance
-        setIsMouseDown(false);
-        isMouseDownRef.current = false;
-        setMouseDownPosition(null);
-        setDragStartPosition(null);
-        return;
-      }
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      // Calculate final position
-      const screenX = e.clientX - dragOffset.x;
-      const screenY = e.clientY - dragOffset.y;
-
-      // Get viewport dimensions for proper coordinate conversion
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      // Convert screen position back to world coordinates
-      const rawWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-
-      // Snap to grid center for proper alignment
-      const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
-      const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-
-      // Removed excessive logging for performance
-
-      // Capture afterimage and explored area from old position before moving
-      const levelEditorStore = useLevelEditorStore.getState();
-      if (dragStartPosition && token && creature) {
-        levelEditorStore.captureTokenMovementAfterimage(
-          token.creatureId || tokenId,
-          { ...creature, ...token },
-          dragStartPosition,
-          finalWorldPos
-        );
-      }
-
-      // Update token position to snapped grid center (with multiplayer sync)
-      updateTokenPositionWithSync(tokenId, finalWorldPos);
-
-      // Update local position immediately to prevent visual jumps
-      setLocalPosition({ x: finalWorldPos.x, y: finalWorldPos.y });
-
-      // If this is the viewing token, update its position in the level editor store for vision calculations
-      // FIXED: Force visibility recalculation when token is dropped
-      if (isViewingFrom) {
-        const levelEditorStore = useLevelEditorStore.getState();
-        const currentViewingToken = levelEditorStore.viewingFromToken;
-        if (currentViewingToken) {
-          // Update position - this will trigger visibility recalculation
-          // The StaticFogOverlay will detect the drag end and clear cache
-          levelEditorStore.setViewingFromToken({
-            ...currentViewingToken,
-            position: { x: finalWorldPos.x, y: finalWorldPos.y }
-          });
+        if (window.multiplayerDragState) {
+          window.multiplayerDragState.delete(`token_${tokenId}`);
         }
-      }
 
-      // Track when we last updated position (for grace period in useEffect)
-      lastPositionUpdateRef.current = Date.now();
+        if (!isDraggingRef.current) {
+          setMouseDownPosition(null);
+          setDragStartPosition(null);
+          return;
+        }
 
-      // Handle combat movement validation if in combat
-      if (isInCombat && dragStartPosition) {
-        // Validate movement and handle AP costs
-        const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], feetPerTile);
+        e.preventDefault();
+        e.stopPropagation();
 
-        if (validation.needsConfirmation) {
-          // Movement requires confirmation
-          const combatant = useCombatStore.getState().turnOrder.find(c => c.tokenId === tokenId);
-          // Get token conditions for speed calculation
-          const conditions = token?.state?.conditions || [];
-          const baseSpeed = creature.stats?.speed || 30;
-          const effectiveSpeed = calculateEffectiveMovementSpeed(baseSpeed, conditions);
-          setPendingMovementConfirmation({
-            tokenId,
-            startPosition: dragStartPosition,
-            finalPosition: finalWorldPos,
-            requiredAP: validation.additionalAPNeeded,
-            totalDistance: validation.totalMovementAfterThis,
-            baseMovement: effectiveSpeed,
-            currentAP: combatant?.currentActionPoints || 0,
-            creatureName: creature.name || 'Creature',
-            movementUsedThisTurn: validation.movementUsedThisTurn,
-            feetPerTile: feetPerTile,
-            currentMovementDistance: validation.currentMovementFeet
-          });
-        } else if (validation.isValid) {
-          // Movement is valid - auto-confirm
-          // CRITICAL FIX: Pass totalMovementAfterThis (cumulative) instead of currentMovementFeet (just this move)
-          // This ensures movement tracking accumulates properly instead of resetting
-          confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
-          logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+        setIsDragging(false);
+        isDraggingRef.current = false;
+        window._isDraggingToken = false;
 
-          if (isInMultiplayer && multiplayerSocket) {
-            multiplayerSocket.emit('token_movement_complete', {
-              tokenId: token.creatureId,
-              creatureName: creature.name,
-              distance: Math.round(validation.currentMovementFeet),
-              from: dragStartPosition,
-              to: finalWorldPos
-            });
+        // Remove document listeners
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('pointermove', handlePointerMove);
+        document.removeEventListener('pointerup', handlePointerUp);
+        document.removeEventListener('pointercancel', handlePointerUp);
+
+        // Final snap to grid
+        const gridCoords = gridSystem.worldToGrid(localPosition.x, localPosition.y);
+        const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+        setLocalPosition(finalWorldPos);
+        lastPositionUpdateRef.current = Date.now();
+
+        // Handle movement validation
+        if (isInCombat && dragStartPosition && typeof validateMovement === 'function') {
+          const currentFeetPerTile = gridSystem.getGridState().feetPerTile || 5;
+          const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], currentFeetPerTile);
+
+          if (validation && validation.needsConfirmation) {
+            if (typeof setPendingMovementConfirmation === 'function') {
+              const combatant = useCombatStore.getState().turnOrder.find(c => c.tokenId === tokenId);
+              const conditions = token?.state?.conditions || [];
+              const baseSpeed = creature.stats?.speed || 30;
+              const effectiveSpeed = calculateEffectiveMovementSpeed(baseSpeed, conditions);
+
+              setPendingMovementConfirmation({
+                tokenId,
+                creatureName: creature?.name || 'Creature',
+                startPosition: dragStartPosition,
+                finalPosition: finalWorldPos,
+                distance: validation.currentMovementFeet,
+                additionalAPNeeded: validation.additionalAPNeeded,
+                totalMovementAfterThis: validation.totalMovementAfterThis,
+                baseMovement: effectiveSpeed,
+                currentAP: combatant?.currentActionPoints || 0,
+                movementUsedThisTurn: validation.movementUsedThisTurn,
+                feetPerTile: currentFeetPerTile,
+                currentMovementDistance: validation.currentMovementFeet,
+                onConfirm: () => {
+                  updateTokenPositionWithSync(tokenId, finalWorldPos);
+                  if (typeof confirmMovement === 'function') {
+                    confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
+                  }
+                  if (typeof logMovementToCombat === 'function') {
+                    logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+                  }
+                  if (typeof clearPendingMovementConfirmation === 'function') clearPendingMovementConfirmation();
+                  if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
+                },
+                onCancel: () => {
+                  setLocalPosition(dragStartPosition);
+                  updateTokenPositionWithSync(tokenId, dragStartPosition);
+                  if (typeof clearPendingMovementConfirmation === 'function') clearPendingMovementConfirmation();
+                  if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
+                  if (typeof updateTempMovementDistance === 'function') {
+                    updateTempMovementDistance(tokenId, 0);
+                  }
+                }
+              });
+            }
+          } else if (validation?.isValid) {
+            updateTokenPositionWithSync(tokenId, finalWorldPos);
+            if (typeof confirmMovement === 'function') {
+              confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
+            }
+            if (typeof logMovementToCombat === 'function') {
+              logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+            }
+          } else {
+            setLocalPosition(dragStartPosition);
+            updateTokenPositionWithSync(tokenId, dragStartPosition);
           }
         } else {
-          // Revert to start position
-          updateTokenPositionWithSync(tokenId, dragStartPosition);
-          updateTempMovementDistance(tokenId, 0);
+          updateTokenPositionWithSync(tokenId, finalWorldPos);
+          if (isInMultiplayer && token && multiplayerSocket?.connected) {
+            multiplayerSocket.emit('token_moved', { tokenId, position: finalWorldPos, isDragging: false });
+          }
         }
-      } else {
-        // Not in combat - send final position update to multiplayer
-        if (isInMultiplayer && token && multiplayerSocket) {
-          // Track local movement to prevent race conditions
-          window[`recent_move_${token.creatureId}`] = Date.now();
 
-          multiplayerSocket.emit('token_moved', {
-            tokenId: tokenId, // Correctly send tokenId as recognized by server
-            position: finalWorldPos,
-            isDragging: false
-          });
-        }
-      }
+        if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
+        if (typeof updateTempMovementDistance === 'function') updateTempMovementDistance(tokenId, 0);
 
-      // Clear movement visualization
-      clearMovementVisualization();
-
-      // End dragging and reset all states
-      // Removed excessive logging for performance
-      setIsDragging(false);
-      isDraggingRef.current = false;
-      // PERFORMANCE: Clear global token drag flag
-      window._isDraggingToken = false;
-      setIsMouseDown(false);
-      isMouseDownRef.current = false;
-      setMouseDownPosition(null);
-      setDragStartPosition(null);
-
-      // CRITICAL FIX: Clear global token interaction flag
-      window.tokenInteractionActive = false;
-      window.tokenInteractionTimestamp = null;
-
-      // Clear drag state globally to allow network updates again
-      if (window.multiplayerDragState) {
-        window.multiplayerDragState.delete(`token_${tokenId}`);
-        // Removed excessive logging for performance
+      } catch (error) {
+        console.error('Error in handleMouseUp:', error);
+        // Emergency cleanup
+        setIsDragging(false);
+        setIsMouseDown(false);
+        isDraggingRef.current = false;
+        isMouseDownRef.current = false;
+        window._isDraggingToken = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('pointermove', handlePointerMove);
+        document.removeEventListener('pointerup', handlePointerUp);
+        document.removeEventListener('pointercancel', handlePointerUp);
+        if (window.multiplayerDragState) window.multiplayerDragState.delete(`token_${tokenId}`);
       }
     };
 
     const handlePointerMove = (e) => {
-      if (e.pointerType === 'touch') {
-        handleMouseMove(e);
-      }
+      if (e.pointerType === 'touch') handleMouseMove(e);
     };
 
     const handlePointerUp = (e) => {
-      if (e.pointerType === 'touch') {
-        handleMouseUp(e);
-      }
+      if (e.pointerType === 'touch') handleMouseUp(e);
     };
 
     if (isDragging || isMouseDown) {
-      // Use passive: false for both mousemove and mouseup to allow preventDefault
       document.addEventListener('mousemove', handleMouseMove, { passive: false });
       document.addEventListener('mouseup', handleMouseUp, { passive: false });
       document.addEventListener('pointermove', handlePointerMove, { passive: false });
       document.addEventListener('pointerup', handlePointerUp, { passive: false });
       document.addEventListener('pointercancel', handlePointerUp, { passive: false });
 
-      // Safety timeout to reset dragging state if mouse up is missed
-      // CRITICAL FIX: Increased from 5s to 30s to prevent interrupting long drags
       dragTimeoutId = setTimeout(() => {
-        console.warn('⏰ Drag timeout triggered after 30s - this should rarely happen');
         setIsDragging(false);
-        // PERFORMANCE: Clear global token drag flag
         window._isDraggingToken = false;
         setIsMouseDown(false);
-        if (window.multiplayerDragState) {
-          window.multiplayerDragState.delete(`token_${tokenId}`);
-        }
+        if (window.multiplayerDragState) window.multiplayerDragState.delete(`token_${tokenId}`);
         window.tokenInteractionActive = false;
-        window.tokenInteractionTimestamp = null;
-      }, 30000); // 30 second timeout (safety net only)
+      }, 30000);
     }
 
     return () => {
-      // Removed excessive logging for performance
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('pointermove', handlePointerMove);
       document.removeEventListener('pointerup', handlePointerUp);
       document.removeEventListener('pointercancel', handlePointerUp);
-      if (dragTimeoutId) {
-        clearTimeout(dragTimeoutId);
-      }
+      if (dragTimeoutId) clearTimeout(dragTimeoutId);
     };
-  }, [isDragging, isMouseDown, isInMultiplayer, multiplayerSocket, token, isInCombat, dragStartPosition, showMovementVisualization, tokenId, position]);
+  }, [isDragging, isMouseDown, dragOffset, tokenId, isInMultiplayer, multiplayerSocket, gridSystem, isInCombat, creatures, creature, token, localPosition, showMovementVisualization, startMovementVisualization, updateMovementVisualization, clearMovementVisualization, validateMovement, confirmMovement, setPendingMovementConfirmation, clearPendingMovementConfirmation, updateTempMovementDistance, updateTokenPositionWithSync]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(
@@ -977,16 +909,25 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Calculate token size based on creature size and zoom
   const tokenSize = useMemo(() => {
-    if (!creature) return gridSize * 0.8 * effectiveZoom;
+    // Safety check for gridSize and effectiveZoom
+    const safeGridSize = typeof gridSize === 'number' ? gridSize : 50;
+    const safeZoom = typeof effectiveZoom === 'number' ? effectiveZoom : 1;
+
+    if (!creature) return safeGridSize * 0.8 * safeZoom;
 
     const sizeMapping = getCreatureSizeMapping(creature.size);
-    const baseSize = gridSize * 0.8; // 80% of tile size for some padding
+    const baseSize = safeGridSize * 0.8; // 80% of tile size for some padding
+
+    // Ensure sizeMapping contains all necessary properties with safe defaults
+    const width = typeof sizeMapping?.width === 'number' ? sizeMapping.width : 1;
+    const height = typeof sizeMapping?.height === 'number' ? sizeMapping.height : 1;
+    const scale = typeof sizeMapping?.scale === 'number' ? sizeMapping.scale : 1;
 
     // For creatures larger than 1x1, we use the width to determine the base size
     // but still apply the scale factor for visual consistency
-    const scaledSize = baseSize * sizeMapping.scale * Math.max(sizeMapping.width, sizeMapping.height);
+    const scaledSize = baseSize * scale * Math.max(width, height);
 
-    return scaledSize * effectiveZoom;
+    return scaledSize * safeZoom;
   }, [gridSize, effectiveZoom, creature]);
 
   // Calculate health percentage for the health bar with real-time updates

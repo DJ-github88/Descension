@@ -137,6 +137,11 @@ const useCreatureStore = create((set, get) => ({
   },
 
   // Update creature token position
+  updateTokenPosition: (tokenId, position, velocity = null) => {
+    get().updateCreaturePosition(tokenId, position, velocity);
+  },
+
+  // Update creature token position
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
     const now = Date.now();
     const moveKey = `creature_${tokenId}`;
@@ -205,6 +210,11 @@ const useCreatureStore = create((set, get) => ({
   // Window management actions
   setWindowPosition: (position) => set({ windowPosition: position }),
   setWindowSize: (size) => set({ windowSize: size }),
+
+  // Update creature state (HP, Mana, conditions)
+  updateTokenState: (tokenId, stateUpdates) => {
+    get().updateCreatureState(tokenId, stateUpdates);
+  },
 
   // Update creature state (HP, Mana, conditions)
   updateCreatureState: (tokenId, stateUpdates) => set(state => {
@@ -335,24 +345,26 @@ export const CREATURE_SIZES = {
 };
 
 export const getCreatureSizeMapping = (size) => {
-  if (!size) return { width: 1, height: 1 };
+  if (!size) return { width: 1, height: 1, scale: 1 };
 
   const sizeLower = size.toLowerCase();
 
   switch (sizeLower) {
     case 'tiny':
+      return { width: 1, height: 1, scale: 0.7 };
     case 'small':
+      return { width: 1, height: 1, scale: 0.85 };
     case 'medium':
-      return { width: 1, height: 1 };
+      return { width: 1, height: 1, scale: 1 };
     case 'large':
-      return { width: 2, height: 2 };
+      return { width: 2, height: 2, scale: 1 };
     case 'huge':
-      return { width: 3, height: 3 };
+      return { width: 3, height: 3, scale: 1 };
     case 'gargantuan':
-      return { width: 4, height: 4 };
+      return { width: 4, height: 4, scale: 1 };
     case 'colossal':
-      return { width: 5, height: 5 }; // Or larger depending on rules
+      return { width: 5, height: 5, scale: 1 };
     default:
-      return { width: 1, height: 1 };
+      return { width: 1, height: 1, scale: 1 };
   }
 };
