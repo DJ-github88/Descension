@@ -5,16 +5,18 @@ import '../../styles/CompactCreatureCard.css';
 
 // Helper function to format type name
 const formatTypeName = (type) => {
-  return type.charAt(0).toUpperCase() + type.slice(1);
+  return type ? type.charAt(0).toUpperCase() + type.slice(1) : 'Unknown';
 };
 
 // Helper function to format size name
 const formatSizeName = (size) => {
-  return size.charAt(0).toUpperCase() + size.slice(1);
+  return size ? size.charAt(0).toUpperCase() + size.slice(1) : 'Medium';
 };
 
 // Helper function to get color for creature type
 const getTypeColor = (type) => {
+  if (!type) return '#7a3b2e';
+
   const typeColors = {
     aberration: '#9932CC', // Dark Orchid
     beast: '#8B4513', // Saddle Brown
@@ -37,7 +39,7 @@ const getTypeColor = (type) => {
 
 // Helper function to calculate ability modifier
 const calculateModifier = (value) => {
-  return Math.floor((value - 10) / 2);
+  return Math.floor(((value || 10) - 10) / 2);
 };
 
 // Helper function to format modifier with + or - sign
@@ -91,16 +93,16 @@ const CompactCreatureCard = ({ creature }) => {
       <div className="compact-creature-main-stats">
         <div className="compact-main-stat">
           <div className="compact-main-stat-value">
-            {creature.stats.currentHp || creature.stats.maxHp}/{creature.stats.maxHp}
+            {creature.stats?.currentHp || creature.stats?.maxHp || 0}/{creature.stats?.maxHp || 0}
           </div>
           <div className="compact-main-stat-label">HP</div>
         </div>
         <div className="compact-main-stat">
-          <div className="compact-main-stat-value">{creature.stats.armor || creature.stats.armorClass}</div>
+          <div className="compact-main-stat-value">{creature.stats?.armor || creature.stats?.armorClass || 10}</div>
           <div className="compact-main-stat-label">Armor</div>
         </div>
         <div className="compact-main-stat">
-          <div className="compact-main-stat-value">{formatModifier(creature.stats.initiative)}</div>
+          <div className="compact-main-stat-value">{formatModifier(creature.stats?.initiative || 0)}</div>
           <div className="compact-main-stat-label">INIT</div>
         </div>
       </div>

@@ -1,8 +1,3 @@
-/**
- * Migration utility to convert creature icons from ability icons to proper creature icons
- * This fixes creatures that have ability icon paths (e.g., "combat/beast-paw-claws") 
- * and converts them to creature icons based on their type
- */
 
 import { getDefaultCreatureIconByType } from './assetManager';
 
@@ -51,23 +46,25 @@ export const convertToCreatureIcon = (iconId, creatureType) => {
 
 /**
  * Migrate all creatures in the store to use proper creature icons
- * @param {Function} updateCreature - Function to update a creature (from store)
  * @param {Array} creatures - Array of all creatures
- * @returns {Object} - Migration results
+ * @returns {Object} - Migration results including updated creatures array
  */
-export const migrateCreatureIcons = (updateCreature, creatures) => {
+export const migrateCreatureIcons = (creatures) => {
   let migrated = 0;
   let skipped = 0;
   const errors = [];
 
-  creatures.forEach(creature => {
+  // Create a copy of the array to modify
+  const updatedCreatures = [...creatures];
+
+  updatedCreatures.forEach((creature, index) => {
     try {
       const currentIcon = creature.tokenIcon;
       const newIcon = convertToCreatureIcon(currentIcon, creature.type);
 
       // Only update if the icon actually changed
       if (currentIcon !== newIcon) {
-        updateCreature(creature.id, { tokenIcon: newIcon });
+        updatedCreatures[index] = { ...creature, tokenIcon: newIcon };
         migrated++;
         console.log(`[Icon Migration] Updated ${creature.name}: ${currentIcon} → ${newIcon}`);
       } else {
@@ -83,7 +80,8 @@ export const migrateCreatureIcons = (updateCreature, creatures) => {
     migrated,
     skipped,
     errors,
-    total: creatures.length
+    total: creatures.length,
+    updatedCreatures
   };
 };
 
@@ -92,13 +90,9 @@ export const migrateCreatureIcons = (updateCreature, creatures) => {
  * This should be called from the app initialization
  */
 export const runCreatureIconMigration = () => {
-  // Dynamically import both stores - creatureStore for data, gameStore for updateCreature method
-  Promise.all([
-    import('../store/creatureStore'),
-    import('../store/gameStore')
-  ]).then(([{ default: useCreatureStore }, { default: useGameStore }]) => {
+  // Dynamically import creatureStore to avoid circular dependencies
+  import('../store/creatureStore').then(({ default: useCreatureStore }) => {
     const creatureState = useCreatureStore.getState();
-    const gameState = useGameStore.getState();
 
     // Get creatures from creatureStore (library reference)
     const creatures = creatureState.creatures || [];
@@ -108,16 +102,14 @@ export const runCreatureIconMigration = () => {
       return;
     }
 
-    // Use updateCreature from gameStore (where the method exists)
-    const updateCreature = gameState.updateCreature;
-
-    if (typeof updateCreature !== 'function') {
-      console.warn('[Icon Migration] updateCreature method not available, skipping migration');
-      return;
-    }
-
     console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures...`);
-    const results = migrateCreatureIcons(updateCreature, creatures);
+    const results = migrateCreatureIcons(creatures);
+
+    if (results.migrated > 0) {
+      // Update the store with the new creatures array
+      creatureState.setCreatures(results.updatedCreatures);
+      console.log('[Icon Migration] Saved migrated creatures to store');
+    }
 
     console.log('[Icon Migration] Complete:', {
       migrated: results.migrated,
@@ -133,4 +125,3 @@ export const runCreatureIconMigration = () => {
     console.error('[Icon Migration] Failed to run migration:', error);
   });
 };
-
