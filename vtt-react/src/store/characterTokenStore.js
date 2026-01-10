@@ -128,7 +128,7 @@ const useCharacterTokenStore = create(
         });
 
         const updatedTokens = state.characterTokens.map(token =>
-          token.id === playerIdOrTokenId || token.playerId === playerId
+          token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
             ? { ...token, position }
             : token
         );
