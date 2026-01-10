@@ -8,6 +8,7 @@ if (typeof window !== 'undefined') {
 }
 
 import { create } from 'zustand';
+import useGameStore from './gameStore';
 import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
 
 // Global recent token movements tracking (window scope for echo prevention)
@@ -43,23 +44,38 @@ const useCreatureStore = create((set, get) => ({
   })),
 
   // Add creature token to the grid
-  addCreatureToken: (creature, position, sendToServer = true) => {
+  addCreatureToken: (creature, position, sendToServer = true, forcedTokenId = null, isSyncEvent = false) => {
     // If creature is an ID string, we'll need to find its full data
-    const creatureId = typeof creature === 'string' ? creature : creature.id;
+    const creatureId = typeof creature === 'string' ? creature : (creature.id || creature.creatureId);
     const libraryCreatures = get().creatures || [];
     const creatureData = typeof creature === 'object' ? creature : (libraryCreatures.find(c => c.id === creatureId) || { id: creatureId });
 
-    set(state => {
-      // For adding from library, we ALWAYS want a unique token ID
-      // If we're updating an existing token, we should use updateCreaturePosition
-      // But addCreatureToken is sometimes called with an existing token object
-      const tokenId = (typeof creature === 'object' && creature.tokenId)
-        ? creature.tokenId
-        : `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const tokenId = forcedTokenId || (creatureData.tokenId) || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
-      // Track this movement to prevent echo-induced position resets
+    set((state) => {
+      const existingTokens = state.creatureTokens || [];
+      const tokenExists = existingTokens.some(t => t.id === tokenId);
+
+      if (tokenExists) {
+        console.log('🔄 Token already exists, skipping addition:', tokenId);
+        return state;
+      }
+
+      const moveKey = `move_${tokenId}`;
       const now = Date.now();
-      const moveKey = `creature_${tokenId}`;
+
+      // FIXED: Throttle movement updates in store to prevent rapid re-renders
+      const recentMove = recentTokenMovements.get(moveKey);
+      if (recentMove && (now - recentMove.timestamp) < 50) {
+        return state;
+      }
+
+      // Track this movement
+      recentTokenMovements.set(moveKey, {
+        position: position,
+        timestamp: now,
+        velocity: creatureData.velocity || { x: 0, y: 0 }
+      });
 
       // Clean up old movements periodically
       if (now - lastCleanup > CLEANUP_INTERVAL) {
@@ -72,33 +88,21 @@ const useCreatureStore = create((set, get) => ({
         lastCleanup = now;
       }
 
-      // Track this movement
-      recentTokenMovements.set(moveKey, {
-        position: position,
-        timestamp: now,
-        velocity: creatureData.velocity || { x: 0, y: 0 }
-      });
-
-      if (sendToServer) {
-        // Import game store dynamically to avoid circular dependencies
+      // Sync with Multiplayer server if enabled and not already a sync event
+      if (sendToServer && !isSyncEvent) {
         try {
-          const gameStore = require('./gameStore').default;
-
+          const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-            // CRITICAL FIX: Use 'token_created' event with proper structure matching server expectations
-            // Server expects: { creature, token, position }
+            // CRITICAL FIX: Include full creature data for multiplayer sync
             const tokenSyncData = {
-              creature: {
-                ...creatureData,
-                id: creatureId // Ensure creature ID is set
-              },
               token: {
                 id: tokenId,
                 creatureId: creatureId,
                 state: creatureData.state
               },
+              creature: creatureData,
               position: position,
-              tokenId: tokenId // Also include at top level for safety
+              tokenId: tokenId
             };
 
             console.log('📤 Sending token_created to server:', {
@@ -111,7 +115,7 @@ const useCreatureStore = create((set, get) => ({
             gameStore.multiplayerSocket.emit('token_created', tokenSyncData);
           }
         } catch (e) {
-          console.warn('GameStore not available for multiplayer sync');
+          console.warn('GameStore not available for multiplayer sync or error during emit:', e);
         }
       }
 
@@ -136,7 +140,7 @@ const useCreatureStore = create((set, get) => ({
         addedAt: Date.now()
       };
 
-      const updatedTokens = [...(state.creatureTokens || []), newToken];
+      const updatedTokens = [...existingTokens, newToken];
 
       return {
         creatureTokens: updatedTokens,

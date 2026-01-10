@@ -192,6 +192,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
   const currentPlayerRef = useRef(currentPlayer);
+  const isGMRef = useRef(isGM);
+  const roomPasswordRef = useRef('');
   const addPartyMemberRef = useRef(addPartyMember);
   const removePartyMemberRef = useRef(removePartyMember);
   const addUserRef = useRef(addUser);
@@ -208,17 +210,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Update refs when values change to prevent socket event handler recreation
   useEffect(() => {
     currentRoomRef.current = currentRoom;
-  }, [currentRoom]);
-
-  useEffect(() => {
     currentPlayerRef.current = currentPlayer;
-  }, [currentPlayer]);
-
-  // IsGM Ref
-  const isGMRef = useRef(isGM);
-  useEffect(() => {
     isGMRef.current = isGM;
-  }, [isGM]);
+  }, [currentRoom, currentPlayer, isGM]);
 
   // Track viewport changes for selective sync optimization
   useEffect(() => {
@@ -391,6 +385,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setIsConnecting(false);
         // Don't set to 'connected' here - wait for room join to complete
         // setConnectionStatus('connected');
+
+        // AUTO-REJOIN: If we have room data and were already connected, re-join automatically
+        // This is CRITICAL for handling temporary socket disconnections (e.g. tab sleep, network swap)
+        if (currentRoomRef.current) {
+          const roomData = currentRoomRef.current;
+          console.log('🔄 Socket connected, auto-rejoining room:', roomData.id);
+
+          newSocket.emit('join_room', {
+            roomId: roomData.persistentRoomId || roomData.id,
+            playerName: currentPlayerRef.current?.name || 'Reconnecting...',
+            password: roomPasswordRef.current || '',
+            isReconnect: true
+          });
+        }
 
         // Show connection success notification
         addNotificationRef.current('social', {
@@ -2444,7 +2452,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
-  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject) => {
+  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password) => {
     setIsJoiningRoom(true);
     setConnectionStatus('connecting');
 
@@ -2462,6 +2470,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setCurrentRoom(room);
       setSocket(socketConnection);
       setIsGM(isGameMaster);
+      roomPasswordRef.current = password || '';
 
       // Sync socket to presenceStore in handleJoinRoom
       try {

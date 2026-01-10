@@ -86,6 +86,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const onJoinRoomRef = useRef(onJoinRoom);
   const playerNameRef = useRef(playerName);
   const roomPasswordRef = useRef(roomPassword);
+  const joinPasswordRef = useRef(joinPassword);
 
   useEffect(() => {
     onJoinRoomRef.current = onJoinRoom;
@@ -98,6 +99,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   useEffect(() => {
     roomPasswordRef.current = roomPassword;
   }, [roomPassword]);
+
+  useEffect(() => {
+    joinPasswordRef.current = joinPassword;
+  }, [joinPassword]);
 
   // Set room name based on active character when component mounts or tab changes to create
   useEffect(() => {
@@ -387,7 +392,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       // Use explicit isGM flag from server (much more reliable than name comparison)
       const isGM = data.isGM || data.isGMReconnect || false;
 
-      onJoinRoomRef.current(data.room, socket, isGM, data.player);
+      // Pass the password used to join/create so MultiplayerApp can handle auto-reconnects
+      const usedPassword = joinPasswordRef.current || roomPasswordRef.current || '';
+
+      onJoinRoomRef.current(data.room, socket, isGM, data.player, usedPassword);
     };
 
     const handleError = (data) => {
