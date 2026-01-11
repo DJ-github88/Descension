@@ -105,8 +105,12 @@ const useCharacterTokenStore = create(
 
       // Update character token position (by player ID for multiplayer sync)
       updateCharacterTokenPosition: (playerIdOrTokenId, position) => set(state => {
-        // CRITICAL FIX: Ignore stale server echoes to prevent position jumps
-        // Check if we recently moved this token (within last 100ms)
+        // Find existing token for comparison
+        const existingToken = state.characterTokens.find(token =>
+          token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
+        );
+
+        // CRITICAL FIX: Ignore duplicate position updates to prevent server echo glitches
         const recentMoveKey = `token_${playerIdOrTokenId}`;
         const now = Date.now();
 
@@ -115,12 +119,30 @@ const useCharacterTokenStore = create(
         }
         const recentMove = recentTokenMovements.get(recentMoveKey);
 
-        if (recentMove && (now - recentMove.timestamp) < 100) {
-          console.log(`🚫 Ignoring stale character token position update for ${playerIdOrTokenId} (${now - recentMove.timestamp}ms old)`);
-          return;
+        // IMPROVED LOGIC: Increased grace period to 2000ms (to account for network round-trips)
+        // If we recently moved this token locally, ignore any server updates for it UNLESS they match
+        // Or if enough time has passed.
+        if (recentMove && (now - recentMove.timestamp) < 2000) {
+          const isSamePosition =
+            Math.round(recentMove.position.x) === Math.round(position.x) &&
+            Math.round(recentMove.position.y) === Math.round(position.y);
+
+          if (isSamePosition) {
+            // Already matched, ignore the redundant update
+            return state;
+          }
+
+          // If position is different but we moved it reflexively (optimistically), 
+          // we should trust our local position more than the older server broadcast.
+          if (existingToken &&
+            Math.round(existingToken.position.x) === Math.round(recentMove.position.x) &&
+            Math.round(existingToken.position.y) === Math.round(recentMove.position.y)) {
+            console.log(`🚫 Ignoring conflicting server movement for ${playerIdOrTokenId} - local movement is authoritative`);
+            return state;
+          }
         }
 
-        // Track this movement to prevent future echoes
+        // Track this movement to prevent future duplicate echoes
         recentTokenMovements.set(recentMoveKey, {
           tokenKey: playerIdOrTokenId,
           position,
@@ -256,6 +278,12 @@ const useCharacterTokenStore = create(
 
       // Clean up expired conditions from all character tokens
       cleanupExpiredConditions: () => set(state => {
+        // CRITICAL FIX: Guard against undefined state
+        if (!state || !state.characterTokens) {
+          console.warn('⚠️ characterTokenStore state is undefined in cleanupExpiredConditions');
+          return state || { characterTokens: [] };
+        }
+
         const currentTime = Date.now();
         let hasChanges = false;
 

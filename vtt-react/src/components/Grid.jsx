@@ -2456,9 +2456,8 @@ function GridComponent({
                 // Use the infinite grid system to get proper world coordinates
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
 
-                // Get current player ID for multiplayer
-                // In multiplayer, use character name as player ID since getCurrentPlayer is not available globally
-                // Use the dragged character's name if available (context menu drop), otherwise fallback to active character
+                // Get current player from gameStore (provided as prop)
+                const currentPlayer = gameStore.getState().currentPlayer;
                 const characterName = draggedCharacterData?.name || useCharacterStore.getState().name;
 
                 if (!characterName) {
@@ -2468,7 +2467,8 @@ function GridComponent({
                     return;
                 }
 
-                const playerId = isInMultiplayer ? characterName : null;
+                // CRITICAL FIX: Use currentPlayer.id if available for robust ownership, fallback to characterName
+                const playerId = isInMultiplayer ? (currentPlayer?.id || characterName) : null;
 
                 // Place the character token with player ID for multiplayer uniqueness
                 addCharacterToken(worldPos, playerId);
@@ -3013,7 +3013,8 @@ function GridComponent({
                     backgroundColor: gridBackgroundColor, // Always apply background color (shows through transparent backgrounds)
                     // CRITICAL FIX: Enable pointer events for players so they can drag the grid
                     // GM mode has isGridAlignmentMode/isBackgroundManipulationMode, but players need pointer events too
-                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCamera || shouldEnableCameraDrag || !isGMMode) ? "all" : "none",
+                    // ALSO enable when dragging tokens (character or creature) to allow placement
+                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCharacterToken || isDraggingCreature || isDraggingCamera || shouldEnableCameraDrag || !isGMMode) ? "all" : "none",
                     overflow: "hidden",
                     zIndex: 0,
                     cursor: isGridAlignmentMode ? 'crosshair' :

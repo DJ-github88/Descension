@@ -69,7 +69,7 @@ const useChatStore = create(
       // Open/close window
       setIsOpen: (isOpen) => set(state => {
         // If opening the window, reset unread count for active tab
-        const newUnreadCounts = {...state.unreadCounts};
+        const newUnreadCounts = { ...state.unreadCounts };
         if (isOpen) {
           newUnreadCounts[state.activeTab] = 0;
         }
@@ -204,6 +204,11 @@ const useChatStore = create(
         onlineUsers: [...state.onlineUsers, user]
       })),
 
+      // Remove a user from the online users list
+      removeUser: (userId) => set(state => ({
+        onlineUsers: state.onlineUsers.filter(user => user.id !== userId)
+      })),
+
       // Update a user's status
       updateUserStatus: (userId, status) => set(state => ({
         onlineUsers: state.onlineUsers.map(user =>
@@ -276,11 +281,11 @@ const useChatStore = create(
             const cleanValue = JSON.parse(JSON.stringify(value, (key, val) => {
               // Exclude socket objects, functions, and other non-serializable types
               if (key === 'multiplayerSocket' ||
-                  key === 'sendMultiplayerMessage' ||
-                  typeof val === 'function' ||
-                  (val && typeof val === 'object' && val.constructor &&
-                   (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
-                  return undefined;
+                key === 'sendMultiplayerMessage' ||
+                typeof val === 'function' ||
+                (val && typeof val === 'object' && val.constructor &&
+                  (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
+                return undefined;
               }
               return val;
             }));

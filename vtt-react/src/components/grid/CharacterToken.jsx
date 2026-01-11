@@ -611,30 +611,36 @@ const CharacterToken = ({
         // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
         if (isInMultiplayer && !isGMMode) {
             const { currentPlayer } = useGameStore.getState();
-            const { name: characterName } = useCharacterStore.getState();
+            const { name: characterName, baseName: characterBaseName } = useCharacterStore.getState();
 
             // Check multiple ways the token could be identified as the player's token:
-            // 1. tokenPlayerId matches currentPlayer.id
-            // 2. tokenPlayerId matches characterName (used when placing from HUD)
-            // 3. tokenPlayerId is 'current-player'
-            // 4. token.isPlayerToken is true (single-player compatibility)
+            // 1. tokenPlayerId matches currentPlayer.id (primary multiplayer ID)
+            // 2. tokenPlayerId matches characterName or baseName (common from PartyHUD)
+            // 3. tokenPlayerId matches our socket ID directly
+            // 4. tokenPlayerId is 'current-player' (legacy support)
+            // 5. token.isPlayerToken is true (single-player compatibility)
+            // 6. token.name matches our character name (ultimate fallback)
             const isOwnToken = tokenPlayerId === currentPlayer?.id ||
                 tokenPlayerId === characterName ||
+                tokenPlayerId === characterBaseName ||
                 tokenPlayerId === 'current-player' ||
                 token?.isPlayerToken === true ||
-                // Fallback: if tokenPlayerId matches valid character name even if auth mismatch
-                (characterName && tokenPlayerId === characterName);
+                (characterName && tokenPlayerId === characterName) ||
+                (characterBaseName && tokenPlayerId === characterBaseName) ||
+                (token?.name && (token?.name === characterName || token?.name === characterBaseName));
 
             if (!isOwnToken) {
                 console.warn('Cannot move character token - NOT OWNER. detailed check:', {
                     tokenPlayerId,
                     currentPlayerId: currentPlayer?.id,
                     characterName,
+                    characterBaseName,
                     isPlayerToken: token?.isPlayerToken,
                     tokenName: token?.name,
                     tokenId: tokenId,
                     matchPlayerId: tokenPlayerId === currentPlayer?.id,
                     matchCharacterName: tokenPlayerId === characterName,
+                    matchBaseName: tokenPlayerId === characterBaseName,
                     matchCurrentPlayerString: tokenPlayerId === 'current-player',
                     matchIsPlayerToken: token?.isPlayerToken === true,
                     matchFallback: (characterName && tokenPlayerId === characterName)
@@ -834,7 +840,8 @@ const CharacterToken = ({
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
                     multiplayerSocket.emit('character_moved', {
-                        characterId: tokenPlayerId,
+                        tokenId: tokenId, // Pass actual token UUID for store identification
+                        characterId: tokenPlayerId, // Keep for backward compatibility
                         position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
                         isDragging: true
                     });
@@ -992,7 +999,8 @@ const CharacterToken = ({
                     if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
                         window[`recent_character_move_${tokenId}`] = Date.now();
                         multiplayerSocket.emit('character_moved', {
-                            characterId: tokenPlayerId,
+                            tokenId: tokenId, // Pass actual token UUID for store identification
+                            characterId: tokenPlayerId, // Keep for backward compatibility
                             position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                             isDragging: false
                         });
@@ -1009,7 +1017,8 @@ const CharacterToken = ({
                 if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
                     window[`recent_character_move_${tokenId}`] = Date.now();
                     multiplayerSocket.emit('character_moved', {
-                        characterId: tokenPlayerId,
+                        tokenId: tokenId, // Pass actual token UUID for store identification
+                        characterId: tokenPlayerId, // Keep for backward compatibility
                         position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                         isDragging: false
                     });

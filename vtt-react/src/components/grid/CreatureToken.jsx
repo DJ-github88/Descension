@@ -680,12 +680,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 feetPerTile: currentFeetPerTile,
                 currentMovementDistance: validation.currentMovementFeet,
                 onConfirm: () => {
-                  updateTokenPositionWithSync(tokenId, finalWorldPos);
+                  updateTokenPositionWithSync(tokenId, snappedFinalPos);
                   if (typeof confirmMovement === 'function') {
                     confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
                   }
                   if (typeof logMovementToCombat === 'function') {
-                    logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+                    logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, snappedFinalPos);
                   }
                   if (typeof clearPendingMovementConfirmation === 'function') clearPendingMovementConfirmation();
                   if (typeof clearMovementVisualization === 'function') clearMovementVisualization();
@@ -702,19 +702,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               });
             }
           } else if (validation?.isValid) {
-            updateTokenPositionWithSync(tokenId, finalWorldPos);
+            updateTokenPositionWithSync(tokenId, snappedFinalPos);
             if (typeof confirmMovement === 'function') {
               confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
             }
             if (typeof logMovementToCombat === 'function') {
-              logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+              logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, snappedFinalPos);
             }
           } else {
             setLocalPosition(dragStartPosition);
             updateTokenPositionWithSync(tokenId, dragStartPosition);
           }
         } else {
-          updateTokenPositionWithSync(tokenId, finalWorldPos);
+          updateTokenPositionWithSync(tokenId, snappedFinalPos);
         }
 
         if (typeof clearMovementVisualization === 'function') clearMovementVisualization();

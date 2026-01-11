@@ -1818,15 +1818,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             setTimeout(() => {
                 removePartyMember(contextMenuMember.id);
 
-                // Also remove from simulator state if this is a simulated player
-                if (contextMenuMember.id.startsWith('sim_')) {
-                    // Notify simulator to remove this player from its state
-                    const simulatorEvent = new CustomEvent('removeSimulatedPlayer', {
-                        detail: { playerId: contextMenuMember.id }
-                    });
-                    window.dispatchEvent(simulatorEvent);
-                }
-
                 // Clear target if we're targeting the removed member
                 if (currentTarget?.id === contextMenuMember.id) {
                     clearTarget();
@@ -1835,15 +1826,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         } else {
             // Fallback: remove immediately if element not found
             removePartyMember(contextMenuMember.id);
-
-            // Also remove from simulator state if this is a simulated player
-            if (contextMenuMember.id.startsWith('sim_')) {
-                // Notify simulator to remove this player from its state
-                const simulatorEvent = new CustomEvent('removeSimulatedPlayer', {
-                    detail: { playerId: contextMenuMember.id }
-                });
-                window.dispatchEvent(simulatorEvent);
-            }
 
             // Clear target if we're targeting the removed member
             if (currentTarget?.id === contextMenuMember.id) {

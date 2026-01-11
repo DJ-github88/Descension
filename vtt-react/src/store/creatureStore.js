@@ -163,31 +163,49 @@ const useCreatureStore = create((set, get) => ({
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
     const now = Date.now();
     const moveKey = `creature_${tokenId}`;
+    const recentMoveKey = `token_${tokenId}`;
 
-    // Check if this is a server echo (received within 100ms of local movement)
-    const existingMove = recentTokenMovements.get(moveKey);
-    const shouldIgnore = existingMove && (now - existingMove.timestamp) < 100;
+    // Find existing token for comparison
+    const existingToken = state.creatureTokens.find(token => token.id === tokenId);
 
-    if (!shouldIgnore) {
-      // Track this server update for echo prevention
-      recentTokenMovements.set(moveKey, {
-        position: position,
-        velocity: velocity || { x: 0, y: 0 },
-        timestamp: now
-      });
+    // CRITICAL FIX: Check if we have a recent local movement for this token
+    // If so, and it was recent (within 2 seconds), trust our local position more than the server echo
+    const recentLocalMove = recentTokenMovements.get(recentMoveKey);
+    if (recentLocalMove && (now - recentLocalMove.timestamp) < 2000) {
+      const isSameAsLocal =
+        Math.round(recentLocalMove.position.x) === Math.round(position.x) &&
+        Math.round(recentLocalMove.position.y) === Math.round(position.y);
 
-      // Update token in array
-      const updatedTokens = (state.creatureTokens || []).map(token =>
-        token.id === tokenId ? { ...token, position } : token
-      );
+      if (isSameAsLocal) {
+        // Position already matches what we're moving to
+        return state;
+      }
 
-      return {
-        creatureTokens: updatedTokens,
-        tokens: updatedTokens // Keep alias in sync
-      };
+      // If server sends a different position but we are currently authoritative, ignore it
+      if (existingToken &&
+        Math.round(existingToken.position.x) === Math.round(recentLocalMove.position.x) &&
+        Math.round(existingToken.position.y) === Math.round(recentLocalMove.position.y)) {
+        console.log(`🚫 Ignoring conflicting server movement for creature ${tokenId} - local movement is authoritative`);
+        return state;
+      }
     }
 
-    return state; // Explicitly return state if ignoring
+    // Update token in array
+    const updatedTokens = (state.creatureTokens || []).map(token =>
+      token.id === tokenId ? { ...token, position } : token
+    );
+
+    // Track this server update for echo prevention
+    recentTokenMovements.set(moveKey, {
+      position: position,
+      velocity: velocity || { x: 0, y: 0 },
+      timestamp: now
+    });
+
+    return {
+      creatureTokens: updatedTokens,
+      tokens: updatedTokens // Keep alias in sync
+    };
   }),
 
   // Remove creature token from grid

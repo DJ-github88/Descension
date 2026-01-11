@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
-import LocalhostMultiplayerSimulator from './LocalhostMultiplayerSimulator';
+// Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
 import CursorOverlay from './CursorOverlay';
 // Removed: Debug utils - not used in production
@@ -148,10 +148,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     clearCreatureTokens: state.clearCreatureTokens
   }));
   const { updateCharacterTokenPosition, addCharacterTokenFromServer, removeCharacterToken, clearCharacterTokens } = useCharacterTokenStore((state) => ({
-    updateCharacterTokenPosition: state.updateCharacterTokenPosition,
-    addCharacterTokenFromServer: state.addCharacterTokenFromServer,
-    removeCharacterToken: state.removeCharacterToken,
-    clearCharacterTokens: state.clearCharacterTokens
+    updateCharacterTokenPosition: state?.updateCharacterTokenPosition || (() => console.warn('updateCharacterTokenPosition not available')),
+    addCharacterTokenFromServer: state?.addCharacterTokenFromServer || (() => console.warn('addCharacterTokenFromServer not available')),
+    removeCharacterToken: state?.removeCharacterToken || (() => console.warn('removeCharacterToken not available')),
+    clearCharacterTokens: state?.clearCharacterTokens || (() => console.warn('clearCharacterTokens not available'))
   }));
   const { setMultiplayerSocket } = useDialogueStore((state) => ({
     setMultiplayerSocket: state.setMultiplayerSocket
@@ -770,6 +770,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for creature token movement
     socket.on('token_moved', (data) => {
       if (data && data.tokenId && data.position) {
+        // CRITICAL FIX: Ignore movement updates for tokens we are currently dragging locally
+        // This prevents the "snapback" or "fighting" effect in multiplayer
+        if (window.multiplayerDragState && window.multiplayerDragState.has(`token_${data.tokenId}`)) {
+          return;
+        }
+
         // Use the existing update function which handles interpolation/smoothing
         updateCreatureTokenPosition(data.tokenId, data.position);
       }
@@ -778,6 +784,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for character token movement
     socket.on('character_moved', (data) => {
       if (data && data.tokenId && data.position) {
+        // CRITICAL FIX: Ignore movement updates for tokens we are currently dragging locally
+        if (window.multiplayerDragState && window.multiplayerDragState.has(`token_${data.tokenId}`)) {
+          return;
+        }
+
         updateCharacterTokenPosition(data.tokenId, data.position);
       }
     });
@@ -2186,91 +2197,58 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
-      // CRITICAL FIX: Always process map updates from server (even if it's our own update)
-      // This ensures all players see terrain, fog, and drawings correctly
-      // The server broadcasts to all players including the sender for confirmation
       window._isReceivingMapUpdate = true;
 
       import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
         const levelEditorStore = useLevelEditorStore.getState();
 
-        // CRITICAL FIX: Temporarily disable emit check, then use setters to update state
-        // This ensures updates are applied and synced properly
-
-        // CRITICAL FIX: Use store methods directly, not getState().method()
-        // getState() returns the state object, not the store methods
+        // Handle both mapData (new format) and mapUpdates (legacy/store format)
+        const mapData = data.mapData || data.mapUpdates || {};
 
         // Update fog of war if provided
-        if (data.mapData?.fogOfWar !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false; // Temporarily disable to allow setter to work
-          levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.fogOfWar !== undefined) {
+          levelEditorStore.setFogOfWarData(mapData.fogOfWar);
         }
 
         // Update fog paths if provided
-        if (data.mapData?.fogOfWarPaths !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.fogOfWarPaths !== undefined) {
+          levelEditorStore.setFogOfWarPaths(mapData.fogOfWarPaths);
         }
-        if (data.mapData?.fogErasePaths !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.fogErasePaths !== undefined) {
+          levelEditorStore.setFogErasePaths(mapData.fogErasePaths);
         }
 
         // CRITICAL FIX: Update terrain data if provided (this is the key fix for terrain tiles)
-        if (data.mapData?.terrainData !== undefined) {
+        if (mapData.terrainData !== undefined) {
           // Merge terrain data instead of replacing to preserve existing tiles
           const currentTerrainData = levelEditorStore.getState().terrainData || {};
-          const mergedTerrainData = { ...currentTerrainData, ...data.mapData.terrainData };
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
+          const mergedTerrainData = { ...currentTerrainData, ...mapData.terrainData };
           levelEditorStore.setTerrainData(mergedTerrainData);
-          window._isReceivingMapUpdate = wasReceiving;
         }
 
         // Update wall data if provided
-        if (data.mapData?.wallData !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setWallData(data.mapData.wallData);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.wallData !== undefined) {
+          levelEditorStore.setWallData(mapData.wallData);
         }
 
         // Update drawing layers if provided
-        if (data.mapData?.drawingLayers !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.drawingLayers !== undefined) {
+          levelEditorStore.setDrawingLayers(mapData.drawingLayers);
         }
 
         // Update drawing paths if provided
-        if (data.mapData?.drawingPaths !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.drawingPaths !== undefined) {
+          levelEditorStore.setDrawingPaths(mapData.drawingPaths);
         }
 
         // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
-        if (data.mapData?.exploredAreas !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.exploredAreas !== undefined) {
+          levelEditorStore.setExploredAreas(mapData.exploredAreas);
         }
 
         // Update dndElements (connections/portals) if provided
-        if (data.mapData?.dndElements !== undefined) {
-          const wasReceiving = window._isReceivingMapUpdate;
-          window._isReceivingMapUpdate = false;
-          levelEditorStore.setDndElements(data.mapData.dndElements);
-          window._isReceivingMapUpdate = wasReceiving;
+        if (mapData.dndElements !== undefined) {
+          levelEditorStore.setDndElements(mapData.dndElements);
         }
 
         // CRITICAL FIX: Reset flag after processing to allow future updates
@@ -3100,7 +3078,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Simple: Room creator is GM, others are players (no leadership transfer needed)
 
       // Set multiplayer state in game store with socket
-      setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection);
+      setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection, currentPlayerData);
 
       // Set up chat integration for multiplayer
       const sendChatMessage = (message) => {
@@ -3322,12 +3300,6 @@ const MultiplayerGameContent = ({
 
   return (
     <div className="multiplayer-vtt">
-      {/* Localhost Multiplayer Simulator - only show in development on localhost */}
-      <LocalhostMultiplayerSimulator
-        isVisible={true}
-        currentRoom={currentRoom}
-      />
-
       {/* Full VTT Interface */}
       <div className="vtt-game-screen">
         <Grid />
