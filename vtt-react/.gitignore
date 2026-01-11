@@ -13,6 +13,8 @@ node_modules/
 /dist
 
 # Environment Variables
+# Note: .env.development and .env.production are tracked in git for shared configuration
+# Only .env.local files (containing secrets) should be ignored
 .env
 .env.local
 .env.development.local

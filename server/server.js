@@ -214,11 +214,15 @@ const getAllowedOrigins = () => {
   // Fallback to defaults based on environment
   const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
   if (isProduction) {
-    // Production defaults - ensure Netlify domains are included
+    // Production defaults - include Netlify domains AND localhost for local testing
     return [
       'https://windtunnel.netlify.app',
       'https://mythrill.netlify.app',
-      'https://descension-mythrill.netlify.app' // Alternative domain
+      'https://descension-mythrill.netlify.app', // Alternative domain
+      'http://localhost:3000', // Allow local development testing
+      'http://localhost:3001',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001'
     ].filter(Boolean); // Remove any empty strings
   }
 
