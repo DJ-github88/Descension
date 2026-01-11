@@ -642,18 +642,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         document.removeEventListener('pointerup', handlePointerUp);
         document.removeEventListener('pointercancel', handlePointerUp);
 
-        // Final snap to grid - recalculate from current mouse position to ensure accuracy
-        // Do not rely on localPosition state which might be stale from batched updates
-        const screenX = e.clientX - dragOffset.x;
-        const screenY = e.clientY - dragOffset.y;
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        // CRITICAL FIX: Use the last tracked position instead of recalculating from mouse event
+        // When dragging fast, e.clientX/clientY can be stale or represent an intermediate position
+        // Use localPosition which contains the actual last rendered position from handleMouseMove
+        const finalWorldPos = { ...localPosition };
 
-        const rawWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-        const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
-        const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+        // Snap to grid for final placement
+        const gridCoords = gridSystem.worldToGrid(finalWorldPos.x, finalWorldPos.y);
+        const snappedFinalPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-        setLocalPosition(finalWorldPos);
+        setLocalPosition(snappedFinalPos);
         lastPositionUpdateRef.current = Date.now();
 
         // Handle movement validation

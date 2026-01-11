@@ -176,7 +176,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const isLocalhost = window.location.hostname === 'localhost';
     const isDevelopment = process.env.NODE_ENV === 'development';
 
-    if (isLocalhost && isDevelopment && socket) {
+    if (false && isLocalhost && isDevelopment && socket) {
       // Check if we should auto-create a test room
       const autoCreateTestRoom = localStorage.getItem('autoCreateTestRoom') !== 'false';
 
@@ -490,7 +490,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       }
 
       const rooms = await response.json();
-      setAvailableRooms(rooms);
+
+      // FILTER: Only show rooms that are currently online (GM connected)
+      // Offline persistent rooms should only appear in "My Rooms" tab
+      const onlineRooms = rooms.filter(room => {
+        // gmOnline indicates if the GM is currently connected
+        // If undefined, assume true for backwards compatibility
+        return room.gmOnline !== false;
+      });
+
+      setAvailableRooms(onlineRooms);
       setError(''); // Clear any previous errors
     } catch (error) {
       console.error('Failed to fetch rooms:', error);
