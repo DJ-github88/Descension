@@ -1061,6 +1061,20 @@ const useCombatStore = create((set, get) => ({
     // Initialize store with proper Map/Set types
     initializeStore: () => {
         const state = get();
+
+        // Performance Optimization: Check if initialization is already complete
+        const isAlreadyInitialized =
+            (state.turnMovementUsed instanceof Map) &&
+            (state.movementThisTurn instanceof Map) &&
+            (state.tempMovementDistance instanceof Map) &&
+            (state.turnStartPositions instanceof Map) &&
+            (state.movementUnlocked instanceof Set) &&
+            (state.selectedTokens instanceof Set) &&
+            (state.turnTimers instanceof Map) &&
+            !(state.timelineSize && (state.timelineSize.height === 120 || state.timelineSize.width > 650));
+
+        if (isAlreadyInitialized) return;
+
         const updates = {};
 
         // Ensure all Maps and Sets are properly initialized

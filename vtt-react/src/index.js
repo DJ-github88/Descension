@@ -7,35 +7,9 @@ import './index.css';
 import './styles/currency-notification.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { isDevelopment } from './config/env';
 
-// ULTIMATE NUCLEAR OPTION: Define title globally in all possible scopes
-// This error is persistent and happening in compiled code, so we need to be more aggressive
-if (typeof window !== 'undefined') {
-    // Define title in global scope
-    window.title = document.title || '';
-
-    // Also define it as a global variable
-    if (typeof global !== 'undefined') {
-        global.title = document.title || '';
-    }
-
-    // Define it in the window object with a getter/setter
-    Object.defineProperty(window, 'title', {
-        get: function () {
-            return document.title || '';
-        },
-        set: function (value) {
-            document.title = value || '';
-        },
-        configurable: true,
-        enumerable: true
-    });
-}
-
-// Also define title as a global variable in case it's being referenced in a closure
-var title = typeof document !== 'undefined' ? (document.title || '') : '';
-let titleVar = typeof document !== 'undefined' ? (document.title || '') : '';
-const titleConst = typeof document !== 'undefined' ? (document.title || '') : '';
+// Note: Global title polyfills and other environment setups are handled in ./polyfills
 
 import ErrorBoundary from './components/common/ErrorBoundary';
 
@@ -52,5 +26,12 @@ root.render(
     </ErrorBoundary>
 );
 
-// Register service worker for caching and performance
-serviceWorkerRegistration.register();
+// Handle service worker registration
+if (isDevelopment()) {
+    // Explicitly unregister in development to ensure HMR works correctly
+    // and developers see changes immediately without a hard reset.
+    serviceWorkerRegistration.unregister();
+} else {
+    // Register service worker for caching and performance in production
+    serviceWorkerRegistration.register();
+}

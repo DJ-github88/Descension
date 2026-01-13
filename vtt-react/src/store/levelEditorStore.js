@@ -5,7 +5,7 @@ import { getGridSystem } from '../utils/InfiniteGridSystem';
 // CRITICAL FIX: Map update batcher to prevent socket flooding during rapid editing (e.g. painting)
 // This prevents "Connection Error" and disconnections when painting terrain
 // Added batch size limits and sequence numbers for better multiplayer sync
-const MAX_BATCH_SIZE = 50; // Max 50 tiles per batch
+const MAX_BATCH_SIZE = 200; // Increased to 200 to accommodate faster line interpolation
 const MAX_BATCH_TIME = 100; // Max 100ms to wait before emitting
 let batchSequenceNumber = 0; // Sequence number for ordering
 
@@ -30,10 +30,19 @@ const mapUpdateBatcher = {
             mapUpdateBatcher.pendingUpdates[type] = data;
         }
 
-        // CRITICAL FIX: Check if should emit now based on batch size or time elapsed
-        const totalUpdates = Object.keys(mapUpdateBatcher.pendingUpdates).length;
+        // CRITICAL FIX: Count actual items in collections (like tiles in terrainData)
+        let totalUpdates = 0;
+        for (const key in mapUpdateBatcher.pendingUpdates) {
+            const val = mapUpdateBatcher.pendingUpdates[key];
+            if (typeof val === 'object' && !Array.isArray(val)) {
+                totalUpdates += Object.keys(val).length;
+            } else {
+                totalUpdates += 1;
+            }
+        }
+
         const elapsedTime = Date.now() - (mapUpdateBatcher.lastEmitTime || 0);
-        
+
         // Emit if: batch is full OR enough time has passed
         if (totalUpdates >= MAX_BATCH_SIZE || elapsedTime >= MAX_BATCH_TIME) {
             clearTimeout(mapUpdateBatcher.timeout);
@@ -43,59 +52,32 @@ const mapUpdateBatcher = {
             // Otherwise schedule normally (100ms)
             mapUpdateBatcher.timeout = setTimeout(() => {
                 mapUpdateBatcher.emit();
-            }, 100); // CRITICAL FIX: Increased from 50ms to 100ms
+            }, 100);
         }
     },
 
-    // CRITICAL FIX: Reduce rendering debounce - prevent multiple rapid emits causing re-renders
-    // Added tracking of pending updates to detect when same data is being batched multiple times
+    // Emit batched updates to multiplayer server
     emit: () => {
         const updates = { ...mapUpdateBatcher.pendingUpdates };
-        const sequence = ++batchSequenceNumber; // CRITICAL FIX: Track sequence for ordering
+        const sequence = ++batchSequenceNumber; // Track sequence for ordering
 
-        // CRITICAL FIX: Skip if no updates or duplicate of last emit
+        // Skip if no updates
         const updateKeys = Object.keys(updates);
         if (updateKeys.length === 0) return;
 
-        // Track last emitted data to avoid redundant updates
-        if (!mapUpdateBatcher.lastEmittedData) {
-            mapUpdateBatcher.lastEmittedData = {};
-        }
-
-        // Check if this emit has any new data compared to last emit
-        const hasNewData = updateKeys.some(key => {
-            // Deep comparison for objects
-            if (typeof updates[key] === 'object' && !Array.isArray(updates[key])) {
-                const current = JSON.stringify(updates[key]);
-                const last = JSON.stringify(mapUpdateBatcher.lastEmittedData[key] || {});
-                return current !== last;
-            }
-            return false; // For non-objects, just include them
-        });
-
-        // Skip if no new data (deduplication)
-        if (!hasNewData) {
-            console.log('🔄 Skipping duplicate map update (no changes detected)');
-            return;
-        }
-
-        // Update last emitted data
-        mapUpdateBatcher.lastEmittedData = updates;
-
+        // Clear pending updates and reset timeout
         mapUpdateBatcher.pendingUpdates = {};
         mapUpdateBatcher.timeout = null;
-        mapUpdateBatcher.lastEmitTime = Date.now(); // CRITICAL FIX: Track last emit time
-
-        if (Object.keys(updates).length === 0) return;
+        mapUpdateBatcher.lastEmitTime = Date.now();
 
         // Import game store and emit
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: updates,
-                        sequence: sequence // CRITICAL FIX: Include sequence number for ordering
+                        sequence: sequence
                     });
                 }
             }
@@ -1908,172 +1890,6 @@ const useLevelEditorStore = create((set, get) => ({
             fogOfWarData: {},
             selectedTiles: [],
             selectedObjects: []
-        });
-    },
-
-    // Bulk data setters for map switching
-    setTerrainData: (terrainData) => {
-        set({ terrainData: terrainData || {} });
-
-        // Emit terrain data update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            terrainData: terrainData || {}
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setEnvironmentalObjects: (environmentalObjects) => {
-        set({ environmentalObjects: environmentalObjects || [] });
-    },
-
-    setWallData: (wallData) => {
-        set({ wallData: wallData || {} });
-
-        // Emit wall data update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            wallData: wallData || {}
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setFogOfWarPaths: (fogOfWarPaths) => {
-        set({ fogOfWarPaths: fogOfWarPaths || [] });
-
-        // Emit fog paths update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogOfWarPaths: fogOfWarPaths || []
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setFogErasePaths: (fogErasePaths) => {
-        set({ fogErasePaths: fogErasePaths || [] });
-
-        // Emit fog erase paths update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogErasePaths: fogErasePaths || []
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setDndElements: (dndElements) => {
-        set({ dndElements: dndElements || [] });
-
-        // Emit dndElements update to multiplayer server (only if in multiplayer and not from server)
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            dndElements: dndElements || []
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setFogOfWarData: (fogOfWarData) => {
-        set({ fogOfWarData: fogOfWarData || {} });
-
-        // Emit fog of war update to multiplayer server (only if in multiplayer and not from server)
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                // Only emit if this is a local change, not a server sync
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogOfWar: fogOfWarData || {}
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setDrawingPaths: (drawingPaths) => {
-        set({ drawingPaths: drawingPaths || [] });
-
-        // CRITICAL FIX: Emit drawing paths update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            drawingPaths: drawingPaths || []
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
-    },
-
-    setDrawingLayers: (drawingLayers) => {
-        set({ drawingLayers: drawingLayers || initialState.drawingLayers });
-
-        // Emit drawing layers update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            drawingLayers: drawingLayers || initialState.drawingLayers
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
         });
     },
 

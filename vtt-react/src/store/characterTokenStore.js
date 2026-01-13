@@ -227,7 +227,8 @@ const useCharacterTokenStore = create(
         if (sendToServer) {
           import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+              console.log('📤 Emitting character_token_removed:', { tokenId });
               gameStore.multiplayerSocket.emit('character_token_removed', { tokenId });
             }
           }).catch(error => {

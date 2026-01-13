@@ -232,8 +232,9 @@ const useCreatureStore = create((set, get) => ({
     // Sync with Multiplayer server if enabled
     if (sendToServer) {
       try {
-        const gameStore = require('./gameStore').default;
-        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        const gameStore = require('./gameStore').default.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+          console.log('📤 Emitting token_removed:', { tokenId });
           gameStore.multiplayerSocket.emit('token_removed', { tokenId });
         }
       } catch (error) {

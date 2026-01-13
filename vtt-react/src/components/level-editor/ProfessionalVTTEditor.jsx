@@ -63,6 +63,9 @@ const ProfessionalVTTEditor = () => {
     const fogPaintThrottleRef = useRef(null);
     const pendingFogPaintRef = useRef(null); // Store pending paint call
 
+    // Track last terrain brush position for line interpolation
+    const lastTerrainBrushPosRef = useRef(null);
+
     // Throttled function to update hover preview state
     const updateHoverPreviewState = useCallback(() => {
         setHoverPreview({ ...hoverPreviewRef.current });
@@ -410,7 +413,7 @@ const ProfessionalVTTEditor = () => {
         const walls = [];
         for (const [wallKey, wall] of Object.entries(wallData)) {
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-            
+
             // Get wall type to determine selection threshold
             const wallType = typeof wall === 'string' ? wall : wall?.type;
             const isDoor = wallType && wallType.includes('door');
@@ -452,7 +455,7 @@ const ProfessionalVTTEditor = () => {
         walls.sort((a, b) => {
             const aIsDoor = (typeof a.data === 'string' ? a.data : a.data?.type)?.includes('door');
             const bIsDoor = (typeof b.data === 'string' ? b.data : b.data?.type)?.includes('door');
-            
+
             // If one is a door and distances are similar (within 0.5 tiles), prefer door
             if (aIsDoor && !bIsDoor && Math.abs(a.distance - b.distance) < 0.5) {
                 return -1;
@@ -460,7 +463,7 @@ const ProfessionalVTTEditor = () => {
             if (bIsDoor && !aIsDoor && Math.abs(a.distance - b.distance) < 0.5) {
                 return 1;
             }
-            
+
             // Otherwise sort by distance
             return a.distance - b.distance;
         });
@@ -951,7 +954,7 @@ const ProfessionalVTTEditor = () => {
                 }
 
                 // Don't block clicks on the grid overlay or editor overlay
-                if (el.id === 'grid-overlay' || el.closest('#grid-overlay') || 
+                if (el.id === 'grid-overlay' || el.closest('#grid-overlay') ||
                     el.closest('.vtt-drawing-overlay') || el.closest('.terrain-system-canvas') ||
                     el.closest('.canvas-wall-system')) {
                     return false;
@@ -1127,7 +1130,7 @@ const ProfessionalVTTEditor = () => {
                 if (isDraggingWall || isObjectLocked || selectedWindow || selectedWallKey) {
                     return;
                 }
-                
+
                 // Place door on existing wall - find closest point on nearest wall (similar to windows)
                 if (toolSettings.selectedWallType) {
                     const doorCoords = screenToGrid(e.clientX, e.clientY);
@@ -1187,14 +1190,14 @@ const ProfessionalVTTEditor = () => {
                             const dx = nearestWall.x2 - nearestWall.x1;
                             const dy = nearestWall.y2 - nearestWall.y1;
                             const wallLength = Math.sqrt(dx * dx + dy * dy);
-                            
+
                             // Normalize direction vector
                             const dirX = dx / wallLength;
                             const dirY = dy / wallLength;
-                            
+
                             // Door length (1 tile)
                             const doorLength = 1.0;
-                            
+
                             // Create door segment along the wall at the projected point
                             // Door extends half a tile in each direction along the wall
                             const halfLength = doorLength / 2;
@@ -1215,7 +1218,7 @@ const ProfessionalVTTEditor = () => {
                 if (isDraggingWall || isObjectLocked || selectedWindow || selectedWallKey) {
                     return;
                 }
-                
+
                 // Place window overlay on existing wall - find closest point on nearest wall
                 if (toolSettings.selectedWallType) {
                     const windowCoords = screenToGrid(e.clientX, e.clientY);
@@ -1344,7 +1347,7 @@ const ProfessionalVTTEditor = () => {
                 // First, try to find objects at click position (check for new selection)
                 let foundWindow = null;
                 let foundWall = null;
-                
+
                 // Check windows first (smaller targets)
                 if (windowOverlays) {
                     let nearestDist = 1.5;
@@ -1373,7 +1376,7 @@ const ProfessionalVTTEditor = () => {
                 }
 
                 // If clicking on a different object, change selection
-                const clickedDifferentObject = 
+                const clickedDifferentObject =
                     (foundWindow && (!selectedWindow || foundWindow.key !== selectedWindow.key)) ||
                     (foundWall && (!selectedWallKey || foundWall.key !== selectedWallKey));
 
@@ -1431,7 +1434,7 @@ const ProfessionalVTTEditor = () => {
                 // If clicking on the same object or empty space while locked, start dragging
                 if (isObjectLocked && (selectedWallKey || selectedWindow)) {
                     // Check if clicking on the same object
-                    const clickedSameObject = 
+                    const clickedSameObject =
                         (foundWindow && selectedWindow && foundWindow.key === selectedWindow.key) ||
                         (foundWall && selectedWallKey && foundWall.key === selectedWallKey) ||
                         (!foundWindow && !foundWall); // Empty space
@@ -1472,7 +1475,7 @@ const ProfessionalVTTEditor = () => {
                         }
                         pendingWindowUpdateRef.current = null;
                         pendingDoorUpdateRef.current = null;
-                        
+
                         dragWindowRef.current = {
                             gridX: foundWindow.gridX,
                             gridY: foundWindow.gridY,
@@ -1659,6 +1662,10 @@ const ProfessionalVTTEditor = () => {
                         : 1);
 
                 console.log('🎨 Painting terrain at:', coords, 'type:', terrainType, 'brushSize:', brushSize);
+
+                // Track last position for line interpolation
+                lastTerrainBrushPosRef.current = coords;
+
                 paintTerrainBrush(
                     coords.gridX,
                     coords.gridY,
@@ -1668,6 +1675,8 @@ const ProfessionalVTTEditor = () => {
                 break;
             case 'terrain_erase':
                 // Erase terrain with brush size
+                // Track last position for line interpolation
+                lastTerrainBrushPosRef.current = coords;
                 removeTerrainAtPosition(coords.gridX, coords.gridY, toolSettings.brushSize || 1);
                 break;
             case 'wall_draw':
@@ -1784,29 +1793,97 @@ const ProfessionalVTTEditor = () => {
                 }
                 break;
             case 'terrain_brush':
-                const coords = screenToGrid(e.clientX, e.clientY);
-                if (coords) {
-                    // Use selectedTerrainType or default to 'grass' if not set
+                const terrainCoords = screenToGrid(e.clientX, e.clientY);
+                if (terrainCoords) {
                     const terrainType = toolSettings.selectedTerrainType || 'grass';
-                    // Convert brushSize to number if it's a string (legacy support)
                     const brushSize = typeof toolSettings.brushSize === 'number'
                         ? toolSettings.brushSize
                         : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
                             ? parseInt(toolSettings.brushSize) || 1
                             : 1);
 
+                    // Interpolate between last and current position to fill gaps
+                    if (lastTerrainBrushPosRef.current) {
+                        const x1 = lastTerrainBrushPosRef.current.gridX;
+                        const y1 = lastTerrainBrushPosRef.current.gridY;
+                        const x2 = terrainCoords.gridX;
+                        const y2 = terrainCoords.gridY;
+
+                        const dx = Math.abs(x2 - x1);
+                        const dy = Math.abs(y2 - y1);
+                        const sx = x1 < x2 ? 1 : -1;
+                        const sy = y1 < y2 ? 1 : -1;
+                        let err = dx - dy;
+
+                        let currX = x1;
+                        let currY = y1;
+
+                        while (true) {
+                            if (currX !== x1 || currY !== y1) {
+                                paintTerrainBrush(currX, currY, terrainType, brushSize);
+                            }
+                            if (currX === x2 && currY === y2) break;
+                            const e2 = 2 * err;
+                            if (e2 > -dy) {
+                                err -= dy;
+                                currX += sx;
+                            }
+                            if (e2 < dx) {
+                                err += dx;
+                                currY += sy;
+                            }
+                        }
+                    }
+
                     paintTerrainBrush(
-                        coords.gridX,
-                        coords.gridY,
+                        terrainCoords.gridX,
+                        terrainCoords.gridY,
                         terrainType,
                         brushSize
                     );
+                    lastTerrainBrushPosRef.current = terrainCoords;
                 }
                 break;
             case 'terrain_erase':
                 const eraseCoords = screenToGrid(e.clientX, e.clientY);
                 if (eraseCoords) {
-                    removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, toolSettings.brushSize || 1);
+                    const brushSize = toolSettings.brushSize || 1;
+
+                    // Interpolate between last and current position to fill gaps
+                    if (lastTerrainBrushPosRef.current) {
+                        const x1 = lastTerrainBrushPosRef.current.gridX;
+                        const y1 = lastTerrainBrushPosRef.current.gridY;
+                        const x2 = eraseCoords.gridX;
+                        const y2 = eraseCoords.gridY;
+
+                        const dx = Math.abs(x2 - x1);
+                        const dy = Math.abs(y2 - y1);
+                        const sx = x1 < x2 ? 1 : -1;
+                        const sy = y1 < y2 ? 1 : -1;
+                        let err = dx - dy;
+
+                        let currX = x1;
+                        let currY = y1;
+
+                        while (true) {
+                            if (currX !== x1 || currY !== y1) {
+                                removeTerrainAtPosition(currX, currY, brushSize);
+                            }
+                            if (currX === x2 && currY === y2) break;
+                            const e2 = 2 * err;
+                            if (e2 > -dy) {
+                                err -= dy;
+                                currX += sx;
+                            }
+                            if (e2 < dx) {
+                                err += dx;
+                                currY += sy;
+                            }
+                        }
+                    }
+
+                    removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, brushSize);
+                    lastTerrainBrushPosRef.current = eraseCoords;
                 }
                 break;
             case 'eraser':
@@ -1928,12 +2005,12 @@ const ProfessionalVTTEditor = () => {
                                         }
 
                                         const { moveCoords, gridOffsetX, gridOffsetY, gridSize, wallData, windowOverlays, findWallsNearPosition, removeWindowOverlay, setWindowOverlay, setSelectedWindow, setSelectedWindowKey, setWallDragStart } = update;
-                                        
+
                                         // Move window along walls - can snap to different walls when dragged near them
                                         const oldX = dragWindowRef.current.gridX;
                                         const oldY = dragWindowRef.current.gridY;
                                         let currentWallKey = dragWindowRef.current.data.wallKey;
-                                        
+
                                         // Convert mouse position to precise grid coordinates (not snapped)
                                         const clickX = moveCoords.worldX !== undefined && moveCoords.worldY !== undefined
                                             ? (moveCoords.worldX - gridOffsetX) / gridSize
@@ -1955,7 +2032,7 @@ const ProfessionalVTTEditor = () => {
                                         // Optimize: Only search for new walls if we're far from current wall or it doesn't exist
                                         let validWalls = [];
                                         let shouldSearchForWalls = true;
-                                        
+
                                         if (currentWallKey && wallData[currentWallKey]) {
                                             const currentWall = wallData[currentWallKey];
                                             const wallType = typeof currentWall === 'string' ? currentWall : currentWall?.type;
@@ -1964,7 +2041,7 @@ const ProfessionalVTTEditor = () => {
                                                 const dx = x2 - x1;
                                                 const dy = y2 - y1;
                                                 const wallLength = Math.sqrt(dx * dx + dy * dy);
-                                                
+
                                                 if (wallLength > 0) {
                                                     const t = Math.max(0, Math.min(1,
                                                         ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
@@ -1972,16 +2049,16 @@ const ProfessionalVTTEditor = () => {
                                                     const projX = x1 + t * dx;
                                                     const projY = y1 + t * dy;
                                                     const currentWallDistance = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-                                                    
+
                                                     // If we're close to current wall, use it directly without searching
                                                     // Use a larger threshold (1.5 tiles) to avoid unnecessary searches during smooth dragging
                                                     if (currentWallDistance <= 1.5) {
                                                         shouldSearchForWalls = false;
-                                                        validWalls.push({ 
-                                                            key: currentWallKey, 
-                                                            data: currentWall, 
-                                                            x1, y1, x2, y2, 
-                                                            distance: currentWallDistance 
+                                                        validWalls.push({
+                                                            key: currentWallKey,
+                                                            data: currentWall,
+                                                            x1, y1, x2, y2,
+                                                            distance: currentWallDistance
                                                         });
                                                     }
                                                 }
@@ -2005,7 +2082,7 @@ const ProfessionalVTTEditor = () => {
                                                     const dx = x2 - x1;
                                                     const dy = y2 - y1;
                                                     const wallLength = Math.sqrt(dx * dx + dy * dy);
-                                                    
+
                                                     if (wallLength > 0) {
                                                         const t = Math.max(0, Math.min(1,
                                                             ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
@@ -2013,13 +2090,13 @@ const ProfessionalVTTEditor = () => {
                                                         const projX = x1 + t * dx;
                                                         const projY = y1 + t * dy;
                                                         const currentWallDistance = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-                                                        
+
                                                         if (currentWallDistance <= 2.0) {
-                                                            validWalls.push({ 
-                                                                key: currentWallKey, 
-                                                                data: currentWall, 
-                                                                x1, y1, x2, y2, 
-                                                                distance: currentWallDistance 
+                                                            validWalls.push({
+                                                                key: currentWallKey,
+                                                                data: currentWall,
+                                                                x1, y1, x2, y2,
+                                                                distance: currentWallDistance
                                                             });
                                                             validWalls.sort((a, b) => a.distance - b.distance);
                                                         }
@@ -2049,24 +2126,24 @@ const ProfessionalVTTEditor = () => {
                                                 const projX = x1 + t * dx;
                                                 const projY = y1 + t * dy;
                                                 const currentWallDistance = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-                                                validWalls.push({ 
-                                                    key: currentWallKey, 
-                                                    data: currentWall, 
-                                                    x1, y1, x2, y2, 
-                                                    distance: currentWallDistance 
+                                                validWalls.push({
+                                                    key: currentWallKey,
+                                                    data: currentWall,
+                                                    x1, y1, x2, y2,
+                                                    distance: currentWallDistance
                                                 });
                                             }
                                         } else {
                                             // Check if we should switch to a different wall
                                             const currentWallIndex = validWalls.findIndex(w => w.key === currentWallKey);
                                             const closestWall = validWalls[0];
-                                            
+
                                             // Switch to a different wall if:
                                             // 1. Current wall is not in the nearby list, OR
                                             // 2. A different wall is significantly closer (more than 0.2 tiles closer)
-                                            if (currentWallIndex === -1 || 
-                                                (closestWall.key !== currentWallKey && 
-                                                 closestWall.distance < (validWalls[currentWallIndex]?.distance || Infinity) - 0.2)) {
+                                            if (currentWallIndex === -1 ||
+                                                (closestWall.key !== currentWallKey &&
+                                                    closestWall.distance < (validWalls[currentWallIndex]?.distance || Infinity) - 0.2)) {
                                                 currentWallKey = closestWall.key;
                                                 dragWindowRef.current.data = {
                                                     ...dragWindowRef.current.data,
@@ -2135,7 +2212,7 @@ const ProfessionalVTTEditor = () => {
                                             `${oldX.toFixed(1)},${oldY.toFixed(1)}`,
                                             `${Math.round(oldX)},${Math.round(oldY)}`
                                         ];
-                                        
+
                                         // Remove from old position using all possible key formats
                                         oldKeyFormats.forEach(key => {
                                             if (windowOverlays[key]) {
@@ -2169,7 +2246,7 @@ const ProfessionalVTTEditor = () => {
                                         // Continue RAF chain for smooth dragging - check for next update
                                         windowDragRafRef.current = requestAnimationFrame(updateWindowPosition);
                                     };
-                                    
+
                                     // Start the RAF chain
                                     windowDragRafRef.current = requestAnimationFrame(updateWindowPosition);
                                 }
@@ -2206,7 +2283,7 @@ const ProfessionalVTTEditor = () => {
                                             }
 
                                             const { moveCoords, gridOffsetX, gridOffsetY, gridSize, wallData, findWallsNearPosition, moveWall, x1, y1, x2, y2, oldWallKey } = update;
-                                            
+
                                             // Door dragging - constrain to walls like windows
                                             // Convert mouse position to precise grid coordinates
                                             const clickX = moveCoords.worldX !== undefined && moveCoords.worldY !== undefined
@@ -2233,12 +2310,12 @@ const ProfessionalVTTEditor = () => {
                                             // Use the closest wall (can snap to different walls when dragged near them)
                                             const targetWall = validWalls[0];
                                             const [twx1, twy1, twx2, twy2] = targetWall.key.split(',').map(Number);
-                                            
+
                                             // Calculate wall direction
                                             const twdx = twx2 - twx1;
                                             const twdy = twy2 - twy1;
                                             const twLength = Math.sqrt(twdx * twdx + twdy * twdy);
-                                            
+
                                             if (twLength === 0) {
                                                 lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
                                                 doorDragRafRef.current = requestAnimationFrame(updateDoorPosition);
@@ -2257,11 +2334,11 @@ const ProfessionalVTTEditor = () => {
                                             // Calculate door center and endpoints along the wall
                                             const doorLength = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
                                             const halfLength = doorLength / 2;
-                                            
+
                                             // Normalize wall direction
                                             const dirX = twdx / twLength;
                                             const dirY = twdy / twLength;
-                                            
+
                                             // Place door along the wall at projected point
                                             const newX1 = projX - dirX * halfLength;
                                             const newY1 = projY - dirY * halfLength;
@@ -2293,7 +2370,7 @@ const ProfessionalVTTEditor = () => {
                                             // Continue RAF chain
                                             doorDragRafRef.current = requestAnimationFrame(updateDoorPosition);
                                         };
-                                        
+
                                         // Start the RAF chain
                                         doorDragRafRef.current = requestAnimationFrame(updateDoorPosition);
                                     }
@@ -2414,7 +2491,7 @@ const ProfessionalVTTEditor = () => {
             }
             pendingWindowUpdateRef.current = null;
             pendingDoorUpdateRef.current = null;
-            
+
             setIsDrawing(false);
             setWallDragStart(null);
             setIsDraggingWall(false);
@@ -2461,7 +2538,7 @@ const ProfessionalVTTEditor = () => {
                 console.log('🧱 Placing rectangle walls');
                 const gridSystem = getGridSystem();
                 const { gridType } = gridSystem.getGridState();
-                
+
                 const minX = Math.min(startPoint.gridX, endPoint.gridX);
                 const maxX = Math.max(startPoint.gridX, endPoint.gridX);
                 const minY = Math.min(startPoint.gridY, endPoint.gridY);
@@ -2476,7 +2553,7 @@ const ProfessionalVTTEditor = () => {
                             hexes.push({ q, r });
                         }
                     }
-                    
+
                     // Find boundary hexes and create walls along their edges
                     hexes.forEach(hex => {
                         const neighbors = gridSystem.getHexNeighbors(hex.q, hex.r);
@@ -2538,6 +2615,7 @@ const ProfessionalVTTEditor = () => {
         // Ensure drawing state is fully reset
         setIsCurrentlyDrawing(false);
         setCurrentDrawingTool('');
+        lastTerrainBrushPosRef.current = null;
     }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogPath, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
     // Handle right-click context menu (used for completing polygons)
@@ -2891,8 +2969,8 @@ const ProfessionalVTTEditor = () => {
                             </button>
                         </div>
                         <>
-                            <button 
-                                className="action-btn danger" 
+                            <button
+                                className="action-btn danger"
                                 onClick={clearAllProfessionalData}
                                 style={{ width: '100%', marginBottom: '12px' }}
                             >

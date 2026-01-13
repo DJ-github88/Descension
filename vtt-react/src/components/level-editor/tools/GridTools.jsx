@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useGameStore from '../../../store/gameStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
+import useDialogueStore from '../../../store/dialogueStore';
 import { getIconUrl } from '../../../utils/assetManager';
 import './styles/GridTools.css';
 
@@ -46,7 +47,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const [selectedGridSize, setSelectedGridSize] = useState(gridSize);
     const [offsetX, setOffsetX] = useState(gridOffsetX);
     const [offsetY, setOffsetY] = useState(gridOffsetY);
-    
+
     // State for inline editing
     const [editingBackgroundId, setEditingBackgroundId] = useState(null);
     const [editingName, setEditingName] = useState('');
@@ -81,7 +82,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     // Calm background color presets (desaturated, varied colors)
     const backgroundColorPresets = [
         { value: '#d4c5b9', label: 'Beige', color: '#d4c5b9' },
-        { value: '#d4c5b9', label: 'Muted Brown', color: '#d4c5b9' },
+        { value: '#e8dab2', label: 'Muted Yellow', color: '#e8dab2' },
         { value: '#c4d4d0', label: 'Sage Green', color: '#c4d4d0' },
         { value: '#b8c5d1', label: 'Dusty Blue', color: '#b8c5d1' },
         { value: '#d1c4b8', label: 'Taupe', color: '#d1c4b8' },
@@ -100,6 +101,27 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         setOffsetX(gridOffsetX);
         setOffsetY(gridOffsetY);
     }, [gridLineThickness, gridLineOpacity, gridLineColor, gridBackgroundColor, gridSize, gridOffsetX, gridOffsetY]);
+
+    // Helper to sync grid settings over multiplayer
+    const syncGridSettings = (overrides = {}) => {
+        const socket = useDialogueStore.getState().multiplayerSocket;
+        if (socket && socket.connected) {
+            const gameStore = useGameStore.getState();
+            socket.emit('sync_level_editor_state', {
+                gridSettings: {
+                    gridType: overrides.gridType || gameStore.gridType,
+                    gridSize: overrides.gridSize || gameStore.gridSize,
+                    gridOffsetX: overrides.gridOffsetX ?? gameStore.gridOffsetX,
+                    gridOffsetY: overrides.gridOffsetY ?? gameStore.gridOffsetY,
+                    gridLineColor: overrides.gridLineColor || gameStore.gridLineColor,
+                    gridLineThickness: overrides.gridLineThickness ?? gameStore.gridLineThickness,
+                    gridLineOpacity: overrides.gridLineOpacity ?? gameStore.gridLineOpacity,
+                    gridBackgroundColor: overrides.gridBackgroundColor || gameStore.gridBackgroundColor
+                }
+            });
+            console.log('📡 Synced grid settings to multiplayer');
+        }
+    };
 
     const handleGridAlign = () => {
         if (isGridAlignmentMode) {
@@ -126,21 +148,25 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const handleThicknessChange = (thickness) => {
         setSelectedThickness(thickness);
         setGridLineThickness(thickness);
+        syncGridSettings({ gridLineThickness: thickness });
     };
 
     const handleOpacityChange = (opacity) => {
         setSelectedOpacity(opacity);
         setGridLineOpacity(opacity);
+        syncGridSettings({ gridLineOpacity: opacity });
     };
 
     const handleColorChange = (color) => {
         setSelectedColor(color);
         setGridLineColor(color);
+        syncGridSettings({ gridLineColor: color });
     };
 
     const handleBackgroundColorChange = (color) => {
         setSelectedBackgroundColor(color);
         setGridBackgroundColor(color);
+        syncGridSettings({ gridBackgroundColor: color });
     };
 
 
@@ -148,6 +174,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const handleGridSizeChange = (size) => {
         setSelectedGridSize(size);
         setGridSize(size);
+        syncGridSettings({ gridSize: size });
     };
 
     const handleOffsetChange = (x, y) => {
@@ -179,7 +206,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
             try {
                 // Import compression utility
                 const { compressImage } = await import('../../../utils/imageCompression');
-                
+
                 // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
                 console.log('🖼️ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
                 const compressedFile = await compressImage(file, 1920, null, 0.85);
@@ -271,7 +298,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         const isVisible = bg.opacity > 0;
         // Toggle between 0 (hidden) and 1.0 (visible)
         // If it was previously visible with a custom opacity, restore to 1.0 when showing
-        updateBackground(bg.id, { 
+        updateBackground(bg.id, {
             opacity: isVisible ? 0 : 1.0
         });
     };
@@ -329,7 +356,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                                     onClick={(e) => e.stopPropagation()}
                                                 />
                                             ) : (
-                                                <span 
+                                                <span
                                                     className="background-name"
                                                     onClick={() => handleNameClick(bg)}
                                                     title="Click to rename"
@@ -440,14 +467,20 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                         <div className="grid-type-selector">
                             <button
                                 className={`grid-type-button ${gridType === 'square' ? 'active' : ''}`}
-                                onClick={() => setGridType('square')}
+                                onClick={() => {
+                                    setGridType('square');
+                                    syncGridSettings({ gridType: 'square' });
+                                }}
                                 title="Square Grid - Traditional square tiles"
                             >
                                 <span>Square</span>
                             </button>
                             <button
                                 className={`grid-type-button ${gridType === 'hex' ? 'active' : ''}`}
-                                onClick={() => setGridType('hex')}
+                                onClick={() => {
+                                    setGridType('hex');
+                                    syncGridSettings({ gridType: 'hex' });
+                                }}
                                 title="Hex Grid - Hexagonal tiles for tactical gameplay"
                             >
                                 <span>Hex</span>
@@ -582,7 +615,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                         <div className="background-color-presets">
                             {backgroundColorPresets.map(preset => (
                                 <button
-                                    key={preset.value}
+                                    key={`${preset.value}-${preset.label}`}
                                     className={`background-color-option ${selectedBackgroundColor === preset.value ? 'active' : ''}`}
                                     onClick={() => handleBackgroundColorChange(preset.value)}
                                     title={preset.label}

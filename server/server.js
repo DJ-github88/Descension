@@ -1525,6 +1525,90 @@ io.on('connection', (socket) => {
     console.log(`🎭 Character token created by ${player.name} at`, data.position);
   });
 
+  // ========== CRITICAL FIX: Token Removal Synchronization ==========
+  // Handle creature token removal - Broadcast to all other players
+  socket.on('token_removed', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    const { tokenId } = data;
+    if (!tokenId) {
+      console.warn('⚠️ token_removed event received without tokenId');
+      return;
+    }
+
+    // Remove from room game state
+    if (room.gameState.tokens && room.gameState.tokens[tokenId]) {
+      delete room.gameState.tokens[tokenId];
+
+      // Persist to Firebase
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist token removal:', error);
+      }
+    }
+
+    // Broadcast to OTHER players in the room (not sender)
+    socket.to(player.roomId).emit('token_removed', {
+      tokenId,
+      removedBy: player.id,
+      removedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🗑️ Token ${tokenId} removed by ${player.name}`);
+  });
+
+  // Handle character token removal - Broadcast to all other players
+  socket.on('character_token_removed', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    const { tokenId } = data;
+    if (!tokenId) {
+      console.warn('⚠️ character_token_removed event received without tokenId');
+      return;
+    }
+
+    // Remove from room game state
+    if (room.gameState.characterTokens) {
+      // Try to find and remove the token (could be indexed by tokenId or playerId)
+      if (room.gameState.characterTokens[tokenId]) {
+        delete room.gameState.characterTokens[tokenId];
+      }
+      // Also check if indexed by another key with matching id property
+      Object.keys(room.gameState.characterTokens).forEach(key => {
+        if (room.gameState.characterTokens[key]?.id === tokenId) {
+          delete room.gameState.characterTokens[key];
+        }
+      });
+
+      // Persist to Firebase
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist character token removal:', error);
+      }
+    }
+
+    // Broadcast to OTHER players in the room (not sender)
+    socket.to(player.roomId).emit('character_token_removed', {
+      tokenId,
+      removedBy: player.id,
+      removedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🗑️ Character token ${tokenId} removed by ${player.name}`);
+  });
+
   // Handle character movement - FIXED: Prevent echo-induced position resets
   socket.on('character_moved', async (data) => {
     // DEBUG: Log received data

@@ -74,6 +74,45 @@ const logMovementToCombat = (tokenId, creatures, distance, startPos, endPos) => 
   }
 };
 
+// Static constants for condition mapping
+const SUPPORTED_CONDITIONS = new Set([
+  'burning', 'poisoned', 'cursed', 'diseased', 'hexed', 'frightened',
+  'stunned', 'paralyzed', 'blinded', 'invisible', 'restrained',
+  'grappled', 'petrified', 'hastened', 'hasted', 'slowed',
+  'bleeding', 'blessed', 'defending', 'silenced', 'dispelled',
+  'charmed', 'confused', 'exhausted'
+]);
+
+const CONDITION_ALIASES = {
+  burning: 'burning', burn: 'burning', fire: 'burning',
+  poisoned: 'poisoned', poison: 'poisoned',
+  cursed: 'cursed', curse: 'cursed',
+  diseased: 'diseased', disease: 'diseased',
+  hexed: 'hexed', hex: 'hexed',
+  hastened: 'hastened', hasted: 'hastened', haste: 'hastened', quickened: 'hastened', accelerated: 'hastened',
+  slowed: 'slowed', slow: 'slowed',
+  bleeding: 'bleeding', bleed: 'bleeding',
+  blessed: 'blessed', bless: 'blessed',
+  defending: 'defending', defend: 'defending',
+  silenced: 'silenced', silence: 'silenced',
+  dispelled: 'dispelled', dispel: 'dispelled',
+  charmed: 'charmed', charm: 'charmed',
+  confused: 'confused', confuse: 'confused',
+  exhausted: 'exhausted'
+};
+
+const normalizeConditionName = (value) =>
+  (value || '')
+    .toString()
+    .toLowerCase()
+    .replace(/[^a-z]/g, '');
+
+const mapConditionName = (raw) => {
+  const norm = normalizeConditionName(raw);
+  if (CONDITION_ALIASES[norm]) return CONDITION_ALIASES[norm];
+  return SUPPORTED_CONDITIONS.has(norm) ? norm : null;
+};
+
 const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
@@ -103,32 +142,43 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const longPressHandlers = useLongPressContextMenu();
   const lastPositionUpdateRef = useRef(0);
 
-  const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
-  const { isInMultiplayer, multiplayerSocket } = useGameStore();
-  const { currentTarget, setTarget, clearTarget } = useTargetingStore();
-  const { addCombatNotification } = useChatStore();
-  const {
-    isSelectionMode,
-    selectedTokens,
-    toggleTokenSelection,
-    isInCombat,
-    isTokensTurn,
-    activeMovement,
-    pendingMovementConfirmation,
-    startMovementVisualization,
-    updateMovementVisualization,
-    clearMovementVisualization,
-    validateMovement,
-    setPendingMovementConfirmation,
-    clearPendingMovementConfirmation,
-    confirmMovement,
-    addMovementUsed,
-    getRemainingMovement,
-    updateTempMovementDistance,
-    recordTurnStartPosition,
-    getTurnStartPosition,
-    initializeStore
-  } = useCombatStore();
+  const token = useCreatureStore(state => state.tokens?.find(t => t.id === tokenId));
+  const creatures = useCreatureStore(state => state.creatures);
+  const updateTokenState = useCreatureStore(state => state.updateTokenState);
+  const removeToken = useCreatureStore(state => state.removeToken);
+  const duplicateToken = useCreatureStore(state => state.duplicateToken);
+  const updateTokenPosition = useCreatureStore(state => state.updateTokenPosition);
+
+  const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
+  const multiplayerSocket = useGameStore(state => state.multiplayerSocket);
+
+  const currentTarget = useTargetingStore(state => state.currentTarget);
+  const setTarget = useTargetingStore(state => state.setTarget);
+  const clearTarget = useTargetingStore(state => state.clearTarget);
+
+  const addCombatNotification = useChatStore(state => state.addCombatNotification);
+
+  // Selector-based combat store subscriptions
+  const isSelectionMode = useCombatStore(state => state.isSelectionMode);
+  const selectedTokens = useCombatStore(state => state.selectedTokens);
+  const toggleTokenSelection = useCombatStore(state => state.toggleTokenSelection);
+  const isInCombat = useCombatStore(state => state.isInCombat);
+  const isTokensTurn = useCombatStore(state => state.isTokensTurn(tokenId));
+  const activeMovement = useCombatStore(state => state.activeMovement);
+  const pendingMovementConfirmation = useCombatStore(state => state.pendingMovementConfirmation);
+  const startMovementVisualization = useCombatStore(state => state.startMovementVisualization);
+  const updateMovementVisualization = useCombatStore(state => state.updateMovementVisualization);
+  const clearMovementVisualization = useCombatStore(state => state.clearMovementVisualization);
+  const validateMovement = useCombatStore(state => state.validateMovement);
+  const setPendingMovementConfirmation = useCombatStore(state => state.setPendingMovementConfirmation);
+  const clearPendingMovementConfirmation = useCombatStore(state => state.clearPendingMovementConfirmation);
+  const confirmMovement = useCombatStore(state => state.confirmMovement);
+  const addMovementUsed = useCombatStore(state => state.addMovementUsed);
+  const getRemainingMovement = useCombatStore(state => state.getRemainingMovement);
+  const updateTempMovementDistance = useCombatStore(state => state.updateTempMovementDistance);
+  const recordTurnStartPosition = useCombatStore(state => state.recordTurnStartPosition);
+  const getTurnStartPosition = useCombatStore(state => state.getTurnStartPosition);
+  const initializeStore = useCombatStore(state => state.initializeStore);
 
   // Removed enhanced multiplayer hook - was causing conflicts
 
@@ -184,100 +234,27 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Throttle multiplayer updates during drag
   const lastMoveUpdateRef = useRef(null);
 
-  // Find the token and creature data
-  const token = tokens.find(t => t.id === tokenId);
-  const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
+  // Get creature data using selector
+  const creature = useCreatureStore(state => {
+    const t = state.tokens?.find(tk => tk.id === tokenId);
+    return t ? state.creatures?.find(c => c.id === t.creatureId) : null;
+  });
 
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
   const activeBuffs = useBuffStore(state => state.activeBuffs);
   const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
 
   const conditionEffects = useMemo(() => {
-    const supported = new Set([
-      'burning',
-      'poisoned',
-      'cursed',
-      'diseased',
-      'hexed',
-      'frightened',
-      'stunned',
-      'paralyzed',
-      'blinded',
-      'invisible',
-      'restrained',
-      'grappled',
-      'petrified',
-      'hastened',
-      'hasted',
-      'slowed',
-      'bleeding',
-      'blessed',
-      'defending',
-      'silenced',
-      'dispelled',
-      'charmed',
-      'confused',
-      'exhausted'
-    ]);
-
-    const normalize = (value) =>
-      (value || '')
-        .toString()
-        .toLowerCase()
-        .replace(/[^a-z]/g, '');
-
-    const aliases = {
-      burning: 'burning',
-      burn: 'burning',
-      fire: 'burning',
-      poisoned: 'poisoned',
-      poison: 'poisoned',
-      cursed: 'cursed',
-      curse: 'cursed',
-      diseased: 'diseased',
-      disease: 'diseased',
-      hexed: 'hexed',
-      hex: 'hexed',
-      hastened: 'hastened',
-      hasted: 'hastened',
-      haste: 'hastened',
-      quickened: 'hastened',
-      accelerated: 'hastened',
-      slowed: 'slowed',
-      slow: 'slowed',
-      bleeding: 'bleeding',
-      bleed: 'bleeding',
-      blessed: 'blessed',
-      bless: 'blessed',
-      defending: 'defending',
-      defend: 'defending',
-      silenced: 'silenced',
-      silence: 'silenced',
-      dispelled: 'dispelled',
-      dispel: 'dispelled',
-      charmed: 'charmed',
-      charm: 'charmed',
-      confused: 'confused',
-      confuse: 'confused',
-      exhausted: 'exhausted'
-    };
-
-    const mapName = (raw) => {
-      const norm = normalize(raw);
-      if (aliases[norm]) return aliases[norm];
-      return supported.has(norm) ? norm : null;
-    };
-
-    const collect = [];
-
     const pushCondition = (key, label) => {
       if (!key) return;
       collect.push({ key, label: label || key.toUpperCase() });
     };
 
+    const collect = [];
+
     // Only from token state (authoritative) - conditions only, not buffs/debuffs
     (token?.state?.conditions || []).forEach(c => {
-      const key = mapName(c.id || c.name) || normalize(c.id || c.name);
+      const key = mapConditionName(c.id || c.name) || normalizeConditionName(c.id || c.name);
       const label = c.name || c.id || key;
       pushCondition(key, label);
     });

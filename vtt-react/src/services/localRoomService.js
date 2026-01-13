@@ -4,6 +4,13 @@ import roomStateService from './roomStateService';
 import campaignService from './campaignService';
 import { validateRoomName } from '../utils/validationUtils';
 
+// Performance Optimization: Eagerly import stores to avoid lag during auto-save
+import useGameStore from '../store/gameStore';
+import useCreatureStore from '../store/creatureStore';
+import useGridItemStore from '../store/gridItemStore';
+import useLevelEditorStore from '../store/levelEditorStore';
+import useCharacterStore from '../store/characterStore';
+
 const LOCAL_ROOMS_KEY = 'mythrill_local_rooms';
 const LOCAL_ROOM_STATE_PREFIX = 'mythrill_local_room_state_';
 
@@ -89,7 +96,7 @@ class LocalRoomService {
 
     // Add room to array first (before any save operations)
     this.rooms.push(room);
-    
+
     try {
       // Save operations - these will throw if they fail
       this.saveRooms();
@@ -164,7 +171,7 @@ class LocalRoomService {
   deleteLocalRoom(roomId) {
     this.rooms = this.rooms.filter(room => room.id !== roomId);
     this.saveRooms();
-    
+
     // Also delete the room state
     try {
       localStorage.removeItem(`${LOCAL_ROOM_STATE_PREFIX}${roomId}`);
@@ -251,7 +258,7 @@ class LocalRoomService {
   prepareRoomForConversion(roomId) {
     const room = this.getLocalRoom(roomId);
     const gameState = this.loadRoomState(roomId);
-    
+
     if (!room) {
       throw new Error('Local room not found');
     }
@@ -282,65 +289,57 @@ class LocalRoomService {
    */
   async collectCurrentGameState() {
     try {
-      // Import stores dynamically to avoid circular dependencies
-      const [gameStoreModule, creatureStoreModule, gridItemStoreModule, levelEditorStoreModule] = await Promise.all([
-        import('../store/gameStore'),
-        import('../store/creatureStore'),
-        import('../store/gridItemStore'),
-        import('../store/levelEditorStore')
-      ]);
+      const gameState = useGameStore.getState();
+      const creatureState = useCreatureStore.getState();
+      const gridItemState = useGridItemStore.getState();
+      const levelEditorState = useLevelEditorStore.getState();
 
-      const gameState = gameStoreModule.default.getState();
-      const creatureState = creatureStoreModule.default.getState();
-      const gridItemState = gridItemStoreModule.default.getState();
-      const levelEditorState = levelEditorStoreModule.default.getState();
-
-    return {
-      // Background system - ensure all background data is captured
-      backgrounds: gameState.backgrounds || [],
-      activeBackgroundId: gameState.activeBackgroundId || null,
-      backgroundImage: gameState.backgroundImage || null,
-      backgroundImageUrl: gameState.backgroundImageUrl || '',
-
-      // FIXED: Save tokens (placed creatures) instead of global creature library
-      // The creature library should remain global and not be saved per room
-      tokens: creatureState.tokens || [], // Room-specific placed creature tokens
-
-      // Grid items (dropped items on the map)
-      gridItems: gridItemState.gridItems || [],
-      // Also save in legacy format for backwards compatibility
-      inventory: {
-        droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
-          acc[item.id] = item;
-          return acc;
-        }, {}) || {}
-      },
-
-      // Map data - include background data here too for compatibility
-      mapData: {
-        cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
-        zoomLevel: gameState.zoomLevel || 1.0,
+      return {
+        // Background system - ensure all background data is captured
         backgrounds: gameState.backgrounds || [],
-        activeBackgroundId: gameState.activeBackgroundId || null
-      },
+        activeBackgroundId: gameState.activeBackgroundId || null,
+        backgroundImage: gameState.backgroundImage || null,
+        backgroundImageUrl: gameState.backgroundImageUrl || '',
 
-      // Level editor data - comprehensive collection
-      levelEditor: {
-        terrainData: levelEditorState.terrainData || {},
-        environmentalObjects: levelEditorState.environmentalObjects || [],
-        lightSources: levelEditorState.lightSources || {},
-        wallData: levelEditorState.wallData || {},
-        dndElements: levelEditorState.dndElements || [],
-        fogOfWarData: levelEditorState.fogOfWarData || {},
-        drawingPaths: levelEditorState.drawingPaths || [],
-        drawingLayers: levelEditorState.drawingLayers || []
-      },
+        // FIXED: Save tokens (placed creatures) instead of global creature library
+        // The creature library should remain global and not be saved per room
+        tokens: creatureState.tokens || [], // Room-specific placed creature tokens
 
-      // Combat state
-      combat: {
-        isActive: false // Local rooms don't persist combat state
-      }
-    };
+        // Grid items (dropped items on the map)
+        gridItems: gridItemState.gridItems || [],
+        // Also save in legacy format for backwards compatibility
+        inventory: {
+          droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
+            acc[item.id] = item;
+            return acc;
+          }, {}) || {}
+        },
+
+        // Map data - include background data here too for compatibility
+        mapData: {
+          cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
+          zoomLevel: gameState.zoomLevel || 1.0,
+          backgrounds: gameState.backgrounds || [],
+          activeBackgroundId: gameState.activeBackgroundId || null
+        },
+
+        // Level editor data - comprehensive collection
+        levelEditor: {
+          terrainData: levelEditorState.terrainData || {},
+          environmentalObjects: levelEditorState.environmentalObjects || [],
+          lightSources: levelEditorState.lightSources || {},
+          wallData: levelEditorState.wallData || {},
+          dndElements: levelEditorState.dndElements || [],
+          fogOfWarData: levelEditorState.fogOfWarData || {},
+          drawingPaths: levelEditorState.drawingPaths || [],
+          drawingLayers: levelEditorState.drawingLayers || []
+        },
+
+        // Combat state
+        combat: {
+          isActive: false // Local rooms don't persist combat state
+        }
+      };
     } catch (error) {
       console.error('Error collecting game state:', error);
       // Return minimal state if there's an error
@@ -366,27 +365,24 @@ class LocalRoomService {
     }
 
     try {
-      // Import room state service
-      const { default: roomStateService } = await import('./roomStateService');
-      const { default: campaignService } = await import('./campaignService');
-      
+      // Note: roomStateService and campaignService are already imported at the top
+
       // Get room to find campaign ID
       const room = this.getLocalRoom(currentRoomId);
       const campaignId = room?.campaignId || campaignService.getCurrentCampaignId();
-      
+
       // Collect room state
       const roomState = await roomStateService.collectRoomState();
-      
+
       // Save room state
       roomStateService.saveRoomState(currentRoomId, campaignId, roomState);
-      
+
       // Also save to local room service for backward compatibility
       const currentGameState = await this.collectCurrentGameState();
       this.saveRoomState(currentRoomId, currentGameState);
-      
+
       // Save player-specific state if character is active
       try {
-        const { default: useCharacterStore } = await import('../store/characterStore');
         const activeCharacter = useCharacterStore.getState().activeCharacter;
         if (activeCharacter) {
           const playerState = await roomStateService.collectPlayerState(activeCharacter.id);

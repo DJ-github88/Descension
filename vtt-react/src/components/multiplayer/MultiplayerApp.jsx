@@ -2382,6 +2382,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
+      // CRITICAL FIX: Ignore echos of our own updates (prevents sync loops and blocking our own paint batches)
+      if (data.updatedBy === currentPlayerRef.current?.id) {
+        return;
+      }
+
       window._isReceivingMapUpdate = true;
 
       import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
