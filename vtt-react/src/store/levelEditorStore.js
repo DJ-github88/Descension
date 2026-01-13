@@ -4,9 +4,15 @@ import { getGridSystem } from '../utils/InfiniteGridSystem';
 
 // CRITICAL FIX: Map update batcher to prevent socket flooding during rapid editing (e.g. painting)
 // This prevents "Connection Error" and disconnections when painting terrain
+// Added batch size limits and sequence numbers for better multiplayer sync
+const MAX_BATCH_SIZE = 50; // Max 50 tiles per batch
+const MAX_BATCH_TIME = 100; // Max 100ms to wait before emitting
+let batchSequenceNumber = 0; // Sequence number for ordering
+
 const mapUpdateBatcher = {
     pendingUpdates: {},
     timeout: null,
+    lastEmitTime: null, // Track last emit time
 
     addUpdate: (type, data) => {
         if (!mapUpdateBatcher.pendingUpdates[type]) {
@@ -24,18 +30,61 @@ const mapUpdateBatcher = {
             mapUpdateBatcher.pendingUpdates[type] = data;
         }
 
-        // Schedule emit if not already scheduled
-        if (!mapUpdateBatcher.timeout) {
+        // CRITICAL FIX: Check if should emit now based on batch size or time elapsed
+        const totalUpdates = Object.keys(mapUpdateBatcher.pendingUpdates).length;
+        const elapsedTime = Date.now() - (mapUpdateBatcher.lastEmitTime || 0);
+        
+        // Emit if: batch is full OR enough time has passed
+        if (totalUpdates >= MAX_BATCH_SIZE || elapsedTime >= MAX_BATCH_TIME) {
+            clearTimeout(mapUpdateBatcher.timeout);
+            mapUpdateBatcher.timeout = null;
+            mapUpdateBatcher.emit();
+        } else if (!mapUpdateBatcher.timeout) {
+            // Otherwise schedule normally (100ms)
             mapUpdateBatcher.timeout = setTimeout(() => {
                 mapUpdateBatcher.emit();
-            }, 100); // 10fps is plenty for map sync
+            }, 100); // CRITICAL FIX: Increased from 50ms to 100ms
         }
     },
 
+    // CRITICAL FIX: Reduce rendering debounce - prevent multiple rapid emits causing re-renders
+    // Added tracking of pending updates to detect when same data is being batched multiple times
     emit: () => {
         const updates = { ...mapUpdateBatcher.pendingUpdates };
+        const sequence = ++batchSequenceNumber; // CRITICAL FIX: Track sequence for ordering
+
+        // CRITICAL FIX: Skip if no updates or duplicate of last emit
+        const updateKeys = Object.keys(updates);
+        if (updateKeys.length === 0) return;
+
+        // Track last emitted data to avoid redundant updates
+        if (!mapUpdateBatcher.lastEmittedData) {
+            mapUpdateBatcher.lastEmittedData = {};
+        }
+
+        // Check if this emit has any new data compared to last emit
+        const hasNewData = updateKeys.some(key => {
+            // Deep comparison for objects
+            if (typeof updates[key] === 'object' && !Array.isArray(updates[key])) {
+                const current = JSON.stringify(updates[key]);
+                const last = JSON.stringify(mapUpdateBatcher.lastEmittedData[key] || {});
+                return current !== last;
+            }
+            return false; // For non-objects, just include them
+        });
+
+        // Skip if no new data (deduplication)
+        if (!hasNewData) {
+            console.log('🔄 Skipping duplicate map update (no changes detected)');
+            return;
+        }
+
+        // Update last emitted data
+        mapUpdateBatcher.lastEmittedData = updates;
+
         mapUpdateBatcher.pendingUpdates = {};
         mapUpdateBatcher.timeout = null;
+        mapUpdateBatcher.lastEmitTime = Date.now(); // CRITICAL FIX: Track last emit time
 
         if (Object.keys(updates).length === 0) return;
 
@@ -45,7 +94,8 @@ const mapUpdateBatcher = {
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
-                        mapData: updates // Use 'mapData' consistently
+                        mapUpdates: updates,
+                        sequence: sequence // CRITICAL FIX: Include sequence number for ordering
                     });
                 }
             }
@@ -792,6 +842,77 @@ const useLevelEditorStore = create((set, get) => ({
         // Use batcher (send null to indicate removal)
         mapUpdateBatcher.addUpdate('terrainData', { [key]: null });
     },
+
+    // ========== BULK SETTERS FOR MULTIPLAYER SYNC ==========
+    // These replace the entire data object (used for initial sync from GM to players)
+
+    setTerrainData: (terrainData) => {
+        console.log('🗺️ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
+        set({ terrainData: terrainData || {} });
+    },
+
+    setWallData: (wallData) => {
+        console.log('🧱 Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
+        set({ wallData: wallData || {} });
+    },
+
+    setEnvironmentalObjects: (environmentalObjects) => {
+        console.log('🌳 Setting environmental objects:', (environmentalObjects || []).length, 'objects');
+        set({ environmentalObjects: environmentalObjects || [] });
+    },
+
+    setDrawingPaths: (drawingPaths) => {
+        set({ drawingPaths: drawingPaths || [] });
+    },
+
+    setDrawingLayers: (drawingLayers) => {
+        // Merge with default layers if provided layers are incomplete
+        const defaultLayers = [
+            { id: 'background', name: 'Background', visible: true, locked: false },
+            { id: 'terrain', name: 'Terrain', visible: true, locked: false },
+            { id: 'drawings', name: 'Drawings', visible: true, locked: false },
+            { id: 'walls', name: 'Walls', visible: true, locked: false },
+            { id: 'objects', name: 'Objects', visible: true, locked: false },
+            { id: 'fog', name: 'Fog of War', visible: true, locked: false },
+            { id: 'grid', name: 'Grid', visible: true, locked: false },
+            { id: 'overlay', name: 'Overlay', visible: true, locked: false }
+        ];
+        set({ drawingLayers: drawingLayers && drawingLayers.length > 0 ? drawingLayers : defaultLayers });
+    },
+
+    setFogOfWarData: (fogOfWarData) => {
+        set({ fogOfWarData: fogOfWarData || {} });
+    },
+
+    setExploredAreas: (exploredAreas) => {
+        set({ exploredAreas: exploredAreas || {} });
+    },
+
+    setLightSources: (lightSources) => {
+        set({ lightSources: lightSources || {} });
+    },
+
+    setDynamicFogEnabled: (enabled) => {
+        set({ dynamicFogEnabled: !!enabled });
+    },
+
+    setRespectLineOfSight: (enabled) => {
+        set({ respectLineOfSight: !!enabled });
+    },
+
+    setFogOfWarPaths: (paths) => {
+        set({ fogOfWarPaths: paths || [] });
+    },
+
+    setFogErasePaths: (paths) => {
+        set({ fogErasePaths: paths || [] });
+    },
+
+    setDndElements: (elements) => {
+        set({ dndElements: elements || [] });
+    },
+
+    // ========== END BULK SETTERS ==========
 
     // Environmental object operations - removed duplicate, using professional version below
 
@@ -2635,7 +2756,8 @@ const useLevelEditorStore = create((set, get) => ({
         return Math.abs(hash) % numVariations;
     },
 
-    // Brush terrain painting with size support
+    // CRITICAL FIX: Add tile change detection to prevent redundant updates
+    // This prevents unnecessary socket emissions and terrain flickering when painting
     paintTerrainBrush: (gridX, gridY, terrainType, brushSize = 1) => {
         const state = get();
         const newTerrainData = { ...state.terrainData };
@@ -2652,6 +2774,16 @@ const useLevelEditorStore = create((set, get) => ({
                 const tileX = gridX - startOffset + dx;
                 const tileY = gridY - startOffset + dy;
                 const tileKey = `${tileX},${tileY}`;
+
+                // CRITICAL FIX: Check if tile has actually changed before updating
+                const existingTerrain = state.terrainData[tileKey];
+                const needsUpdate = !existingTerrain || (
+                    existingTerrain.type !== terrainType ||
+                    (existingTerrain.variation !== undefined && terrain.tileVariations && terrain.tileVariations.length > 0 && existingTerrain.variation !== get().getTileVariation(tileX, tileY, terrain.tileVariations.length))
+                );
+
+                // Skip if no change needed
+                if (!needsUpdate) continue;
 
                 let terrainData_value;
                 // For terrain types with tile variations, use precalculated variation

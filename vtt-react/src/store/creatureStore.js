@@ -44,7 +44,12 @@ const useCreatureStore = create((set, get) => ({
   })),
 
   // Add creature token to the grid
-  addCreatureToken: (creature, position, sendToServer = true, forcedTokenId = null, isSyncEvent = false) => {
+  addCreatureToken: (creature, position, sendToServer = true, forcedTokenIdOrSync = null, isSyncEvent = false) => {
+    // Handle overloaded arguments from addToken alias
+    const forcedTokenId = typeof forcedTokenIdOrSync === 'string' ? forcedTokenIdOrSync : null;
+    const forcedState = typeof forcedTokenIdOrSync === 'object' ? forcedTokenIdOrSync : (typeof isSyncEvent === 'object' ? isSyncEvent : null);
+    const isSync = (typeof forcedTokenIdOrSync === 'boolean' && forcedTokenIdOrSync) || (typeof isSyncEvent === 'boolean' && isSyncEvent);
+
     // If creature is an ID string, we'll need to find its full data
     const creatureId = typeof creature === 'string' ? creature : (creature.id || creature.creatureId);
     const libraryCreatures = get().creatures || [];
@@ -61,8 +66,14 @@ const useCreatureStore = create((set, get) => ({
         return state;
       }
 
-      const moveKey = `move_${tokenId}`;
+      const moveKey = `token_${tokenId}`;
       const now = Date.now();
+
+      // Ensure global tracking Map exists
+      if (!window.recentTokenMovements) {
+        window.recentTokenMovements = new Map();
+      }
+      const recentTokenMovements = window.recentTokenMovements;
 
       // FIXED: Throttle movement updates in store to prevent rapid re-renders
       const recentMove = recentTokenMovements.get(moveKey);
@@ -74,6 +85,7 @@ const useCreatureStore = create((set, get) => ({
       recentTokenMovements.set(moveKey, {
         position: position,
         timestamp: now,
+        isLocal: !isSync,
         velocity: creatureData.velocity || { x: 0, y: 0 }
       });
 
@@ -89,7 +101,7 @@ const useCreatureStore = create((set, get) => ({
       }
 
       // Sync with Multiplayer server if enabled and not already a sync event
-      if (sendToServer && !isSyncEvent) {
+      if (sendToServer && !isSync) {
         try {
           const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
@@ -136,7 +148,7 @@ const useCreatureStore = create((set, get) => ({
         id: tokenId,
         creatureId: creatureId,
         position,
-        state: initialState,
+        state: forcedState || initialState,
         addedAt: Date.now()
       };
 
@@ -151,7 +163,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Alias for addCreatureToken
   addToken: (creature, position, sendToServer = true, forcedTokenId = null, isSyncEvent = false) => {
-    get().addCreatureToken(creature, position, sendToServer, forcedTokenId, isSyncEvent);
+    return get().addCreatureToken(creature, position, sendToServer, forcedTokenId, isSyncEvent);
   },
 
   // Update creature token position
@@ -161,50 +173,52 @@ const useCreatureStore = create((set, get) => ({
 
   // Update creature token position
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
+    const isSyncEvent = !!position?.isSyncEvent;
+    const targetPos = position?.x !== undefined ? position : position;
+
+    const currentTokens = state.creatureTokens || [];
+    const existingToken = currentTokens.find(t => t.id === tokenId);
+
+    if (!existingToken) return state;
+
     const now = Date.now();
-    const moveKey = `creature_${tokenId}`;
     const recentMoveKey = `token_${tokenId}`;
 
-    // Find existing token for comparison
-    const existingToken = state.creatureTokens.find(token => token.id === tokenId);
+    // Ensure global tracking Map exists
+    if (!window.recentTokenMovements) {
+      window.recentTokenMovements = new Map();
+    }
+    const recentTokenMovements = window.recentTokenMovements;
+    const recentMove = recentTokenMovements.get(recentMoveKey);
 
-    // CRITICAL FIX: Check if we have a recent local movement for this token
-    // If so, and it was recent (within 2 seconds), trust our local position more than the server echo
-    const recentLocalMove = recentTokenMovements.get(recentMoveKey);
-    if (recentLocalMove && (now - recentLocalMove.timestamp) < 2000) {
-      const isSameAsLocal =
-        Math.round(recentLocalMove.position.x) === Math.round(position.x) &&
-        Math.round(recentLocalMove.position.y) === Math.round(position.y);
-
-      if (isSameAsLocal) {
-        // Position already matches what we're moving to
-        return state;
-      }
-
-      // If server sends a different position but we are currently authoritative, ignore it
-      if (existingToken &&
-        Math.round(existingToken.position.x) === Math.round(recentLocalMove.position.x) &&
-        Math.round(existingToken.position.y) === Math.round(recentLocalMove.position.y)) {
-        console.log(`🚫 Ignoring conflicting server movement for creature ${tokenId} - local movement is authoritative`);
-        return state;
-      }
+    // If local movement, mark it as authoritative
+    if (!isSyncEvent) {
+      recentTokenMovements.set(recentMoveKey, {
+        tokenKey: tokenId,
+        position: targetPos,
+        timestamp: now,
+        isLocal: true
+      });
     }
 
-    // Update token in array
-    const updatedTokens = (state.creatureTokens || []).map(token =>
-      token.id === tokenId ? { ...token, position } : token
+    // Ignore sync events if we have a recent local move
+    if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 1000) {
+      const isSamePos = Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
+        Math.round(recentMove.position.y) === Math.round(targetPos.y);
+      if (isSamePos) return state;
+      console.log(`🚫 Ignoring server movement for creature ${tokenId} (local is authoritative)`);
+      return state;
+    }
+
+    const finalPos = isSyncEvent ? { x: targetPos.x, y: targetPos.y } : targetPos;
+
+    const updated = currentTokens.map(t =>
+      t.id === tokenId ? { ...t, position: finalPos } : t
     );
 
-    // Track this server update for echo prevention
-    recentTokenMovements.set(moveKey, {
-      position: position,
-      velocity: velocity || { x: 0, y: 0 },
-      timestamp: now
-    });
-
     return {
-      creatureTokens: updatedTokens,
-      tokens: updatedTokens // Keep alias in sync
+      creatureTokens: updated,
+      tokens: updated
     };
   }),
 

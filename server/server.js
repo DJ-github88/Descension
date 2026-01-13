@@ -306,7 +306,7 @@ const io = socketIo(server, {
 // SECURITY: Add input sanitization middleware to Socket.IO (before validation)
 io.use(createSanitizationMiddleware({
   logSanitization: process.env.NODE_ENV === 'development',
-  fieldsToSkip: ['password', 'passwordHash', 'token', 'id', 'roomId', 'socketId', 'playerId', 'characterId']
+  fieldsToSkip: ['password', 'passwordHash', 'token', 'id', 'roomId', 'socketId', 'playerId', 'characterId', 'tokenId']
 }));
 
 // Add validation middleware to Socket.IO
@@ -638,8 +638,10 @@ const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHis
 function getPublicRooms() {
   return Array.from(rooms.values())
     .filter(room => {
-      // Show active rooms and rooms where GM is temporarily disconnected (but not permanently closed)
-      return room.isActive !== false || (room.isActive === false && room.gmDisconnectedAt);
+      // CRITICAL FIX: Only show rooms where GM is actively connected
+      // Offline/inactive rooms should NOT appear in public listing
+      // They can only be accessed via "My Rooms" tab for authenticated users
+      return room.isActive === true;
     })
     .map(room => ({
       id: room.id,
@@ -649,7 +651,7 @@ function getPublicRooms() {
       gm: room.gm.name,
       createdAt: room.createdAt,
       hasPassword: !!room.passwordHash, // Check if room actually has a password
-      gmOnline: room.isActive !== false // Indicate if GM is currently online
+      gmOnline: true // Always true since we only show active rooms now
     }));
 }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
@@ -823,7 +825,34 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
       tokens: {}, // Creature tokens
       characterTokens: {}, // Player character tokens
       gridItems: {}, // Grid items
-      fogOfWar: {} // Fog of war state
+      fogOfWar: {}, // Fog of war state
+      // Level editor state for terrain, walls, objects, etc.
+      levelEditor: {
+        terrainData: {},
+        wallData: {},
+        environmentalObjects: [],
+        drawingPaths: [],
+        drawingLayers: [],
+        fogOfWarData: {},
+        fogOfWarPaths: [],
+        fogErasePaths: [],
+        exploredAreas: {},
+        lightSources: {},
+        dynamicFogEnabled: true,
+        respectLineOfSight: true,
+        dndElements: []
+      },
+      // Grid settings (type, size, colors, etc.)
+      gridSettings: {
+        gridType: 'square',
+        gridSize: 50,
+        gridOffsetX: 0,
+        gridOffsetY: 0,
+        gridLineColor: '#000000',
+        gridLineThickness: 1,
+        gridLineOpacity: 0.5,
+        gridBackgroundColor: '#d4c5b9'
+      }
     },
     chatHistory: [],
     isActive: true, // Mark as active when created
@@ -1106,13 +1135,16 @@ io.on('connection', (socket) => {
       // Join socket room
       socket.join(room.id);
 
-      // Emit success to joiner
+      // Emit success to joiner with full game state including level editor
       socket.emit('room_joined', {
         room,
         player,
         isGM: player.isGM,
         isGMReconnect,
-        sessionId: socket.id
+        sessionId: socket.id,
+        // Include level editor and grid settings for initial sync
+        levelEditor: room.gameState.levelEditor || {},
+        gridSettings: room.gameState.gridSettings || {}
       });
 
       // Notify others in room
@@ -1128,6 +1160,60 @@ io.on('connection', (socket) => {
       console.error('Join room error:', error);
       socket.emit('error', { message: error.message || 'Failed to join room' });
     }
+  });
+
+  // ========== Level Editor State Synchronization ==========
+  // Handle GM syncing level editor state to players
+  socket.on('sync_level_editor_state', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    // Only GM can sync level editor state
+    if (!player.isGM) {
+      console.log(`⚠️ Non-GM player ${player.name} attempted to sync level editor state`);
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update room gameState with level editor data
+    if (data.levelEditor) {
+      room.gameState.levelEditor = {
+        ...room.gameState.levelEditor,
+        ...data.levelEditor
+      };
+    }
+
+    // Update grid settings
+    if (data.gridSettings) {
+      room.gameState.gridSettings = {
+        ...room.gameState.gridSettings,
+        ...data.gridSettings
+      };
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist level editor state:', error);
+    }
+
+    // Broadcast to OTHER players only (not back to GM)
+    socket.to(player.roomId).emit('level_editor_state_sync', {
+      levelEditor: data.levelEditor || room.gameState.levelEditor,
+      gridSettings: data.gridSettings || room.gameState.gridSettings,
+      timestamp: new Date()
+    });
+
+    console.log(`🗺️ GM ${player.name} synced level editor state to room ${room.name}`);
   });
 
   // ========== CRITICAL FIX: Token Synchronization ==========
@@ -1441,6 +1527,15 @@ io.on('connection', (socket) => {
 
   // Handle character movement - FIXED: Prevent echo-induced position resets
   socket.on('character_moved', async (data) => {
+    // DEBUG: Log received data
+    console.log('📥 Server received character_moved:', {
+      tokenId: data.tokenId,
+      characterId: data.characterId,
+      playerId: data.playerId,
+      position: data.position,
+      fromSocket: socket.id
+    });
+
     const player = players.get(socket.id);
     if (!player || !player.roomId) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1464,10 +1559,14 @@ io.on('connection', (socket) => {
       room.gameState.characterTokens = {};
     }
 
-    const playerId = data.playerId || socket.id;
+    // CRITICAL: Use tokenId as primary identification for character tokens
+    // Fall back to characterId or playerId if tokenId is missing
+    const targetTokenId = data.tokenId || data.characterId || data.playerId || socket.id;
+    const senderPlayerId = player.id;
 
     // FIXED: Track recent movements to prevent echo-induced position resets
-    const recentMoveKey = `${player.roomId}_character_${playerId}`;
+    // Use targetTokenId so we track movements PER TOKEN, regardless of who moved it
+    const recentMoveKey = `${player.roomId}_character_${targetTokenId}`;
     const now = Date.now();
 
     // FIXED: Ignore stale movement echoes
@@ -1477,23 +1576,25 @@ io.on('connection', (socket) => {
     const recentMove = global.recentTokenMovements.get(recentMoveKey);
 
     if (recentMove && (now - recentMove.timestamp) < 100) {
-      console.log(`🚫 Ignoring stale character movement echo for ${playerId} (${now - recentMove.timestamp}ms old)`);
+      console.log(`🚫 Ignoring stale character movement echo for token ${targetTokenId} (${now - recentMove.timestamp}ms old)`);
       return;
     }
 
     // Track this movement
     global.recentTokenMovements.set(recentMoveKey, {
-      playerId: playerId,
       position: data.position,
-      timestamp: now
+      timestamp: now,
+      socketId: socket.id
     });
 
-    // Update character token position in room state
-    if (room.gameState.characterTokens[playerId]) {
-      room.gameState.characterTokens[playerId].position = data.position;
-      room.gameState.characterTokens[playerId].lastMovedAt = new Date();
-      room.gameState.characterTokens[playerId].lastMovedBy = player.id;
+    // Update token position in room state
+    if (!room.gameState.characterTokens[targetTokenId]) {
+      room.gameState.characterTokens[targetTokenId] = {};
     }
+
+    room.gameState.characterTokens[targetTokenId].position = data.position;
+    room.gameState.characterTokens[targetTokenId].lastMovedAt = new Date().toISOString();
+    room.gameState.characterTokens[targetTokenId].lastMovedBy = senderPlayerId;
 
     // Persist to Firebase (only final positions, not during drag)
     if (!data.isDragging) {
@@ -1505,7 +1606,7 @@ io.on('connection', (socket) => {
     }
 
     // CRITICAL FIX: Calculate velocity for lag compensation
-    const charToken = room.gameState.characterTokens[playerId];
+    const charToken = room.gameState.characterTokens[targetTokenId];
     const prevCharPos = charToken?.position || data.position;
     const charTimeDelta = charToken?.lastMovedAt ? (now - new Date(charToken.lastMovedAt).getTime()) : 100;
     const charVelocity = {
@@ -1513,16 +1614,42 @@ io.on('connection', (socket) => {
       y: charTimeDelta > 0 ? (data.position.y - prevCharPos.y) / (charTimeDelta / 1000) : 0
     };
 
-    // CRITICAL FIX: Broadcast to OTHER players only (not sender) to prevent echo-induced resets
-    socket.to(player.roomId).emit('character_moved', {
+    // Build the broadcast payload
+    const broadcastPayload = {
       position: data.position,
       playerId: player.id,
+      tokenId: data.tokenId, // CRITICAL: Include tokenId for client echo prevention
+      characterId: data.characterId, // Include for backward compatibility
       playerName: player.name,
       isDragging: data.isDragging || false,
       timestamp: new Date(),
       serverTimestamp: now,
       velocity: data.velocity || charVelocity
+    };
+
+    // CRITICAL DEBUG: Log exactly what we're broadcasting
+    // If tokenId is undefined here, the client won't be able to identify the token!
+    if (!broadcastPayload.tokenId) {
+      console.warn('⚠️ Broadcasting character_moved WITHOUT tokenId! Client will have trouble identifying the token.', {
+        receivedTokenId: data.tokenId,
+        receivedCharacterId: data.characterId,
+        usingTargetTokenId: targetTokenId,
+        fromPlayer: player.name
+      });
+    }
+
+    console.log('📤 Server broadcasting character_moved:', {
+      tokenId: broadcastPayload.tokenId,
+      characterId: broadcastPayload.characterId,
+      playerId: broadcastPayload.playerId,
+      position: broadcastPayload.position,
+      hasTokenId: !!broadcastPayload.tokenId,
+      toRoom: player.roomId
     });
+
+    // CRITICAL FIX: Broadcast to OTHER players only (not sender) to prevent echo-induced resets
+    // FIXED: Include tokenId and characterId so client echo prevention can work correctly
+    socket.to(player.roomId).emit('character_moved', broadcastPayload);
 
     console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
   });
@@ -1791,7 +1918,22 @@ io.on('connection', (socket) => {
         if (!room.gameState.mapData) {
           room.gameState.mapData = {};
         }
-        room.gameState.mapData.terrainData = data.mapUpdates.terrainData;
+        // CRITICAL FIX: MERGE terrain data instead of replacing
+        // GM client sends incremental updates (only tiles changed in this batch)
+        // We must merge with existing terrain to preserve all previously drawn tiles
+        if (!room.gameState.mapData.terrainData) {
+          room.gameState.mapData.terrainData = {};
+        }
+        const incomingTerrain = data.mapUpdates.terrainData;
+        for (const [key, value] of Object.entries(incomingTerrain)) {
+          if (value === null) {
+            // Handle tile erasure - remove from terrain data
+            delete room.gameState.mapData.terrainData[key];
+          } else {
+            // Add or update tile
+            room.gameState.mapData.terrainData[key] = value;
+          }
+        }
       }
       if (data.mapUpdates.wallData !== undefined) {
         if (!room.gameState.mapData) {

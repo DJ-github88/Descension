@@ -28,8 +28,9 @@ class RateLimitService {
       character_updated: { maxPerMinute: 20, maxPerSecond: 2 },
       character_equipment_updated: { maxPerMinute: 30, maxPerSecond: 3 },
 
-      // Map updates - GM only, high frequency allowed
-      map_update: { maxPerMinute: 120, maxPerSecond: 5 },
+      // Map updates - GM only, high frequency allowed for fast drawing
+      // CRITICAL FIX: Increased limits to prevent terrain tiles being dropped during fast drawing
+      map_update: { maxPerMinute: 360, maxPerSecond: 15 },
 
       // Room operations - low frequency
       create_room: { maxPerMinute: 5, maxPerSecond: 1 },
@@ -266,7 +267,7 @@ class RateLimitService {
       const originalOn = socket.on.bind(socket);
 
       socket.on = (event, handler) => {
-        const rateLimitedHandler = async(data) => {
+        const rateLimitedHandler = async (data) => {
           const playerInfo = getPlayerInfo();
           const isGM = playerInfo?.isGM || false;
 

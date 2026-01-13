@@ -80,6 +80,13 @@ export const useSessionManagement = () => {
   const showSessionWarning = useCallback(() => {
     if (isWarningShownRef.current) return;
 
+    // CRITICAL FIX: Don't show warning if user is not authenticated
+    const { isAuthenticated: currentlyAuth, user: currentUser } = useAuthStore.getState();
+    if (!currentlyAuth || !currentUser) {
+      console.log('Session warning skipped - user is not authenticated');
+      return;
+    }
+
     isWarningShownRef.current = true;
 
     // Create and show warning modal
@@ -192,6 +199,14 @@ export const useSessionManagement = () => {
     if (window.showNotification) {
       window.showNotification('Session Expired', 'You have been logged out due to inactivity.', 'warning');
     }
+
+    // CRITICAL FIX: Navigate to home page after logout
+    // Use window.location to ensure clean navigation regardless of React Router state
+    setTimeout(() => {
+      if (window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
+    }, 100);
   }, [signOut, updateStatus, clearTimers]);
 
   /**
@@ -318,6 +333,13 @@ export const useSessionManagement = () => {
   useEffect(() => {
     if (!isAuthenticated || !user) {
       clearTimers();
+
+      // CRITICAL FIX: Remove any stale session warning modal when user is not authenticated
+      const existingModal = document.getElementById('session-warning-modal');
+      if (existingModal) {
+        document.body.removeChild(existingModal);
+        isWarningShownRef.current = false;
+      }
       return;
     }
 

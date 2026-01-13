@@ -2457,7 +2457,9 @@ function GridComponent({
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
 
                 // Get current player from gameStore (provided as prop)
-                const currentPlayer = gameStore.getState().currentPlayer;
+                // CRITICAL FIX: Get socket ID for reliable ownership - currentPlayer is stored in MultiplayerApp React state, not gameStore
+                const gameState = gameStore.getState();
+                const multiplayerSocket = gameState.multiplayerSocket;
                 const characterName = draggedCharacterData?.name || useCharacterStore.getState().name;
 
                 if (!characterName) {
@@ -2467,8 +2469,9 @@ function GridComponent({
                     return;
                 }
 
-                // CRITICAL FIX: Use currentPlayer.id if available for robust ownership, fallback to characterName
-                const playerId = isInMultiplayer ? (currentPlayer?.id || characterName) : null;
+                // CRITICAL FIX: Use socket.id for robust ownership - this must match what server broadcasts
+                const playerId = isInMultiplayer ? (multiplayerSocket?.id || characterName) : null;
+                console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id);
 
                 // Place the character token with player ID for multiplayer uniqueness
                 addCharacterToken(worldPos, playerId);

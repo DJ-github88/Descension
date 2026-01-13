@@ -62,22 +62,37 @@ const CharacterToken = ({
 
     // Update local position when prop position changes (but not during dragging or shortly after)
     useEffect(() => {
-        // CRITICAL FIX: NEVER update position from props while dragging
-        // This prevents ANY external updates from interfering with smooth dragging
+        // CRITICAL FIX: NEVER update position from props while dragging or mouse is down
         if (isDragging || isMouseDown) {
             return;
         }
 
+        // Compare incoming prop position with current local position
+        const dx = position.x - localPosition.x;
+        const dy = position.y - localPosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // If the change is negligible (rounding differences), don't trigger anything
+        if (distance < 0.1) return;
+
         const timeSinceLastUpdate = Date.now() - lastPositionUpdateRef.current;
 
         // After dragging ends, wait for grace period before accepting external position updates
-        // This prevents server echoes and stale updates from causing jumps
-        if (timeSinceLastUpdate > 100) { // Reduced from 1000ms to 100ms
-            console.log(`📍 Updating character token localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
+        // This prevents server echos and stale updates from causing snapback.
+        // We accept updates if:
+        // 1. Enough time has passed since our last local move (1000ms) - safest for lag
+        // 2. OR it's a massive distance change (> 2 tiles) suggesting a manual teleport/map shift
+        const isMassiveMove = distance > 100; // Assuming ~50px per tile, 2 tiles is 100px
+
+        if (timeSinceLastUpdate > 1000 || isMassiveMove) {
+            if (timeSinceLastUpdate <= 1000 && isMassiveMove) {
+                console.log(`📍 Force syncing localPosition (Massive move: ${Math.round(distance)}px)`);
+            }
             setLocalPosition(position);
             currentPosRef.current = position;
         } else {
-            console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 100ms)`);
+            // Log but skip - this is likely a stale update from before our drop
+            // console.log(`🚫 Ignoring snapback - within grace period (${Math.round(distance)}px change ignored)`);
         }
     }, [position, isDragging, isMouseDown]);
 
@@ -610,17 +625,18 @@ const CharacterToken = ({
 
         // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
         if (isInMultiplayer && !isGMMode) {
-            const { currentPlayer } = useGameStore.getState();
+            const gameState = useGameStore.getState();
+            const multiplayerSocket = gameState.multiplayerSocket;
+            const mySocketId = multiplayerSocket?.id;
             const { name: characterName, baseName: characterBaseName } = useCharacterStore.getState();
 
             // Check multiple ways the token could be identified as the player's token:
-            // 1. tokenPlayerId matches currentPlayer.id (primary multiplayer ID)
+            // 1. tokenPlayerId matches our socket ID (primary multiplayer ID - MUST be first!)
             // 2. tokenPlayerId matches characterName or baseName (common from PartyHUD)
-            // 3. tokenPlayerId matches our socket ID directly
-            // 4. tokenPlayerId is 'current-player' (legacy support)
-            // 5. token.isPlayerToken is true (single-player compatibility)
-            // 6. token.name matches our character name (ultimate fallback)
-            const isOwnToken = tokenPlayerId === currentPlayer?.id ||
+            // 3. tokenPlayerId is 'current-player' (legacy support)
+            // 4. token.isPlayerToken is true (single-player compatibility)
+            // 5. token.name matches our character name (ultimate fallback)
+            const isOwnToken = tokenPlayerId === mySocketId ||
                 tokenPlayerId === characterName ||
                 tokenPlayerId === characterBaseName ||
                 tokenPlayerId === 'current-player' ||
@@ -632,18 +648,17 @@ const CharacterToken = ({
             if (!isOwnToken) {
                 console.warn('Cannot move character token - NOT OWNER. detailed check:', {
                     tokenPlayerId,
-                    currentPlayerId: currentPlayer?.id,
+                    mySocketId,
                     characterName,
                     characterBaseName,
                     isPlayerToken: token?.isPlayerToken,
                     tokenName: token?.name,
                     tokenId: tokenId,
-                    matchPlayerId: tokenPlayerId === currentPlayer?.id,
+                    matchSocketId: tokenPlayerId === mySocketId,
                     matchCharacterName: tokenPlayerId === characterName,
                     matchBaseName: tokenPlayerId === characterBaseName,
                     matchCurrentPlayerString: tokenPlayerId === 'current-player',
-                    matchIsPlayerToken: token?.isPlayerToken === true,
-                    matchFallback: (characterName && tokenPlayerId === characterName)
+                    matchIsPlayerToken: token?.isPlayerToken === true
                 });
                 setShowTooltip(false);
                 return;
@@ -746,7 +761,9 @@ const CharacterToken = ({
                             });
                             lastLocalPositionUpdate = now;
                         }
-                        pendingWorldPosRef.current = null;
+                        // CRITICAL FIX: Do NOT clear pendingWorldPosRef here!
+                        // mouseup needs this value to get the accurate final drop position.
+                        // It will be cleared by mouseup after use.
                     }
                     rafIdRef.current = null;
                 });
@@ -816,38 +833,59 @@ const CharacterToken = ({
             // PERFORMANCE: Batch React state updates to reduce re-renders
             scheduleStateUpdate(worldPos);
 
+            // CRITICAL FIX: ALWAYS track the pending position during drag for ALL tokens
+            // This ensures mouseup has the accurate final position regardless of React state batching
+            // Previously this only ran for isViewingFrom tokens, causing snap-back for regular tokens
+            pendingWorldPosRef.current = worldPos;
+
             // PERFORMANCE: Don't update viewing token position during drag - only on drop
             // This prevents expensive fog calculations from running during drag
-            // The fog calculations will run once when the drag ends, which is what we want
-            // We still track the position in a ref for use on drop
             if (isViewingFrom) {
-                // Store the position in a ref for use when drag ends, but don't update the store
-                // This prevents expensive fog recalculations during drag
-                pendingWorldPosRef.current = worldPos;
+                // The fog calculations will run once when the drag ends, which is what we want
+                // Position is already tracked in pendingWorldPosRef above
             }
 
-            // CRITICAL FIX: Update timestamp periodically to keep grace period active during long drags
-            // This prevents server echoes from slipping through during extended drag sessions
-            if (now - lastPositionUpdateRef.current > 1000) { // Only update every second
-                window[`recent_character_move_${tokenId}`] = now;
+            // FIXED: Update local character token position in store during drag (throttled)
+            // This prevents the token from reverting when other parts of the UI re-render
+            // but DOES NOT broadcast to other players (that happens only on drop)
+            if (now - lastNetworkUpdate > 50) { // 20fps for store updates
+                const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+                const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+                updateCharacterTokenPosition(tokenId, {
+                    ...snappedPos,
+                    isSyncEvent: false // This marks it as a local movement for echo prevention
+                });
+
+                // Standardized tracking for echo prevention
+                if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
+                window.recentTokenMovements.set(`token_${tokenId}`, {
+                    position: { x: snappedPos.x, y: snappedPos.y },
+                    timestamp: now,
+                    isLocal: true
+                });
+
+                lastNetworkUpdate = now;
             }
 
-            // Send real-time position updates to multiplayer server during drag (throttled for performance)
+            // FIXED: Removed real-time movement updates during drag to ensure more stable placement on other players' screens
+            // Token position will now only broadcast on drop (handleMouseUp) as requested by users
+            /*
             if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-                if (now - lastNetworkUpdate > 100) { // Throttle to ~10fps during drag for better performance
-                    // Snap to grid during drag to ensure consistency with final position
+                if (now - lastNetworkUpdate > 100) {
                     const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
                     multiplayerSocket.emit('character_moved', {
-                        tokenId: tokenId, // Pass actual token UUID for store identification
-                        characterId: tokenPlayerId, // Keep for backward compatibility
-                        position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
+                        tokenId: tokenId,
+                        characterId: tokenPlayerId,
+                        position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) },
                         isDragging: true
                     });
                     lastNetworkUpdate = now;
                 }
             }
+            */
 
             // CRITICAL FIX: Update movement visualization and distance calculation during drag
             if (dragStartPosition && now - lastCombatUpdate > 100) { // 10fps for combat updates (reduced for performance)
@@ -907,6 +945,16 @@ const CharacterToken = ({
             e.preventDefault();
             e.stopPropagation();
 
+            // CRITICAL FIX: Reset drag refs IMMEDIATELY at the start of mouseup
+            // This prevents any queued mousemove events from updating the store
+            // while we're processing the final drop position
+            isDraggingRef.current = false;
+            isMouseDownRef.current = false;
+
+            // CRITICAL FIX: Set grace period timestamp BEFORE any position updates
+            // This protects the final position from useEffect overwriting it
+            lastPositionUpdateRef.current = Date.now();
+
             // CRITICAL FIX: Use the last tracked position instead of recalculating from mouse event
             // When dragging fast, e.clientX/clientY can be stale or represent an intermediate position
             // The pendingWorldPosRef or localPosition contains the actual last rendered position
@@ -945,6 +993,10 @@ const CharacterToken = ({
             // Update local position immediately to prevent visual jumps
             setLocalPosition({ x: snappedWorldPos.x, y: snappedWorldPos.y });
 
+            // CRITICAL FIX: Update lastPositionUpdateRef to enable the grace period
+            // This prevents the useEffect from accepting external updates for 1000ms
+            lastPositionUpdateRef.current = Date.now();
+
             // PERFORMANCE: If this is the viewing token, update its position ONLY on drop (not during drag)
             // This ensures fog calculations run once when drag ends, not continuously during drag
             // FIXED: Force visibility recalculation when token is dropped
@@ -961,12 +1013,7 @@ const CharacterToken = ({
                 }
             }
 
-            // Reset drag refs
-            isDraggingRef.current = false;
-            isMouseDownRef.current = false;
-
-            // Track when we last updated position (for grace period in useEffect)
-            lastPositionUpdateRef.current = Date.now();
+            // Note: Drag refs already reset at start of mouseup handler
 
             // CRITICAL FIX: Handle combat movement validation if in combat
             if (isInCombat && dragStartPosition) {
@@ -997,7 +1044,13 @@ const CharacterToken = ({
 
                     // Send to multiplayer
                     if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-                        window[`recent_character_move_${tokenId}`] = Date.now();
+                        // Standardized tracking for echo prevention
+                        if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
+                        window.recentTokenMovements.set(`token_${tokenId}`, {
+                            position: { x: snappedWorldPos.x, y: snappedWorldPos.y },
+                            timestamp: Date.now(),
+                            isLocal: true
+                        });
                         multiplayerSocket.emit('character_moved', {
                             tokenId: tokenId, // Pass actual token UUID for store identification
                             characterId: tokenPlayerId, // Keep for backward compatibility
@@ -1005,17 +1058,29 @@ const CharacterToken = ({
                             isDragging: false
                         });
                     }
-                } else {
-                    // Movement is invalid - revert to start position
-                    console.log('❌ CHARACTER MOVEMENT IS INVALID - Reverting');
-                    updateCharacterTokenPosition(tokenId, dragStartPosition);
-                    setLocalPosition(dragStartPosition);
-                    updateTempMovementDistance(tokenId, 0);
                 }
             } else {
                 // Not in combat - send final position to multiplayer
+                console.log('🔷 CharacterToken drop - checking multiplayer:', {
+                    isInMultiplayer,
+                    hasSocket: !!multiplayerSocket,
+                    connected: multiplayerSocket?.connected,
+                    tokenId,
+                    position: snappedWorldPos
+                });
                 if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-                    window[`recent_character_move_${tokenId}`] = Date.now();
+                    // Standardized tracking for echo prevention
+                    if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
+                    window.recentTokenMovements.set(`token_${tokenId}`, {
+                        position: { x: snappedWorldPos.x, y: snappedWorldPos.y },
+                        timestamp: Date.now(),
+                        isLocal: true
+                    });
+                    console.log('📤 Emitting character_moved to server:', {
+                        tokenId,
+                        characterId: tokenPlayerId,
+                        position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) }
+                    });
                     multiplayerSocket.emit('character_moved', {
                         tokenId: tokenId, // Pass actual token UUID for store identification
                         characterId: tokenPlayerId, // Keep for backward compatibility
@@ -1039,6 +1104,10 @@ const CharacterToken = ({
             // CRITICAL FIX: Clear global token interaction flag
             window.tokenInteractionActive = false;
             window.tokenInteractionTimestamp = null;
+
+            // CRITICAL FIX: Clear pending position ref AFTER mouseup has used it
+            // This ensures mouseup always gets the accurate final drop position
+            pendingWorldPosRef.current = null;
 
             // Clear drag state globally to allow network updates again
             if (window.multiplayerDragState) {
@@ -1120,7 +1189,10 @@ const CharacterToken = ({
                 cancelAnimationFrame(rafIdRef.current);
                 rafIdRef.current = null;
             }
-            pendingWorldPosRef.current = null;
+            // NOTE: Do NOT clear pendingWorldPosRef here!
+            // This cleanup runs every time dependencies change (isDragging, position, etc.)
+            // which would wipe the tracked position during drag.
+            // pendingWorldPosRef is cleared by mouseup handler after reading it.
         };
     }, [
         isDragging,

@@ -395,7 +395,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       // Pass the password used to join/create so MultiplayerApp can handle auto-reconnects
       const usedPassword = joinPasswordRef.current || roomPasswordRef.current || '';
 
-      onJoinRoomRef.current(data.room, socket, isGM, data.player, usedPassword);
+      // Pass levelEditor and gridSettings from room_joined response for initial state sync
+      onJoinRoomRef.current(data.room, socket, isGM, data.player, usedPassword, data.levelEditor, data.gridSettings);
     };
 
     const handleError = (data) => {

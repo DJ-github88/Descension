@@ -140,17 +140,35 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Update local position when prop position changes (but not during dragging or shortly after)
   useEffect(() => {
     // CRITICAL FIX: NEVER update position from props while dragging or mouse is down
-    // This prevents ANY external updates (including auto-save) from interfering with smooth interactions
     if (isDragging || isMouseDown) {
       return;
     }
 
+    // Compare incoming prop position with current local position
+    const dx = position.x - localPosition.x;
+    const dy = position.y - localPosition.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // If the change is negligible (rounding differences), don't trigger anything
+    if (distance < 0.1) return;
+
     const timeSinceLastUpdate = Date.now() - lastPositionUpdateRef.current;
 
     // After dragging ends, wait for grace period before accepting external position updates
-    // This prevents auto-save and server echoes from causing jumps
-    if (timeSinceLastUpdate > 100) { // Reduced from 1000ms to 100ms
+    // This prevents server echoes and stale updates from causing snapback.
+    // We accept updates if:
+    // 1. Enough time has passed since our last local move (1000ms) - safest for lag
+    // 2. OR it's a massive distance change (> 2 tiles) suggesting a manual teleport/map shift
+    const isMassiveMove = distance > 100; // Assuming ~50px per tile, 2 tiles is 100px
+
+    if (timeSinceLastUpdate > 1000 || isMassiveMove) {
+      if (timeSinceLastUpdate <= 1000 && isMassiveMove) {
+        console.log(`📍 Force syncing localPosition (Massive move: ${Math.round(distance)}px)`);
+      }
       setLocalPosition(position);
+    } else {
+      // Log but skip - this is likely a stale update from before our drop
+      // console.log(`🚫 Ignoring snapback - within grace period (${Math.round(distance)}px change ignored)`);
     }
   }, [position, isDragging, isMouseDown]);
   const gridSystem = getGridSystem();
@@ -325,8 +343,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
       // Apply optimistic update tracking
       optimisticUpdatesService.optimisticTokenMove(tokenId, position, (actionId) => {
-        // Track local movement to prevent race conditions
-        window[`recent_move_${token.creatureId}`] = Date.now();
+        // Standardized tracking for echo prevention
+        if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
+        window.recentTokenMovements.set(`token_${tokenId}`, {
+          position: { x: position.x, y: position.y },
+          timestamp: Date.now(),
+          isLocal: true
+        });
 
         // Send to server with actionId for tracking
         multiplayerSocket.emit('token_moved', {
@@ -571,20 +594,29 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         const now = Date.now();
 
-        // Send real-time position updates to multiplayer server during drag
-        if (isInMultiplayer && token && multiplayerSocket && multiplayerSocket.connected) {
-          if (now - lastNetworkUpdate > 33) { // 30fps
-            // Snap to grid for network consistency
-            const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
-            const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+        // FIXED: Update local store during drag to prevent reversion
+        // This DOES NOT send to server (that happens only on drop)
+        if (now - lastNetworkUpdate > 50) { // 20fps for store updates
+          const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+          const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-            multiplayerSocket.emit('token_moved', {
-              tokenId: token.id,
-              position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) },
-              isDragging: true
+          // Update store directly for smooth persistence through re-renders
+          if (typeof updateTokenPosition === 'function') {
+            updateTokenPosition(token.id, {
+              ...snappedPos,
+              isSyncEvent: false // Marks as local move
             });
-            lastNetworkUpdate = now;
           }
+
+          // Standardized tracking for echo prevention
+          if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
+          window.recentTokenMovements.set(`token_${tokenId}`, {
+            position: { x: snappedPos.x, y: snappedPos.y },
+            timestamp: now,
+            isLocal: true
+          });
+
+          lastNetworkUpdate = now;
         }
 
         // Update movement visualization and distance calculation during drag

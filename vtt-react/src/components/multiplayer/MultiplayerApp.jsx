@@ -19,6 +19,7 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useCombatStore from '../../store/combatStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -722,6 +723,44 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
+      // ===== GM: BROADCAST LEVEL EDITOR STATE TO NEW PLAYER =====
+      // When a player joins, GM should send current level editor state so they see terrain, hex grid, walls, etc.
+      if (isGMRef.current && socket && socket.connected) {
+        console.log('🗺️ GM broadcasting level editor state to new player:', data.player.name);
+
+        try {
+          const levelEditorStore = useLevelEditorStore.getState();
+          const gameStore = useGameStore.getState();
+
+          socket.emit('sync_level_editor_state', {
+            levelEditor: {
+              terrainData: levelEditorStore.terrainData || {},
+              wallData: levelEditorStore.wallData || {},
+              environmentalObjects: levelEditorStore.environmentalObjects || [],
+              drawingPaths: levelEditorStore.drawingPaths || [],
+              drawingLayers: levelEditorStore.drawingLayers || [],
+              fogOfWarData: levelEditorStore.fogOfWarData || {},
+              exploredAreas: levelEditorStore.exploredAreas || {},
+              lightSources: levelEditorStore.lightSources || {},
+              dynamicFogEnabled: levelEditorStore.dynamicFogEnabled,
+              respectLineOfSight: levelEditorStore.respectLineOfSight
+            },
+            gridSettings: {
+              gridType: gameStore.gridType || 'square',
+              gridSize: gameStore.gridSize || 50,
+              gridOffsetX: gameStore.gridOffsetX || 0,
+              gridOffsetY: gameStore.gridOffsetY || 0,
+              gridLineColor: gameStore.gridLineColor || '#000000',
+              gridLineThickness: gameStore.gridLineThickness || 1,
+              gridLineOpacity: gameStore.gridLineOpacity || 0.5,
+              gridBackgroundColor: gameStore.gridBackgroundColor || '#d4c5b9'
+            }
+          });
+        } catch (error) {
+          console.error('Failed to broadcast level editor state:', error);
+        }
+      }
+
       // Add to chat system
       addUser({
         id: data.player.id,
@@ -767,31 +806,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for creature token movement
-    socket.on('token_moved', (data) => {
-      if (data && data.tokenId && data.position) {
-        // CRITICAL FIX: Ignore movement updates for tokens we are currently dragging locally
-        // This prevents the "snapback" or "fighting" effect in multiplayer
-        if (window.multiplayerDragState && window.multiplayerDragState.has(`token_${data.tokenId}`)) {
-          return;
-        }
+    // NOTE: token_moved listener is defined later with more robust throttling and batching
 
-        // Use the existing update function which handles interpolation/smoothing
-        updateCreatureTokenPosition(data.tokenId, data.position);
-      }
-    });
-
-    // Listen for character token movement
-    socket.on('character_moved', (data) => {
-      if (data && data.tokenId && data.position) {
-        // CRITICAL FIX: Ignore movement updates for tokens we are currently dragging locally
-        if (window.multiplayerDragState && window.multiplayerDragState.has(`token_${data.tokenId}`)) {
-          return;
-        }
-
-        updateCharacterTokenPosition(data.tokenId, data.position);
-      }
-    });
+    // NOTE: character_moved listener is consolidated further down with throttling and robust ID handling
 
     // Listen for party member additions from other clients
     socket.on('party_member_added', (data) => {
@@ -1044,6 +1061,87 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // ========== CRITICAL: Level Editor State Synchronization ==========
+    // Listen for level editor state sync from GM
+    socket.on('level_editor_state_sync', (data) => {
+      console.log('🗺️ Received level_editor_state_sync:', {
+        hasLevelEditor: !!data.levelEditor,
+        hasGridSettings: !!data.gridSettings
+      });
+
+      try {
+        // Apply level editor state
+        if (data.levelEditor) {
+          const levelEditorStore = useLevelEditorStore.getState();
+
+          if (data.levelEditor.terrainData !== undefined) {
+            levelEditorStore.setTerrainData(data.levelEditor.terrainData);
+          }
+          if (data.levelEditor.wallData !== undefined) {
+            levelEditorStore.setWallData(data.levelEditor.wallData);
+          }
+          if (data.levelEditor.environmentalObjects !== undefined) {
+            levelEditorStore.setEnvironmentalObjects(data.levelEditor.environmentalObjects);
+          }
+          if (data.levelEditor.drawingPaths !== undefined) {
+            levelEditorStore.setDrawingPaths(data.levelEditor.drawingPaths);
+          }
+          if (data.levelEditor.drawingLayers !== undefined) {
+            levelEditorStore.setDrawingLayers(data.levelEditor.drawingLayers);
+          }
+          if (data.levelEditor.fogOfWarData !== undefined) {
+            levelEditorStore.setFogOfWarData(data.levelEditor.fogOfWarData);
+          }
+          if (data.levelEditor.exploredAreas !== undefined) {
+            levelEditorStore.setExploredAreas(data.levelEditor.exploredAreas);
+          }
+          if (data.levelEditor.lightSources !== undefined) {
+            levelEditorStore.setLightSources(data.levelEditor.lightSources);
+          }
+          if (data.levelEditor.dynamicFogEnabled !== undefined) {
+            levelEditorStore.setDynamicFogEnabled(data.levelEditor.dynamicFogEnabled);
+          }
+          if (data.levelEditor.respectLineOfSight !== undefined) {
+            levelEditorStore.setRespectLineOfSight(data.levelEditor.respectLineOfSight);
+          }
+
+          console.log('✅ Level editor state applied');
+        }
+
+        // Apply grid settings
+        if (data.gridSettings) {
+          const gameStore = useGameStore.getState();
+
+          if (data.gridSettings.gridType !== undefined) {
+            gameStore.setGridType(data.gridSettings.gridType);
+            console.log('🔷 Grid type set to:', data.gridSettings.gridType);
+          }
+          if (data.gridSettings.gridSize !== undefined) {
+            gameStore.setGridSize(data.gridSettings.gridSize);
+          }
+          if (data.gridSettings.gridOffsetX !== undefined && data.gridSettings.gridOffsetY !== undefined) {
+            gameStore.setGridOffset(data.gridSettings.gridOffsetX, data.gridSettings.gridOffsetY);
+          }
+          if (data.gridSettings.gridLineColor !== undefined) {
+            gameStore.setGridLineColor(data.gridSettings.gridLineColor);
+          }
+          if (data.gridSettings.gridLineThickness !== undefined) {
+            gameStore.setGridLineThickness(data.gridSettings.gridLineThickness);
+          }
+          if (data.gridSettings.gridLineOpacity !== undefined) {
+            gameStore.setGridLineOpacity(data.gridSettings.gridLineOpacity);
+          }
+          if (data.gridSettings.gridBackgroundColor !== undefined) {
+            gameStore.setGridBackgroundColor(data.gridSettings.gridBackgroundColor);
+          }
+
+          console.log('✅ Grid settings applied');
+        }
+      } catch (error) {
+        console.error('❌ Failed to apply level editor state sync:', error);
+      }
+    });
+
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
       // Enhanced debug logging for multiplayer sync testing
@@ -1071,23 +1169,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       const isOwnMovement = (data.playerId === socket.id) && isDraggingOurToken;
 
-      // Additional check for recent local movements to prevent race conditions
-      // CRITICAL FIX: Only skip if we recently moved this token ourselves
-      // Note: data.playerId is socket.id from server
-      const recentMovementKey = `recent_move_${targetId}`;
-      const recentMovementTime = window[recentMovementKey];
+      // Standardized tracking key
+      const recentMovementKey = `token_${targetId}`;
+      const recentMovementTime = window.recentTokenMovements?.get(recentMovementKey)?.timestamp;
       const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000 &&
         data.playerId === socket.id;
 
-      // CRITICAL FIX: Even if it's our own movement, we MUST resolve any pending actionId
-      // to clear the optimistic update. Otherwise, it might revert or jump later.
+      // CRITICAL FIX: Resolve pending actionId BEFORE any early returns
+      // to clear the optimistic update. 
       if (data.actionId) {
         optimisticUpdatesService.resolveUpdate(data.actionId, { position: data.position });
       }
 
       if (isOwnMovement || hasRecentLocalMovement) {
-        // If we don't have an actionId, we can skip processing since it's redundant
-        if (!data.actionId) return;
+        return; // initiator doesn't need to re-update store from network
       }
 
       // CRITICAL FIX: Always update token position when receiving movement from server
@@ -1122,9 +1217,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             requestAnimationFrame(() => {
               batch.forEach(update => {
                 if (update.type === 'token') {
-                  // Check if this is a confirmation for an optimistic update
-                  if (data.actionId) {
-                    // Already resolved above for better responsiveness
+                  // FIXED: Do NOT early return here. We resolved it above for the initiator, 
+                  // but other players still need to process this movement update.
+                  // The initiator's update to the store is handled locally during drag/drop.
+                  if (data.playerId === socket.id) {
                     return;
                   }
 
@@ -1154,7 +1250,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                         to: { x: Math.round(update.position.x), y: Math.round(update.position.y) },
                         distance: Math.round(distance)
                       });
-                      updateCreatureTokenPosition(token.id, update.position);
+                      updateCreatureTokenPosition(token.id, {
+                        ...update.position,
+                        isSyncEvent: true // CRITICAL: Mark as sync event to allow store tracking
+                      });
                     }
                   } else {
                     console.warn('⚠️ Token not found for movement update:', {
@@ -1192,21 +1291,104 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     // Listen for character movements from other players AND server confirmations
+    // This handles: player moving their own token, GM moving any player's token
     socket.on('character_moved', (data) => {
-      // CRITICAL FIX: Distinguish between sender (playerId) and target token (characterId)
-      // data.playerId is usually the socket.id or player database ID of the SENDER
-      // data.characterId is the ID of the character token being moved
+      // CRITICAL DEBUG: Log all received character_moved events with clear info
+      // If tokenId is undefined here, the event won't update the correct token!
+      console.log('📥 Received character_moved:', {
+        tokenId: data.tokenId,        // Should be the token's UUID (e.g., "fbdd8929-...")
+        characterId: data.characterId, // Should be the token owner's player ID
+        playerId: data.playerId,       // Who moved the token (sender - could be GM)
+        position: data.position,
+        mySocketId: socket.id,
+        myPlayerId: currentPlayerRef.current?.id,
+        hasTokenId: !!data.tokenId,    // Quick check - if false, we have a problem!
+        hasCharacterId: !!data.characterId
+      });
+
+      // FIXED: Use tokenId or characterId consistently for character tokens
       const senderId = data.playerId;
-      const targetCharacterId = data.characterId || senderId; // Fallback to senderId for older clients
 
-      const isOwnMovement = senderId === currentPlayerRef.current?.id || senderId === socket.id;
+      // CRITICAL FIX: When GM moves a player's token, we MUST have the tokenId to identify
+      // which token to update. If both tokenId and characterId are undefined, 
+      // log a warning and try alternate identification methods.
+      let targetCharacterId = data.tokenId || data.characterId;
 
-      // For own movements, ignore server confirmations to prevent position jumps
+      if (!targetCharacterId) {
+        // tokenId is missing! This is the bug case.
+        // Log clearly so we know what data the server sent
+        console.warn('⚠️ character_moved received WITHOUT tokenId or characterId!', {
+          receivedData: data,
+          hint: 'Check that CharacterToken.jsx emits tokenId and server.js relays data.tokenId'
+        });
+
+        // FALLBACK: Try to find any character token that might be the one being moved
+        // When GM moves a player's token, we NEED to update the player's own token
+        // So we look for any token near the new position
+        const { characterTokens } = useCharacterTokenStore.getState();
+
+        // Sort tokens by distance from the new position, pick the closest one
+        // that isn't at the exact new position already (which would mean it's already updated)
+        const sortedByDistance = (characterTokens || [])
+          .map(token => {
+            const dx = (token.position?.x || 0) - data.position.x;
+            const dy = (token.position?.y || 0) - data.position.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            return { token, distance };
+          })
+          .filter(({ distance }) => distance > 1) // Exclude tokens already at target position
+          .sort((a, b) => a.distance - b.distance);
+
+        const nearbyMatch = sortedByDistance[0];
+
+        if (nearbyMatch && nearbyMatch.distance < 500) { // Within ~10 tiles
+          targetCharacterId = nearbyMatch.token.id;
+          console.log('🔧 FALLBACK: Found likely token by proximity:', {
+            tokenId: nearbyMatch.token.id,
+            playerId: nearbyMatch.token.playerId,
+            isOwnToken: nearbyMatch.token.playerId === currentPlayerRef.current?.id,
+            tokenPosition: nearbyMatch.token.position,
+            newPosition: data.position,
+            distance: Math.round(nearbyMatch.distance)
+          });
+        } else {
+          // Last resort - use senderId but warn that this probably won't work
+          targetCharacterId = senderId;
+          console.warn('❌ Could not identify target token! Using senderId as fallback (likely wrong):', {
+            senderId,
+            availableTokens: (characterTokens || []).map(t => ({ id: t.id, playerId: t.playerId }))
+          });
+        }
+      }
+
+      const isOwnMovement = senderId === socket.id || (currentPlayerRef.current && senderId === currentPlayerRef.current.id);
+
+      // Standardized tracking key - MUST match CharacterToken.jsx
+      const recentMovementKey = `token_${targetCharacterId}`;
+      const recentMovementEntry = window.recentTokenMovements?.get(recentMovementKey);
+      const recentMovementTime = recentMovementEntry?.timestamp;
+
+      // CRITICAL FIX: Enhanced echo prevention - skip if:
+      // 1. This is our own movement based on senderId/socket matching
+      // 2. We recently moved this specific tokenId locally (within 1000ms grace period)
       if (isOwnMovement) {
+        console.log('🚫 Skipping character_moved - isOwnMovement:', { senderId, socketId: socket.id });
         return;
       }
 
-      // Process movement from other players
+      // CRITICAL FIX: Check if this token was recently moved locally (by any of our tokens)
+      // This catches echoes that come back with different sender IDs
+      if (recentMovementEntry && recentMovementEntry.isLocal && (Date.now() - (recentMovementTime || 0) < 1000)) {
+        console.log('🚫 Skipping character_moved - recent local movement:', { recentMovementEntry });
+        // Skip server echo for this token - we moved it locally recently
+        return;
+      }
+
+      console.log('✅ Processing character_moved - updating token:', {
+        targetCharacterId,
+        newPosition: data.position
+      });
+
       // Throttle character token position updates
       const throttleKey = `character_${targetCharacterId}`;
       const now = Date.now();
@@ -1216,10 +1398,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (now - lastUpdate >= throttleMs || !data.isDragging) {
         tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-        // Update character token position for other players
         try {
-          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-          updateCharacterTokenPosition(targetCharacterId, data.position);
+          const { updateCharacterTokenPosition, characterTokens } = useCharacterTokenStore.getState();
+
+          // FIXED: Add isSyncEvent flag to prevent store from blocking this update as an "echo"
+          const positionWithSync = {
+            ...data.position,
+            isSyncEvent: true
+          };
+
+          // Double-check: does a token with this ID exist?
+          const tokenExists = (characterTokens || []).some(t =>
+            t.id === targetCharacterId || t.playerId === targetCharacterId
+          );
+
+          if (!tokenExists) {
+            console.warn('⚠️ Token not found in store! Update will fail:', {
+              targetCharacterId,
+              availableTokens: (characterTokens || []).map(t => ({ id: t.id, playerId: t.playerId }))
+            });
+          }
+
+          updateCharacterTokenPosition(targetCharacterId, positionWithSync);
         } catch (error) {
           console.error('Failed to update character token position:', error);
         }
@@ -1411,23 +1611,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for character token movement from other players
-    socket.on('character_moved', (data) => {
-      const { characterId, position } = data;
-      const currentId = currentPlayerRef.current?.id;
-      const currentName = currentPlayerRef.current?.name;
-
-      // Skip our own movements (we handle them locally)
-      if (characterId === currentId || characterId === currentName || characterId === 'current-player') {
-        return;
-      }
-
-      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
-        const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-        // Update position (store logic handles finding the token)
-        updateCharacterTokenPosition(characterId, position);
-      }).catch(err => console.error('Failed to sync character move', err));
-    });
+    // NOTE: character_moved handled by the main listener at line 1305
+    // Listener at line 1525 removed to prevent update conflicts
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
@@ -2221,8 +2406,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // CRITICAL FIX: Update terrain data if provided (this is the key fix for terrain tiles)
         if (mapData.terrainData !== undefined) {
           // Merge terrain data instead of replacing to preserve existing tiles
-          const currentTerrainData = levelEditorStore.getState().terrainData || {};
-          const mergedTerrainData = { ...currentTerrainData, ...mapData.terrainData };
+          // FIXED: levelEditorStore is already the result of getState(), access terrainData directly
+          const currentTerrainData = levelEditorStore.terrainData || {};
+
+          // CRITICAL FIX: Properly handle null values (erased terrain) and ensure all tiles are merged
+          const mergedTerrainData = { ...currentTerrainData };
+          for (const [key, value] of Object.entries(mapData.terrainData)) {
+            if (value === null) {
+              // Remove erased tiles
+              delete mergedTerrainData[key];
+            } else {
+              // Add or update tile
+              mergedTerrainData[key] = value;
+            }
+          }
+
           levelEditorStore.setTerrainData(mergedTerrainData);
         }
 
@@ -2561,7 +2759,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
-  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password) => {
+  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings) => {
     setIsJoiningRoom(true);
     setConnectionStatus('connecting');
 
@@ -2572,6 +2770,87 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       type: 'system',
       timestamp: new Date().toISOString()
     });
+
+    // ===== APPLY INITIAL LEVEL EDITOR STATE FOR NON-GM PLAYERS =====
+    // This ensures players joining a room see terrain, hex grid, walls, etc.
+    if (!isGameMaster && (levelEditorState || gridSettings)) {
+      console.log('🗺️ Applying initial level editor state for player:', {
+        hasLevelEditor: !!levelEditorState,
+        hasGridSettings: !!gridSettings
+      });
+
+      try {
+        // Apply level editor state
+        if (levelEditorState) {
+          const levelEditorStore = useLevelEditorStore.getState();
+
+          if (levelEditorState.terrainData !== undefined) {
+            levelEditorStore.setTerrainData(levelEditorState.terrainData);
+          }
+          if (levelEditorState.wallData !== undefined) {
+            levelEditorStore.setWallData(levelEditorState.wallData);
+          }
+          if (levelEditorState.environmentalObjects !== undefined) {
+            levelEditorStore.setEnvironmentalObjects(levelEditorState.environmentalObjects);
+          }
+          if (levelEditorState.drawingPaths !== undefined) {
+            levelEditorStore.setDrawingPaths(levelEditorState.drawingPaths);
+          }
+          if (levelEditorState.drawingLayers !== undefined) {
+            levelEditorStore.setDrawingLayers(levelEditorState.drawingLayers);
+          }
+          if (levelEditorState.fogOfWarData !== undefined) {
+            levelEditorStore.setFogOfWarData(levelEditorState.fogOfWarData);
+          }
+          if (levelEditorState.exploredAreas !== undefined) {
+            levelEditorStore.setExploredAreas(levelEditorState.exploredAreas);
+          }
+          if (levelEditorState.lightSources !== undefined) {
+            levelEditorStore.setLightSources(levelEditorState.lightSources);
+          }
+          if (levelEditorState.dynamicFogEnabled !== undefined) {
+            levelEditorStore.setDynamicFogEnabled(levelEditorState.dynamicFogEnabled);
+          }
+          if (levelEditorState.respectLineOfSight !== undefined) {
+            levelEditorStore.setRespectLineOfSight(levelEditorState.respectLineOfSight);
+          }
+
+          console.log('✅ Initial level editor state applied');
+        }
+
+        // Apply grid settings
+        if (gridSettings) {
+          const gameStore = useGameStore.getState();
+
+          if (gridSettings.gridType !== undefined) {
+            gameStore.setGridType(gridSettings.gridType);
+            console.log('🔷 Initial grid type set to:', gridSettings.gridType);
+          }
+          if (gridSettings.gridSize !== undefined) {
+            gameStore.setGridSize(gridSettings.gridSize);
+          }
+          if (gridSettings.gridOffsetX !== undefined && gridSettings.gridOffsetY !== undefined) {
+            gameStore.setGridOffset(gridSettings.gridOffsetX, gridSettings.gridOffsetY);
+          }
+          if (gridSettings.gridLineColor !== undefined) {
+            gameStore.setGridLineColor(gridSettings.gridLineColor);
+          }
+          if (gridSettings.gridLineThickness !== undefined) {
+            gameStore.setGridLineThickness(gridSettings.gridLineThickness);
+          }
+          if (gridSettings.gridLineOpacity !== undefined) {
+            gameStore.setGridLineOpacity(gridSettings.gridLineOpacity);
+          }
+          if (gridSettings.gridBackgroundColor !== undefined) {
+            gameStore.setGridBackgroundColor(gridSettings.gridBackgroundColor);
+          }
+
+          console.log('✅ Initial grid settings applied');
+        }
+      } catch (error) {
+        console.error('❌ Failed to apply initial level editor state:', error);
+      }
+    }
 
     let currentPlayerData;
 

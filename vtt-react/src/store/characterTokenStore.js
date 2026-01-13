@@ -7,7 +7,11 @@ import { createStorageConfig } from '../utils/storageUtils';
 // CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets
 // This prevents tokens from jumping back to old positions when server broadcasts
 // Map: playerId -> { tokenId, position, timestamp }
-const recentTokenMovements = new Map();
+// Unified: using window.recentTokenMovements to share tracking across stores
+if (!window.recentTokenMovements) {
+  window.recentTokenMovements = new Map();
+}
+const recentTokenMovements = window.recentTokenMovements;
 
 // Use character token store
 const useCharacterTokenStore = create(
@@ -95,6 +99,29 @@ const useCharacterTokenStore = create(
           });
         }
 
+        // CRITICAL FIX: Set up initial movement tracking for the new token
+        // This prevents the first drag operation from being reverted by server echo
+        // The token is marked as "just created" so any server echoes in the next 1000ms are ignored
+        if (!window.recentTokenMovements) {
+          window.recentTokenMovements = new Map();
+        }
+        const now = Date.now();
+        window.recentTokenMovements.set(`token_${newToken.id}`, {
+          tokenKey: newToken.id,
+          position: { x: position.x, y: position.y },
+          timestamp: now,
+          isLocal: true
+        });
+        // Also track by playerId for cases where server uses playerId instead of tokenId
+        if (playerId) {
+          window.recentTokenMovements.set(`token_${playerId}`, {
+            tokenKey: playerId,
+            position: { x: position.x, y: position.y },
+            timestamp: now,
+            isLocal: true
+          });
+        }
+
         return {
           characterTokens: [
             ...state.characterTokens,
@@ -110,52 +137,53 @@ const useCharacterTokenStore = create(
           token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
         );
 
-        // CRITICAL FIX: Ignore duplicate position updates to prevent server echo glitches
-        const recentMoveKey = `token_${playerIdOrTokenId}`;
+        const targetPos = position?.x !== undefined ? position : position;
+        const isSyncEvent = !!position?.isSyncEvent;
         const now = Date.now();
+        const recentMoveKey = `token_${playerIdOrTokenId}`;
 
-        if (!recentTokenMovements) {
-          recentTokenMovements = new Map();
+        // Ensure global tracking Map exists
+        if (!window.recentTokenMovements) {
+          window.recentTokenMovements = new Map();
         }
+        const recentTokenMovements = window.recentTokenMovements;
         const recentMove = recentTokenMovements.get(recentMoveKey);
 
-        // IMPROVED LOGIC: Increased grace period to 2000ms (to account for network round-trips)
-        // If we recently moved this token locally, ignore any server updates for it UNLESS they match
-        // Or if enough time has passed.
-        if (recentMove && (now - recentMove.timestamp) < 2000) {
-          const isSamePosition =
-            Math.round(recentMove.position.x) === Math.round(position.x) &&
-            Math.round(recentMove.position.y) === Math.round(position.y);
-
-          if (isSamePosition) {
-            // Already matched, ignore the redundant update
-            return state;
-          }
-
-          // If position is different but we moved it reflexively (optimistically), 
-          // we should trust our local position more than the older server broadcast.
-          if (existingToken &&
-            Math.round(existingToken.position.x) === Math.round(recentMove.position.x) &&
-            Math.round(existingToken.position.y) === Math.round(recentMove.position.y)) {
-            console.log(`🚫 Ignoring conflicting server movement for ${playerIdOrTokenId} - local movement is authoritative`);
-            return state;
-          }
+        // If this is a local movement (not from server), track it as authoritative for a short time
+        if (!isSyncEvent) {
+          recentTokenMovements.set(recentMoveKey, {
+            tokenKey: playerIdOrTokenId,
+            position: { x: targetPos.x, y: targetPos.y },
+            timestamp: now,
+            isLocal: true
+          });
         }
 
-        // Track this movement to prevent future duplicate echoes
-        recentTokenMovements.set(recentMoveKey, {
-          tokenKey: playerIdOrTokenId,
-          position,
-          timestamp: now
-        });
+        // If we recently moved this token locally, ignore any server updates for it for a short grace period
+        if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 1000) {
+          const isSamePosition =
+            Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
+            Math.round(recentMove.position.y) === Math.round(targetPos.y);
+
+          if (isSamePosition) {
+            return state;
+          }
+
+          // Local movement is still authoritative
+          console.log(`🚫 Ignoring conflicting server movement for ${playerIdOrTokenId} - local movement is authoritative`);
+          return state;
+        }
+
+        // Clean position object for store storage
+        const finalPos = { x: targetPos.x, y: targetPos.y };
 
         const updatedTokens = state.characterTokens.map(token =>
           token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
-            ? { ...token, position }
+            ? { ...token, position: finalPos }
             : token
         );
 
-        console.log(`🔷 Character token ${playerIdOrTokenId} moved to`, position);
+        console.log(`🔷 Character token ${playerIdOrTokenId} moved to`, finalPos);
         return { characterTokens: updatedTokens };
       }),
 
@@ -235,18 +263,18 @@ const useCharacterTokenStore = create(
         // Find the character token to update
         const existingToken = state.characterTokens.find(token => token.id === tokenId);
 
-        // CRITICAL FIX: Ignore stale server echoes to prevent position jumps
-        // Check if we recently moved this token (within last 100ms)
+        // Standardized tracking key
         const recentMoveKey = `token_${tokenId}`;
         const now = Date.now();
 
-        if (!recentTokenMovements) {
-          recentTokenMovements = new Map();
+        if (!window.recentTokenMovements) {
+          window.recentTokenMovements = new Map();
         }
+        const recentTokenMovements = window.recentTokenMovements;
         const recentMove = recentTokenMovements.get(recentMoveKey);
 
-        if (recentMove && (now - recentMove.timestamp) < 100) {
-          console.log(`🚫 Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old)`);
+        if (recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 500) {
+          console.log(`🚫 Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old - local is authoritative)`);
           return state;
         }
 
@@ -266,7 +294,7 @@ const useCharacterTokenStore = create(
             ...state.characterTokens,
             {
               id: tokenId,
-              isPlayerToken: true, // Server tokens are not local player tokens
+              isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
               playerId: playerId,
               position,
               createdAt: Date.now()

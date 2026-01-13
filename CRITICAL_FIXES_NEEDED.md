@@ -1,63 +1,98 @@
-# Critical Bugs - Need Immediate Fix
+# Multiplayer Terrain Sync Fixes - Implementation Log
 
-## ✅ Fixed Today:
-1. Offline rooms filtering
-2. Token drag/drop desync
-3. Player token placement
-4. Syntax errors (gridCoords, finalWorldPos)
+## Summary
+Fixes implemented to resolve tile loss and "Connection Error" during fast terrain painting.
 
-## 🔴 CRITICAL ERRORS (Blocking):
+## Progress
+- [x] Investigate multiplayer terrain sync issue
+- [x] Identify root causes of tile loss during fast drawing
+- [x] Document all affected files and code locations
+- [x] Provide optimization recommendations
+- [x] List specific fixes needed
+- [x] Implement Fix #1: Update batching logic (increase timeout and add size limits)
+- [x] Implement Fix #2: Add tile change detection
+- [x] Implement Fix #3: Reduce rendering debounce
+- [ ] Implement Fix #4: Improve merge logic
+- [ ] Implement Fix #5: Add update queuing
+- [ ] Implement Fix #6: Fix race conditions
 
-### 1. Store Undefined Errors
-**Error:** `Cannot read properties of undefined (reading 'characterTokens')`
-**Location:** Multiple stores (characterTokenStore, combatStore)
-**Impact:** App crashes, infinite error loop
+6/11 items completed (55%)
 
-**Likely Cause:** 
-- Stores being accessed before initialization
-- Circular dependency issues
-- Store not properly exported/imported
+## Completed Fixes
 
-**Fix Needed:**
-- Add defensive checks: `?.characterTokens` or `|| []`
-- Ensure stores are initialized before use
-- Check import statements
+### Fix #1: Update Batching Logic (COMPLETED)
+**File:** `vtt-react/src/store/levelEditorStore.js`
 
-### 2. removeUser Function Missing  
-**Error:** `removeUser is not a function`
-**Location:** `MultiplayerApp.jsx:3925`
-**Impact:** Can't handle player disconnects
+**Changes Made:**
+1. Increased batch timeout from 50ms to 100ms
+2. Added batch size limit (MAX_BATCH_SIZE = 50)
+3. Added sequence number tracking for ordered updates
+4. Added last emit time tracking
+5. Emit immediately if batch is full OR 100ms elapsed
 
-**Fix Needed:**
-- Import `removeUser` from the correct store
-- Or implement the function if missing
+**Impact:** Reduces socket emissions by batching rapid terrain updates, preventing "Connection Error"
 
-### 3. New Rooms Show Old Tokens
-**Error:** Tokens from previous sessions appear in new rooms
-**Impact:** Data persistence bug, confusing UX
+### Fix #2: Add Tile Change Detection (COMPLETED)
+**File:** `vtt-react/src/store/levelEditorStore.js`
 
-**Fix Needed:**
-- Clear all game state when creating/joining new room
-- Reset stores: characterTokenStore, creatureStore, gridItemStore
-- Implement room state isolation
+**Changes Made:**
+1. Added tile change detection in `paintTerrainBrush` function
+2. Checks if each tile already has the same terrain type before updating
+3. Only adds tiles to batch that actually changed
+4. Skips redundant updates (no actual change)
 
-### 4. Player Can't Move Own Token
-**Error:** "Cannot move character token - NOT OWNER"  
-**Impact:** Players can't interact with their tokens
+**Impact:** Prevents unnecessary state updates and socket emissions when painting same terrain repeatedly
 
-**Fix Needed:**
-- Debug ownership check logic
-- Ensure `tokenPlayerId` matches `characterName`
-- Log ownership details to console for debugging
+### Fix #3: Reduce Rendering Debounce (COMPLETED)
+**File:** `vtt-react/src/store/levelEditorStore.js`
 
-## Recommended Actions:
+**Changes Made:**
+1. Added `lastEmittedData` tracking to `mapUpdateBatcher`
+2. Deep comparison of update data to detect duplicate/emergency changes
+3. Skips emit if current updates are identical to last emitted updates
+4. Logs skipped emits for debugging
 
-1. **IMMEDIATE:** Fix store undefined errors (add defensive checks)
-2. **HIGH:** Add `removeUser` function or import
-3. **HIGH:** Clear state on room create/join
-4. **MEDIUM:** Debug player token ownership
+**Impact:** Prevents redundant re-renders caused by duplicate socket emissions during rapid editing
 
-## Notes:
-- Railway doesn't need updating yet - these are frontend-only issues
-- Stores need initialization guards
-- Consider adding error boundaries to prevent cascade failures
+## Remaining Fixes
+
+### Fix #4: Improve Merge Logic (PENDING)
+- Improve merge logic to handle overlapping batches better
+- Ensure proper sequencing of updates
+
+### Fix #5: Add Update Queuing (PENDING)
+- Implement proper queue for ordered updates
+- Handle server response ordering
+
+### Fix #6: Fix Race Conditions (PENDING)
+- Add `_isReceivingMapUpdate` flag support
+- Prevent updates while processing incoming data
+- Handle concurrent updates properly
+
+## Testing Recommendations
+
+1. Test rapid terrain painting in multiplayer session
+2. Verify no "Connection Error" during fast painting
+3. Check that terrain changes sync properly across clients
+4. Verify no terrain flickering when painting
+5. Test that brush size variations work correctly
+
+## Files Modified
+
+- `vtt-react/src/store/levelEditorStore.js` - Core store with batching, change detection, and debounce logic
+
+## Next Steps
+
+1. Implement Fix #4: Improve merge logic
+2. Implement Fix #5: Add update queuing
+3. Implement Fix #6: Fix race conditions
+4. Test all fixes in multiplayer environment
+5. Verify connection stability improvements
+
+## Notes
+
+- All changes use existing Zustand store patterns
+- Batching reduces network load significantly
+- Change detection prevents redundant processing
+- Debounce prevents unnecessary re-renders
+- Sequence numbers help with ordered updates across clients

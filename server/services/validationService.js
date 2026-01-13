@@ -63,6 +63,17 @@ const validationSchemas = {
     isDragging: Joi.boolean().optional()
   }),
 
+  character_moved: Joi.object({
+    tokenId: Joi.string().required(),
+    characterId: Joi.string().optional().allow(null, ''),
+    position: Joi.object({
+      x: Joi.number().required(),
+      y: Joi.number().required()
+    }).required(),
+    isDragging: Joi.boolean().optional(),
+    velocity: Joi.object().optional()
+  }),
+
   // Combat
   combat_action: Joi.object({
     type: Joi.string().valid('next_turn', 'initiative_roll').required(),
@@ -184,8 +195,8 @@ function createValidationMiddleware(options = {}) {
     // Override the socket.on method to add validation
     const originalOn = socket.on.bind(socket);
 
-    socket.on = function(event, handler){
-      const validatedHandler = async(data) => {
+    socket.on = function (event, handler) {
+      const validatedHandler = async (data) => {
         const clientId = socket.id;
         const validation = validateSocketEvent(event, data);
 
