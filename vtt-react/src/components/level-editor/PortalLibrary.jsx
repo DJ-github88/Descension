@@ -38,7 +38,7 @@ const PortalLibrary = () => {
     };
 
     const handleDeleteTemplate = (templateId) => {
-        if (confirm('Are you sure you want to delete this portal template?')) {
+        if (confirm('Are you sure you want to delete this connection template?')) {
             removePortalTemplate(templateId);
         }
     };
@@ -62,11 +62,11 @@ const PortalLibrary = () => {
     return (
         <div className="portal-library">
             <div className="library-header">
-                <h4 className="library-title">Portal Library</h4>
+                <h4 className="library-title">Connection Library</h4>
                 <button
                     className="create-template-button"
                     onClick={handleCreateTemplate}
-                    title="Create new portal template"
+                    title="Create new connection template"
                 >
                     + New Template
                 </button>
@@ -76,8 +76,8 @@ const PortalLibrary = () => {
                 {portalTemplates.length === 0 ? (
                     <div className="empty-library">
                         <div className="empty-icon">🌀</div>
-                        <p>No portal templates yet</p>
-                        <p className="empty-hint">Create templates to reuse portal configurations</p>
+                        <p>No connection templates yet</p>
+                        <p className="empty-hint">Create templates to reuse connection configurations</p>
                     </div>
                 ) : (
                     <div className="template-grid">
@@ -141,10 +141,10 @@ const PortalLibrary = () => {
             <div className="library-instructions">
                 <h5>Instructions:</h5>
                 <ul>
-                    <li>Create reusable portal templates with predefined settings</li>
-                    <li>Drag templates from library onto the map to place portals</li>
+                    <li>Create reusable connection templates with predefined settings</li>
+                    <li>Drag templates from library onto the map to place connections</li>
                     <li>Templates can be edited and reused across different maps</li>
-                    <li>Set destination maps and colors for consistent portal design</li>
+                    <li>Set destination maps and colors for consistent connection design</li>
                 </ul>
             </div>
 

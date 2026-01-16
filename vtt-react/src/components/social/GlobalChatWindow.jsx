@@ -66,10 +66,13 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
       // Use user.uid if logged in, otherwise use a dev mode ID
       const userId = user?.uid || `dev_user_${characterId || 'guest'}`;
+      const accountName = user?.displayName || 'Unknown';
+      const isGuest = user?.isGuest || false;
 
       console.log('🎭 Initializing presence with character:', characterData);
       console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
-      initializePresence(userId, characterData, sessionData);
+      console.log('🎭 Account Name:', accountName, 'isGuest:', isGuest);
+      initializePresence(userId, characterData, sessionData, accountName, isGuest);
       subscribeToOnlineUsers();
     }
 
@@ -103,10 +106,12 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
       // Use user.uid if logged in, otherwise use a dev mode ID
       const userId = user?.uid || `dev_user_${characterId}`;
+      const accountName = user?.displayName || 'Unknown';
+      const isGuest = user?.isGuest || false;
 
       console.log('🔄 Updating presence with new character data:', characterData);
       // Re-initialize presence with updated character data
-      initializePresence(userId, characterData, sessionData);
+      initializePresence(userId, characterData, sessionData, accountName, isGuest);
     }
   }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterRaceDisplayName, characterBackground, characterBackgroundDisplayName, characterPath, characterLevel]);
 
@@ -167,14 +172,14 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   // Handle invite to room
   const handleInviteToRoom = (user) => {
     const sendRoomInvite = usePresenceStore.getState().sendRoomInvite;
-    
+
     if (currentUserPresence?.sessionType === 'multiplayer') {
       sendRoomInvite(
         user.userId,
         currentUserPresence.roomId,
         currentUserPresence.roomName
       );
-      
+
       // Show confirmation
       console.log(`Invitation sent to ${user.characterName}`);
     }
@@ -199,12 +204,12 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         defaultSize={{ width: 1200, height: 800 }}
         className="global-chat-window"
       >
-        <div 
+        <div
           className={`global-chat-container ${isDragging ? 'dragging' : ''} ${isUsersPaneHidden ? 'users-pane-hidden' : ''}`}
           onMouseMove={isDragging ? handleMouseMove : undefined}
         >
           {/* Left Pane - Online Users */}
-          <div 
+          <div
             className="users-pane"
             style={{ width: `${splitPosition}%` }}
           >

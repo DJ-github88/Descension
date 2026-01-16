@@ -22,6 +22,7 @@ const usePresenceStore = create((set, get) => ({
   // Global chat state
   globalChatMessages: [],
   maxChatMessages: 100,
+  isGlobalChatMuted: false,
 
   // Party chat state (integrated with partyStore)
   partyChatMessages: [],
@@ -39,12 +40,14 @@ const usePresenceStore = create((set, get) => ({
   /**
    * Initialize presence tracking for current user
    */
-  initializePresence: async (userId, characterData, sessionData = {}) => {
-    const success = await presenceService.setOnline(userId, characterData, sessionData);
+  initializePresence: async (userId, characterData, sessionData = {}, accountName = null, isGuest = false) => {
+    const success = await presenceService.setOnline(userId, characterData, { ...sessionData, accountName, isGuest });
 
     // Always set local state, even if Firebase fails (for dev mode without Firebase)
     const presenceData = {
       userId,
+      accountName,
+      isGuest,
       ...characterData,
       ...sessionData,
       status: 'online',
@@ -230,7 +233,7 @@ const usePresenceStore = create((set, get) => ({
     if (!currentUserPresence) return false;
 
     const success = await presenceService.setOffline(currentUserPresence.userId);
-    
+
     if (success) {
       set({ currentUserPresence: null });
     }
@@ -242,6 +245,9 @@ const usePresenceStore = create((set, get) => ({
    * Add a global chat message
    */
   addGlobalMessage: (message) => {
+    // Skip if global chat is muted
+    if (get().isGlobalChatMuted) return;
+
     set((state) => {
       const messages = [...state.globalChatMessages, message];
 
@@ -257,6 +263,13 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
+   * Toggle global chat mute state
+   */
+  toggleGlobalChatMute: () => {
+    set((state) => ({ isGlobalChatMuted: !state.isGlobalChatMuted }));
+  },
+
+  /**
    * Clear global chat messages
    */
   clearGlobalMessages: () => {
@@ -269,18 +282,31 @@ const usePresenceStore = create((set, get) => ({
   sendGlobalMessage: (content) => {
     const { currentUserPresence, socket } = get();
 
+    // Block guest users from sending global messages
+    if (currentUserPresence?.isGuest) {
+      console.warn('Guest users cannot send global chat messages');
+      return false;
+    }
+
     // For testing without login, use a default user
     const senderData = currentUserPresence || {
       userId: 'test_user',
       characterName: 'Yad',
+      accountName: 'Yad',
       class: 'Adventurer',
       level: 1
     };
 
+    // Format sender name: AccountName(CharacterName) or just AccountName
+    let senderName = senderData.accountName || senderData.characterName || 'Unknown';
+    if (senderData.characterName && senderData.accountName && senderData.characterName !== 'Guest') {
+      senderName = `${senderData.accountName}(${senderData.characterName})`;
+    }
+
     const message = {
       id: uuidv4(),
       senderId: senderData.userId,
-      senderName: senderData.characterName,
+      senderName: senderName,
       senderClass: senderData.class,
       senderLevel: senderData.level,
       content: content.trim(),
@@ -316,7 +342,7 @@ const usePresenceStore = create((set, get) => ({
     let senderClass = senderData?.class || 'Unknown';
     let senderLevel = senderData?.level || 1;
     let senderId = senderData?.userId || 'test_user';
-    
+
     // Try to get from character store if in multiplayer
     import('./gameStore').then(({ default: useGameStore }) => {
       const gameStore = useGameStore.getState();
@@ -459,7 +485,7 @@ const usePresenceStore = create((set, get) => ({
    */
   respondToInvite: (inviteId, accepted) => {
     const { socket } = get();
-    
+
     if (!socket || !socket.connected) {
       return false;
     }
@@ -475,7 +501,7 @@ const usePresenceStore = create((set, get) => ({
         inv => inv.id !== inviteId
       )
     }));
-    
+
     return true;
   },
 
@@ -589,7 +615,7 @@ const usePresenceStore = create((set, get) => ({
     // Create tab if it doesn't exist
     if (!tab) {
       let user = onlineUsers.get(userId);
-      
+
       // If user not found in onlineUsers, try to create from message data or party store
       if (!user) {
         // Try to get from party store synchronously (if already imported)
@@ -610,14 +636,14 @@ const usePresenceStore = create((set, get) => ({
         } catch (e) {
           // Party store not available, continue
         }
-        
+
         // If still no user, create from message data
         if (!user) {
           // Determine which name to use based on whether this is a sent or received message
           // If userId matches senderId, this is a received message, use senderName
           // If userId matches recipientId, this is a sent message, use recipientName
           const isReceivedMessage = message.senderId === userId;
-          const displayName = isReceivedMessage 
+          const displayName = isReceivedMessage
             ? (message.senderName || 'Unknown')
             : (message.recipientName || 'Unknown');
           const displayClass = isReceivedMessage
@@ -626,7 +652,7 @@ const usePresenceStore = create((set, get) => ({
           const displayLevel = isReceivedMessage
             ? (message.senderLevel || 1)
             : (message.recipientLevel || 1);
-          
+
           user = {
             userId: userId,
             characterName: displayName,
@@ -637,7 +663,7 @@ const usePresenceStore = create((set, get) => ({
           };
         }
       }
-      
+
       if (user) {
         tab = {
           user,

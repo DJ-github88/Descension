@@ -5,11 +5,11 @@
  * Uses Firebase Realtime Database for presence with automatic disconnect handling.
  */
 
-import { 
-  ref as dbRef, 
-  set, 
-  onValue, 
-  onDisconnect, 
+import {
+  ref as dbRef,
+  set,
+  onValue,
+  onDisconnect,
   serverTimestamp,
   get,
   query,
@@ -41,6 +41,8 @@ class PresenceService {
 
       const presenceData = {
         userId,
+        accountName: sessionData.accountName || null,
+        isGuest: sessionData.isGuest || false,
         characterId: characterData.id || null,
         characterName: characterData.name || 'Unknown',
         level: characterData.level || 1,
@@ -90,7 +92,7 @@ class PresenceService {
 
     try {
       const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
-      
+
       const updates = {
         sessionType: sessionData.sessionType || null,
         roomId: sessionData.roomId || null,
@@ -170,6 +172,8 @@ class PresenceService {
         ...currentData,
         characterId: characterData.id || currentData.characterId,
         characterName: characterData.name || currentData.characterName,
+        accountName: characterData.accountName || currentData.accountName,
+        isGuest: characterData.isGuest !== undefined ? characterData.isGuest : currentData.isGuest,
         level: characterData.level || currentData.level,
         class: characterData.class || currentData.class,
         background: characterData.background || currentData.background,
@@ -204,12 +208,12 @@ class PresenceService {
         status: 'offline',
         lastSeen: serverTimestamp()
       });
-      
+
       // Cancel onDisconnect
       if (this.presenceRef) {
         await onDisconnect(this.presenceRef).cancel();
       }
-      
+
       return true;
     } catch (error) {
       console.error('❌ Failed to set user offline:', error);
@@ -223,12 +227,12 @@ class PresenceService {
   subscribeToOnlineUsers(callback) {
     if (!this.isConfigured || !realtimeDb) {
       console.warn('Firebase not configured, cannot subscribe to online users');
-      return () => {};
+      return () => { };
     }
 
     try {
       const presenceRef = dbRef(realtimeDb, 'presence');
-      
+
       const unsubscribe = onValue(presenceRef, (snapshot) => {
         const users = [];
         snapshot.forEach((childSnapshot) => {
@@ -243,7 +247,7 @@ class PresenceService {
       return unsubscribe;
     } catch (error) {
       console.error('❌ Failed to subscribe to online users:', error);
-      return () => {};
+      return () => { };
     }
   }
 
@@ -252,12 +256,12 @@ class PresenceService {
    */
   subscribeToUser(userId, callback) {
     if (!this.isConfigured || !realtimeDb) {
-      return () => {};
+      return () => { };
     }
 
     try {
       const userPresenceRef = dbRef(realtimeDb, `presence/${userId}`);
-      
+
       const unsubscribe = onValue(userPresenceRef, (snapshot) => {
         const userData = snapshot.val();
         callback(userData);
@@ -267,7 +271,7 @@ class PresenceService {
       return unsubscribe;
     } catch (error) {
       console.error('❌ Failed to subscribe to user:', error);
-      return () => {};
+      return () => { };
     }
   }
 
@@ -293,7 +297,7 @@ class PresenceService {
     try {
       const presenceRef = dbRef(realtimeDb, 'presence');
       const snapshot = await get(presenceRef);
-      
+
       const users = [];
       snapshot.forEach((childSnapshot) => {
         const userData = childSnapshot.val();
@@ -301,7 +305,7 @@ class PresenceService {
           users.push(userData);
         }
       });
-      
+
       return users;
     } catch (error) {
       console.error('❌ Failed to get online users:', error);
@@ -335,7 +339,7 @@ class PresenceService {
       unsubscribe();
     });
     this.listeners.clear();
-    
+
     if (this.currentUserId) {
       this.setOffline(this.currentUserId);
     }

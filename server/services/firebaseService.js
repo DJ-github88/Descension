@@ -59,7 +59,7 @@ db = initializeFirebase();
  * @param {string} roomId - Room ID
  * @returns {Promise<Object|null>} - Room data or null
  */
-const getRoomData = async(roomId) => {
+const getRoomData = async (roomId) => {
   if (!db) {
     logger.debug('Firebase not initialized, using in-memory rooms only');
     return null;
@@ -81,7 +81,7 @@ const getRoomData = async(roomId) => {
     }
 
     const roomData = { id: roomDoc.id, ...roomDoc.data() };
-    
+
     // Check if gameState is in subcollection (split storage)
     if (gameStateDoc.exists) {
       roomData.gameState = gameStateDoc.data();
@@ -117,7 +117,7 @@ const getRoomData = async(roomId) => {
  * @param {Object} roomData - Full room data
  * @returns {Promise<boolean>} - Success status
  */
-const saveRoomDataSplit = async(roomId, roomData) => {
+const saveRoomDataSplit = async (roomId, roomData) => {
   if (!db) {
     logger.debug('Firebase not initialized, room data not persisted');
     return false;
@@ -127,7 +127,7 @@ const saveRoomDataSplit = async(roomId, roomData) => {
     // Extract data that should be in subcollections
     const gameState = roomData.gameState || {};
     const chatHistory = roomData.chatHistory || [];
-    
+
     // Core room data (small, stays in main document)
     const coreRoomData = {
       id: roomData.id,
@@ -144,7 +144,7 @@ const saveRoomDataSplit = async(roomId, roomData) => {
 
     // Remove plain text password if it exists
     delete coreRoomData.password;
-    
+
     // Save core room data
     await db.collection('rooms').doc(roomId).set(coreRoomData, { merge: true });
 
@@ -161,14 +161,14 @@ const saveRoomDataSplit = async(roomId, roomData) => {
     if (chatHistory && chatHistory.length > 0) {
       const recentMessages = chatHistory.slice(-100); // Keep last 100 messages
       const batch = db.batch();
-      
+
       // Delete old messages beyond limit
       const chatRef = db.collection('rooms').doc(roomId).collection('chat');
       const oldMessagesSnapshot = await chatRef.orderBy('timestamp', 'desc').offset(100).get();
       oldMessagesSnapshot.forEach(doc => {
         batch.delete(doc.ref);
       });
-      
+
       // Add new messages
       for (const message of recentMessages) {
         if (message.id) {
@@ -179,7 +179,7 @@ const saveRoomDataSplit = async(roomId, roomData) => {
           }, { merge: true });
         }
       }
-      
+
       if (oldMessagesSnapshot.size > 0 || recentMessages.length > 0) {
         await batch.commit();
       }
@@ -199,7 +199,7 @@ const saveRoomDataSplit = async(roomId, roomData) => {
  * @param {Object} roomData - Room data
  * @returns {Promise<boolean>} - Success status
  */
-const saveRoomData = async(roomId, roomData) => {
+const saveRoomData = async (roomId, roomData) => {
   if (!db) {
     logger.debug('Firebase not initialized, room data not persisted');
     return false;
@@ -209,7 +209,7 @@ const saveRoomData = async(roomId, roomData) => {
     // Estimate document size (rough approximation)
     const dataSize = JSON.stringify(roomData).length;
     const sizeLimit = 900 * 1024; // 900KB threshold (leave margin for Firestore overhead)
-    
+
     // Use split storage for large documents
     if (dataSize > sizeLimit) {
       logger.debug('Room exceeds size threshold, using split storage', { roomId, sizeKB: (dataSize / 1024).toFixed(2) });
@@ -226,7 +226,7 @@ const saveRoomData = async(roomId, roomData) => {
 
     // Remove plain text password if it exists (shouldn't, but safety check)
     delete firestoreData.password;
-    
+
     // Ensure passwordHash is present (or null for no password)
     if (!firestoreData.passwordHash && roomData.passwordHash !== undefined) {
       firestoreData.passwordHash = roomData.passwordHash;
@@ -246,7 +246,7 @@ const saveRoomData = async(roomId, roomData) => {
  * @param {Object} gameState - Game state update
  * @returns {Promise<boolean>} - Success status
  */
-const updateRoomGameState = async(roomId, gameState) => {
+const updateRoomGameState = async (roomId, gameState) => {
   if (!db) {
     return false;
   }
@@ -270,7 +270,7 @@ const updateRoomGameState = async(roomId, gameState) => {
  * @param {Object} message - Chat message
  * @returns {Promise<boolean>} - Success status
  */
-const addChatMessage = async(roomId, message) => {
+const addChatMessage = async (roomId, message) => {
   if (!db) {
     return false;
   }
@@ -298,7 +298,7 @@ const addChatMessage = async(roomId, message) => {
  * @param {boolean} isActive - Active status
  * @returns {Promise<boolean>} - Success status
  */
-const setRoomActiveStatus = async(roomId, isActive) => {
+const setRoomActiveStatus = async (roomId, isActive) => {
   if (!db) {
     return false;
   }
@@ -320,7 +320,7 @@ const setRoomActiveStatus = async(roomId, isActive) => {
  * @param {string} roomId - Room ID
  * @returns {Promise<boolean>} - Success status
  */
-const deleteRoom = async(roomId) => {
+const deleteRoom = async (roomId) => {
   if (!db) {
     return false;
   }
@@ -341,7 +341,7 @@ const deleteRoom = async(roomId) => {
  * @param {string} userId - User ID (owner of the character)
  * @returns {Promise<boolean>} - Success status
  */
-const saveCharacterDocument = async(characterId, characterData, userId) => {
+const saveCharacterDocument = async (characterId, characterData, userId) => {
   if (!db) {
     logger.debug('Firebase not initialized, character document not persisted');
     return false;
@@ -417,7 +417,7 @@ const saveCharacterDocument = async(characterId, characterData, userId) => {
  * @param {string} userId - User ID
  * @returns {Promise<Object|null>} - User data or null
  */
-const getUserData = async(userId) => {
+const getUserData = async (userId) => {
   if (!db) {
     return null;
   }
@@ -439,7 +439,7 @@ const getUserData = async(userId) => {
  * @param {string} idToken - Firebase ID token
  * @returns {Promise<Object|null>} - Decoded token or null
  */
-const verifyIdToken = async(idToken) => {
+const verifyIdToken = async (idToken) => {
   if (!admin.apps.length) {
     return null;
   }
@@ -459,7 +459,7 @@ const verifyIdToken = async(idToken) => {
  * @param {Object} nestedCharacters - Characters from room.gameState.characters
  * @returns {Promise<number>} - Number of characters migrated
  */
-const migrateNestedCharacters = async(roomId, nestedCharacters) => {
+const migrateNestedCharacters = async (roomId, nestedCharacters) => {
   if (!db || !nestedCharacters) {
     return 0;
   }
@@ -480,7 +480,7 @@ const migrateNestedCharacters = async(roomId, nestedCharacters) => {
 
       // Extract userId from character data or use a default
       const userId = characterData.userId || characterData.metadata?.userId || 'unknown';
-      
+
       // Migrate to top-level collection
       await saveCharacterDocument(characterId, characterData, userId);
       migratedCount++;
@@ -497,7 +497,7 @@ const migrateNestedCharacters = async(roomId, nestedCharacters) => {
  * Load persistent rooms from Firestore on server startup
  * @returns {Promise<Array>} - Array of room data
  */
-const loadPersistentRooms = async() => {
+const loadPersistentRooms = async () => {
   if (!db) {
     logger.debug('Firebase not initialized, skipping persistent room loading');
     return [];
@@ -524,7 +524,7 @@ const loadPersistentRooms = async() => {
       if (!roomData.hasOwnProperty('passwordHash')) {
         roomData.passwordHash = null;
       }
-      
+
       // MIGRATION: Migrate nested characters to top-level collection if they exist
       if (roomData.gameState && roomData.gameState.characters) {
         // Migrate in background (don't block room loading)
@@ -535,7 +535,7 @@ const loadPersistentRooms = async() => {
             }
           })
           .catch(err => logger.error('Background character migration failed', { error: err.message, roomId: roomData.id }));
-        
+
         // Clean up nested characters - keep only minimal references
         const minimalCharacters = {};
         for (const [characterId, characterData] of Object.entries(roomData.gameState.characters)) {
@@ -547,7 +547,7 @@ const loadPersistentRooms = async() => {
         }
         roomData.gameState.characters = minimalCharacters;
       }
-      
+
       rooms.push(roomData);
     });
 

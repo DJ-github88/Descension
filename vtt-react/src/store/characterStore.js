@@ -1602,6 +1602,25 @@ const useCharacterStore = create((set, get) => ({
                 }, CHARACTER_AUTO_SAVE_DELAY);
             }
 
+            // MULTIPLAYER SYNC: Broadcast resource changes to other players
+            try {
+                const useGameStore = require('./gameStore').default;
+                const gameState = useGameStore.getState();
+
+                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+                    const tempField = `temp${resource.charAt(0).toUpperCase() + resource.slice(1)}`;
+                    gameState.multiplayerSocket.emit('character_resource_updated', {
+                        resource,
+                        current: newResource.current,
+                        max: newResource.max,
+                        temp: state[tempField],
+                        timestamp: Date.now()
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to broadcast resource update:', error);
+            }
+
             return {
                 [resource]: newResource,
                 ...(resource === 'health' ? { derivedStats: newDerivedStats } : {})
@@ -1613,14 +1632,27 @@ const useCharacterStore = create((set, get) => ({
     updateTempResource: (resourceType, amount) => {
         set(state => {
             const tempField = `temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`;
-            if (resourceType === 'health') {
-                return { tempHealth: Math.max(0, amount) };
-            } else if (resourceType === 'mana') {
-                return { tempMana: Math.max(0, amount) };
-            } else if (resourceType === 'actionPoints') {
-                return { tempActionPoints: Math.max(0, amount) };
+            const newAmount = Math.max(0, amount);
+
+            // MULTIPLAYER SYNC
+            try {
+                const useGameStore = require('./gameStore').default;
+                const gameState = useGameStore.getState();
+                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+                    const resourceData = state[resourceType] || { current: 0, max: 0 };
+                    gameState.multiplayerSocket.emit('character_resource_updated', {
+                        resource: resourceType,
+                        current: resourceData.current,
+                        max: resourceData.max,
+                        temp: newAmount,
+                        timestamp: Date.now()
+                    });
+                }
+            } catch (e) {
+                console.warn('Failed to sync temp resource:', e);
             }
-            return state;
+
+            return { [tempField]: newAmount };
         });
     },
 

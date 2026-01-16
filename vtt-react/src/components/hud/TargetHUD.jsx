@@ -812,6 +812,34 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 [tempField]: newTemp
                             }
                         });
+
+                        // MULTIPLAYER SYNC: Notify the player about the resource update
+                        const socket = window.multiplayerSocket;
+                        if (socket && socket.connected && adjustment !== 0) {
+                            setTimeout(() => {
+                                const partyState = usePartyStore.getState();
+                                const updatedMember = partyState.partyMembers.find(m => m.id === memberId);
+                                console.log('📤 TargetHUD emitting character_resource_updated:', {
+                                    memberId,
+                                    memberName: updatedMember?.name,
+                                    allPartyMemberIds: partyState.partyMembers.map(m => ({ id: m.id, name: m.name })),
+                                    resourceType,
+                                    adjustment
+                                });
+                                if (updatedMember && updatedMember.character) {
+                                    socket.emit('character_resource_updated', {
+                                        playerId: memberId,
+                                        playerName: updatedMember.name, // Include name for fallback matching
+                                        resource: resourceType,
+                                        current: updatedMember.character[resourceType]?.current,
+                                        max: updatedMember.character[resourceType]?.max,
+                                        temp: updatedMember.character[tempField],
+                                        adjustment: adjustment, // Include adjustment for FCT sync
+                                        timestamp: Date.now()
+                                    });
+                                }
+                            }, 0);
+                        }
                     } else {
                         // Positive adjustment (healing/restoring)
                         const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
@@ -824,6 +852,27 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 }
                             }
                         });
+
+                        // MULTIPLAYER SYNC: Notify the player about the resource update
+                        const socket = window.multiplayerSocket;
+                        if (socket && socket.connected && adjustment !== 0) {
+                            setTimeout(() => {
+                                const partyState = usePartyStore.getState();
+                                const updatedMember = partyState.partyMembers.find(m => m.id === memberId);
+                                if (updatedMember && updatedMember.character) {
+                                    socket.emit('character_resource_updated', {
+                                        playerId: memberId,
+                                        playerName: updatedMember.name, // Include name for fallback matching
+                                        resource: resourceType,
+                                        current: updatedMember.character[resourceType]?.current,
+                                        max: updatedMember.character[resourceType]?.max,
+                                        temp: updatedMember.character[tempField],
+                                        adjustment: adjustment, // Include adjustment for FCT sync
+                                        timestamp: Date.now()
+                                    });
+                                }
+                            }, 0);
+                        }
                     }
 
                     // Show floating combat text for party member at Target HUD position

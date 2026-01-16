@@ -76,11 +76,11 @@ const RoomCard = ({
   // Format last activity
   const formatLastActivity = () => {
     if (!room.lastActivity) return 'Unknown';
-    
-    const date = room.lastActivity.seconds 
+
+    const date = room.lastActivity.seconds
       ? new Date(room.lastActivity.seconds * 1000)
       : new Date(room.lastActivity);
-      
+
     return date.toLocaleDateString();
   };
 
@@ -515,7 +515,7 @@ const RoomCard = ({
           <i className={roleInfo.label === 'GM' ? 'fas fa-crown' : 'fas fa-play'}></i>
           {roleInfo.label === 'GM' ? 'Resume as GM' : 'Join'}
         </button>
-        
+
         {showDeleteButton && onDelete && (
           <button
             className="room-card-button danger"

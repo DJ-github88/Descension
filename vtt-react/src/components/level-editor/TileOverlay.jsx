@@ -38,7 +38,7 @@ const TileOverlay = () => {
     const [hoveredGMNote, setHoveredGMNote] = useState(null);
     const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-    
+
     // Debug connection context menu state
     useEffect(() => {
         if (showConnectionContextMenu) {
@@ -49,7 +49,7 @@ const TileOverlay = () => {
             });
         }
     }, [showConnectionContextMenu, selectedConnection, connectionContextMenuPosition]);
-    
+
     const { maps, getCurrentMapId } = useMapStore();
     const currentMapId = getCurrentMapId();
     const hoverTimeoutRef = useRef(null);
@@ -108,7 +108,7 @@ const TileOverlay = () => {
 
     // Game store for GM mode
     const { isGMMode } = useGameStore();
-    
+
     // Item and creature stores for GM note tooltip summary
     const { items } = useItemStore();
     const { creatures } = useCreatureStore();
@@ -202,12 +202,10 @@ const TileOverlay = () => {
         const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
         const isConnectionElement = elementAtPoint && (
             elementAtPoint.classList.contains('connection-point') ||
-            elementAtPoint.classList.contains('portal-element') ||
             elementAtPoint.closest('.connection-point') ||
-            elementAtPoint.closest('.portal-element') ||
-            elementAtPoint.closest('.dnd-element.portal-element')
+            elementAtPoint.closest('.dnd-element.connection-element')
         );
-        
+
         if (isConnectionElement) {
             // Let the connection handle its own context menu - don't prevent default here
             console.log('TileOverlay: Allowing connection to handle context menu');
@@ -265,7 +263,7 @@ const TileOverlay = () => {
                 const objX = obj.position?.x ?? obj.gridX;
                 const objY = obj.position?.y ?? obj.gridY;
                 return objX !== undefined && objY !== undefined &&
-                       Math.floor(objX) === gridX && Math.floor(objY) === gridY;
+                    Math.floor(objX) === gridX && Math.floor(objY) === gridY;
             }
         });
 
@@ -334,7 +332,8 @@ const TileOverlay = () => {
             }
         }
 
-        const portalName = portal.properties?.portalName || 'Portal';
+        const isPortal = portal.type === 'portal' || portal.type === 'connection';
+        const portalName = portal.properties?.portalName || (isPortal ? 'Connection' : 'Element');
         const destinationMapId = portal.properties?.destinationMapId;
         const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
         const destinationPosition = portal.properties?.destinationPosition || { x: 0, y: 0 };
@@ -383,40 +382,40 @@ const TileOverlay = () => {
                 // or from the map store if we didn't switch
                 let targetWorldPos = null;
                 let destinationConnection = null;
-                
+
                 if (destinationConnectionId) {
                     // After map switch, get dndElements from level editor store if we switched to that map
                     // Otherwise get from map store
                     if (currentMapId === destinationMapId) {
                         // We're on the destination map - get from level editor store
                         const { dndElements: currentDndElements } = useLevelEditorStore.getState();
-                        destinationConnection = currentDndElements.find(el => 
-                            el.type === 'portal' && el.id === destinationConnectionId
+                        destinationConnection = currentDndElements.find(el =>
+                            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
                         );
                     } else {
                         // Still on different map - get from map store
                         const destinationConnections = destinationMap.dndElements || [];
-                        destinationConnection = destinationConnections.find(el => 
-                            el.type === 'portal' && el.id === destinationConnectionId
+                        destinationConnection = destinationConnections.find(el =>
+                            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
                         );
                     }
-                    
+
                     if (destinationConnection) {
                         // Check if connection has world position or grid position
-                        if (destinationConnection.position && 
-                            destinationConnection.position.x !== undefined && 
+                        if (destinationConnection.position &&
+                            destinationConnection.position.x !== undefined &&
                             destinationConnection.position.y !== undefined) {
                             // Already in world coordinates
                             targetWorldPos = destinationConnection.position;
-                        } else if (destinationConnection.gridX !== undefined && 
-                                  destinationConnection.gridY !== undefined) {
+                        } else if (destinationConnection.gridX !== undefined &&
+                            destinationConnection.gridY !== undefined) {
                             // Convert from grid coordinates to world coordinates
                             const gridSystem = getGridSystem();
                             targetWorldPos = gridSystem.gridToWorld(destinationConnection.gridX, destinationConnection.gridY);
                         }
                     }
                 }
-                
+
                 // Fallback to destinationPosition if connection not found
                 if (!targetWorldPos) {
                     const gridSystem = getGridSystem();
@@ -436,8 +435,8 @@ const TileOverlay = () => {
                     gridSystem.centerCameraOnWorld(targetWorldPos.x, targetWorldPos.y);
                     console.log('🔍 Centered camera on destination connection:', {
                         worldPos: targetWorldPos,
-                        gridPos: destinationConnection?.gridX !== undefined ? 
-                            { x: destinationConnection.gridX, y: destinationConnection.gridY } : 
+                        gridPos: destinationConnection?.gridX !== undefined ?
+                            { x: destinationConnection.gridX, y: destinationConnection.gridY } :
                             'N/A',
                         connectionId: destinationConnectionId
                     });
@@ -480,7 +479,7 @@ const TileOverlay = () => {
             console.error('Invalid target connection:', targetConnection);
             return;
         }
-        
+
         updateDndElement(sourceConnection.id, {
             ...sourceConnection,
             properties: {
@@ -496,15 +495,15 @@ const TileOverlay = () => {
     const handleConnectionDelete = (connection) => {
         const connectionId = connection.id;
         const connectionMapId = currentMapId;
-        
+
         // Find all connections that point to this connection and reset them
         // Check current map connections
         dndElements.forEach(element => {
-            if (element.type === 'portal' && element.id !== connectionId) {
+            if ((element.type === 'portal' || element.type === 'connection') && element.id !== connectionId) {
                 const props = element.properties || {};
                 const destConnectionId = props.destinationConnectionId || props.connectedToId;
                 const destMapId = props.destinationMapId;
-                
+
                 // Check if this connection points to the deleted one (same map or cross-map)
                 if (destConnectionId === connectionId) {
                     // This connection points to the deleted one - reset it
@@ -522,20 +521,20 @@ const TileOverlay = () => {
                 }
             }
         });
-        
+
         // Check other maps' connections - update them via map store
         const { updateMap } = useMapStore.getState();
         maps.forEach(map => {
             if (map.id === connectionMapId) return; // Already checked current map
-            
+
             const mapConnections = map.dndElements || [];
             let needsUpdate = false;
             const updatedConnections = mapConnections.map(element => {
-                if (element.type === 'portal') {
+                if (element.type === 'portal' || element.type === 'connection') {
                     const props = element.properties || {};
                     const destConnectionId = props.destinationConnectionId || props.connectedToId;
                     const destMapId = props.destinationMapId;
-                    
+
                     // Check if this connection points to the deleted one
                     if (destConnectionId === connectionId && destMapId === connectionMapId) {
                         // This connection on another map points to the deleted one - reset it
@@ -555,13 +554,13 @@ const TileOverlay = () => {
                 }
                 return element;
             });
-            
+
             // Update the map's dndElements if any connections were reset
             if (needsUpdate) {
                 updateMap(map.id, { dndElements: updatedConnections });
             }
         });
-        
+
         // Delete the connection
         removeDndElement(connection.id);
     };
@@ -682,21 +681,29 @@ const TileOverlay = () => {
                         const objX = obj.position?.x ?? obj.gridX;
                         const objY = obj.position?.y ?? obj.gridY;
                         return objX !== undefined && objY !== undefined &&
-                               Math.floor(objX) === x && Math.floor(objY) === y;
+                            Math.floor(objX) === x && Math.floor(objY) === y;
                     });
                     const hasDndElements = showDndLayer && dndElements.some(element => {
                         // Handle both coordinate systems: position.x/y and gridX/gridY
                         const elemX = element.position?.x ?? element.gridX;
                         const elemY = element.position?.y ?? element.gridY;
                         return elemX !== undefined && elemY !== undefined &&
-                               Math.floor(elemX) === x && Math.floor(elemY) === y;
+                            Math.floor(elemX) === x && Math.floor(elemY) === y;
                     });
                     const hasFog = showDndLayer && getFogOfWar(x, y);
                     const isVisible = isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode);
 
                     // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
-                    // But only show content if tile is visible (unless it's fog itself)
-                    if ((hasObjects || hasDndElements) && (isVisible || isGMMode)) {
+                    // Connections/Portals should always be shown even if tile is not normally visible
+                    const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
+                        const elemX = element.position?.x ?? element.gridX;
+                        const elemY = element.position?.y ?? element.gridY;
+                        return (element.type === 'portal' || element.type === 'connection') &&
+                            elemX !== undefined && elemY !== undefined &&
+                            Math.floor(elemX) === x && Math.floor(elemY) === y;
+                    });
+
+                    if ((hasObjects || hasDndElements) && (isVisible || isGMMode || hasAlwaysVisibleDndElement)) {
                         tiles.push({
                             x,
                             y,
@@ -728,21 +735,29 @@ const TileOverlay = () => {
                         const objX = obj.position?.x ?? obj.gridX;
                         const objY = obj.position?.y ?? obj.gridY;
                         return objX !== undefined && objY !== undefined &&
-                               Math.floor(objX) === x && Math.floor(objY) === y;
+                            Math.floor(objX) === x && Math.floor(objY) === y;
                     });
                     const hasDndElements = showDndLayer && dndElements.some(element => {
                         // Handle both coordinate systems: position.x/y and gridX/gridY
                         const elemX = element.position?.x ?? element.gridX;
                         const elemY = element.position?.y ?? element.gridY;
                         return elemX !== undefined && elemY !== undefined &&
-                               Math.floor(elemX) === x && Math.floor(elemY) === y;
+                            Math.floor(elemX) === x && Math.floor(elemY) === y;
                     });
                     const hasFog = showDndLayer && getFogOfWar(x, y);
                     const isVisible = isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode);
 
                     // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
-                    // But only show content if tile is visible (unless it's fog itself)
-                    if ((hasObjects || hasDndElements) && (isVisible || isGMMode)) {
+                    // Connections/Portals should always be shown even if tile is not normally visible
+                    const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
+                        const elemX = element.position?.x ?? element.gridX;
+                        const elemY = element.position?.y ?? element.gridY;
+                        return (element.type === 'portal' || element.type === 'connection') &&
+                            elemX !== undefined && elemY !== undefined &&
+                            Math.floor(elemX) === x && Math.floor(elemY) === y;
+                    });
+
+                    if ((hasObjects || hasDndElements) && (isVisible || isGMMode || hasAlwaysVisibleDndElement)) {
                         tiles.push({
                             x,
                             y,
@@ -1530,94 +1545,94 @@ const TileOverlay = () => {
                         // Terrain styling disabled - handled by TerrainSystem
 
                         return (
-                        <div
-                            key={`${tile.x},${tile.y}`}
-                            className={`tile-content ${isHovered ? 'hovered' : ''} ${tile.hasFog && !isGMMode ? 'fogged-player' : ''}`}
-                            style={{
-                                position: 'absolute',
-                                left: screenX,
-                                top: screenY,
-                                width: tileSize * effectiveZoom,
-                                height: tileSize * effectiveZoom,
-                                backgroundColor: 'transparent', // No terrain rendering in TileOverlay
-                                border: tile.hasFog && !isGMMode
-                                    ? 'none' // No border for fogged tiles in player mode
-                                    : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
-                                borderRadius: '2px',
-                                pointerEvents: 'none', // Always none to allow drag/drop events to pass through to grid
-                                zIndex: 7,
-                                overflow: 'hidden'
-                            }}
-                        >
-                            {/* Environmental Objects - Full tile rendering */}
-                            {showObjectLayer && (() => {
-                                // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
-                                const tileKey = `${tile.x},${tile.y}`;
-                                const objectsAtTile = objectsByPosition.get(tileKey) || [];
-                                
-                                // Filter out GM-only objects for players
-                                const visibleObjects = objectsAtTile.filter(obj => {
-                                    const objectDef = PROFESSIONAL_OBJECTS[obj.type];
-                                    return !objectDef?.gmOnly || isGMMode;
-                                });
-                                
-                                return visibleObjects.map((obj, index) => {
-                                    const objectType = OBJECT_TYPES[obj.type];
-                                    if (!objectType) return null;
+                            <div
+                                key={`${tile.x},${tile.y}`}
+                                className={`tile-content ${isHovered ? 'hovered' : ''} ${tile.hasFog && !isGMMode ? 'fogged-player' : ''}`}
+                                style={{
+                                    position: 'absolute',
+                                    left: screenX,
+                                    top: screenY,
+                                    width: tileSize * effectiveZoom,
+                                    height: tileSize * effectiveZoom,
+                                    backgroundColor: 'transparent', // No terrain rendering in TileOverlay
+                                    border: tile.hasFog && !isGMMode
+                                        ? 'none' // No border for fogged tiles in player mode
+                                        : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
+                                    borderRadius: '2px',
+                                    pointerEvents: 'none', // Always none to allow drag/drop events to pass through to grid
+                                    zIndex: 7,
+                                    overflow: 'hidden'
+                                }}
+                            >
+                                {/* Environmental Objects - Full tile rendering */}
+                                {showObjectLayer && (() => {
+                                    // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
+                                    const tileKey = `${tile.x},${tile.y}`;
+                                    const objectsAtTile = objectsByPosition.get(tileKey) || [];
 
-                                    // Check if this object is under fog of war
-                                    const objX = obj.position?.x ?? obj.gridX;
-                                    const objY = obj.position?.y ?? obj.gridY;
-                                    const objGridX = Math.floor(objX);
-                                    const objGridY = Math.floor(objY);
-                                    const hasFog = getFogOfWar(objGridX, objGridY);
+                                    // Filter out GM-only objects for players
+                                    const visibleObjects = objectsAtTile.filter(obj => {
+                                        const objectDef = PROFESSIONAL_OBJECTS[obj.type];
+                                        return !objectDef?.gmOnly || isGMMode;
+                                    });
 
-                                    return (
-                                        <div
-                                            key={`object-${obj.id}-${index}`}
-                                            className={`environmental-object object-${obj.type}`}
-                                            data-state={obj.state || objectType.states?.[0] || 'default'}
-                                            style={{
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                width: '100%',
-                                                height: '100%',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                fontSize: `${Math.max(16, tileSize * effectiveZoom * 0.6)}px`,
-                                                zIndex: hasFog ? 5 : 8, // Lower z-index when fogged so fog overlay appears on top
-                                                pointerEvents: hasFog ? 'none' : 'all', // Disable interaction when fogged
-                                                cursor: (hasFog || !objectType.states) ? 'default' : 'pointer',
-                                                opacity: hasFog ? (isGMMode ? 0.3 : 0) : 1, // Hide from players, semi-transparent for GM
-                                                ...getObjectStyle(objectType, obj)
-                                            }}
-                                            onClick={(e) => {
-                                                if (hasFog) return; // Prevent interaction when fogged
-                                                e.stopPropagation();
-                                                handleObjectClick(obj, objectType);
-                                            }}
-                                            onMouseEnter={(e) => handleObjectMouseEnter(obj, objectType, e)}
-                                            onMouseLeave={handleObjectMouseLeave}
-                                        >
-                                            {getObjectContent(objectType, obj)}
-                                        </div>
-                                    );
-                                });
-                            })()}
+                                    return visibleObjects.map((obj, index) => {
+                                        const objectType = OBJECT_TYPES[obj.type];
+                                        if (!objectType) return null;
 
-                            {/* D&D element indicators */}
-                            {showDndLayer && tile.hasDndElements && (() => {
-                                // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
-                                const tileKey = `${tile.x},${tile.y}`;
-                                const elementsAtTile = elementsByPosition.get(tileKey) || [];
-                                
-                                return elementsAtTile.map((element, idx) => {
+                                        // Check if this object is under fog of war
+                                        const objX = obj.position?.x ?? obj.gridX;
+                                        const objY = obj.position?.y ?? obj.gridY;
+                                        const objGridX = Math.floor(objX);
+                                        const objGridY = Math.floor(objY);
+                                        const hasFog = getFogOfWar(objGridX, objGridY);
+
+                                        return (
+                                            <div
+                                                key={`object-${obj.id}-${index}`}
+                                                className={`environmental-object object-${obj.type}`}
+                                                data-state={obj.state || objectType.states?.[0] || 'default'}
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: `${Math.max(16, tileSize * effectiveZoom * 0.6)}px`,
+                                                    zIndex: hasFog ? 5 : 8, // Lower z-index when fogged so fog overlay appears on top
+                                                    pointerEvents: hasFog ? 'none' : 'all', // Disable interaction when fogged
+                                                    cursor: (hasFog || !objectType.states) ? 'default' : 'pointer',
+                                                    opacity: hasFog ? (isGMMode ? 0.3 : 0) : 1, // Hide from players, semi-transparent for GM
+                                                    ...getObjectStyle(objectType, obj)
+                                                }}
+                                                onClick={(e) => {
+                                                    if (hasFog) return; // Prevent interaction when fogged
+                                                    e.stopPropagation();
+                                                    handleObjectClick(obj, objectType);
+                                                }}
+                                                onMouseEnter={(e) => handleObjectMouseEnter(obj, objectType, e)}
+                                                onMouseLeave={handleObjectMouseLeave}
+                                            >
+                                                {getObjectContent(objectType, obj)}
+                                            </div>
+                                        );
+                                    });
+                                })()}
+
+                                {/* D&D element indicators */}
+                                {showDndLayer && tile.hasDndElements && (() => {
+                                    // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
+                                    const tileKey = `${tile.x},${tile.y}`;
+                                    const elementsAtTile = elementsByPosition.get(tileKey) || [];
+
+                                    return elementsAtTile.map((element, idx) => {
                                         const elementType = DND_ELEMENTS[element.type];
-                                        const isPortal = element.type === 'portal';
-                                        
-                                        // Allow portals to render even if not in DND_ELEMENTS
+                                        const isPortal = element.type === 'portal' || element.type === 'connection';
+
+                                        // Allow connections/portals to render even if not in DND_ELEMENTS
                                         if (!elementType && !isPortal) return null;
 
                                         // Check if this D&D element is under fog of war
@@ -1647,7 +1662,7 @@ const TileOverlay = () => {
                                         // Scale connection size with zoom like tokens do (80% of tile size)
                                         const connectionSize = Math.max(20, tileSize * effectiveZoom * 0.6); // Scale with zoom, minimum 20px
                                         const borderWidth = Math.max(2, connectionSize * 0.1); // Border scales with size
-                                        
+
                                         return (
                                             <div
                                                 key={`dnd-${element.id}-${idx}`}
@@ -1663,8 +1678,8 @@ const TileOverlay = () => {
                                                     height: `${connectionSize}px`,
                                                     borderRadius: '50%',
                                                     border: `${borderWidth}px solid ${connectionColor}`,
-                                                    backgroundColor: isHidden && isGMMode 
-                                                        ? 'rgba(128, 128, 128, 0.3)' 
+                                                    backgroundColor: isHidden && isGMMode
+                                                        ? 'rgba(128, 128, 128, 0.3)'
                                                         : `${connectionColor}20`,
                                                     display: 'flex',
                                                     alignItems: 'center',
@@ -1672,34 +1687,39 @@ const TileOverlay = () => {
                                                     fontSize: `${connectionSize * 0.5}px`,
                                                     fontWeight: 'bold',
                                                     color: connectionColor,
-                                                    zIndex: hasFog ? 5 : 150, // Match tokens (z-index: 150) to ensure connections are on top and clickable
+                                                    // Connections are always on top (z-index: 151) to ensure they're clickable even through fog
+                                                    zIndex: isPortal ? 151 : (hasFog ? 5 : 150),
                                                     // CRITICAL: Override parent's pointer-events: none to allow connections to receive mouse events
-                                                    // Allow pointer events for portals: GM always (even under fog), players when visible and not under fog
-                                                    // This enables hover tooltips to work
-                                                    pointerEvents: (isPortal && (isGMMode || (!isHidden && !hasFog))) ? 'auto' : 'none',
-                                                    cursor: (isPortal && (isGMMode || (!isHidden && !hasFog))) ? 'pointer' : 'default',
+                                                    // Allow pointer events for portals: GM always, players when not hidden
+                                                    pointerEvents: (isPortal && (isGMMode || !isHidden)) ? 'auto' : 'none',
+                                                    cursor: (isPortal && (isGMMode || !isHidden)) ? 'pointer' : 'default',
                                                     // Ensure connection is above everything else in its stacking context
                                                     isolation: 'isolate', // Create new stacking context
-                                                    opacity: hasFog ? (isGMMode ? 0.3 : 0) : (isHidden && !isGMMode ? 0 : (isHidden && isGMMode ? 0.5 : 1)),
+                                                    opacity: isPortal
+                                                        ? (isHidden ? (isGMMode ? 0.5 : 0) : 1) // Connections always 100% visible unless hidden
+                                                        : (hasFog ? (isGMMode ? 0.3 : 0) : (isHidden && !isGMMode ? 0 : (isHidden && isGMMode ? 0.5 : 1))),
                                                     transition: 'all 0.2s ease',
                                                     boxShadow: isPortal && !hasFog && !isHidden
                                                         ? `0 0 ${connectionSize * 0.4}px ${connectionColor}80, inset 0 0 ${connectionSize * 0.25}px ${connectionColor}40`
                                                         : 'none',
                                                     userSelect: 'none'
                                                 }}
-                                                onClick={canInteract && !hasFog ? (e) => {
+                                                onClick={canInteract ? (e) => {
+                                                    console.log('🔗 Connection onClick FIRED!', { elementId: element.id });
                                                     e.preventDefault();
                                                     e.stopPropagation();
                                                     if (isPortal) {
                                                         handlePortalClick(element, e);
                                                     }
-                                                } : undefined}
+                                                } : (e) => {
+                                                    console.log('🔗 Connection onClick FIRED! (Cannot interact)', { elementId: element.id, canInteract });
+                                                }}
                                                 onContextMenu={canInteract ? (e) => {
                                                     // Handle context menu like creature tokens do - prevent all propagation
-                                                    console.log('🔗 Connection context menu handler called', { 
-                                                        element, 
-                                                        isEditorMode, 
-                                                        isGMMode, 
+                                                    console.log('🔗 Connection context menu handler called', {
+                                                        element,
+                                                        isEditorMode,
+                                                        isGMMode,
                                                         showContextMenu,
                                                         canInteract,
                                                         hasFog,
@@ -1709,20 +1729,20 @@ const TileOverlay = () => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
                                                     e.nativeEvent?.stopImmediatePropagation?.();
-                                                    
+
                                                     // Always set the connection and show menu in GM mode
                                                     setSelectedConnection(element);
                                                     setConnectionContextMenuPosition({ x: e.clientX, y: e.clientY });
                                                     setShowConnectionContextMenu(true);
-                                                    
-                                                    console.log('🔗 Connection context menu state set', { 
+
+                                                    console.log('🔗 Connection context menu state set', {
                                                         selectedConnection: element,
                                                         position: { x: e.clientX, y: e.clientY },
                                                         showConnectionContextMenu: true
                                                     });
                                                 } : undefined}
                                                 onMouseEnter={(e) => {
-                                                    console.log('🔗🔗🔗 Connection onMouseEnter FIRED!', { 
+                                                    console.log('🔗🔗🔗 Connection onMouseEnter FIRED!', {
                                                         elementId: element.id,
                                                         target: e.target,
                                                         currentTarget: e.currentTarget,
@@ -1734,11 +1754,8 @@ const TileOverlay = () => {
                                                     e.stopPropagation();
                                                     // Show hover effect and tooltip for both GM and players (if not hidden from player)
                                                     // For portals, always allow hover if visible (GM can see even under fog, players can see if not hidden)
-                                                    const canHover = isPortal && (
-                                                        isGMMode || // GM can always hover
-                                                        (!isHidden && !hasFog) // Players can hover if visible and not under fog
-                                                    );
-                                                    
+                                                    const canHover = isPortal && (isGMMode || !isHidden);
+
                                                     if (canHover) {
                                                         e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.2)';
                                                         e.currentTarget.style.boxShadow = `0 0 ${connectionSize * 0.5}px ${connectionColor}CC, inset 0 0 ${connectionSize * 0.35}px ${connectionColor}60`;
@@ -1752,9 +1769,6 @@ const TileOverlay = () => {
                                                 onMouseDown={(e) => {
                                                     console.log('🔗 Connection onMouseDown FIRED!', { elementId: element.id });
                                                     e.stopPropagation();
-                                                }}
-                                                onClick={(e) => {
-                                                    console.log('🔗 Connection onClick FIRED!', { elementId: element.id });
                                                 }}
                                                 onMouseMove={(e) => {
                                                     e.stopPropagation();
@@ -1777,43 +1791,43 @@ const TileOverlay = () => {
                                                 }}
                                             >
                                                 {isPortal ? (
-                                                    <svg 
-                                                        width={`${connectionSize * 0.6}px`} 
-                                                        height={`${connectionSize * 0.6}px`} 
-                                                        viewBox="0 0 24 24" 
-                                                        fill="none" 
+                                                    <svg
+                                                        width={`${connectionSize * 0.6}px`}
+                                                        height={`${connectionSize * 0.6}px`}
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        style={{ 
+                                                        style={{
                                                             pointerEvents: 'none',
                                                             userSelect: 'none'
                                                         }}
                                                     >
-                                                        <circle cx="12" cy="12" r="8" stroke={connectionColor} strokeWidth="2" fill="none"/>
-                                                        <circle cx="12" cy="12" r="4" fill={connectionColor} opacity="0.6"/>
-                                                        <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={connectionColor} strokeWidth="2" strokeLinecap="round"/>
+                                                        <circle cx="12" cy="12" r="8" stroke={connectionColor} strokeWidth="2" fill="none" />
+                                                        <circle cx="12" cy="12" r="4" fill={connectionColor} opacity="0.6" />
+                                                        <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={connectionColor} strokeWidth="2" strokeLinecap="round" />
                                                     </svg>
                                                 ) : (elementType?.icon || '?')}
                                             </div>
                                         );
                                     });
-                            })()}
+                                })()}
 
-                            {/* Fog of war overlay - Complete coverage */}
-                            {showDndLayer && tile.hasFog && (
-                                <div
-                                    className={`fog-overlay ${isGMMode ? 'gm-mode' : 'player-mode'}`}
-                                    style={{
-                                        position: 'absolute',
-                                        top: -2, // Extend beyond tile boundaries to cover borders
-                                        left: -2,
-                                        width: 'calc(100% + 4px)', // Cover tile borders completely
-                                        height: 'calc(100% + 4px)',
-                                        backgroundColor: isGMMode
-                                            ? 'rgba(0, 0, 0, 0.4)' // Semi-transparent for GM
-                                            : '#000000', // Completely opaque black base for Player
-                                        backgroundImage: isGMMode
-                                            ? 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(212, 175, 55, 0.1) 100%)'
-                                            : `
+                                {/* Fog of war overlay - Complete coverage */}
+                                {showDndLayer && tile.hasFog && (
+                                    <div
+                                        className={`fog-overlay ${isGMMode ? 'gm-mode' : 'player-mode'}`}
+                                        style={{
+                                            position: 'absolute',
+                                            top: -2, // Extend beyond tile boundaries to cover borders
+                                            left: -2,
+                                            width: 'calc(100% + 4px)', // Cover tile borders completely
+                                            height: 'calc(100% + 4px)',
+                                            backgroundColor: isGMMode
+                                                ? 'rgba(0, 0, 0, 0.4)' // Semi-transparent for GM
+                                                : '#000000', // Completely opaque black base for Player
+                                            backgroundImage: isGMMode
+                                                ? 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(212, 175, 55, 0.1) 100%)'
+                                                : `
                                                 linear-gradient(0deg, #000000 0%, #000000 100%),
                                                 radial-gradient(circle at 25% 25%, rgba(20, 20, 30, 0.9) 0%, transparent 50%),
                                                 radial-gradient(circle at 75% 75%, rgba(15, 15, 25, 0.8) 0%, transparent 40%),
@@ -1822,97 +1836,97 @@ const TileOverlay = () => {
                                                 linear-gradient(90deg, rgba(30, 30, 40, 0.8) 0%, transparent 15%, transparent 85%, rgba(30, 30, 40, 0.8) 100%),
                                                 linear-gradient(0deg, rgba(25, 25, 35, 0.8) 0%, transparent 15%, transparent 85%, rgba(25, 25, 35, 0.8) 100%)
                                             `,
-                                        backgroundSize: isGMMode
-                                            ? '100% 100%'
-                                            : '100% 100%, 60px 60px, 45px 45px, 80px 80px, 55px 55px, 100% 100%, 100% 100%',
-                                        border: isGMMode
-                                            ? '1px solid rgba(212, 175, 55, 0.6)' // Gold border for GM
-                                            : 'none', // No border for Player
-                                        borderRadius: isGMMode ? '2px' : '0',
-                                        pointerEvents: 'none',
-                                        zIndex: isGMMode ? 500 : 300, // Much higher z-index for both modes to cover walls (Grid.jsx walls are z-index 200)
-                                        transition: 'none', // Remove transitions that might cause flicker
-                                        animation: isGMMode
-                                            ? 'none'
-                                            : 'mysticalFog 8s ease-in-out infinite',
-                                        // Ensure complete coverage
-                                        boxShadow: isGMMode
-                                            ? 'none'
-                                            : 'inset 0 0 20px rgba(0, 0, 0, 1), 0 0 0 2px #000000',
-                                        // Force complete opacity
-                                        opacity: 1,
-                                        filter: isGMMode ? 'none' : 'none',
-                                        backdropFilter: 'none'
-                                    }}
-                                >
-                                    {/* Additional overlay layer for player mode to ensure 100% coverage */}
-                                    {!isGMMode && (
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                            backgroundColor: '#000000',
+                                            backgroundSize: isGMMode
+                                                ? '100% 100%'
+                                                : '100% 100%, 60px 60px, 45px 45px, 80px 80px, 55px 55px, 100% 100%, 100% 100%',
+                                            border: isGMMode
+                                                ? '1px solid rgba(212, 175, 55, 0.6)' // Gold border for GM
+                                                : 'none', // No border for Player
+                                            borderRadius: isGMMode ? '2px' : '0',
+                                            pointerEvents: 'none',
+                                            zIndex: isGMMode ? 500 : 300, // Much higher z-index for both modes to cover walls (Grid.jsx walls are z-index 200)
+                                            transition: 'none', // Remove transitions that might cause flicker
+                                            animation: isGMMode
+                                                ? 'none'
+                                                : 'mysticalFog 8s ease-in-out infinite',
+                                            // Ensure complete coverage
+                                            boxShadow: isGMMode
+                                                ? 'none'
+                                                : 'inset 0 0 20px rgba(0, 0, 0, 1), 0 0 0 2px #000000',
+                                            // Force complete opacity
                                             opacity: 1,
-                                            zIndex: 1
-                                        }} />
-                                    )}
-                                </div>
-                            )}
-
-                            {/* Wall fog overlay - covers grid lines between fogged tiles */}
-                            {showDndLayer && !isGMMode && (
-                                <>
-                                    {/* Vertical wall fog - right edge of tile */}
-                                    {tile.hasFog && (
-                                        <div
-                                            className="wall-fog-overlay vertical"
-                                            style={{
+                                            filter: isGMMode ? 'none' : 'none',
+                                            backdropFilter: 'none'
+                                        }}
+                                    >
+                                        {/* Additional overlay layer for player mode to ensure 100% coverage */}
+                                        {!isGMMode && (
+                                            <div style={{
                                                 position: 'absolute',
-                                                top: -2,
-                                                right: -6, // Cover the right grid line
-                                                width: '12px',
-                                                height: 'calc(100% + 4px)',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
                                                 backgroundColor: '#000000',
-                                                backgroundImage: `
+                                                opacity: 1,
+                                                zIndex: 1
+                                            }} />
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Wall fog overlay - covers grid lines between fogged tiles */}
+                                {showDndLayer && !isGMMode && (
+                                    <>
+                                        {/* Vertical wall fog - right edge of tile */}
+                                        {tile.hasFog && (
+                                            <div
+                                                className="wall-fog-overlay vertical"
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: -2,
+                                                    right: -6, // Cover the right grid line
+                                                    width: '12px',
+                                                    height: 'calc(100% + 4px)',
+                                                    backgroundColor: '#000000',
+                                                    backgroundImage: `
                                                     linear-gradient(0deg, #000000 0%, #000000 100%),
                                                     radial-gradient(circle at 50% 25%, rgba(20, 20, 30, 0.9) 0%, transparent 50%),
                                                     linear-gradient(0deg, rgba(35, 35, 45, 0.9) 0%, transparent 20%, transparent 80%, rgba(35, 35, 45, 0.9) 100%)
                                                 `,
-                                                backgroundSize: '100% 100%, 20px 20px, 100% 100%',
-                                                zIndex: 300,
-                                                pointerEvents: 'none',
-                                                animation: 'mysticalFog 8s ease-in-out infinite'
-                                            }}
-                                        />
-                                    )}
-                                    {/* Horizontal wall fog - bottom edge of tile */}
-                                    {tile.hasFog && (
-                                        <div
-                                            className="wall-fog-overlay horizontal"
-                                            style={{
-                                                position: 'absolute',
-                                                bottom: -6, // Cover the bottom grid line
-                                                left: -2,
-                                                width: 'calc(100% + 4px)',
-                                                height: '12px',
-                                                backgroundColor: '#000000',
-                                                backgroundImage: `
+                                                    backgroundSize: '100% 100%, 20px 20px, 100% 100%',
+                                                    zIndex: 300,
+                                                    pointerEvents: 'none',
+                                                    animation: 'mysticalFog 8s ease-in-out infinite'
+                                                }}
+                                            />
+                                        )}
+                                        {/* Horizontal wall fog - bottom edge of tile */}
+                                        {tile.hasFog && (
+                                            <div
+                                                className="wall-fog-overlay horizontal"
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: -6, // Cover the bottom grid line
+                                                    left: -2,
+                                                    width: 'calc(100% + 4px)',
+                                                    height: '12px',
+                                                    backgroundColor: '#000000',
+                                                    backgroundImage: `
                                                     linear-gradient(0deg, #000000 0%, #000000 100%),
                                                     radial-gradient(circle at 25% 50%, rgba(20, 20, 30, 0.9) 0%, transparent 50%),
                                                     linear-gradient(90deg, rgba(35, 35, 45, 0.9) 0%, transparent 20%, transparent 80%, rgba(35, 35, 45, 0.9) 100%)
                                                 `,
-                                                backgroundSize: '100% 100%, 20px 20px, 100% 100%',
-                                                zIndex: 300,
-                                                pointerEvents: 'none',
-                                                animation: 'mysticalFog 8s ease-in-out infinite'
-                                            }}
-                                        />
-                                    )}
-                                </>
-                            )}
-                        </div>
+                                                    backgroundSize: '100% 100%, 20px 20px, 100% 100%',
+                                                    zIndex: 300,
+                                                    pointerEvents: 'none',
+                                                    animation: 'mysticalFog 8s ease-in-out infinite'
+                                                }}
+                                            />
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         );
                     } catch (error) {
                         // Fallback to original coordinate calculation if grid system fails
@@ -1958,7 +1972,7 @@ const TileOverlay = () => {
                                         const objX = obj.position?.x ?? obj.gridX;
                                         const objY = obj.position?.y ?? obj.gridY;
                                         return objX !== undefined && objY !== undefined &&
-                                               Math.floor(objX) === tile.x && Math.floor(objY) === tile.y;
+                                            Math.floor(objX) === tile.x && Math.floor(objY) === tile.y;
                                     })
                                     .map((obj, index) => {
                                         const objectType = OBJECT_TYPES[obj.type];
@@ -2012,7 +2026,7 @@ const TileOverlay = () => {
                                                 const elemX = element.position?.x ?? element.gridX;
                                                 const elemY = element.position?.y ?? element.gridY;
                                                 return elemX !== undefined && elemY !== undefined &&
-                                                       Math.floor(elemX) === tile.x && Math.floor(elemY) === tile.y;
+                                                    Math.floor(elemX) === tile.x && Math.floor(elemY) === tile.y;
                                             })
                                             .map(element => {
                                                 const elementType = DND_ELEMENTS[element.type];
@@ -2023,10 +2037,12 @@ const TileOverlay = () => {
                                                 const elemGridY = Math.floor(elemY);
                                                 const hasFog = getFogOfWar(elemGridX, elemGridY);
 
-                                                // Don't show D&D elements under fog
-                                                if (hasFog && !isGMMode) return '';
+                                                const isPortal = element.type === 'portal' || element.type === 'connection';
 
-                                                return elementType ? elementType.icon : '⚔️';
+                                                // Don't show D&D elements under fog, EXCEPT for connections/portals
+                                                if (hasFog && !isGMMode && !isPortal) return '';
+
+                                                return isPortal ? '◉' : (elementType ? elementType.icon : '⚔️');
                                             })
                                             .join('')
                                         }
@@ -2272,35 +2288,35 @@ const TileOverlay = () => {
                     const elemGridY = Math.floor(elemY);
                     return getFogOfWar(elemGridX, elemGridY);
                 })();
-                
+
                 // Show tooltip for GM always, for players only if not under fog
                 if (connectionHasFog && !isGMMode) return null;
-                
+
                 const connectionProps = hoveredConnection.properties || {};
                 const connectionName = connectionProps.portalName || 'Connection';
                 const connectionDestinationMapId = connectionProps.destinationMapId;
                 const destinationConnectionId = connectionProps.destinationConnectionId || connectionProps.connectedToId;
-                
+
                 // Get current map name
                 const currentMap = maps.find(m => m.id === currentMapId);
                 const currentMapName = currentMap ? currentMap.name : 'Unknown Map';
-                
+
                 // Get destination map and connection details
                 const connectionDestinationMap = maps.find(m => m.id === connectionDestinationMapId);
                 const connectionDestinationMapName = connectionDestinationMap ? connectionDestinationMap.name : null;
-                
+
                 // Find destination connection name
                 let destinationConnectionName = null;
                 if (destinationConnectionId && connectionDestinationMap) {
                     const destinationConnections = connectionDestinationMap.dndElements || [];
-                    const destinationConnection = destinationConnections.find(el => 
+                    const destinationConnection = destinationConnections.find(el =>
                         el.type === 'portal' && el.id === destinationConnectionId
                     );
                     if (destinationConnection) {
                         destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
                     }
                 }
-                
+
                 // Format tooltip text
                 let tooltipText = null;
                 if (connectionDestinationMapId && destinationConnectionName) {
@@ -2321,7 +2337,7 @@ const TileOverlay = () => {
                         tooltipText = `${connectionName} --> ${connectionDestinationMapName || 'Unknown'}`;
                     }
                 }
-                
+
                 return createPortal(
                     <div
                         className="tooltip connection-tooltip"
@@ -2368,11 +2384,11 @@ const TileOverlay = () => {
                 const description = gmNotesData.description || '';
                 const storedItems = gmNotesData.items || [];
                 const storedCreatures = gmNotesData.creatures || [];
-                
+
                 // Calculate summary
                 const itemCount = storedItems.length;
                 const creatureCount = storedCreatures.length;
-                
+
                 const summaryParts = [];
                 if (creatureCount > 0) {
                     summaryParts.push(`${creatureCount} ${creatureCount === 1 ? 'Creature' : 'Creatures'}`);
@@ -2381,7 +2397,7 @@ const TileOverlay = () => {
                     summaryParts.push(`${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}`);
                 }
                 const summary = summaryParts.length > 0 ? summaryParts.join(', ') : 'Empty';
-                
+
                 return createPortal(
                     <div
                         className="tooltip connection-tooltip"

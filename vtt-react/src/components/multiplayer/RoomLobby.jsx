@@ -830,20 +830,20 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       playerName: finalPlayerName,
       password: (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim(),
       playerColor: playerColor,
-      character: (activeCharacter && !isGuest) ? {
-        id: activeCharacter.id,
-        name: activeCharacter.name,
-        class: activeCharacter.class,
-        race: activeCharacter.race,
-        subrace: activeCharacter.subrace,
+      character: (activeCharacter) ? {
+        id: activeCharacter.id || 'guest-char',
+        name: activeCharacter.name || finalPlayerName,
+        class: activeCharacter.class || 'Unknown',
+        race: activeCharacter.race || 'Unknown',
+        subrace: activeCharacter.subrace || '',
         raceDisplayName: activeCharacter.raceDisplayName || '',
-        level: activeCharacter.level,
-        health: activeCharacter.health,
-        mana: activeCharacter.mana,
-        actionPoints: activeCharacter.actionPoints,
-        alignment: activeCharacter.alignment,
-        background: activeCharacter.background,
-        classResource: activeCharacter.classResource,
+        level: activeCharacter.level || 1,
+        health: activeCharacter.health || { current: 45, max: 50 },
+        mana: activeCharacter.mana || { current: 45, max: 50 },
+        actionPoints: activeCharacter.actionPoints || { current: 1, max: 3 },
+        alignment: activeCharacter.alignment || 'Neutral Good',
+        background: activeCharacter.background || '',
+        classResource: activeCharacter.classResource || { current: 0, max: 0 },
         // CRITICAL FIX: Get current inventory from inventory store to ensure latest data
         inventory: (() => {
           try {
@@ -1215,7 +1215,17 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                           </div>
                           <div className="room-card-modern-stat-content">
                             <div className="room-card-modern-stat-label">Created</div>
-                            <div className="room-card-modern-stat-value">{new Date(room.createdAt).toLocaleTimeString()}</div>
+                            <div className="room-card-modern-stat-value">{(() => {
+                              const date = new Date(room.createdAt);
+                              if (isNaN(date.getTime())) return 'Unknown';
+                              const day = date.getDate();
+                              const ordinal = day === 1 || day === 21 || day === 31 ? 'st'
+                                : day === 2 || day === 22 ? 'nd'
+                                  : day === 3 || day === 23 ? 'rd' : 'th';
+                              const month = date.toLocaleDateString('en-US', { month: 'long' });
+                              const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                              return `${day}${ordinal} of ${month} at ${time}`;
+                            })()}</div>
                           </div>
                         </div>
                       </div>

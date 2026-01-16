@@ -6,7 +6,8 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useCharacterStore from '../../store/characterStore';
 import useChatStore from '../../store/chatStore';
 import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
-// REMOVED: import './CombatSelectionOverlay.css'; // CAUSES CSS POLLUTION - loaded centrally
+import './CombatSelectionOverlay.css';
+// import '../../styles/combat-selection-window.css'; // Removed redundant/conflicting import
 
 const CombatSelectionWindow = () => {
     const {
@@ -83,6 +84,7 @@ const CombatSelectionWindow = () => {
             isOpen={isSelectionMode}
             onClose={handleCancel}
             title="Combat Selection"
+            className="combat-selection-window"
             defaultSize={{ width: 420, height: 600 }}
             defaultPosition={{ x: 200, y: 150 }}
             centered={false}
@@ -107,7 +109,7 @@ const CombatSelectionWindow = () => {
                                     const iconUrl = tokenData.isCharacter
                                         ? (tokenData.tokenIcon || getIconUrl('Utility/Utility', 'abilities'))
                                         : getCreatureTokenIconUrl(tokenData.tokenIcon, tokenData.type);
-                                    
+
                                     return (
                                         <div key={tokenData.tokenId || index} className="combatant-card">
                                             <div className="combatant-portrait">

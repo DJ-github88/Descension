@@ -20,7 +20,10 @@ const mapUpdateBatcher = {
         }
 
         // Merge data (works for objects like terrainData)
-        if (typeof data === 'object' && !Array.isArray(data)) {
+        if (type === 'dndElements') {
+            // For arrays like dndElements, we replace with the full array
+            mapUpdateBatcher.pendingUpdates[type] = data;
+        } else if (typeof data === 'object' && !Array.isArray(data)) {
             mapUpdateBatcher.pendingUpdates[type] = {
                 ...mapUpdateBatcher.pendingUpdates[type],
                 ...data
@@ -73,7 +76,7 @@ const mapUpdateBatcher = {
         // Import game store and emit
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: updates,
@@ -552,6 +555,7 @@ export const OBJECT_TYPES = {
 
 // D&D specific elements (removed trap and difficult terrain as requested)
 export const DND_ELEMENTS = {
+    connection: { id: 'connection', name: 'Connection', icon: 'spell_arcane_portaldalaran' },
     // Portal element removed - use "Create New Portal" button instead
 };
 
@@ -792,6 +796,18 @@ const useLevelEditorStore = create((set, get) => ({
     // Clear terrain layer (removes all terrain data)
     clearTerrainLayer: () => {
         set({ terrainData: {} });
+
+        // Use batcher/direct emit for clear operation
+        import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
+                if (!window._isReceivingMapUpdate) {
+                    gameStore.multiplayerSocket.emit('map_update', {
+                        mapUpdates: { terrainData: {} } // Empty object indicates clear
+                    });
+                }
+            }
+        }).catch(() => { });
     },
 
     // Terrain operations
@@ -892,6 +908,11 @@ const useLevelEditorStore = create((set, get) => ({
 
     setDndElements: (elements) => {
         set({ dndElements: elements || [] });
+
+        // Sync to other clients if this isn't an incoming sync
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('dndElements', elements || []);
+        }
     },
 
     // ========== END BULK SETTERS ==========
@@ -924,7 +945,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit wall update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -980,7 +1001,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit wall removal to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -1019,7 +1040,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit to multiplayer
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: { windowOverlays: newWindowOverlays }
@@ -1044,7 +1065,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit to multiplayer
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: { windowOverlays: newWindowOverlays }
@@ -1093,7 +1114,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit wall update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -1111,29 +1132,51 @@ const useLevelEditorStore = create((set, get) => ({
     addDndElement: (elementData) => {
         const state = get();
         const newElement = {
-            id: Date.now().toString(),
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 5), // Added randomness to ID
             ...elementData
         };
+        const newElements = [...state.dndElements, newElement];
+
         set({
-            dndElements: [...state.dndElements, newElement]
+            dndElements: newElements
         });
+
+        // Sync to other clients
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('dndElements', newElements);
+        }
+
         return newElement.id;
     },
 
     removeDndElement: (elementId) => {
         const state = get();
+        const newElements = state.dndElements.filter(elem => elem.id !== elementId);
+
         set({
-            dndElements: state.dndElements.filter(elem => elem.id !== elementId)
+            dndElements: newElements
         });
+
+        // Sync to other clients
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('dndElements', newElements);
+        }
     },
 
     updateDndElement: (elementId, updates) => {
         const state = get();
+        const newElements = state.dndElements.map(elem =>
+            elem.id === elementId ? { ...elem, ...updates } : elem
+        );
+
         set({
-            dndElements: state.dndElements.map(elem =>
-                elem.id === elementId ? { ...elem, ...updates } : elem
-            )
+            dndElements: newElements
         });
+
+        // Sync to other clients
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('dndElements', newElements);
+        }
     },
 
     // Fog of war operations
@@ -1155,7 +1198,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit fog of war update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
@@ -1242,7 +1285,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit fog of war update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
@@ -1267,7 +1310,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit fog of war update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
@@ -1322,7 +1365,7 @@ const useLevelEditorStore = create((set, get) => ({
         // CRITICAL FIX: Emit explored areas update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -1975,7 +2018,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit drawing update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -2353,7 +2396,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit fog paths update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -2377,7 +2420,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Emit fog erase paths update to multiplayer server
         import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
@@ -2392,7 +2435,26 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     clearAllFog: () => {
+        const state = get();
         set({ fogOfWarPaths: [], fogErasePaths: [], fogOfWarData: {} });
+
+        // Emit clear all fog update to multiplayer server
+        import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
+                if (!window._isReceivingMapUpdate) {
+                    gameStore.multiplayerSocket.emit('map_update', {
+                        mapUpdates: {
+                            fogOfWarPaths: [],
+                            fogErasePaths: [],
+                            fogOfWarData: {}
+                        }
+                    });
+                }
+            }
+        }).catch(() => {
+            // Ignore errors if gameStore not available
+        });
     },
 
     // Helper function to get bounding box of a path
@@ -2537,7 +2599,25 @@ const useLevelEditorStore = create((set, get) => ({
             // Clear erase paths when covering entire map
             // Old erase paths were meant for old fog paths that no longer exist
             // New erase paths will be created for the new "cover entire map" fog path
-            set({ fogOfWarPaths: filteredPaths, fogErasePaths: [] });
+            const newState = { fogOfWarPaths: filteredPaths, fogErasePaths: [] };
+            set(newState);
+
+            // Emit cover entire map update to multiplayer server
+            import('./gameStore').then(({ default: useGameStore }) => {
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
+                    if (!window._isReceivingMapUpdate) {
+                        gameStore.multiplayerSocket.emit('map_update', {
+                            mapUpdates: {
+                                fogOfWarPaths: filteredPaths,
+                                fogErasePaths: []
+                            }
+                        });
+                    }
+                }
+            }).catch(() => {
+                // Ignore errors if gameStore not available
+            });
 
         } catch (error) {
             console.error('🌫️ Error in coverEntireMapWithFog:', error);
@@ -2578,11 +2658,11 @@ const useLevelEditorStore = create((set, get) => ({
         const state = get();
         const newTerrainData = { ...state.terrainData };
         const addedTiles = {};
+        let hasChanges = false;
 
         const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
 
         // Calculate brush pattern based on size
-        // Size 1 = 1x1, Size 2 = 2x2, Size 3 = 3x3, Size 4 = 4x4, Size 5 = 5x5
         const startOffset = Math.floor(brushSize / 2);
 
         for (let dx = 0; dx < brushSize; dx++) {
@@ -2591,38 +2671,152 @@ const useLevelEditorStore = create((set, get) => ({
                 const tileY = gridY - startOffset + dy;
                 const tileKey = `${tileX},${tileY}`;
 
-                // CRITICAL FIX: Check if tile has actually changed before updating
+                // Check if tile has actually changed before updating
                 const existingTerrain = state.terrainData[tileKey];
+
+                // Determine variation if applicable
+                let variationIndex = undefined;
+                if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
+                    variationIndex = state.getTileVariation(tileX, tileY, terrain.tileVariations.length);
+                }
+
                 const needsUpdate = !existingTerrain || (
-                    existingTerrain.type !== terrainType ||
-                    (existingTerrain.variation !== undefined && terrain.tileVariations && terrain.tileVariations.length > 0 && existingTerrain.variation !== get().getTileVariation(tileX, tileY, terrain.tileVariations.length))
+                    typeof existingTerrain === 'string' ? existingTerrain !== terrainType : (
+                        existingTerrain.type !== terrainType ||
+                        (variationIndex !== undefined && existingTerrain.variation !== variationIndex)
+                    )
                 );
 
                 // Skip if no change needed
                 if (!needsUpdate) continue;
 
-                let terrainData_value;
-                // For terrain types with tile variations, use precalculated variation
-                if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
-                    const variationIndex = get().getTileVariation(tileX, tileY, terrain.tileVariations.length);
-                    terrainData_value = {
-                        type: terrainType,
-                        variation: variationIndex
-                    };
-                } else {
-                    // Standard terrain without variations
-                    terrainData_value = terrainType;
-                }
+                const terrainData_value = variationIndex !== undefined
+                    ? { type: terrainType, variation: variationIndex }
+                    : terrainType;
 
                 newTerrainData[tileKey] = terrainData_value;
                 addedTiles[tileKey] = terrainData_value;
+                hasChanges = true;
             }
         }
 
-        set({ terrainData: newTerrainData });
+        if (hasChanges) {
+            set({ terrainData: newTerrainData });
+            // Use batcher
+            mapUpdateBatcher.addUpdate('terrainData', addedTiles);
+        }
+    },
 
-        // Use batcher
-        mapUpdateBatcher.addUpdate('terrainData', addedTiles);
+    // NEW: paintTerrainLine to handle interpolated painting in a single state update
+    paintTerrainLine: (x1, y1, x2, y2, terrainType, brushSize = 1) => {
+        const state = get();
+        const newTerrainData = { ...state.terrainData };
+        const addedTiles = {};
+        let hasChanges = false;
+
+        const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+
+        // Bresenham's line algorithm for interpolation
+        const dx = Math.abs(x2 - x1);
+        const dy = Math.abs(y2 - y1);
+        const sx = (x1 < x2) ? 1 : -1;
+        const sy = (y1 < y2) ? 1 : -1;
+        let err = dx - dy;
+
+        let curX = x1;
+        let curY = y1;
+
+        while (true) {
+            // Apply brush at current point
+            const startOffset = Math.floor(brushSize / 2);
+            for (let bdx = 0; bdx < brushSize; bdx++) {
+                for (let bdy = 0; bdy < brushSize; bdy++) {
+                    const tileX = curX - startOffset + bdx;
+                    const tileY = curY - startOffset + bdy;
+                    const tileKey = `${tileX},${tileY}`;
+
+                    const existingTerrain = newTerrainData[tileKey]; // Check against current update batch too
+
+                    let variationIndex = undefined;
+                    if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
+                        variationIndex = state.getTileVariation(tileX, tileY, terrain.tileVariations.length);
+                    }
+
+                    const needsUpdate = !existingTerrain || (
+                        typeof existingTerrain === 'string' ? existingTerrain !== terrainType : (
+                            existingTerrain.type !== terrainType ||
+                            (variationIndex !== undefined && existingTerrain.variation !== variationIndex)
+                        )
+                    );
+
+                    if (needsUpdate) {
+                        const terrainData_value = variationIndex !== undefined
+                            ? { type: terrainType, variation: variationIndex }
+                            : terrainType;
+
+                        newTerrainData[tileKey] = terrainData_value;
+                        addedTiles[tileKey] = terrainData_value;
+                        hasChanges = true;
+                    }
+                }
+            }
+
+            if (curX === x2 && curY === y2) break;
+            const e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; curX += sx; }
+            if (e2 < dx) { err += dx; curY += sy; }
+        }
+
+        if (hasChanges) {
+            set({ terrainData: newTerrainData });
+            mapUpdateBatcher.addUpdate('terrainData', addedTiles);
+        }
+    },
+
+    // NEW: removeTerrainLine to handle interpolated erasing in a single state update
+    removeTerrainLine: (x1, y1, x2, y2, brushSize = 1) => {
+        const state = get();
+        const newTerrainData = { ...state.terrainData };
+        const removedTiles = {};
+        let hasChanges = false;
+
+        // Bresenham's line algorithm for interpolation
+        const dx = Math.abs(x2 - x1);
+        const dy = Math.abs(y2 - y1);
+        const sx = (x1 < x2) ? 1 : -1;
+        const sy = (y1 < y2) ? 1 : -1;
+        let err = dx - dy;
+
+        let curX = x1;
+        let curY = y1;
+
+        while (true) {
+            // Apply erase brush at current point
+            const startOffset = Math.floor(brushSize / 2);
+            for (let bdx = 0; bdx < brushSize; bdx++) {
+                for (let bdy = 0; bdy < brushSize; bdy++) {
+                    const tileX = curX - startOffset + bdx;
+                    const tileY = curY - startOffset + bdy;
+                    const tileKey = `${tileX},${tileY}`;
+
+                    if (newTerrainData[tileKey] !== undefined) {
+                        delete newTerrainData[tileKey];
+                        removedTiles[tileKey] = null;
+                        hasChanges = true;
+                    }
+                }
+            }
+
+            if (curX === x2 && curY === y2) break;
+            const e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; curX += sx; }
+            if (e2 < dx) { err += dx; curY += sy; }
+        }
+
+        if (hasChanges) {
+            set({ terrainData: newTerrainData });
+            mapUpdateBatcher.addUpdate('terrainData', removedTiles);
+        }
     },
 
     // Flood fill terrain
@@ -2788,6 +2982,11 @@ const useLevelEditorStore = create((set, get) => ({
                 }
             });
         }
+    },
+
+    // Reset store to initial state
+    resetStore: () => {
+        set({ ...initialState });
     }
 }));
 

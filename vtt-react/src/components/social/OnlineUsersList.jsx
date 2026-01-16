@@ -87,9 +87,9 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
     if (!searchTerm.trim()) return onlineUsers;
-    
+
     const term = searchTerm.toLowerCase();
-    return onlineUsers.filter(u => 
+    return onlineUsers.filter(u =>
       u.characterName?.toLowerCase().includes(term) ||
       u.class?.toLowerCase().includes(term) ||
       u.background?.toLowerCase().includes(term) ||
@@ -548,7 +548,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {searchTerm && (
-          <button 
+          <button
             className="clear-search"
             onClick={() => setSearchTerm('')}
           >
@@ -600,6 +600,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                   <UserCard
                     key={user.userId}
                     user={userData}
+                    nameFormat="global"
                     isCurrentUser={isCurrentUser}
                     showYouBadge={isCurrentUser}
                     showSessionInfo={true}
@@ -610,7 +611,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 );
               })
             )}
-        </div>
+          </div>
         )}
 
         {/* Friends Tab */}
@@ -651,6 +652,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     <UserCard
                       key={friend.id || friend.name}
                       user={friendData}
+                      nameFormat="global"
                       className="friend-card"
                       showSessionInfo={!!onlineUser}
                       sessionDisplay={onlineUser ? getSessionDisplay(onlineUser) : null}
@@ -692,6 +694,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     <UserCard
                       key={ignoredUser.id}
                       user={userData}
+                      nameFormat="global"
                       className="ignored-card"
                       onContextMenu={(e) => {
                         e.preventDefault();
@@ -799,6 +802,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     <UserCard
                       key={member.id}
                       user={userData}
+                      nameFormat="party"
                       isCurrentUser={isCurrentPlayer}
                       isLeader={isLeader}
                       showYouBadge={isCurrentPlayer}

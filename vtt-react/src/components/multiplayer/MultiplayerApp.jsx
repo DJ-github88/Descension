@@ -20,6 +20,8 @@ import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useCombatStore from '../../store/combatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import useGridItemStore from '../../store/gridItemStore';
+import useInventoryStore from '../../store/inventoryStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -197,6 +199,44 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
     setPendingGameSessionInvitations(prev => prev.filter(inv => inv.id !== invitation.id));
   };
+
+  // Unified store cleanup for joining/creating rooms
+  const clearAllMultiplayerStores = useCallback(() => {
+    console.log('🧹 Clearing all stores for clean room initialization');
+
+    // Level editor
+    const levelEditorStore = useLevelEditorStore.getState();
+    if (levelEditorStore.resetStore) levelEditorStore.resetStore();
+
+    // Creatures and Character Tokens
+    useCreatureStore.getState().clearCreatureTokens();
+    useCharacterTokenStore.getState().clearCharacterTokens();
+
+    // Combat
+    useCombatStore.getState().forceResetCombat();
+
+    // Chat and Presence
+    const chatStore = useChatStore.getState();
+    if (chatStore.resetStore) chatStore.resetStore();
+
+    usePresenceStore.getState().cleanup();
+
+    // Party
+    const partyStore = usePartyStore.getState();
+    if (partyStore.resetStore) partyStore.resetStore();
+
+    // Grid Items
+    useGridItemStore.getState().clearGrid();
+
+    // Inventory (clear to prevent guest users seeing old data)
+    useInventoryStore.getState().clearInventory();
+
+    // Game State
+    const gameStore = useGameStore.getState();
+    if (gameStore.resetStore) gameStore.resetStore();
+
+    console.log('✅ All stores cleared');
+  }, []);
 
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
@@ -386,6 +426,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           token: authToken
         }
       });
+
+      // CRITICAL: Expose socket globally for HUD components that need direct access
+      window.multiplayerSocket = newSocket;
 
       // Removed enhanced multiplayer system - was causing conflicts
 
@@ -656,6 +699,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.player.character?.raceDisplayName || 'Unknown';
 
+        console.log('🆔 player_joined - Adding party member with:', {
+          playerId: data.player.id,
+          playerName: playerCharacterName,
+          serverPlayerName: data.player.name
+        });
+
         // Add to party system with character data first
         // CRITICAL FIX: Ensure isGM is explicitly false for joining players (only room creator is GM)
         const newPartyMember = {
@@ -665,9 +714,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           character: {
             class: data.player.character?.class || 'Unknown',
             level: data.player.character?.level || 1,
-            health: data.player.character?.health || { current: 100, max: 100 },
-            mana: data.player.character?.mana || { current: 50, max: 50 },
-            actionPoints: data.player.character?.actionPoints || { current: 3, max: 3 },
+            // CRITICAL FIX: Use defaults that match characterStore (HP 50, Mana 50, AP 3)
+            health: data.player.character?.health || { current: 45, max: 50 },
+            mana: data.player.character?.mana || { current: 45, max: 50 },
+            actionPoints: data.player.character?.actionPoints || { current: 1, max: 3 },
             race: data.player.character?.race || 'Unknown',
             subrace: data.player.character?.subrace || '',
             raceDisplayName: raceDisplayName,
@@ -743,7 +793,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               exploredAreas: levelEditorStore.exploredAreas || {},
               lightSources: levelEditorStore.lightSources || {},
               dynamicFogEnabled: levelEditorStore.dynamicFogEnabled,
-              respectLineOfSight: levelEditorStore.respectLineOfSight
+              respectLineOfSight: levelEditorStore.respectLineOfSight,
+              dndElements: levelEditorStore.dndElements || []
             },
             gridSettings: {
               gridType: gameStore.gridType || 'square',
@@ -852,6 +903,156 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log('🧹 Clearing tokens for new room synchronization');
       clearCreatureTokens();
       clearCharacterTokens();
+    });
+
+    // Listen for character resource updates from other players
+    socket.on('character_resource_updated', (data) => {
+      const { playerId, playerName, resource, current, max, temp, adjustment } = data;
+
+      // Multiple ways to identify current player for robust matching
+      const currentPlayerId = currentPlayerRef.current?.id;
+      const currentPlayerName = currentPlayerRef.current?.name;
+
+      // Check if this update is for the current player (GM updating us)
+      // Match by: exact ID, 'current-player' literal, or player name fallback
+      const isCurrentPlayer =
+        playerId === currentPlayerId ||
+        playerId === 'current-player' ||
+        (playerName && playerName === currentPlayerName);
+
+      console.log('🔍 character_resource_updated check:', {
+        receivedPlayerId: playerId,
+        receivedPlayerName: playerName,
+        currentPlayerId,
+        currentPlayerName,
+        isCurrentPlayer,
+        resource,
+        current,
+        max
+      });
+
+      if (isCurrentPlayer) {
+        // Update current player's character store directly
+        const charStore = require('../../store/characterStore').default;
+        charStore.getState().updateResource(resource, current, max);
+
+        // Also update temporary resources if provided
+        if (temp !== undefined) {
+          charStore.getState().updateTempResource(resource, temp);
+        }
+
+        // Show synchronized floating combat text for current player
+        if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+          const playerFrame = document.querySelector('.player-status-frame') || document.querySelector('.player-hud');
+          const rect = playerFrame ? playerFrame.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight - 150 };
+
+          let textType = 'damage';
+          if (adjustment > 0) {
+            textType = resource === 'health' ? 'heal' : resource === 'mana' ? 'mana' : 'ap';
+          } else {
+            textType = resource === 'health' ? 'damage' : resource === 'mana' ? 'mana-loss' : 'ap-loss';
+          }
+
+          window.showFloatingCombatText(
+            Math.abs(adjustment),
+            textType,
+            { x: rect.left + (playerFrame ? 100 : 0), y: rect.top + (playerFrame ? 20 : 0) }
+          );
+        }
+
+        console.log(`💊 GM updated my ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
+      } else {
+        // Update the party member's resource
+        const memberUpdate = {
+          character: {
+            [resource]: { current, max }
+          }
+        };
+
+        // Also update temporary resources if provided
+        if (temp !== undefined) {
+          const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+          };
+          const tempField = tempFieldMap[resource];
+          if (tempField) {
+            memberUpdate.character[tempField] = temp;
+          }
+        }
+
+        updatePartyMember(playerId, memberUpdate);
+
+        // Show synchronized floating combat text for party member
+        if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+          const frame = document.querySelector(`.party-frame-${playerId}`);
+          if (frame) {
+            const rect = frame.getBoundingClientRect();
+
+            let textType = 'damage';
+            if (adjustment > 0) {
+              textType = resource === 'health' ? 'heal' : resource === 'mana' ? 'mana' : 'ap';
+            } else {
+              textType = resource === 'health' ? 'damage' : resource === 'mana' ? 'mana-loss' : 'ap-loss';
+            }
+
+            window.showFloatingCombatText(
+              Math.abs(adjustment),
+              textType,
+              { x: rect.left + 50, y: rect.top + 30 }
+            );
+          }
+        }
+
+        console.log(`💊 Updated ${data.playerName || playerId}'s ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
+      }
+    });
+
+    // Listen for combat start from GM
+    socket.on('combat_started', (data) => {
+      console.log('⚔️ Received combat_started from server:', data);
+
+      // Update combat store with received state
+      useCombatStore.getState().forceResetCombat(); // Clear any existing state
+
+      // Set the combat state
+      useCombatStore.setState({
+        isInCombat: true,
+        turnOrder: data.turnOrder || [],
+        round: data.round || 1,
+        currentTurnIndex: data.currentTurnIndex || 0,
+        isSelectionMode: false,
+        selectedTokens: new Set()
+      });
+
+      console.log('⚔️ Combat state synced - player should now see combat timeline');
+    });
+
+    // Listen for combat end from GM
+    socket.on('combat_ended', (data) => {
+      console.log('🏳️ Received combat_ended from server:', data);
+
+      // Reset combat store
+      useCombatStore.getState().forceResetCombat();
+
+      console.log('🏳️ Combat ended - timeline hidden');
+    });
+
+    // Listen for combat turn changes from GM
+    socket.on('combat_turn_changed', (data) => {
+      console.log('⚔️ Received combat_turn_changed from server:', data);
+
+      const combatState = useCombatStore.getState();
+      if (combatState.isInCombat) {
+        // Update combat store with new turn state
+        useCombatStore.setState({
+          currentTurnIndex: data.currentTurnIndex,
+          round: data.round,
+          turnOrder: data.turnOrder
+        });
+        console.log(`⚔️ Combat turn synced - now on turn ${data.currentTurnIndex + 1}, round ${data.round}`);
+      }
     });
 
     socket.on('player_left', (data) => {
@@ -1006,47 +1207,39 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Listen for chat messages
+    // Listen for chat messages (Party Chat)
     socket.on('chat_message', (message) => {
-      // Add to chat system with proper color handling
+      console.log('💬 Received party chat message:', message);
+
+      // Add to notifications
       addNotification('social', {
         sender: {
           name: message.playerName,
           class: message.isGM ? 'GM' : 'Player',
           level: 1,
-          playerColor: message.playerColor || (message.isGM ? '#d4af37' : '#4a90e2') // Fallback colors
+          playerColor: message.playerColor || (message.isGM ? '#d4af37' : '#4a90e2')
         },
         content: message.content,
         type: 'message',
         timestamp: message.timestamp,
-        playerId: message.playerId, // Include player ID for future reference
+        playerId: message.playerId,
         isGM: message.isGM
       });
 
-      // Also add to party chat if message type is 'party' or if in party
+      // Add to presence store party chat
       if (message.type === 'party' || message.type === 'chat') {
-        import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
-          const { addPartyChatMessage, activeTab } = usePresenceStore.getState();
-          // Convert timestamp to ISO string if it's a Date object
-          const timestamp = message.timestamp instanceof Date
-            ? message.timestamp.toISOString()
-            : (message.timestamp || new Date().toISOString());
-          addPartyChatMessage({
-            id: message.id || `msg_${Date.now()}`,
-            senderId: message.playerId,
-            senderName: message.playerName,
-            senderClass: message.isGM ? 'GM' : 'Player',
-            senderLevel: 1,
-            content: message.content,
-            timestamp: timestamp,
-            type: 'party'
-          });
-
-          // OPTIONAL: Switch to party tab? Removed to prevent disruption
-          // if (activeTab !== 'party') { setActiveTab('party'); }
-        }).catch(error => {
-          console.error('Failed to add party chat message:', error);
+        const timestamp = message.timestamp || new Date().toISOString();
+        usePresenceStore.getState().addPartyChatMessage({
+          id: message.id || `msg_${Date.now()}`,
+          senderId: message.playerId,
+          senderName: message.playerName,
+          senderClass: message.isGM ? 'GM' : 'Player',
+          senderLevel: 1,
+          content: message.content,
+          timestamp: timestamp,
+          type: 'party'
         });
+        console.log('✅ Party message added to presence store');
       }
     });
 
@@ -1103,6 +1296,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (data.levelEditor.respectLineOfSight !== undefined) {
             levelEditorStore.setRespectLineOfSight(data.levelEditor.respectLineOfSight);
+          }
+          if (data.levelEditor.dndElements !== undefined) {
+            levelEditorStore.setDndElements(data.levelEditor.dndElements);
           }
 
           console.log('✅ Level editor state applied');
@@ -1801,13 +1997,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // CRITICAL FIX: Use actual health/mana/AP values, not defaults
           health: data.character.health !== undefined && data.character.health !== null
             ? data.character.health
-            : { current: 100, max: 100 },
+            : { current: 45, max: 50 },
           mana: data.character.mana !== undefined && data.character.mana !== null
             ? data.character.mana
-            : { current: 50, max: 50 },
+            : { current: 45, max: 50 },
           actionPoints: data.character.actionPoints !== undefined && data.character.actionPoints !== null
             ? data.character.actionPoints
-            : { current: 3, max: 3 },
+            : { current: 1, max: 3 },
           race: data.character.race || 'Unknown',
           subrace: data.character.subrace || '',
           raceDisplayName: raceDisplayName,
@@ -2742,6 +2938,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('combat_action');
       socket.off('combat_correction');
       socket.off('combat_state_sync');
+      socket.off('combat_started');
+      socket.off('combat_ended');
+      socket.off('combat_turn_changed');
       socket.off('spell_cast'); // IMPROVEMENT: Clean up spell cast handler
       socket.off('ability_used'); // IMPROVEMENT: Clean up ability use handler
       socket.off('dice_rolled'); // IMPROVEMENT: Clean up dice roll handler
@@ -2765,6 +2964,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
   const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings) => {
+    // Clear all stores before joining a new room to ensure a clean slate
+    clearAllMultiplayerStores();
+
     setIsJoiningRoom(true);
     setConnectionStatus('connecting');
 
@@ -2779,11 +2981,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // ===== APPLY INITIAL LEVEL EDITOR STATE FOR NON-GM PLAYERS =====
     // This ensures players joining a room see terrain, hex grid, walls, etc.
     if (!isGameMaster && (levelEditorState || gridSettings)) {
-      console.log('🗺️ Applying initial level editor state for player:', {
-        hasLevelEditor: !!levelEditorState,
-        hasGridSettings: !!gridSettings
-      });
-
+      window._isReceivingMapUpdate = true;
       try {
         // Apply level editor state
         if (levelEditorState) {
@@ -2818,6 +3016,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (levelEditorState.respectLineOfSight !== undefined) {
             levelEditorStore.setRespectLineOfSight(levelEditorState.respectLineOfSight);
+          }
+          if (levelEditorState.dndElements !== undefined) {
+            levelEditorStore.setDndElements(levelEditorState.dndElements);
           }
 
           console.log('✅ Initial level editor state applied');
@@ -2854,6 +3055,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       } catch (error) {
         console.error('❌ Failed to apply initial level editor state:', error);
+      } finally {
+        window._isReceivingMapUpdate = false;
       }
     }
 
@@ -2888,6 +3091,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Set current player info - use explicit playerObject from server if available
       const activeCharacter = getActiveCharacter();
+
+      console.log('🆔 handleJoinRoom - Setting up current player:', {
+        playerObject,
+        playerObjectId: playerObject?.id,
+        playerObjectName: playerObject?.name,
+        activeCharacterName: activeCharacter?.name,
+        isGameMaster
+      });
 
       if (playerObject) {
         currentPlayerData = {
@@ -3247,9 +3458,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         character: {
           class: activeCharacter?.class || characterStore.class || 'Unknown',
           level: activeCharacter?.level || characterStore.level || 1,
-          health: activeCharacter?.health || characterStore.health || { current: 100, max: 100 },
-          mana: activeCharacter?.mana || characterStore.mana || { current: 50, max: 50 },
-          actionPoints: activeCharacter?.actionPoints || characterStore.actionPoints || { current: 3, max: 3 },
+          health: activeCharacter?.health || characterStore.health || { current: 45, max: 50 },
+          mana: activeCharacter?.mana || characterStore.mana || { current: 45, max: 50 },
+          actionPoints: activeCharacter?.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
           race: activeCharacter?.race || characterStore.race || 'Unknown',
           raceDisplayName: activeCharacter?.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
           background: activeCharacter?.background || characterStore.background || '',
@@ -3297,9 +3508,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           character: {
             class: room.gm.character?.class || 'Unknown',
             level: room.gm.character?.level || 1,
-            health: room.gm.character?.health || { current: 100, max: 100 },
-            mana: room.gm.character?.mana || { current: 50, max: 50 },
-            actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
+            health: room.gm.character?.health || { current: 45, max: 50 },
+            mana: room.gm.character?.mana || { current: 45, max: 50 },
+            actionPoints: room.gm.character?.actionPoints || { current: 1, max: 3 },
             race: room.gm.character?.race || 'Unknown',
             subrace: room.gm.character?.subrace || '',
             raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
@@ -3334,9 +3545,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               character: {
                 class: player.character?.class || 'Unknown',
                 level: player.character?.level || 1,
-                health: player.character?.health || { current: 100, max: 100 },
-                mana: player.character?.mana || { current: 50, max: 50 },
-                actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
+                health: player.character?.health || { current: 45, max: 50 },
+                mana: player.character?.mana || { current: 45, max: 50 },
+                actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
                 race: player.character?.race || 'Unknown',
                 subrace: player.character?.subrace || '',
                 raceDisplayName: player.character?.raceDisplayName || 'Unknown',
@@ -3373,7 +3584,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
           socketConnection.emit('chat_message', {
             message: message,
-            type: 'chat' // This will be handled as party chat on the server
+            type: 'party' // Explicitly set as party chat
           });
         } else {
           console.error('No socket connection for chat or socket disconnected');

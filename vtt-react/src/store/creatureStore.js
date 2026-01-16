@@ -306,6 +306,33 @@ const useCreatureStore = create((set, get) => ({
     };
   }),
 
+  // Update creature data (general purpose, used by shop etc.)
+  updateCreature: (creatureId, updates) => set(state => {
+    // Find the token to update
+    const updatedTokens = (state.creatureTokens || []).map(token =>
+      (token.id === creatureId || token.creatureId === creatureId) ? { ...token, ...updates } : token
+    );
+
+    // Broadcast update if in multiplayer
+    try {
+      const gameStore = useGameStore.getState();
+      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        // Send a general update event
+        gameStore.multiplayerSocket.emit('creature_updated', {
+          tokenId: creatureId,
+          stateUpdates: updates
+        });
+      }
+    } catch (error) {
+      console.warn('Could not broadcast creature update:', error);
+    }
+
+    return {
+      creatureTokens: updatedTokens,
+      tokens: updatedTokens
+    };
+  }),
+
   // Process loot item (creature death rewards)
   processCreatureLoot: (tokenId, lootData) => set(state => {
     const lootItems = processCreatureLoot(lootData);

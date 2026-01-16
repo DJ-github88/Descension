@@ -188,6 +188,8 @@ const useGameStore = create((set, get) => ({
         });
     },
 
+    resetStore: () => set(initialState),
+
     // REMOVED: updateTokenPosition - deprecated function removed
     // All token position updates should go through creatureStore
 

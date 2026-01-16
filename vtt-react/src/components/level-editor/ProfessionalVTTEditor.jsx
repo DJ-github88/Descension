@@ -103,8 +103,10 @@ const ProfessionalVTTEditor = () => {
         clearAllProfessionalData,
         setTerrainAtPosition,
         paintTerrainBrush,
+        paintTerrainLine,
         floodFillTerrain,
         removeTerrainAtPosition,
+        removeTerrainLine,
         getTerrainAtPosition,
         paintFogBrush,
         removeFogAtPosition,
@@ -228,7 +230,7 @@ const ProfessionalVTTEditor = () => {
             tools: [
                 { id: 'object_place', name: 'Place Object', icon: 'Utility/Utility', cursor: 'crosshair' },
                 { id: 'token_place', name: 'Place Token', icon: 'Social/Golden Crown', cursor: 'crosshair' },
-                { id: 'portal_create', name: 'Create Portal', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
+                { id: 'portal_create', name: 'Create Connection', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
                 { id: 'marker_place', name: 'Place Marker', icon: 'Utility/Utility', cursor: 'crosshair' },
                 { id: 'object_rotate', name: 'Rotate', icon: 'Utility/Swirling Vortex', cursor: 'move' },
                 { id: 'object_scale', name: 'Scale', icon: 'Utility/Resize', cursor: 'nw-resize' }
@@ -1007,7 +1009,7 @@ const ProfessionalVTTEditor = () => {
                     if (portalCoords) {
                         // Create connection as dndElement
                         const connectionData = {
-                            type: 'portal',
+                            type: 'connection',
                             position: { x: portalCoords.gridX, y: portalCoords.gridY },
                             properties: {
                                 portalName: 'New Connection',
@@ -1692,7 +1694,7 @@ const ProfessionalVTTEditor = () => {
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintFogBrush, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, paintFogBrush, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -1802,45 +1804,24 @@ const ProfessionalVTTEditor = () => {
                             ? parseInt(toolSettings.brushSize) || 1
                             : 1);
 
-                    // Interpolate between last and current position to fill gaps
+                    // Use optimized line interpolation from store
                     if (lastTerrainBrushPosRef.current) {
-                        const x1 = lastTerrainBrushPosRef.current.gridX;
-                        const y1 = lastTerrainBrushPosRef.current.gridY;
-                        const x2 = terrainCoords.gridX;
-                        const y2 = terrainCoords.gridY;
-
-                        const dx = Math.abs(x2 - x1);
-                        const dy = Math.abs(y2 - y1);
-                        const sx = x1 < x2 ? 1 : -1;
-                        const sy = y1 < y2 ? 1 : -1;
-                        let err = dx - dy;
-
-                        let currX = x1;
-                        let currY = y1;
-
-                        while (true) {
-                            if (currX !== x1 || currY !== y1) {
-                                paintTerrainBrush(currX, currY, terrainType, brushSize);
-                            }
-                            if (currX === x2 && currY === y2) break;
-                            const e2 = 2 * err;
-                            if (e2 > -dy) {
-                                err -= dy;
-                                currX += sx;
-                            }
-                            if (e2 < dx) {
-                                err += dx;
-                                currY += sy;
-                            }
-                        }
+                        paintTerrainLine(
+                            lastTerrainBrushPosRef.current.gridX,
+                            lastTerrainBrushPosRef.current.gridY,
+                            terrainCoords.gridX,
+                            terrainCoords.gridY,
+                            terrainType,
+                            brushSize
+                        );
+                    } else {
+                        paintTerrainBrush(
+                            terrainCoords.gridX,
+                            terrainCoords.gridY,
+                            terrainType,
+                            brushSize
+                        );
                     }
-
-                    paintTerrainBrush(
-                        terrainCoords.gridX,
-                        terrainCoords.gridY,
-                        terrainType,
-                        brushSize
-                    );
                     lastTerrainBrushPosRef.current = terrainCoords;
                 }
                 break;
@@ -1849,40 +1830,18 @@ const ProfessionalVTTEditor = () => {
                 if (eraseCoords) {
                     const brushSize = toolSettings.brushSize || 1;
 
-                    // Interpolate between last and current position to fill gaps
+                    // Use optimized line interpolation from store
                     if (lastTerrainBrushPosRef.current) {
-                        const x1 = lastTerrainBrushPosRef.current.gridX;
-                        const y1 = lastTerrainBrushPosRef.current.gridY;
-                        const x2 = eraseCoords.gridX;
-                        const y2 = eraseCoords.gridY;
-
-                        const dx = Math.abs(x2 - x1);
-                        const dy = Math.abs(y2 - y1);
-                        const sx = x1 < x2 ? 1 : -1;
-                        const sy = y1 < y2 ? 1 : -1;
-                        let err = dx - dy;
-
-                        let currX = x1;
-                        let currY = y1;
-
-                        while (true) {
-                            if (currX !== x1 || currY !== y1) {
-                                removeTerrainAtPosition(currX, currY, brushSize);
-                            }
-                            if (currX === x2 && currY === y2) break;
-                            const e2 = 2 * err;
-                            if (e2 > -dy) {
-                                err -= dy;
-                                currX += sx;
-                            }
-                            if (e2 < dx) {
-                                err += dx;
-                                currY += sy;
-                            }
-                        }
+                        removeTerrainLine(
+                            lastTerrainBrushPosRef.current.gridX,
+                            lastTerrainBrushPosRef.current.gridY,
+                            eraseCoords.gridX,
+                            eraseCoords.gridY,
+                            brushSize
+                        );
+                    } else {
+                        removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, brushSize);
                     }
-
-                    removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, brushSize);
                     lastTerrainBrushPosRef.current = eraseCoords;
                 }
                 break;

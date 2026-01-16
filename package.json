@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "cd vtt-react && npm start",
+    "start": "concurrently \"npm run start:server\" \"npm run start:frontend\"",
+    "start:frontend": "cd vtt-react && npm start",
+    "start:server": "cd server && npm start",
     "start:memory": "cd vtt-react && NODE_OPTIONS=\"--max-old-space-size=8192\" npm start",
     "build": "cd vtt-react && npm run build",
     "build:netlify": "cd vtt-react && npm run build:netlify",
@@ -11,11 +13,16 @@
     "netlify:local": "cd vtt-react && npm run netlify:local",
     "test": "cd vtt-react && npm test",
     "install": "cd vtt-react && npm install",
-    "dev": "cd vtt-react && npm start"
+    "install:all": "npm install && cd vtt-react && npm install && cd ../server && npm install",
+    "dev": "npm start"
   },
   "dependencies": {
     "cross-env": "^10.1.0",
     "firebase": "^12.2.1",
     "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "wait-on": "^9.0.3"
   }
 }

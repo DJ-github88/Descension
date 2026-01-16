@@ -651,7 +651,7 @@ function getPublicRooms() {
       gm: room.gm.name,
       createdAt: room.createdAt,
       hasPassword: !!room.passwordHash, // Check if room actually has a password
-      gmOnline: true // Always true since we only show active rooms now
+      gmOnline: room.isActive // Accurately report GM online status
     }));
 }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
@@ -855,6 +855,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
       }
     },
     chatHistory: [],
+    createdAt: new Date().toISOString(), // Store as ISO string for proper serialization
     isActive: true, // Mark as active when created
     lastActivity: new Date()
   };
@@ -1143,7 +1144,10 @@ io.on('connection', (socket) => {
         isGMReconnect,
         sessionId: socket.id,
         // Include level editor and grid settings for initial sync
-        levelEditor: room.gameState.levelEditor || {},
+        levelEditor: {
+          ...(room.gameState.mapData || {}),
+          ...(room.gameState.levelEditor || {})
+        },
         gridSettings: room.gameState.gridSettings || {}
       });
 
@@ -2044,6 +2048,13 @@ io.on('connection', (socket) => {
         }
         room.gameState.mapData.exploredAreas = data.mapUpdates.exploredAreas;
       }
+      // FIXED: Handle dndElements (portals/connections) sync
+      if (data.mapUpdates.dndElements !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.dndElements = data.mapUpdates.dndElements;
+      }
     } else if (data.mapData) {
       // Legacy support for old format
       room.gameState.mapData = {
@@ -2061,19 +2072,11 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // FIXED: Broadcast map update to ALL players INCLUDING GM (client has window._isReceivingMapUpdate flag to prevent infinite loops)
+    // CRITICAL PERFORMANCE FIX: Broadcast ONLY the specific updates (deltas) received
+    // instead of the entire map state. This prevents disconnections caused by massive payloads (MBs)
+    // when painting terrain or fog of war on large maps.
     io.to(player.roomId).emit('map_updated', {
-      mapData: {
-        ...room.gameState.mapData,
-        fogOfWar: room.gameState.fogOfWar,
-        fogOfWarPaths: room.gameState.mapData?.fogOfWarPaths,
-        fogErasePaths: room.gameState.mapData?.fogErasePaths,
-        terrainData: room.gameState.mapData?.terrainData,
-        wallData: room.gameState.mapData?.wallData,
-        drawingLayers: room.gameState.mapData?.drawingLayers,
-        drawingPaths: room.gameState.mapData?.drawingPaths,
-        exploredAreas: room.gameState.mapData?.exploredAreas || {}
-      },
+      mapData: data.mapUpdates,
       updatedBy: player.id,
       updatedByName: player.name,
       timestamp: new Date()
@@ -2198,6 +2201,129 @@ io.on('connection', (socket) => {
     io.to(player.roomId).emit('chat_message', rollMessage);
 
     console.log(`${player.name} rolled dice: ${data.results.join(', ')} (Total: ${data.total})`);
+  });
+
+  // Handle room chat messages
+  socket.on('chat_message', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    if (!data.message || !data.message.trim()) return;
+
+    const messageContent = data.message.trim();
+    // Use imported sanitization if available
+    const sanitizedContent = typeof sanitizeChatMessage === 'function' ? sanitizeChatMessage(messageContent) : messageContent;
+
+    const chatMessage = {
+      id: uuidv4(),
+      playerId: player.id,
+      playerName: player.name,
+      playerColor: player.color || '#4a90e2',
+      isGM: player.isGM,
+      content: sanitizedContent,
+      timestamp: new Date().toISOString(),
+      type: data.type || 'chat'
+    };
+
+    // Add to room's chat history
+    if (!room.chatHistory) room.chatHistory = [];
+    room.chatHistory.push(chatMessage);
+
+    // Keep only last 100 messages
+    if (room.chatHistory.length > 100) {
+      room.chatHistory = room.chatHistory.slice(-100);
+    }
+
+    // Persist to Firebase
+    try {
+      await firebaseService.addChatMessage(player.roomId, chatMessage);
+    } catch (error) {
+      console.error('Failed to persist chat message:', error);
+    }
+
+    // Broadcast to everyone in the room (including sender)
+    io.to(player.roomId).emit('chat_message', chatMessage);
+
+    console.log(`💬 Chat message in ${player.roomId} from ${player.name}: ${sanitizedContent.substring(0, 30)}${sanitizedContent.length > 30 ? '...' : ''}`);
+  });
+
+  // Handle global chat messages (server-wide)
+  socket.on('global_chat_message', async (data) => {
+    const player = players.get(socket.id);
+    const senderName = player ? player.name : (data.playerName || 'Guest');
+    const senderId = player ? player.id : (data.playerId || 'guest');
+
+    if (!data.content || !data.content.trim()) return;
+
+    const messageContent = data.content.trim();
+    const sanitizedContent = typeof sanitizeChatMessage === 'function' ? sanitizeChatMessage(messageContent) : messageContent;
+
+    const globalMessage = {
+      id: uuidv4(),
+      playerId: senderId,
+      playerName: senderName,
+      playerColor: player?.color || data.playerColor || '#4a90e2',
+      isGM: player?.isGM || false,
+      content: sanitizedContent,
+      timestamp: new Date().toISOString(),
+      type: 'global'
+    };
+
+    // Broadcast to EVERYONE connected to the server
+    io.emit('global_chat_message', globalMessage);
+
+    console.log(`🌐 Global message from ${senderName}: ${sanitizedContent.substring(0, 30)}${sanitizedContent.length > 30 ? '...' : ''}`);
+  });
+
+  // Handle private whispers
+  socket.on('whisper_message', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    if (!data.targetId || !data.content || !data.content.trim()) return;
+
+    const messageContent = data.content.trim();
+    const sanitizedContent = typeof sanitizeChatMessage === 'function' ? sanitizeChatMessage(messageContent) : messageContent;
+
+    const whisperMessage = {
+      id: uuidv4(),
+      senderId: player.id,
+      senderName: player.name,
+      senderColor: player.color || '#4a90e2',
+      targetId: data.targetId,
+      targetName: data.targetName || 'Someone',
+      content: sanitizedContent,
+      timestamp: new Date().toISOString(),
+      type: 'whisper'
+    };
+
+    // Find target socket
+    let targetSocketId = null;
+    for (const [sid, p] of players.entries()) {
+      if (p.id === data.targetId) {
+        targetSocketId = sid;
+        break;
+      }
+    }
+
+    if (targetSocketId) {
+      // Send to target
+      io.to(targetSocketId).emit('whisper_received', whisperMessage);
+      // Send confirmation to sender
+      socket.emit('whisper_sent', whisperMessage);
+      console.log(`🤫 Whisper from ${player.name} to ${whisperMessage.targetName}`);
+    } else {
+      socket.emit('error', { message: 'Player not found or offline' });
+    }
   });
 
   // IMPROVEMENT: Handle spell cast synchronization for multiplayer
@@ -2452,6 +2578,142 @@ io.on('connection', (socket) => {
       stateUpdates,
       updatedBy: player.id
     });
+  });
+
+  // Handle character resource updates (HP, Mana, AP changes from player or GM)
+  socket.on('character_resource_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    const { resource, current, max, temp, timestamp, playerId, playerName } = data;
+
+    // Determine target - either the sender or a specific player (GM updating someone else)
+    const targetPlayerId = playerId || player.id;
+    // Use provided playerName, or look up from players map, or use sender's name
+    const targetPlayerName = playerName ||
+      (playerId ? (Array.from(players.values()).find(p => p.id === playerId)?.name || 'Unknown') : player.name);
+
+    // Update target player's character state in room
+    if (!room.players) room.players = {};
+    if (!room.players[targetPlayerId]) room.players[targetPlayerId] = {};
+    if (!room.players[targetPlayerId].character) room.players[targetPlayerId].character = {};
+
+    // Update the specific resource
+    room.players[targetPlayerId].character[resource] = { current, max };
+
+    // Also store temporary resources in room state if provided
+    if (temp !== undefined) {
+      const tempFieldMap = {
+        'health': 'tempHealth',
+        'mana': 'tempMana',
+        'actionPoints': 'tempActionPoints'
+      };
+      const tempField = tempFieldMap[resource];
+      if (tempField) {
+        room.players[targetPlayerId].character[tempField] = temp;
+      }
+    }
+
+    // Broadcast to all other players in the room
+    console.log(`📤 Broadcasting character_resource_updated to room ${player.roomId}:`, {
+      targetPlayerId,
+      targetPlayerName,
+      resource,
+      current,
+      max,
+      temp,
+      adjustment: data.adjustment,
+      senderName: player.name
+    });
+
+    socket.to(player.roomId).emit('character_resource_updated', {
+      playerId: targetPlayerId,
+      playerName: targetPlayerName,
+      resource,
+      current,
+      max,
+      temp,
+      adjustment: data.adjustment, // Include adjustment for FCT sync
+      timestamp
+    });
+
+    console.log(`💊 ${targetPlayerName} ${resource} updated: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''} (by ${player.name})`);
+  });
+
+  // Handle combat start (GM starting combat)
+  socket.on('combat_started', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Store combat state in room
+    room.combatState = {
+      isInCombat: true,
+      turnOrder: data.turnOrder,
+      round: data.round || 1,
+      currentTurnIndex: data.currentTurnIndex || 0,
+      startedAt: Date.now()
+    };
+
+    // Broadcast to all other players in the room
+    socket.to(player.roomId).emit('combat_started', {
+      turnOrder: data.turnOrder,
+      round: data.round,
+      currentTurnIndex: data.currentTurnIndex,
+      timestamp: data.timestamp
+    });
+
+    console.log(`⚔️ Combat started by ${player.name} with ${data.turnOrder?.length || 0} combatants`);
+  });
+
+  // Handle combat end
+  socket.on('combat_ended', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Clear combat state in room
+    room.combatState = null;
+
+    // Broadcast to all other players in the room
+    socket.to(player.roomId).emit('combat_ended', {
+      timestamp: data.timestamp
+    });
+
+    console.log(`🏳️ Combat ended by ${player.name}`);
+  });
+
+  // Handle combat turn changes (GM advancing turns)
+  socket.on('combat_turn_changed', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Update room combat state
+    if (room.combatState) {
+      room.combatState.currentTurnIndex = data.currentTurnIndex;
+      room.combatState.round = data.round;
+      room.combatState.turnOrder = data.turnOrder;
+    }
+
+    // Broadcast to all other players in the room
+    socket.to(player.roomId).emit('combat_turn_changed', {
+      currentTurnIndex: data.currentTurnIndex,
+      round: data.round,
+      turnOrder: data.turnOrder,
+      timestamp: data.timestamp
+    });
+
+    console.log(`⚔️ Combat turn changed by ${player.name}: Turn ${data.currentTurnIndex + 1}, Round ${data.round}`);
   });
 
   // Handle item looting

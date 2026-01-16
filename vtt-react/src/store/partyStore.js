@@ -84,9 +84,9 @@ const usePartyStore = create(
                             character: {
                                 class: 'Unknown',
                                 level: 1,
-                                health: { current: 100, max: 100 },
-                                mana: { current: 50, max: 50 },
-                                actionPoints: { current: 3, max: 3 }
+                                health: { current: 45, max: 50 },
+                                mana: { current: 45, max: 50 },
+                                actionPoints: { current: 1, max: 3 }
                             }
                         }
                     ]
@@ -141,9 +141,9 @@ const usePartyStore = create(
                     character: memberData.character || {
                         class: 'Unknown',
                         level: 1,
-                        health: { current: 100, max: 100 },
-                        mana: { current: 50, max: 50 },
-                        actionPoints: { current: 3, max: 3 }
+                        health: { current: 45, max: 50 },
+                        mana: { current: 45, max: 50 },
+                        actionPoints: { current: 1, max: 3 }
                     }
                 };
 
@@ -184,6 +184,30 @@ const usePartyStore = create(
                 set(state => {
                     const updatedMembers = (state.partyMembers || []).map(member => {
                         if (member.id === memberId) {
+                            // Deep merge character data if it exists in updates
+                            if (updates.character) {
+                                const newCharacter = {
+                                    ...member.character,
+                                    ...updates.character
+                                };
+
+                                // Deep merge specific resource objects if they exist
+                                ['health', 'mana', 'actionPoints', 'classResource'].forEach(resource => {
+                                    if (updates.character[resource]) {
+                                        newCharacter[resource] = {
+                                            ...(member.character?.[resource] || {}),
+                                            ...updates.character[resource]
+                                        };
+                                    }
+                                });
+
+                                return {
+                                    ...member,
+                                    ...updates,
+                                    character: newCharacter
+                                };
+                            }
+
                             return { ...member, ...updates };
                         }
                         return member;
@@ -327,6 +351,11 @@ const usePartyStore = create(
 
             clearMultiplayerSocket: () => {
                 set({ multiplayerSocket: null });
+            },
+
+            // Reset store to initial state
+            resetStore: () => {
+                set({ ...initialState });
             }
         }),
         {

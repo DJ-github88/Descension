@@ -1331,7 +1331,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const isSelectedForCombat = selectedTokens.has(tokenId);
 
   // Check if it's this token's turn in combat
-  const isMyTurn = isInCombat && isTokensTurn(tokenId);
+  const isMyTurn = isInCombat && isTokensTurn;
 
   // Record turn start position when it becomes this token's turn
   useEffect(() => {

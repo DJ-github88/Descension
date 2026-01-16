@@ -17,13 +17,13 @@ const PortalTransferDialog = ({
     const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
     const destinationMap = maps.find(map => map.id === destinationMapId);
     const portalName = portal?.properties?.portalName || 'Portal';
-    
+
     // Get destination connection name
     let destinationConnectionName = null;
     if (destinationConnectionId && destinationMap) {
         const destinationConnections = destinationMap.dndElements || [];
-        const destinationConnection = destinationConnections.find(el => 
-            el.type === 'portal' && el.id === destinationConnectionId
+        const destinationConnection = destinationConnections.find(el =>
+            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
         );
         if (destinationConnection) {
             destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
@@ -32,33 +32,33 @@ const PortalTransferDialog = ({
 
     const handleTransfer = async () => {
         if (!destinationMapId || !destinationMap) {
-            alert('Portal destination is not properly configured.');
+            alert('Connection destination is not properly configured.');
             return;
         }
 
         setIsTransferring(true);
-        
+
         try {
             // Get destination connection position
             const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
             let destinationPosition = portal?.properties?.destinationPosition || { x: 0, y: 0 };
-            
+
             // Find destination connection to get its actual position
             let worldPos = null;
             if (destinationConnectionId) {
                 const destinationConnections = destinationMap.dndElements || [];
-                const destinationConnection = destinationConnections.find(el => 
-                    el.type === 'portal' && el.id === destinationConnectionId
+                const destinationConnection = destinationConnections.find(el =>
+                    (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
                 );
                 if (destinationConnection) {
                     // Check if connection has world position or grid position
-                    if (destinationConnection.position && 
-                        destinationConnection.position.x !== undefined && 
+                    if (destinationConnection.position &&
+                        destinationConnection.position.x !== undefined &&
                         destinationConnection.position.y !== undefined) {
                         // Already in world coordinates
                         worldPos = destinationConnection.position;
-                    } else if (destinationConnection.gridX !== undefined && 
-                              destinationConnection.gridY !== undefined) {
+                    } else if (destinationConnection.gridX !== undefined &&
+                        destinationConnection.gridY !== undefined) {
                         // Convert from grid coordinates to world coordinates
                         const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
                         const gridSystem = getGridSystem();
@@ -66,7 +66,7 @@ const PortalTransferDialog = ({
                     }
                 }
             }
-            
+
             // Fallback to destinationPosition if connection not found
             if (!worldPos) {
                 const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
@@ -79,39 +79,58 @@ const PortalTransferDialog = ({
                     worldPos = destinationPosition;
                 }
             }
-            
+
             // Switch to the destination map
             await switchToMap(destinationMapId);
-            
+
             // Move player tokens to destination position
             try {
                 const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
                 const { default: useCreatureStore } = await import('../../store/creatureStore');
                 const { default: useGameStore } = await import('../../store/gameStore');
-                
+
                 const characterTokenStore = useCharacterTokenStore.getState();
                 const creatureStore = useCreatureStore.getState();
                 const gameStore = useGameStore.getState();
-                
+
                 // Move player's character token
                 if (characterTokenStore.characterTokens) {
                     // Find the player's token (isPlayerToken flag or first token)
                     const playerToken = characterTokenStore.characterTokens.find(token => token.isPlayerToken) ||
-                                      characterTokenStore.characterTokens[0];
-                    
+                        characterTokenStore.characterTokens[0];
+
                     if (playerToken && characterTokenStore.updateCharacterTokenPosition) {
                         characterTokenStore.updateCharacterTokenPosition(playerToken.id, worldPos);
+
+                        // Broadcast movement to other players
+                        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+                            gameStore.multiplayerSocket.emit('character_moved', {
+                                tokenId: playerToken.id,
+                                characterId: playerToken.characterId || playerToken.playerId,
+                                position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) },
+                                isDragging: false
+                            });
+                        }
                     }
                 }
-                
+
                 // Move player's creature token if they're viewing from a creature
                 if (creatureStore.tokens) {
                     const playerCreatureToken = creatureStore.tokens.find(token => token.isPlayerToken);
                     if (playerCreatureToken && creatureStore.updateTokenPosition) {
                         creatureStore.updateTokenPosition(playerCreatureToken.id, worldPos);
+
+                        // Broadcast movement to other players
+                        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+                            gameStore.multiplayerSocket.emit('token_moved', {
+                                tokenId: playerCreatureToken.id,
+                                position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) },
+                                isLocal: true
+                            });
+                        }
                     }
                 }
-                
+
                 // Center camera on destination position - use grid system for proper centering
                 const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
                 const gridSystem = getGridSystem();
@@ -121,15 +140,15 @@ const PortalTransferDialog = ({
             } catch (tokenError) {
                 console.warn('Could not move tokens:', tokenError);
             }
-            
+
             // Close the dialog
             onClose();
-            
+
             // Show success message
             console.log(`Successfully transferred to ${destinationMap.name}`);
         } catch (error) {
-            console.error('Error transferring through portal:', error);
-            alert('Failed to transfer through portal. Please try again.');
+            console.error('Error transferring through connection:', error);
+            alert('Failed to transfer through connection. Please try again.');
         } finally {
             setIsTransferring(false);
         }
@@ -145,7 +164,7 @@ const PortalTransferDialog = ({
 
     return (
         <WowWindow
-            title="Portal Transfer"
+            title="Connection Transfer"
             isOpen={isOpen}
             onClose={onClose}
             defaultSize={{ width: 500, height: 420 }}
@@ -154,7 +173,7 @@ const PortalTransferDialog = ({
         >
             <div className="portal-transfer-dialog">
                 <div className="portal-header">
-                    <h2 className="portal-title">Portal Destination</h2>
+                    <h2 className="portal-title">Connection Destination</h2>
                     {portal.properties?.description && (
                         <p className="portal-description">{portal.properties.description}</p>
                     )}

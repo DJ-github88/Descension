@@ -160,9 +160,23 @@ const useChatStore = create(
         const { addNotification, currentUser, multiplayerSocket, sendMultiplayerMessage } = get();
 
         // If in multiplayer mode and sending to social tab, send through socket
-        if (tab === 'social' && multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
-          sendMultiplayerMessage(content);
-          return; // Don't add locally, it will come back through the socket
+        if (tab === 'social') {
+          // Check if we should route to global chat via presenceStore
+          try {
+            const presenceStore = require('./presenceStore').default;
+            const presenceState = presenceStore.getState();
+            if (presenceState.socket && presenceState.socket.connected) {
+              presenceState.sendGlobalMessage(content);
+              return;
+            }
+          } catch (e) {
+            // Fallback to room chat if presence store is not available
+          }
+
+          if (multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
+            sendMultiplayerMessage(content);
+            return; // Don't add locally, it will come back through the socket
+          }
         }
 
         // If socket is disconnected but we're in multiplayer mode, show error

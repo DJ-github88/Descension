@@ -18,17 +18,17 @@ const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryStat
         // Check if we're in multiplayer mode
         const gameStore = require('./gameStore').default;
         const gameState = gameStore.getState();
-        
+
         if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
             // Get current character ID for player identification
             const characterStore = require('./characterStore').default;
             const characterState = characterStore.getState();
             const playerId = characterState.currentCharacterId;
-            
+
             if (playerId && currentInventoryState) {
                 // Prepare inventory data based on change type
                 let inventoryData = {};
-                
+
                 switch (changeType) {
                     case 'inventory_add':
                         inventoryData = {
@@ -99,7 +99,7 @@ const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryStat
                             changeType: 'full'
                         };
                 }
-                
+
                 // Send inventory update to server
                 gameState.multiplayerSocket.emit('inventory_update', {
                     playerId: playerId,
@@ -132,7 +132,7 @@ const recordCharacterChange = (changeType, changeData, currentInventoryState) =>
                 state.saveCurrentCharacter();
             }, 100); // Small delay to ensure state is updated
         }
-        
+
         // Also sync to multiplayer if in multiplayer mode
         if (currentInventoryState) {
             syncInventoryToMultiplayer(changeType, changeData, currentInventoryState);
@@ -1251,10 +1251,10 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // Check if items can be stacked
         const canStack = sourceItem.name === targetItem.name &&
-                        sourceItem.type === targetItem.type &&
-                        sourceItem.quality === targetItem.quality &&
-                        sourceItem.stackable !== false &&
-                        targetItem.stackable !== false;
+            sourceItem.type === targetItem.type &&
+            sourceItem.quality === targetItem.quality &&
+            sourceItem.stackable !== false &&
+            targetItem.stackable !== false;
 
         if (!canStack) {
             return { items: state.items };
@@ -1312,6 +1312,12 @@ const useInventoryStore = create(persist((set, get) => ({
     clearInventory: () => set(() => {
         return {
             items: [],
+            currency: {
+                platinum: 0,
+                gold: 0,
+                silver: 0,
+                copper: 0
+            },
             encumbranceState: 'normal'
         };
     })

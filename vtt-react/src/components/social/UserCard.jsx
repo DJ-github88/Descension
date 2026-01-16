@@ -16,6 +16,7 @@ import { getFullRaceData, getRaceData } from '../../data/raceData';
 
 const UserCard = ({
   user,
+  nameFormat = 'party', // 'global' or 'party'
   isCurrentUser = false,
   isLeader = false,
   showYouBadge = false,
@@ -28,6 +29,25 @@ const UserCard = ({
   className = '',
   additionalContent = null
 }) => {
+  // Helper to get the display name based on format
+  const getDisplayName = () => {
+    const accName = user.accountName || user.name || 'Unknown';
+    const charName = user.characterName || (user.character?.name) || '';
+
+    if (nameFormat === 'global') {
+      // For global/friends: AccountName(CharacterName)
+      if (charName && charName !== 'Guest' && charName !== 'Unknown' && accName !== charName) {
+        return `${accName}(${charName})`;
+      }
+      return accName;
+    } else {
+      // For parties: CharacterName (fallback to AccountName)
+      if (charName && charName !== 'Guest' && charName !== 'Unknown') {
+        return charName;
+      }
+      return accName;
+    }
+  };
   // Helper to get background display name from backgroundData
   const getBackgroundDisplayName = (backgroundId) => {
     if (!backgroundId) return '';
@@ -54,13 +74,13 @@ const UserCard = ({
   const getRaceDisplayName = (user) => {
     // Prefer pre-computed raceDisplayName
     if (user.raceDisplayName) return user.raceDisplayName;
-    
+
     // Try to compute from race and subrace
     if (user.race && user.subrace) {
       const fullRaceData = getFullRaceData(user.race, user.subrace);
       if (fullRaceData?.subrace?.name) return fullRaceData.subrace.name;
     }
-    
+
     // Fallback to subrace or race
     return user.subrace || user.race || '';
   };
@@ -78,8 +98,8 @@ const UserCard = ({
   };
 
   // Get background display name - check multiple sources
-  const backgroundDisplayName = 
-    user.backgroundDisplayName || 
+  const backgroundDisplayName =
+    user.backgroundDisplayName ||
     getBackgroundDisplayName(user.background) ||
     getBackgroundFromLore(user);
   const raceDisplayName = getRaceDisplayName(user);
@@ -100,7 +120,7 @@ const UserCard = ({
       <div className="user-info">
         {/* Name Row */}
         <div className="user-name">
-          {user.characterName || user.name}
+          {getDisplayName()}
           {showFriendId && user.friendId && (
             <span className="friend-id-badge" title="Friend ID">
               [#{user.friendId}]

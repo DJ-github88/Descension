@@ -1,20 +1,21 @@
-/* Combat Selection Window */
 /* Ensure window-content is a flex container for combat window */
-.window-content:has(.combat-window) {
+.combat-selection-window .window-content {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    padding: 0 !important;
+    /* Remove WowWindow default padding if any */
 }
 
-.combat-window {
+.combat-selection-window .combat-window {
     padding: 24px;
     min-height: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: linear-gradient(135deg, #f5ede0 0%, #ede4d3 50%, #f5ede0 100%);
-    color: #2c1810;
+    background: var(--pf-gradient-parchment);
+    color: var(--pf-text-primary);
     box-sizing: border-box;
     overflow: hidden;
     flex: 1;
@@ -66,7 +67,7 @@
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
     border-radius: 10px;
     border: 2px solid #8B4513;
-    box-shadow: 
+    box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.1),
         inset 0 1px 2px rgba(255, 255, 255, 0.4);
 }
@@ -88,7 +89,7 @@
     font-weight: 700;
     min-width: 32px;
     text-align: center;
-    box-shadow: 
+    box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px rgba(255, 255, 255, 0.3);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -102,7 +103,7 @@
     border: 2.5px solid #8B4513;
     border-radius: 10px;
     padding: 18px;
-    box-shadow: 
+    box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.05),
         0 1px 2px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
@@ -126,7 +127,7 @@
     border-radius: 10px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: default;
-    box-shadow: 
+    box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.1),
         inset 0 1px 2px rgba(255, 255, 255, 0.5);
     position: relative;
@@ -134,7 +135,7 @@
 
 .combatant-card:hover {
     border-color: #5a1e12;
-    box-shadow: 
+    box-shadow:
         0 4px 12px rgba(139, 69, 19, 0.3),
         0 2px 6px rgba(0, 0, 0, 0.15),
         inset 0 1px 2px rgba(255, 255, 255, 0.6);
@@ -149,7 +150,7 @@
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid #8B4513;
-    box-shadow: 
+    box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px rgba(255, 255, 255, 0.4);
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
@@ -187,7 +188,8 @@
 
 .combatant-name {
     font-weight: 700;
-    color: #5a1e12;
+    color: var(--pf-text-primary);
+    font-family: 'Cinzel', serif;
     font-size: 13px;
     text-align: center;
     word-break: break-word;
@@ -197,6 +199,7 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -219,8 +222,15 @@
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .empty-message span {
@@ -266,7 +276,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 
+    box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.1),
         inset 0 1px 2px rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
@@ -277,7 +287,7 @@
     background: linear-gradient(145deg, #e8dcc6 0%, #ddd0b0 100%);
     border-color: #5a1e12;
     transform: translateY(-1px);
-    box-shadow: 
+    box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.15),
         inset 0 1px 2px rgba(255, 255, 255, 0.5);
 }
@@ -301,7 +311,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    box-shadow: 
+    box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px rgba(255, 255, 255, 0.2);
     text-transform: uppercase;
@@ -312,7 +322,7 @@
 .btn-start:hover:not(:disabled) {
     background: linear-gradient(135deg, #a0501a 0%, #8b4513 100%);
     border-color: #8b4513;
-    box-shadow: 
+    box-shadow:
         0 4px 12px rgba(139, 69, 19, 0.4),
         0 2px 6px rgba(0, 0, 0, 0.2),
         inset 0 1px 2px rgba(255, 255, 255, 0.3);

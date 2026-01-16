@@ -620,10 +620,12 @@ const useGridItemStore = create((set, get) => ({
         // Handle item removal from grid for currency items
         const gameStore = useGameStore.getState();
 
-        if (sendToServer && gameStore.isInMultiplayer) {
-          // In multiplayer, send to server and let server handle authoritative removal
-          if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        // Immediately remove locally for responsive UI feedback
+        removeItemFromGrid(gridItemId);
 
+        if (sendToServer && gameStore.isInMultiplayer) {
+          // In multiplayer, send to server to sync with other players
+          if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
             gameStore.multiplayerSocket.emit('item_looted', {
               item: itemToUse,
               quantity: 1, // Currency is always quantity 1
@@ -631,25 +633,7 @@ const useGridItemStore = create((set, get) => ({
               looter: looterName,
               gridItemId: gridItemId
             });
-
-            // For currency, we rely on server confirmation for removal to prevent desync
-
-            // Add a fallback timeout to remove the item if server doesn't respond within 5 seconds
-            setTimeout(() => {
-              const currentItems = get().gridItems;
-              const itemStillExists = currentItems.find(item => item.id === gridItemId);
-              if (itemStillExists) {
-                console.warn(`🎁 Server confirmation timeout for ${gridItemId}, removing locally as fallback`);
-                removeItemFromGrid(gridItemId);
-              }
-            }, 5000);
-          } else {
-            console.warn(`🎁 Socket not connected, removing currency ${gridItemId} locally`);
-            removeItemFromGrid(gridItemId);
           }
-        } else {
-          // In single player or when not sending to server, remove locally
-          removeItemFromGrid(gridItemId);
         }
 
         return true; // Currency was successfully looted

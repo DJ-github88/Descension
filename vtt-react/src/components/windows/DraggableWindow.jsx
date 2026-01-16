@@ -6,7 +6,7 @@ import '../../styles/draggable-window.css';
 // Simple throttle function for performance optimization
 const throttle = (func, limit) => {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
@@ -337,7 +337,7 @@ const DraggableWindow = forwardRef(({
                             height: defaultSize.height
                         })
                     }}
-            >
+                >
                     <div ref={windowRef}>
                         {children}
                     </div>
@@ -346,5 +346,7 @@ const DraggableWindow = forwardRef(({
         </Draggable>
     );
 });
+
+DraggableWindow.displayName = 'DraggableWindow';
 
 export default DraggableWindow;

@@ -47,7 +47,7 @@ const PortalConfigDialog = ({
 
 
     const [config, setConfig] = useState({
-        name: 'Portal',
+        name: 'Connection',
         destinationMapId: '',
         destinationPosition: null,
         color: '#4a90e2',
@@ -59,7 +59,7 @@ const PortalConfigDialog = ({
     useEffect(() => {
         if (portalData) {
             setConfig({
-                name: portalData.name || 'Portal',
+                name: portalData.name || 'Connection',
                 destinationMapId: portalData.destinationMapId || '',
                 destinationPosition: portalData.destinationPosition || null,
                 color: portalData.color || '#4a90e2',
@@ -69,7 +69,7 @@ const PortalConfigDialog = ({
         } else {
             // Reset to default values when no portal data
             setConfig({
-                name: 'Portal',
+                name: 'Connection',
                 destinationMapId: '',
                 destinationPosition: null,
                 color: '#4a90e2',
@@ -86,7 +86,7 @@ const PortalConfigDialog = ({
         }
 
         if (!config.name.trim()) {
-            alert('Please enter a portal name');
+            alert('Please enter a connection name');
             return;
         }
 
@@ -110,7 +110,7 @@ const PortalConfigDialog = ({
 
     return (
         <WowWindow
-            title={mode === 'create' ? "Create Portal" : "Configure Portal"}
+            title={mode === 'create' ? "Create Connection" : "Configure Connection"}
             isOpen={isOpen}
             onClose={onClose}
             defaultSize={{ width: 450, height: 550 }}
@@ -120,16 +120,16 @@ const PortalConfigDialog = ({
             <div className="portal-config-dialog">
                 {/* Portal Identity Section */}
                 <div className="config-section portal-identity">
-                    <h4 className="section-title">Portal Identity</h4>
+                    <h4 className="section-title">Connection Identity</h4>
                     <div className="form-row">
                         <label className="config-label">
-                            Portal Name:
+                            Connection Name:
                             <input
                                 type="text"
                                 className="wow-input"
                                 value={config.name || ''}
                                 onChange={(e) => setConfig(prev => ({ ...prev, name: e.target.value }))}
-                                placeholder="Enter portal name..."
+                                placeholder="Enter connection name..."
                             />
                         </label>
                     </div>
@@ -141,7 +141,7 @@ const PortalConfigDialog = ({
                                 className="wow-textarea"
                                 value={config.description || ''}
                                 onChange={(e) => setConfig(prev => ({ ...prev, description: e.target.value }))}
-                                placeholder="Optional description for this portal..."
+                                placeholder="Optional description for this connection..."
                                 rows="3"
                             />
                         </label>
@@ -153,7 +153,7 @@ const PortalConfigDialog = ({
                             <div className="destination-map-buttons">
                                 {availableMaps.length === 0 ? (
                                     <p className="no-maps-warning">
-                                        No other maps available. Create additional maps to set up portal destinations.
+                                        No other maps available. Create additional maps to set up connection destinations.
                                     </p>
                                 ) : (
                                     <>
@@ -198,7 +198,7 @@ const PortalConfigDialog = ({
                     <h4 className="section-title">Appearance</h4>
                     <div className="form-row">
                         <label className="config-label">
-                            Portal Color:
+                            Connection Color:
                             <div className="color-picker-container">
                                 <input
                                     type="color"
@@ -227,7 +227,7 @@ const PortalConfigDialog = ({
                                 checked={config.isActive || false}
                                 onChange={(e) => setConfig(prev => ({ ...prev, isActive: e.target.checked }))}
                             />
-                            Portal is active
+                            Connection is active
                         </label>
                         <p className="checkbox-help">
                             Inactive portals cannot be used for teleportation
@@ -237,7 +237,7 @@ const PortalConfigDialog = ({
 
                 {config.destinationMapId && (
                     <div className="portal-preview">
-                        <h4>Portal Preview</h4>
+                        <h4>Connection Preview</h4>
                         <div className="preview-card">
                             <div className="preview-icon" style={{ color: config.color }}>
                                 🌀
@@ -272,7 +272,7 @@ const PortalConfigDialog = ({
                         onClick={handleSave}
                         disabled={!config.name || !config.name.trim()}
                     >
-                        {mode === 'create' ? 'Create' : 'Save Portal'}
+                        {mode === 'create' ? 'Create' : 'Save Connection'}
                     </button>
                 </div>
             </div>

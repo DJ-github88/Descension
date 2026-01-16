@@ -13,6 +13,8 @@ import '../../styles/grid-item.css';
 
 const GridItem = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
+  const [isLooting, setIsLooting] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -458,13 +460,15 @@ const GridItem = ({ gridItem }) => {
 
   // Handle click to loot the item
   const handleClick = (e) => {
-    // Don't loot if we were dragging or just finished dragging
-    if (isDraggingRef.current || justFinishedDragRef.current) {
+    // Don't loot if we were dragging, just finished dragging, or already looting
+    if (isDraggingRef.current || justFinishedDragRef.current || isLooting) {
       return;
     }
 
     e.preventDefault();
     e.stopPropagation();
+
+    setIsLooting(true);
 
     const currentUser = useInventoryStore.getState().characterName || 'Player';
     const result = lootItem(gridItem.id, 'default', currentUser);

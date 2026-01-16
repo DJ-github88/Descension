@@ -223,6 +223,24 @@ const useCombatStore = create((set, get) => ({
                 }
             }
         });
+
+        // MULTIPLAYER SYNC: Broadcast combat start to other players
+        try {
+            const useGameStore = require('./gameStore').default;
+            const gameState = useGameStore.getState();
+
+            if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
+                gameState.multiplayerSocket.emit('combat_started', {
+                    turnOrder: sortedCombatants,
+                    round: 1,
+                    currentTurnIndex: 0,
+                    timestamp: Date.now()
+                });
+                console.log('⚔️ Emitted combat_started to server');
+            }
+        } catch (error) {
+            console.warn('Failed to emit combat_started:', error);
+        }
     },
 
     // Record turn start position for a token
@@ -500,7 +518,7 @@ const useCombatStore = create((set, get) => ({
             }
         }
 
-        return {
+        const newState = {
             currentTurnIndex: nextIndex,
             round: newRound,
             turnOrder: updatedTurnOrder,
@@ -514,25 +532,73 @@ const useCombatStore = create((set, get) => ({
             activeMovement: null,
             tempMovementDistance: new Map(state.tempMovementDistance)
         };
+
+        // MULTIPLAYER SYNC: Emit turn change to other players
+        // Use setTimeout to ensure this runs after state update
+        setTimeout(() => {
+            try {
+                const useGameStore = require('./gameStore').default;
+                const gameState = useGameStore.getState();
+                console.log('⚔️ Combat turn sync check:', {
+                    isInMultiplayer: gameState.isInMultiplayer,
+                    hasSocket: !!gameState.multiplayerSocket,
+                    socketConnected: gameState.multiplayerSocket?.connected,
+                    nextIndex,
+                    newRound
+                });
+                if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
+                    gameState.multiplayerSocket.emit('combat_turn_changed', {
+                        currentTurnIndex: nextIndex,
+                        round: newRound,
+                        turnOrder: updatedTurnOrder,
+                        timestamp: Date.now()
+                    });
+                    console.log('⚔️ Emitted combat_turn_changed to server');
+                } else {
+                    console.log('⚔️ NOT syncing - not in multiplayer or socket not connected');
+                }
+            } catch (e) {
+                console.warn('Failed to sync combat turn:', e);
+            }
+        }, 0);
+
+        return newState;
     }),
 
     // End combat
-    endCombat: () => set({
-        isInCombat: false,
-        isSelectionMode: false,
-        round: 1,
-        turnOrder: [],
-        currentTurnIndex: 0,
-        selectedTokens: new Set(),
-        combatTimeline: [],
-        turnTimers: new Map(),
-        currentTurnStartTime: null,
-        turnMovementUsed: new Map(),
-        movementUnlocked: new Set(),
-        turnStartPositions: new Map(),
-        activeMovement: null,
-        pendingMovementConfirmation: null
-    }),
+    endCombat: () => {
+        set({
+            isInCombat: false,
+            isSelectionMode: false,
+            round: 1,
+            turnOrder: [],
+            currentTurnIndex: 0,
+            selectedTokens: new Set(),
+            combatTimeline: [],
+            turnTimers: new Map(),
+            currentTurnStartTime: null,
+            turnMovementUsed: new Map(),
+            movementUnlocked: new Set(),
+            turnStartPositions: new Map(),
+            activeMovement: null,
+            pendingMovementConfirmation: null
+        });
+
+        // MULTIPLAYER SYNC: Broadcast combat end to other players
+        try {
+            const useGameStore = require('./gameStore').default;
+            const gameState = useGameStore.getState();
+
+            if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
+                gameState.multiplayerSocket.emit('combat_ended', {
+                    timestamp: Date.now()
+                });
+                console.log('🏳️ Emitted combat_ended to server');
+            }
+        } catch (error) {
+            console.warn('Failed to emit combat_ended:', error);
+        }
+    },
 
     // Reorder turn order (for drag and drop)
     reorderTurnOrder: (newTurnOrder) => set(state => {

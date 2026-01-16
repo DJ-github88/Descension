@@ -109,9 +109,7 @@ const loadGameStyles = () => {
 
         // Load UI component CSS files that were removed from components
         // NOTE: ActionBar.css is now preloaded above to prevent multiplayer timing issues
-        import('./components/combat/CombatSelectionOverlay.css'),
         import('./components/combat/FloatingCombatText.css'),
-        import('./styles/combat-selection-window.css'),
         import('./styles/combat-system.css'),
 
         // Load icon-related CSS files that might be needed for proper icon display
@@ -254,7 +252,7 @@ function GameScreen() {
 
             // Ensure GM mode is enabled for local rooms (user is always GM in local play)
             setGMMode(true);
-            
+
             // Clear viewingFromToken so GM sees all tokens' combined vision (not restricted to one)
             const { default: levelEditorStore } = await import('./store/levelEditorStore');
             levelEditorStore.getState().setViewingFromToken(null);
@@ -262,7 +260,7 @@ function GameScreen() {
             // Load room state using localRoomService (uses correct key prefix for local rooms)
             // This preserves all room content including tokens, terrain, walls, etc.
             const localGameState = localRoomService.loadRoomState(roomId);
-            
+
             if (localGameState) {
                 console.log('🎮 Loading local room game state:', {
                     hasTokens: !!localGameState.tokens,
@@ -274,7 +272,7 @@ function GameScreen() {
                     hasLevelEditor: !!localGameState.levelEditor,
                     campaignId: campaignId
                 });
-                
+
                 // Apply game state using the local room's stored data
                 await applyLocalGameState(localGameState, roomId);
             } else {
@@ -294,7 +292,7 @@ function GameScreen() {
                 if (character) {
                     await setActiveCharacter(character);
                     console.log('👤 Character loaded for local room:', character.name);
-                    
+
                     // Load player-specific state for this room
                     const playerState = roomStateService.loadPlayerState(roomId, character.id);
                     if (playerState) {
@@ -421,7 +419,7 @@ function GameScreen() {
                         // Merge terrain data instead of replacing to preserve any tiles that might have been set
                         const currentTerrainData = levelEditorStore.terrainData || {};
                         const mergedTerrainData = { ...currentTerrainData, ...(levelEditorData.terrainData || {}) };
-                        
+
                         // Only use loadMapState if we don't have terrain data, otherwise merge manually
                         if (Object.keys(currentTerrainData).length === 0) {
                             useLevelEditorStore.getState().loadMapState(levelEditorData);
@@ -483,7 +481,7 @@ function GameScreen() {
     useEffect(() => {
         // Don't auto-enable editor mode - let user open it manually if needed
         // Editor mode can be toggled via the Navigation component
-        
+
         const initializeCharacter = async () => {
             try {
                 // Check for local room first
@@ -574,54 +572,54 @@ function GameScreen() {
                     <FloatingCombatTextManager />
                 </ErrorBoundary>
                 <Suspense fallback={<LoadingFallback message="Loading game..." />}>
-                        <ErrorBoundary name="Grid">
-                            <Grid />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="GridItems">
-                            <GridItemsManager />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="Achievements">
-                            <AchievementNotificationOverlay />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="HUD">
-                            <HUDContainer />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="ActionBar">
-                            <ActionBar />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="CombatSelection">
-                            <CombatSelectionWindow />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="CombatTimeline">
-                            <CombatTimeline />
-                        </ErrorBoundary>
-                        {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
-                        {isGMMode && (
-                            <>
-                                <ErrorBoundary name="DynamicFog">
-                                    <DynamicFogManager disabled={!isGMMode} />
-                                </ErrorBoundary>
-                                <ErrorBoundary name="DynamicLighting">
-                                    <DynamicLightingManager disabled={!isGMMode} />
-                                </ErrorBoundary>
-                                <ErrorBoundary name="AtmosphericEffects">
-                                    <AtmosphericEffectsManager disabled={!isGMMode} />
-                                </ErrorBoundary>
-                            </>
-                        )}
-                        <ErrorBoundary name="MemorySnapshot">
-                            <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
-                        </ErrorBoundary>
-                        <ErrorBoundary name="Dialogue">
-                            <DialogueSystem />
-                            {isGMMode && <DialogueControls />}
-                        </ErrorBoundary>
-                        <ErrorBoundary name="DiceRolling">
-                            <DiceRollingSystem />
-                        </ErrorBoundary>
-                    </Suspense>
+                    <ErrorBoundary name="Grid">
+                        <Grid />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="GridItems">
+                        <GridItemsManager />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="Achievements">
+                        <AchievementNotificationOverlay />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="HUD">
+                        <HUDContainer />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="ActionBar">
+                        <ActionBar />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="CombatSelection">
+                        <CombatSelectionWindow />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="CombatTimeline">
+                        <CombatTimeline />
+                    </ErrorBoundary>
+                    {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
+                    {isGMMode && (
+                        <>
+                            <ErrorBoundary name="DynamicFog">
+                                <DynamicFogManager disabled={!isGMMode} />
+                            </ErrorBoundary>
+                            <ErrorBoundary name="DynamicLighting">
+                                <DynamicLightingManager disabled={!isGMMode} />
+                            </ErrorBoundary>
+                            <ErrorBoundary name="AtmosphericEffects">
+                                <AtmosphericEffectsManager disabled={!isGMMode} />
+                            </ErrorBoundary>
+                        </>
+                    )}
+                    <ErrorBoundary name="MemorySnapshot">
+                        <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="Dialogue">
+                        <DialogueSystem />
+                        {isGMMode && <DialogueControls />}
+                    </ErrorBoundary>
+                    <ErrorBoundary name="DiceRolling">
+                        <DiceRollingSystem />
+                    </ErrorBoundary>
+                </Suspense>
 
-                </div>
+            </div>
         </ErrorBoundary>
     );
 }
@@ -795,27 +793,27 @@ export default function App() {
         const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
         const useCharacterTokenStore = require('./store/characterTokenStore').default;
         const { cleanupExpiredConditions: cleanupCharacterConditions } = useCharacterTokenStore.getState();
-        
+
         const cleanupInterval = setInterval(() => {
             updateBuffTimers();
             updateDebuffTimers();
             cleanupCreatureConditions();
             cleanupCharacterConditions();
         }, 1000);
-        
+
         return () => clearInterval(cleanupInterval);
     }, []);
 
     // Start real-time effect processing for DOT/HOT that use "Real-Time (Always)" tick setting
     useEffect(() => {
         let stopRealtimeEffectProcessing = null;
-        
+
         // Import dynamically to avoid circular dependencies
         import('./services/effectProcessingService').then(({ startRealtimeEffectProcessing, stopRealtimeEffectProcessing: stop }) => {
             startRealtimeEffectProcessing();
             stopRealtimeEffectProcessing = stop;
         });
-        
+
         // Cleanup on unmount
         return () => {
             if (stopRealtimeEffectProcessing) {
@@ -920,21 +918,21 @@ export default function App() {
                 <RoomProvider>
                     <SpellLibraryProvider>
                         <Router>
-                        <AppContent
-                            isAuthenticated={isAuthenticated}
-                            user={user}
-                            showAuthModal={showAuthModal}
-                            authMode={authMode}
-                            showUserProfile={showUserProfile}
-                            showPerformanceDashboard={showPerformanceDashboard}
-                            setShowPerformanceDashboard={setShowPerformanceDashboard}
-                            handleShowLogin={handleShowLogin}
-                            handleShowRegister={handleShowRegister}
-                            handleShowUserProfile={handleShowUserProfile}
-                            handleCloseAuthModal={handleCloseAuthModal}
-                            handleCloseUserProfile={handleCloseUserProfile}
-                            handleReturnToLanding={handleReturnToLanding}
-                        />
+                            <AppContent
+                                isAuthenticated={isAuthenticated}
+                                user={user}
+                                showAuthModal={showAuthModal}
+                                authMode={authMode}
+                                showUserProfile={showUserProfile}
+                                showPerformanceDashboard={showPerformanceDashboard}
+                                setShowPerformanceDashboard={setShowPerformanceDashboard}
+                                handleShowLogin={handleShowLogin}
+                                handleShowRegister={handleShowRegister}
+                                handleShowUserProfile={handleShowUserProfile}
+                                handleCloseAuthModal={handleCloseAuthModal}
+                                handleCloseUserProfile={handleCloseUserProfile}
+                                handleReturnToLanding={handleReturnToLanding}
+                            />
                         </Router>
                     </SpellLibraryProvider>
                 </RoomProvider>
@@ -981,18 +979,18 @@ const AppContent = ({
         localStorage.removeItem('selectedLocalRoomId');
         localStorage.removeItem('selectedRoomId');
         localStorage.removeItem('isTestRoom');
-        
+
         // Mark this as world builder mode
         localStorage.setItem('isWorldBuilderMode', 'true');
-        
+
         // Ensure GM mode for world builder (user is always GM in sandbox mode)
         const { default: gameStore } = await import('./store/gameStore');
         gameStore.getState().setGMMode(true);
-        
+
         // Don't auto-enable editor mode - let user open it manually if needed
         const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
         useLevelEditorStore.getState().setEditorMode(false);
-        
+
         // Clear map state for fresh world builder experience
         try {
             const { default: roomStateService } = await import('./services/roomStateService');
@@ -1000,7 +998,7 @@ const AppContent = ({
         } catch (err) {
             console.warn('Could not clear state for world builder:', err);
         }
-        
+
         navigate('/game');
     };
 

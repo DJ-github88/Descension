@@ -15,6 +15,8 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
 
   const globalChatMessages = usePresenceStore((state) => state.globalChatMessages);
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+  const isGlobalChatMuted = usePresenceStore((state) => state.isGlobalChatMuted);
+  const toggleGlobalChatMute = usePresenceStore((state) => state.toggleGlobalChatMute);
   const sendGlobalMessage = usePresenceStore((state) => state.sendGlobalMessage);
   const sendWhisper = usePresenceStore((state) => state.sendWhisper);
 
@@ -33,7 +35,7 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
   // Handle send message
   const handleSendMessage = (e) => {
     e.preventDefault();
-    
+
     const content = messageInput.trim();
     if (!content) return;
 
@@ -68,7 +70,7 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
   // Get message class name
   const getMessageClassName = (message) => {
     const classes = ['chat-message'];
-    
+
     if (message.type === 'system') {
       classes.push('system-message');
     } else if (message.type === 'whisper') {
@@ -81,7 +83,7 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
     } else if (message.senderId === currentUserPresence?.userId) {
       classes.push('own-message');
     }
-    
+
     return classes.join(' ');
   };
 
@@ -149,11 +151,28 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
             </button>
           </div>
         )}
+        <button
+          className={`mute-toggle ${isGlobalChatMuted ? 'muted' : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            toggleGlobalChatMute();
+          }}
+          title={isGlobalChatMuted ? "Unmute Global Chat" : "Mute Global Chat"}
+        >
+          <i className={`fas fa-volume-${isGlobalChatMuted ? 'mute' : 'up'}`}></i>
+          <span>{isGlobalChatMuted ? 'Unmute' : 'Mute'}</span>
+        </button>
       </div>
 
       {/* Messages Area */}
       <div className="chat-messages">
-        {globalChatMessages.length === 0 ? (
+        {isGlobalChatMuted ? (
+          <div className="no-messages muted-state">
+            <i className="fas fa-volume-mute"></i>
+            <p>Global chat is muted</p>
+            <p className="hint">Click the button above to unmute</p>
+          </div>
+        ) : globalChatMessages.length === 0 ? (
           <div className="no-messages">
             <i className="fas fa-comments"></i>
             <p>No messages yet</p>
@@ -178,10 +197,13 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
           <textarea
             ref={inputRef}
             className="chat-input"
+            disabled={currentUserPresence?.isGuest}
             placeholder={
-              whisperTarget
-                ? `Whisper to ${whisperTarget.characterName}... - Yad`
-                : 'Yad'
+              currentUserPresence?.isGuest
+                ? "Guest users cannot use global chat."
+                : whisperTarget
+                  ? `Whisper to ${whisperTarget.characterName}...`
+                  : 'Type a message...'
             }
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
@@ -192,8 +214,8 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
           <button
             type="submit"
             className="send-button"
-            disabled={!messageInput.trim()}
-            title="Send message (Enter)"
+            disabled={!messageInput.trim() || currentUserPresence?.isGuest}
+            title={currentUserPresence?.isGuest ? "Global chat disabled for guests" : "Send message (Enter)"}
           >
             <i className="fas fa-paper-plane"></i>
           </button>
