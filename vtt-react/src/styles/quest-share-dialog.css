@@ -1,0 +1,445 @@
+/* Quest Share Dialog - Matching Quest Log Parchment Style */
+
+/* Overlay */
+.quest-share-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: overlayFadeIn 0.3s ease-out;
+}
+
+.quest-share-overlay.closing {
+    animation: overlayFadeOut 0.3s ease-out forwards;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes overlayFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Main Dialog - Parchment scroll style */
+.quest-share-dialog {
+    position: relative;
+    max-width: 520px;
+    width: 90%;
+    max-height: 80vh;
+    background-color: #f0e6d2;
+    background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
+    border-radius: 4px;
+    box-shadow:
+        0 0 0 3px #a08c70,
+        0 0 0 5px #7a3b2e,
+        0 8px 30px rgba(0, 0, 0, 0.5);
+    animation: dialogSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.quest-share-dialog.animating {
+    animation: dialogSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quest-share-dialog.closing {
+    animation: dialogSlideOut 0.3s ease-in forwards;
+}
+
+@keyframes dialogSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes dialogSlideOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+}
+
+/* Decorative scroll top bar */
+.quest-share-scroll-top,
+.quest-share-scroll-bottom {
+    height: 8px;
+    background: linear-gradient(to right, #7a3b2e, #a05a46, #7a3b2e);
+    box-shadow:
+        inset 0 2px 3px rgba(255, 255, 255, 0.2),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quest-share-scroll-top {
+    border-radius: 4px 4px 0 0;
+}
+
+.quest-share-scroll-bottom {
+    border-radius: 0 0 4px 4px;
+}
+
+/* Content area */
+.quest-share-content {
+    padding: 20px 24px;
+    max-height: calc(80vh - 16px);
+    overflow-y: auto;
+}
+
+.quest-share-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.quest-share-content::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 4px;
+}
+
+.quest-share-content::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 4px;
+}
+
+/* Header */
+.quest-share-header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #d5cbb0;
+}
+
+.quest-share-giver-info {
+    font-size: 13px;
+    color: #7a3b2e;
+    font-style: italic;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quest-share-title {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 1.5rem;
+    color: #7a3b2e;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.quest-share-title-icon {
+    color: #a05a46;
+    font-size: 1.1rem;
+}
+
+/* Description */
+.quest-share-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #3a3a3a;
+    text-align: justify;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    border-left: 3px solid #7a3b2e;
+}
+
+/* Section titles - Quest log style */
+.quest-share-section-title {
+    background: linear-gradient(to right, #7a3b2e, #a05a46, #7a3b2e);
+    color: #f0e6d2;
+    padding: 6px 10px;
+    font-weight: bold;
+    margin: 0 0 12px 0;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.quest-share-section-title::before,
+.quest-share-section-title::after {
+    content: "✧";
+    font-size: 10px;
+}
+
+.reward-star-icon {
+    color: #f0e6d2;
+}
+
+/* Objectives */
+.quest-share-objectives {
+    margin-bottom: 16px;
+}
+
+.quest-share-objective-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quest-share-objective-item {
+    padding: 6px 8px;
+    color: #3a3a3a;
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin-bottom: 4px;
+}
+
+.objective-marker {
+    color: #7a3b2e;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.objective-count {
+    color: #666;
+    font-size: 12px;
+}
+
+.quest-share-objective-more {
+    color: #666;
+    font-style: italic;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+/* Rewards */
+.quest-share-rewards {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(160, 140, 112, 0.4);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.quest-share-rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quest-share-reward-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.3);
+}
+
+.quest-share-reward-item .reward-icon {
+    font-size: 1rem;
+}
+
+.quest-share-reward-item.experience .reward-icon {
+    color: #4a934a;
+}
+
+.quest-share-reward-item.experience .reward-text {
+    color: #4a934a;
+    font-weight: 600;
+}
+
+.quest-share-reward-item.currency .reward-icon.gold {
+    color: #d4a530;
+}
+
+.quest-share-reward-items {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.3);
+}
+
+.quest-share-reward-items .reward-icon.items {
+    color: #7a3b2e;
+    font-size: 1rem;
+    margin-top: 2px;
+}
+
+.reward-items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.reward-item-name {
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+}
+
+/* Item quality colors - matching quest log style */
+.reward-item-name.quality-common {
+    background: rgba(157, 157, 157, 0.15);
+    color: #666;
+    border-color: rgba(157, 157, 157, 0.3);
+}
+
+.reward-item-name.quality-uncommon {
+    background: rgba(30, 255, 0, 0.1);
+    color: #1eff00;
+    border-color: rgba(30, 255, 0, 0.3);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.reward-item-name.quality-rare {
+    background: rgba(0, 112, 221, 0.1);
+    color: #0070dd;
+    border-color: rgba(0, 112, 221, 0.3);
+}
+
+.reward-item-name.quality-epic {
+    background: rgba(163, 53, 238, 0.1);
+    color: #a335ee;
+    border-color: rgba(163, 53, 238, 0.3);
+}
+
+.reward-item-name.quality-legendary {
+    background: rgba(255, 128, 0, 0.1);
+    color: #ff8000;
+    border-color: rgba(255, 128, 0, 0.3);
+}
+
+.reward-items-more {
+    color: #666;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Action buttons - Quest log button style */
+.quest-share-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+.quest-share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #3a3a3a;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.quest-share-button.accept {
+    background: linear-gradient(to bottom, #4a934a, #3a7a3a);
+    color: #f0e6d2;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.quest-share-button.accept:hover {
+    background: linear-gradient(to bottom, #5aa35a, #4a934a);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.quest-share-button.accept:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quest-share-button.decline {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+    color: #f0e6d2;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.quest-share-button.decline:hover {
+    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.quest-share-button.decline:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quest-share-button .button-icon {
+    font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .quest-share-dialog {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .quest-share-content {
+        padding: 16px 18px;
+    }
+
+    .quest-share-title {
+        font-size: 1.2rem;
+    }
+
+    .quest-share-actions {
+        flex-direction: column;
+    }
+
+    .quest-share-button {
+        width: 100%;
+    }
+}

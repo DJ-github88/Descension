@@ -14,19 +14,19 @@
 }
 
 .movement-confirmation-dialog {
-    position: absolute;
     background: linear-gradient(145deg, #f4f1e8 0%, #e8dcc0 100%);
     border: 3px solid #8B4513;
     border-radius: 8px;
-    box-shadow: 
+    box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         0 0 0 1px rgba(139, 69, 19, 0.2);
-    min-width: 350px;
+    min-width: 380px;
     max-width: 450px;
     font-family: 'Cinzel', serif;
-    color: #5a1e12;
+    color: #2c1810;
     animation: dialogSlideIn 0.3s ease-out;
+    overflow: hidden;
 }
 
 @keyframes dialogSlideIn {
@@ -34,6 +34,7 @@
         opacity: 0;
         transform: scale(0.9) translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -57,15 +58,19 @@
 }
 
 .dialog-content {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 16px 24px;
 }
 
 .creature-info {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 14px;
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 15px;
     font-weight: bold;
     color: #8B4513;
+    letter-spacing: 0.5px;
 }
 
 .movement-breakdown,
@@ -154,6 +159,29 @@
     background: linear-gradient(145deg, #32CD32 0%, #7CFC00 50%, #32CD32 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.unlock-message,
+.extra-message {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: #5a1e12;
+}
+
+.unlock-message i,
+.extra-message i {
+    font-size: 24px;
+    color: #8B4513;
+}
+
+.unlock-message p,
+.extra-message p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
 }
 
 .movement-button.confirm.disabled {

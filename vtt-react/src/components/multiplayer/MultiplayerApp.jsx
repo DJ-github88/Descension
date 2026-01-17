@@ -22,6 +22,9 @@ import useCombatStore from '../../store/combatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useInventoryStore from '../../store/inventoryStore';
+import useQuestStore from '../../store/questStore';
+import QuestShareDialog from '../quest-log/QuestShareDialog';
+import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -2297,13 +2300,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 // but on the player's own side, they're identified as 'current-player'.
                 const mySocketId = socket?.id;
                 const myPlayerId = currentPlayerRef.current?.id;
+                const amITheNewLeader = resolvedLeaderId === mySocketId || resolvedLeaderId === myPlayerId;
 
-                if (resolvedLeaderId === mySocketId || resolvedLeaderId === myPlayerId) {
+                if (amITheNewLeader) {
                   resolvedLeaderId = 'current-player';
                   console.log('👑 I am now the leader! Translating leaderId to current-player');
                 }
 
                 console.log('👑 Leadership transferred via socket:', data.data.leaderId, '→', resolvedLeaderId);
+
+                // CRITICAL FIX: Clear any active drag states or interaction flags when leadership changes
+                // to prevent the new leader from having blocked interactions due to stale state.
+                if (window.multiplayerDragState) {
+                  console.log('🧹 Clearing multiplayerDragState due to leadership transfer');
+                  window.multiplayerDragState.clear();
+                }
+
+                window.tokenInteractionActive = false;
+                window.tokenInteractionTimestamp = null;
+                window._isDraggingToken = false;
+                window._isDraggingCamera = false;
+
+                // CRITICAL FIX: Update isGM local state immediately
+                setIsGM(amITheNewLeader);
+
                 // Pass true as second arg to indicate this is from sync (prevents re-broadcast)
                 partyStore.setLeader(resolvedLeaderId, true);
               }
@@ -2881,6 +2901,198 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // ========== QUEST SHARING SOCKET LISTENERS ==========
+
+    // Handle receiving a shared quest from GM (for players)
+    socket.on('quest_shared', (data) => {
+      // Only process for non-GM players
+      if (isGMRef.current) return;
+
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { addPendingSharedQuest } = useQuestStore.getState();
+        addPendingSharedQuest(data.quest, data.sharedBy);
+
+        addNotification('social', {
+          sender: { name: data.sharedBy?.name || 'Game Master', class: 'gm', level: 0 },
+          content: `New quest offered: "${data.quest.title}"`,
+          type: 'quest_shared',
+          timestamp: data.timestamp
+        });
+      }).catch(error => {
+        console.error('Failed to handle quest_shared:', error);
+      });
+    });
+
+    // Handle GM receiving quest share confirmation
+    socket.on('quest_share_confirmed', (data) => {
+      if (!isGMRef.current) return;
+
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Quest "${data.questTitle}" shared with all players.`,
+        type: 'system',
+        timestamp: data.timestamp
+      });
+    });
+
+    // Handle GM receiving quest acceptance notification
+    socket.on('quest_accepted_notification', (data) => {
+      if (!isGMRef.current) return;
+
+      // Update tracking status
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { updatePlayerShareStatus } = useQuestStore.getState();
+        updatePlayerShareStatus(data.questId, data.playerId, data.playerName, 'accepted');
+      }).catch(err => console.error('Failed to update share status:', err));
+
+      addNotification('social', {
+        sender: { name: data.playerName, class: 'player', level: 0 },
+        content: `Accepted quest: "${data.questTitle}"`,
+        type: 'quest_accepted',
+        timestamp: data.timestamp
+      });
+    });
+
+    // Handle GM receiving quest decline notification
+    socket.on('quest_declined_notification', (data) => {
+      if (!isGMRef.current) return;
+
+      // Update tracking status
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { updatePlayerShareStatus } = useQuestStore.getState();
+        updatePlayerShareStatus(data.questId, data.playerId, data.playerName, 'declined');
+      }).catch(err => console.error('Failed to update share status:', err));
+
+      addNotification('social', {
+        sender: { name: data.playerName, class: 'player', level: 0 },
+        content: `Declined quest: "${data.questTitle}"`,
+        type: 'quest_declined',
+        timestamp: data.timestamp
+      });
+    });
+
+    // Handle GM receiving quest completion request
+    socket.on('quest_completion_pending', (data) => {
+      if (!isGMRef.current) return;
+
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { addPendingRewardDelivery } = useQuestStore.getState();
+        addPendingRewardDelivery(data.quest, data.playerId, data.playerName);
+
+        addNotification('social', {
+          sender: { name: data.playerName, class: 'player', level: 0 },
+          content: `Requesting completion of quest: "${data.quest.title}"`,
+          type: 'quest_completion_pending',
+          timestamp: data.timestamp
+        });
+      }).catch(error => {
+        console.error('Failed to handle quest_completion_pending:', error);
+      });
+    });
+
+    // Handle player receiving confirmation that completion request was sent
+    socket.on('quest_completion_request_sent', (data) => {
+      if (isGMRef.current) return;
+
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Completion request for "${data.questTitle}" sent to GM.`,
+        type: 'system',
+        timestamp: data.timestamp
+      });
+    });
+
+    // Handle player receiving rewards from GM
+    socket.on('rewards_received', (data) => {
+      if (isGMRef.current) return;
+
+      Promise.all([
+        import('../../store/questStore'),
+        import('../../store/characterStore'),
+        import('../../store/inventoryStore')
+      ]).then(([questModule, characterModule, inventoryModule]) => {
+        const useQuestStore = questModule.default;
+        const useCharacterStore = characterModule.default;
+        const useInventoryStore = inventoryModule.default;
+
+        const { markSharedQuestCompleted } = useQuestStore.getState();
+        const characterStore = useCharacterStore.getState();
+        const inventoryStore = useInventoryStore.getState();
+
+        // Mark quest as completed
+        markSharedQuestCompleted(data.questId);
+
+        // Add experience
+        if (data.rewards?.experience > 0) {
+          const currentExp = characterStore.experience || 0;
+          characterStore.updateCharacterInfo('experience', currentExp + data.rewards.experience);
+        }
+
+        // Add currency
+        if (data.rewards?.currency) {
+          const currentCurrency = inventoryStore.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 };
+          inventoryStore.updateCurrency({
+            platinum: (currentCurrency.platinum || 0) + (data.rewards.currency.platinum || 0),
+            gold: (currentCurrency.gold || 0) + (data.rewards.currency.gold || 0),
+            silver: (currentCurrency.silver || 0) + (data.rewards.currency.silver || 0),
+            copper: (currentCurrency.copper || 0) + (data.rewards.currency.copper || 0)
+          });
+        }
+
+        // Add items to inventory
+        if (data.rewards?.items && data.rewards.items.length > 0) {
+          data.rewards.items.forEach(item => {
+            try {
+              inventoryStore.addItemFromLibrary(item);
+            } catch (err) {
+              console.warn('Failed to add reward item:', err);
+            }
+          });
+        }
+
+        // Notify player
+        addNotification('social', {
+          sender: { name: data.deliveredBy || 'Game Master', class: 'gm', level: 0 },
+          content: `Quest rewards received for "${data.questTitle}"!`,
+          type: 'rewards_received',
+          timestamp: data.timestamp
+        });
+      }).catch(error => {
+        console.error('Failed to handle rewards_received:', error);
+      });
+    });
+
+    // Handle GM confirmation that rewards were delivered
+    socket.on('rewards_delivery_confirmed', (data) => {
+      if (!isGMRef.current) return;
+
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { confirmRewardDelivery } = useQuestStore.getState();
+        confirmRewardDelivery(data.questId, data.playerId);
+
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Rewards delivered to ${data.playerName}.`,
+          type: 'system',
+          timestamp: data.timestamp
+        });
+      }).catch(error => {
+        console.error('Failed to handle rewards_delivery_confirmed:', error);
+      });
+    });
+
+    // Handle player receiving completion denial
+    socket.on('completion_denied', (data) => {
+      if (isGMRef.current) return;
+
+      addNotification('social', {
+        sender: { name: 'Game Master', class: 'gm', level: 0 },
+        content: `Quest completion for "${data.questTitle}" was denied: ${data.reason || 'No reason provided'}`,
+        type: 'completion_denied',
+        timestamp: data.timestamp
+      });
+    });
+
     // IMPROVEMENT: Handle reconnection with better state recovery
     socket.on('reconnect', (attemptNumber) => {
 
@@ -2983,6 +3195,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('sync_error');
       socket.off('connect_error');
       socket.off('reconnect');
+      // Quest sharing socket cleanup
+      socket.off('quest_shared');
+      socket.off('quest_share_confirmed');
+      socket.off('quest_accepted_notification');
+      socket.off('quest_declined_notification');
+      socket.off('quest_completion_pending');
+      socket.off('quest_completion_request_sent');
+      socket.off('rewards_received');
+      socket.off('rewards_delivery_confirmed');
+      socket.off('completion_denied');
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
@@ -3471,7 +3693,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Create party with current player's character name (not user name)
       // Note: createParty automatically adds the current player, so we don't need to add them again
-      createParty(room.name, currentPlayerCharacterName);
+      createParty(room.name, currentPlayerCharacterName, isGameMaster);
+
+      // CRITICAL FIX: Ensure initial leader is set for the party
+      // This ensures the crown icon is visible on the GM's HUD
+      import('../../store/partyStore').then(({ default: usePartyStore }) => {
+        if (isGameMaster) {
+          // If I am the creator/GM, I am the leader
+          usePartyStore.getState().setLeader('current-player', true);
+        } else if (room.gm) {
+          // If I am a player joining, set the leader to the GM if they are defined
+          usePartyStore.getState().setLeader(room.gm.id, true);
+        }
+      }).catch(err => console.error('Failed to set initial party leader:', err));
 
       // Update the current player that was automatically added by createParty with full character data
       const currentPlayerMember = {
@@ -3795,6 +4029,23 @@ const MultiplayerGameContent = ({
 }) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
 
+  // Quest sharing state from store
+  const {
+    activeSharedQuest,
+    activeRewardDelivery,
+    acceptSharedQuest,
+    declineSharedQuest,
+    confirmRewardDelivery,
+    denyRewardDelivery
+  } = useQuestStore(state => ({
+    activeSharedQuest: state.activeSharedQuest,
+    activeRewardDelivery: state.activeRewardDelivery,
+    acceptSharedQuest: state.acceptSharedQuest,
+    declineSharedQuest: state.declineSharedQuest,
+    confirmRewardDelivery: state.confirmRewardDelivery,
+    denyRewardDelivery: state.denyRewardDelivery
+  }));
+
   // Update room context when currentRoom changes
   // CRITICAL FIX: Use useMemo to prevent excessive re-renders
   const roomId = useMemo(() => {
@@ -3808,6 +4059,67 @@ const MultiplayerGameContent = ({
       exitRoom();
     }
   }, [roomId, enterMultiplayerRoom, exitRoom, currentRoom]);
+
+  // Handle quest acceptance
+  const handleAcceptQuest = useCallback((questId) => {
+    acceptSharedQuest(questId);
+
+    // Notify server
+    if (socket && socket.connected) {
+      const quest = activeSharedQuest;
+      socket.emit('quest_accepted', {
+        questId: questId,
+        questTitle: quest?.title || 'Unknown Quest'
+      });
+    }
+  }, [acceptSharedQuest, socket, activeSharedQuest]);
+
+  // Handle quest decline
+  const handleDeclineQuest = useCallback((questId) => {
+    const quest = activeSharedQuest;
+    declineSharedQuest(questId);
+
+    // Notify server
+    if (socket && socket.connected) {
+      socket.emit('quest_declined', {
+        questId: questId,
+        questTitle: quest?.title || 'Unknown Quest'
+      });
+    }
+  }, [declineSharedQuest, socket, activeSharedQuest]);
+
+  // Handle reward delivery (GM)
+  const handleDeliverRewards = useCallback((questId, playerId, rewards) => {
+    const delivery = activeRewardDelivery;
+    confirmRewardDelivery(questId, playerId);
+
+    // Notify server to deliver rewards
+    if (socket && socket.connected) {
+      socket.emit('quest_rewards_delivered', {
+        questId: questId,
+        questTitle: delivery?.quest?.title || 'Unknown Quest',
+        playerId: playerId,
+        playerName: delivery?.playerName || 'Unknown Player',
+        rewards: rewards
+      });
+    }
+  }, [confirmRewardDelivery, socket, activeRewardDelivery]);
+
+  // Handle deny completion (GM)
+  const handleDenyCompletion = useCallback((questId, playerId) => {
+    const delivery = activeRewardDelivery;
+    denyRewardDelivery(questId, playerId);
+
+    // Notify server
+    if (socket && socket.connected) {
+      socket.emit('quest_completion_denied', {
+        questId: questId,
+        questTitle: delivery?.quest?.title || 'Unknown Quest',
+        playerId: playerId,
+        playerName: delivery?.playerName || 'Unknown Player'
+      });
+    }
+  }, [denyRewardDelivery, socket, activeRewardDelivery]);
 
   if (!currentRoom) {
     return null;
@@ -3860,6 +4172,29 @@ const MultiplayerGameContent = ({
           onDecline={handleDeclineGameSession}
         />
       ))}
+
+      {/* Quest Share Dialog - shown to players when GM shares a quest */}
+      {!isGMMode && activeSharedQuest && (
+        <QuestShareDialog
+          quest={activeSharedQuest}
+          giverInfo={activeSharedQuest.sharedBy}
+          onAccept={handleAcceptQuest}
+          onDecline={handleDeclineQuest}
+          isVisible={true}
+        />
+      )}
+
+      {/* Quest Reward Delivery Dialog - shown to GM when player requests completion */}
+      {isGMMode && activeRewardDelivery && (
+        <QuestRewardDeliveryDialog
+          quest={activeRewardDelivery.quest}
+          playerName={activeRewardDelivery.playerName}
+          playerId={activeRewardDelivery.playerId}
+          onDeliverRewards={handleDeliverRewards}
+          onDenyCompletion={handleDenyCompletion}
+          isVisible={true}
+        />
+      )}
     </div>
   );
 };

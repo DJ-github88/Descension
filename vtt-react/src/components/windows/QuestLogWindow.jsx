@@ -27,7 +27,7 @@ import {
   FaShieldAlt
 } from 'react-icons/fa';
 
-const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActiveTab, contentOnly = false }) => {
+const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propActiveTab, contentOnly = false }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab || 'active');
   const { isGMMode } = useGameStore();
 
@@ -68,7 +68,8 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     windowPosition,
     windowSize,
     setWindowPosition,
-    setWindowSize
+    setWindowSize,
+    activeQuestShares
   } = useQuestStore(state => ({
     quests: state.quests,
     filters: state.filters,
@@ -83,7 +84,8 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     windowPosition: state.windowPosition,
     windowSize: state.windowSize,
     setWindowPosition: state.setWindowPosition,
-    setWindowSize: state.setWindowSize
+    setWindowSize: state.setWindowSize,
+    activeQuestShares: state.activeQuestShares
   }));
 
   // Debounced position save to avoid localStorage writes during dragging
@@ -241,15 +243,22 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     const quest = quests.find(q => q.id === questId);
     if (!quest) return;
 
-    // Get socket from window if available
-    const socket = window.socket;
-    if (socket && socket.connected) {
+    // Get socket from window global (set by MultiplayerApp)
+    const socket = window.multiplayerSocket;
+    const gameStore = useGameStore.getState();
+
+    if (gameStore.isInMultiplayer && socket && socket.connected) {
       // Emit quest share event
       socket.emit('share_quest', {
-        quest: quest,
-        roomId: window.currentRoomId || null
+        quest: quest
       });
-      
+
+      // Track quest as shared locally
+      const questStoreActions = useQuestStore.getState();
+      if (questStoreActions.trackSharedQuest) {
+        questStoreActions.trackSharedQuest(questId);
+      }
+
       // Also add to party chat as notification
       const { addPartyChatMessage } = usePresenceStore.getState();
       if (addPartyChatMessage) {
@@ -263,10 +272,49 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
         });
       }
     } else {
-      // Fallback: just add to local quest store for all players
-      // In a real implementation, this would sync via the server
-      console.log('Sharing quest:', quest.title);
+      // Fallback for single player mode
+      console.log('Sharing quest:', quest.title, 'Socket connected:', socket?.connected, 'isInMultiplayer:', gameStore.isInMultiplayer);
       alert(`Quest "${quest.title}" would be shared with all players. (Multiplayer connection required)`);
+    }
+  };
+
+  // Handle player requesting quest completion (for shared quests only)
+  const handleRequestCompletion = (questId) => {
+    const quest = quests.find(q => q.id === questId);
+    if (!quest) return;
+
+    // Only shared quests require GM approval
+    if (!quest.isShared) {
+      // Non-shared quests can be completed directly
+      completeQuest(questId);
+      return;
+    }
+
+    // Get socket from gameStore
+    const gameStore = useGameStore.getState();
+    const socket = gameStore.multiplayerSocket;
+
+    if (gameStore.isInMultiplayer && socket && socket.connected) {
+      // Request completion from GM
+      socket.emit('quest_complete_request', {
+        quest: quest
+      });
+
+      // Notify player that request was sent
+      const { addPartyChatMessage } = usePresenceStore.getState();
+      if (addPartyChatMessage) {
+        addPartyChatMessage({
+          id: `quest_completion_request_${Date.now()}`,
+          senderId: 'system',
+          senderName: 'System',
+          content: `Requested completion for "${quest.title}". Awaiting GM approval...`,
+          timestamp: new Date().toISOString(),
+          type: 'system'
+        });
+      }
+    } else {
+      // Fallback for single player
+      completeQuest(questId);
     }
   };
 
@@ -366,11 +414,11 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
             {(selectedQuestObj.rewards.currency.gold > 0 ||
               selectedQuestObj.rewards.currency.silver > 0 ||
               selectedQuestObj.rewards.currency.copper > 0) && (
-              <QuestReward
-                reward={selectedQuestObj.rewards.currency}
-                type="currency"
-              />
-            )}
+                <QuestReward
+                  reward={selectedQuestObj.rewards.currency}
+                  type="currency"
+                />
+              )}
 
             {selectedQuestObj.rewards.items.length > 0 && (
               <div className="quest-reward-list">
@@ -386,13 +434,50 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
           </div>
         </div>
 
+        {/* Share Status Indicator - shown to GM when quest is being shared */}
+        {isGMMode && activeQuestShares && activeQuestShares[selectedQuestObj.id] && (
+          <div className="quest-share-status">
+            <div className="quest-share-status-header">
+              <span className="share-status-icon">📤</span>
+              <span className="share-status-title">Quest Shared</span>
+            </div>
+            <div className="quest-share-status-players">
+              {Object.entries(activeQuestShares[selectedQuestObj.id].players || {}).map(([playerId, player]) => (
+                <div
+                  key={playerId}
+                  className={`share-player-status status-${player.status}`}
+                >
+                  <span className="player-status-icon">
+                    {player.status === 'pending' && '⏳'}
+                    {player.status === 'accepted' && '✅'}
+                    {player.status === 'declined' && '❌'}
+                  </span>
+                  <span className="player-name">{player.name}</span>
+                  <span className="player-status-text">
+                    {player.status === 'pending' && 'Pending...'}
+                    {player.status === 'accepted' && 'Accepted'}
+                    {player.status === 'declined' && 'Declined'}
+                  </span>
+                </div>
+              ))}
+              {Object.keys(activeQuestShares[selectedQuestObj.id].players || {}).length === 0 && (
+                <div className="share-status-waiting">
+                  <span className="waiting-icon">📡</span>
+                  <span>Waiting for player responses...</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {activeTab === 'active' && (
           <div className="quest-actions">
             <button
-              className="quest-button"
-              onClick={() => handleQuestComplete(selectedQuestObj.id)}
+              className={`quest-button ${selectedQuestObj.isShared ? 'quest-button-request' : ''}`}
+              onClick={() => handleRequestCompletion(selectedQuestObj.id)}
+              title={selectedQuestObj.isShared ? 'Request GM approval for quest completion' : 'Mark quest as complete'}
             >
-              Complete Quest
+              {selectedQuestObj.isShared ? 'Request Completion' : 'Complete Quest'}
             </button>
             <button
               className="quest-button"

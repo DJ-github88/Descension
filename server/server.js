@@ -2326,6 +2326,227 @@ io.on('connection', (socket) => {
     }
   });
 
+  // ========== QUEST SHARING SYSTEM ==========
+
+  // Handle GM sharing a quest with all players in the room
+  socket.on('share_quest', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    // Only GM can share quests
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only the GM can share quests' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    if (!data.quest) {
+      socket.emit('error', { message: 'Invalid quest data' });
+      return;
+    }
+
+    // Broadcast quest to all OTHER players in the room (not the GM)
+    socket.to(player.roomId).emit('quest_shared', {
+      quest: data.quest,
+      sharedBy: {
+        id: player.id,
+        name: player.name
+      },
+      timestamp: new Date().toISOString()
+    });
+
+    // Send confirmation to GM
+    socket.emit('quest_share_confirmed', {
+      questId: data.quest.id,
+      questTitle: data.quest.title,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log(`📜 Quest "${data.quest.title}" shared by GM ${player.name} to room ${player.roomId}`);
+  });
+
+  // Handle player accepting a shared quest
+  socket.on('quest_accepted', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Notify GM that player accepted the quest
+    const gmSocketId = Array.from(players.entries())
+      .find(([sid, p]) => p.roomId === player.roomId && p.isGM)?.[0];
+
+    if (gmSocketId) {
+      io.to(gmSocketId).emit('quest_accepted_notification', {
+        questId: data.questId,
+        questTitle: data.questTitle,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    console.log(`✅ Quest "${data.questTitle}" accepted by ${player.name}`);
+  });
+
+  // Handle player declining a shared quest
+  socket.on('quest_declined', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Notify GM that player declined the quest
+    const gmSocketId = Array.from(players.entries())
+      .find(([sid, p]) => p.roomId === player.roomId && p.isGM)?.[0];
+
+    if (gmSocketId) {
+      io.to(gmSocketId).emit('quest_declined_notification', {
+        questId: data.questId,
+        questTitle: data.questTitle,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    console.log(`❌ Quest "${data.questTitle}" declined by ${player.name}`);
+  });
+
+  // Handle player requesting quest completion (needs GM approval)
+  socket.on('quest_complete_request', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    if (!data.quest) {
+      socket.emit('error', { message: 'Invalid quest data' });
+      return;
+    }
+
+    // Find and notify the GM
+    const gmSocketId = Array.from(players.entries())
+      .find(([sid, p]) => p.roomId === player.roomId && p.isGM)?.[0];
+
+    if (gmSocketId) {
+      io.to(gmSocketId).emit('quest_completion_pending', {
+        quest: data.quest,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: new Date().toISOString()
+      });
+
+      // Confirm to player that request was sent
+      socket.emit('quest_completion_request_sent', {
+        questId: data.quest.id,
+        questTitle: data.quest.title,
+        timestamp: new Date().toISOString()
+      });
+
+      console.log(`🎯 Quest completion request for "${data.quest.title}" from ${player.name}`);
+    } else {
+      socket.emit('error', { message: 'GM not found in room' });
+    }
+  });
+
+  // Handle GM delivering quest rewards
+  socket.on('quest_rewards_delivered', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    // Only GM can deliver rewards
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only GM can deliver rewards' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    if (!data.questId || !data.playerId || !data.rewards) {
+      socket.emit('error', { message: 'Invalid reward delivery data' });
+      return;
+    }
+
+    // Find the target player's socket
+    const targetSocketId = Array.from(players.entries())
+      .find(([sid, p]) => p.id === data.playerId)?.[0];
+
+    if (targetSocketId) {
+      // Send rewards to the player
+      io.to(targetSocketId).emit('rewards_received', {
+        questId: data.questId,
+        questTitle: data.questTitle,
+        rewards: data.rewards,
+        deliveredBy: player.name,
+        timestamp: new Date().toISOString()
+      });
+
+      // Confirm to GM
+      socket.emit('rewards_delivery_confirmed', {
+        questId: data.questId,
+        playerId: data.playerId,
+        playerName: data.playerName,
+        timestamp: new Date().toISOString()
+      });
+
+      console.log(`🎁 Rewards delivered for quest "${data.questTitle}" to ${data.playerName} by GM ${player.name}`);
+    } else {
+      socket.emit('error', { message: 'Player not found in room' });
+    }
+  });
+
+  // Handle GM denying quest completion
+  socket.on('quest_completion_denied', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    // Only GM can deny completion
+    if (!player.isGM) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Find the target player's socket
+    const targetSocketId = Array.from(players.entries())
+      .find(([sid, p]) => p.id === data.playerId)?.[0];
+
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('completion_denied', {
+        questId: data.questId,
+        questTitle: data.questTitle,
+        reason: data.reason || 'Quest completion was denied by the GM',
+        timestamp: new Date().toISOString()
+      });
+
+      console.log(`🚫 Quest completion denied for "${data.questTitle}" to ${data.playerName}`);
+    }
+  });
+
   // IMPROVEMENT: Handle spell cast synchronization for multiplayer
   socket.on('spell_cast', async (data) => {
     const player = players.get(socket.id);

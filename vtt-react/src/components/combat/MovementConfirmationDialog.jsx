@@ -6,8 +6,7 @@ const MovementConfirmationDialog = ({
     isOpen,
     onConfirm,
     onCancel,
-    movementData,
-    position = { x: 400, y: 300 }
+    movementData
 }) => {
     if (!isOpen) {
         return null;
@@ -35,13 +34,7 @@ const MovementConfirmationDialog = ({
 
     return createPortal(
         <div className="movement-confirmation-overlay">
-            <div 
-                className="movement-confirmation-dialog"
-                style={{
-                    left: `${position.x}px`,
-                    top: `${position.y}px`
-                }}
-            >
+            <div className="movement-confirmation-dialog">
                 <div className="dialog-header">
                     <h3>
                         {movementUsedThisTurn === 0
@@ -56,7 +49,7 @@ const MovementConfirmationDialog = ({
                 <div className="dialog-content">
                     <div className="movement-info">
                         <div className="creature-info">
-                            <strong>{creatureName}</strong>
+                            <strong>{creatureName.toUpperCase()}</strong>
                         </div>
 
                         {movementUsedThisTurn === 0 ? (

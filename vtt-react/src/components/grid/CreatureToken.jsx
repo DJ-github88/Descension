@@ -2760,7 +2760,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onConfirm={handleConfirmMovement}
         onCancel={handleCancelMovement}
         movementData={pendingMovementConfirmation}
-        position={{ x: 400, y: 300 }}
       />
 
       {/* Conditions Window */}

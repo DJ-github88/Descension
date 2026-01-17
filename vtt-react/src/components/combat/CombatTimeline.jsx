@@ -37,41 +37,39 @@ const CombatTimeline = () => {
     const [isResizing, setIsResizing] = useState(false);
     const [showConfigModal, setShowConfigModal] = useState(false);
     // Local state for resize visual feedback - syncs with store on resize stop
-    const [localSize, setLocalSize] = useState({ 
-        width: timelineSize.width || 450, 
-        height: timelineSize.height || 350 
+    const [localSize, setLocalSize] = useState({
+        width: timelineSize.width || 450,
+        height: timelineSize.height || 350
     });
     const nodeRef = useRef(null);
 
-    // Auto-adjust timeline width when number of combatants changes
+    // Auto-adjust timeline size only when combat starts or combatants change drastically
     useEffect(() => {
         if (!isInCombat || turnOrder.length === 0) return;
 
         // Calculate optimal width based on number of combatants
-        const tokenWidth = 85; // Match CSS max-width
-        const tokenGap = 8; // Match CSS gap
-        const padding = 24; // Match CSS padding (12px * 2)
+        const tokenWidth = 95; // Match new CSS width
+        const tokenGap = 12; // Match new CSS gap
+        const padding = 40; // Match new CSS padding
 
-        // Calculate width to fit actual tokens (up to 6 before wrapping)
-        const tokensToShow = Math.min(turnOrder.length, 6);
-        const contentWidth = (tokensToShow * tokenWidth) + ((tokensToShow - 1) * tokenGap) + padding;
-
-        // Use content width with reasonable min/max bounds
+        // Calculate width to fit actual tokens (up to 8 before wrapping)
+        const tokensToFit = Math.min(turnOrder.length, 8);
         const calculatedWidth = Math.max(
-            320, // Minimum width (fits ~3 tokens comfortably)
+            400, // Minimum width
             Math.min(
-                650, // Maximum width (fits ~6 tokens)
-                contentWidth
+                850, // Maximum width 
+                (tokensToFit * tokenWidth) + ((tokensToFit - 1) * tokenGap) + padding
             )
         );
 
-        // Always update to the calculated width when combatant count changes
-        // Use taller default height to accommodate token content
-        updateTimelineSize({
-            width: calculatedWidth,
-            height: timelineSize.height || 350
-        });
-    }, [turnOrder.length, isInCombat, updateTimelineSize]);
+        // Only auto-resize IF we don't have a stored size yet or if it's the very first render
+        if (!timelineSize.width || !timelineSize.height) {
+            updateTimelineSize({
+                width: calculatedWidth,
+                height: 400
+            });
+        }
+    }, [turnOrder.length, isInCombat, updateTimelineSize, timelineSize.width, timelineSize.height]);
 
     const handleMouseEnter = (event, combatant) => {
         const rect = event.currentTarget.getBoundingClientRect();
@@ -252,8 +250,8 @@ const CombatTimeline = () => {
                             onResizeStart={handleResizeStart}
                             onResize={handleResize}
                             onResizeStop={handleResizeStop}
-                            minConstraints={[350, 250]}
-                            maxConstraints={[900, 700]}
+                            minConstraints={[400, 150]}
+                            maxConstraints={[1200, 1200]}
                             resizeHandles={['ne', 'nw', 'se', 'sw']}
                             transformScale={windowScale}
                         >
@@ -264,89 +262,89 @@ const CombatTimeline = () => {
                                     height: effectiveHeight
                                 }}
                             >
-                        <div className="timeline-header">
-                            <div className="timeline-title">
-                                Round {round}
-                            </div>
-                            <div className="timeline-controls">
-                                <button
-                                    className="timeline-button next-turn"
-                                    onClick={handleNextTurn}
-                                    title="Next Turn"
-                                >
-                                    Next Turn
-                                </button>
-                                <button
-                                    className="timeline-button end-combat"
-                                    onClick={handleEndCombat}
-                                    title="End Combat"
-                                >
-                                    End Combat
-                                </button>
-                                <button
-                                    className="timeline-button config-button"
-                                    onClick={() => setShowConfigModal(true)}
-                                    title="Combat Configuration"
-                                >
-                                    <i className="fas fa-cog"></i>
-                                </button>
-                                <button
-                                    className="timeline-button"
-                                    onClick={resetTimelinePosition}
-                                    title="Reset Position"
-                                    style={{ fontSize: '10px', padding: '4px 6px' }}
-                                >
-                                    Reset Pos
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="timeline-combatants">
-                            {turnOrder.map((combatant, index) => {
-                                const isCurrentTurn = index === currentTurnIndex;
-                                const isPastTurn = index < currentTurnIndex;
-
-                                return (
-                                    <div
-                                        key={`${combatant.tokenId}-${index}`}
-                                        className={`timeline-token ${isCurrentTurn ? 'current-turn' : ''} ${isPastTurn ? 'past-turn' : ''}`}
-                                        draggable
-                                        onDragStart={(e) => handleDragStart(e, combatant, index)}
-                                        onDragOver={handleDragOver}
-                                        onDrop={(e) => handleDrop(e, index)}
-                                        onDragEnd={handleDragEnd}
-                                        onMouseEnter={(e) => handleMouseEnter(e, combatant)}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        <div className="token-portrait">
-                                            <img
-                                                src={getCreatureIcon(combatant)}
-                                                alt={combatant.name}
-                                                className="token-icon"
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = getIconUrl('Utility/Utility', 'abilities');
-                                                }}
-                                            />
-                                            {isCurrentTurn && (
-                                                <div className="current-turn-glow"></div>
-                                            )}
-                                        </div>
-                                        <div className="token-initiative">
-                                            Init: {combatant.initiative}
-                                        </div>
-                                        <div className="token-ap">
-                                            AP: {combatant.currentActionPoints}/{combatant.maxActionPoints}
-                                        </div>
-                                        {combatConfig.showTimers && (
-                                            <div className="token-timer">
-                                                <TurnTimer tokenId={combatant.tokenId} compact={true} />
-                                            </div>
-                                        )}
+                                <div className="timeline-header">
+                                    <div className="timeline-title">
+                                        Round {round}
                                     </div>
-                                );
-                            })}
-                        </div>
+                                    <div className="timeline-controls">
+                                        <button
+                                            className="timeline-button next-turn"
+                                            onClick={handleNextTurn}
+                                            title="Next Turn"
+                                        >
+                                            Next Turn
+                                        </button>
+                                        <button
+                                            className="timeline-button end-combat"
+                                            onClick={handleEndCombat}
+                                            title="End Combat"
+                                        >
+                                            End Combat
+                                        </button>
+                                        <button
+                                            className="timeline-button config-button"
+                                            onClick={() => setShowConfigModal(true)}
+                                            title="Combat Configuration"
+                                        >
+                                            <i className="fas fa-cog"></i>
+                                        </button>
+                                        <button
+                                            className="timeline-button"
+                                            onClick={resetTimelinePosition}
+                                            title="Reset Position"
+                                            style={{ fontSize: '10px', padding: '4px 6px' }}
+                                        >
+                                            Reset Pos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="timeline-combatants">
+                                    {turnOrder.map((combatant, index) => {
+                                        const isCurrentTurn = index === currentTurnIndex;
+                                        const isPastTurn = index < currentTurnIndex;
+
+                                        return (
+                                            <div
+                                                key={`${combatant.tokenId}-${index}`}
+                                                className={`timeline-token ${isCurrentTurn ? 'current-turn' : ''} ${isPastTurn ? 'past-turn' : ''}`}
+                                                draggable
+                                                onDragStart={(e) => handleDragStart(e, combatant, index)}
+                                                onDragOver={handleDragOver}
+                                                onDrop={(e) => handleDrop(e, index)}
+                                                onDragEnd={handleDragEnd}
+                                                onMouseEnter={(e) => handleMouseEnter(e, combatant)}
+                                                onMouseLeave={handleMouseLeave}
+                                            >
+                                                <div className="token-portrait">
+                                                    <img
+                                                        src={getCreatureIcon(combatant)}
+                                                        alt={combatant.name}
+                                                        className="token-icon"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                                                        }}
+                                                    />
+                                                    {isCurrentTurn && (
+                                                        <div className="current-turn-glow"></div>
+                                                    )}
+                                                </div>
+                                                <div className="token-initiative">
+                                                    Init: {combatant.initiative}
+                                                </div>
+                                                <div className="token-ap">
+                                                    AP: {combatant.currentActionPoints}/{combatant.maxActionPoints}
+                                                </div>
+                                                {combatConfig.showTimers && (
+                                                    <div className="token-timer">
+                                                        <TurnTimer tokenId={combatant.tokenId} compact={true} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </Resizable>
                     </div>

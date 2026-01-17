@@ -21,97 +21,54 @@ const useCharacterTokenStore = create(
       characterTokens: [],
 
       // Add a character token to the grid
-      addCharacterToken: (position, playerId = null, sendToServer = true) => set(state => {
+      addCharacterToken: (position, playerId = null, sendToServer = true) => {
+        let tokenId = null;
+        let isNewToken = false;
 
-        // In multiplayer, use playerId to make tokens unique per player
-        // In single player, use isPlayerToken for backward compatibility
-        const tokenIdentifier = playerId || 'local_player';
+        // 1. Update state (calculate if new or existing)
+        set(state => {
+          // Check if a character token already exists for this player
+          const existingToken = state.characterTokens.find(t =>
+            playerId ? t.playerId === playerId : t.isPlayerToken
+          );
 
-        // Check if a character token already exists for this player
-        const existingToken = state.characterTokens.find(t =>
-          playerId ? t.playerId === playerId : t.isPlayerToken
-        );
-
-        if (existingToken) {
-          // If it exists and we're just dragging, update position only
-          return {
-            characterTokens: state.characterTokens.map(token =>
-              token.id === existingToken.id ? { ...token, position } : token
-            )
-          };
-        }
-
-        // Create a new character token
-        const newToken = {
-          id: uuidv4(),
-          isPlayerToken: !playerId, // Only true for local single-player tokens
-          playerId: playerId, // Store player ID for multiplayer
-          position,
-          createdAt: Date.now()
-        };
-
-        // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
-        // Only auto-enable if GM has set defaultViewFromToken to true
-        Promise.all([
-          import('../store/gameStore'),
-          import('../store/levelEditorStore')
-        ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }]) => {
-          const gameStore = useGameStore.getState();
-          const levelEditorStore = useLevelEditorStore.getState();
-
-          // Switch to player mode
-          gameStore.setGMMode(false);
-
-          // Only auto-enable view from token if GM has configured it
-          if (gameStore.defaultViewFromToken) {
-            // Reset the disabled flag when placing a new token (so auto-enable works)
-            levelEditorStore.playerViewFromTokenDisabled = false;
-            // Enable view from this character token
-            levelEditorStore.setViewingFromToken({
-              id: newToken.id,
-              type: 'character',
-              characterId: playerId || 'local_player',
-              position: position // Include position for visibility calculations
-            });
-          } else {
-            // Default behavior: don't auto-enable view from token
-            // Player must manually select it if they want fog of war restrictions
-            levelEditorStore.setViewingFromToken(null);
+          if (existingToken) {
+            tokenId = existingToken.id;
+            return {
+              characterTokens: state.characterTokens.map(token =>
+                token.id === existingToken.id ? { ...token, position } : token
+              )
+            };
           }
-        }).catch(error => {
-          console.error('Failed to setup player view:', error);
+
+          // Create a new character token
+          const newToken = {
+            id: uuidv4(),
+            isPlayerToken: !playerId,
+            playerId: playerId,
+            position,
+            createdAt: Date.now()
+          };
+          tokenId = newToken.id;
+          isNewToken = true;
+          return { characterTokens: [...state.characterTokens, newToken] };
         });
 
-        // Send to multiplayer server if enabled and sendToServer is true
-        if (sendToServer) {
-          // Import game store dynamically to avoid circular dependencies
-          import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-              gameStore.multiplayerSocket.emit('character_token_created', {
-                playerId: playerId || 'local_player',
-                tokenId: newToken.id,
-                position: position
-              });
-            }
-          }).catch(error => {
-            console.error('Failed to import gameStore for character token sync:', error);
-          });
-        }
+        // 2. Run side effects (after state update)
+        if (!tokenId) return;
 
-        // CRITICAL FIX: Set up initial movement tracking for the new token
-        // This prevents the first drag operation from being reverted by server echo
-        // The token is marked as "just created" so any server echoes in the next 1000ms are ignored
+        // Standardized tracking to prevent server echo-induced position resets
         if (!window.recentTokenMovements) {
           window.recentTokenMovements = new Map();
         }
         const now = Date.now();
-        window.recentTokenMovements.set(`token_${newToken.id}`, {
-          tokenKey: newToken.id,
+        window.recentTokenMovements.set(`token_${tokenId}`, {
+          tokenKey: tokenId,
           position: { x: position.x, y: position.y },
           timestamp: now,
           isLocal: true
         });
+
         // Also track by playerId for cases where server uses playerId instead of tokenId
         if (playerId) {
           window.recentTokenMovements.set(`token_${playerId}`, {
@@ -122,13 +79,59 @@ const useCharacterTokenStore = create(
           });
         }
 
-        return {
-          characterTokens: [
-            ...state.characterTokens,
-            newToken
-          ]
-        };
-      }),
+        // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+        Promise.all([
+          import('../store/gameStore'),
+          import('../store/levelEditorStore'),
+          import('../store/partyStore')
+        ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }, { default: usePartyStore }]) => {
+          const gameStore = useGameStore.getState();
+          const levelEditorStore = useLevelEditorStore.getState();
+          const partyStore = usePartyStore.getState();
+
+          // CRITICAL FIX: Only switch to player mode if we are NOT the leader
+          const isLeader = partyStore.leaderId === 'current-player';
+
+          if (!isLeader) {
+            console.log('👤 Player placed token, switching to player mode');
+            gameStore.setGMMode(false);
+          } else {
+            console.log('👑 Leader placed token, maintaining GM mode');
+          }
+
+          // Only auto-enable view from token if GM has configured it
+          if (gameStore.defaultViewFromToken) {
+            levelEditorStore.playerViewFromTokenDisabled = false;
+            levelEditorStore.setViewingFromToken({
+              id: tokenId,
+              type: 'character',
+              characterId: playerId || 'local_player',
+              position: position
+            });
+          } else if (isNewToken) {
+            levelEditorStore.setViewingFromToken(null);
+          }
+        }).catch(error => {
+          console.error('Failed to setup player view:', error);
+        });
+
+        // Send to multiplayer server if enabled and sendToServer is true
+        if (sendToServer) {
+          import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('character_token_created', {
+                playerId: playerId || 'local_player',
+                tokenId: tokenId,
+                position: position
+              });
+              console.log('📤 Character token placement synced to server:', tokenId);
+            }
+          }).catch(error => {
+            console.error('Failed to import gameStore for character token sync:', error);
+          });
+        }
+      },
 
       // Update character token position (by player ID for multiplayer sync)
       updateCharacterTokenPosition: (playerIdOrTokenId, position) => set(state => {
