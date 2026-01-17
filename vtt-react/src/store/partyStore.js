@@ -19,6 +19,7 @@ const initialState = {
     // Current party information
     currentParty: null,
     isInParty: false,
+    leaderId: null, // Track who has the crown (can be a player)
 
     // Party members data
     partyMembers: [], // Array of party member objects
@@ -60,7 +61,7 @@ const usePartyStore = create(
             ...initialState,
 
             // Party Management Actions
-            createParty: (partyName = 'New Party', currentPlayerName = 'Current Player') => {
+            createParty: (partyName = 'New Party', currentPlayerName = 'Current Player', isGM = false) => {
                 const newParty = {
                     id: uuidv4(),
                     name: partyName,
@@ -74,11 +75,13 @@ const usePartyStore = create(
                 set({
                     currentParty: newParty,
                     isInParty: true,
+                    // Only set leaderId if the creator is actually the GM
+                    leaderId: isGM ? 'current-player' : null,
                     partyMembers: [
                         {
                             id: 'current-player',
                             name: currentPlayerName,
-                            isGM: false, // Will be updated later with correct GM status
+                            isGM: isGM,
                             status: PARTY_STATUS.ONLINE,
                             joinedAt: Date.now(),
                             character: {
@@ -97,6 +100,7 @@ const usePartyStore = create(
                 set({
                     currentParty: null,
                     isInParty: false,
+                    leaderId: null,
                     partyMembers: []
                 });
             },
@@ -108,6 +112,7 @@ const usePartyStore = create(
                     set({
                         currentParty: null,
                         isInParty: false,
+                        leaderId: null,
                         partyMembers: []
                     });
                 }
@@ -218,6 +223,38 @@ const usePartyStore = create(
 
                 // Sync with multiplayer
                 get().syncPartyUpdate('member_updated', { memberId, updates });
+            },
+
+            setLeader: (newLeaderId, isFromSync = false) => {
+                set({ leaderId: newLeaderId });
+
+                // CRITICAL: Toggle isGMMode for ANY player who becomes/loses leadership
+                // This gives the new leader GM-like UI capabilities
+                const amILeader = newLeaderId === 'current-player';
+
+                // Import gameStore dynamically to avoid circular dependency
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isGMMode !== amILeader) {
+                        gameStore.setGMMode(amILeader);
+                        console.log(`🛠️ UI mode set to: ${amILeader ? 'LEADER (GM-like access)' : 'PLAYER (restricted)'}`);
+                    }
+                }).catch(err => console.error('Failed to update GM mode:', err));
+
+                // Only sync with multiplayer if this is a local action, not a sync from server
+                if (!isFromSync) {
+                    // CRITICAL: Translate 'current-player' to actual socket ID before broadcasting
+                    // Otherwise, other clients will incorrectly think 'current-player' refers to themselves
+                    const gameStore = useGameStore.getState();
+                    let leaderIdToSend = newLeaderId;
+
+                    if (newLeaderId === 'current-player' && gameStore.multiplayerSocket?.id) {
+                        leaderIdToSend = gameStore.multiplayerSocket.id;
+                        console.log(`📤 Translating 'current-player' to socket ID: ${leaderIdToSend}`);
+                    }
+
+                    get().syncPartyUpdate('leadership_transferred', { leaderId: leaderIdToSend });
+                }
             },
 
             // Invitation System
@@ -337,11 +374,15 @@ const usePartyStore = create(
             syncPartyUpdate: (updateType, data) => {
                 const gameStore = useGameStore.getState();
                 if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    // CRITICAL: Include playerId so receiving clients can identify the sender
+                    const socketId = gameStore.multiplayerSocket.id;
                     gameStore.multiplayerSocket.emit('party_update', {
                         type: updateType,
                         data: data,
+                        playerId: socketId,
                         timestamp: Date.now()
                     });
+                    console.log(`📤 Party update sent: ${updateType}`, data);
                 }
             },
 

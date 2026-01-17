@@ -2690,6 +2690,61 @@ io.on('connection', (socket) => {
     console.log(`🏳️ Combat ended by ${player.name}`);
   });
 
+  // Handle party updates (leadership transfer, member updates, etc.)
+  socket.on('party_update', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Broadcast party update to ALL players in the room (including sender for consistency)
+    // This is critical for leadership transfers where the sender also needs confirmationn
+    io.to(player.roomId).emit('party_update', {
+      ...data,
+      playerId: socket.id // Ensure playerId is present for echo prevention
+    });
+
+    console.log(`👑 Party update (${data.type}) from ${player.name}:`, data.data);
+  });
+
+  // Handle item dropped on grid (loot orb creation)
+  socket.on('item_dropped', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Store item in room game state if needed
+    if (!room.gameState.gridItems) {
+      room.gameState.gridItems = {};
+    }
+
+    if (data.item && data.item.id) {
+      room.gameState.gridItems[data.item.id] = {
+        ...data.item,
+        position: data.position,
+        gridPosition: data.gridPosition,
+        droppedBy: player.id,
+        droppedByName: player.name,
+        droppedAt: new Date()
+      };
+    }
+
+    // Broadcast to OTHER players in the room (sender already has the item)
+    socket.to(player.roomId).emit('item_dropped', {
+      item: data.item,
+      position: data.position,
+      gridPosition: data.gridPosition,
+      playerId: socket.id,
+      playerName: player.name,
+      isSync: true
+    });
+
+    console.log(`📦 Item dropped by ${player.name}: ${data.item?.name || 'Unknown'} at`, data.position);
+  });
+
   // Handle combat turn changes (GM advancing turns)
   socket.on('combat_turn_changed', (data) => {
     const player = players.get(socket.id);

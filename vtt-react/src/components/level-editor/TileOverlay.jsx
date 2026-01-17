@@ -17,6 +17,9 @@ import useMapStore from '../../store/mapStore';
 import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
 import './styles/TileOverlay.css';
 
+const DEFAULT_GM_NOTES_DATA = { title: '', description: '', notes: '', items: [], creatures: [] };
+const DEFAULT_GM_NOTES_POSITION = { x: 300, y: 200 };
+
 const TileOverlay = () => {
     const [hoveredTile, setHoveredTile] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -2254,9 +2257,9 @@ const TileOverlay = () => {
                     setShowGMNotesWindow(false);
                     setSelectedGMNotes(null);
                 }}
-                gmNotesData={selectedGMNotes?.gmNotesData || { title: '', description: '', notes: '', items: [], creatures: [] }}
+                gmNotesData={selectedGMNotes?.gmNotesData || DEFAULT_GM_NOTES_DATA}
                 onUpdateNotes={handleGMNotesUpdate}
-                position={{ x: 300, y: 200 }}
+                position={DEFAULT_GM_NOTES_POSITION}
             />
 
             {/* Connection Context Menu */}

@@ -32,10 +32,14 @@ export const RoomProvider = ({ children }) => {
     const checkLocalRoom = () => {
       const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
       const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
-      
+
       // CRITICAL FIX: Only update state if values actually changed
       if (isLocalRoom && selectedLocalRoomId) {
-        if (currentRoomId !== selectedLocalRoomId || roomType !== 'local' || !isInRoom) {
+        // Only auto-detect if we are in global mode OR if the local room ID changed while we are in local mode
+        // This prevents "flapping" when intentionally in a multiplayer room
+        const shouldUpdate = (roomType === 'global') || (roomType === 'local' && currentRoomId !== selectedLocalRoomId);
+
+        if (shouldUpdate && (currentRoomId !== selectedLocalRoomId || roomType !== 'local' || !isInRoom)) {
           setCurrentRoomId(selectedLocalRoomId);
           setRoomType('local');
           setIsInRoom(true);
@@ -62,7 +66,7 @@ export const RoomProvider = ({ children }) => {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    
+
     // CRITICAL FIX: Reduce interval frequency from 1000ms to 5000ms to prevent excessive re-renders
     // This prevents performance issues during scrolling/dragging
     const interval = setInterval(checkLocalRoom, 5000);
@@ -111,13 +115,13 @@ export const RoomProvider = ({ children }) => {
     roomType,
     roomData,
     isInRoom,
-    
+
     // Actions
     enterLocalRoom,
     enterMultiplayerRoom,
     exitRoom,
     updateRoomData,
-    
+
     // Computed properties
     isLocalRoom: roomType === 'local',
     isMultiplayerRoom: roomType === 'multiplayer',

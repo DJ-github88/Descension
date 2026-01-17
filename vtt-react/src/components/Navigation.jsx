@@ -4,6 +4,7 @@ import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
+import usePartyStore from '../store/partyStore';
 import useWindowManagerStore from '../store/windowManagerStore';
 import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
@@ -210,7 +211,7 @@ function QuestLogWindowWrapper({ isOpen, onClose }) {
         <QuestLogWindow
             isOpen={isOpen}
             onClose={onClose}
-            // Remove contentOnly to let QuestLogWindow handle its own window
+        // Remove contentOnly to let QuestLogWindow handle its own window
         />
     );
 }
@@ -289,59 +290,59 @@ const NAVIGATION_BUTTONS = [
         id: 'character',
         title: 'Character Sheet',
         shortcut: 'C',
-        svg: <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        svg: <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
     },
     {
         id: 'inventory',
         title: 'Inventory',
         shortcut: 'B',
-        svg: <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        svg: <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
     },
     {
         id: 'crafting',
         title: 'Crafting',
         shortcut: 'R',
-        svg: <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
+        svg: <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z" />
     },
     {
         id: 'spellbook',
         title: 'Spellbook',
         shortcut: 'S',
-        svg: <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        svg: <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
     },
     {
         id: 'talents',
         title: 'Talent Tree',
         shortcut: 'T',
         svg: <>
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-            <circle cx="12" cy="7" r="1.5"/>
-            <circle cx="7" cy="12" r="1.5"/>
-            <circle cx="17" cy="12" r="1.5"/>
-            <circle cx="12" cy="17" r="1.5"/>
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+            <circle cx="12" cy="7" r="1.5" />
+            <circle cx="7" cy="12" r="1.5" />
+            <circle cx="17" cy="12" r="1.5" />
+            <circle cx="12" cy="17" r="1.5" />
         </>
     },
     {
         id: 'itemgen',
         title: 'Item Library',
         shortcut: 'I',
-        svg: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+        svg: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
     },
     {
         id: 'quests',
         title: 'Quest Log',
         shortcut: 'Q',
-        svg: <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+        svg: <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
     },
     {
         id: 'campaign',
         title: 'Campaign Manager',
         shortcut: 'P',
         svg: <>
-            <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
-            <path d="M8 14l2 2 4-4"/>
-            <circle cx="12" cy="8" r="2"/>
+            <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z" />
+            <path d="M8 14l2 2 4-4" />
+            <circle cx="12" cy="8" r="2" />
         </>,
         premium: true
     },
@@ -349,7 +350,7 @@ const NAVIGATION_BUTTONS = [
         id: 'community',
         title: 'Community',
         shortcut: 'H',
-        svg: <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+        svg: <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
     },
 
     {
@@ -357,8 +358,8 @@ const NAVIGATION_BUTTONS = [
         title: 'Combat Initiator',
         shortcut: 'X',
         svg: <>
-            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
-            <path d="M9 12l2 2 4-4"/>
+            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z" />
+            <path d="M9 12l2 2 4-4" />
         </>,
     },
 
@@ -367,8 +368,8 @@ const NAVIGATION_BUTTONS = [
         title: 'Creature Library',
         shortcut: 'L',
         svg: <>
-            <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
-            <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
+            <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3" />
+            <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3" />
         </>
     },
     {
@@ -377,8 +378,8 @@ const NAVIGATION_BUTTONS = [
         shortcut: 'G',
         window: SettingsWindow,
         svg: <>
-            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
         </>
     },
 
@@ -389,8 +390,8 @@ const NAVIGATION_BUTTONS = [
         title: 'Level Editor',
         shortcut: 'E',
         svg: <>
-            <path d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11M10 10v11M14 10v11M18 10v11"/>
-            <path d="M12 3v4M8 7h8"/>
+            <path d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11M10 10v11M14 10v11M18 10v11" />
+            <path d="M12 3v4M8 7h8" />
         </>
     },
     {
@@ -398,8 +399,8 @@ const NAVIGATION_BUTTONS = [
         title: 'Map Library',
         shortcut: 'M',
         svg: <>
-            <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 01.553-.894L9 2l6 3 5.447-2.724A1 1 0 0121 3.382v10.764a1 1 0 01-.553.894L15 18l-6-3z"/>
-            <path d="M9 2v18M15 5v18"/>
+            <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 01.553-.894L9 2l6 3 5.447-2.724A1 1 0 0121 3.382v10.764a1 1 0 01-.553.894L15 18l-6-3z" />
+            <path d="M9 2v18M15 5v18" />
         </>
     },
     {
@@ -408,8 +409,8 @@ const NAVIGATION_BUTTONS = [
         shortcut: 'J',
         playerOnly: true, // Only visible to players, not GMs
         svg: <>
-            <path d="M4 4a2 2 0 012-2h8.586A2 2 0 0116 2.586L19.414 6A2 2 0 0120 7.414V20a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-            <path d="M14 2v4a2 2 0 002 2h4M8 12h8M8 16h8M8 8h2"/>
+            <path d="M4 4a2 2 0 012-2h8.586A2 2 0 0116 2.586L19.414 6A2 2 0 0120 7.414V20a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+            <path d="M14 2v4a2 2 0 002 2h4M8 12h8M8 16h8M8 8h2" />
         </>
     },
 ];
@@ -788,12 +789,12 @@ export default function Navigation({ onReturnToLanding }) {
             const hasOpenWindows = openWindows.size > 0;
             // Check if any registered windows/modals are open
             const hasRegisteredWindows = windowManagerWindows.size > 0;
-            
+
             if (hasOpenWindows) {
                 // Close all Navigation windows
                 e.preventDefault();
                 setOpenWindows(new Set());
-                
+
                 // Dispatch custom event to close all registered windows/modals
                 // Modals/wizards can listen to this event and close themselves
                 const closeAllWindowsEvent = new CustomEvent('closeAllWindows', {
@@ -801,10 +802,10 @@ export default function Navigation({ onReturnToLanding }) {
                     cancelable: true
                 });
                 window.dispatchEvent(closeAllWindowsEvent);
-                
+
                 return;
             }
-            
+
             if (hasRegisteredWindows) {
                 // Let registered windows (modals/wizards) handle their own escape
                 // They have their own escape handlers that will close them
@@ -812,7 +813,7 @@ export default function Navigation({ onReturnToLanding }) {
                 // After they close, user can press escape again to show confirmation
                 return;
             }
-            
+
             // No windows open - show exit confirmation
             e.preventDefault();
             setShowExitConfirm(true);
@@ -1131,391 +1132,458 @@ export default function Navigation({ onReturnToLanding }) {
     return (
         <SpellWizardProvider>
             <Fragment>
-            {/* Mobile Navigation Button */}
-            {isMobile && (
-                <button
-                    className="mobile-nav-trigger"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setIsMobileNavOpen(!isMobileNavOpen);
-                    }}
-                    title="Navigation Menu"
-                >
-                    <i className="fas fa-bars"></i>
-                </button>
-            )}
-
-            {/* Mobile Navigation Popout */}
-            {isMobile && isMobileNavOpen && (
-                <div className="mobile-nav-popout">
-                    <div className="mobile-nav-popout-header">
-                        <span>Navigation</span>
-                        <button
-                            className="mobile-nav-close"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsMobileNavOpen(false);
-                            }}
-                        >
-                            <i className="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div className="mobile-nav-popout-content">
-                        <button
-                            className="mobile-nav-arrow mobile-nav-arrow-prev"
-                            onClick={handleMobileNavPrev}
-                            disabled={mobileNavPage === 0}
-                            aria-label="Previous"
-                        >
-                            <i className="fas fa-chevron-left"></i>
-                        </button>
-                        <div className="mobile-nav-buttons">
-                            {getMobileVisibleButtons().map(button => {
-                                const isActive = button.id === 'leveleditor'
-                                    ? isEditorMode
-                                    : button.id === 'combat'
-                                    ? isSelectionMode || isInCombat
-                                    : openWindows.has(button.id);
-
-                                return (
-                                    <button
-                                        key={button.id}
-                                        className={`mobile-nav-item ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleButtonClick(button.id);
-                                            setIsMobileNavOpen(false);
-                                        }}
-                                        title={button.title || button.id}
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="mobile-nav-icon"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            {button.svg}
-                                        </svg>
-                                        <span className="mobile-nav-label">{button.title || button.id}</span>
-                                    </button>
-                                );
-                            })}
-                            {/* Dialogue Controls shortcut (GM-only) */}
-                            {isGMMode && (
-                                <button
-                                    className="mobile-nav-item"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        window.dispatchEvent(new Event('toggleDialogueControls'));
-                                        setIsMobileNavOpen(false);
-                                    }}
-                                    title="Dialogue"
-                                >
-                                    <i className="fas fa-comment-dots" style={{ width: 24, textAlign: 'center' }}></i>
-                                    <span className="mobile-nav-label">Dialogue</span>
-                                </button>
-                            )}
-                        </div>
-                        <button
-                            className="mobile-nav-arrow mobile-nav-arrow-next"
-                            onClick={handleMobileNavNext}
-                            disabled={mobileNavPage >= totalPages - 1}
-                            aria-label="Next"
-                        >
-                            <i className="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div className="mobile-nav-page-indicator">
-                        {mobileNavPage + 1} / {totalPages}
-                    </div>
-                    {/* Back to Landing Button */}
-                    {onReturnToLanding && (
-                        <button
-                            className="mobile-nav-back-button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onReturnToLanding();
-                                setIsMobileNavOpen(false);
-                            }}
-                        >
-                            <i className="fas fa-arrow-left"></i>
-                            <span>Return to Menu</span>
-                        </button>
-                    )}
-                </div>
-            )}
-
-            {/* Desktop Navigation */}
-            {!isMobile && (
-            <Draggable
-                handle=".wow-nav-grid"
-                position={position}
-                onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
-                nodeRef={nodeRef}
-            >
-                <div ref={nodeRef}>
-                    <Resizable
-                        width={size.width}
-                        height={size.height}
-                        onResize={handleResize}
-                        draggableOpts={{ grid: [10, 10] }}
-                        minConstraints={[200, 50]}
-                        maxConstraints={[800, 50]}
-                        resizeHandles={['e']}
-                        handle={<div className="custom-resize-handle" />}
+                {/* Mobile Navigation Button */}
+                {isMobile && (
+                    <button
+                        className="mobile-nav-trigger"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMobileNavOpen(!isMobileNavOpen);
+                        }}
+                        title="Navigation Menu"
                     >
-                        <div className="wow-nav-container" style={{
-                            width: size.width,
-                            height: size.height,
-                        }}>
-                            <div className="wow-nav-grid">
-                                {buttons.filter(button => button && button.id).map(button => {
-                                    // Special handling for level editor and combat active states
+                        <i className="fas fa-bars"></i>
+                    </button>
+                )}
+
+                {/* Mobile Navigation Popout */}
+                {isMobile && isMobileNavOpen && (
+                    <div className="mobile-nav-popout">
+                        <div className="mobile-nav-popout-header">
+                            <span>Navigation</span>
+                            <button
+                                className="mobile-nav-close"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsMobileNavOpen(false);
+                                }}
+                            >
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="mobile-nav-popout-content">
+                            <button
+                                className="mobile-nav-arrow mobile-nav-arrow-prev"
+                                onClick={handleMobileNavPrev}
+                                disabled={mobileNavPage === 0}
+                                aria-label="Previous"
+                            >
+                                <i className="fas fa-chevron-left"></i>
+                            </button>
+                            <div className="mobile-nav-buttons">
+                                {getMobileVisibleButtons().map(button => {
                                     const isActive = button.id === 'leveleditor'
                                         ? isEditorMode
                                         : button.id === 'combat'
-                                        ? isSelectionMode || isInCombat  // Active during selection mode OR combat
-                                        : openWindows.has(button.id);
+                                            ? isSelectionMode || isInCombat
+                                            : openWindows.has(button.id);
 
                                     return (
                                         <button
                                             key={button.id}
+                                            className={`mobile-nav-item ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
                                             onClick={(e) => {
-                                                e.preventDefault();
                                                 e.stopPropagation();
                                                 handleButtonClick(button.id);
+                                                setIsMobileNavOpen(false);
                                             }}
-                                            onTouchStart={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }}
-                                            onTouchEnd={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                handleButtonClick(button.id);
-                                            }}
-                                            className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
-                                            title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
-                                            style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+                                            title={button.title || button.id}
                                         >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="wow-nav-icon"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            {button.svg}
-                                        </svg>
-                                        <div className="shortcut">
-                                            {button.shortcut}
-                                        </div>
-                                    </button>
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                className="mobile-nav-icon"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                {button.svg}
+                                            </svg>
+                                            <span className="mobile-nav-label">{button.title || button.id}</span>
+                                        </button>
                                     );
                                 })}
-
-                                {/* Back to Landing Page Button */}
-                                {onReturnToLanding && (
+                                {/* Dialogue Controls shortcut (GM-only) */}
+                                {isGMMode && (
                                     <button
-                                        onClick={onReturnToLanding}
-                                        onTouchStart={(e) => {
-                                            e.preventDefault();
+                                        className="mobile-nav-item"
+                                        onClick={(e) => {
                                             e.stopPropagation();
+                                            window.dispatchEvent(new Event('toggleDialogueControls'));
+                                            setIsMobileNavOpen(false);
                                         }}
-                                        onTouchEnd={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            onReturnToLanding();
-                                        }}
-                                        className="wow-nav-button back-button"
-                                        title="Return to Main Menu (ESC)"
-                                        style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+                                        title="Dialogue"
                                     >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="wow-nav-icon"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            <path d="M19 12H5M12 19l-7-7 7-7"/>
-                                        </svg>
-                                        <div className="shortcut">
-                                            ESC
-                                        </div>
+                                        <i className="fas fa-comment-dots" style={{ width: 24, textAlign: 'center' }}></i>
+                                        <span className="mobile-nav-label">Dialogue</span>
                                     </button>
                                 )}
 
+                                {/* Regain Leadership Button (GM-only when in Player Preview) */}
+                                {(() => {
+                                    const partyState = usePartyStore.getState();
+                                    const currentMember = partyState.partyMembers.find(m => m.id === 'current-player');
+                                    const isActualGM = currentMember?.isGM;
+                                    const isLeader = partyState.leaderId === 'current-player';
+
+                                    if (isActualGM && !isLeader) {
+                                        return (
+                                            <button
+                                                onClick={() => partyState.setLeader('current-player')}
+                                                className="wow-nav-button leadership-regain"
+                                                title="Regain Leadership & Restore GM Tools"
+                                                style={{
+                                                    pointerEvents: 'auto',
+                                                    cursor: 'pointer',
+                                                    touchAction: 'manipulation',
+                                                    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                                                    borderColor: '#d4af37'
+                                                }}
+                                            >
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    className="wow-nav-icon"
+                                                    fill="none"
+                                                    stroke="#d4af37"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path d="M2 20h20M2 19V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v14M8 19v-4M16 19v-4M4 8l3 3 5-5 5 5 3-3" />
+                                                </svg>
+                                                <div className="shortcut" style={{ color: '#d4af37' }}>
+                                                    GM
+                                                </div>
+                                            </button>
+                                        );
+                                    }
+                                    return null;
+                                })()}
                             </div>
+                            <button
+                                className="mobile-nav-arrow mobile-nav-arrow-next"
+                                onClick={handleMobileNavNext}
+                                disabled={mobileNavPage >= totalPages - 1}
+                                aria-label="Next"
+                            >
+                                <i className="fas fa-chevron-right"></i>
+                            </button>
                         </div>
-                    </Resizable>
-                </div>
-            </Draggable>
-            )}
-            
-            {/* Grid Coordinates Display */}
-            {(() => {
-                // Calculate grid coordinates with decimal precision
-                // Note: Negative sign accounts for coordinate system inversion
-                const gridX = -(cameraX || 0) / (gridSize || 50);
-                const gridY = -(cameraY || 0) / (gridSize || 50);
-                
-                // Calculate a contrasting color based on background
-                const getContrastColor = (bgColor) => {
-                    if (!bgColor) return '#5a3b2e'; // Default dark brown
-                    
-                    // Parse hex color
-                    const hex = bgColor.replace('#', '');
-                    const r = parseInt(hex.substr(0, 2), 16);
-                    const g = parseInt(hex.substr(2, 2), 16);
-                    const b = parseInt(hex.substr(4, 2), 16);
-                    
-                    // Calculate luminance
-                    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-                    
-                    // Return dark color for light backgrounds, light color for dark backgrounds
-                    // But make it a nice color, not pure black/white
-                    if (luminance > 0.6) {
-                        // Light background - use dark brown/rust color
-                        return '#5a3b2e';
-                    } else if (luminance > 0.4) {
-                        // Medium background - use medium brown
-                        return '#8b6f47';
-                    } else {
-                        // Dark background - use light beige
-                        return '#d4c5b9';
-                    }
-                };
-                
-                const textColor = getContrastColor(gridBackgroundColor || '#d4c5b9');
-                
-                return (
-                    <div 
-                        className="grid-coordinates-display" 
-                        title="Click to center on origin (0, 0)"
-                        onClick={() => setCameraPosition(0, 0)}
+                        <div className="mobile-nav-page-indicator">
+                            {mobileNavPage + 1} / {totalPages}
+                        </div>
+                        {/* Back to Landing Button */}
+                        {onReturnToLanding && (
+                            <button
+                                className="mobile-nav-back-button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onReturnToLanding();
+                                    setIsMobileNavOpen(false);
+                                }}
+                            >
+                                <i className="fas fa-arrow-left"></i>
+                                <span>Return to Menu</span>
+                            </button>
+                        )}
+                    </div>
+                )}
+
+                {/* Desktop Navigation */}
+                {!isMobile && (
+                    <Draggable
+                        handle=".wow-nav-grid"
+                        position={position}
+                        onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+                        nodeRef={nodeRef}
+                    >
+                        <div ref={nodeRef}>
+                            <Resizable
+                                width={size.width}
+                                height={size.height}
+                                onResize={handleResize}
+                                draggableOpts={{ grid: [10, 10] }}
+                                minConstraints={[200, 50]}
+                                maxConstraints={[800, 50]}
+                                resizeHandles={['e']}
+                                handle={<div className="custom-resize-handle" />}
+                            >
+                                <div className="wow-nav-container" style={{
+                                    width: size.width,
+                                    height: size.height,
+                                }}>
+                                    <div className="wow-nav-grid">
+                                        {buttons.filter(button => button && button.id).map(button => {
+                                            // Special handling for level editor and combat active states
+                                            const isActive = button.id === 'leveleditor'
+                                                ? isEditorMode
+                                                : button.id === 'combat'
+                                                    ? isSelectionMode || isInCombat  // Active during selection mode OR combat
+                                                    : openWindows.has(button.id);
+
+                                            return (
+                                                <button
+                                                    key={button.id}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        handleButtonClick(button.id);
+                                                    }}
+                                                    onTouchStart={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                    }}
+                                                    onTouchEnd={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        handleButtonClick(button.id);
+                                                    }}
+                                                    className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
+                                                    title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
+                                                    style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+                                                >
+                                                    <svg
+                                                        viewBox="0 0 24 24"
+                                                        className="wow-nav-icon"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        {button.svg}
+                                                    </svg>
+                                                    <div className="shortcut">
+                                                        {button.shortcut}
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+
+                                        {/* Back to Landing Page Button */}
+                                        {onReturnToLanding && (
+                                            <button
+                                                onClick={onReturnToLanding}
+                                                onTouchStart={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                }}
+                                                onTouchEnd={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    onReturnToLanding();
+                                                }}
+                                                className="wow-nav-button back-button"
+                                                title="Return to Main Menu (ESC)"
+                                                style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+                                            >
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    className="wow-nav-icon"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                                </svg>
+                                                <div className="shortcut">
+                                                    ESC
+                                                </div>
+                                            </button>
+                                        )}
+
+                                    </div>
+                                </div>
+                            </Resizable>
+                        </div>
+                    </Draggable>
+                )}
+
+                {/* Grid Coordinates Display */}
+                {(() => {
+                    // Calculate grid coordinates with decimal precision
+                    // Note: Negative sign accounts for coordinate system inversion
+                    const gridX = -(cameraX || 0) / (gridSize || 50);
+                    const gridY = -(cameraY || 0) / (gridSize || 50);
+
+                    // Calculate a contrasting color based on background
+                    const getContrastColor = (bgColor) => {
+                        if (!bgColor) return '#5a3b2e'; // Default dark brown
+
+                        // Parse hex color
+                        const hex = bgColor.replace('#', '');
+                        const r = parseInt(hex.substr(0, 2), 16);
+                        const g = parseInt(hex.substr(2, 2), 16);
+                        const b = parseInt(hex.substr(4, 2), 16);
+
+                        // Calculate luminance
+                        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+                        // Return dark color for light backgrounds, light color for dark backgrounds
+                        // But make it a nice color, not pure black/white
+                        if (luminance > 0.6) {
+                            // Light background - use dark brown/rust color
+                            return '#5a3b2e';
+                        } else if (luminance > 0.4) {
+                            // Medium background - use medium brown
+                            return '#8b6f47';
+                        } else {
+                            // Dark background - use light beige
+                            return '#d4c5b9';
+                        }
+                    };
+
+                    const textColor = getContrastColor(gridBackgroundColor || '#d4c5b9');
+
+                    return (
+                        <div
+                            className="grid-coordinates-display"
+                            title="Click to center on origin (0, 0)"
+                            onClick={() => setCameraPosition(0, 0)}
+                            style={{
+                                position: 'fixed',
+                                top: '12px',
+                                left: '12px',
+                                color: textColor,
+                                fontFamily: 'Courier New, Monaco, monospace',
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                zIndex: 99999,
+                                visibility: 'visible',
+                                opacity: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                pointerEvents: 'auto',
+                                cursor: 'pointer',
+                                userSelect: 'none'
+                            }}
+                        >
+                            <i className="fas fa-crosshairs" style={{ marginRight: '6px', color: textColor, fontSize: '12px', opacity: 0.8 }}></i>
+                            <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX.toFixed(1)}</span>
+                            <span style={{ margin: '0 8px', color: textColor, opacity: 0.6 }}>|</span>
+                            <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY.toFixed(1)}</span>
+                            <i
+                                className="fas fa-map-marker-alt"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setInputX(gridX.toFixed(1));
+                                    setInputY(gridY.toFixed(1));
+                                    setShowCoordinatePopup(true);
+                                }}
+                                style={{
+                                    marginLeft: '8px',
+                                    color: textColor,
+                                    fontSize: '14px',
+                                    opacity: 0.8,
+                                    cursor: 'pointer',
+                                    transition: 'opacity 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.target.style.opacity = '1'}
+                                onMouseLeave={(e) => e.target.style.opacity = '0.8'}
+                                title="Jump to coordinates"
+                            ></i>
+                        </div>
+                    );
+                })()}
+
+                {/* Coordinate Input Popup */}
+                {showCoordinatePopup && (
+                    <div
                         style={{
                             position: 'fixed',
-                            top: '12px',
-                            left: '12px',
-                            color: textColor,
-                            fontFamily: 'Courier New, Monaco, monospace',
-                            fontSize: '14px',
-                            fontWeight: '600',
-                            zIndex: 99999,
-                            visibility: 'visible',
-                            opacity: 1,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            pointerEvents: 'auto',
-                            cursor: 'pointer',
-                            userSelect: 'none'
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#2c1810',
+                            border: '2px solid #8b6f47',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            zIndex: 100000,
+                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                            minWidth: '300px',
+                            fontFamily: 'Bookman Old Style, Garamond, serif'
                         }}
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <i className="fas fa-crosshairs" style={{ marginRight: '6px', color: textColor, fontSize: '12px', opacity: 0.8 }}></i>
-                        <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX.toFixed(1)}</span>
-                        <span style={{ margin: '0 8px', color: textColor, opacity: 0.6 }}>|</span>
-                        <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY.toFixed(1)}</span>
-                        <i 
-                            className="fas fa-map-marker-alt" 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setInputX(gridX.toFixed(1));
-                                setInputY(gridY.toFixed(1));
-                                setShowCoordinatePopup(true);
-                            }}
-                            style={{ 
-                                marginLeft: '8px', 
-                                color: textColor, 
-                                fontSize: '14px', 
-                                opacity: 0.8,
-                                cursor: 'pointer',
-                                transition: 'opacity 0.2s'
-                            }}
-                            onMouseEnter={(e) => e.target.style.opacity = '1'}
-                            onMouseLeave={(e) => e.target.style.opacity = '0.8'}
-                            title="Jump to coordinates"
-                        ></i>
-                    </div>
-                );
-            })()}
-
-            {/* Coordinate Input Popup */}
-            {showCoordinatePopup && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        backgroundColor: '#2c1810',
-                        border: '2px solid #8b6f47',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        zIndex: 100000,
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-                        minWidth: '300px',
-                        fontFamily: 'Bookman Old Style, Garamond, serif'
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div style={{ marginBottom: '15px', color: '#d4c5b9', fontSize: '16px', fontWeight: '600' }}>
-                        Jump to Coordinates
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>X:</label>
-                            <input
-                                type="number"
-                                step="0.1"
-                                value={inputX}
-                                onChange={(e) => setInputX(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        const x = parseFloat(inputX) || 0;
-                                        const y = parseFloat(inputY) || 0;
-                                        // Convert grid coordinates to camera position
-                                        // Reverse of: gridX = -(cameraX || 0) / (gridSize || 50)
-                                        const cameraXPos = -(x * (gridSize || 50));
-                                        const cameraYPos = -(y * (gridSize || 50));
-                                        setCameraPosition(cameraXPos, cameraYPos);
-                                        setShowCoordinatePopup(false);
-                                    } else if (e.key === 'Escape') {
-                                        setShowCoordinatePopup(false);
-                                    }
-                                }}
-                                style={{
-                                    flex: 1,
-                                    padding: '8px',
-                                    backgroundColor: '#1a1008',
-                                    border: '1px solid #8b6f47',
-                                    borderRadius: '4px',
-                                    color: '#d4c5b9',
-                                    fontFamily: 'Courier New, Monaco, monospace',
-                                    fontSize: '14px'
-                                }}
-                                autoFocus
-                            />
+                        <div style={{ marginBottom: '15px', color: '#d4c5b9', fontSize: '16px', fontWeight: '600' }}>
+                            Jump to Coordinates
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>Y:</label>
-                            <input
-                                type="number"
-                                step="0.1"
-                                value={inputY}
-                                onChange={(e) => setInputY(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>X:</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    value={inputX}
+                                    onChange={(e) => setInputX(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            const x = parseFloat(inputX) || 0;
+                                            const y = parseFloat(inputY) || 0;
+                                            // Convert grid coordinates to camera position
+                                            // Reverse of: gridX = -(cameraX || 0) / (gridSize || 50)
+                                            const cameraXPos = -(x * (gridSize || 50));
+                                            const cameraYPos = -(y * (gridSize || 50));
+                                            setCameraPosition(cameraXPos, cameraYPos);
+                                            setShowCoordinatePopup(false);
+                                        } else if (e.key === 'Escape') {
+                                            setShowCoordinatePopup(false);
+                                        }
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: '8px',
+                                        backgroundColor: '#1a1008',
+                                        border: '1px solid #8b6f47',
+                                        borderRadius: '4px',
+                                        color: '#d4c5b9',
+                                        fontFamily: 'Courier New, Monaco, monospace',
+                                        fontSize: '14px'
+                                    }}
+                                    autoFocus
+                                />
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>Y:</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    value={inputY}
+                                    onChange={(e) => setInputY(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            const x = parseFloat(inputX) || 0;
+                                            const y = parseFloat(inputY) || 0;
+                                            // Convert grid coordinates to camera position
+                                            const cameraXPos = -(x * (gridSize || 50));
+                                            const cameraYPos = -(y * (gridSize || 50));
+                                            setCameraPosition(cameraXPos, cameraYPos);
+                                            setShowCoordinatePopup(false);
+                                        } else if (e.key === 'Escape') {
+                                            setShowCoordinatePopup(false);
+                                        }
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: '8px',
+                                        backgroundColor: '#1a1008',
+                                        border: '1px solid #8b6f47',
+                                        borderRadius: '4px',
+                                        color: '#d4c5b9',
+                                        fontFamily: 'Courier New, Monaco, monospace',
+                                        fontSize: '14px'
+                                    }}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                                <button
+                                    onClick={() => {
                                         const x = parseFloat(inputX) || 0;
                                         const y = parseFloat(inputY) || 0;
                                         // Convert grid coordinates to camera position
@@ -1523,118 +1591,92 @@ export default function Navigation({ onReturnToLanding }) {
                                         const cameraYPos = -(y * (gridSize || 50));
                                         setCameraPosition(cameraXPos, cameraYPos);
                                         setShowCoordinatePopup(false);
-                                    } else if (e.key === 'Escape') {
-                                        setShowCoordinatePopup(false);
-                                    }
-                                }}
-                                style={{
-                                    flex: 1,
-                                    padding: '8px',
-                                    backgroundColor: '#1a1008',
-                                    border: '1px solid #8b6f47',
-                                    borderRadius: '4px',
-                                    color: '#d4c5b9',
-                                    fontFamily: 'Courier New, Monaco, monospace',
-                                    fontSize: '14px'
-                                }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                            <button
-                                onClick={() => {
-                                    const x = parseFloat(inputX) || 0;
-                                    const y = parseFloat(inputY) || 0;
-                                    // Convert grid coordinates to camera position
-                                    const cameraXPos = -(x * (gridSize || 50));
-                                    const cameraYPos = -(y * (gridSize || 50));
-                                    setCameraPosition(cameraXPos, cameraYPos);
-                                    setShowCoordinatePopup(false);
-                                }}
-                                style={{
-                                    flex: 1,
-                                    padding: '10px',
-                                    backgroundColor: '#8b6f47',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    color: '#f0e6d2',
-                                    fontFamily: 'Bookman Old Style, Garamond, serif',
-                                    fontSize: '14px',
-                                    fontWeight: '600',
-                                    cursor: 'pointer',
-                                    transition: 'background-color 0.2s'
-                                }}
-                                onMouseEnter={(e) => e.target.style.backgroundColor = '#a08c70'}
-                                onMouseLeave={(e) => e.target.style.backgroundColor = '#8b6f47'}
-                            >
-                                Jump
-                            </button>
-                            <button
-                                onClick={() => setShowCoordinatePopup(false)}
-                                style={{
-                                    flex: 1,
-                                    padding: '10px',
-                                    backgroundColor: '#5a3b2e',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    color: '#d4c5b9',
-                                    fontFamily: 'Bookman Old Style, Garamond, serif',
-                                    fontSize: '14px',
-                                    fontWeight: '600',
-                                    cursor: 'pointer',
-                                    transition: 'background-color 0.2s'
-                                }}
-                                onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4a3a'}
-                                onMouseLeave={(e) => e.target.style.backgroundColor = '#5a3b2e'}
-                            >
-                                Cancel
-                            </button>
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: '10px',
+                                        backgroundColor: '#8b6f47',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        color: '#f0e6d2',
+                                        fontFamily: 'Bookman Old Style, Garamond, serif',
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'background-color 0.2s'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#a08c70'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#8b6f47'}
+                                >
+                                    Jump
+                                </button>
+                                <button
+                                    onClick={() => setShowCoordinatePopup(false)}
+                                    style={{
+                                        flex: 1,
+                                        padding: '10px',
+                                        backgroundColor: '#5a3b2e',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        color: '#d4c5b9',
+                                        fontFamily: 'Bookman Old Style, Garamond, serif',
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'background-color 0.2s'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4a3a'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#5a3b2e'}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Backdrop to close popup when clicking outside */}
-            {showCoordinatePopup && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        zIndex: 99999
-                    }}
-                    onClick={() => setShowCoordinatePopup(false)}
-                />
-            )}
+                {/* Backdrop to close popup when clicking outside */}
+                {showCoordinatePopup && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            zIndex: 99999
+                        }}
+                        onClick={() => setShowCoordinatePopup(false)}
+                    />
+                )}
 
-            {buttons.filter(button => button && button.id).map(button => (
-                <React.Fragment key={`window-${button.id}`}>
-                    {getWindowContent(button)}
-                </React.Fragment>
-            ))}
-            {/* External Live Preview - only shows when spellbook is open and wizard tab is active */}
-            {openWindows.has('spellbook') && (
-                <ExternalLivePreview />
-            )}
+                {buttons.filter(button => button && button.id).map(button => (
+                    <React.Fragment key={`window-${button.id}`}>
+                        {getWindowContent(button)}
+                    </React.Fragment>
+                ))}
+                {/* External Live Preview - only shows when spellbook is open and wizard tab is active */}
+                {openWindows.has('spellbook') && (
+                    <ExternalLivePreview />
+                )}
 
-            {/* Exit Game Confirmation Dialog */}
-            {showExitConfirm && (
-                <ExitGameConfirmDialog
-                    gameName="Mythrill"
-                    onConfirm={() => {
-                        setShowExitConfirm(false);
-                        if (onReturnToLanding) {
-                            onReturnToLanding();
-                        }
-                    }}
-                    onCancel={() => setShowExitConfirm(false)}
-                />
-            )}
+                {/* Exit Game Confirmation Dialog */}
+                {showExitConfirm && (
+                    <ExitGameConfirmDialog
+                        gameName="Mythrill"
+                        onConfirm={() => {
+                            setShowExitConfirm(false);
+                            if (onReturnToLanding) {
+                                onReturnToLanding();
+                            }
+                        }}
+                        onCancel={() => setShowExitConfirm(false)}
+                    />
+                )}
 
-            {/* Player Display Overlay - Shows GM-shared content */}
-            <PlayerDisplayOverlay />
+                {/* Player Display Overlay - Shows GM-shared content */}
+                <PlayerDisplayOverlay />
             </Fragment>
         </SpellWizardProvider>
     );

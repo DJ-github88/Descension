@@ -30,6 +30,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
     const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
+    const leaderId = usePartyStore(state => state.leaderId);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
     const currentPlayerStoreData = useCharacterStore(state => ({
@@ -675,8 +676,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                             <i className="fas fa-user"></i>
                         )}
                     </div>
-                    {/* GM Crown */}
-                    {member.isGM && (
+                    {/* GM/Leader Crown */}
+                    {(member.id === leaderId || (member.id === 'current-player' && leaderId === 'current-player')) && (
                         <div className="leader-crown">
                             <i className="fas fa-crown"></i>
                         </div>
@@ -1846,36 +1847,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     };
 
     const handleTransferLeadership = () => {
-        console.log('🚀 Transfer Leadership clicked!', {
-            contextMenuMember,
-            currentPlayerData: currentPlayerData.name
-        });
-
-        if (!contextMenuMember) {
-            console.log('❌ No context menu member found');
-            return;
-        }
+        if (!contextMenuMember) return;
 
         // Don't allow transferring to yourself
-        if (contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player') {
-            console.log('❌ Cannot transfer to yourself');
+        if (contextMenuMember.id === 'current-player') {
             setShowContextMenu(false);
             return;
         }
 
-        console.log('✅ Proceeding with leadership transfer...');
-
-        // Update current player to remove GM status
-        updatePartyMember('current-player', { isGM: false });
-        console.log('📝 Removed GM status from current player');
-
-        // Update target member to have GM status
-        updatePartyMember(contextMenuMember.id, { isGM: true });
-        console.log('📝 Added GM status to target member:', contextMenuMember.name);
-
-        // Switch global GM mode - current player becomes Player, loses all GM privileges
-        setGMMode(false);
-        console.log('📝 Set global GM mode to false');
+        // Use the new setLeader action which handles sync and UI mode auto-toggle
+        usePartyStore.getState().setLeader(contextMenuMember.id);
 
         // Add chat notification about leadership transfer
         addNotification('social', {
@@ -1886,7 +1867,27 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         });
 
         setShowContextMenu(false);
-        console.log(`👑 Leadership transferred to: ${contextMenuMember.name} - You are now a Player`);
+        console.log(`👑 Leadership transferred to: ${contextMenuMember.name}`);
+    };
+
+    const handleRegainLeadership = () => {
+        // Only actual GMs should be able to do this
+        const currentMember = partyMembers.find(m => m.id === 'current-player');
+        if (!currentMember?.isGM) return;
+
+        // Take back leadership
+        usePartyStore.getState().setLeader('current-player');
+
+        // Add chat notification
+        addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `Game Master has regained leadership`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+        });
+
+        setShowContextMenu(false);
+        console.log(`👑 GM regained leadership`);
     };
 
     // Handler for class resource updates (e.g., Inferno Veil)
@@ -3203,41 +3204,33 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
-                // Leadership transfer - only show if current player is GM and target is not current player
-                const currentPlayerIsGM = partyMembers.find(m => m.id === 'current-player')?.isGM;
+                // Leadership transfer - show options if current player is actual GM
+                const currentMember = partyMembers.find(m => m.id === 'current-player');
+                const isActualGM = currentMember?.isGM;
+                const leaderId = usePartyStore.getState().leaderId;
 
-                // Only show uninvite for other party members, not yourself, and only if you're the GM
-                if (currentPlayerIsGM && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
-                    menuItems.push({
-                        icon: <i className="fas fa-user-minus"></i>,
-                        label: 'Uninvite',
-                        onClick: handleUninviteMember,
-                        className: 'danger'
-                    });
-                }
+                if (isActualGM) {
+                    menuItems.push({ type: 'separator' });
 
-                console.log('🔍 Leadership check:', {
-                    currentPlayerIsGM,
-                    contextMenuMemberName: contextMenuMember?.name,
-                    contextMenuMemberId: contextMenuMember?.id,
-                    currentPlayerName: currentPlayerData.name,
-                    partyMembers: partyMembers.map(m => ({ id: m.id, name: m.name, isGM: m.isGM }))
-                });
-                if (currentPlayerIsGM && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
-                    menuItems.push({
-                        type: 'separator'
-                    });
-                    menuItems.push({
-                        icon: <i className="fas fa-crown"></i>,
-                        label: 'Transfer Leadership',
-                        onClick: (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('🖱️ Transfer Leadership menu item clicked');
-                            handleTransferLeadership();
-                        },
-                        className: 'leadership'
-                    });
+                    if (contextMenuMember?.id === 'current-player') {
+                        // Current player (GM) context menu
+                        if (leaderId !== 'current-player') {
+                            menuItems.push({
+                                icon: <i className="fas fa-crown"></i>,
+                                label: 'Regain Leadership',
+                                onClick: handleRegainLeadership,
+                                className: 'leadership'
+                            });
+                        }
+                    } else if (leaderId !== contextMenuMember?.id) {
+                        // Other player context menu
+                        menuItems.push({
+                            icon: <i className="fas fa-crown"></i>,
+                            label: 'Make Leader',
+                            onClick: handleTransferLeadership,
+                            className: 'leadership'
+                        });
+                    }
                 }
 
                 return (

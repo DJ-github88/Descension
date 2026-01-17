@@ -11,11 +11,14 @@ export const useActionBarPersistence = (roomId = 'global') => {
   const [actionSlots, setActionSlots] = useState(Array(10).fill(null));
   const [isLoading, setIsLoading] = useState(true);
   const [lastSaveTime, setLastSaveTime] = useState(null);
-  
+
+  // Stable reference for empty slots to prevent re-renders
+  const EMPTY_SLOTS = useRef(Array(10).fill(null)).current;
+
   // Get current character ID from character store
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   const characterName = useCharacterStore(state => state.name);
-  
+
   // Auto-save timer ref
   const autoSaveTimerRef = useRef(null);
   const lastActionSlotsRef = useRef(null);
@@ -25,16 +28,18 @@ export const useActionBarPersistence = (roomId = 'global') => {
    */
   const loadActionBarConfig = useCallback(async () => {
     if (!currentCharacterId) {
-      setActionSlots(Array(10).fill(null));
+      if (JSON.stringify(actionSlots) !== JSON.stringify(EMPTY_SLOTS)) {
+        setActionSlots(EMPTY_SLOTS);
+      }
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
       const savedConfig = actionBarPersistenceService.loadActionBarConfig(currentCharacterId, roomId);
-      
+
       if (savedConfig && Array.isArray(savedConfig)) {
         // Ensure the config has exactly 10 slots
         const normalizedConfig = Array(10).fill(null);
@@ -43,11 +48,15 @@ export const useActionBarPersistence = (roomId = 'global') => {
             normalizedConfig[index] = slot;
           }
         });
-        
-        setActionSlots(normalizedConfig);
+
+        if (JSON.stringify(actionSlots) !== JSON.stringify(normalizedConfig)) {
+          setActionSlots(normalizedConfig);
+        }
       } else {
         // No saved config found, use empty slots
-        setActionSlots(Array(10).fill(null));
+        if (JSON.stringify(actionSlots) !== JSON.stringify(EMPTY_SLOTS)) {
+          setActionSlots(EMPTY_SLOTS);
+        }
       }
     } catch (error) {
       console.error('Error loading action bar config:', error);
@@ -67,14 +76,14 @@ export const useActionBarPersistence = (roomId = 'global') => {
     }
 
     const slots = slotsToSave || actionSlots;
-    
+
     try {
       const success = actionBarPersistenceService.saveActionBarConfig(currentCharacterId, roomId, slots);
-      
+
       if (success) {
         setLastSaveTime(new Date());
       }
-      
+
       return success;
     } catch (error) {
       console.error('Error saving action bar config:', error);
@@ -87,12 +96,12 @@ export const useActionBarPersistence = (roomId = 'global') => {
    */
   const updateActionSlots = useCallback((newSlots) => {
     setActionSlots(newSlots);
-    
+
     // Clear existing auto-save timer
     if (autoSaveTimerRef.current) {
       clearTimeout(autoSaveTimerRef.current);
     }
-    
+
     // Set new auto-save timer (debounced save after 2 seconds)
     autoSaveTimerRef.current = setTimeout(() => {
       saveActionBarConfig(newSlots);
@@ -124,8 +133,8 @@ export const useActionBarPersistence = (roomId = 'global') => {
    * Clear all slots
    */
   const clearAllSlots = useCallback(() => {
-    updateActionSlots(Array(10).fill(null));
-  }, [updateActionSlots]);
+    updateActionSlots(EMPTY_SLOTS);
+  }, [updateActionSlots, EMPTY_SLOTS]);
 
   /**
    * Copy configuration from another room
@@ -138,16 +147,16 @@ export const useActionBarPersistence = (roomId = 'global') => {
 
     try {
       const success = actionBarPersistenceService.copyActionBarConfig(
-        currentCharacterId, 
-        sourceRoomId, 
+        currentCharacterId,
+        sourceRoomId,
         roomId
       );
-      
+
       if (success) {
         // Reload the configuration
         await loadActionBarConfig();
       }
-      
+
       return success;
     } catch (error) {
       console.error('Error copying action bar config:', error);
@@ -164,7 +173,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
       clearTimeout(autoSaveTimerRef.current);
       autoSaveTimerRef.current = null;
     }
-    
+
     return saveActionBarConfig();
   }, [saveActionBarConfig]);
 
@@ -179,7 +188,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
       if (autoSaveTimerRef.current) {
         clearTimeout(autoSaveTimerRef.current);
       }
-      
+
       // Force save on unmount if there are unsaved changes
       if (currentCharacterId && lastActionSlotsRef.current !== actionSlots) {
         actionBarPersistenceService.saveActionBarConfig(currentCharacterId, roomId, actionSlots);
@@ -197,18 +206,18 @@ export const useActionBarPersistence = (roomId = 'global') => {
     actionSlots,
     isLoading,
     lastSaveTime,
-    
+
     // Actions
     updateActionSlots,
     updateSlot,
     clearSlot,
     clearAllSlots,
-    
+
     // Persistence actions
     saveActionBarConfig: forceSave,
     loadActionBarConfig,
     copyFromRoom,
-    
+
     // Utility
     hasUnsavedChanges: autoSaveTimerRef.current !== null
   };

@@ -2285,6 +2285,29 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 partyStore.updatePartyMember(data.data.memberId, data.data.updates);
               }
               break;
+
+            case 'leadership_transferred':
+              // Update leader status across all clients
+              // The setLeader function now handles GM mode toggle internally
+              if (data.data && data.data.leaderId) {
+                let resolvedLeaderId = data.data.leaderId;
+
+                // CRITICAL: Translate the leaderId to 'current-player' if it matches our socket/player ID
+                // This is needed because on the GM's side, the player is identified by their socket ID,
+                // but on the player's own side, they're identified as 'current-player'.
+                const mySocketId = socket?.id;
+                const myPlayerId = currentPlayerRef.current?.id;
+
+                if (resolvedLeaderId === mySocketId || resolvedLeaderId === myPlayerId) {
+                  resolvedLeaderId = 'current-player';
+                  console.log('👑 I am now the leader! Translating leaderId to current-player');
+                }
+
+                console.log('👑 Leadership transferred via socket:', data.data.leaderId, '→', resolvedLeaderId);
+                // Pass true as second arg to indicate this is from sync (prevents re-broadcast)
+                partyStore.setLeader(resolvedLeaderId, true);
+              }
+              break;
           }
         }
       });
