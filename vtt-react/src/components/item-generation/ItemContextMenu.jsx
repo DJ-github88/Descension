@@ -3,7 +3,7 @@ import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
-const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal, onShowUnlockModal }) => {
+const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal, onShowUnlockModal, onShareToCommunity, user }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [error, setError] = useState(null);
     const removeItem = useItemStore(state => state.removeItem);
@@ -179,6 +179,24 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
             onClick: () => {
                 onShowCategorizeModal(itemId, currentCategoryId, x, y);
                 onClose(); // Close the context menu immediately
+            }
+        });
+    }
+
+    // Share with Community option - only for authenticated users (not guests)
+    // Allowed: Google/email login users, development bypass users
+    const canShare = user && (
+        (!user.isGuest && user.uid) || // Google/email authenticated user
+        user.isDevelopmentUser // Development bypass user
+    );
+
+    if (onShareToCommunity && canShare) {
+        menuItems.push({
+            icon: <i className="fas fa-share-alt"></i>,
+            label: 'Share with Community',
+            onClick: () => {
+                onShareToCommunity(item);
+                onClose();
             }
         });
     }

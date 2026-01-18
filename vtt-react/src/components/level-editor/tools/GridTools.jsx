@@ -181,7 +181,9 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         setOffsetX(x);
         setOffsetY(y);
         setGridOffset(x, y);
+        syncGridSettings({ gridOffsetX: x, gridOffsetY: y });
     };
+
 
 
 
@@ -494,8 +496,13 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                             <input
                                 type="checkbox"
                                 checked={showGrid}
-                                onChange={() => setShowGrid(!showGrid)}
+                                onChange={() => {
+                                    const newValue = !showGrid;
+                                    setShowGrid(newValue);
+                                    syncGridSettings({ showGrid: newValue });
+                                }}
                             />
+
                             <span className="toggle-switch"></span>
                             <div className="toggle-content">
                                 <span className="toggle-title">Show Grid Lines</span>

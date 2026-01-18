@@ -25,6 +25,7 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 /**
  * Room State Persistence Service
@@ -59,7 +60,10 @@ class RoomStateService {
         version: roomState.version || 1
       };
 
-      await setDoc(docRef, firestoreData, { merge: true });
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await setDoc(docRef, sanitizedData, { merge: true });
 
       return {
         success: true,
@@ -162,7 +166,10 @@ class RoomStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, firestoreData);
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await updateDoc(docRef, sanitizedData);
 
       return {
         success: true,
@@ -256,7 +263,10 @@ class RoomStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, firestoreData);
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await updateDoc(docRef, sanitizedData);
 
       return {
         success: true,
@@ -324,7 +334,10 @@ class RoomStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, firestoreData);
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await updateDoc(docRef, sanitizedData);
 
       return {
         success: true,
@@ -394,7 +407,10 @@ class RoomStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, firestoreData);
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await updateDoc(docRef, sanitizedData);
 
       return {
         success: true,
@@ -464,7 +480,10 @@ class RoomStateService {
 
       updateData.lastUpdated = serverTimestamp();
 
-      await updateDoc(docRef, updateData);
+      // Sanitize update data to remove undefined values
+      const sanitizedUpdateData = sanitizeForFirestore(updateData);
+
+      await updateDoc(docRef, sanitizedUpdateData);
 
       return { success: true };
 

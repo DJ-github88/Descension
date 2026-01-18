@@ -5,13 +5,16 @@ const CreatureContextMenu = ({
   x,
   y,
   creatureId,
+  creature,
   onClose,
   categories = [],
   onEdit,
   onDuplicate,
   onDelete,
   onAddToCategory,
-  onInspect
+  onInspect,
+  onShareToCommunity,
+  user
 }) => {
   // Handle inspect button click
   const handleInspect = (e) => {
@@ -84,16 +87,38 @@ const CreatureContextMenu = ({
         onClick: (e) => handleAddToCategory(e, category.id)
       });
     });
+  }
+
+  // Share with Community option - only for authenticated users (not guests)
+  // Allowed: Google/email login users, development bypass users
+  const canShare = user && (
+    (!user.isGuest && user.uid) || // Google/email authenticated user
+    user.isDevelopmentUser // Development bypass user
+  );
+
+  if (onShareToCommunity && creature && canShare) {
     menuItems.push({ type: 'separator' });
+    menuItems.push({
+      icon: <i className="fas fa-share-alt"></i>,
+      label: 'Share with Community',
+      onClick: (e) => {
+        e.stopPropagation();
+        onShareToCommunity(creature);
+        onClose();
+      }
+    });
   }
 
   // Delete action
-  menuItems.push({
-    icon: <i className="fas fa-trash-alt"></i>,
-    label: 'Delete',
-    onClick: handleDelete,
-    className: 'danger'
-  });
+  menuItems.push(
+    { type: 'separator' },
+    {
+      icon: <i className="fas fa-trash-alt"></i>,
+      label: 'Delete',
+      onClick: handleDelete,
+      className: 'danger'
+    }
+  );
 
   return (
     <UnifiedContextMenu

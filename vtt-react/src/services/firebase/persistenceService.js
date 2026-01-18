@@ -7,6 +7,7 @@
 
 import { db } from '../../config/firebase';
 import { doc, getDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Import individual persistence services
 import characterStateService from './characterStateService';
@@ -80,7 +81,10 @@ class PersistenceService {
         limits: STORAGE_LIMITS[tierKey] || STORAGE_LIMITS.FREE
       };
     } catch (error) {
-      console.error('Error getting user tier:', error);
+      // Suppress permissions errors for guest/anonymous users - they just get 'FREE' tier
+      if (error?.code !== 'permission-denied') {
+        console.error('Error getting user tier:', error);
+      }
       return { tier: 'FREE', limits: STORAGE_LIMITS.FREE };
     }
   }
@@ -124,7 +128,10 @@ class PersistenceService {
 
       return usage;
     } catch (error) {
-      console.error('Error getting storage usage:', error);
+      // Suppress permissions errors for guest/anonymous users - they get 0 usage
+      if (error?.code !== 'permission-denied') {
+        console.error('Error getting storage usage:', error);
+      }
       return { total: 0, breakdown: {} };
     }
   }
@@ -148,10 +155,13 @@ class PersistenceService {
       };
 
       // Use setDoc with merge to create document if it doesn't exist
-      await setDoc(userRef, {
+      // Sanitize usage data
+      const sanitizedUsage = sanitizeForFirestore({
         storageUsage: newUsage,
         lastModified: serverTimestamp()
-      }, { merge: true });
+      });
+
+      await setDoc(userRef, sanitizedUsage, { merge: true });
 
       return newUsage;
     } catch (error) {

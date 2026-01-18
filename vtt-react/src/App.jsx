@@ -767,6 +767,10 @@ export default function App() {
         // Add keyboard shortcut for performance dashboard (Ctrl+Shift+P)
         const handleKeyDown = (event) => {
             if (event.ctrlKey && event.shiftKey && event.key === 'P') {
+                // Restricted to Game Masters only
+                const { isGMMode } = useGameStore.getState();
+                if (!isGMMode) return;
+
                 event.preventDefault();
                 setShowPerformanceDashboard(true);
             }

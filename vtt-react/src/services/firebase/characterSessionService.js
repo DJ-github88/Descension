@@ -19,6 +19,7 @@ import {
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import characterPersistenceService from './characterPersistenceService';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Import sync service for offline handling
 let characterSyncService = null;
@@ -101,8 +102,11 @@ class CharacterSessionService {
         status: 'active'
       };
 
-      const sessionRef = await addDoc(collection(db, COLLECTIONS.CHARACTER_SESSIONS), sessionData);
-      
+      // Sanitize session data to remove undefined values
+      const sanitizedSessionData = sanitizeForFirestore(sessionData);
+
+      const sessionRef = await addDoc(collection(db, COLLECTIONS.CHARACTER_SESSIONS), sanitizedSessionData);
+
       // Cache locally
       this.activeSessions.set(characterId, {
         id: sessionRef.id,
@@ -137,8 +141,12 @@ class CharacterSessionService {
       if (!session.isLocal && this.isConfigured && db) {
         try {
           const sessionRef = doc(db, COLLECTIONS.CHARACTER_SESSIONS, session.id);
+
+          // Sanitize changes to remove undefined values
+          const sanitizedChanges = sanitizeForFirestore(session.changes);
+
           await updateDoc(sessionRef, {
-            changes: session.changes,
+            changes: sanitizedChanges,
             lastUpdated: serverTimestamp()
           });
         } catch (firebaseError) {
@@ -269,7 +277,7 @@ class CharacterSessionService {
         await updateDoc(sessionRef, {
           endedAt: serverTimestamp(),
           status: 'completed',
-          finalChanges: session.changes
+          finalChanges: sanitizeForFirestore(session.changes)
         });
       }
 
@@ -281,7 +289,7 @@ class CharacterSessionService {
 
     } catch (error) {
       console.error('Error ending character session:', error);
-      
+
       // Mark session as failed but keep it for retry
       if (!session.isLocal && this.isConfigured && db) {
         try {
@@ -387,7 +395,7 @@ class CharacterSessionService {
     // Apply equipment changes
     if (changes.equipment) {
       if (!updatedCharacter.equipment) updatedCharacter.equipment = {};
-      
+
       // Handle equipped items
       changes.equipment.equipped.forEach(equip => {
         updatedCharacter.equipment[equip.slot] = equip.item;
@@ -426,14 +434,14 @@ class CharacterSessionService {
       );
 
       const querySnapshot = await getDocs(sessionsQuery);
-      
+
       if (!querySnapshot.empty) {
         const sessionDoc = querySnapshot.docs[0];
         const sessionData = { id: sessionDoc.id, ...sessionDoc.data() };
-        
+
         // Cache locally
         this.activeSessions.set(characterId, sessionData);
-        
+
         return sessionData;
       }
 
@@ -464,7 +472,7 @@ class CharacterSessionService {
         );
 
         const querySnapshot = await getDocs(sessionsQuery);
-        
+
         for (const sessionDoc of querySnapshot.docs) {
           await updateDoc(sessionDoc.ref, {
             endedAt: serverTimestamp(),

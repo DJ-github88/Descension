@@ -33,14 +33,14 @@ const createFirebaseStorage = () => ({
 
       if (user && !user.isGuest) {
         const settings = await loadUserSettings(user.uid);
-        return JSON.stringify({
+        return {
           state: settings,
           version: 1
-        });
+        };
       } else {
         // For guests, use localStorage
         const item = localStorage.getItem(name);
-        return item;
+        return item ? JSON.parse(item) : null;
       }
     } catch (error) {
       console.error('Error loading settings from Firebase:', error);
@@ -49,10 +49,8 @@ const createFirebaseStorage = () => ({
     }
   },
 
-  setItem: async (name, value) => {
+  setItem: async (name, data) => {
     try {
-      const data = JSON.parse(value);
-
       // Try to get current user from localStorage first (set by auth system)
       const authData = localStorage.getItem('auth-storage');
       let user = null;
@@ -71,12 +69,13 @@ const createFirebaseStorage = () => ({
         await saveUserSettings(user.uid, data.state);
       } else {
         // Save to localStorage for guests
-        localStorage.setItem(name, value);
+        // data is already an object when using createJSONStorage, but we need to stringify it for localStorage
+        localStorage.setItem(name, JSON.stringify(data));
       }
     } catch (error) {
       console.error('Error saving settings to Firebase:', error);
       // Fallback to localStorage
-      localStorage.setItem(name, value);
+      localStorage.setItem(name, JSON.stringify(data));
     }
   },
 
@@ -139,7 +138,7 @@ const useSettingsStore = create(
 
       // Grid & Movement Settings
       setFeetPerTile: (feet) => {
-        const clampedFeet = Math.max(1, Math.min(10, feet));
+        const clampedFeet = Math.max(1, Math.min(20, feet));
         get().updateSettings({ feetPerTile: clampedFeet });
       },
 
@@ -321,7 +320,7 @@ const useSettingsStore = create(
     }),
     {
       name: 'user-settings',
-      storage: createFirebaseStorage(),
+      storage: createJSONStorage(() => createFirebaseStorage()),
       // Only persist certain settings to avoid bloat
       partialize: (state) => ({
         // Window & UI

@@ -157,13 +157,16 @@ function GridComponent({
     feetPerTile,
     movementLineColor,
     movementLineWidth,
-    windowScale
+    windowScale,
+    defaultViewFromToken
 }) {
     // CRITICAL FIX: Subscribe to activeMovement from combatStore for reactive movement visualization
     const activeMovement = useCombatStore(state => state.activeMovement);
 
     // Calculate effective zoom early (GM zoom * player zoom) - memoized for performance
     const effectiveZoom = useMemo(() => zoomLevel * playerZoom, [zoomLevel, playerZoom]);
+
+    const previousDefaultViewRef = useRef(defaultViewFromToken);
 
     // Grid rendering mode - use canvas for better performance, especially at low zoom
     const [useCanvasGrid] = useState(true);
@@ -436,8 +439,14 @@ function GridComponent({
         // Run on initial load OR when mode switches to player mode
         // ALSO run if viewingFromToken is not set (for auto-detection on any load) - ONLY for players
         // BUT don't auto-enable if player has explicitly disabled it
+        // CRITICAL: Also re-run when defaultViewFromToken changes to react to GM setting changes
         const shouldAutoDetect = (isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken) && !playerViewFromTokenDisabled;
-        if (!shouldAutoDetect && hasSetPlayerViewRef.current) {
+
+        // If the GM setting changed, we ignore the hasSetPlayerViewRef check once to force an update
+        const gmSettingChanged = previousDefaultViewRef.current !== defaultViewFromToken;
+        previousDefaultViewRef.current = defaultViewFromToken;
+
+        if (!shouldAutoDetect && hasSetPlayerViewRef.current && !gmSettingChanged) {
             return;
         }
 
@@ -452,16 +461,8 @@ function GridComponent({
                 let playerToken = null;
 
                 if (isInMultiplayer && multiplayerRoom && !isGMMode) {
-                    // In multiplayer PLAYER mode, find token by current player's ID
-                    const currentPlayerId = multiplayerRoom.gm?.id ||
-                        (multiplayerRoom.players &&
-                            Array.from(multiplayerRoom.players.values())[0]?.id);
-
-                    if (currentPlayerId) {
-                        playerToken = currentCharacterTokens.find(token =>
-                            token.playerId === currentPlayerId || token.id === currentPlayerId
-                        );
-                    }
+                    // In multiplayer PLAYER mode, use the reliable getPlayerToken helper
+                    playerToken = characterStore.getPlayerToken();
                 } else {
                     // In single player OR GM mode, look for character tokens only (never creature tokens for player view):
                     // 1. Player token (isPlayerToken flag)
@@ -526,7 +527,7 @@ function GridComponent({
                 playerViewSetupTimeoutRef.current = null;
             }
         };
-    }, [isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken]);
+    }, [isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken, defaultViewFromToken]);
 
     // Optimized grid tile generation with memoization
     const gridTilesGeneration = useMemo(() => {
@@ -2327,7 +2328,56 @@ function GridComponent({
             return;
         }
 
-        // CRITICAL FIX: COMPLETELY DISABLE LEFT-CLICK GRID HANDLING
+        // Handle character token placement mode FIRST, before any interaction-blocking logic
+        // This ensures clicking on a token centers the camera and doesn't block re-placing it
+        if (isDraggingCharacterToken) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Right-click cancels placement
+            if (e.button === 2) {
+                setIsDraggingCharacterToken(false);
+                return;
+            }
+
+            // Left-click places the token
+            if (e.button === 0) {
+                // Check if tile data is valid
+                if (!tile || tile.gridX === undefined || tile.gridY === undefined) {
+                    console.error('Invalid tile data for character token placement:', tile);
+                    return;
+                }
+
+                // Use the infinite grid system to get proper world coordinates
+                const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
+
+                // Get current player from gameStore (provided as prop)
+                // CRITICAL FIX: Get socket ID for reliable ownership - currentPlayer is stored in MultiplayerApp React state, not gameStore
+                const gameState = gameStore.getState();
+                const multiplayerSocket = gameState.multiplayerSocket;
+                const characterName = draggedCharacterData?.name || useCharacterStore.getState().name;
+
+                if (!characterName) {
+                    console.error('No character selected for token placement');
+                    setIsDraggingCharacterToken(false);
+                    setDraggedCharacterData(null);
+                    return;
+                }
+
+                // CRITICAL FIX: Use socket.id for robust ownership - this must match what server broadcasts
+                const playerId = isInMultiplayer ? (multiplayerSocket?.id || characterName) : null;
+                console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id);
+
+                // Place the character token with player ID for multiplayer uniqueness
+                addCharacterToken(worldPos, playerId);
+
+                // Exit placement mode
+                setIsDraggingCharacterToken(false);
+                setDraggedCharacterData(null);
+            }
+            return;
+        }
+
         // Check global token interaction flag first (for production build compatibility)
         if (window.tokenInteractionActive) {
             e.stopPropagation();
@@ -2342,14 +2392,6 @@ function GridComponent({
             return;
         }
 
-        // Only allow grid clicks for character token placement mode
-        if (e.button === 0) { // Left click
-            if (!isDraggingCharacterToken) {
-                e.stopPropagation();
-                e.preventDefault();
-                return;
-            }
-        }
 
         // CRITICAL FIX: Comprehensive check to prevent any token interaction
         // Check if the click is on a token or interactive element first
@@ -2434,54 +2476,6 @@ function GridComponent({
             e.stopPropagation();
         }
 
-        // If we're in character token placement mode, place the token
-        if (isDraggingCharacterToken) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Right-click cancels placement
-            if (e.button === 2) {
-                setIsDraggingCharacterToken(false);
-                return;
-            }
-
-            // Left-click places the token
-            if (e.button === 0) {
-                // Check if tile data is valid
-                if (!tile || tile.gridX === undefined || tile.gridY === undefined) {
-                    console.error('Invalid tile data for character token placement:', tile);
-                    return;
-                }
-
-                // Use the infinite grid system to get proper world coordinates
-                const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
-
-                // Get current player from gameStore (provided as prop)
-                // CRITICAL FIX: Get socket ID for reliable ownership - currentPlayer is stored in MultiplayerApp React state, not gameStore
-                const gameState = gameStore.getState();
-                const multiplayerSocket = gameState.multiplayerSocket;
-                const characterName = draggedCharacterData?.name || useCharacterStore.getState().name;
-
-                if (!characterName) {
-                    console.error('No character selected for token placement');
-                    setIsDraggingCharacterToken(false);
-                    setDraggedCharacterData(null);
-                    return;
-                }
-
-                // CRITICAL FIX: Use socket.id for robust ownership - this must match what server broadcasts
-                const playerId = isInMultiplayer ? (multiplayerSocket?.id || characterName) : null;
-                console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id);
-
-                // Place the character token with player ID for multiplayer uniqueness
-                addCharacterToken(worldPos, playerId);
-
-                // Exit placement mode
-                setIsDraggingCharacterToken(false);
-                setDraggedCharacterData(null);
-            }
-            return;
-        }
 
         // If we're not in character token placement mode and this is a regular click,
         // don't do anything - let the event bubble up normally
@@ -3367,7 +3361,11 @@ function GridComponent({
                         currentPosition={activeMovement.currentPosition}
                         tokenId={activeMovement.tokenId}
                         gridSystem={gridSystem}
+                        feetPerTile={feetPerTile}
+                        movementLineColor={movementLineColor}
+                        movementLineWidth={movementLineWidth}
                     />
+
                 )}
 
                 {/* Character Token Placement Preview */}
@@ -3752,7 +3750,8 @@ export default function Grid() {
         feetPerTile: state.feetPerTile ?? 5,
         movementLineColor: state.movementLineColor ?? '#FFD700',
         movementLineWidth: state.movementLineWidth ?? 3,
-        windowScale: state.windowScale ?? 0.83
+        windowScale: state.windowScale ?? 0.83,
+        defaultViewFromToken: state.defaultViewFromToken
     }));
 
     // Create a store wrapper object for InfiniteGridSystem
@@ -3820,7 +3819,8 @@ export default function Grid() {
         feetPerTile,
         movementLineColor,
         movementLineWidth,
-        windowScale
+        windowScale,
+        defaultViewFromToken
     } = gameState;
 
     // Pass all props to the actual Grid component
@@ -3883,6 +3883,7 @@ export default function Grid() {
             movementLineColor={movementLineColor}
             movementLineWidth={movementLineWidth}
             windowScale={windowScale}
+            defaultViewFromToken={defaultViewFromToken}
         />
     );
 }

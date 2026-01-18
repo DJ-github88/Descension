@@ -5,14 +5,14 @@
  * Spells are tied to user accounts and persist across sessions/characters/rooms
  */
 
-import { 
-  collection, 
-  doc, 
-  getDoc, 
-  getDocs, 
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
   addDoc,
-  setDoc, 
-  updateDoc, 
+  setDoc,
+  updateDoc,
   deleteDoc,
   query,
   where,
@@ -22,6 +22,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -73,7 +74,11 @@ export async function saveUserSpell(userId, spellData) {
 
     // Save to user_spells collection
     const spellRef = doc(db, COLLECTIONS.USER_SPELLS, spellId);
-    await setDoc(spellRef, spellDocument);
+
+    // Sanitize spell document to remove undefined values
+    const sanitizedSpell = sanitizeForFirestore(spellDocument);
+
+    await setDoc(spellRef, sanitizedSpell);
 
     // Update user's spell list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -166,8 +171,11 @@ export async function updateUserSpell(userId, spellId, updates) {
     }
 
     // Update the spell
+    // Sanitize updates to remove undefined values
+    const sanitizedUpdates = sanitizeForFirestore(updates);
+
     await updateDoc(spellRef, {
-      ...updates,
+      ...sanitizedUpdates,
       updatedAt: new Date().toISOString(),
       lastModified: new Date().toISOString()
     });
@@ -241,7 +249,7 @@ export async function getUserSpell(userId, spellId) {
     }
 
     const spellData = spellDoc.data();
-    
+
     // Verify ownership
     if (spellData.userId !== userId) {
       throw new Error('Access denied: Spell does not belong to user');
@@ -373,7 +381,7 @@ export async function createUserFolder(userId, folderData) {
     if (folderData.parentFolderId) {
       const parentRef = doc(db, COLLECTIONS.USER_FOLDERS, folderData.parentFolderId);
       const parentDoc = await getDoc(parentRef);
-      
+
       if (parentDoc.exists() && parentDoc.data().userId === userId) {
         await updateDoc(parentRef, {
           subFolders: arrayUnion(docRef.id),
@@ -584,7 +592,7 @@ export async function shareSpellToCommunity(userId, spellId) {
 
     // Import community service to add spell
     const { uploadSpell } = await import('./communitySpellService');
-    
+
     // Prepare spell for community (remove folder references, add community metadata)
     const communitySpell = {
       ...spellData,
@@ -598,7 +606,7 @@ export async function shareSpellToCommunity(userId, spellId) {
     // Remove user-specific fields
     delete communitySpell.folderId;
     delete communitySpell.isCustom;
-    
+
     // Upload to community
     const sharedSpell = await uploadSpell(communitySpell, userId);
 

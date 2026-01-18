@@ -27,6 +27,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { getIconUrl } from '../../utils/assetManager';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -328,9 +329,12 @@ export async function getFeaturedItems(pageSize = 10) {
 export async function uploadItem(itemData, userId) {
   try {
     const itemsRef = collection(db, COLLECTIONS.ITEMS);
-    
+
+    // Sanitize itemData to remove undefined values (Firestore doesn't accept them)
+    const sanitizedItemData = sanitizeForFirestore(itemData);
+
     const communityItem = {
-      ...itemData,
+      ...sanitizedItemData,
       authorId: userId,
       isPublic: true,
       isFeatured: false,
@@ -342,7 +346,7 @@ export async function uploadItem(itemData, userId) {
     };
 
     const docRef = await addDoc(itemsRef, communityItem);
-    
+
     return {
       id: docRef.id,
       ...communityItem

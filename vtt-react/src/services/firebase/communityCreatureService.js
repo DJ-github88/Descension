@@ -25,6 +25,7 @@ import {
   setDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -201,7 +202,7 @@ export async function getAllCommunityCreatures(pageSize = 20, lastDoc = null, so
     }
 
     const creaturesRef = collection(db, COLLECTIONS.CREATURES);
-    
+
     // Build query - get all public shared creatures
     try {
       let orderField = 'createdAt';
@@ -394,9 +395,12 @@ export async function getFeaturedCreatures(pageSize = 10) {
 export async function uploadCreature(creatureData, userId) {
   try {
     const creaturesRef = collection(db, COLLECTIONS.CREATURES);
-    
+
+    // Sanitize creatureData to remove undefined values (Firestore doesn't accept them)
+    const sanitizedCreatureData = sanitizeForFirestore(creatureData);
+
     const communityCreature = {
-      ...creatureData,
+      ...sanitizedCreatureData,
       authorId: userId,
       isPublic: true,
       isFeatured: false,
@@ -408,7 +412,7 @@ export async function uploadCreature(creatureData, userId) {
     };
 
     const docRef = await addDoc(creaturesRef, communityCreature);
-    
+
     return {
       id: docRef.id,
       ...communityCreature

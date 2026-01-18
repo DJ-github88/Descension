@@ -12,6 +12,8 @@ import SimpleCreatureTooltip from '../common/SimpleCreatureTooltip';
 import CompactCreatureCard from '../common/CompactCreatureCard';
 import EnhancedCreatureInspectView from '../common/EnhancedCreatureInspectView';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
+import ShareCreatureToCommunityDialog from './ShareCreatureToCommunityDialog';
+import useAuthStore from '../../../../store/authStore';
 import '../../styles/CreatureLibrary.css';
 
 // Helper function to filter creatures based on filters
@@ -19,7 +21,7 @@ const filterCreatures = (creatures, filters) => {
   return creatures.filter(creature => {
     // Filter by search query
     if (filters.query && !creature.name.toLowerCase().includes(filters.query.toLowerCase()) &&
-        !creature.tags.some(tag => tag.toLowerCase().includes(filters.query.toLowerCase()))) {
+      !creature.tags.some(tag => tag.toLowerCase().includes(filters.query.toLowerCase()))) {
       return false;
     }
 
@@ -97,6 +99,10 @@ const CreatureLibrary = ({ onEdit }) => {
   const [inspectingCreature, setInspectingCreature] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
+  const [shareDialog, setShareDialog] = useState(null);
+
+  // Auth store for community sharing
+  const { user } = useAuthStore();
 
   // Set initial tooltip position when creature is selected (no ResizeObserver to prevent resizing)
   useEffect(() => {
@@ -128,12 +134,12 @@ const CreatureLibrary = ({ onEdit }) => {
     const handleClickOutside = (event) => {
       // Close context menu
       setContextMenu(null);
-      
+
       // Close tooltip if clicking outside the tooltip and creature card
       if (hoveredCreature) {
         const tooltipElement = document.querySelector('.creature-card-hover-preview-portal');
         const creatureCard = event.target.closest('.creature-card-wrapper');
-        
+
         // Don't close if clicking on the tooltip itself or a creature card
         if (!tooltipElement?.contains(event.target) && !creatureCard) {
           setHoveredCreature(null);
@@ -378,7 +384,7 @@ const CreatureLibrary = ({ onEdit }) => {
         <div className="creature-library-title-row">
           <h1>Creature Library</h1>
           <div className="creature-library-filters-center">
-            <CreatureFilters 
+            <CreatureFilters
               filteredCount={filteredCreatures.length}
               totalCount={library.creatures.length}
             />
@@ -548,10 +554,35 @@ const CreatureLibrary = ({ onEdit }) => {
             onDuplicate={handleDuplicateCreature}
             onDelete={(creatureId) => handleDeleteCreature(creatureId, library.creatures.find(c => c.id === creatureId)?.name)}
             onAddToCategory={handleAddToCategory}
+            creature={library.creatures.find(c => c.id === contextMenu.creatureId)}
+            onShareToCommunity={(creature) => setShareDialog(creature)}
+            user={user}
           />
         </div>,
         document.body
       )}
+
+      {/* Share to Community Dialog */}
+      <ShareCreatureToCommunityDialog
+        isOpen={!!shareDialog}
+        creature={shareDialog}
+        onClose={() => setShareDialog(null)}
+        onShare={async (creature) => {
+          if (!user?.uid) {
+            alert('Please log in to share creatures with the community.');
+            return;
+          }
+          try {
+            const { uploadCreature } = await import('../../../../services/firebase/communityCreatureService');
+            await uploadCreature(creature, user.uid);
+            alert(`Successfully shared "${creature.name}" with the community!`);
+            setShareDialog(null);
+          } catch (error) {
+            console.error('Failed to share creature:', error);
+            throw error;
+          }
+        }}
+      />
 
       {/* Enhanced Creature Inspect View */}
       <EnhancedCreatureInspectView

@@ -105,7 +105,7 @@ export const useClassSpellLibrary = () => {
    * Add a custom spell to the custom spells category
    */
   const addCustomSpell = useCallback((spell) => {
-    setSpellCategories(prevCategories => 
+    setSpellCategories(prevCategories =>
       prevCategories.map(category => {
         if (category.id === 'custom_spells') {
           return {
@@ -122,7 +122,7 @@ export const useClassSpellLibrary = () => {
    * Remove a custom spell
    */
   const removeCustomSpell = useCallback((spellId) => {
-    setSpellCategories(prevCategories => 
+    setSpellCategories(prevCategories =>
       prevCategories.map(category => {
         if (category.id === 'custom_spells') {
           return {
@@ -146,32 +146,35 @@ export const useClassSpellLibrary = () => {
       allSpells.push(...category.spells);
     });
 
-    console.log('🔍 getAllSpells:', {
-      totalSpellsInCategories: allSpells.length,
-      knownSpellsCount: knownSpells.length,
-      knownSpellIds: knownSpells,
-      allSpellIds: allSpells.map(s => s.id).slice(0, 10)
-    });
+    // Debug logging disabled for production - remove comment to debug spell filtering
+    // console.log('🔍 getAllSpells:', {
+    //   totalSpellsInCategories: allSpells.length,
+    //   knownSpellsCount: knownSpells.length,
+    //   knownSpellIds: knownSpells,
+    //   allSpellIds: allSpells.map(s => s.id).slice(0, 10)
+    // });
 
     // Filter to only show spells the character has learned
     // Universal spells are always visible regardless of known spells
     if (knownSpells.length > 0) {
-      const filtered = allSpells.filter(spell => 
+      const filtered = allSpells.filter(spell =>
         knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
       );
-      console.log('✅ Filtered spells:', {
-        filteredCount: filtered.length,
-        filteredIds: filtered.map(s => s.id)
-      });
+      // Debug logging disabled for production
+      // console.log('✅ Filtered spells:', {
+      //   filteredCount: filtered.length,
+      //   filteredIds: filtered.map(s => s.id)
+      // });
       return filtered;
     }
 
     // If no known spells, still return universal spells (they're always available)
     const universalSpells = allSpells.filter(spell => spell.id?.startsWith('universal_'));
-    console.log('✅ Returning universal spells only:', {
-      universalCount: universalSpells.length,
-      universalIds: universalSpells.map(s => s.id)
-    });
+    // Debug logging disabled for production
+    // console.log('✅ Returning universal spells only:', {
+    //   universalCount: universalSpells.length,
+    //   universalIds: universalSpells.map(s => s.id)
+    // });
     return universalSpells;
   }, [spellCategories, knownSpells]);
 
@@ -187,7 +190,7 @@ export const useClassSpellLibrary = () => {
     // Filter to only show spells the character has learned
     // Universal spells are always visible regardless of known spells
     if (knownSpells.length > 0) {
-      return categorySpells.filter(spell => 
+      return categorySpells.filter(spell =>
         knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
       );
     }
@@ -228,27 +231,31 @@ export const useClassSpellLibrary = () => {
 
   // Load spells when character class changes
   useEffect(() => {
-    console.log('🎮 Class change detected:', {
-      characterClass,
-      currentClass,
-      activeCharacterId: activeCharacter?.id,
-      activeCharacterClass: activeCharacter?.class,
-      knownSpellsCount: knownSpells.length
-    });
+    // Debug logging disabled for production
+    // console.log('🎮 Class change detected:', {
+    //   characterClass,
+    //   currentClass,
+    //   activeCharacterId: activeCharacter?.id,
+    //   activeCharacterClass: activeCharacter?.class,
+    //   knownSpellsCount: knownSpells.length
+    // });
     if (characterClass && characterClass !== 'Class') {
       loadSpellsForClass(characterClass);
     } else {
       resetLibrary();
     }
-  }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter, knownSpells.length]);
+    // Note: Using activeCharacter?.id instead of activeCharacter to prevent infinite loop
+    // as activeCharacter object reference changes on every render from .find()
+  }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter?.id, knownSpells.length]);
 
   // Force re-render when known spells change (for reactive updates)
   useEffect(() => {
-    console.log('📖 Known spells updated:', {
-      count: knownSpells.length,
-      spellIds: knownSpells,
-      characterClass
-    });
+    // Debug logging disabled for production
+    // console.log('📖 Known spells updated:', {
+    //   count: knownSpells.length,
+    //   spellIds: knownSpells,
+    //   characterClass
+    // });
   }, [knownSpells, characterClass]);
 
   // Load custom spells from localStorage on mount
@@ -286,11 +293,11 @@ export const useClassSpellLibrary = () => {
     spellCategories,
     characterClass,
     activeCharacter,
-    
+
     // State
     isLoading,
     error,
-    
+
     // Methods
     loadSpellsForClass,
     addCustomSpell,
@@ -301,7 +308,7 @@ export const useClassSpellLibrary = () => {
     hasSpellsForClass,
     getAvailableClasses,
     resetLibrary,
-    
+
     // Computed
     // Consider character active if we have a class set (either from activeCharacter or currentClass)
     hasActiveCharacter: !!activeCharacter || !!characterClass,

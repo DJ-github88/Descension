@@ -18,6 +18,7 @@ import {
   runTransaction
 } from 'firebase/firestore';
 import { db, auth, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Import backup service for automatic backups
 let characterBackupService = null;
@@ -42,7 +43,7 @@ const COLLECTIONS = {
 function validateCharacterData(characterData) {
   const required = ['name', 'race', 'class', 'stats', 'resources'];
   const missing = required.filter(field => !characterData[field]);
-  
+
   if (missing.length > 0) {
     throw new Error(`Missing required character fields: ${missing.join(', ')}`);
   }
@@ -70,7 +71,7 @@ function validateCharacterData(characterData) {
  */
 function transformForStorage(characterData, userId) {
   const now = new Date();
-  
+
   return {
     metadata: {
       id: characterData.id,
@@ -177,7 +178,7 @@ function transformFromStorage(firestoreData) {
 class CharacterPersistenceService {
   constructor() {
     this.isConfigured = isFirebaseConfigured && !isDemoMode;
-    
+
     // CRITICAL FIX: Log configuration status for debugging
   }
 
@@ -207,7 +208,7 @@ class CharacterPersistenceService {
 
       // Generate character ID if not provided
       const characterId = characterData.id || `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
+
       // Transform data for storage
       const firestoreData = transformForStorage({ ...characterData, id: characterId }, userId);
 
@@ -222,7 +223,11 @@ class CharacterPersistenceService {
         // Now perform all writes
         // Create character document
         const characterRef = doc(db, COLLECTIONS.CHARACTERS, characterId);
-        transaction.set(characterRef, firestoreData);
+
+        // Sanitize data to remove undefined values
+        const sanitizedData = sanitizeForFirestore(firestoreData);
+
+        transaction.set(characterRef, sanitizedData);
 
         // Update user's character list
         if (userDoc.exists()) {
@@ -346,7 +351,7 @@ class CharacterPersistenceService {
       isDemoMode: isDemoMode,
       isFirebaseConfigured: isFirebaseConfigured
     });
-    
+
     if (!this.isConfigured || !db) {
       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
       console.error('❌ [Firebase] loadUserCharacters failed:', {
@@ -422,7 +427,7 @@ class CharacterPersistenceService {
       isDemoMode: isDemoMode,
       isFirebaseConfigured: isFirebaseConfigured
     });
-    
+
     if (!this.isConfigured || !db) {
       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
       console.error('❌ [Firebase] saveCharacter failed:', {
@@ -457,7 +462,11 @@ class CharacterPersistenceService {
 
       // Update character document
       const characterRef = doc(db, COLLECTIONS.CHARACTERS, characterData.id);
-      await updateDoc(characterRef, firestoreData);
+
+      // Sanitize data to remove undefined values
+      const sanitizedData = sanitizeForFirestore(firestoreData);
+
+      await updateDoc(characterRef, sanitizedData);
 
       console.log(`✅ Character saved: ${characterData.name} (${characterData.id})`);
       return true;
@@ -504,7 +513,7 @@ class CharacterPersistenceService {
         // Remove from user's character list
         const userRef = doc(db, COLLECTIONS.USERS, userId);
         const userDoc = await transaction.get(userRef);
-        
+
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const characters = (userData.characters || []).filter(id => id !== characterId);

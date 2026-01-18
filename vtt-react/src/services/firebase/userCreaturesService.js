@@ -22,6 +22,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -73,7 +74,11 @@ export async function saveUserCreature(userId, creatureData) {
 
     // Save to user_creatures collection
     const creatureRef = doc(db, COLLECTIONS.USER_CREATURES, creatureId);
-    await setDoc(creatureRef, creatureDocument);
+
+    // Sanitize creature document to remove undefined values
+    const sanitizedCreature = sanitizeForFirestore(creatureDocument);
+
+    await setDoc(creatureRef, sanitizedCreature);
 
     // Update user's creature list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -166,8 +171,11 @@ export async function updateUserCreature(userId, creatureId, updates) {
     }
 
     // Update the creature
+    // Sanitize updates to remove undefined values
+    const sanitizedUpdates = sanitizeForFirestore(updates);
+
     await updateDoc(creatureRef, {
-      ...updates,
+      ...sanitizedUpdates,
       updatedAt: new Date().toISOString(),
       lastModified: new Date().toISOString()
     });

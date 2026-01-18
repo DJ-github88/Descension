@@ -8,6 +8,7 @@
 import characterPersistenceService from './characterPersistenceService';
 import { db, isFirebaseConfigured } from '../../config/firebase';
 import { collection, doc, addDoc, getDocs, query, where, orderBy, limit, deleteDoc } from 'firebase/firestore';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Backup configuration
 const BACKUP_COLLECTIONS = {
@@ -62,8 +63,11 @@ class CharacterBackupService {
       };
 
       // Save to Firebase
-      const backupRef = await addDoc(collection(db, BACKUP_COLLECTIONS.CHARACTER_BACKUPS), backup);
-      
+      // Sanitize backup data to remove undefined values
+      const sanitizedBackup = sanitizeForFirestore(backup);
+
+      const backupRef = await addDoc(collection(db, BACKUP_COLLECTIONS.CHARACTER_BACKUPS), sanitizedBackup);
+
       // Update last backup time
       this.lastBackupTimes.set(characterId, new Date());
 
@@ -80,7 +84,7 @@ class CharacterBackupService {
 
     } catch (error) {
       console.error('Error creating backup:', error);
-      
+
       // Fallback to local backup
       return this.createLocalBackup(characterId, characterData, reason);
     }
@@ -102,7 +106,7 @@ class CharacterBackupService {
       };
 
       localStorage.setItem(backupKey, JSON.stringify(backup));
-      
+
       console.log(`✅ Local character backup created: ${backupKey} (${reason})`);
       return {
         success: true,
@@ -164,7 +168,7 @@ class CharacterBackupService {
   listLocalBackups(characterId) {
     try {
       const backups = [];
-      
+
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key && key.startsWith(`mythrill-backup-${characterId}-`)) {
@@ -186,7 +190,7 @@ class CharacterBackupService {
 
       // Sort by creation date (newest first)
       backups.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      
+
       console.log(`📋 Found ${backups.length} local backups for character ${characterId}`);
       return backups;
 
@@ -295,7 +299,7 @@ class CharacterBackupService {
    */
   async autoBackup(characterId, userId, characterData) {
     const backupCheck = this.shouldCreateAutoBackup(characterId, characterData);
-    
+
     if (backupCheck.needed) {
       return await this.createBackup(characterId, userId, `auto_${backupCheck.reason}`, characterData);
     }
@@ -325,7 +329,7 @@ class CharacterBackupService {
       // Delete backups beyond the limit
       if (backups.length > BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER) {
         const toDelete = backups.slice(BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER);
-        
+
         for (const backup of toDelete) {
           await deleteDoc(backup.ref);
         }
@@ -344,10 +348,10 @@ class CharacterBackupService {
   cleanupLocalBackups(characterId) {
     try {
       const backups = this.listLocalBackups(characterId);
-      
+
       if (backups.length > BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER) {
         const toDelete = backups.slice(BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER);
-        
+
         toDelete.forEach(backup => {
           localStorage.removeItem(backup.id);
         });
@@ -391,7 +395,7 @@ class CharacterBackupService {
    */
   async getBackupStats(characterId, userId) {
     const backups = await this.listBackups(characterId, userId);
-    
+
     return {
       totalBackups: backups.length,
       latestBackup: backups[0]?.createdAt || null,

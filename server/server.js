@@ -2929,6 +2929,106 @@ io.on('connection', (socket) => {
     console.log(`👑 Party update (${data.type}) from ${player.name}:`, data.data);
   });
 
+  // Handle GM actions (XP awards, rests, etc.) - broadcasts to selected players only
+  socket.on('gm_action', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      console.log('🎮 gm_action: Player not found for socket:', socket.id);
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    // Only GM can send GM actions
+    if (!player.isGM) {
+      console.log('🎮 gm_action: Player is not GM:', player.name);
+      socket.emit('error', { message: 'Only the Game Master can perform this action' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      console.log('🎮 gm_action: Room not found:', player.roomId);
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    const { type, targetPlayerIds, ...actionData } = data;
+
+    console.log(`🎮 GM ${player.name} gm_action received:`, { type, targetPlayerIds, actionData });
+
+    if (!targetPlayerIds || !Array.isArray(targetPlayerIds)) {
+      console.log('🎮 gm_action: Invalid targetPlayerIds:', targetPlayerIds);
+      socket.emit('error', { message: 'Invalid target players' });
+      return;
+    }
+
+    // Get all sockets in the room
+    const roomSockets = io.sockets.adapter.rooms.get(player.roomId);
+    if (!roomSockets) {
+      console.log('🎮 gm_action: No sockets in room');
+      return;
+    }
+
+    // Log all players in the room for debugging
+    console.log('🎮 gm_action: Players in room:');
+    roomSockets.forEach(socketId => {
+      const p = players.get(socketId);
+      console.log(`  - socketId: ${socketId}, player.id: ${p?.id}, name: ${p?.name}, isGM: ${p?.isGM}`);
+    });
+
+    let sentCount = 0;
+
+    // Send to each targeted player
+    targetPlayerIds.forEach(targetId => {
+      // Skip 'current-player' - GM already handled locally
+      if (targetId === 'current-player') {
+        console.log('🎮 Skipping current-player (GM handles locally)');
+        return;
+      }
+
+      // Find the target socket - check both socketId and player.id
+      roomSockets.forEach(socketId => {
+        const targetPlayer = players.get(socketId);
+        if (!targetPlayer) return;
+
+        // Match by either the socket ID or the player's assigned ID
+        const isMatch = targetPlayer.id === targetId || socketId === targetId;
+
+        if (isMatch && !targetPlayer.isGM) {
+          io.to(socketId).emit('gm_action', {
+            type,
+            ...actionData
+          });
+          console.log(`🎮 GM action '${type}' sent to ${targetPlayer.name} (socket: ${socketId})`);
+          sentCount++;
+        }
+      });
+    });
+
+    console.log(`挑 GM ${player.name} performed '${type}' action - sent to ${sentCount} players (targeted: ${targetPlayerIds.length})`);
+  });
+
+  // Handle synchronization of gameplay settings from GM to players
+  socket.on('sync_gameplay_settings', (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      console.warn(`⚠️ Socket ${socket.id} attempted to sync settings but is not a GM`);
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Broadcast the settings to all other players in the room
+    socket.to(player.roomId).emit('sync_gameplay_settings', {
+      ...data,
+      gmId: player.id,
+      gmName: player.name
+    });
+
+    console.log(`⚙️ GM ${player.name} synced gameplay settings to room ${player.roomId}:`, data);
+  });
+
   // Handle item dropped on grid (loot orb creation)
   socket.on('item_dropped', (data) => {
     const player = players.get(socket.id);
@@ -3315,6 +3415,22 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
   });
+
+  // Handle cursor position updates for cursor tracking
+  socket.on('cursor_move', (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) return;
+
+    // Broadcast cursor position to all other players in the room (not to sender)
+    socket.to(player.roomId).emit('cursor_move', {
+      playerId: player.id,
+      playerName: player.name,
+      playerColor: data.playerColor || '#4a90e2',
+      x: data.x,
+      y: data.y
+    });
+  });
+
 
   // ========== COMPREHENSIVE MULTIPLAYER SYNC HANDLERS ==========
 

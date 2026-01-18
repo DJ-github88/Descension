@@ -33,8 +33,8 @@ class JournalService {
    * Save complete journal data for a user
    */
   async saveJournal(userId, journalData) {
-    if (!userId) {
-      throw new Error('User ID is required');
+    if (!userId || userId.startsWith('guest-')) {
+      return { success: false, error: 'User not authorized for persistence' };
     }
 
     try {
@@ -75,7 +75,9 @@ class JournalService {
       };
 
     } catch (error) {
-      console.error('Error saving journal:', error);
+      if (error?.code !== 'permission-denied') {
+        console.error('Error saving journal:', error);
+      }
       return {
         success: false,
         error: error.message
@@ -129,7 +131,9 @@ class JournalService {
       };
 
     } catch (error) {
-      console.error('Error loading journal:', error);
+      if (error?.code !== 'permission-denied') {
+        console.error('Error loading journal:', error);
+      }
       return this.getDefaultJournalStructure();
     }
   }

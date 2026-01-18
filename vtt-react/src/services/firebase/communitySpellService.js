@@ -26,6 +26,7 @@ import {
   setDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -99,7 +100,7 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
-    
+
     // Build query - get all public shared spells
     try {
       let orderField = 'createdAt';
@@ -250,9 +251,12 @@ export async function uploadSpell(spellData, userId) {
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
-    
+
+    // Sanitize spellData to remove undefined values (Firestore doesn't accept them)
+    const sanitizedSpellData = sanitizeForFirestore(spellData);
+
     const communitySpell = {
-      ...spellData,
+      ...sanitizedSpellData,
       authorId: userId,
       isPublic: true,
       isFeatured: false,
@@ -264,7 +268,7 @@ export async function uploadSpell(spellData, userId) {
     };
 
     const docRef = await addDoc(spellsRef, communitySpell);
-    
+
     return {
       id: docRef.id,
       ...communitySpell
@@ -282,7 +286,7 @@ export async function downloadSpell(spellId) {
   try {
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     const spellDoc = await getDoc(spellRef);
-    
+
     if (!spellDoc.exists()) {
       throw new Error('Spell not found');
     }
@@ -319,7 +323,7 @@ export async function rateSpell(spellId, userId, rating) {
     // Recalculate average rating for the spell
     // This would typically be done with a Cloud Function in production
     await recalculateSpellRating(spellId);
-    
+
   } catch (error) {
     console.error('Error rating spell:', error);
     throw new Error('Failed to rate spell');
@@ -334,20 +338,20 @@ async function recalculateSpellRating(spellId) {
     const ratingsRef = collection(db, COLLECTIONS.RATINGS);
     const q = query(ratingsRef, where('spellId', '==', spellId));
     const snapshot = await getDocs(q);
-    
+
     if (snapshot.empty) {
       return;
     }
 
     const ratings = snapshot.docs.map(doc => doc.data().rating);
     const averageRating = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
-    
+
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     await updateDoc(spellRef, {
       rating: Math.round(averageRating * 10) / 10, // Round to 1 decimal place
       ratingCount: ratings.length
     });
-    
+
   } catch (error) {
     console.error('Error recalculating spell rating:', error);
   }
@@ -363,7 +367,7 @@ export async function favoriteSpell(spellId, userId, isFavorite) {
     }
 
     const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
-    
+
     if (isFavorite) {
       await setDoc(favoriteRef, {
         userId,
@@ -392,7 +396,7 @@ export async function isSpellFavorited(spellId, userId) {
 
     const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
     const favoriteDoc = await getDoc(favoriteRef);
-    
+
     return favoriteDoc.exists();
   } catch (error) {
     console.error('Error checking favorite:', error);
@@ -481,10 +485,10 @@ export async function voteSpell(spellId, userId, voteType) {
 
     const vote = voteType === 'upvote' ? 1 : -1;
     const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
-    
+
     // Check if user has already voted
     const ratingDoc = await getDoc(ratingRef);
-    
+
     if (ratingDoc.exists()) {
       // Update existing vote
       await updateDoc(ratingRef, {
@@ -506,7 +510,7 @@ export async function voteSpell(spellId, userId, voteType) {
 
     // Recalculate spell rating based on votes
     await recalculateSpellVotes(spellId);
-    
+
   } catch (error) {
     console.error('Error voting on spell:', error);
     throw new Error('Failed to vote on spell');
@@ -524,11 +528,11 @@ export async function getUserVote(spellId, userId) {
 
     const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
     const ratingDoc = await getDoc(ratingRef);
-    
+
     if (ratingDoc.exists()) {
       return ratingDoc.data().vote || null;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Error getting user vote:', error);
@@ -544,7 +548,7 @@ async function recalculateSpellVotes(spellId) {
     const ratingsRef = collection(db, COLLECTIONS.RATINGS);
     const q = query(ratingsRef, where('spellId', '==', spellId));
     const snapshot = await getDocs(q);
-    
+
     if (snapshot.empty) {
       // Set default rating if no votes
       const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
@@ -561,12 +565,12 @@ async function recalculateSpellVotes(spellId) {
     const upvotes = votes.filter(v => v === 1).length;
     const downvotes = votes.filter(v => v === -1).length;
     const totalVotes = votes.length;
-    
+
     // Calculate score: (upvotes - downvotes) / totalVotes, scaled to 0-5
-    const score = totalVotes > 0 
+    const score = totalVotes > 0
       ? Math.max(0, Math.min(5, ((upvotes - downvotes) / totalVotes) * 2.5 + 2.5))
       : 0;
-    
+
     const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
     await updateDoc(spellRef, {
       rating: Math.round(score * 10) / 10, // Round to 1 decimal place
@@ -574,7 +578,7 @@ async function recalculateSpellVotes(spellId) {
       upvotes,
       downvotes
     });
-    
+
   } catch (error) {
     console.error('Error recalculating spell votes:', error);
   }

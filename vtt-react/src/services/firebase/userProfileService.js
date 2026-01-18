@@ -20,6 +20,7 @@ import {
   deleteObject
 } from 'firebase/storage';
 import { db, storage, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -118,7 +119,11 @@ export async function saveUserProfile(userId, profileData) {
     };
 
     const profileRef = doc(db, COLLECTIONS.USER_PROFILES, userId);
-    await setDoc(profileRef, profileToSave, { merge: true });
+
+    // Sanitize profile data to remove undefined values
+    const sanitizedProfile = sanitizeForFirestore(profileToSave);
+
+    await setDoc(profileRef, sanitizedProfile, { merge: true });
 
     // Update user's basic profile reference
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -186,8 +191,12 @@ export async function updateUserProfile(userId, updates) {
     }
 
     const profileRef = doc(db, COLLECTIONS.USER_PROFILES, userId);
+
+    // Sanitize updates to remove undefined values
+    const sanitizedUpdates = sanitizeForFirestore(updates);
+
     await updateDoc(profileRef, {
-      ...updates,
+      ...sanitizedUpdates,
       lastUpdated: serverTimestamp()
     });
 

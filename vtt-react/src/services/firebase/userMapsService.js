@@ -22,6 +22,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -73,7 +74,11 @@ export async function saveUserMap(userId, mapData) {
 
     // Save to user_maps collection
     const mapRef = doc(db, COLLECTIONS.USER_MAPS, mapId);
-    await setDoc(mapRef, mapDocument);
+
+    // Sanitize map document to remove undefined values
+    const sanitizedMap = sanitizeForFirestore(mapDocument);
+
+    await setDoc(mapRef, sanitizedMap);
 
     // Update user's map list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -166,8 +171,11 @@ export async function updateUserMap(userId, mapId, updates) {
     }
 
     // Update the map
+    // Sanitize updates to remove undefined values
+    const sanitizedUpdates = sanitizeForFirestore(updates);
+
     await updateDoc(mapRef, {
-      ...updates,
+      ...sanitizedUpdates,
       updatedAt: new Date().toISOString(),
       lastModified: new Date().toISOString()
     });

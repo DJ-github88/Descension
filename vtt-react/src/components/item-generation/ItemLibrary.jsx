@@ -16,6 +16,8 @@ import ContainerWizard from './ContainerWizard';
 import UnlockContainerModal from './UnlockContainerModal';
 import CommunityItemsTab from './CommunityItemsTab';
 import ContainerWindow from './ContainerWindow';
+import ShareItemToCommunityDialog from './ShareItemToCommunityDialog';
+import useAuthStore from '../../store/authStore';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
 import ExternalRecipePreview from '../crafting/ExternalRecipePreview';
@@ -239,6 +241,10 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [categorizeModalData, setCategorizeModalData] = useState(null);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [unlockModalItem, setUnlockModalItem] = useState(null);
+    const [shareDialog, setShareDialog] = useState(null);
+
+    // Auth store for community sharing
+    const { user } = useAuthStore();
 
     const {
         items,
@@ -1197,9 +1203,33 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     onEdit={handleEditItem}
                     onShowCategorizeModal={handleShowCategorizeModal}
                     onShowUnlockModal={handleShowUnlockModal}
+                    onShareToCommunity={(item) => setShareDialog(item)}
+                    user={user}
                 />,
                 document.body
             )}
+
+            {/* Share to Community Dialog */}
+            <ShareItemToCommunityDialog
+                isOpen={!!shareDialog}
+                item={shareDialog}
+                onClose={() => setShareDialog(null)}
+                onShare={async (item) => {
+                    if (!user?.uid) {
+                        alert('Please log in to share items with the community.');
+                        return;
+                    }
+                    try {
+                        const { uploadItem } = await import('../../services/firebase/communityItemService');
+                        await uploadItem(item, user.uid);
+                        alert(`Successfully shared "${item.name}" with the community!`);
+                        setShareDialog(null);
+                    } catch (error) {
+                        console.error('Failed to share item:', error);
+                        throw error;
+                    }
+                }}
+            />
 
             {/* Container Windows - Each ContainerWindow component uses its own React Portal */}
             {Array.from(openContainers).map(containerId => {

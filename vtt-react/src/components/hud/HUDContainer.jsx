@@ -91,6 +91,9 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     );
 }
 
+import useGameStore from '../../store/gameStore';
+import RestOverlay from '../rest/RestOverlay';
+
 const HUDContainer = () => {
     const [characterSheetOpen, setCharacterSheetOpen] = useState(false);
     const [inspectedCharacter, setInspectedCharacter] = useState(null);
@@ -99,6 +102,7 @@ const HUDContainer = () => {
     // Store data
     const { hudSettings, partyMembers } = usePartyStore();
     const { currentTarget } = useTargetingStore();
+    const { restOverlayOpen, restOverlayType, hideRestOverlay } = useGameStore();
 
     // Listen for character sheet open events from tokens
     useEffect(() => {
@@ -175,9 +179,12 @@ const HUDContainer = () => {
                 />
             )}
 
-
-
-
+            {/* Rest Overlay (Global) */}
+            <RestOverlay
+                isOpen={restOverlayOpen}
+                restType={restOverlayType}
+                onClose={hideRestOverlay}
+            />
 
             {/* Character Sheet Window for Party Member Inspection */}
             {characterSheetOpen && !isInspectingSelf && inspectedCharacter && (
@@ -189,8 +196,6 @@ const HUDContainer = () => {
                     />
                 </InspectionProvider>
             )}
-
-
         </>
     );
 };

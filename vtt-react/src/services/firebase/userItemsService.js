@@ -22,6 +22,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -73,7 +74,11 @@ export async function saveUserItem(userId, itemData) {
 
     // Save to user_items collection
     const itemRef = doc(db, COLLECTIONS.USER_ITEMS, itemId);
-    await setDoc(itemRef, itemDocument);
+
+    // Sanitize item document to remove undefined values
+    const sanitizedItem = sanitizeForFirestore(itemDocument);
+
+    await setDoc(itemRef, sanitizedItem);
 
     // Update user's item list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -166,8 +171,11 @@ export async function updateUserItem(userId, itemId, updates) {
     }
 
     // Update the item
+    // Sanitize updates to remove undefined values
+    const sanitizedUpdates = sanitizeForFirestore(updates);
+
     await updateDoc(itemRef, {
-      ...updates,
+      ...sanitizedUpdates,
       updatedAt: new Date().toISOString(),
       lastModified: new Date().toISOString()
     });

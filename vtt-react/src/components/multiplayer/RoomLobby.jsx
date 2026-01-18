@@ -970,6 +970,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
   return (
     <div className="room-lobby">
+      <div className="fog-overlay">
+        <div className="fog-layer fog-1"></div>
+        <div className="fog-layer fog-2"></div>
+      </div>
       <div className="lobby-container">
         <div className="lobby-header">
           <button

@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 // Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
-import CursorOverlay from './CursorOverlay';
+import CursorTracker from './CursorTracker';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
@@ -23,6 +23,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useQuestStore from '../../store/questStore';
+import useSettingsStore from '../../store/settingsStore';
 import QuestShareDialog from '../quest-log/QuestShareDialog';
 import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
@@ -30,6 +31,7 @@ import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData } from '../../data/customBackgroundData';
 import { getEnhancedPathData } from '../../data/enhancedPathData';
+import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -111,19 +113,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
-  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, showCursorTracking, cursorUpdateThrottle } = useGameStore((state) => ({
+  const { setGMMode, setMultiplayerState, isGMMode, isInMultiplayer, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, cursorUpdateThrottle } = useGameStore((state) => ({
     setGMMode: state.setGMMode,
     setMultiplayerState: state.setMultiplayerState,
     isGMMode: state.isGMMode,
+    isInMultiplayer: state.isInMultiplayer,
     gridSize: state.gridSize,
     gridOffsetX: state.gridOffsetX,
     gridOffsetY: state.gridOffsetY,
     cameraX: state.cameraX,
     cameraY: state.cameraY,
     zoomLevel: state.zoomLevel,
-    showCursorTracking: state.showCursorTracking,
-    cursorUpdateThrottle: state.cursorUpdateThrottle
+    cursorUpdateThrottle: state.cursorUpdateThrottle || 50
   }));
+
+  // Settings state
+  const showCursorTracking = useSettingsStore(state => state.showCursorTracking);
   const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore((state) => ({
     updateCharacterInfo: state.updateCharacterInfo,
     setRoomName: state.setRoomName,
@@ -177,7 +182,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Cursor tracking
   const cursorThrottleRef = useRef(0);
-  const [otherPlayerCursors, setOtherPlayerCursors] = useState({});
 
   const THROTTLE_CLEANUP_INTERVAL = 15000; // Clean up throttle map every 15 seconds
   const THROTTLE_ENTRY_LIFETIME = 30000; // Remove entries older than 30 seconds
@@ -288,60 +292,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
   }, [socket, currentPlayer, currentRoom, cameraX, cameraY, zoomLevel]);
 
-  // Cursor tracking for multiplayer awareness
-  useEffect(() => {
-    if (!socket || !currentPlayer || !showCursorTracking) return;
-
-    const handleMouseMove = (e) => {
-      const now = Date.now();
-      if (now - cursorThrottleRef.current < cursorUpdateThrottle) return;
-
-      cursorThrottleRef.current = now;
-
-      // Convert screen coordinates to world coordinates
-      const rect = e.currentTarget.getBoundingClientRect();
-      const screenX = e.clientX - rect.left;
-      const screenY = e.clientY - rect.top;
-
-      // Send cursor position
-      socket.emit('cursor_update', {
-        x: screenX,
-        y: screenY,
-        timestamp: now
-      });
-    };
-
-    // Add mouse move listener to the main grid area
-    const gridElement = document.querySelector('.grid-container');
-    if (gridElement) {
-      gridElement.addEventListener('mousemove', handleMouseMove);
-    }
-
-    return () => {
-      if (gridElement) {
-        gridElement.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
-  }, [socket, currentPlayer, showCursorTracking, cursorUpdateThrottle]);
-
-  // Clean up old cursors
-  useEffect(() => {
-    const cleanup = () => {
-      setOtherPlayerCursors(prev => {
-        const now = Date.now();
-        const cleaned = { ...prev };
-        Object.keys(cleaned).forEach(playerId => {
-          if (now - cleaned[playerId].lastUpdate > 5000) { // Remove after 5 seconds
-            delete cleaned[playerId];
-          }
-        });
-        return cleaned;
-      });
-    };
-
-    const interval = setInterval(cleanup, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  // Placeholder for old cursor related effects that have been consolidated
 
   useEffect(() => {
     addPartyMemberRef.current = addPartyMember;
@@ -543,6 +494,63 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Performance optimizer removed - was causing conflicts
     };
   }, [SOCKET_URL]);
+
+  // Cursor tracking - emit cursor position to other players
+
+  useEffect(() => {
+    if (!socket || !socket.connected) return;
+    if (!showCursorTracking) return;
+
+    let lastEmitTime = 0;
+    const THROTTLE_MS = 60; // Emit at most ~16 times per second
+
+    const handleMouseMove = (event) => {
+      const now = Date.now();
+      if (now - lastEmitTime < THROTTLE_MS) return;
+
+      lastEmitTime = now;
+
+      // Emit cursor position to server
+      if (socket && socket.connected) {
+        let worldPos = { x: event.clientX, y: event.clientY };
+        try {
+          const gridSystem = getGridSystem();
+          const viewportDimensions = gridSystem.getViewportDimensions();
+          worldPos = gridSystem.screenToWorld(
+            event.clientX,
+            event.clientY,
+            viewportDimensions.width,
+            viewportDimensions.height
+          );
+        } catch (e) {
+          // Fallback if grid system not initialized
+        }
+
+        const gameStoreState = useGameStore.getState();
+        const partyStoreState = usePartyStore.getState();
+        const currentPlayer = partyStoreState.partyMembers.find(m => m.id === 'current-player');
+        const playerColor = currentPlayer?.character?.tokenSettings?.color || (gameStoreState.isGMMode ? '#d4af37' : '#4a90e2');
+
+        socket.emit('cursor_move', {
+          worldX: worldPos.x,
+          worldY: worldPos.y,
+          playerId: currentPlayerRef.current?.id || 'unknown',
+          playerName: currentPlayerRef.current?.name || (gameStoreState.isGMMode ? 'Game Master' : 'Unknown'),
+          playerColor: playerColor
+        });
+      }
+    };
+
+    // Add listener to document
+    document.addEventListener('mousemove', handleMouseMove);
+    console.log('🖱️ Cursor tracking enabled - emitting cursor positions');
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      console.log('🖱️ Cursor tracking disabled');
+    };
+  }, [socket, showCursorTracking]);
+
 
   // Handle authentication changes - reconnect socket with fresh token
   useEffect(() => {
@@ -804,10 +812,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               gridSize: gameStore.gridSize || 50,
               gridOffsetX: gameStore.gridOffsetX || 0,
               gridOffsetY: gameStore.gridOffsetY || 0,
-              gridLineColor: gameStore.gridLineColor || '#000000',
-              gridLineThickness: gameStore.gridLineThickness || 1,
-              gridLineOpacity: gameStore.gridLineOpacity || 0.5,
+              gridLineColor: gameStore.gridLineColor || 'rgba(255, 255, 255, 0.8)',
+              gridLineThickness: gameStore.gridLineThickness || 2,
+              gridLineOpacity: gameStore.gridLineOpacity || 0.8,
               gridBackgroundColor: gameStore.gridBackgroundColor || '#d4c5b9'
+            },
+            gameplaySettings: {
+              feetPerTile: gameStore.feetPerTile || 5,
+              showMovementVisualization: gameStore.showMovementVisualization,
+              movementLineColor: gameStore.movementLineColor || '#FFD700',
+              movementLineWidth: gameStore.movementLineWidth || 3,
+              defaultViewFromToken: gameStore.defaultViewFromToken
             }
           });
         } catch (error) {
@@ -1010,6 +1025,168 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         console.log(`💊 Updated ${data.playerName || playerId}'s ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
       }
+    });
+
+    // Listen for GM actions (XP awards, rests, etc.)
+    socket.on('gm_action', (data) => {
+      const { type, amount } = data;
+
+      console.log('🎮 Received GM action:', type, data);
+
+      switch (type) {
+        case 'award_xp':
+          // Award XP to local character
+          import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+            const charStore = useCharacterStore.getState();
+            charStore.awardExperience(amount);
+
+            // Show notification
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `A Game Master has awarded you ${amount} XP.`,
+              isSystem: true,
+              timestamp: new Date().toISOString()
+            });
+          });
+          break;
+
+        case 'adjust_level':
+          // Adjust level of local character
+          import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+            const charStore = useCharacterStore.getState();
+            charStore.adjustLevel(amount);
+
+            // Show notification
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `A Game Master has ${amount > 0 ? 'increased' : 'decreased'} your level by ${Math.abs(amount)}.`,
+              isSystem: true,
+              timestamp: new Date().toISOString()
+            });
+          });
+          break;
+
+        case 'short_rest':
+          // Apply short rest locally
+          import('../../store/gameStore').then(({ default: useGameStore }) => {
+            useGameStore.getState().takeShortRest();
+
+            // Show notification
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `A Game Master has triggered a Short Rest for you.`,
+              isSystem: true,
+              timestamp: new Date().toISOString()
+            });
+            console.log('😴 Short rest triggered by GM');
+          }).catch(error => {
+            console.error('Failed to trigger short rest:', error);
+          });
+          break;
+
+        case 'long_rest':
+          // Apply long rest locally
+          import('../../store/gameStore').then(({ default: useGameStore }) => {
+            useGameStore.getState().takeLongRest();
+
+            // Show notification
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `A Game Master has triggered a Long Rest for you.`,
+              isSystem: true,
+              timestamp: new Date().toISOString()
+            });
+            console.log('😴 Long rest triggered by GM');
+          }).catch(error => {
+            console.error('Failed to trigger long rest:', error);
+          });
+          break;
+
+        default:
+          console.warn('Unknown GM action type:', type);
+      }
+    });
+
+    // Listen for gameplay settings synchronization from GM
+    socket.on('sync_gameplay_settings', (data) => {
+      console.log('⚙️ Received synchronized gameplay settings from GM:', data);
+
+      Promise.all([
+        import('../../store/settingsStore'),
+        import('../../store/gameStore'),
+        import('../../store/levelEditorStore'),
+        import('../../store/characterTokenStore')
+      ]).then(([{ default: useSettingsStore }, { default: useGameStore }, { default: useLevelEditorStore }, { default: useCharacterTokenStore }]) => {
+        const settingsStore = useSettingsStore.getState();
+        const gameStore = useGameStore.getState();
+        const levelEditorStore = useLevelEditorStore.getState();
+        const characterTokenStore = useCharacterTokenStore.getState();
+
+        // Update settings in both stores to ensure consistency
+        if (data.feetPerTile !== undefined) {
+          settingsStore.setFeetPerTile(data.feetPerTile);
+          gameStore.setFeetPerTile(data.feetPerTile);
+          console.log(`📏 Synced Grid Scale: ${data.feetPerTile} ft`);
+        }
+
+        if (data.showMovementVisualization !== undefined) {
+          settingsStore.setShowMovementVisualization(data.showMovementVisualization);
+          gameStore.setShowMovementVisualization(data.showMovementVisualization);
+          console.log(`✨ Synced Movement Visualization: ${data.showMovementVisualization}`);
+        }
+
+        if (data.movementLineColor !== undefined) {
+          settingsStore.setMovementLineColor(data.movementLineColor);
+          gameStore.setMovementLineColor(data.movementLineColor);
+        }
+
+        if (data.movementLineWidth !== undefined) {
+          settingsStore.setMovementLineWidth(data.movementLineWidth);
+          gameStore.setMovementLineWidth(data.movementLineWidth);
+        }
+
+        // Update grid settings if provided (real-time sync)
+        if (data.gridSize !== undefined) gameStore.setGridSize(data.gridSize);
+        if (data.gridLineColor !== undefined) gameStore.setGridLineColor(data.gridLineColor);
+        if (data.gridLineThickness !== undefined) gameStore.setGridLineThickness(data.gridLineThickness);
+        if (data.gridLineOpacity !== undefined) gameStore.setGridLineOpacity(data.gridLineOpacity);
+        if (data.gridBackgroundColor !== undefined) gameStore.setGridBackgroundColor(data.gridBackgroundColor);
+        if (data.showGrid !== undefined) gameStore.setShowGrid(data.showGrid);
+
+        if (data.defaultViewFromToken !== undefined) {
+          settingsStore.setDefaultViewFromToken(data.defaultViewFromToken);
+          gameStore.setDefaultViewFromToken(data.defaultViewFromToken);
+          console.log(`👁️ Synced Default View From Token: ${data.defaultViewFromToken}`);
+
+          // If GM forced View from Token, and we're a player, find our token and snap view to it
+          if (data.defaultViewFromToken && !gameStore.isGMMode) {
+            // Wait a moment for store to settle if needed, or use refreshed getPlayerToken
+            const playerToken = characterTokenStore.getPlayerToken();
+            if (playerToken) {
+              console.log('🛡️ GM forced View from Token. Snapping player view to token:', playerToken.id);
+              levelEditorStore.playerViewFromTokenDisabled = false;
+              levelEditorStore.setViewingFromToken({
+                id: playerToken.id,
+                type: 'character',
+                characterId: playerToken.playerId || 'local_player',
+                position: playerToken.position
+              });
+            } else {
+              console.warn('⚠️ GM forced View from Token but no player token found to snap to');
+            }
+          }
+        }
+
+
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Game Master updated tactical settings for the session.`,
+          isSystem: true,
+          timestamp: new Date().toISOString()
+        });
+      }).catch(error => {
+        console.error('Failed to sync gameplay settings:', error);
+      });
     });
 
     // Listen for combat start from GM
@@ -1335,6 +1512,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
 
           console.log('✅ Grid settings applied');
+        }
+
+        // Apply gameplay settings
+        if (data.gameplaySettings) {
+          const gameStore = useGameStore.getState();
+          const settingsStore = useSettingsStore.getState();
+
+          if (data.gameplaySettings.feetPerTile !== undefined) {
+            settingsStore.setFeetPerTile(data.gameplaySettings.feetPerTile);
+            gameStore.setFeetPerTile(data.gameplaySettings.feetPerTile);
+          }
+          if (data.gameplaySettings.showMovementVisualization !== undefined) {
+            settingsStore.setShowMovementVisualization(data.gameplaySettings.showMovementVisualization);
+            gameStore.setShowMovementVisualization(data.gameplaySettings.showMovementVisualization);
+          }
+          if (data.gameplaySettings.movementLineColor !== undefined) {
+            settingsStore.setMovementLineColor(data.gameplaySettings.movementLineColor);
+            gameStore.setMovementLineColor(data.gameplaySettings.movementLineColor);
+          }
+          if (data.gameplaySettings.movementLineWidth !== undefined) {
+            settingsStore.setMovementLineWidth(data.gameplaySettings.movementLineWidth);
+            gameStore.setMovementLineWidth(data.gameplaySettings.movementLineWidth);
+          }
+          if (data.gameplaySettings.defaultViewFromToken !== undefined) {
+            settingsStore.setDefaultViewFromToken(data.gameplaySettings.defaultViewFromToken);
+            gameStore.setDefaultViewFromToken(data.gameplaySettings.defaultViewFromToken);
+          }
+          console.log('✅ Gameplay settings applied');
         }
       } catch (error) {
         console.error('❌ Failed to apply level editor state sync:', error);
@@ -1714,18 +1919,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Handle cursor updates from other players
-    socket.on('cursor_update', (data) => {
-      if (data.playerId !== currentPlayerRef.current?.id && showCursorTracking) {
-        setOtherPlayerCursors(prev => ({
-          ...prev,
-          [data.playerId]: {
-            ...data,
-            lastUpdate: Date.now()
-          }
-        }));
-      }
-    });
+    // Handle cursor updates from other players (deprecated - CursorTracker.jsx handles this now)
+    // socket.on('cursor_update', (data) => {
+    //   if (data.playerId !== currentPlayerRef.current?.id && showCursorTracking) {
+    //     setOtherPlayerCursors(prev => ({
+    //       ...prev,
+    //       [data.playerId]: {
+    //         ...data,
+    //         lastUpdate: Date.now()
+    //       }
+    //     }));
+    //   }
+    // });
 
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
@@ -3195,6 +3400,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('sync_error');
       socket.off('connect_error');
       socket.off('reconnect');
+      socket.off('gm_action'); // GM actions (XP, rests) listener cleanup
       // Quest sharing socket cleanup
       socket.off('quest_shared');
       socket.off('quest_share_confirmed');
@@ -3378,6 +3584,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       setCurrentPlayer(currentPlayerData);
+      window.currentPlayerId = currentPlayerData?.id;
+
 
       // Set initial player count
       let initialCount = 0;
@@ -3445,6 +3653,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           name: activeCharacter.name || currentPlayerData.name
         };
         setCurrentPlayer(currentPlayerData);
+        window.currentPlayerId = currentPlayerData?.id;
+
       }
 
       // If no active character is loaded, try to load from storage
@@ -3913,6 +4123,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Immediately update UI state for instant response
     setCurrentRoom(null);
     setCurrentPlayer(null);
+    window.currentPlayerId = null;
+
     setIsGM(false);
     setConnectedPlayers([]);
 
@@ -3996,9 +4208,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         gridOffsetX={gridOffsetX}
         gridOffsetY={gridOffsetY}
         isGM={isGM}
+        isInMultiplayer={isInMultiplayer}
         socket={socket}
         addNotification={addNotification}
-        otherPlayerCursors={otherPlayerCursors}
         pendingGameSessionInvitations={pendingGameSessionInvitations}
         handleAcceptGameSession={handleAcceptGameSession}
         handleDeclineGameSession={handleDeclineGameSession}
@@ -4015,13 +4227,13 @@ const MultiplayerGameContent = ({
   connectionStatus,
   isJoiningRoom,
   isGMMode,
+  isInMultiplayer,
   gridSize,
   gridOffsetX,
   gridOffsetY,
   isGM,
   socket,
   addNotification,
-  otherPlayerCursors,
   pendingGameSessionInvitations,
   handleAcceptGameSession,
   handleDeclineGameSession,
@@ -4148,7 +4360,6 @@ const MultiplayerGameContent = ({
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         <DiceRollingSystem />
-        <CursorOverlay cursors={otherPlayerCursors} />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
         {/* Connection Status Indicator */}
@@ -4157,8 +4368,6 @@ const MultiplayerGameContent = ({
           isJoiningRoom={isJoiningRoom}
           playerCount={actualPlayerCount}
         />
-
-        {/* Performance monitor removed - was causing overhead */}
       </div>
 
       {/* Multiplayer indicator removed - use ESC key in navigation bar to leave room */}
@@ -4195,6 +4404,9 @@ const MultiplayerGameContent = ({
           isVisible={true}
         />
       )}
+
+      {/* Cursor Tracking - show other players' cursors in real-time */}
+      {isInMultiplayer && <CursorTracker socket={socket} />}
     </div>
   );
 };

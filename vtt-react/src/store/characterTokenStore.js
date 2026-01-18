@@ -256,8 +256,15 @@ const useCharacterTokenStore = create(
       // Get the current player's character token
       getPlayerToken: () => {
         const state = get();
-        return state.characterTokens.find(token => token.isPlayerToken);
+        // Standard check for local player token
+        // In multiplayer, a token might have isPlayerToken=false but be assigned to the local player's ID
+        return state.characterTokens.find(token =>
+          token.isPlayerToken ||
+          token.playerId === 'local_player' ||
+          (token.playerId && window.currentPlayerId && token.playerId === window.currentPlayerId)
+        );
       },
+
 
       // Update character token state (for conditions, etc.)
 

@@ -5,7 +5,7 @@ class DemoAuthService {
     this.listeners = [];
     this.users = new Map(); // Store demo users
     this.isConfigured = true;
-    
+
     // Load demo user from localStorage if exists
     const savedUser = localStorage.getItem('mythrill-demo-user');
     if (savedUser) {
@@ -49,7 +49,7 @@ class DemoAuthService {
     try {
       const existingData = await this.getUserData(this.currentUser.uid);
       const updatedData = { ...existingData, ...data };
-      
+
       localStorage.setItem(`mythrill-user-${this.currentUser.uid}`, JSON.stringify(updatedData));
       return { success: true };
     } catch (error) {
@@ -107,7 +107,7 @@ class DemoAuthService {
 
       // Remove password from user object
       const { password: _, ...userWithoutPassword } = user;
-      
+
       this.currentUser = userWithoutPassword;
       localStorage.setItem('mythrill-demo-user', JSON.stringify(userWithoutPassword));
 
@@ -194,12 +194,48 @@ class DemoAuthService {
     try {
       this.currentUser = null;
       localStorage.removeItem('mythrill-demo-user');
-      
+
       // Notify listeners
       this.notifyListeners(null);
 
       return { success: true };
     } catch (error) {
+      return { error: error.message, success: false };
+    }
+  }
+
+  // Sign in anonymously (for development mode)
+  async signInAsAnonymous() {
+    try {
+      // Create anonymous demo user for development
+      const user = {
+        uid: `anon-${Date.now()}`,
+        email: `anonymous-${Date.now()}@mythrill.local`,
+        displayName: 'Development User',
+        photoURL: null,
+        emailVerified: false,
+        isAnonymous: true,
+        isDevelopmentUser: true
+      };
+
+      // Store user
+      this.users.set(user.uid, user);
+      localStorage.setItem('mythrill-demo-users', JSON.stringify(Array.from(this.users.entries())));
+
+      // Create user document
+      await this.createUserDocument(user);
+
+      // Set as current user
+      this.currentUser = user;
+      localStorage.setItem('mythrill-demo-user', JSON.stringify(user));
+
+      // Notify listeners
+      this.notifyListeners(user);
+
+      console.log('✅ Demo anonymous sign-in successful:', user.uid);
+      return { user, success: true };
+    } catch (error) {
+      console.error('❌ Demo anonymous sign-in error:', error);
       return { error: error.message, success: false };
     }
   }
@@ -224,7 +260,7 @@ class DemoAuthService {
   // Auth state change listener
   onAuthStateChange(callback) {
     this.listeners.push(callback);
-    
+
     // Immediately call with current user
     callback(this.currentUser);
 

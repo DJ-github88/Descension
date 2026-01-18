@@ -26,6 +26,7 @@ import {
   setDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
@@ -114,7 +115,11 @@ export async function uploadMap(mapData, userId) {
 
     // Add to community collection
     const mapsRef = collection(db, COLLECTIONS.MAPS);
-    const docRef = await addDoc(mapsRef, communityMap);
+
+    // Sanitize map data to remove undefined values
+    const sanitizedMapData = sanitizeForFirestore(communityMap);
+
+    const docRef = await addDoc(mapsRef, sanitizedMapData);
 
     console.log(`✅ Map uploaded to community: ${docRef.id}`);
 
