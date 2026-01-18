@@ -2284,6 +2284,24 @@ io.on('connection', (socket) => {
     console.log(`🌐 Global message from ${senderName}: ${sanitizedContent.substring(0, 30)}${sanitizedContent.length > 30 ? '...' : ''}`);
   });
 
+  // Handle character dialogue messages
+  socket.on('dialogue_message', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    console.log(`💬 [Server] Broadcasting dialogue from ${player.name} (${player.id}) to room ${player.roomId}`);
+    console.log(`💬 [Server] Dialogue data:`, {
+      playerId: data.dialogueData?.playerId,
+      text: data.dialogueData?.text?.substring(0, 50)
+    });
+
+    // Broadcast to everyone else in the room
+    socket.to(player.roomId).emit('dialogue_message', data);
+  });
+
   // Handle private whispers
   socket.on('whisper_message', async (data) => {
     const player = players.get(socket.id);

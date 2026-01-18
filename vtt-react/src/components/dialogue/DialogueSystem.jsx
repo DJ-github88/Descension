@@ -28,7 +28,6 @@ const DialogueSystem = () => {
     hideDialogue,
     showDialogue,
     handleMultiplayerDialogue,
-    setMultiplayerSocket,
     // Drag state
     customPosition,
     isDragging,
@@ -36,13 +35,10 @@ const DialogueSystem = () => {
     setCustomPosition,
     setDragging
   } = useDialogueStore();
-  
-  // Set up multiplayer socket integration
-  useEffect(() => {
-    if (multiplayerSocket) {
-      setMultiplayerSocket(multiplayerSocket, isInMultiplayer);
-    }
-  }, [multiplayerSocket, isInMultiplayer, setMultiplayerSocket]);
+
+
+  // NOTE: Socket is initialized in MultiplayerApp.jsx with correct player ID
+  // Do not reinitialize here to avoid race conditions
 
   // Listen for custom dialogue events
   useEffect(() => {
@@ -62,13 +58,16 @@ const DialogueSystem = () => {
     if (!multiplayerSocket) return;
 
     const handleDialogueMessage = (data) => {
+      console.log('📡 [DialogueSystem] Received dialogue_message event from socket:', data);
       handleMultiplayerDialogue(data.dialogueData);
     };
 
     multiplayerSocket.on('dialogue_message', handleDialogueMessage);
+    console.log('📡 [DialogueSystem] Registered dialogue_message listener');
 
     return () => {
       multiplayerSocket.off('dialogue_message', handleDialogueMessage);
+      console.log('📡 [DialogueSystem] Unregistered dialogue_message listener');
     };
   }, [multiplayerSocket, handleMultiplayerDialogue]);
 
@@ -187,12 +186,12 @@ const DialogueSystem = () => {
     // Check if this is a creature
     const isCreature = characterData?.lore?.isCreature;
     let creature = null;
-    
+
     if (isCreature && characterData?.lore?.id) {
       // Try to find the creature by ID
       creature = creatures.find(c => c.id === characterData.lore.id);
     }
-    
+
     // If we found a creature, use its icon logic (same as DialogueControls)
     if (creature) {
       if (creature.customTokenImage) {
@@ -219,7 +218,7 @@ const DialogueSystem = () => {
         };
       }
     }
-    
+
     // Fall back to character image logic
     if (characterData?.lore?.characterIcon) {
       return {
@@ -543,17 +542,17 @@ const DialogueSystem = () => {
           <div className="dialogue-name">
             {dialogueCharacterName}
           </div>
-          
+
           {/* Text Content */}
           <div className="dialogue-content">
             {renderTextWithEffects(
-              currentText, 
-              activeDialogue.effect, 
+              currentText,
+              activeDialogue.effect,
               activeDialogue.color
             )}
             {isTyping && <span className="typing-cursor">|</span>}
           </div>
-          
+
           {/* Continue Indicator */}
           {!isTyping && (
             <div className="dialogue-continue">

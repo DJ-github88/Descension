@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useCharacterStore from '../../store/characterStore';
+import useGameStore from '../../store/gameStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useCreatureStore from '../../store/creatureStore';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
@@ -17,20 +18,21 @@ const DialogueControls = () => {
   const [selectedBackdropEffect, setSelectedBackdropEffect] = useState('none');
   const [previewText, setPreviewText] = useState('');
   const [isReplaying, setIsReplaying] = useState(false);
-  
+
   const inputRef = useRef(null);
   const controlsRef = useRef(null);
   const previewRef = useRef(null);
   const replayTimeoutRef = useRef(null);
   const replayIntervalRef = useRef(null);
-  
+
   // Store hooks
   const { name: characterName, lore } = useCharacterStore();
+  const { isGMMode } = useGameStore();
   const creatures = useCreatureStore((state) => state.creatures);
-  const { 
-    showDialogue, 
-    textEffects, 
-    textColors, 
+  const {
+    showDialogue,
+    textEffects,
+    textColors,
     positions,
     updateSettings,
     getSettings,
@@ -107,7 +109,7 @@ const DialogueControls = () => {
         const startReplay = () => {
           // Check message hasn't changed
           if (message !== currentMessage) return;
-          
+
           setIsReplaying(true);
           setPreviewText('');
 
@@ -131,7 +133,7 @@ const DialogueControls = () => {
               // Finished replaying, wait 3 seconds and restart
               clearInterval(replayIntervalRef.current);
               replayIntervalRef.current = null;
-              
+
               // Check message hasn't changed before restarting
               if (message === currentMessage) {
                 replayTimeoutRef.current = setTimeout(() => {
@@ -202,7 +204,8 @@ const DialogueControls = () => {
       position: selectedPosition,
       speed: parseInt(speed),
       backdropEffect: selectedBackdropEffect,
-      closeable: true
+      closeable: true,
+      isGM: isGMMode
     });
 
     // Save settings
@@ -232,7 +235,7 @@ const DialogueControls = () => {
   return (
     <div className="dialogue-controls" ref={controlsRef}>
       {/* Toggle Button */}
-      <button 
+      <button
         className={`dialogue-toggle-btn ${isOpen ? 'active' : ''}`}
         onClick={toggleControls}
         title="Open Dialogue System"
@@ -246,7 +249,7 @@ const DialogueControls = () => {
         <div className="dialogue-panel">
           <div className="panel-header">
             <h3>Character Dialogue</h3>
-            <button 
+            <button
               className="close-btn"
               onClick={() => setIsOpen(false)}
             >

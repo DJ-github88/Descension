@@ -2962,18 +2962,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for dialogue messages from other players
-    socket.on('dialogue_message', (data) => {
-      // Only process dialogue from other players (not our own)
-      if (data.dialogueData?.playerId !== currentPlayerRef.current?.id) {
-        import('../../store/dialogueStore').then(({ default: useDialogueStore }) => {
-          const { handleMultiplayerDialogue } = useDialogueStore.getState();
-          handleMultiplayerDialogue(data.dialogueData);
-        }).catch(error => {
-          console.error('Failed to handle multiplayer dialogue:', error);
-        });
-      }
-    });
+    // NOTE: dialogue_message listener is handled in DialogueSystem.jsx
+    // and synced via dialogueStore to prevent double-processing.
 
     // Listen for whisper messages
     socket.on('whisper_received', (message) => {
@@ -4067,7 +4057,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setMultiplayerIntegration(socketConnection, sendChatMessage);
 
       // Set up dialogue system for multiplayer
-      setMultiplayerSocket(socketConnection, true);
+      setMultiplayerSocket(socketConnection, true, currentPlayerData?.id);
 
       // Initialize game state manager for persistent room state
       if (room.persistentRoomId || room.id) {
