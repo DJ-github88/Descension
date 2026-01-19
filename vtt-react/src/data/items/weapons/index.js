@@ -444,9 +444,9 @@ export const WEAPONS = [
     width: 1,
     height: 1,
     rotation: 0,
-    slots: ['offHand'],
-    weaponSlot: 'OFF_HAND',
-    hand: 'OFF_HAND',
+    slots: ['mainHand', 'offHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'ONE_HAND',
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -477,9 +477,9 @@ export const WEAPONS = [
     width: 1,
     height: 1,
     rotation: 0,
-    slots: ['offHand'],
-    weaponSlot: 'OFF_HAND',
-    hand: 'OFF_HAND',
+    slots: ['mainHand', 'offHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'ONE_HAND',
     weaponStats: {
       baseDamage: {
         diceCount: 1,

@@ -390,7 +390,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             Reset to 100%
                         </button>
                         <button
-                            className={`control - button primary ${hasScaleChanges ? 'pulse' : ''} `}
+                            className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`}
                             onClick={applyWindowScale}
                             disabled={!hasScaleChanges}
                             style={{ minWidth: '120px' }}

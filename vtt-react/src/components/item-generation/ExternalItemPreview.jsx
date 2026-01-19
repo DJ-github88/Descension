@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ItemTooltip from './ItemTooltip';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 
 // External Item Preview Component that renders outside the item wizard window
 const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) => {
-  const windowScale = useGameStore(state => state.windowScale);
+  const windowScale = useSettingsStore(state => state.windowScale);
 
   // Only show when the wizard is open and we have some item data
   if (!isOpen || !itemData || Object.keys(itemData).length === 0) {
@@ -48,47 +48,47 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
       description: itemData.description || '',
       type: itemData.type || 'miscellaneous',
       subtype: itemData.subtype || '',
-      
+
       // Basic properties
       requiredLevel: itemData.requiredLevel || 0,
       stackable: itemData.stackable || false,
       maxStack: itemData.maxStack || 1,
-      
+
       // Size and slot information
       width: itemData.width || 1,
       height: itemData.height || 1,
       slots: itemData.slots || [],
-      
+
       // Stats
       baseStats: itemData.baseStats || {},
-      
+
       // Combat stats
       combatStats: itemData.combatStats || {},
-      
+
       // Weapon specific
       ...(itemData.type === 'weapon' && {
         weaponSlot: itemData.weaponSlot,
         hand: itemData.hand,
         weaponStats: itemData.weaponStats || {}
       }),
-      
+
       // Armor specific
       ...(itemData.type === 'armor' && {
         armorSlot: itemData.armorSlot,
         armorClass: itemData.armorClass || itemData.combatStats?.armorClass || 0,
         offHandType: itemData.offHandType
       }),
-      
+
       // Accessory specific
       ...(itemData.type === 'accessory' && {
         accessorySlot: itemData.accessorySlot
       }),
-      
+
       // Container specific
       ...(itemData.type === 'container' && {
         containerStats: itemData.containerStats || {}
       }),
-      
+
       // Consumable specific
       ...(itemData.type === 'consumable' && {
         consumableStats: itemData.consumableStats || {}
@@ -147,30 +147,30 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
 
       // Value
       value: itemData.value || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-      
+
       // Appearance
       iconId: itemData.iconId || '',
       customIconUrl: itemData.customIconUrl || '',
       imageUrl: itemData.imageUrl || (itemData.iconId ? undefined : undefined), // Let ItemTooltip handle iconId -> imageUrl conversion
-      
+
       // Utility features
       utilityStats: itemData.utilityStats || {},
       carryingCapacity: itemData.carryingCapacity || 0,
       lightRadius: itemData.lightRadius || 0,
-      
+
       // Chance on hit effects
       chanceOnBeingHit: itemData.chanceOnBeingHit || [],
-      
+
       // Additional properties that might be needed for tooltip rendering
       durability: itemData.durability,
       currentDurability: itemData.currentDurability,
       enchantments: itemData.enchantments || [],
       setBonus: itemData.setBonus,
-      
+
       // Ensure all nested objects exist to prevent errors
       resistances: itemData.combatStats?.resistances || {},
       damageTypes: itemData.combatStats?.damageTypes || {},
-      
+
       // For weapons, ensure weapon stats are properly structured
       ...(itemData.type === 'weapon' && itemData.weaponStats && {
         weaponStats: {

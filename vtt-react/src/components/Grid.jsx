@@ -10,6 +10,7 @@ import useCombatStore from "../store/combatStore";
 import useLevelEditorStore, { WALL_TYPES, TERRAIN_TYPES } from "../store/levelEditorStore";
 import { getWowIconUrl } from '../utils/assetManager';
 import useMapStore from "../store/mapStore";
+import useSettingsStore from "../store/settingsStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
 import GridItem from "./grid/GridItem";
@@ -3750,9 +3751,10 @@ export default function Grid() {
         feetPerTile: state.feetPerTile ?? 5,
         movementLineColor: state.movementLineColor ?? '#FFD700',
         movementLineWidth: state.movementLineWidth ?? 3,
-        windowScale: state.windowScale ?? 0.83,
         defaultViewFromToken: state.defaultViewFromToken
     }));
+
+    const windowScale = useSettingsStore(state => state.windowScale);
 
     // Create a store wrapper object for InfiniteGridSystem
     // This ensures we pass an object with getState() method
@@ -3819,7 +3821,6 @@ export default function Grid() {
         feetPerTile,
         movementLineColor,
         movementLineWidth,
-        windowScale,
         defaultViewFromToken
     } = gameState;
 

@@ -62,7 +62,12 @@ export const InspectionProvider = ({ character, children }) => {
     const memberName = currentMemberData?.name || characterData?.name;
 
     // Determine if this is the current player or a party member
-    const isCurrentPlayer = currentMemberData?.id === 'current-player' || memberName === currentPlayerData.name;
+    // CRITICAL FIX: Use ID matching, not name matching, to avoid cross-player confusion
+    const isCurrentPlayer = currentMemberData?.id === 'current-player';
+
+    // Determine if current user can edit this character
+    // Only allow edits for: 1) own character, or 2) GM inspecting any character
+    const canEdit = isCurrentPlayer || isGMMode;
 
     // Calculate proper HP/MP values for the inspected character
     const calculateInspectedCharacterResources = (charData) => {
@@ -183,10 +188,15 @@ export const InspectionProvider = ({ character, children }) => {
 
         // Functional update methods that work with the appropriate store
         updateStat: (statName, value) => {
+            if (!canEdit) {
+                console.log('Stat changes not allowed - not owner and not GM');
+                return;
+            }
+
             if (isCurrentPlayer) {
                 updateCharacterStat(statName, value);
-            } else if (isGMMode) {
-                // GM can update party member stats
+            } else {
+                // Must be GM mode if canEdit is true and not current player
                 const member = partyMembers.find(m => m.id === currentMemberData?.id);
                 if (member) {
                     console.log('🔧 GM updating party member stat:', {
@@ -204,17 +214,19 @@ export const InspectionProvider = ({ character, children }) => {
                         }
                     });
                 }
-            } else {
-                // For party members in player mode, we don't allow stat changes
-                console.log('Stat changes not allowed for party member inspection in Player mode');
             }
         },
 
         updateResource: (resource, current, max) => {
+            if (!canEdit) {
+                console.log('Resource changes not allowed - not owner and not GM');
+                return;
+            }
+
             if (isCurrentPlayer) {
                 updateCharacterResource(resource, current, max);
-            } else if (isGMMode) {
-                // GM can update party member resources
+            } else {
+                // Must be GM mode if canEdit is true and not current player
                 const member = partyMembers.find(m => m.id === currentMemberData?.id);
                 if (member) {
                     console.log('🔧 GM updating party member resource:', {
@@ -233,16 +245,14 @@ export const InspectionProvider = ({ character, children }) => {
                         }
                     });
                 }
-            } else {
-                console.log('Resource changes not allowed for party member inspection in Player mode');
             }
         },
 
         // These remain read-only for inspection
-        updateEquipment: () => {},
-        updateLore: () => {},
-        updateCharacterInfo: () => {},
-        unequipItem: () => {},
+        updateEquipment: () => { },
+        updateLore: () => { },
+        updateCharacterInfo: () => { },
+        unequipItem: () => { },
 
         // Calculated values - use properly calculated derived stats
         equipmentBonuses: characterData?.equipmentBonuses || {},

@@ -62,11 +62,7 @@ const initialState = {
     // Background manipulation mode for resizing and moving backgrounds
     isBackgroundManipulationMode: false,
 
-    // Window scaling system
-    // Note: 0.6889 is the new baseline (displayed as 100% in UI, 83% of previous 0.83)
-    windowScale: 0.6889,
-    minWindowScale: 0.6,  // Displayed as 60% in UI
-    maxWindowScale: 1.5,  // Displayed as 150% in UI
+
 
     // Movement and distance settings
     feetPerTile: 5, // How many feet each grid tile represents
@@ -793,62 +789,7 @@ const useGameStore = create((set, get) => ({
         });
     },
 
-    // Window scale management
-    setWindowScale: (scale) => {
-        const state = get();
-        const clampedScale = Math.max(state.minWindowScale, Math.min(state.maxWindowScale, scale));
-        set({ windowScale: clampedScale });
 
-        // Dispatch custom events to notify windows of scale changes
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            window.dispatchEvent(new CustomEvent('windowScaleChanged', {
-                detail: { scale: clampedScale }
-            }));
-        }, 50);
-    },
-
-    windowScaleUp: () => {
-        const state = get();
-        const newScale = state.windowScale * 1.1;
-        const clampedScale = Math.min(state.maxWindowScale, newScale);
-        set({ windowScale: clampedScale });
-
-        // Dispatch custom events to notify windows of scale changes
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            window.dispatchEvent(new CustomEvent('windowScaleChanged', {
-                detail: { scale: clampedScale }
-            }));
-        }, 50);
-    },
-
-    windowScaleDown: () => {
-        const state = get();
-        const newScale = state.windowScale / 1.1;
-        const clampedScale = Math.max(state.minWindowScale, newScale);
-        set({ windowScale: clampedScale });
-
-        // Dispatch custom events to notify windows of scale changes
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            window.dispatchEvent(new CustomEvent('windowScaleChanged', {
-                detail: { scale: clampedScale }
-            }));
-        }, 50);
-    },
-
-    resetWindowScale: () => {
-        set({ windowScale: 0.6889 });
-
-        // Dispatch custom events to notify windows of scale changes
-        setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-            window.dispatchEvent(new CustomEvent('windowScaleChanged', {
-                detail: { scale: 1.0 }
-            }));
-        }, 50);
-    },
 
     // Movement and distance settings
     setFeetPerTile: (feet) => {

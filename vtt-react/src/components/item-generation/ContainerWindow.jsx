@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import Draggable from 'react-draggable';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import LockSettingsModal from './LockSettingsModal';
 import UnlockContainerModal from './UnlockContainerModal';
@@ -45,8 +45,8 @@ const ContainerWindow = ({ container, onClose }) => {
     const windowId = useRef(`container-window-${container.id}-${Date.now()}`).current;
     const [zIndex, setZIndex] = useState(1000);
 
-    // Get window scale from game store
-    const windowScale = useGameStore(state => state.windowScale);
+    // Get window scale from settings store
+    const windowScale = useSettingsStore(state => state.windowScale);
     const [forceRender, setForceRender] = useState(0);
 
     // Window manager store actions
@@ -375,9 +375,9 @@ const ContainerWindow = ({ container, onClose }) => {
 
         // Check if this cell is within the bounds of the item
         return row >= item.position.row &&
-               row < item.position.row + effectiveHeight &&
-               col >= item.position.col &&
-               col < item.position.col + effectiveWidth;
+            row < item.position.row + effectiveHeight &&
+            col >= item.position.col &&
+            col < item.position.col + effectiveWidth;
     };
 
     // Helper function to get all cells that would be occupied by an item
@@ -531,10 +531,9 @@ const ContainerWindow = ({ container, onClose }) => {
                 cells.push(
                     <div
                         key={`${row}-${col}`}
-                        className={`container-cell ${item ? 'occupied' : ''} ${
-                            dragOverCell && dragOverCell.row === row && dragOverCell.col === col ?
-                            (dragOverCell.isValid ? 'drag-over' : 'drag-invalid') : ''
-                        }`}
+                        className={`container-cell ${item ? 'occupied' : ''} ${dragOverCell && dragOverCell.row === row && dragOverCell.col === col ?
+                                (dragOverCell.isValid ? 'drag-over' : 'drag-invalid') : ''
+                            }`}
                         data-row={row}
                         data-col={col}
                         onDragOver={(e) => {
@@ -1028,9 +1027,9 @@ const ContainerWindow = ({ container, onClose }) => {
                                     >
                                         <img
                                             src={getIconUrl(
-                                                item.type === 'currency' 
+                                                item.type === 'currency'
                                                     ? 'Container/Coins/golden-coin-single-isometric'
-                                                    : (item.iconId || 'Misc/Books/book-brown-teal-question-mark'), 
+                                                    : (item.iconId || 'Misc/Books/book-brown-teal-question-mark'),
                                                 'items'
                                             )}
                                             alt={item.name}
@@ -1119,167 +1118,168 @@ const ContainerWindow = ({ container, onClose }) => {
         <>
             {createPortal(
                 <>
-            <Draggable
-                handle=".container-window-header"
-                defaultPosition={position}
-                bounds="body"
-                onDrag={handleDrag}
-                nodeRef={draggableNodeRef}
-                scale={1}
-                enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
-            >
-                <div
-                    className="container-window"
-                    ref={draggableNodeRef}
-                    onContextMenu={handleContextMenu}
-                    onClick={() => {
-                        const newZIndex = bringToFront(windowId);
-                        if (newZIndex) {
-                            setZIndex(newZIndex);
-                        }
-                    }}
-                    // REMOVED: Don't preventDefault on the entire window - this blocks grid drops!
-                    // The individual container cells handle dragover/drop instead
-                    id={`container-window-${container.id}`}
-                    style={{
-                        position: 'fixed',
-                        zIndex: zIndex, // Use managed z-index
-                        display: 'block',
-                        visibility: 'visible',
-                        opacity: 1,
-                        boxShadow: '0 0 20px rgba(0, 0, 0, 0.7)',
-                        border: '2px solid #333',
-                        background: '#222',
-                        color: '#fff',
-                        borderRadius: '5px',
-                        minWidth: '300px',
-                        maxWidth: '90vw',
-                        maxHeight: '90vh',
-                        overflow: 'hidden',
-                        top: 0,
-                        left: 0,
-                        width: 'auto',
-                        transformOrigin: 'top left'
-                        // DraggableWindow now handles scaling with proper hit detection
-                    }}
-                >
-                    <div className="container-window-header">
-                        <div className="container-title">
-                            <img
-                                src={getIconUrl(currentContainer.iconId || 'inv_box_01', 'items')}
-                                alt={getDisplayName(currentContainer)}
-                                className="container-icon"
-                                onError={(e) => {
-                                    e.target.src = getIconUrl('Misc/Books/book-cardboard-box-tan', 'items');
-                                }}
-                            />
-                            <span className="container-name">{getDisplayName(currentContainer)}</span>
-                            {currentContainer.containerProperties?.isLocked && (
-                                <i className="fas fa-lock container-lock-icon"></i>
-                            )}
-                        </div>
-                        <button
-                            className="close-button"
-                            onClick={onClose}
-                        >
-                            ×
-                        </button>
-                    </div>
-                    <div
-                        className="container-window-content"
-                        style={{
-                            padding: '15px',
-                            background: '#222',
-                            minHeight: '200px',
-                            minWidth: '300px',
-                            maxHeight: 'calc(90vh - 50px)',
-                            overflow: 'auto',
-                            borderBottomLeftRadius: '4px',
-                            borderBottomRightRadius: '4px',
-                            pointerEvents: 'auto' // Ensure pointer events are enabled
-                        }}
-                        onDragOver={(e) => {
-                            e.preventDefault(); // Allow drop
-                            e.stopPropagation();
-                        }}
+                    <Draggable
+                        handle=".container-window-header"
+                        defaultPosition={position}
+                        bounds="body"
+                        onDrag={handleDrag}
+                        nodeRef={draggableNodeRef}
+                        scale={windowScale}
+                        enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
                     >
-                        {renderGrid()}
-                    </div>
-                </div>
-            </Draggable>
+                        <div
+                            className="container-window"
+                            ref={draggableNodeRef}
+                            onContextMenu={handleContextMenu}
+                            onClick={() => {
+                                const newZIndex = bringToFront(windowId);
+                                if (newZIndex) {
+                                    setZIndex(newZIndex);
+                                }
+                            }}
+                            // REMOVED: Don't preventDefault on the entire window - this blocks grid drops!
+                            // The individual container cells handle dragover/drop instead
+                            id={`container-window-${container.id}`}
+                            style={{
+                                position: 'fixed',
+                                zIndex: zIndex, // Use managed z-index
+                                display: 'block',
+                                visibility: 'visible',
+                                opacity: 1,
+                                boxShadow: '0 0 20px rgba(0, 0, 0, 0.7)',
+                                border: '2px solid #333',
+                                background: '#222',
+                                color: '#fff',
+                                borderRadius: '5px',
+                                minWidth: '300px',
+                                maxWidth: '90vw',
+                                maxHeight: '90vh',
+                                overflow: 'hidden',
+                                top: 0,
+                                left: 0,
+                                width: 'auto',
+                                transform: `scale(${windowScale})`,
+                                transformOrigin: 'top left'
+                                // Draggable scale prop handles coordinate translation
+                            }}
+                        >
+                            <div className="container-window-header">
+                                <div className="container-title">
+                                    <img
+                                        src={getIconUrl(currentContainer.iconId || 'inv_box_01', 'items')}
+                                        alt={getDisplayName(currentContainer)}
+                                        className="container-icon"
+                                        onError={(e) => {
+                                            e.target.src = getIconUrl('Misc/Books/book-cardboard-box-tan', 'items');
+                                        }}
+                                    />
+                                    <span className="container-name">{getDisplayName(currentContainer)}</span>
+                                    {currentContainer.containerProperties?.isLocked && (
+                                        <i className="fas fa-lock container-lock-icon"></i>
+                                    )}
+                                </div>
+                                <button
+                                    className="close-button"
+                                    onClick={onClose}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                            <div
+                                className="container-window-content"
+                                style={{
+                                    padding: '15px',
+                                    background: '#222',
+                                    minHeight: '200px',
+                                    minWidth: '300px',
+                                    maxHeight: 'calc(90vh - 50px)',
+                                    overflow: 'auto',
+                                    borderBottomLeftRadius: '4px',
+                                    borderBottomRightRadius: '4px',
+                                    pointerEvents: 'auto' // Ensure pointer events are enabled
+                                }}
+                                onDragOver={(e) => {
+                                    e.preventDefault(); // Allow drop
+                                    e.stopPropagation();
+                                }}
+                            >
+                                {renderGrid()}
+                            </div>
+                        </div>
+                    </Draggable>
 
 
 
-            {/* Item Context Menu */}
-            {itemContextMenu.visible && (() => {
-                const item = currentContainer.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
-                if (!item) return null;
+                    {/* Item Context Menu */}
+                    {itemContextMenu.visible && (() => {
+                        const item = currentContainer.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
+                        if (!item) return null;
 
-                const isLocked = item?.containerProperties?.isLocked || false;
+                        const isLocked = item?.containerProperties?.isLocked || false;
 
-                const menuItems = [
-                    // Unlock option for locked containers
-                    ...(isLocked ? [{
-                        icon: <i className="fas fa-unlock"></i>,
-                        label: 'Unlock Container',
-                        onClick: () => {
-                            console.log('Unlock clicked for container:', item.name);
-                            setUnlockItemId(itemContextMenu.itemId);
-                            setShowUnlockModal(true);
-                            setItemContextMenu({ ...itemContextMenu, visible: false });
-                        }
-                    }] : []),
-                    {
-                        icon: <i className="fas fa-arrow-right"></i>,
-                        label: 'Move to Inventory',
-                        onClick: () => {
-                            console.log('Move to Inventory clicked for item:', itemContextMenu.itemId);
+                        const menuItems = [
+                            // Unlock option for locked containers
+                            ...(isLocked ? [{
+                                icon: <i className="fas fa-unlock"></i>,
+                                label: 'Unlock Container',
+                                onClick: () => {
+                                    console.log('Unlock clicked for container:', item.name);
+                                    setUnlockItemId(itemContextMenu.itemId);
+                                    setShowUnlockModal(true);
+                                    setItemContextMenu({ ...itemContextMenu, visible: false });
+                                }
+                            }] : []),
+                            {
+                                icon: <i className="fas fa-arrow-right"></i>,
+                                label: 'Move to Inventory',
+                                onClick: () => {
+                                    console.log('Move to Inventory clicked for item:', itemContextMenu.itemId);
 
-                            // Move to inventory
-                            const removedItem = removeItemFromContainer(itemContextMenu.itemId);
+                                    // Move to inventory
+                                    const removedItem = removeItemFromContainer(itemContextMenu.itemId);
 
-                            if (removedItem) {
-                                console.log('Item removed from container, adding to inventory:', removedItem);
+                                    if (removedItem) {
+                                        console.log('Item removed from container, adding to inventory:', removedItem);
 
-                                // Add to inventory with quantity preserved
-                                addItemToInventory(removedItem, {
-                                    quantity: removedItem.quantity || 1,
-                                    preserveProperties: true
-                                });
-                            } else {
-                                console.error('Failed to remove item from container');
+                                        // Add to inventory with quantity preserved
+                                        addItemToInventory(removedItem, {
+                                            quantity: removedItem.quantity || 1,
+                                            preserveProperties: true
+                                        });
+                                    } else {
+                                        console.error('Failed to remove item from container');
+                                    }
+
+                                    // Close the context menu
+                                    setItemContextMenu({ ...itemContextMenu, visible: false });
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-trash-alt"></i>,
+                                label: 'Delete',
+                                onClick: () => {
+                                    console.log('Delete clicked for item:', itemContextMenu.itemId);
+
+                                    // Remove from container without adding to inventory
+                                    removeItemFromContainer(itemContextMenu.itemId);
+
+                                    // Close the context menu
+                                    setItemContextMenu({ ...itemContextMenu, visible: false });
+                                },
+                                className: 'danger'
                             }
+                        ];
 
-                            // Close the context menu
-                            setItemContextMenu({ ...itemContextMenu, visible: false });
-                        }
-                    },
-                    {
-                        icon: <i className="fas fa-trash-alt"></i>,
-                        label: 'Delete',
-                        onClick: () => {
-                            console.log('Delete clicked for item:', itemContextMenu.itemId);
-
-                            // Remove from container without adding to inventory
-                            removeItemFromContainer(itemContextMenu.itemId);
-
-                            // Close the context menu
-                            setItemContextMenu({ ...itemContextMenu, visible: false });
-                        },
-                        className: 'danger'
-                    }
-                ];
-
-                return (
-                    <UnifiedContextMenu
-                        visible={true}
-                        x={itemContextMenu.x}
-                        y={itemContextMenu.y}
-                        onClose={() => setItemContextMenu({ ...itemContextMenu, visible: false })}
-                        items={menuItems}
-                    />
-                );
-            })()}
+                        return (
+                            <UnifiedContextMenu
+                                visible={true}
+                                x={itemContextMenu.x}
+                                y={itemContextMenu.y}
+                                onClose={() => setItemContextMenu({ ...itemContextMenu, visible: false })}
+                                items={menuItems}
+                            />
+                        );
+                    })()}
                 </>,
                 document.body
             )}

@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import { createPortal } from 'react-dom';
 import TurnTimer from './TurnTimer';
@@ -28,7 +28,7 @@ const CombatTimeline = () => {
     } = useCombatStore();
 
     const { creatures } = useCreatureStore();
-    const windowScale = useGameStore(state => state.windowScale);
+    const windowScale = useSettingsStore(state => state.windowScale);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
@@ -234,6 +234,7 @@ const CombatTimeline = () => {
                     position={timelinePosition}
                     onStop={(e, data) => updateTimelinePosition({ x: data.x, y: data.y })}
                     nodeRef={nodeRef}
+                    scale={windowScale}
                 >
                     <div
                         ref={nodeRef}
@@ -241,7 +242,9 @@ const CombatTimeline = () => {
                             position: 'fixed',
                             left: 0,
                             top: 0,
-                            zIndex: 9500
+                            zIndex: 9500,
+                            transform: `scale(${windowScale})`,
+                            transformOrigin: 'top left'
                         }}
                     >
                         <Resizable

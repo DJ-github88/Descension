@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
 import useCreatureStore from '../../../../store/creatureStore';
-import useGameStore from '../../../../store/gameStore';
+import useSettingsStore from '../../../../store/settingsStore';
 import { getCreatureTokenIconUrl } from '../../../../utils/assetManager';
 import CreatureContextMenu from './CreatureContextMenu';
 import CreatureFilters from './CreatureFilters';
@@ -88,7 +88,7 @@ const CreatureLibrary = ({ onEdit }) => {
   const dispatch = useCreatureLibraryDispatch();
   const creatureStore = useCreatureStore();
   const { windowPosition, windowSize } = useCreatureStore();
-  const windowScale = useGameStore(state => state.windowScale);
+  const windowScale = useSettingsStore(state => state.windowScale);
 
   const [contextMenu, setContextMenu] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
@@ -601,7 +601,9 @@ const CreatureLibrary = ({ onEdit }) => {
             top: `${tooltipPosition.y}px`,
             zIndex: 2147483647,
             // Ensure tooltip is visible during measurement
-            visibility: tooltipPosition.x === 0 && tooltipPosition.y === 0 ? 'hidden' : 'visible'
+            visibility: tooltipPosition.x === 0 && tooltipPosition.y === 0 ? 'hidden' : 'visible',
+            transform: `scale(${windowScale})`,
+            transformOrigin: 'top left'
           }}
         >
           <div

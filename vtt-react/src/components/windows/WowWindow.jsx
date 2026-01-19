@@ -3,6 +3,7 @@ import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import { getIconUrl } from '../../utils/assetManager';
@@ -50,7 +51,7 @@ const WowWindow = forwardRef(({
     const windowId = useRef(`wow-window-${Date.now()}-${Math.random()}`).current;
 
     // Get window scale from store
-    const windowScale = useGameStore(state => state.windowScale);
+    const windowScale = useSettingsStore(state => state.windowScale);
 
     // Window manager store actions
     const registerWindow = useWindowManagerStore(state => state.registerWindow);
@@ -147,9 +148,9 @@ const WowWindow = forwardRef(({
     const handleWindowClick = useCallback((e) => {
         // Don't bring to front if clicking on interactive elements (buttons, inputs, etc.)
         const target = e.target;
-        if (target.tagName === 'BUTTON' || 
-            target.tagName === 'INPUT' || 
-            target.tagName === 'SELECT' || 
+        if (target.tagName === 'BUTTON' ||
+            target.tagName === 'INPUT' ||
+            target.tagName === 'SELECT' ||
             target.tagName === 'TEXTAREA' ||
             target.closest('button') ||
             target.closest('input') ||
@@ -157,7 +158,7 @@ const WowWindow = forwardRef(({
             target.closest('textarea')) {
             return;
         }
-        
+
         // Only bring to front if clicking on the window itself, not dragging
         if (!isDragging) {
             const newZIndex = bringToFront(windowId);

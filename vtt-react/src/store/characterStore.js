@@ -398,6 +398,71 @@ const useCharacterStore = create((set, get) => ({
             // Clear display name if no race selected
             set({ raceDisplayName: '' });
         }
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
+    },
+
+    // Helper to sync character with multiplayer
+    syncWithMultiplayer: () => {
+        const state = get();
+        const gameStore = useGameStore.getState();
+
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            // CRITICAL: Use socket.id as the playerId so receiving clients can identify which party member to update
+            const playerId = gameStore.multiplayerSocket.id;
+            const characterId = state.currentCharacterId || state.id || 'player-character';
+
+            gameStore.multiplayerSocket.emit('character_updated', {
+                characterId,
+                character: {
+                    playerId, // CRITICAL: Include playerId so receiver knows which party member this is
+                    name: state.name,
+                    baseName: state.baseName,
+                    race: state.race,
+                    subrace: state.subrace,
+                    raceDisplayName: state.raceDisplayName,
+                    class: state.class,
+                    level: state.level,
+                    experience: state.experience,
+                    alignment: state.alignment,
+                    stats: state.stats,
+                    health: state.health,
+                    mana: state.mana,
+                    actionPoints: state.actionPoints,
+                    tempHealth: state.tempHealth,
+                    tempMana: state.tempMana,
+                    tempActionPoints: state.tempActionPoints,
+                    classResource: state.classResource,
+                    equipment: state.equipment,
+                    resistances: state.resistances,
+                    spellPower: state.spellPower,
+                    lore: state.lore,
+                    tokenSettings: state.tokenSettings,
+                    skillRanks: state.skillRanks,
+                    skillProgress: state.skillProgress,
+                    class_spells: state.class_spells,
+                    path: state.path,
+                    pathDisplayName: state.pathDisplayName,
+                    background: state.background,
+                    backgroundDisplayName: state.backgroundDisplayName
+                },
+                userId: getCurrentUserId()
+            });
+        }
+    },
+
+    // Helper to sync resources with multiplayer
+    syncResourcesWithMultiplayer: (deltas) => {
+        const state = get();
+        const gameStore = useGameStore.getState();
+
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            gameStore.multiplayerSocket.emit('character_resource_delta', {
+                characterId: state.currentCharacterId || state.id || 'player-character',
+                deltas
+            });
+        }
     },
 
     // Actions
@@ -471,6 +536,19 @@ const useCharacterStore = create((set, get) => ({
                 classResource: newClassResource
             };
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
+
+        // Record character change for persistence
+        const state = get();
+        if (state.currentCharacterId && statName !== 'level') {
+            get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                stat: statName,
+                value: value,
+                timestamp: new Date()
+            });
+        }
     },
 
     updateEquipment: (slot, item) => {
@@ -1513,6 +1591,9 @@ const useCharacterStore = create((set, get) => ({
 
             return newState;
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Update just the base name without room formatting (for character sheet input)
@@ -1524,6 +1605,9 @@ const useCharacterStore = create((set, get) => ({
             newState.name = newBaseName;
             return newState;
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Room name management for multiplayer
@@ -1547,10 +1631,14 @@ const useCharacterStore = create((set, get) => ({
     },
 
     // Quest-based skill progress
-    updateSkillProgress: (skillId, progress) =>
+    updateSkillProgress: (skillId, progress) => {
         set((state) => ({
             skillProgress: { ...state.skillProgress, [skillId]: progress }
-        })),
+        }));
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
+    },
 
     updateResource: (resource, current, max) => {
         set(state => {
@@ -1603,23 +1691,10 @@ const useCharacterStore = create((set, get) => ({
             }
 
             // MULTIPLAYER SYNC: Broadcast resource changes to other players
-            try {
-                const useGameStore = require('./gameStore').default;
-                const gameState = useGameStore.getState();
+            const delta = {};
+            if (current !== undefined) delta[resource] = current - oldResource.current;
 
-                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
-                    const tempField = `temp${resource.charAt(0).toUpperCase() + resource.slice(1)}`;
-                    gameState.multiplayerSocket.emit('character_resource_updated', {
-                        resource,
-                        current: newResource.current,
-                        max: newResource.max,
-                        temp: state[tempField],
-                        timestamp: Date.now()
-                    });
-                }
-            } catch (error) {
-                console.warn('Failed to broadcast resource update:', error);
-            }
+            get().syncResourcesWithMultiplayer(delta);
 
             return {
                 [resource]: newResource,
@@ -1683,6 +1758,9 @@ const useCharacterStore = create((set, get) => ({
                 classResource: updatedResource
             };
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Consume class resource (spend points/charges/etc.)
@@ -1704,6 +1782,9 @@ const useCharacterStore = create((set, get) => ({
                 }
             };
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Gain class resource (earn points/charges/etc.)
@@ -1723,6 +1804,9 @@ const useCharacterStore = create((set, get) => ({
                 }
             };
         });
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Refresh class resource max when stats change
@@ -1752,6 +1836,9 @@ const useCharacterStore = create((set, get) => ({
                 [field]: value
             }
         }));
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Update background (syncs both background ID and backgroundDisplayName)
@@ -1760,6 +1847,9 @@ const useCharacterStore = create((set, get) => ({
             background: backgroundId || '',
             backgroundDisplayName: backgroundDisplayName || ''
         }));
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Update token settings
@@ -1770,6 +1860,9 @@ const useCharacterStore = create((set, get) => ({
                 [field]: value
             }
         }));
+
+        // Sync with multiplayer
+        get().syncWithMultiplayer();
     },
 
     // Initialize character

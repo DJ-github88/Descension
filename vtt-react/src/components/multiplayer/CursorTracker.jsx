@@ -18,7 +18,7 @@ const CursorTracker = ({ socket }) => {
 
     useEffect(() => {
         if (!socket) {
-            console.log('🖱️ CursorTracker: No socket available');
+            // console.log('鼠标 CursorTracker: No socket available');
             setCursors({});
             return;
         }
@@ -29,7 +29,9 @@ const CursorTracker = ({ socket }) => {
             return;
         }
 
+        /*
         console.log('🖱️ CursorTracker: Setting up cursor_move listener');
+        */
 
         // Listen for cursor movements from other players
         const handleCursorMove = (data) => {
@@ -39,7 +41,7 @@ const CursorTracker = ({ socket }) => {
             const finalWorldX = worldX !== undefined ? worldX : x;
             const finalWorldY = worldY !== undefined ? worldY : y;
 
-            console.log(`🖱️ CursorTracker: Received cursor from ${playerName} at world (${finalWorldX}, ${finalWorldY})`);
+            // console.log(`鼠标 CursorTracker: Received cursor from ${playerName} at world (${finalWorldX}, ${finalWorldY})`);
 
             // Update cursor position
             setCursors(prev => ({
@@ -75,7 +77,9 @@ const CursorTracker = ({ socket }) => {
             // Clear all timeouts
             Object.values(cursorTimeouts.current).forEach(clearTimeout);
             cursorTimeouts.current = {};
+            /*
             console.log('🖱️ CursorTracker: Cleaned up cursor_move listener');
+            */
         };
     }, [socket, showCursorTracking]);
 

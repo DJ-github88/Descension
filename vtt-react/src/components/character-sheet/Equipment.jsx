@@ -30,7 +30,7 @@ import Languages from './Languages';
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (passive = {}) => {
     const parts = [];
-    
+
     // Handle background passives (they have description and details fields)
     if (passive.type === 'Passive' && passive.details) {
         // For background passives, use description as summary and details for full text
@@ -42,7 +42,7 @@ const getPassiveSummary = (passive = {}) => {
         }
         return parts.join(' ');
     }
-    
+
     // Handle background features (they have name and description, usage is 'FEATURE')
     if (passive.type === 'Passive' && passive.usage === 'FEATURE') {
         if (passive.description) {
@@ -50,7 +50,7 @@ const getPassiveSummary = (passive = {}) => {
         }
         return 'Background feature';
     }
-    
+
     // Extract first sentence of description as flavor text
     if (passive.description) {
         const firstSentence = passive.description.split(/[.!?]+/)[0].trim();
@@ -212,7 +212,7 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
     };
 
     const getTooltipContent = () => {
-        switch(resourceType) {
+        switch (resourceType) {
             case 'health':
                 return {
                     title: 'Health Points',
@@ -270,37 +270,37 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
                         pointerEvents: 'auto'
                     }}
                 >
-                        <div className="resource-controls-header">
-                            <span className="resource-controls-title">Adjust {label}</span>
-                            <button
-                                className="resource-controls-close"
-                                onClick={() => setShowControls(false)}
-                            >
-                                ×
-                            </button>
-                        </div>
-                        <div className="resource-adjustment-buttons">
-                            <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
-                            <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
-                            <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
-                            <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
-                            <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
-                            <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
-                        </div>
-                        <div className="resource-input-section">
-                            <input
-                                type="number"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                onKeyDown={handleInputKeyPress}
-                                placeholder={`Set to...`}
-                                className="resource-input"
-                                min="0"
-                                max={max}
-                            />
-                            <button onClick={handleInputSubmit} className="set-btn">Set</button>
-                        </div>
-                    </div>,
+                    <div className="resource-controls-header">
+                        <span className="resource-controls-title">Adjust {label}</span>
+                        <button
+                            className="resource-controls-close"
+                            onClick={() => setShowControls(false)}
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <div className="resource-adjustment-buttons">
+                        <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
+                        <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
+                        <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
+                        <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
+                        <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
+                        <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
+                    </div>
+                    <div className="resource-input-section">
+                        <input
+                            type="number"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyDown={handleInputKeyPress}
+                            placeholder={`Set to...`}
+                            className="resource-input"
+                            min="0"
+                            max={max}
+                        />
+                        <button onClick={handleInputSubmit} className="set-btn">Set</button>
+                    </div>
+                </div>,
                 document.body
             )}
 
@@ -442,10 +442,10 @@ export default function CharacterPanel() {
 
     // Get chat store for combat notifications
     const { addCombatNotification } = useChatStore();
-    
+
     // Get GM mode status
     const isGMMode = useGameStore(state => state.isGMMode);
-    
+
     // Get current player name for actor name in logs
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
 
@@ -473,7 +473,7 @@ export default function CharacterPanel() {
     useEffect(() => {
         // Only run if we're not in inspection mode
         if (inspectionData) return;
-        
+
         // Skip if character hasn't actually changed
         if (currentCharacterId === lastCharacterId) {
             return;
@@ -481,17 +481,17 @@ export default function CharacterPanel() {
 
         // If we had a previous character, clean up their spells
         if (lastCharacterId !== null) {
-            console.log('🧹 [Equipment] Cleaning up spells for previous character:', lastCharacterId);
+            // console.log('🧹 [Equipment] Cleaning up spells for previous character:', lastCharacterId);
             // Remove all character-specific spell categories
             removeSpellsByCategory(libraryDispatch, 'Racial Abilities', spellLibrary.spells);
             removeSpellsByCategory(libraryDispatch, 'Discipline Abilities', spellLibrary.spells);
             removeSpellsByCategory(libraryDispatch, 'Discipline Passives', spellLibrary.spells);
-            
+
             // Also remove any passives that might have been added as spell cards
-            const oldPassives = spellLibrary.spells.filter(spell => 
-                spell.spellType === 'PASSIVE' && 
+            const oldPassives = spellLibrary.spells.filter(spell =>
+                spell.spellType === 'PASSIVE' &&
                 (spell.tags?.includes('discipline') || spell.typeConfig?.tags?.includes('discipline') ||
-                 spell.categoryIds?.includes('Discipline Passives'))
+                    spell.categoryIds?.includes('Discipline Passives'))
             );
             oldPassives.forEach(spell => {
                 if (spell && spell.id) {
@@ -502,7 +502,7 @@ export default function CharacterPanel() {
 
         // Update last character ID
         setLastCharacterId(currentCharacterId);
-        
+
         // Reset race/subrace/path tracking so new character's spells will be added
         // This ensures the spell addition effect runs even if race/subrace/path are the same
         setLastRaceSubracePath({ race: '', subrace: '', path: '' });
@@ -512,17 +512,17 @@ export default function CharacterPanel() {
     useEffect(() => {
         // Only run if we're not in inspection mode and if something actually changed
         if (inspectionData) return; // Skip in inspection mode
-        
+
         const current = { race: race || '', subrace: subrace || '', path: path || '' };
         const last = lastRaceSubracePath;
-        
+
         // Check if anything changed (including if last was reset to empty by character change)
         const hasChanges = current.race !== last.race || current.subrace !== last.subrace || current.path !== last.path;
-        
+
         // Also check if character changed (if lastRaceSubracePath was reset, we need to add spells)
-        const characterChanged = last.race === '' && last.subrace === '' && last.path === '' && 
-                                 (current.race !== '' || current.subrace !== '' || current.path !== '');
-        
+        const characterChanged = last.race === '' && last.subrace === '' && last.path === '' &&
+            (current.race !== '' || current.subrace !== '' || current.path !== '');
+
         if (!hasChanges && !characterChanged) {
             return; // No changes
         }
@@ -536,7 +536,7 @@ export default function CharacterPanel() {
             if (!characterChanged) {
                 // Get the latest spells from the library
                 const currentSpells = spellLibrary.spells;
-                
+
                 // Get the old racial spells by ID to ensure we remove the exact spells
                 // Only remove if we had a previous race/subrace selection
                 let oldRacialSpellIds = [];
@@ -544,25 +544,25 @@ export default function CharacterPanel() {
                     const oldRacialSpells = getRacialSpells(last.race, last.subrace);
                     oldRacialSpellIds = oldRacialSpells.map(s => s.id);
                 }
-                
+
                 // Always remove all racial spells when race/subrace changes to ensure clean state
                 // This prevents old spells from different subraces from persisting
                 if (current.race !== last.race || current.subrace !== last.subrace) {
                     // Always remove ALL racial spells when race/subrace changes
                     // This ensures we don't have leftover spells from previous selections
-                    const allRacialSpellsToRemove = currentSpells.filter(s => 
+                    const allRacialSpellsToRemove = currentSpells.filter(s =>
                         s.categoryIds && s.categoryIds.includes('Racial Abilities')
                     );
-                    
+
                     // Remove duplicates by ID
                     const uniqueSpellsToRemove = Array.from(
                         new Map(allRacialSpellsToRemove.map(s => [s.id, s])).values()
                     );
-                    
+
                     // Track the IDs we're removing
                     removedSpellIds = uniqueSpellsToRemove.map(s => s.id);
-                    
-                    console.log('🧹 [Equipment] Removing old racial spells:', {
+
+                    /* console.log('🧹 [Equipment] Removing old racial spells:', {
                         lastRace: last.race,
                         lastSubrace: last.subrace,
                         currentRace: current.race,
@@ -572,17 +572,17 @@ export default function CharacterPanel() {
                         spellsToRemove: uniqueSpellsToRemove.length,
                         spellIds: removedSpellIds,
                         spellNames: uniqueSpellsToRemove.map(s => s.name)
-                    });
-                    
+                    }); */
+
                     // Remove each racial spell individually to ensure they're deleted
                     uniqueSpellsToRemove.forEach(spell => {
                         if (spell && spell.id) {
-                            console.log('🗑️ [Equipment] Deleting racial spell:', spell.id, spell.name);
+                            // console.log('🗑️ [Equipment] Deleting racial spell:', spell.id, spell.name);
                             libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
                         }
                     });
                 } else {
-                    console.log('🧹 [Equipment] No old racial spells to remove (first selection)');
+                    // console.log('🧹 [Equipment] No old racial spells to remove (first selection)');
                 }
             }
         }
@@ -596,13 +596,13 @@ export default function CharacterPanel() {
             // Note: Old spells were already removed above before updating lastRaceSubracePath
             if (current.race && current.subrace) {
                 const racialSpells = getRacialSpells(current.race, current.subrace);
-                
+
                 // Filter out the spells we just removed from the existing spells list
                 // This prevents them from being filtered out as "already existing" when we try to add them
                 const existingSpellsWithoutRemoved = spellLibrary.spells.filter(
                     s => !removedSpellIds.includes(s.id)
                 );
-                
+
                 // Also filter out any existing racial spells that don't match the current race/subrace
                 // This ensures we can add new racial spells even if there are old ones in the library
                 const currentRacialSpellIds = new Set(racialSpells.map(s => s.id));
@@ -614,7 +614,7 @@ export default function CharacterPanel() {
                     // For racial spells, only keep them if they match the current race/subrace
                     return currentRacialSpellIds.has(spell.id);
                 });
-                
+
                 console.log('🔍 [Equipment] Adding racial spells:', {
                     race: current.race,
                     subrace: current.subrace,
@@ -632,16 +632,7 @@ export default function CharacterPanel() {
                     // Pass filtered existing spells to prevent duplicates, but exclude the ones we just removed
                     // Also filter out any other racial spells that don't match current race/subrace
                     addSpellsToLibrary(libraryDispatch, racialSpells, 'Racial Abilities', existingSpellsFiltered);
-                    console.log('✅ [Equipment] Called addSpellsToLibrary with', racialSpells.length, 'spells');
-                } else {
-                    console.warn('⚠️ [Equipment] No racial spells found for:', {
-                        race: current.race,
-                        subrace: current.subrace
-                    });
                 }
-            } else {
-                // If subrace is cleared or race is cleared, spells were already removed above
-                console.log('🧹 [Equipment] Race or subrace cleared, racial spells removed');
             }
         }
 
@@ -654,8 +645,8 @@ export default function CharacterPanel() {
                 removeSpellsByCategory(libraryDispatch, 'Discipline Passives', spellLibrary.spells);
             }
             // Also remove old passives by checking for spells with 'discipline' tag and passive type (fallback)
-            const oldPassives = spellLibrary.spells.filter(spell => 
-                spell.spellType === 'PASSIVE' && 
+            const oldPassives = spellLibrary.spells.filter(spell =>
+                spell.spellType === 'PASSIVE' &&
                 (spell.tags?.includes('discipline') || spell.typeConfig?.tags?.includes('discipline')) &&
                 !spell.categoryIds?.includes('Discipline Passives') // Don't double-remove
             );
@@ -667,7 +658,7 @@ export default function CharacterPanel() {
 
             if (path) {
                 const pathData = ENHANCED_PATHS[path];
-                
+
                 // Get available spells from path abilities
                 let availableSpells = [];
                 if (pathData && pathData.abilities) {
@@ -695,14 +686,14 @@ export default function CharacterPanel() {
                 if (pathData && pathData.mechanicalBenefits) {
                     // Store passives in character store
                     updateCharacterInfo('pathPassives', pathData.mechanicalBenefits);
-                    
+
                     // Convert non-stat passives to spell cards and add to library
                     pathData.mechanicalBenefits.forEach(passive => {
                         // Skip stat bonuses - they're applied automatically
                         if (passive.type === 'stat') {
                             return;
                         }
-                        
+
                         // Create spell card from passive
                         const spellCard = {
                             id: `passive_${passive.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
@@ -731,7 +722,7 @@ export default function CharacterPanel() {
                             dateCreated: new Date().toISOString(),
                             lastModified: new Date().toISOString()
                         };
-                        
+
                         // Add spell to library (old ones were already removed above)
                         libraryDispatch(libraryActionCreators.addSpell(spellCard));
                     });
@@ -771,187 +762,187 @@ export default function CharacterPanel() {
                             />
                         </div>
 
-                <div className="character-details-grid">
-                    <div className="character-field">
-                        <label className="character-field-label">Race</label>
-                        <select
-                            value={race}
-                            onChange={(e) => updateCharacterInfo('race', e.target.value)}
-                            className="character-field-input"
-                        >
-                            <option value="">Select a race</option>
-                            {getRaceList().map(raceOption => (
-                                <option key={raceOption.id} value={raceOption.id}>
-                                    {raceOption.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        <div className="character-details-grid">
+                            <div className="character-field">
+                                <label className="character-field-label">Race</label>
+                                <select
+                                    value={race}
+                                    onChange={(e) => updateCharacterInfo('race', e.target.value)}
+                                    className="character-field-input"
+                                >
+                                    <option value="">Select a race</option>
+                                    {getRaceList().map(raceOption => (
+                                        <option key={raceOption.id} value={raceOption.id}>
+                                            {raceOption.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Subrace</label>
-                        <select
-                            value={subrace}
-                            onChange={(e) => updateCharacterInfo('subrace', e.target.value)}
-                            className="character-field-input"
-                            disabled={!race}
-                        >
-                            <option value="">Select a subrace</option>
-                            {race && getSubraceList(race).map(subraceOption => (
-                                <option key={subraceOption.id} value={subraceOption.id}>
-                                    {subraceOption.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Subrace</label>
+                                <select
+                                    value={subrace}
+                                    onChange={(e) => updateCharacterInfo('subrace', e.target.value)}
+                                    className="character-field-input"
+                                    disabled={!race}
+                                >
+                                    <option value="">Select a subrace</option>
+                                    {race && getSubraceList(race).map(subraceOption => (
+                                        <option key={subraceOption.id} value={subraceOption.id}>
+                                            {subraceOption.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Class</label>
-                        <select
-                            value={characterClass}
-                            onChange={(e) => updateCharacterInfo('class', e.target.value)}
-                            className="character-field-input"
-                        >
-                            <option value="">Select a class</option>
-                            <option value="Pyrofiend">Pyrofiend</option>
-                            <option value="Minstrel">Minstrel</option>
-                            <option value="Chronarch">Chronarch</option>
-                            <option value="Chaos Weaver">Chaos Weaver</option>
-                            <option value="Fate Weaver">Fate Weaver</option>
-                            <option value="Gambler">Gambler</option>
-                            <option value="Martyr">Martyr</option>
-                            <option value="False Prophet">False Prophet</option>
-                            <option value="Exorcist">Exorcist</option>
-                            <option value="Oracle">Oracle</option>
-                            <option value="Plaguebringer">Plaguebringer</option>
-                            <option value="Lichborne">Lichborne</option>
-                            <option value="Deathcaller">Deathcaller</option>
-                            <option value="Spellguard">Spellguard</option>
-                            <option value="Inscriptor">Inscriptor</option>
-                            <option value="Arcanoneer">Arcanoneer</option>
-                            <option value="Witch Doctor">Witch Doctor</option>
-                            <option value="Formbender">Formbender</option>
-                            <option value="Primalist">Primalist</option>
-                            <option value="Berserker">Berserker</option>
-                            <option value="Dreadnaught">Dreadnaught</option>
-                            <option value="Titan">Titan</option>
-                            <option value="Toxicologist">Toxicologist</option>
-                            <option value="Covenbane">Covenbane</option>
-                            <option value="Bladedancer">Bladedancer</option>
-                            <option value="Lunarch">Lunarch</option>
-                            <option value="Huntress">Huntress</option>
-                            <option value="Warden">Warden</option>
-                        </select>
-                    </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Class</label>
+                                <select
+                                    value={characterClass}
+                                    onChange={(e) => updateCharacterInfo('class', e.target.value)}
+                                    className="character-field-input"
+                                >
+                                    <option value="">Select a class</option>
+                                    <option value="Pyrofiend">Pyrofiend</option>
+                                    <option value="Minstrel">Minstrel</option>
+                                    <option value="Chronarch">Chronarch</option>
+                                    <option value="Chaos Weaver">Chaos Weaver</option>
+                                    <option value="Fate Weaver">Fate Weaver</option>
+                                    <option value="Gambler">Gambler</option>
+                                    <option value="Martyr">Martyr</option>
+                                    <option value="False Prophet">False Prophet</option>
+                                    <option value="Exorcist">Exorcist</option>
+                                    <option value="Oracle">Oracle</option>
+                                    <option value="Plaguebringer">Plaguebringer</option>
+                                    <option value="Lichborne">Lichborne</option>
+                                    <option value="Deathcaller">Deathcaller</option>
+                                    <option value="Spellguard">Spellguard</option>
+                                    <option value="Inscriptor">Inscriptor</option>
+                                    <option value="Arcanoneer">Arcanoneer</option>
+                                    <option value="Witch Doctor">Witch Doctor</option>
+                                    <option value="Formbender">Formbender</option>
+                                    <option value="Primalist">Primalist</option>
+                                    <option value="Berserker">Berserker</option>
+                                    <option value="Dreadnaught">Dreadnaught</option>
+                                    <option value="Titan">Titan</option>
+                                    <option value="Toxicologist">Toxicologist</option>
+                                    <option value="Covenbane">Covenbane</option>
+                                    <option value="Bladedancer">Bladedancer</option>
+                                    <option value="Lunarch">Lunarch</option>
+                                    <option value="Huntress">Huntress</option>
+                                    <option value="Warden">Warden</option>
+                                </select>
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Discipline</label>
-                        <select
-                            value={path || ''}
-                            onChange={(e) => {
-                                const selectedPath = e.target.value;
-                                const pathData = selectedPath ? ENHANCED_PATHS[selectedPath] : null;
-                                updateCharacterInfo('path', selectedPath);
-                                if (pathData) {
-                                    updateCharacterInfo('pathDisplayName', pathData.name);
-                                } else {
-                                    updateCharacterInfo('pathDisplayName', '');
-                                }
-                            }}
-                            className="character-field-input"
-                        >
-                            <option value="">Select a discipline</option>
-                            {getAllEnhancedPaths().map(pathOption => (
-                                <option key={pathOption.id} value={pathOption.id}>
-                                    {pathOption.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Discipline</label>
+                                <select
+                                    value={path || ''}
+                                    onChange={(e) => {
+                                        const selectedPath = e.target.value;
+                                        const pathData = selectedPath ? ENHANCED_PATHS[selectedPath] : null;
+                                        updateCharacterInfo('path', selectedPath);
+                                        if (pathData) {
+                                            updateCharacterInfo('pathDisplayName', pathData.name);
+                                        } else {
+                                            updateCharacterInfo('pathDisplayName', '');
+                                        }
+                                    }}
+                                    className="character-field-input"
+                                >
+                                    <option value="">Select a discipline</option>
+                                    {getAllEnhancedPaths().map(pathOption => (
+                                        <option key={pathOption.id} value={pathOption.id}>
+                                            {pathOption.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Level</label>
-                        <input
-                            type="number"
-                            min="1"
-                            max="20"
-                            value={level}
-                            onChange={(e) => updateCharacterInfo('level', parseInt(e.target.value) || 1)}
-                            className="character-field-input"
-                        />
-                    </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Level</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max="20"
+                                    value={level}
+                                    onChange={(e) => updateCharacterInfo('level', parseInt(e.target.value) || 1)}
+                                    className="character-field-input"
+                                />
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Alignment</label>
-                        <select
-                            value={alignment}
-                            onChange={(e) => updateCharacterInfo('alignment', e.target.value)}
-                            className="character-field-select"
-                        >
-                            <option value="Lawful Good">Lawful Good</option>
-                            <option value="Neutral Good">Neutral Good</option>
-                            <option value="Chaotic Good">Chaotic Good</option>
-                            <option value="Lawful Neutral">Lawful Neutral</option>
-                            <option value="True Neutral">True Neutral</option>
-                            <option value="Chaotic Neutral">Chaotic Neutral</option>
-                            <option value="Lawful Evil">Lawful Evil</option>
-                            <option value="Neutral Evil">Neutral Evil</option>
-                            <option value="Chaotic Evil">Chaotic Evil</option>
-                        </select>
-                    </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Alignment</label>
+                                <select
+                                    value={alignment}
+                                    onChange={(e) => updateCharacterInfo('alignment', e.target.value)}
+                                    className="character-field-select"
+                                >
+                                    <option value="Lawful Good">Lawful Good</option>
+                                    <option value="Neutral Good">Neutral Good</option>
+                                    <option value="Chaotic Good">Chaotic Good</option>
+                                    <option value="Lawful Neutral">Lawful Neutral</option>
+                                    <option value="True Neutral">True Neutral</option>
+                                    <option value="Chaotic Neutral">Chaotic Neutral</option>
+                                    <option value="Lawful Evil">Lawful Evil</option>
+                                    <option value="Neutral Evil">Neutral Evil</option>
+                                    <option value="Chaotic Evil">Chaotic Evil</option>
+                                </select>
+                            </div>
 
-                    <div className="character-field">
-                        <label className="character-field-label">Exhaustion Level</label>
-                        <select
-                            value={exhaustionLevel}
-                            onChange={(e) => updateCharacterInfo('exhaustionLevel', parseInt(e.target.value))}
-                            className="character-field-select"
-                        >
-                            <option value={0}>None</option>
-                            <option value={1}>Level 1</option>
-                            <option value={2}>Level 2</option>
-                            <option value={3}>Level 3</option>
-                            <option value={4}>Level 4</option>
-                            <option value={5}>Level 5</option>
-                            <option value={6}>Level 6</option>
-                        </select>
-                    </div>
-                </div>
-
-                {/* Special Modifiers Section */}
-                {race && subrace && (() => {
-                    const savingThrowMods = getRacialSavingThrowModifiers(race, subrace);
-                    const hasSpecialModifiers = savingThrowMods && (
-                        (savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0) ||
-                        (savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0)
-                    );
-                    
-                    if (!hasSpecialModifiers) return null;
-                    
-                    return (
-                        <div className="character-details-grid" style={{ marginTop: '20px', paddingTop: '20px', borderTop: '2px solid #8b7355' }}>
-                            <div className="character-field" style={{ gridColumn: '1 / -1' }}>
-                                <label className="character-field-label" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
-                                    Special Modifiers
-                                </label>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
-                                        <div style={{ padding: '8px', backgroundColor: '#e8f5e9', borderRadius: '4px', border: '1px solid #4caf50' }}>
-                                            <span style={{ fontWeight: 'bold', color: '#4caf50' }}>Advantage on saves against: </span>
-                                            <span>{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
-                                        </div>
-                                    )}
-                                    {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
-                                        <div style={{ padding: '8px', backgroundColor: '#ffebee', borderRadius: '4px', border: '1px solid #f44336' }}>
-                                            <span style={{ fontWeight: 'bold', color: '#f44336' }}>Disadvantage on saves against: </span>
-                                            <span>{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
-                                        </div>
-                                    )}
-                                </div>
+                            <div className="character-field">
+                                <label className="character-field-label">Exhaustion Level</label>
+                                <select
+                                    value={exhaustionLevel}
+                                    onChange={(e) => updateCharacterInfo('exhaustionLevel', parseInt(e.target.value))}
+                                    className="character-field-select"
+                                >
+                                    <option value={0}>None</option>
+                                    <option value={1}>Level 1</option>
+                                    <option value={2}>Level 2</option>
+                                    <option value={3}>Level 3</option>
+                                    <option value={4}>Level 4</option>
+                                    <option value={5}>Level 5</option>
+                                    <option value={6}>Level 6</option>
+                                </select>
                             </div>
                         </div>
-                    );
-                })()}
+
+                        {/* Special Modifiers Section */}
+                        {race && subrace && (() => {
+                            const savingThrowMods = getRacialSavingThrowModifiers(race, subrace);
+                            const hasSpecialModifiers = savingThrowMods && (
+                                (savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0) ||
+                                (savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0)
+                            );
+
+                            if (!hasSpecialModifiers) return null;
+
+                            return (
+                                <div className="character-details-grid" style={{ marginTop: '20px', paddingTop: '20px', borderTop: '2px solid #8b7355' }}>
+                                    <div className="character-field" style={{ gridColumn: '1 / -1' }}>
+                                        <label className="character-field-label" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
+                                            Special Modifiers
+                                        </label>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                            {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
+                                                <div style={{ padding: '8px', backgroundColor: '#e8f5e9', borderRadius: '4px', border: '1px solid #4caf50' }}>
+                                                    <span style={{ fontWeight: 'bold', color: '#4caf50' }}>Advantage on saves against: </span>
+                                                    <span>{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                </div>
+                                            )}
+                                            {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
+                                                <div style={{ padding: '8px', backgroundColor: '#ffebee', borderRadius: '4px', border: '1px solid #f44336' }}>
+                                                    <span style={{ fontWeight: 'bold', color: '#f44336' }}>Disadvantage on saves against: </span>
+                                                    <span>{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
 
                     </div>
                 </div>
@@ -988,7 +979,7 @@ export default function CharacterPanel() {
                             </div>
                         )}
                     </div>
-                    
+
                     {/* Weapon Slots Below Image */}
                     <div className="weapon-slots-bottom">
                         {Object.entries(weaponSlots).map(([slotName, config]) => {
@@ -1001,7 +992,7 @@ export default function CharacterPanel() {
                             const isEmpty = !item;
                             const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
 
-                            // Debug logging for off-hand slot
+                            /*
                             if (slotName === 'offHand') {
                                 console.log('🛡️ Off-hand slot debug:', {
                                     slotName,
@@ -1011,25 +1002,26 @@ export default function CharacterPanel() {
                                     imageUrl: item?.imageUrl,
                                     equipmentKeys: Object.keys(equipment),
                                     offHandKey: 'offHand' in equipment,
-                                    off_handKey: 'off_hand' in equipment,
+                                    off_handKey: 'off_hand_key' in equipment,
                                     allEquipment: equipment
                                 });
                             }
+                            */
 
                             // Get the image source for the item
                             const getItemImageSrc = () => {
                                 if (!item) return config.icon;
-                                
+
                                 // First check for valid imageUrl (not WoW URL)
                                 if (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) {
                                     return item.imageUrl;
                                 }
-                                
+
                                 // Then check for iconId
                                 if (item.iconId) {
                                     return getIconUrl(item.iconId, 'items', true);
                                 }
-                                
+
                                 // Fallback: Try to look up the item from item store if we have an ID
                                 if (item.id) {
                                     try {
@@ -1043,7 +1035,7 @@ export default function CharacterPanel() {
                                         console.warn('Could not look up item from store:', e);
                                     }
                                 }
-                                
+
                                 // Final fallback to question mark
                                 return getIconUrl('inv_misc_questionmark', 'items', true);
                             };
@@ -1144,7 +1136,7 @@ export default function CharacterPanel() {
     const logResourceChange = (characterName, resourceType, amount, isPositive) => {
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
-        
+
         if (resourceType === 'health') {
             // Use existing combat_heal and combat_hit types for health
             if (isPositive) {
@@ -1225,10 +1217,10 @@ export default function CharacterPanel() {
         const currentResource = dataSource[resourceType] || { current: 0, max: 0 };
         const currentValue = currentResource.current || 0;
         const actualMax = maxValue || currentResource.max || 0;
-        
+
         // Calculate the adjustment amount
         const adjustment = newValue - currentValue;
-        
+
         // Check for overheal (positive adjustment that would exceed max)
         if (adjustment > 0 && newValue > actualMax) {
             const overhealAmount = newValue - actualMax;
@@ -1242,7 +1234,7 @@ export default function CharacterPanel() {
             setShowOverhealModal(true);
             return; // Don't apply yet, wait for user confirmation
         }
-        
+
         // Normal update (no overheal or negative adjustment)
         // Log the resource change if there's an actual adjustment
         if (adjustment !== 0) {
@@ -1255,7 +1247,7 @@ export default function CharacterPanel() {
     // Apply resource adjustment with optional temporary resource
     const applyResourceAdjustment = (asTemporary = false) => {
         if (!overhealData) return;
-        
+
         const { resourceType, adjustment, currentValue, maxValue } = overhealData;
         const tempFieldMap = {
             'health': 'tempHealth',
@@ -1264,30 +1256,30 @@ export default function CharacterPanel() {
         };
         const tempField = tempFieldMap[resourceType];
         const currentTemp = dataSource[tempField] || 0;
-        
+
         // Get character name for logging
         const characterName = dataSource.name || name || 'Character';
-        
+
         if (asTemporary) {
             // Add as temporary resource
             const overhealAmount = (currentValue + adjustment) - maxValue;
-            
+
             // Log the main resource change (up to max)
             const mainAdjustment = maxValue - currentValue;
             if (mainAdjustment > 0) {
                 logResourceChange(characterName, resourceType, mainAdjustment, true);
             }
-            
+
             // Set resource to max
             updateResource(resourceType, maxValue, maxValue);
-            
+
             // Update temporary resource
             if (inspectionData) {
                 // For inspected characters, update through party store
                 const partyState = usePartyStore.getState();
                 // Find member by name (inspection context provides name)
                 const member = partyState.partyMembers.find(m => m.name === inspectionData.name);
-                
+
                 if (member) {
                     usePartyStore.getState().updatePartyMember(member.id, {
                         character: {
@@ -1313,7 +1305,7 @@ export default function CharacterPanel() {
             }
             updateResource(resourceType, maxValue, maxValue);
         }
-        
+
         setShowOverhealModal(false);
         setOverhealData(null);
     };
@@ -1418,14 +1410,14 @@ export default function CharacterPanel() {
     const renderPassives = () => {
         // Get all passive abilities from racial stat modifiers, path passives, and background passives
         const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace) : [];
-        
+
         // Get background passives (abilities) and features
         let backgroundPassives = [];
         if (background) {
             // Get passive abilities from backgroundAbilities.js
             const backgroundAbilities = getPassiveAbilities(background);
             backgroundPassives = [...backgroundAbilities];
-            
+
             // Get background feature from backgroundData.js
             const backgroundData = getBackgroundData(background);
             if (backgroundData && backgroundData.feature) {
@@ -1438,7 +1430,7 @@ export default function CharacterPanel() {
                 });
             }
         }
-        
+
         const allPassives = [...racialPassives, ...(pathPassives || []), ...backgroundPassives];
 
         if (allPassives.length === 0) {
@@ -1512,7 +1504,7 @@ export default function CharacterPanel() {
                         </div>
                     </div>
                 ))}
-                
+
                 {/* Special Modifiers Section */}
                 {hasSpecialModifiers && (
                     <div className="passive-summary-group">
@@ -1595,7 +1587,7 @@ export default function CharacterPanel() {
             if (unequippedItem) {
                 // Add the item back to inventory
                 addItem(unequippedItem);
-                console.log(`Unequipped ${unequippedItem.name} from ${slotName}`);
+                // console.log(`Unequipped ${unequippedItem.name} from ${slotName}`);
             }
         } catch (error) {
             console.error('Error unequipping item:', error);
@@ -1896,15 +1888,14 @@ export default function CharacterPanel() {
                 ))}
             </div>
 
-            <div 
-                className={`character-content-area ${
-                    activeSection === 'character' ? 'character-backdrop' : 
-                    activeSection === 'equipment' ? 'equipment-backdrop' : 
-                    activeSection === 'passives' ? 'passives-backdrop' : 
-                    activeSection === 'languages' ? 'languages-backdrop' : 
-                    activeSection === 'resources' ? 'resources-backdrop' : 
-                    ''
-                }`}
+            <div
+                className={`character-content-area ${activeSection === 'character' ? 'character-backdrop' :
+                    activeSection === 'equipment' ? 'equipment-backdrop' :
+                        activeSection === 'passives' ? 'passives-backdrop' :
+                            activeSection === 'languages' ? 'languages-backdrop' :
+                                activeSection === 'resources' ? 'resources-backdrop' :
+                                    ''
+                    }`}
                 style={{
                     ...(activeSection === 'passives' && {
                         backgroundImage: 'url(/assets/Backgrounds/Embers.png)'
@@ -1986,7 +1977,7 @@ export default function CharacterPanel() {
                             Overheal Detected
                         </h3>
                         <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
-                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
                             but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
                             <br />
                             <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.

@@ -1,6 +1,6 @@
 import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useCallback } from 'react';
 import Draggable from 'react-draggable';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import '../../styles/draggable-window.css';
 
 // Simple throttle function for performance optimization
@@ -48,7 +48,7 @@ const DraggableWindow = forwardRef(({
     onDragStop = null
 }, ref) => {
     // Get window scale from store (hooks must be called before any early returns)
-    const windowScale = useGameStore(state => state.windowScale);
+    const windowScale = useSettingsStore(state => state.windowScale);
 
     // Detect mobile device
     const [isMobile, setIsMobile] = useState(() => {

@@ -845,17 +845,17 @@ const useLevelEditorStore = create((set, get) => ({
     // These replace the entire data object (used for initial sync from GM to players)
 
     setTerrainData: (terrainData) => {
-        console.log('🗺️ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
+        // console.log('🗺️ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
         set({ terrainData: terrainData || {} });
     },
 
     setWallData: (wallData) => {
-        console.log('🧱 Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
+        // console.log('🧱 Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
         set({ wallData: wallData || {} });
     },
 
     setEnvironmentalObjects: (environmentalObjects) => {
-        console.log('🌳 Setting environmental objects:', (environmentalObjects || []).length, 'objects');
+        // console.log('🌳 Setting environmental objects:', (environmentalObjects || []).length, 'objects');
         set({ environmentalObjects: environmentalObjects || [] });
     },
 

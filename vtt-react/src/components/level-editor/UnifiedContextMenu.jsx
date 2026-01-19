@@ -16,8 +16,10 @@ const UnifiedContextMenu = ({
     // Debug: Log when menu renders
     useEffect(() => {
         if (visible) {
+            /*
             console.log('🖱️ [CONTEXT MENU] Rendering with items:', items);
             console.log('🖱️ [CONTEXT MENU] Items with submenus:', items.filter(item => item.submenu));
+            */
         }
     }, [visible, items]);
 
@@ -29,45 +31,47 @@ const UnifiedContextMenu = ({
 
             // Check if click is inside a confirmation dialog, WowWindow, or other modal overlay
             const clickedElement = event.target;
-            const isInsideModal = 
+            const isInsideModal =
                 clickedElement.closest('.confirmation-dialog-overlay') !== null ||
                 clickedElement.closest('.wow-window') !== null ||
                 clickedElement.closest('.window-content') !== null ||
                 clickedElement.closest('[class*="dialog"]') !== null;
-            
+
             if (isInsideModal) {
-                console.log('🖱️ [CONTEXT MENU] Click was inside modal/dialog/window, not closing menu');
+                // console.log('🖱️ [CONTEXT MENU] Click was inside modal/dialog/window, not closing menu');
                 return;
             }
 
+            /*
             console.log('🖱️ [CONTEXT MENU] Click outside detected, target:', event.target);
             console.log('🖱️ [CONTEXT MENU] Menu ref current:', menuRef.current);
             console.log('🖱️ [CONTEXT MENU] Contains check:', menuRef.current?.contains(event.target));
+            */
 
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                console.log('🖱️ [CONTEXT MENU] Closing menu due to outside click');
+                // console.log('🖱️ [CONTEXT MENU] Closing menu due to outside click');
                 onClose();
             } else {
-                console.log('🖱️ [CONTEXT MENU] Click was inside menu, not closing');
+                // console.log('🖱️ [CONTEXT MENU] Click was inside menu, not closing');
             }
         };
 
         const handleEscapeKey = (event) => {
             if (event.key === 'Escape') {
-                console.log('🖱️ [CONTEXT MENU] Escape key pressed, closing menu');
+                // console.log('🖱️ [CONTEXT MENU] Escape key pressed, closing menu');
                 onClose();
             }
         };
 
         // Prevent wheel events from bubbling up to the grid
         const handleWheel = (event) => {
-            console.log('🖱️ [CONTEXT MENU] Wheel event on menu, preventing propagation');
+            // console.log('🖱️ [CONTEXT MENU] Wheel event on menu, preventing propagation');
             event.stopPropagation();
             event.preventDefault();
         };
 
         if (visible) {
-            console.log('🖱️ [CONTEXT MENU] Setting up event listeners');
+            // console.log('🖱️ [CONTEXT MENU] Setting up event listeners');
             document.addEventListener('mousedown', handleClickOutside);
             document.addEventListener('keydown', handleEscapeKey);
             const refAtMount = menuRef.current;
@@ -76,7 +80,7 @@ const UnifiedContextMenu = ({
             }
 
             return () => {
-                console.log('🖱️ [CONTEXT MENU] Cleaning up event listeners');
+                // console.log('🖱️ [CONTEXT MENU] Cleaning up event listeners');
                 document.removeEventListener('mousedown', handleClickOutside);
                 document.removeEventListener('keydown', handleEscapeKey);
                 if (refAtMount) {
@@ -147,11 +151,11 @@ const UnifiedContextMenu = ({
                                     <div
                                         className={`context-menu-group has-submenu ${hoveredSubmenuIndex === index ? 'hovered' : ''}`}
                                         onMouseEnter={() => {
-                                            console.log('🖱️ [CONTEXT MENU] Mouse entered submenu item:', item.label, 'index:', index);
+                                            // console.log('🖱️ [CONTEXT MENU] Mouse entered submenu item:', item.label, 'index:', index);
                                             setHoveredSubmenuIndex(index);
                                         }}
                                         onMouseLeave={() => {
-                                            console.log('🖱️ [CONTEXT MENU] Mouse left submenu item:', item.label);
+                                            // console.log('🖱️ [CONTEXT MENU] Mouse left submenu item:', item.label);
                                             setHoveredSubmenuIndex(null);
                                         }}
                                     >

@@ -720,6 +720,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // CRITICAL FIX: Ensure isGM is explicitly false for joining players (only room creator is GM)
         const newPartyMember = {
           id: data.player.id,
+          socketId: data.player.id, // CRITICAL: Store socketId for character_updated lookups
           name: playerCharacterName,
           isGM: false, // Joining players are never GM - only room creator is GM
           character: {
@@ -2192,58 +2193,94 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for character updates from other players
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
-      if (data.character?.playerId && data.character.playerId !== currentPlayerRef.current?.id) {
+      const senderSocketId = data.character?.playerId || data.characterId;
+      const characterName = data.character?.name;
+      const updatedBy = data.updatedBy; // Player ID of sender from server
+      const isFromGM = data.isGM || false; // Server may indicate if this is from GM
+
+      console.log('📥 [character_updated] Received:', {
+        senderSocketId,
+        characterName,
+        updatedBy,
+        mySocketId: socket.id,
+        hasLore: !!data.character?.lore,
+        hasEquipment: !!data.character?.equipment,
+        class: data.character?.class
+      });
+
+      // CRITICAL FIX: Use socket.id to check if this is our own update
+      // The senderSocketId in the data is the sender's socket ID, compare against our socket.id
+      if (senderSocketId && senderSocketId !== socket.id) {
+        // CRITICAL FIX: Find party member by multiple strategies since party members use UUIDs
+        // but character_updated events use socket IDs
+        const partyStore = usePartyStore.getState();
+        let partyMember = partyStore.partyMembers.find(m =>
+          m.socketId === senderSocketId || // Match by stored socket ID
+          m.socketId === updatedBy || // Match by server-provided sender ID stored as socketId
+          m.id === updatedBy || // Match by ID since server uses player.id as updatedBy
+          m.name === characterName || // Match by character name
+          m.id === senderSocketId // Match by ID (in case they match)
+        );
+
+        // FALLBACK: If not found and this is from GM, find the GM party member
+        if (!partyMember) {
+          // Check if sender is the GM by looking at who ISN'T us and IS the GM
+          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
+          if (gmMember) {
+            console.log('📥 [character_updated] Trying GM fallback match:', { gmMemberName: gmMember.name });
+            partyMember = gmMember;
+          }
+        }
+
+        if (!partyMember) {
+          console.warn('📥 [character_updated] Could not find party member for:', { senderSocketId, characterName, updatedBy });
+          return;
+        }
+
+        // Store socketId on the member for future lookups
+        const targetMemberId = partyMember.id;
+        console.log('📥 [character_updated] Found party member:', { targetMemberId, name: partyMember.name });
 
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.character.raceDisplayName || 'Unknown';
 
-        // CRITICAL FIX: Use actual character data, not fallback defaults
-        // Only use defaults if the data is truly missing (null/undefined), not if it's 0 or empty object
+        // CRITICAL FIX: Use actual character data
         const baseCharacterData = {
-          class: data.character.class || 'Unknown',
-          level: data.character.level || 1,
-          // CRITICAL FIX: Use actual health/mana/AP values, not defaults
-          health: data.character.health !== undefined && data.character.health !== null
-            ? data.character.health
-            : { current: 45, max: 50 },
-          mana: data.character.mana !== undefined && data.character.mana !== null
-            ? data.character.mana
-            : { current: 45, max: 50 },
-          actionPoints: data.character.actionPoints !== undefined && data.character.actionPoints !== null
-            ? data.character.actionPoints
-            : { current: 1, max: 3 },
-          race: data.character.race || 'Unknown',
-          subrace: data.character.subrace || '',
-          raceDisplayName: raceDisplayName,
-          exhaustionLevel: data.character.exhaustionLevel !== undefined ? data.character.exhaustionLevel : 0,
-          classResource: data.character.classResource !== undefined && data.character.classResource !== null
-            ? data.character.classResource
-            : { current: 0, max: 0 },
-          tokenSettings: data.character.tokenSettings || {}, // Include token settings, default to empty object
-          lore: data.character.lore || {} // Include lore (which contains characterImage), default to empty object
+          ...data.character,
+          socketId: senderSocketId, // Store socketId for future lookups
+          // Ensure we don't have nulls for critical stats
+          health: data.character.health || { current: 45, max: 50 },
+          mana: data.character.mana || { current: 45, max: 50 },
+          actionPoints: data.character.actionPoints || { current: 1, max: 3 }
         };
+
+        console.log('📦 [character_updated] baseCharacterData keys:', Object.keys(baseCharacterData));
 
         if (data.character.race && data.character.subrace) {
           import('../../data/raceData').then(({ getFullRaceData }) => {
             const raceData = getFullRaceData(data.character.race, data.character.subrace);
             if (raceData) {
-              const updatedRaceDisplayName = raceData.subrace.name;
+              // Combine Race and Subrace for better display (e.g. "Nordmark (Bloodhammer)")
+              const updatedRaceDisplayName = `${raceData.race.name} (${raceData.subrace.name})`;
+
               // Update party member with correct race display name
-              updatePartyMember(data.character.playerId, {
+              usePartyStore.getState().updatePartyMember(targetMemberId, {
                 name: data.character.name,
+                socketId: senderSocketId,
                 character: {
                   ...baseCharacterData,
                   raceDisplayName: updatedRaceDisplayName
                 }
-              });
+              }, true);
             }
           }).catch(error => {
             console.warn('Failed to calculate race display name:', error);
             // Fallback to base data
-            updatePartyMember(data.character.playerId, {
+            usePartyStore.getState().updatePartyMember(targetMemberId, {
               name: data.character.name,
+              socketId: senderSocketId,
               character: baseCharacterData
-            });
+            }, true);
           });
         } else if (data.character.race) {
           import('../../data/raceData').then(({ getRaceData }) => {
@@ -2251,33 +2288,36 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             if (raceData) {
               const updatedRaceDisplayName = raceData.name;
               // Update party member with correct race display name
-              updatePartyMember(data.character.playerId, {
+              usePartyStore.getState().updatePartyMember(targetMemberId, {
                 name: data.character.name,
+                socketId: senderSocketId,
                 character: {
                   ...baseCharacterData,
                   raceDisplayName: updatedRaceDisplayName
                 }
-              });
+              }, true);
             }
           }).catch(error => {
             console.warn('Failed to get race data:', error);
             // Fallback to base data
-            updatePartyMember(data.character.playerId, {
+            usePartyStore.getState().updatePartyMember(targetMemberId, {
               name: data.character.name,
+              socketId: senderSocketId,
               character: baseCharacterData
-            });
+            }, true);
           });
         } else {
           // No race data to process, use base data
-          updatePartyMember(data.character.playerId, {
+          usePartyStore.getState().updatePartyMember(targetMemberId, {
             name: data.character.name,
+            socketId: senderSocketId,
             character: baseCharacterData
-          });
+          }, true);
         }
 
         // Update chat user data
         try {
-          updateUser(data.character.playerId, {
+          updateUser(senderSocketId, {
             name: data.character.name,
             class: data.character.class || 'Unknown',
             level: data.character.level || 1
@@ -2285,7 +2325,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         } catch (error) {
           // Fallback to adding if update fails
           addUser({
-            id: data.character.playerId,
+            id: senderSocketId,
             name: data.character.name,
             class: data.character.class || 'Unknown',
             level: data.character.level || 1,
@@ -2295,23 +2335,102 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Update connected players list with character data
         setConnectedPlayers(prev => prev.map(player =>
-          player.id === data.character.playerId
+          player.id === senderSocketId
             ? { ...player, character: data.character }
             : player
         ));
+      }
+    });
 
+    // Listen for high-frequency character resource updates
+    socket.on('character_resource_updated', (data) => {
+      const senderSocketId = data.senderSocketId || data.socketId || data.updatedBy;
+      const characterId = data.characterId;
+      const updatedBy = data.updatedBy;
+
+      // CRITICAL FIX: Use socket.id to check if this is our own update
+      if ((senderSocketId && senderSocketId !== socket.id) || (updatedBy && updatedBy !== socket.id)) {
+        const partyStore = usePartyStore.getState();
+        let partyMember = partyStore.partyMembers.find(m =>
+          m.socketId === senderSocketId ||
+          m.id === characterId ||
+          m.id === updatedBy ||
+          m.socketId === updatedBy
+        );
+
+        // FALLBACK: If not found and this is likely from GM (no characterId or special flag)
+        if (!partyMember && !characterId) {
+          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
+          if (gmMember) partyMember = gmMember;
+        }
+
+        if (!partyMember) return;
+
+        const updates = { character: {} };
+
+        // Handle delta-based updates
+        if (data.newValues) {
+          Object.entries(data.newValues).forEach(([resource, value]) => {
+            updates.character[resource] = {
+              current: value,
+              max: data.max || partyMember.character?.[resource]?.max || 100
+            };
+          });
+        } else if (data.resource) {
+          // Handle old format
+          updates.character[data.resource] = {
+            current: data.current,
+            max: data.max || partyMember.character?.[data.resource]?.max || 100
+          };
+        }
+
+        usePartyStore.getState().updatePartyMember(partyMember.id, updates, true);
       }
     });
 
     // Listen for character equipment updates from other players
     socket.on('character_equipment_updated', (data) => {
+      const senderSocketId = data.senderSocketId || data.socketId || data.updatedBy;
+      const characterId = data.characterId;
+      const updatedBy = data.updatedBy;
 
-      // Only process updates from other players (not our own)
-      if (data.updatedBy !== currentRoomRef.current?.gm?.id && data.updatedByName !== currentRoomRef.current?.gm?.name) {
+      // Update party member with new equipment and stats
+      if ((senderSocketId && senderSocketId !== socket.id) || (updatedBy && updatedBy !== socket.id)) {
+        const partyStore = usePartyStore.getState();
+        let partyMember = partyStore.partyMembers.find(m =>
+          m.socketId === senderSocketId ||
+          m.id === characterId ||
+          m.id === updatedBy ||
+          m.socketId === updatedBy ||
+          m.name === data.updatedByName
+        );
+
+        // FALLBACK: If not found and from GM
+        if (!partyMember) {
+          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
+          if (gmMember) partyMember = gmMember;
+        }
+
+        if (partyMember) {
+          usePartyStore.getState().updatePartyMember(partyMember.id, {
+            character: {
+              equipment: data.equipment,
+              ...(data.stats || {})
+            }
+          }, true);
+        }
+      }
+
+      // Show notification if it's from another player
+      const isOurUpdate = data.updatedBy === currentPlayerRef.current?.id ||
+        data.updatedByName === currentPlayerRef.current?.name ||
+        data.updatedBy === socket.id;
+
+      if (!isOurUpdate) {
         // Show notification in chat
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.updatedByName} ${data.item ? 'equipped' : 'unequipped'} ${data.item?.name || 'an item'} ${data.item ? 'to' : 'from'} ${data.slot}`,
+          content: `${data.updatedByName || 'Someone'} ${data.item ? 'equipped' : 'unequipped'} ${data.item?.name || 'an item'} ${data.item ? 'to' : 'from'} ${data.slot}`,
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -2488,9 +2607,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               break;
 
             case 'member_updated':
-              // Update party member data
+              // Update party member data - Pass true to indicate this is from sync
               if (data.data && data.data.memberId && data.data.updates) {
-                partyStore.updatePartyMember(data.data.memberId, data.data.updates);
+                partyStore.updatePartyMember(data.data.memberId, data.data.updates, true);
               }
               break;
 
@@ -3324,6 +3443,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   class: activeCharacter.class,
                   race: activeCharacter.race,
                   subrace: activeCharacter.subrace,
+                  raceDisplayName: activeCharacter.raceDisplayName || '',
+                  background: activeCharacter.background || '',
+                  backgroundDisplayName: activeCharacter.backgroundDisplayName || '',
+                  path: activeCharacter.path || '',
+                  pathDisplayName: activeCharacter.pathDisplayName || '',
                   level: activeCharacter.level,
                   health: activeCharacter.health,
                   mana: activeCharacter.mana,
@@ -3792,6 +3916,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: activeCharacter.race,
             subrace: activeCharacter.subrace,
             raceDisplayName: activeCharacter.raceDisplayName || '',
+            background: activeCharacter.background || '',
+            backgroundDisplayName: backgroundDisplayName || activeCharacter.backgroundDisplayName || '',
+            path: activeCharacter.path || '',
+            pathDisplayName: pathDisplayName || activeCharacter.pathDisplayName || '',
             level: activeCharacter.level,
             stats: activeCharacter.stats,
             health: activeCharacter.health,
@@ -3971,6 +4099,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: room.gm.character?.race || 'Unknown',
             subrace: room.gm.character?.subrace || '',
             raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
+            background: room.gm.character?.background || '',
+            backgroundDisplayName: room.gm.character?.backgroundDisplayName || '',
+            path: room.gm.character?.path || '',
+            pathDisplayName: room.gm.character?.pathDisplayName || '',
             classResource: room.gm.character?.classResource || { current: 0, max: 0 }, // Include class resource
             tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
             lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
@@ -4008,6 +4140,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 race: player.character?.race || 'Unknown',
                 subrace: player.character?.subrace || '',
                 raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+                background: player.character?.background || '',
+                backgroundDisplayName: player.character?.backgroundDisplayName || '',
+                path: player.character?.path || '',
+                pathDisplayName: player.character?.pathDisplayName || '',
                 classResource: player.character?.classResource || { current: 0, max: 0 }, // Include class resource
                 tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
                 lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object

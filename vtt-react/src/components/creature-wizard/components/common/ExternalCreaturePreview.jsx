@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import SimpleCreatureTooltip from './SimpleCreatureTooltip';
 import useCreatureStore from '../../../../store/creatureStore';
-import useGameStore from '../../../../store/gameStore';
+import useSettingsStore from '../../../../store/settingsStore';
 
 // External Creature Preview Component that renders outside the creature wizard window
 const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   const { windowPosition, windowSize } = useCreatureStore();
-  const windowScale = useGameStore(state => state.windowScale);
+  const windowScale = useSettingsStore(state => state.windowScale);
 
   // Create a complete creature object for the tooltip using real-time data
   // This must be called before any early returns to follow Rules of Hooks
@@ -22,7 +22,7 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
       tags: creatureData.tags || [],
       tokenIcon: creatureData.tokenIcon || 'inv_misc_questionmark',
       tokenBorder: creatureData.tokenBorder || '#ffffff',
-      
+
       // Statistics
       stats: {
         // Base attributes
@@ -43,7 +43,7 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
         armorClass: creatureData.stats?.armorClass || 15,
         armor: creatureData.stats?.armor || creatureData.stats?.armorClass || 15, // For tooltip compatibility
         initiative: creatureData.stats?.initiative || 2,
-        
+
         // Movement
         speed: creatureData.stats?.speed || 30,
         flying: creatureData.stats?.flying || 0,

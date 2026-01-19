@@ -101,19 +101,19 @@ export function calculateEquipmentBonuses(equipment = {}) {
                             return type;
                         };
                         const normalizedResType = normalizeDamageType(resType);
-                        
+
                         // Check if this is a flat damage reduction (isPercentage is false or undefined, and value is a number)
-                        const isFlatReduction = resData && typeof resData === 'object' && 
-                            resData.value !== undefined && 
-                            typeof resData.value === 'number' && 
+                        const isFlatReduction = resData && typeof resData === 'object' &&
+                            resData.value !== undefined &&
+                            typeof resData.value === 'number' &&
                             resData.isPercentage !== true;
-                        
+
                         if (isFlatReduction) {
                             // Track flat damage reduction separately
                             bonuses.flatDamageReductions[normalizedResType] = (bonuses.flatDamageReductions[normalizedResType] || 0) + resData.value;
                             return;
                         }
-                        
+
                         // Handle new resistance level system
                         if (resData && typeof resData === 'object' && resData.level !== undefined) {
                             // New system: store the full resistance data
@@ -127,7 +127,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
                             const currentMultiplier = bonuses.resistances[normalizedResType].multiplier || 1.0;
                             const newLevel = resData.level || 100;
                             const newMultiplier = resData.multiplier || 1.0;
-                            
+
                             // Lower multiplier is better (takes less damage), except for negative (healing)
                             // For healing (negative multiplier), higher absolute value is better
                             if (newMultiplier < 0 && currentMultiplier >= 0) {
@@ -302,7 +302,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
         // Only add if it hasn't already been processed from combatStats to avoid double-counting
         if (item.armorClass && typeof item.armorClass === 'number') {
             const alreadyProcessed = item.combatStats && (
-                item.combatStats.armor !== undefined || 
+                item.combatStats.armor !== undefined ||
                 item.combatStats.armorClass !== undefined
             );
             if (!alreadyProcessed) {
@@ -410,7 +410,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         darkvision: 0,
         initiative: 0
     };
-    
+
     if (race && subrace) {
         try {
             const { getRacialBaseStats } = require('../data/raceData');
@@ -419,14 +419,14 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
             console.warn('Could not load racial base stats:', e);
         }
     }
-    
+
     // Base movement speed from race, with skill bonuses
     // Note: Passive movement speed modifiers will be applied later in conditional passives section
     const baseMoveSpeed = racialBaseStats.speed + (skillBonuses.movementSpeed || 0);
-    
+
     // Base armor from race (0 by default), then add agility modifier ((agility - 10) / 2) and equipment
     const baseArmor = racialBaseStats.armor + Math.floor((modifiedStats.agility - 10) / 2);
-    
+
     let derivedStats = {
         maxHealth: baseMaxHealth + racialBaseStats.hp, // Add racial base HP to calculated HP
         maxMana: baseMaxMana + racialBaseStats.mana, // Add racial base mana to calculated mana
@@ -507,7 +507,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         // Climb speed = 1/2 of movement speed
         derivedStats.climbSpeed = Math.floor(derivedStats.moveSpeed / 2);
     }
-    
+
     // Apply skill bonuses to swim and climb if present (only if not exhausted to 0)
     if (skillBonuses.swimSpeed && derivedStats.moveSpeed > 0) {
         derivedStats.swimSpeed += skillBonuses.swimSpeed;
@@ -527,23 +527,23 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     // Apply conditional passives based on health thresholds
     if (health && race && subrace) {
         const healthPercentage = (health.current / health.max) * 100;
-        
+
         // Import dynamically to avoid circular dependency
         const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
         const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
-        
+
         // Check each passive for health threshold conditions
         passiveModifiers.forEach(passive => {
             if (!passive.triggerConfig?.global?.compoundTriggers) return;
-            
+
             // Find health threshold trigger
             const healthTrigger = passive.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
             if (!healthTrigger?.parameters) return;
-            
+
             const threshold = healthTrigger.parameters.percentage;
             const comparison = healthTrigger.parameters.comparison;
             if (!threshold || !comparison) return;
-            
+
             // Check if condition is met
             let conditionMet = false;
             if (comparison === 'less_than' || comparison === 'below') {
@@ -553,14 +553,14 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
             } else if (comparison === 'equal' || comparison === 'exactly') {
                 conditionMet = Math.abs(healthPercentage - threshold) < 1; // Within 1%
             }
-            
+
             // Apply passive effects if condition is met
             if (conditionMet && passive.buffConfig?.effects) {
                 passive.buffConfig.effects.forEach(effect => {
                     if (effect.statModifier) {
                         const statName = effect.statModifier.stat;
                         const magnitude = effect.statModifier.magnitude;
-                        
+
                         // Apply stat modifiers to derived stats
                         if (statName === 'slashing_damage') {
                             derivedStats.slashingDamage = (derivedStats.slashingDamage || 0) + magnitude;
@@ -684,6 +684,7 @@ export function calculateCarryingCapacity(strength, equipmentBonus = 0) {
 
     const totalSlots = rowsPerSection * slotsPerRow * sectionsCount;
 
+    /*
     logger.debug('🎒 Carrying capacity calculation:', {
         strength,
         baseRowsPerSection,
@@ -694,6 +695,7 @@ export function calculateCarryingCapacity(strength, equipmentBonus = 0) {
         finalCapacity: totalSlots + equipmentBonus,
         expectedGrid: `${rowsPerSection}x15`
     });
+    */
 
     // Add equipment bonus (individual slots)
     return totalSlots + equipmentBonus;
@@ -712,6 +714,7 @@ export function getInventoryGridDimensions(carryingCapacity) {
     // Calculate rows per section (minimum 5 rows, then add based on strength)
     const rowsPerSection = Math.ceil(slotsPerSection / slotsPerRow);
 
+    /*
     logger.debug('📐 Grid dimensions calculation:', {
         carryingCapacity,
         slotsPerSection,
@@ -719,6 +722,7 @@ export function getInventoryGridDimensions(carryingCapacity) {
         totalColumns,
         finalDimensions: `${rowsPerSection}x${totalColumns}`
     });
+    */
 
     return {
         WIDTH: totalColumns, // Always 15 columns (5 normal + 5 encumbered + 5 overencumbered)

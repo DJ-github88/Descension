@@ -69,42 +69,10 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
             <div
                 className="unified-context-menu"
                 style={{
+                    position: 'fixed',
                     left: x,
-                    top: y
-                }}
-                onClick={e => e.stopPropagation()}
-            >
-                <div className="context-menu-main">
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-exclamation-triangle"></i>
-                            <span>Cannot Equip</span>
-                        </div>
-                        <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic' }}>
-                            This item cannot be equipped to any slot.
-                        </div>
-                    </div>
-                    <button
-                        className="context-menu-button"
-                        onClick={onClose}
-                    >
-                        <i className="fas fa-times"></i>
-                        Close
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    // If only one compatible slot, show direct equip option
-    if (compatibleSlots.length === 1) {
-        const slotName = compatibleSlots[0];
-        return (
-            <div
-                className="unified-context-menu"
-                style={{
-                    left: x,
-                    top: y
+                    top: y,
+                    zIndex: 10001
                 }}
                 onClick={e => e.stopPropagation()}
             >

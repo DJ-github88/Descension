@@ -122,6 +122,15 @@ const useSettingsStore = create(
       setWindowScale: (scale) => {
         const clampedScale = Math.max(0.5, Math.min(2.0, scale));
         get().updateSettings({ windowScale: clampedScale });
+
+        // Dispatch custom events to notify windows of scale changes
+        // Use a small delay to ensure React has updated the store first
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+          window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+            detail: { scale: clampedScale }
+          }));
+        }, 50);
       },
 
       setUITheme: (theme) => {

@@ -12,13 +12,13 @@ export function isTwoHandedWeapon(item) {
     const weaponSlotLower = weaponSlot?.toLowerCase();
     const subtype = item.subtype?.toLowerCase();
     const name = item.name?.toLowerCase() || '';
-    
+
     // Ranged weapons should NOT be treated as two-handed weapons
     // They go in the ranged slot instead
     if (weaponSlot === 'RANGED' || weaponSlotLower === 'ranged') {
         return false;
     }
-    
+
     // Check if it's a ranged weapon by subtype or name BEFORE checking for two-handed
     if (subtype?.includes('bow') || subtype?.includes('crossbow') ||
         subtype?.includes('wand') || subtype?.includes('thrown') ||
@@ -26,7 +26,7 @@ export function isTwoHandedWeapon(item) {
         name.includes('wand') || name.includes('thrown')) {
         return false; // Ranged weapons are not two-handed
     }
-    
+
     // Check explicit two-handed designation (handle both uppercase and lowercase)
     if (weaponSlot === 'TWO_HANDED' || weaponSlotLower === 'two_handed' ||
         weaponSlotLower === 'twohanded' || weaponSlotLower === 'two-handed') {
@@ -76,44 +76,47 @@ export function getCompatibleSlots(item) {
     const weaponSlot = item.weaponSlot; // Don't convert to lowercase - keep original case
     const hand = item.hand; // Don't convert to lowercase - keep original case
 
+    // Normalization helper for hand/slot strings
+    const normalize = (str) => str?.toUpperCase().replace(/[\s_-]/g, '') || '';
+
     // Handle weapons
     if (itemType === 'weapon') {
+        const normSlot = normalize(weaponSlot);
+        const normHand = normalize(hand);
+
         // First check if it's a two-handed weapon - this takes priority
         if (isTwoHandedWeapon(item)) {
             return ['mainHand'];
         }
 
-        // Check explicit weapon slot specification (handle both cases)
-        const weaponSlotLower = weaponSlot?.toLowerCase();
-
         // Handle TWO_HANDED weapons
-        if (weaponSlot === 'TWO_HANDED' || weaponSlotLower === 'two_handed' || weaponSlotLower === 'twohanded') {
+        if (normSlot === 'TWOHANDED') {
             return ['mainHand'];
         }
 
         // Handle RANGED weapons
-        if (weaponSlot === 'RANGED' || weaponSlotLower === 'ranged') {
+        if (normSlot === 'RANGED') {
             return ['ranged'];
         }
 
         // Handle MAIN_HAND weapons (new direct slot type)
-        if (weaponSlot === 'MAIN_HAND' || weaponSlotLower === 'main_hand' || weaponSlotLower === 'mainhand') {
+        if (normSlot === 'MAINHAND') {
             return ['mainHand'];
         }
 
         // Handle OFF_HAND weapons (new direct slot type)
-        if (weaponSlot === 'OFF_HAND' || weaponSlotLower === 'off_hand' || weaponSlotLower === 'offhand') {
+        if (normSlot === 'OFFHAND') {
             return ['offHand'];
         }
 
         // Handle ONE_HANDED weapons - check hand preference
-        if (weaponSlot === 'ONE_HANDED' || weaponSlotLower === 'one_handed' || weaponSlotLower === 'onehanded') {
+        if (normSlot === 'ONEHANDED') {
             // Check hand preference for one-handed weapons
-            if (hand === 'MAIN_HAND' || hand?.toLowerCase() === 'main_hand' || hand?.toLowerCase() === 'mainhand') {
+            if (normHand === 'MAINHAND') {
                 return ['mainHand'];
-            } else if (hand === 'OFF_HAND' || hand?.toLowerCase() === 'off_hand' || hand?.toLowerCase() === 'offhand') {
+            } else if (normHand === 'OFFHAND') {
                 return ['offHand'];
-            } else if (hand === 'ONE_HAND' || hand?.toLowerCase() === 'one_hand') {
+            } else if (normHand === 'ONEHAND') {
                 // Can go in either hand
                 return ['mainHand', 'offHand'];
             } else {
@@ -129,19 +132,19 @@ export function getCompatibleSlots(item) {
         } else if (subtype?.includes('shield')) {
             return ['offHand'];
         } else if (subtype?.includes('staff') || subtype?.includes('polearm') ||
-                  subtype?.includes('greatsword') || subtype?.includes('greataxe') ||
-                  subtype?.includes('maul') || subtype?.includes('halberd')) {
+            subtype?.includes('greatsword') || subtype?.includes('greataxe') ||
+            subtype?.includes('maul') || subtype?.includes('halberd')) {
             return ['mainHand']; // Two-handed weapons
         } else {
             // One-handed weapons can go in either hand by default
             return ['mainHand', 'offHand'];
         }
     }
-    
+
     // Handle armor
     else if (itemType === 'armor') {
         // Check for shield FIRST - shields go to offHand slot, not armor slots
-        if (subtype === 'SHIELD' || subtype?.toLowerCase() === 'shield' || 
+        if (subtype === 'SHIELD' || subtype?.toLowerCase() === 'shield' ||
             item.slots?.includes('offHand') || item.slots?.includes('off_hand')) {
             return ['offHand'];
         } else if (subtype?.includes('helmet') || subtype?.includes('head') || subtype?.includes('hat')) {
@@ -149,23 +152,23 @@ export function getCompatibleSlots(item) {
         } else if (subtype?.includes('shoulder') || subtype?.includes('pauldron')) {
             return ['shoulders'];
         } else if (subtype?.includes('chest') || subtype?.includes('breastplate') ||
-                  subtype?.includes('robe') || subtype?.includes('tunic') || subtype?.includes('vest')) {
+            subtype?.includes('robe') || subtype?.includes('tunic') || subtype?.includes('vest')) {
             return ['chest'];
         } else if (subtype?.includes('leg') || subtype?.includes('pants') ||
-                  subtype?.includes('greaves') || subtype?.includes('leggings')) {
+            subtype?.includes('greaves') || subtype?.includes('leggings')) {
             return ['legs'];
         } else if (subtype?.includes('boot') || subtype?.includes('feet') ||
-                  subtype?.includes('shoes') || subtype?.includes('sandals')) {
+            subtype?.includes('shoes') || subtype?.includes('sandals')) {
             return ['feet'];
         } else if (subtype?.includes('glove') || subtype?.includes('gauntlet') ||
-                  subtype?.includes('hand')) {
+            subtype?.includes('hand')) {
             return ['gloves'];
         } else if (subtype?.includes('belt') || subtype?.includes('waist') || subtype?.includes('girdle')) {
             return ['waist'];
         } else if (subtype?.includes('bracer') || subtype?.includes('wrist') || subtype?.includes('bracelet')) {
             return ['wrists'];
         } else if (subtype?.includes('cloak') || subtype?.includes('cape') ||
-                  subtype?.includes('back') || subtype?.includes('mantle')) {
+            subtype?.includes('back') || subtype?.includes('mantle')) {
             return ['back'];
         } else if (subtype?.includes('neck') || subtype?.includes('necklace') || subtype?.includes('amulet')) {
             return ['neck'];
@@ -193,13 +196,13 @@ export function getCompatibleSlots(item) {
             }
         }
     }
-    
+
     // Handle accessories
     else if (itemType === 'accessory') {
         if (subtype?.includes('ring')) {
             return ['ring1', 'ring2'];
         } else if (subtype?.includes('necklace') || subtype?.includes('amulet') ||
-                  subtype?.includes('neck')) {
+            subtype?.includes('neck')) {
             return ['neck'];
         } else if (subtype?.includes('trinket') || subtype?.includes('charm')) {
             return ['trinket1', 'trinket2'];

@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import '../../styles/quick-item-generator-modal.css';
 
 const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
-    const windowScale = useGameStore(state => state.windowScale);
+    const windowScale = useSettingsStore(state => state.windowScale);
     const [position, setPosition] = useState(null); // Start with null to use CSS centering
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });

@@ -1773,7 +1773,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         // Check if inspecting self or another party member
-        const isSelf = contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player';
+        // CRITICAL FIX: Use ID instead of name to avoid collisions with same-named characters
+        const isSelf = contextMenuMember.id === 'current-player';
 
         if (onOpenCharacterSheet) {
             // Pass the full member object, not just the character data
@@ -1787,7 +1788,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         // Check if this is the current player
-        const isSelf = contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player';
+        // CRITICAL FIX: Use ID instead of name to avoid collisions
+        const isSelf = contextMenuMember.id === 'current-player';
 
         if (isSelf && onCreateToken) {
             // Only allow creating tokens for the current player
@@ -2862,7 +2864,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
                                     member={member}
-                                    isCurrentPlayer={member.name === currentPlayerData.name}
+                                    isCurrentPlayer={member.id === 'current-player'}
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}
                                     onBuffContextMenu={handleBuffContextMenu}

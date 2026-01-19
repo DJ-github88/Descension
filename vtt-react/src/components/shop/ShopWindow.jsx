@@ -4,6 +4,7 @@ import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useCreatureStore from '../../store/creatureStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import QuantitySelector from '../common/QuantitySelector';
@@ -15,7 +16,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const { items: itemLibrary } = useItemStore();
   const { currency, updateCurrency, addItemFromLibrary, items: inventoryItems, removeItem } = useInventoryStore();
   const { updateCreature } = useCreatureStore();
-  const windowScale = useGameStore(state => state.windowScale);
+  const windowScale = useSettingsStore(state => state.windowScale);
 
   // Local state
   const [selectedItems, setSelectedItems] = useState({}); // Changed to object to track quantities
@@ -40,11 +41,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [forceRender, setForceRender] = useState(0);
-  
+
   // Refs
   const windowRef = useRef(null);
   const tooltipTimeoutRef = useRef(null);
-  
+
   // Get shop info
   const shopName = creature.shopInventory?.shopName || `${creature.name}'s Shop`;
   const shopDescription = creature.shopInventory?.shopDescription || 'Welcome to our shop!';
@@ -82,16 +83,16 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   };
 
 
-  
+
   // Handle window dragging
   const handleMouseDown = (e) => {
     // Only allow dragging from the header, but exclude filter controls
     const isHeaderElement = e.target.closest('.shop-window-header');
     const isFilterControl = e.target.closest('.header-filters') ||
-                           e.target.closest('.header-filter-input') ||
-                           e.target.closest('.header-filter-select') ||
-                           e.target.closest('.header-reset-btn') ||
-                           e.target.closest('.close-button');
+      e.target.closest('.header-filter-input') ||
+      e.target.closest('.header-filter-select') ||
+      e.target.closest('.header-reset-btn') ||
+      e.target.closest('.close-button');
 
     if (isHeaderElement && !isFilterControl) {
       setIsDragging(true);
@@ -103,7 +104,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       e.preventDefault();
     }
   };
-  
+
   const handleMouseMove = (e) => {
     if (isDragging) {
       setPosition({
@@ -112,11 +113,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       });
     }
   };
-  
+
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-  
+
   // Setup drag listeners
   useEffect(() => {
     if (isDragging) {
@@ -124,14 +125,14 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       document.addEventListener('mouseup', handleMouseUp);
       document.body.style.cursor = 'move';
     }
-    
+
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.body.style.cursor = 'default';
     };
   }, [isDragging, dragOffset]);
-  
+
   // Get item from library
   const getItemById = (itemId) => {
     return itemLibrary.find(item => item.id === itemId);
@@ -141,21 +142,21 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const merchantItemsForFilters = shopItems.map(shopItem => getItemById(shopItem.itemId)).filter(Boolean);
   const allItemsForFilters = [...merchantItemsForFilters, ...inventoryItems];
   const globalFilterOptions = getFilterOptions(allItemsForFilters);
-  
+
   // Calculate total price in copper
   const calculateTotalCopper = (price) => {
     return (price.platinum || 0) * 1000000 + (price.gold || 0) * 10000 + (price.silver || 0) * 100 + (price.copper || 0);
   };
-  
+
   // Calculate player's total copper
   const playerTotalCopper = calculateTotalCopper(currency);
-  
+
   // Check if player can afford item
   const canAfford = (price, quantity = 1) => {
     const totalCost = calculateTotalCopper(price) * quantity;
     return playerTotalCopper >= totalCost;
   };
-  
+
   // Calculate sell price for an item using merchant buy rates
   const calculateSellPrice = (item) => {
     if (!item.value) return { gold: 0, silver: 0, copper: 1 };
@@ -534,7 +535,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       // Get the original item from the library to ensure we have the correct value
       const originalItem = getItemById(libraryItemId);
       const basePrice = originalItem ? calculateMerchantPrice(originalItem) :
-                       inventoryItem.value || { gold: 0, silver: 1, copper: 0 };
+        inventoryItem.value || { gold: 0, silver: 1, copper: 0 };
 
       updatedShopItems.push({
         itemId: libraryItemId,
@@ -627,7 +628,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
           // Get the original item from the library to ensure we have the correct value
           const originalItem = getItemById(libraryItemId);
           const basePrice = originalItem ? calculateMerchantPrice(originalItem) :
-                           item.value || { gold: 0, silver: 1, copper: 0 };
+            item.value || { gold: 0, silver: 1, copper: 0 };
 
           updatedShopItems.push({
             itemId: libraryItemId,
@@ -650,7 +651,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   };
 
 
-  
+
   // Show notification
   const showNotification = (message, type = 'success') => {
     setNotification({ show: true, message, type });
@@ -658,7 +659,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       setNotification({ show: false, message: '', type: 'success' });
     }, 3000);
   };
-  
+
   // Handle tooltip - consistent with inventory system, but include shop price
   const handleItemMouseEnter = (e, item, shopItem = null) => {
     // Create enhanced item with price info for tooltip
@@ -696,7 +697,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const handleItemMouseLeave = () => {
     setTooltip({ show: false, item: null, x: 0, y: 0 });
   };
-  
+
   // Format currency display with coin images
   const formatCurrency = (price) => {
     const parts = [];
@@ -784,7 +785,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
     return <span className="currency-display">{parts}</span>;
   };
-  
+
   // Listen for window scale changes to force re-render
   useEffect(() => {
     const handleWindowScaleChange = () => {
@@ -803,9 +804,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       }
     };
   }, []);
-  
+
   if (!isOpen) return null;
-  
+
   // Get safe portal target
   const portalTarget = getSafePortalTarget();
 
@@ -847,12 +848,12 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                 <span className="buy-rates-label">Buy Rates:</span>
                 <div className="buy-rates-list">
                   {creature.shopInventory?.buyRates?.categories && Object.entries(creature.shopInventory.buyRates.categories)
-                    .sort(([,a], [,b]) => b - a) // Sort by rate descending
+                    .sort(([, a], [, b]) => b - a) // Sort by rate descending
                     .map(([category, rate]) => (
-                    <span key={category} className="buy-rate-item">
-                      {category.charAt(0).toUpperCase() + category.slice(1)}: {rate}%
-                    </span>
-                  ))}
+                      <span key={category} className="buy-rate-item">
+                        {category.charAt(0).toUpperCase() + category.slice(1)}: {rate}%
+                      </span>
+                    ))}
                   {creature.shopInventory?.buyRates?.default && (
                     <span className="buy-rate-item default-rate">
                       Other: {creature.shopInventory?.buyRates?.default}%
@@ -949,133 +950,133 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         {/* Shop Content */}
         <div className="shop-content">
           <div className="merchant-content">
-              {/* Merchant Items Grid */}
-              <div className="merchant-items">
-                <div className="merchant-header">Merchant Inventory</div>
-                <div className="merchant-grid">
-                    {shopItems.map((shopItem, index) => {
-                      const item = getItemById(shopItem.itemId);
-                      if (!item) return null;
+            {/* Merchant Items Grid */}
+            <div className="merchant-items">
+              <div className="merchant-header">Merchant Inventory</div>
+              <div className="merchant-grid">
+                {shopItems.map((shopItem, index) => {
+                  const item = getItemById(shopItem.itemId);
+                  if (!item) return null;
 
-                      const affordable = canAfford(shopItem.customPrice);
-                      const itemWidth = item.width || 1;
-                      const itemHeight = item.height || 1;
-                      const matchesFilter = doesItemMatchFilter(item, globalFilters);
+                  const affordable = canAfford(shopItem.customPrice);
+                  const itemWidth = item.width || 1;
+                  const itemHeight = item.height || 1;
+                  const matchesFilter = doesItemMatchFilter(item, globalFilters);
 
-                      return (
-                        <div
-                          key={index}
-                          className={`item-slot ${!affordable ? 'unaffordable' : ''} ${selectedItems[index] ? 'selected' : ''} ${!matchesFilter ? 'filtered-out' : 'filtered-in'}`}
-                          style={{
-                            gridColumn: `span ${itemWidth}`,
-                            gridRow: `span ${itemHeight}`,
-                            width: `${itemWidth * 56 + (itemWidth - 1) * 2}px`,
-                            height: `${itemHeight * 56 + (itemHeight - 1) * 2}px`
-                          }}
-                          onClick={(e) => {
-                            if (e.ctrlKey || e.metaKey) {
-                              handleItemDeselection(index);
-                            } else {
-                              // If already selected, clicking again should deselect
-                              if (selectedItems[index]) {
-                                handleItemDeselection(index);
-                              } else {
-                                handleItemSelection(index);
-                              }
-                            }
-                          }}
-                        >
-                          <div
-                            className="item-icon"
-                            style={{
-                              backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`
-                            }}
-                            onMouseEnter={(e) => handleItemMouseEnter(e, item, shopItem)}
-                            onMouseMove={(e) => handleItemMouseMove(e, item, shopItem)}
-                            onMouseLeave={handleItemMouseLeave}
-                          />
-                          {shopItem.quantity > 1 && (
-                            <div className="item-quantity">{shopItem.quantity}</div>
-                          )}
-                          {selectedItems[index] && (
-                            <QuantitySelector
-                              quantity={merchantQuantities[index] || selectedItems[index] || 1}
-                              onQuantityChange={(newQuantity) => handleMerchantQuantityChange(index, newQuantity)}
-                              maxQuantity={shopItem.quantity}
-                              showTrigger={true}
-                              triggerClassName="shop-item-quantity-selector"
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
-                    {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
-                    {Array.from({ length: Math.max(0, 64 - shopItems.length) }).map((_, index) => (
-                      <div key={`empty-${index}`} className="item-slot empty"></div>
-                    ))}
-                </div>
+                  return (
+                    <div
+                      key={index}
+                      className={`item-slot ${!affordable ? 'unaffordable' : ''} ${selectedItems[index] ? 'selected' : ''} ${!matchesFilter ? 'filtered-out' : 'filtered-in'}`}
+                      style={{
+                        gridColumn: `span ${itemWidth}`,
+                        gridRow: `span ${itemHeight}`,
+                        width: `${itemWidth * 56 + (itemWidth - 1) * 2}px`,
+                        height: `${itemHeight * 56 + (itemHeight - 1) * 2}px`
+                      }}
+                      onClick={(e) => {
+                        if (e.ctrlKey || e.metaKey) {
+                          handleItemDeselection(index);
+                        } else {
+                          // If already selected, clicking again should deselect
+                          if (selectedItems[index]) {
+                            handleItemDeselection(index);
+                          } else {
+                            handleItemSelection(index);
+                          }
+                        }
+                      }}
+                    >
+                      <div
+                        className="item-icon"
+                        style={{
+                          backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`
+                        }}
+                        onMouseEnter={(e) => handleItemMouseEnter(e, item, shopItem)}
+                        onMouseMove={(e) => handleItemMouseMove(e, item, shopItem)}
+                        onMouseLeave={handleItemMouseLeave}
+                      />
+                      {shopItem.quantity > 1 && (
+                        <div className="item-quantity">{shopItem.quantity}</div>
+                      )}
+                      {selectedItems[index] && (
+                        <QuantitySelector
+                          quantity={merchantQuantities[index] || selectedItems[index] || 1}
+                          onQuantityChange={(newQuantity) => handleMerchantQuantityChange(index, newQuantity)}
+                          maxQuantity={shopItem.quantity}
+                          showTrigger={true}
+                          triggerClassName="shop-item-quantity-selector"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+                {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
+                {Array.from({ length: Math.max(0, 64 - shopItems.length) }).map((_, index) => (
+                  <div key={`empty-${index}`} className="item-slot empty"></div>
+                ))}
               </div>
+            </div>
 
-              {/* Player Inventory for Selling */}
-              <div className="player-inventory">
-                <div className="inventory-header">Your Items</div>
-                <div className="items-grid inventory-grid">
-                    {inventoryItems.map((item, index) => {
-                      const matchesFilter = doesItemMatchFilter(item, globalFilters);
+            {/* Player Inventory for Selling */}
+            <div className="player-inventory">
+              <div className="inventory-header">Your Items</div>
+              <div className="items-grid inventory-grid">
+                {inventoryItems.map((item, index) => {
+                  const matchesFilter = doesItemMatchFilter(item, globalFilters);
 
-                      return (
-                        <div
-                          key={item.id}
-                          className={`item-slot ${selectedSellItems[item.id] ? 'selected' : ''} ${!matchesFilter ? 'filtered-out' : 'filtered-in'}`}
-                          style={{
-                            gridColumn: `span ${item.width || 1}`,
-                            gridRow: `span ${item.height || 1}`,
-                            width: `${(item.width || 1) * 56 + ((item.width || 1) - 1) * 2}px`,
-                            height: `${(item.height || 1) * 56 + ((item.height || 1) - 1) * 2}px`
-                          }}
-                          onClick={(e) => {
-                            if (e.ctrlKey || e.metaKey) {
-                              handleSellItemDeselection(item);
-                            } else {
-                              // If already selected, clicking again should deselect
-                              if (selectedSellItems[item.id]) {
-                                handleSellItemDeselection(item);
-                              } else {
-                                handleSellItemSelection(item);
-                              }
-                            }
-                          }}
-                        >
-                          <div
-                            className="item-icon"
-                            style={{
-                              backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`
-                            }}
-                            onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                            onMouseMove={(e) => handleItemMouseMove(e, item)}
-                            onMouseLeave={handleItemMouseLeave}
-                          />
-                          {item.quantity > 1 && (
-                            <div className="item-quantity">{item.quantity}</div>
-                          )}
-                          {selectedSellItems[item.id] && (
-                            <QuantitySelector
-                              quantity={playerQuantities[item.id] || selectedSellItems[item.id] || 1}
-                              onQuantityChange={(newQuantity) => handlePlayerQuantityChange(item.id, newQuantity)}
-                              maxQuantity={item.quantity || 1}
-                              showTrigger={true}
-                              triggerClassName="shop-item-quantity-selector sell-item-quantity-selector"
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
-                    {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
-                    {Array.from({ length: Math.max(0, 64 - inventoryItems.length) }).map((_, index) => (
-                      <div key={`empty-inv-${index}`} className="item-slot empty"></div>
-                    ))}
-                </div>
+                  return (
+                    <div
+                      key={item.id}
+                      className={`item-slot ${selectedSellItems[item.id] ? 'selected' : ''} ${!matchesFilter ? 'filtered-out' : 'filtered-in'}`}
+                      style={{
+                        gridColumn: `span ${item.width || 1}`,
+                        gridRow: `span ${item.height || 1}`,
+                        width: `${(item.width || 1) * 56 + ((item.width || 1) - 1) * 2}px`,
+                        height: `${(item.height || 1) * 56 + ((item.height || 1) - 1) * 2}px`
+                      }}
+                      onClick={(e) => {
+                        if (e.ctrlKey || e.metaKey) {
+                          handleSellItemDeselection(item);
+                        } else {
+                          // If already selected, clicking again should deselect
+                          if (selectedSellItems[item.id]) {
+                            handleSellItemDeselection(item);
+                          } else {
+                            handleSellItemSelection(item);
+                          }
+                        }
+                      }}
+                    >
+                      <div
+                        className="item-icon"
+                        style={{
+                          backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`
+                        }}
+                        onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                        onMouseMove={(e) => handleItemMouseMove(e, item)}
+                        onMouseLeave={handleItemMouseLeave}
+                      />
+                      {item.quantity > 1 && (
+                        <div className="item-quantity">{item.quantity}</div>
+                      )}
+                      {selectedSellItems[item.id] && (
+                        <QuantitySelector
+                          quantity={playerQuantities[item.id] || selectedSellItems[item.id] || 1}
+                          onQuantityChange={(newQuantity) => handlePlayerQuantityChange(item.id, newQuantity)}
+                          maxQuantity={item.quantity || 1}
+                          showTrigger={true}
+                          triggerClassName="shop-item-quantity-selector sell-item-quantity-selector"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+                {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
+                {Array.from({ length: Math.max(0, 64 - inventoryItems.length) }).map((_, index) => (
+                  <div key={`empty-inv-${index}`} className="item-slot empty"></div>
+                ))}
               </div>
+            </div>
           </div>
         </div>
 
@@ -1132,7 +1133,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             </div>
           </div>
         </div>
-        
+
         {/* Notification */}
         {notification.show && (
           <div className={`shop-notification ${notification.type}`}>

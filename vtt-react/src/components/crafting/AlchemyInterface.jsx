@@ -32,12 +32,12 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         updateCraftingQueueItem,
         completeCraftingItem,
         setProfessionLevel,
-        craftingQueue,
+        craftingQueue = [],
         learnRecipe,
-        knownRecipes: storeKnownRecipes,
-        professionLevels,
-        professionExperience,
-        availableRecipes
+        knownRecipes: storeKnownRecipes = {},
+        professionLevels = {},
+        professionExperience = {},
+        availableRecipes = []
     } = useCraftingStore();
 
     const { items: inventoryItems, removeItem, addItemFromLibrary } = useInventoryStore();
@@ -47,7 +47,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     // Subscribe directly to store values to ensure re-renders when they change
     const alchemyLevel = professionLevels?.['alchemy'] ?? SKILL_LEVELS.UNTRAINED.level;
     const alchemyExperience = professionExperience?.['alchemy'] ?? 0;
-    
+
     // Calculate experience for next level
     const experienceForNextLevel = (() => {
         if (alchemyLevel >= 9) return null; // Max level reached
@@ -61,17 +61,17 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         ? getKnownRecipesForProfession('alchemy')
         : (() => {
             const knownIds = storeKnownRecipes?.['alchemy'] || [];
-            return (availableRecipes || []).filter(recipe => 
+            return (availableRecipes || []).filter(recipe =>
                 recipe.profession === 'alchemy' && knownIds.includes(recipe.id)
             );
         })();
     const allAlchemyRecipes = (typeof getRecipesForProfession === 'function')
         ? getRecipesForProfession('alchemy')
         : ((availableRecipes || []).filter(recipe => recipe.profession === 'alchemy'));
-    
+
     // Access knownRecipes from store to create subscription
     const alchemyKnownRecipes = storeKnownRecipes?.['alchemy'] || [];
-    
+
     // Force re-render when knownRecipes changes
     useEffect(() => {
         // This ensures the component re-renders when knownRecipes changes
@@ -272,7 +272,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const startNextItem = () => {
         if (currentCraftingItem) return; // Already crafting
 
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
         if (queuedItems.length === 0) return; // Nothing to craft
 
         const item = queuedItems[0];
@@ -358,7 +358,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             const store = useCraftingStore.getState();
             const currentLevel = store.professionLevels?.['alchemy'] ?? SKILL_LEVELS.UNTRAINED.level;
             const currentExperience = store.professionExperience?.['alchemy'] ?? 0;
-            
+
             if (currentLevel >= 9) {
                 experienceResult = { newLevel: currentLevel, leveledUp: false };
             } else {
@@ -366,12 +366,12 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                 const nextLevelExpRequired = Object.values(SKILL_LEVELS).find(level => level.level === currentLevel + 1)?.experienceRequired;
                 let newLevel = currentLevel;
                 let leveledUp = false;
-                
+
                 if (nextLevelExpRequired !== null && newExperience >= nextLevelExpRequired) {
                     newLevel = currentLevel + 1;
                     leveledUp = true;
                 }
-                
+
                 useCraftingStore.setState(state => ({
                     professionExperience: {
                         ...state.professionExperience,
@@ -382,7 +382,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                         'alchemy': newLevel
                     }
                 }));
-                
+
                 experienceResult = { newLevel, leveledUp };
             }
         }
@@ -542,7 +542,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
 
                     {/* Crafting Queue Icons */}
                     {(() => {
-                        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+                        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
                         return queuedItems.length > 0 ? (
                             <div className="tabs-queue-icons">
                                 {queuedItems.slice(0, 3).map((queuedItem, index) => (
@@ -604,7 +604,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             {knownRecipes.length === 0 ? (
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
-                        <img 
+                        <img
                             src="getIconUrl('head-skull-potion-bottle', 'items')"
                             alt="No Recipes"
                         />
@@ -718,7 +718,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                     {Object.values(SKILL_LEVELS).find(s => s.level === alchemyLevel)?.name || 'Untrained'}
                                 </span>
                             </div>
-                                    <div className="requirement-item">
+                            <div className="requirement-item">
                                 <span className="requirement-label">Crafting Time:</span>
                                 <span className="requirement-value">
                                     {selectedRecipe.craftingTimeDisplay || 'Unknown'}
@@ -817,65 +817,65 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         return (
             <div className="queue-content">
                 {queuedItems.length === 0 ? (
-                <div className="queue-empty">
-                    <div className="queue-empty-icon">
-                        <img
-                            src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
-                            alt="Empty Queue"
-                        />
+                    <div className="queue-empty">
+                        <div className="queue-empty-icon">
+                            <img
+                                src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
+                                alt="Empty Queue"
+                            />
+                        </div>
+                        <h3>No Items in Queue</h3>
+                        <p>Start crafting recipes to see them appear here.</p>
                     </div>
-                    <h3>No Items in Queue</h3>
-                    <p>Start crafting recipes to see them appear here.</p>
-                </div>
-            ) : (
-                <div className="queue-active">
-                    <h3>Queued Crafting Operations</h3>
-                    <div className="queue-items">
-                        {queuedItems.map((craftingItem, index) => {
-                            let progress = 0;
-                            let timeRemaining = 0;
-                            if (craftingItem.status === 'in_progress' && craftingItem.startTime) {
-                                const elapsed = Date.now() - craftingItem.startTime;
-                                const craftingTime = craftingItem.totalTime || craftingItem.recipe?.craftingTime || 5000;
-                                progress = Math.min(100, (elapsed / craftingTime) * 100);
-                                timeRemaining = Math.max(0, Math.ceil((craftingTime - elapsed) / 1000));
-                            }
+                ) : (
+                    <div className="queue-active">
+                        <h3>Queued Crafting Operations</h3>
+                        <div className="queue-items">
+                            {queuedItems.map((craftingItem, index) => {
+                                let progress = 0;
+                                let timeRemaining = 0;
+                                if (craftingItem.status === 'in_progress' && craftingItem.startTime) {
+                                    const elapsed = Date.now() - craftingItem.startTime;
+                                    const craftingTime = craftingItem.totalTime || craftingItem.recipe?.craftingTime || 5000;
+                                    progress = Math.min(100, (elapsed / craftingTime) * 100);
+                                    timeRemaining = Math.max(0, Math.ceil((craftingTime - elapsed) / 1000));
+                                }
 
-                            return (
-                                <div key={craftingItem.id || index} className="queue-item">
-                                    <div className="queue-item-header">
-                                        <div className="queue-item-info">
-                                            <div className="queue-item-icon">
-                                                <img
-                                                    src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_potion_51', 'items')}
-                                                    alt={craftingItem.recipe.name}
-                                                    onError={(e) => {
-                                                        e.target.src = getIconUrl('head-skull-potion-bottle', 'items');
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="queue-item-details">
-                                                <div className="queue-item-name">{craftingItem.recipe.name}</div>
-                                                <div className="queue-item-time">{timeRemaining}s remaining</div>
+                                return (
+                                    <div key={craftingItem.id || index} className="queue-item">
+                                        <div className="queue-item-header">
+                                            <div className="queue-item-info">
+                                                <div className="queue-item-icon">
+                                                    <img
+                                                        src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_potion_51', 'items')}
+                                                        alt={craftingItem.recipe.name}
+                                                        onError={(e) => {
+                                                            e.target.src = getIconUrl('head-skull-potion-bottle', 'items');
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="queue-item-details">
+                                                    <div className="queue-item-name">{craftingItem.recipe.name}</div>
+                                                    <div className="queue-item-time">{timeRemaining}s remaining</div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="queue-progress-bar">
+                                            <div
+                                                className="queue-progress-fill"
+                                                style={{
+                                                    width: `${progress}%`,
+                                                    background: `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})`
+                                                }}
+                                            ></div>
+                                        </div>
                                     </div>
-                                    <div className="queue-progress-bar">
-                                        <div
-                                            className="queue-progress-fill"
-                                            style={{
-                                                width: `${progress}%`,
-                                                background: `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})`
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
         );
     };
 

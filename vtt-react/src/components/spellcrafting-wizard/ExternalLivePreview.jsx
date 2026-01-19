@@ -5,7 +5,7 @@ import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from 
 import { useClassSpellLibrary } from '../../hooks/useClassSpellLibrary';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
 import useSpellbookStore from '../../store/spellbookStore';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useAuthStore from '../../store/authStore';
 import { saveUserSpell } from '../../services/firebase/userSpellService';
 
@@ -16,7 +16,7 @@ const ExternalLivePreview = () => {
   const libraryDispatch = useSpellLibraryDispatch();
   const { addCustomSpell } = useClassSpellLibrary();
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
-  const windowScale = useGameStore(state => state.windowScale);
+  const windowScale = useSettingsStore(state => state.windowScale);
   const { user } = useAuthStore();
 
   // State for completion feedback
@@ -53,7 +53,7 @@ const ExternalLivePreview = () => {
           extractedDamageTypes.push(state.damageConfig.elementType);
         }
       }
-      
+
       // Ensure targetingConfig has all required fields
       const fullTargetingConfig = {
         ...state.targetingConfig,
@@ -62,7 +62,7 @@ const ExternalLivePreview = () => {
         rangeType: state.targetingConfig?.rangeType || 'ranged',
         rangeDistance: state.targetingConfig?.rangeDistance || 30
       };
-      
+
       // Create spell data from wizard state
       const spellData = {
         ...state,
@@ -78,9 +78,9 @@ const ExternalLivePreview = () => {
         effectType: state.effectTypes && state.effectTypes.length > 0 ? state.effectTypes[0] : 'utility',
         effectTypes: state.effectTypes || [],
         // Use properly extracted damage types
-        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
-                    (state.damageTypes || 
-                    (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['force'])),
+        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes :
+          (state.damageTypes ||
+            (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['force'])),
         targetingConfig: fullTargetingConfig,
         tags: [
           ...(state.typeConfig?.tags || []),
@@ -104,8 +104,8 @@ const ExternalLivePreview = () => {
       // Transform Devotion Level resources to specialMechanics (Martyr)
       const resourceValues = state.resourceCost?.resourceValues || {};
       if (resourceValues.devotion_required !== undefined ||
-          resourceValues.devotion_cost !== undefined ||
-          resourceValues.devotion_gain !== undefined) {
+        resourceValues.devotion_cost !== undefined ||
+        resourceValues.devotion_gain !== undefined) {
         spellData.specialMechanics = {
           ...spellData.specialMechanics,
           devotionLevel: {
@@ -239,10 +239,10 @@ const ExternalLivePreview = () => {
       if (state.spellType === 'passive') return 'Passive';
 
       const castTime = state.castTime ||
-                      state.castingTime ||
-                      (state.castingConfig && state.castingConfig.castTime) ||
-                      (state.typeConfig && state.typeConfig.castTime) ||
-                      'Instant';
+        state.castingTime ||
+        (state.castingConfig && state.castingConfig.castTime) ||
+        (state.typeConfig && state.typeConfig.castTime) ||
+        'Instant';
 
       return castTime;
     };
@@ -316,23 +316,23 @@ const ExternalLivePreview = () => {
       // Targeting information - NOTE: targetingMode is the mode ('unified' or 'effect'), not the targeting type
       // This was incorrectly set to targetingType before - keeping for backward compatibility but will be overridden below
       targetRestriction: spellState.targetingConfig?.targetRestrictions && spellState.targetingConfig.targetRestrictions.length > 0 ?
-                         spellState.targetingConfig.targetRestrictions[0] :
-                         spellState.targetingConfig?.targetRestriction || null,
+        spellState.targetingConfig.targetRestrictions[0] :
+        spellState.targetingConfig?.targetRestriction || null,
       targetRestrictions: spellState.targetingConfig?.targetRestrictions && spellState.targetingConfig.targetRestrictions.length > 0 ?
-                         spellState.targetingConfig.targetRestrictions :
-                         spellState.targetingConfig?.targetRestriction ? [spellState.targetingConfig.targetRestriction] : [],
+        spellState.targetingConfig.targetRestrictions :
+        spellState.targetingConfig?.targetRestriction ? [spellState.targetingConfig.targetRestriction] : [],
       maxTargets: spellState.targetingConfig?.maxTargets || 1,
       selectionMethod: spellState.targetingConfig?.selectionMethod ||
-                      spellState.targetingConfig?.targetSelectionMethod || 'manual',
+        spellState.targetingConfig?.targetSelectionMethod || 'manual',
       targetSelectionMethod: spellState.targetingConfig?.targetSelectionMethod ||
-                            spellState.targetingConfig?.selectionMethod || 'manual',
+        spellState.targetingConfig?.selectionMethod || 'manual',
       rangeDistance: spellState.targetingConfig?.rangeDistance || 30,
 
       // AOE information
       aoeShape: spellState.targetingConfig?.aoeShape || 'circle',
       aoeSize: spellState.targetingConfig?.aoeParameters?.radius ||
-               spellState.targetingConfig?.aoeParameters?.size ||
-               spellState.targetingConfig?.aoeParameters?.length || 20,
+        spellState.targetingConfig?.aoeParameters?.size ||
+        spellState.targetingConfig?.aoeParameters?.length || 20,
       aoeParameters: spellState.targetingConfig?.aoeParameters || {},
       movementBehavior: spellState.targetingConfig?.movementBehavior || 'static',
       // Ensure targetingConfig includes aoeType and all fields
@@ -350,9 +350,9 @@ const ExternalLivePreview = () => {
       // Damage/Healing information
       primaryDamage: spellState.damageConfig ? {
         dice: spellState.damageConfig.formula ||
-              spellState.damageConfig.diceNotation ||
-              spellState.effectResolutions?.damage?.config?.formula ||
-              '6d6',
+          spellState.damageConfig.diceNotation ||
+          spellState.effectResolutions?.damage?.config?.formula ||
+          '6d6',
         flat: spellState.damageConfig.flatBonus || 0,
         type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'force'
       } : null,

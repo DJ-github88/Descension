@@ -139,6 +139,7 @@ const usePartyStore = create(
 
                 const newMember = {
                     id: memberData.id || uuidv4(),
+                    socketId: memberData.socketId || memberData.id, // CRITICAL: Store socketId for character_updated lookups
                     name: memberData.name,
                     isGM: memberData.isGM || false, // Preserve GM status
                     status: PARTY_STATUS.ONLINE,
@@ -185,7 +186,18 @@ const usePartyStore = create(
                 }
             },
 
-            updatePartyMember: (memberId, updates) => {
+            updatePartyMember: (memberId, updates, isFromSync = false) => {
+                /*
+                console.log('📥 [updatePartyMember] Called:', {
+                    memberId,
+                    isFromSync,
+                    hasCharacter: !!updates.character,
+                    characterKeys: updates.character ? Object.keys(updates.character) : [],
+                    hasLore: !!updates.character?.lore,
+                    hasEquipment: !!updates.character?.equipment
+                });
+                */
+
                 set(state => {
                     const updatedMembers = (state.partyMembers || []).map(member => {
                         if (member.id === memberId) {
@@ -196,15 +208,32 @@ const usePartyStore = create(
                                     ...updates.character
                                 };
 
-                                // Deep merge specific resource objects if they exist
-                                ['health', 'mana', 'actionPoints', 'classResource'].forEach(resource => {
-                                    if (updates.character[resource]) {
-                                        newCharacter[resource] = {
-                                            ...(member.character?.[resource] || {}),
-                                            ...updates.character[resource]
+                                // Deep merge nested objects to preserve existing data
+                                // This prevents partial updates from wiping out existing nested data
+                                const nestedObjects = [
+                                    'health', 'mana', 'actionPoints', 'classResource', // Resources
+                                    'stats', 'equipment', 'lore', 'tokenSettings', // Complex objects
+                                    'skillProgress', 'skillRanks', 'resistances' // Other nested data
+                                ];
+
+                                nestedObjects.forEach(key => {
+                                    if (updates.character[key] && typeof updates.character[key] === 'object') {
+                                        newCharacter[key] = {
+                                            ...(member.character?.[key] || {}),
+                                            ...updates.character[key]
                                         };
                                     }
                                 });
+
+                                /*
+                                console.log('📦 [updatePartyMember] Merged character:', {
+                                    memberId,
+                                    hasLore: !!newCharacter.lore,
+                                    hasEquipment: !!newCharacter.equipment,
+                                    loreKeys: newCharacter.lore ? Object.keys(newCharacter.lore) : [],
+                                    equipmentKeys: newCharacter.equipment ? Object.keys(newCharacter.equipment) : []
+                                });
+                                */
 
                                 return {
                                     ...member,
@@ -221,8 +250,10 @@ const usePartyStore = create(
                     return { partyMembers: updatedMembers };
                 });
 
-                // Sync with multiplayer
-                get().syncPartyUpdate('member_updated', { memberId, updates });
+                // Only sync with multiplayer if this is NOT a network sync (to prevent infinite loops)
+                if (!isFromSync) {
+                    get().syncPartyUpdate('member_updated', { memberId, updates });
+                }
             },
 
             setLeader: (newLeaderId, isFromSync = false) => {
@@ -382,7 +413,7 @@ const usePartyStore = create(
                         playerId: socketId,
                         timestamp: Date.now()
                     });
-                    console.log(`📤 Party update sent: ${updateType}`, data);
+                    // console.log(`📤 Party update sent: ${updateType}`, data);
                 }
             },
 

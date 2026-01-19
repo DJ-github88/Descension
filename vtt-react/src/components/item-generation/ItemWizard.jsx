@@ -16,7 +16,7 @@ import {
     convertLegacyItemToShape
 } from '../../utils/itemShapeUtils';
 import { getSafePortalTarget } from '../../utils/portalUtils';
-import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { CONDITIONS } from '../../data/conditionsData';
 
@@ -978,133 +978,133 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 hand: itemData.hand,
                 requiredLevel: itemData.requiredLevel || 0,
 
-                    // For weapons
-                    ...(itemData.type === 'weapon' && {
-                        weaponSlot: itemData.weaponSlot,
-                        hand: itemData.hand,
-                        weaponStats: itemData.weaponStats
+                // For weapons
+                ...(itemData.type === 'weapon' && {
+                    weaponSlot: itemData.weaponSlot,
+                    hand: itemData.hand,
+                    weaponStats: itemData.weaponStats
+                }),
+
+                // Armor class directly at top level for display
+                armorClass: itemData.combatStats?.armorClass?.value || 0,
+
+                // Slots (important for display)
+                slots: itemData.type === 'weapon' ?
+                    [itemData.weaponSlot] :
+                    itemData.slots || [],
+
+                // Base stats - preserve structure with values and isPercentage
+                baseStats: itemData.baseStats || {},
+
+                // Combat stats - preserve structure
+                combatStats: itemData.combatStats || {},
+
+                // Utility stats - preserve structure
+                utilityStats: itemData.utilityStats || {},
+
+                // Value - preserve format
+                value: itemData.value || { gold: 0, silver: 0, copper: 0 },
+
+                // Appearance
+                iconId: itemData.iconId,
+                imageUrl: itemData.imageUrl || (itemData.iconId ? `getIconUrl('${itemData.iconId}', 'items')` : null),
+
+                // Set stackable property based on item type
+                stackable: (itemData.type === 'consumable' || itemData.type === 'miscellaneous'),
+                maxStackSize: (itemData.type === 'consumable' || itemData.type === 'miscellaneous') ? 5 : undefined,
+
+                // Preserve dimensions and shape if they were provided in initialData
+                width: initialData.width || itemData.width || 1,
+                height: initialData.height || itemData.height || 1,
+                shape: initialData.shape || itemData.shape,
+
+                // Currency item properties
+                ...(itemData.type === 'currency' && {
+                    subtype: itemData.subtype,
+                    currencyType: itemData.currencyType || 'gold',
+                    currencyValue: itemData.currencyValue || 1,
+                    isCurrency: true
+                }),
+
+                // Miscellaneous item properties
+                ...(itemData.type === 'miscellaneous' && {
+                    // Common properties
+                    subtype: itemData.subtype,
+
+                    // Quest items
+                    ...(itemData.subtype === 'QUEST' && {
+                        questGiver: itemData.questGiver || '',
+                        requiredLevel: itemData.requiredLevel || 0,
+                        questObjectives: itemData.questObjectives || '',
+                        questChain: itemData.questChain || '',
+                        timeLimit: itemData.timeLimit || 0
                     }),
 
-                    // Armor class directly at top level for display
-                    armorClass: itemData.combatStats?.armorClass?.value || 0,
-
-                    // Slots (important for display)
-                    slots: itemData.type === 'weapon' ?
-                          [itemData.weaponSlot] :
-                          itemData.slots || [],
-
-                    // Base stats - preserve structure with values and isPercentage
-                    baseStats: itemData.baseStats || {},
-
-                    // Combat stats - preserve structure
-                    combatStats: itemData.combatStats || {},
-
-                    // Utility stats - preserve structure
-                    utilityStats: itemData.utilityStats || {},
-
-                    // Value - preserve format
-                    value: itemData.value || { gold: 0, silver: 0, copper: 0 },
-
-                    // Appearance
-                    iconId: itemData.iconId,
-                    imageUrl: itemData.imageUrl || (itemData.iconId ? `getIconUrl('${itemData.iconId}', 'items')` : null),
-
-                    // Set stackable property based on item type
-                    stackable: (itemData.type === 'consumable' || itemData.type === 'miscellaneous'),
-                    maxStackSize: (itemData.type === 'consumable' || itemData.type === 'miscellaneous') ? 5 : undefined,
-
-                    // Preserve dimensions and shape if they were provided in initialData
-                    width: initialData.width || itemData.width || 1,
-                    height: initialData.height || itemData.height || 1,
-                    shape: initialData.shape || itemData.shape,
-
-// Currency item properties
-...(itemData.type === 'currency' && {
-    subtype: itemData.subtype,
-    currencyType: itemData.currencyType || 'gold',
-    currencyValue: itemData.currencyValue || 1,
-    isCurrency: true
-}),
-
-// Miscellaneous item properties
-...(itemData.type === 'miscellaneous' && {
-    // Common properties
-    subtype: itemData.subtype,
-
-    // Quest items
-    ...(itemData.subtype === 'QUEST' && {
-        questGiver: itemData.questGiver || '',
-        requiredLevel: itemData.requiredLevel || 0,
-        questObjectives: itemData.questObjectives || '',
-        questChain: itemData.questChain || '',
-        timeLimit: itemData.timeLimit || 0
-    }),
-
-    // Reagents
-    ...(itemData.subtype === 'REAGENT' && {
-        reagentType: itemData.reagentType || '',
-        magicType: itemData.magicType || '',
-        reagentState: itemData.reagentState || '',
-        requiredFor: itemData.requiredFor || '',
-        quantityPerUse: itemData.quantityPerUse || 1,
-        magicalProperties: itemData.magicalProperties || '',
-        source: itemData.source || '',
-        preservationMethod: itemData.preservationMethod || ''
-    }),
+                    // Reagents
+                    ...(itemData.subtype === 'REAGENT' && {
+                        reagentType: itemData.reagentType || '',
+                        magicType: itemData.magicType || '',
+                        reagentState: itemData.reagentState || '',
+                        requiredFor: itemData.requiredFor || '',
+                        quantityPerUse: itemData.quantityPerUse || 1,
+                        magicalProperties: itemData.magicalProperties || '',
+                        source: itemData.source || '',
+                        preservationMethod: itemData.preservationMethod || ''
+                    }),
 
 
 
-    // Crafting materials
-    ...(itemData.subtype === 'CRAFTING' && {
-        materialType: itemData.materialType || '',
-        professions: itemData.professions || [],
-        gatheringMethod: itemData.gatheringMethod || '',
-        sourceLocations: itemData.sourceLocations || '',
-        specialProperties: itemData.specialProperties || '',
-        recipes: itemData.recipes || ''
-    }),
+                    // Crafting materials
+                    ...(itemData.subtype === 'CRAFTING' && {
+                        materialType: itemData.materialType || '',
+                        professions: itemData.professions || [],
+                        gatheringMethod: itemData.gatheringMethod || '',
+                        sourceLocations: itemData.sourceLocations || '',
+                        specialProperties: itemData.specialProperties || '',
+                        recipes: itemData.recipes || ''
+                    }),
 
-    // Trade goods
-    ...(itemData.subtype === 'TRADE_GOODS' && {
-        tradeCategory: itemData.tradeCategory || '',
-        origin: itemData.origin || '',
-        demandLevel: itemData.demandLevel || '',
-        qualityGrade: itemData.qualityGrade || '',
-        merchantNotes: itemData.merchantNotes || ''
-    }),
+                    // Trade goods
+                    ...(itemData.subtype === 'TRADE_GOODS' && {
+                        tradeCategory: itemData.tradeCategory || '',
+                        origin: itemData.origin || '',
+                        demandLevel: itemData.demandLevel || '',
+                        qualityGrade: itemData.qualityGrade || '',
+                        merchantNotes: itemData.merchantNotes || ''
+                    }),
 
-    // Keys
-    ...(itemData.subtype === 'KEY' && {
-        keyType: itemData.keyType || '',
-        unlocks: itemData.unlocks || '',
-        location: itemData.location || '',
-        securityLevel: itemData.securityLevel || '',
-        oneTimeUse: itemData.oneTimeUse || false,
-        specialInstructions: itemData.specialInstructions || ''
-    }),
-        // Junk
-        ...(itemData.subtype === 'JUNK' && {
-            junkType: itemData.junkType || '',
-            condition: itemData.condition || '',
-            origin: itemData.origin || '',
-            estimatedValue: itemData.estimatedValue || '',
-            description: itemData.description || ''
-        })
+                    // Keys
+                    ...(itemData.subtype === 'KEY' && {
+                        keyType: itemData.keyType || '',
+                        unlocks: itemData.unlocks || '',
+                        location: itemData.location || '',
+                        securityLevel: itemData.securityLevel || '',
+                        oneTimeUse: itemData.oneTimeUse || false,
+                        specialInstructions: itemData.specialInstructions || ''
+                    }),
+                    // Junk
+                    ...(itemData.subtype === 'JUNK' && {
+                        junkType: itemData.junkType || '',
+                        condition: itemData.condition || '',
+                        origin: itemData.origin || '',
+                        estimatedValue: itemData.estimatedValue || '',
+                        description: itemData.description || ''
+                    })
 
-}),
-                };
+                }),
+            };
 
-                if (onComplete) {
-                    onComplete(formattedItem);
-                } else if (onClose) {
-                    onClose(formattedItem);
-                }
-            } else if (!item && onCancel) {
-                onCancel();
+            if (onComplete) {
+                onComplete(formattedItem);
             } else if (onClose) {
-                onClose(null);
+                onClose(formattedItem);
             }
-        };
+        } else if (!item && onCancel) {
+            onCancel();
+        } else if (onClose) {
+            onClose(null);
+        }
+    };
 
     // Helper functions for consistent display formatting
     function getDamageTypeColor(type) {
@@ -1207,7 +1207,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 IDOL: 'Idol'
             };
             return offHandMap[offHandType] || offHandType.charAt(0).toUpperCase() +
-                   offHandType.slice(1).toLowerCase();
+                offHandType.slice(1).toLowerCase();
         }
 
         if (subtype) {
@@ -1218,7 +1218,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 MAIL: 'Mail',
                 PLATE: 'Plate'
             };
-            return armorMap[subtype] || subtype.split('_').map(word => 
+            return armorMap[subtype] || subtype.split('_').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
             ).join(' ');
         }
@@ -1585,97 +1585,97 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     </>
                 );
 
-                case STEPS.BASIC_INFO:
-                    return (
-                        <>
-                            <h3 className="wow-heading quality-text">Basic Information</h3>
-                            <div className="form-group">
-                                <label>Name:</label>
-                                <input
-                                    type="text"
-                                    value={itemData.name}
-                                    onChange={(e) => updateItemData({ name: e.target.value })}
-                                    placeholder="Enter item name..."
-                                    className={`item-name-input quality-text`}
-                                    style={{ color: QUALITY_TYPES[itemData.quality]?.color }}
-                                />
-                            </div>
+            case STEPS.BASIC_INFO:
+                return (
+                    <>
+                        <h3 className="wow-heading quality-text">Basic Information</h3>
+                        <div className="form-group">
+                            <label>Name:</label>
+                            <input
+                                type="text"
+                                value={itemData.name}
+                                onChange={(e) => updateItemData({ name: e.target.value })}
+                                placeholder="Enter item name..."
+                                className={`item-name-input quality-text`}
+                                style={{ color: QUALITY_TYPES[itemData.quality]?.color }}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label>Quality:</label>
-                                <div className="quality-grid">
-                                    {Object.entries(QUALITY_TYPES).map(([quality, data]) => (
-                                        <button
-                                            key={quality}
-                                            className={`quality-button ${itemData.quality === quality ? 'selected' : ''}`}
-                                            data-quality={quality}
-                                            onClick={() => updateItemData({ quality })}
-                                            style={{ '--wow-accent-color': data.color }}
-                                        >
-                                            <img
-                                                src={getIconUrl(data.icon, 'items')}
-                                                alt={data.name}
-                                            />
-                                            <span>{data.name}</span>
-                                            <div className="flavor-text" style={{ color: data.color }}>
-                                                {data.flavor}
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label>Level Requirement:</label>
-                                <div className="level-requirement-input">
-                                    <div className="level-input-group">
+                        <div className="form-group">
+                            <label>Quality:</label>
+                            <div className="quality-grid">
+                                {Object.entries(QUALITY_TYPES).map(([quality, data]) => (
+                                    <button
+                                        key={quality}
+                                        className={`quality-button ${itemData.quality === quality ? 'selected' : ''}`}
+                                        data-quality={quality}
+                                        onClick={() => updateItemData({ quality })}
+                                        style={{ '--wow-accent-color': data.color }}
+                                    >
                                         <img
-                                            src={getIconUrl('Misc/Books/book-golden-star-red-bookmark', 'items')}
-                                            alt="Level Requirement"
-                                            className="level-icon"
+                                            src={getIconUrl(data.icon, 'items')}
+                                            alt={data.name}
                                         />
-                                        <button
-                                            className="level-button"
-                                            onClick={() => {
-                                                const newLevel = Math.max(0, (itemData.requiredLevel || 0) - 1);
-                                                updateItemData({ requiredLevel: newLevel });
-                                            }}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            value={itemData.requiredLevel || 0}
-                                            onChange={(e) => updateItemData({ requiredLevel: Math.max(0, parseInt(e.target.value) || 0) })}
-                                            className="wow-input"
-                                            min="0"
-                                        />
-                                        <button
-                                            className="level-button"
-                                            onClick={() => {
-                                                const newLevel = (itemData.requiredLevel || 0) + 1;
-                                                updateItemData({ requiredLevel: newLevel });
-                                            }}
-                                        >
-                                            +
-                                        </button>
-                                        <span className="level-label">Required Level</span>
-                                    </div>
+                                        <span>{data.name}</span>
+                                        <div className="flavor-text" style={{ color: data.color }}>
+                                            {data.flavor}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Level Requirement:</label>
+                            <div className="level-requirement-input">
+                                <div className="level-input-group">
+                                    <img
+                                        src={getIconUrl('Misc/Books/book-golden-star-red-bookmark', 'items')}
+                                        alt="Level Requirement"
+                                        className="level-icon"
+                                    />
+                                    <button
+                                        className="level-button"
+                                        onClick={() => {
+                                            const newLevel = Math.max(0, (itemData.requiredLevel || 0) - 1);
+                                            updateItemData({ requiredLevel: newLevel });
+                                        }}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        value={itemData.requiredLevel || 0}
+                                        onChange={(e) => updateItemData({ requiredLevel: Math.max(0, parseInt(e.target.value) || 0) })}
+                                        className="wow-input"
+                                        min="0"
+                                    />
+                                    <button
+                                        className="level-button"
+                                        onClick={() => {
+                                            const newLevel = (itemData.requiredLevel || 0) + 1;
+                                            updateItemData({ requiredLevel: newLevel });
+                                        }}
+                                    >
+                                        +
+                                    </button>
+                                    <span className="level-label">Required Level</span>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="form-group">
-                                <label>Description:</label>
-                                <textarea
-                                    value={itemData.description || ''}
-                                    onChange={(e) => updateItemData({ description: e.target.value })}
-                                    placeholder="Enter item description..."
-                                    className="item-description"
-                                    rows={4}
-                                />
-                            </div>
-                        </>
-                    );
+                        <div className="form-group">
+                            <label>Description:</label>
+                            <textarea
+                                value={itemData.description || ''}
+                                onChange={(e) => updateItemData({ description: e.target.value })}
+                                placeholder="Enter item description..."
+                                className="item-description"
+                                rows={4}
+                            />
+                        </div>
+                    </>
+                );
 
             case STEPS.SLOT_AND_SIZE:
                 return (
@@ -2021,142 +2021,142 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     return (
                         <>
                             <h3 className="wow-heading">Quest Properties</h3>
-    <div className="misc-properties quest-properties">
-        {/* Quest Giver Section */}
-        <div className="property-section">
-            <div className="property-header">
-                <img
-                    src={getIconUrl('Armor/Chest/chest-bone-plated-vest', 'items')}
-                    alt="Quest Giver"
-                    className="property-icon"
-                />
-                <label className="wow-text">Quest Giver</label>
-            </div>
-            <input
-                type="text"
-                value={itemData.questGiver || ''}
-                onChange={(e) => updateItemData({ questGiver: e.target.value })}
-                className="wow-input"
-                placeholder="Who gave this quest item?"
-            />
-        </div>
+                            <div className="misc-properties quest-properties">
+                                {/* Quest Giver Section */}
+                                <div className="property-section">
+                                    <div className="property-header">
+                                        <img
+                                            src={getIconUrl('Armor/Chest/chest-bone-plated-vest', 'items')}
+                                            alt="Quest Giver"
+                                            className="property-icon"
+                                        />
+                                        <label className="wow-text">Quest Giver</label>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={itemData.questGiver || ''}
+                                        onChange={(e) => updateItemData({ questGiver: e.target.value })}
+                                        className="wow-input"
+                                        placeholder="Who gave this quest item?"
+                                    />
+                                </div>
 
-        {/* Required Level Section */}
-        <div className="property-section">
-            <div className="property-header">
-                <img
-                    src={getIconUrl('Misc/Books/book-golden-star-red-bookmark', 'items')}
-                    alt="Required Level"
-                    className="property-icon"
-                />
-                <label className="wow-text">Required Level</label>
-            </div>
-            <div className="level-input-group">
-                <button
-                    className="level-button"
-                    onClick={() => {
-                        const newLevel = Math.max(0, (itemData.requiredLevel || 0) - 1);
-                        updateItemData({ requiredLevel: newLevel });
-                    }}
-                >
-                    -
-                </button>
-                <input
-                    type="number"
-                    value={itemData.requiredLevel || 0}
-                    onChange={(e) => updateItemData({ requiredLevel: Math.max(0, parseInt(e.target.value) || 0) })}
-                    className="wow-input"
-                    min="0"
-                />
-                <button
-                    className="level-button"
-                    onClick={() => {
-                        const newLevel = (itemData.requiredLevel || 0) + 1;
-                        updateItemData({ requiredLevel: newLevel });
-                    }}
-                >
-                    +
-                </button>
-            </div>
-        </div>
+                                {/* Required Level Section */}
+                                <div className="property-section">
+                                    <div className="property-header">
+                                        <img
+                                            src={getIconUrl('Misc/Books/book-golden-star-red-bookmark', 'items')}
+                                            alt="Required Level"
+                                            className="property-icon"
+                                        />
+                                        <label className="wow-text">Required Level</label>
+                                    </div>
+                                    <div className="level-input-group">
+                                        <button
+                                            className="level-button"
+                                            onClick={() => {
+                                                const newLevel = Math.max(0, (itemData.requiredLevel || 0) - 1);
+                                                updateItemData({ requiredLevel: newLevel });
+                                            }}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="number"
+                                            value={itemData.requiredLevel || 0}
+                                            onChange={(e) => updateItemData({ requiredLevel: Math.max(0, parseInt(e.target.value) || 0) })}
+                                            className="wow-input"
+                                            min="0"
+                                        />
+                                        <button
+                                            className="level-button"
+                                            onClick={() => {
+                                                const newLevel = (itemData.requiredLevel || 0) + 1;
+                                                updateItemData({ requiredLevel: newLevel });
+                                            }}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
 
-        {/* Quest Objectives Section */}
-        <div className="property-section">
-            <div className="property-header">
-                <img
-                    src={getIconUrl('utility/parchment-scroll', 'abilities')}
-                    alt="Quest Objectives"
-                    className="property-icon"
-                />
-                <label className="wow-text">Quest Objectives</label>
-            </div>
-            <textarea
-                value={itemData.questObjectives || ''}
-                onChange={(e) => updateItemData({ questObjectives: e.target.value })}
-                className="wow-input objectives-input"
-                placeholder="What needs to be done with this item?"
-                rows={3}
-            />
-        </div>
+                                {/* Quest Objectives Section */}
+                                <div className="property-section">
+                                    <div className="property-header">
+                                        <img
+                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            alt="Quest Objectives"
+                                            className="property-icon"
+                                        />
+                                        <label className="wow-text">Quest Objectives</label>
+                                    </div>
+                                    <textarea
+                                        value={itemData.questObjectives || ''}
+                                        onChange={(e) => updateItemData({ questObjectives: e.target.value })}
+                                        className="wow-input objectives-input"
+                                        placeholder="What needs to be done with this item?"
+                                        rows={3}
+                                    />
+                                </div>
 
-        {/* Quest Chain Section */}
-        <div className="property-section">
-            <div className="property-header">
-                <img
-                    src={getIconUrl('utility/interlocking-chains', 'abilities')}
-                    alt="Quest Chain"
-                    className="property-icon"
-                />
-                <label className="wow-text">Quest Chain</label>
-            </div>
-            <input
-                type="text"
-                value={itemData.questChain || ''}
-                onChange={(e) => updateItemData({ questChain: e.target.value })}
-                className="wow-input"
-                placeholder="Part of which quest chain?"
-            />
-        </div>
+                                {/* Quest Chain Section */}
+                                <div className="property-section">
+                                    <div className="property-header">
+                                        <img
+                                            src={getIconUrl('utility/interlocking-chains', 'abilities')}
+                                            alt="Quest Chain"
+                                            className="property-icon"
+                                        />
+                                        <label className="wow-text">Quest Chain</label>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={itemData.questChain || ''}
+                                        onChange={(e) => updateItemData({ questChain: e.target.value })}
+                                        className="wow-input"
+                                        placeholder="Part of which quest chain?"
+                                    />
+                                </div>
 
-        {/* Time Limit Section */}
-        <div className="property-section">
-            <div className="property-header">
-                <img
-                    src={getIconUrl('utility/hourglass', 'abilities')}
-                    alt="Time Limit"
-                    className="property-icon"
-                />
-                <label className="wow-text">Time Limit</label>
-            </div>
-            <div className="time-limit-group">
-                <div className="time-input-wrapper">
-                    <button
-                        className="time-button"
-                        onClick={() => {
-                            const newTime = Math.max(0, (itemData.timeLimit || 0) - 5);
-                            updateItemData({ timeLimit: newTime });
-                        }}
-                    >
-                        -
-                    </button>
-                    <input
-                        type="number"
-                        value={itemData.timeLimit || 0}
-                        onChange={(e) => updateItemData({ timeLimit: Math.max(0, parseInt(e.target.value) || 0) })}
-                        className="wow-input"
-                        min="0"
-                    />
-                    <button
-                        className="time-button"
-                        onClick={() => {
-                            const newTime = (itemData.timeLimit || 0) + 5;
-                            updateItemData({ timeLimit: newTime });
-                        }}
-                    >
-                        +
-                    </button>
-                </div>
-                <span className="time-unit">minutes (0 for no limit)</span>
+                                {/* Time Limit Section */}
+                                <div className="property-section">
+                                    <div className="property-header">
+                                        <img
+                                            src={getIconUrl('utility/hourglass', 'abilities')}
+                                            alt="Time Limit"
+                                            className="property-icon"
+                                        />
+                                        <label className="wow-text">Time Limit</label>
+                                    </div>
+                                    <div className="time-limit-group">
+                                        <div className="time-input-wrapper">
+                                            <button
+                                                className="time-button"
+                                                onClick={() => {
+                                                    const newTime = Math.max(0, (itemData.timeLimit || 0) - 5);
+                                                    updateItemData({ timeLimit: newTime });
+                                                }}
+                                            >
+                                                -
+                                            </button>
+                                            <input
+                                                type="number"
+                                                value={itemData.timeLimit || 0}
+                                                onChange={(e) => updateItemData({ timeLimit: Math.max(0, parseInt(e.target.value) || 0) })}
+                                                className="wow-input"
+                                                min="0"
+                                            />
+                                            <button
+                                                className="time-button"
+                                                onClick={() => {
+                                                    const newTime = (itemData.timeLimit || 0) + 5;
+                                                    updateItemData({ timeLimit: newTime });
+                                                }}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                        <span className="time-unit">minutes (0 for no limit)</span>
                                     </div>
                                 </div>
                             </div>
@@ -3438,81 +3438,81 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <h3 className="wow-heading quality-text">Combat Stats</h3>
                         <div className="combat-stats-grid">
 
-{Object.entries(COMBAT_STATS)
-    .filter(([stat, _]) => {
-        // Only show health and mana restore for consumables
-        if ((stat === 'healthRestore' || stat === 'manaRestore') && itemData.type !== 'consumable') {
-            return false;
-        }
-        return true;
-    })
-    .map(([stat, info]) => (
-        <div key={stat} className="stat-item">
-            <div className="stat-header">
-                <img
-                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
-                    alt={info.name}
-                    className="stat-icon"
-                />
-                <label className="stat-label wow-text">{info.name}</label>
-            </div>
-            <div className="stat-input-group">
-                <button
-                    className="stat-button"
-                    onClick={() => {
-                        const newStats = { ...itemData.combatStats };
-                        newStats[stat] = {
-                            ...newStats[stat],
-                            value: newStats[stat].value - 1
-                        };
-                        updateItemData({ combatStats: newStats });
-                    }}
-                >
-                    -
-                </button>
-                <input
-                    type="number"
-                    value={itemData.combatStats[stat].value}
-                    onChange={(e) => {
-                        const val = parseInt(e.target.value) || 0;
-                        const newStats = { ...itemData.combatStats };
-                        newStats[stat] = {
-                            ...newStats[stat],
-                            value: val
-                        };
-                        updateItemData({ combatStats: newStats });
-                    }}
-                    className="stat-input wow-input"
-                />
-                <button
-                    className="stat-button"
-                    onClick={() => {
-                        const newStats = { ...itemData.combatStats };
-                        newStats[stat] = {
-                            ...newStats[stat],
-                            value: newStats[stat].value + 1
-                        };
-                        updateItemData({ combatStats: newStats });
-                    }}
-                >
-                    +
-                </button>
-                <button
-                    className={`type-toggle ${itemData.combatStats[stat].isPercentage ? 'active' : ''}`}
-                    onClick={() => {
-                        const newStats = { ...itemData.combatStats };
-                        newStats[stat] = {
-                            ...newStats[stat],
-                            isPercentage: !newStats[stat].isPercentage
-                        };
-                        updateItemData({ combatStats: newStats });
-                    }}
-                >
-                    {itemData.combatStats[stat].isPercentage ? '%' : '#'}
-                </button>
-            </div>
-        </div>
-    ))}
+                            {Object.entries(COMBAT_STATS)
+                                .filter(([stat, _]) => {
+                                    // Only show health and mana restore for consumables
+                                    if ((stat === 'healthRestore' || stat === 'manaRestore') && itemData.type !== 'consumable') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                .map(([stat, info]) => (
+                                    <div key={stat} className="stat-item">
+                                        <div className="stat-header">
+                                            <img
+                                                src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                alt={info.name}
+                                                className="stat-icon"
+                                            />
+                                            <label className="stat-label wow-text">{info.name}</label>
+                                        </div>
+                                        <div className="stat-input-group">
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => {
+                                                    const newStats = { ...itemData.combatStats };
+                                                    newStats[stat] = {
+                                                        ...newStats[stat],
+                                                        value: newStats[stat].value - 1
+                                                    };
+                                                    updateItemData({ combatStats: newStats });
+                                                }}
+                                            >
+                                                -
+                                            </button>
+                                            <input
+                                                type="number"
+                                                value={itemData.combatStats[stat].value}
+                                                onChange={(e) => {
+                                                    const val = parseInt(e.target.value) || 0;
+                                                    const newStats = { ...itemData.combatStats };
+                                                    newStats[stat] = {
+                                                        ...newStats[stat],
+                                                        value: val
+                                                    };
+                                                    updateItemData({ combatStats: newStats });
+                                                }}
+                                                className="stat-input wow-input"
+                                            />
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => {
+                                                    const newStats = { ...itemData.combatStats };
+                                                    newStats[stat] = {
+                                                        ...newStats[stat],
+                                                        value: newStats[stat].value + 1
+                                                    };
+                                                    updateItemData({ combatStats: newStats });
+                                                }}
+                                            >
+                                                +
+                                            </button>
+                                            <button
+                                                className={`type-toggle ${itemData.combatStats[stat].isPercentage ? 'active' : ''}`}
+                                                onClick={() => {
+                                                    const newStats = { ...itemData.combatStats };
+                                                    newStats[stat] = {
+                                                        ...newStats[stat],
+                                                        isPercentage: !newStats[stat].isPercentage
+                                                    };
+                                                    updateItemData({ combatStats: newStats });
+                                                }}
+                                            >
+                                                {itemData.combatStats[stat].isPercentage ? '%' : '#'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
                             <div className="spell-damage-section">
                                 <h4>Spell Damage</h4>
                                 <div className="damage-type-grid">
@@ -3685,10 +3685,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     {Object.entries(CONDITIONS).map(([conditionId, condition]) => (
                                         <div key={conditionId} className="resistance-item">
                                             <div className="resistance-header">
-                                                <img 
-                                                    src={condition.icon || getCustomIconUrl('Status/mental/spiral-dizzy', 'abilities')} 
-                                                    alt={condition.name} 
-                                                    className="resistance-icon" 
+                                                <img
+                                                    src={condition.icon || getCustomIconUrl('Status/mental/spiral-dizzy', 'abilities')}
+                                                    alt={condition.name}
+                                                    className="resistance-icon"
                                                 />
                                                 <label className="resistance-label wow-text">{condition.name}</label>
                                             </div>
@@ -3786,10 +3786,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             style={{
                                                                 color: itemData.weaponStats?.baseDamage?.damageType ?
                                                                     (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color ||
-                                                                     DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color) : 'inherit',
+                                                                        DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color) : 'inherit',
                                                                 textShadow: itemData.weaponStats?.baseDamage?.damageType ?
                                                                     `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color ||
-                                                                              DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color}` : 'none'
+                                                                    DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color}` : 'none'
                                                             }}
                                                         >
                                                             {DAMAGE_AMOUNT.map(amount => (
@@ -3810,10 +3810,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             style={{
                                                                 color: itemData.weaponStats?.baseDamage?.damageType ?
                                                                     (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color ||
-                                                                     DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color) : 'inherit',
+                                                                        DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color) : 'inherit',
                                                                 textShadow: itemData.weaponStats?.baseDamage?.damageType ?
                                                                     `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color ||
-                                                                              DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color}` : 'none'
+                                                                    DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.damageType]?.color}` : 'none'
                                                             }}
                                                         >
                                                             {DAMAGE_DICE.map(dice => (
@@ -3846,29 +3846,30 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                         return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
                                                     };
                                                     return (
-                                                    <button
-                                                        key={type}
-                                                        className={`damage-type-button ${itemData.weaponStats?.baseDamage?.damageType === type ? 'selected' : ''}`}
-                                                        onClick={() => {
-                                                            const newWeaponStats = { ...itemData.weaponStats };
-                                                            if (!newWeaponStats.baseDamage) {
-                                                                newWeaponStats.baseDamage = {};
-                                                            }
-                                                            newWeaponStats.baseDamage.damageType = type;
-                                                            updateItemData({ weaponStats: newWeaponStats });
-                                                        }}
-                                                        style={{
-                                                            '--type-color': info.color,
-                                                            '--type-color-rgb': hexToRgb(info.color)
-                                                        }}
-                                                    >
-                                                        <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
-                                                        <div className="damage-type-tooltip">
-                                                            <span className="damage-type-name">{info.name}</span>
-                                                            <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                        </div>
-                                                    </button>
-                                                )})}
+                                                        <button
+                                                            key={type}
+                                                            className={`damage-type-button ${itemData.weaponStats?.baseDamage?.damageType === type ? 'selected' : ''}`}
+                                                            onClick={() => {
+                                                                const newWeaponStats = { ...itemData.weaponStats };
+                                                                if (!newWeaponStats.baseDamage) {
+                                                                    newWeaponStats.baseDamage = {};
+                                                                }
+                                                                newWeaponStats.baseDamage.damageType = type;
+                                                                updateItemData({ weaponStats: newWeaponStats });
+                                                            }}
+                                                            style={{
+                                                                '--type-color': info.color,
+                                                                '--type-color-rgb': hexToRgb(info.color)
+                                                            }}
+                                                        >
+                                                            <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
+                                                            <div className="damage-type-tooltip">
+                                                                <span className="damage-type-name">{info.name}</span>
+                                                                <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                            </div>
+                                                        </button>
+                                                    )
+                                                })}
                                                 {/* Magical Damage Types Second */}
                                                 {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
                                                     const descriptions = {
@@ -3889,29 +3890,30 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                         return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
                                                     };
                                                     return (
-                                                    <button
-                                                        key={type}
-                                                        className={`damage-type-button ${itemData.weaponStats?.baseDamage?.damageType === type ? 'selected' : ''}`}
-                                                        onClick={() => {
-                                                            const newWeaponStats = { ...itemData.weaponStats };
-                                                            if (!newWeaponStats.baseDamage) {
-                                                                newWeaponStats.baseDamage = {};
-                                                            }
-                                                            newWeaponStats.baseDamage.damageType = type;
-                                                            updateItemData({ weaponStats: newWeaponStats });
-                                                        }}
-                                                        style={{
-                                                            '--type-color': info.color,
-                                                            '--type-color-rgb': hexToRgb(info.color)
-                                                        }}
-                                                    >
-                                                        <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
-                                                        <div className="damage-type-tooltip">
-                                                            <span className="damage-type-name">{info.name}</span>
-                                                            <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                        </div>
-                                                    </button>
-                                                )})}
+                                                        <button
+                                                            key={type}
+                                                            className={`damage-type-button ${itemData.weaponStats?.baseDamage?.damageType === type ? 'selected' : ''}`}
+                                                            onClick={() => {
+                                                                const newWeaponStats = { ...itemData.weaponStats };
+                                                                if (!newWeaponStats.baseDamage) {
+                                                                    newWeaponStats.baseDamage = {};
+                                                                }
+                                                                newWeaponStats.baseDamage.damageType = type;
+                                                                updateItemData({ weaponStats: newWeaponStats });
+                                                            }}
+                                                            style={{
+                                                                '--type-color': info.color,
+                                                                '--type-color-rgb': hexToRgb(info.color)
+                                                            }}
+                                                        >
+                                                            <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
+                                                            <div className="damage-type-tooltip">
+                                                                <span className="damage-type-name">{info.name}</span>
+                                                                <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                            </div>
+                                                        </button>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
@@ -3955,10 +3957,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             style={{
                                                                 color: itemData.weaponStats?.baseDamage?.bonusDamageType ?
                                                                     (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color ||
-                                                                     DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color) : 'inherit',
+                                                                        DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color) : 'inherit',
                                                                 textShadow: itemData.weaponStats?.baseDamage?.bonusDamageType ?
                                                                     `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color ||
-                                                                              DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color}` : 'none'
+                                                                    DAMAGE_TYPES[itemData.weaponStats?.baseDamage?.bonusDamageType]?.color}` : 'none'
                                                             }}
                                                         />
                                                         <button
@@ -3991,26 +3993,27 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                                 return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
                                                             };
                                                             return (
-                                                            <button
-                                                                key={type}
-                                                                className={`damage-type-button ${itemData.weaponStats?.baseDamage?.bonusDamageType === type ? 'selected' : ''}`}
-                                                                onClick={() => {
-                                                                    const newWeaponStats = { ...itemData.weaponStats };
-                                                                    newWeaponStats.baseDamage.bonusDamageType = type;
-                                                                    updateItemData({ weaponStats: newWeaponStats });
-                                                                }}
-                                                                style={{
-                                                                    '--type-color': info.color,
-                                                                    '--type-color-rgb': hexToRgb(info.color)
-                                                                }}
-                                                            >
-                                                                <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
-                                                                <div className="damage-type-tooltip">
-                                                                    <span className="damage-type-name">{info.name}</span>
-                                                                    <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                                </div>
-                                                            </button>
-                                                        )})}
+                                                                <button
+                                                                    key={type}
+                                                                    className={`damage-type-button ${itemData.weaponStats?.baseDamage?.bonusDamageType === type ? 'selected' : ''}`}
+                                                                    onClick={() => {
+                                                                        const newWeaponStats = { ...itemData.weaponStats };
+                                                                        newWeaponStats.baseDamage.bonusDamageType = type;
+                                                                        updateItemData({ weaponStats: newWeaponStats });
+                                                                    }}
+                                                                    style={{
+                                                                        '--type-color': info.color,
+                                                                        '--type-color-rgb': hexToRgb(info.color)
+                                                                    }}
+                                                                >
+                                                                    <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
+                                                                    <div className="damage-type-tooltip">
+                                                                        <span className="damage-type-name">{info.name}</span>
+                                                                        <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                                    </div>
+                                                                </button>
+                                                            )
+                                                        })}
                                                         {/* Magical Damage Types Second */}
                                                         {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
                                                             const descriptions = {
@@ -4031,26 +4034,27 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                                 return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
                                                             };
                                                             return (
-                                                            <button
-                                                                key={type}
-                                                                className={`damage-type-button ${itemData.weaponStats?.baseDamage?.bonusDamageType === type ? 'selected' : ''}`}
-                                                                onClick={() => {
-                                                                    const newWeaponStats = { ...itemData.weaponStats };
-                                                                    newWeaponStats.baseDamage.bonusDamageType = type;
-                                                                    updateItemData({ weaponStats: newWeaponStats });
-                                                                }}
-                                                                style={{
-                                                                    '--type-color': info.color,
-                                                                    '--type-color-rgb': hexToRgb(info.color)
-                                                                }}
-                                                            >
-                                                                <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
-                                                                <div className="damage-type-tooltip">
-                                                                    <span className="damage-type-name">{info.name}</span>
-                                                                    <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                                </div>
-                                                            </button>
-                                                        )})}
+                                                                <button
+                                                                    key={type}
+                                                                    className={`damage-type-button ${itemData.weaponStats?.baseDamage?.bonusDamageType === type ? 'selected' : ''}`}
+                                                                    onClick={() => {
+                                                                        const newWeaponStats = { ...itemData.weaponStats };
+                                                                        newWeaponStats.baseDamage.bonusDamageType = type;
+                                                                        updateItemData({ weaponStats: newWeaponStats });
+                                                                    }}
+                                                                    style={{
+                                                                        '--type-color': info.color,
+                                                                        '--type-color-rgb': hexToRgb(info.color)
+                                                                    }}
+                                                                >
+                                                                    <img src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')} alt={info.name} className="damage-type-icon" />
+                                                                    <div className="damage-type-tooltip">
+                                                                        <span className="damage-type-name">{info.name}</span>
+                                                                        <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                                    </div>
+                                                                </button>
+                                                            )
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
@@ -4062,298 +4066,298 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <div className="utility-section">
                             <h5 className="wow-heading">Utility Stats</h5>
                             <div className="utility-stats-grid">
-                            <div className="stat-item">
-                                <div className="stat-header">
-                                    <img src={UTILITY_STATS.movementSpeed.icon} alt="Movement Speed" className="stat-icon" />
-                                    <label className="stat-label wow-text">Movement Speed</label>
-                                </div>
-                                <div className="stat-input-group">
-                                    <button
-                                        className="stat-button"
-                                        onClick={() => {
-                                            const newStats = { ...itemData.utilityStats };
-                                            newStats.movementSpeed = {
-                                                ...newStats.movementSpeed,
-                                                value: newStats.movementSpeed.value - 1
-                                            };
-                                            updateItemData({ utilityStats: newStats });
-                                        }}
-                                    >
-                                        -
-                                    </button>
-                                    <input
-                                        type="number"
-                                        value={itemData.utilityStats.movementSpeed.value}
-                                        onChange={(e) => {
-                                            const val = parseInt(e.target.value) || 0;
-                                            const newStats = { ...itemData.utilityStats };
-                                            newStats.movementSpeed = {
-                                                ...newStats.movementSpeed,
-                                                value: val
-                                            };
-                                            updateItemData({ utilityStats: newStats });
-                                        }}
-                                        className="stat-input wow-input"
-                                    />
-                                    <button
-                                        className="stat-button"
-                                        onClick={() => {
-                                            const newStats = { ...itemData.utilityStats };
-                                            newStats.movementSpeed = {
-                                                ...newStats.movementSpeed,
-                                                value: newStats.movementSpeed.value + 1
-                                            };
-                                            updateItemData({ utilityStats: newStats });
-                                        }}
-                                    >
-                                        +
-                                    </button>
-                                    <button
-                                        className={`type-toggle ${itemData.utilityStats.movementSpeed.isPercentage ? 'active' : ''}`}
-                                        onClick={() => {
-                                            const newStats = { ...itemData.utilityStats };
-                                            newStats.movementSpeed = {
-                                                ...newStats.movementSpeed,
-                                                isPercentage: !newStats.movementSpeed.isPercentage
-                                            };
-                                            updateItemData({ utilityStats: newStats });
-                                        }}
-                                    >
-                                        {itemData.utilityStats.movementSpeed.isPercentage ? '%' : '#'}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="stat-item">
-    <div className="stat-header">
-        <img src={UTILITY_STATS.swimSpeed.icon} alt="Swim Speed" className="stat-icon" />
-        <label className="stat-label wow-text">Swim Speed</label>
-    </div>
-    <div className="stat-input-group">
-        <button
-            className="stat-button"
-            onClick={() => {
-                const newStats = { ...itemData.utilityStats };
-                newStats.swimSpeed = {
-                    ...newStats.swimSpeed,
-                    value: newStats.swimSpeed.value - 1
-                };
-                updateItemData({ utilityStats: newStats });
-            }}
-        >
-            -
-        </button>
-        <input
-            type="number"
-            value={itemData.utilityStats.swimSpeed.value}
-            onChange={(e) => {
-                const val = parseInt(e.target.value) || 0;
-                const newStats = { ...itemData.utilityStats };
-                newStats.swimSpeed = {
-                    ...newStats.swimSpeed,
-                    value: val
-                };
-                updateItemData({ utilityStats: newStats });
-            }}
-            className="stat-input wow-input"
-        />
-        <button
-            className="stat-button"
-            onClick={() => {
-                const newStats = { ...itemData.utilityStats };
-                newStats.swimSpeed = {
-                    ...newStats.swimSpeed,
-                    value: newStats.swimSpeed.value + 1
-                };
-                updateItemData({ utilityStats: newStats });
-            }}
-        >
-            +
-        </button>
-        <button
-            className={`type-toggle ${itemData.utilityStats.swimSpeed.isPercentage ? 'active' : ''}`}
-            onClick={() => {
-                const newStats = { ...itemData.utilityStats };
-                newStats.swimSpeed = {
-                    ...newStats.swimSpeed,
-                    isPercentage: !newStats.swimSpeed.isPercentage
-                };
-                updateItemData({ utilityStats: newStats });
-            }}
-        >
-            {itemData.utilityStats.swimSpeed.isPercentage ? '%' : '#'}
-        </button>
-    </div>
-</div>
-                            {/* Duration Type for Consumables */}
-                            {itemData.type === 'consumable' && (
                                 <div className="stat-item">
                                     <div className="stat-header">
-                                        <img
-                                            src={getIconUrl('holy-cross', 'spells')}
-                                            alt="Duration Type"
-                                            className="stat-icon"
-                                        />
-                                        <label className="stat-label wow-text">Duration Type</label>
-                                    </div>
-                                    <div className="stat-input-group">
-                                        <select
-                                            value={itemData.utilityStats?.duration?.type || 'ROUNDS'}
-                                            onChange={(e) => {
-                                                updateItemData({
-                                                    utilityStats: {
-                                                        ...itemData.utilityStats,
-                                                        duration: {
-                                                            ...itemData.utilityStats?.duration,
-                                                            type: e.target.value
-                                                        }
-                                                    }
-                                                });
-                                            }}
-                                            className="stat-input wow-input"
-                                        >
-                                            {Object.entries(DURATION_TYPES).map(([key, value]) => (
-                                                <option key={key} value={key}>{value.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Duration Value for Consumables */}
-                            {itemData.type === 'consumable' && (
-                                <div className="stat-item">
-                                    <div className="stat-header">
-                                        <img
-                                            src={getIconUrl('inv_misc_pocketwatch_01', 'items')}
-                                            alt="Duration Value"
-                                            className="stat-icon"
-                                        />
-                                        <label className="stat-label wow-text">Duration Value</label>
+                                        <img src={UTILITY_STATS.movementSpeed.icon} alt="Movement Speed" className="stat-icon" />
+                                        <label className="stat-label wow-text">Movement Speed</label>
                                     </div>
                                     <div className="stat-input-group">
                                         <button
                                             className="stat-button"
                                             onClick={() => {
-                                                const currentValue = itemData.utilityStats?.duration?.value || 1;
-                                                if (currentValue > 1) {
-                                                    updateItemData({
-                                                        utilityStats: {
-                                                            ...itemData.utilityStats,
-                                                            duration: {
-                                                                ...itemData.utilityStats?.duration,
-                                                                value: currentValue - 1
-                                                            }
-                                                        }
-                                                    });
-                                                }
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.movementSpeed = {
+                                                    ...newStats.movementSpeed,
+                                                    value: newStats.movementSpeed.value - 1
+                                                };
+                                                updateItemData({ utilityStats: newStats });
                                             }}
                                         >
                                             -
                                         </button>
                                         <input
                                             type="number"
-                                            min="1"
-                                            value={itemData.utilityStats?.duration?.value || 1}
+                                            value={itemData.utilityStats.movementSpeed.value}
                                             onChange={(e) => {
-                                                const val = Math.max(1, parseInt(e.target.value) || 1);
-                                                updateItemData({
-                                                    utilityStats: {
-                                                        ...itemData.utilityStats,
-                                                        duration: {
-                                                            ...itemData.utilityStats?.duration,
-                                                            value: val
-                                                        }
-                                                    }
-                                                });
+                                                const val = parseInt(e.target.value) || 0;
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.movementSpeed = {
+                                                    ...newStats.movementSpeed,
+                                                    value: val
+                                                };
+                                                updateItemData({ utilityStats: newStats });
                                             }}
                                             className="stat-input wow-input"
                                         />
                                         <button
                                             className="stat-button"
                                             onClick={() => {
-                                                const currentValue = itemData.utilityStats?.duration?.value || 1;
-                                                updateItemData({
-                                                    utilityStats: {
-                                                        ...itemData.utilityStats,
-                                                        duration: {
-                                                            ...itemData.utilityStats?.duration,
-                                                            value: currentValue + 1
-                                                        }
-                                                    }
-                                                });
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.movementSpeed = {
+                                                    ...newStats.movementSpeed,
+                                                    value: newStats.movementSpeed.value + 1
+                                                };
+                                                updateItemData({ utilityStats: newStats });
                                             }}
                                         >
                                             +
                                         </button>
+                                        <button
+                                            className={`type-toggle ${itemData.utilityStats.movementSpeed.isPercentage ? 'active' : ''}`}
+                                            onClick={() => {
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.movementSpeed = {
+                                                    ...newStats.movementSpeed,
+                                                    isPercentage: !newStats.movementSpeed.isPercentage
+                                                };
+                                                updateItemData({ utilityStats: newStats });
+                                            }}
+                                        >
+                                            {itemData.utilityStats.movementSpeed.isPercentage ? '%' : '#'}
+                                        </button>
                                     </div>
                                 </div>
-                            )}
-
-                            <div className="stat-item">
-                                <div className="stat-header">
-                                    <img src={UTILITY_STATS.carryingCapacity.icon} alt="Carrying Capacity" className="stat-icon" />
-                                    <label className="stat-label wow-text">Carrying Capacity</label>
+                                <div className="stat-item">
+                                    <div className="stat-header">
+                                        <img src={UTILITY_STATS.swimSpeed.icon} alt="Swim Speed" className="stat-icon" />
+                                        <label className="stat-label wow-text">Swim Speed</label>
+                                    </div>
+                                    <div className="stat-input-group">
+                                        <button
+                                            className="stat-button"
+                                            onClick={() => {
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.swimSpeed = {
+                                                    ...newStats.swimSpeed,
+                                                    value: newStats.swimSpeed.value - 1
+                                                };
+                                                updateItemData({ utilityStats: newStats });
+                                            }}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="number"
+                                            value={itemData.utilityStats.swimSpeed.value}
+                                            onChange={(e) => {
+                                                const val = parseInt(e.target.value) || 0;
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.swimSpeed = {
+                                                    ...newStats.swimSpeed,
+                                                    value: val
+                                                };
+                                                updateItemData({ utilityStats: newStats });
+                                            }}
+                                            className="stat-input wow-input"
+                                        />
+                                        <button
+                                            className="stat-button"
+                                            onClick={() => {
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.swimSpeed = {
+                                                    ...newStats.swimSpeed,
+                                                    value: newStats.swimSpeed.value + 1
+                                                };
+                                                updateItemData({ utilityStats: newStats });
+                                            }}
+                                        >
+                                            +
+                                        </button>
+                                        <button
+                                            className={`type-toggle ${itemData.utilityStats.swimSpeed.isPercentage ? 'active' : ''}`}
+                                            onClick={() => {
+                                                const newStats = { ...itemData.utilityStats };
+                                                newStats.swimSpeed = {
+                                                    ...newStats.swimSpeed,
+                                                    isPercentage: !newStats.swimSpeed.isPercentage
+                                                };
+                                                updateItemData({ utilityStats: newStats });
+                                            }}
+                                        >
+                                            {itemData.utilityStats.swimSpeed.isPercentage ? '%' : '#'}
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="carrying-capacity-section">
-                                    <label className="capacity-toggle">
-                                        <div className="toggle-switch">
-                                            <input
-                                                type="checkbox"
-                                                id="carrying-capacity-toggle"
-                                                checked={itemData.utilityStats.carryingCapacity.enabled}
-                                                onChange={(e) => {
-                                                    const newUtilityStats = { ...itemData.utilityStats };
-                                                    newUtilityStats.carryingCapacity.enabled = e.target.checked;
-                                                    updateItemData({ utilityStats: newUtilityStats });
-                                                }}
+                                {/* Duration Type for Consumables */}
+                                {itemData.type === 'consumable' && (
+                                    <div className="stat-item">
+                                        <div className="stat-header">
+                                            <img
+                                                src={getIconUrl('holy-cross', 'spells')}
+                                                alt="Duration Type"
+                                                className="stat-icon"
                                             />
-                                            <span className="slider"></span>
+                                            <label className="stat-label wow-text">Duration Type</label>
                                         </div>
-                                        <span>Additional Inventory Space</span>
-                                    </label>
+                                        <div className="stat-input-group">
+                                            <select
+                                                value={itemData.utilityStats?.duration?.type || 'ROUNDS'}
+                                                onChange={(e) => {
+                                                    updateItemData({
+                                                        utilityStats: {
+                                                            ...itemData.utilityStats,
+                                                            duration: {
+                                                                ...itemData.utilityStats?.duration,
+                                                                type: e.target.value
+                                                            }
+                                                        }
+                                                    });
+                                                }}
+                                                className="stat-input wow-input"
+                                            >
+                                                {Object.entries(DURATION_TYPES).map(([key, value]) => (
+                                                    <option key={key} value={key}>{value.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                )}
 
-                                    {itemData.utilityStats.carryingCapacity.enabled && (
-                                        <div className="slots-input">
-                                            <label>Additional Slots:</label>
+                                {/* Duration Value for Consumables */}
+                                {itemData.type === 'consumable' && (
+                                    <div className="stat-item">
+                                        <div className="stat-header">
+                                            <img
+                                                src={getIconUrl('inv_misc_pocketwatch_01', 'items')}
+                                                alt="Duration Value"
+                                                className="stat-icon"
+                                            />
+                                            <label className="stat-label wow-text">Duration Value</label>
+                                        </div>
+                                        <div className="stat-input-group">
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => {
+                                                    const currentValue = itemData.utilityStats?.duration?.value || 1;
+                                                    if (currentValue > 1) {
+                                                        updateItemData({
+                                                            utilityStats: {
+                                                                ...itemData.utilityStats,
+                                                                duration: {
+                                                                    ...itemData.utilityStats?.duration,
+                                                                    value: currentValue - 1
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                -
+                                            </button>
                                             <input
                                                 type="number"
-                                                min="0"
-                                                max="25"
-                                                value={itemData.utilityStats.carryingCapacity.slots === 0 ? '' : itemData.utilityStats.carryingCapacity.slots}
+                                                min="1"
+                                                value={itemData.utilityStats?.duration?.value || 1}
                                                 onChange={(e) => {
-                                                    const slots = e.target.value === '' ? 0 : Math.max(0, Math.min(25, parseInt(e.target.value) || 0));
-                                                    const newUtilityStats = { ...itemData.utilityStats };
-                                                    newUtilityStats.carryingCapacity = {
-                                                        ...newUtilityStats.carryingCapacity,
-                                                        slots
-                                                    };
-                                                    updateItemData({ utilityStats: newUtilityStats });
+                                                    const val = Math.max(1, parseInt(e.target.value) || 1);
+                                                    updateItemData({
+                                                        utilityStats: {
+                                                            ...itemData.utilityStats,
+                                                            duration: {
+                                                                ...itemData.utilityStats?.duration,
+                                                                value: val
+                                                            }
+                                                        }
+                                                    });
                                                 }}
-                                                className="wow-input"
+                                                className="stat-input wow-input"
                                             />
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => {
+                                                    const currentValue = itemData.utilityStats?.duration?.value || 1;
+                                                    updateItemData({
+                                                        utilityStats: {
+                                                            ...itemData.utilityStats,
+                                                            duration: {
+                                                                ...itemData.utilityStats?.duration,
+                                                                value: currentValue + 1
+                                                            }
+                                                        }
+                                                    });
+                                                }}
+                                            >
+                                                +
+                                            </button>
                                         </div>
-                                    )}
-                                    {itemData.utilityStats.carryingCapacity.enabled && (
-                                        <div className="capacity-preview">
-                                            <div className="preview-label">Additional Inventory Space:</div>
-                                            <div className="additional-slots-grid">
-                                                {Array(itemData.utilityStats.carryingCapacity.slots || 1)
-                                                    .fill(null)
-                                                    .map((_, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className="additional-slot"
-                                                            // Removed title to prevent browser tooltip conflict
-                                                        >
-                                                            <div className="slot-plus">+</div>
-                                                        </div>
-                                                    ))}
+                                    </div>
+                                )}
+
+                                <div className="stat-item">
+                                    <div className="stat-header">
+                                        <img src={UTILITY_STATS.carryingCapacity.icon} alt="Carrying Capacity" className="stat-icon" />
+                                        <label className="stat-label wow-text">Carrying Capacity</label>
+                                    </div>
+                                    <div className="carrying-capacity-section">
+                                        <label className="capacity-toggle">
+                                            <div className="toggle-switch">
+                                                <input
+                                                    type="checkbox"
+                                                    id="carrying-capacity-toggle"
+                                                    checked={itemData.utilityStats.carryingCapacity.enabled}
+                                                    onChange={(e) => {
+                                                        const newUtilityStats = { ...itemData.utilityStats };
+                                                        newUtilityStats.carryingCapacity.enabled = e.target.checked;
+                                                        updateItemData({ utilityStats: newUtilityStats });
+                                                    }}
+                                                />
+                                                <span className="slider"></span>
                                             </div>
-                                        </div>
-                                    )}
+                                            <span>Additional Inventory Space</span>
+                                        </label>
+
+                                        {itemData.utilityStats.carryingCapacity.enabled && (
+                                            <div className="slots-input">
+                                                <label>Additional Slots:</label>
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    max="25"
+                                                    value={itemData.utilityStats.carryingCapacity.slots === 0 ? '' : itemData.utilityStats.carryingCapacity.slots}
+                                                    onChange={(e) => {
+                                                        const slots = e.target.value === '' ? 0 : Math.max(0, Math.min(25, parseInt(e.target.value) || 0));
+                                                        const newUtilityStats = { ...itemData.utilityStats };
+                                                        newUtilityStats.carryingCapacity = {
+                                                            ...newUtilityStats.carryingCapacity,
+                                                            slots
+                                                        };
+                                                        updateItemData({ utilityStats: newUtilityStats });
+                                                    }}
+                                                    className="wow-input"
+                                                />
+                                            </div>
+                                        )}
+                                        {itemData.utilityStats.carryingCapacity.enabled && (
+                                            <div className="capacity-preview">
+                                                <div className="preview-label">Additional Inventory Space:</div>
+                                                <div className="additional-slots-grid">
+                                                    {Array(itemData.utilityStats.carryingCapacity.slots || 1)
+                                                        .fill(null)
+                                                        .map((_, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="additional-slot"
+                                                            // Removed title to prevent browser tooltip conflict
+                                                            >
+                                                                <div className="slot-plus">+</div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
                         </div>
                     </>
@@ -4364,274 +4368,274 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     <>
                         <h3 className="wow-heading quality-text">Item Value</h3>
                         <div className="currency-grid">
-                                <div className="currency-item">
-                                    <div className="currency-header">
-                                        <img
-                                            src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                                            alt="Platinum"
-                                            className="currency-icon coin-platinum"
-                                        />
-                                        <label className="currency-label wow-text">Platinum</label>
-                                    </div>
-                                    <div className="stat-input-group">
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, platinum: Math.max(0, (itemData.value.platinum || 0) - 1) }
-                                            })}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={itemData.value.platinum || 0}
-                                            onChange={(e) => updateItemData({
-                                                value: { ...itemData.value, platinum: Math.max(0, parseInt(e.target.value) || 0) }
-                                            })}
-                                            className="stat-input wow-input"
-                                            placeholder="0"
-                                        />
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, platinum: (itemData.value.platinum || 0) + 1 }
-                                            })}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
+                            <div className="currency-item">
+                                <div className="currency-header">
+                                    <img
+                                        src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
+                                        alt="Platinum"
+                                        className="currency-icon coin-platinum"
+                                    />
+                                    <label className="currency-label wow-text">Platinum</label>
+                                </div>
+                                <div className="stat-input-group">
                                     <button
-                                        className="randomize-button"
+                                        className="stat-button"
                                         onClick={() => updateItemData({
-                                            value: { ...itemData.value, platinum: Math.floor(Math.random() * 99) + 1 }
+                                            value: { ...itemData.value, platinum: Math.max(0, (itemData.value.platinum || 0) - 1) }
                                         })}
-                                        title="Randomize Platinum (1-99)"
                                     >
-                                        🎲
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={itemData.value.platinum || 0}
+                                        onChange={(e) => updateItemData({
+                                            value: { ...itemData.value, platinum: Math.max(0, parseInt(e.target.value) || 0) }
+                                        })}
+                                        className="stat-input wow-input"
+                                        placeholder="0"
+                                    />
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, platinum: (itemData.value.platinum || 0) + 1 }
+                                        })}
+                                    >
+                                        +
                                     </button>
                                 </div>
-
-                                <div className="currency-item">
-                                    <div className="currency-header">
-                                        <img
-                                            src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                                            alt="Gold"
-                                            className="currency-icon coin-gold"
-                                        />
-                                        <label className="currency-label wow-text">Gold</label>
-                                    </div>
-                                    <div className="stat-input-group">
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, gold: Math.max(0, (itemData.value.gold || 0) - 1) }
-                                            })}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={itemData.value.gold || 0}
-                                            onChange={(e) => updateItemData({
-                                                value: { ...itemData.value, gold: Math.max(0, parseInt(e.target.value) || 0) }
-                                            })}
-                                            className="stat-input wow-input"
-                                            placeholder="0"
-                                        />
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, gold: (itemData.value.gold || 0) + 1 }
-                                            })}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <button
-                                        className="randomize-button"
-                                        onClick={() => updateItemData({
-                                            value: { ...itemData.value, gold: Math.floor(Math.random() * 99) + 1 }
-                                        })}
-                                        title="Randomize Gold (1-99)"
-                                    >
-                                        🎲
-                                    </button>
-                                </div>
-
-                                <div className="currency-item">
-                                    <div className="currency-header">
-                                        <img
-                                            src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                                            alt="Silver"
-                                            className="currency-icon coin-silver"
-                                        />
-                                        <label className="currency-label wow-text">Silver</label>
-                                    </div>
-                                    <div className="stat-input-group">
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, silver: Math.max(0, Math.min(99, (itemData.value.silver || 0) - 1)) }
-                                            })}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="99"
-                                            value={itemData.value.silver || 0}
-                                            onChange={(e) => updateItemData({
-                                                value: { ...itemData.value, silver: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
-                                            })}
-                                            className="stat-input wow-input"
-                                            placeholder="0"
-                                        />
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, silver: Math.min(99, (itemData.value.silver || 0) + 1) }
-                                            })}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <button
-                                        className="randomize-button"
-                                        onClick={() => updateItemData({
-                                            value: { ...itemData.value, silver: Math.floor(Math.random() * 99) + 1 }
-                                        })}
-                                        title="Randomize Silver (1-99)"
-                                    >
-                                        🎲
-                                    </button>
-                                </div>
-
-                                <div className="currency-item">
-                                    <div className="currency-header">
-                                        <img
-                                            src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
-                                            alt="Copper"
-                                            className="currency-icon coin-copper"
-                                        />
-                                        <label className="currency-label wow-text">Copper</label>
-                                    </div>
-                                    <div className="stat-input-group">
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, copper: Math.max(0, Math.min(99, (itemData.value.copper || 0) - 1)) }
-                                            })}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="99"
-                                            value={itemData.value.copper || 0}
-                                            onChange={(e) => updateItemData({
-                                                value: { ...itemData.value, copper: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
-                                            })}
-                                            className="stat-input wow-input"
-                                            placeholder="0"
-                                        />
-                                        <button
-                                            className="stat-button"
-                                            onClick={() => updateItemData({
-                                                value: { ...itemData.value, copper: Math.min(99, (itemData.value.copper || 0) + 1) }
-                                            })}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <button
-                                        className="randomize-button"
-                                        onClick={() => updateItemData({
-                                            value: { ...itemData.value, copper: Math.floor(Math.random() * 99) + 1 }
-                                        })}
-                                        title="Randomize Copper (1-99)"
-                                    >
-                                        🎲
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="value-total">
                                 <button
-                                    className="randomize-all-button"
+                                    className="randomize-button"
                                     onClick={() => updateItemData({
-                                        value: {
-                                            ...itemData.value,
-                                            platinum: Math.floor(Math.random() * 99) + 1,
-                                            gold: Math.floor(Math.random() * 99) + 1,
-                                            silver: Math.floor(Math.random() * 99) + 1,
-                                            copper: Math.floor(Math.random() * 99) + 1
-                                        }
+                                        value: { ...itemData.value, platinum: Math.floor(Math.random() * 99) + 1 }
                                     })}
-                                    title="Randomize All Currencies (1-99 each)"
+                                    title="Randomize Platinum (1-99)"
                                 >
-                                    🎲 RANDOMIZE ALL
+                                    🎲
                                 </button>
-                                <div className="total-content">
-                                    <span className="total-label">Total Value:</span>
-                                    <span className="currency-display">
-                                        {(itemData.value.platinum || 0) > 0 && (
-                                            <>
-                                                <span className="platinum-amount">{itemData.value.platinum}</span>
-                                                <span className="platinum-symbol">p</span>
-                                            </>
-                                        )}
-                                        <span className="gold-amount">{itemData.value.gold || 0}</span>
-                                        <span className="gold-symbol">g</span>
-                                        <span className="silver-amount">{itemData.value.silver || 0}</span>
-                                        <span className="silver-symbol">s</span>
-                                        <span className="copper-amount">{itemData.value.copper || 0}</span>
-                                        <span className="copper-symbol">c</span>
-                                    </span>
-                                </div>
                             </div>
+
+                            <div className="currency-item">
+                                <div className="currency-header">
+                                    <img
+                                        src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
+                                        alt="Gold"
+                                        className="currency-icon coin-gold"
+                                    />
+                                    <label className="currency-label wow-text">Gold</label>
+                                </div>
+                                <div className="stat-input-group">
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, gold: Math.max(0, (itemData.value.gold || 0) - 1) }
+                                        })}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={itemData.value.gold || 0}
+                                        onChange={(e) => updateItemData({
+                                            value: { ...itemData.value, gold: Math.max(0, parseInt(e.target.value) || 0) }
+                                        })}
+                                        className="stat-input wow-input"
+                                        placeholder="0"
+                                    />
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, gold: (itemData.value.gold || 0) + 1 }
+                                        })}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <button
+                                    className="randomize-button"
+                                    onClick={() => updateItemData({
+                                        value: { ...itemData.value, gold: Math.floor(Math.random() * 99) + 1 }
+                                    })}
+                                    title="Randomize Gold (1-99)"
+                                >
+                                    🎲
+                                </button>
+                            </div>
+
+                            <div className="currency-item">
+                                <div className="currency-header">
+                                    <img
+                                        src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
+                                        alt="Silver"
+                                        className="currency-icon coin-silver"
+                                    />
+                                    <label className="currency-label wow-text">Silver</label>
+                                </div>
+                                <div className="stat-input-group">
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, silver: Math.max(0, Math.min(99, (itemData.value.silver || 0) - 1)) }
+                                        })}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="99"
+                                        value={itemData.value.silver || 0}
+                                        onChange={(e) => updateItemData({
+                                            value: { ...itemData.value, silver: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
+                                        })}
+                                        className="stat-input wow-input"
+                                        placeholder="0"
+                                    />
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, silver: Math.min(99, (itemData.value.silver || 0) + 1) }
+                                        })}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <button
+                                    className="randomize-button"
+                                    onClick={() => updateItemData({
+                                        value: { ...itemData.value, silver: Math.floor(Math.random() * 99) + 1 }
+                                    })}
+                                    title="Randomize Silver (1-99)"
+                                >
+                                    🎲
+                                </button>
+                            </div>
+
+                            <div className="currency-item">
+                                <div className="currency-header">
+                                    <img
+                                        src={getIconUrl('Container/Coins/golden-coin-single-isometric', 'items')}
+                                        alt="Copper"
+                                        className="currency-icon coin-copper"
+                                    />
+                                    <label className="currency-label wow-text">Copper</label>
+                                </div>
+                                <div className="stat-input-group">
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, copper: Math.max(0, Math.min(99, (itemData.value.copper || 0) - 1)) }
+                                        })}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="99"
+                                        value={itemData.value.copper || 0}
+                                        onChange={(e) => updateItemData({
+                                            value: { ...itemData.value, copper: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
+                                        })}
+                                        className="stat-input wow-input"
+                                        placeholder="0"
+                                    />
+                                    <button
+                                        className="stat-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, copper: Math.min(99, (itemData.value.copper || 0) + 1) }
+                                        })}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <button
+                                    className="randomize-button"
+                                    onClick={() => updateItemData({
+                                        value: { ...itemData.value, copper: Math.floor(Math.random() * 99) + 1 }
+                                    })}
+                                    title="Randomize Copper (1-99)"
+                                >
+                                    🎲
+                                </button>
+                            </div>
+                        </div>
+                        <div className="value-total">
+                            <button
+                                className="randomize-all-button"
+                                onClick={() => updateItemData({
+                                    value: {
+                                        ...itemData.value,
+                                        platinum: Math.floor(Math.random() * 99) + 1,
+                                        gold: Math.floor(Math.random() * 99) + 1,
+                                        silver: Math.floor(Math.random() * 99) + 1,
+                                        copper: Math.floor(Math.random() * 99) + 1
+                                    }
+                                })}
+                                title="Randomize All Currencies (1-99 each)"
+                            >
+                                🎲 RANDOMIZE ALL
+                            </button>
+                            <div className="total-content">
+                                <span className="total-label">Total Value:</span>
+                                <span className="currency-display">
+                                    {(itemData.value.platinum || 0) > 0 && (
+                                        <>
+                                            <span className="platinum-amount">{itemData.value.platinum}</span>
+                                            <span className="platinum-symbol">p</span>
+                                        </>
+                                    )}
+                                    <span className="gold-amount">{itemData.value.gold || 0}</span>
+                                    <span className="gold-symbol">g</span>
+                                    <span className="silver-amount">{itemData.value.silver || 0}</span>
+                                    <span className="silver-symbol">s</span>
+                                    <span className="copper-amount">{itemData.value.copper || 0}</span>
+                                    <span className="copper-symbol">c</span>
+                                </span>
+                            </div>
+                        </div>
                     </>
                 );
 
-                case STEPS.APPEARANCE: {
-                    return (
-                        <>
-                            <h3 className="wow-heading quality-text">Item Appearance</h3>
-                            {Object.entries(WOW_ICONS).map(([category, items]) => {
-                                    const isOpen = openCategories.has(category);
-                                    return (
-                                        <div key={category} className="wow-icon-category">
-                                            <h4
-                                                className="wow-category-title"
-                                                onClick={() => {
-                                                    const newOpenCategories = new Set(openCategories);
-                                                    if (isOpen) {
-                                                        newOpenCategories.delete(category);
-                                                    } else {
-                                                        newOpenCategories.add(category);
-                                                    }
-                                                    setOpenCategories(newOpenCategories);
-                                                }}
-                                                style={{ cursor: 'pointer', userSelect: 'none' }}
-                                            >
-                                                {category.charAt(0).toUpperCase() + category.slice(1)}
-                                                <span className="category-toggle">{isOpen ? ' ▲' : ' ▼'}</span>
-                                            </h4>
-                                            {isOpen && (
-                                                <div className="wow-icon-grid">
+            case STEPS.APPEARANCE: {
+                return (
+                    <>
+                        <h3 className="wow-heading quality-text">Item Appearance</h3>
+                        {Object.entries(WOW_ICONS).map(([category, items]) => {
+                            const isOpen = openCategories.has(category);
+                            return (
+                                <div key={category} className="wow-icon-category">
+                                    <h4
+                                        className="wow-category-title"
+                                        onClick={() => {
+                                            const newOpenCategories = new Set(openCategories);
+                                            if (isOpen) {
+                                                newOpenCategories.delete(category);
+                                            } else {
+                                                newOpenCategories.add(category);
+                                            }
+                                            setOpenCategories(newOpenCategories);
+                                        }}
+                                        style={{ cursor: 'pointer', userSelect: 'none' }}
+                                    >
+                                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                                        <span className="category-toggle">{isOpen ? ' ▲' : ' ▼'}</span>
+                                    </h4>
+                                    {isOpen && (
+                                        <div className="wow-icon-grid">
                                             {(() => {
                                                 // Flatten all items into a single array regardless of structure
                                                 const allItems = Array.isArray(items)
                                                     ? items
                                                     : Object.values(items).flat();
-                                                
+
                                                 // Remove duplicates based on item.id
                                                 const uniqueItems = allItems.filter((item, index, self) =>
                                                     index === self.findIndex(i => i.id === item.id)
                                                 );
-                                                
+
                                                 return uniqueItems.map(item => (
                                                     <button
                                                         key={item.id}
@@ -4650,37 +4654,37 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     </button>
                                                 ));
                                             })()}
-                                                </div>
-                                            )}
                                         </div>
-                                    );
-                                })}
-                                <div className="wow-custom-url-section">
-                                    <h4 className="wow-section-title">Custom Image URL</h4>
-                                    <input
-                                        type="text"
-                                        value={itemData.imageUrl || ''}
-                                        onChange={(e) => updateItemData({ imageUrl: e.target.value })}
-                                        placeholder="Enter custom image URL..."
-                                        className="wow-input"
-                                    />
+                                    )}
                                 </div>
-                                <div className="wow-preview-section">
-                                    <h4 className="wow-section-title">Preview</h4>
-                                    <div className="wow-item-preview">
-                                        <img
-                                            src={itemData.imageUrl || (itemData.iconId ? getIconUrl(itemData.iconId, 'items') : DEFAULT_ITEM_IMAGE)}
-                                            alt="Item Preview"
-                                            className="wow-preview-image"
-                                            onError={(e) => {
-                                                e.target.src = DEFAULT_ITEM_IMAGE;
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                        </>
-                    );
-                }
+                            );
+                        })}
+                        <div className="wow-custom-url-section">
+                            <h4 className="wow-section-title">Custom Image URL</h4>
+                            <input
+                                type="text"
+                                value={itemData.imageUrl || ''}
+                                onChange={(e) => updateItemData({ imageUrl: e.target.value })}
+                                placeholder="Enter custom image URL..."
+                                className="wow-input"
+                            />
+                        </div>
+                        <div className="wow-preview-section">
+                            <h4 className="wow-section-title">Preview</h4>
+                            <div className="wow-item-preview">
+                                <img
+                                    src={itemData.imageUrl || (itemData.iconId ? getIconUrl(itemData.iconId, 'items') : DEFAULT_ITEM_IMAGE)}
+                                    alt="Item Preview"
+                                    className="wow-preview-image"
+                                    onError={(e) => {
+                                        e.target.src = DEFAULT_ITEM_IMAGE;
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </>
+                );
+            }
 
             default:
                 return null;
@@ -4689,8 +4693,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
 
 
-    // Get window scale from game store
-    const windowScale = useGameStore(state => state.windowScale);
+    // Get window scale from settings store
+    const windowScale = useSettingsStore(state => state.windowScale);
 
     // Generate unique window ID
     const windowId = useRef(`item-wizard-${Date.now()}-${Math.random()}`).current;
@@ -4839,9 +4843,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         return (
                             <div
                                 key={stepName}
-                                className={`wow-progress-segment ${
-                                    stepIndex < currentStep ? 'completed' : ''
-                                } ${stepIndex === currentStep ? 'active' : ''}`}
+                                className={`wow-progress-segment ${stepIndex < currentStep ? 'completed' : ''
+                                    } ${stepIndex === currentStep ? 'active' : ''}`}
                                 onClick={() => setCurrentStep(stepIndex)}
                                 onMouseEnter={(e) => handleStepMouseEnter(e, stepName, stepInfo)}
                                 onMouseLeave={handleStepMouseLeave}

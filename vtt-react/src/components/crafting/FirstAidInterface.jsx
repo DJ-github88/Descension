@@ -32,12 +32,12 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
         updateCraftingQueueItem,
         completeCraftingItem,
         setProfessionLevel,
-        craftingQueue,
+        craftingQueue = [],
         learnRecipe,
-        knownRecipes: storeKnownRecipes,
-        professionLevels,
-        professionExperience,
-        availableRecipes
+        knownRecipes: storeKnownRecipes = {},
+        professionLevels = {},
+        professionExperience = {},
+        availableRecipes = []
     } = useCraftingStore();
 
     const { items: inventoryItems, removeItem, addItemFromLibrary } = useInventoryStore();
@@ -47,7 +47,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     // Subscribe directly to store values to ensure re-renders when they change
     const firstAidLevel = professionLevels?.['first-aid'] ?? SKILL_LEVELS.UNTRAINED.level;
     const firstAidExperience = professionExperience?.['first-aid'] ?? 0;
-    
+
     // Calculate experience for next level
     const experienceForNextLevel = (() => {
         if (firstAidLevel >= 9) return null; // Max level reached
@@ -61,17 +61,17 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
         ? getKnownRecipesForProfession('first-aid')
         : (() => {
             const knownIds = storeKnownRecipes?.['first-aid'] || [];
-            return (availableRecipes || []).filter(recipe => 
+            return (availableRecipes || []).filter(recipe =>
                 recipe.profession === 'first-aid' && knownIds.includes(recipe.id)
             );
         })();
     const allFirstAidRecipes = (typeof getRecipesForProfession === 'function')
         ? getRecipesForProfession('first-aid')
         : ((availableRecipes || []).filter(recipe => recipe.profession === 'first-aid'));
-    
+
     // Access knownRecipes from store to create subscription
     const firstAidKnownRecipes = storeKnownRecipes?.['first-aid'] || [];
-    
+
     // Force re-render when knownRecipes changes
     useEffect(() => {
         // This ensures the component re-renders when knownRecipes changes
@@ -271,7 +271,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     const startNextItem = () => {
         if (currentCraftingItem) return; // Already crafting
 
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
+        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
         if (queuedItems.length === 0) return; // Nothing to craft
 
         const item = queuedItems[0];
@@ -357,7 +357,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
             const store = useCraftingStore.getState();
             const currentLevel = store.professionLevels?.['first-aid'] ?? SKILL_LEVELS.UNTRAINED.level;
             const currentExperience = store.professionExperience?.['first-aid'] ?? 0;
-            
+
             if (currentLevel >= 9) {
                 experienceResult = { newLevel: currentLevel, leveledUp: false };
             } else {
@@ -365,12 +365,12 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                 const nextLevelExpRequired = Object.values(SKILL_LEVELS).find(level => level.level === currentLevel + 1)?.experienceRequired;
                 let newLevel = currentLevel;
                 let leveledUp = false;
-                
+
                 if (nextLevelExpRequired !== null && newExperience >= nextLevelExpRequired) {
                     newLevel = currentLevel + 1;
                     leveledUp = true;
                 }
-                
+
                 useCraftingStore.setState(state => ({
                     professionExperience: {
                         ...state.professionExperience,
@@ -381,7 +381,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                         'first-aid': newLevel
                     }
                 }));
-                
+
                 experienceResult = { newLevel, leveledUp };
             }
         }
@@ -541,7 +541,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
 
                     {/* Crafting Queue Icons */}
                     {(() => {
-                        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
+                        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
                         return queuedItems.length > 0 ? (
                             <div className="tabs-queue-icons">
                                 {queuedItems.slice(0, 3).map((queuedItem, index) => (
@@ -603,7 +603,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
             {knownRecipes.length === 0 ? (
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
-                        <img 
+                        <img
                             src="getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items')"
                             alt="No Recipes"
                         />
@@ -717,7 +717,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                                     {Object.values(SKILL_LEVELS).find(s => s.level === firstAidLevel)?.name || 'Untrained'}
                                 </span>
                             </div>
-                                    <div className="requirement-item">
+                            <div className="requirement-item">
                                 <span className="requirement-label">Crafting Time:</span>
                                 <span className="requirement-value">
                                     {selectedRecipe.craftingTimeDisplay || 'Unknown'}
@@ -811,70 +811,70 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const renderQueue = () => {
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
+        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
 
         return (
             <div className="queue-content">
                 {queuedItems.length === 0 ? (
-                <div className="queue-empty">
-                    <div className="queue-empty-icon">
-                        <img
-                            src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
-                            alt="Empty Queue"
-                        />
+                    <div className="queue-empty">
+                        <div className="queue-empty-icon">
+                            <img
+                                src="getIconUrl('brown-backpack-sleeping-bag', 'items')"
+                                alt="Empty Queue"
+                            />
+                        </div>
+                        <h3>No Items in Queue</h3>
+                        <p>Start crafting recipes to see them appear here.</p>
                     </div>
-                    <h3>No Items in Queue</h3>
-                    <p>Start crafting recipes to see them appear here.</p>
-                </div>
-            ) : (
-                <div className="queue-active">
-                    <h3>Queued Crafting Operations</h3>
-                    <div className="queue-items">
-                        {queuedItems.map((craftingItem, index) => {
-                            let progress = 0;
-                            let timeRemaining = 0;
-                            if (craftingItem.status === 'in_progress' && craftingItem.startTime) {
-                                const elapsed = Date.now() - craftingItem.startTime;
-                                const craftingTime = craftingItem.totalTime || craftingItem.recipe?.craftingTime || 5000;
-                                progress = Math.min(100, (elapsed / craftingTime) * 100);
-                                timeRemaining = Math.max(0, Math.ceil((craftingTime - elapsed) / 1000));
-                            }
+                ) : (
+                    <div className="queue-active">
+                        <h3>Queued Crafting Operations</h3>
+                        <div className="queue-items">
+                            {queuedItems.map((craftingItem, index) => {
+                                let progress = 0;
+                                let timeRemaining = 0;
+                                if (craftingItem.status === 'in_progress' && craftingItem.startTime) {
+                                    const elapsed = Date.now() - craftingItem.startTime;
+                                    const craftingTime = craftingItem.totalTime || craftingItem.recipe?.craftingTime || 5000;
+                                    progress = Math.min(100, (elapsed / craftingTime) * 100);
+                                    timeRemaining = Math.max(0, Math.ceil((craftingTime - elapsed) / 1000));
+                                }
 
-                            return (
-                                <div key={craftingItem.id || index} className="queue-item">
-                                    <div className="queue-item-header">
-                                        <div className="queue-item-info">
-                                            <div className="queue-item-icon">
-                                                <img
-                                                    src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
-                                                    alt={craftingItem.recipe.name}
-                                                    onError={(e) => {
-                                                        e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="queue-item-details">
-                                                <div className="queue-item-name">{craftingItem.recipe.name}</div>
-                                                <div className="queue-item-time">{timeRemaining}s remaining</div>
+                                return (
+                                    <div key={craftingItem.id || index} className="queue-item">
+                                        <div className="queue-item-header">
+                                            <div className="queue-item-info">
+                                                <div className="queue-item-icon">
+                                                    <img
+                                                        src={getIconUrl(craftingItem.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
+                                                        alt={craftingItem.recipe.name}
+                                                        onError={(e) => {
+                                                            e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="queue-item-details">
+                                                    <div className="queue-item-name">{craftingItem.recipe.name}</div>
+                                                    <div className="queue-item-time">{timeRemaining}s remaining</div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="queue-progress-bar">
+                                            <div
+                                                className="queue-progress-fill"
+                                                style={{
+                                                    width: `${progress}%`,
+                                                    background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
+                                                }}
+                                            ></div>
+                                        </div>
                                     </div>
-                                    <div className="queue-progress-bar">
-                                        <div
-                                            className="queue-progress-fill"
-                                            style={{
-                                                width: `${progress}%`,
-                                                background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
         );
     };
 
