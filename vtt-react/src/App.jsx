@@ -778,6 +778,13 @@ export default function App() {
 
         window.addEventListener('keydown', handleKeyDown);
 
+        // Prevent default browser context menu globally
+        // Custom context menus will still work as they use React's synthetic event system
+        const handleContextMenu = (event) => {
+            event.preventDefault();
+        };
+        document.addEventListener('contextmenu', handleContextMenu);
+
         // Cleanup on unmount
         return () => {
             if (unsubscribe && typeof unsubscribe === 'function') {
@@ -785,6 +792,7 @@ export default function App() {
             }
             clearInterval(backupInterval);
             window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('contextmenu', handleContextMenu);
         };
     }, []);
 

@@ -1,25 +1,25 @@
 /* D&D/Pathfinder Themed Item Tooltip */
 .item-tooltip {
     background: linear-gradient(145deg,
-        #ffffff 0%,
-        #fafafa 20%,
-        #f5f5f5 50%,
-        #f0f0f0 80%,
-        #f5f5f5 100%
-    ) !important;
+            #ffffff 0%,
+            #fafafa 20%,
+            #f5f5f5 50%,
+            #f0f0f0 80%,
+            #f5f5f5 100%) !important;
     border: 2px solid #8B4513 !important;
     border-radius: 8px;
     padding: 16px;
-    color: #2d1810 !important; /* Set default text color */
+    color: #2d1810 !important;
+    /* Set default text color */
     font-family: 'Bookman Old Style', 'Garamond', serif;
     width: 100%;
     min-width: 280px;
     max-width: 300px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
-                inset 0 2px 4px rgba(255, 255, 255, 0.6),
-                inset 0 -2px 4px rgba(139, 69, 19, 0.15),
-                0 0 0 1px rgba(139, 69, 19, 0.25),
-                0 0 20px rgba(139, 69, 19, 0.1) !important;
+        inset 0 2px 4px rgba(255, 255, 255, 0.6),
+        inset 0 -2px 4px rgba(139, 69, 19, 0.15),
+        0 0 0 1px rgba(139, 69, 19, 0.25),
+        0 0 20px rgba(139, 69, 19, 0.1) !important;
     pointer-events: none;
     margin: 0;
     backdrop-filter: blur(4px);
@@ -43,7 +43,7 @@
 }
 
 /* More specific: target divs with inline color styles that aren't item-name */
-.item-tooltip > div > div[style*="color"]:not(.item-name):not([class*="quality-"]) {
+.item-tooltip>div>div[style*="color"]:not(.item-name):not([class*="quality-"]) {
     color: #5a1e12 !important;
 }
 
@@ -68,7 +68,8 @@
 }
 
 .item-tooltip[data-quality="uncommon"] {
-    border-color: #4a934a !important; /* Softer green */
+    border-color: #4a934a !important;
+    /* Softer green */
     border-width: 3px !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 18px rgba(74, 147, 74, 0.5) !important;
 }
@@ -136,7 +137,7 @@
 /* Magical background for item icons - prevents beige icons from fading into beige tooltip */
 /* Pathfinder-themed cloudy ethereal background - soft, neutral, and magical */
 .item-icon-magical-bg {
-    background: 
+    background:
         /* Soft ethereal cloud from top-left */
         radial-gradient(ellipse at 20% 20%, rgba(255, 250, 240, 0.5) 0%, rgba(245, 240, 230, 0.3) 25%, rgba(235, 230, 220, 0.15) 40%, transparent 65%),
         /* Gentle cloud from bottom-right */
@@ -144,22 +145,19 @@
         /* Soft center cloud */
         radial-gradient(circle at 50% 50%, rgba(250, 245, 240, 0.3) 0%, rgba(240, 235, 230, 0.15) 35%, transparent 55%),
         /* Cloudy ethereal base - soft neutral beiges and creams */
-        linear-gradient(135deg, 
-            rgba(200, 190, 180, 0.6) 0%, 
-            rgba(210, 200, 190, 0.55) 20%, 
+        linear-gradient(135deg,
+            rgba(200, 190, 180, 0.6) 0%,
+            rgba(210, 200, 190, 0.55) 20%,
             rgba(205, 195, 185, 0.55) 40%,
             rgba(215, 205, 195, 0.55) 60%,
-            rgba(210, 200, 190, 0.55) 80%, 
-            rgba(200, 190, 180, 0.6) 100%
-        ),
+            rgba(210, 200, 190, 0.55) 80%,
+            rgba(200, 190, 180, 0.6) 100%),
         /* Subtle cloud texture pattern */
-        repeating-linear-gradient(
-            45deg, 
-            transparent, 
-            transparent 5px, 
-            rgba(255, 255, 255, 0.03) 5px, 
-            rgba(255, 255, 255, 0.03) 10px
-        );
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 5px,
+            rgba(255, 255, 255, 0.03) 5px,
+            rgba(255, 255, 255, 0.03) 10px);
     position: relative;
 }
 
@@ -183,20 +181,16 @@
     overflow: hidden !important;
     position: relative;
     /* Add fade effect on edges */
-    mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 8%,
-        black 92%,
-        transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 8%,
-        black 92%,
-        transparent 100%
-    );
+    mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%);
 }
 
 .item-name-scroll-text {
@@ -212,12 +206,15 @@
     0% {
         transform: translateX(0);
     }
+
     10% {
         transform: translateX(0);
     }
+
     90% {
         transform: translateX(var(--scroll-distance, 0));
     }
+
     100% {
         transform: translateX(var(--scroll-distance, 0));
     }
@@ -229,40 +226,56 @@
 }
 
 /* Quality colors matching RARITY_COLORS constant - improved readability */
-.quality-poor { 
-    color: #6b5d4f !important; /* Darker brown-grey for better readability on beige */
+.quality-poor {
+    color: #6b5d4f !important;
+    /* Darker brown-grey for better readability on beige */
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
-.quality-common { 
-    color: #f0e6d2 !important; /* Light beige for better contrast */
+
+.quality-common {
+    color: #f0e6d2 !important;
+    /* Light beige for better contrast */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.6) !important;
 }
-.quality-uncommon { 
-    color: #4a934a !important; /* Softer, more pleasant green */
-    text-shadow: 
+
+.quality-uncommon {
+    color: #4a934a !important;
+    /* Softer, more pleasant green */
+    text-shadow:
         0 0 8px rgba(74, 147, 74, 0.6),
         0 1px 2px rgba(0, 0, 0, 0.8),
-        0 2px 4px rgba(0, 0, 0, 0.6) !important; /* Better contrast on any background */
+        0 2px 4px rgba(0, 0, 0, 0.6) !important;
+    /* Better contrast on any background */
 }
-.quality-rare { 
-    color: #5b9bd5 !important; /* Softer, lighter blue */
+
+.quality-rare {
+    color: #5b9bd5 !important;
+    /* Softer, lighter blue */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(91, 155, 213, 0.5) !important;
 }
-.quality-epic { 
-    color: #b886db !important; /* Softer, lighter purple */
+
+.quality-epic {
+    color: #b886db !important;
+    /* Softer, lighter purple */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(184, 134, 219, 0.5) !important;
 }
-.quality-legendary { 
-    color: #ffaa44 !important; /* Softer orange */
+
+.quality-legendary {
+    color: #ffaa44 !important;
+    /* Softer orange */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(255, 170, 68, 0.5) !important;
 }
-.quality-artifact { 
-    color: #f0d890 !important; /* Softer, lighter gold */
+
+.quality-artifact {
+    color: #f0d890 !important;
+    /* Softer, lighter gold */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(240, 216, 144, 0.5) !important;
 }
 
-.item-type, .item-slot {
-    color: #6b5230 !important; /* Rich brown - more readable on parchment */
+.item-type,
+.item-slot {
+    color: #6b5230 !important;
+    /* Rich brown - more readable on parchment */
     font-size: 16px !important;
     margin-bottom: 4px;
     letter-spacing: 0.2px;
@@ -270,19 +283,22 @@
     font-weight: 600;
 }
 
-.item-type span, .item-slot span {
+.item-type span,
+.item-slot span {
     font-size: 16px !important;
 }
 
 /* Override inline styles for item type/slot displays */
-.item-tooltip > div[style*="color: #ffffff"],
-.item-tooltip > div[style*="color:#ffffff"],
+.item-tooltip>div[style*="color: #ffffff"],
+.item-tooltip>div[style*="color:#ffffff"],
 .item-tooltip div[style*="color: #ffffff"]:not(.item-name) {
-    color: #8B4513 !important; /* Pathfinder brown-medium */
+    color: #8B4513 !important;
+    /* Pathfinder brown-medium */
 }
 
 .item-armor {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     margin: 8px 0;
     padding: 4px 0;
@@ -296,12 +312,14 @@
 .item-stats {
     font-size: 14px;
     margin: 8px 0;
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .base-stat {
-    color: #5a1e12 !important; /* Pathfinder brown-dark */
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark */
     display: block !important;
     margin: 2px 0 !important;
     font-family: 'Bookman Old Style', 'Garamond', serif !important;
@@ -320,7 +338,8 @@
 }
 
 .combat-stat {
-    color: #5a1e12 !important; /* Pathfinder brown-dark */
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark */
     display: block;
     margin: 4px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -329,7 +348,8 @@
 }
 
 .damage-type {
-    color: #8b0000 !important; /* Deep red for damage - Pathfinder style */
+    color: #8b0000 !important;
+    /* Deep red for damage - Pathfinder style */
     font-weight: 600;
     font-family: 'Bookman Old Style', 'Garamond', serif;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
@@ -342,31 +362,41 @@
 
 /* Description styling - Auto-adjusts size based on content */
 .item-description {
-    color: #8b6f47 !important; /* Warm brown - like aged paper text */
+    color: #4a3728 !important;
+    /* Darker warm brown for better visibility */
     font-size: 14px;
     font-style: italic;
-    margin: 8px 0 0 0; /* Remove bottom margin to eliminate gap */
+    margin: 8px 0 0 0;
+    /* Remove bottom margin to eliminate gap */
     line-height: 1.5;
-    padding: 6px 0; /* Reduced padding for auto-sizing */
+    padding: 6px 0;
+    /* Reduced padding for auto-sizing */
     border-top: 1px solid rgba(139, 69, 19, 0.3);
     font-family: 'Times New Roman', serif;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
     /* Auto-sizing properties */
-    min-height: auto; /* Allow natural height */
-    max-height: none; /* No height restrictions */
-    overflow: visible; /* Ensure content is visible */
-    word-wrap: break-word; /* Handle long words */
-    hyphens: auto; /* Better text wrapping */
+    min-height: auto;
+    /* Allow natural height */
+    max-height: none;
+    /* No height restrictions */
+    overflow: visible;
+    /* Ensure content is visible */
+    word-wrap: break-word;
+    /* Handle long words */
+    hyphens: auto;
+    /* Better text wrapping */
 }
 
 /* Remove extra space when description is empty or very short */
 .item-description:empty {
-    display: none; /* Hide completely when empty */
+    display: none;
+    /* Hide completely when empty */
 }
 
 /* Miscellaneous item specific styles */
 .item-misc-info {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 15px;
     font-weight: 500;
     margin: 6px 0;
@@ -374,7 +404,8 @@
 }
 
 .item-reagent-info {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 14px;
     margin: 4px 0;
     line-height: 1.4;
@@ -382,7 +413,8 @@
 }
 
 .item-crafting-info {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     margin: 4px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -390,14 +422,16 @@
 }
 
 .item-trade-info {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 14px;
     margin: 4px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-key-info {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     margin: 4px 0;
     font-weight: 600;
@@ -405,7 +439,8 @@
 }
 
 .item-location-info {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 14px;
     font-style: italic;
     margin: 4px 0;
@@ -413,7 +448,8 @@
 }
 
 .item-security-info {
-    color: #d4af37; /* Pathfinder gold */
+    color: #d4af37;
+    /* Pathfinder gold */
     font-size: 14px;
     margin: 4px 0;
     font-weight: 500;
@@ -422,7 +458,8 @@
 
 /* Reagent Item Specific Styles */
 .item-reagent-type {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.95em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -430,7 +467,8 @@
 }
 
 .item-reagent-magic-type {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.95em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -438,7 +476,8 @@
 }
 
 .item-reagent-state {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -447,15 +486,18 @@
 .reagent-details {
     margin: 4px 0;
     padding: 4px;
-    border-left: 2px solid #8B4513; /* Pathfinder brown-medium */
-    background-color: rgba(212, 175, 55, 0.15); /* Subtle gold tint */
+    border-left: 2px solid #8B4513;
+    /* Pathfinder brown-medium */
+    background-color: rgba(212, 175, 55, 0.15);
+    /* Subtle gold tint */
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .reagent-detail-used-for,
 .reagent-detail-quantity,
 .reagent-detail-preservation {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     padding-left: 8px;
@@ -463,7 +505,8 @@
 }
 
 .item-reagent-description {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-style: italic;
     font-size: 0.9em;
     margin: 4px 0;
@@ -473,7 +516,8 @@
 
 /* Quest Items */
 .item-quest-info {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -481,7 +525,8 @@
 }
 
 .item-quest-chain {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -489,7 +534,8 @@
 
 /* Crafting Materials */
 .item-crafting-type {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.95em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -497,21 +543,24 @@
 }
 
 .item-crafting-professions {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-crafting-method {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-crafting-location {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -519,7 +568,8 @@
 }
 
 .item-crafting-recipes {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -527,7 +577,8 @@
 
 /* Trade Goods */
 .item-trade-category {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.95em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -535,21 +586,24 @@
 }
 
 .item-trade-origin {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-trade-demand {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-trade-quality {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -558,14 +612,16 @@
 
 /* Junk Items */
 .item-junk-type {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 0.95em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-junk-condition {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 0.9em;
     margin: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -574,13 +630,13 @@
 
 /* Junk details */
 .junk-details-grid {
-    margin: 6px 0;
+    margin: 12px 0;
     padding: 8px 12px;
-    background: rgba(213, 203, 176, 0.3);
-    border-left: 3px solid #7a3b2e; /* Rustic red accent */
+    background: rgba(184, 150, 40, 0.15);
+    /* Match other miscellaneous grids */
     border-radius: 4px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .junk-detail-row {
@@ -593,7 +649,8 @@
 }
 
 .junk-detail-label {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     flex: 0 0 auto;
     margin-right: 16px;
@@ -603,13 +660,14 @@
 }
 
 .item-junk-detail {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #5a1e12;
+    /* Darker brown for better visibility */
     font-size: 14px;
     flex: 1;
     text-align: right;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 /* Common header styles */
@@ -618,7 +676,8 @@
     font-weight: 600;
     margin-bottom: 8px;
     text-transform: capitalize;
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-family: 'Bookman Old Style', 'Garamond', serif;
     border-bottom: 1px solid rgba(139, 69, 19, 0.3);
     padding-bottom: 4px;
@@ -631,21 +690,22 @@
 .trade-details-grid {
     margin: 12px 0;
     padding: 8px 12px;
-    background: rgba(212, 175, 55, 0.12); /* Subtle Pathfinder gold tint */
-    border-left: 3px solid #8B4513; /* Pathfinder brown-medium accent */
+    background: rgba(184, 150, 40, 0.15);
+    /* More visible Pathfinder parchment tint */
     border-radius: 4px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Reagent details grid - more subtle and compact */
+/* Reagent details grid - unified with others */
 .reagent-details-grid {
-    margin: 6px 0;
-    padding: 6px 10px;
-    background: rgba(100, 150, 200, 0.08); /* Subtle blue-gray tint */
-    border-left: 2px solid rgba(100, 150, 200, 0.4); /* Softer blue accent */
-    border-radius: 3px;
+    margin: 12px 0;
+    padding: 8px 12px;
+    background: rgba(184, 150, 40, 0.15);
+    /* Match other miscellaneous grids */
+    border-radius: 4px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Detail rows */
@@ -661,20 +721,21 @@
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-/* Reagent detail rows - more compact */
+/* Reagent detail rows - standardized with others */
 .reagent-detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2px 0;
-    line-height: 1.2;
+    padding: 3px 0;
+    line-height: 1.3;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 /* Labels */
 .quest-detail-label,
 .key-detail-label {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     flex: 0 0 auto;
     margin-right: 16px;
@@ -683,18 +744,20 @@
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Reagent detail labels - smaller and more subtle */
+/* Reagent detail labels - standardized font size */
 .reagent-detail-label {
-    color: #9d9d9d; /* Lighter gray for better contrast */
-    font-size: 11px;
+    color: #5a1e12;
+    /* Consistent with other labels */
+    font-size: 14px;
     flex: 0 0 auto;
-    margin-right: 10px;
+    margin-right: 16px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .trade-detail-label {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     flex: 0 0 auto;
     margin-right: 16px;
@@ -704,7 +767,8 @@
 }
 
 .crafting-detail-label {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     flex: 0 0 auto;
     margin-right: 16px;
@@ -715,22 +779,25 @@
 
 /* Values */
 .quest-detail-value {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #5a1e12;
+    /* Darker brown for better visibility */
     font-size: 14px;
     flex: 1;
     text-align: right;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .reagent-detail-value {
-    color: #ffffff; /* White for better readability */
-    font-size: 11px;
+    color: #5a1e12;
+    /* Consistent with other values */
+    font-size: 14px;
     flex: 1;
     text-align: right;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 400;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .reagent-detail-value.magic-type {
@@ -738,17 +805,19 @@
 }
 
 .key-detail-value {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #5a1e12;
+    /* Darker brown for better visibility */
     font-size: 14px;
     flex: 1;
     text-align: right;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .crafting-detail-value {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     flex: 1;
     text-align: right;
@@ -758,28 +827,35 @@
 }
 
 .trade-detail-value {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #5a1e12;
+    /* Darker brown for better visibility */
     font-size: 14px;
     flex: 1;
     text-align: right;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 /* Magic type specific */
 .magic-type {
-    font-weight: 500;
+    font-weight: 600;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow:
+        1px 1px 1px rgba(0, 0, 0, 0.8),
+        0 0 4px rgba(255, 255, 255, 0.5);
+    /* Dual shadow for readability on any bg */
 }
 
 /* Special styles */
 .item-requirement {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     margin: 4px 0;
     padding: 2px 6px;
-    background: rgba(212, 175, 55, 0.15); /* Subtle gold tint */
+    background: rgba(212, 175, 55, 0.15);
+    /* Subtle gold tint */
     border-radius: 3px;
     display: inline-block;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -787,11 +863,13 @@
 }
 
 .item-time-limit {
-    color: #d4af37; /* Pathfinder gold */
+    color: #d4af37;
+    /* Pathfinder gold */
     font-size: 14px;
     margin: 4px 0;
     padding: 2px 6px;
-    background: rgba(212, 175, 55, 0.15); /* Subtle gold tint */
+    background: rgba(212, 175, 55, 0.15);
+    /* Subtle gold tint */
     border-radius: 3px;
     display: inline-block;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -799,15 +877,19 @@
 }
 
 .item-warning {
-    color: #5a1e12; /* Pathfinder brown-dark */
-    font-size: 14px;
-    margin: 4px 0;
-    padding: 4px 8px;
-    background: rgba(212, 175, 55, 0.15); /* Subtle gold tint */
-    border-radius: 3px;
+    color: #8b0000;
+    /* Deep red for warning */
+    font-size: 15px;
+    margin: 8px 0;
+    padding: 6px 12px;
+    background: rgba(255, 68, 68, 0.15);
+    /* Subtle red tint */
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    border-radius: 4px;
     display: inline-block;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-weight: 500;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item-magical-properties,
@@ -815,13 +897,15 @@
     font-style: italic;
     font-size: 14px;
     margin: 12px 0;
-    padding: 6px 8px;
-    background: rgba(212, 175, 55, 0.12); /* Subtle Pathfinder gold tint */
+    padding: 8px 10px;
+    background: rgba(184, 150, 40, 0.12);
+    /* Subtle Pathfinder gold tint */
     border-radius: 4px;
     line-height: 1.4;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    color: #8B4513; /* Pathfinder brown-medium */
-    border-left: 2px solid #d4af37; /* Pathfinder gold accent */
+    color: #5a1e12;
+    /* Darker brown for better visibility */
+    border: 1px solid rgba(139, 69, 19, 0.2);
 }
 
 /* Merchant Notes - Parchment Note Style */
@@ -835,7 +919,8 @@
     border-radius: 6px;
     line-height: 1.4;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    color: #2d1810; /* Dark brown/black text */
+    color: #2d1810;
+    /* Dark brown/black text */
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(139, 69, 19, 0.2),
@@ -875,7 +960,8 @@
     border-radius: 6px;
     line-height: 1.4;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    color: #2d1810; /* Dark brown/black text */
+    color: #2d1810;
+    /* Dark brown/black text */
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(139, 69, 19, 0.3),
@@ -910,18 +996,21 @@
     margin: 10px 0;
     padding: 2px 0;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-style: italic;
 }
 
-/* Component sections */
+/* Component property sections - unified with grids */
 .reagent-details,
 .key-details {
-    margin: 4px 0;
-    padding: 4px 8px;
-    border-left: 2px solid #8B4513; /* Pathfinder brown-medium */
-    background-color: rgba(212, 175, 55, 0.12); /* Subtle Pathfinder gold tint */
+    margin: 12px 0;
+    padding: 8px 12px;
+    background-color: rgba(184, 150, 40, 0.15);
+    /* Matched backdrops */
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .item-key-detail,
@@ -939,7 +1028,8 @@
 .reagent-detail-used-for label,
 .reagent-detail-quantity label,
 .reagent-detail-preservation label {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     margin-right: 8px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
     font-weight: 600;
@@ -949,14 +1039,16 @@
 .reagent-detail-used-for value,
 .reagent-detail-quantity value,
 .reagent-detail-preservation value {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-family: 'Bookman Old Style', 'Garamond', serif;
     text-align: right;
     font-weight: 500;
 }
 
 .item-key-type {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -968,7 +1060,8 @@
 
 
 .item-key-detail {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 14px;
     flex: 1;
     text-align: right;
@@ -978,19 +1071,22 @@
 }
 
 .item-key-warning {
-    color: #5a1e12; /* Pathfinder brown-dark */
+    color: #5a1e12;
+    /* Pathfinder brown-dark */
     font-size: 14px;
     font-weight: 500;
     margin-top: 8px;
     padding: 4px 8px;
-    background: rgba(212, 175, 55, 0.15); /* Subtle gold tint */
+    background: rgba(212, 175, 55, 0.15);
+    /* Subtle gold tint */
     border-radius: 3px;
     text-align: center;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-key-instructions {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 14px;
     font-style: italic;
     margin-top: 8px;
@@ -1002,31 +1098,38 @@
 
 /* Magic type color coding for reagents */
 .reagent-magic-fire {
-    color: #ff4500 !important; /* Orange-red for fire */
+    color: #ff4500 !important;
+    /* Orange-red for fire */
 }
 
 .reagent-magic-nature {
-    color: #4a934a !important; /* Forest green for nature */
+    color: #4a934a !important;
+    /* Forest green for nature */
 }
 
 .reagent-magic-shadow {
-    color: #8b008b !important; /* Dark magenta for shadow */
+    color: #8b008b !important;
+    /* Dark magenta for shadow */
 }
 
 .reagent-magic-arcane {
-    color: #0070dd !important; /* Blue for arcane */
+    color: #0070dd !important;
+    /* Blue for arcane */
 }
 
 .reagent-magic-holy {
-    color: #ffd700 !important; /* Gold for holy */
+    color: #ffd700 !important;
+    /* Gold for holy */
 }
 
 .reagent-magic-frost {
-    color: #00bfff !important; /* Deep sky blue for frost */
+    color: #00bfff !important;
+    /* Deep sky blue for frost */
 }
 
 .item-key-unlocks {
-    color: #8B4513; /* Pathfinder brown-medium */
+    color: #8B4513;
+    /* Pathfinder brown-medium */
     font-size: 14px;
     flex: 1;
     text-align: right;
@@ -1035,7 +1138,8 @@
 }
 
 .item-key-location {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 14px;
     flex: 1;
     text-align: right;
@@ -1044,7 +1148,8 @@
 }
 
 .item-key-security {
-    color: #d4af37; /* Pathfinder gold */
+    color: #d4af37;
+    /* Pathfinder gold */
     font-size: 14px;
     font-weight: 600;
     flex: 1;
@@ -1054,7 +1159,8 @@
 
 /* Value display */
 .item-value {
-    color: #d4af37 !important; /* Pathfinder gold */
+    color: #d4af37 !important;
+    /* Pathfinder gold */
     font-size: 14px;
     margin-top: 8px;
     font-weight: 600;
@@ -1077,23 +1183,24 @@
 }
 
 /* Override inline white text colors throughout tooltip - use more specific selectors */
-.item-tooltip > div > div[style*="color"]:not(.item-name):not([class*="quality-"]) {
-    color: #5a1e12 !important; /* Pathfinder brown-dark */
+.item-tooltip>div>div[style*="color"]:not(.item-name):not([class*="quality-"]) {
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark */
 }
 
 /* Force background override - highest priority */
 .item-tooltip[style] {
     background: linear-gradient(145deg,
-        #f0ead6 0%,
-        #e8dcc6 20%,
-        #d5cbb0 50%,
-        #c9b89a 80%,
-        #d5cbb0 100%
-    ) !important;
+            #f0ead6 0%,
+            #e8dcc6 20%,
+            #d5cbb0 50%,
+            #c9b89a 80%,
+            #d5cbb0 100%) !important;
 }
 
 .item-tooltip div[style*="color: rgb(255, 255, 255)"]:not(.item-name):not([class*="quality-"]) {
-    color: #5a1e12 !important; /* Pathfinder brown-dark */
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark */
 }
 
 /* Override inline styles for stats and combat info - green stats should be brown */
@@ -1101,7 +1208,8 @@
 .item-tooltip div[style*="color: #1eff00"],
 .item-tooltip div[style*="color: rgb(30, 255, 0)"] span,
 .item-tooltip div[style*="color: #1eff00"] span {
-    color: #5a1e12 !important; /* Pathfinder brown-dark for stats */
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark for stats */
 }
 
 /* Override any remaining green text in stats sections */
@@ -1117,26 +1225,29 @@
 .item-tooltip div[style*="color: #ffd700"],
 .item-tooltip span[style*="color: #ffd700"],
 .item-tooltip span[style*="color: rgb(255, 215, 0)"] {
-    color: #d4af37 !important; /* Pathfinder gold */
+    color: #d4af37 !important;
+    /* Pathfinder gold */
 }
 
 /* Override damage type colors in weapon stats */
 .item-tooltip div[style*="color"] span[style*="damage"] {
-    color: #8b0000 !important; /* Deep red for damage */
+    color: #8b0000 !important;
+    /* Deep red for damage */
 }
 
 /* Base stat and combat stat overrides */
 .base-stat,
 .combat-stat {
-    color: #5a1e12 !important; /* Pathfinder brown-dark */
+    color: #5a1e12 !important;
+    /* Pathfinder brown-dark */
     text-align: left !important;
     margin-left: 0 !important;
     padding-left: 0 !important;
 }
 
 /* Force left alignment for all stat divs */
-.item-tooltip > div > div.base-stat,
-.item-tooltip > div > div.combat-stat,
+.item-tooltip>div>div.base-stat,
+.item-tooltip>div>div.combat-stat,
 .item-tooltip div.base-stat,
 .item-tooltip div.combat-stat {
     text-align: left !important;
@@ -1146,16 +1257,19 @@
 }
 
 /* Item type and slot wrapper - target the flex containers */
-.item-tooltip > div[style*="display: flex"][style*="justifyContent: space-between"] {
-    color: #6b5230 !important; /* Rich brown */
+.item-tooltip>div[style*="display: flex"][style*="justifyContent: space-between"] {
+    color: #6b5230 !important;
+    /* Rich brown */
 }
 
-.item-tooltip > div[style*="display: flex"][style*="justifyContent: space-between"] span {
-    color: #6b5230 !important; /* Rich brown */
+.item-tooltip>div[style*="display: flex"][style*="justifyContent: space-between"] span {
+    color: #6b5230 !important;
+    /* Rich brown */
 }
 
 .item-subtype {
-    color: #a08c70; /* Pathfinder brown-light */
+    color: #a08c70;
+    /* Pathfinder brown-light */
     font-size: 14px;
     margin-bottom: 4px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -1172,11 +1286,26 @@
 }
 
 /* Magic type colors */
-.magic-type[data-magic="fire"] { color: #ff4400; }
-.magic-type[data-magic="cold"] { color: #3399ff; }
-.magic-type[data-magic="lightning"] { color: #ffff00; }
-.magic-type[data-magic="acid"] { color: #00ff00; }
-.magic-type[data-magic="force"] { color: #ff66ff; }
+.magic-type[data-magic="fire"] {
+    color: #ff4400;
+}
+
+.magic-type[data-magic="cold"] {
+    color: #3399ff;
+}
+
+.magic-type[data-magic="lightning"] {
+    color: #ffff00;
+}
+
+.magic-type[data-magic="acid"] {
+    color: #00ff00;
+}
+
+.magic-type[data-magic="force"] {
+    color: #ff66ff;
+}
+
 .magic-type[data-magic="necrotic"] {
     color: #4B0082;
     text-shadow:
@@ -1188,20 +1317,34 @@
         1px -1px 0px rgba(255, 255, 255, 0.8),
         -1px 1px 0px rgba(255, 255, 255, 0.8);
 }
-.magic-type[data-magic="radiant"] { color: #FFFACD; }
-.magic-type[data-magic="poison"] { color: #008000; }
-.magic-type[data-magic="psychic"] { color: #FF00FF; }
-.magic-type[data-magic="thunder"] { color: #0066ff; }
 
-/* Recipe-specific tooltip styles */
+.magic-type[data-magic="radiant"] {
+    color: #FFFACD;
+}
+
+.magic-type[data-magic="poison"] {
+    color: #008000;
+}
+
+.magic-type[data-magic="psychic"] {
+    color: #FF00FF;
+}
+
+.magic-type[data-magic="thunder"] {
+    color: #0066ff;
+}
+
+/* Recipe-specific tooltip styles - unified with other grids */
 .recipe-details-grid {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 4px 8px;
-    margin: 8px 0;
-    padding: 6px;
-    background: rgba(139, 69, 19, 0.1);
+    margin: 12px 0;
+    padding: 8px 12px;
+    background: rgba(184, 150, 40, 0.2);
+    /* Slightly stronger for recipes */
     border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .recipe-detail-row {

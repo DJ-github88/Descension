@@ -89,7 +89,7 @@ const initialState = {
     currentStep: WIZARD_STEPS.BASIC_INFO,
     totalSteps: Object.keys(WIZARD_STEPS).length,
     completedSteps: [],
-    
+
     // Character data
     characterData: {
         // Basic information
@@ -98,6 +98,9 @@ const initialState = {
         characterImage: null,
         imageTransformations: null,
         characterIcon: null,
+        iconBackgroundColor: '#f8f5eb',
+        iconBorderColor: '#d4af37',
+        iconBackgroundImage: null,
 
         // Race and subrace
         race: '',
@@ -144,11 +147,11 @@ const initialState = {
         selectedEquipment: [],
         remainingCurrency: null
     },
-    
+
     // Validation
     validationErrors: {},
     isValid: false,
-    
+
     // UI state
     isLoading: false,
     error: null
@@ -199,21 +202,21 @@ const characterWizardReducer = (state, action) => {
                 ...state,
                 currentStep: action.payload
             };
-            
+
         case ACTION_TYPES.NEXT_STEP:
             const nextStep = Math.min(state.currentStep + 1, state.totalSteps);
             return {
                 ...state,
                 currentStep: nextStep
             };
-            
+
         case ACTION_TYPES.PREV_STEP:
             const prevStep = Math.max(state.currentStep - 1, 1);
             return {
                 ...state,
                 currentStep: prevStep
             };
-            
+
         case ACTION_TYPES.MARK_STEP_COMPLETED:
             const stepToComplete = action.payload;
             const updatedCompletedSteps = state.completedSteps.includes(stepToComplete)
@@ -223,7 +226,7 @@ const characterWizardReducer = (state, action) => {
                 ...state,
                 completedSteps: updatedCompletedSteps
             };
-            
+
         case ACTION_TYPES.UPDATE_BASIC_INFO:
             return {
                 ...state,
@@ -232,7 +235,7 @@ const characterWizardReducer = (state, action) => {
                     ...action.payload
                 }
             };
-            
+
         case ACTION_TYPES.SET_RACE:
             return {
                 ...state,
@@ -242,7 +245,7 @@ const characterWizardReducer = (state, action) => {
                     subrace: '' // Reset subrace when race changes
                 }
             };
-            
+
         case ACTION_TYPES.SET_SUBRACE:
             return {
                 ...state,
@@ -251,7 +254,7 @@ const characterWizardReducer = (state, action) => {
                     subrace: action.payload
                 }
             };
-            
+
         case ACTION_TYPES.SET_CLASS:
             return {
                 ...state,
@@ -260,7 +263,7 @@ const characterWizardReducer = (state, action) => {
                     class: action.payload
                 }
             };
-            
+
         case ACTION_TYPES.SET_BACKGROUND:
             return {
                 ...state,
@@ -335,7 +338,7 @@ const characterWizardReducer = (state, action) => {
                     baseStats: action.payload
                 }
             };
-            
+
         case ACTION_TYPES.RECALCULATE_FINAL_STATS:
             const { characterData } = state;
 
@@ -382,7 +385,7 @@ const characterWizardReducer = (state, action) => {
                 validationErrors: action.payload,
                 isValid: Object.keys(action.payload).length === 0
             };
-            
+
         case ACTION_TYPES.VALIDATE_CURRENT_STEP:
             const errors = validateCurrentStep(state);
             return {
@@ -390,18 +393,18 @@ const characterWizardReducer = (state, action) => {
                 validationErrors: errors,
                 isValid: Object.keys(errors).length === 0
             };
-            
+
         case ACTION_TYPES.RESET_WIZARD:
             return {
                 ...initialState
             };
-            
+
         case ACTION_TYPES.SET_LOADING:
             return {
                 ...state,
                 isLoading: action.payload
             };
-            
+
         case ACTION_TYPES.SET_ERROR:
             return {
                 ...state,
@@ -462,7 +465,10 @@ const characterWizardReducer = (state, action) => {
                     // Equipment (if available from character)
                     startingCurrency: existingChar.inventory?.currency || null,
                     selectedEquipment: existingChar.inventory?.items || [],
-                    remainingCurrency: existingChar.inventory?.currency || null
+                    remainingCurrency: existingChar.inventory?.currency || null,
+                    iconBackgroundColor: existingChar.iconBackgroundColor || '#f8f5eb',
+                    iconBorderColor: existingChar.iconBorderColor || '#d4af37',
+                    iconBackgroundImage: existingChar.iconBackgroundImage || null
                 },
                 // Mark all steps as completed for existing character
                 completedSteps: Object.values(WIZARD_STEPS)
@@ -477,7 +483,7 @@ const characterWizardReducer = (state, action) => {
 const validateCurrentStep = (state) => {
     const errors = {};
     const { characterData, currentStep } = state;
-    
+
     switch (currentStep) {
         case WIZARD_STEPS.BASIC_INFO:
             if (!characterData.name || characterData.name.trim().length === 0) {
@@ -488,7 +494,7 @@ const validateCurrentStep = (state) => {
                 errors.name = 'Character name must be 50 characters or less';
             }
             break;
-            
+
         case WIZARD_STEPS.RACE_SELECTION:
             if (!characterData.race) {
                 errors.race = 'Please select a race';
@@ -497,13 +503,13 @@ const validateCurrentStep = (state) => {
                 errors.subrace = 'Please select a subrace';
             }
             break;
-            
+
         case WIZARD_STEPS.CLASS_SELECTION:
             if (!characterData.class) {
                 errors.class = 'Please select a class';
             }
             break;
-            
+
         case WIZARD_STEPS.BACKGROUND_SELECTION:
             if (!characterData.background) {
                 errors.background = 'Please select a background';
@@ -527,7 +533,7 @@ const validateCurrentStep = (state) => {
                 errors.stats = statValidation.errors.join(', ');
             }
             break;
-            
+
         case WIZARD_STEPS.CHARACTER_SUMMARY:
             // Final validation - check all previous steps
             const allStepErrors = {};
@@ -537,11 +543,11 @@ const validateCurrentStep = (state) => {
             }
             Object.assign(errors, allStepErrors);
             break;
-            
+
         default:
             break;
     }
-    
+
     return errors;
 };
 
@@ -552,7 +558,7 @@ const CharacterWizardDispatchContext = createContext();
 // Provider component
 export function CharacterWizardProvider({ children }) {
     const [state, dispatch] = useReducer(characterWizardReducer, initialState);
-    
+
     // Auto-recalculate final stats when relevant data changes
     useEffect(() => {
         dispatch({ type: ACTION_TYPES.RECALCULATE_FINAL_STATS });
@@ -562,12 +568,12 @@ export function CharacterWizardProvider({ children }) {
         state.characterData.subrace,
         state.characterData.path
     ]);
-    
+
     // Auto-validate current step when data changes
     useEffect(() => {
         dispatch({ type: ACTION_TYPES.VALIDATE_CURRENT_STEP });
     }, [state.currentStep, state.characterData]);
-    
+
     return (
         <CharacterWizardStateContext.Provider value={state}>
             <CharacterWizardDispatchContext.Provider value={dispatch}>

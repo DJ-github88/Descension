@@ -48,7 +48,7 @@ const getMiscTypeInfo = (item) => {
                 text: `"${item.description}"`,
                 className: 'item-description',
                 italic: true,
-                color: '#9d9d9d'
+                color: '#4a3728'
             }
         ].filter(Boolean);
     }
@@ -90,7 +90,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -154,7 +154,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -200,7 +200,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -240,7 +240,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -285,7 +285,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -320,7 +320,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
 
@@ -337,7 +337,7 @@ const getMiscTypeInfo = (item) => {
                     text: `"${item.description}"`,
                     className: 'item-description',
                     italic: true,
-                    color: '#9d9d9d'
+                    color: '#4a3728'
                 }
             ].filter(Boolean);
     }
@@ -710,7 +710,7 @@ function ItemTooltip({ item }) {
     // Use hooks to get store data (hooks must be called before early returns)
     const { availableRecipes } = useCraftingStore();
     const { items: itemLibrary } = useItemStore();
-    
+
     // All hooks must be called unconditionally at the top level
     const [titleStyle, setTitleStyle] = useState({ fontSize: '22px', needsScrolling: false, scrollDistance: 0 });
     const titleRef = useRef(null);
@@ -728,7 +728,7 @@ function ItemTooltip({ item }) {
         const measureText = () => {
             const container = titleContainerRef.current;
             const textElement = titleRef.current;
-            
+
             if (!container || !textElement) return;
 
             // Get available width (container width minus icon and gap)
@@ -796,7 +796,7 @@ function ItemTooltip({ item }) {
 
         // Measure after a short delay to ensure DOM is ready
         const timeoutId = setTimeout(measureText, 10);
-        
+
         // Also measure on window resize
         window.addEventListener('resize', measureText);
 
@@ -815,12 +815,12 @@ function ItemTooltip({ item }) {
         const recipeData = availableRecipes.find(recipe => recipe.id === item.recipeId);
         const resultItem = recipeData ? itemLibrary.find(i => i.id === recipeData.resultItemId) : null;
         const skillLevel = recipeData ? Object.values(SKILL_LEVELS).find(s => s.level === recipeData.requiredLevel) : null;
-        
+
         // Get quality for recipe (use recipe quality, not result item quality)
         const recipeQuality = item.quality || 'common';
         const qualityLower = recipeQuality.toLowerCase();
         const qualityColor = getQualityColor(recipeQuality);
-        
+
         // Quality border colors for recipe tooltip
         const qualityBorderColors = {
             poor: '#9d9d9d',
@@ -836,8 +836,8 @@ function ItemTooltip({ item }) {
         // useEffect is declared at bottom level to avoid conditional hook calls
 
         return (
-            <div 
-                className="item-tooltip" 
+            <div
+                className="item-tooltip"
                 data-quality={qualityLower}
                 style={{
                     borderColor: borderColor,
@@ -845,11 +845,11 @@ function ItemTooltip({ item }) {
                 }}
             >
                 {/* Recipe Header with Icon and Name */}
-                <div 
+                <div
                     ref={titleContainerRef}
                     style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px', minWidth: 0 }}
                 >
-                    <div 
+                    <div
                         className="item-icon-magical-bg"
                         data-quality={qualityLower}
                         style={{
@@ -875,7 +875,7 @@ function ItemTooltip({ item }) {
                             }}
                         />
                     </div>
-                    <div 
+                    <div
                         ref={titleRef}
                         className={`item-name quality-${qualityLower} ${titleStyle.needsScrolling ? 'item-name-scrolling' : ''}`}
                         style={{
@@ -893,7 +893,7 @@ function ItemTooltip({ item }) {
                         }}
                     >
                         {titleStyle.needsScrolling ? (
-                            <span 
+                            <span
                                 className="item-name-scroll-text"
                                 style={{
                                     '--scroll-distance': `-${titleStyle.scrollDistance}px`
@@ -909,9 +909,9 @@ function ItemTooltip({ item }) {
 
                 {/* Profession and Skill Requirements */}
                 {item.requiredProfession && (
-                    <div style={{ 
-                        color: '#8b0000', 
-                        fontSize: '14px', 
+                    <div style={{
+                        color: '#8b0000',
+                        fontSize: '14px',
                         fontWeight: '600',
                         marginBottom: '10px',
                         padding: '4px 8px',
@@ -927,17 +927,17 @@ function ItemTooltip({ item }) {
                 )}
 
                 {/* Item Type - Combined Recipe and Quality */}
-                <div style={{ 
-                    color: '#5a1e12', 
-                    fontSize: '13px', 
-                    marginBottom: '8px', 
-                    display: 'flex', 
+                <div style={{
+                    color: '#5a1e12',
+                    fontSize: '13px',
+                    marginBottom: '8px',
+                    display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     fontFamily: 'Bookman Old Style, Garamond, serif'
                 }}>
                     <span style={{ fontWeight: '600' }}>Recipe</span>
-                    <span style={{ 
+                    <span style={{
                         color: '#8b7355',
                         fontWeight: '500',
                         textTransform: 'capitalize'
@@ -985,9 +985,9 @@ function ItemTooltip({ item }) {
                                 flexShrink: 0
                             }}>
                                 <img
-                                    src={resultItem.iconId ? getIconUrl(resultItem.iconId, 'items', true) : 
-                                         (resultItem.imageUrl && !resultItem.imageUrl.includes('wow.zamimg.com')) ? resultItem.imageUrl :
-                                         getIconUrl('inv_misc_questionmark', 'items', true)}
+                                    src={resultItem.iconId ? getIconUrl(resultItem.iconId, 'items', true) :
+                                        (resultItem.imageUrl && !resultItem.imageUrl.includes('wow.zamimg.com')) ? resultItem.imageUrl :
+                                            getIconUrl('inv_misc_questionmark', 'items', true)}
                                     alt={resultItem.name}
                                     style={{
                                         width: '100%',
@@ -1025,8 +1025,8 @@ function ItemTooltip({ item }) {
                                     {resultItem.weaponStats.baseDamage && (
                                         <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
                                             Damage: <span style={{ fontWeight: '700', color: '#8b4513', textShadow: 'none' }}>
-                                                {resultItem.weaponStats.baseDamage.display?.base || 
-                                                 `${resultItem.weaponStats.baseDamage.diceCount}d${resultItem.weaponStats.baseDamage.diceType}`}
+                                                {resultItem.weaponStats.baseDamage.display?.base ||
+                                                    `${resultItem.weaponStats.baseDamage.diceCount}d${resultItem.weaponStats.baseDamage.diceType}`}
                                             </span>
                                             {resultItem.weaponStats.baseDamage.damageType && (
                                                 <span style={{ color: '#8b4513', marginLeft: '4px', fontWeight: '600' }}>
@@ -1111,15 +1111,15 @@ function ItemTooltip({ item }) {
 
                             {/* Reagent/Material Properties */}
                             {resultItem.type === 'miscellaneous' && resultItem.subtype === 'REAGENT' && (
-                                <div style={{ 
-                                    display: 'flex', 
-                                    flexWrap: 'wrap', 
-                                    gap: '6px', 
+                                <div style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '6px',
                                     marginTop: '2px',
                                     padding: '3px 6px',
-                                    backgroundColor: 'rgba(100, 150, 200, 0.15)',
+                                    backgroundColor: 'rgba(139, 69, 19, 0.12)',
                                     borderRadius: '3px',
-                                    border: '1px solid rgba(100, 150, 200, 0.4)'
+                                    border: '1px solid rgba(139, 69, 19, 0.3)'
                                 }}>
                                     {resultItem.reagentType && (
                                         <div style={{ color: '#5a1e12', fontSize: '10px', fontWeight: '600' }}>
@@ -1141,10 +1141,10 @@ function ItemTooltip({ item }) {
 
                             {/* Crafting Material Properties */}
                             {resultItem.type === 'miscellaneous' && resultItem.subtype === 'CRAFTING' && (
-                                <div style={{ 
-                                    display: 'flex', 
-                                    flexWrap: 'wrap', 
-                                    gap: '6px', 
+                                <div style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '6px',
                                     marginTop: '2px',
                                     padding: '3px 6px',
                                     backgroundColor: 'rgba(139, 69, 19, 0.15)',
@@ -1203,18 +1203,18 @@ function ItemTooltip({ item }) {
                         }}>
                             Required Materials
                         </div>
-                        <div style={{ 
-                            display: 'flex', 
-                            flexDirection: 'column', 
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
                             gap: '3px',
                             fontSize: '11px',
                             fontFamily: 'Crimson Text, serif'
                         }}>
                             {recipeData.materials.map((material, index) => {
                                 const materialItem = itemLibrary.find(i => i.id === material.itemId);
-                                
+
                                 return (
-                                    <div 
+                                    <div
                                         key={index}
                                         style={{
                                             display: 'flex',
@@ -1226,8 +1226,8 @@ function ItemTooltip({ item }) {
                                             border: '1px solid rgba(139, 69, 19, 0.3)'
                                         }}
                                     >
-                                        <span style={{ 
-                                            color: '#5a1e12', 
+                                        <span style={{
+                                            color: '#5a1e12',
                                             minWidth: '24px',
                                             fontWeight: '700',
                                             fontFamily: 'Bookman Old Style, Garamond, serif',
@@ -1257,25 +1257,25 @@ function ItemTooltip({ item }) {
                             borderTop: '1px solid rgba(139, 69, 19, 0.3)',
                             margin: '4px 0'
                         }}></div>
-                        <div style={{ 
-                            display: 'flex', 
+                        <div style={{
+                            display: 'flex',
                             gap: '16px',
                             fontSize: '11px',
                             fontFamily: 'Crimson Text, serif',
                             padding: '2px 0'
                         }}>
                             {recipeData.craftingTime && recipeData.craftingTime > 0 && (
-                                <div style={{ 
+                                <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '4px'
                                 }}>
-                                    <span style={{ 
-                                        color: '#8b7355', 
+                                    <span style={{
+                                        color: '#8b7355',
                                         fontWeight: '500'
                                     }}>Time:</span>
-                                    <span style={{ 
-                                        color: '#2d5016', 
+                                    <span style={{
+                                        color: '#2d5016',
                                         fontWeight: '600',
                                         fontFamily: 'Bookman Old Style, Garamond, serif'
                                     }}>
@@ -1284,7 +1284,7 @@ function ItemTooltip({ item }) {
                                             const minutes = Math.floor(seconds / 60);
                                             const hours = Math.floor(minutes / 60);
                                             const days = Math.floor(hours / 24);
-                                            
+
                                             if (days > 0) {
                                                 const remainingHours = hours % 24;
                                                 if (remainingHours > 0) {
@@ -1292,7 +1292,7 @@ function ItemTooltip({ item }) {
                                                 }
                                                 return `${days}d`;
                                             }
-                                            
+
                                             if (hours > 0) {
                                                 const remainingMinutes = minutes % 60;
                                                 if (remainingMinutes > 0) {
@@ -1300,7 +1300,7 @@ function ItemTooltip({ item }) {
                                                 }
                                                 return `${hours}h`;
                                             }
-                                            
+
                                             if (minutes > 0) {
                                                 const remainingSeconds = Math.floor(seconds % 60);
                                                 if (remainingSeconds > 0) {
@@ -1308,24 +1308,24 @@ function ItemTooltip({ item }) {
                                                 }
                                                 return `${minutes}m`;
                                             }
-                                            
+
                                             return `${Math.floor(seconds)} sec`;
                                         })()}
                                     </span>
                                 </div>
                             )}
                             {recipeData.experienceGained && recipeData.experienceGained > 0 && (
-                                <div style={{ 
+                                <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '4px'
                                 }}>
-                                    <span style={{ 
-                                        color: '#8b7355', 
+                                    <span style={{
+                                        color: '#8b7355',
                                         fontWeight: '500'
                                     }}>XP:</span>
-                                    <span style={{ 
-                                        color: '#2d5016', 
+                                    <span style={{
+                                        color: '#2d5016',
                                         fontWeight: '600',
                                         fontFamily: 'Bookman Old Style, Garamond, serif'
                                     }}>
@@ -1346,7 +1346,7 @@ function ItemTooltip({ item }) {
                             paddingTop: '6px'
                         }}></div>
                         <div className="item-description" style={{
-                            color: '#8b6f47',
+                            color: '#4a3728',
                             fontSize: '14px',
                             fontStyle: 'italic',
                             lineHeight: '1.5',
@@ -1484,8 +1484,8 @@ function ItemTooltip({ item }) {
 
     // Get armor class value - check multiple possible locations
     const armorClassValue = getStatValue(item.armorClass) ||
-                           getStatValue(item.combatStats?.armorClass) ||
-                           getStatValue(item.combatStats?.armor) || 0;
+        getStatValue(item.combatStats?.armorClass) ||
+        getStatValue(item.combatStats?.armor) || 0;
 
     // Get base stats
     const baseStats = Object.entries(item.baseStats || item.stats || {})
@@ -1603,7 +1603,7 @@ function ItemTooltip({ item }) {
                         text: `+${data.value} ${type} Resistance`,
                         value: data.value,
                         resistanceType: 'value',
-                        formatted: isPercentage 
+                        formatted: isPercentage
                             ? `Decreases ${type.toLowerCase()} damage taken by ${data.value}%.`
                             : `Decreases ${type.toLowerCase()} damage taken by ${data.value}.`,
                         color: '#8bc34a'
@@ -1751,7 +1751,7 @@ function ItemTooltip({ item }) {
     const itemQuality = item.quality || item.rarity || 'common';
     const qualityLower = itemQuality.toLowerCase();
     const qualityColor = getQualityColor(itemQuality);
-    
+
     // WoW-style quality border colors
     const qualityBorderColors = {
         poor: '#9d9d9d',
@@ -1774,11 +1774,11 @@ function ItemTooltip({ item }) {
             }}
         >
             {/* Item Header with Icon and Name */}
-            <div 
+            <div
                 ref={titleContainerRef}
                 style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px', minWidth: 0 }}
             >
-                <div 
+                <div
                     className="item-icon-magical-bg"
                     data-quality={qualityLower}
                     style={{
@@ -1823,14 +1823,14 @@ function ItemTooltip({ item }) {
                         maxWidth: '100%',
                         minWidth: 0,
                         color: qualityColor, // Apply rarity color directly to the name
-                        textShadow: qualityLower === 'uncommon' 
+                        textShadow: qualityLower === 'uncommon'
                             ? '0 0 8px rgba(74, 147, 74, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)'
                             : `0 0 5px ${qualityColor}80, 0 1px 2px rgba(0, 0, 0, 0.8)`, // Add glow effect with better contrast
                         flex: 1
                     }}
                 >
                     {titleStyle.needsScrolling ? (
-                        <span 
+                        <span
                             className="item-name-scroll-text"
                             style={{
                                 '--scroll-distance': `-${titleStyle.scrollDistance}px`
@@ -1845,18 +1845,18 @@ function ItemTooltip({ item }) {
             </div>
 
             {/* Level Requirement - moved here from below */}
-                {item.requiredLevel > 0 && (
-    <div style={{
-        color: '#ff4444',
-        fontWeight: '500',
-        fontSize: '14px',
-        margin: '4px 0',
-        borderRadius: '3px',
-        display: 'inline-block'
-    }}>
-        Requires Level {item.requiredLevel}
-    </div>
-)}
+            {item.requiredLevel > 0 && (
+                <div style={{
+                    color: '#ff4444',
+                    fontWeight: '500',
+                    fontSize: '14px',
+                    margin: '4px 0',
+                    borderRadius: '3px',
+                    display: 'inline-block'
+                }}>
+                    Requires Level {item.requiredLevel}
+                </div>
+            )}
 
             {/* Item Type and Subtype */}
             {item.type === 'miscellaneous' ? (
@@ -1869,7 +1869,7 @@ function ItemTooltip({ item }) {
                     <span>Miscellaneous</span>
                     <span>
                         {(() => {
-                            switch(item.subtype) {
+                            switch (item.subtype) {
                                 case 'REAGENT': return 'Reagent';
                                 case 'KEY': return 'Key';
                                 case 'QUEST': return 'Quest';
@@ -1892,16 +1892,16 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>
                         {item.weaponSlot === 'TWO_HANDED' ? 'Two-Handed' :
-                         item.weaponSlot === 'RANGED' ? 'Ranged' :
-                         item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND' ? 'Off Hand' :
-                         item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
-                         item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND' ? 'Main Hand' :
-                         'Main Hand'}
+                            item.weaponSlot === 'RANGED' ? 'Ranged' :
+                                item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND' ? 'Off Hand' :
+                                    item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
+                                        item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND' ? 'Main Hand' :
+                                            'Main Hand'}
                     </span>
                     <span>
                         {item.subtype ? (() => {
                             // Format subtype: split by underscore, capitalize each word
-                            return item.subtype.split('_').map(word => 
+                            return item.subtype.split('_').map(word =>
                                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                             ).join(' ');
                         })() : ''}
@@ -1916,9 +1916,9 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>
                         {item.slots?.[0] === 'off_hand' ? 'Off Hand' :
-                         item.slots?.[0]?.split('_').map(word =>
-                            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                        ).join(' ')}
+                            item.slots?.[0]?.split('_').map(word =>
+                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            ).join(' ')}
                     </span>
                     <span>
                         {item.slots?.[0] === 'off_hand' ?
@@ -1933,10 +1933,10 @@ function ItemTooltip({ item }) {
                                     IDOL: 'Idol'
                                 };
                                 return offHandMap[item.offHandType] ||
-                                       (item.offHandType.charAt(0).toUpperCase() + item.offHandType.slice(1).toLowerCase());
+                                    (item.offHandType.charAt(0).toUpperCase() + item.offHandType.slice(1).toLowerCase());
                             })() :
                             (item.subtype ?
-                                (item.subtype.split('_').map(word => 
+                                (item.subtype.split('_').map(word =>
                                     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                                 ).join(' ')) :
                                 ''
@@ -1982,7 +1982,7 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>Consumable</span>
                     <span>
-                        {item.subtype ? item.subtype.split('_').map(word => 
+                        {item.subtype ? item.subtype.split('_').map(word =>
                             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                         ).join(' ') : 'Potion'}
                     </span>
@@ -2022,7 +2022,7 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>Container</span>
                     <span>
-                        {item.subtype ? item.subtype.split('_').map(word => 
+                        {item.subtype ? item.subtype.split('_').map(word =>
                             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                         ).join(' ') : 'Chest'}
                     </span>
@@ -2030,7 +2030,7 @@ function ItemTooltip({ item }) {
             ) : (
                 <div style={{ color: '#888', marginBottom: '4px' }}>
                     {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                    {item.subtype && ` - ${item.subtype.split('_').map(word => 
+                    {item.subtype && ` - ${item.subtype.split('_').map(word =>
                         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                     ).join(' ')}`}
                 </div>
@@ -2080,7 +2080,7 @@ function ItemTooltip({ item }) {
             {/* Consumable Immediate Effects */}
             {hasImmediateEffects && (
                 <div style={{ marginTop: '8px', textAlign: 'left' }}>
-                    <div style={{ 
+                    <div style={{
                         color: '#8B4513',
                         fontWeight: '600',
                         fontSize: '15px',
@@ -2109,7 +2109,7 @@ function ItemTooltip({ item }) {
             {/* Consumable Duration Effects */}
             {hasDurationEffects && (
                 <div style={{ marginTop: '8px', textAlign: 'left' }}>
-                    <div style={{ 
+                    <div style={{
                         color: '#8B4513',
                         fontWeight: '600',
                         fontSize: '15px',
@@ -2343,7 +2343,7 @@ function ItemTooltip({ item }) {
                                                 const eff = onHitEffectsConfig.effect;
                                                 const cfg = eff.effectConfig;
                                                 const target = cfg.targetType === 'self' ? 'yourself' : cfg.targetType === 'area' ? `all within ${cfg.areaRadius || 10}ft` : 'the attacker';
-                                                
+
                                                 switch (eff.effectType) {
                                                     case 'damage':
                                                         if (cfg.isDot) {
@@ -2459,7 +2459,7 @@ function ItemTooltip({ item }) {
                             {(parseInt(item.value.platinum) || 0) > 0 && (
                                 <span style={{ marginRight: '4px' }}>
                                     <span className="currency-number">{parseInt(item.value.platinum) || 0}</span>
-                                    <span style={{ 
+                                    <span style={{
                                         color: '#d4d4d4',
                                         textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
                                         fontWeight: '600'
@@ -2469,7 +2469,7 @@ function ItemTooltip({ item }) {
                             {(parseInt(item.value.gold) || 0) > 0 && (
                                 <span style={{ marginRight: '4px' }}>
                                     <span className="currency-number">{parseInt(item.value.gold) || 0}</span>
-                                    <span style={{ 
+                                    <span style={{
                                         color: '#ffed4e',
                                         textShadow: '0 0 4px rgba(255, 237, 78, 0.5), 0 1px 2px rgba(0, 0, 0, 0.6)',
                                         fontWeight: '600'
@@ -2479,7 +2479,7 @@ function ItemTooltip({ item }) {
                             {(parseInt(item.value.silver) || 0) > 0 && (
                                 <span style={{ marginRight: '4px' }}>
                                     <span className="currency-number">{parseInt(item.value.silver) || 0}</span>
-                                    <span style={{ 
+                                    <span style={{
                                         color: '#e8e8e8',
                                         textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
                                         fontWeight: '600'
@@ -2489,7 +2489,7 @@ function ItemTooltip({ item }) {
                             {(parseInt(item.value.copper) || 0) > 0 && (
                                 <span style={{ marginRight: '4px' }}>
                                     <span className="currency-number">{parseInt(item.value.copper) || 0}</span>
-                                    <span style={{ 
+                                    <span style={{
                                         color: '#d4a574',
                                         textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
                                         fontWeight: '600'
@@ -2499,7 +2499,7 @@ function ItemTooltip({ item }) {
                             {(!(parseInt(item.value.platinum) || 0) && !(parseInt(item.value.gold) || 0) && !(parseInt(item.value.silver) || 0) && !(parseInt(item.value.copper) || 0)) && (
                                 <span>
                                     <span className="currency-number">0</span>
-                                    <span style={{ 
+                                    <span style={{
                                         color: '#d4a574',
                                         textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
                                         fontWeight: '600'

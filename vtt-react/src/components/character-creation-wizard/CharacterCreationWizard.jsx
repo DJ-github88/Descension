@@ -131,10 +131,10 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
             // Track character creation analytics
             Analytics.characterCreated({
-              class: characterData.class,
-              race: characterData.race,
-              level: characterData.level,
-              isEditing: isEditing
+                class: characterData.class,
+                race: characterData.race,
+                level: characterData.level,
+                isEditing: isEditing
             });
 
             onComplete(characterData);
@@ -226,7 +226,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
             {/* Main content area */}
             <div className="wizard-content">
-                <div className="wizard-step-container">
+                <div className="wizard-step-container" style={{ minHeight: '800px' }}>
                     {renderStep()}
                 </div>
             </div>

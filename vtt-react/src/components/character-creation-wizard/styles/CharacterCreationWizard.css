@@ -5,6 +5,117 @@
  * COMPLETELY ISOLATED from all other CSS to prevent conflicts
  */
 
+.detail-value {
+    font-weight: 500 !important;
+    color: #4a3526 !important;
+    font-size: 1rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    text-align: right !important;
+    font-family: 'Cinzel', serif !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Icon Customization */
+.icon-preview-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.icon-customization-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(212, 175, 55, 0.05);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.color-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.color-control label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #5d4037;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.color-control input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+}
+
+.color-control input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-control input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.background-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.background-option {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.background-option:hover {
+    border-color: #d4af37;
+    transform: scale(1.05);
+}
+
+.background-option.selected {
+    border-color: #d4af37;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.background-option.none {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f5eb;
+    color: #8b4513;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+}
+
 /* Complete CSS isolation - reset everything and prevent inheritance */
 .character-wizard-container {
     /* Reset all possible inherited styles */
@@ -219,8 +330,8 @@
     font-size: 1rem;
     border: 2px solid #d4af37;
     background: linear-gradient(135deg,
-        rgba(212, 175, 55, 0.2) 0%,
-        rgba(212, 175, 55, 0.1) 100%);
+            rgba(212, 175, 55, 0.2) 0%,
+            rgba(212, 175, 55, 0.1) 100%);
     color: #8b4513;
     transition: all 0.3s ease;
     font-weight: 700;
@@ -232,20 +343,20 @@
 
 .progress-step-horizontal.active .step-circle-horizontal {
     background: linear-gradient(135deg,
-        rgba(212, 175, 55, 0.9) 0%,
-        rgba(255, 215, 0, 0.8) 100%);
+            rgba(212, 175, 55, 0.9) 0%,
+            rgba(255, 215, 0, 0.8) 100%);
     color: #2c2416;
     border: 2px solid #d4af37;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
-                0 0 12px rgba(212, 175, 55, 0.6);
+        0 0 12px rgba(212, 175, 55, 0.6);
     font-weight: 800;
     transform: scale(1.1);
 }
 
 .progress-step-horizontal.completed .step-circle-horizontal {
     background: linear-gradient(135deg,
-        rgba(139, 69, 19, 0.9) 0%,
-        rgba(122, 59, 46, 0.8) 100%);
+            rgba(139, 69, 19, 0.9) 0%,
+            rgba(122, 59, 46, 0.8) 100%);
     color: #f0e6d2;
     border: 2px solid #8b4513;
     font-weight: 800;
@@ -294,7 +405,7 @@
     flex-shrink: 1;
 }
 
-.progress-step-horizontal.completed + .step-connector {
+.progress-step-horizontal.completed+.step-connector {
     background: #8b4513;
 }
 
@@ -468,16 +579,24 @@
 
 .step-footer {
     margin-top: 2rem;
-    margin-bottom: 2rem; /* Add bottom margin to ensure spacing from container edge */
+    margin-bottom: 2rem;
+    /* Add bottom margin to ensure spacing from container edge */
     padding-top: 1rem;
     border-top: 1px solid rgba(212, 175, 55, 0.3);
-    position: relative; /* Ensure footer stays within container */
-    z-index: 1; /* Keep footer content above background */
+    position: relative;
+    /* Ensure footer stays within container */
+    z-index: 1;
+    /* Keep footer content above background */
 }
 
 /* Form elements */
 .form-group {
     margin-bottom: 2rem;
+}
+
+.relative-input-wrapper {
+    position: relative !important;
+    width: 100% !important;
 }
 
 .form-label {
@@ -518,6 +637,35 @@
 .form-input.error {
     border-color: #d32f2f;
     box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
+}
+
+.randomize-name-btn.character-wizard-btn {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+    border: 1px solid #8b4513 !important;
+    border-radius: 6px !important;
+    color: #2c2416 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    z-index: 5 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.randomize-name-btn.character-wizard-btn:hover {
+    background: linear-gradient(135deg, #f0c040, #d4af37) !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4) !important;
+}
+
+.form-input#character-name {
+    padding-right: 45px !important;
 }
 
 .form-description {
@@ -744,6 +892,8 @@ button.gender-option.selected {
     transition: all 0.3s ease;
     border-radius: 50%;
     overflow: hidden;
+    border-style: solid;
+    border-width: 3px;
 }
 
 .icon-preview:hover {
@@ -765,9 +915,8 @@ button.gender-option.selected {
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
-    border: 3px solid #d4af37;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    background: #2d1810;
+    border: 3px solid transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     display: block;
 }
@@ -960,7 +1109,8 @@ button.gender-option.selected {
 
 /* Error messages */
 .wizard-errors {
-    margin: 2rem 3rem 1rem 3rem; /* Match wizard-step-content padding for alignment */
+    margin: 2rem 3rem 1rem 3rem;
+    /* Match wizard-step-content padding for alignment */
     padding: 1rem;
     background: rgba(211, 47, 47, 0.1);
     border: 1px solid #d32f2f;
@@ -985,8 +1135,10 @@ button.gender-option.selected {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    position: relative; /* Ensure hints stay within container */
-    z-index: 1; /* Keep hints above background but below modals */
+    position: relative;
+    /* Ensure hints stay within container */
+    z-index: 1;
+    /* Keep hints above background but below modals */
 }
 
 .hint {
@@ -1006,13 +1158,180 @@ button.gender-option.selected {
     flex-shrink: 0;
 }
 
+
 /* Step 1 - Basic Information specific styles */
 .basic-info-layout {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 4rem;
-    align-items: start;
-    padding: 2rem 0;
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* New centered layout for Step 1 */
+.basic-info-centered-layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.preview-card-interactive {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
+    border-radius: 16px !important;
+    overflow: visible !important;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(212, 175, 55, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: box-shadow 0.3s ease !important;
+    backdrop-filter: blur(10px) !important;
+    min-height: 600px !important;
+    width: 500px !important;
+    max-width: 90vw !important;
+    font-family: 'Cinzel', serif !important;
+    box-sizing: border-box !important;
+    padding: 1.5rem !important;
+}
+
+/* Editable preview details */
+.preview-details-editable {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+.detail-row-editable {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+}
+
+.detail-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    padding-right: 3rem;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Cinzel', serif;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(248, 245, 235, 0.95) 100%);
+    color: #1a1a2e;
+    transition: all 0.3s ease;
+}
+
+.detail-input:focus {
+    outline: none;
+    border-color: #b8941f;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+}
+
+.detail-input.error {
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
+}
+
+.detail-input::placeholder {
+    color: rgba(26, 26, 46, 0.5);
+}
+
+.detail-random-btn {
+    position: absolute;
+    right: 8px;
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    border: 1px solid #8b4513;
+    border-radius: 6px;
+    color: #2c2416;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detail-random-btn:hover {
+    background: linear-gradient(135deg, #f0c040, #d4af37);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.detail-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d32f2f;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    background: rgba(211, 47, 47, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid #d32f2f;
+}
+
+/* Compact gender selection */
+.gender-selection-compact {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.gender-option-compact {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+    color: #555555 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.gender-option-compact:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateY(-2px);
+}
+
+.gender-option-compact.selected {
+    background: rgba(212, 175, 55, 0.3);
+    border-color: #b8941f;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    color: #555555 !important;
+}
+
+.gender-option-compact i {
+    color: #555555 !important;
+}
+
+.info-main-content {
+    flex: 1;
+    min-width: 0;
 }
 
 .basic-info-form {
@@ -1024,8 +1343,6 @@ button.gender-option.selected {
 
 /* General Preview Card - Used by all wizard steps */
 .character-wizard-container .preview-card {
-    all: initial;
-    padding: 1rem !important;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
     border-radius: 16px !important;
     overflow: visible !important;
@@ -1041,6 +1358,7 @@ button.gender-option.selected {
     width: 100% !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
+    padding: 1.5rem !important;
 }
 
 /* Class preview container child - no border since container has it */
@@ -1073,11 +1391,11 @@ button.gender-option.selected {
 
 /* Basic Info Layout specific positioning */
 .character-wizard-container .basic-info-layout .preview-card {
-    all: initial;
     position: sticky !important;
     top: 2rem !important;
-    min-height: 650px !important;
-    max-width: none !important;
+    min-height: 600px !important;
+    width: 440px !important;
+    flex-shrink: 0 !important;
     align-self: start !important;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
     border-radius: 16px !important;
@@ -1085,7 +1403,9 @@ button.gender-option.selected {
     flex-direction: column !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
-    width: 100% !important;
+    padding: 1.5rem !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18) !important;
 }
 
 .preview-card:hover {
@@ -1141,16 +1461,19 @@ button.gender-option.selected {
 }
 
 .preview-content {
-    padding: 1rem 0.875rem 1.25rem 0.875rem;
-    text-align: left;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 1.5rem;
     flex: 1;
-    background: rgba(255, 255, 255, 0.4);
+    background: transparent;
     position: relative;
     overflow: visible;
     box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .preview-content::after {
@@ -1163,28 +1486,32 @@ button.gender-option.selected {
 .preview-image-container {
     display: flex;
     justify-content: center;
-    margin: 1rem 0 2rem 0;
+    margin: 1rem 0;
     position: relative;
+    width: 100%;
 }
 
 .character-wizard-container .character-portrait-container {
-    width: 220px;
-    height: 220px;
+    width: 240px;
+    height: 240px;
     border-radius: 50%;
-    border: 4px solid #d4af37;
+    border-style: solid;
+    border-width: 4px;
     box-shadow:
-        0 15px 40px rgba(212, 175, 55, 0.5),
+        0 15px 40px rgba(0, 0, 0, 0.2),
         inset 0 3px 6px rgba(255, 255, 255, 0.4),
-        0 0 0 2px rgba(255, 255, 255, 0.8);
+        0 0 0 2px rgba(255, 255, 255, 0.1);
     transition: all 0.4s ease;
     position: relative;
     z-index: 2;
     overflow: hidden;
     cursor: pointer;
-    background: #f8f5eb;
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-size: cover;
+    background-position: center;
 }
 
 .character-wizard-container .character-portrait-container:hover {
@@ -1382,10 +1709,12 @@ button.gender-option.selected {
     background: rgba(212, 175, 55, 0.2);
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 .control-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -1452,7 +1781,8 @@ button.gender-option.selected {
     border-top: 2px solid rgba(212, 175, 55, 0.3);
 }
 
-.reset-btn, .apply-btn {
+.reset-btn,
+.apply-btn {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 8px;
@@ -1544,33 +1874,47 @@ button.gender-option.selected {
 .preview-details {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    background: rgba(255, 255, 255, 0.8);
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 12px;
-    padding: 2rem;
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    padding: 1.25rem;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(5px);
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
 }
 
 .character-wizard-container .detail-row {
-    all: initial;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 1.25rem 1.5rem !important;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
-    border-radius: 14px !important;
-    margin-bottom: 1rem !important;
-    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    padding: 0.875rem 1rem !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(248, 245, 235, 0.8) 100%) !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
     transition: all 0.3s ease !important;
     position: relative !important;
     overflow: hidden !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
     box-shadow: 0 3px 8px rgba(212, 175, 55, 0.1) !important;
+}
+
+.detail-label {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: #8b4513 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    opacity: 0.8 !important;
+    white-space: nowrap !important;
+    margin-right: 1.5rem !important;
+    flex-shrink: 0 !important;
 }
 
 .detail-row::before {
@@ -1612,7 +1956,8 @@ button.gender-option.selected {
 @media (max-width: 768px) {
     .character-wizard-container {
         height: 100vh !important;
-        height: 100dvh !important; /* Use dynamic viewport height for mobile */
+        height: 100dvh !important;
+        /* Use dynamic viewport height for mobile */
         overflow: hidden !important;
     }
 
@@ -1895,6 +2240,7 @@ button.gender-option.selected {
     letter-spacing: 0.1px !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -1926,6 +2272,7 @@ button.gender-option.selected {
     letter-spacing: 0.1px !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -2316,12 +2663,17 @@ button.gender-option.selected {
     width: fit-content;
     max-width: 100%;
     margin: 0 auto;
-    height: auto; /* Allow grid to expand naturally to fit items */
-    min-height: 120px; /* Minimum height to show at least 2 rows */
-    max-height: none; /* Remove max height restriction to show all items */
-    overflow: visible; /* Show all items without scrolling */
+    height: auto;
+    /* Allow grid to expand naturally to fit items */
+    min-height: 120px;
+    /* Minimum height to show at least 2 rows */
+    max-height: none;
+    /* Remove max height restriction to show all items */
+    overflow: visible;
+    /* Show all items without scrolling */
     box-sizing: border-box;
-    position: relative; /* Make this a positioning context for absolutely positioned items */
+    position: relative;
+    /* Make this a positioning context for absolutely positioned items */
     --equipment-preview-cell-size: 40px;
     --equipment-preview-gap: 1px;
 }
@@ -2375,7 +2727,8 @@ button.gender-option.selected {
 
 .equipment-preview-grid .equipment-preview-cell.empty {
     background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%) !important;
-    transition: none; /* Disable transitions on empty cells to prevent layout glitches */
+    transition: none;
+    /* Disable transitions on empty cells to prevent layout glitches */
 }
 
 .equipment-preview-grid .equipment-preview-cell:hover {
@@ -2526,13 +2879,15 @@ button.gender-option.selected {
     box-sizing: border-box !important;
 }
 
-.skill-list, .tool-list {
+.skill-list,
+.tool-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
 }
 
-.skill-tag, .tool-tag {
+.skill-tag,
+.tool-tag {
     background: rgba(212, 175, 55, 0.2);
     color: #2c2416;
     padding: 0.25rem 0.5rem;
@@ -3294,13 +3649,15 @@ button.gender-option.selected {
     font-weight: 600;
 }
 
-.skill-tags, .tool-tags {
+.skill-tags,
+.tool-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
 }
 
-.skill-tag, .tool-tag {
+.skill-tag,
+.tool-tag {
     background: rgba(212, 175, 55, 0.2);
     color: #2c2416;
     padding: 0.25rem 0.5rem;
@@ -3449,7 +3806,8 @@ button.gender-option.selected {
     gap: 2rem;
 }
 
-.race-section, .subrace-section {
+.race-section,
+.subrace-section {
     background: rgba(255, 255, 255, 0.8);
     border: 2px solid #d4af37;
     border-radius: 8px;
@@ -3571,7 +3929,8 @@ button.gender-option.selected {
 }
 
 .stat-preview {
-    display: none; /* Hide stat modifiers in race selection */
+    display: none;
+    /* Hide stat modifiers in race selection */
 }
 
 .race-preview {
@@ -3630,7 +3989,8 @@ button.gender-option.selected {
     letter-spacing: 0.5px;
 }
 
-.race-full-description, .subrace-full-description {
+.race-full-description,
+.subrace-full-description {
     font-size: 0.85rem;
     color: #5d4037;
     line-height: 1.5;
@@ -3795,7 +4155,8 @@ button.gender-option.selected {
     margin-top: 1rem;
     justify-content: center;
     align-items: start;
-    padding-bottom: 2rem; /* Add bottom padding to ensure all cards are visible */
+    padding-bottom: 2rem;
+    /* Add bottom padding to ensure all cards are visible */
 }
 
 .class-card {
@@ -4413,25 +4774,31 @@ button.gender-option.selected {
     box-shadow: 0 2px 4px rgba(3, 169, 244, 0.3);
 }
 
-.damage-type-slashing, .damage-type-piercing, .damage-type-bludgeoning {
+.damage-type-slashing,
+.damage-type-piercing,
+.damage-type-bludgeoning {
     background: rgba(96, 96, 96, 0.15);
     color: #424242;
     border-color: rgba(96, 96, 96, 0.3);
 }
 
-.damage-type-slashing:hover, .damage-type-piercing:hover, .damage-type-bludgeoning:hover {
+.damage-type-slashing:hover,
+.damage-type-piercing:hover,
+.damage-type-bludgeoning:hover {
     background: rgba(96, 96, 96, 0.25);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(96, 96, 96, 0.3);
 }
 
-.damage-type-physical, .damage-type-magical {
+.damage-type-physical,
+.damage-type-magical {
     background: rgba(158, 158, 158, 0.15);
     color: #616161;
     border-color: rgba(158, 158, 158, 0.3);
 }
 
-.damage-type-physical:hover, .damage-type-magical:hover {
+.damage-type-physical:hover,
+.damage-type-magical:hover {
     background: rgba(158, 158, 158, 0.25);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(158, 158, 158, 0.3);
@@ -4623,7 +4990,7 @@ button.gender-option.selected {
 }
 
 /* Section Headers - scoped to character creation wizard selection sections */
-.selection-section > .section-header {
+.selection-section>.section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -4640,24 +5007,22 @@ button.gender-option.selected {
     overflow: hidden;
 }
 
-.selection-section > .section-header::before {
+.selection-section>.section-header::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.05) 2px,
-        rgba(0, 0, 0, 0.05) 4px
-    );
+    background: repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.05) 2px,
+            rgba(0, 0, 0, 0.05) 4px);
     pointer-events: none;
 }
 
-.selection-section > .section-header h3 {
+.selection-section>.section-header h3 {
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
@@ -4672,13 +5037,13 @@ button.gender-option.selected {
     letter-spacing: 1px;
 }
 
-.selection-section > .section-header h3 i {
+.selection-section>.section-header h3 i {
     color: #d4af37;
     font-size: 1.4rem;
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
 }
 
-.selection-section > .section-header .selection-info {
+.selection-section>.section-header .selection-info {
     font-size: 0.9rem;
     font-weight: 700;
     position: relative;
@@ -4691,12 +5056,12 @@ button.gender-option.selected {
     letter-spacing: 0.5px;
 }
 
-.selection-section > .section-header .selection-info .complete {
+.selection-section>.section-header .selection-info .complete {
     color: #90EE90;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.selection-section > .section-header .selection-info .incomplete {
+.selection-section>.section-header .selection-info .incomplete {
     color: #FFD700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -4794,6 +5159,7 @@ button.gender-option.selected {
         max-height: 0;
         overflow: hidden;
     }
+
     to {
         opacity: 1;
         max-height: 1000px;
@@ -5274,13 +5640,17 @@ button.gender-option.selected {
 }
 
 @media (max-width: 1400px) {
-    .skills-grid, .languages-grid {
+
+    .skills-grid,
+    .languages-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 1024px) {
-    .skills-grid, .languages-grid {
+
+    .skills-grid,
+    .languages-grid {
         grid-template-columns: 1fr;
     }
 
@@ -5290,11 +5660,14 @@ button.gender-option.selected {
 }
 
 @media (max-width: 768px) {
-    .skills-grid, .languages-grid {
+
+    .skills-grid,
+    .languages-grid {
         grid-template-columns: 1fr;
     }
 
-    .skills-section, .languages-section {
+    .skills-section,
+    .languages-section {
         min-height: auto;
     }
 
@@ -6136,12 +6509,12 @@ button.gender-option.selected {
 
 .skill-points-section {
     background: linear-gradient(135deg,
-        rgba(240, 230, 210, 0.6) 0%,
-        rgba(230, 220, 200, 0.5) 100%);
+            rgba(240, 230, 210, 0.6) 0%,
+            rgba(230, 220, 200, 0.5) 100%);
     border: 2px solid #8b7355;
 }
 
-.selection-section > .section-header .skill-points-display {
+.selection-section>.section-header .skill-points-display {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -6149,7 +6522,7 @@ button.gender-option.selected {
     z-index: 1;
 }
 
-.selection-section > .section-header .points-available {
+.selection-section>.section-header .points-available {
     font-size: 0.9rem;
     font-weight: 700;
     padding: 0.5rem 1rem;
@@ -6166,13 +6539,13 @@ button.gender-option.selected {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.selection-section > .section-header .points-available.complete {
+.selection-section>.section-header .points-available.complete {
     background: rgba(0, 50, 0, 0.4);
     border-color: rgba(144, 238, 144, 0.5);
     color: #90EE90;
 }
 
-.selection-section > .section-header .points-available.over-budget {
+.selection-section>.section-header .points-available.over-budget {
     background: rgba(139, 0, 0, 0.4);
     border-color: rgba(255, 100, 100, 0.5);
     color: #ff6b6b;
@@ -6911,13 +7284,15 @@ button.gender-option.selected {
     font-size: 0.9rem;
 }
 
-.skill-list, .tool-list {
+.skill-list,
+.tool-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
 }
 
-.skill-tag, .tool-tag {
+.skill-tag,
+.tool-tag {
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
     border: 1px solid rgba(212, 175, 55, 0.25);
     border-radius: 20px;

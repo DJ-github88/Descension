@@ -2084,7 +2084,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            src={getIconUrl('utility/parchment-scroll', 'items')}
                                             alt="Quest Objectives"
                                             className="property-icon"
                                         />
@@ -2103,7 +2103,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/interlocking-chains', 'abilities')}
+                                            src={getIconUrl('utility/interlocking-chains', 'items')}
                                             alt="Quest Chain"
                                             className="property-icon"
                                         />
@@ -2122,7 +2122,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/hourglass', 'abilities')}
+                                            src={getIconUrl('utility/hourglass', 'items')}
                                             alt="Time Limit"
                                             className="property-icon"
                                         />
@@ -2230,22 +2230,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const PRESERVATION_METHODS = {
                         dried: {
                             name: 'Dried',
-                            icon: 'utility/maple-leaf',
+                            icon: 'Nature/Maple Leaf',
                             description: 'Preserved through careful drying process'
                         },
                         fresh: {
                             name: 'Fresh',
-                            icon: 'utility/single-leaf',
+                            icon: 'Nature/Single Leaf',
                             description: 'Must be used while fresh'
                         },
                         powdered: {
                             name: 'Powdered',
-                            icon: 'utility/mortar-pestle',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-mortar-pestle-beige-bowl-brown-pestle',
                             description: 'Ground into a fine powder'
                         },
                         distilled: {
                             name: 'Distilled',
-                            icon: 'utility/potion-flask',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-skull-design-eye-sockets-nose-beige-upper',
                             description: 'Refined through distillation'
                         },
                         crystallized: {
@@ -2285,7 +2285,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 }}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2433,47 +2433,47 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const MATERIAL_TYPES = {
                         metal: {
                             name: 'Metal',
-                            icon: 'utility/cracked-ore',
+                            icon: 'Misc/Profession Resources/Mining/resource-ore-chunk-teal-brown-patches',
                             description: 'Raw metals and ore for smithing'
                         },
                         wood: {
                             name: 'Wood',
-                            icon: 'utility/wooden-plank',
+                            icon: 'Misc/Profession Resources/Woodworking/resource-pile-logs-wooden',
                             description: 'Timber and wooden materials'
                         },
                         cloth: {
                             name: 'Cloth',
-                            icon: 'utility/robed-tunic',
+                            icon: 'Armor/Chest/chest-tattered-brown-robe',
                             description: 'Fabrics and textile materials'
                         },
                         leather: {
                             name: 'Leather',
-                            icon: 'utility/saddle-with-rope',
+                            icon: 'Misc/Profession Resources/Tailoring/resource-rolled-brown-leather-fabric',
                             description: 'Treated animal hides and skins'
                         },
                         stone: {
                             name: 'Stone',
-                            icon: 'utility/stone-tile',
+                            icon: 'Misc/Profession Resources/Blacksmithing/resource-block-worn-cracked-brown',
                             description: 'Raw stone and minerals'
                         },
                         gem: {
                             name: 'Gem',
-                            icon: 'utility/faceted-diamond',
+                            icon: 'Currency/blue-oval-crystal',
                             description: 'Precious and semi-precious stones'
                         },
                         bone: {
                             name: 'Bone',
-                            icon: 'utility/bone-fragment',
+                            icon: 'Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey',
                             description: 'Creature bones and ivory'
                         },
                         hide: {
                             name: 'Hide',
-                            icon: 'utility/animal-track',
+                            icon: 'Misc/Monster Parts/monster-part-shell-fragment-grey-segmented',
                             description: 'Untreated animal pelts'
                         },
                         herb: {
                             name: 'Herb',
-                            icon: 'utility/single-leaf',
+                            icon: 'Nature/Single Leaf',
                             description: 'Medicinal and magical plants'
                         }
                     };
@@ -2481,15 +2481,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     // Define professions with icons
                     const PROFESSIONS = {
                         Alchemy: {
-                            icon: 'utility/potion-flask',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-skull-design-eye-sockets-nose-beige-upper',
                             description: 'Create potions and elixirs'
                         },
                         Blacksmithing: {
-                            icon: 'utility/blacksmith-anvil',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-anvil-blacksmith-brown-base',
                             description: 'Forge weapons and armor'
                         },
                         Leatherworking: {
-                            icon: 'utility/saddle-with-rope',
+                            icon: 'items/Misc/Profession Resources/Tailoring/resource-rolled-brown-leather-fabric',
                             description: 'Craft leather goods and armor'
                         },
                         Tailoring: {
@@ -2505,7 +2505,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Enhance items with magic'
                         },
                         Jewelcrafting: {
-                            icon: 'utility/faceted-diamond',
+                            icon: 'items/Currency/blue-oval-crystal',
                             description: 'Cut and socket precious gems'
                         },
                         Inscription: {
@@ -2513,7 +2513,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Create magical scrolls and glyphs'
                         },
                         Woodworking: {
-                            icon: 'utility/stylized-tree',
+                            icon: 'items/Misc/Profession Resources/Woodworking/resource-pile-logs-wooden',
                             description: 'Craft wooden items and tools'
                         }
                     };
@@ -2522,17 +2522,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const GATHERING_METHODS = {
                         mining: {
                             name: 'Mining',
-                            icon: 'utility/mining-pickaxe',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-pickaxe-metallic-grey-brown-handle',
                             description: 'Extracted from mineral deposits'
                         },
                         herbalism: {
                             name: 'Herbalism',
-                            icon: 'utility/single-leaf',
+                            icon: 'abilities/Nature/Single Leaf',
                             description: 'Gathered from wild plants'
                         },
                         skinning: {
                             name: 'Skinning',
-                            icon: 'utility/animal-track',
+                            icon: 'items/Misc/Monster Parts/monster-part-shell-fragment-grey-segmented',
                             description: 'Harvested from creatures'
                         },
                         logging: {
@@ -2579,7 +2579,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ materialType: type })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, info.icon?.startsWith('items/') || info.icon?.includes('/') && !info.icon?.startsWith('Nature/') && !info.icon?.startsWith('Fire/') && !info.icon?.startsWith('Frost/') && !info.icon?.startsWith('Lightning/') && !info.icon?.startsWith('Arcane/') && !info.icon?.startsWith('Necrotic/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2621,7 +2621,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 }}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={profession}
                                                     className="magic-icon"
                                                 />
@@ -2652,7 +2652,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ gatheringMethod: method })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2728,22 +2728,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const TRADE_CATEGORIES = {
                         textiles: {
                             name: 'Textiles',
-                            icon: 'utility/robed-tunic',
+                            icon: 'items/Armor/Chest/chest-tattered-brown-robe',
                             description: 'Fine cloths and fabrics'
                         },
                         spices: {
                             name: 'Spices',
-                            icon: 'utility/mortar-pestle',
+                            icon: 'items/Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-mortar-pestle-beige-bowl-brown-pestle',
                             description: 'Rare seasonings and flavors'
                         },
                         metals: {
                             name: 'Precious Metals',
-                            icon: 'utility/gold-nuggets',
+                            icon: 'items/Misc/Profession Resources/Mining/Gold Ore',
                             description: 'Valuable metals and alloys'
                         },
                         gems: {
                             name: 'Gemstones',
-                            icon: 'utility/faceted-diamond',
+                            icon: 'items/Currency/blue-oval-crystal',
                             description: 'Precious and semi-precious stones'
                         },
                         food: {
@@ -2763,7 +2763,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         luxury: {
                             name: 'Luxury Items',
-                            icon: 'utility/golden-ring',
+                            icon: 'items/Armor/Finger/finger-golden-decorative-ring',
                             description: 'High-end merchandise'
                         }
                     };
@@ -2771,17 +2771,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const DEMAND_LEVELS = {
                         low: {
                             name: 'Low Demand',
-                            icon: 'utility/ancient-coin',
+                            icon: 'items/Currency/gold-coins-stack-seven',
                             description: 'Limited market interest'
                         },
                         moderate: {
                             name: 'Moderate Demand',
-                            icon: 'utility/gold-nuggets',
+                            icon: 'items/Currency/gold-nugget-pile',
                             description: 'Steady market interest'
                         },
                         high: {
                             name: 'High Demand',
-                            icon: 'utility/gold-bar',
+                            icon: 'items/Currency/gold-ingot-stack',
                             description: 'Strong market interest'
                         },
                         very_high: {
@@ -2804,7 +2804,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         standard: {
                             name: 'Standard',
-                            icon: 'utility/faceted-crystal',
+                            icon: 'items/Currency/blue-crystal-shard',
                             description: 'Meets market expectations'
                         },
                         fine: {
@@ -2846,7 +2846,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ tradeCategory: category })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2898,7 +2898,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ demandLevel: level })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2929,7 +2929,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ qualityGrade: grade })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -2967,17 +2967,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const KEY_TYPES = {
                         door: {
                             name: 'Door Key',
-                            icon: 'utility/stylized-key',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-key-metallic-brown-beige',
                             description: 'Opens locked doors and passages'
                         },
                         chest: {
                             name: 'Chest Key',
-                            icon: 'utility/skeleton-key',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-key-metallic-brown-beige',
                             description: 'Unlocks treasure chests and containers'
                         },
                         gate: {
                             name: 'Gate Key',
-                            icon: 'utility/stylized-key_1',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-key-metallic-brown-beige',
                             description: 'Opens large gates and barriers'
                         },
                         magical: {
@@ -2987,7 +2987,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         puzzle: {
                             name: 'Puzzle Key',
-                            icon: 'Utility/Utility Gear',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-dark-metallic-ore-chunk-rust',
                             description: 'Solves mechanical puzzles and mechanisms'
                         },
                         portal: {
@@ -3000,12 +3000,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const SECURITY_LEVELS = {
                         basic: {
                             name: 'Basic Security',
-                            icon: 'utility/stylized-key',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-key-metallic-brown-beige',
                             description: 'Simple mechanical lock'
                         },
                         advanced: {
                             name: 'Advanced Security',
-                            icon: 'utility/interlocking-chains',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-chain-metallic-bronze-links',
                             description: 'Complex locking mechanism'
                         },
                         master: {
@@ -3047,7 +3047,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ keyType: type })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -3102,7 +3102,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/utility_interlocking-gears', 'abilities')}
+                                            src={getIconUrl('Misc/Profession Resources/Blacksmithing/resource-dark-metallic-ore-chunk-rust', 'items')}
                                             alt="Security Level"
                                             className="property-icon"
                                         />
@@ -3116,7 +3116,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ securityLevel: level })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -3191,49 +3191,49 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const JUNK_TYPES = {
                         bones: {
                             name: 'Creature Bones',
-                            icon: 'utility/bone-fragment',
+                            icon: 'items/Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey',
                             description: 'Skeletal remains and fragments',
                             examples: 'Large Bone, Cracked Skull, Ribcage'
                         },
                         parts: {
                             name: 'Creature Parts',
-                            icon: 'utility/human-eye',
+                            icon: 'items/Misc/Monster Parts/Organs/organ-eye-monster-green-yellow',
                             description: 'Various creature organs and parts',
                             examples: 'Murloc Eye, Wolf Heart, Spider Fang'
                         },
                         scraps: {
                             name: 'Metal Scraps',
-                            icon: 'utility/broken-gear',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
                             description: 'Broken metal pieces and fragments',
                             examples: 'Scrap Metal, Bent Sprocket, Rusty Gear'
                         },
                         cloth: {
                             name: 'Tattered Cloth',
-                            icon: 'utility/robed-tunic',
+                            icon: 'items/Armor/Chest/chest-tattered-brown-robe',
                             description: 'Worn fabric and rags',
                             examples: 'Torn Cloth, Frayed Robe, Old Belt'
                         },
                         scales: {
                             name: 'Scales & Shells',
-                            icon: 'utility/cracked-surface',
+                            icon: 'items/Misc/Monster Parts/monster-part-shell-fragment-grey-segmented',
                             description: 'Creature scales and shell pieces',
                             examples: 'Cracked Shell, Small Scale, Carapace Fragment'
                         },
                         trinkets: {
                             name: 'Broken Trinkets',
-                            icon: 'utility/golden-ring',
+                            icon: 'items/Armor/Finger/finger-golden-decorative-ring',
                             description: 'Damaged ornaments and baubles',
                             examples: 'Cracked Pendant, Bent Ring, Tarnished Locket'
                         },
                         remains: {
                             name: 'Creature Remains',
-                            icon: 'utility/bone-arm',
+                            icon: 'items/Misc/Monster Parts/Bones/bone-hand-skeletal-reach-gesture',
                             description: 'Miscellaneous creature bits',
                             examples: 'Slime Sample, Zombie Dust, Bat Wing'
                         },
                         minerals: {
                             name: 'Poor Minerals',
-                            icon: 'utility/cracked-ore',
+                            icon: 'items/Misc/Profession Resources/Mining/resource-ore-chunk-teal-brown-patches',
                             description: 'Low-quality stone and minerals',
                             examples: 'Flawed Stone, Rock Shard, Mineral Fragment'
                         }
@@ -3242,17 +3242,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const CONDITIONS = {
                         intact: {
                             name: 'Intact',
-                            icon: 'utility/faceted-crystal',
+                            icon: 'items/Currency/blue-crystal-shard',
                             description: 'Whole but worthless'
                         },
                         damaged: {
                             name: 'Damaged',
-                            icon: 'utility/broken-gear',
+                            icon: 'items/Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
                             description: 'Cracked or broken'
                         },
                         partial: {
                             name: 'Partial',
-                            icon: 'utility/bone-fragment',
+                            icon: 'items/Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey',
                             description: 'Only a piece remains'
                         },
                         decaying: {
@@ -3270,7 +3270,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/bone-fragment', 'abilities')}
+                                            src={getIconUrl('Misc/Monster Parts/Bones/bone-fragment-curved-jagged-grey', 'items')}
                                             alt="Junk Type"
                                             className="property-icon"
                                         />
@@ -3284,7 +3284,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ junkType: type })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />
@@ -3304,7 +3304,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/broken-gear', 'abilities')}
+                                            src={getIconUrl('items/Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic', 'items')}
                                             alt="Condition"
                                             className="property-icon"
                                         />
@@ -3318,7 +3318,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => updateItemData({ condition: condition })}
                                             >
                                                 <img
-                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon, 'abilities')}
+                                                    src={info.icon?.startsWith('http') ? info.icon : getCustomIconUrl(info.icon.replace(/^items\//, '').replace(/^abilities\//, ''), info.icon?.startsWith('items/') ? 'items' : 'abilities')}
                                                     alt={info.name}
                                                     className="magic-icon"
                                                 />

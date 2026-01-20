@@ -104,6 +104,22 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Disable text selection globally - prevents accidental drag-to-highlight */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Re-enable text selection in editable areas */
+input,
+textarea,
+[contenteditable="true"],
+.selectable-text {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 body {
@@ -277,6 +293,7 @@ body {
 
 /* Mobile viewport optimizations */
 @media (max-width: 768px) {
+
   /* Improve touch targets globally */
   button,
   .btn,
@@ -295,7 +312,8 @@ body {
   input,
   textarea,
   select {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
+    /* Prevents zoom on iOS */
     padding: var(--pf-space-mobile-3);
     border-radius: var(--pf-border-radius);
   }
@@ -309,12 +327,29 @@ body {
   }
 
   /* Optimize typography for mobile */
-  h1 { font-size: var(--pf-font-size-mobile-2xl); }
-  h2 { font-size: var(--pf-font-size-mobile-xl); }
-  h3 { font-size: var(--pf-font-size-mobile-lg); }
-  h4 { font-size: var(--pf-font-size-mobile-base); }
-  h5 { font-size: var(--pf-font-size-mobile-sm); }
-  h6 { font-size: var(--pf-font-size-mobile-xs); }
+  h1 {
+    font-size: var(--pf-font-size-mobile-2xl);
+  }
+
+  h2 {
+    font-size: var(--pf-font-size-mobile-xl);
+  }
+
+  h3 {
+    font-size: var(--pf-font-size-mobile-lg);
+  }
+
+  h4 {
+    font-size: var(--pf-font-size-mobile-base);
+  }
+
+  h5 {
+    font-size: var(--pf-font-size-mobile-sm);
+  }
+
+  h6 {
+    font-size: var(--pf-font-size-mobile-xs);
+  }
 
   body {
     font-size: var(--pf-font-size-mobile-base);
@@ -350,6 +385,7 @@ body {
 
 /* Tablet optimizations */
 @media (min-width: 769px) and (max-width: 1024px) {
+
   /* Intermediate touch targets */
   button,
   .btn,
@@ -359,13 +395,22 @@ body {
   }
 
   /* Adjust typography scale */
-  h1 { font-size: 1.75rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
 }
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
+
   /* Remove hover effects on touch devices */
   .hover-effect:hover {
     transform: none;
@@ -392,7 +437,9 @@ body {
 }
 
 /* High DPI screen optimizations */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
   /* Sharper borders and shadows on high DPI screens */
   .card,
   .panel,
@@ -412,6 +459,7 @@ body {
 
 /* Mobile Modal Improvements */
 @media (max-width: 768px) {
+
   /* Full-screen mobile modals */
   .mobile-modal,
   .mobile-drawer,
@@ -721,13 +769,19 @@ body {
   }
 
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 
 /* Touch device gesture improvements */
 @media (hover: none) and (pointer: coarse) {
+
   /* Better tap targets for all interactive elements */
   a,
   button,
@@ -890,13 +944,15 @@ body {
 /* Spell Library Checkboxes */
 .spell-checkbox-container {
   /* Inherits all base styles from .pf-checkbox-container */
-  gap: 8px; /* Slightly tighter spacing for spell lists */
+  gap: 8px;
+  /* Slightly tighter spacing for spell lists */
 }
 
 /* Item Wizard Checkboxes */
 .item-checkbox-container {
   /* Inherits all base styles from .pf-checkbox-container */
-  padding: 6px 10px; /* More compact for wizard forms */
+  padding: 6px 10px;
+  /* More compact for wizard forms */
   min-height: 32px;
 }
 
@@ -915,7 +971,8 @@ body {
 /* Settings Checkboxes */
 .settings-checkbox-container {
   /* Inherits all base styles from .pf-checkbox-container */
-  padding: 6px 8px; /* Compact for settings panels */
+  padding: 6px 8px;
+  /* Compact for settings panels */
   min-height: 30px;
 }
 

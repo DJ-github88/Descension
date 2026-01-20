@@ -6,6 +6,7 @@ import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useAuthStore from '../../store/authStore';
+import { getRandomCharacterName, getRandomRoomName } from '../../utils/nameGenerator';
 import './styles/RoomLobby.css';
 import './styles/RoomCardModern.css';
 import '../account/styles/RoomManager.css';
@@ -1013,17 +1014,34 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <div className="name-input-group">
               <label htmlFor="playerName">Your Name:</label>
               <div className="player-name-container">
-                <input
-                  id="playerName"
-                  type="text"
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  placeholder={getActiveCharacter() ? "Character name will be used automatically" : "Enter your display name"}
-                  disabled={isConnecting || !!getActiveCharacter()}
-                  readOnly={!!getActiveCharacter()}
-                  maxLength={20}
-                  className={getActiveCharacter() ? "character-auto-filled" : ""}
-                />
+                <div className="relative-input-wrapper">
+                  <input
+                    id="playerName"
+                    type="text"
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.target.value)}
+                    placeholder={getActiveCharacter() ? "Character name will be used automatically" : "Enter your display name"}
+                    disabled={isConnecting || !!getActiveCharacter()}
+                    readOnly={!!getActiveCharacter()}
+                    autoComplete="off"
+                    className={getActiveCharacter() ? "character-auto-filled" : ""}
+                  />
+                  {!getActiveCharacter() && (
+                    <button
+                      type="button"
+                      className="randomize-name-btn"
+                      onClick={() => {
+                        const newName = getRandomCharacterName();
+                        setPlayerName(newName);
+                        playerNameRef.current = newName;
+                      }}
+                      title="Randomize player name"
+                      disabled={isConnecting}
+                    >
+                      <i className="fas fa-dice"></i>
+                    </button>
+                  )}
+                </div>
                 {(() => {
                   const activeCharacter = getActiveCharacter();
                   if (activeCharacter) {
@@ -1127,6 +1145,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   value={roomId}
                   onChange={(e) => setRoomId(e.target.value)}
                   placeholder="Enter room ID"
+                  autoComplete="off"
                   disabled={isConnecting}
                   className="form-input"
                 />
@@ -1141,6 +1160,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                     value={joinPassword}
                     onChange={(e) => setJoinPassword(e.target.value)}
                     placeholder="Leave empty if room has no password"
+                    autoComplete="off"
                     disabled={isConnecting}
                     className="form-input"
                   />
@@ -1269,16 +1289,28 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   <i className="fas fa-sync-alt"></i>
                 </button>
               </label>
-              <input
-                id="roomName"
-                type="text"
-                value={roomName}
-                onChange={(e) => setRoomName(e.target.value)}
-                placeholder="Enter room name"
-                disabled={isConnecting}
-                maxLength={30}
-                className="form-input"
-              />
+              <div className="relative-input-wrapper">
+                <input
+                  id="roomName"
+                  type="text"
+                  value={roomName}
+                  onChange={(e) => setRoomName(e.target.value)}
+                  placeholder="Enter room name"
+                  autoComplete="off"
+                  disabled={isConnecting}
+                  maxLength={30}
+                  className="form-input"
+                />
+                <button
+                  type="button"
+                  className="randomize-name-btn"
+                  onClick={() => setRoomName(getRandomRoomName())}
+                  title="Randomize room name"
+                  disabled={isConnecting}
+                >
+                  <i className="fas fa-dice"></i>
+                </button>
+              </div>
             </div>
 
             <div className="form-input-group">
@@ -1288,6 +1320,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                 value={roomDescription}
                 onChange={(e) => setRoomDescription(e.target.value)}
                 placeholder="Describe your campaign or session"
+                autoComplete="off"
                 disabled={isConnecting}
                 maxLength={200}
                 rows={3}
