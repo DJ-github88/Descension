@@ -1,5 +1,5 @@
 // Authentication service for Firebase Auth
-import { 
+import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
@@ -35,7 +35,7 @@ class AuthService {
   // Subscribe to auth state changes
   onAuthStateChange(callback) {
     this.authStateListeners.push(callback);
-    
+
     // Return unsubscribe function
     return () => {
       this.authStateListeners = this.authStateListeners.filter(
@@ -309,11 +309,11 @@ class AuthService {
   async getUserData(uid = null) {
     const userId = uid || this.currentUser?.uid;
     if (!userId) return null;
-    
+
     try {
       const userRef = doc(db, 'users', userId);
       const userSnap = await getDoc(userRef);
-      
+
       if (userSnap.exists()) {
         return { id: userSnap.id, ...userSnap.data() };
       }
@@ -327,8 +327,17 @@ class AuthService {
   // Update user data in Firestore
   async updateUserData(data) {
     if (!this.currentUser) return { error: 'No authenticated user', success: false };
-    
+
     try {
+      // If data contains displayName or photoURL, update Firebase Auth profile as well
+      if (data.displayName || data.photoURL) {
+        const profileUpdates = {};
+        if (data.displayName) profileUpdates.displayName = data.displayName;
+        if (data.photoURL) profileUpdates.photoURL = data.photoURL;
+
+        await updateProfile(this.currentUser, profileUpdates);
+      }
+
       const userRef = doc(db, 'users', this.currentUser.uid);
       await updateDoc(userRef, {
         ...data,

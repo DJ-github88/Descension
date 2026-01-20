@@ -93,6 +93,76 @@ const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount }) => {
   );
 };
 
+// Themed Join Loading Overlay with Continue button
+const JoinLoadingOverlay = ({ roomName, isReady, onContinue }) => {
+  const [showContinue, setShowContinue] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+
+  // Show continue button after countdown OR when ready
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          setShowContinue(true);
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Also show continue when room is ready
+  useEffect(() => {
+    if (isReady && countdown <= 0) {
+      setShowContinue(true);
+    }
+  }, [isReady, countdown]);
+
+  return (
+    <div className="join-loading-overlay">
+      <div className="join-loading-content">
+        <div className="join-loading-spinner">
+          <i className="fas fa-dharmachakra fa-spin"></i>
+        </div>
+        <h2 className="join-loading-title">Entering the Realm</h2>
+        <p className="join-loading-subtitle">
+          {roomName ? `Preparing ${roomName}...` : 'Forging the mystical connection...'}
+        </p>
+        <div className="join-loading-pulse"></div>
+
+        {/* Continue Button - appears when ready */}
+        {showContinue && isReady && (
+          <button
+            className="join-loading-continue-btn"
+            onClick={onContinue}
+          >
+            <i className="fas fa-door-open"></i>
+            Enter the Realm
+          </button>
+        )}
+
+        {/* Skip hint - shows countdown when not ready yet */}
+        {!showContinue && (
+          <p className="join-loading-countdown">
+            {isReady ? `Ready in ${countdown}...` : `Connecting... ${countdown}s`}
+          </p>
+        )}
+
+        {/* Show waiting message if countdown done but not ready */}
+        {showContinue && !isReady && (
+          <p className="join-loading-waiting">
+            <i className="fas fa-hourglass-half fa-pulse"></i>
+            Waiting for connection...
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // CRITICAL FIX: Get room code from URL params for room code routing
   const { roomCode } = useParams();
@@ -108,8 +178,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
   const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
-  const [isJoiningRoom, setIsJoiningRoom] = useState(false);
+  const [isJoiningRoom, setIsJoiningRoom] = useState(() => {
+    // If we have auto-join data in localStorage, start in joining state to prevent lobby flicker
+    return !!localStorage.getItem('selectedRoomId');
+  });
   const [connectionQuality, setConnectionQuality] = useState({ latency: 0, quality: 'good' }); // IMPROVEMENT: Track connection quality
+
+  // Pending room data - holds room info while showing loading screen with Continue button
+  const [pendingRoomData, setPendingRoomData] = useState(null);
+  const [isRoomReady, setIsRoomReady] = useState(false);
 
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
@@ -247,7 +324,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
+  const isJoiningRoomRef = useRef(isJoiningRoom);
   const currentPlayerRef = useRef(currentPlayer);
+
+  // Update refs when state changes
+  useEffect(() => {
+    currentRoomRef.current = currentRoom;
+    isJoiningRoomRef.current = isJoiningRoom;
+    currentPlayerRef.current = currentPlayer;
+  }, [currentRoom, isJoiningRoom, currentPlayer]);
+
   const isGMRef = useRef(isGM);
   const roomPasswordRef = useRef('');
   const addPartyMemberRef = useRef(addPartyMember);
@@ -440,8 +526,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       newSocket.on('error', (error) => {
-        console.error('Socket error in MultiplayerApp:', error);
+        console.error('❌ Socket error in MultiplayerApp:', error);
         setIsConnecting(false);
+        setIsJoiningRoom(false); // CRITICAL: Stop loading screen on error
 
         // Only show error notification for critical errors, not minor ones
         if (error && error.message && !error.message.includes('transport close')) {
@@ -457,6 +544,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       newSocket.on('connect_error', (error) => {
         console.error('Socket connection error:', error);
         setIsConnecting(false);
+        setIsJoiningRoom(false); // CRITICAL: Stop loading screen on connection error
         // Show connection error to user
         addNotificationRef.current('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -637,6 +725,130 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Store interval for cleanup
       socket._latencyCheckInterval = latencyCheckInterval;
+
+      // ========== AUTO-JOIN LOGIC FOR DIRECT NAVIGATION ==========
+      const checkAutoJoin = async () => {
+        const selectedRoomId = localStorage.getItem('selectedRoomId');
+        const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
+        const isGMResume = localStorage.getItem('isGMResume') === 'true';
+        const resumeRoomName = localStorage.getItem('resumeRoomName');
+
+        // Check if we have a room to join and the socket is connected
+        // NOTE: We check !currentRoomRef.current to avoid re-joining if already in a room
+        // We do NOT check !isJoiningRoom because the initial state sets isJoiningRoom=true
+        // when selectedRoomId exists (to show loading overlay immediately)
+        if (selectedRoomId && !currentRoomRef.current) {
+          console.log('🚀 [Auto-Join] Detected pending room join:', selectedRoomId, { isGMResume });
+
+          // Clear auto-join flags immediately to prevent loops on error/reconnect
+          localStorage.removeItem('selectedRoomId');
+          localStorage.removeItem('selectedRoomPassword');
+          localStorage.removeItem('isGMResume');
+          localStorage.removeItem('resumeRoomName');
+
+          setIsJoiningRoom(true);
+          setConnectionStatus('connecting');
+
+          // Ensure character data is loaded before joining
+          let activeCharacter = getActiveCharacter();
+          if (!activeCharacter) {
+            console.log('🚀 [Auto-Join] Loading active character before join...');
+            activeCharacter = await loadActiveCharacter();
+          }
+
+          const inventoryState = useInventoryStore.getState();
+          const finalPlayerName = activeCharacter?.name || 'Adventurer';
+
+          // Character data for both create and join
+          const characterData = activeCharacter ? {
+            id: activeCharacter.id || 'guest-char',
+            name: activeCharacter.name || finalPlayerName,
+            class: activeCharacter.class || 'Unknown',
+            race: activeCharacter.race || 'Unknown',
+            subrace: activeCharacter.subrace || '',
+            raceDisplayName: activeCharacter.raceDisplayName || '',
+            level: activeCharacter.level || 1,
+            health: activeCharacter.health || { current: 45, max: 50 },
+            mana: activeCharacter.mana || { current: 45, max: 50 },
+            actionPoints: activeCharacter.actionPoints || { current: 1, max: 3 },
+            alignment: activeCharacter.alignment || 'Neutral Good',
+            background: activeCharacter.background || '',
+            classResource: activeCharacter.classResource || { current: 0, max: 0 },
+            inventory: {
+              items: inventoryState.items || [],
+              currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+              encumbranceState: inventoryState.encumbranceState || 'normal'
+            },
+            equipment: activeCharacter.equipment,
+            stats: activeCharacter.stats,
+            lore: activeCharacter.lore,
+            tokenSettings: activeCharacter.tokenSettings
+          } : null;
+
+          if (isGMResume) {
+            // GM is resuming a persistent room - need to CREATE/ACTIVATE it on the socket server
+            console.log('👑 [Auto-Join] GM resuming persistent room - creating on server:', selectedRoomId);
+
+            const createData = {
+              roomName: resumeRoomName || 'Campaign Room',
+              gmName: finalPlayerName,
+              password: selectedRoomPassword || '',
+              playerColor: '#d4af37', // Gold color for GM
+              persistentRoomId: selectedRoomId, // Link to Firebase persistent room
+              character: characterData,
+              partyMembers: [] // GM resumes alone initially
+            };
+
+            console.log('📤 [Auto-Join] Sending create_room for GM resume:', selectedRoomId);
+            socket.emit('create_room', createData);
+          } else {
+            // Regular player joining or test room
+            const joinData = {
+              roomId: selectedRoomId,
+              playerName: finalPlayerName,
+              password: selectedRoomPassword || '',
+              playerColor: '#4a90e2', // Default blue color matching RoomLobby
+              character: characterData
+            };
+
+            console.log('📤 [Auto-Join] Sending join_room:', selectedRoomId);
+            socket.emit('join_room', joinData);
+          }
+        } else if (!selectedRoomId && isJoiningRoom && !currentRoomRef.current) {
+          // CRITICAL: If we're in joining state but there's no selectedRoomId,
+          // the auto-join failed or was already cleared - reset the state
+          console.log('⚠️ [Auto-Join] No selectedRoomId found but isJoiningRoom=true, resetting state');
+          setIsJoiningRoom(false);
+          setConnectionStatus('disconnected');
+        }
+      };
+
+      // Run auto-join check
+      checkAutoJoin();
+    });
+
+    // Handle socket errors - critical for join/create failures
+    socket.on('error', (data) => {
+      console.error('❌ Socket error received:', data);
+
+      // If we are in the loading screen (isJoiningRoom but not currentRoom), 
+      // handle the error by resetting state so the user isn't stuck
+      if (isJoiningRoomRef.current && !currentRoomRef.current) {
+        console.log('⚠️ Error during join/create, resetting loading state');
+        setIsJoiningRoom(false);
+        setPendingRoomData(null);
+        setIsRoomReady(false);
+        setConnectionStatus('error');
+
+        // Show notification
+        const errorMessage = typeof data === 'string' ? data : (data.message || 'Unknown error');
+        addNotificationRef.current('system', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Error joining room: ${errorMessage}`,
+          type: 'error',
+          timestamp: new Date().toISOString()
+        });
+      }
     });
 
     socket.on('disconnect', (reason) => {
@@ -666,6 +878,63 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           timestamp: new Date().toISOString()
         });
       }
+    });
+
+    // CRITICAL: Handle room_joined event for auto-join scenarios
+    // When auto-joining from landing page, RoomLobby isn't mounted to handle this
+    socket.on('room_joined', (data) => {
+      console.log('✅ [MultiplayerApp] room_joined received:', data);
+
+      // If we're already in a room, ignore (RoomLobby might have handled it)
+      if (currentRoomRef.current) {
+        console.log('⚠️ [MultiplayerApp] Already in room, ignoring room_joined');
+        return;
+      }
+
+      // Use explicit isGM flag from server
+      const isGameMaster = data.isGM || data.isGMReconnect || false;
+
+      // Get password from localStorage (auto-join flow stores it there)
+      const usedPassword = localStorage.getItem('selectedRoomPassword') || '';
+
+      // Clear auto-join flags
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('selectedRoomPassword');
+
+      // Store room data for the Continue button flow
+      // This allows the loading screen to show for at least 5 seconds
+      setPendingRoomData({
+        room: data.room,
+        socket: socket,
+        isGM: isGameMaster,
+        player: data.player,
+        password: usedPassword,
+        levelEditor: data.levelEditor,
+        gridSettings: data.gridSettings
+      });
+      setIsRoomReady(true);
+      console.log('✅ [MultiplayerApp] Room data stored, waiting for user to continue');
+    });
+
+    // CRITICAL: Handle room_created event for GM resume flow
+    // The server emits room_created, then immediately room_joined
+    socket.on('room_created', (data) => {
+      console.log('✅ [MultiplayerApp] room_created received:', data);
+
+      // Update URL with room code for shareable links
+      const roomCode = data.room.persistentRoomId || data.room.id;
+      if (roomCode) {
+        navigate(`/multiplayer/${roomCode}`, { replace: true });
+      }
+
+      // Clear any remaining auto-join flags
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('selectedRoomPassword');
+      localStorage.removeItem('isGMResume');
+      localStorage.removeItem('resumeRoomName');
+
+      // The room_joined event will follow shortly and handle the actual join
+      console.log('✅ Room created/resumed successfully, waiting for room_joined:', roomCode);
     });
 
     // Listen for player join/leave events
@@ -3472,6 +3741,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Cleanup socket event listeners
       socket.off('connect');
       socket.off('disconnect');
+      socket.off('error'); // Cleanup error handler
+      socket.off('room_joined'); // CRITICAL: Clean up auto-join handler
+      socket.off('room_created'); // CRITICAL: Clean up GM resume handler
       socket.off('player_joined');
       socket.off('player_count_updated');
       socket.off('party_member_added');
@@ -3628,7 +3900,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     let currentPlayerData;
 
     try {
-      setCurrentRoom(room);
+      // Move setCurrentRoom to the end to keep the loading screen active during initialization
+      // setCurrentRoom(room);
       setSocket(socketConnection);
       setIsGM(isGameMaster);
       roomPasswordRef.current = password || '';
@@ -3699,6 +3972,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       setCurrentPlayer(currentPlayerData);
       window.currentPlayerId = currentPlayerData?.id;
+
+      // CRITICAL: Clear auto-join flags upon successful entry
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('selectedRoomPassword');
+      localStorage.removeItem('isTestRoom');
 
 
       // Set initial player count
@@ -3917,9 +4195,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             subrace: activeCharacter.subrace,
             raceDisplayName: activeCharacter.raceDisplayName || '',
             background: activeCharacter.background || '',
-            backgroundDisplayName: backgroundDisplayName || activeCharacter.backgroundDisplayName || '',
+            backgroundDisplayName: activeCharacter.backgroundDisplayName || '',
             path: activeCharacter.path || '',
-            pathDisplayName: pathDisplayName || activeCharacter.pathDisplayName || '',
+            pathDisplayName: activeCharacter.pathDisplayName || '',
             level: activeCharacter.level,
             stats: activeCharacter.stats,
             health: activeCharacter.health,
@@ -4201,6 +4479,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Skip game state loading to prevent old tokens in fresh rooms
       }
 
+      // Set current room after all initialization is complete
+      setCurrentRoom(room);
+
       // Show successful join notification
       setIsJoiningRoom(false);
       setConnectionStatus('connected');
@@ -4310,6 +4591,38 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }, 100);
   };
 
+  // Handler for when user clicks Continue on the loading screen
+  const handleLoadingContinue = () => {
+    if (pendingRoomData) {
+      console.log('🚀 [MultiplayerApp] User clicked Continue, entering room...');
+      handleJoinRoom(
+        pendingRoomData.room,
+        pendingRoomData.socket,
+        pendingRoomData.isGM,
+        pendingRoomData.player,
+        pendingRoomData.password,
+        pendingRoomData.levelEditor,
+        pendingRoomData.gridSettings
+      );
+      // Clear pending data
+      setPendingRoomData(null);
+      setIsRoomReady(false);
+    }
+  };
+
+  // If joining via direct navigation, show themed loading instead of lobby
+  if (isJoiningRoom && !currentRoom) {
+    const pendingRoomId = localStorage.getItem('selectedRoomId');
+    const roomName = pendingRoomData?.room?.name || (pendingRoomId ? "your selected hall" : "");
+    return (
+      <JoinLoadingOverlay
+        roomName={roomName}
+        isReady={isRoomReady}
+        onContinue={handleLoadingContinue}
+      />
+    );
+  }
+
   // If not in a room, show the lobby
   if (!currentRoom) {
     return (
@@ -4317,6 +4630,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         socket={socket}
         onJoinRoom={handleJoinRoom}
         onReturnToLanding={onReturnToSinglePlayer}
+        onJoinAttempt={(roomId) => setIsJoiningRoom(true)}
       />
     );
   }

@@ -633,6 +633,31 @@ app.get('/debug/rooms', (req, res) => {
 
 // Hybrid room system - in-memory for active sessions + Firebase for persistence
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
+const players = new Map(); // socketId -> { id, name, roomId, isGM }
+
+// Load persistent rooms from Firestore on startup
+async function initializePersistentRooms() {
+  try {
+    logger.info('Initializing persistent rooms from Firestore...');
+    const persistentRooms = await firebaseService.loadPersistentRooms();
+
+    if (persistentRooms && persistentRooms.length > 0) {
+      persistentRooms.forEach(room => {
+        // Convert plain object players to Map if they aren't already
+        // (firebaseService handles this, but let's be double sure)
+        if (room.players && !(room.players instanceof Map)) {
+          room.players = new Map(Object.entries(room.players));
+        }
+        rooms.set(room.id, room);
+      });
+      logger.info(`✅ Successfully loaded ${rooms.size} persistent rooms`);
+    } else {
+      logger.info('ℹ️ No active persistent rooms found in Firestore');
+    }
+  } catch (error) {
+    logger.error('❌ Failed to load persistent rooms:', error);
+  }
+}
 
 // Helper function to get available room list
 function getPublicRooms() {
@@ -646,15 +671,14 @@ function getPublicRooms() {
     .map(room => ({
       id: room.id,
       name: room.name,
-      playerCount: room.players.size + 1, // Include GM (+1) as they are the first "player" in the room
+      playerCount: (room.players?.size || 0) + 1, // Include GM (+1) as they are the first "player" in the room
       maxPlayers: room.settings?.maxPlayers || 6,
-      gm: room.gm.name,
+      gm: room.gm?.name || 'Unknown',
       createdAt: room.createdAt,
       hasPassword: !!room.passwordHash, // Check if room actually has a password
-      gmOnline: room.isActive // Accurately report GM online status
+      gmOnline: !!room.isActive // Accurately report GM online status
     }));
 }
-const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
 // Track player viewports for filtering updates
 const playerViewports = new Map(); // socketId -> { x, y, width, height, zoom }
@@ -4202,10 +4226,20 @@ process.on('unhandledRejection', async (reason, promise) => {
 });
 
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  logger.info('Server started', {
-    port: PORT,
-    environment: process.env.NODE_ENV || 'development',
-    corsOrigins: allowedOrigins
+
+// Initialize persistent rooms before starting the server
+initializePersistentRooms().then(() => {
+  server.listen(PORT, () => {
+    logger.info('Server started', {
+      port: PORT,
+      environment: process.env.NODE_ENV || 'development',
+      corsOrigins: allowedOrigins
+    });
+  });
+}).catch(err => {
+  logger.error('CRITICAL: Failed to initialize server:', err);
+  // Start server anyway so health checks pass, but log the failure
+  server.listen(PORT, () => {
+    logger.info('Server started in DEGRADED mode (no persistence)', { port: PORT });
   });
 });

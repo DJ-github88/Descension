@@ -1,24 +1,25 @@
 /* Unified RoomCard Component Styles - Pathfinder Beige Aesthetic */
+/* These styles use !important to override conflicting legacy styles */
 
 /* Base room card styles */
-.room-card {
-  background: #f5f1e8;
-  border: 2px solid #8b4513;
-  border-radius: 12px;
-  padding: 16px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-  overflow: hidden;
+.room-card.room-card-standard {
+  background: #f5f1e8 !important;
+  border: 2px solid #8b4513 !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-.room-card:hover {
-  border-color: #d4af37;
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
-  transform: translateY(-2px);
+.room-card.room-card-standard:hover {
+  border-color: #d4af37 !important;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25) !important;
+  transform: translateY(-2px) !important;
 }
 
 .room-card-test .room-card-title {
@@ -36,36 +37,41 @@
   font-weight: 500;
 }
 
-/* Standard room header */
-.room-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
+/* Standard room header - high specificity to override legacy styles */
+.room-card.room-card-standard .room-card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 4px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-.room-card-title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #8b4513;
-  font-family: 'Cinzel', serif;
-  line-height: 1.2;
-  flex: 1;
-  margin-right: 8px;
+.room-card.room-card-standard .room-card-title {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #8b4513 !important;
+  font-family: 'Cinzel', serif !important;
+  line-height: 1.2 !important;
+  flex: 1 !important;
+  margin-right: 8px !important;
+  text-transform: none !important;
 }
 
-.room-card-role {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #6b7280;
-  background: rgba(139, 69, 19, 0.1);
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 500;
-  white-space: nowrap;
+.room-card.room-card-standard .room-card-role {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  color: #6b7280 !important;
+  background: rgba(139, 69, 19, 0.1) !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
 }
 
 /* Preview section - no box, clean layout */
@@ -136,18 +142,19 @@
 }
 
 /* Upload section - clean button without box */
-.room-upload-section {
+.room-upload-actions {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 12px;
 }
 
 .upload-image-btn-clean {
   background: rgba(139, 69, 19, 0.1);
   border: 2px dashed rgba(139, 69, 19, 0.4);
   color: #8b4513;
-  padding: 12px 20px;
+  padding: 12px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
@@ -158,6 +165,8 @@
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex: 1;
+  justify-content: center;
 }
 
 .upload-image-btn-clean:hover {
@@ -167,25 +176,52 @@
   box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
 }
 
+.upload-image-btn-clean.asset-btn {
+  background: rgba(212, 175, 55, 0.1);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  color: #8b6b13;
+}
+
+.upload-image-btn-clean.asset-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.change-image-btn.asset-btn {
+  top: 50%;
+  left: calc(50% + 40px);
+  /* Position it to the right of the camera icon */
+}
+
+.change-image-btn:not(.asset-btn) {
+  left: calc(50% - 40px);
+  /* Position it to the left of the asset icon */
+}
+
 .upload-image-btn-clean i {
   font-size: 14px;
 }
 
 /* Room info section */
-.room-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
+.room-card.room-card-standard .room-card-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  flex: 1 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
-.room-card-stats {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-top: 1px solid rgba(139, 69, 19, 0.2);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+.room-card.room-card-standard .room-card-stats {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 8px 0 !important;
+  border-top: 1px solid rgba(139, 69, 19, 0.2) !important;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
+  background: transparent !important;
 }
 
 /* Centered stats layout for consistent appearance */
@@ -433,64 +469,67 @@
 }
 
 /* Actions */
-.room-card-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
+.room-card.room-card-standard .room-card-actions {
+  display: flex !important;
+  gap: 8px !important;
+  margin-top: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
-.room-card-button {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: 'Cinzel', serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.room-card.room-card-standard .room-card-button {
+  flex: 1 !important;
+  padding: 10px 16px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-family: 'Cinzel', serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
 
-.room-card-button.primary {
-  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
-  color: #f5f1e8;
-  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
+.room-card.room-card-standard .room-card-button.primary {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%) !important;
+  color: #2c1810 !important;
+  box-shadow: 0 2px 4px rgba(212, 175, 55, 0.3) !important;
 }
 
-.room-card-button.primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.4);
+.room-card.room-card-standard .room-card-button.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e5c048 0%, #d4af37 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.4) !important;
 }
 
-.room-card-button.danger {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  color: white;
-  flex: 0 0 auto;
-  padding: 10px 12px;
-  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+.room-card.room-card-standard .room-card-button.danger {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+  color: white !important;
+  flex: 0 0 auto !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3) !important;
 }
 
-.room-card-button.danger:hover:not(:disabled) {
-  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4);
+.room-card.room-card-standard .room-card-button.danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4) !important;
 }
 
-.room-card-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.room-card.room-card-standard .room-card-button:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
   transform: none !important;
 }
 
-.room-card-button i {
-  font-size: 12px;
+.room-card.room-card-standard .room-card-button i {
+  font-size: 12px !important;
 }
 
 /* All room cards use unified pathfinder beige aesthetic - no type-specific styling needed */
@@ -501,16 +540,16 @@
     padding: 12px;
     gap: 10px;
   }
-  
+
   .room-card-title {
     font-size: 14px;
   }
-  
+
   .room-card-button {
     padding: 8px 12px;
     font-size: 12px;
   }
-  
+
   .room-card-test {
     max-width: 100%;
   }
@@ -546,4 +585,90 @@
 .room-card:focus-within {
   border-color: #d4af37;
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+/* Password Section (GM only) */
+.room-card-password-section {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(139, 69, 19, 0.2);
+}
+
+.password-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #8b4513;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.password-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 69, 19, 0.05);
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.password-code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 700;
+  flex: 1;
+}
+
+.edit-password-btn {
+  background: none;
+  border: none;
+  color: rgba(139, 69, 19, 0.6);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+.edit-password-btn:hover {
+  background: rgba(139, 69, 19, 0.1);
+  color: #8b4513;
+}
+
+.password-edit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-edit-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  background: #ffffff;
+  font-size: 13px;
+  color: #374151;
+  font-family: inherit;
+}
+
+.password-edit-input:focus {
+  outline: none;
+  border-color: #8b4513;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.password-edit-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.password-hint {
+  font-size: 10px;
+  color: #9ca3af;
+  margin: 4px 0 0 0;
+  font-style: italic;
 }

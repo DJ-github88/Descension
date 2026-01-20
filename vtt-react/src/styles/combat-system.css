@@ -553,6 +553,7 @@
     border-radius: 8px 8px 0 0;
     position: relative;
     z-index: 15;
+    justify-content: center;
 }
 
 .timeline-title {
@@ -566,6 +567,8 @@
 .timeline-controls {
     display: flex;
     gap: 12px;
+    position: absolute;
+    right: 12px;
 }
 
 .timeline-button {

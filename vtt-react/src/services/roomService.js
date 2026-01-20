@@ -29,6 +29,14 @@ const ROOM_SESSIONS_COLLECTION = 'roomSessions';
  * @returns {Promise<string>} - Room ID
  */
 export const createPersistentRoom = async (roomData) => {
+  // Check for demo mode
+  try {
+    const { isDemoMode } = await import('../config/firebase');
+    if (isDemoMode) {
+      throw new Error('Room creation is disabled in Demo Mode. Please log in with a real account.');
+    }
+  } catch (e) { }
+
   if (!db || !auth.currentUser) {
     throw new Error('Firebase not initialized or user not authenticated');
   }
@@ -55,17 +63,17 @@ export const createPersistentRoom = async (roomData) => {
   }
 
   const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
+
   const room = {
     id: roomId,
     name: roomData.name,
     description: roomData.description || '',
     password: roomData.password, // In production, this should be hashed
-    
+
     // GM and ownership
     gmId: userId,
     gmName: roomData.gmName || auth.currentUser.displayName || 'Game Master',
-    
+
     // Room settings
     settings: {
       maxPlayers: roomData.maxPlayers || 6,
@@ -75,7 +83,7 @@ export const createPersistentRoom = async (roomData) => {
       enableVoiceChat: false,
       enableVideoChat: false
     },
-    
+
     // Game state - comprehensive VTT data
     gameState: {
       currentMap: null,
@@ -128,20 +136,20 @@ export const createPersistentRoom = async (roomData) => {
         sharedNotes: []
       }
     },
-    
+
     // Chat and communication
     chatHistory: [],
-    
+
     // Metadata
     createdAt: serverTimestamp(),
     lastModified: serverTimestamp(),
     lastActivity: serverTimestamp(),
     isActive: false, // Whether there's an active session
-    
+
     // Player management
     members: [userId], // Array of user IDs who have access
     bannedUsers: [],
-    
+
     // Room statistics
     stats: {
       totalSessions: 0,
@@ -267,7 +275,7 @@ export const getUserRooms = async (userId) => {
       where('gmId', '==', userId),
       orderBy('lastActivity', 'desc')
     );
-    
+
     // Get rooms where user is a member
     const memberRoomsQuery = query(
       collection(db, ROOMS_COLLECTION),
@@ -281,12 +289,12 @@ export const getUserRooms = async (userId) => {
     ]);
 
     const rooms = new Map();
-    
+
     // Add GM rooms
     gmRoomsSnapshot.forEach(doc => {
       rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'gm' });
     });
-    
+
     // Add member rooms (avoid duplicates)
     memberRoomsSnapshot.forEach(doc => {
       if (!rooms.has(doc.id)) {
@@ -315,7 +323,7 @@ export const joinRoom = async (roomId, userId, password) => {
 
   try {
     const roomData = await getRoomData(roomId);
-    
+
     if (!roomData) {
       throw new Error('Room not found');
     }
@@ -373,6 +381,30 @@ export const leaveRoom = async (roomId, userId) => {
     });
   } catch (error) {
     console.error('❌ Error leaving room:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update room metadata (name, description, password, etc.)
+ * @param {string} roomId - Room ID
+ * @param {Object} updates - Fields to update
+ * @returns {Promise<void>}
+ */
+export const updateRoom = async (roomId, updates) => {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
+  try {
+    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+    await updateDoc(roomRef, {
+      ...updates,
+      lastModified: serverTimestamp(),
+      lastActivity: serverTimestamp()
+    });
+  } catch (error) {
+    console.error('❌ Error updating room:', error);
     throw error;
   }
 };
@@ -678,6 +710,7 @@ export default {
   joinRoom,
   leaveRoom,
   deleteRoom,
+  updateRoom,
   subscribeToRoom,
   getPublicRooms,
   getRoomLimits,

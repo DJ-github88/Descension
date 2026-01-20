@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
+import AssetPickerModal from './AssetPickerModal';
 
 /**
  * Unified RoomCard Component
@@ -19,7 +20,10 @@ const RoomCard = ({
   const [editedDescription, setEditedDescription] = useState(room.description || '');
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(room.name || '');
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const [editedPassword, setEditedPassword] = useState(room.password || '');
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isAssetPickerOpen, setIsAssetPickerOpen] = useState(false);
 
   // Determine room type and styling
   const isTestRoom = room.isTestRoom || room.name?.toLowerCase().includes('test');
@@ -198,9 +202,29 @@ const RoomCard = ({
     setIsEditingName(false);
   };
 
+  // Handle password save
+  const handlePasswordSave = () => {
+    if (onUpdateRoom && editedPassword !== room.password) {
+      onUpdateRoom(room.id, { password: editedPassword });
+    }
+    setIsEditingPassword(false);
+  };
+
+  // Handle password cancel
+  const handlePasswordCancel = () => {
+    setEditedPassword(room.password || '');
+    setIsEditingPassword(false);
+  };
+
   // Get room image
   const getRoomImage = () => {
     return room.customImage || null;
+  };
+
+  const handleAssetSelect = (assetPath) => {
+    if (onUpdateRoom) {
+      onUpdateRoom(room.id, { customImage: assetPath });
+    }
   };
 
 
@@ -260,9 +284,16 @@ const RoomCard = ({
               <img src={getRoomImage()} alt="Room preview" />
               {canEdit && (
                 <div className="image-overlay">
-                  <label htmlFor={`image-upload-${room.id}`} className="change-image-btn" title="Change Image">
+                  <label htmlFor={`image-upload-${room.id}`} className="change-image-btn" title="Upload New Image">
                     <i className="fas fa-camera"></i>
                   </label>
+                  <button
+                    className="change-image-btn asset-btn"
+                    onClick={() => setIsAssetPickerOpen(true)}
+                    title="Choose from Assets"
+                  >
+                    <i className="fas fa-images"></i>
+                  </button>
                   <input
                     id={`image-upload-${room.id}`}
                     type="file"
@@ -274,11 +305,18 @@ const RoomCard = ({
               )}
             </div>
           ) : (
-            <div className="room-upload-section">
+            <div className="room-upload-actions">
               <label htmlFor={`image-upload-${room.id}`} className="upload-image-btn-clean">
                 <i className="fas fa-plus"></i>
-                Add Image
+                Upload
               </label>
+              <button
+                className="upload-image-btn-clean asset-btn"
+                onClick={() => setIsAssetPickerOpen(true)}
+              >
+                <i className="fas fa-images"></i>
+                Assets
+              </button>
               <input
                 id={`image-upload-${room.id}`}
                 type="file"
@@ -429,11 +467,18 @@ const RoomCard = ({
             )}
           </div>
         ) : (
-          <div className="room-upload-section">
+          <div className="room-upload-actions">
             <label htmlFor={`image-upload-${room.id}`} className="upload-image-btn-clean">
               <i className="fas fa-plus"></i>
-              Add Image
+              Upload
             </label>
+            <button
+              className="upload-image-btn-clean asset-btn"
+              onClick={() => setIsAssetPickerOpen(true)}
+            >
+              <i className="fas fa-images"></i>
+              Assets
+            </button>
             <input
               id={`image-upload-${room.id}`}
               type="file"
@@ -502,6 +547,48 @@ const RoomCard = ({
           <i className="fas fa-clock"></i>
           <span>Last Activity: {formatLastActivity()}</span>
         </div>
+
+        {/* Password Section (GM only) */}
+        {!isLocalRoom && room.userRole === 'gm' && (
+          <div className="room-card-password-section">
+            <div className="password-header">
+              <i className="fas fa-key"></i>
+              <span>Room Password</span>
+            </div>
+            {isEditingPassword ? (
+              <div className="password-edit">
+                <input
+                  type="text"
+                  value={editedPassword}
+                  onChange={(e) => setEditedPassword(e.target.value)}
+                  placeholder="Secret word..."
+                  className="password-edit-input"
+                  autoFocus
+                />
+                <div className="password-edit-actions">
+                  <button onClick={handlePasswordSave} className="save-btn-small" title="Save Password">
+                    <i className="fas fa-check"></i>
+                  </button>
+                  <button onClick={handlePasswordCancel} className="cancel-btn-small" title="Cancel">
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="password-display">
+                <code className="password-code">{room.password || '(No password set)'}</code>
+                <button
+                  onClick={() => setIsEditingPassword(true)}
+                  className="edit-password-btn"
+                  title="Change Password"
+                >
+                  <i className="fas fa-edit"></i>
+                </button>
+              </div>
+            )}
+            <p className="password-hint">GMs can see and change the password here.</p>
+          </div>
+        )}
       </div>
 
       {/* Actions */}
@@ -533,6 +620,13 @@ const RoomCard = ({
           </button>
         )}
       </div>
+
+      <AssetPickerModal
+        isOpen={isAssetPickerOpen}
+        onClose={() => setIsAssetPickerOpen(false)}
+        onSelect={handleAssetSelect}
+        currentAsset={room.customImage}
+      />
     </div>
   );
 };

@@ -60,9 +60,10 @@ class PersistenceService {
     if (!userId) return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
 
     try {
-      // Check for guest users (they have no persistence)
-      if (userId.startsWith('guest-')) {
-        return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
+      // Check for guest users or demo mode
+      const { isDemoMode } = await import('../../config/firebase');
+      if (isDemoMode || userId.startsWith('guest-')) {
+        return { tier: 'FREE', limits: STORAGE_LIMITS.FREE };
       }
 
       const userRef = doc(db, 'users', userId);
@@ -81,8 +82,8 @@ class PersistenceService {
         limits: STORAGE_LIMITS[tierKey] || STORAGE_LIMITS.FREE
       };
     } catch (error) {
-      // Suppress permissions errors for guest/anonymous users - they just get 'FREE' tier
-      if (error?.code !== 'permission-denied') {
+      // Suppress permissions errors or offline errors for guest/anonymous users
+      if (error?.code !== 'permission-denied' && !error?.message?.includes('offline')) {
         console.error('Error getting user tier:', error);
       }
       return { tier: 'FREE', limits: STORAGE_LIMITS.FREE };
@@ -109,6 +110,12 @@ class PersistenceService {
     }
 
     try {
+      // Check for demo mode
+      const { isDemoMode } = await import('../../config/firebase');
+      if (isDemoMode || !userId || userId.startsWith('guest-')) {
+        return { total: 0, breakdown: {} };
+      }
+
       const userRef = doc(db, 'users', userId);
       const userSnap = await getDoc(userRef);
 
@@ -128,8 +135,8 @@ class PersistenceService {
 
       return usage;
     } catch (error) {
-      // Suppress permissions errors for guest/anonymous users - they get 0 usage
-      if (error?.code !== 'permission-denied') {
+      // Suppress permissions errors or offline errors for guest/anonymous users
+      if (error?.code !== 'permission-denied' && !error?.message?.includes('offline')) {
         console.error('Error getting storage usage:', error);
       }
       return { total: 0, breakdown: {} };

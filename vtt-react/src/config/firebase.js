@@ -37,22 +37,24 @@ const isFirebaseConfigured = !!(
   firebaseConfig.apiKey !== 'demo-api-key'
 );
 
-// Demo mode for development - use demo auth when Firebase is not properly configured
-const isDemoMode = process.env.NODE_ENV === 'development' || !isFirebaseConfigured;
+// Demo mode - use demo services ONLY if real Firebase is not configured
+const isDemoMode = !isFirebaseConfigured;
 
-// Firebase configuration tracking (debug logs removed for production)
+// Firebase configuration tracking
+if (isFirebaseConfigured) {
+  console.log('✅ Firebase configured with project:', firebaseConfig.projectId);
+} else {
+  console.log('ℹ️ Firebase not configured - running in Demo Mode');
+}
 
 // Initialize Firebase only if configured
 let app = null;
-if (isFirebaseConfigured && firebaseConfig) {
+if (isFirebaseConfigured) {
   try {
     app = initializeApp(firebaseConfig);
   } catch (error) {
     console.error('❌ Firebase initialization failed:', error);
   }
-} else if (isDemoMode) {
-} else {
-  console.warn('⚠️ Firebase not configured - authentication features will be disabled');
 }
 
 // Initialize Firebase services only if app is available
@@ -65,14 +67,11 @@ export let googleProvider = null;
 
 if (app) {
   try {
-    
     // Initialize Firebase Authentication and get a reference to the service
     auth = getAuth(app);
 
     // Set auth persistence to LOCAL (persists across browser sessions)
     setPersistence(auth, browserLocalPersistence)
-      .then(() => {
-      })
       .catch((error) => {
         console.error('❌ Failed to set auth persistence:', error);
       });
@@ -106,11 +105,16 @@ if (app) {
     googleProvider.addScope('profile');
 
 
-    // Development emulator setup (uncomment for local development)
-    // if (process.env.NODE_ENV === 'development') {
-    //   connectAuthEmulator(auth, 'http://localhost:9099');
-    //   connectFirestoreEmulator(db, 'localhost', 8080);
-    // }
+    // Development emulator setup (only connect if explicitly requested via env variable)
+    if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_USE_FIREBASE_EMULATOR === 'true') {
+      console.log('🔌 Connecting to Firebase Emulators...');
+      try {
+        connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+        connectFirestoreEmulator(db, 'localhost', 8080);
+      } catch (emulatorError) {
+        console.warn('⚠️ Firebase emulator connection failed:', emulatorError);
+      }
+    }
   } catch (error) {
     console.error('❌ Firebase services initialization failed:', error);
   }

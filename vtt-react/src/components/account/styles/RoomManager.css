@@ -52,10 +52,25 @@
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(-10px); }
-  20% { opacity: 1; transform: translateY(0); }
-  80% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* Fixed position refresh message that doesn't move other elements */
@@ -83,6 +98,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -272,7 +288,10 @@
   font-size: 11px;
 }
 
-.loading, .auth-required, .no-rooms, .no-local-rooms {
+.loading,
+.auth-required,
+.no-rooms,
+.no-local-rooms {
   text-align: center;
   padding: 30px 20px;
   color: #5a1e12;
@@ -283,13 +302,18 @@
   min-height: 120px;
 }
 
-.loading i, .auth-required i, .no-rooms i, .no-local-rooms i {
+.loading i,
+.auth-required i,
+.no-rooms i,
+.no-local-rooms i {
   font-size: 32px;
   color: #d4af37;
   margin-bottom: 8px;
 }
 
-.auth-required h3, .no-rooms h3, .no-local-rooms h3 {
+.auth-required h3,
+.no-rooms h3,
+.no-local-rooms h3 {
   margin: 0 0 4px 0;
   font-size: 16px;
   color: #5a1e12;
@@ -664,12 +688,12 @@
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .room-header {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .room-stats {
     flex-direction: column;
     gap: 8px;
@@ -851,9 +875,9 @@
   width: 64px;
   height: 64px;
   background: linear-gradient(45deg, #f5f1e8 25%, transparent 25%),
-              linear-gradient(-45deg, #f5f1e8 25%, transparent 25%),
-              linear-gradient(45deg, transparent 75%, #f5f1e8 75%),
-              linear-gradient(-45deg, transparent 75%, #f5f1e8 75%);
+    linear-gradient(-45deg, #f5f1e8 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f5f1e8 75%),
+    linear-gradient(-45deg, transparent 75%, #f5f1e8 75%);
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
   border: 2px solid rgba(139, 69, 19, 0.3);
@@ -1389,4 +1413,50 @@
   opacity: 0.8;
   max-width: 400px;
   margin: 0 auto;
+}
+
+/* Random Name Button Styles */
+.input-with-action {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.input-with-action input {
+  flex: 1;
+}
+
+.random-btn {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #2d1810;
+  border: 1px solid #8b4513;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.random-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6c547 0%, #d4af37 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.random-btn:disabled {
+  background: #d1d5db;
+  border-color: #9ca3af;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.random-btn i {
+  font-size: 14px;
 }

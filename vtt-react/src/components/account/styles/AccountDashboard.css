@@ -40,11 +40,21 @@
 }
 
 /* Left: Account Icon Section */
-.account-icon-section {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 0 0 auto;
+.account-icon-section.clickable {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.account-icon-section.clickable:hover {
+  background: rgba(139, 69, 19, 0.05);
+}
+
+.account-icon-section.clickable:hover .account-avatar-large {
+  border-color: #d4af37;
+  transform: scale(1.05);
 }
 
 .account-avatar-large {
@@ -59,12 +69,27 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  cursor: pointer;
+  position: relative;
 }
 
-.account-avatar-large:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
+.avatar-edit-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(139, 69, 19, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #f4f1e8;
+  font-size: 1rem;
+}
+
+.account-icon-section.clickable:hover .avatar-edit-hint {
+  opacity: 1;
 }
 
 .account-avatar-large img {
@@ -78,12 +103,30 @@
   color: #8b4513;
 }
 
+.account-welcome {
+  display: flex;
+  flex-direction: column;
+}
+
 .account-welcome .user-display-name {
   margin: 0;
   color: #2d1810;
   font-size: 1.2rem;
   font-weight: 600;
   font-family: 'Cinzel', serif;
+}
+
+.account-welcome .edit-link {
+  font-size: 0.75rem;
+  color: #8b4513;
+  opacity: 0.6;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.2s ease;
+}
+
+.account-icon-section.clickable:hover .edit-link {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .guest-notice {
@@ -381,7 +424,8 @@
   width: calc(100% + 3rem) !important;
   max-width: none !important;
   min-width: calc(100% + 3rem) !important;
-  height: calc(100vh - 120px) !important; /* Use viewport height minus header */
+  height: calc(100vh - 120px) !important;
+  /* Use viewport height minus header */
   min-height: calc(100vh - 120px) !important;
   box-sizing: border-box !important;
 }
@@ -493,8 +537,13 @@
 }
 
 @keyframes gentle-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .dashboard-grid {
@@ -1162,8 +1211,13 @@
 }
 
 @keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 .tier-badge span {
@@ -1949,7 +2003,8 @@
   box-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
 }
 
-.create-character-btn, .create-first-character-btn {
+.create-character-btn,
+.create-first-character-btn {
   background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
   color: #f4f1e8;
   border: 2px solid #8b4513;
@@ -1974,7 +2029,8 @@
   transform: translateX(-50%);
 }
 
-.create-character-btn:hover, .create-first-character-btn:hover {
+.create-character-btn:hover,
+.create-first-character-btn:hover {
   background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
   box-shadow: 0 4px 8px rgba(139, 69, 19, 0.4);
 }
@@ -2320,7 +2376,7 @@
   white-space: nowrap;
   flex-shrink: 0;
   display: inline-block;
-  text-shadow: 
+  text-shadow:
     0 1px 3px rgba(0, 0, 0, 1),
     0 0 2px rgba(0, 0, 0, 0.9),
     1px 1px 2px rgba(0, 0, 0, 0.8),
@@ -2337,7 +2393,7 @@
   white-space: nowrap;
   flex-shrink: 0;
   display: inline-block;
-  text-shadow: 
+  text-shadow:
     0 1px 3px rgba(0, 0, 0, 1),
     0 0 2px rgba(0, 0, 0, 0.9),
     1px 1px 2px rgba(0, 0, 0, 0.8),
@@ -2481,7 +2537,7 @@
 }
 
 /* Force all wrapper containers to be compact */
-.character-card-compact .class-resource-full > *,
+.character-card-compact .class-resource-full>*,
 .character-card-compact .class-resource-full .class-resource-wrapper,
 .character-card-compact .class-resource-full .plaguebringer-resource-wrapper,
 .character-card-compact .class-resource-full .warden-resource-container,
@@ -2666,7 +2722,7 @@
 }
 
 /* Constrain all class resource bar wrappers and containers */
-.character-card-compact .class-resource-full .class-resource-bar > div,
+.character-card-compact .class-resource-full .class-resource-bar>div,
 .character-card-compact .class-resource-full .class-resource-bar div,
 .character-card-compact .class-resource-full .rage-bar-wrapper,
 .character-card-compact .class-resource-full .rage-bar,
@@ -2786,26 +2842,30 @@
 
 /* Chaotic Wave Animation for AccountDashboard class resource bars */
 @keyframes chaoticWave {
-    0% {
-        background-position: 0% 50%;
-        filter: hue-rotate(0deg);
-    }
-    25% {
-        background-position: 100% 30%;
-        filter: hue-rotate(15deg);
-    }
-    50% {
-        background-position: 200% 70%;
-        filter: hue-rotate(-10deg);
-    }
-    75% {
-        background-position: 300% 20%;
-        filter: hue-rotate(25deg);
-    }
-    100% {
-        background-position: 400% 50%;
-        filter: hue-rotate(0deg);
-    }
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+
+  25% {
+    background-position: 100% 30%;
+    filter: hue-rotate(15deg);
+  }
+
+  50% {
+    background-position: 200% 70%;
+    filter: hue-rotate(-10deg);
+  }
+
+  75% {
+    background-position: 300% 20%;
+    filter: hue-rotate(25deg);
+  }
+
+  100% {
+    background-position: 400% 50%;
+    filter: hue-rotate(0deg);
+  }
 }
 
 /* Apply chaotic wave effect to AccountDashboard class resource bars */
@@ -2813,15 +2873,15 @@
 .character-card-compact .resource-bar-fill[data-effect="chaotic-wave"],
 .character-card-compact .class-resource-fill.chaotic-wave-bar,
 .character-card-compact .class-resource-fill[data-effect="chaotic-wave"] {
-    background: linear-gradient(45deg,
-        #1E3A8A 0%,
-        #3B82F6 25%,
-        #1E40AF 50%,
-        #2563EB 75%,
-        #1E3A8A 100%) !important;
-    background-size: 400% 400% !important;
-    animation: chaoticWave 3s ease-in-out infinite !important;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+  background: linear-gradient(45deg,
+      #1E3A8A 0%,
+      #3B82F6 25%,
+      #1E40AF 50%,
+      #2563EB 75%,
+      #1E3A8A 100%) !important;
+  background-size: 400% 400% !important;
+  animation: chaoticWave 3s ease-in-out infinite !important;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
 }
 
 /* Force background and border-radius with maximum specificity - EXCLUDE class resource containers */
@@ -3364,6 +3424,7 @@
 }
 
 @media (max-width: 480px) {
+
   /* Stats row adjustments for small screens */
   .character-card-compact .character-stats-row {
     padding: 0.4rem 0.5rem;

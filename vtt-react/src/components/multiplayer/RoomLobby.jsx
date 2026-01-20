@@ -59,7 +59,7 @@ const translateErrorToFantasy = (errorMessage) => {
   return `A shadow falls across your path, blocking your way forward.`;
 };
 
-const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
+const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => {
   // CRITICAL FIX: Get navigate function for room code URL routing
   const navigate = useNavigate();
 
@@ -80,7 +80,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [preselectedRoom, setPreselectedRoom] = useState(null);
   const [usePasswordProtection, setUsePasswordProtection] = useState(false); // Toggle for optional password
 
   // Use refs to store current values and avoid recreating socket listeners
@@ -228,23 +227,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
-    // Check for preselected room from account dashboard
-    const selectedRoomId = localStorage.getItem('selectedRoomId');
-    const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
-
-    if (selectedRoomId && selectedRoomPassword) {
-      setPreselectedRoom({
-        id: selectedRoomId,
-        password: selectedRoomPassword
-      });
-      setRoomId(selectedRoomId);
-      setJoinPassword(selectedRoomPassword);
-      setActiveTab('join');
-
-      // Clear from localStorage after setting
-      localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('selectedRoomPassword');
-    }
 
     // Check authentication status
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -258,12 +240,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         setPlayerName(finalName);
         loadUserRooms();
 
-        // Auto-join preselected room if user is authenticated
-        if (selectedRoomId && selectedRoomPassword) {
-          setTimeout(() => {
-            handleJoinRoom(selectedRoomId, selectedRoomPassword);
-          }, 1000); // Small delay to ensure everything is loaded
-        }
       } else {
         setUserRooms([]);
       }
@@ -341,7 +317,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         delete socket._joinTimeout;
       }
       setIsConnecting(false);
-      setIsJoiningRoom(false);
+      // NOTE: Don't set isJoiningRoom to false here - let MultiplayerApp handle the loading screen transition
 
       // CRITICAL FIX: Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -390,14 +366,15 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         }
       }
 
-      // Use explicit isGM flag from server (much more reliable than name comparison)
-      const isGM = data.isGM || data.isGMReconnect || false;
-
-      // Pass the password used to join/create so MultiplayerApp can handle auto-reconnects
+      // Store password in localStorage for MultiplayerApp's room_joined handler
       const usedPassword = joinPasswordRef.current || roomPasswordRef.current || '';
+      if (usedPassword) {
+        localStorage.setItem('selectedRoomPassword', usedPassword);
+      }
 
-      // Pass levelEditor and gridSettings from room_joined response for initial state sync
-      onJoinRoomRef.current(data.room, socket, isGM, data.player, usedPassword, data.levelEditor, data.gridSettings);
+      // NOTE: Don't call onJoinRoom directly here - let MultiplayerApp's room_joined handler
+      // manage the transition through the loading screen with the Continue button
+      console.log('✅ [RoomLobby] Room joined - letting MultiplayerApp handle the loading screen transition');
     };
 
     const handleError = (data) => {
@@ -750,6 +727,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       })) : [] // Include party members (excluding current player who is the GM)
     };
 
+    // Save password to localStorage so MultiplayerApp can pick it up
+    if (roomPasswordRef.current.trim()) {
+      localStorage.setItem('selectedRoomPassword', roomPasswordRef.current.trim());
+    }
+
+    // Trigger loading screen in parent
+    if (onJoinAttempt) {
+      onJoinAttempt(null);
+    }
+
     socket.emit('create_room', roomData);
   };
 
@@ -824,6 +811,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     setIsConnecting(true);
     setIsJoiningRoom(true);
     setError('');
+
+    // Trigger global loading screen in parent if provided
+    if (onJoinAttempt) {
+      onJoinAttempt(finalRoomId);
+    }
 
     // Include full character data in join request to avoid race conditions
     const joinData = {
@@ -903,6 +895,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     // Store timeout reference to clear it when join succeeds
     socket._joinTimeout = joinTimeout;
+
+    // Save room ID and password to localStorage so MultiplayerApp can pick them up
+    // This is required for the loading screen flow which is handled by MultiplayerApp
+    localStorage.setItem('selectedRoomId', finalRoomId);
+    if (finalPassword) {
+      localStorage.setItem('selectedRoomPassword', finalPassword);
+    }
 
     console.log('📤 Sending join_room event to server:', joinData);
     socket.emit('join_room', joinData);
@@ -1115,28 +1114,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         {activeTab === 'join' && (
           <div className="join-room-section">
-            {preselectedRoom && (
-              <div className="preselected-room-notice">
-                <div className="notice-content">
-                  <i className="fas fa-info-circle"></i>
-                  <span>
-                    {localStorage.getItem('isTestRoom') === 'true'
-                      ? 'Test room selected - password bypass enabled for localhost'
-                      : 'Room selected from your account dashboard'
-                    }
-                  </span>
-                  <button
-                    className="auto-join-btn"
-                    onClick={() => handleJoinRoom()}
-                    disabled={isConnecting || !playerNameRef.current.trim()}
-                  >
-                    {isConnecting ? 'Joining...' : 'Join Selected Room'}
-                  </button>
-                </div>
-              </div>
-            )}
 
-            <div className="manual-join">
+            <form className="manual-join" onSubmit={(e) => { e.preventDefault(); handleJoinRoom(); }}>
               <div className="form-input-group">
                 <label htmlFor="roomId">Room ID:</label>
                 <input
@@ -1160,12 +1139,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                     value={joinPassword}
                     onChange={(e) => setJoinPassword(e.target.value)}
                     placeholder="Leave empty if room has no password"
-                    autoComplete="off"
+                    autoComplete="current-password"
                     disabled={isConnecting}
                     className="form-input"
                   />
                   <button
-                    onClick={() => handleJoinRoom()}
+                    type="submit"
                     disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim()}
                     className="join-button"
                   >
@@ -1173,7 +1152,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
 
             <div className="available-rooms">
               <h3>Available Rooms</h3>
@@ -1354,7 +1333,15 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             </div>
 
             {usePasswordProtection && (
-              <div className="form-input-group password-field">
+              <form
+                className="form-input-group password-field"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!isConnecting && roomName.trim()) {
+                    handleCreateRoom();
+                  }
+                }}
+              >
                 <label htmlFor="roomPassword">Room Password:</label>
                 <input
                   id="roomPassword"
@@ -1366,8 +1353,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   maxLength={50}
                   className="form-input"
                   autoFocus
+                  autoComplete="new-password"
                 />
-              </div>
+                <button type="submit" style={{ display: 'none' }} />
+              </form>
             )}
 
             <div className="create-buttons">
@@ -1383,7 +1372,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               {isAuthenticated && (
                 <button
                   onClick={handleCreatePersistentRoom}
-                  disabled={isConnecting || !getActiveCharacter() || !roomName.trim()}
+                  disabled={isConnecting || !roomName.trim()}
                   className="create-button persistent"
                 >
                   <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-save'}></i>
@@ -1496,37 +1485,34 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               <h3>Enter Room Password</h3>
               <p>Room: {selectedRoom.name}</p>
             </div>
-            <input
-              type="password"
-              className="password-modal-input"
-              placeholder="Enter room password (leave empty if none)"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handlePasswordSubmit();
-                } else if (e.key === 'Escape') {
-                  handlePasswordCancel();
-                }
-              }}
-              autoFocus
-            />
-            <div className="password-modal-actions">
-              <button
-                className="password-modal-btn secondary"
-                onClick={handlePasswordCancel}
-              >
-                Cancel
-              </button>
-              <button
-                className="password-modal-btn primary"
-                onClick={handlePasswordSubmit}
-                disabled={isJoiningRoom}
-              >
-                <i className={isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play'}></i>
-                {isJoiningRoom ? 'Joining...' : 'Join Room'}
-              </button>
-            </div>
+            <form onSubmit={(e) => { e.preventDefault(); handlePasswordSubmit(); }}>
+              <input
+                type="password"
+                className="password-modal-input"
+                placeholder="Enter room password (leave empty if none)"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                autoComplete="current-password"
+                autoFocus
+              />
+              <div className="password-modal-actions">
+                <button
+                  type="button"
+                  className="password-modal-btn secondary"
+                  onClick={handlePasswordCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="password-modal-btn primary"
+                  disabled={isJoiningRoom}
+                >
+                  <i className={isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play'}></i>
+                  {isJoiningRoom ? 'Joining...' : 'Join Room'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

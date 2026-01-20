@@ -20,7 +20,7 @@
 .account-main .character-primary-stats,
 .account-main .character-secondary-stats {
   padding: 1rem !important;
-  box-shadow: 
+  box-shadow:
     0 6px 20px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(212, 175, 55, 0.1) !important;
   font-family: 'Cinzel', 'Times New Roman', serif !important;
@@ -36,7 +36,7 @@
   position: relative !important;
   overflow: visible !important;
   isolation: isolate !important;
-  contain: layout style !important;
+  /* contain: layout style !important; */
 }
 
 /* ===== STAT GROUP ISOLATION ===== */
@@ -98,7 +98,7 @@
 /* ===== FORCE ACCOUNT DASHBOARD LAYOUT ===== */
 .account-main {
   isolation: isolate !important;
-  contain: layout style !important;
+  /* contain: layout style !important; */
   position: relative !important;
   z-index: 1 !important;
 }
@@ -266,5 +266,3 @@
   /* Allow test room styles to take precedence */
   all: revert !important;
 }
-
-

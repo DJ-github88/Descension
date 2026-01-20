@@ -1,9 +1,10 @@
 // Room Manager component for account dashboard
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserRooms, deleteRoom, getRoomLimits } from '../../services/roomService';
+import { getUserRooms, deleteRoom, getRoomLimits, updateRoom } from '../../services/roomService';
 import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
+import { getRandomRoomName } from '../../utils/nameGenerator';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
@@ -38,8 +39,18 @@ const RoomManager = () => {
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState('success');
   const [showCreateLocalRoom, setShowCreateLocalRoom] = useState(false);
+  const [showCreateMultiplayerRoom, setShowCreateMultiplayerRoom] = useState(false);
   const [newLocalRoomName, setNewLocalRoomName] = useState('');
+  const [newMultiRoomName, setNewMultiRoomName] = useState('');
+  const [newMultiRoomDescription, setNewMultiRoomDescription] = useState('');
+  const [newMultiRoomPassword, setNewMultiRoomPassword] = useState('');
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+
+  // Password Modal State
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordTargetRoom, setPasswordTargetRoom] = useState(null);
+  const [passwordInputValue, setPasswordInputValue] = useState('');
 
   // Helper function to show toast notifications
   const showToast = (message, type = 'success', duration = 4000) => {
@@ -373,35 +384,35 @@ const RoomManager = () => {
         throw new Error('Room ID is required');
       }
 
-      // Check localStorage space before saving
-      const existingData = localStorage.getItem(`room-data-${roomId}`) || '{}';
-      const roomData = JSON.parse(existingData);
-      const updatedData = { ...roomData, ...updates };
-      const dataString = JSON.stringify(updatedData);
-
-      // Estimate size (rough calculation)
-      const estimatedSize = new Blob([dataString]).size;
-
-      // Try to save with better error handling
-      try {
-        localStorage.setItem(`room-data-${roomId}`, dataString);
-      } catch (storageError) {
-        if (storageError.name === 'QuotaExceededError') {
-          throw new Error('Storage quota exceeded. The image is too large. Please try a smaller image.');
-        }
-        throw storageError;
+      // 1. Update Firestore if it's a persistent room (has a real ID, not test-room)
+      if (roomId && !roomId.includes('test')) {
+        await updateRoom(roomId, updates);
+        console.log('✅ Room updated in Firestore:', roomId, updates);
       }
 
-      // Update the local state
+      // 2. Update local state for immediate UI feedback
       setRooms(prevRooms =>
         prevRooms.map(room =>
           room.id === roomId ? { ...room, ...updates } : room
         )
       );
 
-      showToast('Room updated', 'success', 3000);
+      // 3. Fallback for local metadata/image caching
+      if (updates.customImage || updates.description) {
+        const existingData = localStorage.getItem(`room-data-${roomId}`) || '{}';
+        const roomData = JSON.parse(existingData);
+        const updatedData = { ...roomData, ...updates };
+        try {
+          localStorage.setItem(`room-data-${roomId}`, JSON.stringify(updatedData));
+        } catch (storageError) {
+          console.warn('LocalStorage update failed (possibly quota):', storageError);
+        }
+      }
+
+      showToast('Room updated successfully', 'success', 3000);
     } catch (error) {
       console.error('Error updating multiplayer room:', error);
+      showToast(error.message || 'Failed to update room', 'error');
       throw error; // Re-throw so RoomCard can handle it
     }
   };
@@ -579,7 +590,54 @@ const RoomManager = () => {
   };
 
   const handleCreateRoom = () => {
-    navigate('/multiplayer');
+    setShowCreateMultiplayerRoom(true);
+    // Auto-fill room name if character is active
+    const activeCharacter = getActiveCharacter();
+    if (activeCharacter) {
+      setNewMultiRoomName(`${activeCharacter.name}'s Campaign`);
+    } else {
+      setNewMultiRoomName('');
+    }
+    setNewMultiRoomDescription('');
+    setNewMultiRoomPassword('');
+  };
+
+  const handleCreateMultiplayerRoom = async () => {
+    if (!newMultiRoomName.trim()) {
+      showToast('Please enter a room name', 'error');
+      return;
+    }
+
+    setIsCreatingRoom(true);
+    try {
+      const { createPersistentRoom } = await import('../../services/roomService');
+
+      // Get GM name from active character or user profile
+      const activeCharacter = getActiveCharacter();
+      const gmName = activeCharacter?.name || user.displayName || user.email?.split('@')[0] || 'Game Master';
+
+      const roomId = await createPersistentRoom({
+        name: newMultiRoomName.trim(),
+        description: newMultiRoomDescription.trim(),
+        password: newMultiRoomPassword.trim(),
+        gmName: gmName,
+        maxPlayers: 6
+      });
+
+      showToast(`Multiplayer room "${newMultiRoomName}" created!`, 'success');
+      setShowCreateMultiplayerRoom(false);
+      setNewMultiRoomName('');
+      setNewMultiRoomDescription('');
+      setNewMultiRoomPassword('');
+
+      // Refresh room data
+      await loadRoomData();
+    } catch (err) {
+      console.error('Error creating multiplayer room:', err);
+      showToast(err.message || 'Failed to create multiplayer room', 'error');
+    } finally {
+      setIsCreatingRoom(false);
+    }
   };
 
   const handleJoinRoom = (room) => {
@@ -591,20 +649,42 @@ const RoomManager = () => {
       // Clear world builder mode flag - test rooms are not world builder mode
       localStorage.removeItem('isWorldBuilderMode');
       navigate('/multiplayer');
+    } else if (room.userRole === 'gm') {
+      // CRITICAL: GMs bypass the password prompt for their own rooms
+      // Set flag to indicate this is a GM resuming - room needs to be created/activated on server
+      localStorage.setItem('selectedRoomId', room.id);
+      localStorage.setItem('selectedRoomPassword', room.password || '');
+      localStorage.setItem('isGMResume', 'true');
+      localStorage.setItem('resumeRoomName', room.name || 'Campaign Room');
+      localStorage.removeItem('isTestRoom');
+
+      console.log('👑 GM resuming room:', room.id);
+      navigate('/multiplayer');
     } else {
-      // For campaign rooms, prompt for password
-      const password = prompt(`Enter password for "${room.name}":`);
-      if (password !== null && password.trim()) {
-        // Store room selection and navigate to multiplayer
-        localStorage.setItem('selectedRoomId', room.id);
-        localStorage.setItem('selectedRoomPassword', password.trim());
-        localStorage.removeItem('isTestRoom');
-        navigate('/multiplayer');
-      } else if (password !== null) {
-        // User entered empty password
-        alert('Password cannot be empty');
-      }
-      // If password is null, user cancelled - do nothing
+      // For players joining campaign rooms, trigger the custom password modal
+      setPasswordTargetRoom(room);
+      setPasswordInputValue('');
+      setShowPasswordModal(true);
+    }
+  };
+
+  const handlePasswordModalSubmit = (e) => {
+    if (e) e.preventDefault();
+
+    if (passwordTargetRoom && passwordInputValue.trim()) {
+      // Store room selection and navigate to multiplayer
+      localStorage.setItem('selectedRoomId', passwordTargetRoom.id);
+      localStorage.setItem('selectedRoomPassword', passwordInputValue.trim());
+      localStorage.removeItem('isTestRoom');
+
+      setShowPasswordModal(false);
+      setPasswordTargetRoom(null);
+      setPasswordInputValue('');
+
+      console.log('🚀 Navigating to /multiplayer for room:', passwordTargetRoom.id);
+      navigate('/multiplayer');
+    } else if (passwordTargetRoom) {
+      alert('Password cannot be empty');
     }
   };
 
@@ -1031,14 +1111,26 @@ const RoomManager = () => {
           <div className="create-local-room-modal">
             <h3>Create Local Room</h3>
             <div className="form-group">
-              <input
-                type="text"
-                placeholder="Enter room name..."
-                value={newLocalRoomName}
-                onChange={(e) => setNewLocalRoomName(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleCreateLocalRoom()}
-                autoFocus
-              />
+              <label>Room Name</label>
+              <div className="input-with-action">
+                <input
+                  type="text"
+                  placeholder="Enter room name..."
+                  value={newLocalRoomName}
+                  onChange={(e) => setNewLocalRoomName(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleCreateLocalRoom()}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  className="random-btn"
+                  onClick={() => setNewLocalRoomName(getRandomRoomName())}
+                  title="Generate random room name"
+                >
+                  <i className="fas fa-dice"></i>
+                  Random
+                </button>
+              </div>
             </div>
             <div className="modal-actions">
               <button
@@ -1058,6 +1150,137 @@ const RoomManager = () => {
                 Create Room
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Multiplayer Room Modal */}
+      {showCreateMultiplayerRoom && (
+        <div className="modal-overlay" onClick={() => !isCreatingRoom && setShowCreateMultiplayerRoom(false)}>
+          <div className="create-local-room-modal multiplayer-creation-modal" onClick={e => e.stopPropagation()}>
+            <h3>Create Multiplayer Room</h3>
+            <p className="modal-subtitle">Halls that stand the test of time</p>
+
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (!isCreatingRoom && newMultiRoomName.trim()) {
+                handleCreateMultiplayerRoom();
+              }
+            }}>
+              <div className="form-group">
+                <label>Room Name</label>
+                <div className="input-with-action">
+                  <input
+                    type="text"
+                    placeholder="Enter room name..."
+                    value={newMultiRoomName}
+                    onChange={(e) => setNewMultiRoomName(e.target.value)}
+                    maxLength={30}
+                    disabled={isCreatingRoom}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    className="random-btn"
+                    onClick={() => setNewMultiRoomName(getRandomRoomName())}
+                    disabled={isCreatingRoom}
+                    title="Generate random room name"
+                  >
+                    <i className="fas fa-dice"></i>
+                    Random
+                  </button>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Description (Optional)</label>
+                <textarea
+                  placeholder="Describe your campaign..."
+                  value={newMultiRoomDescription}
+                  onChange={(e) => setNewMultiRoomDescription(e.target.value)}
+                  maxLength={200}
+                  rows={3}
+                  disabled={isCreatingRoom}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Room Password (Optional)</label>
+                <input
+                  type="password"
+                  placeholder="Leave empty for public access"
+                  value={newMultiRoomPassword}
+                  onChange={(e) => setNewMultiRoomPassword(e.target.value)}
+                  maxLength={50}
+                  disabled={isCreatingRoom}
+                  autoComplete="new-password"
+                />
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => {
+                    setShowCreateMultiplayerRoom(false);
+                    setNewMultiRoomName('');
+                  }}
+                  disabled={isCreatingRoom}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="create-btn"
+                  disabled={isCreatingRoom || !newMultiRoomName.trim()}
+                >
+                  <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-magic'}></i>
+                  {isCreatingRoom ? 'Creating...' : 'Create Permanent Room'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Password Entry Modal */}
+      {showPasswordModal && passwordTargetRoom && (
+        <div className="modal-overlay" onClick={() => setShowPasswordModal(false)}>
+          <div className="create-local-room-modal" onClick={e => e.stopPropagation()}>
+            <h3>Join "{passwordTargetRoom.name}"</h3>
+            <p className="modal-subtitle">Speak the secret word to enter</p>
+
+            <form onSubmit={handlePasswordModalSubmit}>
+              <div className="form-group">
+                <label>Room Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter secret word..."
+                  value={passwordInputValue}
+                  onChange={(e) => setPasswordInputValue(e.target.value)}
+                  maxLength={50}
+                  autoFocus
+                  autoComplete="current-password"
+                />
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowPasswordModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="create-btn"
+                >
+                  <i className="fas fa-sign-in-alt"></i>
+                  Join Realm
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
