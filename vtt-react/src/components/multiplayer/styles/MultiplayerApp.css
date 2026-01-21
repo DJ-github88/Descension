@@ -410,6 +410,14 @@
   align-items: center;
   z-index: 9999;
   overflow: hidden;
+  transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1), transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.join-loading-overlay.fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+  /* Subtle zoom out for background entrance */
+  pointer-events: none;
 }
 
 .join-loading-overlay::before {
@@ -577,6 +585,33 @@
 
 .join-loading-waiting i {
   color: #d4af37;
+}
+
+/* Fading Message */
+.join-loading-fading-msg {
+  margin-top: 32px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: #d4af37;
+  letter-spacing: 2px;
+  animation: fadePulse 1s ease-in-out infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+@keyframes fadePulse {
+  from {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.02);
+  }
 }
 
 @keyframes fadeInUp {

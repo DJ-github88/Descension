@@ -94,7 +94,7 @@ const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount }) => {
 };
 
 // Themed Join Loading Overlay with Continue button
-const JoinLoadingOverlay = ({ roomName, isReady, onContinue }) => {
+const JoinLoadingOverlay = ({ roomName, isReady, onContinue, isFadingOut }) => {
   const [showContinue, setShowContinue] = useState(false);
   const [countdown, setCountdown] = useState(5);
 
@@ -122,7 +122,7 @@ const JoinLoadingOverlay = ({ roomName, isReady, onContinue }) => {
   }, [isReady, countdown]);
 
   return (
-    <div className="join-loading-overlay">
+    <div className={`join-loading-overlay ${isFadingOut ? 'fade-out' : ''}`}>
       <div className="join-loading-content">
         <div className="join-loading-spinner">
           <i className="fas fa-dharmachakra fa-spin"></i>
@@ -134,7 +134,7 @@ const JoinLoadingOverlay = ({ roomName, isReady, onContinue }) => {
         <div className="join-loading-pulse"></div>
 
         {/* Continue Button - appears when ready */}
-        {showContinue && isReady && (
+        {showContinue && isReady && !isFadingOut && (
           <button
             className="join-loading-continue-btn"
             onClick={onContinue}
@@ -145,17 +145,25 @@ const JoinLoadingOverlay = ({ roomName, isReady, onContinue }) => {
         )}
 
         {/* Skip hint - shows countdown when not ready yet */}
-        {!showContinue && (
+        {!showContinue && !isFadingOut && (
           <p className="join-loading-countdown">
             {isReady ? `Ready in ${countdown}...` : `Connecting... ${countdown}s`}
           </p>
         )}
 
         {/* Show waiting message if countdown done but not ready */}
-        {showContinue && !isReady && (
+        {showContinue && !isReady && !isFadingOut && (
           <p className="join-loading-waiting">
             <i className="fas fa-hourglass-half fa-pulse"></i>
             Waiting for connection...
+          </p>
+        )}
+
+        {/* Fading message */}
+        {isFadingOut && (
+          <p className="join-loading-fading-msg">
+            <i className="fas fa-sparkles"></i>
+            The path opens before you...
           </p>
         )}
       </div>
@@ -187,6 +195,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Pending room data - holds room info while showing loading screen with Continue button
   const [pendingRoomData, setPendingRoomData] = useState(null);
   const [isRoomReady, setIsRoomReady] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
@@ -3800,7 +3809,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
-  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings) => {
+  const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse = false) => {
     // Clear all stores before joining a new room to ensure a clean slate
     clearAllMultiplayerStores();
 
@@ -4483,7 +4492,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setCurrentRoom(room);
 
       // Show successful join notification
-      setIsJoiningRoom(false);
+      if (!skipSetJoiningFalse) {
+        setIsJoiningRoom(false);
+      }
       setConnectionStatus('connected');
 
       // Welcome notification
@@ -4507,7 +4518,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     } catch (error) {
       console.error('Error in handleJoinRoom:', error);
-      setIsJoiningRoom(false);
+      if (!skipSetJoiningFalse) {
+        setIsJoiningRoom(false);
+      }
       setConnectionStatus('error');
 
       // Show user-friendly error message
@@ -4594,32 +4607,75 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Handler for when user clicks Continue on the loading screen
   const handleLoadingContinue = () => {
     if (pendingRoomData) {
-      console.log('🚀 [MultiplayerApp] User clicked Continue, entering room...');
-      handleJoinRoom(
-        pendingRoomData.room,
-        pendingRoomData.socket,
-        pendingRoomData.isGM,
-        pendingRoomData.player,
-        pendingRoomData.password,
-        pendingRoomData.levelEditor,
-        pendingRoomData.gridSettings
-      );
-      // Clear pending data
-      setPendingRoomData(null);
-      setIsRoomReady(false);
+      console.log('🚀 [MultiplayerApp] User clicked Continue, starting RPG fade out...');
+
+      // Start fade out immediately and hide button
+      setIsFadingOut(true);
+
+      // Give the browser a moment to commit the state change and start the animation 
+      // before processing the heavy handleJoinRoom logic
+      setTimeout(async () => {
+        // Perform the actual room join logic but don't clear loading screen yet
+        await handleJoinRoom(
+          pendingRoomData.room,
+          pendingRoomData.socket,
+          pendingRoomData.isGM,
+          pendingRoomData.player,
+          pendingRoomData.password,
+          pendingRoomData.levelEditor,
+          pendingRoomData.gridSettings,
+          true // skipSetJoiningFalse
+        );
+
+        // Wait for the fade animation to complete fully (now slower for cinematic effect)
+        setTimeout(() => {
+          setIsJoiningRoom(false);
+          setIsFadingOut(false);
+          setPendingRoomData(null);
+          setIsRoomReady(false);
+          console.log('✨ [MultiplayerApp] RPG fade out complete');
+        }, 2500); // 2.5s matches the updated CSS transition
+      }, 50);
     }
   };
 
   // If joining via direct navigation, show themed loading instead of lobby
-  if (isJoiningRoom && !currentRoom) {
+  // UPDATED: Now also shows when isFadingOut is true to allow transition
+  if ((isJoiningRoom && !currentRoom) || isFadingOut) {
     const pendingRoomId = localStorage.getItem('selectedRoomId');
-    const roomName = pendingRoomData?.room?.name || (pendingRoomId ? "your selected hall" : "");
+    const roomName = pendingRoomData?.room?.name || currentRoom?.name || (pendingRoomId ? "your selected hall" : "");
     return (
-      <JoinLoadingOverlay
-        roomName={roomName}
-        isReady={isRoomReady}
-        onContinue={handleLoadingContinue}
-      />
+      <>
+        {/* Render room content behind the overlay during fade out */}
+        {currentRoom && (
+          <RoomProvider>
+            <MultiplayerGameContent
+              currentRoom={currentRoom}
+              handleReturnToSinglePlayer={handleReturnToSinglePlayer}
+              connectionStatus={connectionStatus}
+              isJoiningRoom={isJoiningRoom}
+              isGMMode={isGMMode}
+              gridSize={gridSize}
+              gridOffsetX={gridOffsetX}
+              gridOffsetY={gridOffsetY}
+              isGM={isGM}
+              isInMultiplayer={isInMultiplayer}
+              socket={socket}
+              addNotification={addNotification}
+              pendingGameSessionInvitations={pendingGameSessionInvitations}
+              handleAcceptGameSession={handleAcceptGameSession}
+              handleDeclineGameSession={handleDeclineGameSession}
+              actualPlayerCount={actualPlayerCount}
+            />
+          </RoomProvider>
+        )}
+        <JoinLoadingOverlay
+          roomName={roomName}
+          isReady={isRoomReady && !isFadingOut}
+          onContinue={handleLoadingContinue}
+          isFadingOut={isFadingOut}
+        />
+      </>
     );
   }
 
