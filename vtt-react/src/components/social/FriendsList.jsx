@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
+import useSettingsStore from '../../store/settingsStore';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
 const FriendsList = () => {
+  const windowScale = useSettingsStore(state => state.windowScale);
   const {
     friends,
     selectedFriend,
@@ -318,11 +321,14 @@ const FriendsList = () => {
       </div>
 
       {/* Add Friend Dialog */}
-      {showAddFriend && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+      {showAddFriend && createPortal(
+        <div className="social-modal-overlay">
+          <div
+            className="social-modal-content"
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <h3>Add Friend</h3>
-            <div className="modal-form">
+            <div className="social-modal-form">
               <input
                 type="text"
                 value={newFriendName}
@@ -346,15 +352,19 @@ const FriendsList = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Note Dialog */}
-      {showNoteDialog && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+      {showNoteDialog && createPortal(
+        <div className="social-modal-overlay">
+          <div
+            className="social-modal-content note-modal"
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <h3>Set Note</h3>
-            <div className="modal-form">
+            <div className="social-modal-form">
               <textarea
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
@@ -378,7 +388,8 @@ const FriendsList = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Context Menu */}

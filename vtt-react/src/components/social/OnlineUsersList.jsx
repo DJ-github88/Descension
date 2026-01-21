@@ -14,10 +14,12 @@ import useSocialStore from '../../store/socialStore';
 import useCharacterStore from '../../store/characterStore';
 import mockPresenceService from '../../services/mockPresenceService';
 import authService from '../../services/authService';
+import useSettingsStore from '../../store/settingsStore';
 import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
+  const windowScale = useSettingsStore(state => state.windowScale);
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
   const [activeTab, setActiveTab] = useState('online'); // 'online', 'friends', 'ignored', or 'party'
@@ -848,9 +850,13 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       </div>
 
       {/* Add Friend by ID Popup */}
-      {showAddFriendPopup && (
-        <div className="modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
-          <div className="modal-content add-friend-modal" onClick={(e) => e.stopPropagation()}>
+      {showAddFriendPopup && createPortal(
+        <div className="social-modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
+          <div
+            className="social-modal-content add-friend-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <div className="modal-header">
               <h3>Add Friend by ID</h3>
               <button
@@ -919,15 +925,19 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Note Dialog */}
-      {showNoteDialog && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+      {showNoteDialog && createPortal(
+        <div className="social-modal-overlay">
+          <div
+            className="social-modal-content note-modal"
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <h3>Set Note</h3>
-            <div className="modal-form">
+            <div className="social-modal-form">
               <textarea
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
@@ -954,7 +964,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Context Menu - Rendered via Portal */}

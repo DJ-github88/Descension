@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
+import useSettingsStore from '../../store/settingsStore';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
 const IgnoreList = () => {
+  const windowScale = useSettingsStore(state => state.windowScale);
   const {
     ignored,
     selectedIgnored,
@@ -183,11 +186,14 @@ const IgnoreList = () => {
       </div>
 
       {/* Add Ignore Dialog */}
-      {showAddIgnore && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+      {showAddIgnore && createPortal(
+        <div className="social-modal-overlay">
+          <div
+            className="social-modal-content"
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <h3>Add Ignore</h3>
-            <div className="modal-form">
+            <div className="social-modal-form">
               <input
                 type="text"
                 value={newIgnoreName}
@@ -211,15 +217,19 @@ const IgnoreList = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Note Dialog */}
-      {showNoteDialog && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+      {showNoteDialog && createPortal(
+        <div className="social-modal-overlay">
+          <div
+            className="social-modal-content note-modal"
+            style={{ transform: `scale(${windowScale})` }}
+          >
             <h3>Set Note</h3>
-            <div className="modal-form">
+            <div className="social-modal-form">
               <textarea
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
@@ -237,13 +247,18 @@ const IgnoreList = () => {
               </button>
               <button
                 className="social-button"
-                onClick={() => setShowNoteDialog(false)}
+                onClick={() => {
+                  setShowNoteDialog(false);
+                  setNotePlayerId(null);
+                  setNoteText('');
+                }}
               >
                 Cancel
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Context Menu */}
