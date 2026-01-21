@@ -192,13 +192,24 @@ class AuthService {
     }
   }
 
-  // Generate a unique Friend ID
-  generateFriendId(displayName) {
-    // Remove special characters and spaces from display name
-    const cleanName = (displayName || 'User').replace(/[^a-zA-Z0-9]/g, '');
-    // Generate random 4-digit number
-    const randomNum = Math.floor(1000 + Math.random() * 9000);
-    return `${cleanName}${randomNum}`;
+  // Generate a unique Friend ID with fantasy flair
+  generateFriendId() {
+    const prefixes = [
+      'Dragon', 'Storm', 'Moon', 'Shadow', 'Gold', 'Iron', 'Sky', 'Fire', 'Ice', 'Frost',
+      'Spirit', 'Blade', 'Blood', 'Silver', 'Night', 'Dawn', 'Grim', 'Wild', 'Star', 'Cloud',
+      'Void', 'Sun', 'Mist', 'Oak', 'Stone', 'Light', 'Dark', 'Wind', 'Earth', 'Sea'
+    ];
+    const suffixes = [
+      'Whisper', 'Walker', 'Watcher', 'Seeker', 'Hunter', 'Caller', 'Binder', 'Mage', 'Sage',
+      'Blade', 'Hammer', 'Heart', 'Soul', 'Song', 'Storm', 'Shield', 'Guard', 'Fang', 'Claw',
+      'Eye', 'Wing', 'Breath', 'Path', 'Light', 'Flame', 'Spark', 'Tide', 'Brook', 'Hill', 'Peak'
+    ];
+
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    const randomNums = Math.floor(1000 + Math.random() * 9000); // 4 digits
+
+    return `${prefix}${suffix}${randomNums}`;
   }
 
   // Check if Friend ID is available
@@ -253,7 +264,7 @@ class AuthService {
         // Auto-generate a unique friendId
         let attempts = 0;
         do {
-          finalFriendId = this.generateFriendId(displayName || email.split('@')[0]);
+          finalFriendId = this.generateFriendId();
           attempts++;
         } while (!(await this.checkFriendIdAvailable(finalFriendId)) && attempts < 10);
       }
@@ -284,11 +295,19 @@ class AuthService {
         console.error('Error creating user document:', error);
       }
     } else {
-      // Update last login time
+      // Update last login time and ensure friendId exists
       try {
-        await updateDoc(userRef, {
+        const userData = userSnap.data();
+        const updates = {
           lastLoginAt: new Date()
-        });
+        };
+
+        // Migrate users without friendId
+        if (!userData.friendId) {
+          updates.friendId = this.generateFriendId();
+        }
+
+        await updateDoc(userRef, updates);
       } catch (error) {
         console.error('Error updating last login:', error);
       }

@@ -37,7 +37,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const updateStatus = usePresenceStore((state) => state.updateStatus);
   const { user } = useAuthStore();
   const { isInParty, addPartyMember, createParty, partyMembers, removePartyMember } = usePartyStore();
-  const { friends, addFriend, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote } = useSocialStore();
+  const { friends, addFriend, sendFriendRequest, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote } = useSocialStore();
 
   // Migrate friends data on mount if needed
   useEffect(() => {
@@ -78,24 +78,27 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     return friends.filter(friend => {
       // Exclude current user by character name
       if (friend.name === currentUserPresence?.characterName) return false;
-      // Exclude "Yad" (test user)
-      if (friend.name === 'Yad') return false;
       return true;
     });
   }, [friends, currentUserPresence]);
 
+  // Filter out offline users from the global list
+  const activeOnlineUsers = useMemo(() => {
+    return onlineUsers.filter(u => u.status !== 'offline');
+  }, [onlineUsers]);
+
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
-    if (!searchTerm.trim()) return onlineUsers;
+    if (!searchTerm.trim()) return activeOnlineUsers;
 
     const term = searchTerm.toLowerCase();
-    return onlineUsers.filter(u =>
+    return activeOnlineUsers.filter(u =>
       u.characterName?.toLowerCase().includes(term) ||
       u.class?.toLowerCase().includes(term) ||
       u.background?.toLowerCase().includes(term) ||
       u.race?.toLowerCase().includes(term)
     );
-  }, [onlineUsers, searchTerm]);
+  }, [activeOnlineUsers, searchTerm]);
 
   // Handle right-click context menu
   const handleContextMenu = (e, targetUser) => {
@@ -156,7 +159,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     if (contextMenu?.user) {
       // If not in party, create one first with current character data
       if (!isInParty) {
-        const currentPlayerName = characterName || currentUserPresence?.characterName || 'Player';
+        const currentPlayerName = characterName || currentUserPresence?.characterName || 'Unknown';
 
         // Get proper background display name - ONLY custom backgrounds are valid
         let backgroundDisplayName = characterBackground || currentUserPresence?.background || '';
@@ -249,7 +252,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     closeContextMenu();
   };
 
-  const handleAddFriend = () => {
+  const handleAddFriend = async () => {
     if (contextMenu?.user) {
       // Don't add yourself as a friend
       if (contextMenu.user.userId === currentUserPresence?.userId) {
@@ -258,16 +261,24 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         return;
       }
 
-      addFriend({
-        name: contextMenu.user.characterName,
-        level: contextMenu.user.level,
-        class: contextMenu.user.class,
-        background: contextMenu.user.background,
-        race: contextMenu.user.race,
-        subrace: contextMenu.user.subrace,
-        status: contextMenu.user.status,
-        location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
-      });
+      if (contextMenu.user.friendId) {
+        const result = await sendFriendRequest(contextMenu.user.friendId);
+        if (result && !result.success) {
+          console.error('Failed to send friend request:', result.error);
+        }
+      } else {
+        // Fallback or legacy support
+        addFriend({
+          name: contextMenu.user.characterName || contextMenu.user.name,
+          level: contextMenu.user.level,
+          class: contextMenu.user.class,
+          background: contextMenu.user.background,
+          race: contextMenu.user.race,
+          subrace: contextMenu.user.subrace,
+          status: contextMenu.user.status,
+          location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
+        });
+      }
       console.log(`✅ Added ${contextMenu.user.characterName} as friend`);
     }
     closeContextMenu();
@@ -294,8 +305,13 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     }
 
     try {
+      // Strip # if present
+      const cleanFriendId = friendIdInput.trim().startsWith('#')
+        ? friendIdInput.trim().substring(1)
+        : friendIdInput.trim();
+
       // Find user by Friend ID
-      const foundUser = await authService.findUserByFriendId(friendIdInput.trim());
+      const foundUser = await authService.findUserByFriendId(cleanFriendId);
 
       if (!foundUser) {
         setFriendIdError('No user found with this Friend ID');
@@ -309,14 +325,15 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         return;
       }
 
-      // Add friend
-      addFriend({
-        name: foundUser.displayName,
-        friendId: foundUser.friendId,
-        level: 1, // Default values since we don't have character data
-        class: 'Unknown',
-        status: 'offline'
-      });
+      // Send friend request instead of adding directly
+      const result = await sendFriendRequest(foundUser.friendId);
+
+      if (result && !result.success) {
+        setFriendIdError(result.error || 'Failed to send friend request');
+        return;
+      }
+
+      console.log(`✅ Friend request sent to ${foundUser.displayName} (${foundUser.friendId})`);
 
       console.log(`✅ Added ${foundUser.displayName} (${foundUser.friendId}) as friend`);
 
@@ -509,7 +526,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             title="Online Users"
           >
             <i className="fas fa-globe"></i>
-            <span className="tab-count">{onlineUsers.length}</span>
+            {onlineUsers.length > 0 && <span className="tab-count">{onlineUsers.length}</span>}
           </button>
           <button
             className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
@@ -517,7 +534,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             title="Friends"
           >
             <i className="fas fa-user-friends"></i>
-            <span className="tab-count">{filteredFriends.length}</span>
+            {filteredFriends.length > 0 && <span className="tab-count">{filteredFriends.length}</span>}
           </button>
           <button
             className={`users-tab ${activeTab === 'ignored' ? 'active' : ''}`}
@@ -525,7 +542,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             title="Ignored Users"
           >
             <i className="fas fa-user-slash"></i>
-            <span className="tab-count">{ignored.length}</span>
+            {ignored.length > 0 && <span className="tab-count">{ignored.length}</span>}
           </button>
           <button
             className={`users-tab ${activeTab === 'party' ? 'active' : ''}`}
@@ -533,7 +550,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             title="Party Members"
           >
             <i className="fas fa-users"></i>
-            <span className="tab-count">{isInParty ? partyMembers.length : 0}</span>
+            {isInParty && partyMembers.length > 0 && <span className="tab-count">{partyMembers.length}</span>}
           </button>
         </div>
       </div>
@@ -991,7 +1008,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 Unignore
               </button>
             </>
-          ) : contextMenu.user.userId === currentUserPresence?.userId ? (
+          ) : (currentUserPresence?.userId && contextMenu.user.userId === currentUserPresence.userId) ||
+            (currentUserPresence?.userId && contextMenu.user.uid === currentUserPresence.userId) ? (
             <>
               {/* Status Change Options for Current User */}
               <div className="context-menu-section">
@@ -1044,7 +1062,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 <input
                   type="text"
                   className="context-menu-input"
-                  placeholder="Looking for campaign about zombies..."
+                  placeholder="Looking For Campaign"
                   value={statusCommentDraft}
                   onChange={(e) => setStatusCommentDraft(e.target.value)}
                   onKeyDown={(e) => {

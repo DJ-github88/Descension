@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useSocialStore from '../../store/socialStore';
+import useAuthStore from '../../store/authStore';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
 import '../../styles/social-window.css';
@@ -153,7 +154,17 @@ const IgnoreList = () => {
 
       {/* Ignore List */}
       <div className="friends-list">
-        {ignored.length === 0 ? (
+        {(!useAuthStore.getState().isAuthenticated || useAuthStore.getState().user?.isGuest) ? (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <i className="fas fa-lock"></i>
+            </div>
+            <div className="empty-state-text">Authentication Required</div>
+            <div className="empty-state-subtext">
+              Please log in to manage your ignored players
+            </div>
+          </div>
+        ) : ignored.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-ban"></i>
@@ -242,11 +253,11 @@ const IgnoreList = () => {
           y={contextMenu.y}
           player={contextMenu.player}
           onClose={closeContextMenu}
-          onWhisper={() => {}}
-          onInvite={() => {}}
-          onAddFriend={() => {}}
-          onRemoveFriend={() => {}}
-          onAddIgnore={() => {}}
+          onWhisper={() => { }}
+          onInvite={() => { }}
+          onAddFriend={() => { }}
+          onRemoveFriend={() => { }}
+          onAddIgnore={() => { }}
           onRemoveIgnore={handleRemoveIgnore}
           onAddNote={handleAddNote}
         />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useSocialStore from '../../store/socialStore';
+import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import SocialContextMenu from './SocialContextMenu';
@@ -275,7 +276,17 @@ const FriendsList = () => {
 
       {/* Friends List */}
       <div className="friends-list">
-        {(!friends || friends.length === 0) ? (
+        {(!useAuthStore.getState().isAuthenticated || useAuthStore.getState().user?.isGuest) ? (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <i className="fas fa-lock"></i>
+            </div>
+            <div className="empty-state-text">Authentication Required</div>
+            <div className="empty-state-subtext">
+              Please log in to manage your friends list
+            </div>
+          </div>
+        ) : (!friends || friends.length === 0) ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-user-friends"></i>

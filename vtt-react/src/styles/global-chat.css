@@ -37,7 +37,8 @@
 /* ========== Split Panes ========== */
 .users-pane {
   height: 100%;
-  overflow: visible; /* Changed from hidden to allow status dropdown to show */
+  overflow: visible;
+  /* Changed from hidden to allow status dropdown to show */
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
@@ -98,7 +99,8 @@
   flex-direction: column;
   height: 100%;
   background: #f5e6d3;
-  overflow: visible; /* Allow status dropdown to overflow */
+  overflow: visible;
+  /* Allow status dropdown to overflow */
 }
 
 .users-list-header {
@@ -107,8 +109,10 @@
   border-bottom: 2px solid #a89968;
   flex-shrink: 0;
   position: relative;
-  overflow: visible; /* Allow status dropdown to overflow */
-  z-index: 1000; /* Ensure header and its children appear above content */
+  overflow: visible;
+  /* Allow status dropdown to overflow */
+  z-index: 1000;
+  /* Ensure header and its children appear above content */
 }
 
 
@@ -366,8 +370,10 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  align-items: flex-start; /* Explicitly left-align all content */
-  text-align: left; /* Ensure text is left-aligned */
+  align-items: flex-start;
+  /* Explicitly left-align all content */
+  text-align: left;
+  /* Ensure text is left-aligned */
 }
 
 .user-name {
@@ -377,8 +383,10 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  width: 100%; /* Ensure full width */
-  justify-content: flex-start; /* Explicitly left-align */
+  width: 100%;
+  /* Ensure full width */
+  justify-content: flex-start;
+  /* Explicitly left-align */
 }
 
 .you-badge {
@@ -396,16 +404,20 @@
   font-size: 16px;
   margin-left: 6px;
   display: inline-block;
-  position: relative; /* Override any absolute positioning */
+  position: relative;
+  /* Override any absolute positioning */
   top: auto;
   right: auto;
   animation: crownGlow 2s ease-in-out infinite;
 }
 
 @keyframes crownGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.6));
   }
+
   50% {
     filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.9));
   }
@@ -416,8 +428,10 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  width: 100%; /* Ensure full width */
-  justify-content: flex-start; /* Explicitly left-align */
+  width: 100%;
+  /* Ensure full width */
+  justify-content: flex-start;
+  /* Explicitly left-align */
 }
 
 .detail-item {
@@ -641,6 +655,82 @@
   color: #8b7355;
 }
 
+/* Status Comment Styling */
+.context-menu-section {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ebe0cf;
+  background-color: #fdfaf5;
+}
+
+.context-menu-section:last-child {
+  border-bottom: none;
+}
+
+.context-menu-section-header {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #8b7355;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  font-family: 'Cinzel', serif;
+}
+
+.context-menu-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d4c4a8;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+  color: #3d2817;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.context-menu-input:focus {
+  outline: none;
+  border-color: #8b7355;
+  box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.1);
+}
+
+.status-comment-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.status-comment-footer small {
+  font-size: 10px;
+  color: #a89968;
+  font-style: italic;
+}
+
+.save-comment-btn {
+  padding: 5px 12px;
+  background: linear-gradient(to bottom, #8b7355, #7a634a);
+  color: #fff;
+  border: 1px solid #6b5742;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.save-comment-btn:hover {
+  background: linear-gradient(to bottom, #a89968, #8b7355);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.save-comment-btn:active {
+  transform: translateY(0);
+}
+
 /* ========== Global Chat ========== */
 .global-chat {
   display: flex;
@@ -742,6 +832,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -790,10 +881,12 @@
     box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
     transform: translateY(0);
   }
+
   50% {
     box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
     transform: translateY(-2px);
   }
+
   100% {
     box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
     transform: translateY(0);
@@ -1068,6 +1161,7 @@
     opacity: 0;
     transform: translateX(100%);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1080,9 +1174,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.02);
   }
@@ -1220,7 +1317,8 @@
 .chat-tabs {
   display: flex;
   gap: 4px;
-  padding: 8px 12px 0 48px; /* Added left padding to make room for toggle button */
+  padding: 8px 12px 0 48px;
+  /* Added left padding to make room for toggle button */
   background: #d4c4a8;
   border-bottom: 2px solid #a89968;
   overflow-x: auto;
@@ -1292,10 +1390,12 @@
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
   }
+
   50% {
     transform: scale(1.05);
     box-shadow: 0 0 8px 4px rgba(231, 76, 60, 0.4);
   }
+
   100% {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
@@ -1545,11 +1645,6 @@
   overflow: hidden;
 }
 
-/* Loot Message - uses chat-message base styling */
-.chat-message.loot-message {
-  /* Inherits all chat-message styling */
-}
-
 /* Quality-based border colors for loot */
 .chat-message.loot-message[data-item-quality="poor"] {
   border-left: 3px solid #9d9d9d;
@@ -1583,11 +1678,6 @@
 .chat-message.loot-message.currency-loot {
   border-left: 3px solid #ffd700;
   background: #fffef5;
-}
-
-/* Combat Message - uses chat-message base styling */
-.chat-message.combat-message {
-  /* Inherits all chat-message styling */
 }
 
 /* Combat type-specific border colors */
@@ -1701,7 +1791,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10500; /* Higher than Community window (9999-10000) to ensure modals appear on top */
+  z-index: 10500;
+  /* Higher than Community window (9999-10000) to ensure modals appear on top */
   backdrop-filter: blur(4px);
 }
 
@@ -1722,6 +1813,7 @@
     opacity: 0;
     transform: scale(0.95) translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -1902,7 +1994,8 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  z-index: 101; /* Higher than chat tabs */
+  z-index: 101;
+  /* Higher than chat tabs */
   width: 32px;
   height: 32px;
   padding: 0;
@@ -1934,4 +2027,3 @@
 .toggle-users-pane-btn i {
   font-size: 14px;
 }
-

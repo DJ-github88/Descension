@@ -15,7 +15,7 @@ const useAuthStore = create(
       error: null,
       isDevelopmentBypass: false, // Development bypass flag
       rememberMe: false, // Remember me setting
-      
+
       // Actions
       setUser: (user) => {
         set({
@@ -193,14 +193,15 @@ const useAuthStore = create(
             displayName: `Guest${Math.floor(Math.random() * 10000)}`,
             photoURL: null,
             emailVerified: false,
-            isGuest: true
+            isGuest: true,
+            friendId: authService.generateFriendId()
           };
 
           const guestUserData = {
             displayName: guestUser.displayName,
             email: guestUser.email,
             photoURL: null,
-            friendId: null, // Guests don't have Friend IDs
+            friendId: guestUser.friendId, // Sync with guestUser
             createdAt: new Date(),
             lastLoginAt: new Date(),
             characters: [],
@@ -314,10 +315,10 @@ const useAuthStore = create(
       // Reset password
       resetPassword: async (email) => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const result = await authService.resetPassword(email);
-          
+
           if (result.success) {
             return { success: true };
           } else {
@@ -335,10 +336,10 @@ const useAuthStore = create(
       // Update user data
       updateUserData: async (data) => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const result = await authService.updateUserData(data);
-          
+
           if (result.success) {
             // Reload user data
             await get().loadUserData();
@@ -361,10 +362,10 @@ const useAuthStore = create(
           // Use Firebase Anonymous Auth to get a real Firebase user
           // This ensures Firebase security rules will work properly
           const result = await authService.signInAsAnonymous();
-          
+
           if (result.success && result.user) {
             const firebaseUser = result.user;
-            
+
             const devUserData = {
               displayName: 'Development User',
               email: `dev-${firebaseUser.uid}@mythrill.local`,
@@ -382,7 +383,8 @@ const useAuthStore = create(
                 achievements: [],
                 totalPlayTime: 0
               },
-              isDevelopmentUser: true
+              isDevelopmentUser: true,
+              friendId: authService.generateFriendId()
             };
 
             set({
@@ -393,14 +395,15 @@ const useAuthStore = create(
                 photoURL: null,
                 emailVerified: false,
                 isAnonymous: true,
-                isDevelopmentUser: true
+                isDevelopmentUser: true,
+                friendId: devUserData.friendId
               },
               userData: devUserData,
               isAuthenticated: true,
               isDevelopmentBypass: true,
               error: null
             });
-            
+
             console.log('✅ Development bypass enabled with Firebase Anonymous Auth:', firebaseUser.uid);
             return { success: true };
           } else {
@@ -442,7 +445,7 @@ const useAuthStore = create(
               isDevelopmentBypass: true,
               error: null
             });
-            
+
             return { success: true, warning: 'Using mock user - Firebase operations may fail' };
           }
         } catch (error) {

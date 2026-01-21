@@ -31,17 +31,18 @@ const UserCard = ({
 }) => {
   // Helper to get the display name based on format
   const getDisplayName = () => {
-    const accName = user.accountName || user.name || 'Unknown';
+    const accName = user.accountName || user.name || (user.isGuest ? 'Guest' : 'Unknown');
     const charName = user.characterName || (user.character?.name) || '';
 
     if (nameFormat === 'global') {
       // For global/friends: AccountName(CharacterName)
-      if (charName && charName !== 'Guest' && charName !== 'Unknown' && accName !== charName) {
+      // Only show character name if it's special and not same as account name
+      if (charName && charName !== 'Guest' && charName !== 'Unknown' && charName !== accName) {
         return `${accName}(${charName})`;
       }
       return accName;
     } else {
-      // For parties: CharacterName (fallback to AccountName)
+      // For parties/in-game: CharacterName (fallback to AccountName)
       if (charName && charName !== 'Guest' && charName !== 'Unknown') {
         return charName;
       }
@@ -123,7 +124,7 @@ const UserCard = ({
           {getDisplayName()}
           {showFriendId && user.friendId && (
             <span className="friend-id-badge" title="Friend ID">
-              [#{user.friendId}]
+              #{user.friendId}
             </span>
           )}
           {showLeaderCrown && isLeader && (

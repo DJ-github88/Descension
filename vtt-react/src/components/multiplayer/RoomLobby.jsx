@@ -87,6 +87,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   const playerNameRef = useRef(playerName);
   const roomPasswordRef = useRef(roomPassword);
   const joinPasswordRef = useRef(joinPassword);
+  const colorInputRef = useRef(null);
+
 
   useEffect(() => {
     onJoinRoomRef.current = onJoinRoom;
@@ -1063,26 +1065,35 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
             </div>
             <div className="color-input-group">
               <label htmlFor="playerColor">Chat Color:</label>
-              <div className="color-picker-container">
+              <div
+                className="color-picker-container premium-preview"
+                onClick={() => !isConnecting && colorInputRef.current?.click()}
+                title="Click to change your chat color"
+              >
                 <input
                   id="playerColor"
+                  ref={colorInputRef}
                   type="color"
                   value={playerColor}
                   onChange={(e) => setPlayerColor(e.target.value)}
                   disabled={isConnecting}
-                  className="color-picker"
+                  className="color-picker-hidden"
+                  style={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}
                 />
                 <div
-                  className="color-preview"
+                  className="color-preview-v2"
                   style={{
-                    backgroundColor: playerColor,
-                    color: '#fff',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
+                    background: `linear-gradient(135deg, ${playerColor}, ${playerColor}dd)`,
+                    borderColor: playerColor,
+                    boxShadow: `0 4px 12px ${playerColor}44, inset 0 2px 4px rgba(255,255,255,0.3)`
                   }}
                 >
-                  <span>
-                    {playerName || 'Preview'}
+                  <span className="player-name-preview">
+                    {playerName || 'Your Name'}
                   </span>
+                  <div className="color-edit-icon">
+                    <i className="fas fa-palette"></i>
+                  </div>
                 </div>
               </div>
             </div>

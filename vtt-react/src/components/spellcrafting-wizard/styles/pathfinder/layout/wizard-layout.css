@@ -42,13 +42,11 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      var(--pf-gold) 20%,
+      var(--pf-gold) 80%,
+      transparent);
 }
 
 /* ===== TAB BUTTONS ===== */
@@ -83,13 +81,13 @@
   background: var(--pf-gradient-parchment);
   color: var(--pf-brown-dark);
   border-bottom-color: var(--pf-parchment);
-  box-shadow: 
+  box-shadow:
     var(--pf-shadow-md),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-.tab-button.active::after {
+/* .tab-button.active::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -97,7 +95,7 @@
   right: 0;
   height: 2px;
   background: var(--pf-parchment);
-}
+} */
 
 .tab-button .tab-icon {
   margin-right: var(--pf-space-2);
@@ -141,13 +139,11 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      var(--pf-gold) 20%,
+      var(--pf-gold) 80%,
+      transparent);
 }
 
 /* ===== APP TITLE ===== */
@@ -215,6 +211,17 @@
   box-shadow: var(--pf-shadow-md), inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
+
+/* Similar to tab-button.active::after, we remove the bottom connector to prevent clipping */
+/* .app-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--pf-parchment);
+} */
 
 /* ===== APP CONTROLS ===== */
 
@@ -359,28 +366,28 @@
     gap: var(--pf-space-3);
     padding: var(--pf-space-3);
   }
-  
+
   .app-title h1 {
     font-size: var(--pf-text-2xl);
     margin-left: var(--pf-space-2);
   }
-  
+
   .app-logo {
     width: 36px;
     height: 36px;
   }
-  
+
   .tab-container {
     flex-wrap: wrap;
     gap: var(--pf-space-1);
   }
-  
+
   .tab-button {
     padding: var(--pf-space-2) var(--pf-space-4);
     margin-right: var(--pf-space-1);
     font-size: var(--pf-text-sm);
   }
-  
+
   .app-main-panel {
     max-width: 100%;
     padding: var(--pf-space-2);
@@ -420,8 +427,10 @@
   height: 100%;
   width: 100%;
   background: var(--pf-gradient-parchment);
-  overflow: hidden; /* Prevent layout overflow */
-  position: relative; /* Enable absolute positioning for children */
+  overflow: hidden;
+  /* Prevent layout overflow */
+  position: relative;
+  /* Enable absolute positioning for children */
 }
 
 /* ===== WIZARD PROGRESS OVERLAY ===== */
@@ -499,7 +508,8 @@
 
 .spell-wizard-main {
   flex: 1;
-  min-width: 0; /* Allow flex shrinking */
+  min-width: 0;
+  /* Allow flex shrinking */
 }
 
 /* ===== EXTERNAL LIVE PREVIEW PANEL ===== */
@@ -624,7 +634,8 @@
     max-width: none;
     height: 300px;
     margin: var(--pf-space-2);
-    order: -1; /* Show preview at top on mobile */
+    order: -1;
+    /* Show preview at top on mobile */
   }
 
   .spell-wizard-main {
@@ -654,17 +665,21 @@
 .spellbook-layout .wizard-footer {
   background: var(--pf-gradient-header);
   border-top: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-2) var(--pf-space-4); /* Reduced top padding */
+  padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-2) var(--pf-space-4);
+  /* Reduced top padding */
   box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.2);
   position: relative;
   z-index: var(--pf-z-sticky);
   flex-shrink: 0;
   /* Optimized footer height for better content space and moved progress bar */
-  min-height: 90px; /* Reduced height */
-  max-height: 110px; /* Reduced height */
+  min-height: 90px;
+  /* Reduced height */
+  max-height: 110px;
+  /* Reduced height */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content to top */
+  justify-content: flex-start;
+  /* Align content to top */
 }
 
 .spellbook-layout .wizard-footer::before {
@@ -674,13 +689,11 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      var(--pf-gold) 20%,
+      var(--pf-gold) 80%,
+      transparent);
 }
 
 /* ===== WIZARD PROGRESS TABS (IN FOOTER) ===== */
@@ -805,6 +818,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(-120%) scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(-120%) scale(1);
@@ -824,7 +838,8 @@
 }
 
 .step-tab-name {
-  display: none; /* Hide step names to save space */
+  display: none;
+  /* Hide step names to save space */
 }
 
 /* ===== WIZARD NAVIGATION FOOTER ===== */
@@ -905,11 +920,9 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    var(--pf-brown-medium),
-    var(--pf-brown-dark)
-  );
+  background: linear-gradient(to right,
+      var(--pf-brown-medium),
+      var(--pf-brown-dark));
   transition: width var(--pf-transition-normal);
   border-radius: var(--pf-border-radius);
 }
@@ -1011,11 +1024,9 @@
 
 .wizard-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    to right,
-    var(--pf-gold),
-    var(--pf-gold-light)
-  );
+  background: linear-gradient(to right,
+      var(--pf-gold),
+      var(--pf-gold-light));
   transition: width var(--pf-transition-normal);
   border-radius: 4px;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);

@@ -21,6 +21,7 @@ class DemoAuthService {
       displayName: user.displayName || user.email.split('@')[0],
       photoURL: user.photoURL || null,
       createdAt: new Date(),
+      friendId: user.friendId || this.generateFriendId(),
       preferences: {
         theme: 'pathfinder',
         notifications: true,
@@ -50,7 +51,30 @@ class DemoAuthService {
       const existingData = await this.getUserData(this.currentUser.uid);
       const updatedData = { ...existingData, ...data };
 
+      // Update stored user data
       localStorage.setItem(`mythrill-user-${this.currentUser.uid}`, JSON.stringify(updatedData));
+
+      // Update currentUser object if displayName or photoURL changed
+      if (data.displayName || data.photoURL) {
+        this.currentUser = {
+          ...this.currentUser,
+          ...(data.displayName ? { displayName: data.displayName } : {}),
+          ...(data.photoURL ? { photoURL: data.photoURL } : {})
+        };
+        localStorage.setItem('mythrill-demo-user', JSON.stringify(this.currentUser));
+
+        // Update users map as well
+        if (this.users.has(this.currentUser.uid)) {
+          this.users.set(this.currentUser.uid, {
+            ...this.users.get(this.currentUser.uid),
+            ...this.currentUser
+          });
+          localStorage.setItem('mythrill-demo-users', JSON.stringify(Array.from(this.users.entries())));
+        }
+
+        this.notifyListeners(this.currentUser);
+      }
+
       return { success: true };
     } catch (error) {
       return { error: error.message, success: false };
@@ -286,6 +310,26 @@ class DemoAuthService {
 
   notifyListeners(user) {
     this.listeners.forEach(callback => callback(user));
+  }
+
+  // Generate a unique Friend ID with fantasy flair
+  generateFriendId() {
+    const prefixes = [
+      'Dragon', 'Storm', 'Moon', 'Shadow', 'Gold', 'Iron', 'Sky', 'Fire', 'Ice', 'Frost',
+      'Spirit', 'Blade', 'Blood', 'Silver', 'Night', 'Dawn', 'Grim', 'Wild', 'Star', 'Cloud',
+      'Void', 'Sun', 'Mist', 'Oak', 'Stone', 'Light', 'Dark', 'Wind', 'Earth', 'Sea'
+    ];
+    const suffixes = [
+      'Whisper', 'Walker', 'Watcher', 'Seeker', 'Hunter', 'Caller', 'Binder', 'Mage', 'Sage',
+      'Blade', 'Hammer', 'Heart', 'Soul', 'Song', 'Storm', 'Shield', 'Guard', 'Fang', 'Claw',
+      'Eye', 'Wing', 'Breath', 'Path', 'Light', 'Flame', 'Spark', 'Tide', 'Brook', 'Hill', 'Peak'
+    ];
+
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    const randomNums = Math.floor(1000 + Math.random() * 9000); // 4 digits
+
+    return `${prefix}${suffix}${randomNums}`;
   }
 
   getCurrentUser() {

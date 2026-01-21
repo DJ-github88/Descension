@@ -268,6 +268,67 @@ const useSocialStore = create(
         });
       },
 
+      // Friend Request actions
+      sendFriendRequest: async (targetFriendId) => {
+        const { friends, pendingRequests } = get();
+
+        // Check if already friends
+        if (friends.some(f => f.friendId === targetFriendId)) {
+          return { error: 'Already friends', success: false };
+        }
+
+        // Check if already sent
+        if (pendingRequests.some(r => r.friendId === targetFriendId && r.type === 'sent')) {
+          return { error: 'Request already sent', success: false };
+        }
+
+        const newRequest = {
+          id: uuidv4(),
+          friendId: targetFriendId,
+          type: 'sent',
+          status: 'pending',
+          timestamp: Date.now()
+        };
+
+        set(state => ({
+          pendingRequests: [...state.pendingRequests, newRequest]
+        }));
+
+        return { success: true };
+      },
+
+      receiveFriendRequest: (request) => set(state => ({
+        pendingRequests: [...state.pendingRequests, {
+          ...request,
+          id: request.id || uuidv4(),
+          type: 'received',
+          status: 'pending',
+          timestamp: Date.now()
+        }]
+      })),
+
+      acceptFriendRequest: (requestId) => set(state => {
+        const request = state.pendingRequests.find(r => r.id === requestId);
+        if (!request) return state;
+
+        const newFriend = {
+          id: uuidv4(),
+          name: request.name || 'New Friend',
+          friendId: request.friendId,
+          status: 'online', // Assume online when accepting
+          isRealID: true
+        };
+
+        return {
+          friends: [...state.friends, newFriend],
+          pendingRequests: state.pendingRequests.filter(r => r.id !== requestId)
+        };
+      }),
+
+      declineFriendRequest: (requestId) => set(state => ({
+        pendingRequests: state.pendingRequests.filter(r => r.id !== requestId)
+      })),
+
       // Reset store to initial state
       resetStore: () => set(initialState)
     }),

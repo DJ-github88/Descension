@@ -40,8 +40,8 @@ const usePresenceStore = create((set, get) => ({
   /**
    * Initialize presence tracking for current user
    */
-  initializePresence: async (userId, characterData, sessionData = {}, accountName = null, isGuest = false) => {
-    const success = await presenceService.setOnline(userId, characterData, { ...sessionData, accountName, isGuest });
+  initializePresence: async (userId, characterData, sessionData = {}, accountName = null, isGuest = false, friendId = null) => {
+    const success = await presenceService.setOnline(userId, characterData, { ...sessionData, accountName, isGuest, friendId });
 
     // Always set local state, even if Firebase fails (for dev mode without Firebase)
     const presenceData = {
@@ -50,6 +50,7 @@ const usePresenceStore = create((set, get) => ({
       isGuest,
       ...characterData,
       ...sessionData,
+      friendId,
       status: 'online',
       lastUpdated: Date.now()
     };
@@ -283,16 +284,16 @@ const usePresenceStore = create((set, get) => ({
     const { currentUserPresence, socket } = get();
 
     // Block guest users from sending global messages
-    if (currentUserPresence?.isGuest) {
-      console.warn('Guest users cannot send global chat messages');
+    if (!currentUserPresence || currentUserPresence?.isGuest) {
+      console.warn('Authentication required to send global chat messages');
       return false;
     }
 
     // For testing without login, use a default user
     const senderData = currentUserPresence || {
-      userId: 'test_user',
-      characterName: 'Yad',
-      accountName: 'Yad',
+      userId: 'unknown_user',
+      characterName: 'Unknown',
+      accountName: 'Unknown',
       class: 'Adventurer',
       level: 1
     };
@@ -330,7 +331,11 @@ const usePresenceStore = create((set, get) => ({
    * Send a whisper message to a specific user
    */
   sendWhisper: (targetUserId, content) => {
-    const { currentUserPresence, socket, onlineUsers } = get();
+    // Block guest users from sending whispers
+    if (!currentUserPresence || currentUserPresence?.isGuest) {
+      console.warn('Authentication required to send whispers');
+      return false;
+    }
 
     // Check if target is a mock user
     const targetUser = onlineUsers.get(targetUserId);
@@ -341,7 +346,7 @@ const usePresenceStore = create((set, get) => ({
     let senderName = senderData?.characterName || senderData?.name || 'Unknown';
     let senderClass = senderData?.class || 'Unknown';
     let senderLevel = senderData?.level || 1;
-    let senderId = senderData?.userId || 'test_user';
+    let senderId = senderData?.userId || 'unknown_user';
 
     // Try to get from character store if in multiplayer
     import('./gameStore').then(({ default: useGameStore }) => {

@@ -78,10 +78,10 @@ const TabbedChat = () => {
       sendGlobalMessage(content);
     } else if (activeTab === 'party') {
       // Use character store data if available, otherwise use presence or fallback
-      const senderName = characterName || currentUserPresence?.characterName || 'Yad';
+      const senderName = characterName || currentUserPresence?.characterName || 'Unknown';
       const senderClass = characterClass || currentUserPresence?.class || 'Adventurer';
       const senderLevel = characterLevel || currentUserPresence?.level || 1;
-      const senderId = currentUserPresence?.userId || 'test_user';
+      const senderId = currentUserPresence?.userId || 'unknown_user';
 
       // Send party message
       const message = {
@@ -97,7 +97,7 @@ const TabbedChat = () => {
 
       console.log('💬 Sending party message:', message);
       console.log('📊 Party chat messages before:', partyChatMessages.length);
-      
+
       // Check if in multiplayer mode and send through socket
       const { multiplayerSocket } = useGameStore.getState();
       const { sendMultiplayerMessage } = useChatStore.getState();
@@ -109,7 +109,7 @@ const TabbedChat = () => {
         setMessageInput('');
         return;
       }
-      
+
       // Single-player mode: add locally
       addPartyChatMessage(message);
 
@@ -130,7 +130,18 @@ const TabbedChat = () => {
 
   // Get placeholder text based on active tab
   const getPlaceholder = () => {
-    const displayName = characterName || currentUserPresence?.characterName || 'Yad';
+    // Check if authenticated
+    if (!currentUserPresence || currentUserPresence?.isGuest) {
+      return "Please log in to chat...";
+    }
+
+    // Format sender name: AccountName(CharacterName) or just AccountName
+    let displayName = currentUserPresence.accountName || currentUserPresence.characterName || 'Unknown';
+    if (currentUserPresence.characterName && currentUserPresence.accountName &&
+      currentUserPresence.characterName !== 'Guest' && currentUserPresence.characterName !== 'Unknown' &&
+      currentUserPresence.characterName !== currentUserPresence.accountName) {
+      displayName = `${currentUserPresence.accountName}(${currentUserPresence.characterName})`;
+    }
 
     if (activeTab === 'global') {
       return displayName;
@@ -152,7 +163,7 @@ const TabbedChat = () => {
   const renderMessage = (message) => {
     // For testing without login, check against 'test_user' as well
     const isOwnMessage = message.senderId === currentUserPresence?.userId ||
-                         (message.senderId === 'test_user' && !currentUserPresence);
+      (message.senderId === 'test_user' && !currentUserPresence);
 
     if (message.type === 'system') {
       return (

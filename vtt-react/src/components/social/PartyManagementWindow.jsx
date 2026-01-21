@@ -80,71 +80,6 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
         }
     };
 
-    // Add test party members for demonstration
-    const handleAddTestMember = () => {
-        const testMembers = [
-            {
-                id: 'test-member-1',
-                name: 'Thordak',
-                character: {
-                    class: 'Dreadnaught',
-                    race: 'Dwarf',
-                    level: 12,
-                    health: { current: 85, max: 100 },
-                    mana: { current: 20, max: 30 },
-                    actionPoints: { current: 2, max: 3 }
-                }
-            },
-            {
-                id: 'test-member-2',
-                name: 'Elaria',
-                character: {
-                    class: 'Chronarch',
-                    race: 'Elf',
-                    level: 10,
-                    health: { current: 45, max: 60 },
-                    mana: { current: 80, max: 100 },
-                    actionPoints: { current: 3, max: 3 }
-                }
-            },
-            {
-                id: 'test-member-3',
-                name: 'Grimjaw',
-                character: {
-                    class: 'Bladedancer',
-                    race: 'Halfling',
-                    level: 11,
-                    health: { current: 55, max: 70 },
-                    mana: { current: 40, max: 50 },
-                    actionPoints: { current: 1, max: 3 }
-                }
-            },
-            {
-                id: 'test-member-4',
-                name: 'Yad',
-                character: {
-                    class: 'Martyr',
-                    race: 'Human',
-                    level: 9,
-                    health: { current: 65, max: 80 },
-                    mana: { current: 60, max: 75 },
-                    actionPoints: { current: 3, max: 3 }
-                }
-            }
-        ];
-
-        // Add a random test member that's not already in the party
-        const availableMembers = testMembers.filter(testMember =>
-            !partyMembers.some(partyMember => partyMember.id === testMember.id)
-        );
-
-        if (availableMembers.length > 0) {
-            const randomMember = availableMembers[Math.floor(Math.random() * availableMembers.length)];
-            addPartyMember(randomMember);
-        } else {
-
-        }
-    };
 
     return (
         <WowWindow
@@ -165,10 +100,6 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                             <i className="fas fa-users"></i> Create Party
                         </button>
 
-                        {/* Test button for adding demo members */}
-                        <button className="party-action-button test" onClick={handleAddTestMember}>
-                            <i className="fas fa-plus"></i> Add Test Member (Demo)
-                        </button>
 
                         <p style={{ fontSize: '12px', color: '#666', textAlign: 'center', marginTop: '10px' }}>
                             💡 Tip: Once you create a party, the Party HUD will appear on the left side of your screen!
@@ -292,10 +223,6 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                         </div>
                                     )}
 
-                                    {/* Test button for adding demo members */}
-                                    <button className="party-action-button test" onClick={handleAddTestMember}>
-                                        <i className="fas fa-plus"></i> Add Test Member
-                                    </button>
                                 </>
                             )}
 

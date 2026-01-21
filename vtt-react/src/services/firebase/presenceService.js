@@ -60,6 +60,7 @@ class PresenceService {
         roomId: sessionData.roomId || null,
         roomName: sessionData.roomName || null,
         roomParticipants: sessionData.roomParticipants || null,
+        friendId: sessionData.friendId || null,
         connectedAt: serverTimestamp(),
         lastSeen: serverTimestamp()
       };

@@ -197,10 +197,10 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
           <textarea
             ref={inputRef}
             className="chat-input"
-            disabled={currentUserPresence?.isGuest}
+            disabled={!currentUserPresence || currentUserPresence?.isGuest}
             placeholder={
-              currentUserPresence?.isGuest
-                ? "Guest users cannot use global chat."
+              !currentUserPresence || currentUserPresence?.isGuest
+                ? "Please log in to use global chat."
                 : whisperTarget
                   ? `Whisper to ${whisperTarget.characterName}...`
                   : 'Type a message...'

@@ -133,14 +133,14 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
                         </button>
                     </div>
                 </form>
-            </div>
 
-            <CharacterIconSelector
-                isOpen={showIconSelector}
-                onClose={() => setShowIconSelector(false)}
-                onSelect={handleIconSelect}
-                currentIcon={null}
-            />
+                <CharacterIconSelector
+                    isOpen={showIconSelector}
+                    onClose={() => setShowIconSelector(false)}
+                    onSelect={handleIconSelect}
+                    currentIcon={null}
+                />
+            </div>
         </div>,
         document.body
     );

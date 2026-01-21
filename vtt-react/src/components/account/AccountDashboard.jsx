@@ -17,6 +17,7 @@ import ProfileEditModal from './ProfileEditModal';
 // Note: canAccessCampaignManager is available for future access control:
 // import CampaignManager, { canAccessCampaignManager, CAMPAIGN_ACCESS_CONFIG } from './CampaignManager';
 import ClassResourceBar from '../hud/ClassResourceBar';
+import useSocialStore from '../../store/socialStore';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
@@ -30,6 +31,10 @@ const AccountDashboard = ({ user }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
+  const { pendingRequests, acceptFriendRequest, declineFriendRequest } = useSocialStore();
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
 
   // Debug: Log all character data on component mount
   useEffect(() => {
@@ -344,7 +349,12 @@ const AccountDashboard = ({ user }) => {
               </div>
             </div>
             <div className="account-welcome">
-              <p className="user-display-name">{userData?.displayName || user?.displayName || 'Adventurer'}</p>
+              <div className="user-name-wrapper">
+                <p className="user-display-name">{userData?.displayName || user?.displayName || 'Adventurer'}</p>
+                {(userData?.friendId || user?.friendId) && (
+                  <span className="user-account-id">#{userData?.friendId || user?.friendId}</span>
+                )}
+              </div>
               <span className="edit-link">Edit Profile</span>
             </div>
           </div>
@@ -383,6 +393,57 @@ const AccountDashboard = ({ user }) => {
 
           {/* Right: Action Buttons */}
           <div className="header-actions-new">
+            {/* Notification Bell */}
+            <div className="notification-wrapper">
+              <button
+                className={`notification-btn ${receivedRequests.length > 0 ? 'has-notifications' : ''}`}
+                onClick={() => setShowNotifications(!showNotifications)}
+                title="Friend Requests"
+              >
+                <i className="fas fa-bell"></i>
+                {receivedRequests.length > 0 && (
+                  <span className="notification-count">{receivedRequests.length}</span>
+                )}
+              </button>
+
+              {showNotifications && (
+                <div className="notification-dropdown">
+                  <div className="notification-header">
+                    <h3>Friend Requests</h3>
+                    <button onClick={() => setShowNotifications(false)}>&times;</button>
+                  </div>
+                  <div className="notification-list">
+                    {receivedRequests.length === 0 ? (
+                      <p className="no-notifications">No pending requests</p>
+                    ) : (
+                      receivedRequests.map(request => (
+                        <div key={request.id} className="request-item">
+                          <div className="request-info">
+                            <span className="request-name">{request.name || 'Unknown User'}</span>
+                            <span className="request-id">#{request.friendId}</span>
+                          </div>
+                          <div className="request-actions">
+                            <button
+                              className="confirm-btn"
+                              onClick={() => acceptFriendRequest(request.id)}
+                            >
+                              Confirm
+                            </button>
+                            <button
+                              className="decline-btn"
+                              onClick={() => declineFriendRequest(request.id)}
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button
               onClick={(e) => {
                 e.preventDefault();

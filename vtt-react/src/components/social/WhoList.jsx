@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useSocialStore from '../../store/socialStore';
+import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import { CLASS_RESOURCE_TYPES } from '../../data/classResources';
@@ -246,7 +247,17 @@ const WhoList = () => {
 
       {/* Search Results */}
       <div className="friends-list">
-        {whoResults.length === 0 ? (
+        {(!useAuthStore.getState().isAuthenticated || useAuthStore.getState().user?.isGuest) ? (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <i className="fas fa-lock"></i>
+            </div>
+            <div className="empty-state-text">Authentication Required</div>
+            <div className="empty-state-subtext">
+              Please log in to search and view community members
+            </div>
+          </div>
+        ) : whoResults.filter(p => p.status !== 'offline').length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-search"></i>
@@ -258,8 +269,8 @@ const WhoList = () => {
           </div>
         ) : (
           <>
-            <div className="friends-section-header">Search Results ({whoResults.length})</div>
-            {whoResults.map(renderPlayerEntry)}
+            <div className="friends-section-header">Search Results ({whoResults.filter(p => p.status !== 'offline').length})</div>
+            {whoResults.filter(p => p.status !== 'offline').map(renderPlayerEntry)}
           </>
         )}
       </div>
@@ -274,9 +285,9 @@ const WhoList = () => {
           onWhisper={handleWhisper}
           onInvite={handleInvite}
           onAddFriend={handleAddFriend}
-          onRemoveFriend={() => {}}
+          onRemoveFriend={() => { }}
           onAddIgnore={handleAddIgnore}
-          onRemoveIgnore={() => {}}
+          onRemoveIgnore={() => { }}
         />
       )}
     </div>

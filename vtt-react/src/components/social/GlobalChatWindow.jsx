@@ -21,7 +21,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(false);
 
-  const { user } = useAuthStore();
+  const { user, userData } = useAuthStore();
   // Get character data from characterStore - use individual selectors to trigger updates
   const characterName = useCharacterStore((state) => state.name);
   const characterClass = useCharacterStore((state) => state.class);
@@ -72,15 +72,12 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       console.log('🎭 Initializing presence with character:', characterData);
       console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
       console.log('🎭 Account Name:', accountName, 'isGuest:', isGuest);
-      initializePresence(userId, characterData, sessionData, accountName, isGuest);
+      const friendId = userData?.friendId || user?.friendId || null;
+      initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
       subscribeToOnlineUsers();
     }
 
-    // Initialize mock users for testing (always, even without login)
-    if (isOpen) {
-      const initializeMockUsers = usePresenceStore.getState().initializeMockUsers;
-      initializeMockUsers();
-    }
+    // Mock users initialization removed
   }, [isOpen, user, characterId, currentUserPresence]);
 
   // Update presence when character changes
@@ -108,10 +105,11 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       const userId = user?.uid || `dev_user_${characterId}`;
       const accountName = user?.displayName || 'Unknown';
       const isGuest = user?.isGuest || false;
+      const friendId = userData?.friendId || user?.friendId || null;
 
       console.log('🔄 Updating presence with new character data:', characterData);
       // Re-initialize presence with updated character data
-      initializePresence(userId, characterData, sessionData, accountName, isGuest);
+      initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
     }
   }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterRaceDisplayName, characterBackground, characterBackgroundDisplayName, characterPath, characterLevel]);
 
