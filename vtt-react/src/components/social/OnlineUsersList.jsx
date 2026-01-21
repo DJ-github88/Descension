@@ -12,7 +12,6 @@ import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
 import useSocialStore from '../../store/socialStore';
 import useCharacterStore from '../../store/characterStore';
-import mockPresenceService from '../../services/mockPresenceService';
 import authService from '../../services/authService';
 import useSettingsStore from '../../store/settingsStore';
 import UserCard from './UserCard';
@@ -60,18 +59,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   // Start party chat simulation when party members change
   useEffect(() => {
-    if (isInParty && partyMembers && partyMembers.length > 1) {
-      const addPartyChatMessage = usePresenceStore.getState().addPartyChatMessage;
-      mockPresenceService.startPartyChatSimulation(partyMembers, addPartyChatMessage);
-      console.log('🎉 Started party chat simulation');
-    } else {
-      mockPresenceService.stopPartyChatSimulation();
-    }
-
-    // Cleanup on unmount
-    return () => {
-      mockPresenceService.stopPartyChatSimulation();
-    };
+    // Mock party chat simulation removed
   }, [isInParty, partyMembers]);
 
   // Filter out current user from friends list

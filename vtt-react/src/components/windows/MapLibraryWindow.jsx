@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { FaImage, FaCopy, FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import WowWindow from './WowWindow';
 import useMapStore from '../../store/mapStore';
@@ -7,7 +8,9 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
+import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
 import './styles/MapLibraryWindow.css';
+import '../character-creation-wizard/styles/CharacterAppearanceModal.css'; // Reuse background grid styles
 
 const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [selectedMapId, setSelectedMapId] = useState(null);
@@ -22,6 +25,10 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const fileInputRef = useRef(null);
     const backgroundFileInputRef = useRef(null);
     const mapGridRef = useRef(null);
+    const [showAssetSelector, setShowAssetSelector] = useState(false);
+    const [assetSelectorType, setAssetSelectorType] = useState(null); // 'wizard' or 'assign'
+    const [targetMapForAsset, setTargetMapForAsset] = useState(null);
+    const [activeSelectionTab, setActiveSelectionTab] = useState('assets'); // 'assets' or 'upload'
 
     // Map store
     const {
@@ -44,7 +51,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     // Game and level editor stores for state synchronization
     const gameStore = useGameStore();
     const levelEditorStore = useLevelEditorStore();
-    
+
     // Get real-time data from stores for reactive updates
     const { dndElements } = useLevelEditorStore();
     const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
@@ -85,7 +92,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 // Get the actual state data from the stores
                 const gameStoreState = useGameStore.getState();
                 const levelEditorStoreState = useLevelEditorStore.getState();
-                
+
                 // Debug: Log what we're saving
                 console.log('Saving map state:', {
                     mapId: currentMapId,
@@ -94,7 +101,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     fogErasePaths: levelEditorStoreState.fogErasePaths?.length || 0,
                     fogOfWarData: Object.keys(levelEditorStoreState.fogOfWarData || {}).length
                 });
-                
+
                 await saveCurrentMapState(gameStoreState, levelEditorStoreState);
             }
 
@@ -112,35 +119,35 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             // Load new map state (fallback to map data if state not found)
             let mapState = loadMapState();
 
-                // If no map state found, use the map data directly (for newly created maps)
-                if (!mapState && targetMap) {
-                    console.log('No map state found, using map data directly');
-                    mapState = {
-                        backgrounds: targetMap.backgrounds || [],
-                        activeBackgroundId: targetMap.activeBackgroundId || null,
-                        backgroundImage: targetMap.backgroundImage || null,
-                        backgroundImageUrl: targetMap.backgroundImageUrl || '',
-                        creatures: [],
-                        tokens: [],
-                        cameraX: 0,
-                        cameraY: 0,
-                        zoomLevel: 1.0,
-                        gridSize: 50,
-                        gridOffsetX: 0,
-                        gridOffsetY: 0,
-                        gridLineColor: 'rgba(64, 196, 255, 0.3)',
-                        gridLineThickness: 1,
-                        terrainData: {},
-                        environmentalObjects: [],
-                        dndElements: [],
-                        fogOfWarData: {},
-                        fogOfWarPaths: [],
-                        fogErasePaths: [],
-                        wallData: {},
-                        drawingPaths: [],
-                        drawingLayers: []
-                    };
-                }
+            // If no map state found, use the map data directly (for newly created maps)
+            if (!mapState && targetMap) {
+                console.log('No map state found, using map data directly');
+                mapState = {
+                    backgrounds: targetMap.backgrounds || [],
+                    activeBackgroundId: targetMap.activeBackgroundId || null,
+                    backgroundImage: targetMap.backgroundImage || null,
+                    backgroundImageUrl: targetMap.backgroundImageUrl || '',
+                    creatures: [],
+                    tokens: [],
+                    cameraX: 0,
+                    cameraY: 0,
+                    zoomLevel: 1.0,
+                    gridSize: 50,
+                    gridOffsetX: 0,
+                    gridOffsetY: 0,
+                    gridLineColor: 'rgba(64, 196, 255, 0.3)',
+                    gridLineThickness: 1,
+                    terrainData: {},
+                    environmentalObjects: [],
+                    dndElements: [],
+                    fogOfWarData: {},
+                    fogOfWarPaths: [],
+                    fogErasePaths: [],
+                    wallData: {},
+                    drawingPaths: [],
+                    drawingLayers: []
+                };
+            }
 
             console.log('Final map state to load:', mapState);
 
@@ -166,14 +173,14 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 // This ensures tokens don't persist between maps
                 const { default: useCreatureStore } = await import('../../store/creatureStore');
                 const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
-                
+
                 // Clear all tokens before loading new map's tokens
                 if (useCreatureStore.getState().clearTokens) {
                     useCreatureStore.getState().clearTokens();
                 } else {
                     useCreatureStore.setState({ tokens: [] });
                 }
-                
+
                 if (useCharacterTokenStore.getState().clearCharacterTokens) {
                     useCharacterTokenStore.getState().clearCharacterTokens();
                 } else {
@@ -184,7 +191,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 if (gameStoreState.setCreatures) {
                     gameStoreState.setCreatures(mapState.creatures || []);
                 }
-                
+
                 // Load tokens for the new map
                 if (mapState.tokens && mapState.tokens.length > 0) {
                     const creatureStore = useCreatureStore.getState();
@@ -194,7 +201,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         }
                     });
                 }
-                
+
                 // Load character tokens for the new map
                 if (mapState.characterTokens && mapState.characterTokens.length > 0) {
                     const characterTokenStore = useCharacterTokenStore.getState();
@@ -266,8 +273,8 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         { id: 'grid', name: 'Grid', visible: true, locked: false },
                         { id: 'overlay', name: 'Overlay', visible: true, locked: false }
                     ];
-                    levelEditorState.setDrawingLayers(mapState.drawingLayers && mapState.drawingLayers.length > 0 
-                        ? mapState.drawingLayers 
+                    levelEditorState.setDrawingLayers(mapState.drawingLayers && mapState.drawingLayers.length > 0
+                        ? mapState.drawingLayers
                         : defaultLayers);
                 }
 
@@ -378,7 +385,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         try {
             // Import compression utility
             const { compressImage } = await import('../../utils/imageCompression');
-            
+
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('🖼️ Compressing background image for map creation... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
@@ -482,6 +489,41 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         }
     };
 
+    // Handle Asset Selection
+    const handleOpenAssetSelector = (type, mapId = null) => {
+        setAssetSelectorType(type);
+        setTargetMapForAsset(mapId);
+        setShowAssetSelector(true);
+    };
+
+    const handleSelectAsset = (bgName) => {
+        const bgUrl = getBackgroundUrl(bgName);
+
+        if (assetSelectorType === 'wizard') {
+            updateMapCreationWizard({ backgroundImage: bgUrl });
+        } else if (assetSelectorType === 'assign' && targetMapForAsset) {
+            const backgroundId = Date.now().toString();
+            updateMap(targetMapForAsset, {
+                backgrounds: [{
+                    id: backgroundId,
+                    url: bgUrl,
+                    name: bgName.replace('.png', ''),
+                    position: { x: 0, y: 0 },
+                    scale: 1.0,
+                    opacity: 1.0,
+                    zIndex: 0
+                }],
+                activeBackgroundId: backgroundId,
+                backgroundImage: null,
+                backgroundImageUrl: ''
+            });
+        }
+
+        setShowAssetSelector(false);
+        setAssetSelectorType(null);
+        setTargetMapForAsset(null);
+    };
+
     const handleBackgroundUpload = async (event) => {
         const file = event.target.files[0];
         if (!file || !showBackgroundAssignment) return;
@@ -510,7 +552,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         try {
             // Import compression utility
             const { compressImage } = await import('../../utils/imageCompression');
-            
+
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('🖼️ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
@@ -520,46 +562,46 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             reader.onload = (e) => {
                 const backgroundUrl = e.target.result;
 
-            // Create background ID
-            const backgroundId = Date.now().toString();
+                // Create background ID
+                const backgroundId = Date.now().toString();
 
-            // Update the map with the new background (replace all existing backgrounds)
-            // NOTE: This is just for preview in the map library - it won't automatically apply to the grid
-            // Users need to use the "Upload Background" button in the editor to actually set it as a grid background
-            updateMap(showBackgroundAssignment, {
-                backgrounds: [{
-                    id: backgroundId,
-                    url: backgroundUrl,
-                    name: 'Map Background',
-                    position: { x: 0, y: 0 },
-                    scale: 1.0,
-                    opacity: 1.0,
-                    zIndex: 0
-                }],
-                activeBackgroundId: backgroundId,
-                // Clear legacy background fields to prevent conflicts
-                backgroundImage: null,
-                backgroundImageUrl: ''
-            });
+                // Update the map with the new background (replace all existing backgrounds)
+                // NOTE: This is just for preview in the map library - it won't automatically apply to the grid
+                // Users need to use the "Upload Background" button in the editor to actually set it as a grid background
+                updateMap(showBackgroundAssignment, {
+                    backgrounds: [{
+                        id: backgroundId,
+                        url: backgroundUrl,
+                        name: 'Map Background',
+                        position: { x: 0, y: 0 },
+                        scale: 1.0,
+                        opacity: 1.0,
+                        zIndex: 0
+                    }],
+                    activeBackgroundId: backgroundId,
+                    // Clear legacy background fields to prevent conflicts
+                    backgroundImage: null,
+                    backgroundImageUrl: ''
+                });
 
-            // DON'T automatically apply to gameStore - this is just a preview image
-            // Users should use the editor's "Upload Background" feature to set grid backgrounds
+                // DON'T automatically apply to gameStore - this is just a preview image
+                // Users should use the editor's "Upload Background" feature to set grid backgrounds
 
-            setShowBackgroundAssignment(null);
+                setShowBackgroundAssignment(null);
 
-            // Reset file input
-            if (backgroundFileInputRef.current) {
-                backgroundFileInputRef.current.value = '';
-            }
-        };
-        reader.onerror = () => {
-            alert('Error reading file. Please try again.');
-            if (backgroundFileInputRef.current) {
-                backgroundFileInputRef.current.value = '';
-            }
-            setShowBackgroundAssignment(null);
-        };
-        reader.readAsDataURL(compressedFile);
+                // Reset file input
+                if (backgroundFileInputRef.current) {
+                    backgroundFileInputRef.current.value = '';
+                }
+            };
+            reader.onerror = () => {
+                alert('Error reading file. Please try again.');
+                if (backgroundFileInputRef.current) {
+                    backgroundFileInputRef.current.value = '';
+                }
+                setShowBackgroundAssignment(null);
+            };
+            reader.readAsDataURL(compressedFile);
         } catch (error) {
             console.error('❌ Image compression failed:', error);
             alert('Failed to compress image. Please try a different image or a smaller file.');
@@ -593,7 +635,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             >
                 <div className="map-library-window">
                     {/* Map Grid with Create Button */}
-                    <div 
+                    <div
                         className="map-grid"
                         ref={mapGridRef}
                         onWheel={(e) => {
@@ -614,7 +656,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 <div className="create-map-text">Create New Map</div>
                             </div>
                         </div>
-                            {maps.map(map => (
+                        {maps.map(map => (
                             <div
                                 key={map.id}
                                 className={`map-card ${map.id === currentMapId ? 'current' : ''} ${selectedMapId === map.id ? 'selected' : ''}`}
@@ -683,8 +725,9 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                     <button
                                         className="wow-button small"
                                         onClick={(e) => {
+                                            e.preventDefault();
                                             e.stopPropagation();
-                                            handleAssignBackground(map.id);
+                                            handleOpenAssetSelector('assign', map.id);
                                         }}
                                         title="Assign Background"
                                     >
@@ -742,7 +785,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 />
                             </label>
 
-                            <label className="wizard-label">
+                            <div className="wizard-label">
                                 Background Image (Optional):
                                 <input
                                     ref={fileInputRef}
@@ -751,12 +794,19 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                     onChange={handleImageUpload}
                                     style={{ display: 'none' }}
                                 />
-                                <button
-                                    className="wow-button"
-                                    onClick={() => fileInputRef.current?.click()}
-                                >
-                                    Choose Image
-                                </button>
+                                <div className="wizard-button-group">
+                                    <button
+                                        className="wow-button"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleOpenAssetSelector('wizard');
+                                        }}
+                                        style={{ width: '100%' }}
+                                    >
+                                        <FaImage style={{ marginRight: '8px' }} />
+                                        Select Image
+                                    </button>
+                                </div>
                                 {mapCreationWizard.backgroundImage && (
                                     <div className="image-preview">
                                         <img
@@ -766,7 +816,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         />
                                     </div>
                                 )}
-                            </label>
+                            </div>
                         </div>
 
                         <div className="wizard-actions">
@@ -786,6 +836,94 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         </div>
                     </div>
                 </WowWindow>
+            )}
+
+            {/* Asset Selector Modal */}
+            {showAssetSelector && ReactDOM.createPortal(
+                <div
+                    className="character-appearance-modal-overlay"
+                    style={{ zIndex: 100000 }}
+                    onClick={() => setShowAssetSelector(false)}
+                >
+                    <div
+                        className="character-appearance-modal"
+                        style={{ maxWidth: '800px', width: '90%' }}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="character-appearance-modal-header">
+                            <h3>Select Background Asset</h3>
+                            <button
+                                className="character-appearance-modal-close"
+                                onClick={() => setShowAssetSelector(false)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="character-appearance-modal-body">
+                            <div className="appearance-tabs" style={{ marginBottom: '20px' }}>
+                                <button
+                                    className={`appearance-tab ${activeSelectionTab === 'assets' ? 'active' : ''}`}
+                                    onClick={() => setActiveSelectionTab('assets')}
+                                >
+                                    <i className="fas fa-images"></i> Assets Library
+                                </button>
+                                <button
+                                    className={`appearance-tab ${activeSelectionTab === 'upload' ? 'active' : ''}`}
+                                    onClick={() => setActiveSelectionTab('upload')}
+                                >
+                                    <i className="fas fa-upload"></i> Upload Custom
+                                </button>
+                            </div>
+
+                            {activeSelectionTab === 'assets' ? (
+                                <div className="appearance-background-grid" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                                    {ALL_BACKGROUND_ASSETS.map(bg => (
+                                        <div
+                                            key={bg}
+                                            className="appearance-background-option"
+                                            style={{ backgroundImage: `url(/assets/backgrounds/${bg})`, height: '120px' }}
+                                            onClick={() => handleSelectAsset(bg)}
+                                            title={bg.replace('.png', '')}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="appearance-upload-tab" style={{ padding: '20px', textAlign: 'center' }}>
+                                    <label
+                                        htmlFor="map-manual-upload"
+                                        className="appearance-upload-area"
+                                        style={{ border: '2px dashed var(--pf-brown-medium)', padding: '40px', display: 'block', cursor: 'pointer', borderRadius: '12px' }}
+                                    >
+                                        <i className="fas fa-cloud-upload-alt" style={{ fontSize: '3rem', color: 'var(--pf-gold)', marginBottom: '15px', display: 'block' }}></i>
+                                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Click to select a file from your device</span>
+                                        <small style={{ display: 'block', marginTop: '10px', color: 'var(--pf-text-secondary)' }}>Maximum file size: 10MB</small>
+                                    </label>
+                                    <input
+                                        id="map-manual-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                            if (assetSelectorType === 'wizard') {
+                                                handleImageUpload(e);
+                                            } else {
+                                                setShowBackgroundAssignment(targetMapForAsset);
+                                                handleBackgroundUpload(e);
+                                            }
+                                            setShowAssetSelector(false);
+                                        }}
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        <div className="character-appearance-modal-footer">
+                            <button className="appearance-done-btn" onClick={() => setShowAssetSelector(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
             )}
 
             {/* Hidden file input for background assignment */}

@@ -122,8 +122,7 @@ export async function loadUserSpells(userId) {
     // Query all spells for this user
     const spellsQuery = query(
       collection(db, COLLECTIONS.USER_SPELLS),
-      where('userId', '==', userId),
-      orderBy('createdAt', 'desc')
+      where('userId', '==', userId)
     );
 
     const querySnapshot = await getDocs(spellsQuery);
@@ -136,7 +135,12 @@ export async function loadUserSpells(userId) {
       });
     });
 
-    return spells;
+    // Sort in memory to avoid index requirement
+    return spells.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0);
+      const dateB = new Date(b.createdAt || 0);
+      return dateB - dateA; // Descending
+    });
 
   } catch (error) {
     console.error('Error loading user spells:', error);

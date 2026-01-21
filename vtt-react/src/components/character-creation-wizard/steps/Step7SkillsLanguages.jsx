@@ -136,23 +136,30 @@ const Step7SkillsLanguages = () => {
     const pathData = characterData.path ? getPathData(characterData.path) : null;
 
     // Get racial languages (automatically granted)
-    const racialLanguages = subraceData?.languages || [];
+    const racialLanguages = React.useMemo(() => subraceData?.languages || [], [subraceData]);
 
     // Calculate how many skills and languages the character can choose
     // Convert D&D skill names from background to custom skill IDs
-    const backgroundSkillsDnD = backgroundData?.skillProficiencies || [];
-    const backgroundSkills = backgroundSkillsDnD
-        .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
-        .filter(Boolean); // Remove any unmapped skills
+    const backgroundSkills = React.useMemo(() => {
+        const dndSkills = backgroundData?.skillProficiencies || [];
+        return dndSkills
+            .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
+            .filter(Boolean);
+    }, [backgroundData]);
 
     // Convert D&D skill names from path to custom skill IDs
-    const pathSkillsDnD = pathData?.skillProficiencies || [];
-    const pathSkills = pathSkillsDnD
-        .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
-        .filter(Boolean); // Remove any unmapped skills
+    const pathSkills = React.useMemo(() => {
+        const dndSkills = pathData?.skillProficiencies || [];
+        return dndSkills
+            .map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill])
+            .filter(Boolean);
+    }, [pathData]);
 
     // Combine background and path skills as automatically granted
-    const grantedSkills = [...new Set([...backgroundSkills, ...pathSkills])]; // Use Set to remove duplicates
+    const grantedSkills = React.useMemo(() =>
+        [...new Set([...backgroundSkills, ...pathSkills])],
+        [backgroundSkills, pathSkills]
+    );
 
     const classSkillCount = 1; // Reduced to balance skill proficiencies - characters get 1 skill choice
     const languageCount = (backgroundData?.languages || 0) + (pathData?.languages || 0);
@@ -254,7 +261,7 @@ const Step7SkillsLanguages = () => {
     const isLanguageDisabled = (language) => {
         // Disable if it's a racial language or if selection limit is reached
         return racialLanguages.includes(language) ||
-               (!selectedLanguages.includes(language) && selectedLanguages.length >= languageCount);
+            (!selectedLanguages.includes(language) && selectedLanguages.length >= languageCount);
     };
 
     // Get skill rank from state
@@ -320,216 +327,216 @@ const Step7SkillsLanguages = () => {
     return (
         <div className="wizard-step-content">
             <div className="skills-languages-container">
-                    {/* Skills Section */}
-                    <div className="selection-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-cogs"></i> Skill Proficiencies</h3>
-                            <div className="selection-info">
-                                <span className={selectedSkills.length === classSkillCount ? 'complete' : 'incomplete'}>
-                                    {selectedSkills.length} / {classSkillCount} Selected
-                                </span>
-                            </div>
-                        </div>
-
-                        {grantedSkills.length > 0 && (
-                            <div className="granted-info">
-                                <i className="fas fa-gift"></i> Granted Skills: <strong>
-                                    {grantedSkills.map(skillId => SKILL_DEFINITIONS[skillId]?.name || skillId).join(', ')}
-                                </strong>
-                                {backgroundSkills.length > 0 && pathSkills.length > 0 && (
-                                    <span className="source-breakdown">
-                                        ({backgroundSkills.length} from background, {pathSkills.length} from path)
-                                    </span>
-                                )}
-                            </div>
-                        )}
-
-                        <div className="button-grid">
-                            {ALL_SKILLS.map((skill) => {
-                                const isGranted = isSkillGranted(skill.id);
-                                const isSelected = selectedSkills.includes(skill.id);
-                                const isDisabled = isSkillDisabled(skill.id);
-
-                                return (
-                                    <button
-                                        key={skill.id}
-                                        type="button"
-                                        className={`selection-button ${isSelected ? 'selected' : ''} ${isGranted ? 'granted' : ''} ${isDisabled ? 'disabled' : ''} ${isProficient(skill.id) ? 'proficient' : ''}`}
-                                        onClick={() => !isGranted && !isDisabled && handleSkillToggle(skill.id)}
-                                        onMouseEnter={handleMouseEnter(skill.description)}
-                                        onMouseLeave={handleMouseLeave}
-                                        onMouseMove={handleMouseMove}
-                                        disabled={isDisabled && !isSelected && !isGranted}
-                                    >
-                                        <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-icon" />
-                                        <span>{skill.name}</span>
-                                        {(isSelected || isGranted) && <i className="fas fa-check check-icon"></i>}
-                                        {isProficient(skill.id) && <span className="proficient-tag" title="Proficient - Unlocks skill-based abilities">Proficient</span>}
-                                    </button>
-                                );
-                            })}
+                {/* Skills Section */}
+                <div className="selection-section">
+                    <div className="section-header">
+                        <h3><i className="fas fa-cogs"></i> Skill Proficiencies</h3>
+                        <div className="selection-info">
+                            <span className={selectedSkills.length === classSkillCount ? 'complete' : 'incomplete'}>
+                                {selectedSkills.length} / {classSkillCount} Selected
+                            </span>
                         </div>
                     </div>
 
-                    {/* Languages Section */}
-                    <div className="selection-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-language"></i> Languages</h3>
-                            {languageCount > 0 && (
-                                <div className="selection-info">
-                                    <span className={selectedLanguages.length === languageCount ? 'complete' : 'incomplete'}>
-                                        {selectedLanguages.length} / {languageCount} Selected
-                                    </span>
-                                </div>
+                    {grantedSkills.length > 0 && (
+                        <div className="granted-info">
+                            <i className="fas fa-gift"></i> Granted Skills: <strong>
+                                {grantedSkills.map(skillId => SKILL_DEFINITIONS[skillId]?.name || skillId).join(', ')}
+                            </strong>
+                            {backgroundSkills.length > 0 && pathSkills.length > 0 && (
+                                <span className="source-breakdown">
+                                    ({backgroundSkills.length} from background, {pathSkills.length} from path)
+                                </span>
                             )}
                         </div>
+                    )}
 
-                        {/* Racial Languages */}
-                        {racialLanguages.length > 0 && (
-                            <div className="granted-section">
-                                <div className="granted-header">
-                                    <i className="fas fa-star"></i> Racial Languages
-                                </div>
-                                <div className="button-grid">
-                                    {racialLanguages.map((language) => {
-                                        const langData = COMMON_LANGUAGES.find(l => l.name === language);
-                                        return (
-                                            <button
-                                                key={language}
-                                                type="button"
-                                                className="selection-button granted"
-                                                onMouseEnter={handleMouseEnter(langData?.description || 'A racial language.')}
-                                                onMouseLeave={handleMouseLeave}
-                                                onMouseMove={handleMouseMove}
-                                                disabled
-                                            >
-                                                <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                <span>{language}</span>
-                                                <i className="fas fa-star check-icon"></i>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
+                    <div className="button-grid">
+                        {ALL_SKILLS.map((skill) => {
+                            const isGranted = isSkillGranted(skill.id);
+                            const isSelected = selectedSkills.includes(skill.id);
+                            const isDisabled = isSkillDisabled(skill.id);
 
-                        {/* Additional Languages */}
+                            return (
+                                <button
+                                    key={skill.id}
+                                    type="button"
+                                    className={`selection-button ${isSelected ? 'selected' : ''} ${isGranted ? 'granted' : ''} ${isDisabled ? 'disabled' : ''} ${isProficient(skill.id) ? 'proficient' : ''}`}
+                                    onClick={() => !isGranted && !isDisabled && handleSkillToggle(skill.id)}
+                                    onMouseEnter={handleMouseEnter(skill.description)}
+                                    onMouseLeave={handleMouseLeave}
+                                    onMouseMove={handleMouseMove}
+                                    disabled={isDisabled && !isSelected && !isGranted}
+                                >
+                                    <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-icon" />
+                                    <span>{skill.name}</span>
+                                    {(isSelected || isGranted) && <i className="fas fa-check check-icon"></i>}
+                                    {isProficient(skill.id) && <span className="proficient-tag" title="Proficient - Unlocks skill-based abilities">Proficient</span>}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Languages Section */}
+                <div className="selection-section">
+                    <div className="section-header">
+                        <h3><i className="fas fa-language"></i> Languages</h3>
                         {languageCount > 0 && (
-                            <div className="selectable-section">
-                                <div className="selectable-header">
-                                    <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
-                                </div>
-                                <div className="button-grid">
-                                    {COMMON_LANGUAGES.map((language) => {
-                                        const isSelected = selectedLanguages.includes(language.name);
-                                        const isRacial = racialLanguages.includes(language.name);
-                                        const isDisabled = isLanguageDisabled(language.name);
-
-                                        return (
-                                            <button
-                                                key={language.name}
-                                                type="button"
-                                                className={`selection-button ${isSelected ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                                onClick={() => handleLanguageToggle(language.name)}
-                                                onMouseEnter={handleMouseEnter(language.description)}
-                                                onMouseLeave={handleMouseLeave}
-                                                onMouseMove={handleMouseMove}
-                                                disabled={isDisabled && !isSelected}
-                                            >
-                                                <i className={`fas ${language.icon}`}></i>
-                                                <span>{language.name}</span>
-                                                {(isSelected || isRacial) && <i className="fas fa-check check-icon"></i>}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
+                            <div className="selection-info">
+                                <span className={selectedLanguages.length === languageCount ? 'complete' : 'incomplete'}>
+                                    {selectedLanguages.length} / {languageCount} Selected
+                                </span>
                             </div>
                         )}
                     </div>
 
-                    {/* Skill Point Allocation Section */}
-                    <div className="selection-section skill-points-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-chart-line"></i> Skill Rank Allocation</h3>
-                            <div className="skill-points-display">
-                                <span className={`points-available ${availablePoints === 0 ? 'complete' : availablePoints < 0 ? 'over-budget' : 'incomplete'}`}>
-                                    <i className="fas fa-coins"></i> {availablePoints} / {totalSkillPoints} Points Available
-                                </span>
+                    {/* Racial Languages */}
+                    {racialLanguages.length > 0 && (
+                        <div className="granted-section">
+                            <div className="granted-header">
+                                <i className="fas fa-star"></i> Racial Languages
+                            </div>
+                            <div className="button-grid">
+                                {racialLanguages.map((language) => {
+                                    const langData = COMMON_LANGUAGES.find(l => l.name === language);
+                                    return (
+                                        <button
+                                            key={language}
+                                            type="button"
+                                            className="selection-button granted"
+                                            onMouseEnter={handleMouseEnter(langData?.description || 'A racial language.')}
+                                            onMouseLeave={handleMouseLeave}
+                                            onMouseMove={handleMouseMove}
+                                            disabled
+                                        >
+                                            <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                            <span>{language}</span>
+                                            <i className="fas fa-star check-icon"></i>
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
+                    )}
 
-                        <div className="skill-points-info">
-                            <p>
-                                <i className="fas fa-info-circle"></i> Spend skill points to increase your proficiency in skills.
-                                Each upgrade costs more than the last. Granted skills start at <strong>Novice</strong> rank.
-                            </p>
-                            <div className="points-breakdown">
-                                <span><strong>Base Points:</strong> 15</span>
-                                {characterData.finalStats?.intelligence > 10 && (
-                                    <span><strong>Intelligence Bonus:</strong> +{Math.floor((characterData.finalStats.intelligence - 10) / 2) * 2}</span>
-                                )}
-                                {characterData.background && (
-                                    <span><strong>Background:</strong> {characterData.background}</span>
-                                )}
-                                {characterData.race && (
-                                    <span><strong>Race:</strong> {characterData.race}</span>
-                                )}
+                    {/* Additional Languages */}
+                    {languageCount > 0 && (
+                        <div className="selectable-section">
+                            <div className="selectable-header">
+                                <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
+                            </div>
+                            <div className="button-grid">
+                                {COMMON_LANGUAGES.map((language) => {
+                                    const isSelected = selectedLanguages.includes(language.name);
+                                    const isRacial = racialLanguages.includes(language.name);
+                                    const isDisabled = isLanguageDisabled(language.name);
+
+                                    return (
+                                        <button
+                                            key={language.name}
+                                            type="button"
+                                            className={`selection-button ${isSelected ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                            onClick={() => handleLanguageToggle(language.name)}
+                                            onMouseEnter={handleMouseEnter(language.description)}
+                                            onMouseLeave={handleMouseLeave}
+                                            onMouseMove={handleMouseMove}
+                                            disabled={isDisabled && !isSelected}
+                                        >
+                                            <i className={`fas ${language.icon}`}></i>
+                                            <span>{language.name}</span>
+                                            {(isSelected || isRacial) && <i className="fas fa-check check-icon"></i>}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
+                    )}
+                </div>
 
-                        <div className="skill-ranks-list">
-                            {/* Show granted skills first */}
-                            {grantedSkills.length > 0 && (
-                                <>
-                                    <h4 className="skill-group-header"><i className="fas fa-gift"></i> Granted Skills</h4>
-                                    {grantedSkills.map(skillId => {
-                                        const skill = SKILL_DEFINITIONS[skillId];
-                                        if (!skill) return null;
+                {/* Skill Point Allocation Section */}
+                <div className="selection-section skill-points-section">
+                    <div className="section-header">
+                        <h3><i className="fas fa-chart-line"></i> Skill Rank Allocation</h3>
+                        <div className="skill-points-display">
+                            <span className={`points-available ${availablePoints === 0 ? 'complete' : availablePoints < 0 ? 'over-budget' : 'incomplete'}`}>
+                                <i className="fas fa-coins"></i> {availablePoints} / {totalSkillPoints} Points Available
+                            </span>
+                        </div>
+                    </div>
 
-                                        return (
-                                            <SkillRankUpgrade
-                                                key={skillId}
-                                                skill={skill}
-                                                currentRank={skillRanks[skillId] || 'NOVICE'}
-                                                onUpgrade={() => handleSkillUpgrade(skillId)}
-                                                onDowngrade={() => handleSkillDowngrade(skillId)}
-                                                availablePoints={availablePoints}
-                                                isGranted={true}
-                                            />
-                                        );
-                                    })}
-                                </>
+                    <div className="skill-points-info">
+                        <p>
+                            <i className="fas fa-info-circle"></i> Spend skill points to increase your proficiency in skills.
+                            Each upgrade costs more than the last. Granted skills start at <strong>Novice</strong> rank.
+                        </p>
+                        <div className="points-breakdown">
+                            <span><strong>Base Points:</strong> 15</span>
+                            {characterData.finalStats?.intelligence > 10 && (
+                                <span><strong>Intelligence Bonus:</strong> +{Math.floor((characterData.finalStats.intelligence - 10) / 2) * 2}</span>
                             )}
-
-                            {/* Show selected skills */}
-                            {selectedSkills.length > 0 && (
-                                <>
-                                    <h4 className="skill-group-header"><i className="fas fa-check-circle"></i> Selected Skills</h4>
-                                    {selectedSkills.map(skillId => {
-                                        const skill = SKILL_DEFINITIONS[skillId];
-                                        if (!skill || grantedSkills.includes(skillId)) return null;
-
-                                        return (
-                                            <SkillRankUpgrade
-                                                key={skillId}
-                                                skill={skill}
-                                                currentRank={skillRanks[skillId] || 'UNTRAINED'}
-                                                onUpgrade={() => handleSkillUpgrade(skillId)}
-                                                onDowngrade={() => handleSkillDowngrade(skillId)}
-                                                availablePoints={availablePoints}
-                                                isGranted={false}
-                                            />
-                                        );
-                                    })}
-                                </>
+                            {characterData.background && (
+                                <span><strong>Background:</strong> {characterData.background}</span>
                             )}
+                            {characterData.race && (
+                                <span><strong>Race:</strong> {characterData.race}</span>
+                            )}
+                        </div>
+                    </div>
 
-                            {/* Show other skills that have been upgraded */}
-                            {Object.keys(skillRanks).filter(skillId =>
-                                !grantedSkills.includes(skillId) &&
-                                !selectedSkills.includes(skillId) &&
-                                skillRanks[skillId] !== 'UNTRAINED'
-                            ).length > 0 && (
+                    <div className="skill-ranks-list">
+                        {/* Show granted skills first */}
+                        {grantedSkills.length > 0 && (
+                            <>
+                                <h4 className="skill-group-header"><i className="fas fa-gift"></i> Granted Skills</h4>
+                                {grantedSkills.map(skillId => {
+                                    const skill = SKILL_DEFINITIONS[skillId];
+                                    if (!skill) return null;
+
+                                    return (
+                                        <SkillRankUpgrade
+                                            key={skillId}
+                                            skill={skill}
+                                            currentRank={skillRanks[skillId] || 'NOVICE'}
+                                            onUpgrade={() => handleSkillUpgrade(skillId)}
+                                            onDowngrade={() => handleSkillDowngrade(skillId)}
+                                            availablePoints={availablePoints}
+                                            isGranted={true}
+                                        />
+                                    );
+                                })}
+                            </>
+                        )}
+
+                        {/* Show selected skills */}
+                        {selectedSkills.length > 0 && (
+                            <>
+                                <h4 className="skill-group-header"><i className="fas fa-check-circle"></i> Selected Skills</h4>
+                                {selectedSkills.map(skillId => {
+                                    const skill = SKILL_DEFINITIONS[skillId];
+                                    if (!skill || grantedSkills.includes(skillId)) return null;
+
+                                    return (
+                                        <SkillRankUpgrade
+                                            key={skillId}
+                                            skill={skill}
+                                            currentRank={skillRanks[skillId] || 'UNTRAINED'}
+                                            onUpgrade={() => handleSkillUpgrade(skillId)}
+                                            onDowngrade={() => handleSkillDowngrade(skillId)}
+                                            availablePoints={availablePoints}
+                                            isGranted={false}
+                                        />
+                                    );
+                                })}
+                            </>
+                        )}
+
+                        {/* Show other skills that have been upgraded */}
+                        {Object.keys(skillRanks).filter(skillId =>
+                            !grantedSkills.includes(skillId) &&
+                            !selectedSkills.includes(skillId) &&
+                            skillRanks[skillId] !== 'UNTRAINED'
+                        ).length > 0 && (
                                 <>
                                     <h4 className="skill-group-header"><i className="fas fa-star"></i> Other Upgraded Skills</h4>
                                     {Object.keys(skillRanks)
@@ -557,347 +564,265 @@ const Step7SkillsLanguages = () => {
                                 </>
                             )}
 
-                            {grantedSkills.length === 0 && selectedSkills.length === 0 && (
-                                <div className="no-skills-message">
-                                    <i className="fas fa-arrow-up"></i>
-                                    <p>Select skills above to allocate skill points</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Languages Section */}
-                    <div className="selection-section">
-                        <div className="section-header">
-                            <h3><i className="fas fa-language"></i> Languages</h3>
-                            {languageCount > 0 && (
-                                <div className="selection-info">
-                                    <span className={selectedLanguages.length === languageCount ? 'complete' : 'incomplete'}>
-                                        {selectedLanguages.length} / {languageCount} Selected
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Racial Languages */}
-                        {racialLanguages.length > 0 && (
-                            <div className="granted-section">
-                                <div className="granted-header">
-                                    <i className="fas fa-star"></i> Racial Languages
-                                </div>
-                                <div className="button-grid">
-                                    {racialLanguages.map((language) => {
-                                        const langData = COMMON_LANGUAGES.find(l => l.name === language);
-                                        return (
-                                            <button
-                                                key={language}
-                                                type="button"
-                                                className="selection-button granted"
-                                                onMouseEnter={handleMouseEnter(langData?.description || 'A racial language.')}
-                                                onMouseLeave={handleMouseLeave}
-                                                onMouseMove={handleMouseMove}
-                                                disabled
-                                            >
-                                                <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                <span>{language}</span>
-                                                <i className="fas fa-star check-icon"></i>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Additional Languages */}
-                        {languageCount > 0 && (
-                            <div className="selectable-section">
-                                <div className="selectable-header">
-                                    <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
-                                </div>
-                                <div className="button-grid">
-                                    {COMMON_LANGUAGES.map((language) => {
-                                        const isSelected = selectedLanguages.includes(language.name);
-                                        const isRacial = racialLanguages.includes(language.name);
-                                        const isDisabled = isLanguageDisabled(language.name);
-
-                                        if (isRacial) return null; // Don't show racial languages in selectable section
-
-                                        return (
-                                            <button
-                                                key={language.name}
-                                                type="button"
-                                                className={`selection-button ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                                onClick={() => !isDisabled && handleLanguageToggle(language.name)}
-                                                onMouseEnter={handleMouseEnter(language.description)}
-                                                onMouseLeave={handleMouseLeave}
-                                                onMouseMove={handleMouseMove}
-                                                disabled={isDisabled && !isSelected}
-                                            >
-                                                <i className={`fas ${language.icon}`}></i>
-                                                <span>{language.name}</span>
-                                                {isSelected && <i className="fas fa-check check-icon"></i>}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        {languageCount === 0 && racialLanguages.length === 0 && (
-                            <div className="no-selection-info">
-                                <i className="fas fa-info-circle"></i> No languages available from your selections.
+                        {grantedSkills.length === 0 && selectedSkills.length === 0 && (
+                            <div className="no-skills-message">
+                                <i className="fas fa-arrow-up"></i>
+                                <p>Select skills above to allocate skill points</p>
                             </div>
                         )}
                     </div>
-
-                    {/* Skill Details - Quests and Rollable Tables */}
-                    {(selectedSkills.length > 0 || grantedSkills.length > 0) && (
-                        <div className="selection-section skill-details-section">
-                            <div className="section-header">
-                                <h3><i className="fas fa-scroll"></i> Skills Preview</h3>
-                                <p className="section-description">
-                                    Below are the quests and rollable tables for your granted and selected skills.
-                                    Complete quests during gameplay to unlock higher skill ranks and better outcomes!
-                                </p>
-                            </div>
-
-                            {/* Show granted skills first */}
-                            {grantedSkills.map((skillId) => {
-                                // Get skill definition
-                                const skill = SKILL_DEFINITIONS[skillId];
-                                if (!skill) return null;
-
-                                const quests = getAvailableQuests(skillId);
-                                const rollableTable = getCurrentRollableTable(skillId);
-                                const rank = getSkillRank(skillId);
-
-                                const isExpanded = expandedSkills.has(skillId);
-
-                                return (
-                                    <div key={skillId} className="skill-detail-card granted-skill-card">
-                                        <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
-                                            <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
-                                            <div className="skill-detail-info">
-                                                <h4>{skill.name} <span className="granted-badge">Granted</span></h4>
-                                                <p>{skill.description}</p>
-                                                <span className="skill-rank-badge" style={{ color: rank.color }}>
-                                                    {rank.name}
-                                                </span>
-                                            </div>
-                                            <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
-                                                <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
-                                            </div>
-                                        </div>
-
-                                        {isExpanded && (
-                                            <div className="skill-expanded-content">
-                                                {quests.length > 0 ? (
-                                                    <div className="quest-preview-section">
-                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                        <div className="quest-preview-list">
-                                                            {quests.map(quest => (
-                                                                <div key={quest.id} className="quest-preview-item">
-                                                                    <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
-                                                                    <div className="quest-preview-info">
-                                                                        <strong>{quest.name}</strong>
-                                                                        <p>{quest.description}</p>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="quest-preview-section">
-                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                        <div className="no-quests-message">
-                                                            <i className="fas fa-info-circle"></i>
-                                                            <p>Quests for this skill are still being developed. Check back later!</p>
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {rollableTable ? (
-                                                    <div className="table-preview-section">
-                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                        <p className="table-description">{rollableTable.description}</p>
-                                                        <div className="table-preview-entries">
-                                                            {rollableTable.table.slice(0, 8).map((entry, index) => (
-                                                                <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                                    <span className="roll-range">
-                                                                        {entry.roll[0] === entry.roll[1]
-                                                                            ? entry.roll[0]
-                                                                            : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                                    </span>
-                                                                    <span className="roll-result">{entry.result}</span>
-                                                                </div>
-                                                            ))}
-                                                            {rollableTable.table.length > 8 && (
-                                                                <div className="table-preview-more">
-                                                                    ... and {rollableTable.table.length - 8} more outcomes
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="table-preview-section">
-                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                        <div className="no-quests-message">
-                                                            <i className="fas fa-info-circle"></i>
-                                                            <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-
-                            {/* Show selected skills */}
-                            {selectedSkills.map((skillId) => {
-                                // Get skill definition
-                                const skill = SKILL_DEFINITIONS[skillId];
-                                if (!skill) return null;
-
-                                const quests = getAvailableQuests(skillId);
-                                const rollableTable = getCurrentRollableTable(skillId);
-                                const rank = getSkillRank(skillId);
-                                const isExpanded = expandedSkills.has(skillId);
-
-                                return (
-                                    <div key={skillId} className="skill-detail-card">
-                                        <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
-                                            <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
-                                            <div className="skill-detail-info">
-                                                <h4>{skill.name}</h4>
-                                                <p>{skill.description}</p>
-                                                <span className="skill-rank-badge" style={{ color: rank.color }}>
-                                                    {rank.name}
-                                                </span>
-                                            </div>
-                                            <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
-                                                <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
-                                            </div>
-                                        </div>
-
-                                        {isExpanded && (
-                                            <div className="skill-expanded-content">
-                                                {quests.length > 0 ? (
-                                                    <div className="quest-preview-section">
-                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                        <div className="quest-preview-list">
-                                                            {quests.map(quest => (
-                                                                <div key={quest.id} className="quest-preview-item">
-                                                                    <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
-                                                                    <div className="quest-preview-info">
-                                                                        <strong>{quest.name}</strong>
-                                                                        <p>{quest.description}</p>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="quest-preview-section">
-                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                        <div className="no-quests-message">
-                                                            <i className="fas fa-info-circle"></i>
-                                                            <p>Quests for this skill are still being developed. Check back later!</p>
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {rollableTable ? (
-                                                    <div className="table-preview-section">
-                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                        <p className="table-description">{rollableTable.description}</p>
-                                                        <div className="table-preview-entries">
-                                                            {rollableTable.table.slice(0, 8).map((entry, index) => (
-                                                                <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                                    <span className="roll-range">
-                                                                        {entry.roll[0] === entry.roll[1]
-                                                                            ? entry.roll[0]
-                                                                            : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                                    </span>
-                                                                    <span className="roll-result">{entry.result}</span>
-                                                                </div>
-                                                            ))}
-                                                            {rollableTable.table.length > 8 && (
-                                                                <div className="table-preview-more">
-                                                                    ... and {rollableTable.table.length - 8} more outcomes
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="table-preview-section">
-                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                        <div className="no-quests-message">
-                                                            <i className="fas fa-info-circle"></i>
-                                                            <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-
-                    {/* Languages Preview Section */}
-                    {(racialLanguages.length > 0 || selectedLanguages.length > 0) && (
-                        <div className="selection-section language-preview-section">
-                            <div className="section-header">
-                                <h3><i className="fas fa-comments"></i> Languages Summary</h3>
-                                <p className="section-description">
-                                    Your character knows the following languages.
-                                </p>
-                            </div>
-
-                            <div className="language-summary-grid">
-                                {/* Racial Languages */}
-                                {racialLanguages.length > 0 && (
-                                    <div className="language-category">
-                                        <h4><i className="fas fa-star"></i> Racial Languages</h4>
-                                        <div className="language-list">
-                                            {racialLanguages.map(lang => {
-                                                const langData = COMMON_LANGUAGES.find(l => l.name === lang);
-                                                return (
-                                                    <div key={lang} className="language-item racial">
-                                                        <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                        <span className="language-name">{lang}</span>
-                                                        <span className="language-source">Racial</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Selected Languages */}
-                                {selectedLanguages.length > 0 && (
-                                    <div className="language-category">
-                                        <h4><i className="fas fa-book"></i> Additional Languages</h4>
-                                        <div className="language-list">
-                                            {selectedLanguages.map(lang => {
-                                                const langData = COMMON_LANGUAGES.find(l => l.name === lang);
-                                                return (
-                                                    <div key={lang} className="language-item selected">
-                                                        <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                                        <span className="language-name">{lang}</span>
-                                                        <span className="language-source">Learned</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
                 </div>
+
+
+
+                {/* Skill Details - Quests and Rollable Tables */}
+                {(selectedSkills.length > 0 || grantedSkills.length > 0) && (
+                    <div className="selection-section skill-details-section">
+                        <div className="section-header">
+                            <h3><i className="fas fa-scroll"></i> Skills Preview</h3>
+                            <p className="section-description">
+                                Below are the quests and rollable tables for your granted and selected skills.
+                                Complete quests during gameplay to unlock higher skill ranks and better outcomes!
+                            </p>
+                        </div>
+
+                        {/* Show granted skills first */}
+                        {grantedSkills.map((skillId) => {
+                            // Get skill definition
+                            const skill = SKILL_DEFINITIONS[skillId];
+                            if (!skill) return null;
+
+                            const quests = getAvailableQuests(skillId);
+                            const rollableTable = getCurrentRollableTable(skillId);
+                            const rank = getSkillRank(skillId);
+
+                            const isExpanded = expandedSkills.has(skillId);
+
+                            return (
+                                <div key={skillId} className="skill-detail-card granted-skill-card">
+                                    <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
+                                        <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
+                                        <div className="skill-detail-info">
+                                            <h4>{skill.name} <span className="granted-badge">Granted</span></h4>
+                                            <p>{skill.description}</p>
+                                            <span className="skill-rank-badge" style={{ color: rank.color }}>
+                                                {rank.name}
+                                            </span>
+                                        </div>
+                                        <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
+                                            <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
+                                        </div>
+                                    </div>
+
+                                    {isExpanded && (
+                                        <div className="skill-expanded-content">
+                                            {quests.length > 0 ? (
+                                                <div className="quest-preview-section">
+                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                    <div className="quest-preview-list">
+                                                        {quests.map(quest => (
+                                                            <div key={quest.id} className="quest-preview-item">
+                                                                <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                <div className="quest-preview-info">
+                                                                    <strong>{quest.name}</strong>
+                                                                    <p>{quest.description}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="quest-preview-section">
+                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                    <div className="no-quests-message">
+                                                        <i className="fas fa-info-circle"></i>
+                                                        <p>Quests for this skill are still being developed. Check back later!</p>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {rollableTable ? (
+                                                <div className="table-preview-section">
+                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
+                                                    <p className="table-description">{rollableTable.description}</p>
+                                                    <div className="table-preview-entries">
+                                                        {rollableTable.table.slice(0, 8).map((entry, index) => (
+                                                            <div key={index} className={`table-preview-entry ${entry.type}`}>
+                                                                <span className="roll-range">
+                                                                    {entry.roll[0] === entry.roll[1]
+                                                                        ? entry.roll[0]
+                                                                        : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                                </span>
+                                                                <span className="roll-result">{entry.result}</span>
+                                                            </div>
+                                                        ))}
+                                                        {rollableTable.table.length > 8 && (
+                                                            <div className="table-preview-more">
+                                                                ... and {rollableTable.table.length - 8} more outcomes
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="table-preview-section">
+                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
+                                                    <div className="no-quests-message">
+                                                        <i className="fas fa-info-circle"></i>
+                                                        <p>Rollable table for this skill is still being developed. Check back later!</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+
+                        {/* Show selected skills */}
+                        {selectedSkills.map((skillId) => {
+                            // Get skill definition
+                            const skill = SKILL_DEFINITIONS[skillId];
+                            if (!skill) return null;
+
+                            const quests = getAvailableQuests(skillId);
+                            const rollableTable = getCurrentRollableTable(skillId);
+                            const rank = getSkillRank(skillId);
+                            const isExpanded = expandedSkills.has(skillId);
+
+                            return (
+                                <div key={skillId} className="skill-detail-card">
+                                    <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
+                                        <img src={getIconUrl(skill.icon, 'abilities')} alt={skill.name} className="skill-detail-icon" />
+                                        <div className="skill-detail-info">
+                                            <h4>{skill.name}</h4>
+                                            <p>{skill.description}</p>
+                                            <span className="skill-rank-badge" style={{ color: rank.color }}>
+                                                {rank.name}
+                                            </span>
+                                        </div>
+                                        <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
+                                            <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
+                                        </div>
+                                    </div>
+
+                                    {isExpanded && (
+                                        <div className="skill-expanded-content">
+                                            {quests.length > 0 ? (
+                                                <div className="quest-preview-section">
+                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                    <div className="quest-preview-list">
+                                                        {quests.map(quest => (
+                                                            <div key={quest.id} className="quest-preview-item">
+                                                                <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                <div className="quest-preview-info">
+                                                                    <strong>{quest.name}</strong>
+                                                                    <p>{quest.description}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="quest-preview-section">
+                                                    <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                    <div className="no-quests-message">
+                                                        <i className="fas fa-info-circle"></i>
+                                                        <p>Quests for this skill are still being developed. Check back later!</p>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {rollableTable ? (
+                                                <div className="table-preview-section">
+                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
+                                                    <p className="table-description">{rollableTable.description}</p>
+                                                    <div className="table-preview-entries">
+                                                        {rollableTable.table.slice(0, 8).map((entry, index) => (
+                                                            <div key={index} className={`table-preview-entry ${entry.type}`}>
+                                                                <span className="roll-range">
+                                                                    {entry.roll[0] === entry.roll[1]
+                                                                        ? entry.roll[0]
+                                                                        : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                                </span>
+                                                                <span className="roll-result">{entry.result}</span>
+                                                            </div>
+                                                        ))}
+                                                        {rollableTable.table.length > 8 && (
+                                                            <div className="table-preview-more">
+                                                                ... and {rollableTable.table.length - 8} more outcomes
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="table-preview-section">
+                                                    <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
+                                                    <div className="no-quests-message">
+                                                        <i className="fas fa-info-circle"></i>
+                                                        <p>Rollable table for this skill is still being developed. Check back later!</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
+                {/* Languages Preview Section */}
+                {(racialLanguages.length > 0 || selectedLanguages.length > 0) && (
+                    <div className="selection-section language-preview-section">
+                        <div className="section-header">
+                            <h3><i className="fas fa-comments"></i> Languages Summary</h3>
+                            <p className="section-description">
+                                Your character knows the following languages.
+                            </p>
+                        </div>
+
+                        <div className="language-summary-grid">
+                            {/* Racial Languages */}
+                            {racialLanguages.length > 0 && (
+                                <div className="language-category">
+                                    <h4><i className="fas fa-star"></i> Racial Languages</h4>
+                                    <div className="language-list">
+                                        {racialLanguages.map(lang => {
+                                            const langData = COMMON_LANGUAGES.find(l => l.name === lang);
+                                            return (
+                                                <div key={lang} className="language-item racial">
+                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                                    <span className="language-name">{lang}</span>
+                                                    <span className="language-source">Racial</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Selected Languages */}
+                            {selectedLanguages.length > 0 && (
+                                <div className="language-category">
+                                    <h4><i className="fas fa-book"></i> Additional Languages</h4>
+                                    <div className="language-list">
+                                        {selectedLanguages.map(lang => {
+                                            const langData = COMMON_LANGUAGES.find(l => l.name === lang);
+                                            return (
+                                                <div key={lang} className="language-item selected">
+                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                                    <span className="language-name">{lang}</span>
+                                                    <span className="language-source">Learned</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
 
             {/* Unified Tooltip */}
             <UnifiedTooltip

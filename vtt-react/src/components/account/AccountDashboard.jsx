@@ -9,7 +9,6 @@ import { getClassResourceConfig, initializeClassResource } from '../../data/clas
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
 import { getWowIconUrl } from '../../utils/assetManager';
-import { ensurePlaceholderCharacters } from '../../utils/createPlaceholderCharacters';
 import RoomManager from './RoomManager';
 import CampaignManager from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
@@ -107,42 +106,7 @@ const AccountDashboard = ({ user }) => {
     navigate('/account/characters');
   };
 
-  const handleCreatePlaceholderCharacters = async () => {
-    try {
-      const created = await ensurePlaceholderCharacters();
-      if (created && created.length > 0) {
-        // Reload characters to show the new ones
-        await loadCharacters();
-        console.log(`✅ Created ${created.length} placeholder character(s) for testing!`);
-        // Show success feedback without alert
-        const btn = document.querySelector('[title*="placeholder characters"]');
-        if (btn) {
-          const originalText = btn.innerHTML;
-          btn.innerHTML = '<i class="fas fa-check"></i> Created!';
-          btn.style.backgroundColor = '#4CAF50';
-          setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.backgroundColor = '';
-          }, 2000);
-        }
-      } else {
-        console.log('ℹ️ Placeholder characters already exist or could not be created.');
-      }
-    } catch (error) {
-      console.error('Error creating placeholder characters:', error);
-      // Show error feedback without alert
-      const btn = document.querySelector('[title*="placeholder characters"]');
-      if (btn) {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-times"></i> Error!';
-        btn.style.backgroundColor = '#F44336';
-        setTimeout(() => {
-          btn.innerHTML = originalText;
-          btn.style.backgroundColor = '';
-        }, 2000);
-      }
-    }
-  };
+
 
   const handleCreateCharacter = async () => {
     // Check character limits before allowing creation
@@ -773,12 +737,11 @@ const AccountDashboard = ({ user }) => {
                     <h3>No Characters Yet</h3>
                     <p>Create your first character to begin your adventure in the world of Mythrill!</p>
                     <button
-                      className="create-character-btn create-placeholder-btn"
-                      onClick={handleCreatePlaceholderCharacters}
-                      title="Create placeholder characters for testing (with all data filled out)"
+                      className="create-character-btn"
+                      onClick={handleCreateCharacter}
                     >
-                      <i className="fas fa-magic"></i>
-                      Create Placeholder Characters
+                      <i className="fas fa-plus"></i>
+                      Create Your First Character
                     </button>
                   </div>
                 )}

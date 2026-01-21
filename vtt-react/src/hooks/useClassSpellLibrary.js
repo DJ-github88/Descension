@@ -155,16 +155,15 @@ export const useClassSpellLibrary = () => {
     // });
 
     // Filter to only show spells the character has learned
-    // Universal spells are always visible regardless of known spells
+    // Universal spells and custom internal spells are always visible regardless of known spells
     if (knownSpells.length > 0) {
       const filtered = allSpells.filter(spell =>
-        knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
+        knownSpells.includes(spell.id) ||
+        spell.id?.startsWith('universal_') ||
+        spell.categoryIds?.includes('custom_spells') ||
+        spell.isCustom ||
+        spell.source === 'wizard'
       );
-      // Debug logging disabled for production
-      // console.log('✅ Filtered spells:', {
-      //   filteredCount: filtered.length,
-      //   filteredIds: filtered.map(s => s.id)
-      // });
       return filtered;
     }
 

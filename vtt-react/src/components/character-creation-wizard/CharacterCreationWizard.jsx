@@ -235,6 +235,21 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
             <div className="wizard-footer">
                 <div className="wizard-navigation">
                     <div className="nav-left">
+                        <button
+                            type="button"
+                            className="wizard-btn wizard-btn-cancel"
+                            onClick={handleCancel}
+                            disabled={isLoading}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+
+                    <div className="nav-center">
+                        {/* Empty center for balanced spacing */}
+                    </div>
+
+                    <div className="nav-right">
                         {!isFirstStep && (
                             <button
                                 type="button"
@@ -246,20 +261,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                                 Previous
                             </button>
                         )}
-                    </div>
 
-                    <div className="nav-center">
-                        <button
-                            type="button"
-                            className="wizard-btn wizard-btn-cancel"
-                            onClick={handleCancel}
-                            disabled={isLoading}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-
-                    <div className="nav-right">
                         {isLastStep ? (
                             <button
                                 type="button"

@@ -48,7 +48,16 @@ const SpellWizardTab = () => {
   );
 };
 
-const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
+// Spell Library Tab Component - now includes filtering functionality
+const SpellLibraryTab = () => {
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <SpellLibrary />
+    </div>
+  );
+};
+
+const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
   const {
     activeTab,
     setActiveTab,
@@ -103,15 +112,6 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
       default:
         return <SpellWizardTab />;
     }
-  };
-
-  // Spell Library Tab Component - now includes filtering functionality
-  const SpellLibraryTab = () => {
-    return (
-      <div style={{ width: '100%', height: '100%' }}>
-        <SpellLibrary />
-      </div>
-    );
   };
 
 

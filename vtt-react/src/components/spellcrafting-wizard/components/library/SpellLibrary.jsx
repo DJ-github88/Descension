@@ -576,8 +576,27 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       });
     }
 
+    // Add My Spells category (Custom spells created in the wizard)
+    const customSpells = library.spells.filter(spell =>
+      spell.isCustom ||
+      spell.id?.startsWith('custom-') ||
+      spell.source === 'wizard'
+    );
+
+    if (customSpells.length > 0) {
+      combined.push({
+        id: 'custom_spells',
+        name: 'My Spells',
+        description: 'Custom spells you have created in the Spell Wizard',
+        color: '#9370DB', // Purple-ish
+        icon: 'inv_misc_scroll_01',
+        spells: customSpells,
+        isCustom: true
+      });
+    }
+
     return combined;
-  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath]);
+  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath, library.spells]); // Added library.spells to deps
 
   // Track deleted spell IDs to prevent reloading them from Firebase
   const getDeletedSpellIds = () => {
@@ -1129,6 +1148,13 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             const fallbackDiscipline = currentPath ? getDisciplineSpells(currentPath) : [];
             spellsToFilter = fallbackDiscipline;
           }
+        } else if (activeCategory === 'custom_spells') {
+          // Show only custom/wizard-created spells
+          spellsToFilter = filteredLibrarySpells.filter(spell =>
+            spell.isCustom ||
+            spell.id?.startsWith('custom-') ||
+            spell.source === 'wizard'
+          );
         } else if (isClassCategory) {
           // Get class spells for the selected class, filtered by character level AND known spells
           // Only show spells the character actually knows/selected

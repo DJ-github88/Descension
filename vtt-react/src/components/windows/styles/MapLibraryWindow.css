@@ -9,6 +9,7 @@
 .wow-window .window-content .map-library-window,
 .wow-window .window-content .map-edit-dialog {
     /* This ensures the parent window-content doesn't scroll */
+    display: block;
 }
 
 /* Ensure map-library-window and map-edit-dialog fill the window-content */
@@ -231,7 +232,6 @@
         0 0 16px rgba(212, 175, 55, 0.5),
         0 0 0 1px var(--pf-gold-light) !important;
     transform: translateY(-2px);
-    animation: currentMapPulse 3s ease-in-out infinite;
 }
 
 .map-card.current::before {
@@ -242,16 +242,16 @@
     right: 0;
     height: 8px;
     background: linear-gradient(90deg,
-        var(--pf-gold-dark),
-        var(--pf-gold),
-        var(--pf-gold-light),
-        var(--pf-gold),
-        var(--pf-gold-dark)
-    );
+            var(--pf-gold-dark),
+            var(--pf-gold),
+            var(--pf-gold-light),
+            var(--pf-gold),
+            var(--pf-gold-dark));
+    z-index: 1;
+    border-radius: 17px 17px 0 0;
     z-index: 1;
     border-radius: 17px 17px 0 0;
     box-shadow: 0 2px 8px rgba(212, 175, 55, 0.6);
-    animation: currentMapStripe 2s ease-in-out infinite alternate;
 }
 
 .map-card.current::after {
@@ -260,10 +260,9 @@
     top: 12px;
     right: 12px;
     background: linear-gradient(135deg,
-        rgba(212, 175, 55, 0.95) 0%,
-        rgba(184, 134, 11, 0.9) 50%,
-        rgba(212, 175, 55, 0.95) 100%
-    ) !important;
+            rgba(212, 175, 55, 0.95) 0%,
+            rgba(184, 134, 11, 0.9) 50%,
+            rgba(212, 175, 55, 0.95) 100%) !important;
     color: #000 !important;
     padding: 8px 16px;
     border-radius: 12px;
@@ -279,7 +278,6 @@
     font-family: 'Cinzel', serif;
     letter-spacing: 1px;
     text-transform: uppercase;
-    animation: currentMapBadge 3s ease-in-out infinite;
 }
 
 /* Pathfinder Map Thumbnail */
@@ -417,64 +415,6 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Current Map Visual Enhancements */
-@keyframes currentMapPulse {
-    0%, 100% {
-        box-shadow:
-            0 8px 16px rgba(139, 69, 19, 0.25),
-            inset 0 2px 0 rgba(255, 255, 255, 0.6),
-            0 0 16px rgba(212, 175, 55, 0.5),
-            0 0 0 1px var(--pf-gold-light);
-    }
-    50% {
-        box-shadow:
-            0 8px 16px rgba(139, 69, 19, 0.25),
-            inset 0 2px 0 rgba(255, 255, 255, 0.6),
-            0 0 24px rgba(212, 175, 55, 0.8),
-            0 0 32px rgba(212, 175, 55, 0.4),
-            0 0 0 1px var(--pf-gold-light);
-    }
-}
-
-@keyframes currentMapStripe {
-    0% {
-        background: linear-gradient(90deg,
-            var(--pf-gold-dark),
-            var(--pf-gold),
-            var(--pf-gold-light),
-            var(--pf-gold),
-            var(--pf-gold-dark)
-        );
-        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.6);
-    }
-    100% {
-        background: linear-gradient(90deg,
-            var(--pf-gold-light),
-            var(--pf-gold),
-            var(--pf-gold-dark),
-            var(--pf-gold),
-            var(--pf-gold-light)
-        );
-        box-shadow: 0 2px 12px rgba(212, 175, 55, 0.9);
-    }
-}
-
-@keyframes currentMapBadge {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow:
-            0 4px 12px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            0 0 16px rgba(212, 175, 55, 0.8);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow:
-            0 6px 16px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4),
-            0 0 24px rgba(212, 175, 55, 1);
-    }
-}
 
 /* Enhanced Map Actions */
 .map-actions {

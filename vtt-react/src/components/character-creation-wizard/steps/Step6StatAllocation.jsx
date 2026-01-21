@@ -87,8 +87,8 @@ const Step6StatAllocation = () => {
                                     <span className="points-label">points remaining</span>
                                 </div>
                                 <div className="points-bar">
-                                    <div 
-                                        className="points-used" 
+                                    <div
+                                        className="points-used"
                                         style={{ width: `${((totalPoints - availablePoints) / totalPoints) * 100}%` }}
                                     />
                                 </div>
@@ -242,10 +242,11 @@ const Step6StatAllocation = () => {
                                         {(() => {
                                             const baseStats = getRacialBaseStats(race, subrace);
                                             const finalConstitution = statBreakdown.constitution.final;
+                                            const finalIntelligence = statBreakdown.intelligence.final;
 
-                                            // Calculate HP and Mana based on final constitution
+                                            // Calculate HP based on final constitution and Mana based on final intelligence
                                             const baseHP = (finalConstitution * 5) + (baseStats.hp || 0);
-                                            const baseMana = (finalConstitution * 5) + (baseStats.mana || 0);
+                                            const baseMana = (finalIntelligence * 5) + (baseStats.mana || 0);
 
                                             return (
                                                 <>
@@ -266,7 +267,7 @@ const Step6StatAllocation = () => {
                                                         </div>
                                                         <div className="base-stat-preview-value">{baseMana}</div>
                                                         <div className="base-stat-preview-detail">
-                                                            ({finalConstitution} × 5 {baseStats.mana ? `+ ${baseStats.mana}` : ''})
+                                                            ({finalIntelligence} × 5 {baseStats.mana ? `+ ${baseStats.mana}` : ''})
                                                         </div>
                                                     </div>
                                                     <div className="base-stat-preview-item">
@@ -313,7 +314,7 @@ const Step6StatAllocation = () => {
 
 
             </div>
-            </div>
+        </div>
     );
 };
 

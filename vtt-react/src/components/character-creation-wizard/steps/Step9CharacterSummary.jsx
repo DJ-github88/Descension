@@ -244,13 +244,13 @@ const Step9CharacterSummary = () => {
                                     const { getRacialBaseStats } = require('../../../data/raceData');
                                     const baseStats = getRacialBaseStats(characterData.race, characterData.subrace);
 
-                                    // Calculate current constitution score with all modifiers
-                                    const baseConstitution = characterData.baseStats.constitution || 5;
+                                    // Calculate current constitution and intelligence scores with all modifiers
                                     const finalConstitution = statBreakdown.constitution.final;
+                                    const finalIntelligence = statBreakdown.intelligence.final;
 
-                                    // Calculate HP and Mana based on final constitution
+                                    // Calculate HP and Mana based on respective stats
                                     const baseHP = (finalConstitution * 5) + (baseStats.hp || 0);
-                                    const baseMana = (finalConstitution * 5) + (baseStats.mana || 0);
+                                    const baseMana = (finalIntelligence * 5) + (baseStats.mana || 0);
 
                                     return (
                                         <div className="base-stats-grid">
@@ -374,7 +374,7 @@ const Step9CharacterSummary = () => {
                                             ))}
                                         </div>
                                     </div>
-                                    
+
                                     {backgroundData.toolProficiencies && (
                                         <div className="benefit-group">
                                             <h4>Tool Proficiencies</h4>
@@ -421,224 +421,224 @@ const Step9CharacterSummary = () => {
 
                                     {/* Combined Inventory Section */}
                                     {((characterData.selectedEquipment && characterData.selectedEquipment.length > 0) ||
-                                      (backgroundData.equipment && backgroundData.equipment.length > 0)) && (
-                                        <div className="benefit-group">
-                                            <h4>Inventory</h4>
-                                            <div 
-                                                className="equipment-preview-grid"
-                                                style={{
-                                                    minHeight: (() => {
-                                                        // Calculate minimum height based on items
+                                        (backgroundData.equipment && backgroundData.equipment.length > 0)) && (
+                                            <div className="benefit-group">
+                                                <h4>Inventory</h4>
+                                                <div
+                                                    className="equipment-preview-grid"
+                                                    style={{
+                                                        minHeight: (() => {
+                                                            // Calculate minimum height based on items
+                                                            const allEquipment = [];
+                                                            if (characterData.selectedEquipment) {
+                                                                characterData.selectedEquipment.forEach(item => {
+                                                                    const fullItem = getFullItemObjects([item.name])[0];
+                                                                    if (fullItem) {
+                                                                        allEquipment.push(fullItem);
+                                                                    }
+                                                                });
+                                                            }
+                                                            if (allEquipment.length === 0) return '120px';
+
+                                                            const estimatedRows = Math.max(3, Math.ceil(allEquipment.length / 4) + 1);
+                                                            const cellSize = 40;
+                                                            const rowGap = 2;
+                                                            const gridPadding = 8;
+                                                            const gridHeight = (gridPadding * 2) + (estimatedRows * cellSize) + ((estimatedRows - 1) * rowGap);
+                                                            return `${gridHeight}px`;
+                                                        })()
+                                                    }}
+                                                >
+                                                    {(() => {
+                                                        // Combine purchased and background equipment
                                                         const allEquipment = [];
+
+                                                        // Process all selected equipment (includes both purchased and auto-added background items)
                                                         if (characterData.selectedEquipment) {
                                                             characterData.selectedEquipment.forEach(item => {
+                                                                // Determine if this is background equipment or purchased
+                                                                const isBackgroundItem = backgroundData.equipment &&
+                                                                    backgroundData.equipment.some(bgItem =>
+                                                                        bgItem.toLowerCase().includes(item.name.toLowerCase()) ||
+                                                                        item.name.toLowerCase().includes(bgItem.toLowerCase().replace(/\s*\([^)]*\)/, ''))
+                                                                    );
+
                                                                 const fullItem = getFullItemObjects([item.name])[0];
                                                                 if (fullItem) {
-                                                                    allEquipment.push(fullItem);
+                                                                    allEquipment.push({
+                                                                        ...fullItem,
+                                                                        quantity: item.quantity || 1,
+                                                                        source: isBackgroundItem ? 'background' : 'purchased'
+                                                                    });
                                                                 }
                                                             });
                                                         }
-                                                        if (allEquipment.length === 0) return '120px';
-                                                        
-                                                        const estimatedRows = Math.max(3, Math.ceil(allEquipment.length / 4) + 1);
+
+                                                        // Equipment shop grid logic (larger for combined inventory)
+                                                        const COLS = 8; // More columns for bigger inventory
+                                                        const occupiedCells = new Map(); // Track occupied cells by "row,col" key
+                                                        const gridRows = [];
+                                                        const itemWrappers = [];
+                                                        let totalRows = 0;
+
+                                                        // Calculate grid constants
                                                         const cellSize = 40;
+                                                        const cellGap = 1;
                                                         const rowGap = 2;
                                                         const gridPadding = 8;
-                                                        const gridHeight = (gridPadding * 2) + (estimatedRows * cellSize) + ((estimatedRows - 1) * rowGap);
-                                                        return `${gridHeight}px`;
-                                                    })()
-                                                }}
-                                            >
-                                                {(() => {
-                                                    // Combine purchased and background equipment
-                                                    const allEquipment = [];
 
-                                                    // Process all selected equipment (includes both purchased and auto-added background items)
-                                                    if (characterData.selectedEquipment) {
-                                                        characterData.selectedEquipment.forEach(item => {
-                                                            // Determine if this is background equipment or purchased
-                                                            const isBackgroundItem = backgroundData.equipment &&
-                                                                backgroundData.equipment.some(bgItem =>
-                                                                    bgItem.toLowerCase().includes(item.name.toLowerCase()) ||
-                                                                    item.name.toLowerCase().includes(bgItem.toLowerCase().replace(/\s*\([^)]*\)/, ''))
-                                                                );
+                                                        // Place items in grid with proper dimensions
+                                                        allEquipment.forEach((item, index) => {
+                                                            if (!item) return;
 
-                                                            const fullItem = getFullItemObjects([item.name])[0];
-                                                            if (fullItem) {
-                                                                allEquipment.push({
-                                                                    ...fullItem,
-                                                                    quantity: item.quantity || 1,
-                                                                    source: isBackgroundItem ? 'background' : 'purchased'
-                                                                });
+                                                            const width = item.width || 1;
+                                                            const height = item.height || 1;
+
+                                                            // Find a spot for this item - dynamically expand grid if needed
+                                                            let placed = false;
+                                                            let maxRowToCheck = Math.max(10, totalRows + height + 2); // Always check beyond current items
+
+                                                            for (let row = 0; row < maxRowToCheck && !placed; row++) {
+                                                                for (let col = 0; col < COLS && !placed; col++) {
+                                                                    // Check if this position and area is free
+                                                                    let canPlace = true;
+                                                                    for (let dy = 0; dy < height && canPlace; dy++) {
+                                                                        for (let dx = 0; dx < width && canPlace; dx++) {
+                                                                            if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
+                                                                                canPlace = false;
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                    if (canPlace) {
+                                                                        // Mark cells as occupied
+                                                                        for (let dy = 0; dy < height; dy++) {
+                                                                            for (let dx = 0; dx < width; dx++) {
+                                                                                occupiedCells.set(`${row + dy},${col + dx}`, true);
+                                                                            }
+                                                                        }
+
+                                                                        // Calculate position relative to grid container (accounting for 8px padding)
+                                                                        const itemLeft = gridPadding + col * (cellSize + cellGap);
+                                                                        const itemTop = gridPadding + row * (cellSize + rowGap);
+                                                                        const itemWidth = width * cellSize + (width - 1) * cellGap;
+                                                                        const itemHeight = height * cellSize + (height - 1) * rowGap;
+
+                                                                        // Mark the first cell as occupied for rendering
+                                                                        if (!gridRows[row]) gridRows[row] = [];
+                                                                        gridRows[row][col] = true;
+
+                                                                        // Create item wrapper as separate element
+                                                                        itemWrappers.push(
+                                                                            <div
+                                                                                key={`item-${index}`}
+                                                                                className="equipment-preview-item-wrapper"
+                                                                                style={{
+                                                                                    width: `${itemWidth}px`,
+                                                                                    height: `${itemHeight}px`,
+                                                                                    left: `${itemLeft}px`,
+                                                                                    top: `${itemTop}px`
+                                                                                }}
+                                                                                onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                                                                                onMouseMove={handleItemMouseMove}
+                                                                                onMouseLeave={handleItemMouseLeave}
+                                                                            >
+                                                                                <div
+                                                                                    className="equipment-item-icon"
+                                                                                    style={{
+                                                                                        backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
+                                                                                        backgroundColor: 'transparent',
+                                                                                        width: '100%',
+                                                                                        height: '100%',
+                                                                                        backgroundSize: 'contain',
+                                                                                        backgroundPosition: 'center',
+                                                                                        backgroundRepeat: 'no-repeat',
+                                                                                        position: 'absolute',
+                                                                                        top: 0,
+                                                                                        left: 0
+                                                                                    }}
+                                                                                    title={item.name}
+                                                                                />
+                                                                                {item.quantity > 1 && (
+                                                                                    <div className="item-quantity-badge">
+                                                                                        {item.quantity}
+                                                                                    </div>
+                                                                                )}
+                                                                                {item.source === 'background' && (
+                                                                                    <div className="item-source-badge">
+                                                                                        <i className="fas fa-star"></i>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                        placed = true;
+                                                                        totalRows = Math.max(totalRows, row + height);
+                                                                    }
+                                                                }
                                                             }
                                                         });
-                                                    }
 
-                                                    // Equipment shop grid logic (larger for combined inventory)
-                                                    const COLS = 8; // More columns for bigger inventory
-                                                    const occupiedCells = new Map(); // Track occupied cells by "row,col" key
-                                                    const gridRows = [];
-                                                    const itemWrappers = [];
-                                                    let totalRows = 0;
-
-                                                    // Calculate grid constants
-                                                    const cellSize = 40;
-                                                    const cellGap = 1;
-                                                    const rowGap = 2;
-                                                    const gridPadding = 8;
-
-                                                    // Place items in grid with proper dimensions
-                                                    allEquipment.forEach((item, index) => {
-                                                        if (!item) return;
-
-                                                        const width = item.width || 1;
-                                                        const height = item.height || 1;
-
-                                                        // Find a spot for this item - dynamically expand grid if needed
-                                                        let placed = false;
-                                                        let maxRowToCheck = Math.max(10, totalRows + height + 2); // Always check beyond current items
-                                                        
-                                                        for (let row = 0; row < maxRowToCheck && !placed; row++) {
-                                                            for (let col = 0; col < COLS && !placed; col++) {
-                                                                // Check if this position and area is free
-                                                                let canPlace = true;
-                                                                for (let dy = 0; dy < height && canPlace; dy++) {
-                                                                    for (let dx = 0; dx < width && canPlace; dx++) {
-                                                                        if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
-                                                                            canPlace = false;
-                                                                        }
-                                                                    }
-                                                                }
-
-                                                                if (canPlace) {
-                                                                    // Mark cells as occupied
-                                                                    for (let dy = 0; dy < height; dy++) {
-                                                                        for (let dx = 0; dx < width; dx++) {
-                                                                            occupiedCells.set(`${row + dy},${col + dx}`, true);
-                                                                        }
-                                                                    }
-
-                                                                    // Calculate position relative to grid container (accounting for 8px padding)
-                                                                    const itemLeft = gridPadding + col * (cellSize + cellGap);
-                                                                    const itemTop = gridPadding + row * (cellSize + rowGap);
-                                                                    const itemWidth = width * cellSize + (width - 1) * cellGap;
-                                                                    const itemHeight = height * cellSize + (height - 1) * rowGap;
-                                                                    
-                                                                    // Mark the first cell as occupied for rendering
-                                                                    if (!gridRows[row]) gridRows[row] = [];
-                                                                    gridRows[row][col] = true;
-                                                                    
-                                                                    // Create item wrapper as separate element
-                                                                    itemWrappers.push(
-                                                                        <div
-                                                                            key={`item-${index}`}
-                                                                            className="equipment-preview-item-wrapper"
-                                                                            style={{
-                                                                                width: `${itemWidth}px`,
-                                                                                height: `${itemHeight}px`,
-                                                                                left: `${itemLeft}px`,
-                                                                                top: `${itemTop}px`
-                                                                            }}
-                                                                            onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                                                                            onMouseMove={handleItemMouseMove}
-                                                                            onMouseLeave={handleItemMouseLeave}
-                                                                        >
-                                                                            <div
-                                                                                className="equipment-item-icon"
-                                                                                style={{
-                                                                                    backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
-                                                                                    backgroundColor: 'transparent',
-                                                                                    width: '100%',
-                                                                                    height: '100%',
-                                                                                    backgroundSize: 'contain',
-                                                                                    backgroundPosition: 'center',
-                                                                                    backgroundRepeat: 'no-repeat',
-                                                                                    position: 'absolute',
-                                                                                    top: 0,
-                                                                                    left: 0
-                                                                                }}
-                                                                                title={item.name}
-                                                                            />
-                                                                            {item.quantity > 1 && (
-                                                                                <div className="item-quantity-badge">
-                                                                                    {item.quantity}
-                                                                                </div>
-                                                                            )}
-                                                                            {item.source === 'background' && (
-                                                                                <div className="item-source-badge">
-                                                                                    <i className="fas fa-star"></i>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    );
-                                                                    placed = true;
-                                                                    totalRows = Math.max(totalRows, row + height);
-                                                                }
-                                                            }
+                                                        // Ensure we have enough rows for all placed items
+                                                        const minRows = Math.max(3, totalRows + 1);
+                                                        while (gridRows.length < minRows) {
+                                                            gridRows.push(new Array(COLS).fill(null));
                                                         }
-                                                    });
 
-                                                    // Ensure we have enough rows for all placed items
-                                                    const minRows = Math.max(3, totalRows + 1);
-                                                    while (gridRows.length < minRows) {
-                                                        gridRows.push(new Array(COLS).fill(null));
-                                                    }
-                                                    
-                                                    // Calculate grid height: padding (top + bottom) + rows * (cell height + row gap) - last row gap
-                                                    const gridHeight = (gridPadding * 2) + (gridRows.length * cellSize) + ((gridRows.length - 1) * rowGap);
+                                                        // Calculate grid height: padding (top + bottom) + rows * (cell height + row gap) - last row gap
+                                                        const gridHeight = (gridPadding * 2) + (gridRows.length * cellSize) + ((gridRows.length - 1) * rowGap);
 
-                                                    // Render grid rows and item wrappers
-                                                    return (
-                                                        <>
-                                                            {/* Grid cells */}
-                                                            {gridRows.map((rowCells, rowIndex) => (
-                                                                <div key={`row-${rowIndex}`} className="equipment-preview-row">
-                                                                    {Array.from({ length: COLS }, (_, colIndex) => {
-                                                                        const isOccupied = occupiedCells.has(`${rowIndex},${colIndex}`);
-                                                                        return (
-                                                                            <div 
-                                                                                key={`cell-${rowIndex}-${colIndex}`} 
-                                                                                className={`equipment-preview-cell ${isOccupied ? 'occupied' : 'empty'}`}
-                                                                            ></div>
-                                                                        );
-                                                                    })}
-                                                                </div>
-                                                            ))}
-                                                            {/* Item wrappers positioned absolutely */}
-                                                            {itemWrappers}
-                                                            {/* Spacer to ensure grid container expands to fit all rows */}
-                                                            <div style={{ 
-                                                                height: `${gridHeight}px`, 
-                                                                width: '1px', 
-                                                                position: 'absolute',
-                                                                pointerEvents: 'none',
-                                                                visibility: 'hidden',
-                                                                top: 0,
-                                                                left: 0
-                                                            }}></div>
-                                                        </>
-                                                    );
-                                                })()}
-                                            </div>
-
-                                            {/* Currency Remaining */}
-                                            {characterData.remainingCurrency && (
-                                                <div className="currency-remaining">
-                                                    <h5>Currency Remaining</h5>
-                                                    <div className="currency-display">
-                                                        <span className="currency-amount">
-                                                            {characterData.remainingCurrency.platinum > 0 && `${characterData.remainingCurrency.platinum}p `}
-                                                            {characterData.remainingCurrency.gold > 0 && `${characterData.remainingCurrency.gold}g `}
-                                                            {characterData.remainingCurrency.silver > 0 && `${characterData.remainingCurrency.silver}s `}
-                                                            {characterData.remainingCurrency.copper > 0 && `${characterData.remainingCurrency.copper}c`}
-                                                            {(!characterData.remainingCurrency.platinum && !characterData.remainingCurrency.gold &&
-                                                              !characterData.remainingCurrency.silver && !characterData.remainingCurrency.copper) && '0g'}
-                                                        </span>
-                                                    </div>
+                                                        // Render grid rows and item wrappers
+                                                        return (
+                                                            <>
+                                                                {/* Grid cells */}
+                                                                {gridRows.map((rowCells, rowIndex) => (
+                                                                    <div key={`row-${rowIndex}`} className="equipment-preview-row">
+                                                                        {Array.from({ length: COLS }, (_, colIndex) => {
+                                                                            const isOccupied = occupiedCells.has(`${rowIndex},${colIndex}`);
+                                                                            return (
+                                                                                <div
+                                                                                    key={`cell-${rowIndex}-${colIndex}`}
+                                                                                    className={`equipment-preview-cell ${isOccupied ? 'occupied' : 'empty'}`}
+                                                                                ></div>
+                                                                            );
+                                                                        })}
+                                                                    </div>
+                                                                ))}
+                                                                {/* Item wrappers positioned absolutely */}
+                                                                {itemWrappers}
+                                                                {/* Spacer to ensure grid container expands to fit all rows */}
+                                                                <div style={{
+                                                                    height: `${gridHeight}px`,
+                                                                    width: '1px',
+                                                                    position: 'absolute',
+                                                                    pointerEvents: 'none',
+                                                                    visibility: 'hidden',
+                                                                    top: 0,
+                                                                    left: 0
+                                                                }}></div>
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </div>
-                                            )}
-                                        </div>
-                                    )}
+
+                                                {/* Currency Remaining */}
+                                                {characterData.remainingCurrency && (
+                                                    <div className="currency-remaining">
+                                                        <h5>Currency Remaining</h5>
+                                                        <div className="currency-display">
+                                                            <span className="currency-amount">
+                                                                {characterData.remainingCurrency.platinum > 0 && `${characterData.remainingCurrency.platinum}p `}
+                                                                {characterData.remainingCurrency.gold > 0 && `${characterData.remainingCurrency.gold}g `}
+                                                                {characterData.remainingCurrency.silver > 0 && `${characterData.remainingCurrency.silver}s `}
+                                                                {characterData.remainingCurrency.copper > 0 && `${characterData.remainingCurrency.copper}c`}
+                                                                {(!characterData.remainingCurrency.platinum && !characterData.remainingCurrency.gold &&
+                                                                    !characterData.remainingCurrency.silver && !characterData.remainingCurrency.copper) && '0g'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                         )}
@@ -664,7 +664,7 @@ const Step9CharacterSummary = () => {
                 </div>
             )}
 
-            </div>
+        </div>
     );
 };
 

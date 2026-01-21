@@ -14,7 +14,7 @@ export const ASSET_PATHS = {
     items: '/assets/icons/items/',
     creatures: '/assets/icons/creatures/',
     abilities: '/assets/icons/abilities/',
-    ui: '/assets/icons/ui/'
+    ui: '/assets/icons/Status/utility/'
   },
   images: {
     characters: '/assets/images/characters/',
@@ -27,11 +27,11 @@ export const ASSET_PATHS = {
 
 // Default fallback icons for each category
 export const FALLBACK_ICONS = {
-  spell: 'ui_icon_questionmark.png',
+  spell: 'exclamation-mark-alert',
   item: 'Misc/Books/book-brown-teal-question-mark', // Local item fallback
-  creature: 'ui_icon_questionmark.png',
-  ability: 'ui_icon_questionmark.png',
-  ui: 'ui_icon_questionmark.png'
+  creature: 'exclamation-mark-alert',
+  ability: 'exclamation-mark-alert',
+  ui: 'exclamation-mark-alert'
 };
 
 /**
@@ -85,15 +85,15 @@ export const getIconUrl = (iconId, category = 'ui', useCustom = true) => {
  */
 export const getCustomIconUrl = (iconId, category) => {
   const basePath = ASSET_PATHS.icons[category] || ASSET_PATHS.icons.ui;
-  
+
   // Ensure .png extension
   const fileName = iconId.endsWith('.png') ? iconId : `${iconId}.png`;
-  
+
   // URL encode the path to handle spaces and special characters
   // Split by '/' to encode each segment separately, then rejoin
   const pathSegments = fileName.split('/');
   const encodedPath = pathSegments.map(segment => encodeURIComponent(segment)).join('/');
-  
+
   return `${basePath}${encodedPath}`;
 };
 
@@ -114,25 +114,25 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_frost_frostarmor02': 'Frost/Frozen in Ice',
     'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
     'spell_frost_chainsofice': 'Frost/Frozen in Ice',
-    
+
     // Fire icons
     'spell_fire_fireball02': 'Fire/Swirling Fireball',
     'spell_fire_flamebolt': 'Fire/Flame Burst',
     'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
-    
+
     // Arcane icons
     'spell_arcane_blast': 'Arcane/Magical Sword',
     'spell_arcane_arcane04': 'Arcane/Magical Sword',
     'spell_arcane_portaldalaran': 'Utility/Utility',
     'spell_arcane_teleportundercity': 'Utility/Utility',
     'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-    
+
     // Shadow/Necrotic icons
     'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
     'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
     'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
     'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-    
+
     // Holy/Radiant icons
     'spell_holy_holysmite': 'Radiant/Divine Blessing',
     'spell_holy_divineillumination': 'Radiant/Divine Blessing',
@@ -143,16 +143,16 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_holy_renew': 'Healing/Renewal',
     'spell_holy_devotion': 'Radiant/Divine Blessing',
     'spell_holy_devotionaura': 'Radiant/Divine Blessing',
-    
+
     // Nature/Lightning icons
     'spell_nature_lightning': 'Lightning/Lightning Bolt',
-    
+
     // Ability icons
     'ability_warrior_rampage': 'Utility/Empowered Warrior',
     'ability_warrior_battleshout': 'Utility/Powerful Warrior',
     'ability_warrior_intensifyrage': 'Utility/Empowered Warrior',
     'ability_druid_catform': 'Utility/Utility',
-    
+
     // Misc icons
     'inv_misc_questionmark': 'Utility/Utility',
     'inv_misc_book_07': 'Utility/Utility',
@@ -181,21 +181,21 @@ export const getAbilityIconUrl = (iconId) => {
       // Already has prefix, use as-is
       return getCustomIconUrl(iconId, 'abilities');
     }
-    
+
     // First, try the path as-is (for properly formatted paths like "Utility/Icon Name")
     // This handles paths that are already correctly formatted
     const directPath = getCustomIconUrl(iconId, 'abilities');
-    
+
     // For backwards compatibility with lowercase folder names (e.g., "utility/icon-name"),
     // try adding the creature- prefix only if the folder is lowercase
     const folder = pathParts[0];
     const rest = pathParts.slice(1).join('/');
-    
+
     // If folder is capitalized (e.g., "Utility"), use path as-is
     if (folder[0] === folder[0].toUpperCase()) {
       return directPath;
     }
-    
+
     // For lowercase folders (legacy creature ability paths), add creature- prefix
     // combat/demonic-warrior -> combat/creature-combat-demonic-warrior
     const prefixedPath = `${folder}/creature-${folder}-${rest}`;
@@ -210,7 +210,7 @@ export const getAbilityIconUrl = (iconId) => {
     if (mappedIcon) {
       return getCustomIconUrl(mappedIcon, 'abilities');
     }
-    
+
     // If no mapping found, use a safe local fallback to prevent flickering
     // Use Utility/Utility as the default fallback instead of trying to construct paths
     return getCustomIconUrl('Utility/Utility', 'abilities');
@@ -258,7 +258,7 @@ export const getDefaultCreatureIconByType = (creatureType) => {
     'ooze': 'Monsters/Icon1',
     'plant': 'Monsters/Icon1'
   };
-  
+
   return typeToIconMap[creatureType?.toLowerCase()] || 'Human/Icon1';
 };
 
@@ -278,18 +278,18 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
 
   // Known creature icon folders - these are actual creature icon paths
   const creatureFolders = [
-    'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human', 
-    'Kobolds', 'Monsters', 'More Demons', 'More Elves', 'More Humans', 
+    'Dark Elf', 'Demon', 'Dwarf', 'Elves', 'Fairy', 'Halfling', 'Human',
+    'Kobolds', 'Monsters', 'More Demons', 'More Elves', 'More Humans',
     'More Monsters', 'More Undead', 'Orc and Goblins', 'Pirates', 'Undead'
   ];
-  
+
   // Known ability icon folders - these should be converted to creature icons
   const abilityFolders = ['combat', 'defensive', 'magic', 'movement', 'social', 'utility'];
-  
+
   // If iconId contains a '/', check if it's a creature icon or ability icon
   if (iconId.includes('/')) {
     const firstSegment = iconId.split('/')[0];
-    
+
     // Check if it's an ability icon path (e.g., "combat/beast-paw-claws")
     // Convert it to a creature icon based on creature type
     if (abilityFolders.includes(firstSegment)) {
@@ -298,13 +298,13 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       const url = getCustomIconUrl(defaultIcon, 'creatures');
       return url;
     }
-    
+
     // Check if it's a known creature folder (e.g., "Dark Elf/Icon1", "Human/Icon1")
     if (creatureFolders.some(folder => iconId.startsWith(folder + '/'))) {
       const url = getCustomIconUrl(iconId, 'creatures');
       return url;
     }
-    
+
     // Unknown path structure - try as creature icon first, fallback to default
     const url = getCustomIconUrl(iconId, 'creatures');
     return url;
@@ -323,7 +323,7 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
   if (iconId.includes('/')) {
     return getAbilityIconUrl(iconId);
   }
-  
+
   // Final fallback to creature icon
   const defaultIcon = getDefaultCreatureIconByType(creatureType);
   const url = getCustomIconUrl(defaultIcon, 'creatures');
@@ -390,7 +390,7 @@ export const loadIconWithFallback = async (iconId, category = 'ui') => {
  */
 export const preloadIcons = async (iconList) => {
   const iconMap = {};
-  
+
   const promises = iconList.map(async ({ iconId, category }) => {
     const url = await loadIconWithFallback(iconId, category);
     iconMap[iconId] = url;
@@ -412,7 +412,7 @@ export const convertWowIconToCustom = (wowIconId, category) => {
     .replace(/^(inv_|spell_|ability_)/, '')
     .replace(/_/g, '_')
     .toLowerCase();
-  
+
   return `${category}_${cleanId}`;
 };
 

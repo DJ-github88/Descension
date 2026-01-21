@@ -7,7 +7,6 @@
 
 import { create } from 'zustand';
 import presenceService from '../services/firebase/presenceService';
-import mockPresenceService from '../services/mockPresenceService';
 import { v4 as uuidv4 } from 'uuid';
 
 const usePresenceStore = create((set, get) => ({
@@ -69,34 +68,10 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
-   * Initialize mock users for testing
+   * Initialize mock users for testing - Removed
    */
   initializeMockUsers: () => {
-    // Check if mock users are already initialized
-    const currentUsers = get().onlineUsers;
-    const hasMockUsers = Array.from(currentUsers.keys()).some(key => key.startsWith('mock_user_'));
-
-    if (hasMockUsers) {
-      return;
-    }
-    const mockUsers = mockPresenceService.initializeMockUsers();
-
-    const usersMap = new Map(get().onlineUsers);
-    mockUsers.forEach(user => {
-      usersMap.set(user.userId, user);
-    });
-
-    set({ onlineUsers: usersMap });
-
-    // DISABLED: Remove automated chat test messages
-    // const addGlobalMessage = get().addGlobalMessage;
-    // mockPresenceService.startAutomatedChat(addGlobalMessage);
-
-    // Start online/offline simulation
-    const updateUserStatus = get().updateUserStatus;
-    const addGlobalMessage = get().addGlobalMessage;
-    mockPresenceService.startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage);
-
+    // Mock users initialization removed
   },
 
   /**
@@ -106,12 +81,6 @@ const usePresenceStore = create((set, get) => ({
     const unsubscribe = presenceService.subscribeToOnlineUsers((users) => {
       const usersMap = new Map();
       users.forEach(user => {
-        usersMap.set(user.userId, user);
-      });
-
-      // Add mock users
-      const mockUsers = mockPresenceService.getMockUsers();
-      mockUsers.forEach(user => {
         usersMap.set(user.userId, user);
       });
 
@@ -339,7 +308,6 @@ const usePresenceStore = create((set, get) => ({
 
     // Check if target is a mock user
     const targetUser = onlineUsers.get(targetUserId);
-    const isMockUser = targetUserId.startsWith('mock_user_');
 
     // Get sender data - try character store first, then presence, then fallback
     let senderData = currentUserPresence;
@@ -393,7 +361,7 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    // CRITICAL FIX: Only add message locally for mock users or single-player mode
+    // CRITICAL FIX: Only add message locally for single-player mode
     // In multiplayer mode, wait for server confirmation to avoid duplication
     let isInMultiplayer = false;
     try {
@@ -404,24 +372,12 @@ const usePresenceStore = create((set, get) => ({
     }
 
     // Only add locally if NOT in multiplayer mode (server will send confirmation)
-    if (!isInMultiplayer && !isMockUser) {
+    if (!isInMultiplayer) {
       // Single-player mode or no socket - add locally
       get().addWhisperMessage(targetUserId, message);
     }
 
-    // If mock user, simulate response
-    if (isMockUser) {
-      // Add message locally for mock users
-      get().addWhisperMessage(targetUserId, message);
-      mockPresenceService.simulateWhisperResponse(
-        targetUserId,
-        senderData.characterName,
-        (userId, responseMessage) => {
-          // Add response to whisper tab
-          get().addWhisperMessage(userId, responseMessage);
-        }
-      );
-    } else if (socket && socket.connected) {
+    if (socket && socket.connected) {
       // Real user - send via socket (server will send confirmation)
       socket.emit('whisper_message', message);
     } else {
@@ -431,13 +387,12 @@ const usePresenceStore = create((set, get) => ({
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
           // Use multiplayer socket for whispers (server will send confirmation)
           gameStore.multiplayerSocket.emit('whisper_message', message);
-        } else {
-          // Not in multiplayer and no socket - add locally
-          get().addWhisperMessage(targetUserId, message);
+        } else if (isInMultiplayer) {
+          // Already added locally above if !isInMultiplayer
+          // This case is for when isInMultiplayer is true but socket specifically is not connected
         }
       }).catch(() => {
-        // Ignore errors if gameStore not available - add locally as fallback
-        get().addWhisperMessage(targetUserId, message);
+        // Ignore errors if gameStore not available
       });
     }
 
@@ -454,25 +409,7 @@ const usePresenceStore = create((set, get) => ({
       return false;
     }
 
-    const isMockUser = targetUserId.startsWith('mock_user_');
-
-    // If mock user, simulate response
-    if (isMockUser) {
-      mockPresenceService.simulateInviteResponse(
-        targetUserId,
-        roomName,
-        get().addGlobalMessage
-      );
-
-      // Add system message
-      const targetUser = get().onlineUsers.get(targetUserId);
-      get().addGlobalMessage({
-        id: uuidv4(),
-        content: `Sent room invitation to ${targetUser?.characterName || 'Unknown'} for ${roomName}`,
-        timestamp: new Date().toISOString(),
-        type: 'system'
-      });
-    } else if (socket && socket.connected) {
+    if (socket && socket.connected) {
       // Real user - send via socket
       socket.emit('send_room_invite', {
         targetUserId,
