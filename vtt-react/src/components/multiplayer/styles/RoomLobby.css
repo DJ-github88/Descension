@@ -69,6 +69,8 @@
   z-index: 10;
   transition: transform 0.3s ease;
   animation: subtlePulse 12s ease-in-out infinite;
+  min-height: 400px;
+  contain: layout;
 }
 
 @keyframes subtlePulse {
@@ -1300,6 +1302,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 20px;
+  contain: layout;
 }
 
 /* COMPLETE REWORK: Modern, polished multiplayer room cards */
@@ -1322,6 +1325,9 @@
   position: relative !important;
   overflow: hidden !important;
   font-family: 'Cinzel', serif !important;
+  min-height: 220px !important;
+  aspect-ratio: 360 / 220 !important;
+  contain: layout !important;
 }
 
 .multiplayer-rooms-grid .multiplayer-room-card::before,

@@ -31,7 +31,7 @@ import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
-import { initializeCleanSpellLibrary } from './utils/clearSpellLibrary';
+import { initializeCleanSpellLibrary } from './utils/clearSpellCache';
 import './services/roomService';
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';

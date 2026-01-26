@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 80vh;
 }
 
 .loading-spinner {
@@ -2248,6 +2249,7 @@
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 2rem;
   padding: 1rem 0;
+  contain: layout;
 }
 
 /* Character Card Compact View - Enhanced */
@@ -2267,7 +2269,9 @@
   position: relative;
   min-width: 380px;
   width: 100%;
+  min-height: 350px;
   backdrop-filter: blur(2px);
+  contain: layout;
 }
 
 .character-card-compact:hover {

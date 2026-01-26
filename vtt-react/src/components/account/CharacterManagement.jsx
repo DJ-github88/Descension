@@ -208,15 +208,17 @@ const CharacterManagement = ({ user }) => {
                 {/* Character Header */}
                 <div className="character-card-header">
                   {/* Portrait Section - Centered */}
-                  <div className="character-portrait-section">
-                    <div className="character-portrait">
-                      {character.image || character.lore?.characterImage ? (
-                        <img src={character.image || character.lore?.characterImage} alt={character.name} />
-                      ) : character.characterIcon || character.lore?.characterIcon ? (
-                        <>
-                          <img 
-                            src={`https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon || character.lore?.characterIcon}.jpg`} 
-                            alt={character.name}
+                    <div className="character-portrait-section">
+                      <div className="character-portrait">
+                        {character.image || character.lore?.characterImage ? (
+                          <img src={character.image || character.lore?.characterImage} alt={character.name} width="50" height="50" />
+                        ) : character.characterIcon || character.lore?.characterIcon ? (
+                          <>
+                            <img 
+                              src={`https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon || character.lore?.characterIcon}.jpg`} 
+                              alt={character.name}
+                              width="50"
+                              height="50"
                             onError={(e) => {
                               e.target.style.display = 'none';
                               const fallbackDiv = e.target.parentElement.querySelector('.default-portrait-text');

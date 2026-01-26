@@ -304,7 +304,7 @@ const AccountDashboard = ({ user }) => {
           >
             <div className="account-avatar-large">
               {userData?.photoURL || user?.photoURL ? (
-                <img src={userData?.photoURL || user?.photoURL} alt="Account" />
+                <img src={userData?.photoURL || user?.photoURL} alt="Account" width="50" height="50" />
               ) : (
                 <i className="fas fa-user-circle"></i>
               )}
@@ -586,6 +586,8 @@ const AccountDashboard = ({ user }) => {
                                     <img
                                       src={getCharacterImage(character)}
                                       alt={character.name}
+                                      width="65"
+                                      height="65"
                                       onError={(e) => {
                                         e.target.style.display = 'none';
                                         e.target.nextSibling.style.display = 'flex';

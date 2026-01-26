@@ -20,6 +20,9 @@
   position: relative;
   overflow: hidden;
   font-family: 'Cinzel', serif;
+  min-height: 220px;
+  aspect-ratio: 360 / 220;
+  contain: layout;
 }
 
 .room-card-modern:hover {
