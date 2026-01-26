@@ -20,7 +20,7 @@ import '../../rules/BackgroundSelector.css';
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (benefit = {}) => {
     const parts = [];
-    
+
     // Extract first sentence of description as flavor text
     if (benefit.description) {
         const firstSentence = benefit.description.split(/[.!?]+/)[0].trim();
@@ -227,7 +227,7 @@ const Step5PathSelection = () => {
                                                 {benefit.type}
                                             </span>
                                         </div>
-                                                <p className="benefit-description">{getPassiveSummary(benefit)}</p>
+                                        <p className="benefit-description">{getPassiveSummary(benefit)}</p>
                                     </div>
                                 ))}
                             </div>
@@ -298,54 +298,54 @@ const Step5PathSelection = () => {
 
                         {/* Ability Detail View */}
                         {viewingAbility && (
-                                <div className="ability-detail-view">
-                                    <div className="ability-detail-header">
-                                        <h4>Ability Details</h4>
-                                    </div>
-
-                                    <div className="ability-detail-card">
-                                        {(() => {
-                                            const ability = disciplineAbilities.find(a => a.id === viewingAbility);
-                                            if (!ability) return null;
-
-                                            const isPassive = ability.spellType === 'PASSIVE' && (!ability.resourceCost || ability.resourceCost.actionPoints === 0);
-
-                                            if (isPassive) {
-                                                const description = getPassiveSummary(ability);
-                                                const icon = ability.icon || 'spell_holy_devotion';
-                                                return (
-                                                    <div className="passive-summary-item">
-                                                        <div className="passive-summary-icon-wrapper">
-                                                            <img
-                                                                src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
-                                                                alt={ability.name}
-                                                                className="passive-summary-icon"
-                                                                onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
-                                                            />
-                                                        </div>
-                                                        <div className="passive-summary-details">
-                                                            <div className="passive-summary-name">{ability.name}</div>
-                                                            <div className="passive-summary-description">{description}</div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            }
-
-                                            const displayAbility = { ...ability, description: ability.description || getPassiveSummary(ability) };
-                                            return (
-                                                <UnifiedSpellCard
-                                                    spell={displayAbility}
-                                                    variant="wizard"
-                                                    showDescription={true}
-                                                    showStats={true}
-                                                    showTags={true}
-                                                    showActions={false}
-                                                />
-                                            );
-                                        })()}
-                                    </div>
+                            <div className="ability-detail-view">
+                                <div className="ability-detail-header">
+                                    <h4>Ability Details</h4>
                                 </div>
-                            )}
+
+                                <div className="ability-detail-card">
+                                    {(() => {
+                                        const ability = disciplineAbilities.find(a => a.id === viewingAbility);
+                                        if (!ability) return null;
+
+                                        const isPassive = ability.spellType === 'PASSIVE' && (!ability.resourceCost || ability.resourceCost.actionPoints === 0);
+
+                                        if (isPassive) {
+                                            const description = getPassiveSummary(ability);
+                                            const icon = ability.icon || 'spell_holy_devotion';
+                                            return (
+                                                <div className="passive-summary-item">
+                                                    <div className="passive-summary-icon-wrapper">
+                                                        <img
+                                                            src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
+                                                            alt={ability.name}
+                                                            className="passive-summary-icon"
+                                                            onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
+                                                        />
+                                                    </div>
+                                                    <div className="passive-summary-details">
+                                                        <div className="passive-summary-name">{ability.name}</div>
+                                                        <div className="passive-summary-description">{description}</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+
+                                        const displayAbility = { ...ability, description: ability.description || getPassiveSummary(ability) };
+                                        return (
+                                            <UnifiedSpellCard
+                                                spell={displayAbility}
+                                                variant="wizard"
+                                                showDescription={true}
+                                                showStats={true}
+                                                showTags={true}
+                                                showActions={false}
+                                            />
+                                        );
+                                    })()}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

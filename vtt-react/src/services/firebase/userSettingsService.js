@@ -72,6 +72,8 @@ export const DEFAULT_USER_SETTINGS = {
   antiAliasing: true,
   vsync: true,
   maxFPS: 60,
+  showMapTransitions: true,
+
 
   // Chat Settings
   chatFontSize: 'medium', // 'small', 'medium', 'large'

@@ -11,16 +11,16 @@ import { useRoomContext } from '../contexts/RoomContext';
 
 export const useLevelEditorPersistence = () => {
   const { currentRoomId, isInRoom } = useRoomContext();
-  
+
   // Get level editor state and actions
   const levelEditorState = useLevelEditorStore();
   const { loadMapState } = useLevelEditorStore();
-  
+
   // Auto-save timer ref
   const autoSaveTimerRef = useRef(null);
   const lastSaveTimeRef = useRef(0);
   const isLoadingRef = useRef(false);
-  
+
   // CRITICAL FIX: Track last state to prevent unnecessary auto-saves during scrolling/dragging
   const lastStateRef = useRef(null);
 
@@ -32,24 +32,24 @@ export const useLevelEditorPersistence = () => {
       // Terrain and environment
       terrainData: levelEditorState.terrainData,
       environmentalObjects: levelEditorState.environmentalObjects,
-      
+
       // Walls and structures
       wallData: levelEditorState.wallData,
-      
+
       // D&D elements
       dndElements: levelEditorState.dndElements,
-      
+
       // Fog of war
       fogOfWarData: levelEditorState.fogOfWarData,
       exploredAreas: levelEditorState.exploredAreas,
-      
+
       // Drawing system
       drawingPaths: levelEditorState.drawingPaths,
       drawingLayers: levelEditorState.drawingLayers,
-      
+
       // Lighting system
       lightSources: levelEditorState.lightSources,
-      
+
       // Grid and view settings
       gridSize: levelEditorState.gridSize,
       gridOffsetX: levelEditorState.gridOffsetX,
@@ -57,13 +57,13 @@ export const useLevelEditorPersistence = () => {
       gridColor: levelEditorState.gridColor,
       gridThickness: levelEditorState.gridThickness,
       showGridLines: levelEditorState.showGridLines,
-      
+
       // Layer visibility settings
       showTerrainLayer: levelEditorState.showTerrainLayer,
       showObjectLayer: levelEditorState.showObjectLayer,
       showWallLayer: levelEditorState.showWallLayer,
       showDndLayer: levelEditorState.showDndLayer,
-      
+
       // Tool settings
       selectedTool: levelEditorState.selectedTool,
       brushSize: levelEditorState.brushSize,
@@ -82,11 +82,11 @@ export const useLevelEditorPersistence = () => {
     try {
       const stateData = collectLevelEditorState();
       const success = levelEditorPersistenceService.saveLevelEditorState(currentRoomId, stateData);
-      
+
       if (success) {
         lastSaveTimeRef.current = Date.now();
       }
-      
+
       return success;
     } catch (error) {
       console.error('Error saving level editor state:', error);
@@ -119,7 +119,7 @@ export const useLevelEditorPersistence = () => {
 
     try {
       const savedState = levelEditorPersistenceService.loadLevelEditorState(currentRoomId);
-      
+
       if (savedState) {
         // Apply the loaded state to the level editor store
         loadMapState(savedState);
@@ -165,7 +165,7 @@ export const useLevelEditorPersistence = () => {
       clearTimeout(autoSaveTimerRef.current);
       autoSaveTimerRef.current = null;
     }
-    
+
     return saveLevelEditorState();
   }, [saveLevelEditorState]);
 
@@ -180,12 +180,12 @@ export const useLevelEditorPersistence = () => {
 
     try {
       const success = levelEditorPersistenceService.copyLevelEditorState(sourceRoomId, currentRoomId);
-      
+
       if (success) {
         // Reload the state after copying
         await loadLevelEditorState();
       }
-      
+
       return success;
     } catch (error) {
       console.error('Error copying level editor state:', error);
@@ -229,7 +229,7 @@ export const useLevelEditorPersistence = () => {
     const gameStore = useGameStore.getState();
     const isDraggingCamera = gameStore.isDraggingCamera || false;
     const isScrolling = window._isScrolling || false;
-    
+
     if (isDraggingCamera || isScrolling) {
       // Skip persistence during active scrolling/dragging
       return;
@@ -294,7 +294,7 @@ export const useLevelEditorPersistence = () => {
       if (autoSaveTimerRef.current) {
         clearTimeout(autoSaveTimerRef.current);
       }
-      
+
       // Force save on unmount if in a room
       if (isInRoom && currentRoomId && currentRoomId !== 'global') {
         levelEditorPersistenceService.saveLevelEditorState(currentRoomId, collectLevelEditorState());
@@ -308,12 +308,12 @@ export const useLevelEditorPersistence = () => {
     loadLevelEditorState,
     copyFromRoom,
     clearRoomState,
-    
+
     // State
     currentRoomId,
     isInRoom,
     hasUnsavedChanges: autoSaveTimerRef.current !== null,
-    
+
     // Utility
     scheduleAutoSave
   };

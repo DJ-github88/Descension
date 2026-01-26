@@ -431,7 +431,11 @@ const CharacterToken = ({
     const screenPosition = screenPositionRef.current;
 
     // Check if this token is targeted (use consistent ID for current player)
-    const isTargeted = currentTarget?.id === 'current-player' && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
+    const currentPlayer = useGameStore.getState().currentPlayer;
+    const myId = currentPlayer?.id || 'current-player';
+    const isSelfTargeted = currentTarget?.id === 'current-player' || (myId && currentTarget?.id === myId);
+    const isTargeted = isSelfTargeted && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
+
 
     // CRITICAL FIX: Use isTokensTurn function instead of direct comparison
     // This properly checks if it's this token's turn in combat
@@ -1291,9 +1295,13 @@ const CharacterToken = ({
     const handleInspectCharacter = () => {
         if (onInspect) {
             // Check if this is another player's token
-            const isOtherPlayer = tokenPlayerId && tokenPlayerId !== 'current-player' && isInMultiplayer;
-            onInspect(characterData, !isOtherPlayer); // false if it's another player's token
+            const currentPlayer = useGameStore.getState().currentPlayer;
+            const myId = currentPlayer?.id || 'current-player';
+            const isSelf = tokenPlayerId === 'current-player' || (myId && tokenPlayerId === myId);
+            const isOtherPlayer = tokenPlayerId && !isSelf && isInMultiplayer;
+            onInspect(characterData, isSelf); // true if it's our own token
         }
+
         setShowContextMenu(false);
     };
 

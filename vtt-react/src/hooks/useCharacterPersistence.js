@@ -37,11 +37,15 @@ export const useCharacterPersistence = () => {
     }
 
     // Get current state from all stores
-    const characterState = useCharacterStore.getState();
-    const inventoryState = useInventoryStore.getState();
-    const buffState = useBuffStore.getState();
-    const debuffState = useDebuffStore.getState();
-    const questState = useQuestStore.getState();
+    const characterState = useCharacterStore?.getState();
+    const inventoryState = useInventoryStore?.getState();
+    const buffState = useBuffStore?.getState();
+    const debuffState = useDebuffStore?.getState();
+    const questState = useQuestStore?.getState();
+
+    if (!characterState || !inventoryState || !buffState || !debuffState || !questState) {
+      return null;
+    }
 
     return {
       // Basic resources
@@ -158,8 +162,8 @@ export const useCharacterPersistence = () => {
       const result = await persistenceService.loadCharacterState(user.uid, currentCharacterId);
 
       if (result) {
-        // Update the character store with loaded data
-        useCharacterStore.setState({
+        // Update stores with remote data
+        useCharacterStore?.setState({
           // Basic resources
           health: result.health || { current: 45, max: 50 },
           mana: result.mana || { current: 45, max: 50 },
@@ -253,7 +257,7 @@ export const useCharacterPersistence = () => {
    */
   const updateResources = useCallback(async (resources) => {
     // Update store first
-    useCharacterStore.setState(resources);
+    useCharacterStore?.setState(resources);
 
     // Save immediately for critical resources
     await saveCharacterState();
@@ -310,7 +314,7 @@ export const useCharacterPersistence = () => {
 
       // Update inventory store
       if (remoteData.inventory) {
-        useInventoryStore.setState({
+        useInventoryStore?.setState({
           items: remoteData.inventory.items || [],
           currency: remoteData.inventory.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
           encumbranceState: remoteData.inventory.encumbranceState || 'normal',
@@ -320,20 +324,20 @@ export const useCharacterPersistence = () => {
 
       // Update equipment
       if (remoteData.equipment) {
-        useCharacterStore.setState({ equipment: remoteData.equipment });
+        useCharacterStore?.setState({ equipment: remoteData.equipment });
       }
 
       // Update buff/debuff stores
       if (remoteData.buffs) {
-        useBuffStore.setState({ activeBuffs: remoteData.buffs });
+        useBuffStore?.setState({ activeBuffs: remoteData.buffs });
       }
       if (remoteData.debuffs) {
-        useDebuffStore.setState({ activeDebuffs: remoteData.debuffs });
+        useDebuffStore?.setState({ activeDebuffs: remoteData.debuffs });
       }
 
       // Update quest store
       if (remoteData.quests) {
-        useQuestStore.setState({
+        useQuestStore?.setState({
           quests: remoteData.quests.quests || [],
           categories: remoteData.quests.categories || [],
           questCategories: remoteData.quests.questCategories || {}

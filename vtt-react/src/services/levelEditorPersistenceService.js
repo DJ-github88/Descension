@@ -84,7 +84,7 @@ class LevelEditorPersistenceService {
       // Check if we're actively scrolling/dragging
       const isDraggingCamera = typeof window !== 'undefined' && (window._isDraggingCamera || false);
       const isScrolling = typeof window !== 'undefined' && (window._isScrolling || false);
-      
+
       if (isDraggingCamera || isScrolling) {
         // Skip caching during active scrolling/dragging - will cache when scrolling stops
         return true; // Return true to indicate success, but don't actually cache
@@ -93,7 +93,7 @@ class LevelEditorPersistenceService {
       // CRITICAL FIX: Only log if state actually changed to reduce console spam
       const previousState = this.cache.get(roomId);
       const stateChanged = !previousState || JSON.stringify(previousState.levelEditorData) !== JSON.stringify(stateData);
-      
+
       // Update in-memory cache only
       this.cache.set(roomId, stateData);
 
@@ -101,11 +101,10 @@ class LevelEditorPersistenceService {
       // Reduce logging frequency further - only log every 30 seconds for the same room
       if (stateChanged) {
         const now = Date.now();
-        const timeSinceLastLog = now - (this.lastLogTime || 0);
-        if (timeSinceLastLog > 30000) { // 30 seconds
-          console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
-          this.lastLogTime = now;
-        }
+         const timeSinceLastLog = now - (this.lastLogTime || 0);
+         if (timeSinceLastLog > 30000) { // 30 seconds
+           this.lastLogTime = now;
+         }
       }
       return true;
     } catch (error) {
@@ -130,12 +129,11 @@ class LevelEditorPersistenceService {
     try {
       // Check in-memory cache only
       if (this.cache.has(roomId)) {
-        const cached = this.cache.get(roomId);
-        console.log(`📋 Level editor state loaded from cache for room ${roomId}`);
-        return cached.levelEditorData;
-      }
+         const cached = this.cache.get(roomId);
+         return cached.levelEditorData;
+       }
 
-      console.log(`📋 No cached level editor state for room ${roomId} (will load from database)`);
+       // No cached level editor state for room
       return null;
     } catch (error) {
       console.error('Error loading level editor state from cache:', error);
@@ -151,8 +149,7 @@ class LevelEditorPersistenceService {
    */
   deleteLevelEditorState(roomId) {
     try {
-      this.cache.delete(roomId);
-      console.log(`🗑️ Level editor state cache cleared for room ${roomId}`);
+       this.cache.delete(roomId);
       return true;
     } catch (error) {
       console.error('Error clearing level editor state cache:', error);

@@ -148,46 +148,85 @@ const saveRoomDataSplit = async (roomId, roomData) => {
     // Save core room data
     await db.collection('rooms').doc(roomId).set(coreRoomData, { merge: true });
 
-    // Save gameState to subcollection (only if it exists and has data)
-    if (gameState && Object.keys(gameState).length > 0) {
-      const gameStateRef = db.collection('rooms').doc(roomId).collection('gameState').doc('current');
-      await gameStateRef.set({
-        ...gameState,
-        lastUpdated: admin.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-    }
-
-    // Save recent chat messages to subcollection (keep last 100)
-    if (chatHistory && chatHistory.length > 0) {
-      const recentMessages = chatHistory.slice(-100); // Keep last 100 messages
-      const batch = db.batch();
-
-      // Delete old messages beyond limit
-      const chatRef = db.collection('rooms').doc(roomId).collection('chat');
-      const oldMessagesSnapshot = await chatRef.orderBy('timestamp', 'desc').offset(100).get();
-      oldMessagesSnapshot.forEach(doc => {
-        batch.delete(doc.ref);
-      });
-
-      // Add new messages
-      for (const message of recentMessages) {
-        if (message.id) {
-          const messageRef = chatRef.doc(message.id);
-          batch.set(messageRef, {
-            ...message,
-            timestamp: message.timestamp || admin.firestore.FieldValue.serverTimestamp()
-          }, { merge: true });
-        }
-      }
-
-      if (oldMessagesSnapshot.size > 0 || recentMessages.length > 0) {
-        await batch.commit();
-      }
-    }
-
     return true;
   } catch (error) {
-    console.error('Error saving split room data to Firestore:', error);
+    logger.error('Error saving room data', { error: error.message, roomId });
+    return false;
+  }
+};
+
+/**
+ * Update a specific map's data in Firestore
+ * @param {string} roomId - Room ID
+ * @param {string} mapId - Map ID to update
+ * @param {Object} mapData - Map data to update
+ * @ @returns {Promise<boolean>} - Success status
+ */
+const updateMapData = async (roomId, mapId, mapData) => {
+  if (!db) {
+    return false;
+  }
+
+  try {
+    await db.collection('rooms').doc(roomId).collection('gameState').doc(mapId).set(mapData, { merge: true });
+    logger.debug(`✅ Updated map ${mapId} in room ${roomId}`);
+    return true;
+  } catch (error) {
+    logger.error('Error updating map data', { error: error.message, roomId, mapId });
+    return false;
+  }
+};
+
+/**
+ * Get a specific map's data from Firestore
+ * @param {string} roomId - Room ID
+ * @param {string} mapId - Map ID to get
+ * @returns {Promise<Object|null>} - Map data or null
+ */
+const getMapData = async (roomId, mapId) => {
+  if (!db) {
+    logger.debug('Firebase not initialized, using in-memory rooms only');
+    return null;
+  }
+
+  try {
+    const mapDoc = await db.collection('rooms').doc(roomId).collection('gameState').doc(mapId).get();
+    if (!mapDoc.exists) {
+      logger.warn(`⚠️ Map ${mapId} not found in room ${roomId}`);
+      return null;
+    }
+    const mapData = mapDoc.data();
+    logger.debug(`📂 Loaded map data for ${mapId}:`, {
+      hasGridItems: !!mapData.gridItems,
+      gridItemsCount: Object.keys(mapData.gridItems || {}).length
+    });
+    return mapData;
+  } catch (error) {
+    logger.error('Error getting map data', { error: error.message, roomId, mapId });
+    return null;
+  }
+};
+
+/**
+ * Update room game state in Firestore
+ * @param {string} roomId - Room ID
+ * @param {Object} gameState - Game state update
+ * @returns {Promise<boolean>} - Success status
+ */
+const updateRoomGameState = async (roomId, gameState) => {
+  if (!db) {
+    return false;
+  }
+
+  try {
+    await db.collection('rooms').doc(roomId).update({
+      gameState: gameState,
+      lastModified: admin.firestore.FieldValue.serverTimestamp(),
+      lastActivity: admin.firestore.FieldValue.serverTimestamp()
+    });
+    return true;
+  } catch (error) {
+    logger.error('Error updating room game state', { error: error.message, roomId });
     return false;
   }
 };
@@ -236,30 +275,6 @@ const saveRoomData = async (roomId, roomData) => {
     return true;
   } catch (error) {
     logger.error('Error saving room to Firestore', { error: error.message, roomId });
-    return false;
-  }
-};
-
-/**
- * Update room game state in Firestore
- * @param {string} roomId - Room ID
- * @param {Object} gameState - Game state update
- * @returns {Promise<boolean>} - Success status
- */
-const updateRoomGameState = async (roomId, gameState) => {
-  if (!db) {
-    return false;
-  }
-
-  try {
-    await db.collection('rooms').doc(roomId).update({
-      gameState: gameState,
-      lastModified: admin.firestore.FieldValue.serverTimestamp(),
-      lastActivity: admin.firestore.FieldValue.serverTimestamp()
-    });
-    return true;
-  } catch (error) {
-    logger.error('Error updating room game state', { error: error.message, roomId });
     return false;
   }
 };
@@ -565,6 +580,8 @@ module.exports = {
   getRoomData,
   saveRoomData,
   updateRoomGameState,
+  updateMapData,
+  getMapData,
   addChatMessage,
   setRoomActiveStatus,
   deleteRoom,

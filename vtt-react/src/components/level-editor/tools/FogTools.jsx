@@ -10,12 +10,6 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
     // Simplified fog tool configurations - just paint and erase
     const fogTools = [
         {
-            id: 'fog_paint',
-            name: 'Paint Fog',
-            icon: 'Frost/Dripping Ice',
-            description: 'Paint animated fog of war areas'
-        },
-        {
             id: 'fog_erase',
             name: 'Erase Fog',
             icon: 'Utility/Broken',
@@ -26,12 +20,6 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
             name: 'Clear All Fog',
             icon: 'Radiant/Radiant Sunburst',
             description: 'Remove all fog from map'
-        },
-        {
-            id: 'fog_consolidate',
-            name: 'Consolidate Fog',
-            icon: 'Utility/Utility Gear',
-            description: 'Merge overlapping fog paths to improve performance'
         },
         {
             id: 'fog_cover_map',
@@ -84,7 +72,7 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
             </div>
 
             {/* Brush Settings */}
-            {(selectedTool === 'fog_paint' || selectedTool === 'fog_erase') && (
+            {(selectedTool === 'fog_erase') && (
                 <div className="tool-section">
                     <h4>Brush Settings</h4>
                     <div className="brush-settings">
@@ -125,8 +113,8 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
                     </button>
                 </div>
                 <div className="fov-description">
-                    {fovAngle === 360 
-                        ? 'Full 360° view around token' 
+                    {fovAngle === 360
+                        ? 'Full 360° view around token'
                         : '100° directional view - use scroll wheel on token to rotate view'}
                 </div>
             </div>

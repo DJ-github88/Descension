@@ -10,7 +10,7 @@ import useCombatStore from "../store/combatStore";
 import useLevelEditorStore, { WALL_TYPES, TERRAIN_TYPES } from "../store/levelEditorStore";
 import { getWowIconUrl } from '../utils/assetManager';
 import useMapStore from "../store/mapStore";
-import useSettingsStore from "../store/settingsStore";
+import * as SettingsStoreModule from "../store/settingsStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
 import GridItem from "./grid/GridItem";
@@ -359,7 +359,7 @@ function GridComponent({
     } = useLevelEditorStore();
 
     // Get map store for initialization
-    const { initializeWithCurrentState } = useMapStore();
+    const { initializeWithCurrentState, currentMapId } = useMapStore();
 
     // Level editor persistence hook
     const { scheduleAutoSave } = useLevelEditorPersistence();
@@ -1849,11 +1849,15 @@ function GridComponent({
                 target.closest('.inventory-item') ||
                 target.closest('.container-item') ||
                 target.closest('.gm-item') || // GM notes items
+                target.closest('.grid-item-orb') || // Loot orbs on grid
                 window.isDraggingItem; // Also check global flag set by ItemCard
+
+
 
             if (isItemDrag) {
                 isDraggingItemRef.current = true;
                 setIsDraggingItem(true);
+
             }
         };
 
@@ -2489,6 +2493,8 @@ function GridComponent({
         e.stopPropagation(); // Prevent document-level drop handler from processing
         setHoveredTile(null);
 
+
+
         // Drop event on tile
 
         try {
@@ -2521,13 +2527,16 @@ function GridComponent({
 
             const dataText = e.dataTransfer.getData('text/plain');
 
+
             // Check if dataText is empty or undefined before parsing
             if (!dataText || dataText.trim() === '') {
+                console.warn('⚠️ No drag data found');
                 return;
             }
 
             // Parse the JSON data
             const data = JSON.parse(dataText);
+
 
             // Handle creature drops
             if (data.type === 'creature') {
@@ -2546,56 +2555,87 @@ function GridComponent({
                 return;
             }
 
-            // Handle drops from item library
+            // Handle drops from item library or moving existing grid items
             if (data.type === 'item') {
-                const itemId = data.id;
-                // Use the item data from drag event if available, otherwise get from store
-                const item = data.item || useItemStore.getState().items.find(item => item.id === itemId);
+                // Check if this is an existing grid item being moved (has a grid-specific ID)
+                // Grid items have IDs like "grid-item-timestamp-random" while library items have other IDs
+                const isGridItem = data.id && data.id.startsWith('grid-item-');
 
-                if (item) {
-                    // Use the actual tile coordinates where the item was dropped
-                    const gridCoords = { x: tile.gridX, y: tile.gridY };
-                    const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-                    // All items (including containers) should be positioned at the center of the tile
-                    // The GridContainer component uses transform: translate(-50%, -50%) to center itself
-                    const position = {
-                        x: worldPos.x,
-                        y: worldPos.y,
-                        gridPosition: {
-                            row: gridCoords.y,
-                            col: gridCoords.x
-                        }
-                    };
 
-                    // Ensure position data is properly set
-                    // Make a deep copy of the position object to prevent any reference issues
-                    const positionCopy = {
-                        x: position.x,
-                        y: position.y,
-                        gridPosition: {
-                            row: position.gridPosition.row,
-                            col: position.gridPosition.col
-                        }
-                    };
+                if (isGridItem) {
+                    // Moving an existing grid item
+                    const gridItemStore = useGridItemStore.getState();
+                    const existingGridItem = gridItemStore.gridItems.find(gi => gi.id === data.id);
 
-                    // Create a clean version of the item without any position properties
-                    // This prevents the item's own position properties from overriding the grid position
-                    const cleanItem = { ...item };
-                    delete cleanItem.position;
-                    delete cleanItem.gridPosition;
 
-                    // Add the item to the grid with the clean position data
-                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
 
-                    // Trigger auto-save for local rooms after placing item
-                    setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+                    if (existingGridItem) {
+                        // Update the position of the existing grid item
+                        const gridCoords = { x: tile.gridX, y: tile.gridY };
+                        const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-                    // Stop propagation to prevent document-level drop handler from also processing this
-                    e.stopPropagation();
-                    return;
+                        const newPosition = {
+                            x: worldPos.x,
+                            y: worldPos.y,
+                            gridPosition: {
+                                row: gridCoords.y,
+                                col: gridCoords.x
+                            }
+                        };
+
+
+
+                        gridItemStore.updateItemPosition(data.id, newPosition, true);
+
+                        // Trigger auto-save for local rooms after moving item
+                        setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+
+                        e.stopPropagation();
+                        return;
+                    }
                 } else {
-                    // Item not found in store
+                    // New item from library or other source
+                    const itemId = data.id;
+                    const item = data.item || useItemStore.getState().items.find(item => item.id === itemId);
+
+
+
+                    if (item) {
+                        const gridCoords = { x: tile.gridX, y: tile.gridY };
+                        const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+                        const position = {
+                            x: worldPos.x,
+                            y: worldPos.y,
+                            gridPosition: {
+                                row: gridCoords.y,
+                                col: gridCoords.x
+                            }
+                        };
+
+                        const positionCopy = {
+                            x: position.x,
+                            y: position.y,
+                            gridPosition: {
+                                row: position.gridPosition.row,
+                                col: position.gridPosition.col
+                            }
+                        };
+
+                        const cleanItem = { ...item };
+                        delete cleanItem.position;
+                        delete cleanItem.gridPosition;
+
+                        addItemToGrid(cleanItem, positionCopy, true);
+
+                        setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+
+                        e.stopPropagation();
+                        return;
+                    } else {
+                        console.warn('⚠️ Item not found in store:', itemId);
+                    }
                 }
             }
             // Handle drops from inventory
@@ -3307,18 +3347,20 @@ function GridComponent({
                 <WallOverlay />
 
                 {/* Render grid items */}
-                {gridItems.map(gridItem => {
+                 {(() => {
+                     const itemsForCurrentMap = gridItems.filter(item => {
+                       if (!item.mapId) {
+                         console.warn(`⚠️ Grid item has no mapId: ${item.id}, defaulting to 'default' map`);
+                       }
+                       return (item.mapId || 'default') === currentMapId;
+                     });
+                     return itemsForCurrentMap;
+                 })().map(gridItem => {
                     // Get the original item to check if it's a container
                     // First try using originalItemStoreId if available
-                    let originalItem = null;
-                    if (gridItem.originalItemStoreId) {
-                        originalItem = useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId);
-                    }
-
-                    // If not found, try the regular itemId
-                    if (!originalItem) {
-                        originalItem = useItemStore.getState().items.find(item => item.id === gridItem.itemId);
-                    }
+                    const originalItem = gridItem.originalItemStoreId
+                        ? useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId)
+                        : useItemStore.getState().items.find(item => item.id === gridItem.itemId);
 
                     // Create a unique key that includes more properties to ensure proper re-rendering
                     const uniqueKey = `${gridItem.id}-${gridItem.itemId || 'no-item'}-${gridItem.addedAt || Date.now()}-${forceRenderKey}`;
@@ -3334,25 +3376,40 @@ function GridComponent({
                 })}
 
                 {/* Render creature tokens - memoized for performance */}
-                {useMemo(() => tokens.map(token => (
-                    <CreatureToken
-                        key={token.id}
-                        tokenId={token.id}
-                        position={token.position}
-                        onRemove={handleRemoveToken}
-                    />
-                )), [tokens, handleRemoveToken])}
+                {useMemo(() => tokens
+                    .filter(token => {
+                      if (!token.mapId) {
+                        console.warn(`⚠️ Creature token has no mapId: ${token.id}, defaulting to 'default' map`);
+                      }
+                      return (token.mapId || 'default') === currentMapId;
+                    })
+                    .map(token => (
+                        <CreatureToken
+                            key={token.id}
+                            tokenId={token.id}
+                            position={token.position}
+                            onRemove={handleRemoveToken}
+                        />
+                    )), [tokens, handleRemoveToken, currentMapId])}
 
                 {/* Render character tokens - memoized for performance */}
-                {useMemo(() => (characterTokens || []).map(token => (
-                    <CharacterToken
-                        key={token.id}
-                        tokenId={token.id}
-                        position={token.position}
-                        onRemove={handleRemoveCharacterToken}
-                        onInspect={handleCharacterTokenInspect}
-                    />
-                )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect])}
+                {useMemo(() => (characterTokens || [])
+                    .filter(token => {
+                      if (!token.mapId) {
+                        console.warn(`⚠️ Character token has no mapId: ${token.id}, defaulting to 'default' map`);
+                      }
+                      return (token.mapId || 'default') === currentMapId;
+                    })
+                    .map(token => (
+                        <CharacterToken
+                            key={token.id}
+                            tokenId={token.id}
+                            position={token.position}
+                            playerId={token.playerId}
+                            onRemove={handleRemoveCharacterToken}
+                            onInspect={handleCharacterTokenInspect}
+                        />
+                    )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect, currentMapId])}
 
                 {/* Movement Visualization - Rendered at grid level for correct positioning */}
                 {/* CRITICAL FIX: Now using reactive state subscriptions instead of getState() */}
@@ -3754,6 +3811,8 @@ export default function Grid() {
         defaultViewFromToken: state.defaultViewFromToken
     }));
 
+    // Handle potential import issues with robust fallback
+    const useSettingsStore = SettingsStoreModule.default || SettingsStoreModule;
     const windowScale = useSettingsStore(state => state.windowScale);
 
     // Create a store wrapper object for InfiniteGridSystem

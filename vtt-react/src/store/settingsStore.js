@@ -225,10 +225,14 @@ const useSettingsStore = create(
         get().updateSettings({ muteAllSounds: muted });
       },
 
-      // Video/Visual Settings
       setParticleEffects: (enabled) => {
         get().updateSettings({ particleEffects: enabled });
       },
+
+      setShowMapTransitions: (enabled) => {
+        get().updateSettings({ showMapTransitions: enabled });
+      },
+
 
       setShadowQuality: (quality) => {
         get().updateSettings({ shadowQuality: quality });
@@ -369,6 +373,8 @@ const useSettingsStore = create(
         antiAliasing: state.antiAliasing,
         vsync: state.vsync,
         maxFPS: state.maxFPS,
+        showMapTransitions: state.showMapTransitions,
+
 
         // Chat
         chatFontSize: state.chatFontSize,
@@ -472,8 +478,10 @@ export const getSettingsByCategory = (category) => {
         shadowQuality: state.shadowQuality,
         antiAliasing: state.antiAliasing,
         vsync: state.vsync,
-        maxFPS: state.maxFPS
+        maxFPS: state.maxFPS,
+        showMapTransitions: state.showMapTransitions
       };
+
 
     case SETTINGS_CATEGORIES.CHAT:
       return {

@@ -22,22 +22,22 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         natural: {
             name: 'Natural Terrain',
             icon: 'Nature/Nature Natural',
-            terrains: ['grass', 'dirt', 'stone', 'sand', 'water', 'cobblestone']
+            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone']
         },
         dungeon: {
             name: 'Dungeon Floors',
             icon: 'Utility/Lockpick',
-            terrains: ['dungeon_floor', 'marble_floor', 'wooden_floor']
+            terrains: ['dungeon_floor', 'marble_floor', 'wooden_floor', 'crystal_floor', 'gold_floor']
         },
         difficult: {
             name: 'Difficult Terrain',
             icon: 'Nature/World Map',
-            terrains: ['mud', 'swamp', 'ice']
+            terrains: ['mud', 'swamp', 'ice', 'fungal_growth']
         },
         hazard: {
             name: 'Hazardous Terrain',
             icon: 'Fire/Fiery Skull',
-            terrains: ['lava', 'acid', 'pit']
+            terrains: ['lava', 'acid', 'pit', 'abyss']
         }
     };
 
@@ -189,9 +189,9 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                                         }}
                                                     />
                                                 ) : (
-                                                    <div 
-                                                        className={`terrain-color-fallback terrain-type-${terrainId}`} 
-                                                        style={{ backgroundColor: terrain.color }} 
+                                                    <div
+                                                        className={`terrain-color-fallback terrain-type-${terrainId}`}
+                                                        style={{ backgroundColor: terrain.color }}
                                                     />
                                                 )}
                                                 <span className="terrain-name">{terrain.name}</span>

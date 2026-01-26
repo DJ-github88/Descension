@@ -11,34 +11,29 @@ import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
 
-const WowWindow = forwardRef(({
-    title,
-    children,
-    isOpen,
-    onClose,
-    defaultPosition = { x: 100, y: 100 },
-    defaultSize = { width: 400, height: 600 },
-    customHeader,
-    headerTabs = [],
-    activeTab,
-    onTabChange,
-    centered = false,
-    bounds = "body",
-    onDrag = null,
-    onResize = null,
-    className = "",
-    resizable = true,
-    minConstraints = [300, 400],
-    maxConstraints = [1200, 1000],
-    modal = false,
-    centerTitle = false
-}, ref) => {
-    // Safety check for required props
-    if (!isOpen) {
-        return null;
-    }
-
-
+const WowWindow = forwardRef((props, ref) => {
+    const {
+        title,
+        children,
+        isOpen,
+        onClose,
+        defaultPosition = { x: 100, y: 100 },
+        defaultSize = { width: 400, height: 600 },
+        customHeader,
+        headerTabs = [],
+        activeTab,
+        onTabChange,
+        centered = false,
+        bounds = "body",
+        onDrag = null,
+        onResize = null,
+        className = "",
+        resizable = true,
+        minConstraints = [300, 400],
+        maxConstraints = [1200, 1000],
+        modal = false,
+        centerTitle = false
+    } = props;
 
     // Ensure title is always defined
     const safeTitle = title || 'Window';

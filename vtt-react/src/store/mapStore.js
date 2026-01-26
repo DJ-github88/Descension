@@ -51,7 +51,8 @@ const createDefaultMap = (name = 'New Map') => ({
     gridOffsetX: 0,
     gridOffsetY: 0,
     gridLineColor: 'rgba(212, 175, 55, 0.8)',
-    gridLineThickness: 2
+    gridLineThickness: 2,
+    gridType: 'square' // 'square' or 'hex' - per-map grid type
 });
 
 // Storage quota exceeded handler
@@ -171,8 +172,12 @@ const handleStorageQuotaExceeded = (name, value) => {
 
 const initialState = {
     // Map management
-    maps: [createDefaultMap('Default Map')],
-    currentMapId: null,
+    maps: [(() => {
+        const m = createDefaultMap('Default Map');
+        m.id = 'default';
+        return m;
+    })()],
+    currentMapId: 'default',
 
     // Portal templates - reusable portal configurations
     portalTemplates: [],
@@ -195,6 +200,24 @@ const useMapStore = create(
     persist(
         (set, get) => ({
             ...initialState,
+
+            // Reset store to clean state (for multiplayer room joins)
+            resetStore: () => {
+                set({
+                    maps: [],
+                    currentMapId: null,
+                    portalTemplates: [],
+                    isMapLibraryOpen: false,
+                    selectedMapForEdit: null,
+                    mapCreationWizard: {
+                        isOpen: false,
+                        step: 1,
+                        name: '',
+                        backgroundImage: null,
+                        template: null
+                    }
+                });
+            },
 
             // Initialize current map if none set
             getCurrentMapId: () => {
@@ -502,7 +525,8 @@ const useMapStore = create(
                         gridOffsetX: mapState.gridOffsetX || 0,
                         gridOffsetY: mapState.gridOffsetY || 0,
                         gridLineColor: mapState.gridLineColor || 'rgba(212, 175, 55, 0.8)',
-                        gridLineThickness: mapState.gridLineThickness || 2
+                        gridLineThickness: mapState.gridLineThickness || 2,
+                        gridType: mapState.gridType || 'square' // Restore per-map grid type
                     });
 
                     // Clear and load tokens for the new map
@@ -520,6 +544,25 @@ const useMapStore = create(
                         useCharacterTokenStore.getState().clearCharacterTokens();
                     } else {
                         useCharacterTokenStore.setState({ characterTokens: [] });
+                    }
+
+                    // CRITICAL FIX: Pause event processing during map switch to prevent race conditions
+                    // Events arriving during switch could leak data between maps
+                    const wasInMultiplayer = useGameStore.getState().isInMultiplayer;
+                    let socket = null;
+                    let originalOnevent = null;
+                    const pausedEvents = [];
+
+                    if (wasInMultiplayer) {
+                        socket = useGameStore.getState().multiplayerSocket;
+                        if (socket && socket.connected) {
+                            // Store original event handler
+                            originalOnevent = socket.onevent;
+                            // Pause events by replacing handler
+                            socket.onevent = (packet) => {
+                                pausedEvents.push(packet);
+                            };
+                        }
                     }
 
                     // Load tokens for the new map
@@ -578,6 +621,21 @@ const useMapStore = create(
                     const { default: useGridItemStore } = await import('./gridItemStore');
                     if (useGridItemStore && mapState.gridItems) {
                         useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
+                    }
+
+                    // CRITICAL FIX: Resume event processing after map switch
+                    // Process any events that arrived during the switch
+                    if (socket && wasInMultiplayer) {
+                        socket.onevent = null; // Remove the pause handler
+
+                        // Small delay to ensure state is fully loaded before processing queued events
+                        setTimeout(() => {
+                            pausedEvents.forEach(packet => {
+                                if (socket._onevent) {
+                                    socket._onevent(packet);
+                                }
+                            });
+                        }, 50);
                     }
                 }
 
@@ -641,17 +699,18 @@ const useMapStore = create(
             },
 
             // Map data synchronization helpers
-            saveCurrentMapState: async (gameStoreData, levelEditorData) => {
+            saveCurrentMapState: async (gameStoreData, levelEditorData, targetMapId = null) => {
                 const state = get();
-                const currentMapId = state.getCurrentMapId();
-                if (!currentMapId) return;
+                // Use provided targetMapId if given, otherwise get current
+                const mapIdToSave = targetMapId || state.getCurrentMapId();
+                if (!mapIdToSave) return;
 
-                // Get grid items from gridItemStore
+                // Get grid items from gridItemStore and filter by target map ID
                 let gridItems = [];
                 try {
                     const { default: useGridItemStore } = await import('./gridItemStore');
                     const gridItemState = useGridItemStore.getState();
-                    gridItems = gridItemState.gridItems || [];
+                    gridItems = (gridItemState.gridItems || []).filter(item => item.mapId === mapIdToSave);
                 } catch (error) {
                     console.warn('Could not load grid items:', error);
                 }
@@ -677,6 +736,8 @@ const useMapStore = create(
                 }
 
                 const mapUpdates = {
+                    // CRITICAL: Use target map ID for update
+                    mapId: mapIdToSave,
                     // Save background system
                     backgrounds: gameStoreData.backgrounds || [],
                     activeBackgroundId: gameStoreData.activeBackgroundId || null,
@@ -696,6 +757,7 @@ const useMapStore = create(
                     gridOffsetY: gameStoreData.gridOffsetY || 0,
                     gridLineColor: gameStoreData.gridLineColor || 'rgba(212, 175, 55, 0.8)',
                     gridLineThickness: gameStoreData.gridLineThickness || 2,
+                    gridType: gameStoreData.gridType || 'square', // Save per-map grid type
 
                     // Save level editor data
                     terrainData: levelEditorData.terrainData || {},
@@ -717,13 +779,27 @@ const useMapStore = create(
                     gridItems: gridItems
                 };
 
-                state.updateMap(currentMapId, mapUpdates);
+                // CRITICAL: Use mapIdToSave instead of currentMapId
+                state.updateMap(mapIdToSave, mapUpdates);
             },
 
-            loadMapState: () => {
+            loadMapState: async () => {
                 const state = get();
                 const currentMap = state.getCurrentMap();
                 if (!currentMap) return null;
+
+                // CRITICAL FIX: Get grid items from gridItemStore, not just from map object
+                // This ensures we have the latest items that were just added/modified
+                let gridItemsFromStore = [];
+                try {
+                    const { default: useGridItemStore } = await import('./gridItemStore');
+                    const gridItemState = useGridItemStore.getState();
+                    const currentMapId = currentMap.id;
+                    gridItemsFromStore = (gridItemState.gridItems || []).filter(item => item.mapId === currentMapId);
+                } catch (error) {
+                    console.warn('Could not load grid items from gridItemStore:', error);
+                    gridItemsFromStore = currentMap.gridItems || [];
+                }
 
                 return {
                     // Background system data
@@ -745,6 +821,7 @@ const useMapStore = create(
                     gridOffsetY: currentMap.gridOffsetY || 0,
                     gridLineColor: currentMap.gridLineColor || 'rgba(212, 175, 55, 0.8)',
                     gridLineThickness: currentMap.gridLineThickness || 2,
+                    gridType: currentMap.gridType || 'square', // Per-map grid type
 
                     // Level editor data
                     terrainData: currentMap.terrainData || {},
@@ -762,8 +839,8 @@ const useMapStore = create(
                     tokens: currentMap.tokens || [],
                     characterTokens: currentMap.characterTokens || [],
 
-                    // Grid items
-                    gridItems: currentMap.gridItems || [],
+                    // CRITICAL FIX: Use items from gridItemStore to get latest data
+                    gridItems: gridItemsFromStore,
 
                     // Portals
                     portals: currentMap.portals || []

@@ -1,34 +1,12 @@
-/* Prevent window-content from scrolling when it contains map-library-window or map-edit-dialog */
-/* Modern browsers with :has() support */
-.window-content:has(.map-library-window),
-.window-content:has(.map-edit-dialog) {
-    overflow: hidden !important;
-}
-
-/* Fallback for browsers without :has() support - target parent when map-library-window is present */
-.wow-window .window-content .map-library-window,
-.wow-window .window-content .map-edit-dialog {
-    /* This ensures the parent window-content doesn't scroll */
-    display: block;
-}
-
-/* Ensure map-library-window and map-edit-dialog fill the window-content */
-.window-content .map-library-window,
-.window-content .map-edit-dialog {
-    width: 100%;
-    height: 100%;
-}
-
 /* Map Library Window - Pathfinder Parchment Theme */
 .map-library-window {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
+    /* Fill at least the window height */
     background: var(--pf-gradient-parchment) !important;
     color: var(--pf-text-primary) !important;
     font-family: 'Cinzel', serif !important;
-    overflow: hidden;
-    min-height: 0;
     position: relative;
     pointer-events: auto;
 }
@@ -144,30 +122,18 @@
 
 
 /* Pathfinder Map Grid */
+/* Pathfinder Map Grid */
 .map-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 32px;
-    flex: 1;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
     padding: 32px;
     background: var(--pf-gradient-parchment) !important;
-    min-height: 0;
     position: relative;
     z-index: 1;
     pointer-events: auto !important;
-    touch-action: pan-y;
     /* Ensure the entire grid area can receive scroll events */
     cursor: default;
-
-    /* Optimize scrolling performance */
-    will-change: scroll-position;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto !important;
-    contain: layout style paint;
 }
 
 /* Ensure map cards don't block scroll events on the grid gaps */
@@ -255,29 +221,7 @@
 }
 
 .map-card.current::after {
-    content: '⚔ ACTIVE ⚔';
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg,
-            rgba(212, 175, 55, 0.95) 0%,
-            rgba(184, 134, 11, 0.9) 50%,
-            rgba(212, 175, 55, 0.95) 100%) !important;
-    color: #000 !important;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border: 2px solid var(--pf-gold-dark) !important;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 16px rgba(212, 175, 55, 0.8);
-    z-index: 10;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    display: none;
 }
 
 /* Pathfinder Map Thumbnail */
@@ -615,4 +559,131 @@
 .map-grid::-webkit-scrollbar-thumb:hover,
 .map-description::-webkit-scrollbar-thumb:hover {
     background: var(--pf-brown-dark) !important;
+}
+
+/* ===== PLAYER INDICATORS ON MAPS ===== */
+
+/* Player count badge on map thumbnail */
+.map-players-indicator {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, rgba(75, 85, 99, 0.95) 0%, rgba(55, 65, 81, 0.95) 100%);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 5;
+}
+
+/* GM View badge on map thumbnail */
+.map-view-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var(--pf-gold-dark) 0%, var(--pf-gold) 100%);
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 2px solid var(--pf-gold-light);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 10;
+    animation: pulse-gold 2s infinite ease-in-out;
+}
+
+@keyframes pulse-gold {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.6);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    }
+}
+
+/* Draggable player list container */
+.map-players-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 24px 16px;
+    background: linear-gradient(180deg, rgba(75, 85, 99, 0.1) 0%, rgba(55, 65, 81, 0.15) 100%);
+    border-top: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+/* Individual player chip - draggable */
+.map-player-chip {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: #fff;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: grab;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.map-player-chip:hover {
+    background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border-color: var(--pf-gold);
+}
+
+.map-player-chip:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Drop target highlighting */
+.map-card.drop-target {
+    border-color: #10b981 !important;
+    box-shadow:
+        0 0 20px rgba(16, 185, 129, 0.5),
+        inset 0 0 30px rgba(16, 185, 129, 0.1) !important;
+    transform: scale(1.02);
+}
+
+.map-card.drop-target .map-thumbnail::after {
+    content: 'Drop here to transfer player';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(16, 185, 129, 0.3);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    z-index: 10;
 }

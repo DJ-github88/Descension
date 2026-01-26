@@ -28,7 +28,8 @@ export const useUserMapsPersistence = () => {
    * Extract user-created maps from the map store
    */
   const getUserMaps = useCallback(() => {
-    const mapStore = useMapStore.getState();
+    const mapStore = useMapStore?.getState();
+    if (!mapStore || !mapStore.maps) return [];
     // Get maps from the maps array (not just the current map)
     return mapStore.maps.filter(isUserCreatedMap);
   }, [isUserCreatedMap]);
@@ -69,7 +70,8 @@ export const useUserMapsPersistence = () => {
 
       if (firebaseMaps.length > 0) {
         // Get current maps from store
-        const mapStore = useMapStore.getState();
+        const mapStore = useMapStore?.getState();
+        if (!mapStore || !mapStore.maps) return;
         const existingMaps = mapStore.maps;
 
         // Separate built-in maps from user-created maps
@@ -105,7 +107,7 @@ export const useUserMapsPersistence = () => {
         const allUserMaps = [...mergedUserMaps, ...missingLocalMaps];
 
         // Update the store with merged maps
-        useMapStore.setState({
+        useMapStore?.setState({
           maps: [...builtInMaps, ...allUserMaps]
         });
 

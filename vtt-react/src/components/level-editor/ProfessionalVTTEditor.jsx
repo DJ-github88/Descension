@@ -108,13 +108,10 @@ const ProfessionalVTTEditor = () => {
         removeTerrainAtPosition,
         removeTerrainLine,
         getTerrainAtPosition,
-        paintFogBrush,
         removeFogAtPosition,
-        finishFogPath,
         finishFogErasePath,
         clearAllFog,
         coverEntireMapWithFog,
-        consolidateFogPaths,
         addEnvironmentalObject,
         removeEnvironmentalObject,
         updateEnvironmentalObject,
@@ -139,6 +136,7 @@ const ProfessionalVTTEditor = () => {
         setSelectedWindowKey,
         clearTerrain,
         setCurrentDrawingPath,
+        isCurrentlyDrawing,
         setIsCurrentlyDrawing,
         setCurrentDrawingTool,
         clearCurrentDrawing
@@ -161,6 +159,12 @@ const ProfessionalVTTEditor = () => {
         loadMapState: getMapStateFromStore,
         getCurrentMapId
     } = useMapStore();
+
+    // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
+    const getExplicitCurrentMapId = () => {
+        const mapStoreState = useMapStore.getState();
+        return mapStoreState.currentMapId || 'default';
+    };
 
     const { gridItems, removeItemFromGrid } = useGridItemStore();
     const { tokens, removeToken } = useCreatureStore();
@@ -219,7 +223,6 @@ const ProfessionalVTTEditor = () => {
             name: 'Fog',
             icon: 'Shadow/Shadow Darkness',
             tools: [
-                { id: 'fog_paint', name: 'Paint Fog', icon: 'Frost/Dripping Ice', cursor: 'crosshair' },
                 { id: 'fog_erase', name: 'Erase Fog', icon: 'Utility/Broken', cursor: 'crosshair' },
                 { id: 'fog_clear_all', name: 'Clear All Fog', icon: 'Radiant/Radiant Sunburst', cursor: 'crosshair' }
             ]
@@ -316,10 +319,18 @@ const ProfessionalVTTEditor = () => {
         const x = clientX - rect.left;
         const y = clientY - rect.top;
 
+        const effectiveZoom = (zoomLevel || 1) * (playerZoom || 1);
+        const gs = gridSize || 50;
+        const gOX = gridOffsetX || 0;
+        const gOY = gridOffsetY || 0;
+        const camX = cameraX || 0;
+        const camY = cameraY || 0;
+
+        if (!Number.isFinite(effectiveZoom) || effectiveZoom <= 0) return null;
+
         try {
             // Use the InfiniteGridSystem for consistent coordinate conversion
             const gridSystem = getGridSystem();
-            // Get viewport dimensions that match the wall overlay coordinate system
             const viewport = gridSystem.getViewportDimensions();
             const worldPos = gridSystem.screenToWorld(x, y, viewport.width, viewport.height);
             const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
@@ -333,28 +344,24 @@ const ProfessionalVTTEditor = () => {
                 screenY: y
             };
         } catch (error) {
-            console.warn('Grid system failed, using fallback:', error);
-            // Fallback to original calculation if grid system fails
-            const effectiveZoom = zoomLevel * playerZoom;
-            const worldX = (x / effectiveZoom) + cameraX;
-            const worldY = (y / effectiveZoom) + cameraY;
-
-            // Try to use grid system even in fallback (it should still work)
-            try {
-                const gridSystem = getGridSystem();
-                const gridCoords = gridSystem.worldToGrid(worldX, worldY);
-                return { gridX: gridCoords.x, gridY: gridCoords.y, worldX, worldY, screenX: x, screenY: y };
-            } catch (fallbackError) {
-                // Last resort: use hardcoded calculation (only for square grids)
-                const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
-                const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
-                return { gridX, gridY, worldX, worldY, screenX: x, screenY: y };
-            }
+            // Fallback calculation
+            const worldX = (x / effectiveZoom) + camX;
+            const worldY = (y / effectiveZoom) + camY;
+            const gridX = Math.floor((worldX - gOX) / gs);
+            const gridY = Math.floor((worldY - gOY) / gs);
+            return { gridX, gridY, worldX, worldY, screenX: x, screenY: y };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, playerZoom]);
 
     // Convert grid coordinates to screen coordinates using the same system as tokens and grid lines
     const gridToScreen = useCallback((gridX, gridY) => {
+        const effectiveZoom = (zoomLevel || 1) * (playerZoom || 1);
+        const gs = gridSize || 50;
+        const gOX = gridOffsetX || 0;
+        const gOY = gridOffsetY || 0;
+        const camX = cameraX || 0;
+        const camY = cameraY || 0;
+
         try {
             // Use the InfiniteGridSystem for consistent coordinate conversion
             const gridSystem = getGridSystem();
@@ -364,12 +371,12 @@ const ProfessionalVTTEditor = () => {
             return gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
         } catch (error) {
             // Fallback to original calculation if grid system fails
-            const effectiveZoom = zoomLevel * playerZoom;
-            const worldX = (gridX * gridSize) + gridOffsetX;
-            const worldY = (gridY * gridSize) + gridOffsetY;
+            if (!Number.isFinite(effectiveZoom) || effectiveZoom <= 0) return { x: 0, y: 0 };
+            const worldX = (gridX * gs) + gOX;
+            const worldY = (gridY * gs) + gOY;
 
-            const screenX = (worldX - cameraX) * effectiveZoom + window.innerWidth / 2;
-            const screenY = (worldY - cameraY) * effectiveZoom + window.innerHeight / 2;
+            const screenX = (worldX - camX) * effectiveZoom + window.innerWidth / 2;
+            const screenY = (worldY - camY) * effectiveZoom + window.innerHeight / 2;
 
             return { x: screenX, y: screenY };
         }
@@ -1524,30 +1531,25 @@ const ProfessionalVTTEditor = () => {
                 // Clear all fog - NO DRAWING STATE
                 clearAllFog();
                 return;
-            case 'fog_consolidate':
-                // Consolidate fog paths - NO DRAWING STATE
-                consolidateFogPaths();
-                return;
             case 'fog_cover_map':
                 // Cover entire map with fog - NO DRAWING STATE
                 coverEntireMapWithFog(gridSize);
                 return;
         }
 
-        // Handle fog painting/erasing - paint immediately on click (not waiting for mouse release)
-        if (selectedTool === 'fog_paint' || selectedTool === 'fog_erase') {
+        // Handle fog erasing - paint immediately on click (not waiting for mouse release)
+        if (selectedTool === 'fog_erase') {
             const fogCoords = screenToGrid(e.clientX, e.clientY);
             if (fogCoords) {
-                if (selectedTool === 'fog_paint') {
-                    paintFogBrush(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
-                } else {
-                    removeFogAtPosition(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
-                }
+                removeFogAtPosition(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
             }
             // Set drawing state for continuous painting while dragging
             setIsDrawing(true);
             setIsCurrentlyDrawing(true);
             setCurrentDrawingTool(selectedTool);
+            if (typeof window !== 'undefined') {
+                window._isDrawingFog = true;
+            }
             return;
         }
 
@@ -1651,19 +1653,16 @@ const ProfessionalVTTEditor = () => {
 
         // Handle grid-based tool actions
         switch (selectedTool) {
-            case 'terrain_brush':
-                // Apply terrain with brush
-                console.log('🎨 Terrain brush triggered - selectedTerrainType:', toolSettings.selectedTerrainType);
-                // Use selectedTerrainType or default to 'grass' if not set
-                const terrainType = toolSettings.selectedTerrainType || 'grass';
-                // Convert brushSize to number if it's a string (legacy support)
-                const brushSize = typeof toolSettings.brushSize === 'number'
-                    ? toolSettings.brushSize
-                    : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
-                        ? parseInt(toolSettings.brushSize) || 1
-                        : 1);
-
-                console.log('🎨 Painting terrain at:', coords, 'type:', terrainType, 'brushSize:', brushSize);
+             case 'terrain_brush':
+                 // Apply terrain with brush
+                 // Use selectedTerrainType or default to 'grass' if not set
+                 const terrainType = toolSettings.selectedTerrainType || 'grass';
+                 // Convert brushSize to number if it's a string (legacy support)
+                 const brushSize = typeof toolSettings.brushSize === 'number'
+                     ? toolSettings.brushSize
+                     : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
+                         ? parseInt(toolSettings.brushSize) || 1
+                         : 1);
 
                 // Track last position for line interpolation
                 lastTerrainBrushPosRef.current = coords;
@@ -1672,7 +1671,8 @@ const ProfessionalVTTEditor = () => {
                     coords.gridX,
                     coords.gridY,
                     terrainType,
-                    brushSize
+                    brushSize,
+                    getExplicitCurrentMapId() // Pass current map ID explicitly
                 );
                 break;
             case 'terrain_erase':
@@ -1694,7 +1694,7 @@ const ProfessionalVTTEditor = () => {
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, paintFogBrush, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -1718,21 +1718,23 @@ const ProfessionalVTTEditor = () => {
         }
 
         // Update hover preview for brush tools and eraser (throttled via RAF)
-        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_paint' || selectedTool === 'fog_erase')) {
+        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase')) {
             const coords = screenToGrid(e.clientX, e.clientY);
             const rect = overlayRef.current?.getBoundingClientRect();
             if (coords && rect) {
                 const screenX = e.clientX - rect.left;
                 const screenY = e.clientY - rect.top;
 
+                const brushSize = Number.isFinite(toolSettings.brushSize) ? toolSettings.brushSize : 1;
+
                 // Update ref immediately for instant calculation, but throttle React state updates
                 hoverPreviewRef.current = {
                     show: true,
                     gridX: coords.gridX,
                     gridY: coords.gridY,
-                    brushSize: toolSettings.brushSize || 1,
-                    screenX: (selectedTool === 'fog_paint' || selectedTool === 'fog_erase') ? screenX : undefined,
-                    screenY: (selectedTool === 'fog_paint' || selectedTool === 'fog_erase') ? screenY : undefined
+                    brushSize: brushSize,
+                    screenX: (selectedTool === 'fog_erase') ? screenX : undefined,
+                    screenY: (selectedTool === 'fog_erase') ? screenY : undefined
                 };
 
                 // Throttle React state update via RAF to avoid lag
@@ -1849,40 +1851,18 @@ const ProfessionalVTTEditor = () => {
                 // Handle drawing eraser - continuously erase while dragging
                 handleDrawingErase(e.clientX, e.clientY);
                 break;
-            case 'fog_paint':
-                // Continue fog painting - smooth brush-based painting
-                // PERFORMANCE: Use RAF-only throttling for maximum smoothness
-                const fogCoords = screenToGrid(e.clientX, e.clientY);
-                if (fogCoords) {
-                    // Store the latest paint call
-                    pendingFogPaintRef.current = {
-                        worldX: fogCoords.worldX,
-                        worldY: fogCoords.worldY,
-                        brushSize: toolSettings.brushSize || 1
-                    };
 
-                    // Schedule paint using RAF for smooth 60fps+ painting
-                    if (fogPaintThrottleRef.current === null) {
-                        fogPaintThrottleRef.current = requestAnimationFrame(() => {
-                            if (pendingFogPaintRef.current) {
-                                paintFogBrush(
-                                    pendingFogPaintRef.current.worldX,
-                                    pendingFogPaintRef.current.worldY,
-                                    pendingFogPaintRef.current.brushSize,
-                                    gridSize
-                                );
-                                pendingFogPaintRef.current = null;
-                            }
-                            fogPaintThrottleRef.current = null;
-                        });
-                    }
-                }
-                break;
             case 'fog_erase':
                 // Continue fog erasing - smooth brush-based erasing
                 // PERFORMANCE: Use RAF-only throttling for maximum smoothness
                 const fogEraseCoords = screenToGrid(e.clientX, e.clientY);
                 if (fogEraseCoords) {
+                    // Update drawing state for real-time effects
+                    if (!isCurrentlyDrawing) {
+                        setIsCurrentlyDrawing(true);
+                        setCurrentDrawingTool('fog_erase');
+                    }
+
                     // Store the latest erase call
                     pendingFogPaintRef.current = {
                         worldX: fogEraseCoords.worldX,
@@ -2406,7 +2386,7 @@ const ProfessionalVTTEditor = () => {
                 }
                 break;
         }
-    }, [isDrawing, isEditorMode, screenToGrid, selectedTool, toolSettings, paintTerrainBrush, removeTerrainAtPosition, currentPath, setCurrentPath, setCurrentDrawingPath, handleDrawingErase, paintFogBrush, removeFogAtPosition, gridSize, windowOverlays, wallData]);
+    }, [isDrawing, isEditorMode, screenToGrid, selectedTool, toolSettings, paintTerrainBrush, removeTerrainAtPosition, currentPath, setCurrentPath, setCurrentDrawingPath, handleDrawingErase, removeFogAtPosition, gridSize, windowOverlays, wallData]);
 
     const handleMouseUp = useCallback(() => {
         // For select tools, let ObjectSystem handle the events
@@ -2459,10 +2439,12 @@ const ProfessionalVTTEditor = () => {
         }
 
         // Finish fog paths if we were drawing fog
-        if (selectedTool === 'fog_paint') {
-            finishFogPath();
-        } else if (selectedTool === 'fog_erase') {
+        if (selectedTool === 'fog_erase') {
             finishFogErasePath();
+        }
+
+        if (typeof window !== 'undefined') {
+            window._isDrawingFog = false;
         }
 
         // Handle wall placement separately from drawing paths
@@ -2575,7 +2557,7 @@ const ProfessionalVTTEditor = () => {
         setIsCurrentlyDrawing(false);
         setCurrentDrawingTool('');
         lastTerrainBrushPosRef.current = null;
-    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogPath, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
+    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
     // Handle right-click context menu (used for completing polygons)
     const handleContextMenu = useCallback((e) => {
@@ -2844,7 +2826,6 @@ const ProfessionalVTTEditor = () => {
                         ))}
                     </div>
                 }
-                ref={windowRef}
                 className="professional-vtt-editor"
             >
                 <div className="vtt-editor-content">
@@ -3026,8 +3007,11 @@ const ProfessionalVTTEditor = () => {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onMouseLeave={() => {
+                        if (isDrawing) handleMouseUp();
+                        setHoverPreview({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
+                    }}
                     onContextMenu={handleContextMenu}
-                    onMouseLeave={() => setHoverPreview({ show: false, gridX: 0, gridY: 0, brushSize: 1 })}
                     style={{
                         position: 'absolute',
                         top: 0,
@@ -3042,13 +3026,13 @@ const ProfessionalVTTEditor = () => {
             )}
 
             {/* Hover Preview for Brush Tools */}
-            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_paint' || selectedTool === 'fog_erase') && (
+            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase') && (
                 <TerrainHoverPreview
                     gridX={hoverPreview.gridX}
                     gridY={hoverPreview.gridY}
                     brushSize={hoverPreview.brushSize}
                     isEraser={selectedTool === 'terrain_erase' || selectedTool === 'fog_erase'}
-                    isFog={selectedTool === 'fog_paint' || selectedTool === 'fog_erase'}
+                    isFog={selectedTool === 'fog_erase'}
                     screenX={hoverPreview.screenX}
                     screenY={hoverPreview.screenY}
                 />

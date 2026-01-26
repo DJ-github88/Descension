@@ -3442,4 +3442,4 @@ export default React.memo(CreatureToken, (prevProps, nextProps) => {
     prevProps.position?.y === nextProps.position?.y &&
     prevProps.onRemove === nextProps.onRemove
   );
-});
+});

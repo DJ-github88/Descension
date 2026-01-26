@@ -21,7 +21,7 @@ const useCharacterTokenStore = create(
       characterTokens: [],
 
       // Add a character token to the grid
-      addCharacterToken: (position, playerId = null, sendToServer = true) => {
+      addCharacterToken: (position, playerId = null, targetMapId = null, sendToServer = true) => {
         let tokenId = null;
         let isNewToken = false;
 
@@ -41,12 +41,23 @@ const useCharacterTokenStore = create(
             };
           }
 
-          // Create a new character token
+          // CRITICAL: Get current mapId if not provided - ensures proper map isolation
+          const currentMapId = targetMapId || (() => {
+            try {
+              const mapStore = require('./mapStore').default;
+              return mapStore.getState().currentMapId || 'default';
+            } catch (error) {
+              return 'default';
+            }
+          })();
+
+          // Create a new character token with mapId for proper isolation
           const newToken = {
             id: uuidv4(),
             isPlayerToken: !playerId,
             playerId: playerId,
             position,
+            mapId: currentMapId,
             createdAt: Date.now()
           };
           tokenId = newToken.id;
@@ -120,12 +131,15 @@ const useCharacterTokenStore = create(
           import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              // Get the token we just created to include its mapId
+              const token = get().characterTokens.find(t => t.id === tokenId);
               gameStore.multiplayerSocket.emit('character_token_created', {
                 playerId: playerId || 'local_player',
                 tokenId: tokenId,
-                position: position
+                position: position,
+                targetMapId: token?.mapId || 'default' // CRITICAL: Include mapId for proper isolation
               });
-              console.log('📤 Character token placement synced to server:', tokenId);
+              console.log('📤 Character token placement synced to server:', tokenId, 'on map:', token?.mapId);
             }
           }).catch(error => {
             console.error('Failed to import gameStore for character token sync:', error);
@@ -265,13 +279,10 @@ const useCharacterTokenStore = create(
         );
       },
 
-
-      // Update character token state (for conditions, etc.)
-
-
+ 
       // Add character token from server (for multiplayer sync)
-      addCharacterTokenFromServer: (tokenId, position, playerId) => set(state => {
-        // Find the character token to update
+      addCharacterTokenFromServer: (tokenId, position, playerId, mapId = null) => set(state => {
+        // Find character token to update
         const existingToken = state.characterTokens.find(token => token.id === tokenId);
 
         // Standardized tracking key
@@ -296,24 +307,44 @@ const useCharacterTokenStore = create(
           timestamp: now
         });
 
-        // Update existing token or create new one
+        // Update existing token or create new one with mapId for proper isolation
         const updatedTokens = existingToken
           ? state.characterTokens.map(token =>
-            token.id === tokenId ? { ...token, position } : token
-          )
+              token.id === tokenId ? { ...token, position, mapId: mapId || token.mapId } : token
+            )
           : [
-            ...state.characterTokens,
-            {
-              id: tokenId,
-              isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
-              playerId: playerId,
-              position,
-              createdAt: Date.now()
-            }
-          ];
+              ...state.characterTokens,
+              {
+                id: tokenId,
+                isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
+                playerId: playerId,
+                position,
+                mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
+                createdAt: Date.now()
+              }
+            ];
 
         return { characterTokens: updatedTokens };
       }),
+
+      // CRITICAL: Load character token quietly (no sync) - used for map switches
+      loadCharacterToken: (tokenData) => {
+        if (!tokenData) return;
+        set(state => {
+          const tokenId = tokenData.id || `char_token_${Date.now()}`;
+          const existingTokenIndex = state.characterTokens.findIndex(t => t.id === tokenId);
+
+          if (existingTokenIndex !== -1) return state;
+
+          const newToken = {
+            ...tokenData,
+            id: tokenId,
+            position: tokenData.position || { x: 0, y: 0 }
+          };
+
+          return { characterTokens: [...state.characterTokens, newToken] };
+        });
+      },
 
       // Clean up expired conditions from all character tokens
       cleanupExpiredConditions: () => set(state => {
@@ -393,3 +424,4 @@ if (typeof window !== 'undefined') {
 }
 
 export default useCharacterTokenStore;
+

@@ -39,6 +39,24 @@ const PortalTransferDialog = ({
         setIsTransferring(true);
 
         try {
+            // Import game store to check if we're in multiplayer
+            const { default: useGameStore } = await import('../../store/gameStore');
+            const gameStore = useGameStore.getState();
+
+            // MULTIPLAYER: Emit socket event instead of handling locally
+            // Server will validate the connection and send player_map_changed event
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+                gameStore.multiplayerSocket.emit('player_use_connection', {
+                    connectionId: portal.id
+                });
+
+                // Close the dialog - the server will trigger the map transition
+                onClose();
+                console.log(`Emitted player_use_connection for ${portal.id}`);
+                return;
+            }
+
+            // SINGLE PLAYER: Handle transfer locally (existing logic)
             // Get destination connection position
             const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
             let destinationPosition = portal?.properties?.destinationPosition || { x: 0, y: 0 };
@@ -87,11 +105,9 @@ const PortalTransferDialog = ({
             try {
                 const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
                 const { default: useCreatureStore } = await import('../../store/creatureStore');
-                const { default: useGameStore } = await import('../../store/gameStore');
 
                 const characterTokenStore = useCharacterTokenStore.getState();
                 const creatureStore = useCreatureStore.getState();
-                const gameStore = useGameStore.getState();
 
                 // Move player's character token
                 if (characterTokenStore.characterTokens) {
@@ -101,16 +117,6 @@ const PortalTransferDialog = ({
 
                     if (playerToken && characterTokenStore.updateCharacterTokenPosition) {
                         characterTokenStore.updateCharacterTokenPosition(playerToken.id, worldPos);
-
-                        // Broadcast movement to other players
-                        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-                            gameStore.multiplayerSocket.emit('character_moved', {
-                                tokenId: playerToken.id,
-                                characterId: playerToken.characterId || playerToken.playerId,
-                                position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) },
-                                isDragging: false
-                            });
-                        }
                     }
                 }
 
@@ -119,15 +125,6 @@ const PortalTransferDialog = ({
                     const playerCreatureToken = creatureStore.tokens.find(token => token.isPlayerToken);
                     if (playerCreatureToken && creatureStore.updateTokenPosition) {
                         creatureStore.updateTokenPosition(playerCreatureToken.id, worldPos);
-
-                        // Broadcast movement to other players
-                        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-                            gameStore.multiplayerSocket.emit('token_moved', {
-                                tokenId: playerCreatureToken.id,
-                                position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) },
-                                isLocal: true
-                            });
-                        }
                     }
                 }
 

@@ -15,12 +15,22 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         gridType
     } = useGameStore();
 
-    const effectiveZoom = zoomLevel * playerZoom;
+    const effectiveZoom = (zoomLevel || 1) * (playerZoom || 1);
+    const gs = gridSize || 50;
+    const gOX = gridOffsetX || 0;
+    const gOY = gridOffsetY || 0;
+    const camX = cameraX || 0;
+    const camY = cameraY || 0;
+
+    // Safety check for valid coordinates and values
+    if (!Number.isFinite(gridX) || !Number.isFinite(gridY) || !Number.isFinite(brushSize) || !Number.isFinite(gs)) {
+        return null;
+    }
 
     // For fog tools, update preview immediately without throttling for instant feedback
     // Use useMemo to optimize calculations but keep updates immediate
     const previewPos = useMemo(() => {
-        if (isFog && screenX !== undefined && screenY !== undefined) {
+        if (isFog && Number.isFinite(screenX) && Number.isFinite(screenY)) {
             return { screenX, screenY };
         }
         return { screenX: undefined, screenY: undefined };
@@ -35,20 +45,24 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
             return gridSystem.worldToScreen(worldPos.x, worldPos.y, window.innerWidth, window.innerHeight);
         } catch (error) {
             // Fallback to original calculation if grid system fails
-            const worldX = (gx * gridSize) + gridOffsetX;
-            const worldY = (gy * gridSize) + gridOffsetY;
+            const worldX = (gx * gs) + gOX;
+            const worldY = (gy * gs) + gOY;
 
-            const screenX = (worldX - cameraX) * effectiveZoom + window.innerWidth / 2;
-            const screenY = (worldY - cameraY) * effectiveZoom + window.innerHeight / 2;
+            const sX = (worldX - camX) * effectiveZoom + window.innerWidth / 2;
+            const sY = (worldY - camY) * effectiveZoom + window.innerHeight / 2;
 
-            return { x: screenX, y: screenY };
+            return { x: sX, y: sY };
         }
     };
 
     // For fog tools, show smooth circle brush preview instead of grid squares
-    if (isFog && previewPos.screenX !== undefined && previewPos.screenY !== undefined) {
+    if (isFog) {
+        if (previewPos.screenX === undefined || previewPos.screenY === undefined) {
+            return null;
+        }
+
         // Calculate brush radius in screen pixels
-        const brushRadius = brushSize * gridSize * effectiveZoom * 0.5;
+        const brushRadius = brushSize * gs * effectiveZoom * 0.5;
         const diameter = brushRadius * 2;
 
         return (
@@ -74,18 +88,15 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
     // For terrain tools, keep the grid-based preview
     const gridSystem = getGridSystem();
     const currentGridType = gridType || 'square';
-    
+
     // Calculate brush pattern based on grid type
     let tiles = [];
-    
+
     if (currentGridType === 'hex') {
-        // For hex grids, use hex distance to find all hexes within brush range
-        // gridX is q, gridY is r for hex grids
         const centerQ = gridX;
         const centerR = gridY;
         const brushRadius = Math.floor(brushSize / 2);
-        
-        // Get all hexes within hex distance
+
         for (let q = centerQ - brushRadius; q <= centerQ + brushRadius; q++) {
             for (let r = centerR - brushRadius; r <= centerR + brushRadius; r++) {
                 const hexDist = gridSystem.hexDistance(q, r, centerQ, centerR);
@@ -95,7 +106,6 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
             }
         }
     } else {
-        // Square grid: calculate brush pattern
         const startOffset = Math.floor(brushSize / 2);
         for (let dx = 0; dx < brushSize; dx++) {
             for (let dy = 0; dy < brushSize; dy++) {
@@ -106,7 +116,7 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         }
     }
 
-    const tileSize = gridSize * effectiveZoom;
+    const tileSize = gs * effectiveZoom;
     const borderColor = isEraser ? '#ff4444' : isFog ? '#8844ff' : '#44ff44';
     const bgColor = isEraser ? 'rgba(255, 68, 68, 0.2)' : isFog ? 'rgba(136, 68, 255, 0.3)' : 'rgba(68, 255, 68, 0.2)';
 
@@ -114,24 +124,21 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
             {tiles.map((tile, index) => {
                 let screenPos;
-                
+
                 if (tile.isHex) {
-                    // Hex grid: get center position and hex corners
                     const worldPos = gridSystem.hexToWorld(tile.q, tile.r);
                     screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, window.innerWidth, window.innerHeight);
-                    
+
                     const sqrt3 = Math.sqrt(3);
-                    const hexRadius = gridSize / sqrt3;
+                    const hexRadius = gs / sqrt3;
                     const hexRadiusScreen = hexRadius * effectiveZoom;
-                    
-                    // Get hex corners relative to center (0,0)
+
                     const corners = gridSystem.getHexCorners(0, 0, hexRadiusScreen);
-                    
-                    // Create SVG path for hex shape (coordinates relative to SVG center)
-                    const pathData = corners.map((corner, i) => 
+
+                    const pathData = corners.map((corner, i) =>
                         `${i === 0 ? 'M' : 'L'} ${corner.x + hexRadiusScreen} ${corner.y + hexRadiusScreen}`
                     ).join(' ') + ' Z';
-                    
+
                     return (
                         <svg
                             key={`hex-${index}`}
@@ -154,9 +161,9 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
                         </svg>
                     );
                 } else {
-                    // Square grid: use rectangle
                     screenPos = gridToScreen(tile.x, tile.y);
-                    
+                    if (!screenPos || !Number.isFinite(screenPos.x) || !Number.isFinite(screenPos.y)) return null;
+
                     return (
                         <div
                             key={`square-${index}`}

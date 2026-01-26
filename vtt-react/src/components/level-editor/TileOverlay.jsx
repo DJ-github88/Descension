@@ -375,10 +375,13 @@ const TileOverlay = () => {
 
                 // Switch map if needed (do this first so we can get fresh data)
                 if (currentMapId !== destinationMapId) {
-                    const { switchToMap } = useMapStore.getState();
-                    await switchToMap(destinationMapId);
-                    // Wait for map to fully load and level editor store to update
-                    await new Promise(resolve => setTimeout(resolve, 150));
+                    // Defer map switch to prevent state update during render
+                    setTimeout(async () => {
+                        const { switchToMap } = useMapStore.getState();
+                        await switchToMap(destinationMapId);
+                        // Wait for map to fully load and level editor store to update
+                        await new Promise(resolve => setTimeout(resolve, 150));
+                    }, 0);
                 }
 
                 // Now get the destination connection from the level editor store (after map switch)

@@ -233,9 +233,9 @@ const useGridItemStore = create((set, get) => ({
     }
 
     // Create a new grid item with position information and preserve ALL item properties
-    // Start with a copy of the original item to preserve all properties
-    // IMPORTANT: First copy all properties from the original item
-    const gridItem = {
+     // Start with a copy of the original item to preserve all properties
+     // IMPORTANT: First copy all properties from the original item
+     const gridItem = {
       // Copy ALL properties from the original item to ensure nothing is lost
       ...item,
 
@@ -247,8 +247,8 @@ const useGridItemStore = create((set, get) => ({
       // Store the original item store ID if available (for items from inventory)
       originalItemStoreId: item.originalItemStoreId || null,
       // IMPORTANT: Ensure position is set correctly and not overridden
-      position: position, // { x, y } in pixels
-      gridPosition: position.gridPosition, // { row, col } in grid coordinates
+      position: item.position || position, // { x, y } in pixels - use item.position first
+      gridPosition: item.gridPosition || position?.gridPosition, // { row, col } in grid coordinates
       addedAt: item.addedAt || new Date().toISOString(),
 
       // Ensure critical properties are set correctly even if they weren't in the original item
@@ -298,8 +298,32 @@ const useGridItemStore = create((set, get) => ({
       requiredLevel: item.requiredLevel || null,
 
       // IMPORTANT: Preserve quantity for stacked items
-      quantity: item.quantity || 1
-    };
+      quantity: item.quantity || 1,
+
+      // CRITICAL FIX: Add mapId for map isolation - use current map if not specified
+      // Priority: Use explicit position/gridPosition if provided
+      // CRITICAL FIX: Use NEW position parameter first, not old item position
+      gridPosition: position?.gridPosition || item.gridPosition || item.position?.gridPosition,
+
+      // Priority: Use NEW explicit position if provided (fixes items reverting to old positions)
+      position: position || item.position,
+
+      mapId: item.mapId || (() => {
+        try {
+          const mapStore = require('./mapStore').default.getState();
+          const mapId = mapStore.currentMapId || 'default';
+          console.log('🗺️ [addItemToGrid] Setting mapId for item:', {
+            itemName: item.name,
+            itemId: item.id,
+            mapId: mapId,
+            hasProvidedMapId: !!item.mapId
+          });
+           return mapId;
+         } catch (error) {
+           return 'default';
+         }
+       })()
+     };
 
     // Add the new grid item to the state
     const updatedGridItems = [...state.gridItems, gridItem];
@@ -315,11 +339,13 @@ const useGridItemStore = create((set, get) => ({
     };
 
     // Sync with multiplayer using our new system
+    // Sync with multiplayer using our new system
     if (sendToServer) {
       get().syncGridItemUpdate('grid_item_added', {
         item: gridItem,
         position: position,
-        gridPosition: position.gridPosition
+        gridPosition: position.gridPosition,
+        targetMapId: gridItem.mapId // Include targetMapId for isolation
       });
     }
 
@@ -858,14 +884,16 @@ const useGridItemStore = create((set, get) => ({
       gridPosition: {
         row: newPosition.gridPosition.row,
         col: newPosition.gridPosition.col
-      }
+      },
+      mapId: newPosition.mapId || updatedItems[itemIndex].mapId || 'default'
     };
 
-    // Sync with multiplayer
-    if (sendToServer) {
+      if (sendToServer) {
       get().syncGridItemUpdate('grid_item_moved', {
-        gridItemId,
-        newPosition
+        itemId: gridItemId, // Server expects itemId, not gridItemId
+        position: newPosition, // Server expects position, not newPosition
+        updateType: 'move', // Server expects updateType, not type
+        targetMapId: updatedItems[itemIndex].mapId
       });
     }
 
@@ -876,29 +904,50 @@ const useGridItemStore = create((set, get) => ({
   }),
 
   // Multiplayer Synchronization
-  syncGridItemUpdate: (updateType, data) => {
+  syncGridItemUpdate: (updateType, data, targetMapId = null) => {
     const gameStore = useGameStore.getState();
     if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+      // CRITICAL FIX: Use provided targetMapId or fallback to current map from store
+      let currentMapId = targetMapId;
+      if (!currentMapId) {
+        try {
+          // Dynamic import to avoid circular dependency
+          const mapStoreModule = require('./mapStore');
+          if (mapStoreModule && mapStoreModule.default) {
+            const mapStore = mapStoreModule.default.getState();
+            currentMapId = mapStore.currentMapId || 'default';
+          }
+        } catch (error) {
+          console.warn('Could not get current map ID for grid item sync:', error);
+        }
+      }
+
       // CRITICAL FIX: Use correct event name based on update type
-      // Server expects 'item_dropped' for new items, 'grid_item_update' for moves/removes
-      if (updateType === 'grid_item_added') {
-        // Server expects 'item_dropped' with { item, position, gridPosition }
-        console.log('📤 Sending item_dropped to server:', {
-          itemName: data.item?.name,
-          itemId: data.item?.id,
-          position: data.position
-        });
-        gameStore.multiplayerSocket.emit('item_dropped', {
-          item: data.item,
-          position: data.position,
-          gridPosition: data.gridPosition
+       // Server expects 'grid_item_update' for all operations (add, move, remove)
+       if (updateType === 'grid_item_added') {
+          // Server expects 'grid_item_update' with { updateType: 'add', itemId, itemData, position, gridPosition, targetMapId }
+          gameStore.multiplayerSocket.emit('grid_item_update', {
+           updateType: 'add',
+           itemId: data.item.id,
+           itemData: data.item,
+           position: data.position,
+           gridPosition: data.gridPosition,
+           targetMapId: data.targetMapId || currentMapId
+         });
+      } else if (updateType === 'grid_item_moved') {
+        // Server expects 'grid_item_update' with { updateType: 'move', itemId, position, targetMapId }
+        gameStore.multiplayerSocket.emit('grid_item_update', {
+          updateType: 'move',
+          itemId: data.itemId || data.gridItemId, // Support both field names
+          position: data.position || data.newPosition, // Support both field names
+          targetMapId: data.targetMapId || currentMapId
         });
       } else {
-        // For moves and removes, use the existing format
+        // For removes (and other updates), use the general update event
         gameStore.multiplayerSocket.emit('grid_item_update', {
-          type: updateType,
-          data: data,
-          timestamp: Date.now()
+          type: updateType === 'grid_item_removed' ? 'remove' : updateType,
+          ...data,
+          targetMapId: data.targetMapId || currentMapId
         });
       }
     }

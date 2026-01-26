@@ -872,283 +872,283 @@ const Step3ClassSelection = () => {
     return (
         <div className="wizard-step-content">
             <div className="class-selection-layout">
-                    {/* Left side - Class selection */}
-                    <div className="class-selection-panel">
-                        <div className="class-section">
-                            <h3 className="section-title">
-                                <i className="fas fa-sword"></i>
-                                Choose Class
-                            </h3>
-                            <div className="class-grid">
-                                {characterClasses.map((classData) => (
-                                    <div
-                                        key={classData.name}
-                                        className={`class-card ${selectedClass === classData.name ? 'selected' : ''}`}
-                                        onClick={() => handleClassSelect(classData.name)}
-                                        onMouseEnter={() => setHoveredClass(classData.name)}
-                                        onMouseLeave={() => setHoveredClass(null)}
-                                    >
-                                        <div className="class-info">
-                                            <h4 className="class-name">{classData.name}</h4>
-                                            <p className="class-description">
-                                                {classData.description}
-                                            </p>
-                                        </div>
+                {/* Left side - Class selection */}
+                <div className="class-selection-panel">
+                    <div className="class-section">
+                        <h3 className="section-title">
+                            <i className="fas fa-sword"></i>
+                            Choose Class
+                        </h3>
+                        <div className="class-grid">
+                            {characterClasses.map((classData) => (
+                                <div
+                                    key={classData.name}
+                                    className={`class-card ${selectedClass === classData.name ? 'selected' : ''}`}
+                                    onClick={() => handleClassSelect(classData.name)}
+                                    onMouseEnter={() => setHoveredClass(classData.name)}
+                                    onMouseLeave={() => setHoveredClass(null)}
+                                >
+                                    <div className="class-info">
+                                        <h4 className="class-name">{classData.name}</h4>
+                                        <p className="class-description">
+                                            {classData.description}
+                                        </p>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
-
-                        {validationErrors.class && (
-                            <div className="error-message">
-                                <i className="fas fa-exclamation-triangle"></i>
-                                {validationErrors.class}
-                            </div>
-                        )}
-
                     </div>
 
-                    {/* Right side - Class preview */}
-                    <div className="class-preview-container">
-                        {previewClass ? (
-                            <div className="subrace-info-section">
-                                    <h2 className="class-preview-title">{previewClass.name}</h2>
+                    {validationErrors.class && (
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            {validationErrors.class}
+                        </div>
+                    )}
 
-                                    <p className="class-flavor-text">
-                                        {getClassFlavor(previewClass.name)}
-                                    </p>
+                </div>
 
-                                    <div className="class-meta-row">
-                                        <span className="meta-badge"><span className="meta-label">Theme</span>{previewClass.theme}</span>
-                                        <span className="meta-badge"><span className="meta-label">Role</span>{getClassRole(previewClass.name)}</span>
-                                        <span className="meta-badge"><span className="meta-label">Resource</span>{getClassResource(previewClass.name)}</span>
-                                    </div>
+                {/* Right side - Class preview */}
+                <div className="class-preview-container">
+                    {previewClass ? (
+                        <div className="subrace-info-section">
+                            <h2 className="class-preview-title">{previewClass.name}</h2>
 
-                                    <div className="class-features-list">
-                                        {getClassFeatures(previewClass.name).map((feature, index) => (
-                                            <div key={index} className="feature-bullet">{feature}</div>
-                                        ))}
-                                    </div>
+                            <p className="class-flavor-text">
+                                {getClassFlavor(previewClass.name)}
+                            </p>
 
-                                    {(() => {
-                                        const eq = getStartingEquipment(previewClass.name);
-                                        const hasEquipment = (eq.weapons && eq.weapons.length > 0) ||
-                                                           (eq.armor && eq.armor.length > 0) ||
-                                                           (eq.tools && eq.tools.length > 0) ||
-                                                           (eq.accessories && eq.accessories.length > 0) ||
-                                                           (eq.consumables && eq.consumables.length > 0);
-                                        return hasEquipment ? (
-                                            <div className="starting-equipment-section">
-                                                <h4 className="equipment-section-title">
-                                                    <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
-                                                </h4>
-                                                <div 
-                                                    className="equipment-preview-grid"
-                                                    style={{
-                                                        minHeight: (() => {
-                                                            const allItemNames = [
-                                                                ...(eq.weapons || []),
-                                                                ...(eq.armor || []),
-                                                                ...(eq.tools || []),
-                                                                ...(eq.accessories || []),
-                                                                ...(eq.consumables || [])
-                                                            ];
-                                                            const fullItems = getFullItemObjects(allItemNames);
-                                                            if (fullItems.length === 0) return '120px';
-                                                            
-                                                            const estimatedRows = Math.max(2, Math.ceil(fullItems.length / 3) + 1);
-                                                            const cellSize = 40;
-                                                            const rowGap = 2;
-                                                            const gridPadding = 8;
-                                                            const gridHeight = (gridPadding * 2) + (estimatedRows * cellSize) + ((estimatedRows - 1) * rowGap);
-                                                            return `${gridHeight}px`;
-                                                        })()
-                                                    }}
-                                                >
-                                                    {(() => {
-                                                        // Get all item names and convert to full objects
-                                                        const allItemNames = [
-                                                            ...(eq.weapons || []),
-                                                            ...(eq.armor || []),
-                                                            ...(eq.tools || []),
-                                                            ...(eq.accessories || []),
-                                                            ...(eq.consumables || [])
-                                                        ];
+                            <div className="class-meta-row">
+                                <span className="meta-badge"><span className="meta-label">Theme</span>{previewClass.theme}</span>
+                                <span className="meta-badge"><span className="meta-label">Role</span>{getClassRole(previewClass.name)}</span>
+                                <span className="meta-badge"><span className="meta-label">Resource</span>{getClassResource(previewClass.name)}</span>
+                            </div>
 
-                                                        const fullItems = getFullItemObjects(allItemNames);
+                            <div className="class-features-list">
+                                {getClassFeatures(previewClass.name).map((feature, index) => (
+                                    <div key={index} className="feature-bullet">{feature}</div>
+                                ))}
+                            </div>
 
-                                                        // Equipment shop grid logic
-                                                        const COLS = 6; // Smaller grid for class preview
-                                                        const occupiedCells = new Map(); // Track occupied cells by "row,col" key
-                                                        const gridRows = [];
-                                                        const itemWrappers = [];
-                                                        let totalRows = 0;
+                            {(() => {
+                                const eq = getStartingEquipment(previewClass.name);
+                                const hasEquipment = (eq.weapons && eq.weapons.length > 0) ||
+                                    (eq.armor && eq.armor.length > 0) ||
+                                    (eq.tools && eq.tools.length > 0) ||
+                                    (eq.accessories && eq.accessories.length > 0) ||
+                                    (eq.consumables && eq.consumables.length > 0);
+                                return hasEquipment ? (
+                                    <div className="starting-equipment-section">
+                                        <h4 className="equipment-section-title">
+                                            <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
+                                        </h4>
+                                        <div
+                                            className="equipment-preview-grid"
+                                            style={{
+                                                minHeight: (() => {
+                                                    const allItemNames = [
+                                                        ...(eq.weapons || []),
+                                                        ...(eq.armor || []),
+                                                        ...(eq.tools || []),
+                                                        ...(eq.accessories || []),
+                                                        ...(eq.consumables || [])
+                                                    ];
+                                                    const fullItems = getFullItemObjects(allItemNames);
+                                                    if (fullItems.length === 0) return '120px';
 
-                                                        // Calculate grid constants
-                                                        const cellSize = 40;
-                                                        const cellGap = 1;
-                                                        const rowGap = 2;
-                                                        const gridPadding = 8;
+                                                    const estimatedRows = Math.max(2, Math.ceil(fullItems.length / 3) + 1);
+                                                    const cellSize = 40;
+                                                    const rowGap = 2;
+                                                    const gridPadding = 8;
+                                                    const gridHeight = (gridPadding * 2) + (estimatedRows * cellSize) + ((estimatedRows - 1) * rowGap);
+                                                    return `${gridHeight}px`;
+                                                })()
+                                            }}
+                                        >
+                                            {(() => {
+                                                // Get all item names and convert to full objects
+                                                const allItemNames = [
+                                                    ...(eq.weapons || []),
+                                                    ...(eq.armor || []),
+                                                    ...(eq.tools || []),
+                                                    ...(eq.accessories || []),
+                                                    ...(eq.consumables || [])
+                                                ];
 
-                                                        // Place items in grid with proper dimensions
-                                                        fullItems.forEach((item, index) => {
-                                                            if (!item) return;
+                                                const fullItems = getFullItemObjects(allItemNames);
 
-                                                            const width = item.width || 1;
-                                                            const height = item.height || 1;
+                                                // Equipment shop grid logic
+                                                const COLS = 6; // Smaller grid for class preview
+                                                const occupiedCells = new Map(); // Track occupied cells by "row,col" key
+                                                const gridRows = [];
+                                                const itemWrappers = [];
+                                                let totalRows = 0;
 
-                                                            // Find a spot for this item - dynamically expand grid if needed
-                                                            let placed = false;
-                                                            let maxRowToCheck = Math.max(6, totalRows + height + 2); // Limit to 6 rows max
-                                                            
-                                                            for (let row = 0; row < maxRowToCheck && !placed; row++) {
-                                                                for (let col = 0; col < COLS && !placed; col++) {
-                                                                    // Check if this position and area is free
-                                                                    let canPlace = true;
-                                                                    for (let dy = 0; dy < height && canPlace; dy++) {
-                                                                        for (let dx = 0; dx < width && canPlace; dx++) {
-                                                                            if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
-                                                                                canPlace = false;
-                                                                            }
-                                                                        }
-                                                                    }
+                                                // Calculate grid constants
+                                                const cellSize = 40;
+                                                const cellGap = 1;
+                                                const rowGap = 2;
+                                                const gridPadding = 8;
 
-                                                                    if (canPlace) {
-                                                                        // Mark cells as occupied
-                                                                        for (let dy = 0; dy < height; dy++) {
-                                                                            for (let dx = 0; dx < width; dx++) {
-                                                                                occupiedCells.set(`${row + dy},${col + dx}`, true);
-                                                                            }
-                                                                        }
+                                                // Place items in grid with proper dimensions
+                                                fullItems.forEach((item, index) => {
+                                                    if (!item) return;
 
-                                                                        // Calculate position relative to grid container (accounting for 8px padding)
-                                                                        const itemLeft = gridPadding + col * (cellSize + cellGap);
-                                                                        const itemTop = gridPadding + row * (cellSize + rowGap);
-                                                                        const itemWidth = width * cellSize + (width - 1) * cellGap;
-                                                                        const itemHeight = height * cellSize + (height - 1) * rowGap;
-                                                                        
-                                                                        // Mark the first cell as occupied for rendering
-                                                                        if (!gridRows[row]) gridRows[row] = [];
-                                                                        gridRows[row][col] = true;
-                                                                        
-                                                                        // Create item wrapper as separate element
-                                                                        itemWrappers.push(
-                                                                            <div
-                                                                                key={`item-${index}`}
-                                                                                className="equipment-preview-item-wrapper"
-                                                                                style={{
-                                                                                    width: `${itemWidth}px`,
-                                                                                    height: `${itemHeight}px`,
-                                                                                    left: `${itemLeft}px`,
-                                                                                    top: `${itemTop}px`
-                                                                                }}
-                                                                                onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                                                                                onMouseMove={handleItemMouseMove}
-                                                                                onMouseLeave={handleItemMouseLeave}
-                                                                            >
-                                                                                <div
-                                                                                    className="equipment-item-icon"
-                                                                                    style={{
-                                                                                        backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
-                                                                                        backgroundColor: 'transparent',
-                                                                                        width: '100%',
-                                                                                        height: '100%',
-                                                                                        backgroundSize: 'contain',
-                                                                                        backgroundPosition: 'center',
-                                                                                        backgroundRepeat: 'no-repeat',
-                                                                                        position: 'absolute',
-                                                                                        top: 0,
-                                                                                        left: 0
-                                                                                    }}
-                                                                                    title={item.name}
-                                                                                />
-                                                                            </div>
-                                                                        );
-                                                                        placed = true;
-                                                                        totalRows = Math.max(totalRows, row + height);
+                                                    const width = item.width || 1;
+                                                    const height = item.height || 1;
+
+                                                    // Find a spot for this item - dynamically expand grid if needed
+                                                    let placed = false;
+                                                    let maxRowToCheck = Math.max(6, totalRows + height + 2); // Limit to 6 rows max
+
+                                                    for (let row = 0; row < maxRowToCheck && !placed; row++) {
+                                                        for (let col = 0; col < COLS && !placed; col++) {
+                                                            // Check if this position and area is free
+                                                            let canPlace = true;
+                                                            for (let dy = 0; dy < height && canPlace; dy++) {
+                                                                for (let dx = 0; dx < width && canPlace; dx++) {
+                                                                    if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
+                                                                        canPlace = false;
                                                                     }
                                                                 }
                                                             }
-                                                        });
 
-                                                        // Ensure we have enough rows for all placed items
-                                                        const minRows = Math.max(2, totalRows + 1);
-                                                        while (gridRows.length < minRows) {
-                                                            gridRows.push(new Array(COLS).fill(null));
-                                                        }
-                                                        
-                                                        // Calculate grid height: padding (top + bottom) + rows * (cell height + row gap) - last row gap
-                                                        const gridHeight = (gridPadding * 2) + (gridRows.length * cellSize) + ((gridRows.length - 1) * rowGap);
+                                                            if (canPlace) {
+                                                                // Mark cells as occupied
+                                                                for (let dy = 0; dy < height; dy++) {
+                                                                    for (let dx = 0; dx < width; dx++) {
+                                                                        occupiedCells.set(`${row + dy},${col + dx}`, true);
+                                                                    }
+                                                                }
 
-                                                        // Render grid rows and item wrappers
-                                                        return (
-                                                            <>
-                                                                {/* Grid cells */}
-                                                                {gridRows.map((rowCells, rowIndex) => (
-                                                                    <div key={`row-${rowIndex}`} className="equipment-preview-row">
-                                                                        {Array.from({ length: COLS }, (_, colIndex) => {
-                                                                            const isOccupied = occupiedCells.has(`${rowIndex},${colIndex}`);
-                                                                            return (
-                                                                                <div 
-                                                                                    key={`cell-${rowIndex}-${colIndex}`} 
-                                                                                    className={`equipment-preview-cell ${isOccupied ? 'occupied' : 'empty'}`}
-                                                                                ></div>
-                                                                            );
-                                                                        })}
+                                                                // Calculate position relative to grid container (accounting for 8px padding)
+                                                                const itemLeft = gridPadding + col * (cellSize + cellGap);
+                                                                const itemTop = gridPadding + row * (cellSize + rowGap);
+                                                                const itemWidth = width * cellSize + (width - 1) * cellGap;
+                                                                const itemHeight = height * cellSize + (height - 1) * rowGap;
+
+                                                                // Mark the first cell as occupied for rendering
+                                                                if (!gridRows[row]) gridRows[row] = [];
+                                                                gridRows[row][col] = true;
+
+                                                                // Create item wrapper as separate element
+                                                                itemWrappers.push(
+                                                                    <div
+                                                                        key={`item-${index}`}
+                                                                        className="equipment-preview-item-wrapper"
+                                                                        style={{
+                                                                            width: `${itemWidth}px`,
+                                                                            height: `${itemHeight}px`,
+                                                                            left: `${itemLeft}px`,
+                                                                            top: `${itemTop}px`
+                                                                        }}
+                                                                        onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                                                                        onMouseMove={handleItemMouseMove}
+                                                                        onMouseLeave={handleItemMouseLeave}
+                                                                    >
+                                                                        <div
+                                                                            className="equipment-item-icon"
+                                                                            style={{
+                                                                                backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
+                                                                                backgroundColor: 'transparent',
+                                                                                width: '100%',
+                                                                                height: '100%',
+                                                                                backgroundSize: 'contain',
+                                                                                backgroundPosition: 'center',
+                                                                                backgroundRepeat: 'no-repeat',
+                                                                                position: 'absolute',
+                                                                                top: 0,
+                                                                                left: 0
+                                                                            }}
+                                                                            title={item.name}
+                                                                        />
                                                                     </div>
-                                                                ))}
-                                                                {/* Item wrappers positioned absolutely */}
-                                                                {itemWrappers}
-                                                                {/* Spacer to ensure grid container expands to fit all rows */}
-                                                                <div style={{ 
-                                                                    height: `${gridHeight}px`, 
-                                                                    width: '1px', 
-                                                                    position: 'absolute',
-                                                                    pointerEvents: 'none',
-                                                                    visibility: 'hidden',
-                                                                    top: 0,
-                                                                    left: 0
-                                                                }}></div>
-                                                            </>
-                                                        );
-                                                    })()}
-                                                </div>
+                                                                );
+                                                                placed = true;
+                                                                totalRows = Math.max(totalRows, row + height);
+                                                            }
+                                                        }
+                                                    }
+                                                });
 
-                                                <div className="equipment-pool-note">
-                                                    <div className="note-content">
-                                                        <i className="fas fa-info-circle"></i>
-                                                        <span>These items are added to your starting equipment pool. You can purchase additional items like these in Step 10 among other equipment choices. Equipping happens during actual gameplay.</span>
-                                                    </div>
-                                                </div>
+                                                // Ensure we have enough rows for all placed items
+                                                const minRows = Math.max(2, totalRows + 1);
+                                                while (gridRows.length < minRows) {
+                                                    gridRows.push(new Array(COLS).fill(null));
+                                                }
+
+                                                // Calculate grid height: padding (top + bottom) + rows * (cell height + row gap) - last row gap
+                                                const gridHeight = (gridPadding * 2) + (gridRows.length * cellSize) + ((gridRows.length - 1) * rowGap);
+
+                                                // Render grid rows and item wrappers
+                                                return (
+                                                    <>
+                                                        {/* Grid cells */}
+                                                        {gridRows.map((rowCells, rowIndex) => (
+                                                            <div key={`row-${rowIndex}`} className="equipment-preview-row">
+                                                                {Array.from({ length: COLS }, (_, colIndex) => {
+                                                                    const isOccupied = occupiedCells.has(`${rowIndex},${colIndex}`);
+                                                                    return (
+                                                                        <div
+                                                                            key={`cell-${rowIndex}-${colIndex}`}
+                                                                            className={`equipment-preview-cell ${isOccupied ? 'occupied' : 'empty'}`}
+                                                                        ></div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        ))}
+                                                        {/* Item wrappers positioned absolutely */}
+                                                        {itemWrappers}
+                                                        {/* Spacer to ensure grid container expands to fit all rows */}
+                                                        <div style={{
+                                                            height: `${gridHeight}px`,
+                                                            width: '1px',
+                                                            position: 'absolute',
+                                                            pointerEvents: 'none',
+                                                            visibility: 'hidden',
+                                                            top: 0,
+                                                            left: 0
+                                                        }}></div>
+                                                    </>
+                                                );
+                                            })()}
+                                        </div>
+
+                                        <div className="equipment-pool-note">
+                                            <div className="note-content">
+                                                <i className="fas fa-info-circle"></i>
+                                                <span>These items are added to your starting equipment pool. You can purchase additional items like these in Step 10 among other equipment choices. Equipping happens during actual gameplay.</span>
                                             </div>
-                                        ) : null;
-                                    })()}
-                                </div>
-                        ) : (
-                            <div className="preview-placeholder">
-                                <i className="fas fa-sword"></i>
-                                <h3>Select a Class</h3>
-                                <p>Hover over or select a class to see its details and abilities.</p>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Item Tooltip */}
-                    {tooltip.show && tooltip.item && (
-                        <div
-                            ref={tooltipRef}
-                            style={{
-                                position: 'fixed',
-                                left: tooltip.x,
-                                top: tooltip.y,
-                                zIndex: 1000,
-                                pointerEvents: 'none'
-                            }}
-                        >
-                            <ItemTooltip item={tooltip.item} />
+                                        </div>
+                                    </div>
+                                ) : null;
+                            })()}
+                        </div>
+                    ) : (
+                        <div className="preview-placeholder">
+                            <i className="fas fa-sword"></i>
+                            <h3>Select a Class</h3>
+                            <p>Hover over or select a class to see its details and abilities.</p>
                         </div>
                     )}
                 </div>
+
+                {/* Item Tooltip */}
+                {tooltip.show && tooltip.item && (
+                    <div
+                        ref={tooltipRef}
+                        style={{
+                            position: 'fixed',
+                            left: tooltip.x,
+                            top: tooltip.y,
+                            zIndex: 1000,
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        <ItemTooltip item={tooltip.item} />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

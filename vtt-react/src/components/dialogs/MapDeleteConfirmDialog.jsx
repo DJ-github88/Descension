@@ -8,12 +8,12 @@ const MapDeleteConfirmDialog = ({
     mapName,
     position = { x: 400, y: 300 }
 }) => {
-    if (!isOpen) return null;
-
     const handleConfirm = () => {
         onConfirm();
         onClose();
     };
+
+    if (!isOpen) return null;
 
     return (
         <WowWindow

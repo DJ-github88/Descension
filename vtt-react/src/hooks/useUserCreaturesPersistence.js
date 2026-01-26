@@ -28,7 +28,8 @@ export const useUserCreaturesPersistence = () => {
    * Extract user-created creatures from the creature store
    */
   const getUserCreatures = useCallback(() => {
-    const creatureStore = useCreatureStore.getState();
+    const creatureStore = useCreatureStore?.getState();
+    if (!creatureStore || !creatureStore.creatures) return [];
     return creatureStore.creatures.filter(isUserCreatedCreature);
   }, [isUserCreatedCreature]);
 
@@ -68,7 +69,8 @@ export const useUserCreaturesPersistence = () => {
 
       if (firebaseCreatures.length > 0) {
         // Get current creatures from store
-        const creatureStore = useCreatureStore.getState();
+        const creatureStore = useCreatureStore?.getState();
+        if (!creatureStore || !creatureStore.creatures) return;
         const existingCreatures = creatureStore.creatures;
 
         // Separate built-in creatures from user-created creatures
@@ -104,7 +106,7 @@ export const useUserCreaturesPersistence = () => {
         const allUserCreatures = [...mergedUserCreatures, ...missingLocalCreatures];
 
         // Update the store with merged creatures
-        useCreatureStore.setState({
+        useCreatureStore?.setState({
           creatures: [...builtInCreatures, ...allUserCreatures]
         });
 

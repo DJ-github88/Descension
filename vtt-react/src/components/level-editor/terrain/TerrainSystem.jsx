@@ -23,39 +23,22 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Grass',
         category: 'natural',
         color: '#4a7c59',
-        texture: '/assets/terrain/grass.png',
         movementCost: 1,
-        description: 'Natural grassland',
-        // Multiple tile variations for randomization
-        tileVariations: [
-            '/assets/tiles/Grass1.png',
-            '/assets/tiles/Grass2.png',
-            '/assets/tiles/Grass3.png',
-            '/assets/tiles/Grass4.png'
-        ]
+        description: 'Natural grassland'
     },
     dirt: {
         id: 'dirt',
         name: 'Dirt',
         category: 'natural',
         color: '#8b6914',
-        texture: '/assets/terrain/dirt.png',
         movementCost: 1,
-        description: 'Bare earth and soil',
-        // Multiple tile variations for randomization
-        tileVariations: [
-            '/assets/tiles/Dirt1.png',
-            '/assets/tiles/Dirt2.png',
-            '/assets/tiles/Dirt3.png',
-            '/assets/tiles/Dirt4.png'
-        ]
+        description: 'Bare earth and soil'
     },
     stone: {
         id: 'stone',
         name: 'Stone',
         category: 'natural',
         color: '#6b6b6b',
-        texture: '/assets/terrain/stone.png',
         movementCost: 1,
         description: 'Natural stone surface'
     },
@@ -64,48 +47,24 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Sand',
         category: 'natural',
         color: '#c2b280',
-        texture: '/assets/terrain/sand.png',
         movementCost: 2,
-        description: 'Sandy terrain',
-        // Multiple tile variations for randomization
-        tileVariations: [
-            '/assets/tiles/Sand1.png',
-            '/assets/tiles/Sand2.png',
-            '/assets/tiles/Sand3.png',
-            '/assets/tiles/Sand4.png'
-        ]
+        description: 'Sandy terrain'
     },
     water: {
         id: 'water',
         name: 'Water',
         category: 'natural',
         color: '#4682b4',
-        texture: '/assets/terrain/water.png',
         movementCost: 4,
-        description: 'Water terrain',
-        // Multiple tile variations for randomization
-        tileVariations: [
-            '/assets/tiles/Water1.png',
-            '/assets/tiles/Water2.png',
-            '/assets/tiles/Water3.png',
-            '/assets/tiles/Water4.png'
-        ]
+        description: 'Water terrain'
     },
     cobblestone: {
         id: 'cobblestone',
         name: 'Cobblestone',
         category: 'natural',
         color: '#8a8a8a',
-        texture: '/assets/terrain/cobblestone.png',
         movementCost: 1,
-        description: 'Cobblestone path or road',
-        // Multiple tile variations for randomization
-        tileVariations: [
-            '/assets/tiles/Cobble1.png',
-            '/assets/tiles/Cobble2.png',
-            '/assets/tiles/Cobble3.png',
-            '/assets/tiles/Cobble4.png'
-        ]
+        description: 'Cobblestone path or road'
     },
 
     // Dungeon Terrain
@@ -136,6 +95,15 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         movementCost: 1,
         description: 'Wooden planked flooring'
     },
+    snow: {
+        id: 'snow',
+        name: 'Snow',
+        category: 'natural',
+        color: '#ffffff',
+        texture: '/assets/terrain/snow.png',
+        movementCost: 2,
+        description: 'Fresh, powdery snow'
+    },
 
     // Difficult Terrain
     mud: {
@@ -164,6 +132,15 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         texture: '/assets/terrain/ice.png',
         movementCost: 2,
         description: 'Slippery ice surface'
+    },
+    fungal_growth: {
+        id: 'fungal_growth',
+        name: 'Fungal Growth',
+        category: 'difficult',
+        color: '#7b68ee',
+        texture: '/assets/terrain/fungal.png',
+        movementCost: 2,
+        description: 'Spongy, glowing fungal matter'
     },
 
     // Special Terrain
@@ -195,6 +172,33 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         texture: '/assets/terrain/pit.png',
         movementCost: 99,
         description: 'Deep pit or chasm'
+    },
+    abyss: {
+        id: 'abyss',
+        name: 'The Abyss',
+        category: 'hazard',
+        color: '#000000',
+        texture: '/assets/terrain/abyss.png',
+        movementCost: 99,
+        description: 'Infinite dark void'
+    },
+    crystal_floor: {
+        id: 'crystal_floor',
+        name: 'Crystal Floor',
+        category: 'dungeon',
+        color: '#e0ffff',
+        texture: '/assets/terrain/crystal.png',
+        movementCost: 1,
+        description: 'Resonant crystalline surface'
+    },
+    gold_floor: {
+        id: 'gold_floor',
+        name: 'Gold Floor',
+        category: 'dungeon',
+        color: '#ffd700',
+        texture: '/assets/terrain/gold.png',
+        movementCost: 1,
+        description: 'Opulent solid gold flooring'
     }
 };
 
@@ -736,13 +740,13 @@ const TerrainSystem = () => {
                 drawDirtTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
                 break;
             case 'sand':
-                drawSandTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawSandTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
                 break;
             case 'water':
-                drawWaterTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawWaterTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
                 break;
             case 'cobblestone':
-                drawCobblestoneTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawCobblestoneTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
                 break;
             case 'dungeon_floor':
                 drawDungeonFloorTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
@@ -770,6 +774,21 @@ const TerrainSystem = () => {
                 break;
             case 'pit':
                 drawPitTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                break;
+            case 'snow':
+                drawSnowTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                break;
+            case 'crystal_floor':
+                drawCrystalTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                break;
+            case 'abyss':
+                drawAbyssTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                break;
+            case 'fungal_growth':
+                drawFungalTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                break;
+            case 'gold_floor':
+                drawGoldTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
                 break;
             default:
                 // Fallback to simple fill
@@ -808,6 +827,10 @@ const TerrainSystem = () => {
 
         ctx.save();
 
+        // Derive virtual grid coordinates if not provided (for seamlessness fallback)
+        const effectiveGridX = gridX !== null ? gridX : Math.floor(x / width);
+        const effectiveGridY = gridY !== null ? gridY : Math.floor(y / height);
+
         switch (terrainId) {
             case 'stone':
                 drawStoneTexture(ctx, baseColor, x, y, width, height, seedBase);
@@ -819,13 +842,13 @@ const TerrainSystem = () => {
                 drawDirtTexture(ctx, baseColor, x, y, width, height, seedBase);
                 break;
             case 'sand':
-                drawSandTexture(ctx, baseColor, x, y, width, height, seedBase);
+                drawSandTexture(ctx, baseColor, x, y, width, height, seedBase, effectiveGridX, effectiveGridY);
                 break;
             case 'water':
-                drawWaterTexture(ctx, baseColor, x, y, width, height, seedBase);
+                drawWaterTexture(ctx, baseColor, x, y, width, height, seedBase, effectiveGridX, effectiveGridY);
                 break;
             case 'cobblestone':
-                drawCobblestoneTexture(ctx, baseColor, x, y, width, height, seedBase);
+                drawCobblestoneTexture(ctx, baseColor, x, y, width, height, seedBase, effectiveGridX, effectiveGridY);
                 break;
             case 'dungeon_floor':
                 drawDungeonFloorTexture(ctx, baseColor, x, y, width, height, seedBase);
@@ -1007,156 +1030,295 @@ const TerrainSystem = () => {
         }
     };
 
-    // Sand texture - fine, grainy
-    const drawSandTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+    // Sand texture - fine, grainy with seamless dunes across tiles
+    const drawSandTexture = (ctx, baseColor, x, y, w, h, seed = 0, gridX = 0, gridY = 0) => {
         // Base fill
         ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
         ctx.fillRect(x, y, w, h);
 
-        // Add fine sand grains with seeded randomness - cap for performance
-        const grainCount = Math.min(150, Math.max(15, Math.floor(w * h / 8)));
+        // Add dune / ripple effects with global coordinate mapping
+        const worldX = gridX * 100; // Use a virtual world scale for math 
+        const worldY = gridY * 100;
+
+        const rippleCount = 3;
+        for (let i = 0; i < rippleCount; i++) {
+            // Use deterministic values based on ripple index, not tile seed
+            const phase = i * 0.8;
+            // Calculate a vertical offset that flows across tiles
+            const ry = y + (((worldY + phase * 50) % 100) / 100) * h;
+
+            const grad = ctx.createLinearGradient(x, ry - h * 0.2, x, ry + h * 0.2);
+            const dark = adjustRgbBrightness(baseColor, -0.08);
+            grad.addColorStop(0, 'rgba(0,0,0,0)');
+            grad.addColorStop(0.5, `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.15)`);
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+
+            ctx.fillStyle = grad;
+            ctx.fillRect(x, ry - h, w, h * 2);
+        }
+
+        // Add fine sand grains - use tile-specific seed is okay for static noise bits
+        const grainCount = Math.min(250, Math.max(50, Math.floor(w * h / 4)));
         for (let i = 0; i < grainCount; i++) {
             const r1 = seededRandom(seed + i * 0.1);
             const r2 = seededRandom(seed + i * 0.1 + 0.01);
             const r3 = seededRandom(seed + i * 0.1 + 0.02);
             const r4 = seededRandom(seed + i * 0.1 + 0.03);
-            const r5 = seededRandom(seed + i * 0.1 + 0.04);
 
             const px = x + r1 * w;
             const py = y + r2 * h;
-            const size = 0.3 + r3 * 0.7;
-            const variation = adjustRgbBrightness(baseColor, -0.15 + r4 * 0.2);
+            const size = 0.2 + r3 * 0.8;
+            const variation = adjustRgbBrightness(baseColor, -0.12 + r4 * 0.25);
 
-            ctx.fillStyle = `rgba(${variation.r}, ${variation.g}, ${variation.b}, ${0.7 + r5 * 0.2})`;
+            ctx.fillStyle = `rgba(${variation.r}, ${variation.g}, ${variation.b}, ${0.5 + r1 * 0.4})`;
             ctx.beginPath();
             ctx.arc(px, py, size, 0, Math.PI * 2);
             ctx.fill();
         }
-    };
 
-    // Water texture - wavy, fluid
-    const drawWaterTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
-        // Base fill
-        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
-        ctx.fillRect(x, y, w, h);
-
-        // Add wave patterns with seeded randomness
-        const waveCount = Math.floor(w / 8);
-        for (let i = 0; i < waveCount; i++) {
-            const waveY = y + (i / waveCount) * h;
-            const light = adjustRgbBrightness(baseColor, 0.2);
-            const dark = adjustRgbBrightness(baseColor, -0.15);
-            const r1 = seededRandom(seed + i * 0.1);
-
-            ctx.strokeStyle = `rgba(${light.r}, ${light.g}, ${light.b}, ${0.3 + r1 * 0.2})`;
-            ctx.lineWidth = 1;
+        // Add sparkle spots - global mapping for consistency
+        for (let i = 0; i < 3; i++) {
+            const sx = ((gridX * 7 + i * 13) % 10) / 10;
+            const sy = ((gridY * 3 + i * 17) % 10) / 10;
+            ctx.fillStyle = `rgba(255, 255, 255, 0.4)`;
             ctx.beginPath();
-            for (let j = 0; j < w; j += 2) {
-                const waveOffset = Math.sin((j / w) * Math.PI * 4 + i) * 2;
-                if (j === 0) ctx.moveTo(x + j, waveY + waveOffset);
-                else ctx.lineTo(x + j, waveY + waveOffset);
-            }
-            ctx.stroke();
-        }
-
-        // Add highlights with seeded randomness
-        for (let i = 0; i < 5; i++) {
-            const r1 = seededRandom(seed + i * 0.2);
-            const r2 = seededRandom(seed + i * 0.2 + 0.01);
-            const r3 = seededRandom(seed + i * 0.2 + 0.02);
-            const r4 = seededRandom(seed + i * 0.2 + 0.03);
-            const r5 = seededRandom(seed + i * 0.2 + 0.04);
-
-            const px = x + r1 * w;
-            const py = y + r2 * h;
-            const light = adjustRgbBrightness(baseColor, 0.3);
-            ctx.fillStyle = `rgba(${light.r}, ${light.g}, ${light.b}, ${0.2 + r3 * 0.2})`;
-            ctx.beginPath();
-            ctx.ellipse(px, py, 3 + r4 * 2, 1 + r5, r1 * Math.PI, 0, Math.PI * 2);
+            ctx.arc(x + sx * w, y + sy * h, 0.5, 0, Math.PI * 2);
             ctx.fill();
         }
     };
 
-    // Cobblestone texture - block pattern
-    const drawCobblestoneTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
-        // Base fill
-        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
+    // Water texture - vibrant, fluid blue with shimmering caustics and surface ripples
+    const drawWaterTexture = (ctx, baseColor, x, y, w, h, seed = 0, gridX = 0, gridY = 0) => {
+        // 1. Rich Vibrant Base
+        const deepColor = adjustRgbBrightness(baseColor, -0.25); // Significantly brighter
+        const midColor = adjustRgbBrightness(baseColor, 0.05);
+
+        ctx.fillStyle = `rgb(${deepColor.r}, ${deepColor.g}, ${deepColor.b})`;
         ctx.fillRect(x, y, w, h);
 
-        // Draw cobblestone blocks
-        const blockSize = Math.max(4, w / 6);
-        const dark = adjustRgbBrightness(baseColor, -0.25);
-        const light = adjustRgbBrightness(baseColor, 0.15);
+        // 2. Global fluid caustic network
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
 
-        for (let by = y; by < y + h; by += blockSize * 0.8) {
-            for (let bx = x; bx < x + w; bx += blockSize) {
-                const offset = (by % (blockSize * 1.6) < blockSize * 0.8) ? 0 : blockSize * 0.5;
-                const blockX = bx + offset;
-                const blockY = by;
+        const worldX = gridX * w;
+        const worldY = gridY * h;
 
-                // Block shadow
-                ctx.fillStyle = `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.6)`;
-                ctx.fillRect(blockX, blockY, blockSize * 0.9, blockSize * 0.9);
+        // Use 'screen' for vibrant additive light
+        ctx.globalCompositeOperation = 'screen';
 
-                // Block highlight
-                ctx.fillStyle = `rgba(${light.r}, ${light.g}, ${light.b}, 0.3)`;
-                ctx.fillRect(blockX + blockSize * 0.1, blockY + blockSize * 0.1, blockSize * 0.3, blockSize * 0.3);
+        const causticColor = adjustRgbBrightness(baseColor, 0.6);
+        const rimColor = { r: 210, g: 245, b: 255 };
+
+        // Grid setup for global caustics
+        const step = w * 0.8;
+        const startGX = Math.floor(worldX / step) - 1;
+        const endGX = Math.ceil((worldX + w) / step) + 1;
+        const startGY = Math.floor(worldY / step) - 1;
+        const endGY = Math.ceil((worldY + h) / step) + 1;
+
+        // Layer 1: Soft Caustic Blooms
+        for (let gx = startGX; gx <= endGX; gx++) {
+            for (let gy = startGY; gy <= endGY; gy++) {
+                const sSeed = (gx * 31337) ^ (gy * 12347);
+                const bx = gx * step + (seededRandom(sSeed) - 0.5) * step * 0.4;
+                const by = gy * step + (seededRandom(sSeed + 1) - 0.5) * step * 0.4;
+
+                const sx = x + (bx - worldX);
+                const sy = y + (by - worldY);
+                const r = step * (0.4 + seededRandom(sSeed + 2) * 0.4);
+
+                const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
+                grad.addColorStop(0, `rgba(${causticColor.r}, ${causticColor.g}, ${causticColor.b}, 0.35)`);
+                grad.addColorStop(0.7, `rgba(${causticColor.r}, ${causticColor.g}, ${causticColor.b}, 0.05)`);
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Layer 2: Interconnected Light Webs (Ribs)
+                const neighbors = [[1, 0], [0, 1], [1, 1]];
+                neighbors.forEach(([dx, dy]) => {
+                    const nSeed = ((gx + dx) * 31337) ^ ((gy + dy) * 12347);
+                    const nbx = (gx + dx) * step + (seededRandom(nSeed) - 0.5) * step * 0.4;
+                    const nby = (gy + dy) * step + (seededRandom(nSeed + 1) - 0.5) * step * 0.4;
+                    const nsx = x + (nbx - worldX);
+                    const nsy = y + (nby - worldY);
+
+                    ctx.beginPath();
+                    ctx.moveTo(sx, sy);
+
+                    const midX = (sx + nsx) / 2;
+                    const midY = (sy + nsy) / 2;
+                    const cpX = midX + (seededRandom(sSeed + nSeed) - 0.5) * step * 0.3;
+                    const cpY = midY + (seededRandom(sSeed + nSeed + 1) - 0.5) * step * 0.3;
+
+                    ctx.strokeStyle = `rgba(${rimColor.r}, ${rimColor.g}, ${rimColor.b}, 0.15)`;
+                    ctx.lineWidth = 1.6;
+                    ctx.quadraticCurveTo(cpX, cpY, nsx, nsy);
+                    ctx.stroke();
+                });
+            }
+        }
+
+        // Layer 3: Surface Water Ripples (Specular highlights)
+        ctx.globalCompositeOperation = 'lighter';
+        for (let i = 0; i < 3; i++) {
+            const rSeed = (gridX * 13) ^ (gridY * 17) ^ i;
+            const rx = x + seededRandom(rSeed) * w;
+            const ry = y + seededRandom(rSeed + 3) * h;
+            const rLen = w * (0.25 + seededRandom(rSeed + 7) * 0.35);
+            const rAngle = seededRandom(rSeed + 9) * Math.PI;
+
+            ctx.beginPath();
+            ctx.moveTo(rx - Math.cos(rAngle) * rLen / 2, ry - Math.sin(rAngle) * rLen / 2);
+            ctx.quadraticCurveTo(rx + (seededRandom(rSeed + 1) - 0.5) * 10, ry + (seededRandom(rSeed + 2) - 0.5) * 10, rx + Math.cos(rAngle) * rLen / 2, ry + Math.sin(rAngle) * rLen / 2);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 + seededRandom(rSeed + 4) * 0.15})`;
+            ctx.lineWidth = 1.0;
+            ctx.stroke();
+        }
+
+        ctx.restore();
+    };
+
+
+
+    // Cobblestone texture - SEAMLESS organic natural stones
+    const drawCobblestoneTexture = (ctx, baseColor, x, y, w, h, seed = 0, gridX = 0, gridY = 0) => {
+        // 1. Mortar Base (Deep Earthy Tone)
+        const mortar = adjustRgbBrightness(baseColor, -0.55);
+        ctx.fillStyle = `rgb(${mortar.r}, ${mortar.g}, ${mortar.b})`;
+        ctx.fillRect(x, y, w, h);
+
+        // 2. High-density stones (5x5 grid)
+        const stoneSize = w / 5;
+
+        for (let localX = -1; localX <= 5; localX++) {
+            for (let localY = -1; localY <= 5; localY++) {
+                const globalIdxX = gridX * 5 + localX;
+                const globalIdxY = gridY * 5 + localY;
+
+                const stoneSeed = (globalIdxX * 17385) ^ (globalIdxY * 19349);
+
+                // Jitter within its slot
+                const jX = (seededRandom(stoneSeed) - 0.5) * (stoneSize * 0.6);
+                const jY = (seededRandom(stoneSeed + 1) - 0.5) * (stoneSize * 0.6);
+
+                const sx = x + (localX * stoneSize) + stoneSize / 2 + jX;
+                const sy = y + (localY * stoneSize) + stoneSize / 2 + jY;
+
+                const buffer = stoneSize;
+                if (sx < x - buffer || sx > x + w + buffer || sy < y - buffer || sy > y + h + buffer) continue;
+
+                // Varied stone dimensions and rotations
+                const sW = stoneSize * (0.8 + seededRandom(stoneSeed + 2) * 0.4);
+                const sH = stoneSize * (0.8 + seededRandom(stoneSeed + 3) * 0.4);
+                const rotation = seededRandom(stoneSeed + 4) * Math.PI;
+                const stoneBaseColor = adjustRgbBrightness(baseColor, (seededRandom(stoneSeed + 5) - 0.5) * 0.4);
+
+                ctx.save();
+                ctx.translate(sx, sy);
+                ctx.rotate(rotation);
+
+                // Irregular polygonal stone shape
+                ctx.beginPath();
+                const points = 5 + (stoneSeed % 3);
+                for (let p = 0; p < points; p++) {
+                    const angle = (p / points) * Math.PI * 2;
+                    const rDist = 0.8 + seededRandom(stoneSeed + 10 + p) * 0.4;
+                    const px = Math.cos(angle) * (sW / 2) * rDist;
+                    const py = Math.sin(angle) * (sH / 2) * rDist;
+                    if (p === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+
+                // Depth & Lighting
+                ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetY = 2;
+                ctx.fillStyle = `rgb(${stoneBaseColor.r}, ${stoneBaseColor.g}, ${stoneBaseColor.b})`;
+                ctx.fill();
+
+                // Reset shadow for highlights
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+
+                // Top-left highlight for chiseled look
+                const highlight = adjustRgbBrightness(stoneBaseColor, 0.25);
+                ctx.strokeStyle = `rgba(${highlight.r}, ${highlight.g}, ${highlight.b}, 0.35)`;
+                ctx.lineWidth = 1.0;
+                ctx.stroke();
+
+                // Surface weathering (tiny spots)
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                for (let k = 0; k < 2; k++) {
+                    const kr1 = (seededRandom(stoneSeed + k * 5) - 0.5) * sW * 0.4;
+                    const kr2 = (seededRandom(stoneSeed + k * 5 + 1) - 0.5) * sH * 0.4;
+                    ctx.beginPath();
+                    ctx.arc(kr1, kr2, 1, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.restore();
             }
         }
     };
 
-    // Dungeon floor texture - cut/man-made stone, more regular than natural stone
+    // Dungeon floor texture - refined flagstone with varied tiles and worn edges
     const drawDungeonFloorTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
-        // Base fill - slightly darker than natural stone
-        const baseVariation = adjustRgbBrightness(baseColor, -0.08);
-        ctx.fillStyle = `rgb(${baseVariation.r}, ${baseVariation.g}, ${baseVariation.b})`;
+        // Base fill
+        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
         ctx.fillRect(x, y, w, h);
 
-        // Draw cut stone blocks with mortar lines - more regular pattern
-        const blockSize = Math.max(6, w / 4);
-        const dark = adjustRgbBrightness(baseColor, -0.25);
-        const light = adjustRgbBrightness(baseColor, 0.12);
-        const mortar = adjustRgbBrightness(baseColor, -0.35);
+        const dark = adjustRgbBrightness(baseColor, -0.2);
+        const light = adjustRgbBrightness(baseColor, 0.1);
+        const grout = adjustRgbBrightness(baseColor, -0.4);
 
-        // Draw mortar lines (grid pattern)
-        ctx.strokeStyle = `rgba(${mortar.r}, ${mortar.g}, ${mortar.b}, 0.6)`;
-        ctx.lineWidth = 1;
+        // Draw stones with varied sizes
+        const stoneSizeX = w / 2;
+        const stoneSizeY = h / 2;
 
-        // Vertical lines
-        for (let bx = x; bx < x + w; bx += blockSize) {
-            ctx.beginPath();
-            ctx.moveTo(bx, y);
-            ctx.lineTo(bx, y + h);
-            ctx.stroke();
-        }
+        for (let row = 0; row < 2; row++) {
+            for (let col = 0; col < 2; col++) {
+                const sX = x + col * stoneSizeX;
+                const sY = y + row * stoneSizeY;
+                const sSeed = seed + row * 2 + col;
+                const r1 = seededRandom(sSeed);
+                const r2 = seededRandom(sSeed + 0.1);
 
-        // Horizontal lines
-        for (let by = y; by < y + h; by += blockSize) {
-            ctx.beginPath();
-            ctx.moveTo(x, by);
-            ctx.lineTo(x + w, by);
-            ctx.stroke();
-        }
+                // Varied stone color
+                const colorVariation = adjustRgbBrightness(baseColor, (r1 - 0.5) * 0.15);
+                ctx.fillStyle = `rgb(${colorVariation.r}, ${colorVariation.g}, ${colorVariation.b})`;
+                ctx.fillRect(sX + 1, sY + 1, stoneSizeX - 2, stoneSizeY - 2);
 
-        // Add subtle variation to each block
-        const blocksX = Math.ceil(w / blockSize);
-        const blocksY = Math.ceil(h / blockSize);
+                // Worn stone texture
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                for (let k = 0; k < 5; k++) {
+                    const kr1 = seededRandom(sSeed + k * 0.2);
+                    const kr2 = seededRandom(sSeed + k * 0.2 + 0.01);
+                    ctx.beginPath();
+                    ctx.arc(sX + kr1 * stoneSizeX, sY + kr2 * stoneSizeY, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
 
-        for (let by = 0; by < blocksY; by++) {
-            for (let bx = 0; bx < blocksX; bx++) {
-                const blockSeed = seed + (by * blocksX + bx) * 0.1;
-                const r1 = seededRandom(blockSeed);
-                const r2 = seededRandom(blockSeed + 0.01);
-
-                const blockX = x + bx * blockSize;
-                const blockY = y + by * blockSize;
-
-                // Subtle block variation (much less than natural stone)
-                const blockVariation = adjustRgbBrightness(baseVariation, -0.05 + (r1 - 0.5) * 0.1);
-                ctx.fillStyle = `rgba(${blockVariation.r}, ${blockVariation.g}, ${blockVariation.b}, ${0.3 + r2 * 0.2})`;
-                ctx.fillRect(blockX + 1, blockY + 1, blockSize - 2, blockSize - 2);
+                // Edge highlight
+                ctx.strokeStyle = `rgba(${light.r}, ${light.g}, ${light.b}, 0.2)`;
+                ctx.strokeRect(sX + 1.5, sY + 1.5, stoneSizeX - 3, stoneSizeY - 3);
             }
         }
+
+        // Mortar / grout lines
+        ctx.strokeStyle = `rgb(${grout.r}, ${grout.g}, ${grout.b})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        // Cross lines
+        ctx.moveTo(x + stoneSizeX, y); ctx.lineTo(x + stoneSizeX, y + h);
+        ctx.moveTo(x, y + stoneSizeY); ctx.lineTo(x + w, y + stoneSizeY);
+        ctx.stroke();
     };
 
     // Marble texture - veined pattern
@@ -1482,189 +1644,394 @@ const TerrainSystem = () => {
         }
     };
 
-    // Acid texture - bubbling, corrosive with better visual effects
+    // Acid texture - toxic, shimmering caustic fluid (Total Overhaul)
     const drawAcidTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
-        // Base fill with slight variation
-        const baseVariation = adjustRgbBrightness(baseColor, -0.05);
-        ctx.fillStyle = `rgb(${baseVariation.r}, ${baseVariation.g}, ${baseVariation.b})`;
+        // Base fill - deep toxic green
+        const deepToxic = { r: 0, g: 51, b: 0 };
+        ctx.fillStyle = `rgb(${deepToxic.r}, ${deepToxic.g}, ${deepToxic.b})`;
         ctx.fillRect(x, y, w, h);
 
-        // Add swirling patterns (acid movement)
-        const bright = adjustRgbBrightness(baseColor, 0.2);
-        const dark = adjustRgbBrightness(baseColor, -0.15);
+        // Liquid surface sheen/glow
+        const neonGreen = { r: 57, g: 255, b: 20 };
+        const grad = ctx.createRadialGradient(x + w * 0.5, y + h * 0.5, 0, x + w * 0.5, y + h * 0.5, w * 0.7);
+        grad.addColorStop(0, `rgba(${neonGreen.r}, ${neonGreen.g}, ${neonGreen.b}, 0.3)`);
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w, h);
 
-        // Create swirling patterns
+        // Caustic network simulation (fractal-like lines)
+        ctx.strokeStyle = `rgba(${neonGreen.r}, ${neonGreen.g}, ${neonGreen.b}, 0.15)`;
+        ctx.lineWidth = 1;
         for (let i = 0; i < 3; i++) {
-            const r1 = seededRandom(seed + i * 0.3);
-            const r2 = seededRandom(seed + i * 0.3 + 0.01);
-            const centerX = x + r1 * w;
-            const centerY = y + r2 * h;
-
-            ctx.strokeStyle = `rgba(${bright.r}, ${bright.g}, ${bright.b}, ${0.3 + r2 * 0.2})`;
-            ctx.lineWidth = 1.5;
+            const r1 = seededRandom(seed + i * 0.33);
             ctx.beginPath();
-            for (let angle = 0; angle < Math.PI * 4; angle += 0.2) {
-                const radius = 5 + angle * 2;
-                const px = centerX + Math.cos(angle) * radius;
-                const py = centerY + Math.sin(angle) * radius;
-                if (angle === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
+            ctx.moveTo(x + r1 * w, y);
+            for (let j = 0; j < 10; j++) {
+                const r2 = seededRandom(seed + i * 0.33 + j * 0.1);
+                ctx.lineTo(x + r1 * w + (r2 - 0.5) * 20, y + (j / 10) * h);
             }
             ctx.stroke();
         }
 
-        // Add bubbles of various sizes with seeded randomness
-        const bubbleCount = Math.min(30, Math.max(12, Math.floor(w * h / 80)));
-        for (let i = 0; i < bubbleCount; i++) {
-            const r1 = seededRandom(seed + i * 0.1);
-            const r2 = seededRandom(seed + i * 0.1 + 0.01);
-            const r3 = seededRandom(seed + i * 0.1 + 0.02);
-            const r4 = seededRandom(seed + i * 0.1 + 0.03);
-            const r5 = seededRandom(seed + i * 0.1 + 0.04);
-            const r6 = seededRandom(seed + i * 0.1 + 0.05);
+        // Sub-surface bubbles (out of focus)
+        for (let i = 0; i < 5; i++) {
+            const r1 = seededRandom(seed + i * 0.2 + 50);
+            const r2 = seededRandom(seed + i * 0.2 + 50.01);
+            const r3 = seededRandom(seed + i * 0.2 + 50.02);
 
-            const px = x + r1 * w;
-            const py = y + r2 * h;
-            const size = 1.5 + r3 * 4;
-
-            // Bubble outer ring (if larger bubble)
-            if (size > 2.5) {
-                ctx.strokeStyle = `rgba(${bright.r}, ${bright.g}, ${bright.b}, ${0.4 + r4 * 0.3})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(px, py, size, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-
-            // Bubble body
-            ctx.fillStyle = `rgba(${bright.r}, ${bright.g}, ${bright.b}, ${0.5 + r4 * 0.3})`;
+            ctx.fillStyle = `rgba(${neonGreen.r}, ${neonGreen.g}, ${neonGreen.b}, 0.1)`;
             ctx.beginPath();
-            ctx.arc(px, py, size * 0.8, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Bubble highlight (top-left)
-            ctx.fillStyle = `rgba(255, 255, 255, ${0.4 + r5 * 0.3})`;
-            ctx.beginPath();
-            ctx.arc(px - size * 0.25, py - size * 0.25, size * 0.35, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Small inner highlight
-            ctx.fillStyle = `rgba(255, 255, 255, ${0.6 + r6 * 0.2})`;
-            ctx.beginPath();
-            ctx.arc(px - size * 0.2, py - size * 0.2, size * 0.15, 0, Math.PI * 2);
+            ctx.arc(x + r1 * w, y + r2 * h, 5 + r3 * 10, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        // Add darker corrosive areas
-        for (let i = 0; i < 6; i++) {
-            const r1 = seededRandom(seed + i * 0.2 + 200);
-            const r2 = seededRandom(seed + i * 0.2 + 200.01);
-            const r3 = seededRandom(seed + i * 0.2 + 200.02);
-            const r4 = seededRandom(seed + i * 0.2 + 200.03);
+        // Surface bubbles (sharp)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        for (let i = 0; i < 8; i++) {
+            const r1 = seededRandom(seed + i * 0.15 + 100);
+            const r2 = seededRandom(seed + i * 0.15 + 100.01);
+            const r3 = seededRandom(seed + i * 0.15 + 100.02);
 
             const px = x + r1 * w;
             const py = y + r2 * h;
-            const size = 2 + r3 * 4;
+            const size = 1 + r3 * 3;
 
-            ctx.fillStyle = `rgba(${dark.r}, ${dark.g}, ${dark.b}, ${0.35 + r4 * 0.25})`;
             ctx.beginPath();
             ctx.arc(px, py, size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.beginPath();
+            ctx.arc(px - size * 0.3, py - size * 0.3, size * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        }
+    };
+
+    // Pit texture - multi-layered chasm with clamped rim alignment
+    const drawPitTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Base fill - very dark grey
+        const pitch = { r: 5, g: 5, b: 5 };
+        ctx.fillStyle = `rgb(${pitch.r}, ${pitch.b}, ${pitch.b})`;
+        ctx.fillRect(x, y, w, h);
+
+        // Add refined rim highlight (simulating broken edge without "weird upper edge")
+        const rimColor = adjustRgbBrightness(baseColor, -0.05); // Subtle dark rim
+        ctx.strokeStyle = `rgba(${rimColor.r}, ${rimColor.g}, ${rimColor.b}, 0.6)`;
+        ctx.lineWidth = 2;
+
+        // Draw centered depth pockets rather than rim paths
+        for (let i = 0; i < 4; i++) {
+            const r1 = seededRandom(seed + i * 0.25);
+            const r2 = seededRandom(seed + i * 0.25 + 0.01);
+            const r3 = seededRandom(seed + i * 0.25 + 0.02);
+
+            const px = x + w * 0.5 + (r1 - 0.5) * w * 0.3;
+            const py = y + h * 0.5 + (r2 - 0.5) * h * 0.3;
+
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, w * 0.5);
+            grad.addColorStop(0, 'rgba(0, 0, 0, 1)');
+            grad.addColorStop(0.6, 'rgba(0, 0, 0, 0.8)');
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(px, py, w * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Add soft rim glow to Suggest hole
+        const rimGrad = ctx.createRadialGradient(x + w / 2, y + h / 2, w * 0.35, x + w / 2, y + h / 2, w * 0.5);
+        rimGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        rimGrad.addColorStop(1, 'rgba(40, 40, 40, 0.4)');
+        ctx.fillStyle = rimGrad;
+        ctx.fillRect(x, y, w, h);
+    };
+
+    // Snow texture - soft, powdery with sparkles and crusty detail
+    const drawSnowTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Base fill - bright white/off-white
+        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
+        ctx.fillRect(x, y, w, h);
+
+        // Add soft mounds/shading
+        const shadow = adjustRgbBrightness(baseColor, -0.08);
+        for (let i = 0; i < 7; i++) {
+            const r1 = seededRandom(seed + i * 0.1);
+            const r2 = seededRandom(seed + i * 0.1 + 0.01);
+            const r3 = seededRandom(seed + i * 0.1 + 0.02);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+            const rw = w * (0.4 + r3 * 0.5);
+            const rh = h * (0.3 + r2 * 0.4);
+
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, rw);
+            grad.addColorStop(0, `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, 0.25)`);
+            grad.addColorStop(0.7, `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, 0.05)`);
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.ellipse(px, py, rw, rh, r1 * Math.PI, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Add "crusty" detail (small sharp flecks)
+        ctx.fillStyle = `rgba(${shadow.r}, ${shadow.g}, ${shadow.b}, 0.15)`;
+        for (let i = 0; i < 40; i++) {
+            const r1 = seededRandom(seed + i * 0.12 + 200);
+            const r2 = seededRandom(seed + i * 0.12 + 200.01);
+            const r3 = seededRandom(seed + i * 0.12 + 200.02);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+            const size = 0.5 + r3 * 1.5;
+
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px + size, py - size * 0.5);
+            ctx.lineTo(px + size * 0.5, py + size);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Add sparkles (ice crystals)
+        for (let i = 0; i < 25; i++) {
+            const r1 = seededRandom(seed + i * 0.15 + 100);
+            const r2 = seededRandom(seed + i * 0.15 + 100.01);
+            const r3 = seededRandom(seed + i * 0.15 + 100.02);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+            const size = 0.5 + r3 * 2;
+
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.8 + r3 * 0.2})`;
+            ctx.beginPath();
+            ctx.arc(px, py, size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Cross sparkle if large enough
+            if (size > 1.3) {
+                ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 + r3 * 0.5})`;
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(px - size * 2.5, py);
+                ctx.lineTo(px + size * 2.5, py);
+                ctx.moveTo(px, py - size * 2.5);
+                ctx.lineTo(px, py + size * 2.5);
+                ctx.stroke();
+            }
+        }
+    };
+
+    // Crystal texture - sharp prismatic facets and internal refraction
+    const drawCrystalTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Base fill
+        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
+        ctx.fillRect(x, y, w, h);
+
+        const bright = adjustRgbBrightness(baseColor, 0.4);
+        const dark = adjustRgbBrightness(baseColor, -0.25);
+        const glow = adjustRgbBrightness(baseColor, 0.2);
+
+        // Central refraction glow
+        const grad = ctx.createRadialGradient(x + w / 2, y + h / 2, 0, x + w / 2, y + h / 2, w * 0.7);
+        grad.addColorStop(0, `rgba(${glow.r}, ${glow.g}, ${glow.b}, 0.5)`);
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w, h);
+
+        // Draw crystal facets with improved logic
+        for (let i = 0; i < 15; i++) {
+            const r1 = seededRandom(seed + i * 0.13);
+            const r2 = seededRandom(seed + i * 0.13 + 0.01);
+            const r3 = seededRandom(seed + i * 0.13 + 0.02);
+            const r4 = seededRandom(seed + i * 0.13 + 0.03);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+            const sizeX = 5 + r3 * 25;
+            const sizeY = 10 + r4 * 30;
+
+            ctx.fillStyle = i % 3 === 0
+                ? `rgba(${bright.r}, ${bright.g}, ${bright.b}, 0.35)`
+                : (i % 3 === 1 ? `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.25)` : `rgba(255,255,255, 0.15)`);
+
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(px + Math.cos(r1 * 6) * sizeX, py + Math.sin(r1 * 6) * sizeY);
+            ctx.lineTo(px + Math.cos(r2 * 6) * sizeY, py + Math.sin(r2 * 6) * sizeX);
+            ctx.closePath();
+            ctx.fill();
+
+            // Sharp internal edge highlights
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 + r3 * 0.3})`;
+            ctx.lineWidth = 0.5 + r4 * 1;
+            ctx.stroke();
+        }
+
+        // Add some prismatic "flecks"
+        for (let i = 0; i < 10; i++) {
+            const r1 = seededRandom(seed + i * 0.2 + 300);
+            const r2 = seededRandom(seed + i * 0.2 + 300.01);
+
+            ctx.fillStyle = `rgba(255, 255, 255, 0.6)`;
+            ctx.fillRect(x + r1 * w, y + r2 * h, 2, 2);
+        }
+    };
+
+    // Abyss texture - deep void with distant stars and cosmic wisps
+    const drawAbyssTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Flat black base
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(x, y, w, h);
+
+        const wispColor = { r: 50, g: 20, b: 80 }; // Deep purple/void wisps
+
+        // Void wisps
+        for (let i = 0; i < 5; i++) {
+            const r1 = seededRandom(seed + i * 0.3);
+            const r2 = seededRandom(seed + i * 0.3 + 0.01);
+            const r3 = seededRandom(seed + i * 0.3 + 0.02);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = `rgb(${wispColor.r}, ${wispColor.g}, ${wispColor.b})`;
+
+            ctx.beginPath();
+            ctx.ellipse(px, py, w * 0.5, h * 0.15, r3 * Math.PI, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${wispColor.r}, ${wispColor.g}, ${wispColor.b}, 0.25)`;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Distant stars/specks - increased visibility
+        for (let i = 0; i < 30; i++) {
+            const r1 = seededRandom(seed + i * 0.1 + 50);
+            const r2 = seededRandom(seed + i * 0.1 + 50.01);
+            const r3 = seededRandom(seed + i * 0.1 + 50.02);
+            const r4 = seededRandom(seed + i * 0.1 + 50.03);
+
+            // Varying star sizes and brightness
+            const starSize = r4 > 0.8 ? 1.5 : 1;
+            ctx.fillStyle = `rgba(220, 220, 255, ${0.3 + r3 * 0.6})`;
+            ctx.fillRect(x + r1 * w, y + r2 * h, starSize, starSize);
+
+            // Tiny glow for larger stars
+            if (starSize > 1) {
+                ctx.fillStyle = `rgba(180, 180, 255, 0.2)`;
+                ctx.beginPath();
+                ctx.arc(x + r1 * w + 0.5, y + r2 * h + 0.5, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    };
+
+    // Fungal texture - spongy with glowing spots and organic vein patterns
+    const drawFungalTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Base fill
+        ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
+        ctx.fillRect(x, y, w, h);
+
+        const dark = adjustRgbBrightness(baseColor, -0.4);
+        const glow = { r: 200, g: 120, b: 255 }; // Purple/Pink glow
+
+        // Fungal veins / filaments
+        ctx.strokeStyle = `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.3)`;
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < 4; i++) {
+            const r1 = seededRandom(seed + i * 0.4);
+            ctx.beginPath();
+            ctx.moveTo(x + r1 * w, y);
+            for (let j = 0; j < 10; j++) {
+                const r2 = seededRandom(seed + i * 0.4 + j * 0.1);
+                ctx.lineTo(x + r1 * w + (r2 - 0.5) * 20, y + (j / 10) * h);
+            }
+            ctx.stroke();
+        }
+
+        // Spongy fungal heads
+        for (let i = 0; i < 20; i++) {
+            const r1 = seededRandom(seed + i * 0.15);
+            const r2 = seededRandom(seed + i * 0.15 + 0.01);
+            const r3 = seededRandom(seed + i * 0.15 + 0.02);
+
+            ctx.fillStyle = `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.25)`;
+            ctx.beginPath();
+            ctx.arc(x + r1 * w, y + r2 * h, 3 + r3 * 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Glowing fungal spots
+        for (let i = 0; i < 8; i++) {
+            const r1 = seededRandom(seed + i * 0.22 + 80);
+            const r2 = seededRandom(seed + i * 0.22 + 80.01);
+            const r3 = seededRandom(seed + i * 0.22 + 80.02);
+
+            const px = x + r1 * w;
+            const py = y + r2 * h;
+            const size = 3 + r3 * 5;
+
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 2.5);
+            grad.addColorStop(0, `rgba(${glow.r}, ${glow.g}, ${glow.b}, 0.5)`);
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(px, py, size * 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(px, py, size * 0.5, 0, Math.PI * 2);
             ctx.fill();
         }
     };
 
-    // Pit texture - deep, dark void with better depth perception
-    const drawPitTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
-        // Base fill - start with base color (not too dark)
+    // Gold texture - metallic, reflective and bumpy
+    const drawGoldTexture = (ctx, baseColor, x, y, w, h, seed = 0) => {
+        // Base fill
         ctx.fillStyle = `rgb(${baseColor.r}, ${baseColor.g}, ${baseColor.b})`;
         ctx.fillRect(x, y, w, h);
 
-        // Add depth with radial gradient (darker in center, lighter at edges for contrast)
-        const centerX = x + w / 2;
-        const centerY = y + h / 2;
-        const maxRadius = Math.max(w, h) / 2;
-        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
+        const dark = adjustRgbBrightness(baseColor, -0.2);
+        const highlight = adjustRgbBrightness(baseColor, 0.4);
 
-        // Create more contrast - very dark center, but lighter edges
-        const darkest = adjustRgbBrightness(baseColor, -0.4);
-        const veryDark = adjustRgbBrightness(baseColor, -0.25);
-        const dark = adjustRgbBrightness(baseColor, -0.1);
-        const edgeColor = adjustRgbBrightness(baseColor, 0.05); // Slightly lighter at edges
-
-        gradient.addColorStop(0, `rgba(${darkest.r}, ${darkest.g}, ${darkest.b}, 1.0)`);
-        gradient.addColorStop(0.4, `rgba(${veryDark.r}, ${veryDark.g}, ${veryDark.b}, 0.95)`);
-        gradient.addColorStop(0.7, `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.85)`);
-        gradient.addColorStop(0.9, `rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, 0.75)`);
-        gradient.addColorStop(1, `rgba(${edgeColor.r}, ${edgeColor.g}, ${edgeColor.b}, 0.7)`);
-        ctx.fillStyle = gradient;
-        ctx.fillRect(x, y, w, h);
-
-        // Add depth variation with darker spots (void pockets)
-        for (let i = 0; i < 12; i++) {
-            const r1 = seededRandom(seed + i * 0.1);
-            const r2 = seededRandom(seed + i * 0.1 + 0.01);
-            const r3 = seededRandom(seed + i * 0.1 + 0.02);
-            const r4 = seededRandom(seed + i * 0.1 + 0.03);
+        // Metallic bumps/sheen
+        for (let i = 0; i < 15; i++) {
+            const r1 = seededRandom(seed + i * 0.12);
+            const r2 = seededRandom(seed + i * 0.12 + 0.01);
+            const r3 = seededRandom(seed + i * 0.12 + 0.02);
 
             const px = x + r1 * w;
             const py = y + r2 * h;
-            const size = 1.5 + r3 * 3;
-            const voidDark = adjustRgbBrightness(baseColor, -0.45);
-            ctx.fillStyle = `rgba(${voidDark.r}, ${voidDark.g}, ${voidDark.b}, ${0.6 + r4 * 0.3})`;
+            const sw = 5 + r3 * 15;
+
+            const grad = ctx.createLinearGradient(px - sw, py - sw, px + sw, py + sw);
+            grad.addColorStop(0, `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.5)`);
+            grad.addColorStop(0.5, `rgba(${highlight.r}, ${highlight.g}, ${highlight.b}, 0.6)`);
+            grad.addColorStop(1, `rgba(${dark.r}, ${dark.g}, ${dark.b}, 0.5)`);
+
+            ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.arc(px, py, size, 0, Math.PI * 2);
+            ctx.arc(px, py, sw, 0, Math.PI * 2);
             ctx.fill();
         }
 
-        // Add visible edge highlights to suggest depth (rim lighting)
-        const edgeLight = adjustRgbBrightness(baseColor, 0.15);
-        ctx.strokeStyle = `rgba(${edgeLight.r}, ${edgeLight.g}, ${edgeLight.b}, 0.6)`;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+        // Sharp glitter specks
+        for (let i = 0; i < 25; i++) {
+            const r1 = seededRandom(seed + i * 0.08 + 150);
+            const r2 = seededRandom(seed + i * 0.08 + 150.01);
+            const r3 = seededRandom(seed + i * 0.08 + 150.02);
 
-        // Add inner edge highlight for more depth
-        const innerEdge = adjustRgbBrightness(baseColor, 0.05);
-        ctx.strokeStyle = `rgba(${innerEdge.r}, ${innerEdge.g}, ${innerEdge.b}, 0.4)`;
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x + 2, y + 2, w - 4, h - 4);
-
-        // Add shadowy wisps
-        for (let i = 0; i < 6; i++) {
-            const r1 = seededRandom(seed + i * 0.2 + 100);
-            const r2 = seededRandom(seed + i * 0.2 + 100.01);
-            const r3 = seededRandom(seed + i * 0.2 + 100.02);
-            const r4 = seededRandom(seed + i * 0.2 + 100.03);
-            const r5 = seededRandom(seed + i * 0.2 + 100.04);
-
-            const startX = x + r1 * w;
-            const startY = y + r2 * h;
-            const endX = x + r3 * w;
-            const endY = y + r4 * h;
-
-            const wispDark = adjustRgbBrightness(baseColor, -0.2);
-            ctx.strokeStyle = `rgba(${wispDark.r}, ${wispDark.g}, ${wispDark.b}, ${0.4 + r5 * 0.3})`;
-            ctx.lineWidth = 1 + r1 * 1.5;
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(endX, endY);
-            ctx.stroke();
-        }
-
-        // Add some texture variation spots
-        for (let i = 0; i < 8; i++) {
-            const r1 = seededRandom(seed + i * 0.15 + 200);
-            const r2 = seededRandom(seed + i * 0.15 + 200.01);
-            const r3 = seededRandom(seed + i * 0.15 + 200.02);
-            const r4 = seededRandom(seed + i * 0.15 + 200.03);
-
-            const px = x + r1 * w;
-            const py = y + r2 * h;
-            const size = 2 + r3 * 4;
-            const textureDark = adjustRgbBrightness(baseColor, -0.3);
-            ctx.fillStyle = `rgba(${textureDark.r}, ${textureDark.g}, ${textureDark.b}, ${0.35 + r4 * 0.3})`;
-            ctx.beginPath();
-            ctx.arc(px, py, size, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.fillStyle = `rgba(255, 255, 240, ${0.4 + r3 * 0.5})`;
+            ctx.fillRect(x + r1 * w, y + r2 * h, 1.5, 1.5);
         }
     };
 

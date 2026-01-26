@@ -1,6 +1,42 @@
 import { create } from 'zustand';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 import { getGridSystem } from '../utils/InfiniteGridSystem';
+import useMapStore from './mapStore';
+
+// CRITICAL: Helper functions to get current map's data from mapStore
+// This prevents map-specific data bleeding between maps
+const getCurrentMapDrawings = () => {
+  try {
+    const mapStore = require('./mapStore').default;
+    const currentMap = mapStore.getState().getCurrentMap();
+    return currentMap?.drawingPaths || [];
+  } catch (error) {
+    console.warn('Failed to get current map drawings:', error);
+    return [];
+  }
+};
+
+const getCurrentMapFogPaths = () => {
+  try {
+    const mapStore = require('./mapStore').default;
+    const currentMap = mapStore.getState().getCurrentMap();
+    return currentMap?.fogOfWarPaths || [];
+  } catch (error) {
+    console.warn('Failed to get current map fog paths:', error);
+    return [];
+  }
+};
+
+const getCurrentMapFogErasePaths = () => {
+  try {
+    const mapStore = require('./mapStore').default;
+    const currentMap = mapStore.getState().getCurrentMap();
+    return currentMap?.fogErasePaths || [];
+  } catch (error) {
+    console.warn('Failed to get current map fog erase paths:', error);
+    return [];
+  }
+};
 
 // CRITICAL FIX: Map update batcher to prevent socket flooding during rapid editing (e.g. painting)
 // This prevents "Connection Error" and disconnections when painting terrain
@@ -12,9 +48,30 @@ let batchSequenceNumber = 0; // Sequence number for ordering
 const mapUpdateBatcher = {
     pendingUpdates: {},
     timeout: null,
-    lastEmitTime: null, // Track last emit time
+    lastEmitTime: null,
+    isEmitting: false,
+    lastEmittedData: null, // Track last emitted data to prevent duplicates
+    capturedMapId: null, // CRITICAL: Capture mapId when update is queued, not when emitted
+    
+    // CRITICAL: Clear pending updates - used when switching maps to prevent "bleeding" updates
+    clear: () => {
+        if (mapUpdateBatcher.timeout) {
+            clearTimeout(mapUpdateBatcher.timeout);
+            mapUpdateBatcher.timeout = null;
+        }
+        mapUpdateBatcher.pendingUpdates = {};
+        mapUpdateBatcher.isEmitting = false;
+        mapUpdateBatcher.lastEmittedData = null;
+        mapUpdateBatcher.capturedMapId = null; // Clear captured mapId
+    },
+    
+    addUpdate: (type, data, targetMapId = null) => {
+        // CRITICAL: Capture the mapId when update is queued, not when emitted
+        // This prevents map switch race conditions where old updates are sent to new map
+        if (targetMapId && mapUpdateBatcher.capturedMapId === null) {
+            mapUpdateBatcher.capturedMapId = targetMapId;
+        }
 
-    addUpdate: (type, data) => {
         if (!mapUpdateBatcher.pendingUpdates[type]) {
             mapUpdateBatcher.pendingUpdates[type] = {};
         }
@@ -29,11 +86,11 @@ const mapUpdateBatcher = {
                 ...data
             };
         } else {
-            // Replace for non-mergable data
+            // Replace for arrays or non-mergable data
             mapUpdateBatcher.pendingUpdates[type] = data;
         }
 
-        // CRITICAL FIX: Count actual items in collections (like tiles in terrainData)
+        // Count actual items in collections (like tiles in terrainData)
         let totalUpdates = 0;
         for (const key in mapUpdateBatcher.pendingUpdates) {
             const val = mapUpdateBatcher.pendingUpdates[key];
@@ -48,45 +105,84 @@ const mapUpdateBatcher = {
 
         // Emit if: batch is full OR enough time has passed
         if (totalUpdates >= MAX_BATCH_SIZE || elapsedTime >= MAX_BATCH_TIME) {
-            clearTimeout(mapUpdateBatcher.timeout);
-            mapUpdateBatcher.timeout = null;
+            if (mapUpdateBatcher.timeout) {
+                clearTimeout(mapUpdateBatcher.timeout);
+                mapUpdateBatcher.timeout = null;
+            }
             mapUpdateBatcher.emit();
         } else if (!mapUpdateBatcher.timeout) {
-            // Otherwise schedule normally (100ms)
+            // Otherwise schedule normally
             mapUpdateBatcher.timeout = setTimeout(() => {
                 mapUpdateBatcher.emit();
-            }, 100);
+            }, MAX_BATCH_TIME);
         }
     },
 
     // Emit batched updates to multiplayer server
-    emit: () => {
-        const updates = { ...mapUpdateBatcher.pendingUpdates };
-        const sequence = ++batchSequenceNumber; // Track sequence for ordering
+    emit: async () => {
+        if (mapUpdateBatcher.isEmitting) return;
 
-        // Skip if no updates
+        const updates = { ...mapUpdateBatcher.pendingUpdates };
         const updateKeys = Object.keys(updates);
         if (updateKeys.length === 0) return;
 
-        // Clear pending updates and reset timeout
-        mapUpdateBatcher.pendingUpdates = {};
-        mapUpdateBatcher.timeout = null;
-        mapUpdateBatcher.lastEmitTime = Date.now();
+        // Sequence detection to prevent duplicate emits within the same batch cycle
+        const dataHash = JSON.stringify(updates);
+        if (dataHash === mapUpdateBatcher.lastEmittedData) {
+            mapUpdateBatcher.pendingUpdates = {};
+            return;
+        }
 
-        // Import game store and emit
-        import('./gameStore').then(({ default: useGameStore }) => {
+        mapUpdateBatcher.isEmitting = true;
+        mapUpdateBatcher.pendingUpdates = {};
+        mapUpdateBatcher.capturedMapId = null; // Clear captured mapId after emission
+        if (mapUpdateBatcher.timeout) {
+            clearTimeout(mapUpdateBatcher.timeout);
+            mapUpdateBatcher.timeout = null;
+        }
+        mapUpdateBatcher.lastEmitTime = Date.now();
+        mapUpdateBatcher.lastEmittedData = dataHash;
+
+        try {
+            const { default: useGameStore } = await import('./gameStore');
+            const { default: useMapStore } = await import('./mapStore');
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            
+            // CRITICAL: Use captured mapId from when update was queued, NOT current mapId
+            // This prevents updates from old map being sent to new map during switch
+            const targetMapId = mapUpdateBatcher.capturedMapId || mapStore.currentMapId || 'default';
+            console.log(`[Batcher] Emitting for map: ${targetMapId}`);
+
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
+                // IMPORTANT: Only emit if we're not currently receiving an update to avoid sync loops
                 if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
+                    const sequence = ++batchSequenceNumber;
+                    const emitData = {
                         mapUpdates: updates,
+                        targetMapId: targetMapId,
                         sequence: sequence
-                    });
+                    };
+                    gameStore.multiplayerSocket.emit('map_update', emitData);
                 }
             }
-        }).catch(() => { });
+        } catch (error) {
+            console.error('Failed to emit map update:', error);
+            mapUpdateBatcher.lastEmittedData = null; // Reset on error to allow retry
+        } finally {
+            mapUpdateBatcher.isEmitting = false;
+            // If more updates arrived during emission, trigger another emit shortly
+            if (Object.keys(mapUpdateBatcher.pendingUpdates).length > 0 && !mapUpdateBatcher.timeout) {
+                mapUpdateBatcher.timeout = setTimeout(() => {
+                    mapUpdateBatcher.emit();
+                }, 50);
+            }
+        }
     }
 };
+
+// Export the batcher for external use (e.g. clearing on map switch)
+export { mapUpdateBatcher };
 
 // Terrain categories for organization
 export const TERRAIN_CATEGORIES = {
@@ -607,8 +703,11 @@ const initialState = {
         fillOpacity: 50
     },
 
-    // Drawing tools data
-    drawingPaths: [], // [{ id, tool, points, style, layer }]
+    // CRITICAL: Drawing tools data - NOW MAP-SPECIFIC (stored in mapStore)
+    // These global arrays are KEPT for backwards compatibility
+    // but all map-specific data should come from mapStore
+    // Use getCurrentMapDrawings() helper to get current map's drawings
+    drawingPaths: [], // [{ id, tool, points, style, layer }] - GLOBAL (deprecated)
     selectedDrawings: [],
     drawingLayers: [
         { id: 'background', name: 'Background', visible: true, locked: false },
@@ -798,20 +897,26 @@ const useLevelEditorStore = create((set, get) => ({
         set({ terrainData: {} });
 
         // Use batcher/direct emit for clear operation
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: { terrainData: {} } // Empty object indicates clear
+                        mapUpdates: { terrainData: {} }, // Empty object indicates clear
+                        targetMapId: targetMapId
                     });
                 }
             }
-        }).catch(() => { });
+        }).catch(() => {});
     },
 
     // Terrain operations
-    setTerrain: (x, y, terrainType) => {
+    setTerrain: (x, y, terrainType, targetMapId = null) => {
         const state = get();
         const key = `${x},${y}`;
         const newTerrainData = {
@@ -821,7 +926,7 @@ const useLevelEditorStore = create((set, get) => ({
         set({ terrainData: newTerrainData });
 
         // Use batcher for efficiency
-        mapUpdateBatcher.addUpdate('terrainData', { [key]: terrainType });
+        mapUpdateBatcher.addUpdate('terrainData', { [key]: terrainType }, targetMapId);
     },
 
     getTerrain: (x, y) => {
@@ -861,6 +966,19 @@ const useLevelEditorStore = create((set, get) => ({
 
     setDrawingPaths: (drawingPaths) => {
         set({ drawingPaths: drawingPaths || [] });
+        
+        // CRITICAL: IMMEDIATELY update current map's drawings in mapStore
+        // This ensures drawings are persisted even if map switches before save
+        try {
+          const mapStore = require('./mapStore').default;
+          const state = mapStore.getState();
+          const currentMap = state.getCurrentMap();
+          if (currentMap) {
+            state.updateMap(currentMap.id, { drawingPaths: drawingPaths || [] });
+          }
+        } catch (error) {
+          console.error('Failed to update mapStore with drawings:', error);
+        }
     },
 
     setDrawingLayers: (drawingLayers) => {
@@ -900,10 +1018,34 @@ const useLevelEditorStore = create((set, get) => ({
 
     setFogOfWarPaths: (paths) => {
         set({ fogOfWarPaths: paths || [] });
+        
+        // CRITICAL: IMMEDIATELY update current map's fog paths in mapStore
+        try {
+          const mapStore = require('./mapStore').default;
+          const state = mapStore.getState();
+          const currentMap = state.getCurrentMap();
+          if (currentMap) {
+            state.updateMap(currentMap.id, { fogOfWarPaths: paths || [] });
+          }
+        } catch (error) {
+          console.error('Failed to update mapStore with fog paths:', error);
+        }
     },
 
     setFogErasePaths: (paths) => {
         set({ fogErasePaths: paths || [] });
+        
+        // CRITICAL: IMMEDIATELY update current map's fog erase paths in mapStore
+        try {
+          const mapStore = require('./mapStore').default;
+          const state = mapStore.getState();
+          const currentMap = state.getCurrentMap();
+          if (currentMap) {
+            state.updateMap(currentMap.id, { fogErasePaths: paths || [] });
+          }
+        } catch (error) {
+          console.error('Failed to update mapStore with fog erase paths:', error);
+        }
     },
 
     setDndElements: (elements) => {
@@ -942,21 +1084,10 @@ const useLevelEditorStore = create((set, get) => ({
         };
         set({ wallData: newWallData });
 
-        // Emit wall update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            wallData: newWallData
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
+        // Emit wall update to multiplayer server via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('wallData', newWallData);
+        }
     },
 
     getWall: (x1, y1, x2, y2) => {
@@ -998,21 +1129,10 @@ const useLevelEditorStore = create((set, get) => ({
         const newSelectedWallKey = state.selectedWallKey === key ? null : state.selectedWallKey;
         set({ wallData: newWallData, selectedWallKey: newSelectedWallKey });
 
-        // Emit wall removal to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            wallData: newWallData
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
+        // Emit wall removal to multiplayer server via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('wallData', newWallData);
+        }
     },
 
     // Wall selection
@@ -1037,17 +1157,10 @@ const useLevelEditorStore = create((set, get) => ({
         };
         set({ windowOverlays: newWindowOverlays });
 
-        // Emit to multiplayer
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: { windowOverlays: newWindowOverlays }
-                    });
-                }
-            }
-        }).catch(() => { });
+        // Emit window overlay update to multiplayer server via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('windowOverlays', newWindowOverlays);
+        }
     },
 
     removeWindowOverlay: (gridX, gridY) => {
@@ -1062,17 +1175,10 @@ const useLevelEditorStore = create((set, get) => ({
         delete newWindowOverlays[keyFloat3];
         set({ windowOverlays: newWindowOverlays });
 
-        // Emit to multiplayer
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: { windowOverlays: newWindowOverlays }
-                    });
-                }
-            }
-        }).catch(() => { });
+        // Emit window overlay removal to multiplayer server via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('windowOverlays', newWindowOverlays);
+        }
     },
 
     getWindowOverlay: (gridX, gridY) => {
@@ -1111,21 +1217,10 @@ const useLevelEditorStore = create((set, get) => ({
             selectedWallKey: newKey // Update selection to new key
         });
 
-        // Emit wall update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            wallData: newWallData
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
+        // Emit wall update to multiplayer server via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('wallData', newWallData);
+        }
     },
 
     // D&D element operations
@@ -1196,13 +1291,19 @@ const useLevelEditorStore = create((set, get) => ({
         set({ fogOfWarData: newFogData });
 
         // Emit fog of war update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
-                    }
+                    },
+                    targetMapId: targetMapId
                 });
             }
         }).catch(() => {
@@ -1283,13 +1384,19 @@ const useLevelEditorStore = create((set, get) => ({
         set({ fogOfWarData: newFogData });
 
         // Emit fog of war update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
-                    }
+                    },
+                    targetMapId: targetMapId
                 });
             }
         }).catch(() => {
@@ -1308,13 +1415,19 @@ const useLevelEditorStore = create((set, get) => ({
         set({ fogOfWarData: newFogData });
 
         // Emit fog of war update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 gameStore.multiplayerSocket.emit('map_update', {
                     mapUpdates: {
                         fogOfWar: newFogData
-                    }
+                    },
+                    targetMapId: targetMapId
                 });
             }
         }).catch(() => {
@@ -1363,14 +1476,20 @@ const useLevelEditorStore = create((set, get) => ({
         set({ exploredAreas: newExploredAreas });
 
         // CRITICAL FIX: Emit explored areas update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
                             exploredAreas: newExploredAreas
-                        }
+                        },
+                        targetMapId: targetMapId
                     });
                 }
             }
@@ -2016,14 +2135,20 @@ const useLevelEditorStore = create((set, get) => ({
         });
 
         // Emit drawing update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
+        Promise.all([
+            import('./gameStore'),
+            import('./mapStore')
+        ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
             const gameStore = useGameStore.getState();
+            const mapStore = useMapStore.getState();
+            const targetMapId = mapStore.currentMapId || 'default';
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
                 if (!window._isReceivingMapUpdate) {
                     gameStore.multiplayerSocket.emit('map_update', {
                         mapUpdates: {
                             drawingPaths: newDrawingPaths
-                        }
+                        },
+                        targetMapId: targetMapId
                     });
                 }
             }
@@ -2226,7 +2351,7 @@ const useLevelEditorStore = create((set, get) => ({
             }
         });
 
-        // Use batcher
+        // Don't pass mapId here - batcher will read it at emit time
         mapUpdateBatcher.addUpdate('terrainData', { [tileKey]: terrainData_value });
     },
 
@@ -2255,160 +2380,79 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     // Fog of War functions - Free-form path-based painting (NOT grid-bound)
-    paintFogBrush: (worldX, worldY, brushRadius, gridSize = 50) => {
-        const state = get();
-        const fogPaths = [...state.fogOfWarPaths];
 
-        // Keep fog free-form - do NOT snap to grid (fog should be smooth and continuous)
-
-        // Ensure brush radius is valid and positive
-        const validBrushRadius = Math.max(0.5, brushRadius || 1);
-
-        // Convert brush size (1-5) to pixel radius in world space
-        // Use consistent calculation for all points
-        // Increased multiplier for thicker fog (0.5 -> 0.7)
-        const actualRadius = validBrushRadius * gridSize * 0.7;
-
-        // Ensure minimum radius to avoid rendering issues
-        if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
-            return; // Skip if invalid radius
-        }
-
-        // Check if we're continuing an existing path (within 2x brush radius of last point)
-        let currentPath = fogPaths.find(path => path.isDrawing);
-
-        if (currentPath && currentPath.points.length > 0) {
-            const lastPoint = currentPath.points[currentPath.points.length - 1];
-            // Use squared distance for performance (avoid Math.sqrt)
-            const dx = worldX - lastPoint.worldX;
-            const dy = worldY - lastPoint.worldY;
-            const distanceSquared = dx * dx + dy * dy;
-
-            // Use the same radius calculation for continuity check (squared for comparison)
-            // Increase continuation radius for smoother drawing (less gaps)
-            const continuationRadius = actualRadius * 2.5; // Increased from 2.0 for smoother drawing
-            const continuationRadiusSquared = continuationRadius * continuationRadius;
-
-            // If close enough, add to existing path with consistent radius
-            if (distanceSquared <= continuationRadiusSquared) {
-                // Mutate the path directly for better performance (we'll create new array on set)
-                currentPath.points.push({
-                    worldX,
-                    worldY,
-                    brushRadius: actualRadius
-                });
-                // Create new array reference for React reactivity
-                set({ fogOfWarPaths: [...fogPaths] });
-                return;
-            }
-        }
-
-        // Create new path with consistent radius calculation
-        const newPath = {
-            id: `fog_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            points: [{ worldX, worldY, brushRadius: actualRadius }],
-            timestamp: Date.now(),
-            isDrawing: true
-        };
-
-        fogPaths.push(newPath);
-
-        // Auto-consolidate if too many paths (performance optimization)
-        const MAX_PATHS_BEFORE_CONSOLIDATION = 100;
-        if (fogPaths.length > MAX_PATHS_BEFORE_CONSOLIDATION) {
-            // Consolidate paths automatically
-            const state = get();
-            if (state.consolidateFogPaths) {
-                state.consolidateFogPaths();
-                return; // Consolidate will update the paths
-            }
-        }
-
-        set({ fogOfWarPaths: fogPaths });
-    },
 
     removeFogAtPosition: (worldX, worldY, brushRadius, gridSize = 50) => {
-        const state = get();
-        const fogErasePaths = [...state.fogErasePaths];
+        set((state) => {
+            const fogErasePaths = [...state.fogErasePaths];
 
-        // Keep fog free-form - do NOT snap to grid (fog should be smooth and continuous)
+            // Ensure brush radius is valid and positive
+            const validBrushRadius = Number.isFinite(brushRadius) ? Math.max(0.5, brushRadius) : 1;
+            const actualRadius = validBrushRadius * (gridSize || 50) * 0.7; // Using 0.7 to match paint brush
 
-        // Ensure brush radius is valid and positive
-        const validBrushRadius = Math.max(0.5, brushRadius || 1);
-
-        // Convert brush size to pixel radius in world space
-        // Use consistent calculation for all points
-        const actualRadius = validBrushRadius * gridSize * 0.5;
-
-        // Ensure minimum radius to avoid rendering issues
-        if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
-            return; // Skip if invalid radius
-        }
-
-        // Check if we're continuing an existing erase path (within 2x brush radius of last point)
-        let currentErasePath = fogErasePaths.find(path => path.isDrawing);
-
-        if (currentErasePath && currentErasePath.points.length > 0) {
-            const lastPoint = currentErasePath.points[currentErasePath.points.length - 1];
-            // Use squared distance for performance (avoid Math.sqrt)
-            const dx = worldX - lastPoint.worldX;
-            const dy = worldY - lastPoint.worldY;
-            const distanceSquared = dx * dx + dy * dy;
-
-            // Use the same radius calculation for continuity check (squared for comparison)
-            // Increase continuation radius for smoother erasing (less gaps)
-            const continuationRadius = actualRadius * 2.5; // Increased from 2.0 for smoother erasing
-            const continuationRadiusSquared = continuationRadius * continuationRadius;
-
-            // If close enough, add to existing erase path with consistent radius
-            if (distanceSquared <= continuationRadiusSquared) {
-                // Mutate the path directly for better performance (we'll create new array on set)
-                currentErasePath.points.push({
-                    worldX,
-                    worldY,
-                    brushRadius: actualRadius
-                });
-                // Create new array reference for React reactivity
-                set({ fogErasePaths: [...fogErasePaths] });
-                return;
+            if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
+                return {};
             }
-        }
 
-        // Create new erase path with consistent radius calculation
-        const newErasePath = {
-            id: `fog_erase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            points: [{ worldX, worldY, brushRadius: actualRadius }],
-            timestamp: Date.now(),
-            isDrawing: true
-        };
+            // Find the erase path currently being drawn
+            let currentPathIndex = fogErasePaths.findIndex(path => path.isDrawing);
 
-        fogErasePaths.push(newErasePath);
-        set({ fogErasePaths: fogErasePaths });
-    },
+            if (currentPathIndex !== -1) {
+                const currentPath = fogErasePaths[currentPathIndex];
+                const lastPoint = currentPath.points[currentPath.points.length - 1];
 
-    finishFogPath: () => {
-        const state = get();
-        const fogPaths = state.fogOfWarPaths.map(path =>
-            path.isDrawing ? { ...path, isDrawing: false } : path
-        );
-        set({ fogOfWarPaths: fogPaths });
+                const dx = worldX - lastPoint.worldX;
+                const dy = worldY - lastPoint.worldY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Emit fog paths update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogOfWarPaths: fogPaths
+                // Interpolation threshold
+                const interpolationStep = actualRadius * 0.5;
+
+                // Equality check
+                const maxContinuationDist = actualRadius * 3.0;
+
+                if (distance <= maxContinuationDist) {
+                    const updatedPoints = [...currentPath.points];
+
+                    if (distance > interpolationStep) {
+                        const steps = Math.floor(distance / interpolationStep);
+                        for (let i = 1; i < steps; i++) {
+                            const t = i / steps;
+                            updatedPoints.push({
+                                worldX: lastPoint.worldX + dx * t,
+                                worldY: lastPoint.worldY + dy * t,
+                                brushRadius: actualRadius
+                            });
                         }
-                    });
+                    }
+
+                    updatedPoints.push({ worldX, worldY, brushRadius: actualRadius });
+
+                    fogErasePaths[currentPathIndex] = {
+                        ...currentPath,
+                        points: updatedPoints,
+                        timestamp: Date.now()
+                    };
+
+                    return { fogErasePaths: fogErasePaths };
+                } else {
+                    fogErasePaths[currentPathIndex] = { ...currentPath, isDrawing: false };
                 }
             }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
+
+            // Create new erase path
+            const newErasePath = {
+                id: `fog_erase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                points: [{ worldX, worldY, brushRadius: actualRadius }],
+                timestamp: Date.now(),
+                isDrawing: true
+            };
+
+            return { fogErasePaths: [...fogErasePaths, newErasePath] };
         });
     },
+
+
 
     finishFogErasePath: () => {
         const state = get();
@@ -2417,44 +2461,22 @@ const useLevelEditorStore = create((set, get) => ({
         );
         set({ fogErasePaths: fogErasePaths });
 
-        // Emit fog erase paths update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogErasePaths: fogErasePaths
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
+        // Emit fog erase paths update via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('fogErasePaths', fogErasePaths);
+        }
     },
 
     clearAllFog: () => {
         const state = get();
         set({ fogOfWarPaths: [], fogErasePaths: [], fogOfWarData: {} });
 
-        // Emit clear all fog update to multiplayer server
-        import('./gameStore').then(({ default: useGameStore }) => {
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                if (!window._isReceivingMapUpdate) {
-                    gameStore.multiplayerSocket.emit('map_update', {
-                        mapUpdates: {
-                            fogOfWarPaths: [],
-                            fogErasePaths: [],
-                            fogOfWarData: {}
-                        }
-                    });
-                }
-            }
-        }).catch(() => {
-            // Ignore errors if gameStore not available
-        });
+        // Emit clear all fog update via batcher
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('fogOfWarPaths', []);
+            mapUpdateBatcher.addUpdate('fogErasePaths', []);
+            mapUpdateBatcher.addUpdate('fogOfWarData', {});
+        }
     },
 
     // Helper function to get bounding box of a path
@@ -2602,22 +2624,11 @@ const useLevelEditorStore = create((set, get) => ({
             const newState = { fogOfWarPaths: filteredPaths, fogErasePaths: [] };
             set(newState);
 
-            // Emit cover entire map update to multiplayer server
-            import('./gameStore').then(({ default: useGameStore }) => {
-                const gameStore = useGameStore.getState();
-                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
-                    if (!window._isReceivingMapUpdate) {
-                        gameStore.multiplayerSocket.emit('map_update', {
-                            mapUpdates: {
-                                fogOfWarPaths: filteredPaths,
-                                fogErasePaths: []
-                            }
-                        });
-                    }
-                }
-            }).catch(() => {
-                // Ignore errors if gameStore not available
-            });
+            // Emit cover entire map update via batcher
+            if (!window._isReceivingMapUpdate) {
+                mapUpdateBatcher.addUpdate('fogOfWarPaths', filteredPaths);
+                mapUpdateBatcher.addUpdate('fogErasePaths', []);
+            }
 
         } catch (error) {
             console.error('🌫️ Error in coverEntireMapWithFog:', error);
@@ -2654,7 +2665,7 @@ const useLevelEditorStore = create((set, get) => ({
 
     // CRITICAL FIX: Add tile change detection to prevent redundant updates
     // This prevents unnecessary socket emissions and terrain flickering when painting
-    paintTerrainBrush: (gridX, gridY, terrainType, brushSize = 1) => {
+    paintTerrainBrush: (gridX, gridY, terrainType, brushSize = 1, mapId = null) => {
         const state = get();
         const newTerrainData = { ...state.terrainData };
         const addedTiles = {};

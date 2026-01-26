@@ -415,6 +415,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     }
 
     return () => {
+      // Clear join timeout if it exists when component unmounts
+      if (socket._joinTimeout) {
+        clearTimeout(socket._joinTimeout);
+        delete socket._joinTimeout;
+      }
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);

@@ -397,23 +397,29 @@ const Step7SkillsLanguages = () => {
                             <div className="granted-header">
                                 <i className="fas fa-star"></i> Racial Languages
                             </div>
-                            <div className="button-grid">
+                            <div className="background-grid">
                                 {racialLanguages.map((language) => {
                                     const langData = COMMON_LANGUAGES.find(l => l.name === language);
                                     return (
-                                        <button
+                                        <div
                                             key={language}
-                                            type="button"
-                                            className="selection-button granted"
-                                            onMouseEnter={handleMouseEnter(langData?.description || 'A racial language.')}
-                                            onMouseLeave={handleMouseLeave}
-                                            onMouseMove={handleMouseMove}
-                                            disabled
+                                            className="background-card granted selected"
+                                            title={langData?.description || 'A racial language.'}
                                         >
-                                            <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
-                                            <span>{language}</span>
-                                            <i className="fas fa-star check-icon"></i>
-                                        </button>
+                                            <div className="background-card-header-section">
+                                                <div className="language-icon">
+                                                    <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                                </div>
+                                                <div className="background-card-title-section">
+                                                    <h4 className="background-card-name" style={{ marginTop: 0 }}>{language}</h4>
+                                                    <p className="background-card-description">{langData?.description}</p>
+                                                </div>
+                                            </div>
+                                            <div className="language-compact-badge">
+                                                <i className="fas fa-star"></i>
+                                                <span>Racial</span>
+                                            </div>
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -426,27 +432,34 @@ const Step7SkillsLanguages = () => {
                             <div className="selectable-header">
                                 <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
                             </div>
-                            <div className="button-grid">
+                            <div className="background-grid">
                                 {COMMON_LANGUAGES.map((language) => {
                                     const isSelected = selectedLanguages.includes(language.name);
                                     const isRacial = racialLanguages.includes(language.name);
                                     const isDisabled = isLanguageDisabled(language.name);
 
                                     return (
-                                        <button
+                                        <div
                                             key={language.name}
-                                            type="button"
-                                            className={`selection-button ${isSelected ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                            onClick={() => handleLanguageToggle(language.name)}
-                                            onMouseEnter={handleMouseEnter(language.description)}
-                                            onMouseLeave={handleMouseLeave}
-                                            onMouseMove={handleMouseMove}
-                                            disabled={isDisabled && !isSelected}
+                                            className={`background-card ${isSelected || isRacial ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled && !isSelected && !isRacial ? 'disabled' : ''}`}
+                                            onClick={() => !isRacial && !isDisabled && handleLanguageToggle(language.name)}
                                         >
-                                            <i className={`fas ${language.icon}`}></i>
-                                            <span>{language.name}</span>
-                                            {(isSelected || isRacial) && <i className="fas fa-check check-icon"></i>}
-                                        </button>
+                                            <div className="background-card-header-section">
+                                                <div className="language-icon">
+                                                    <i className={`fas ${language.icon}`}></i>
+                                                </div>
+                                                <div className="background-card-title-section">
+                                                    <h4 className="background-card-name" style={{ marginTop: 0 }}>{language.name}</h4>
+                                                    <p className="background-card-description">{language.description}</p>
+                                                </div>
+                                            </div>
+                                            {(isSelected || isRacial) && (
+                                                <div className="language-compact-badge">
+                                                    <i className={`fas ${isRacial ? 'fa-star' : 'fa-check'}`}></i>
+                                                    <span>{isRacial ? 'Racial' : 'Selected'}</span>
+                                                </div>
+                                            )}
+                                        </div>
                                     );
                                 })}
                             </div>

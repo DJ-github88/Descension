@@ -23,6 +23,19 @@ import { getIconUrl } from '../../utils/assetManager';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
+// Helper to check if an ID belongs to the current player
+function isSelfId(id) {
+    if (!id) return false;
+    if (id === 'current-player') return true;
+    try {
+        const gameStore = useGameStore.getState();
+        const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id;
+        return myId && id === myId;
+    } catch (e) {
+        return id === 'current-player';
+    }
+}
+
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
     const frameRef = useRef(null);
     const healthBarRef = useRef(null);
@@ -677,7 +690,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                         )}
                     </div>
                     {/* GM/Leader Crown */}
-                    {(member.id === leaderId || (member.id === 'current-player' && leaderId === 'current-player')) && (
+                    {(member.id === leaderId || (isSelfId(member.id) && isSelfId(leaderId))) && (
+
                         <div className="leader-crown">
                             <i className="fas fa-crown"></i>
                         </div>
@@ -1493,6 +1507,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const nodeRefs = useRef({});
     const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
 
+    // Identify local player for HUD highlighting and logic
+    const currentPlayer = useGameStore(state => state.currentPlayer);
+    const myId = currentPlayer?.id || 'current-player';
+
+    // Removed: Redundant internal isSelfId definition - now moved to module level
+
+
     // Removed: Unused force update state
 
     // Subscribe to party store changes for real-time updates
@@ -1532,9 +1553,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             (characterData) => {
                 // Update the current player in the party store when character data changes
                 const partyState = usePartyStore.getState();
-                const currentMember = partyState.partyMembers.find(m => m.id === 'current-player');
+                const currentMember = partyState.partyMembers.find(m => isSelfId(m.id));
                 if (currentMember) {
-                    usePartyStore.getState().updatePartyMember('current-player', {
+                    usePartyStore.getState().updatePartyMember(currentMember.id, {
+
                         name: characterData.name,
                         character: {
                             ...currentMember.character,
@@ -1803,7 +1825,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         // Don't allow removing the current player (check by name and ID)
-        if (contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player') {
+        if (contextMenuMember.name === currentPlayerData.name || isSelfId(contextMenuMember.id)) {
+
             setShowContextMenu(false);
             return;
         }
@@ -1852,7 +1875,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         // Don't allow transferring to yourself
-        if (contextMenuMember.id === 'current-player') {
+        if (isSelfId(contextMenuMember.id)) {
+
             setShowContextMenu(false);
             return;
         }
@@ -1878,7 +1902,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!currentMember?.isGM) return;
 
         // Take back leadership
-        usePartyStore.getState().setLeader('current-player');
+        usePartyStore.getState().setLeader(myId);
+
 
         // Add chat notification
         addNotification('social', {
@@ -1894,7 +1919,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Handler for class resource updates (e.g., Inferno Veil)
     const handleClassResourceUpdate = (memberId, field, value) => {
-        if (memberId === 'current-player') {
+        if (isSelfId(memberId)) {
+
             // Update current player's class resource in character store
             updateClassResource(field, value);
         } else {
@@ -2110,7 +2136,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             isCurrentPlayer: memberId === 'current-player'
         });
 
-        if (memberId === 'current-player') {
+        if (isSelfId(memberId)) {
+
             // Update current player's resources in character store
             // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
             const characterState = useCharacterStore.getState();
@@ -2189,7 +2216,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
                             // Also emit individual resource update including temp values for immediate HUD sync
                             socket.emit('character_resource_updated', {
-                                playerId: 'current-player',
+                                playerId: myId,
+
                                 playerName: updatedChar.name, // Include name for fallback matching
                                 resource: resourceType,
                                 current: updatedChar[resourceType]?.current,
@@ -2478,7 +2506,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         // Log to combat tab - get level after change
         const actorName = getActorName();
-        const newLevel = memberId === 'current-player' ? useCharacterStore.getState().level :
+        const newLevel = isSelfId(memberId) ? useCharacterStore.getState().level :
+
             (partyMembers.find(m => m.id === memberId)?.character?.level || '?');
         const levelMessages = levelChange > 0 ? [
             `${characterName} reached level ${newLevel}`,
@@ -2773,7 +2802,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // No complex leadership - room creator is GM, others are players
     const displayMembers = partyMembers.map(member => {
         // Update current player with live character data
-        if (member.id === 'current-player') {
+        if (isSelfId(member.id)) {
+
             // Debug logging for party HUD resource display
             if (currentPlayerData.name === 'YAD') {
                 console.log('🔍 PartyHUD current player data:', {
@@ -2826,6 +2856,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     const memberNodeRef = nodeRefs.current[member.id];
 
                     // Calculate dynamic spacing based on whether previous members have class resources
+                    // REDUCED SPACING: Narrowed gaps between HUD elements
                     let yOffset = 20;
                     for (let i = 0; i < index; i++) {
                         const prevMember = displayMembers[i];
@@ -2833,11 +2864,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         const isComplexClass = ['Minstrel', 'Chaos Weaver', 'Gambler', 'Exorcist', 'Lichborne', 'Plaguebringer', 'Toxicologist', 'False Prophet'].includes(prevMember.character?.class);
 
                         if (hasClassResource && isComplexClass) {
-                            yOffset += 130; // Extra spacing for complex class resource displays
+                            yOffset += 112; // Reduced from 130
                         } else if (hasClassResource) {
-                            yOffset += 115; // Standard spacing for class resource displays
+                            yOffset += 97; // Reduced from 115
                         } else {
-                            yOffset += 100; // Standard spacing for basic frames
+                            yOffset += 82; // Reduced from 100
                         }
                     }
 
@@ -2864,7 +2895,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
                                     member={member}
-                                    isCurrentPlayer={member.id === 'current-player'}
+                                    isCurrentPlayer={isSelfId(member.id)}
+
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}
                                     onBuffContextMenu={handleBuffContextMenu}
@@ -2909,7 +2941,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 });
 
                 // Only show create token for current player
-                if (contextMenuMember?.name === currentPlayerData.name || contextMenuMember?.id === 'current-player') {
+                if (contextMenuMember?.name === currentPlayerData.name || isSelfId(contextMenuMember?.id)) {
+
                     menuItems.push({
                         icon: <i className="fas fa-plus-circle"></i>,
                         label: 'Create Token',
@@ -3207,16 +3240,17 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
 
                 // Leadership transfer - show options if current player is actual GM
-                const currentMember = partyMembers.find(m => m.id === 'current-player');
+                const currentMember = partyMembers.find(m => isSelfId(m.id));
+
                 const isActualGM = currentMember?.isGM;
                 const leaderId = usePartyStore.getState().leaderId;
 
                 if (isActualGM) {
                     menuItems.push({ type: 'separator' });
 
-                    if (contextMenuMember?.id === 'current-player') {
+                    if (isSelfId(contextMenuMember?.id)) {
                         // Current player (GM) context menu
-                        if (leaderId !== 'current-player') {
+                        if (!isSelfId(leaderId)) {
                             menuItems.push({
                                 icon: <i className="fas fa-crown"></i>,
                                 label: 'Regain Leadership',

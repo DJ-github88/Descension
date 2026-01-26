@@ -479,13 +479,9 @@ const CreatureLibrary = ({ onEdit }) => {
                     setTimeout(() => {
                       document.body.removeChild(dragImage);
                     }, 100);
-
-                    // Log the drag start for debugging
-                    console.log('🚀 Drag started for creature:', creature.name, 'with ID:', creature.id, 'type:', typeof creature.id);
-                    console.log('📦 DataTransfer set with creature/id:', creature.id);
-                    console.log('📦 DataTransfer set with JSON:', JSON.stringify({ type: 'creature', id: creature.id }));
+ 
                   };
-
+ 
                   return (
                     <div
                       key={creature.id}

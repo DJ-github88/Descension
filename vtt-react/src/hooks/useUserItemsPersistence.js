@@ -28,7 +28,8 @@ export const useUserItemsPersistence = () => {
    * Extract user-created items from the item store
    */
   const getUserItems = useCallback(() => {
-    const itemStore = useItemStore.getState();
+    const itemStore = useItemStore?.getState();
+    if (!itemStore || !itemStore.items) return [];
     return itemStore.items.filter(isUserCreatedItem);
   }, [isUserCreatedItem]);
 
@@ -68,7 +69,8 @@ export const useUserItemsPersistence = () => {
 
       if (firebaseItems.length > 0) {
         // Get current items from store
-        const itemStore = useItemStore.getState();
+        const itemStore = useItemStore?.getState();
+        if (!itemStore || !itemStore.items) return;
         const existingItems = itemStore.items;
 
         // Separate built-in items from user-created items
@@ -104,7 +106,7 @@ export const useUserItemsPersistence = () => {
         const allUserItems = [...mergedUserItems, ...missingLocalItems];
 
         // Update the store with merged items
-        useItemStore.setState({
+        useItemStore?.setState({
           items: [...builtInItems, ...allUserItems]
         });
 

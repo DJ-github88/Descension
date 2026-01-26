@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
-import { FaImage, FaCopy, FaTrash, FaExchangeAlt } from 'react-icons/fa';
+import { FaImage, FaCopy, FaTrash, FaExchangeAlt, FaUsers, FaUserAlt } from 'react-icons/fa';
 import WowWindow from './WowWindow';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
-import useLevelEditorStore from '../../store/levelEditorStore';
+import useLevelEditorStore, { mapUpdateBatcher } from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
+import usePartyStore from '../../store/partyStore';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
@@ -30,6 +31,10 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [targetMapForAsset, setTargetMapForAsset] = useState(null);
     const [activeSelectionTab, setActiveSelectionTab] = useState('assets'); // 'assets' or 'upload'
 
+    // GM Player Transfer: Track player drag state
+    const [draggingPlayer, setDraggingPlayer] = useState(null);
+    const [dropTargetMapId, setDropTargetMapId] = useState(null);
+
     // Map store
     const {
         maps,
@@ -52,6 +57,16 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const gameStore = useGameStore();
     const levelEditorStore = useLevelEditorStore();
 
+    // Get multiplayer state and socket
+    const { isInMultiplayer, multiplayerSocket, isGMMode } = useGameStore(state => ({
+        isInMultiplayer: state.isInMultiplayer,
+        multiplayerSocket: state.multiplayerSocket,
+        isGMMode: state.isGMMode
+    }));
+
+    // Get party members and map assignments from store
+    const { partyMembers, playerMapAssignments } = usePartyStore();
+
     // Get real-time data from stores for reactive updates
     const { dndElements } = useLevelEditorStore();
     const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
@@ -61,6 +76,144 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const setActiveBackground = useGameStore(state => state.setActiveBackground);
     const setBackgroundImage = useGameStore(state => state.setBackgroundImage);
     const setBackgroundImageUrl = useGameStore(state => state.setBackgroundImageUrl);
+
+    // EFFECT REMOVED: Synchronization now handled centrally in MultiplayerApp.jsx -> partyStore
+
+        // Get players on a specific map
+    const getPlayersOnMap = useCallback((mapId) => {
+        if (!isInMultiplayer || !partyMembers) return [];
+
+        return partyMembers.filter(member => {
+            const playerMapId = playerMapAssignments[member.id] || 'default';
+            return playerMapId === mapId;
+        });
+    }, [isInMultiplayer, partyMembers, playerMapAssignments]);
+
+    // Helper to get map state (async wrapper)
+    const getMapState = useCallback(async (mapId) => {
+        return await loadMapState(mapId);
+    }, [loadMapState]);
+
+    // Handle player drag start
+    const handlePlayerDragStart = (e, player) => {
+        if (!isGMMode) return;
+        e.dataTransfer.setData('playerId', player.id);
+        e.dataTransfer.setData('playerName', player.name || player.characterName || 'Player');
+        setDraggingPlayer(player);
+    };
+
+    // Handle map drag over
+    const handleMapDragOver = (e, mapId) => {
+        if (!draggingPlayer) return;
+        e.preventDefault();
+        setDropTargetMapId(mapId);
+    };
+
+    // Handle map drag leave
+    const handleMapDragLeave = () => {
+        setDropTargetMapId(null);
+    };
+
+    // Handle player drop on map
+    const handlePlayerDrop = async (e, targetMapId) => {
+        e.preventDefault();
+        const playerId = e.dataTransfer.getData('playerId');
+        const playerName = e.dataTransfer.getData('playerName');
+
+        if (!playerId || !multiplayerSocket || !isGMMode) {
+            setDraggingPlayer(null);
+            setDropTargetMapId(null);
+            return;
+        }
+
+        // Clear any pending map updates before transfer to avoid bleeding them to the new map
+        if (mapUpdateBatcher && typeof mapUpdateBatcher.clear === 'function') {
+            mapUpdateBatcher.clear();
+        }
+
+                // Get map name for better display in transition
+        const targetMap = maps.find(m => m.id === targetMapId);
+        const mapName = targetMap?.name || null;
+
+        // Check if GM is transferring themselves
+        const gmPlayerId = usePartyStore.getState().leaderId;
+        const isSelfTransfer = playerId === gmPlayerId;
+
+        // CRITICAL FIX: Sync destination map state before transferring player
+        // This ensures items placed on map are available when player arrives
+        if (targetMapId !== currentMapId) {
+            console.log(`💾 Syncing destination map state before transfer: ${targetMapId}`);
+            try {
+                const gameStoreState = useGameStore.getState();
+                const levelEditorStoreState = useLevelEditorStore.getState();
+
+                // CRITICAL: Explicitly save destination map state to sync items to Firebase
+                // This ensures items added via drag are in map object before syncing
+                await saveCurrentMapState(gameStoreState, levelEditorStoreState, targetMapId);
+
+                // Load the updated state (now async)
+                const mapState = await getMapState(targetMapId);
+                if (mapState && (mapState.gridItems?.length > 0 || mapState.tokens?.length > 0 || mapState.dndElements?.length > 0)) {
+                    gameStoreState.multiplayerSocket.emit('sync_map_state', {
+                        mapId: targetMapId,
+                        mapName: mapName,
+                        gridItems: mapState.gridItems,
+                        tokens: mapState.tokens,
+                        characterTokens: mapState.characterTokens,
+                        terrainData: mapState.terrainData,
+                        wallData: mapState.wallData,
+                        drawingPaths: mapState.drawingPaths,
+                        drawingLayers: mapState.drawingLayers,
+                        fogOfWarData: mapState.fogOfWarData,
+                        fogOfWarPaths: mapState.fogOfWarPaths,
+                        fogErasePaths: mapState.fogErasePaths,
+                        dndElements: mapState.dndElements,
+                        backgrounds: mapState.backgrounds,
+                        activeBackgroundId: mapState.activeBackgroundId,
+                        environmentalObjects: mapState.environmentalObjects,
+                        lightSources: mapState.lightSources,
+                        exploredAreas: mapState.exploredAreas
+                    });
+                    console.log(`✅ Destination map state synced to server with ${mapState.gridItems?.length || 0} items`);
+                }
+            } catch (error) {
+                console.error('❌ Error syncing destination map before transfer:', error);
+            }
+        }
+
+        // Emit gm_transfer_player event to server
+        console.log(`🎯 GM transferring player ${playerName} to map ${targetMapId}`);
+        multiplayerSocket.emit('gm_transfer_player', {
+            targetPlayerId: playerId,
+            destinationMapId: targetMapId,
+            destinationPosition: { x: 0, y: 0 }, // Default to center
+            mapName: mapName // Send map name to avoid showing long numbers
+        });
+
+        // CRITICAL FIX: If GM is transferring themselves, also emit gm_switch_view
+        // This ensures GM's "you are here" tag follows in Map Library
+        if (isSelfTransfer) {
+            console.log(`🎯 GM transferring themselves - also emitting gm_switch_view`);
+            multiplayerSocket.emit('gm_switch_view', {
+                newMapId: targetMapId,
+                mapName: mapName
+            });
+            
+            // CRITICAL FIX: Update GM's own map assignment so tag follows in Map Library
+            // This is needed because playerMapAssignments is used to display GM's location
+            const gmPlayerId = usePartyStore.getState().leaderId;
+            if (gmPlayerId) {
+                usePartyStore.getState().setPlayerMapAssignment(gmPlayerId, targetMapId);
+            }
+        }
+
+        // Optimistically update partyStore
+        usePartyStore.getState().setPlayerMapAssignment(playerId, targetMapId);
+
+
+        setDraggingPlayer(null);
+        setDropTargetMapId(null);
+    };
 
 
 
@@ -75,7 +228,8 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         setPendingMapSwitch({
             newMapId: mapId,
             newMapName: targetMap?.name || 'Unknown Map',
-            currentMapName: currentMap?.name || 'Current Map'
+            currentMapName: currentMap?.name || 'Current Map',
+            thumbnail: targetMap?.backgrounds?.[0]?.url || null
         });
         setShowSwitchConfirm(true);
     };
@@ -85,82 +239,186 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         if (mapId === currentMapId) return;
 
         try {
-            console.log('Starting map switch to:', mapId);
-
-            // Save current map state before switching (unless explicitly skipped)
-            if (!skipSaveCurrentState) {
-                // Get the actual state data from the stores
-                const gameStoreState = useGameStore.getState();
-                const levelEditorStoreState = useLevelEditorStore.getState();
-
-                // Debug: Log what we're saving
-                console.log('Saving map state:', {
-                    mapId: currentMapId,
-                    drawingPaths: levelEditorStoreState.drawingPaths?.length || 0,
-                    fogOfWarPaths: levelEditorStoreState.fogOfWarPaths?.length || 0,
-                    fogErasePaths: levelEditorStoreState.fogErasePaths?.length || 0,
-                    fogOfWarData: Object.keys(levelEditorStoreState.fogOfWarData || {}).length
-                });
-
-                await saveCurrentMapState(gameStoreState, levelEditorStoreState);
+            // CRITICAL FIX: In multiplayer GM mode, sync destination map state before switching
+            // This ensures items on the destination map are available when we switch to it
+            const gameStoreState = useGameStore.getState();
+            if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
+                try {
+                    const destinationMapState = loadMapState(mapId);
+                    if (destinationMapState && (destinationMapState.gridItems?.length > 0 || destinationMapState.tokens?.length > 0)) {
+                        console.log(`💾 Syncing destination map ${mapId} before switching`);
+                        const targetMap = maps.find(m => m.id === mapId);
+                        gameStoreState.multiplayerSocket.emit('sync_map_state', {
+                            mapId: mapId,
+                            mapName: targetMap?.name,
+                            gridItems: destinationMapState.gridItems,
+                            tokens: destinationMapState.tokens,
+                            characterTokens: destinationMapState.characterTokens,
+                            terrainData: destinationMapState.terrainData,
+                            wallData: destinationMapState.wallData,
+                            drawingPaths: destinationMapState.drawingPaths,
+                            drawingLayers: destinationMapState.drawingLayers,
+                            fogOfWarData: destinationMapState.fogOfWarData,
+                            fogOfWarPaths: destinationMapState.fogOfWarPaths,
+                            fogErasePaths: destinationMapState.fogErasePaths,
+                            dndElements: destinationMapState.dndElements,
+                            backgrounds: destinationMapState.backgrounds,
+                            activeBackgroundId: destinationMapState.activeBackgroundId,
+                            environmentalObjects: destinationMapState.environmentalObjects,
+                            lightSources: destinationMapState.lightSources,
+                            exploredAreas: destinationMapState.exploredAreas
+                        });
+                        // Small delay to allow server to process sync
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                } catch (error) {
+                    console.error('❌ Error syncing destination map:', error);
+                }
             }
 
-            // Switch to new map
-            const success = switchToMap(mapId);
+            // Clear any pending map updates before switching to avoid bleeding them to the new map
+            if (mapUpdateBatcher && typeof mapUpdateBatcher.clear === 'function') {
+                mapUpdateBatcher.clear();
+            }
+
+             // MULTIPLAYER: Emit gm_switch_view socket event to server
+             // Server will update GM's currentMapId and send back map data
+             if (gameStoreState.isInMultiplayer && gameStoreState.multiplayerSocket?.connected && gameStoreState.isGMMode) {
+                  gameStoreState.multiplayerSocket.emit('gm_switch_view', {
+                      newMapId: mapId,
+                      mapName: maps.find(m => m.id === mapId)?.name || 'Untitled Map'
+                  });
+                 // The server will respond with gm_view_changed event containing / map data
+                 // The handler in MultiplayerApp.jsx will apply to map data
+                // Note: We still continue with local switch for immediate response
+            }
+
+                // Save current map state before switching (unless explicitly skipped)
+            if (!skipSaveCurrentState) {
+                // Get the actual state data from stores
+                 const levelEditorStoreState = useLevelEditorStore.getState();
+ 
+                  // CRITICAL FIX: Save the CURRENT map (the one we're switching FROM), not the target
+                  await saveCurrentMapState(gameStoreState, levelEditorStoreState, currentMapId);
+  
+                  // CRITICAL FIX: Wait for Firebase to sync before switching maps
+                  // This prevents the new map from being overwritten with old data
+                  await new Promise(resolve => setTimeout(resolve, 100));
+                  
+                  // CRITICAL FIX: In multiplayer GM mode, sync map state to server
+                  // This ensures grid items and other map data are persisted to Firebase
+                  if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
+                     const mapState = await getMapState();
+                     if (mapState) {
+                         // Get the map object to get its name
+                         const map = maps.find(m => m.id === currentMapId);
+                         gameStoreState.multiplayerSocket.emit('sync_map_state', {
+                             mapId: currentMapId,
+                             mapName: map?.name, // CRITICAL: Send map name to ensure proper display
+                             gridItems: mapState.gridItems,
+                             tokens: mapState.tokens,
+                             characterTokens: mapState.characterTokens,
+                             terrainData: mapState.terrainData,
+                             wallData: mapState.wallData,
+                             drawingPaths: mapState.drawingPaths,
+                             drawingLayers: mapState.drawingLayers,
+                             fogOfWarData: mapState.fogOfWarData,
+                             fogOfWarPaths: mapState.fogOfWarPaths,
+                             fogErasePaths: mapState.fogErasePaths,
+                             dndElements: mapState.dndElements,
+                             backgrounds: mapState.backgrounds,
+                             activeBackgroundId: mapState.activeBackgroundId,
+                             environmentalObjects: mapState.environmentalObjects,
+                             lightSources: mapState.lightSources,
+                             exploredAreas: mapState.exploredAreas
+                         });
+                     }
+                  }
+            }
+
+            // Switch to new map - but SKIP local switch if in multiplayer (server handles it)
+            let success = false;
+            if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
+                console.log('🗺️ GM in multiplayer mode - skipping local switch, waiting for server data');
+                success = true; // Server will handle the switch via gm_view_changed event
+            } else {
+                // Single player or non-GM mode - use local switch
+                success = switchToMap(mapId);
+            }
             if (!success) {
                 console.error('Failed to switch to map:', mapId);
-                return;
+                // CRITICAL FIX: Force set currentMapId even if switchToMap fails
+                // This ensures terrain updates use the correct targetMapId
+                console.log('🔧 Force-setting mapStore.currentMapId to:', mapId);
+                useMapStore.setState({ currentMapId: mapId });
+            } else {
+                console.log('✅ Successfully switched to map, currentMapId is now:', mapId);
             }
 
             // Get the target map data directly from the maps array
             const targetMap = maps.find(m => m.id === mapId);
-            console.log('Target map data:', targetMap);
+ 
+            // CRITICAL: Only load local map data if NOT in multiplayer GM mode
+            // In multiplayer GM mode, server sends all map data via gm_view_changed event
+            let mapState = null;
+            if (!(gameStoreState.isInMultiplayer && gameStoreState.isGMMode)) {
+                // Load new map state (fallback to map data if state not found)
+                mapState = loadMapState();
 
-            // Load new map state (fallback to map data if state not found)
-            let mapState = loadMapState();
-
-            // If no map state found, use the map data directly (for newly created maps)
-            if (!mapState && targetMap) {
-                console.log('No map state found, using map data directly');
-                mapState = {
-                    backgrounds: targetMap.backgrounds || [],
-                    activeBackgroundId: targetMap.activeBackgroundId || null,
-                    backgroundImage: targetMap.backgroundImage || null,
-                    backgroundImageUrl: targetMap.backgroundImageUrl || '',
-                    creatures: [],
-                    tokens: [],
-                    cameraX: 0,
-                    cameraY: 0,
-                    zoomLevel: 1.0,
-                    gridSize: 50,
-                    gridOffsetX: 0,
-                    gridOffsetY: 0,
-                    gridLineColor: 'rgba(64, 196, 255, 0.3)',
-                    gridLineThickness: 1,
-                    terrainData: {},
-                    environmentalObjects: [],
-                    dndElements: [],
-                    fogOfWarData: {},
-                    fogOfWarPaths: [],
-                    fogErasePaths: [],
-                    wallData: {},
-                    drawingPaths: [],
-                    drawingLayers: []
-                };
-            }
-
-            console.log('Final map state to load:', mapState);
+                // If no map state found, use the map data directly (for newly created maps)
+                if (!mapState && targetMap) {
+                    console.log('No map state found, using map data directly');
+                    mapState = {
+                        backgrounds: targetMap.backgrounds || [],
+                        activeBackgroundId: targetMap.activeBackgroundId || null,
+                        backgroundImage: targetMap.backgroundImage || null,
+                        backgroundImageUrl: targetMap.backgroundImageUrl || '',
+                        creatures: [],
+                        tokens: [],
+                        cameraX: 0,
+                        cameraY: 0,
+                        zoomLevel: 1.0,
+                        gridSize: 50,
+                        gridOffsetX: 0,
+                        gridOffsetY: 0,
+                        gridLineColor: 'rgba(64, 196, 255, 0.3)',
+                        gridLineThickness: 1,
+                        terrainData: {},
+                        environmentalObjects: [],
+                        dndElements: [],
+                        fogOfWarData: {},
+                        fogOfWarPaths: [],
+                        fogErasePaths: [],
+                        wallData: {},
+                        drawingPaths: [],
+                        drawingLayers: []
+                    };
+                }
+            } else {
+                console.log('🗺️ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
+                // CRITICAL FIX: Even in multiplayer mode, load local items from mapStore to avoid losing them
+                // The server's gm_view_changed will handle merging with server state
+                mapState = loadMapState();
+                if (!mapState && targetMap) {
+                    mapState = {
+                        backgrounds: [],
+                        activeBackgroundId: null,
+                        gridItems: [] // Important: Load items from local mapStore
+                    };
+                }
+             }
 
             if (mapState) {
-                console.log('Loading map state for map:', mapId);
-                console.log('Map state backgrounds:', mapState.backgrounds);
-                console.log('Map state activeBackgroundId:', mapState.activeBackgroundId);
-
                 // Clear and set backgrounds in a single operation to prevent conflicts
-                console.log('Setting backgrounds to game store:', mapState.backgrounds);
                 useGameStore.setState({
                     backgrounds: mapState.backgrounds || [],
                     activeBackgroundId: mapState.activeBackgroundId,
+                    // Sync grid settings
+                    gridSize: mapState.gridSize || 50,
+                    gridOffsetX: mapState.gridOffsetX || 0,
+                    gridOffsetY: mapState.gridOffsetY || 0,
+                    gridLineColor: mapState.gridLineColor || 'rgba(0, 0, 0, 0.5)',
+                    gridLineThickness: mapState.gridLineThickness || 1,
                     // Clear legacy backgrounds to prevent conflicts
                     backgroundImage: null,
                     backgroundImageUrl: ''
@@ -278,22 +536,19 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         : defaultLayers);
                 }
 
-                // Update grid items store
+                // Update grid items store - merge items, don't replace entire store
                 const { default: useGridItemStore } = await import('../../store/gridItemStore');
-                if (useGridItemStore && mapState.gridItems) {
+                if (useGridItemStore) {
+                    // CRITICAL FIX: Replace entire gridItems array with map-specific items
+                    // This prevents duplicates and ensures clean state when switching maps
                     useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
                 }
 
-                console.log('Map switch completed. Current game store state:');
-                const finalGameState = useGameStore.getState();
-                console.log('- Backgrounds:', finalGameState.backgrounds);
-                console.log('- Active background:', finalGameState.activeBackgroundId);
-                console.log('- Legacy background:', finalGameState.backgroundImage);
             } else {
-                console.log('No map state found for map:', mapId);
+                // No map state found
             }
-
-            console.log(`Successfully switched to map: ${maps.find(m => m.id === mapId)?.name}`);
+ 
+            console.log(`[Map] Switched to: ${maps.find(m => m.id === mapId)?.name}`);
         } catch (error) {
             console.error('Error switching maps:', error);
         }
@@ -301,6 +556,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
     // Handle map creation
     const handleCreateMap = () => {
+        console.log('[Map Creation] Starting map creation with name:', mapCreationWizard.name.trim());
         if (!mapCreationWizard.name.trim()) {
             alert('Please enter a map name');
             return;
@@ -324,13 +580,12 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             backgroundImageUrl: ''
         };
 
-        console.log('Creating map with data:', mapData);
         const newMapId = createMapWithoutSwitching(mapData);
-        console.log('Created map with ID:', newMapId);
+        console.log('[Map Creation] Map created with ID:', newMapId, 'name:', mapData.name);
 
-        // Ensure the map data is properly saved by updating it immediately
+        // Ensure that map data is properly saved by updating it immediately
         if (newMapId && updateMap) {
-            console.log('Updating newly created map with background data');
+            console.log('[Map Creation] About to update map:', newMapId, 'with data:', mapData);
             updateMap(newMapId, mapData);
         }
 
@@ -338,20 +593,13 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
         // Get updated maps list after creation
         const updatedMaps = useMapStore.getState().maps;
+        console.log('[Map Creation] Maps in store:', updatedMaps);
         const newMap = updatedMaps.find(m => m.id === newMapId);
         const currentMap = updatedMaps.find(m => m.id === currentMapId);
 
-        console.log('New map found:', newMap);
-        console.log('New map backgrounds:', newMap?.backgrounds);
+        // Success message or feedback could go here if needed
+        console.log(`Successfully created map: ${mapData.name}`);
 
-        // Show confirmation dialog for map switching
-        setPendingMapSwitch({
-            newMapId: newMapId,
-            newMapName: newMap?.name || 'New Map',
-            currentMapName: currentMap?.name || 'Current Map',
-            isNewlyCreated: true // Mark this as a newly created map to preserve its background
-        });
-        setShowSwitchConfirm(true);
     };
 
     // File size validation constants
@@ -454,6 +702,11 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
     // Handle map editing
     const handleEditMap = (mapId) => {
+        // Clear any pending map updates before switching to avoid bleeding them to the new map
+        if (mapUpdateBatcher && typeof mapUpdateBatcher.clear === 'function') {
+            mapUpdateBatcher.clear();
+        }
+
         const map = maps.find(m => m.id === mapId);
         if (map) {
             setEditingMapId(mapId);
@@ -638,13 +891,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     <div
                         className="map-grid"
                         ref={mapGridRef}
-                        onWheel={(e) => {
-                            // Ensure wheel events are handled by the grid container
-                            // Stop propagation to prevent parent window-content from trying to scroll
-                            if (mapGridRef.current) {
-                                e.stopPropagation();
-                            }
-                        }}
                     >
                         {/* Create New Map card at the top of the grid */}
                         <div
@@ -656,108 +902,163 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 <div className="create-map-text">Create New Map</div>
                             </div>
                         </div>
-                        {maps.map(map => (
-                            <div
-                                key={map.id}
-                                className={`map-card ${map.id === currentMapId ? 'current' : ''} ${selectedMapId === map.id ? 'selected' : ''}`}
-                                onClick={() => setSelectedMapId(map.id)}
-                                onDoubleClick={() => handleMapSwitchRequest(map.id)}
-                            >
-                                {/* Map thumbnail */}
-                                <div className="map-thumbnail">
+                        {maps.map(map => {
+                            const playersOnMap = getPlayersOnMap(map.id);
+                            const isDropTarget = dropTargetMapId === map.id;
 
-                                    {map.backgrounds && map.backgrounds.length > 0 ? (
-                                        <img
-                                            src={map.backgrounds[0].url}
-                                            alt={map.name}
-                                            onError={(e) => {
-                                                e.target.style.display = 'none';
-                                                e.target.nextSibling.style.display = 'flex';
-                                            }}
-                                        />
-                                    ) : null}
-                                    <div className="map-placeholder" style={{
-                                        display: (map.backgrounds && map.backgrounds.length > 0) ? 'none' : 'flex'
-                                    }}>
-                                        <div className="map-icon">⚔</div>
-                                        <div className="map-placeholder-text">No Background</div>
-                                    </div>
-                                </div>
+                            return (
+                                <div
+                                    key={map.id}
+                                    className={`map-card ${map.id === currentMapId ? 'current' : ''} ${selectedMapId === map.id ? 'selected' : ''} ${isDropTarget ? 'drop-target' : ''}`}
+                                    onClick={() => setSelectedMapId(map.id)}
+                                    onDoubleClick={() => handleMapSwitchRequest(map.id)}
+                                    onDragOver={(e) => handleMapDragOver(e, map.id)}
+                                    onDragLeave={handleMapDragLeave}
+                                    onDrop={(e) => handlePlayerDrop(e, map.id)}
+                                >
+                                    {/* Map thumbnail */}
+                                    <div className="map-thumbnail">
+                                        {(map.thumbnailUrl || (map.backgrounds && map.backgrounds.length > 0)) ? (
+                                            <img
+                                                src={map.thumbnailUrl || (map.backgrounds && map.backgrounds[0].url)}
+                                                alt={map.name}
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                    e.target.nextSibling.style.display = 'flex';
+                                                }}
+                                            />
+                                        ) : null}
+                                        <div className="map-placeholder" style={{
+                                            display: (map.backgrounds && map.backgrounds.length > 0) ? 'none' : 'flex'
+                                        }}>
+                                            <div className="map-icon"><FaImage /></div>
+                                            <div className="map-placeholder-text">No Background</div>
+                                        </div>
 
-                                {/* Map info */}
-                                <div className="map-info">
-                                    <h3 className="map-name">{map.name}</h3>
-                                    <div className="map-details">
-                                        {map.description && (
-                                            <div className="map-description">
-                                                {map.description}
+                                        {/* Player indicators overlay on thumbnail */}
+                                        {isInMultiplayer && playersOnMap.length > 0 && (
+                                            <div className="map-players-indicator">
+                                                <FaUsers style={{ marginRight: '4px' }} />
+                                                <span>{playersOnMap.length}</span>
                                             </div>
                                         )}
-                                        <span className="map-date">
-                                            Modified: {formatDate(map.lastModified)}
-                                        </span>
-                                    </div>
-                                </div>
+                                        {/* Player/GM Indicators */}
+                                        {map.id === currentMapId && (
+                                            <div className="map-view-indicator">
+                                                <FaUserAlt style={{ marginRight: '4px' }} title="You are currently viewing this map" />
+                                                <span>YOU ARE HERE</span>
+                                            </div>
+                                        )}
 
-                                {/* Map actions */}
-                                <div className="map-actions">
-                                    <button
-                                        className="wow-button small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleMapSwitchRequest(map.id);
-                                        }}
-                                        disabled={map.id === currentMapId}
-                                    >
-                                        <FaExchangeAlt style={{ marginRight: '4px' }} />
-                                        {map.id === currentMapId ? 'Active' : 'Switch'}
-                                    </button>
-                                    <button
-                                        className="wow-button small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleEditMap(map.id);
-                                        }}
-                                        title="Edit Map Name & Description"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="wow-button small"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            handleOpenAssetSelector('assign', map.id);
-                                        }}
-                                        title="Assign Background"
-                                    >
-                                        <FaImage style={{ marginRight: '4px' }} />
-                                        Image
-                                    </button>
-                                    <button
-                                        className="wow-button small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            duplicateMap(map.id);
-                                        }}
-                                    >
-                                        <FaCopy style={{ marginRight: '4px' }} />
-                                        Copy
-                                    </button>
-                                    <button
-                                        className="wow-button small danger"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDeleteMap(map.id);
-                                        }}
-                                        disabled={maps.length <= 1}
-                                    >
-                                        <FaTrash style={{ marginRight: '4px' }} />
-                                        Delete
-                                    </button>
+                                        {/* GM Location Indicator (for Players) */}
+                                        {isInMultiplayer && !isGMMode && (() => {
+                                            const gmMember = partyMembers.find(m => m.isGM || m.id === usePartyStore.getState().leaderId);
+                                            const gmMapId = gmMember ? (playerMapAssignments[gmMember.id] || 'default') : null;
+                                            return gmMapId === map.id && map.id !== currentMapId;
+                                        })() && (
+                                                <div className="map-view-indicator gm-indicator" style={{ backgroundColor: 'rgba(255, 215, 0, 0.8)', border: '1px solid #ffd700' }}>
+                                                    <span style={{ color: '#000', fontWeight: 'bold' }}>GM VIEWING</span>
+                                                </div>
+                                            )}
+                                    </div>
+
+                                    {/* Map info */}
+                                    <div className="map-info">
+                                        <h3 className="map-name">{map.name}</h3>
+                                        <div className="map-details">
+                                            {map.description && (
+                                                <div className="map-description">
+                                                    {map.description}
+                                                </div>
+                                            )}
+                                            <span className="map-date">
+                                                Modified: {formatDate(map.lastModified)}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Map actions */}
+                                    <div className="map-actions">
+                                        <button
+                                            className="wow-button small"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleMapSwitchRequest(map.id);
+                                            }}
+                                            disabled={map.id === currentMapId}
+                                        >
+                                            <FaExchangeAlt style={{ marginRight: '4px' }} />
+                                            {map.id === currentMapId ? 'Viewing' : 'Switch'}
+                                        </button>
+                                        <button
+                                            className="wow-button small"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleEditMap(map.id);
+                                            }}
+                                            title="Edit Map Name & Description"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="wow-button small"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleOpenAssetSelector('assign', map.id);
+                                            }}
+                                            title="Assign Background"
+                                        >
+                                            <FaImage style={{ marginRight: '4px' }} />
+                                            Image
+                                        </button>
+                                        <button
+                                            className="wow-button small"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                duplicateMap(map.id);
+                                            }}
+                                        >
+                                            <FaCopy style={{ marginRight: '4px' }} />
+                                            Copy
+                                        </button>
+                                        <button
+                                            className="wow-button small danger"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDeleteMap(map.id);
+                                            }}
+                                            disabled={maps.length <= 1}
+                                        >
+                                            <FaTrash style={{ marginRight: '4px' }} />
+                                            Delete
+                                        </button>
+                                    </div>
+
+                                    {/* Draggable player list (GM only, in multiplayer) */}
+                                    {isInMultiplayer && isGMMode && playersOnMap.length > 0 && (
+                                        <div className="map-players-list">
+                                            {playersOnMap.map(player => (
+                                                <div
+                                                    key={player.id}
+                                                    className="map-player-chip"
+                                                    draggable
+                                                    onDragStart={(e) => handlePlayerDragStart(e, player)}
+                                                    title={`Drag to transfer ${player.name || player.characterName || 'Player'} to another map`}
+                                                >
+                                                    {player.id === usePartyStore.getState().leaderId ? (
+                                                        <span style={{ color: '#ffd700', marginRight: '4px', fontSize: '10px' }}>👑</span>
+                                                    ) : (
+                                                        <FaUserAlt style={{ marginRight: '4px', fontSize: '10px' }} />
+                                                    )}
+                                                    <span>{player.name || player.characterName || 'Player'}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </WowWindow>
@@ -942,6 +1243,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 onConfirm={handleConfirmSwitch}
                 onStay={handleStayOnCurrentMap}
                 newMapName={pendingMapSwitch?.newMapName || ''}
+                thumbnail={pendingMapSwitch?.thumbnail || null}
                 position={{ x: 450, y: 250 }}
             />
 

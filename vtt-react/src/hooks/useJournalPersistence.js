@@ -28,7 +28,8 @@ export const useJournalPersistence = () => {
       return null;
     }
 
-    const state = useShareableStore.getState();
+    const state = useShareableStore?.getState();
+    if (!state) return null;
 
     return {
       // Player knowledge
@@ -96,7 +97,7 @@ export const useJournalPersistence = () => {
 
       if (result) {
         // Update the shareable store with loaded data
-        useShareableStore.setState({
+        useShareableStore?.setState({
           // Player knowledge
           playerKnowledge: result.playerKnowledge || [],
 

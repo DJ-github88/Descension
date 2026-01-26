@@ -58,6 +58,9 @@ const useCreatureStore = create((set, get) => ({
     const tokenId = forcedTokenId || (creatureData.tokenId) || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
     set((state) => {
+      // CRITICAL FIX: Get current map ID for map isolation - declared at top for scope availability
+      let currentMapId = 'default';
+
       const existingTokens = state.creatureTokens || [];
       const tokenExists = existingTokens.some(t => t.id === tokenId);
 
@@ -100,29 +103,36 @@ const useCreatureStore = create((set, get) => ({
         lastCleanup = now;
       }
 
+      // Try to get current map ID dynamically
+      try {
+        const mapStoreModule = require('./mapStore').default;
+        if (mapStoreModule) {
+          const mapStore = mapStoreModule.getState();
+          currentMapId = mapStore.currentMapId || 'default';
+        }
+      } catch (error) {
+        console.warn('Could not get current map ID for token sync:', error);
+      }
+
       // Sync with Multiplayer server if enabled and not already a sync event
       if (sendToServer && !isSync) {
         try {
           const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-            // CRITICAL FIX: Include full creature data for multiplayer sync
+
+            // CRITICAL FIX: Include full creature data and target map for multiplayer sync
             const tokenSyncData = {
               token: {
                 id: tokenId,
                 creatureId: creatureId,
-                state: creatureData.state
+                state: creatureData.state,
+                targetMapId: currentMapId // Include map ID for map isolation
               },
               creature: creatureData,
               position: position,
-              tokenId: tokenId
-            };
-
-            console.log('📤 Sending token_created to server:', {
-              creatureName: creatureData.name,
               tokenId: tokenId,
-              creatureId: creatureId,
-              position: { x: Math.round(position.x), y: Math.round(position.y) }
-            });
+              targetMapId: currentMapId // Include map ID for map isolation
+            };
 
             gameStore.multiplayerSocket.emit('token_created', tokenSyncData);
           }
@@ -149,7 +159,8 @@ const useCreatureStore = create((set, get) => ({
         creatureId: creatureId,
         position,
         state: forcedState || initialState,
-        addedAt: Date.now()
+        addedAt: Date.now(),
+        mapId: currentMapId || 'default' // Add mapId for isolation
       };
 
       const updatedTokens = [...existingTokens, newToken];
@@ -213,7 +224,7 @@ const useCreatureStore = create((set, get) => ({
     const finalPos = isSyncEvent ? { x: targetPos.x, y: targetPos.y } : targetPos;
 
     const updated = currentTokens.map(t =>
-      t.id === tokenId ? { ...t, position: finalPos } : t
+      t.id === tokenId ? { ...t, position: finalPos, mapId: position?.mapId || t.mapId || 'default' } : t
     );
 
     return {
@@ -405,7 +416,43 @@ const useCreatureStore = create((set, get) => ({
   getCreatureToken: (tokenId) => {
     const state = get();
     return (state.creatureTokens || []).find(token => token.id === tokenId);
-  }
+  },
+
+  // CRITICAL: Load token quietly (no sync) - used for map switches and initial load
+  loadToken: (tokenData) => {
+    if (!tokenData) return;
+
+    set(state => {
+      const tokenId = tokenData.id || tokenData.tokenId || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      const existingTokens = state.creatureTokens || [];
+
+      // Don't add if already exists
+      if (existingTokens.some(t => t.id === tokenId)) return state;
+
+      const newToken = {
+        ...tokenData,
+        id: tokenId,
+        // Ensure positional data is correct
+        position: tokenData.position || { x: 0, y: 0 },
+        // Ensure mapId is preserved
+        mapId: tokenData.mapId || 'default',
+        // Preserve state
+        state: tokenData.state || {
+          currentHp: tokenData.stats?.maxHp || 10,
+          conditions: []
+        }
+      };
+
+      const updatedTokens = [...existingTokens, newToken];
+      return {
+        creatureTokens: updatedTokens,
+        tokens: updatedTokens
+      };
+    });
+  },
+
+  // Alias for clearCreatureTokens for better compatibility
+  clearTokens: () => get().clearCreatureTokens()
 }));
 
 export default useCreatureStore;

@@ -24,6 +24,10 @@ const initialState = {
     // Party members data
     partyMembers: [], // Array of party member objects
 
+    // Player Map Assignments: Track which player is on which map
+    // format: { playerId: mapId }
+    playerMapAssignments: {},
+
     // Party invitations
     pendingInvites: [], // Invites sent by this player
     receivedInvites: [], // Invites received by this player
@@ -108,7 +112,11 @@ const usePartyStore = create(
             disbandParty: () => {
                 // Only party leader can disband
                 const state = get();
-                if (state.currentParty?.leaderId === 'current-player') {
+                const gameStore = useGameStore.getState();
+                const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
+                const isMe = state.currentParty?.leaderId === 'current-player' || state.currentParty?.leaderId === myId;
+
+                if (isMe) {
                     set({
                         currentParty: null,
                         isInParty: false,
@@ -182,8 +190,25 @@ const usePartyStore = create(
                 }
 
                 // If current player is removed, they should be redirected (handled by MultiplayerApp)
-                if (memberId === 'current-player') {
+                const gameStore = useGameStore.getState();
+                const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
+
+                if (memberId === 'current-player' || memberId === myId) {
                 }
+            },
+
+            // Player Map Assignment Management
+            setPlayerMapAssignment: (playerId, mapId) => {
+                set(state => ({
+                    playerMapAssignments: {
+                        ...state.playerMapAssignments,
+                        [playerId]: mapId
+                    }
+                }));
+            },
+
+            setAllPlayerMapAssignments: (assignments) => {
+                set({ playerMapAssignments: assignments || {} });
             },
 
             updatePartyMember: (memberId, updates, isFromSync = false) => {
@@ -261,11 +286,13 @@ const usePartyStore = create(
 
                 // CRITICAL: Toggle isGMMode for ANY player who becomes/loses leadership
                 // This gives the new leader GM-like UI capabilities
-                const amILeader = newLeaderId === 'current-player';
 
                 // Import gameStore dynamically to avoid circular dependency
                 import('./gameStore').then(({ default: useGameStore }) => {
                     const gameStore = useGameStore.getState();
+                    const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
+                    const amILeader = newLeaderId === 'current-player' || newLeaderId === myId;
+
                     if (gameStore.isGMMode !== amILeader) {
                         gameStore.setGMMode(amILeader);
                         console.log(`🛠️ UI mode set to: ${amILeader ? 'LEADER (GM-like access)' : 'PLAYER (restricted)'}`);
@@ -274,14 +301,13 @@ const usePartyStore = create(
 
                 // Only sync with multiplayer if this is a local action, not a sync from server
                 if (!isFromSync) {
-                    // CRITICAL: Translate 'current-player' to actual socket ID before broadcasting
-                    // Otherwise, other clients will incorrectly think 'current-player' refers to themselves
                     const gameStore = useGameStore.getState();
+                    const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
                     let leaderIdToSend = newLeaderId;
 
-                    if (newLeaderId === 'current-player' && gameStore.multiplayerSocket?.id) {
+                    if ((newLeaderId === 'current-player' || newLeaderId === myId) && gameStore.multiplayerSocket?.id) {
                         leaderIdToSend = gameStore.multiplayerSocket.id;
-                        console.log(`📤 Translating 'current-player' to socket ID: ${leaderIdToSend}`);
+                        console.log(`📤 Translating local leader ID to socket ID: ${leaderIdToSend}`);
                     }
 
                     get().syncPartyUpdate('leadership_transferred', { leaderId: leaderIdToSend });

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 // Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
 import CursorTracker from './CursorTracker';
+import MapTransitionOverlay from './MapTransitionOverlay';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
@@ -24,6 +25,7 @@ import useGridItemStore from '../../store/gridItemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useQuestStore from '../../store/questStore';
 import useSettingsStore from '../../store/settingsStore';
+import useMapStore from '../../store/mapStore';
 import QuestShareDialog from '../quest-log/QuestShareDialog';
 import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
@@ -53,7 +55,7 @@ import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
 
 // Connection Status Indicator Component
-const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount }) => {
+const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount, currentMapName, onMapIconClick }) => {
   const getStatusInfo = () => {
     switch (status) {
       case 'connected':
@@ -87,32 +89,33 @@ const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount }) => {
 
   return (
     <div className="connection-status-indicator">
-      <i className={statusInfo.icon} style={{ color: statusInfo.color }}></i>
-      <span style={{ color: statusInfo.color }}>{statusInfo.text}</span>
+      <div className="status-main">
+        <i className={statusInfo.icon} style={{ color: statusInfo.color }}></i>
+        <span style={{ color: statusInfo.color }}>{statusInfo.text}</span>
+      </div>
+      {status === 'connected' && currentMapName && (
+        <div className="status-map" onClick={onMapIconClick} title="Switch/View Maps">
+          <i className="fas fa-map-marked-alt"></i>
+          <span className="current-map-name">{currentMapName}</span>
+        </div>
+      )}
     </div>
   );
 };
 
 // Themed Join Loading Overlay with Continue button
 const JoinLoadingOverlay = ({ roomName, isReady, onContinue, isFadingOut }) => {
-  const [showContinue, setShowContinue] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(0);
+  const [showContinue, setShowContinue] = useState(true);
 
-  // Show continue button after countdown OR when ready
+
+  // No countdown needed anymore, button appears instantly if ready
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          setShowContinue(true);
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    if (isReady) {
+      setShowContinue(true);
+    }
+  }, [isReady]);
 
-    return () => clearInterval(timer);
-  }, []);
 
   // Also show continue when room is ready
   useEffect(() => {
@@ -197,6 +200,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [isRoomReady, setIsRoomReady] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
+  // MAP ISOLATION: Track player's current map and transition state
+  const [playerCurrentMapId, setPlayerCurrentMapId] = useState('default');
+  const playerCurrentMapIdRef = useRef('default'); // Ref for socket listener filtering
+  const [mapTransition, setMapTransition] = useState({
+    isActive: false,
+    mapName: '',
+    transferredByGM: false
+  });
+  // NOTE: playerMapAssignments is now centralized in partyStore - see usePartyStore
+  const isInitialMapLoadRef = useRef(true); // Flag to skip transition on first load
+
+
+  // Sync ref with state
+  useEffect(() => {
+    playerCurrentMapIdRef.current = playerCurrentMapId;
+  }, [playerCurrentMapId]);
+
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
   const { setGMMode, setMultiplayerState, isGMMode, isInMultiplayer, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, cursorUpdateThrottle } = useGameStore((state) => ({
@@ -212,6 +232,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     zoomLevel: state.zoomLevel,
     cursorUpdateThrottle: state.cursorUpdateThrottle || 50
   }));
+
+  // Get map transition preference from settings store
+  const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
+
 
   // Settings state
   const showCursorTracking = useSettingsStore(state => state.showCursorTracking);
@@ -328,6 +352,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const gameStore = useGameStore.getState();
     if (gameStore.resetStore) gameStore.resetStore();
 
+    // Map Store (crucial for clean room state)
+    const mapStore = useMapStore.getState();
+    if (mapStore.resetStore) mapStore.resetStore();
+
     console.log('✅ All stores cleared');
   }, []);
 
@@ -335,13 +363,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const currentRoomRef = useRef(currentRoom);
   const isJoiningRoomRef = useRef(isJoiningRoom);
   const currentPlayerRef = useRef(currentPlayer);
+  const pendingRoomDataRef = useRef(pendingRoomData);
 
   // Update refs when state changes
   useEffect(() => {
     currentRoomRef.current = currentRoom;
     isJoiningRoomRef.current = isJoiningRoom;
     currentPlayerRef.current = currentPlayer;
-  }, [currentRoom, isJoiningRoom, currentPlayer]);
+    pendingRoomDataRef.current = pendingRoomData;
+  }, [currentRoom, isJoiningRoom, currentPlayer, pendingRoomData]);
 
   const isGMRef = useRef(isGM);
   const roomPasswordRef = useRef('');
@@ -911,8 +941,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       localStorage.removeItem('selectedRoomPassword');
 
       // Store room data for the Continue button flow
-      // This allows the loading screen to show for at least 5 seconds
-      setPendingRoomData({
+      // Instant access enabled - Continue button shown immediately if ready
+      const roomData = {
         room: data.room,
         socket: socket,
         isGM: isGameMaster,
@@ -920,7 +950,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         password: usedPassword,
         levelEditor: data.levelEditor,
         gridSettings: data.gridSettings
-      });
+      };
+
+      // Store room data for the Continue button flow
+      setPendingRoomData(roomData);
+
+      pendingRoomDataRef.current = roomData;
       setIsRoomReady(true);
       console.log('✅ [MultiplayerApp] Room data stored, waiting for user to continue');
     });
@@ -952,6 +987,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // The server typically counts only non-GM players in the players list
       setActualPlayerCount(data.playerCount);
 
+      // Update player locations if provided
+      if (data.room && data.room.playerMapAssignments) {
+        usePartyStore.getState().setAllPlayerMapAssignments(data.room.playerMapAssignments);
+      } else if (data.player && data.player.currentMapId) {
+        usePartyStore.getState().setPlayerMapAssignment(data.player.id, data.player.currentMapId);
+      }
+
       // Update connected players list - don't require currentRoom to be set yet
       setConnectedPlayers(prev => {
         // Check if player already exists to avoid duplicates
@@ -966,6 +1008,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
 
         const updated = [...prev, data.player];
+
+        // CRITICAL FIX: If we're on the loading screen (pendingRoomData exists), 
+        // add the player to the pending room data's players list so they are picked up 
+        // when handleJoinRoom is finally called.
+        if (pendingRoomDataRef.current && pendingRoomDataRef.current.room) {
+          const room = pendingRoomDataRef.current.room;
+          if (!room.players) room.players = [];
+
+          const playerExistsInPending = Array.isArray(room.players)
+            ? room.players.some(p => p.id === data.player.id)
+            : (room.players instanceof Map ? room.players.has(data.player.id) : room.players[data.player.id]);
+
+          if (!playerExistsInPending) {
+            console.log('📦 Buffering joined player into pendingRoomData:', data.player.name);
+            if (Array.isArray(room.players)) {
+              room.players.push(data.player);
+            } else if (room.players instanceof Map) {
+              room.players.set(data.player.id, data.player);
+            } else {
+              room.players[data.player.id] = data.player;
+            }
+          }
+        }
+
         return updated;
       });
 
@@ -1063,16 +1129,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
-      // ===== GM: BROADCAST LEVEL EDITOR STATE TO NEW PLAYER =====
-      // When a player joins, GM should send current level editor state so they see terrain, hex grid, walls, etc.
+      // ===== RE-ENABLED WITH MAP-SPECIFIC FILTERING =====
+      // FIX: GM now broadcasts map-specific terrain based on player's assigned map
+      // Players receive data only for the map they're assigned to, preventing cross-map contamination
       if (isGMRef.current && socket && socket.connected) {
-        console.log('🗺️ GM broadcasting level editor state to new player:', data.player.name);
+        console.log('🗺️ GM broadcasting map-specific state to new player:', data.player.name);
 
         try {
           const levelEditorStore = useLevelEditorStore.getState();
           const gameStore = useGameStore.getState();
 
+          // Get the player's assigned map ID - use default if not specified
+          const playerMapId = data.playerMapId || 'default';
+
           socket.emit('sync_level_editor_state', {
+            mapId: playerMapId,
             levelEditor: {
               terrainData: levelEditorStore.terrainData || {},
               wallData: levelEditorStore.wallData || {},
@@ -1150,7 +1221,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for character token creation
     socket.on('character_token_created', (data) => {
       if (data && data.position) {
-        addCharacterTokenFromServer(data.tokenId, data.position, data.playerId);
+        // CRITICAL: Pass mapId for proper map isolation
+        addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
       }
     });
 
@@ -1530,6 +1602,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
+
+        // CRITICAL FIX: Also remove from pendingRoomData if we're on the loading screen
+        if (pendingRoomDataRef.current && pendingRoomDataRef.current.room) {
+          const room = pendingRoomDataRef.current.room;
+          if (room.players) {
+            if (Array.isArray(room.players)) {
+              pendingRoomDataRef.current.room.players = room.players.filter(p => p.id !== data.player.id);
+            } else if (room.players instanceof Map) {
+              room.players.delete(data.player.id);
+            } else {
+              delete room.players[data.player.id];
+            }
+            console.log('📦 Removed player from buffered pendingRoomData:', data.player.name);
+          }
+        }
+
         return updated;
       });
 
@@ -1837,6 +1925,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         fromPlayerId: data.playerId,
         isFromSelf: data.playerId === socket.id
       });
+
+      // CRITICAL FIX: Filter by mapId to prevent cross-map contamination
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+      const tokenMapId = data.mapId || data.token?.mapId || 'default';
+
+      if (tokenMapId !== currentMapId) {
+        console.log(`🎭 Skipping token_moved - different map (token: ${tokenMapId}, current: ${currentMapId})`);
+        return;
+      }
 
       // Enhanced check to prevent processing our own movements with improved conflict detection
       const tokenId = data.tokenId || data.id;
@@ -2221,12 +2318,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         position: data.position,
         fromPlayer: data.playerName,
         isSync: data.isSync,
-        isFromSelf: data.playerId === currentPlayerRef.current?.id
+        isFromSelf: data.playerId === currentPlayerRef.current?.id,
+        itemMapId: data.mapId
       });
+
+      // CRITICAL FIX: Filter by current map - only add items on same map
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+      const itemMapId = data.mapId || data.item?.mapId || 'default';
+
+      if (itemMapId !== currentMapId) {
+        console.log(`📦 Skipping item_dropped - different map (item: ${itemMapId}, current: ${currentMapId})`);
+        return;
+      }
 
       // Only add item if it's not our own drop (to avoid duplicates) or if it's a sync
       if (data.playerId !== currentPlayerRef.current?.id || isSync) {
-        // Import the grid item store dynamically to avoid circular dependencies
+        // Import grid item store dynamically to avoid circular dependencies
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { addItemToGrid } = useGridItemStore.getState();
 
@@ -2248,6 +2355,45 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for grid item updates (moves, removes) from other players
+    socket.on('grid_item_updated', (data) => {
+      const myRole = isGMRef.current ? 'GM' : 'Player';
+      console.log(`📨 [${myRole}] Received grid_item_updated:`, {
+        updateType: data.updateType,
+        itemId: data.itemId,
+        position: data.position,
+        fromPlayer: data.updatedByName,
+        itemMapId: data.mapId
+      });
+
+      // CRITICAL FIX: Filter by current map - only update items on same map
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+      const itemMapId = data.mapId || 'default';
+
+      if (itemMapId !== currentMapId) {
+        console.log(`📦 Skipping grid_item_updated - different map (item: ${itemMapId}, current: ${currentMapId})`);
+        return;
+      }
+
+      // Handle different update types
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const gridItemStore = useGridItemStore.getState();
+
+        if (data.updateType === 'add') {
+          // Add new item to grid
+          gridItemStore.addItemToGrid(data.itemData, data.position, false);
+        } else if (data.updateType === 'move') {
+          // Update position of existing item
+          gridItemStore.updateItemPosition(data.itemId, data.position, false);
+        } else if (data.updateType === 'remove') {
+          // Remove item from grid
+          gridItemStore.removeItemFromGrid(data.itemId, false);
+        }
+      }).catch(error => {
+        console.error('Failed to import gridItemStore:', error);
+      });
+    });
+
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
       const myRole = isGMRef.current ? 'GM' : 'Player';
@@ -2258,7 +2404,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         position: data.position,
         fromPlayer: data.playerName,
         isSync: data.isSync,
-        isFromSelf: data.playerId === socket.id
+        isFromSelf: data.playerId === socket.id,
+        tokenMapId: data.mapId
       });
       const isSync = data.isSync;
       const myPlayerId = socket.id; // Use socket.id for reliable self-identification
@@ -2270,6 +2417,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // This is our own token creation being echoed back by server
         // DON'T add it to the store again - we already added it when we created it
         console.log('🔄 Skipping duplicate token from own creation');
+        return;
+      }
+
+      // CRITICAL FIX: Filter by current map - only add tokens on the same map
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+      const tokenMapId = data.mapId || data.token?.targetMapId || 'default';
+
+      if (tokenMapId !== currentMapId) {
+        console.log(`🎭 Skipping token_created - different map (token: ${tokenMapId}, current: ${currentMapId})`);
         return;
       }
 
@@ -2380,24 +2536,40 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for grid item synchronization when joining a room
     socket.on('sync_grid_items', (data) => {
 
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
         const { addItemToGrid } = useGridItemStore.getState();
 
         // Add each grid item without sending back to server
         Object.values(data.gridItems).forEach(gridItem => {
-          addItemToGrid(gridItem, gridItem.position, false);
+          // CRITICAL FIX: Only add items that belong to the current map
+          const itemMapId = gridItem.mapId || (gridItem.gridPosition ? 'default' : currentMapId);
+
+          if (itemMapId === currentMapId) {
+            addItemToGrid(gridItem, gridItem.position, false);
+          }
         });
       }).catch(error => {
         console.error('Failed to import gridItemStore for sync:', error);
       });
     });
 
-    // Listen for grid item position updates from other players
+    // Listen for Grid Item position updates from other players
     socket.on('grid_item_update', (data) => {
-      const { type, data: updateData, playerId } = data;
+      const { type, data: updateData, playerId, mapId } = data;
 
       // Skip if it's our own update (we already applied it locally)
       if (playerId === socket.id) return;
+
+      // CRITICAL FIX: Filter by current map - only process updates for items on the same map
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
+      const itemMapId = mapId || 'default';
+
+      if (itemMapId !== currentMapId) {
+        // console.log(`📦 Skipping grid_item_update - different map`);
+        return;
+      }
 
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
         const { updateItemPosition, removeItemFromGrid, gridItems } = useGridItemStore.getState();
@@ -2417,26 +2589,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Listen for items dropped by other players
-    socket.on('item_dropped', (data) => {
-      // Skip if it's our own drop (we already have it locally)
-      if (data.playerId === socket.id) return;
-
-      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const { addItemToGrid } = useGridItemStore.getState();
-
-        console.log('📦 Received item drop from other player:', data.item?.name);
-        addItemToGrid(data.item, data.position, false);
-      }).catch(error => {
-        console.error('Failed to import gridItemStore for item drop:', error);
-      });
-    });
+    // NOTE: item_dropped is handled above with proper map isolation filtering at line ~2301
+    // This duplicate handler was removed to prevent duplicate item additions
 
     // Listen for token synchronization when joining a room
     socket.on('sync_tokens', (data) => {
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
 
       // Add each token without sending back to server
       Object.values(data.tokens).forEach(tokenData => {
+        // ID check to see if it belongs to this map
+        // If token doesn't have mapId, assume default unless we are strict
+        const tokenMapId = tokenData.mapId || tokenData.targetMapId || 'default';
+        if (tokenMapId !== currentMapId) return;
 
         // First ensure the creature exists (if we have creature data)
         if (tokenData.creature) {
@@ -2444,29 +2609,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
 
         // Then add the token with the correct token ID
-        addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
+        addToken(tokenData.creatureId, tokenData.position, false, tokenData.id, tokenData.state);
       });
     });
 
-    // Listen for character token synchronization when joining a room
+    // Listen for character token synchronization
     socket.on('sync_character_tokens', (data) => {
-      try {
-        const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
-        const { addCharacterTokenFromServer: storeAddFromServer } = useCharacterTokenStore.getState();
+      const currentMapId = useMapStore.getState().currentMapId || 'default';
 
-        // Add each character token without sending back to server
-        Object.values(data.characterTokens).forEach(tokenData => {
-          if (storeAddFromServer) {
-            storeAddFromServer(tokenData.id, tokenData.position, tokenData.playerId);
-          } else {
-            // Fallback method
-            addCharacterToken(tokenData.position, tokenData.playerId, false); // false = don't send to server
+      try {
+        const { addCharacterTokenFromServer, clearCharacterTokens } = useCharacterTokenStore.getState();
+
+        // Don't clear tokens here, just add matching ones
+        // If we want a full sync, we should clear first, but this might run incrementally
+
+        Object.values(data.characterTokens).forEach(token => {
+          const tokenMapId = token.mapId || 'default';
+          if (tokenMapId === currentMapId) {
+            addCharacterTokenFromServer(token.id, token.position, token.playerId);
           }
         });
       } catch (error) {
         console.error('Failed to sync character tokens:', error);
       }
     });
+
 
     // Listen for character updates from other players
     socket.on('character_updated', (data) => {
@@ -3195,6 +3362,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Use socket.id for the most reliable comparison in mixed environments
         const myPlayerId = socket.id;
         if (data.playerId !== myPlayerId) {
+          // CRITICAL FIX: Filter by current map - only process updates for items on the same map
+          const currentMapId = useMapStore.getState().currentMapId || 'default';
+          const itemMapId = data.mapId || 'default';
+
+          if (itemMapId !== currentMapId) {
+            console.log(`📦 Skipping grid_item_update (2nd handler) - different map (item: ${itemMapId}, current: ${currentMapId})`);
+            return;
+          }
+
           switch (data.type) {
             case 'grid_item_added':
               // Add item to grid - pass false to avoid sync loop
@@ -3223,6 +3399,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
+      // CRITICAL FIX: Only process updates for the map we are currently on
+      // This prevents "bleeding" of changes from other maps
+      if (data.mapId && data.mapId !== playerCurrentMapIdRef.current) {
+        console.log(`[Map] Ignoring update for map ${data.mapId} (we are on ${playerCurrentMapIdRef.current})`);
+        return;
+      }
+
       // CRITICAL FIX: Ignore echos of our own updates (prevents sync loops and blocking our own paint batches)
       if (data.updatedBy === currentPlayerRef.current?.id) {
         return;
@@ -3304,6 +3487,294 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Reset flag even on error
         window._isReceivingMapUpdate = false;
       });
+    });
+
+    // ========== MAP NAVIGATION EVENT HANDLERS ==========
+
+    // Handle map change (player traversed connection or GM transferred them)
+    socket.on('player_map_changed', (data) => {
+      console.log('🗺️ Player map changed:', data);
+
+      // Show transition overlay - but skip on first entry to the room
+      if (!isInitialMapLoadRef.current) {
+        if (showMapTransitions) {
+          // CRITICAL FIX: Use better fallback for map name to avoid showing long numbers
+          const mapName = data.newMapName ||
+            (data.newMapId && data.newMapId.length > 10 ? 'Unknown Location' : data.newMapId) ||
+            'Unknown Realm';
+
+          setMapTransition({
+            isActive: true,
+            mapName: mapName,
+            transferredByGM: data.transferredByGM || false
+          });
+        }
+      } else {
+        // After first map event, subsequent ones should show transition
+        isInitialMapLoadRef.current = false;
+      }
+
+      
+      // Update local map ID
+      setPlayerCurrentMapId(data.newMapId);
+
+      // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
+      import('../../store/levelEditorStore').then(({ mapUpdateBatcher }) => {
+        if (mapUpdateBatcher) {
+          mapUpdateBatcher.clear();
+          console.log('🧹 [player_map_changed] Batcher cleared to prevent data bleeding');
+        }
+      });
+      
+      // Apply the new map data to level editor store
+      window._isReceivingMapUpdate = true;
+
+      import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+        const levelEditorStore = useLevelEditorStore.getState();
+        const mapData = data.mapData || {};
+
+        // Clear existing data first, then apply new map data
+        levelEditorStore.setTerrainData(mapData.terrainData || {});
+        levelEditorStore.setWallData(mapData.wallData || {});
+        levelEditorStore.setDrawingPaths(mapData.drawingPaths || []);
+        levelEditorStore.setDrawingLayers(mapData.drawingLayers || []);
+        levelEditorStore.setFogOfWarPaths(mapData.fogOfWarPaths || []);
+        levelEditorStore.setFogErasePaths(mapData.fogErasePaths || []);
+        levelEditorStore.setDndElements(mapData.dndElements || []);
+
+        // CRITICAL FIX: Synchronize backgrounds and grid settings
+        // This ensures the visuals match the new map
+        useGameStore.setState({
+          backgrounds: mapData.backgrounds || [],
+          activeBackgroundId: mapData.activeBackgroundId || null,
+          gridSize: mapData.gridSettings?.gridSize || 50,
+          gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
+          gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
+          gridLineColor: mapData.gridSettings?.gridLineColor || 'rgba(0, 0, 0, 0.5)',
+          gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+        });
+
+        setTimeout(() => {
+          window._isReceivingMapUpdate = false;
+        }, 100);
+      });
+
+      // Clear tokens from old map and apply new map's tokens
+      clearCreatureTokens();
+      clearCharacterTokens();
+
+      // Add tokens from the new map
+      if (data.mapData?.tokens) {
+        Object.values(data.mapData.tokens).forEach(tokenData => {
+          if (tokenData.creature) {
+            // Load quietly and preserve ID
+            addToken(tokenData.creature, tokenData.position, false, tokenData.id || tokenData.tokenId);
+          }
+        });
+      }
+
+        // CRITICAL FIX: Load grid items for this map - keep items from all maps but filter by current mapId
+        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const currentGridItems = useGridItemStore.getState().gridItems || [];
+          // Server sends gridItems as object, convert to array
+          const mapGridItems = Object.values(data.mapData?.gridItems || {});
+
+          // Debug: Log item loading in development mode only
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`📦 [player_map_changed] Loading items:`, {
+              oldMapId: data.oldMapId,
+              newMapId: data.newMapId,
+              mapGridItemsCount: mapGridItems.length,
+              mapGridItems: mapGridItems.map(i => ({ id: i.id, name: i.name, mapId: i.mapId })),
+              currentGridItemsBeforeFilter: currentGridItems.map(i => ({ id: i.id, name: i.name, mapId: i.mapId }))
+            });
+          }
+
+        // CRITICAL FIX: Remove items from OLD map (if oldMapId exists), then add items from new map
+        let filteredItems = currentGridItems;
+        if (data.oldMapId) {
+          filteredItems = currentGridItems.filter(item => item.mapId !== data.oldMapId);
+        }
+
+        // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
+        const itemsWithValidMapId = mapGridItems.filter(item => {
+          const itemMapId = item.mapId || item.gridPosition ? data.newMapId : 'default';
+          return itemMapId === data.newMapId;
+        });
+
+        const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
+
+        console.log(`📦 [player_map_changed] Final grid items:`, {
+          totalItems: updatedGridItems.length,
+          itemsForMapNew: updatedGridItems.filter(i => i.mapId === data.newMapId).map(i => ({ id: i.id, name: i.name, mapId: i.mapId })),
+          itemsFromOldMap: data.oldMapId ? updatedGridItems.filter(i => i.mapId === data.oldMapId).map(i => ({ id: i.id, name: i.name, mapId: i.mapId })) : []
+        });
+        useGridItemStore.setState({ gridItems: updatedGridItems });
+      });
+
+      // Center camera on destination position if provided
+      if (data.centerPosition) {
+        const gameStore = useGameStore.getState();
+        if (gameStore.setCameraPosition) {
+          gameStore.setCameraPosition(data.centerPosition.x, data.centerPosition.y);
+        }
+      }
+    });
+
+    // Handle GM view change (for GM switching maps to edit)
+    socket.on('gm_view_changed', (data) => {
+      console.log('[GM] View changed to map:', data.newMapId);
+
+      // Show transition overlay for GM too
+      if (!isInitialMapLoadRef.current && showMapTransitions) {
+        // CRITICAL FIX: Use better fallback for map name to avoid showing long numbers
+        const mapName = data.mapName ||
+          (data.newMapId && data.newMapId.length > 10 ? 'Unknown Location' : data.newMapId) ||
+          'Unknown Realm';
+
+        setMapTransition({
+          isActive: true,
+          mapName: mapName,
+          transferredByGM: false
+        });
+      }
+
+      // Mark that initial load is complete after first view change
+      isInitialMapLoadRef.current = false;
+
+
+      // Update local map ID for GM (for filtering incoming updates)
+      setPlayerCurrentMapId(data.newMapId);
+
+
+      // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
+      // useMapStore is already imported at the top of the file - use it directly, not async import
+      const mapStoreState = useMapStore.getState();
+      // Check if map exists in local store, if not create it
+      const existingMap = mapStoreState.maps?.find(m => m.id === data.newMapId);
+      if (!existingMap) {
+        // Create a map in local store
+        mapStoreState.createMapWithoutSwitching({
+          id: data.newMapId,
+          name: data.mapName || data.newMapId
+        });
+      }
+       // SYNCHRONOUS update to ensure terrain updates use correct mapId immediately
+        useMapStore.setState({ currentMapId: data.newMapId });
+
+       // FIX: Update GM's assignment in partyStore so their tag moves in Map Library for all players
+       if (currentPlayerRef.current?.id) {
+         usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current.id, data.mapId);
+       }
+
+ 
+       // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
+       import('../../store/levelEditorStore').then(({ mapUpdateBatcher }) => {
+         if (mapUpdateBatcher) {
+           mapUpdateBatcher.clear();
+           console.log('🧹 [gm_view_changed] Batcher cleared to prevent data bleeding');
+         }
+       });
+       
+       // Apply new map data to level editor store
+       window._isReceivingMapUpdate = true;
+ 
+       import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+        const levelEditorStore = useLevelEditorStore.getState();
+        const mapData = data.mapData || {};
+
+        // CRITICAL FIX: Clear terrain from previous map before applying new map's terrain
+        // This prevents terrain "bleeding" from other maps when GM switches
+        levelEditorStore.clearTerrainLayer();
+
+        // Apply map data
+        levelEditorStore.setTerrainData(mapData.terrainData || {});
+        levelEditorStore.setWallData(mapData.wallData || {});
+        levelEditorStore.setDrawingPaths(mapData.drawingPaths || []);
+        levelEditorStore.setDrawingLayers(mapData.drawingLayers || []);
+        levelEditorStore.setFogOfWarPaths(mapData.fogOfWarPaths || []);
+        levelEditorStore.setFogErasePaths(mapData.fogErasePaths || []);
+        levelEditorStore.setDndElements(mapData.dndElements || []);
+
+        // CRITICAL FIX: Synchronize backgrounds and grid settings for GM view
+        useGameStore.setState({
+          backgrounds: mapData.backgrounds || [],
+          activeBackgroundId: mapData.activeBackgroundId || null,
+          gridSize: mapData.gridSettings?.gridSize || 50,
+          gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
+          gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
+          gridLineColor: mapData.gridSettings?.gridLineColor || 'rgba(0, 0, 0, 0.5)',
+          gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+        });
+
+        setTimeout(() => {
+          window._isReceivingMapUpdate = false;
+        }, 100);
+      });
+
+      // Clear and reload tokens for this map
+      clearCreatureTokens();
+      clearCharacterTokens();
+
+      if (data.mapData?.tokens) {
+        Object.values(data.mapData.tokens).forEach(tokenData => {
+          if (tokenData.creature) {
+            // Load quietly and preserve ID
+            addToken(tokenData.creature, tokenData.position, false, tokenData.id || tokenData.tokenId);
+          }
+        });
+      }
+
+    // CRITICAL FIX: Load grid items for this map - REPLACE store with new map's items only
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const currentGridItems = useGridItemStore.getState().gridItems || [];
+          // Server sends gridItems as object, convert to array
+          const mapGridItems = Object.values(data.mapData?.gridItems || {});
+
+          // CRITICAL FIX: Use mapStore.currentMapId instead of undefined currentMapIdRef
+          const oldMapId = useMapStore.getState().currentMapId;
+
+        // CRITICAL FIX: Remove items from PREVIOUS map (if oldMapId exists), then REPLACE with new map's items
+        let filteredItems = [];
+        if (oldMapId) {
+          // Remove ALL items from previous map, don't keep any
+          filteredItems = currentGridItems.filter(item => item.mapId !== oldMapId);
+        } else {
+          // Keep items from all other maps
+          filteredItems = currentGridItems;
+        }
+
+         // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
+        const itemsWithValidMapId = mapGridItems.filter(item => {
+          const itemMapId = item.mapId || item.gridPosition ? data.newMapId : 'default';
+          return itemMapId === data.newMapId;
+        });
+
+        const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
+
+        // Debug: Log in development mode only
+         useGridItemStore.setState({ gridItems: updatedGridItems         });
+       });
+     });
+
+     // Handle player location updates (for GM map management UI)
+     socket.on('player_location_updated', (data) => {
+       console.log('[Player] Location updated:', data.playerName, 'moved to', data.newMapId);
+
+      // Update the playerMapAssignments in partyStore
+      usePartyStore.getState().setPlayerMapAssignment(data.playerId, data.newMapId);
+
+      // Show notification if it wasn't us
+      if (data.playerId !== currentPlayerRef.current?.id) {
+        addNotificationRef.current('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: data.transferredByGM
+            ? `${data.playerName} was transported to ${data.newMapId}`
+            : `${data.playerName} traveled to ${data.newMapId}`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
     });
 
     // Listen for area remove operations from GM
@@ -3789,6 +4260,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('cursor_update'); // IMPROVEMENT: Clean up cursor update handler
       socket.off('area_remove'); // IMPROVEMENT: Clean up area remove handler
       socket.off('full_game_state_sync');
+      // MAP NAVIGATION: Clean up new event handlers
+      socket.off('player_map_changed');
+      socket.off('gm_view_changed');
+      socket.off('player_location_updated');
       socket.off('global_chat_message');
       socket.off('character_updated');
       socket.off('token_updated');
@@ -3865,6 +4340,51 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (levelEditorState.dndElements !== undefined) {
             levelEditorStore.setDndElements(levelEditorState.dndElements);
+          }
+
+          // CRITICAL: Load grid items for initial sync
+          if (levelEditorState.gridItems) {
+            import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+              const gridItemStore = useGridItemStore.getState();
+              Object.values(levelEditorState.gridItems).forEach(gridItem => {
+                console.log('📦 Loading grid item from initial sync:', {
+                  id: gridItem.id,
+                  name: gridItem.name,
+                  position: gridItem.position,
+                  gridPosition: gridItem.gridPosition
+                });
+                gridItemStore.loadGridItem(gridItem);
+              });
+              console.log('✅ Loaded grid items from initial sync:', Object.keys(levelEditorState.gridItems).length);
+            }).catch(error => {
+              console.error('Failed to load grid items:', error);
+            });
+          }
+
+          // CRITICAL: Load tokens for initial sync
+          if (levelEditorState.tokens) {
+            import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+              const creatureStore = useCreatureStore.getState();
+              Object.values(levelEditorState.tokens).forEach(tokenData => {
+                creatureStore.loadToken(tokenData);
+              });
+              console.log('✅ Loaded tokens from initial sync:', Object.keys(levelEditorState.tokens).length);
+            }).catch(error => {
+              console.error('Failed to load tokens:', error);
+            });
+          }
+
+          // CRITICAL: Load character tokens for initial sync
+          if (levelEditorState.characterTokens) {
+            import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+              const creatureStore = useCreatureStore.getState();
+              Object.values(levelEditorState.characterTokens).forEach(tokenData => {
+                creatureStore.loadToken(tokenData);
+              });
+              console.log('✅ Loaded character tokens from initial sync:', Object.keys(levelEditorState.characterTokens).length);
+            }).catch(error => {
+              console.error('Failed to load character tokens:', error);
+            });
           }
 
           console.log('✅ Initial level editor state applied');
@@ -4219,7 +4739,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             classResource: activeCharacter.classResource || { current: 0, max: 0 }, // Include class resource
             tokenSettings: activeCharacter.tokenSettings, // Include token settings
             lore: activeCharacter.lore, // Include lore (which contains characterImage)
-            playerId: currentPlayerData?.id
+            playerId: currentPlayerData?.id || 'current-player'
+
           }
         });
       }
@@ -4234,6 +4755,114 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     try {
       // Simple: Room creator = GM, others = players
       setGMMode(isGameMaster);
+
+      // ==========================================
+      // CRITICAL FIX: MAP ISOLATION & INITIAL LOAD
+      // ==========================================
+
+      // 1. Initialize Map Store with all maps (essential for GM Map Library)
+      if (room.gameState.maps) {
+        import('../../store/mapStore').then(({ default: useMapStore }) => {
+          const mapStoreState = useMapStore.getState();
+          // Reset store first to clear old maps
+          if (mapStoreState.resetStore) mapStoreState.resetStore();
+
+          Object.values(room.gameState.maps).forEach(mapData => {
+            // Create map in store
+            mapStoreState.createMapWithoutSwitching({
+              id: mapData.id,
+              name: mapData.name || mapData.id
+            });
+
+            // If this is the GM, load thumbnail if available
+            if (isGameMaster && mapData.thumbnailUrl) {
+              // Logic to set thumbnail would go here
+            }
+          });
+          console.log('🗺️ MapStore initialized with maps:', Object.keys(room.gameState.maps));
+        });
+      }
+
+      // 2. Determine correct start map for this player
+      // Priority: Player's assigned map -> GM's current map (if following) -> Default
+      let startMapId = 'default';
+
+      if (currentPlayerData?.currentMapId) {
+        startMapId = currentPlayerData.currentMapId;
+      } else if (room.gameState.playerMapAssignments && currentPlayerData?.id && room.gameState.playerMapAssignments[currentPlayerData.id]) {
+        startMapId = room.gameState.playerMapAssignments[currentPlayerData.id];
+      } else if (room.gameState.defaultMapId) {
+        startMapId = room.gameState.defaultMapId;
+      }
+
+      // Sync local map state
+      setPlayerCurrentMapId(startMapId);
+      import('../../store/mapStore').then(({ default: useMapStore }) => {
+        useMapStore.setState({ currentMapId: startMapId });
+      });
+
+      console.log('📍 Initializing player on map:', startMapId);
+
+      // 3. Load Map-Specific Entities (Tokens, Items)
+      // We must pull from specific map storage, NOT global legacy storage
+      const targetMapData = room.gameState.maps?.[startMapId] || {};
+
+      // Load Tokens
+      if (targetMapData.tokens) {
+        Object.values(targetMapData.tokens).forEach(tokenData => {
+          if (tokenData.creature) {
+            addToken(tokenData.creature, tokenData.position, false, tokenData.id || tokenData.tokenId);
+          }
+        });
+        console.log(`♟️ Loaded ${Object.keys(targetMapData.tokens).length} tokens for map ${startMapId}`);
+      }
+
+      // Load Character Tokens
+      if (targetMapData.characterTokens) {
+        // characterTokens are usually indexed by playerId, but structure varies
+        Object.values(targetMapData.characterTokens).forEach(charTokenData => {
+          // Ensure we have necessary data
+          if (charTokenData.id && charTokenData.position) {
+            // We need character data to add token properly. 
+            // If missing, we might need to fetch from party members or room.players
+            // For now, simpler add might be needed or relying on party sync
+
+            // Check if it's our own token, if so, ensure local store matches
+            if (charTokenData.playerId === currentPlayerData?.id) {
+              updateCharacterTokenPosition(charTokenData.position);
+            } else {
+              // For other players, we need to add them visually
+              // But characterStore might not have their data yet. 
+              // Rely on party_member_added / player_joined to populate data,
+              // then separate sync logic will place them.
+
+              // However, we can perform a raw visual add if we have the data
+              if (addCharacterTokenFromServer) {
+                // Construct a minimal character object if needed
+                addCharacterTokenFromServer({
+                  id: charTokenData.id,
+                  playerId: charTokenData.playerId,
+                  name: charTokenData.playerName || 'Unknown',
+                  position: charTokenData.position,
+                  mapId: startMapId
+                });
+              }
+            }
+          }
+        });
+        console.log(`♟️ Processing character tokens for map ${startMapId}`);
+      }
+
+      // Load Grid Items
+      if (targetMapData.gridItems) {
+        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const { addItemToGrid } = useGridItemStore.getState();
+          Object.values(targetMapData.gridItems).forEach(item => {
+            addItemToGrid(item);
+          });
+          console.log(`📦 Loaded ${Object.keys(targetMapData.gridItems).length} grid items for map ${startMapId}`);
+        });
+      }
 
       // Create/update party with multiplayer players
       // Include GM and all regular players
@@ -4304,27 +4933,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
-      // Removed: Unused variable
-
       // Create party with current player's character name (not user name)
       // Note: createParty automatically adds the current player, so we don't need to add them again
       createParty(room.name, currentPlayerCharacterName, isGameMaster);
 
-      // CRITICAL FIX: Ensure initial leader is set for the party
-      // This ensures the crown icon is visible on the GM's HUD
+      // CRITICAL FIX: Ensure initial leader is set for the party using the real player ID
       import('../../store/partyStore').then(({ default: usePartyStore }) => {
-        if (isGameMaster) {
-          // If I am the creator/GM, I am the leader
-          usePartyStore.getState().setLeader('current-player', true);
-        } else if (room.gm) {
-          // If I am a player joining, set the leader to the GM if they are defined
-          usePartyStore.getState().setLeader(room.gm.id, true);
+        const leaderId = isGameMaster ? (currentPlayerData?.id || 'current-player') : (room.gm?.id || 'room-gm');
+        if (leaderId) {
+          usePartyStore.getState().setLeader(leaderId, true);
         }
       }).catch(err => console.error('Failed to set initial party leader:', err));
 
-      // Update the current player that was automatically added by createParty with full character data
+
+
+
+
+      // Use real player ID so other players can identify this member uniquely
+      const currentPlayerId = currentPlayerData?.id || 'current-player';
       const currentPlayerMember = {
-        id: 'current-player',
+        id: currentPlayerId,
+
+
         name: currentPlayerCharacterName,
         isGM: isGameMaster, // Include GM status for current player
         character: {
@@ -4347,8 +4977,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // CRITICAL FIX: Ensure current player member has correct isGM status
       currentPlayerMember.isGM = isGameMaster;
 
-      // Update the existing current player instead of adding a duplicate
-      updatePartyMember('current-player', currentPlayerMember);
+      // Replace the placeholder 'current-player' (added by createParty) with the actual identifiable ID
+      // This ensures the local player has a unique ID that matches what others see
+      usePartyStore.getState().removePartyMember('current-player');
+      usePartyStore.getState().addPartyMember(currentPlayerMember);
+
+
+
 
       // Broadcast current player's party member data to other players
       if (socketConnection) {
@@ -4368,15 +5003,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Add GM to party if GM is not the current player
       if (room.gm && room.gm.id !== currentPlayerData?.id) {
-        // CRITICAL FIX: Use character name if available, otherwise fall back to GM name
-        // Get active character for GM if available
-        const gmActiveCharacter = room.gm.character;
-        const gmCharacterName = gmActiveCharacter?.name || room.gm.name;
+        const gmCharacterName = room.gm.character?.name || room.gm.name;
 
         addPartyMember({
           id: room.gm.id,
           name: gmCharacterName,
-          isGM: true, // Mark as GM
+          isGM: true,
           character: {
             class: room.gm.character?.class || 'Unknown',
             level: room.gm.character?.level || 1,
@@ -4390,9 +5022,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             backgroundDisplayName: room.gm.character?.backgroundDisplayName || '',
             path: room.gm.character?.path || '',
             pathDisplayName: room.gm.character?.pathDisplayName || '',
-            classResource: room.gm.character?.classResource || { current: 0, max: 0 }, // Include class resource
-            tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
-            lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
+            classResource: room.gm.character?.classResource || { current: 0, max: 0 },
+            tokenSettings: room.gm.character?.tokenSettings || {},
+            lore: room.gm.character?.lore || {}
           }
         });
 
@@ -4405,48 +5037,45 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      // Add other players to party and chat (only non-current players)
-      // Note: room.players is an Array from server, not a Map
-      if (room.players && room.players.length > 0) {
-        room.players.forEach(player => {
-          const isCurrentPlayer = player.id === currentPlayerData?.id;
+      // CRITICAL FIX: Add other players to party using the uniquePlayers list
+      // This ensures players already joined (e.g. while GM was loading) are correctly shown
+      if (uniquePlayers && uniquePlayers.length > 0) {
+        uniquePlayers.forEach(player => {
+          // uniquePlayers already filters out current player and duplicates
+          const playerCharacterName = player.character?.name || player.name;
 
-          if (!isCurrentPlayer) {
-            const playerCharacterName = player.character?.name || player.name;
-
-            const playerMember = {
-              id: player.id,
-              name: playerCharacterName,
-              isGM: player.isGM || false, // Check if player is GM (for GM reconnecting)
-              character: {
-                class: player.character?.class || 'Unknown',
-                level: player.character?.level || 1,
-                health: player.character?.health || { current: 45, max: 50 },
-                mana: player.character?.mana || { current: 45, max: 50 },
-                actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
-                race: player.character?.race || 'Unknown',
-                subrace: player.character?.subrace || '',
-                raceDisplayName: player.character?.raceDisplayName || 'Unknown',
-                background: player.character?.background || '',
-                backgroundDisplayName: player.character?.backgroundDisplayName || '',
-                path: player.character?.path || '',
-                pathDisplayName: player.character?.pathDisplayName || '',
-                classResource: player.character?.classResource || { current: 0, max: 0 }, // Include class resource
-                tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
-                lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
-              }
-            };
-
-            addPartyMember(playerMember);
-
-            addUser({
-              id: player.id,
-              name: playerCharacterName,
+          const playerMember = {
+            id: player.id,
+            name: playerCharacterName,
+            isGM: player.isGM || false,
+            character: {
               class: player.character?.class || 'Unknown',
               level: player.character?.level || 1,
-              status: 'online'
-            });
-          }
+              health: player.character?.health || { current: 45, max: 50 },
+              mana: player.character?.mana || { current: 45, max: 50 },
+              actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
+              race: player.character?.race || 'Unknown',
+              subrace: player.character?.subrace || '',
+              raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+              background: player.character?.background || '',
+              backgroundDisplayName: player.character?.backgroundDisplayName || '',
+              path: player.character?.path || '',
+              pathDisplayName: player.character?.pathDisplayName || '',
+              classResource: player.character?.classResource || { current: 0, max: 0 },
+              tokenSettings: player.character?.tokenSettings || {},
+              lore: player.character?.lore || {}
+            }
+          };
+
+          addPartyMember(playerMember);
+
+          addUser({
+            id: player.id,
+            name: playerCharacterName,
+            class: player.character?.class || 'Unknown',
+            level: player.character?.level || 1,
+            status: 'online'
+          });
         });
       }
 
@@ -4496,6 +5125,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setIsJoiningRoom(false);
       }
       setConnectionStatus('connected');
+
+      // CRITICAL: Any future map changes should show a transition overlay
+      isInitialMapLoadRef.current = false;
+
 
       // Welcome notification
       addNotificationRef.current('social', {
@@ -4611,19 +5244,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Start fade out immediately and hide button
       setIsFadingOut(true);
+      const roomToJoin = { ...pendingRoomData };
+      pendingRoomDataRef.current = null; // Clear ref so no more buffering happens
 
       // Give the browser a moment to commit the state change and start the animation 
       // before processing the heavy handleJoinRoom logic
       setTimeout(async () => {
         // Perform the actual room join logic but don't clear loading screen yet
         await handleJoinRoom(
-          pendingRoomData.room,
-          pendingRoomData.socket,
-          pendingRoomData.isGM,
-          pendingRoomData.player,
-          pendingRoomData.password,
-          pendingRoomData.levelEditor,
-          pendingRoomData.gridSettings,
+          roomToJoin.room,
+          roomToJoin.socket,
+          roomToJoin.isGM,
+          roomToJoin.player,
+          roomToJoin.password,
+          roomToJoin.levelEditor,
+          roomToJoin.gridSettings,
           true // skipSetJoiningFalse
         );
 
@@ -4666,6 +5301,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               handleAcceptGameSession={handleAcceptGameSession}
               handleDeclineGameSession={handleDeclineGameSession}
               actualPlayerCount={actualPlayerCount}
+              mapTransition={mapTransition}
+              setMapTransition={setMapTransition}
             />
           </RoomProvider>
         )}
@@ -4711,6 +5348,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         handleAcceptGameSession={handleAcceptGameSession}
         handleDeclineGameSession={handleDeclineGameSession}
         actualPlayerCount={actualPlayerCount}
+        mapTransition={mapTransition}
+        setMapTransition={setMapTransition}
       />
     </RoomProvider>
   );
@@ -4733,9 +5372,14 @@ const MultiplayerGameContent = ({
   pendingGameSessionInvitations,
   handleAcceptGameSession,
   handleDeclineGameSession,
-  actualPlayerCount
+  actualPlayerCount,
+  mapTransition,
+  setMapTransition
 }) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
+  const { maps, currentMapId } = useMapStore();
+  const currentMap = maps.find(m => m.id === currentMapId);
+  const currentMapName = currentMap?.name || 'Default Map';
 
   // Quest sharing state from store
   const {
@@ -4836,6 +5480,11 @@ const MultiplayerGameContent = ({
   // Note: We now use the actualPlayerCount prop passed from the parent which tracks server updates
   // const actualPlayerCount = (currentRoom.players ? currentRoom.players.length : 0) + 1; 
 
+  // Memoize transition complete handler to prevent re-triggering effect in overlay
+  const handleTransitionComplete = useCallback(() => {
+    setMapTransition({ isActive: false, mapName: '', transferredByGM: false });
+  }, [setMapTransition]);
+
   return (
     <div className="multiplayer-vtt">
       {/* Full VTT Interface */}
@@ -4863,6 +5512,8 @@ const MultiplayerGameContent = ({
           status={connectionStatus}
           isJoiningRoom={isJoiningRoom}
           playerCount={actualPlayerCount}
+          currentMapName={currentMapName}
+          onMapIconClick={() => window.dispatchEvent(new CustomEvent('open-window', { detail: 'map-library' }))}
         />
       </div>
 
@@ -4903,6 +5554,14 @@ const MultiplayerGameContent = ({
 
       {/* Cursor Tracking - show other players' cursors in real-time */}
       {isInMultiplayer && <CursorTracker socket={socket} />}
+
+      {/* Map Transition Overlay - shown when traveling between maps */}
+      <MapTransitionOverlay
+        isVisible={mapTransition.isActive}
+        mapName={mapTransition.mapName}
+        transferredByGM={mapTransition.transferredByGM}
+        onTransitionComplete={handleTransitionComplete}
+      />
     </div>
   );
 };
