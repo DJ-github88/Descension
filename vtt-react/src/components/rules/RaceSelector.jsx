@@ -3,6 +3,7 @@ import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedS
 import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
 import { getRacialBaseStats, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { getIconUrl } from '../../utils/assetManager';
+import RaceEpicLore from './RaceEpicLore';
 import './RaceSelector.css';
 
 // Race data loader utility
@@ -713,12 +714,13 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => (
     <div
         className={`race-card ${isSelected ? 'selected' : ''}`}
         onClick={() => onSelect(race.id)}
+        style={{ '--race-gradient': race.gradient }}
     >
         <div className="race-card-icon">
             <i className={race.icon}></i>
         </div>
         <h4 className="race-card-name">{race.name}</h4>
-        <p className="race-card-description">{race.description}</p>
+        {race.essence && <p className="race-card-essence">{race.essence}</p>}
         <div className="race-card-info">
             <span className="info-badge">
                 <i className="fas fa-users"></i>
@@ -885,6 +887,7 @@ const RaceSelector = () => {
     const [allRaces, setAllRaces] = useState([]);
     const [racesLoading, setRacesLoading] = useState(true);
     const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
+    const [showEpicLore, setShowEpicLore] = useState(false);
     const raceGridRef = useRef(null);
 
     // Load race list on component mount
@@ -1269,7 +1272,7 @@ const RaceSelector = () => {
                         </div>
                     )}
 
-                    {/* Integration Notes */}
+                     {/* Integration Notes */}
                     {raceData.integrationNotes && (
                         <div className="integration-section">
                             <h4 className="integration-title">
@@ -1297,14 +1300,38 @@ const RaceSelector = () => {
                             </div>
                         </div>
                     )}
+
+                    {/* Epic Lore Button */}
+                    {variantData && raceData.epicHistory && (
+                        <div className="epic-lore-trigger">
+                            <button 
+                                className="epic-lore-button"
+                                onClick={() => setShowEpicLore(true)}
+                            >
+                                <i className="fas fa-book-open"></i>
+                                View Epic Lore
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
 
-            {/* Initial Empty State */}
+             {/* Initial Empty State */}
             {currentStep === 'race' && (
                 <div className="empty-state">
                     <i className="fas fa-hand-pointer"></i>
                     <p>Select a race above to view variants and details</p>
+                </div>
+            )}
+
+            {/* Epic Lore Modal/Overlay */}
+            {showEpicLore && raceData && (
+                <div className="epic-lore-overlay">
+                    <RaceEpicLore
+                        raceData={raceData}
+                        availableTabs={['history', 'figures', 'locations', 'crisis', 'practices']}
+                        onClose={() => setShowEpicLore(false)}
+                    />
                 </div>
             )}
 

@@ -2460,9 +2460,7 @@
     line-height: 1.6;
     color: #5a1e12;
     padding: 15px;
-    background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(250, 245, 235, 0.8) 100%);
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
     border: 2px solid #8b7355;
     border-radius: 8px;
     white-space: pre-wrap;
@@ -2480,10 +2478,8 @@
     font-family: 'Cinzel', serif;
     font-size: 16px;
     font-style: italic;
-    background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.6) 0%,
-        rgba(250, 245, 235, 0.5) 100%);
-    border: 2px solid rgba(139, 115, 85, 0.3);
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    border: 2px solid #8b7355;
     border-radius: 8px;
     min-height: 120px;
     box-shadow:

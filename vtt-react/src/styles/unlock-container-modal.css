@@ -10,6 +10,8 @@
     justify-content: center;
     align-items: center;
     z-index: 10003; /* Higher than Lock Settings Modal */
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .unlock-container-modal {
@@ -24,7 +26,7 @@
     overflow: hidden; /* Ensure content doesn't bleed outside rounded corners */
     display: flex;
     flex-direction: column;
-    max-height: 80vh; /* Prevent modal from being too tall */
+    max-height: none; /* Let the overlay handle scrolling */
 }
 
 .unlock-container-modal .modal-header {

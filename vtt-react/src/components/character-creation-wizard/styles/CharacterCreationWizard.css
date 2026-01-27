@@ -7502,4 +7502,95 @@ button.gender-option.selected {
         height: 35px;
         font-size: 1rem;
     }
+}/* ===== EPIC LORE STYLES FOR CHARACTER CREATION ===== */
+
+.race-card-icon {
+    font-size: 2.5rem;
+    color: #d4af37;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.race-card-essence {
+    font-size: 0.875rem;
+    color: #2c2416;
+    line-height: 1.3;
+    margin: 0 0.75rem 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.epic-lore-trigger-char-creation {
+    margin-top: 1.5rem;
+    padding: 1.5rem 0 0 0;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 148, 31, 0.05) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.epic-lore-button-compact {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    color: #2c2416;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.epic-lore-button-compact:hover {
+    background: linear-gradient(135deg, #b8941f 0%, #8b6914 100%);
+    border-color: #b8941f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.epic-lore-button-compact i {
+    font-size: 1rem;
+}
+
+.epic-lore-overlay-char-creation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+}
+
+.epic-lore-overlay-char-creation .race-epic-lore-container {
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.epic-lore-overlay-char-creation .epic-lore-button-compact:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+}
+
+.epic-lore-overlay-char-creation .epic-lore-button-compact:active {
+    background: linear-gradient(135deg, #8b6914 0%, #6b3e2a 100%);
+    border-color: #d4af37;
+    outline: 2px solid rgba(212, 175, 55, 0.5);
 }

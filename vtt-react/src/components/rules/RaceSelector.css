@@ -45,13 +45,27 @@
 
 .race-card {
     background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
-    border: 2px solid #d4af37;
+    border: 2px solid transparent;
     border-radius: 8px;
     padding: 1.25rem;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    background-clip: padding-box;
+}
+
+.race-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 8px;
+    padding: 2px;
+    background: var(--race-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 .race-card::before {
@@ -118,6 +132,19 @@
     line-height: 1.4;
     margin: 0 0 0.75rem 0;
     text-align: center;
+}
+
+.race-card-essence {
+    font-size: 0.875rem;
+    color: #2c2416;
+    line-height: 1.3;
+    margin: 0 0 0.75rem 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .race-card-info {
@@ -700,6 +727,93 @@
     margin: 0;
     font-size: 0.9rem;
     text-align: center;
+}
+
+/* ===== EPIC LORE TRIGGER ===== */
+
+.epic-lore-trigger {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.epic-lore-button {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 148, 31, 0.08) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 6px;
+    padding: 0.625rem 1.25rem;
+    color: #d4af37;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.epic-lore-button:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.25) 100%);
+    border-color: #b8941f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+}
+
+.epic-lore-button i {
+    transition: transform 0.2s ease;
+}
+
+.epic-lore-button:hover i {
+    transform: scale(1.1);
+}
+
+.epic-lore-button i {
+    font-size: 1.1rem;
+}
+
+/* ===== EPIC LORE OVERLAY ===== */
+
+.epic-lore-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.epic-lore-overlay .race-epic-lore-container {
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {

@@ -14,6 +14,7 @@ import ItemTooltip from '../../item-generation/ItemTooltip';
 import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
 import { getRacialSpells, addSpellsToLibrary, filterNewSpells, removeSpellsByCategory, isPassiveStatModifier } from '../../../utils/raceDisciplineSpellUtils';
 import useCharacterStore from '../../../store/characterStore';
+import RaceEpicLore from '../../rules/RaceEpicLore';
 
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (trait = {}) => {
@@ -104,7 +105,7 @@ const getPassiveSummary = (trait = {}) => {
     return parts.length ? parts.join(' ') : 'No description available';
 };
 
-const Step2RaceSelection = () => {
+    const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const spellLibraryDispatch = useSpellLibraryDispatch();
@@ -115,6 +116,7 @@ const Step2RaceSelection = () => {
     const [hoveredRace, setHoveredRace] = useState(null);
     const [hoveredSubrace, setHoveredSubrace] = useState(null);
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    const [showEpicLore, setShowEpicLore] = useState(false);
     const tooltipRef = useRef(null);
 
     const { validationErrors } = state;
@@ -157,6 +159,8 @@ const Step2RaceSelection = () => {
             id: raceId,
             name: raceData.name,
             description: raceData.description,
+            essence: raceData.essence || raceData.name,
+            gradient: raceData.gradient || 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)',
             icon: getRaceIcon(raceData.name),
             color: getRaceColor(raceData.name),
             subraces: Object.entries(raceData.subraces).map(([subraceKey, subraceData]) => ({
@@ -172,6 +176,7 @@ const Step2RaceSelection = () => {
     const getRaceIcon = (raceName) => {
         const icons = {
             'Nordmark': 'fas fa-mountain',
+            'Corvani': 'fas fa-crow',
             'Grimheart': 'fas fa-hammer',
             'Voidtouched': 'fas fa-eye',
             'Mirrorkin': 'fas fa-mask',
@@ -190,6 +195,7 @@ const Step2RaceSelection = () => {
     const getRaceColor = (raceName) => {
         const colors = {
             'Nordmark': '#8B7355',
+            'Corvani': '#6B5B95',
             'Grimheart': '#A0522D',
             'Voidtouched': '#4B0082',
             'Mirrorkin': '#C0C0C0',
@@ -286,14 +292,13 @@ const Step2RaceSelection = () => {
                                         onClick={() => handleRaceSelect(race.id)}
                                         onMouseEnter={() => setHoveredRace(race.id)}
                                         onMouseLeave={() => setHoveredRace(null)}
-                                        style={{ '--race-color': race.color }}
+                                        style={{ '--race-gradient': race.gradient }}
                                     >
-                                        <div className="race-info">
-                                            <h4 className="race-name">{race.name}</h4>
-                                            <p className="race-description">
-                                                {race.description.substring(0, 60)}...
-                                            </p>
+                                        <div className="race-card-icon">
+                                            <i className={race.icon}></i>
                                         </div>
+                                        <h4 className="race-name">{race.name}</h4>
+                                        {race.essence && <p className="race-essence">{race.essence}</p>}
                                     </div>
                                 ))}
                             </div>
@@ -334,13 +339,39 @@ const Step2RaceSelection = () => {
                             </div>
                         )}
 
-                        {validationErrors.race && (
-                            <div className="error-message">
-                                <i className="fas fa-exclamation-triangle"></i>
-                                {validationErrors.race}
-                            </div>
+                        {/* Epic Lore Trigger */}
+                        {previewRace && (
+                            <>
+                                <div className="epic-lore-trigger-char-creation">
+                                    <button
+                                        className="epic-lore-button-compact"
+                                        onClick={() => setShowEpicLore(true)}
+                                    >
+                                        <i className="fas fa-book-open"></i>
+                                        View Race Lore
+                                    </button>
+                                </div>
+
+                                {showEpicLore && previewRace && (
+                                    <div className="epic-lore-overlay-char-creation">
+                                        <RaceEpicLore
+                                            raceData={RACE_DATA[previewRace.id]}
+                                            availableTabs={['history', 'practices']}
+                                            onClose={() => setShowEpicLore(false)}
+                                        />
+                                    </div>
+                                )}
+                            </>
                         )}
+
                     </div>
+
+                    {validationErrors.race && (
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            {validationErrors.race}
+                        </div>
+                    )}
 
                     {/* Right side - Race/Subrace preview */}
                     <div className="race-preview">

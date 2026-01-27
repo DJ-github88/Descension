@@ -12,9 +12,11 @@ export const RACE_DATA = {
     nordmark: {
         id: 'nordmark',
         name: 'Nordmark',
-        description: 'We stand taller than other folk because the north demands it. Shoulders broad enough to carry what winter takes. Our skin bears the map of our lives—scars from blades, wind-burn from storms, the pale mark of cold that never leaves. Frost falls from our lips even in the warmth of southern lands, a breath that crystallizes into ghosts of the white we survived. We braid our hair with bone and iron because we are made of both. Our eyes hold the color of the winter sky: blue when the storm breaks, gray when the blizzard holds, pale green when the aurora dances. We trace our blood to warrior-kings who carved their names into glacier ice with hammers stained red. But we remember them not as stories, but as debts. Every clan carries burdens from before the common speech was born. Some carry ancient feuds, others sacred vows, still others the weight of kings who refused to die even when ice claimed their flesh. We are not merely human. The north remade us. Each winter hardened our flesh like steel. Each storm forged our will like weapons. We became something the cold recognizes as its own.',
+        description: 'We stand taller than other folk because the north demands it. Shoulders broad enough to carry what winter takes. Our skin bears the map of our lives-scars from blades, wind-burn from storms, pale mark of cold that never leaves. Frost falls from our lips even in the warmth of southern lands, a breath that crystallizes into ghosts of white we survived. We braid our hair with bone and iron because we are made of both. Our eyes hold the color of the winter sky: blue when storm breaks, gray when blizzard holds, pale green when aurora dances. We trace our blood to warrior-kings who carved their names into glacier ice with hammers stained red. But we remember them not as stories, but as debts. Every clan carries burdens from before common speech was born. Some carry ancient feuds, others sacred vows, still others the weight of kings who refused to die even when ice claimed their flesh. We are not merely human. The north remade us. Each winter hardened our flesh like steel. Each storm forged our will like weapons. We became something the cold recognizes as its own.',
+        essence: 'Frost-hardened warriors',
+        gradient: 'linear-gradient(135deg, #8B7355 0%, #A0522D 100%)',
         icon: 'fas fa-mountain',
-        overview: `The wind screams outside our longhouse, carrying the voice of the glacier that buried my father and his father before him. Inside, the fire burns low—enough to see, not enough to warm. This is how we live. This is how we survive. My grandfather used to say that warmth makes you soft, that the north demands hardness because it intends to kill you. He survived five winters alone in the wastes before returning with his mind changed and his skin marked by frost that never faded. Now he's buried beneath the cairn stones outside, where the snow refuses to settle properly. The stones whisper if you listen close. Not lies exactly, but truths that would break lesser folk.
+        overview: `The wind screams outside our longhouse, carrying the voice of the glacier that buried my father and his father before him. Inside, the fire burns low-enough to see, not enough to warm. This is how we live. This is how we survive. My grandfather used to say that warmth makes you soft, that the north demands hardness because it intends to kill you. He survived five winters alone in the wastes before returning with his mind changed and his skin marked by frost that never faded. Now he's buried beneath the cairn stones outside, where the snow refuses to settle properly. The stones whisper if you listen close. Not lies exactly, but truths that would break lesser folk.
 
 Our clans bind everything. You might think clan is family, but it's deeper. It's which ancestor you claim, which debts your blood owes, which feuds demand your death. The Bloodhammer clan traces to the first warrior-king who stood against the endless white and carved his kingdom from frozen waste with nothing but rage and a red-stained hammer. The Rune-Keepers claim descent from shaman-kings who walked into the deepest winter and returned with eyes that saw past and future woven together. The Frostbound... they say their scouts went too far into the eternal winter and came back changed, flesh hardened and cold become part of them. Each clan hates the others. Bloodhammers call Rune-Keepers whispering cowards who hide behind spirits. Rune-Keepers mock Bloodhammers as mindless beasts who've forgotten what it means to be human. Frostbound pity us both, looking down from their glacier peaks with eyes that barely remember what humanity feels like. But when the white comes, we all share the same fire and the same longhouse walls. The north doesn't care about clan feuds. It just kills anyone it can.
 
@@ -22,7 +24,7 @@ Children learn the clan web before they know their own names. Which bloodlines a
 
 We don't take land. We claim it. Clan banners mark territory won through blood and winter, each banner a grave marker for those who died holding the ground. Survival requires strength in the north. Respect requires honor. But honor is a debt that grows heavier each generation. Wrongs unavenged. Sagas left unfinished. Blood debts passed down like heirlooms. I've seen marriages end over a blood-debt from three generations back. I've seen clan wars that lasted until everyone involved had forgotten why they started fighting. The traditions outlive empires because they work. Winter kills the weak. Only harsh ways keep folk alive up here.
 
-When a Nordmark dies far from the longhouse fire, their spirit wanders the wastes seeking the light that leads to the ancestor halls. My grandmother claimed she saw her uncle's spirit, trapped in the ice for fifty years because he died raiding southern lands. She said the frost preserved his memory like meat in a cellar. But if you break a clan oath, that light never comes. Just endless white, wandering until the ice takes your name from memory itself. I've seen oathbreakers—they don't fear death. They fear being forgotten. They fear the cold that waits outside the longhouse walls, the cold that knows us all by name.`,
+When a Nordmark dies far from the longhouse fire, their spirit wanders the wastes seeking the light that leads to the ancestor halls. My grandmother claimed she saw her uncle's spirit, trapped in the ice for fifty years because he died raiding southern lands. She said the frost preserved his memory like meat in a cellar. But if you break a clan oath, that light never comes. Just endless white, wandering until the ice takes your name from memory itself. I've seen oathbreakers-they don't fear death. They fear being forgotten. They fear the cold that waits outside the longhouse walls, the cold that knows us all by name.`,
         variantDiversity: 'The Nordmark are divided into three major bloodlines, each with distinct traditions and values: The Bloodhammer value martial prowess and honor warriors above all, the Rune-Keepers preserve ancient lore and shamanic traditions, and the Frostbound have adapted to the deepest wastes through generations of hardship.',
         integrationNotes: {
             actionPointSystem: 'Many racial traits interact with the AP system, providing unique tactical options during combat and exploration. Each variant offers different AP-based abilities.',
@@ -39,6 +41,96 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
             weight: '180-280 lbs',
             build: 'Tall and muscular'
         },
+        epicHistory: `
+The First Breaking came before memory was written. Ancient frost lords descended from the eternal ice, their hunger for warmth absolute and terrible. For three generations, the southern kingdoms fell one by one—castle walls shattered like glass, armies frozen in mid-charge, entire bloodlines extinguished in a single night of screaming winds. Only the forge-clans of the deep holds survived, hammering sacred wards into iron until their bones rattled with the rhythm of war.
+
+During the War of Thousand Screams, my grandfather watched his father and three brothers die defending the Frostgate Pass. They fell not to steel, but to the cold that waited until they had killed every enemy before turning on them. The survivors returned changed. Their skin held the pale mark of frost that never faded. Their eyes saw things in the blizzard that were not snow—shapes moving between the flakes, voices that weren't wind, memories that didn't belong to the living.
+
+The northern clans united once, under the banner of the Last Alliance. Together they pushed the frost lords back, reclaiming territories lost for a century. But the victory came at a cost. The Rune-Keepers who led the alliance went mad from the rituals, their minds fractured by the whispers of the frozen dead. The Bloodhammers who fought beside them lost too many warriors, their bloodlines thinning with each campaign. The Frostbound scouts returned from the deepest wastes changed, their flesh now half-ice, their hearts beating with unnatural slowness. The alliance shattered. The feuds returned. The frost lords retreated to bide their time.
+
+Now the Grand Alliance calls the armies east to face a new shadow. The mountain passes stand undefended. The forge-clans send their warriors away, leaving only the elderly and the young to hold the ancestral lands. The merchants of the southern cities grow bold, their caravans testing the northern borders, their spies seeking the secrets of the deep holds. The frost lords stir again beneath the ice, their hunger undiminished by the passage of centuries.
+        `,
+        notableFigures: [
+            {
+                name: 'King Magni Frostborn',
+                title: 'The Unbroken King',
+                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+                backstory: `
+The last of the Unbroken Kings, Magni bears the weight of five generations of sacrifice. During the War of Thousand Screams, he watched his father and three brothers die defending the Frostgate Pass. Their bodies were encased in ice that still stands as monument, preserved by the very cold that claimed them. Now he rules from the Iron Throne of Dun Morogh, his beard white as the snows that took everything he loved.
+
+Though his people whisper that his heart grows cold with age, none question his right to rule. The iron does not lie. The iron remembers. He spends his days hearing disputes between the Bloodhammer and Rune-Keeper clans, his judgments harsh but fair, his authority absolute. At night, he descends to the deepest forges alone, hammering at the same anvil his father used, as if the metal might remember the voice it once knew.
+
+He has refused every call to join the Grand Alliance's eastern campaign. Someone must hold the north. Someone must watch the passes. Someone must remember the cost of breaking the frost lords' hunger. That burden falls to him, as it fell to his father, and to his father before him.
+                `
+            },
+            {
+                name: 'Bromar Frostfinder',
+                title: 'The Lost Explorer',
+                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+                backstory: `
+One of the greatest explorers to ever walk the frozen wastes, Bromar Frostfinder made friends in every charted land and presumably those uncharted as well. He spent forty years mapping the northern territories, discovering forgotten vaults of the ancients, uncovering weapons from before the frost lords, and documenting the customs of clans that had vanished entirely.
+
+Then came the expedition north. Bromar sought the source of the frost lords' power, believing that understanding their origins might prevent their return. He took only a small company of trusted scouts, leaving a final message: "I return with answers or not at all." Three years passed. Then five. Then ten.
+
+The northern hunters speak of him sometimes—sightings of a lone figure in armor too ancient to be modern, a campfire burning with impossible warmth in the depths of winter, footsteps that don't vanish in the snow. They say he found something beneath the ice. They say he learned why the frost lords hunger. They say he chose not to return, because what he learned would break the world's heart.
+                `
+            },
+            {
+                name: 'Elder Matriarch Halvarna',
+                title: 'Voice of the Ancients',
+                portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
+                backstory: `
+The oldest living Rune-Keeper, Halvarna has seen twelve winters beyond what any thought possible. Her skin is the color of parchment, her eyes clouded with cataracts of white, but when she speaks, the entire clan goes silent. She remembers the First Breaking. She witnessed the War of Thousand Screams. She holds the histories that other clans lost when their libraries burned and their elders fell.
+
+Children are brought to her longhouse from across the northern territories. She touches their faces and names their ancestors back seven generations, reciting debts and feuds that the children never knew existed. She performs the binding rituals that unite bloodlines through marriage-kin, and the severing rituals that declare blood feuds beyond reconciliation.
+
+The merchants from the south offer her gold for the secrets of the deep holds. The spies of foreign kings ask about the forge-wards and the runes of protection. She answers all of them the same way: "The north remembers what you choose to forget. The iron keeps what the paper cannot survive." Then she returns to her fire and waits for the next voice to call from the ice.
+                `
+            }
+        ],
+        majorLocations: [
+            {
+                name: 'Ironhold Mountain',
+                description: `
+The mightiest fortress of the northern clans, Ironhold Mountain was never breached by the frost lords. Carved directly into the living rock of Dun Maragh, its gates are thick enough to stop an army, its forges hot enough to melt enchanted ice, its halls deep enough to hold the entire population of three Bloodhammer clans combined.
+
+The mountain itself is more than a fortress. It's a weapon. Its anvils ring with the sound of war hammers day and night, producing the iron that broke the frost lords' advance. Its vaults hold weapons forged by ancestors whose names are forgotten, blades that hunger for battle, armor that remembers every blow it's ever taken.
+
+Currently, Ironhold operates at half-capacity. The journeyman smiths marched east with the Grand Alliance, leaving only the masters and their apprentices. The great gates that once admitted caravans of trade now open rarely, their watchful eyes scanning the horizon for the first sign of the frost lords' return.
+                `
+            },
+            {
+                name: 'Frostgate Pass',
+                description: `
+The narrowest crossing through the northern mountains, Frostgate Pass has been defended for three hundred years. Its walls are lined with the armor of those who died holding it—plate rusted by centuries, shields shattered by countless blows, helmets dented by frost lord steel. The wind screams through the pass eternally, a voice that echoes the battle cries of all who've fallen.
+
+During the War of Thousand Screams, King Magni's father and three brothers perished here. Their bodies were left where they fell, becoming the first line of defense against any who would attack from the north. Now their frozen remains serve as monument and warning, a reminder that the cost of holding the pass is measured in blood.
+
+Today, only a token garrison mans Frostgate. The real armies march east. The pass waits, empty and howling, for the frost lords to test its defenses once more.
+                `
+            }
+        ],
+        currentCrisis: `
+The armies of the Grand Alliance have marched east to face a growing shadow, leaving the mountain passes undefended. You must defend the forge-lands from those who would steal the sacred iron. Subversive traitors among the merchant clans sell the secrets of the deep holds to enemies who lurk beyond the frozen horizon, trading away the wards that protected their ancestors for gold they don't need.
+
+The frost lords stir again beneath the eternal ice. The northern scouts report strange lights in the deepest wastes, footprints that don't match any known creature, whispers on the wind that speak of hunger undiminished by the passage of centuries. The Rune-Keepers perform rituals of divination, their bones rattling with visions of a war to come.
+
+The forge-clans send their best warriors east, leaving the mountain holds populated by elders who can no longer fight and children who have not yet learned. The southern cities grow bold, their caravans probing the northern borders, their spies seeking weaknesses in the ancient defenses.
+
+Now is the time for heroes. The north stands at the edge of another breaking, and this time there may be no alliance to call upon. You must defend the ancestral lands. You must uncover the traitors who sell their own people. You must stand at Frostgate Pass and hold until your blood freezes upon the walls. Now the Nordmark's greatest chapter can be told—or its last.
+        `,
+        culturalPractices: `
+Before your sixteenth winter, you forge your own weapon. The tradition is older than memory, born in the days when the first warrior-kings had no steel to spare and every warrior needed to fight with the same blade they would die with. The forging happens in silence under the aurora, with no fire but the heat of your own hands and the cold of the northern air. When the steel cools, you mark it with your own blood. Then it goes to battle. Only when it tastes an enemy's life does the ritual complete. The weapon becomes you. Every notch in the handle is a memory. Every chip is a story for the longhouse fire.
+
+Bloodhammer longhouses are armories. The walls are lined with hammers and axes from warriors long dead, each weapon telling the story of a life lived in the shadow of the eternal ice. Old warriors say these weapons still hunger—that sometimes in deep winter you hear them whisper of battles yet to come. Or maybe that's just the wind through old steel.
+
+The berserker rituals are passed down through generations, secret rites that change you. Trance states where you enter a fury so complete that wounds that would kill others become nothing. Pain becomes fuel. When the rage takes hold, your muscles swell, your veins stand out like cords, your breathing turns to a growl. But when it breaks, you return to yourself hollowed out. Your humanity burned away, left pale and shaking. Many Bloodhammer die young—not from enemy steel, but from the rage itself.
+
+Honor is measured in kills counted, enemies crushed, songs sung about your deeds where the ancestors listen. Blood feuds are settled in dawn duels, fought with weapons that've never lost. Insults get answered with steel. Mercy is shown only to those who've earned it through their own strength.
+
+When a Nordmark dies far from the longhouse fire, their spirit wanders the wastes seeking the light that leads to the ancestor halls. My grandmother claimed she saw her uncle's spirit, trapped in the ice for fifty years because he died raiding southern lands. She said the frost preserved his memory like meat in a cellar. But if you break a clan oath, that light never comes. Just endless white, wandering until the ice takes your name from memory itself.
+        `,
+
         subraces: {
             berserker: {
                 id: 'berserker_nordmark',
@@ -280,19 +372,19 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                 id: 'skald_nordmark',
                 name: 'Rune Keeper',
                 description: 'Many Nordmark secrets were lost to the endless winters, but the ancient libraries of the Rune-Keepers, carved into frozen caves deep within the wastes, have never surrendered their knowledge to the cold. A marvel to the Nordmark\'s skill at preserving memory in ice and stone, Rune-Keeper sanctuaries were constructed in places where ice has never melted: vast underground networks of seers, historians, and spirit-speakers. While the northern traditions have been weakened by centuries of change, the Rune-Keepers of the Frozen Halls, led by Seer Mara Rune-Touched, are weaving a new understanding of the eternal winter.',
-                culturalBackground: `The oldest sagas speak of the first shaman-king who walked alone into the deepest winter and returned changed—their eyes saw not the present but threads of past and future woven together. That first keeper learned to read omens in ice patterns on glass, to hear dead ancestors in the aurora's dance, to carve runes that hold memory itself. The Rune-Keepers trace their bloodline to this ancestor, carrying what they call a gift, though some whisper it is a curse.
+                culturalBackground: `The oldest sagas speak of the first shaman-king who walked alone into the deepest winter and returned changed-their eyes saw not the present but threads of past and future woven together. That first keeper learned to read omens in ice patterns on glass, to hear dead ancestors in the aurora's dance, to carve runes that hold memory itself. The Rune-Keepers trace their bloodline to this ancestor, carrying what they call a gift, though some whisper it is a curse.
 
-Before their eighteenth winter, every Rune-Keeper undertakes the vision quest—not a rite of passage, but a breaking, a remaking. They are taken to frozen caves deep in the wastes, places where ice has never melted, where cold burns with an intensity that sears. Here, alone in darkness broken only by aurora-light through cracks in the ice, they spend days without food or fire, sustained only by visions granted by the ancestors.
+Before their eighteenth winter, every Rune-Keeper undertakes the vision quest-not a rite of passage, but a breaking, a remaking. They are taken to frozen caves deep in the wastes, places where ice has never melted, where cold burns with an intensity that sears. Here, alone in darkness broken only by aurora-light through cracks in the ice, they spend days without food or fire, sustained only by visions granted by the ancestors.
 
-When the visions come, and they always come, the runes get carved into their flesh with needles made from the bones of previous keepers. Each rune marks a story learned, a secret kept, a debt owed to the dead. The carving is slow, deliberate, and permanent—knowledge that cannot be unlearned. These runes don't fade. They grow deeper with age, scars piling up like pages in a book written in flesh. Sometimes overlapping, creating new patterns and new meanings.
+When the visions come, and they always come, the runes get carved into their flesh with needles made from the bones of previous keepers. Each rune marks a story learned, a secret kept, a debt owed to the dead. The carving is slow, deliberate, and permanent-knowledge that cannot be unlearned. These runes don't fade. They grow deeper with age, scars piling up like pages in a book written in flesh. Sometimes overlapping, creating new patterns and new meanings.
 
 Rune-Keeper longhouses are libraries rather than armories. Their walls are lined with shelves of carved bone tablets. Their floors are marked with runic circles that glow faintly in firelight. Here, sagas are preserved not just in words but in memory-stones that whisper if you know how to listen. They are historians keeping records spanning millennia, judges whose rulings carry the weight of ancestral precedent, mediators who see disputes through dead eyes.
 
-Rituals let them commune with spirits bound to ice and storm, speaking with ancestors who haven't passed on but linger in the spaces between breaths, in the silence of deep winter. But it costs. Every time a Rune-Keeper peers into fate or communes with the dead, they lose a piece of themselves—a memory burned away, a feeling they can no longer name. Some forget what warmth feels like. Others forget what it meant to love or hate. The ancestors don't care about their souls. They care about what can be seen for them.
+Rituals let them commune with spirits bound to ice and storm, speaking with ancestors who haven't passed on but linger in the spaces between breaths, in the silence of deep winter. But it costs. Every time a Rune-Keeper peers into fate or communes with the dead, they lose a piece of themselves-a memory burned away, a feeling they can no longer name. Some forget what warmth feels like. Others forget what it meant to love or hate. The ancestors don't care about their souls. They care about what can be seen for them.
 
-The Rune-Keepers view the Bloodhammer as mindless beasts who have forgotten what it means to be human, whose rage is just an excuse to avoid thinking about how empty their lives become between battles. When the fury fades, what is left? Bloodhammer become hollow. The Rune-Keepers, through their transformations, become something else—something that sees beyond the hunger, beyond the cold, beyond the endless white.
+The Rune-Keepers view the Bloodhammer as mindless beasts who have forgotten what it means to be human, whose rage is just an excuse to avoid thinking about how empty their lives become between battles. When the fury fades, what is left? Bloodhammer become hollow. The Rune-Keepers, through their transformations, become something else-something that sees beyond the hunger, beyond the cold, beyond the endless white.
 
-They view the Frostbound with a complex mixture of pity and recognition. The Frostbound look at their runes and say they're marked by the same cold that marked them, just in a different way. The Rune-Keepers see kinship—their runes come from visions and ancestors, the Frostbound's scars come from surviving where nothing should survive. Both are marked by the eternal winter, but while the Frostbound let the cold remake their flesh, the Rune-Keepers let it remake their minds.`,
+They view the Frostbound with a complex mixture of pity and recognition. The Frostbound look at their runes and say they're marked by the same cold that marked them, just in a different way. The Rune-Keepers see kinship-their runes come from visions and ancestors, the Frostbound's scars come from surviving where nothing should survive. Both are marked by the eternal winter, but while the Frostbound let the cold remake their flesh, the Rune-Keepers let it remake their minds.`,
                 statModifiers: {
                     spirit: 3,
                     intelligence: 2,
@@ -476,19 +568,19 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                 description: 'Many Nordmark settlements were abandoned to the endless white, but the outposts of the Frostbound, built on the very edge of the eternal winter where reality itself begins to freeze, have never surrendered to the storm alone. A testament to the Nordmark\'s skill at adapting to the impossible, Frostbound fortifications were constructed in glacier peaks where wind never stops and the sun barely reaches: vast networks of underground tunnels carved into living ice. While other Nordmark clans have been weakened by their feuds and traditions, the Frostbound of the Deep Ice, led by Scout Elder Nal Ice-Walker, are forging an existence that the north itself recognizes.',
                 culturalBackground: `Many Nordmark settlements were abandoned to the endless white, but the outposts of the Frostbound, built on the very edge of the eternal winter where reality itself begins to freeze, have never surrendered to the storm alone. A testament to the Nordmark's skill at adapting to the impossible, Frostbound fortifications were constructed in glacier peaks where wind never stops and the sun barely reaches: vast networks of underground tunnels carved into living ice. While the other Nordmark clans have been weakened by their feuds and traditions, the Frostbound of the Deep Ice, led by Scout Elder Nal Ice-Walker, are forging an existence that the north itself recognizes.
 
-The sagas tell of scouts who went too far into the eternal winter, into places where cold doesn't just kill but transforms. They didn't return as they left—they came back changed, flesh hardened, breath no longer visible because their lungs learned to breathe the cold itself. The Frostbound claim descent from those altered scouts. Their bloodline carries the mark. Their tradition is one of the harshest.
+The sagas tell of scouts who went too far into the eternal winter, into places where cold doesn't just kill but transforms. They didn't return as they left-they came back changed, flesh hardened, breath no longer visible because their lungs learned to breathe the cold itself. The Frostbound claim descent from those altered scouts. Their bloodline carries the mark. Their tradition is one of the harshest.
 
-Before they can take their place in the longhouse, every Frostbound spends three winters alone in the deepest wastes—places even Rune-Keepers won't go. These are not survival tests but initiations, a communion with cold so absolute it remakes the body. Through generations of this rite, their bloodline has adapted in ways that border on unnatural. Flesh grows harder each winter. Cold tolerance becomes legendary. Bodies shaped by the land itself.
+Before they can take their place in the longhouse, every Frostbound spends three winters alone in the deepest wastes-places even Rune-Keepers won't go. These are not survival tests but initiations, a communion with cold so absolute it remakes the body. Through generations of this rite, their bloodline has adapted in ways that border on unnatural. Flesh grows harder each winter. Cold tolerance becomes legendary. Bodies shaped by the land itself.
 
-Some say the eternal winter recognizes them, that the cold welcomes them home. Frostbound longhouses rise in the worst places—glacier peaks where wind never stops, valleys the sun barely reaches, places other Nordmark won't build. They are outposts, forward positions. Frostbound scout ahead, guide paths that only exist in winter, guard borders most can't even see. Their survival arts are passed down not from books, but from the land itself—how to read ice stories as they form, how to find food in frozen ground, how to endure cold that would shatter steel.
+Some say the eternal winter recognizes them, that the cold welcomes them home. Frostbound longhouses rise in the worst places-glacier peaks where wind never stops, valleys the sun barely reaches, places other Nordmark won't build. They are outposts, forward positions. Frostbound scout ahead, guide paths that only exist in winter, guard borders most can't even see. Their survival arts are passed down not from books, but from the land itself-how to read ice stories as they form, how to find food in frozen ground, how to endure cold that would shatter steel.
 
 Endurance matters most. Honor is measured in winters survived, paths found through terrain that kills. Independence matters. In the deepest cold, relying on others means death.
 
-But it costs. Each generation tolerates warmth less. Their hardened flesh cracks in temperatures others find comfortable. Skin splits wider. Bodies betray them in summer lands. Many Frostbound cannot leave the north—the transformation is too complete. Warmth becomes poison. Skin cracks and bleeds. Lungs struggle with air that holds heat. Some say their blood runs cold as ice, their hearts beat with glacier rhythm.
+But it costs. Each generation tolerates warmth less. Their hardened flesh cracks in temperatures others find comfortable. Skin splits wider. Bodies betray them in summer lands. Many Frostbound cannot leave the north-the transformation is too complete. Warmth becomes poison. Skin cracks and bleeds. Lungs struggle with air that holds heat. Some say their blood runs cold as ice, their hearts beat with glacier rhythm.
 
-They are edge-dwellers, respected for their resilience but kept at distance. Something about the way their eyes barely focus on anything that isn't snow. The way their skin feels like stone that's been left out too long. Other Nordmark look at them and see what the cold does to those who stay too long. The Frostbound look back and see folk who have never truly met the north—not really. They fight it, bargain with it, live in its shadow. The Frostbound have let it in.
+They are edge-dwellers, respected for their resilience but kept at distance. Something about the way their eyes barely focus on anything that isn't snow. The way their skin feels like stone that's been left out too long. Other Nordmark look at them and see what the cold does to those who stay too long. The Frostbound look back and see folk who have never truly met the north-not really. They fight it, bargain with it, live in its shadow. The Frostbound have let it in.
 
-The Frostbound view the Bloodhammer as short-sighted warriors who fight the winter with rage and steel, but rage burns out and weapons break. The cold lasts forever. The Bloodhammer don't fight the white—they endure it for a while, then it takes them. The Frostbound became it.
+The Frostbound view the Bloodhammer as short-sighted warriors who fight the winter with rage and steel, but rage burns out and weapons break. The cold lasts forever. The Bloodhammer don't fight the white-they endure it for a while, then it takes them. The Frostbound became it.
 
 They view the Rune-Keepers with a strange kinship, recognizing that both are marked by something that changes what it means to be human. The Rune-Keepers chose their transformation, went seeking visions. The Frostbound were sent into the wastes, and the wastes changed them whether they wanted them to or not. In the end, both are forever marked by the eternal winter.`,
                 statModifiers: {
@@ -671,7 +763,9 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
     corvani: {
         id: 'corvani',
         name: 'Corvani',
-        description: 'The mystical Corvani of the fog-choked peaks have spent countless generations serving as bridges between the mundane world and whatever lies beyond the mist. Secure in their impregnable settlements clinging to cliffs where maps mean nothing and the veil between worlds grows thin, the Corvani rarely venture beyond the treacherous highland paths that only they can navigate. Even so, when the boundaries between realms began to fray and threats emerged from spaces between worlds, the Corvani offered their sight to the defense of all who stood against the darkness. The wise and unflinching Corvani proved to be the eyes of the alliance against otherworldly threats and helped warn of dangers that would have claimed the unprepared. Recently the Corvani rediscovered a series of ancient mist-oracles that held the key to the secrets of their lost heritage—prophecies spoken by ancestors who first dared to make bargains with entities that wear raven shapes. Driven to discover the truth about his people\'s fabled origins, the Seer Council of the Raven-Seers ordered that the Corvani shift their focus from tribal isolation to the preservation of the veil itself. The council helped to create the Mist-Guard\'s Circle, a group utterly devoted to plumbing the secrets of the thin places and delving out the truth of the Corvani\'s fabled existence. An integral part of the highland defense, the enigmatic Corvani have been called away to battle the forces that would pierce the veil and bring madness to all realms. In these perilous times, the defense of the border between worlds falls to brave Corvani like you. The spirits of the mist watch over you, and the veil itself is your strength. The future of your people is in your hands.',
+        description: 'The mystical Corvani of the fog-choked peaks have spent countless generations serving as bridges between the mundane world and whatever lies beyond the mist. Secure in their impregnable settlements clinging to cliffs where maps mean nothing and the veil between worlds grows thin, Corvani rarely venture beyond the treacherous highland paths that only they can navigate. Even so, when the boundaries between realms began to fray and threats emerged from spaces between worlds, Corvani offered their sight to the defense of all who stood against the darkness. The wise and unflinching Corvani proved to be the eyes of the alliance against otherworldly threats and helped warn of dangers that would have claimed the unprepared. Recently Corvani rediscovered a series of ancient mist-oracles that held the key to the secrets of their lost heritage-prophecies spoken by ancestors who first dared to make bargains with entities that wear raven shapes. Driven to discover the truth about his people\'s fabled origins, Seer Council of the Raven-Seers ordered that the Corvani shift their focus from tribal isolation to the preservation of the veil itself. The council helped to create the Mist-Guard\'s Circle, a group utterly devoted to plumbing the secrets of the thin places and delving out the truth of the Corvani\'s fabled existence. An integral part of the highland defense, the enigmatic Corvani have been called away to battle forces that would pierce the veil and bring madness to all realms. In these perilous times, the defense of the border between worlds falls to brave Corvani like you. The spirits of the mist watch over you, and the veil itself is your strength. The future of your people is in your hands.',
+        essence: 'Mist-weaving seers',
+        gradient: 'linear-gradient(135deg, #6B5B95 0%, #4A3F70 100%)',
         icon: 'fas fa-crow',
         overview: `The Corvani are mountain folk whose ancestors made pacts with things that dwell in the mists. Their raven-black markings aren't tattoos. They're inherited patterns that shift with each generation, darkening with each prophecy spoken, each glimpse through the veil. The markings mark those chosen by the old powers. They live in isolated tribal communities scattered across fog-choked peaks, villages built where the veil between worlds grows thin. The Corvani don't choose to see things others miss. It's in their blood, passed down through tribal lineages. They serve as guides, messengers, mediators between the mundane world and whatever lies beyond the mist.`,
         culturalBackground: `Corvani society runs on tribal bloodlines and old traditions. Their settlements cling to mist-shrouded peaks, cut off from the lowlands by paths that shouldn't exist and fog that never lifts. Each tribe traces its lineage to ancestors who made bargains with entities that wear raven shapes. Pacts that granted survival in exchange for service. The markings on their skin are inherited. They darken with each generation, each prophecy spoken, each glimpse of the other side. Tribal elders pass down the old ways. How to read omens in the mist. How to navigate paths that shouldn't exist. How to speak with things that don't belong in this world. Corvani children are raised knowing they'll inherit the sight. The burden. The duty to serve as bridges between realms. Tribal disputes settle through divination and mediation, seers reading futures in fog patterns. They trade in secrets and warnings. Their services are valuable but costly. Those who seek Corvani counsel pay in coin, blood, or pieces of their own fate.`,
@@ -691,12 +785,115 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
             weight: '130-190 lbs',
             build: 'Slender and agile'
         },
+        epicHistory: `
+The First Pact was made before memory could hold it. Ancient entities of the mist, shapeless and hungry, approached the highland tribes with promises of protection and power. For three generations, the tribes accepted. They gained secrets of divination, control over the swirling fog, and visions of futures that had not yet come to pass. But then the hunger became absolute. The entities demanded more. First it was livestock. Then it was tribute of rare herbs. Finally, it was the tribe's own children—firstborn sons and daughters sent into the eternal white as offerings.
+
+The elders who refused saw their tribes transformed before their eyes, flesh becoming shadows, their bones turning to mist that drifted away from their homes. Those who complied survived, changed but whole. Their skin grew pale as clouds, their eyes clouded with visions of futures yet to come. Their voices became whispers that made listeners shudder without knowing why.
+
+The Raven-Seers, once tribal mystics, became the first to understand what was happening. They tried to read the omens, to divine the price, to find a way to break the First Pact. But every reading ended the same way: the seer would go blank, their eyes rolling back, their breath forming mist that smelled of the Other. They'd scream before going still, their souls unmade by visions of payment yet to be made.
+
+The Mist-Guard's Circle was formed as a last line of defense. These warriors, their bodies marked by the entities' touch, learned to fight the creatures that had once been their protectors. They mastered the art of fighting within the eternal white, developing techniques to track movement by patterns in the fog, to strike where their enemies could not see. But even they could not stop the hunger. The entities took what they wanted, then began demanding payment in blood.
+
+Now the veil between worlds grows thin. The entities stir again in the deep fog, calling for new pacts. The tribes stand divided—some believing the price was worth the power gained, others seeking to break the First Pact before it consumes them entirely. The Raven-Seers grow fewer with each generation, their bloodlines thinning, their knowledge of the old ways fading. The Mist-Guards train daily, but with the fear that they will be the last.
+        `,
+        notableFigures: [
+            {
+                name: 'Prophet-Keeper Veth Raven-Eyes',
+                title: 'The Weaving Prophet',
+                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+                backstory: `
+The last of the Raven-Seers who remember the time before the First Pact, Veth has lived through three transformations of his people—from free tribes, to pawns of the entities, to survivors hiding in the highest peaks. His eyes are clouded with cataracts of white, marking him as one who has seen too many futures. Yet still he scrys, for he believes there is one future the entities cannot see—a future where the Corvani are free once more.
+
+Veth led the creation of the Mist-Guard's Circle, training warriors whose bodies bear the entities' touch to fight the creatures their people once served. He remembers when the Mist-Guards were formed, remembers their first battles, remembers their terror at discovering their new abilities. He carries that weight, knowing that his teachings have transformed his people into the last line of defense against the eternal white.
+
+The Council of Raven-Seers looks to him as elder and prophet, his visions given weight despite the clouding of his sight. But the young warriors see only an old man whose hands shake when he holds a cup, whose voice trembles when he speaks of futures that make their blood run cold. They don't understand that his trembling comes from having seen too much, not from weakness.
+
+Recently, Veth received a vision that broke the pattern of his readings. He saw not the Corvani's doom, but their salvation. He saw the First Pact being challenged, not by the tribe, but by outsiders whose knowledge of the entities' weaknesses is greater than the Raven-Seers'. He has begun teaching these secrets to the Mist-Guards, preparing for a confrontation that could end his people's bondage or destroy them entirely.
+                `
+            },
+            {
+                name: 'Mist-Runner Lira',
+                title: 'The Last Scout',
+                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+                backstory: `
+Lira was the last Corvani born with the natural gifts of their ancestors, her abilities manifesting in the white mist that surrounded her cradle. While other children of her generation were sent as payment to the entities, Lira was hidden by the elders who saw her potential for something greater. She grew up watching from the cliffs, learning to navigate paths that should not exist, to read omens in patterns of fog that made no sense to those who hadn't spent their lives staring at the eternal white.
+
+When the Mist-Guard Circle formed, Lira was the first to realize that the training they received could serve another purpose. She developed techniques of silent movement through the fog, of leaving no trail, of striking from positions where enemies could not see. Her fellow guards marveled at her ability to vanish before their very eyes, reappearing behind enemy lines as if she had walked through the stone.
+
+During the recent border skirmishes, Lira became known as the Ghost of the High Pass. She led three hundred Corvani warriors through enemy territory, guiding them through the mist on paths she had memorized as a child, striking supply lines before the enemy knew they were under attack. The highland army called her a demon, a spirit, something unnatural. But to the Corvani, she was simply what they could become if they remembered the old ways.
+
+Now Lira trains the next generation of Mist-Runners, teaching them to move like the fog, to read the omens in the swirling white, to carry messages between distant tribes without being seen by those who would hunt them. She remembers the days when the veil was thin but not broken, when the Corvani could walk freely between the realms. She worries that her children will only know a world of boundaries, of pacts, of payments due.
+                `
+            },
+            {
+                name: 'Seer-Mara Mist-Oracle',
+                title: 'The Voice of the Veil',
+                portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
+                backstory: `
+Mara was born with the entities' mark upon her skin—patterns of shifting darkness that darken when she speaks of futures yet to come. The Raven-Seers recognized her immediately as one of their most gifted, for she could see not just the futures of the Corvani, but the futures of the entities themselves. They brought her to the Mist-Orales at the age of eight, and by twelve she was reading the fog better than elders who had spent decades at the craft.
+
+The Mist-Orales are the sacred places where the Corvani store their most dangerous knowledge—the histories of pacts, the prices paid, the secrets of the entities that cannot be forgotten. Mara was chosen as keeper of one of these orales, a position of immense responsibility. She guards knowledge that could save her people or destroy them, knowledge that the entities would do anything to prevent from falling into the wrong hands.
+
+Recently, the entities have begun speaking to Mara in her dreams—not with threats, but with offers. They show her visions of the First Pact being broken, of the Corvani freed from their bondage. They whisper that she could be the one to undo the ancient bargain, if she would only speak the words that would release them. She has not spoken of this to the Council of Raven-Seers, for she fears they would not understand—that she would be seen as having been corrupted by the entities' promises.
+
+Mara walks between worlds, her body marked by darkness that few can see and none can understand. She carries the weight of her people's survival, the power to save them or doom them, and the temptation of knowledge that comes at too great a price. In the mist, where past and future are one, she alone sees clearly.
+                `
+            }
+        ],
+        majorLocations: [
+            {
+                name: 'Mist-Orales',
+                description: `
+Hidden within the fog-choked peaks, the Mist-Orales are the sacred libraries of the Corvani, carved into the very stone of the highland mountains. These underground chambers hold the accumulated knowledge of centuries—prophecies spoken, pacts made, prices paid, secrets of the entities that cannot be forgotten. The walls are lined with runes that glow with pale light, illuminating texts written in the ancient Corvid tongue that only the trained seers can read.
+
+The greatest of the oracles was built where the veil between worlds grows so thin that the entities' whispers can be heard clearly. Scholars from the lowlands have spent fortunes trying to locate this place, but none have ever found it. Some say it doesn't exist on this plane at all—that the Mist-Orales exist in the spaces between worlds, accessible only to those who can navigate the eternal white.
+
+Currently, the Mist-Orales operate with only a fraction of their former keepers. Many seers have died in recent years, their visions driving them to look too deep into the futures, their souls consumed by the weight of what they've seen. The young acolytes struggle to maintain the ancient rites, their knowledge of the old ways incomplete. The entities have begun pressing upon the orales, demanding access to knowledge that has always been forbidden.
+
+The few remaining seers speak of doors within the orales that should not be opened, of chambers that hold secrets no living Corvani should know. They fear that the entities themselves will soon breach the walls that have protected their people for generations, seeking to claim the knowledge that could finally break the First Pact—or use it to bind the Corvani forever.
+                `
+            },
+            {
+                name: 'Raven-Seer Peak',
+                description: `
+The highest settlement of the Corvani, built into the very cliffs where the veil between worlds is at its thinnest. From here, the Raven-Seers of old could watch the eternal white for signs of the entities' approach, could read omens in the swirling fog patterns, and could send warnings to the tribes below through the ravens that serve as their eyes.
+
+The settlement itself is a marvel of ancient engineering—homes built directly into the living stone, their foundations carved from the same rock as the mountain. The Corvani have never used quarries or mortar here. They asked the stone itself to yield to their tools, and the mountains answered. But that was before the First Pact. After the entities came, the stone stopped responding to the Corvani's will, though their enemies who found the peak found it could be shaped like clay by the unseen hands.
+
+The Council of Raven-Seers once met here, making decisions that affected the fate of all Corvani tribes. It was here that they authorized the First Pact. It was here that they voted to create the Mist-Guard Circle. It was here that they debated whether to try to break the entities' hold, ultimately deciding that the price was worth the protection they received.
+
+Today, the settlement is a shadow of what it once was. The Raven-Seers are gone or dying, their numbers too few to fill the council chamber. The Mist-Guards train daily in fear of an attack that never comes. The ravens still circle the peak, watching for signs that their former masters taught them to recognize—the approach of the entities, the thinning of the veil, the end of the Corvani's long wait for salvation.
+                `
+            }
+        ],
+        currentCrisis: `
+The First Pact has begun to strain against its limits. The entities demand payment more frequently, their hunger growing with each generation. The Raven-Seers grow fewer, their bloodlines thinning, the old ways of reading the omens fading from living memory. The tribes stand divided—some believing the price was worth the power gained, others believing the price has become too high.
+
+The lowland armies have discovered the Corvani's weakness—their numbers are small, their dependence on the entities' power total. Kingdoms to the south speak openly of conquering the mist-choked peaks, of ending the threat of the entities once and for all. Merchant caravans probe the highland borders, seeking weaknesses in the Corvani's defenses, offering gold for secrets of the Mist-Orales.
+
+The entities themselves grow restless. The veil between worlds is thinning in places it never was before. Outsiders who have learned the entities' true names seek to summon them directly, bypassing the First Pact entirely. The Mist-Guards train for war against these new enemies, while the Raven-Seers scry for a way to protect their people.
+
+The Corvani must make a choice. Continue the ancient pact, exchanging children for power that has protected them for generations, or risk everything on the hope of breaking free. The Raven-Seers have begun receiving visions of a third path—one where the First Pact is challenged by those who know the entities' weaknesses. The Mist-Guards prepare to defend the peaks with their last breath. The ravens watch, their eyes seeing what the Corvani cannot—the approach of the end of the age of pacts.
+        `,
+        culturalPractices: `
+Corvani children are marked by the entities before they can walk, their skin bearing patterns of shifting darkness that will darken with each prophecy they speak. The markings are inherited, mapping family lines to the ancient bargains made by their ancestors. Every child learns to read omens in the fog before they learn to speak, for the mist whispers of what will come before it ever becomes clear that their people will survive.
+
+The First Pact is the foundation of Corvani society. Every generation, the tribe sends their firstborn into the eternal white as payment for the entities' protection. The elders say this is a small price—that without the entities' power, the highland armies would have slaughtered them long ago. The payment is made with ceremony, the children walking willingly into the fog never to return, their sacrifice honored in song and story.
+
+The Mist-Orales are the sacred libraries of the people, carved into the living stone of the highland mountains. Only the trained seers may enter, and even then, only the chambers they have earned the right to read. The knowledge stored there includes prophecies of futures that came to pass, the names of entities who cannot be spoken, and the secrets of using the mist to travel between worlds. The walls are lined with runes that glow, illuminating texts in the ancient Corvid tongue.
+
+The Raven-Seers are the mystics who guide the Corvani through the treacherous highland paths that should not exist. They read omens in the swirling fog, divine the will of the entities, and speak warnings that save tribes from walking into ambushes. The ravens are their eyes and their messengers, carrying messages between distant settlements and returning with news of the lowlands that the lowlanders would never hear.
+
+The Mist-Guard Circle was formed when the Corvani realized they could fight the creatures that the entities commanded. These warriors, marked by the entities' touch, learned to navigate the eternal white without losing their way. They mastered the art of fighting blind, using the ravens to spot enemies the creatures couldn't see, and striking from positions where their opponents couldn't predict. The training is brutal—many die learning to fight in the swirling white—but those who survive become the most feared warriors in all the realms.
+
+When a Corvani dies, their spirit does not join the ancestors in the eternal white. Instead, they become part of the mist itself, their essence woven into the veil that separates the worlds. The elders say this is the entities' final gift—the promise that even in death, the Corvani will never truly leave the service they entered with the First Pact. Some whisper this is a mercy. Others whisper it is the ultimate cage.
+        `,
+
         subraces: {
             oracle: {
                 id: 'oracle_corvani',
                 name: 'Raven Seer',
-                description: 'Many Corvani secrets were lost to mists that swallow whole mountains, but the ancient oracles of Raven-Seers, carved into fog-shrouded peaks deep within the highlands, have never surrendered their sight to the veil. A marvel to the Corvani\'s skill at peering into futures, Raven-Seer sanctuaries were constructed in places where the veil grows thin: vast underground networks of seers, prophets, and fate-weavers. While the highland traditions have been weakened by centuries of isolation, the Raven-Seers of the Mist-Orales, led by Prophet-Keeper Veth Raven-Eyes, are weaving a new understanding of what lies beyond the mist.', the weight of visions. When they scry, their eyes go blank white and their breath forms mist patterns.',
-                culturalBackground: `The Raven-Seers trace their lineage to the first seers who learned to read the future in mist patterns and hear prophecies in raven calls. Their tradition requires that every member undergo initiation rites during their sixteenth year. Nights alone in the fog where their markings deepen and their sight awakens. Raven-Seer markings shift and darken with each prophecy spoken, each future glimpsed. Their skin becomes a map of fates seen and warnings given. Members serve as seers, advisors, mediators. Reading omens for other bloodlines and lowland folk who seek their counsel. They practice ancient divination rituals passed down through generations. Scrying in mist pools. Reading patterns in fog. Interpreting the calls of ravens. But the sight exacts a price. Each vision chips away at their grip on reality. Minds fractured by too many futures seen. Children born with deep markings are trained from youth. Their education balances learning control and accepting the inevitable madness that comes with the gift. The bloodline values foresight and guidance. Honor measured in prophecies fulfilled and disasters prevented. They are the vision-keepers of Corvani society. Revered and feared for what they see.`,
+                description: 'Many Corvani secrets were lost to mists that swallow whole mountains, but the ancient oracles of Raven-Seers, carved into fog-shrouded peaks deep within the highlands, have never surrendered their sight to the veil. A marvel to the Corvani\'s skill at peering into futures, Raven-Seer sanctuaries were constructed in places where the veil grows thin: vast underground networks of seers, prophets, and fate-weavers. While the highland traditions have been weakened by centuries of isolation, the Raven-Seers of the Mist-Orales, led by Prophet-Keeper Veth Raven-Eyes, are weaving a new understanding of what lies beyond the mist. Eyes glazed from seeing too many futures. Markings darken with each prophecy spoken, skin becoming a map of fates seen. Premature gray hair, faces marked by the weight of visions. When they scry, their eyes go blank white and their breath forms mist patterns.',
                 statModifiers: {
                     spirit: 3,
                     intelligence: 2,
@@ -1687,6 +1884,113 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
             weight: '110-160 lbs',
             build: 'Slender and ethereal'
         },
+        epicHistory: `The First Breaking came before memory could hold it. The veil between worlds has always been thinnest at the border lands, and Vheil have lived in these liminal spaces for countless generations. Ancient entities of the other side approached their ancestors with promises of protection and power, and for three generations, the tribes accepted. They gained the ability to see beyond the material plane, to perceive spirits that wander between realms, and to manipulate the thin reality of border regions.
+
+But then the hunger became absolute. The entities demanded payment more frequently—first livestock, then tribute of rare herbs, and finally the tribe's own children, firstborn sons and daughters sent into the endless white as offerings. The elders who refused to watch their tribes transform saw their bodies becoming shadows, their bones turning to mist that drifted away from their homes. Those who complied survived but were forever changed—their skin grew pale as clouds, their eyes clouded with visions of futures yet to come.
+
+The First Pact bound Vheil bloodlines to eternal service. Every generation, each tribe sent its firstborn into the eternal white as payment for the entities' protection against threats that could not pierce the veil between worlds. The elders say this is a small price—that without the entities' power, highland armies would have slaughtered them long ago. The payment is made with ceremony, with children walking willingly into the fog never to return, their sacrifice honored in song and story.
+
+Now the veil between worlds grows thin. The entities stir again in the deep fog, calling for new pacts. The tribes stand divided—some believing the price was worth the power gained, others seeking to break the First Pact before it consumes them entirely. The Vheil who can still perceive the other side have begun receiving visions of a third path—one where the First Pact is challenged by those who know the entities' weaknesses. The Spirit-Talkers grow fewer with each generation, their bloodlines thinning, their knowledge of the old ways fading. The Between-Walkers train daily but with fear that they will be the last to walk the paths that should not exist.
+        `,
+        notableFigures: [
+            {
+                name: 'Guildmaster Tharn Deepvein',
+                title: 'The Last Deep-Delver',
+                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+                backstory: `
+The last master of the ancient expeditions, Tharn survived the Great Collapse when every other Deep-Delver of his generation perished. He spent his youth in the deepest mines of the mountain, learning to read the veins of silver like they were written in the stone itself. When the collapse began, he was the only one who realized what was happening—the mountain was not just shaking, it was dying.
+
+Tharn led the survivors back to the surface, his hands still trembling from the remembered vibrations of the mountain's death throes. He founded the new Deep-Delver guild on the principle of respect for the earth's grief. Every shaft must be warded before entering. Every expedition must be marked by stone guardians. No delving too deep, no extraction without permission. Under his leadership, the Deep-Delvers have survived, though they are fewer than they once were.
+
+Many young Grimheart seek out Tharn for wisdom about the deep earth. He speaks in a voice that resonates with the stone, his words carrying the weight of memories he wishes he could forget. His hands, once steady enough to forge masterwork weapons, now shake when he tries to hold a cup. The mountain still calls to him, and he fears the day he can no longer resist the pull of the veins below.
+
+Tharn knows the old stories. He remembers when the Grimheart could shape stone with their bare hands, when gems would pulse with the heart's beat, when silver sang through ore like living song. He fears that the new generation, born after the Great Collapse, has lost this connection. That they are no longer the people who could hear the mountain's voice. That they are surface folk now, mining the earth like any other, indifferent to the wisdom that lives beneath their feet.
+                `
+            },
+            {
+                name: 'Forge-Mistress Hela Stone-Singer',
+                title: 'The Voice of the Mountain',
+                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+                backstory: `
+Hela was born with a gift that is both blessing and curse. She can hear the mountain itself—not just its vibrations through her feet, but its consciousness speaking directly into her mind. The stones whisper to her, the gems hum their secrets, the very earth tells her of treasures buried beneath the weight of the world.
+
+She serves as the chief negotiator between the three mining guilds. When the Deep-Delvers, Stone-Smiths, and Earth-Wardens dispute over a vein, it is to Hela's longhouse that they come. She speaks with the mountain's voice on their behalf, translating the earth's concerns into words they can understand. The Stone-Smiths respect her knowledge, for she knows which ores grow in which seasons and where the silver veins run thickest. The Earth-Wardens bring their disputes to her, trusting her to find the words that will make the stone guardians stand down.
+
+But the mountain is grieving. The Great Collapse wounded it deeply, and its pain flows through every conversation Hela holds. The ancient mines that once sang with light have gone silent. The silver veins that once pulsed with the mountain's heartbeat have grown cold. The stone guardians, once animated by the deep earth's breath, now stand as lifeless statues trapped between wards.
+
+Hela spends her nights trying to ease the mountain's suffering. She sings to it the old songs of the Deep-Delvers, stories she learned from the elders who remembered when the stones could still speak. She touches the faces of the stone guardians, weeping for the companions who once protected the mines. The other Grimheart see her as strange—a woman who talks to the mountain as if it were a living person—and they don't know whether to worship her or fear her.
+
+The surface world does not understand. Merchants see Hela as a tool to be exploited, offering her gold for secrets of the deep earth. The kings of distant realms send spies to learn how she negotiates between the guilds. But Hela serves only the mountain, and what it tells her is what she carries to the guilds. If the mountain ever truly dies, the Grimheart will lose more than their wisdom—they will lose the only being who can speak to the stone.
+                `
+            },
+            {
+                name: 'Earth-Warden Kaelen Stonebound',
+                title: 'The Living Guardian',
+                portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
+                backstory: `
+Kaelen is one of the last of the old generation, the final Earth-Warden to be forged with the deep earth's breath before the Great Collapse shattered that ancient practice. His body was animated at birth, his skin taking on the hardness of stone, his blood infused with the very essence of the mountain itself. Unlike modern Stone-Smiths who create guardians through rituals, Kaelen's existence comes from the mountain's will itself.
+
+He remembers the old days. When the mines were alive with singing stones and humming gems, Kaelen stood watch at the deepest shafts, his body moving with the slow deliberation of the rock. The Deep-Delvers would bring their disputes to him, asking the stone to judge whose claim was true. The Stone-Smiths would seek his blessing for their creations, asking him to infuse their works with the earth's permanence. He spoke seldom, but his words carried weight that the mountain itself gave them.
+
+Kaelen was one of the few who felt the Great Collapse before it happened. Days before the mountain began to shake, he heard the earth screaming. The silver veins stopped pulsing. The ancient mines fell silent. The Stone-Smiths' creations lost their power. Only the stone guardians, animated by the mountain's breath, remained standing—the last remnants of a time when the deep earth spoke freely.
+
+Now the mountain is dead. Its consciousness faded, though its pain still echoes through every shaft Kaelen watches. The Stone-Smiths have tried to recreate guardians with their rituals, but they fail. Their creations come out as inert stone, without the mountain's breath. The Deep-Delvers dig into the earth without consulting the Earth-Wardens, ignoring the signs that the mountain is dead. Kaelen stands alone among them, the last of his kind—a living memory of a world that has passed.
+
+The surface world sees Kaelen as a curiosity, a museum piece from a forgotten age. They don't understand that his existence means the mountain can never truly die. That his stone-bound blood is not just blood but the earth's will made flesh. They don't fear him—how could they? A being who cannot be unmade, who cannot age, who cannot die. But Kaelen knows that even he can fade. The mountain's voice, once speaking in his mind, grows quieter each year. When it finally falls silent, the Grimheart will lose the last living connection to the deep earth.
+                `
+            }
+        ],
+        majorLocations: [
+            {
+                name: 'The Deep Mines',
+                description: `
+Ancient mines that descend beneath the mountains, reaching depths where light cannot reach. These are the places where the Grimheart found the wonders that changed them forever—veins of silver that sang through stone, gems that glowed with stored sunlight, and stones that hummed with the voices of the deep earth.
+
+The entrance to the mines is marked by great stone doors, each sealed with ancient wards and carved with the symbols of the three guilds. The Deep-Delvers tell of these doors as the boundary between the living world and the deep earth's domain. To pass them is to request permission from the very mountain itself.
+
+Inside, the mines are vast networks of shafts and tunnels, carved through centuries of delving. The air is thick with dust of precious metals and the scent of ancient ore. Strange luminescent mushrooms grow in the deep earth, providing the only light in places where the sun never reaches. The walls are lined with the marks of countless miners, their chisel scores counting generations of labor.
+
+Since the Great Collapse, many of the deepest mines have been abandoned. The shafts that once rang with the sound of labor are now silent. The stone guardians, once animated by the mountain's breath, stand as lifeless statues in the darkness. The Earth-Wardens forbid entry to these places, for the mountain's grief still echoes from their depths, and they fear what might be disturbed.
+
+The Deep-Delvers continue to work the upper mines, but they mark every expedition to the abandoned depths with solemn ceremony. They say the earth below is sleeping, and to wake it would be to invite another collapse. The younger Grimheart see the abandoned mines as places of mystery and horror, whispering about the treasures that remain buried where no living person dares to descend.
+                `
+            },
+            {
+                name: 'Guildhall of Stone',
+                description: `
+The great meeting hall of the three mining guilds, carved directly into the living rock of a mountain's peak. This is where the Deep-Delvers, Stone-Smiths, and Earth-Wardens have settled their disputes for centuries, where the future of the Grimheart was debated and decided.
+
+The Guildhall is a marvel of ancient architecture—pillars that seem to grow from the floor itself, ceilings that glow with the light of crystals brought from the deepest mines, walls lined with the tools of master craftsmen who have been dead for generations. The very air inside tastes of the ancient stone, filled with the dust of silver and the hum of secrets whispered over centuries.
+
+This is where the Guildmasters meet, sitting on thrones carved from solid blocks of granite mined from the very earth they've dedicated their lives to. Their voices echo in the vast chamber, their words carrying the weight of decisions that have shaped the Grimheart's fate. When the three guilds battled during the Stone Wars, it was here that they authorized expeditions, here that they declared peace, here that they accepted the Great Collapse as the mountain's will.
+
+Since the Collapse, the Guildhall has been quieter. Fewer guildmasters sit on the thrones, fewer disputes echo through the chamber. The younger Grimheart look upon the ancient meeting place with awe and sadness, seeing the remnants of a time when the three guilds were united in purpose. The Deep-Delvers still meet here, but now they speak of rebuilding and preservation. The Stone-Smiths still bring their creations to be blessed by the Earth-Wardens, though there are fewer and fewer who can infuse them with the mountain's power. The Earth-Wardens stand watch, their stone bodies worn by time, their granite patience tested by a world that has forgotten the meaning of their existence.
+                `
+            }
+        ],
+        currentCrisis: `
+The Great Collapse shattered the Grimheart's ancient power, killing thousands and wounding the very mountain itself. The veins of silver stopped singing, the gems faded to cold stone, the ancient mines fell silent. The Stone-Smiths' magic failed, their creations losing the permanence the mountain once gave them. The Earth-Wardens went still, the stone guardians becoming lifeless statues of a forgotten age.
+
+The Grimheart are rebuilding, but they are forever changed. The survivors who emerged from the collapse bear the mountain's grief—their gray skin, their dark-adapted eyes, their dense bodies that no longer respond to the surface world's light. The younger generation knows only the world of the mines, has never heard the mountain sing, has never felt its breath. They are Grimheart in name but not in nature, surface folk who have forgotten what it means to hear the deep earth.
+
+The surface kingdoms have grown bold. Merchants from the lowlands send caravans into the mountains, demanding the precious metals that the Grimheart can no longer extract with their ancient skill. The kings of distant realms speak of conquering the dwarfholds, of taking by force what the Grimheart can no longer defend. The mountain's grief has made them vulnerable, and the surface world sees this as weakness to be exploited.
+
+The Earth-Wardens have begun to awaken from their stone sleep, their memories returning with the mountain's slow thoughts. They do not understand the modern world, but they know that it threatens to reduce the mines to simple quarries again. The Deep-Delvers have begun to explore new depths, searching for signs that the mountain might heal. The Stone-Smiths work frantically to rediscover the ancient techniques, desperate to infuse their creations with the magic that has faded.
+
+You must defend the mines from those who would steal the ancient secrets of the deep earth. You must protect the Earth-Wardens who have stood watch for centuries. You must learn to listen to the mountain yourself, to feel the vibration of the veins, to understand what the earth is trying to say. The very survival of the Grimheart depends on whether the new generation can bridge the gap between the surface world and the deep earth—or whether you will be the last of the old blood, the final memory of a world where the stones could still speak.
+        `,
+        culturalPractices: `
+Grimheart children are tested for their connection to the earth at birth. A master Stone-Smith places their hands on a living vein, and if the child can feel the metal's pulse, if they can make the earth hum in response to their touch, they are recognized as having the gift and begin their apprenticeship.
+
+The three guilds serve as the pillars of Grimheart society. The Deep-Delvers, masters of extraction; the Stone-Smiths, artisans of crafting; the Earth-Wardens, guardians of ancient knowledge. Each child must choose a guild, and that choice defines their entire life. Guild loyalty is absolute. The betrayal of one's guild is the betrayal of all Grimheart. Guild disputes are settled in the Great Forge, where all three Guildmasters meet to hammer out judgments that cannot be appealed.
+
+The Earth-Wardens are created through the oldest and most dangerous of Grimheart rites. A child with the stone-bound blood must undergo the Awakening—a ritual where they are buried alive within the earth for three days, only emerging when they have successfully bonded with a stone guardian. Those who fail become hollow, their eyes empty of the mountain's light, their bodies forever disconnected from the earth's wisdom. Most survive, changed but whole. Those who fail often serve as warnings to others.
+
+The Deep-Delvers mark every expedition to the mines with solemn ceremony. They touch the ancient wards, they listen for signs from the earth, they leave offerings of their own blood at the shaft entrance. They speak to the mountain directly, asking permission to delve into its domain. They say the earth below is sleeping, and they honor it by ensuring their delving does not disturb what cannot be woken. When a Deep-Delver dies in the mines, they are buried with their tools and a piece of the earth they loved, so that their body returns to the deep even in death.
+
+When a Grimheart dies, they do not join the ancient mines in the afterlife. Instead, they become part of the earth itself, their essence merging with the veins of silver and the deep places they once worked. The Earth-Wardens guide their spirits to the mountain's heart, and there they join the stone guardians in their eternal watch. The mountain remembers them all, and the Grimheart believe that even in death, they serve as protectors of the deep earth's treasures.
+        `,
+
         subraces: {
             medium: {
                 id: 'medium_vheil',
