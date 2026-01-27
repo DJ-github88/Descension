@@ -103,6 +103,9 @@ class FirebaseBatchWriter {
 
 const firebaseBatchWriter = new FirebaseBatchWriter();
 
+// Echo Prevention Window - standardized timeout across all stores
+const ECHO_PREVENTION_WINDOW_MS = 200;
+
 // Map Validation Helper - ensures maps exist before assigning data
 function validateMapExists(room, mapId) {
   if (!room.gameState.maps) {
@@ -1469,14 +1472,14 @@ io.on('connection', (socket) => {
     const recentMoveKey = `${player.roomId}_token_${tokenId}`;
     const now = Date.now();
 
-    // FIXED: Ignore movement if it was received less than 100ms after local movement
+    // FIXED: Ignore movement if it was received less than ECHO_PREVENTION_WINDOW_MS after local movement
     // This prevents server echo from resetting position while user is still dragging
     if (!global.recentTokenMovements) {
       global.recentTokenMovements = new Map();
     }
     const recentMove = global.recentTokenMovements.get(recentMoveKey);
 
-    if (recentMove && (now - recentMove.timestamp) < 100) {
+    if (recentMove && (now - recentMove.timestamp) < ECHO_PREVENTION_WINDOW_MS) {
       console.log(`🚫 Ignoring stale token movement echo for ${tokenId} (${now - recentMove.timestamp}ms old)`);
       return;
     }
@@ -2319,7 +2322,8 @@ io.on('connection', (socket) => {
     console.log(`🗺️ Map update on ${targetMapId} by GM ${player.name}: ${Object.keys(mapUpdates).join(', ')}`);
   });
 
-  // Handle grid item position updates (moves)
+  // Handle grid item updates (loot orbs, objects on grid)
+  // This is a unified handler that replaces two duplicate handlers
   socket.on('grid_item_update', async (data) => {
     const player = players.get(socket.id);
     if (!player || !player.roomId) {
@@ -2333,95 +2337,166 @@ io.on('connection', (socket) => {
       return;
     }
 
+    // Initialize grid items if needed
     if (!room.gameState.gridItems) {
       room.gameState.gridItems = {};
     }
 
-    const { type, data: updateData, timestamp } = data;
-
-    // CRITICAL FIX: Get target map ID for map isolation
-    const targetMapId = data.targetMapId || updateData.targetMapId || player.currentMapId || 'default';
+    // Support both old format (type) and new format (updateType)
+    const type = data.type || data.updateType;
+    const updateData = data.data || {};
+    const targetMapId = data.targetMapId || player.currentMapId || 'default';
 
     // CRITICAL FIX: Validate map exists to ensure map isolation
     validateMapExists(room, targetMapId);
 
-    if (type === 'grid_item_moved' && updateData.gridItemId && updateData.newPosition) {
-      const gridItemId = updateData.gridItemId;
-      const existingItem = room.gameState.gridItems[gridItemId];
+    // Handle different update types
+    switch (type) {
+      case 'grid_item_moved':
+      case 'move': {
+        const gridItemId = data.itemId || updateData.gridItemId || updateData.itemId;
+        const newPosition = data.position || updateData.newPosition;
 
-      if (existingItem) {
-        // Update item position
-        const updatedItem = {
-          ...existingItem,
-          position: updateData.newPosition,
-          gridPosition: updateData.newPosition.gridPosition,
-          lastMovedBy: player.id,
-          lastMovedAt: new Date()
+        if (!gridItemId || !newPosition) {
+          console.warn('Invalid grid item move data:', data);
+          return;
+        }
+
+        const existingItem = room.gameState.gridItems[gridItemId];
+        if (existingItem) {
+          // Update item position
+          const updatedItem = {
+            ...existingItem,
+            position: newPosition,
+            gridPosition: newPosition.gridPosition,
+            lastMovedBy: player.id,
+            lastMovedAt: new Date()
+          };
+          room.gameState.gridItems[gridItemId] = updatedItem;
+
+          // Update in map-specific location
+          if (room.gameState.maps?.[targetMapId]?.gridItems) {
+            room.gameState.maps[targetMapId].gridItems[gridItemId] = updatedItem;
+          }
+
+          // Persist to Firebase (use batch writer for performance)
+          try {
+            firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+          } catch (error) {
+            console.error('Failed to persist grid item move:', error);
+          }
+
+          // Broadcast to OTHER players on SAME MAP only
+          for (const [sid, p] of players.entries()) {
+            if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
+              io.to(sid).emit('grid_item_updated', {
+                updateType: 'move',
+                itemId: gridItemId,
+                itemData: updatedItem,
+                position: newPosition,
+                updatedBy: player.id,
+                updatedByName: player.name,
+                timestamp: Date.now(),
+                mapId: targetMapId
+              });
+            }
+          }
+
+          console.log(`📦 Grid item ${gridItemId} moved by ${player.name} on map ${targetMapId}`);
+        }
+        break;
+      }
+
+      case 'grid_item_removed':
+      case 'remove': {
+        const gridItemId = data.itemId || updateData.gridItemId;
+        if (!gridItemId) return;
+
+        if (room.gameState.gridItems[gridItemId]) {
+          delete room.gameState.gridItems[gridItemId];
+
+          // Remove from map-specific location
+          if (room.gameState.maps?.[targetMapId]?.gridItems?.[gridItemId]) {
+            delete room.gameState.maps[targetMapId].gridItems[gridItemId];
+          }
+
+          // Persist to Firebase
+          try {
+            firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+          } catch (error) {
+            console.error('Failed to persist grid item removal:', error);
+          }
+
+          // Broadcast to OTHER players on SAME MAP only
+          for (const [sid, p] of players.entries()) {
+            if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
+              io.to(sid).emit('grid_item_updated', {
+                updateType: 'remove',
+                itemId: gridItemId,
+                updatedBy: player.id,
+                updatedByName: player.name,
+                timestamp: Date.now(),
+                mapId: targetMapId
+              });
+            }
+          }
+
+          console.log(`📦 Grid item ${gridItemId} removed by ${player.name} from map ${targetMapId}`);
+        }
+        break;
+      }
+
+      case 'add': {
+        const itemId = data.itemId;
+        const itemData = data.itemData || updateData;
+        const position = data.position;
+
+        if (!itemId || !itemData || !position) {
+          console.warn('Invalid grid item add data:', data);
+          return;
+        }
+
+        const newItem = {
+          ...itemData,
+          id: itemId,
+          position: position,
+          addedBy: player.id,
+          addedAt: new Date(),
+          mapId: targetMapId
         };
-        room.gameState.gridItems[gridItemId] = updatedItem;
 
-        // Also update in map-specific location if exists
-        if (room.gameState.maps?.[targetMapId]?.gridItems) {
-          room.gameState.maps[targetMapId].gridItems[gridItemId] = updatedItem;
-        }
+        room.gameState.gridItems[itemId] = newItem;
+        room.gameState.maps[targetMapId].gridItems[itemId] = newItem;
 
         // Persist to Firebase
         try {
           firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
         } catch (error) {
-          console.error('Failed to persist grid item move:', error);
+          console.error('Failed to persist grid item addition:', error);
         }
 
-        // CRITICAL FIX: Broadcast to OTHER players on the SAME MAP only
+        // Broadcast to OTHER players on SAME MAP only
         for (const [sid, p] of players.entries()) {
           if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
-            io.to(sid).emit('grid_item_update', {
-              type: 'grid_item_moved',
-              data: updateData,
-              playerId: player.id,
-              playerName: player.name,
+            io.to(sid).emit('grid_item_updated', {
+              updateType: 'add',
+              itemId: itemId,
+              itemData: newItem,
+              position: position,
+              updatedBy: player.id,
+              updatedByName: player.name,
               timestamp: Date.now(),
               mapId: targetMapId
             });
           }
         }
 
-        console.log(`📦 Grid item ${gridItemId} moved by ${player.name} on map ${targetMapId} to`, updateData.newPosition);
+        console.log(`📦 Grid item ${itemId} added by ${player.name} on map ${targetMapId}`);
+        break;
       }
-    } else if (type === 'grid_item_removed' && updateData.gridItemId) {
-      const gridItemId = updateData.gridItemId;
 
-      if (room.gameState.gridItems[gridItemId]) {
-        delete room.gameState.gridItems[gridItemId];
-
-        // Also remove from map-specific location if exists
-        if (room.gameState.maps?.[targetMapId]?.gridItems?.[gridItemId]) {
-          delete room.gameState.maps[targetMapId].gridItems[gridItemId];
-        }
-
-        // Persist to Firebase
-        try {
-          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
-        } catch (error) {
-          console.error('Failed to persist grid item removal:', error);
-        }
-
-        // CRITICAL FIX: Broadcast to OTHER players on the SAME MAP only
-        for (const [sid, p] of players.entries()) {
-          if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
-            io.to(sid).emit('grid_item_update', {
-              type: 'grid_item_removed',
-              data: updateData,
-              playerId: player.id,
-              playerName: player.name,
-              timestamp: Date.now(),
-              mapId: targetMapId
-            });
-          }
-        }
-
-        console.log(`📦 Grid item ${gridItemId} removed by ${player.name} from map ${targetMapId}`);
-      }
+      default:
+        console.warn('Unknown grid item update type:', type);
     }
   });
 
@@ -2504,11 +2579,10 @@ io.on('connection', (socket) => {
       playerName: targetPlayer.name,
       destinationMapId: data.destinationMapId
     });
-  });
 
-  // Get destination map data to include in broadcast
-  const destMap = room.gameState.maps?.[data.destinationMapId];
- 
+    // Get destination map data to include in broadcast
+    const destMap = room.gameState.maps?.[data.destinationMapId];
+   
     // CRITICAL FIX: Broadcast player_map_changed to affected players only
     // Only send to: transferred player, players on destination map, GM (if not transferring themselves)
     // This prevents transition screen for GM when they're just switching their own view
@@ -2543,9 +2617,115 @@ io.on('connection', (socket) => {
           } : {}
         });
       }
-    });
+    }
 
     console.log(`🎮 GM transferred ${targetPlayer.name} to map ${data.destinationMapId}`);
+  });
+
+  // Handler: Player uses connection/portal to transfer between maps
+  socket.on('player_use_connection', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    const { connectionId } = data;
+    if (!connectionId) {
+      socket.emit('error', { message: 'Connection ID is required' });
+      return;
+    }
+
+    // Find the portal/connection on current map
+    const currentMap = room.gameState.maps?.[player.currentMapId];
+    if (!currentMap) {
+      socket.emit('error', { message: 'Current map not found' });
+      return;
+    }
+
+    const portal = currentMap.portals?.[connectionId] ||
+                 currentMap.dndElements?.find(el => el.id === connectionId && el.type === 'portal');
+
+    if (!portal) {
+      socket.emit('error', { message: 'Portal not found' });
+      return;
+    }
+
+    // Check if portal is active and configured
+    const isActive = portal.properties?.isActive !== false;
+    if (!isActive) {
+      socket.emit('error', { message: 'Portal is currently inactive' });
+      return;
+    }
+
+    const destinationMapId = portal.properties?.destinationMapId;
+    if (!destinationMapId) {
+      socket.emit('error', { message: 'Portal is not configured with a destination' });
+      return;
+    }
+
+    // Get destination map for validation
+    const destMap = room.gameState.maps?.[destinationMapId];
+    if (!destMap) {
+      socket.emit('error', { message: 'Destination map does not exist' });
+      return;
+    }
+
+    // Update player's current map
+    player.currentMapId = destinationMapId;
+
+    // Prepare destination position
+    const destinationPosition = portal.properties?.destinationPosition || destMap.cameraPosition || { x: 0, y: 0 };
+    const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
+
+    // Broadcast to affected players
+    const affectedPlayers = [];
+    for (const [sid, p] of players.entries()) {
+      // Notify: player being transferred, players on destination map, GM
+      const isAffected = p.id === player.id ||
+                       p.currentMapId === destinationMapId ||
+                       p.isGM;
+
+      if (isAffected) {
+        affectedPlayers.push(sid);
+
+        io.to(sid).emit('player_map_changed', {
+          playerId: player.id,
+          playerName: player.name,
+          newMapId: destinationMapId,
+          mapName: destMap.name || destinationMapId,
+          centerPosition: destinationPosition,
+          transferredByGM: false,
+          portalUsed: {
+            sourceConnectionId: connectionId,
+            destinationConnectionId: destinationConnectionId,
+            portalName: portal.properties?.portalName || portal.name || 'Portal'
+          },
+          mapData: {
+            terrainData: destMap.terrainData || [],
+            wallData: destMap.wallData || [],
+            tokens: destMap.tokens || {},
+            characterTokens: destMap.characterTokens || {},
+            gridItems: destMap.gridItems || {},
+            dndElements: destMap.dndElements || [],
+            backgrounds: destMap.backgrounds || [],
+            gridSettings: destMap.gridSettings || {}
+          }
+        });
+      }
+    }
+
+    // Batch write to Firebase
+    firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+
+    console.log(`🌀 Player ${player.name} used portal ${connectionId} to transfer to map ${destinationMapId}`);
+    console.log(`   Affected players: ${affectedPlayers.length}`);
   });
 
   // Handler: Sync complete map state to Firebase
@@ -3379,85 +3559,6 @@ io.on('connection', (socket) => {
         });
       }
     }
-  });
-
-  // Handle grid item updates (loot orbs, objects on grid)
-  socket.on('grid_item_update', async (data) => {
-    const player = players.get(socket.id);
-    if (!player) return;
-
-    const room = rooms.get(player.roomId);
-    if (!room) return;
-
-    // Initialize grid items if needed
-    if (!room.gameState.gridItems) {
-      room.gameState.gridItems = {};
-    }
-
-    const { updateType, itemId, itemData, position } = data;
-    const targetMapId = data.targetMapId || player.currentMapId || 'default';
-
-    // Initialize map storage
-    if (!room.gameState.maps) room.gameState.maps = {};
-    if (!room.gameState.maps[targetMapId]) room.gameState.maps[targetMapId] = { gridItems: {} };
-    if (!room.gameState.maps[targetMapId].gridItems) room.gameState.maps[targetMapId].gridItems = {};
-
-    switch (updateType) {
-      case 'add':
-        const newItem = {
-          ...itemData,
-          id: itemId,
-          position: position,
-          addedBy: player.id,
-          addedAt: new Date(),
-          mapId: targetMapId
-        };
-        room.gameState.gridItems[itemId] = newItem;
-        room.gameState.maps[targetMapId].gridItems[itemId] = newItem;
-        break;
-      case 'move':
-        if (room.gameState.gridItems[itemId]) {
-          room.gameState.gridItems[itemId].position = position;
-          room.gameState.gridItems[itemId].lastMovedBy = player.id;
-          room.gameState.gridItems[itemId].lastMovedAt = new Date();
-
-          if (room.gameState.maps[targetMapId].gridItems[itemId]) {
-            room.gameState.maps[targetMapId].gridItems[itemId].position = position;
-          }
-        }
-        break;
-      case 'remove':
-        delete room.gameState.gridItems[itemId];
-        if (room.gameState.maps[targetMapId].gridItems[itemId]) {
-          delete room.gameState.maps[targetMapId].gridItems[itemId];
-        }
-        break;
-    }
-
-    // Persist to Firebase
-    try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    } catch (error) {
-      console.error('Failed to persist grid item update:', error);
-    }
-
-    // Broadcast to other players on SAME MAP
-    for (const [sid, p] of players.entries()) {
-      if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
-        io.to(sid).emit('grid_item_updated', {
-          updateType,
-          itemId,
-          itemData,
-          position,
-          updatedBy: player.id,
-          updatedByName: player.name,
-          timestamp: new Date(),
-          mapId: targetMapId
-        });
-      }
-    }
-
-    console.log(`📍 Grid item ${itemId} ${updateType} by ${player.name}`);
   });
 
   // Handle wall placement/updates
