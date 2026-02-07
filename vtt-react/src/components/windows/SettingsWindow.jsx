@@ -56,6 +56,12 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const setDefaultViewFromToken = useSettingsStore(state => state.setDefaultViewFromToken);
     const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
     const setShowMapTransitions = useSettingsStore(state => state.setShowMapTransitions);
+    
+    // Speech bubble settings
+    const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
+    const setShowSpeechBubbles = useSettingsStore(state => state.setShowSpeechBubbles);
+    const speechBubbleDuration = useSettingsStore(state => state.speechBubbleDuration || 5);
+    const setSpeechBubbleDuration = useSettingsStore(state => state.setSpeechBubbleDuration);
 
 
     // Character store
@@ -482,11 +488,80 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
         </div>
     );
 
+    // Render chat settings tab
+    const renderChatSettingsTab = () => (
+        <div className="settings-content-clean">
+            <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '24px', gap: '12px' }}>
+                    <i className="fas fa-comment-dots" style={{ fontSize: '24px', color: '#7a3b2e' }}></i>
+                    <div>
+                        <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '20px', fontFamily: 'Cinzel, serif' }}>Chat & Speech Bubbles</h3>
+                        <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Customize how chat messages are displayed in-game</p>
+                    </div>
+                </div>
+
+                <div style={{ marginBottom: '32px', padding: '20px', background: 'rgba(255, 255, 255, 0.8)', border: '1px solid #e8dcc0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                        <i className="fas fa-comment-dots" style={{ fontSize: '18px', color: '#a08c70' }}></i>
+                        <div>
+                            <h4 style={{ margin: '0 0 8px 0', color: '#7a3b2e', fontSize: '16px', fontFamily: 'Cinzel, serif' }}>Speech Bubbles</h4>
+                            <p style={{ margin: '0', color: '#8b6f47', fontSize: '13px', fontStyle: 'italic' }}>
+                                Show animated bubbles when players send messages. Like World of Warcraft, bubbles appear temporarily next to sender's HUD while also appearing in the chat window.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div className="settings-group">
+                        <div className="control-group">
+                            <label className="control-label control-checkbox">
+                                <input 
+                                    type="checkbox" 
+                                    checked={showSpeechBubbles} 
+                                    onChange={(e) => setShowSpeechBubbles({ showSpeechBubbles: e.target.checked })}
+                                    style={{ marginRight: '8px' }} 
+                                />
+                                Show Speech Bubbles
+                            </label>
+                            <div className="control-help">
+                                <p>Display floating speech bubbles next to player HUD elements when they send chat messages. Bubbles appear for all players in global/party chat, and only the recipient sees whisper bubbles.</p>
+                            </div>
+                        </div>
+                        
+                        {showSpeechBubbles && (
+                            <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', borderRadius: '6px', border: '1px solid rgba(139, 69, 19, 0.2)' }}>
+                                <label className="control-label">
+                                    Bubble Duration: <span className="control-value">{speechBubbleDuration}s</span>
+                                </label>
+                                <div className="control-row" style={{ marginTop: '8px' }}>
+                                    <span className="range-label">2s</span>
+                                    <input 
+                                        type="range" 
+                                        min="2" 
+                                        max="10" 
+                                        step="1"
+                                        value={speechBubbleDuration}
+                                        onChange={(e) => setSpeechBubbleDuration({ speechBubbleDuration: parseInt(e.target.value) })}
+                                        className="control-slider" 
+                                    />
+                                    <span className="range-label">10s</span>
+                                </div>
+                                <div className="control-help" style={{ marginTop: '8px' }}>
+                                    <p>How long speech bubbles remain visible before they float up and fade out (like WoW).</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
     // Render tab content
     const renderTabContent = () => {
         switch (activeTab) {
             case 'interface': return renderInterfaceTab();
             case 'gameplay': return renderGameplayTab();
+            case 'chat': return renderChatSettingsTab();
             default: return renderInterfaceTab();
         }
     };

@@ -1070,9 +1070,18 @@ const RaceSelector = () => {
             {/* Step 3: Detailed View - Only shown when variant is selected */}
             {currentStep === 'details' && variantData && raceData && (
                 <div className="variant-details-view">
-                    <h3 className="step-title">
+                    <div className="step-title">
                         {variantData.name} Details
-                    </h3>
+                        {raceData.epicHistory && (
+                            <button
+                                className="epic-lore-button"
+                                onClick={() => setShowEpicLore(true)}
+                            >
+                                <i className="fas fa-book-open"></i>
+                                Lore
+                            </button>
+                        )}
+                    </div>
 
                     <div className="details-layout">
                         {/* Left Column: Stats & Basic Info */}
@@ -1301,18 +1310,6 @@ const RaceSelector = () => {
                         </div>
                     )}
 
-                    {/* Epic Lore Button */}
-                    {variantData && raceData.epicHistory && (
-                        <div className="epic-lore-trigger">
-                            <button 
-                                className="epic-lore-button"
-                                onClick={() => setShowEpicLore(true)}
-                            >
-                                <i className="fas fa-book-open"></i>
-                                View Epic Lore
-                            </button>
-                        </div>
-                    )}
                 </div>
             )}
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import useGameStore from '../store/gameStore';
 import useItemStore from "../store/itemStore";
 import useGridItemStore from "../store/gridItemStore";
@@ -486,36 +487,40 @@ function GridComponent({
                     // Mark that we've set the view to prevent re-running
                     hasSetPlayerViewRef.current = true;
 
-                    // Batch all state updates together using requestAnimationFrame
+                    // PERFORMANCE FIX: Batch all state updates to prevent cascading re-renders
+                    // Using unstable_batchedUpdates ensures all updates happen in a single render cycle
                     requestAnimationFrame(() => {
                         const gameStore = useGameStore.getState();
                         const editorStore = useLevelEditorStore.getState();
 
                         // Only auto-enable view from token if GM has configured it
                         if (gameStore.defaultViewFromToken) {
-                            // Enable dynamic fog if not already enabled
-                            if (!editorStore.dynamicFogEnabled) {
-                                editorStore.setDynamicFogEnabled(true);
-                            }
+                            // Batch all state updates together
+                            unstable_batchedUpdates(() => {
+                                // Enable dynamic fog if not already enabled
+                                if (!editorStore.dynamicFogEnabled) {
+                                    editorStore.setDynamicFogEnabled(true);
+                                }
 
-                            // Set viewing token to player's character token (never creature tokens)
-                            const tokenData = {
-                                type: 'character',
-                                id: playerToken.id,
-                                characterId: playerToken.id,
-                                playerId: playerToken.playerId,
-                                position: playerToken.position
-                            };
-                            editorStore.setViewingFromToken(tokenData);
+                                // Set viewing token to player's character token (never creature tokens)
+                                const tokenData = {
+                                    type: 'character',
+                                    id: playerToken.id,
+                                    characterId: playerToken.id,
+                                    playerId: playerToken.playerId,
+                                    position: playerToken.position
+                                };
+                                editorStore.setViewingFromToken(tokenData);
 
-                            // Center camera on token initially
-                            requestAnimationFrame(() => {
+                                // Center camera on token initially
                                 gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
                             });
                         } else {
                             // Default behavior: don't auto-enable view from token
                             // Player must manually select it if they want fog of war restrictions
-                            editorStore.setViewingFromToken(null);
+                            unstable_batchedUpdates(() => {
+                                editorStore.setViewingFromToken(null);
+                            });
                         }
                     });
                 }
@@ -546,9 +551,10 @@ function GridComponent({
         gridSystem,
         viewportSize.width,
         viewportSize.height,
-        debouncedCameraX,
-        debouncedCameraY,
-        debouncedZoom,
+        cameraX,
+        cameraY,
+        zoomLevel,
+        playerZoom,
         gridSize,
         gridOffsetX,
         gridOffsetY,
@@ -562,15 +568,39 @@ function GridComponent({
     }, [gridTilesGeneration]);
 
     // Generate wall decorations for grid tiles - walls are attached to tiles, not positioned independently
+    // PERFORMANCE FIX: Only process walls that are potentially visible in viewport
     const wallDecorations = useMemo(() => {
         if (!showWallLayer || !wallData || Object.keys(wallData).length === 0) {
             return new Map();
         }
 
+        // Calculate viewport bounds in grid coordinates with padding for filtering
+        const PADDING_TILES = 2;
+        const gridLeft = Math.floor(((cameraX - (viewportSize.width / 2) / effectiveZoom - gridOffsetX) / gridSize) - PADDING_TILES);
+        const gridRight = Math.ceil(((cameraX + (viewportSize.width / 2) / effectiveZoom - gridOffsetX) / gridSize) + PADDING_TILES);
+        const gridTop = Math.floor(((cameraY - (viewportSize.height / 2) / effectiveZoom - gridOffsetY) / gridSize) - PADDING_TILES);
+        const gridBottom = Math.ceil(((cameraY + (viewportSize.height / 2) / effectiveZoom - gridOffsetY) / gridSize) + PADDING_TILES);
+
         const decorations = new Map();
 
-        // Process each wall and attach it to the appropriate grid tiles
+        // Process each wall and attach it to appropriate grid tiles - ONLY if potentially visible
         Object.entries(wallData).forEach(([wallKey, wallData]) => {
+            // Parse wall coordinates from key: "x1,y1,x2,y2"
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+
+            // Quick bounding box check to skip walls far outside viewport
+            const wallMinX = Math.min(x1, x2);
+            const wallMaxX = Math.max(x1, x2);
+            const wallMinY = Math.min(y1, y2);
+            const wallMaxY = Math.max(y1, y2);
+
+            // PERFORMANCE FIX: Skip if wall is completely outside viewport bounds
+            if (wallMaxX < gridLeft || wallMinX > gridRight ||
+                wallMaxY < gridTop || wallMinY > gridBottom) {
+                return;
+            }
+
+            // Wall is potentially visible - process it
             // Handle both old format (string) and new format (object)
             const wallType = typeof wallData === 'string' ? wallData : wallData.type;
             const wallState = typeof wallData === 'object' ? wallData.state : 'default';
@@ -578,9 +608,6 @@ function GridComponent({
 
             const wallTypeData = WALL_TYPES[wallType];
             if (!wallTypeData) return;
-
-            // Parse wall coordinates from key: "x1,y1,x2,y2"
-            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
             const wallDecoration = {
                 key: wallKey,
@@ -619,7 +646,17 @@ function GridComponent({
         return decorations;
     }, [
         wallData,
-        showWallLayer
+        showWallLayer,
+        cameraX,
+        cameraY,
+        effectiveZoom,
+        gridSize,
+        gridOffsetX,
+        gridOffsetY,
+        viewportSize.width,
+        viewportSize.height,
+        window.innerWidth,
+        window.innerHeight
     ]);
 
     // Initialize map store with current state on first load
@@ -2152,7 +2189,7 @@ function GridComponent({
 
                                 // Add the item to the grid with the clean position data
                                 console.log('Adding item to grid from GM notes:', cleanItem.name, cleanItem.type, positionCopy);
-                                addItemToGrid(cleanItem, positionCopy, true); // Send to server
+                                addItemToGrid(cleanItem, positionCopy, true, currentMapId); // Send to server
 
                                 // Trigger auto-save for local rooms after placing item
                                 setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
@@ -2191,7 +2228,7 @@ function GridComponent({
                     const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
                     const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
                     // Add the creature token to the grid
-                    addToken(creatureId, { x: worldPos.x, y: worldPos.y });
+                    addToken(creatureId, { x: worldPos.x, y: worldPos.y }, true, null, false, currentMapId);
 
                     // Force immediate save for local rooms after placing creature token
                     setTimeout(() => {
@@ -2208,7 +2245,7 @@ function GridComponent({
                                 // Use the infinite grid system to get proper coordinates
                                 const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
                                 const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-                                addToken(data.id, { x: worldPos.x, y: worldPos.y });
+                                addToken(data.id, { x: worldPos.x, y: worldPos.y }, true, null, false, currentMapId);
 
                                 // Force immediate save for local rooms after placing creature token
                                 setTimeout(() => {
@@ -2253,7 +2290,7 @@ function GridComponent({
             document.removeEventListener('drop', handleDocumentDrop);
             document.removeEventListener('dragover', handleDocumentDragOver);
         };
-    }, [isDraggingCreature, addToken, tileSize, addItemToGrid]);
+    }, [isDraggingCreature, addToken, tileSize, addItemToGrid, currentMapId]);
 
     // Handle removing a token
     const handleRemoveToken = (tokenId) => {
@@ -2265,11 +2302,8 @@ function GridComponent({
         removeCharacterToken(tokenId);
     };
 
-
-
     // Handle character inspection from token
     const handleCharacterTokenInspect = (characterData, isSelf) => {
-
         // Dispatch a custom event that HUDContainer can listen for
         const inspectEvent = new CustomEvent('openCharacterSheet', {
             detail: { character: characterData, isSelf }
@@ -2374,7 +2408,7 @@ function GridComponent({
                 console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id);
 
                 // Place the character token with player ID for multiplayer uniqueness
-                addCharacterToken(worldPos, playerId);
+                addCharacterToken(worldPos, playerId, currentMapId);
 
                 // Exit placement mode
                 setIsDraggingCharacterToken(false);
@@ -2627,7 +2661,7 @@ function GridComponent({
                         delete cleanItem.position;
                         delete cleanItem.gridPosition;
 
-                        addItemToGrid(cleanItem, positionCopy, true);
+                        addItemToGrid(cleanItem, positionCopy, true, currentMapId);
 
                         setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
 
@@ -2722,7 +2756,7 @@ function GridComponent({
                     delete cleanItem.gridPosition;
 
                     // Add the item to the grid with the clean position data
-                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
+                    addItemToGrid(cleanItem, positionCopy, true, currentMapId); // Send to server
 
                     // Remove the item from inventory
                     inventoryStore.removeItem(itemId);
@@ -2768,7 +2802,7 @@ function GridComponent({
                     delete cleanItem.gridPosition;
 
                     // Add the item to the grid with the clean position data
-                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
+                    addItemToGrid(cleanItem, positionCopy, true, currentMapId); // Send to server
 
                     // Remove the item from the container
                     const container = useItemStore.getState().items.find(i => i.id === containerId) ||
@@ -3050,9 +3084,9 @@ function GridComponent({
                     height: "100vh",
                     backgroundColor: gridBackgroundColor, // Always apply background color (shows through transparent backgrounds)
                     // CRITICAL FIX: Enable pointer events for players so they can drag the grid
-                    // GM mode has isGridAlignmentMode/isBackgroundManipulationMode, but players need pointer events too
                     // ALSO enable when dragging tokens (character or creature) to allow placement
-                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCharacterToken || isDraggingCreature || isDraggingCamera || shouldEnableCameraDrag || !isGMMode) ? "all" : "none",
+                    // CRITICAL FIX: Always enable pointer events for GMs to ensure tokens/items are interactive
+                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCharacterToken || isDraggingCreature || isDraggingCamera || shouldEnableCameraDrag || isGMMode || !isGMMode) ? "all" : "none",
                     overflow: "hidden",
                     zIndex: 0,
                     cursor: isGridAlignmentMode ? 'crosshair' :
@@ -3347,15 +3381,15 @@ function GridComponent({
                 <WallOverlay />
 
                 {/* Render grid items */}
-                 {(() => {
-                     const itemsForCurrentMap = gridItems.filter(item => {
-                       if (!item.mapId) {
-                         console.warn(`⚠️ Grid item has no mapId: ${item.id}, defaulting to 'default' map`);
-                       }
-                       return (item.mapId || 'default') === currentMapId;
-                     });
-                     return itemsForCurrentMap;
-                 })().map(gridItem => {
+                {(() => {
+                    const itemsForCurrentMap = gridItems.filter(item => {
+                        if (!item.mapId) {
+                            console.warn(`⚠️ Grid item has no mapId: ${item.id}, defaulting to 'default' map`);
+                        }
+                        return (item.mapId || 'default') === currentMapId;
+                    });
+                    return itemsForCurrentMap;
+                })().map(gridItem => {
                     // Get the original item to check if it's a container
                     // First try using originalItemStoreId if available
                     const originalItem = gridItem.originalItemStoreId
@@ -3378,10 +3412,10 @@ function GridComponent({
                 {/* Render creature tokens - memoized for performance */}
                 {useMemo(() => tokens
                     .filter(token => {
-                      if (!token.mapId) {
-                        console.warn(`⚠️ Creature token has no mapId: ${token.id}, defaulting to 'default' map`);
-                      }
-                      return (token.mapId || 'default') === currentMapId;
+                        if (!token.mapId) {
+                            console.warn(`⚠️ Creature token has no mapId: ${token.id}, defaulting to 'default' map`);
+                        }
+                        return (token.mapId || 'default') === currentMapId;
                     })
                     .map(token => (
                         <CreatureToken
@@ -3395,10 +3429,10 @@ function GridComponent({
                 {/* Render character tokens - memoized for performance */}
                 {useMemo(() => (characterTokens || [])
                     .filter(token => {
-                      if (!token.mapId) {
-                        console.warn(`⚠️ Character token has no mapId: ${token.id}, defaulting to 'default' map`);
-                      }
-                      return (token.mapId || 'default') === currentMapId;
+                        if (!token.mapId) {
+                            console.warn(`⚠️ Character token has no mapId: ${token.id}, defaulting to 'default' map`);
+                        }
+                        return (token.mapId || 'default') === currentMapId;
                     })
                     .map(token => (
                         <CharacterToken

@@ -152,6 +152,13 @@ const DraggableWindow = forwardRef(({
         };
     }, []);
 
+    // Ensure cleanup of window-dragging class on unmount
+    useEffect(() => {
+        return () => {
+            document.body.classList.remove('window-dragging');
+        };
+    }, []);
+
     // Manage position and scale through refs to avoid re-renders
     const positionRef = useRef(position);
     const scaleRef = useRef(windowScale);
@@ -186,6 +193,7 @@ const DraggableWindow = forwardRef(({
     // Handle drag start
     const handleDragStart = useCallback((e, data) => {
         setIsDragging(true);
+        document.body.classList.add('window-dragging');
 
         // Track window drag state globally to prevent multiplayer feedback loops
         if (!window.multiplayerDragState) {
@@ -209,28 +217,8 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Add scale-aware drag throttling for consistent feel across different window scales
-    const lastDragTime = useRef(0);
-    const getDragThrottleMs = useCallback(() => {
-        // Reduced throttling for better responsiveness
-        // At 0.5x scale: 8ms throttle (~125fps)
-        // At 1.0x scale: 4ms throttle (~250fps)
-        // At 1.5x scale: 4ms throttle (~250fps)
-        return Math.max(4, Math.round(8 / windowScale));
-    }, [windowScale]);
-
-    // Handle drag with scale-aware throttling for consistent movement feel
-    // Update position state for react-draggable, but don't call parent onDrag until drag stops
+    // Handle drag with minimal throttling for responsiveness
     const handleDrag = useCallback((e, data) => {
-        const now = Date.now();
-        const throttleMs = getDragThrottleMs();
-
-        // Apply scale-aware throttling
-        if (now - lastDragTime.current < throttleMs) {
-            return;
-        }
-        lastDragTime.current = now;
-
         // Update position state - react-draggable needs this for controlled component behavior
         // This causes a re-render, but it's necessary for react-draggable to work correctly
         setPosition({ x: data.x, y: data.y });
@@ -242,11 +230,12 @@ const DraggableWindow = forwardRef(({
         if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [handleClassName, getDragThrottleMs]);
+    }, [handleClassName]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
         setIsDragging(false);
+        document.body.classList.remove('window-dragging');
 
         // Clear window drag state globally
         if (window.multiplayerDragState) {
@@ -260,7 +249,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Let react-draggable handle both positioning and scaling
         }
 
         // Update refs to match final position
@@ -285,9 +273,6 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Calculate scale-aware grid size for consistent drag feel across all scales
-    const gridSize = Math.max(1, Math.round(1 / windowScale)); // Reduced grid size for better responsiveness
-
     // Disable dragging on mobile
     const disableDragging = isMobile;
 
@@ -297,11 +282,11 @@ const DraggableWindow = forwardRef(({
             position={disableDragging ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
             bounds={disableDragging ? false : false} // Remove all bounds restrictions for free movement
-            grid={disableDragging ? [1, 1] : [gridSize, gridSize]} // Scale-aware grid snapping for consistent sensitivity
+            grid={[1, 1]} // No grid snapping for smooth movement
             onStart={disableDragging ? undefined : handleDragStart}
             onDrag={disableDragging ? undefined : handleDrag}
             onStop={disableDragging ? undefined : handleDragStop}
-            scale={1} // Fixed scale to prevent double scaling - CSS handles visual scaling
+            scale={windowScale} // CRITICAL FIX: Match dragging scale to visual scale
             enableUserSelectHack={!disableDragging} // Enable user select hack to prevent text selection during drag
             disabled={disableDragging} // Disable dragging on mobile
         >
@@ -325,6 +310,7 @@ const DraggableWindow = forwardRef(({
                     className={`draggable-window ${className} ${isMobile ? 'mobile-fullscreen' : ''}`}
                     style={{
                         transformOrigin: 'top left',
+                        // Keep visual scale as it's required for proper sizing
                         transform: isMobile ? 'none' : `scale(${windowScale})`,
                         willChange: isMobile ? 'auto' : 'transform',
                         pointerEvents: 'auto',

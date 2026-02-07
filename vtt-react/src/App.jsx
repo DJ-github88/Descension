@@ -45,6 +45,7 @@ import './styles/game-screen.css';
 import './styles/grid-item.css';
 import './styles/party-hud.css';
 import './styles/creature-token.css';
+import './styles/chat-bubble.css';
 import './components/multiplayer/styles/MultiplayerApp.css';
 import './components/multiplayer/styles/RoomLobby.css';
 import './components/multiplayer/styles/ChatWindow.css';

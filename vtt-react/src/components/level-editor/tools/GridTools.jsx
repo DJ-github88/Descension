@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useGameStore from '../../../store/gameStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useDialogueStore from '../../../store/dialogueStore';
+import useMapStore from '../../../store/mapStore';
 import { getIconUrl } from '../../../utils/assetManager';
 import './styles/GridTools.css';
 
@@ -108,6 +109,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         if (socket && socket.connected) {
             const gameStore = useGameStore.getState();
             socket.emit('sync_level_editor_state', {
+                mapId: useMapStore.getState().currentMapId || 'default',
                 gridSettings: {
                     gridType: overrides.gridType || gameStore.gridType,
                     gridSize: overrides.gridSize || gameStore.gridSize,

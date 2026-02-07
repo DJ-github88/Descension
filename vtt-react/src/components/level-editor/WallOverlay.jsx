@@ -231,15 +231,37 @@ const WallOverlay = () => {
     };
 
     // Process wall data into renderable objects (without screen positions - those are calculated at render time)
+    // PERFORMANCE FIX: Calculate viewport bounds once and filter walls during render loop
     const wallTiles = useMemo(() => {
         if (!showWallLayer || !wallData || Object.keys(wallData).length === 0) {
             return [];
         }
 
+        // Calculate viewport bounds in grid coordinates with padding for filtering
+        const PADDING_TILES = 2;
+        const gridLeft = Math.floor(((cameraX - (window.innerWidth / 2) / effectiveZoom - gridOffsetX) / gridSize) - PADDING_TILES);
+        const gridRight = Math.ceil(((cameraX + (window.innerWidth / 2) / effectiveZoom - gridOffsetX) / gridSize) + PADDING_TILES);
+        const gridTop = Math.floor(((cameraY - (window.innerHeight / 2) / effectiveZoom - gridOffsetY) / gridSize) - PADDING_TILES);
+        const gridBottom = Math.ceil(((cameraY + (window.innerHeight / 2) / effectiveZoom - gridOffsetY) / gridSize) + PADDING_TILES);
+
         const walls = [];
 
-        // Process wall data - screen positions will be calculated at render time
+        // Process wall data - only render walls potentially visible in viewport
         Object.entries(wallData).forEach(([wallKey, wallDataItem]) => {
+            // Parse wall coordinates from key: "x1,y1,x2,y2"
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+
+            // Quick bounding box check to skip walls far outside viewport
+            const wallMinX = Math.min(x1, x2);
+            const wallMaxX = Math.max(x1, x2);
+            const wallMinY = Math.min(y1, y2);
+            const wallMaxY = Math.max(y1, y2);
+
+            // PERFORMANCE FIX: Skip if wall is completely outside viewport bounds
+            if (wallMaxX < gridLeft || wallMinX > gridRight ||
+                wallMaxY < gridTop || wallMinY > gridBottom) {
+                return;
+            }
             // Handle both old format (string) and new format (object)
             const wallType = typeof wallDataItem === 'string' ? wallDataItem : wallDataItem.type;
             const wallState = typeof wallDataItem === 'object' ? wallDataItem.state : 'default';
@@ -247,9 +269,6 @@ const WallOverlay = () => {
 
             const wallTypeData = WALL_TYPES[wallType];
             if (!wallTypeData) return;
-
-            // Parse wall coordinates from key: "x1,y1,x2,y2"
-            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
             walls.push({
                 key: wallKey,
@@ -263,7 +282,18 @@ const WallOverlay = () => {
         });
 
         return walls;
-    }, [wallData, showWallLayer]);
+    }, [
+        wallData,
+        showWallLayer,
+        cameraX,
+        cameraY,
+        effectiveZoom,
+        gridSize,
+        gridOffsetX,
+        gridOffsetY,
+        window.innerWidth,
+        window.innerHeight
+    ]);
 
     // Always show walls if the wall layer is enabled, regardless of editor mode
     if (!showWallLayer) {

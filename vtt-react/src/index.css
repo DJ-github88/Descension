@@ -983,3 +983,7 @@ body {
   gap: 8px;
   min-height: 32px;
 }
+/* Disable grid interactions when dragging a window */
+body.window-dragging #grid-overlay {
+    pointer-events: none !important;
+}

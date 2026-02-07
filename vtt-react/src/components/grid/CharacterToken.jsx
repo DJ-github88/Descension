@@ -329,12 +329,17 @@ const CharacterToken = ({
 
     const initialScreenPosition = useMemo(() => {
         if (!currentPos) return { x: 0, y: 0 };
-        return gridSystem ? gridSystem.worldToScreen(
+        const screenPos = gridSystem ? gridSystem.worldToScreen(
             currentPos.x,
             currentPos.y,
             window.innerWidth,
             window.innerHeight
         ) : { x: 0, y: 0 };
+        // Round to integers to prevent sub-pixel jitter/flickering
+        return {
+            x: Math.round(screenPos.x),
+            y: Math.round(screenPos.y)
+        };
     }, [currentPos, gridSystem]);
 
     const screenPositionRef = useRef(initialScreenPosition);
@@ -353,12 +358,16 @@ const CharacterToken = ({
             viewportHeight
         );
 
-        screenPositionRef.current = newPosition;
+        // Round to integers to prevent sub-pixel jitter/flickering
+        const roundedX = Math.round(newPosition.x);
+        const roundedY = Math.round(newPosition.y);
+
+        screenPositionRef.current = { x: roundedX, y: roundedY };
 
         const element = tokenRef.current;
         if (element) {
-            element.style.left = `${newPosition.x}px`;
-            element.style.top = `${newPosition.y}px`;
+            // Use transform3d for GPU-accelerated positioning
+            element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
         }
     }, [gridSystem]);
 
@@ -744,8 +753,10 @@ const CharacterToken = ({
         // PERFORMANCE: Batch DOM updates using requestAnimationFrame
         const updateDOMPosition = (screenX, screenY) => {
             if (tokenRef.current) {
-                tokenRef.current.style.left = `${screenX}px`;
-                tokenRef.current.style.top = `${screenY}px`;
+                // Round to integers and use transform3d for GPU acceleration
+                const roundedX = Math.round(screenX);
+                const roundedY = Math.round(screenY);
+                tokenRef.current.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
             }
         };
 
@@ -1712,20 +1723,21 @@ const CharacterToken = ({
                 ref={tokenRef}
                 className={`character-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isMyTurn ? 'my-turn' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
                 style={{
-                    // CRITICAL: Always include position in React style to prevent jumping during re-renders
-                    left: screenPosition.x,
-                    top: screenPosition.y,
+                    // CRITICAL: Use transform3d for GPU-accelerated positioning
+                    left: 0,
+                    top: 0,
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
                     borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),
                     zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
                     position: 'absolute',
-                    transform: 'translate(-50%, -50%)',
+                    transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
+                    willChange: 'transform',
                     borderRadius: '50%',
                     border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor)}`,
                     overflow: 'visible',
                     boxShadow: isViewingFrom
-                        ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                        ? '0 0 25px rgba(0, 191, 255,1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : isMyTurn
                             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
                             : isSelectedForCombat

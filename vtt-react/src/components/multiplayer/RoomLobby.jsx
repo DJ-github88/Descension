@@ -1128,8 +1128,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
           )}
         </div>
 
-        {activeTab === 'join' && (
-          <div className="join-room-section">
+        <div className={`join-room-section ${activeTab !== 'join' ? 'hidden' : ''}`}>
 
             <form className="manual-join" onSubmit={(e) => { e.preventDefault(); handleJoinRoom(); }}>
               <div className="form-input-group">
@@ -1268,8 +1267,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
           </div>
         )}
 
-        {activeTab === 'create' && (
-          <div className="create-room-section">
+        <div className={`create-room-section ${activeTab !== 'create' ? 'hidden' : ''}`}>
             <h3>Create New Room</h3>
             <div className="form-input-group">
               <label htmlFor="roomName">
@@ -1414,7 +1412,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         )}
 
         {activeTab === 'my-rooms' && isAuthenticated && (
-          <div className="my-rooms-section">
+          <div className={`my-rooms-section ${activeTab !== 'my-rooms' ? 'hidden' : ''}`}>
             <h3>My Rooms</h3>
             {userRooms.length === 0 ? (
               <div className="no-rooms">

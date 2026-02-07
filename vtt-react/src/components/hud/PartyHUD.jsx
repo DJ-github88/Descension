@@ -657,6 +657,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
         <>
             <div
                 ref={frameRef}
+                data-player-id={member.id}
                 className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
                 onContextMenu={handleRightClick}
             >

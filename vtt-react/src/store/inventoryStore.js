@@ -597,7 +597,10 @@ const useInventoryStore = create(persist((set, get) => ({
                 }
 
                 // Return state unchanged - item was not added
-                return { items: state.items };
+                return {
+                    newState: { items: state.items },
+                    result: { success: false, reason: 'inventory_full' }
+                };
             }
 
             // Position found, assign it

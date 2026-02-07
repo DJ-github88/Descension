@@ -12,12 +12,12 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
     const [objectScale, setObjectScale] = useState(1);
     const [editingConnection, setEditingConnection] = useState(null);
     const [showRenameDialog, setShowRenameDialog] = useState(false);
-    
+
     const { dndElements, updateDndElement } = useLevelEditorStore();
     const { maps, getCurrentMapId } = useMapStore();
     const currentMapId = getCurrentMapId();
     const currentMap = maps.find(m => m.id === currentMapId);
-    
+
     // Get connections (portals) from current map's dndElements (should match level editor store)
     const connections = dndElements.filter(el => el.type === 'portal');
 
@@ -152,7 +152,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                 ...connection.properties,
                 portalName: newName
             }
-        });
+        }, currentMapId);
     };
 
     const handleConnectionClick = (connection) => {
@@ -194,7 +194,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
             {selectedTool === 'object_place' && (
                 <div className="tool-section">
                     <h4>SELECT OBJECT TO PLACE</h4>
-                    
+
                     {/* GM Notes and other objects */}
                     <div className="objects-list">
                         {/* Connection Placement Card */}
@@ -215,7 +215,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                             style={{ cursor: 'pointer' }}
                         >
                             <div className="object-card-content">
-                                <div 
+                                <div
                                     className="object-card-icon"
                                     style={{
                                         display: 'flex',
@@ -280,7 +280,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                     const isHidden = conn.properties?.isHidden === true;
                                     const destinationMapId = conn.properties?.destinationMapId;
                                     const destinationMap = maps.find(m => m.id === destinationMapId);
-                                    
+
                                     return (
                                         <div
                                             key={conn.id}

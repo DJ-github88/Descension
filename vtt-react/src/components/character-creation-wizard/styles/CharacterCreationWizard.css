@@ -7574,14 +7574,15 @@ button.gender-option.selected {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    padding: 2rem;
+    padding: 1.5rem;
     backdrop-filter: blur(4px);
+    overflow: hidden;
 }
 
 .epic-lore-overlay-char-creation .race-epic-lore-container {
-    max-width: 700px;
-    max-height: 80vh;
-    overflow-y: auto;
+    max-width: 650px;
+    width: 100%;
+    min-width: 320px;
 }
 
 .epic-lore-overlay-char-creation .epic-lore-button-compact:hover {

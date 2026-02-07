@@ -21,7 +21,7 @@ const MapSwitcher = () => {
     // Game and level editor stores for state synchronization
     const gameStore = useGameStore();
     const levelEditorStore = useLevelEditorStore();
-    
+
     // Get real-time data from stores for reactive updates
     const { dndElements } = useLevelEditorStore();
     const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
@@ -31,6 +31,10 @@ const MapSwitcher = () => {
     // Handle map switching with state preservation
     const handleMapSwitch = async (mapId) => {
         if (mapId === currentMapId) return;
+
+        // CRITICAL FIX: Set map switching lock to prevent data bleeding
+        window._isMapSwitching = true;
+        console.log('🔒 [MapSwitcher] Lock set - preventing updates during transition');
 
         try {
             // Save current map state before switching
@@ -49,14 +53,14 @@ const MapSwitcher = () => {
                 // Clear existing tokens first before loading new map's tokens
                 const { default: useCreatureStore } = await import('../../store/creatureStore');
                 const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
-                
+
                 // Clear all tokens
                 if (useCreatureStore.getState().clearTokens) {
                     useCreatureStore.getState().clearTokens();
                 } else {
                     useCreatureStore.setState({ tokens: [] });
                 }
-                
+
                 if (useCharacterTokenStore.getState().clearCharacterTokens) {
                     useCharacterTokenStore.getState().clearCharacterTokens();
                 } else {
@@ -73,7 +77,7 @@ const MapSwitcher = () => {
                 if (gameStore.setCreatures) {
                     gameStore.setCreatures(mapState.creatures);
                 }
-                
+
                 // Load tokens for the new map
                 if (mapState.tokens && mapState.tokens.length > 0) {
                     const creatureStore = useCreatureStore.getState();
@@ -83,7 +87,7 @@ const MapSwitcher = () => {
                         }
                     });
                 }
-                
+
                 // Load character tokens for the new map
                 if (mapState.characterTokens && mapState.characterTokens.length > 0) {
                     const characterTokenStore = useCharacterTokenStore.getState();
@@ -143,6 +147,12 @@ const MapSwitcher = () => {
             setIsExpanded(false); // Collapse after switching
         } catch (error) {
             console.error('Error switching maps:', error);
+        } finally {
+            // CRITICAL FIX: Always release lock, even on error
+            setTimeout(() => {
+                window._isMapSwitching = false;
+                console.log('🔓 [MapSwitcher] Lock released - updates allowed');
+            }, 200);
         }
     };
 
@@ -150,12 +160,12 @@ const MapSwitcher = () => {
         // For current map, use real-time data from stores for reactive updates
         // For other maps, use stored data from map object
         const isCurrentMap = map.id === currentMapId;
-        
+
         // Count connections (portals) - use real-time data for current map
-        const connections = isCurrentMap 
+        const connections = isCurrentMap
             ? dndElements.filter(el => el.type === 'portal').length
             : (map.dndElements || []).filter(el => el.type === 'portal').length;
-        
+
         // Count creatures (tokens on the map) - use real-time data for current map
         // For other maps, count tokens from stored map data
         const creaturesCount = isCurrentMap

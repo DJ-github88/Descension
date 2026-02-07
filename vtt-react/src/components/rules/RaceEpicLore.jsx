@@ -5,27 +5,27 @@
  * Redesigned with proper scrollable layout, better organization, and responsive design
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getIconUrl } from '../../utils/assetManager';
 import './RaceEpicLore.css';
 
 const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locations', 'crisis', 'practices'], onClose }) => {
     const [activeTab, setActiveTab] = useState(availableTabs[0]);
-    const [expandedSections, setExpandedSections] = useState({});
+    const scrollableRef = useRef(null);
 
-    const toggleSection = (sectionId) => {
-        setExpandedSections(prev => ({
-            ...prev,
-            [sectionId]: !prev[sectionId]
-        }));
+    const handleTabClick = (tabId) => {
+        setActiveTab(tabId);
+        if (scrollableRef.current) {
+            scrollableRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     const tabs = {
-        history: { id: 'history', label: 'Race History', icon: 'fas fa-scroll' },
-        figures: { id: 'figures', label: 'Notable Figures', icon: 'fas fa-users' },
-        locations: { id: 'locations', label: 'Major Locations', icon: 'fas fa-landmark' },
-        crisis: { id: 'crisis', label: 'Current Crisis', icon: 'fas fa-exclamation-triangle' },
-        practices: { id: 'practices', label: 'Cultural Practices', icon: 'fas fa-book' }
+        history: { id: 'history', label: 'History', icon: 'fas fa-scroll' },
+        figures: { id: 'figures', label: 'Figures', icon: 'fas fa-users' },
+        locations: { id: 'locations', label: 'Locations', icon: 'fas fa-landmark' },
+        crisis: { id: 'crisis', label: 'Crisis', icon: 'fas fa-exclamation-triangle' },
+        practices: { id: 'practices', label: 'Practices', icon: 'fas fa-book' }
     };
 
     const renderNotableFigure = (figure, index) => (
@@ -81,36 +81,32 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                 </div>
             )}
 
-            <div className="epic-lore-tabs">
+            <div className="lore-tabs">
                 {availableTabs.map(tabKey => {
                         const tab = tabs[tabKey];
                         return (
                             <button
                                 key={tab.id}
                                 className={`lore-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => setActiveTab(tab.id)}
+                                onClick={() => handleTabClick(tab.id)}
                             >
                                 <i className={`tab-icon ${tab.icon}`}></i>
-                                {tab.label}
+                                <span className="tab-label">{tab.label}</span>
                             </button>
                         );
                     })}
                 </div>
 
-            <div className="epic-lore-scrollable-content">
+            <div className="epic-lore-scrollable-content" ref={scrollableRef}>
                 {activeTab === 'history' && raceData.epicHistory && (
                     <div className="lore-section">
-                        <div
-                            className="lore-section-header"
-                            onClick={() => toggleSection('history')}
-                        >
+                        <div className="lore-section-header">
                             <h4 className="lore-section-title">
                                 <i className="fas fa-scroll section-icon"></i>
-                                Race History
+                                {tabs.history.label}
                             </h4>
-                            <i className={`fas fa-chevron-${expandedSections.history ? 'up' : 'down'} expand-icon`}></i>
                         </div>
-                        <div className={`lore-section-content ${expandedSections.history ? 'expanded' : ''}`}>
+                        <div className="lore-section-content">
                             <div className="epic-text">{raceData.epicHistory}</div>
                         </div>
                     </div>
@@ -118,17 +114,13 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
                 {activeTab === 'figures' && raceData.notableFigures && (
                     <div className="lore-section">
-                        <div
-                            className="lore-section-header"
-                            onClick={() => toggleSection('figures')}
-                        >
+                        <div className="lore-section-header">
                             <h4 className="lore-section-title">
                                 <i className="fas fa-users section-icon"></i>
-                                Notable Figures
+                                {tabs.figures.label}
                             </h4>
-                            <i className={`fas fa-chevron-${expandedSections.figures ? 'up' : 'down'} expand-icon`}></i>
                         </div>
-                        <div className={`lore-section-content ${expandedSections.figures ? 'expanded' : ''}`}>
+                        <div className="lore-section-content">
                             <div className="notable-figures-list">
                                 {raceData.notableFigures.map((figure, index) => renderNotableFigure(figure, index))}
                             </div>
@@ -138,17 +130,13 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
                 {activeTab === 'locations' && raceData.majorLocations && (
                     <div className="lore-section">
-                        <div
-                            className="lore-section-header"
-                            onClick={() => toggleSection('locations')}
-                        >
+                        <div className="lore-section-header">
                             <h4 className="lore-section-title">
                                 <i className="fas fa-landmark section-icon"></i>
-                                Major Locations
+                                {tabs.locations.label}
                             </h4>
-                            <i className={`fas fa-chevron-${expandedSections.locations ? 'up' : 'down'} expand-icon`}></i>
                         </div>
-                        <div className={`lore-section-content ${expandedSections.locations ? 'expanded' : ''}`}>
+                        <div className="lore-section-content">
                             <div className="locations-list">
                                 {raceData.majorLocations.map((location, index) => renderLocation(location, index))}
                             </div>
@@ -158,17 +146,13 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
                 {activeTab === 'crisis' && raceData.currentCrisis && (
                     <div className="lore-section">
-                        <div
-                            className="lore-section-header"
-                            onClick={() => toggleSection('crisis')}
-                        >
+                        <div className="lore-section-header">
                             <h4 className="lore-section-title">
                                 <i className="fas fa-exclamation-triangle section-icon"></i>
-                                Current Crisis
+                                {tabs.crisis.label}
                             </h4>
-                            <i className={`fas fa-chevron-${expandedSections.crisis ? 'up' : 'down'} expand-icon`}></i>
                         </div>
-                        <div className={`lore-section-content ${expandedSections.crisis ? 'expanded' : ''}`}>
+                        <div className="lore-section-content">
                             <div className="crisis-content">
                                 {raceData.currentCrisis}
                             </div>
@@ -178,17 +162,13 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
                 {activeTab === 'practices' && raceData.culturalPractices && (
                     <div className="lore-section">
-                        <div
-                            className="lore-section-header"
-                            onClick={() => toggleSection('practices')}
-                        >
+                        <div className="lore-section-header">
                             <h4 className="lore-section-title">
                                 <i className="fas fa-book section-icon"></i>
-                                Cultural Practices
+                                {tabs.practices.label}
                             </h4>
-                            <i className={`fas fa-chevron-${expandedSections.practices ? 'up' : 'down'} expand-icon`}></i>
                         </div>
-                        <div className={`lore-section-content ${expandedSections.practices ? 'expanded' : ''}`}>
+                        <div className="lore-section-content">
                             <div className="epic-text">{raceData.culturalPractices}</div>
                         </div>
                     </div>

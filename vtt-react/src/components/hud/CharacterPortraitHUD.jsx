@@ -107,10 +107,25 @@ const CharacterPortraitHUD = ({
 
     // Handle create token action
     const handleCreateToken = () => {
-        setShowContextMenu(false);
-        if (onCreateToken) {
-            onCreateToken(characterData, isCurrentPlayer);
+        if (!contextMenuMember) return;
+
+        // Check if this is the current player
+        // CRITICAL FIX: Use ID instead of name to avoid collisions
+        const isSelf = contextMenuMember.id === 'current-player';
+        if (isSelf && onCreateToken) {
+            // CRITICAL FIX: Dispatch a window event so Grid.jsx can detect character drags
+            window.dispatchEvent(new CustomEvent('createCharacterToken', {
+                detail: {
+                    character: contextMenuMember,
+                    isSelf: isSelf
+                }
+            }));
+
+            // Also call the parent callback for local compatibility
+            onCreateToken(contextMenuMember, isSelf);
         }
+
+        setShowContextMenu(false);
     };
 
     // Handle target action

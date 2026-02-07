@@ -15,6 +15,9 @@ import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtil
 // Fallback to new Map if window is not defined (SSR compatibility)
 const recentTokenMovements = (typeof window !== 'undefined' && window.recentTokenMovements) || new Map();
 
+// Echo Prevention Window - standardized across all stores
+const ECHO_PREVENTION_WINDOW_MS = 200;
+
 // Cleanup throttle - only clean up old movements every 10 seconds
 const CLEANUP_INTERVAL = 10000;
 let lastCleanup = Date.now();
@@ -44,7 +47,7 @@ const useCreatureStore = create((set, get) => ({
   })),
 
   // Add creature token to the grid
-  addCreatureToken: (creature, position, sendToServer = true, forcedTokenIdOrSync = null, isSyncEvent = false) => {
+  addCreatureToken: (creature, position, sendToServer = true, forcedTokenIdOrSync = null, isSyncEvent = false, targetMapId = null) => {
     // Handle overloaded arguments from addToken alias
     const forcedTokenId = typeof forcedTokenIdOrSync === 'string' ? forcedTokenIdOrSync : null;
     const forcedState = typeof forcedTokenIdOrSync === 'object' ? forcedTokenIdOrSync : (typeof isSyncEvent === 'object' ? isSyncEvent : null);
@@ -57,9 +60,22 @@ const useCreatureStore = create((set, get) => ({
 
     const tokenId = forcedTokenId || (creatureData.tokenId) || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
+    // CRITICAL: Capture current mapId IMMEDIATELY to prevent race conditions
+    let capturedMapId = 'default';
+    if (targetMapId) {
+      capturedMapId = targetMapId;
+    } else {
+      try {
+        const { default: mapStore } = require('./mapStore');
+        capturedMapId = mapStore.getState().currentMapId || 'default';
+      } catch (e) {
+        console.warn('Could not capture current map ID:', e);
+      }
+    }
+
     set((state) => {
-      // CRITICAL FIX: Get current map ID for map isolation - declared at top for scope availability
-      let currentMapId = 'default';
+      // Use captured mapId unless creature specifically defines one
+      const currentMapId = creatureData.mapId || capturedMapId;
 
       const existingTokens = state.creatureTokens || [];
       const tokenExists = existingTokens.some(t => t.id === tokenId);
@@ -103,17 +119,6 @@ const useCreatureStore = create((set, get) => ({
         lastCleanup = now;
       }
 
-      // Try to get current map ID dynamically
-      try {
-        const mapStoreModule = require('./mapStore').default;
-        if (mapStoreModule) {
-          const mapStore = mapStoreModule.getState();
-          currentMapId = mapStore.currentMapId || 'default';
-        }
-      } catch (error) {
-        console.warn('Could not get current map ID for token sync:', error);
-      }
-
       // Sync with Multiplayer server if enabled and not already a sync event
       if (sendToServer && !isSync) {
         try {
@@ -126,11 +131,13 @@ const useCreatureStore = create((set, get) => ({
                 id: tokenId,
                 creatureId: creatureId,
                 state: creatureData.state,
-                targetMapId: currentMapId // Include map ID for map isolation
+                mapId: currentMapId, // CRITICAL: Standard field name
+                targetMapId: currentMapId // Keep for backward compatibility
               },
               creature: creatureData,
               position: position,
               tokenId: tokenId,
+              mapId: currentMapId, // CRITICAL: Standard field name
               targetMapId: currentMapId // Include map ID for map isolation
             };
 
@@ -173,8 +180,8 @@ const useCreatureStore = create((set, get) => ({
   },
 
   // Alias for addCreatureToken
-  addToken: (creature, position, sendToServer = true, forcedTokenId = null, isSyncEvent = false) => {
-    return get().addCreatureToken(creature, position, sendToServer, forcedTokenId, isSyncEvent);
+  addToken: (creature, position, sendToServer = true, p4 = null, p5 = null, targetMapId = null) => {
+    return get().addCreatureToken(creature, position, sendToServer, p4, p5, targetMapId);
   },
 
   // Update creature token position
@@ -213,7 +220,7 @@ const useCreatureStore = create((set, get) => ({
     }
 
     // Ignore sync events if we have a recent local move
-    if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 1000) {
+    if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < ECHO_PREVENTION_WINDOW_MS) {
       const isSamePos = Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
         Math.round(recentMove.position.y) === Math.round(targetPos.y);
       if (isSamePos) return state;
@@ -425,6 +432,24 @@ const useCreatureStore = create((set, get) => ({
     set(state => {
       const tokenId = tokenData.id || tokenData.tokenId || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
       const existingTokens = state.creatureTokens || [];
+      const tokenMapId = tokenData.mapId || 'default';
+
+      // CRITICAL FIX: Get current map ID to prevent cross-map contamination
+      let currentMapId = 'default';
+      try {
+        const mapStoreModule = require('./mapStore');
+        if (mapStoreModule && mapStoreModule.default) {
+          currentMapId = mapStoreModule.default.getState().currentMapId || 'default';
+        }
+      } catch (error) {
+        console.warn('Could not get current map ID for token loading:', error);
+      }
+
+      // CRITICAL FIX: Only load token if it belongs to current map
+      if (tokenMapId !== currentMapId) {
+        console.log(`🎭 Skipping token ${tokenId} - belongs to map ${tokenMapId}, but current map is ${currentMapId}`);
+        return state;
+      }
 
       // Don't add if already exists
       if (existingTokens.some(t => t.id === tokenId)) return state;
@@ -435,7 +460,7 @@ const useCreatureStore = create((set, get) => ({
         // Ensure positional data is correct
         position: tokenData.position || { x: 0, y: 0 },
         // Ensure mapId is preserved
-        mapId: tokenData.mapId || 'default',
+        mapId: tokenMapId,
         // Preserve state
         state: tokenData.state || {
           currentHp: tokenData.stats?.maxHp || 10,
@@ -444,6 +469,7 @@ const useCreatureStore = create((set, get) => ({
       };
 
       const updatedTokens = [...existingTokens, newToken];
+
       return {
         creatureTokens: updatedTokens,
         tokens: updatedTokens

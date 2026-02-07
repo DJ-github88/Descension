@@ -3,6 +3,7 @@ import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { isPositionVisible } from '../../../utils/VisibilityCalculations';
+import { debounce } from '../../../utils/performanceUtils';
 
 // Image cache for tile variations
 const imageCache = {};
@@ -214,7 +215,9 @@ const TerrainSystem = () => {
         gridSize: 0,
         gridOffsetX: 0,
         gridOffsetY: 0,
-        dataVersion: 0
+        dataVersion: 0,
+        viewportWidth: 0,
+        viewportHeight: 0
     });
     const bufferPadding = 500; // Extra pixels to render around the viewport
     const [terrainDataVersion, setTerrainDataVersion] = useState(0);
@@ -641,7 +644,9 @@ const TerrainSystem = () => {
             gridSize,
             gridOffsetX,
             gridOffsetY,
-            dataVersion: terrainDataVersion
+            dataVersion: terrainDataVersion,
+            viewportWidth: width,
+            viewportHeight: height
         };
 
         performFullRender(bufferCtx, bufferWidth, bufferHeight, cameraX, cameraY, effectiveZoom);
@@ -662,6 +667,8 @@ const TerrainSystem = () => {
         if (canvas.width !== width || canvas.height !== height) {
             canvas.width = width;
             canvas.height = height;
+            // Also clear buffer to prevent alignment issues when canvas resizes
+            bufferCanvasRef.current = null;
         }
 
         ctx.clearRect(0, 0, width, height);
@@ -675,6 +682,8 @@ const TerrainSystem = () => {
             lastReset.gridOffsetX !== gridOffsetX ||
             lastReset.gridOffsetY !== gridOffsetY ||
             lastReset.dataVersion !== terrainDataVersion ||
+            lastReset.viewportWidth !== width ||
+            lastReset.viewportHeight !== height ||
             Math.abs(cameraX - lastReset.cameraX) * effectiveZoom > bufferPadding ||
             Math.abs(cameraY - lastReset.cameraY) * effectiveZoom > bufferPadding;
 
@@ -2117,12 +2126,24 @@ const TerrainSystem = () => {
 
     // Handle window resize
     useEffect(() => {
-        const handleResize = () => {
+        // Debounced resize handler - only executes 200ms after resize stops
+        const handleResize = debounce(() => {
+            // Clear texture cache - tiles need to re-render at new viewport dimensions
+            Object.keys(textureCache).forEach(key => delete textureCache[key]);
+
+            // Force buffer refresh by clearing buffer reference
+            // This ensures terrain is re-rendered with correct viewport dimensions
+            bufferCanvasRef.current = null;
+
+            // Force full terrain re-render
             renderTerrain();
-        };
+        }, 200); // 200ms debounce - balances responsiveness with performance
 
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            // Cleanup: remove resize listener and clear any pending debounce
+            window.removeEventListener('resize', handleResize);
+        };
     }, [renderTerrain]);
 
     return (

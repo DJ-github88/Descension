@@ -13,6 +13,9 @@ if (!window.recentTokenMovements) {
 }
 const recentTokenMovements = window.recentTokenMovements;
 
+// Echo Prevention Window - standardized across all stores
+const ECHO_PREVENTION_WINDOW_MS = 200;
+
 // Use character token store
 const useCharacterTokenStore = create(
   persist(
@@ -25,6 +28,19 @@ const useCharacterTokenStore = create(
         let tokenId = null;
         let isNewToken = false;
 
+        // CRITICAL: Get current mapId IMMEDIATELY if not provided - ensures proper map isolation
+        let resolvedMapId;
+        if (targetMapId) {
+          resolvedMapId = targetMapId;
+        } else {
+          try {
+            const mapStore = require('./mapStore').default;
+            resolvedMapId = mapStore.getState().currentMapId || 'default';
+          } catch (error) {
+            resolvedMapId = 'default';
+          }
+        }
+
         // 1. Update state (calculate if new or existing)
         set(state => {
           // Check if a character token already exists for this player
@@ -36,20 +52,10 @@ const useCharacterTokenStore = create(
             tokenId = existingToken.id;
             return {
               characterTokens: state.characterTokens.map(token =>
-                token.id === existingToken.id ? { ...token, position } : token
+                token.id === existingToken.id ? { ...token, position, mapId: token.mapId || resolvedMapId } : token
               )
             };
           }
-
-          // CRITICAL: Get current mapId if not provided - ensures proper map isolation
-          const currentMapId = targetMapId || (() => {
-            try {
-              const mapStore = require('./mapStore').default;
-              return mapStore.getState().currentMapId || 'default';
-            } catch (error) {
-              return 'default';
-            }
-          })();
 
           // Create a new character token with mapId for proper isolation
           const newToken = {
@@ -57,7 +63,7 @@ const useCharacterTokenStore = create(
             isPlayerToken: !playerId,
             playerId: playerId,
             position,
-            mapId: currentMapId,
+            mapId: resolvedMapId,
             createdAt: Date.now()
           };
           tokenId = newToken.id;
@@ -177,7 +183,7 @@ const useCharacterTokenStore = create(
         }
 
         // If we recently moved this token locally, ignore any server updates for it for a short grace period
-        if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 1000) {
+        if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < ECHO_PREVENTION_WINDOW_MS) {
           const isSamePosition =
             Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
             Math.round(recentMove.position.y) === Math.round(targetPos.y);
@@ -279,7 +285,7 @@ const useCharacterTokenStore = create(
         );
       },
 
- 
+
       // Add character token from server (for multiplayer sync)
       addCharacterTokenFromServer: (tokenId, position, playerId, mapId = null) => set(state => {
         // Find character token to update
@@ -310,19 +316,19 @@ const useCharacterTokenStore = create(
         // Update existing token or create new one with mapId for proper isolation
         const updatedTokens = existingToken
           ? state.characterTokens.map(token =>
-              token.id === tokenId ? { ...token, position, mapId: mapId || token.mapId } : token
-            )
+            token.id === tokenId ? { ...token, position, mapId: mapId || token.mapId } : token
+          )
           : [
-              ...state.characterTokens,
-              {
-                id: tokenId,
-                isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
-                playerId: playerId,
-                position,
-                mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
-                createdAt: Date.now()
-              }
-            ];
+            ...state.characterTokens,
+            {
+              id: tokenId,
+              isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
+              playerId: playerId,
+              position,
+              mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
+              createdAt: Date.now()
+            }
+          ];
 
         return { characterTokens: updatedTokens };
       }),

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
 import { ensureArray, safeLog, safeGet } from '../utils/prodDevParity';
 import { getIconUrl } from '../utils/assetManager';
-// Removed enhancedMultiplayer import - service was removed
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
@@ -107,6 +107,7 @@ const enqueueItemNotification = (html, quality = 'common', displayDuration = 250
 
 // Create the grid item store
 // NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
+const mapStore = require('./mapStore').default;
 const useGridItemStore = create((set, get) => ({
   // State
   gridItems: [], // Items placed on the grid
@@ -114,43 +115,46 @@ const useGridItemStore = create((set, get) => ({
   lastUpdate: Date.now(), // Timestamp to help with re-renders
 
   // Actions
-  addItemToGrid: (item, position, sendToServer = true) => set((state) => {
-    // Check if we can stack this item with an existing one
-    const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
-
-    // Check if item with this ID already exists (crucial for multiplayer sync)
-    // If it exists and isn't a stackable type being consolidated, update it instead of adding
-    const existingByIdIndex = item.id ? state.gridItems.findIndex(gi => gi.id === item.id) : -1;
-    if (existingByIdIndex >= 0 && (!isStackableType || item.stackable === false)) {
-      const updatedGridItems = [...state.gridItems];
-      updatedGridItems[existingByIdIndex] = {
-        ...updatedGridItems[existingByIdIndex],
-        ...item,
-        position: position,
-        gridPosition: position.gridPosition
-      };
-
-      return {
-        gridItems: updatedGridItems,
-        lastUpdate: Date.now()
-      };
+  addItemToGrid: (item, position, sendToServer = true, targetMapId = null) => {
+    // CRITICAL FIX: Capture mapId IMMEDIATELY before deferred execution to prevent race conditions during map switching
+    let resolvedMapId;
+    if (targetMapId) {
+      resolvedMapId = targetMapId;
+    } else if (item.mapId) {
+      resolvedMapId = item.mapId;
+    } else {
+      try {
+        const mapStore = require('./mapStore').default;
+        resolvedMapId = mapStore.getState().currentMapId || 'default';
+        console.log('🗺️ [addItemToGrid] Setting mapId for item:', {
+          itemName: item.name,
+          itemId: item.id,
+          mapId: resolvedMapId,
+          hasProvidedMapId: !!item.mapId
+        });
+      } catch (error) {
+        console.error('Failed to get current map ID:', error);
+        resolvedMapId = 'default';
+      }
     }
 
-    // Check if we can stack this item with an existing one
-    if (isStackableType && item.stackable !== false) {
-      const existingItemIndex = state.gridItems.findIndex(gridItem =>
-        gridItem.name === item.name &&
-        gridItem.type === item.type &&
-        gridItem.quality === item.quality
-      );
+    return set((state) => {
+      // Check if we can stack this item with an existing one
+      const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
 
-      if (existingItemIndex >= 0) {
-        // Stack with existing item
+      // Check if item with this ID already exists (crucial for multiplayer sync)
+      // If it exists and isn't a stackable type being consolidated, update it instead of adding
+      const existingByIdIndex = item.id ? state.gridItems.findIndex(gi => gi.id === item.id) : -1;
+      if (existingByIdIndex >= 0 && (!isStackableType || item.stackable === false)) {
         const updatedGridItems = [...state.gridItems];
-        const existingItem = updatedGridItems[existingItemIndex];
-        updatedGridItems[existingItemIndex] = {
-          ...existingItem,
-          quantity: (existingItem.quantity || 1) + (item.quantity || 1)
+        const finalPosition = position || item.position || updatedGridItems[existingByIdIndex].position || { x: 0, y: 0 };
+        const finalGridPosition = finalPosition.gridPosition || item.gridPosition || updatedGridItems[existingByIdIndex].gridPosition || { row: 0, col: 0 };
+
+        updatedGridItems[existingByIdIndex] = {
+          ...updatedGridItems[existingByIdIndex],
+          ...item,
+          position: finalPosition,
+          gridPosition: finalGridPosition
         };
 
         return {
@@ -158,208 +162,152 @@ const useGridItemStore = create((set, get) => ({
           lastUpdate: Date.now()
         };
       }
-    }
 
-    // Adding item to grid
+      // Check if we can stack this item with an existing one
+      if (isStackableType && item.stackable !== false) {
+        const existingItemIndex = state.gridItems.findIndex(gridItem =>
+          gridItem.name === item.name &&
+          gridItem.type === item.type &&
+          gridItem.quality === item.quality
+        );
 
-    // Store temporary items (like creature loot) so they can be found later
-    // Check if this item has a temporary ID (starts with inline_, gold_, silver_, etc.)
-    const isTemporaryItem = item.id && (
-      item.id.startsWith('inline_') ||
-      item.id.startsWith('gold_') ||
-      item.id.startsWith('silver_') ||
-      item.id.startsWith('copper_') ||
-      item.id.startsWith('platinum_')
-    );
+        if (existingItemIndex >= 0) {
+          // Stack with existing item
+          const updatedGridItems = [...state.gridItems];
+          const existingItem = updatedGridItems[existingItemIndex];
+          updatedGridItems[existingItemIndex] = {
+            ...existingItem,
+            quantity: (existingItem.quantity || 1) + (item.quantity || 1)
+          };
 
-    if (isTemporaryItem) {
-      // Store the complete item data so it can be found later
-      set((state) => {
-        const newTemporaryItems = new Map(state.temporaryItems);
+          return {
+            gridItems: updatedGridItems,
+            lastUpdate: Date.now()
+          };
+        }
+      }
+
+      // Adding item to grid
+      let newTemporaryItems = state.temporaryItems;
+
+      // Store temporary items (like creature loot) so they can be found later
+      // Check if this item has a temporary ID (starts with inline_, gold_, silver_, etc.)
+      const isTemporaryItem = item.id && (
+        item.id.startsWith('inline_') ||
+        item.id.startsWith('gold_') ||
+        item.id.startsWith('silver_') ||
+        item.id.startsWith('copper_') ||
+        item.id.startsWith('platinum_')
+      );
+
+      if (isTemporaryItem) {
+        // Update temporary items map
+        newTemporaryItems = new Map(state.temporaryItems);
         newTemporaryItems.set(item.id, item);
-        return { temporaryItems: newTemporaryItems };
-      });
-    }
+      }
 
-    // IMPORTANT: Force currency properties if type is currency
-    if (item.type === 'currency') {
-      item.isCurrency = true;
+      // IMPORTANT: Force currency properties if type is currency
+      if (item.type === 'currency') {
+        item.isCurrency = true;
 
-      // Make sure currencyType is set
-      if (!item.currencyType) {
-        if (item.currencyValue && typeof item.currencyValue === 'object') {
-          // Determine primary type based on highest value
-          if (item.currencyValue.gold > 0) {
-            item.currencyType = 'gold';
-          } else if (item.currencyValue.silver > 0) {
-            item.currencyType = 'silver';
+        // Make sure currencyType is set
+        if (!item.currencyType) {
+          if (item.currencyValue && typeof item.currencyValue === 'object') {
+            // Determine primary type based on highest value
+            if (item.currencyValue.gold > 0) {
+              item.currencyType = 'gold';
+            } else if (item.currencyValue.silver > 0) {
+              item.currencyType = 'silver';
+            } else {
+              item.currencyType = 'copper';
+            }
+          } else if (item.value && typeof item.value === 'object') {
+            // Try to use value object if currencyValue is not set
+            if (item.value.gold > 0) {
+              item.currencyType = 'gold';
+              item.currencyValue = item.value;
+            } else if (item.value.silver > 0) {
+              item.currencyType = 'silver';
+              item.currencyValue = item.value;
+            } else if (item.value.copper > 0) {
+              item.currencyType = 'copper';
+              item.currencyValue = item.value;
+            } else {
+              // Default to gold with empty values
+              item.currencyType = 'gold';
+              item.currencyValue = { gold: 0, silver: 0, copper: 0 };
+            }
           } else {
-            item.currencyType = 'copper';
-          }
-        } else if (item.value && typeof item.value === 'object') {
-          // Try to use value object if currencyValue is not set
-          if (item.value.gold > 0) {
+            // Default to gold if no type is specified
             item.currencyType = 'gold';
-            item.currencyValue = item.value;
-          } else if (item.value.silver > 0) {
-            item.currencyType = 'silver';
-            item.currencyValue = item.value;
-          } else if (item.value.copper > 0) {
-            item.currencyType = 'copper';
-            item.currencyValue = item.value;
-          } else {
-            // Default to gold with empty values
-            item.currencyType = 'gold';
+            // Create a default currencyValue object
             item.currencyValue = { gold: 0, silver: 0, copper: 0 };
           }
-        } else {
-          // Default to gold if no type is specified
-          item.currencyType = 'gold';
-          // Create a default currencyValue object
+        }
+
+        // If currencyValue is still not set, create a default one
+        if (!item.currencyValue) {
           item.currencyValue = { gold: 0, silver: 0, copper: 0 };
+          // Set the value for the specified currency type
+          if (item.currencyType) {
+            item.currencyValue[item.currencyType] = 1;
+          }
         }
       }
 
-      // If currencyValue is still not set, create a default one
-      if (!item.currencyValue) {
-        item.currencyValue = { gold: 0, silver: 0, copper: 0 };
-        // Set the value for the specified currency type
-        if (item.currencyType) {
-          item.currencyValue[item.currencyType] = 1;
+      // CRITICAL FIX: Safe grid position handling (prevent TypeError)
+      const finalPosition = position || item.position || { x: 0, y: 0 };
+      const finalGridPosition = finalPosition.gridPosition || item.gridPosition || { row: 0, col: 0 };
+
+      // CRITICAL FIX: Ensure all items on the grid have an ID starting with 'grid-item-'
+      // This is required for Grid.jsx to recognize them as existing items during dragging.
+      const gridId = (item.id && typeof item.id === 'string' && item.id.startsWith('grid-item-'))
+        ? item.id
+        : generateId();
+
+      const gridItem = {
+        ...item,
+        id: gridId,
+        itemId: item.itemId || (item.id && typeof item.id === 'string' && !item.id.startsWith('grid-item-') ? item.id : null), // Store library ID for looting
+        originalItemId: item.originalItemId || (item.id && typeof item.id === 'string' && !item.id.startsWith('grid-item-') ? item.id : null),
+        position: { x: finalPosition.x, y: finalPosition.y },
+        gridPosition: {
+          row: finalGridPosition.row,
+          col: finalGridPosition.col
+        },
+        mapId: resolvedMapId, // Use the mapId captured outside the set callback
+        lastModified: Date.now()
+      };
+
+      // Add new grid item to state
+      const updatedGridItems = [...state.gridItems, gridItem];
+
+      // Sync with multiplayer using our new system
+      if (sendToServer) {
+        get().syncGridItemUpdate('grid_item_added', {
+          item: gridItem,
+          position: finalPosition,
+          gridPosition: finalGridPosition,
+          targetMapId: resolvedMapId
+        });
+      }
+
+      // Force a React re-render by dispatching a custom event
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('grid-items-updated', {
+            detail: { itemCount: updatedGridItems.length }
+          }));
         }
-      }
+      }, 0);
 
-
-    }
-
-    // Create a new grid item with position information and preserve ALL item properties
-     // Start with a copy of the original item to preserve all properties
-     // IMPORTANT: First copy all properties from the original item
-     const gridItem = {
-      // Copy ALL properties from the original item to ensure nothing is lost
-      ...item,
-
-      // Then override with the critical grid item properties
-      // This ensures these properties aren't overridden by the spread operator
-      // CRITICAL: Preserve ID if it already exists (important for multiplayer sync)
-      id: item.addedAt ? item.id : generateId(),
-      itemId: item.itemId || item.id, // Reference to the original item
-      // Store the original item store ID if available (for items from inventory)
-      originalItemStoreId: item.originalItemStoreId || null,
-      // IMPORTANT: Ensure position is set correctly and not overridden
-      position: item.position || position, // { x, y } in pixels - use item.position first
-      gridPosition: item.gridPosition || position?.gridPosition, // { row, col } in grid coordinates
-      addedAt: item.addedAt || new Date().toISOString(),
-
-      // Ensure critical properties are set correctly even if they weren't in the original item
-      isContainer: item.type === 'container',
-      containerProperties: item.type === 'container' ? {
-        ...(item.containerProperties || {}),
-        gridSize: item.containerProperties?.gridSize || { rows: 4, cols: 6 },
-        isLocked: item.isLocked || false,
-        isOpen: !item.isLocked
-      } : null,
-
-      // Ensure currency properties are set correctly
-      isCurrency: item.isCurrency || item.type === 'currency' || false,
-      currencyType: item.currencyType || (item.type === 'currency' ? 'gold' : null),
-      currencyValue: item.currencyValue || null,
-
-      // Ensure type and quality are set
-      type: item.type || 'misc',
-      quality: item.quality || item.rarity || 'common',
-
-      // Ensure icon and name are set - use customName if available (for renamed items)
-      iconId: item.iconId || null,
-      name: item.customName || item.name || 'Unknown Item',
-
-      // Ensure value is set for currency items
-      value: item.value || null,
-
-      // Preserve all stats and properties
-      baseStats: item.baseStats || item.stats || null,
-      combatStats: item.combatStats || null,
-      utilityStats: item.utilityStats || null,
-      weaponStats: item.weaponStats || null,
-      description: item.description || null,
-
-      // Preserve subtype and other important properties
-      subtype: item.subtype || null,
-      rarity: item.rarity || item.quality || 'common',
-
-      // Preserve slot information
-      slots: item.slots || null,
-      slot: item.slot || null,
-      weaponSlot: item.weaponSlot || null,
-
-      // Preserve other important properties
-      imageUrl: item.imageUrl || null,
-      weight: item.weight || null,
-      requiredLevel: item.requiredLevel || null,
-
-      // IMPORTANT: Preserve quantity for stacked items
-      quantity: item.quantity || 1,
-
-      // CRITICAL FIX: Add mapId for map isolation - use current map if not specified
-      // Priority: Use explicit position/gridPosition if provided
-      // CRITICAL FIX: Use NEW position parameter first, not old item position
-      gridPosition: position?.gridPosition || item.gridPosition || item.position?.gridPosition,
-
-      // Priority: Use NEW explicit position if provided (fixes items reverting to old positions)
-      position: position || item.position,
-
-      mapId: item.mapId || (() => {
-        try {
-          const mapStore = require('./mapStore').default.getState();
-          const mapId = mapStore.currentMapId || 'default';
-          console.log('🗺️ [addItemToGrid] Setting mapId for item:', {
-            itemName: item.name,
-            itemId: item.id,
-            mapId: mapId,
-            hasProvidedMapId: !!item.mapId
-          });
-           return mapId;
-         } catch (error) {
-           return 'default';
-         }
-       })()
-     };
-
-    // Add the new grid item to the state
-    const updatedGridItems = [...state.gridItems, gridItem];
-
-    // Created grid item
-
-    // Force a re-render by updating the state with a new array reference
-    // This ensures React components properly detect the change
-    const newState = {
-      gridItems: updatedGridItems,
-      // Add a timestamp to force re-renders if needed
-      lastUpdate: Date.now()
-    };
-
-    // Sync with multiplayer using our new system
-    // Sync with multiplayer using our new system
-    if (sendToServer) {
-      get().syncGridItemUpdate('grid_item_added', {
-        item: gridItem,
-        position: position,
-        gridPosition: position.gridPosition,
-        targetMapId: gridItem.mapId // Include targetMapId for isolation
-      });
-    }
-
-    // Force a React re-render by dispatching a custom event
-    setTimeout(() => {
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('grid-items-updated', {
-          detail: { itemCount: updatedGridItems.length }
-        }));
-      }
-    }, 0);
-
-    return newState;
-  }),
+      return {
+        gridItems: updatedGridItems,
+        temporaryItems: newTemporaryItems,
+        lastUpdate: Date.now()
+      };
+    });
+  },
 
   removeItemFromGrid: (gridItemId, sendToServer = true) => set((state) => {
     const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
@@ -402,7 +350,9 @@ const useGridItemStore = create((set, get) => ({
 
       // Find the grid item
       const gridItem = currentItems.find(item => item?.id === gridItemId);
+      console.log('🎁 lootItem called for:', gridItemId, 'Found gridItem:', !!gridItem);
       if (!gridItem) {
+        console.warn('🎁 lootItem: Item not found in store:', gridItemId);
         return false;
       }
 
@@ -694,9 +644,10 @@ const useGridItemStore = create((set, get) => ({
             preserveId: preserveId,
             preserveProperties: true // Add a flag to ensure all properties are preserved
           });
+          console.log('🎁 inventoryStore.addItemFromLibrary result:', newInventoryItemId);
 
           // Only remove the loot orb if the item was successfully added to inventory
-          if (newInventoryItemId !== null) {
+          if (newInventoryItemId) {
             const gameStore = useGameStore.getState();
 
             // Remove the loot orb from the grid
@@ -865,43 +816,51 @@ const useGridItemStore = create((set, get) => ({
   }),
 
   // Update item position on the grid
-  updateItemPosition: (gridItemId, newPosition, sendToServer = true) => set((state) => {
-    const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
-    const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
+  updateItemPosition: (gridItemId, newPosition, sendToServer = true, targetMapId = null) => {
+    // CRITICAL FIX: Capture mapId immediately to prevent race conditions during map switch
+    let resolvedMapId_override = targetMapId || newPosition.mapId;
 
-    if (itemIndex === -1) {
-      console.warn(`Item with id ${gridItemId} not found in grid`);
-      return state;
-    }
+    return set((state) => {
+      const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
+      const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
 
-    const updatedItems = [...currentItems];
-    updatedItems[itemIndex] = {
-      ...updatedItems[itemIndex],
-      position: {
-        x: newPosition.x,
-        y: newPosition.y
-      },
-      gridPosition: {
-        row: newPosition.gridPosition.row,
-        col: newPosition.gridPosition.col
-      },
-      mapId: newPosition.mapId || updatedItems[itemIndex].mapId || 'default'
-    };
+      if (itemIndex === -1) {
+        console.warn(`Item with id ${gridItemId} not found in grid`);
+        return state;
+      }
+
+      const updatedItems = [...currentItems];
+      const existingItem = updatedItems[itemIndex];
+
+      const resolvedMapId = resolvedMapId_override || existingItem.mapId || 'default';
+
+      updatedItems[itemIndex] = {
+        ...existingItem,
+        position: {
+          x: newPosition.x,
+          y: newPosition.y
+        },
+        gridPosition: {
+          row: newPosition.gridPosition.row,
+          col: newPosition.gridPosition.col
+        },
+        mapId: resolvedMapId
+      };
 
       if (sendToServer) {
-      get().syncGridItemUpdate('grid_item_moved', {
-        itemId: gridItemId, // Server expects itemId, not gridItemId
-        position: newPosition, // Server expects position, not newPosition
-        updateType: 'move', // Server expects updateType, not type
-        targetMapId: updatedItems[itemIndex].mapId
-      });
-    }
+        get().syncGridItemUpdate('grid_item_moved', {
+          itemId: gridItemId,
+          position: newPosition,
+          targetMapId: resolvedMapId
+        });
+      }
 
-    return {
-      gridItems: updatedItems,
-      lastUpdate: Date.now()
-    };
-  }),
+      return {
+        gridItems: updatedItems,
+        lastUpdate: Date.now()
+      };
+    });
+  },
 
   // Multiplayer Synchronization
   syncGridItemUpdate: (updateType, data, targetMapId = null) => {
@@ -923,18 +882,21 @@ const useGridItemStore = create((set, get) => ({
       }
 
       // CRITICAL FIX: Use correct event name based on update type
-       // Server expects 'grid_item_update' for all operations (add, move, remove)
-       if (updateType === 'grid_item_added') {
-          // Server expects 'grid_item_update' with { updateType: 'add', itemId, itemData, position, gridPosition, targetMapId }
-          gameStore.multiplayerSocket.emit('grid_item_update', {
-           updateType: 'add',
-           itemId: data.item.id,
-           itemData: data.item,
-           position: data.position,
-           gridPosition: data.gridPosition,
-           targetMapId: data.targetMapId || currentMapId
-         });
-      } else if (updateType === 'grid_item_moved') {
+      // Server expects 'grid_item_update' for all operations (add, move, remove)
+      if (updateType === 'grid_item_added' || updateType === 'add') {
+        const item = data.item || data;
+        const position = data.position || item.position;
+        const gridPosition = (position && position.gridPosition) || (item && item.gridPosition);
+
+        gameStore.multiplayerSocket.emit('grid_item_update', {
+          updateType: 'add',
+          itemId: item.id,
+          itemData: item,
+          position: position,
+          gridPosition: gridPosition,
+          targetMapId: data.targetMapId || item.mapId || currentMapId
+        });
+      } else if (updateType === 'grid_item_moved' || updateType === 'move') {
         // Server expects 'grid_item_update' with { updateType: 'move', itemId, position, targetMapId }
         gameStore.multiplayerSocket.emit('grid_item_update', {
           updateType: 'move',
@@ -945,8 +907,8 @@ const useGridItemStore = create((set, get) => ({
       } else {
         // For removes (and other updates), use the general update event
         gameStore.multiplayerSocket.emit('grid_item_update', {
-          type: updateType === 'grid_item_removed' ? 'remove' : updateType,
-          ...data,
+          updateType: (updateType === 'grid_item_removed' || updateType === 'remove') ? 'remove' : updateType,
+          itemId: data.itemId || data.id,
           targetMapId: data.targetMapId || currentMapId
         });
       }

@@ -79,7 +79,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
     // EFFECT REMOVED: Synchronization now handled centrally in MultiplayerApp.jsx -> partyStore
 
-        // Get players on a specific map
+    // Get players on a specific map
     const getPlayersOnMap = useCallback((mapId) => {
         if (!isInMultiplayer || !partyMembers) return [];
 
@@ -131,7 +131,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             mapUpdateBatcher.clear();
         }
 
-                // Get map name for better display in transition
+        // Get map name for better display in transition
         const targetMap = maps.find(m => m.id === targetMapId);
         const mapName = targetMap?.name || null;
 
@@ -144,37 +144,45 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         if (targetMapId !== currentMapId) {
             console.log(`💾 Syncing destination map state before transfer: ${targetMapId}`);
             try {
-                const gameStoreState = useGameStore.getState();
-                const levelEditorStoreState = useLevelEditorStore.getState();
-
-                // CRITICAL: Explicitly save destination map state to sync items to Firebase
-                // This ensures items added via drag are in map object before syncing
-                await saveCurrentMapState(gameStoreState, levelEditorStoreState, targetMapId);
-
-                // Load the updated state (now async)
+                // Load the state for the target map
+                // Our updated loadMapState handles pulling the correct data for non-current maps
                 const mapState = await getMapState(targetMapId);
-                if (mapState && (mapState.gridItems?.length > 0 || mapState.tokens?.length > 0 || mapState.dndElements?.length > 0)) {
-                    gameStoreState.multiplayerSocket.emit('sync_map_state', {
-                        mapId: targetMapId,
-                        mapName: mapName,
-                        gridItems: mapState.gridItems,
-                        tokens: mapState.tokens,
-                        characterTokens: mapState.characterTokens,
-                        terrainData: mapState.terrainData,
-                        wallData: mapState.wallData,
-                        drawingPaths: mapState.drawingPaths,
-                        drawingLayers: mapState.drawingLayers,
-                        fogOfWarData: mapState.fogOfWarData,
-                        fogOfWarPaths: mapState.fogOfWarPaths,
-                        fogErasePaths: mapState.fogErasePaths,
-                        dndElements: mapState.dndElements,
-                        backgrounds: mapState.backgrounds,
-                        activeBackgroundId: mapState.activeBackgroundId,
-                        environmentalObjects: mapState.environmentalObjects,
-                        lightSources: mapState.lightSources,
-                        exploredAreas: mapState.exploredAreas
-                    });
-                    console.log(`✅ Destination map state synced to server with ${mapState.gridItems?.length || 0} items`);
+
+                if (mapState) {
+                    // CRITICAL FIX: Add a content check to prevent wiping the destination map if state retrieval failed
+                    const hasTerrain = mapState.terrainData && Object.keys(mapState.terrainData).length > 0;
+                    const hasItems = mapState.gridItems && (Array.isArray(mapState.gridItems) ? mapState.gridItems.length > 0 : Object.keys(mapState.gridItems).length > 0);
+                    const hasTokens = (mapState.tokens && Object.keys(mapState.tokens).length > 0) || (mapState.characterTokens && Object.keys(mapState.characterTokens).length > 0);
+                    const hasWalls = mapState.wallData && Object.keys(mapState.wallData).length > 0;
+                    const hasDrawings = mapState.drawingPaths && mapState.drawingPaths.length > 0;
+
+                    const hasAnyContent = hasTerrain || hasItems || hasTokens || hasWalls || hasDrawings;
+
+                    if (!hasAnyContent) {
+                        console.warn(`⚠️ [Player Transfer] Skipping sync for destination map ${targetMapId} - no content detected! (Preventing accidental wipe)`);
+                    } else {
+                        multiplayerSocket.emit('sync_map_state', {
+                            mapId: targetMapId,
+                            mapName: mapName,
+                            gridItems: mapState.gridItems || [],
+                            tokens: mapState.tokens || [],
+                            characterTokens: mapState.characterTokens || [],
+                            terrainData: mapState.terrainData || {},
+                            wallData: mapState.wallData || {},
+                            drawingPaths: mapState.drawingPaths || [],
+                            drawingLayers: mapState.drawingLayers || [],
+                            fogOfWarData: mapState.fogOfWarData || {},
+                            fogOfWarPaths: mapState.fogOfWarPaths || [],
+                            fogErasePaths: mapState.fogErasePaths || [],
+                            dndElements: mapState.dndElements || [],
+                            backgrounds: mapState.backgrounds || [],
+                            activeBackgroundId: mapState.activeBackgroundId,
+                            environmentalObjects: mapState.environmentalObjects || [],
+                            lightSources: mapState.lightSources || {},
+                            exploredAreas: mapState.exploredAreas || []
+                        });
+                        console.log(`✅ Destination map state (${targetMapId}) synced to server for player transfer`);
+                    }
                 }
             } catch (error) {
                 console.error('❌ Error syncing destination map before transfer:', error);
@@ -198,7 +206,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 newMapId: targetMapId,
                 mapName: mapName
             });
-            
+
             // CRITICAL FIX: Update GM's own map assignment so tag follows in Map Library
             // This is needed because playerMapAssignments is used to display GM's location
             const gmPlayerId = usePartyStore.getState().leaderId;
@@ -238,6 +246,12 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const handleMapSwitch = async (mapId, skipSaveCurrentState = false) => {
         if (mapId === currentMapId) return;
 
+        // CRITICAL FIX: Set map switching lock to prevent updates during transition
+        // This prevents race conditions where updates are queued during switch
+        // and then emitted to the wrong map after switch completes
+        window._isMapSwitching = true;
+        console.log('🔒 [Map Switch] Lock set - preventing updates during transition');
+
         try {
             // CRITICAL FIX: In multiplayer GM mode, sync destination map state before switching
             // This ensures items on the destination map are available when we switch to it
@@ -245,7 +259,17 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
                 try {
                     const destinationMapState = loadMapState(mapId);
-                    if (destinationMapState && (destinationMapState.gridItems?.length > 0 || destinationMapState.tokens?.length > 0)) {
+                    if (destinationMapState && (
+                        destinationMapState.gridItems?.length > 0 ||
+                        destinationMapState.tokens?.length > 0 ||
+                        destinationMapState.dndElements?.length > 0 ||
+                        (destinationMapState.terrainData && Object.keys(destinationMapState.terrainData).length > 0) ||
+                        (destinationMapState.wallData && Object.keys(destinationMapState.wallData).length > 0) ||
+                        destinationMapState.drawingPaths?.length > 0 ||
+                        destinationMapState.environmentalObjects?.length > 0 ||
+                        destinationMapState.fogOfWarPaths?.length > 0 ||
+                        destinationMapState.backgrounds?.length > 0
+                    )) {
                         console.log(`💾 Syncing destination map ${mapId} before switching`);
                         const targetMap = maps.find(m => m.id === mapId);
                         gameStoreState.multiplayerSocket.emit('sync_map_state', {
@@ -276,74 +300,117 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 }
             }
 
-            // Clear any pending map updates before switching to avoid bleeding them to the new map
+            // CRITICAL: Flush pending updates before clearing to prevent item loss
+            // If items were just added and haven't been sent to Firebase yet,
+            // this ensures they're persisted before batcher is cleared
             if (mapUpdateBatcher && typeof mapUpdateBatcher.clear === 'function') {
+                // Check if there are any pending updates
+                const hasPendingUpdates = Object.keys(mapUpdateBatcher.pendingUpdates || {}).length > 0;
+
+                if (hasPendingUpdates) {
+                    console.log('⚠️ Batcher has pending updates, forcing emit before clear');
+                    // Force emit pending updates immediately
+                    await mapUpdateBatcher.emit();
+                    // CRITICAL FIX: Wait longer for Firebase sync to complete
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+
+                // Now clear batcher
                 mapUpdateBatcher.clear();
             }
 
-             // MULTIPLAYER: Emit gm_switch_view socket event to server
-             // Server will update GM's currentMapId and send back map data
-             if (gameStoreState.isInMultiplayer && gameStoreState.multiplayerSocket?.connected && gameStoreState.isGMMode) {
-                  gameStoreState.multiplayerSocket.emit('gm_switch_view', {
-                      newMapId: mapId,
-                      mapName: maps.find(m => m.id === mapId)?.name || 'Untitled Map'
-                  });
-                 // The server will respond with gm_view_changed event containing / map data
-                 // The handler in MultiplayerApp.jsx will apply to map data
+            // MULTIPLAYER: Emit gm_switch_view socket event to server
+            // Server will update GM's currentMapId and send back map data
+            if (gameStoreState.isInMultiplayer && gameStoreState.multiplayerSocket?.connected && gameStoreState.isGMMode) {
+                gameStoreState.multiplayerSocket.emit('gm_switch_view', {
+                    newMapId: mapId,
+                    mapName: maps.find(m => m.id === mapId)?.name || 'Untitled Map'
+                });
+                // The server will respond with gm_view_changed event containing / map data
+                // The handler in MultiplayerApp.jsx will apply to map data
                 // Note: We still continue with local switch for immediate response
             }
 
-                // Save current map state before switching (unless explicitly skipped)
+            // Save current map state before switching (unless explicitly skipped)
             if (!skipSaveCurrentState) {
                 // Get the actual state data from stores
-                 const levelEditorStoreState = useLevelEditorStore.getState();
- 
-                  // CRITICAL FIX: Save the CURRENT map (the one we're switching FROM), not the target
-                  await saveCurrentMapState(gameStoreState, levelEditorStoreState, currentMapId);
-  
-                  // CRITICAL FIX: Wait for Firebase to sync before switching maps
-                  // This prevents the new map from being overwritten with old data
-                  await new Promise(resolve => setTimeout(resolve, 100));
-                  
-                  // CRITICAL FIX: In multiplayer GM mode, sync map state to server
-                  // This ensures grid items and other map data are persisted to Firebase
-                  if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
-                     const mapState = await getMapState();
-                     if (mapState) {
-                         // Get the map object to get its name
-                         const map = maps.find(m => m.id === currentMapId);
-                         gameStoreState.multiplayerSocket.emit('sync_map_state', {
-                             mapId: currentMapId,
-                             mapName: map?.name, // CRITICAL: Send map name to ensure proper display
-                             gridItems: mapState.gridItems,
-                             tokens: mapState.tokens,
-                             characterTokens: mapState.characterTokens,
-                             terrainData: mapState.terrainData,
-                             wallData: mapState.wallData,
-                             drawingPaths: mapState.drawingPaths,
-                             drawingLayers: mapState.drawingLayers,
-                             fogOfWarData: mapState.fogOfWarData,
-                             fogOfWarPaths: mapState.fogOfWarPaths,
-                             fogErasePaths: mapState.fogErasePaths,
-                             dndElements: mapState.dndElements,
-                             backgrounds: mapState.backgrounds,
-                             activeBackgroundId: mapState.activeBackgroundId,
-                             environmentalObjects: mapState.environmentalObjects,
-                             lightSources: mapState.lightSources,
-                             exploredAreas: mapState.exploredAreas
-                         });
-                     }
-                  }
+                const levelEditorStoreState = useLevelEditorStore.getState();
+
+                // CRITICAL FIX: Save the CURRENT map (the one we're switching FROM), not the target
+                await saveCurrentMapState(gameStoreState, levelEditorStoreState, currentMapId);
+
+                // CRITICAL FIX: Wait longer for Firebase to sync before switching maps
+                // This prevents the new map from being overwritten with old data
+                await new Promise(resolve => setTimeout(resolve, 200));
+
+                // CRITICAL FIX: In multiplayer GM mode, sync map state to server
+                // This ensures grid items and other map data are persisted to Firebase
+                if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
+                    console.log(`💾 Preparing to sync current map state: ${currentMapId}`);
+                    // CRITICAL FIX: Explicitly pass currentMapId to ensure we're getting the right state
+                    const mapState = await getMapState(currentMapId);
+
+                    if (mapState) {
+                        // CRITICAL FIX: Add a content check to prevent wiping the map if state retrieval failed
+                        const hasTerrain = mapState.terrainData && Object.keys(mapState.terrainData).length > 0;
+                        const hasItems = mapState.gridItems && (Array.isArray(mapState.gridItems) ? mapState.gridItems.length > 0 : Object.keys(mapState.gridItems).length > 0);
+                        const hasTokens = (mapState.tokens && Object.keys(mapState.tokens).length > 0) || (mapState.characterTokens && Object.keys(mapState.characterTokens).length > 0);
+                        const hasWalls = mapState.wallData && Object.keys(mapState.wallData).length > 0;
+                        const hasDrawings = mapState.drawingPaths && mapState.drawingPaths.length > 0;
+
+                        const hasAnyContent = hasTerrain || hasItems || hasTokens || hasWalls || hasDrawings;
+
+                        if (!hasAnyContent) {
+                            console.warn(`⚠️ [Sync] Skipping sync for map ${currentMapId} - no content detected! (Preventing accidental wipe)`);
+                        } else {
+                            // Get the map object to get its name
+                            const map = maps.find(m => m.id === currentMapId);
+                            console.log(`💾 Syncing map ${currentMapId} (${map?.name}) with ${Object.keys(mapState.terrainData || {}).length} terrain cells`);
+
+                            gameStoreState.multiplayerSocket.emit('sync_map_state', {
+                                mapId: currentMapId,
+                                mapName: map?.name, // CRITICAL: Send map name to ensure proper display
+                                gridItems: mapState.gridItems,
+                                tokens: mapState.tokens,
+                                characterTokens: mapState.characterTokens,
+                                terrainData: mapState.terrainData,
+                                wallData: mapState.wallData,
+                                drawingPaths: mapState.drawingPaths,
+                                drawingLayers: mapState.drawingLayers,
+                                fogOfWarData: mapState.fogOfWarData,
+                                fogOfWarPaths: mapState.fogOfWarPaths,
+                                fogErasePaths: mapState.fogErasePaths,
+                                dndElements: mapState.dndElements,
+                                backgrounds: mapState.backgrounds,
+                                activeBackgroundId: mapState.activeBackgroundId,
+                                environmentalObjects: mapState.environmentalObjects,
+                                lightSources: mapState.lightSources,
+                                exploredAreas: mapState.exploredAreas
+                            });
+                        }
+                    }
+                }
             }
 
             // Switch to new map - but SKIP local switch if in multiplayer (server handles it)
             let success = false;
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
-                console.log('🗺️ GM in multiplayer mode - skipping local switch, waiting for server data');
-                success = true; // Server will handle the switch via gm_view_changed event
+                console.log('🗺️ GM in multiplayer mode - updating currentMapId locally AND waiting for server data');
+                // CRITICAL FIX: We MUST update currentMapId locally immediately, otherwise
+                // the batcher will continue sending terrain updates to the old map!
+                useMapStore.setState({ currentMapId: mapId });
+
+                // NEW: Also set window global for batcher fallback
+                window.currentMapId = mapId;
+
+                // IMPORTANT: Clear local terrain data to prepare for new map data
+                useLevelEditorStore.setState({ terrainData: {} });
+
+                success = true;
             } else {
                 // Single player or non-GM mode - use local switch
                 success = switchToMap(mapId);
+                window.currentMapId = mapId;
             }
             if (!success) {
                 console.error('Failed to switch to map:', mapId);
@@ -357,7 +424,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
             // Get the target map data directly from the maps array
             const targetMap = maps.find(m => m.id === mapId);
- 
+
             // CRITICAL: Only load local map data if NOT in multiplayer GM mode
             // In multiplayer GM mode, server sends all map data via gm_view_changed event
             let mapState = null;
@@ -381,7 +448,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         gridSize: 50,
                         gridOffsetX: 0,
                         gridOffsetY: 0,
-                        gridLineColor: 'rgba(64, 196, 255, 0.3)',
+                        gridLineColor: '#000000',
                         gridLineThickness: 1,
                         terrainData: {},
                         environmentalObjects: [],
@@ -406,7 +473,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         gridItems: [] // Important: Load items from local mapStore
                     };
                 }
-             }
+            }
 
             if (mapState) {
                 // Clear and set backgrounds in a single operation to prevent conflicts
@@ -417,7 +484,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     gridSize: mapState.gridSize || 50,
                     gridOffsetX: mapState.gridOffsetX || 0,
                     gridOffsetY: mapState.gridOffsetY || 0,
-                    gridLineColor: mapState.gridLineColor || 'rgba(0, 0, 0, 0.5)',
+                    gridLineColor: mapState.gridLineColor || '#000000',
                     gridLineThickness: mapState.gridLineThickness || 1,
                     // Clear legacy backgrounds to prevent conflicts
                     backgroundImage: null,
@@ -547,10 +614,17 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             } else {
                 // No map state found
             }
- 
+
             console.log(`[Map] Switched to: ${maps.find(m => m.id === mapId)?.name}`);
         } catch (error) {
             console.error('Error switching maps:', error);
+        } finally {
+            // CRITICAL FIX: Clear map switching lock to allow updates again
+            // Small delay to ensure all operations are complete
+            setTimeout(() => {
+                window._isMapSwitching = false;
+                console.log('🔓 [Map Switch] Lock cleared - updates allowed');
+            }, 200);
         }
     };
 

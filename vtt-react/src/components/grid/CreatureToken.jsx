@@ -240,6 +240,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return t ? state.creatures?.find(c => c.id === t.creatureId) : null;
   });
 
+  // CRITICAL FIX: Gracefully handle missing creature data to prevent crashes
+  if (!creature || !creature.stats) {
+    if (token) {
+      // Only warn once per token to avoid console spam, or just return null silently
+      // console.warn(`⚠️ CreatureToken: Missing creature data for token ${tokenId} (creatureId: ${token?.creatureId})`);
+    }
+    return null;
+  }
+
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
   const activeBuffs = useBuffStore(state => state.activeBuffs);
   const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
@@ -815,15 +824,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const currentPos = isDragging ? localPosition : position;
 
   // PERFORMANCE FIX: Calculate initial position without depending on camera state
-  // Camera changes are handled by the imperative subscription, not React re-renders
+  // Camera changes are handled by imperative subscription, not React re-renders
   const initialScreenPosition = useMemo(() => {
     if (!currentPos) return { x: 0, y: 0 };
-    return gridSystem.worldToScreen(
+    const screenPos = gridSystem.worldToScreen(
       currentPos.x,
       currentPos.y,
       window.innerWidth,
       window.innerHeight
     );
+    // Round to integers to prevent sub-pixel jitter/flickering
+    return {
+      x: Math.round(screenPos.x),
+      y: Math.round(screenPos.y)
+    };
   }, [currentPos, gridSystem, zoomLevel, playerZoom]);
 
   const screenPositionRef = useRef(initialScreenPosition);
@@ -843,12 +857,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       viewportHeight
     );
 
-    screenPositionRef.current = newPosition;
+    // Round to integers to prevent sub-pixel jitter/flickering
+    const roundedX = Math.round(newPosition.x);
+    const roundedY = Math.round(newPosition.y);
+
+    screenPositionRef.current = { x: roundedX, y: roundedY };
 
     const element = tokenRef.current;
     if (element) {
-      element.style.left = `${newPosition.x}px`;
-      element.style.top = `${newPosition.y}px`;
+      // Use transform3d for GPU-accelerated positioning
+      element.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
     }
   }, [gridSystem]);
 
@@ -1575,9 +1593,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         ref={tokenRef}
         className="creature-token placeholder"
         style={{
-          // CRITICAL: Always include position in React style to prevent jumping during re-renders
-          left: screenPosition.x,
-          top: screenPosition.y,
+          // CRITICAL: Use transform3d for GPU-accelerated positioning
+          left: 0,
+          top: 0,
           backgroundColor: 'red',
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
@@ -1588,7 +1606,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           color: 'white',
           fontWeight: 'bold',
           position: 'absolute',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
           zIndex: 10,
           cursor: 'pointer',
           boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
@@ -1750,17 +1768,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         ref={tokenRef}
         className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
         style={{
-          // CRITICAL: Always include position in React style to prevent jumping during re-renders
-          left: screenPosition.x,
-          top: screenPosition.y,
+          // CRITICAL: Use transform3d for GPU-accelerated positioning to prevent flickering during drag
+          left: 0,
+          top: 0,
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
+          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
           cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           position: 'absolute',
-          transform: 'translate(-50%, -50%)',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           touchAction: 'none',
+          willChange: 'transform',
           borderRadius: '50%',
           borderWidth: '3px',
           borderStyle: 'solid',
@@ -3442,4 +3461,4 @@ export default React.memo(CreatureToken, (prevProps, nextProps) => {
     prevProps.position?.y === nextProps.position?.y &&
     prevProps.onRemove === nextProps.onRemove
   );
-});
+});

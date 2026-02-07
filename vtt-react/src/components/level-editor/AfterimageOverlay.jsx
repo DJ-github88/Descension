@@ -826,11 +826,38 @@ const AfterimageOverlay = () => {
     // Preload images for all afterimages (tokens, terrain, items)
     useEffect(() => {
         if (!afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) return;
-        
+
+        const gridSystem = getGridSystem();
+        const cameraX = useGameStore.getState().cameraX;
+        const cameraY = useGameStore.getState().cameraY;
+
+        // Calculate viewport bounds in world coordinates
+        const viewportWorldWidth = canvasRef.current?.width / effectiveZoom || 1000;
+        const viewportWorldHeight = canvasRef.current?.height / effectiveZoom || 1000;
+
+        const viewportLeft = cameraX - viewportWorldWidth / 2;
+        const viewportRight = cameraX + viewportWorldWidth / 2;
+        const viewportTop = cameraY - viewportWorldHeight / 2;
+        const viewportBottom = cameraY + viewportWorldHeight / 2;
+
+        // PERFORMANCE FIX: Helper to check if position is in viewport
+        const isInViewport = (x, y) => {
+            const buffer = 100;
+            return x >= viewportLeft - buffer &&
+                   x <= viewportRight + buffer &&
+                   y >= viewportTop - buffer &&
+                   y <= viewportBottom + buffer;
+        };
+
         let hasNewImages = false;
-        
+
         // Load images for terrain tiles from memory snapshots
         Object.values(memorySnapshots).forEach(snapshot => {
+            // PERFORMANCE FIX: Only load terrain images that are in viewport
+            if (snapshot.position && !isInViewport(snapshot.position.x, snapshot.position.y)) {
+                return;
+            }
+
             if (snapshot.terrain) {
                 let terrainType, variationIndex;
                 if (typeof snapshot.terrain === 'string') {
@@ -842,7 +869,7 @@ const AfterimageOverlay = () => {
                 } else {
                     return;
                 }
-                
+
                 const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                 if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
                     const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
@@ -853,10 +880,14 @@ const AfterimageOverlay = () => {
                     }
                 }
             }
-            
+
             // Load images for grid items (loot orbs)
             if (snapshot.gridItems && snapshot.gridItems.length > 0) {
                 snapshot.gridItems.forEach(item => {
+                    // PERFORMANCE FIX: Only load item images that are in viewport
+                    if (item.position && !isInViewport(item.position.x, item.position.y)) {
+                        return;
+                    }
                     const itemIdToLookup = item.itemId || item.originalItemStoreId;
                     if (itemIdToLookup) {
                         const itemStore = useItemStore.getState();
@@ -901,12 +932,18 @@ const AfterimageOverlay = () => {
                 });
             }
         });
-        
+
         // Load images for all token afterimages
         Object.entries(tokenAfterimages).forEach(([tokenId, afterimage]) => {
             const { data } = afterimage;
+
+            // PERFORMANCE FIX: Only load token images that are in viewport
+            if (data.position && !isInViewport(data.position.x, data.position.y)) {
+                return;
+            }
+
             let imageUrl = null;
-            
+
             if (data) {
                 // Use the same logic as the render function to extract image URL
                 if (data.type === 'creature' || data.creatureId || data.tokenIcon) {

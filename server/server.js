@@ -46,8 +46,8 @@ const server = http.createServer(app);
 
 // Firebase Write Batching Service to prevent quota exhaustion
 class FirebaseBatchWriter {
-  constructor(flushInterval = 2000, maxBatchSize = 50) {
-    this.pendingWrites = new Map(); // roomId -> {gameState, timestamp}
+  constructor(flushInterval = 500, maxBatchSize = 50) {
+    this.pendingWrites = new Map();
     this.flushInterval = flushInterval;
     this.maxBatchSize = maxBatchSize;
     this.startBatchProcessor();
@@ -101,10 +101,13 @@ class FirebaseBatchWriter {
   }
 }
 
-const firebaseBatchWriter = new FirebaseBatchWriter();
+const firebaseBatchWriter = new FirebaseBatchWriter(500, 50);
 
 // Echo Prevention Window - standardized timeout across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;
+
+// Event Sequence Counter - ensures event ordering across socket broadcasts
+let eventSequenceNumber = 0;
 
 // Map Validation Helper - ensures maps exist before assigning data
 function validateMapExists(room, mapId) {
@@ -112,19 +115,21 @@ function validateMapExists(room, mapId) {
     room.gameState.maps = {};
   }
 
-  if (!room.gameState.maps[mapId] && mapId !== 'default') {
+  if (!room.gameState.maps[mapId]) {
     // Create map if it doesn't exist
     room.gameState.maps[mapId] = {
       id: mapId,
-      name: mapId,
+      name: mapId === 'default' ? 'Default Map' : `Map ${mapId}`,
       tokens: {},
       characterTokens: {},
       gridItems: {},
-      terrainData: [],
-      wallData: [],
+      terrainData: {},
+      wallData: {},
       drawingPaths: [],
       fogOfWarData: [],
       dndElements: [],
+      lightSources: {},
+      environmentalObjects: [],
       createdAt: new Date()
     };
     console.log(`🗺️ Created new map structure: ${mapId}`);
@@ -1061,12 +1066,17 @@ async function joinRoom(roomId, playerName, socketId, password, playerColor = '#
         name: playerName,
         roomId: roomId,
         isGM: true,
-        color: room.gm.color || playerColor || '#d4af37'
+        color: room.gm.color || playerColor || '#d4af37',
+        currentMapId: room.gameState.playerMapAssignments?.[room.gm.id] || 'default' // GM starts on their assigned map
       });
     } else {
-      // Update existing player tracking with latest color
+      // Update existing player tracking with latest color and ensure currentMapId is set
       const existingPlayer = players.get(socketId);
       existingPlayer.color = room.gm.color || playerColor || '#d4af37';
+      // Ensure currentMapId is set if missing
+      if (!existingPlayer.currentMapId) {
+        existingPlayer.currentMapId = room.gameState.playerMapAssignments?.[existingPlayer.id] || 'default';
+      }
     }
     return { room, player: room.gm, isGMReconnect: true };
   }
@@ -1296,6 +1306,32 @@ io.on('connection', (socket) => {
     }
   });
 
+  // ========== Player Current Map Tracking ==========
+  // Handle player/GM notifying server when they switch maps
+  // CRITICAL: This enables proper map isolation for terrain/fog/etc sync
+  socket.on('update_current_map', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const newMapId = data.mapId || 'default';
+    const oldMapId = player.currentMapId;
+
+    // Update player's current map in server tracking
+    player.currentMapId = newMapId;
+
+    // Also update the room's playerMapAssignments for persistence
+    const room = rooms.get(player.roomId);
+    if (room) {
+      room.gameState.playerMapAssignments = room.gameState.playerMapAssignments || {};
+      room.gameState.playerMapAssignments[player.id] = newMapId;
+
+      // Persist to Firebase (non-blocking)
+      firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+    }
+
+    console.log(`🗺️ ${player.isGM ? 'GM' : 'Player'} ${player.name} switched map: ${oldMapId} → ${newMapId}`);
+  });
+
   // ========== Level Editor State Synchronization ==========
   // Handle GM syncing level editor state to players
   socket.on('sync_level_editor_state', async (data) => {
@@ -1317,16 +1353,68 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update room gameState with level editor data
+    // CRITICAL FIX: Get target map ID from data - this ensures map isolation
+    const targetMapId = data.mapId || data.targetMapId || 'default';
+
+    // CRITICAL FIX: Validate and initialize map storage
+    const mapData = validateMapExists(room, targetMapId);
+
+    // CRITICAL FIX: Store level editor data PER-MAP instead of globally
     if (data.levelEditor) {
-      room.gameState.levelEditor = {
-        ...room.gameState.levelEditor,
-        ...data.levelEditor
-      };
+      // Merge terrain data properly (handle null values for deletion)
+      if (data.levelEditor.terrainData) {
+        mapData.terrainData = mapData.terrainData || {};
+        for (const [key, value] of Object.entries(data.levelEditor.terrainData)) {
+          if (value === null) {
+            delete mapData.terrainData[key];
+          } else {
+            mapData.terrainData[key] = value;
+          }
+        }
+      }
+
+      // Store other level editor properties per-map
+      if (data.levelEditor.wallData !== undefined) {
+        mapData.wallData = data.levelEditor.wallData;
+      }
+      if (data.levelEditor.environmentalObjects !== undefined) {
+        mapData.environmentalObjects = data.levelEditor.environmentalObjects;
+      }
+      if (data.levelEditor.drawingPaths !== undefined) {
+        mapData.drawingPaths = data.levelEditor.drawingPaths;
+      }
+      if (data.levelEditor.drawingLayers !== undefined) {
+        mapData.drawingLayers = data.levelEditor.drawingLayers;
+      }
+      if (data.levelEditor.fogOfWarData !== undefined) {
+        mapData.fogOfWarData = data.levelEditor.fogOfWarData;
+      }
+      if (data.levelEditor.fogOfWarPaths !== undefined) {
+        mapData.fogOfWarPaths = data.levelEditor.fogOfWarPaths;
+      }
+      if (data.levelEditor.fogErasePaths !== undefined) {
+        mapData.fogErasePaths = data.levelEditor.fogErasePaths;
+      }
+      if (data.levelEditor.exploredAreas !== undefined) {
+        mapData.exploredAreas = data.levelEditor.exploredAreas;
+      }
+      if (data.levelEditor.lightSources !== undefined) {
+        mapData.lightSources = data.levelEditor.lightSources;
+      }
+      if (data.levelEditor.dndElements !== undefined) {
+        mapData.dndElements = data.levelEditor.dndElements;
+      }
+      if (data.levelEditor.gridItems !== undefined) {
+        mapData.gridItems = data.levelEditor.gridItems;
+      }
     }
 
-    // Update grid settings
+    // Update grid settings (these can be global or per-map)
     if (data.gridSettings) {
+      mapData.gridSettings = {
+        ...mapData.gridSettings,
+        ...data.gridSettings
+      };
       room.gameState.gridSettings = {
         ...room.gameState.gridSettings,
         ...data.gridSettings
@@ -1340,14 +1428,19 @@ io.on('connection', (socket) => {
       console.error('Failed to persist level editor state:', error);
     }
 
-    // Broadcast to OTHER players only (not back to GM)
-    socket.to(player.roomId).emit('level_editor_state_sync', {
-      levelEditor: data.levelEditor || room.gameState.levelEditor,
-      gridSettings: data.gridSettings || room.gameState.gridSettings,
-      timestamp: new Date()
-    });
+    // CRITICAL FIX: Broadcast to OTHER players on SAME MAP only (prevents cross-map bleeding)
+    for (const [sid, p] of players.entries()) {
+      if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
+        io.to(sid).emit('level_editor_state_sync', {
+          mapId: targetMapId,
+          levelEditor: data.levelEditor || {},
+          gridSettings: data.gridSettings || room.gameState.gridSettings,
+          timestamp: new Date()
+        });
+      }
+    }
 
-    console.log(`🗺️ GM ${player.name} synced level editor state to room ${room.name}`);
+    console.log(`🗺️ GM ${player.name} synced level editor state to map ${targetMapId} in room ${room.name}`);
   });
 
   // ========== CRITICAL FIX: Token Synchronization ==========
@@ -1409,14 +1502,8 @@ io.on('connection', (socket) => {
     room.gameState.maps[targetMapId].tokens[tokenId] = tokenData;
     room.gameState.tokens[tokenId] = tokenData;
 
-    // Persist to Firebase
-    try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    } catch (error) {
-      console.error('Failed to persist token creation:', error);
-    }
-
-    // CRITICAL FIX: Send confirmation to creator first
+    // CRITICAL FIX: Send confirmation to creator FIRST (before Firebase persist)
+    // This prevents blocking on first token placement
     socket.emit('token_create_confirmed', {
       creature: data.creature,
       token: { ...(data.token || {}), id: tokenId },
@@ -1424,6 +1511,16 @@ io.on('connection', (socket) => {
       playerId: socket.id,
       timestamp: new Date(),
       success: true
+    });
+
+    // CRITICAL FIX: Persist to Firebase ASYNCHRONOUSLY (non-blocking)
+    // First write can be slow due to connection establishment, indexing
+    setImmediate(async () => {
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist token creation:', error);
+      }
     });
 
     // Broadcast to OTHER players on the SAME map only
@@ -1606,6 +1703,7 @@ io.on('connection', (socket) => {
             serverTimestamp: now,
             velocity: data.velocity || calculatedVelocity,
             actionId: data.actionId || `move_${now}`,
+            sequence: ++eventSequenceNumber,
             mapId: targetMapId
           });
         }
@@ -1900,7 +1998,7 @@ io.on('connection', (socket) => {
     }
     const recentMove = global.recentTokenMovements.get(recentMoveKey);
 
-    if (recentMove && (now - recentMove.timestamp) < 100) {
+    if (recentMove && (now - recentMove.timestamp) < ECHO_PREVENTION_WINDOW_MS) {
       console.log(`🚫 Ignoring stale character movement echo for token ${targetTokenId} (${now - recentMove.timestamp}ms old)`);
       return;
     }
@@ -1957,7 +2055,9 @@ io.on('connection', (socket) => {
       isDragging: data.isDragging || false,
       timestamp: new Date(),
       serverTimestamp: now,
-      velocity: data.velocity || charVelocity
+      velocity: data.velocity || charVelocity,
+      sequence: ++eventSequenceNumber, // CRITICAL: Add sequence number for ordering
+      mapId: targetMapId // CRITICAL: Include mapId for proper routing
     };
 
     // CRITICAL DEBUG: Log exactly what we're broadcasting
@@ -2217,6 +2317,13 @@ io.on('connection', (socket) => {
   // Handle map/background changes (GM only for live updates)
   // NEW: Now supports per-map isolation - only players on the same map receive updates
   socket.on('map_update', async (data) => {
+    const sequence = data?.sequence || 'no-seq';
+    const hasTargetId = !!data?.targetMapId;
+    console.log(`📥 [SERVER] Received map_update [Seq: ${sequence}, TargetID: ${hasTargetId ? data.targetMapId : 'MISSING'}]`);
+
+    if (!hasTargetId) {
+      console.warn('⚠️ [SERVER] [map_update] targetMapId is MISSING from packet! Defaulting to "default". Data keys:', Object.keys(data || {}));
+    }
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2262,16 +2369,21 @@ io.on('connection', (socket) => {
           delete mapData.terrainData[key];
         }
       }
-      // Update legacy format for backward compatibility
-      if (!room.gameState.mapData) room.gameState.mapData = {};
-      room.gameState.mapData.terrainData = { ...mapData.terrainData };
     }
 
     // Handle wall data updates
     if (mapUpdates.wallData !== undefined) {
-      mapData.wallData = mapUpdates.wallData || {};
-      if (!room.gameState.mapData) room.gameState.mapData = {};
-      room.gameState.mapData.wallData = mapUpdates.wallData;
+      // Merge wall data to prevent data loss on partial updates
+      mapData.wallData = {
+        ...mapData.wallData || {},
+        ...mapUpdates.wallData
+      };
+      // Handle null values (deleted walls)
+      for (const [key, value] of Object.entries(mapUpdates.wallData)) {
+        if (value === null && mapData.wallData[key] !== undefined) {
+          delete mapData.wallData[key];
+        }
+      }
     }
 
     // Handle fog of war updates
@@ -2301,6 +2413,16 @@ io.on('connection', (socket) => {
       mapData.dndElements = mapUpdates.dndElements;
     }
 
+    // Handle environmental objects
+    if (mapUpdates.environmentalObjects !== undefined) {
+      mapData.environmentalObjects = mapUpdates.environmentalObjects;
+    }
+
+    // Handle light sources
+    if (mapUpdates.lightSources !== undefined) {
+      mapData.lightSources = mapUpdates.lightSources;
+    }
+
     // Persist to Firebase
     try {
       await firebaseService.updateRoomGameState(player.roomId, room.gameState);
@@ -2309,17 +2431,25 @@ io.on('connection', (socket) => {
     }
 
     // CRITICAL FIX: Broadcast map_updated event to OTHER players on SAME MAP
+    let broadcastCount = 0;
+    console.log(`🔍 [map_update] Looking for players on map ${targetMapId} in room ${player.roomId}`);
     for (const [sid, p] of players.entries()) {
+      if (p.roomId === player.roomId) {
+        console.log(`   👤 ${p.name}: currentMapId=${p.currentMapId}, isGM=${p.isGM}, socketId=${sid.substring(0, 8)}...`);
+      }
       if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
         io.to(sid).emit('map_updated', {
           mapId: targetMapId,
           mapData: mapUpdates,
-          updatedBy: player.id
+          updatedBy: player.id,
+          sequence: sequence
         });
+        broadcastCount++;
+        console.log(`   📤 Sent to ${p.name} (map: ${p.currentMapId})`);
       }
     }
 
-    console.log(`🗺️ Map update on ${targetMapId} by GM ${player.name}: ${Object.keys(mapUpdates).join(', ')}`);
+    console.log(`🗺️ Map update on ${targetMapId} by GM ${player.name}: ${Object.keys(mapUpdates).join(', ')} → ${broadcastCount} players`);
   });
 
   // Handle grid item updates (loot orbs, objects on grid)
@@ -2374,10 +2504,9 @@ io.on('connection', (socket) => {
           };
           room.gameState.gridItems[gridItemId] = updatedItem;
 
-          // Update in map-specific location
-          if (room.gameState.maps?.[targetMapId]?.gridItems) {
-            room.gameState.maps[targetMapId].gridItems[gridItemId] = updatedItem;
-          }
+          // CRITICAL FIX: Ensure per-map structure exists before updating
+          validateMapExists(room, targetMapId);
+          room.gameState.maps[targetMapId].gridItems[gridItemId] = updatedItem;
 
           // Persist to Firebase (use batch writer for performance)
           try {
@@ -2416,7 +2545,8 @@ io.on('connection', (socket) => {
           delete room.gameState.gridItems[gridItemId];
 
           // Remove from map-specific location
-          if (room.gameState.maps?.[targetMapId]?.gridItems?.[gridItemId]) {
+          validateMapExists(room, targetMapId);
+          if (room.gameState.maps[targetMapId].gridItems[gridItemId]) {
             delete room.gameState.maps[targetMapId].gridItems[gridItemId];
           }
 
@@ -2466,6 +2596,7 @@ io.on('connection', (socket) => {
         };
 
         room.gameState.gridItems[itemId] = newItem;
+        validateMapExists(room, targetMapId);
         room.gameState.maps[targetMapId].gridItems[itemId] = newItem;
 
         // Persist to Firebase
@@ -2500,6 +2631,10 @@ io.on('connection', (socket) => {
     }
   });
 
+  // NOTE: The map_update handler is defined ONCE above (around line 2297)
+  // Do NOT add another one here - duplicate handlers cause synchronization issues
+
+
   // ========== NEW HANDLERS: Map Synchronization ==========
 
   // Handler: GM switches to a different map view
@@ -2517,10 +2652,42 @@ io.on('connection', (socket) => {
     player.currentMapId = data.newMapId;
 
     // Get target map data to include in broadcast
-    const targetMap = room.gameState.maps?.[data.newMapId];
+    let targetMap = room.gameState.maps?.[data.newMapId];
 
-    // Broadcast to all players so they know GM is looking at a different map
-    io.to(player.roomId).emit('gm_view_changed', {
+    // CRITICAL FIX: Check if map has actual content before sending
+    // If map is empty (just created), load from Firebase to get complete data
+    if (targetMap) {
+      const hasTerrain = targetMap.terrainData && Object.keys(targetMap.terrainData).length > 0;
+      const hasGridItems = targetMap.gridItems && Object.keys(targetMap.gridItems).length > 0;
+      const hasWalls = targetMap.wallData && Object.keys(targetMap.wallData).length > 0;
+      const hasBackgrounds = targetMap.backgrounds && targetMap.backgrounds.length > 0;
+      const hasDrawings = targetMap.drawingPaths && targetMap.drawingPaths.length > 0;
+      const hasTokens = targetMap.tokens && Object.keys(targetMap.tokens).length > 0;
+      const hasCharacterTokens = targetMap.characterTokens && Object.keys(targetMap.characterTokens).length > 0;
+
+      // CRITICAL FIX: Include tokens in content check to prevent overwriting valid in-memory tokens with stale Firebase data
+      const hasAnyContent = hasTerrain || hasGridItems || hasWalls || hasBackgrounds || hasDrawings || hasTokens || hasCharacterTokens;
+
+      if (!hasAnyContent) {
+        console.log(`⚠️ Map ${data.newMapId} is empty in memory, loading from Firebase...`);
+        try {
+          const firebaseMapData = await firebaseService.getMapData(player.roomId, data.newMapId);
+          if (firebaseMapData && firebaseMapData.gridData) {
+            targetMap = firebaseMapData.gridData;
+            console.log(`✅ Loaded map data from Firebase for ${data.newMapId}`);
+          } else if (firebaseMapData) {
+            // If gridData not found but map exists, use it directly
+            targetMap = firebaseMapData;
+            console.log(`✅ Loaded map from Firebase (no gridData wrapper) for ${data.newMapId}`);
+          }
+        } catch (error) {
+          console.error(`❌ Failed to load map from Firebase:`, error);
+        }
+      }
+    }
+
+    // CRITICAL FIX: Send view change only to GM (so only GM sees transition and loads new map)
+    socket.emit('gm_view_changed', {
       gmId: player.id,
       gmName: player.name,
       newMapId: data.newMapId,
@@ -2534,13 +2701,34 @@ io.on('connection', (socket) => {
         fogOfWarPaths: targetMap.fogOfWarPaths || [],
         fogErasePaths: targetMap.fogErasePaths || [],
         dndElements: targetMap.dndElements || [],
+        gridItems: targetMap.gridItems || {},
+        tokens: targetMap.tokens || {},
+        characterTokens: targetMap.characterTokens || {},
         backgrounds: targetMap.backgrounds || [],
         activeBackgroundId: targetMap.activeBackgroundId || null,
         gridSettings: targetMap.gridSettings || {}
       } : {}
     });
 
-    console.log(`🗺️ GM ${player.name} switched to map ${data.newMapId}`);
+    // CRITICAL FIX: Notify other players that GM is viewing a different map (for Map Library indicator)
+    // This does NOT change their view, just updates the UI indicator
+    for (const [socketId, p] of players.entries()) {
+      if (p.roomId === player.roomId && p.id !== player.id) {
+        io.to(socketId).emit('gm_location_changed', {
+          gmId: player.id,
+          gmName: player.name,
+          newMapId: data.newMapId,
+          mapName: data.mapName
+        });
+      }
+    }
+
+    console.log(`🗺️ [GM SWITCH] GM "${player.name}" (ID: ${player.id}) switched to map:`, {
+      newMapId: data.newMapId,
+      mapName: data.mapName,
+      hasMapName: !!data.mapName,
+      mapFound: !!targetMap
+    });
   });
 
   // Handler: GM transfers a player to a different map
@@ -2564,7 +2752,9 @@ io.on('connection', (socket) => {
     }
 
     // Update target player's current map on server
+    const oldMapId = targetPlayer.currentMapId;
     targetPlayer.currentMapId = data.destinationMapId;
+    console.log(`✅ [gm_transfer_player] Updated ${targetPlayer.name}'s currentMapId: ${oldMapId} → ${targetPlayer.currentMapId}`);
 
     // Notify the player being transferred
     io.to(targetPlayer.socketId).emit('player_transferred', {
@@ -2582,25 +2772,30 @@ io.on('connection', (socket) => {
 
     // Get destination map data to include in broadcast
     const destMap = room.gameState.maps?.[data.destinationMapId];
-   
+
+    // FIX: Update map name if missing and provided by client
+    if (destMap && !destMap.name && data.mapName) {
+      destMap.name = data.mapName;
+    }
+
     // CRITICAL FIX: Broadcast player_map_changed to affected players only
     // Only send to: transferred player, players on destination map, GM (if not transferring themselves)
     // This prevents transition screen for GM when they're just switching their own view
     for (const [sid, p] of players.entries()) {
-      const isAffectedPlayer = 
+      const isAffectedPlayer =
         // Player being transferred should always receive
         p.id === targetPlayer.id ||
         // Players on destination map should receive
         p.currentMapId === data.destinationMapId ||
         // GM should receive if they're not the one being transferred
         (gmPlayer.id !== targetPlayer.id && p.isGM);
-      
+
       if (isAffectedPlayer) {
         io.to(sid).emit('player_map_changed', {
           playerId: targetPlayer.id,
           playerName: targetPlayer.name,
           newMapId: data.destinationMapId,
-          mapName: data.mapName,
+          newMapName: destMap?.name || data.mapName || 'Unknown Location',
           transferredByGM: true, // CRITICAL: Indicates this is an actual transfer, not just GM viewing different map
           mapData: destMap ? {
             terrainData: destMap.terrainData || {},
@@ -2611,9 +2806,14 @@ io.on('connection', (socket) => {
             fogOfWarPaths: destMap.fogOfWarPaths || [],
             fogErasePaths: destMap.fogErasePaths || [],
             dndElements: destMap.dndElements || [],
+            gridItems: destMap.gridItems || {},
+            tokens: destMap.tokens || {},
+            characterTokens: destMap.characterTokens || {},
             backgrounds: destMap.backgrounds || [],
             activeBackgroundId: destMap.activeBackgroundId || null,
-            gridSettings: destMap.gridSettings || {}
+            gridSettings: destMap.gridSettings || {},
+            // Include map name for client to add to mapStore
+            name: destMap.name || data.mapName || 'Unknown Map'
           } : {}
         });
       }
@@ -2650,7 +2850,7 @@ io.on('connection', (socket) => {
     }
 
     const portal = currentMap.portals?.[connectionId] ||
-                 currentMap.dndElements?.find(el => el.id === connectionId && el.type === 'portal');
+      currentMap.dndElements?.find(el => el.id === connectionId && el.type === 'portal');
 
     if (!portal) {
       socket.emit('error', { message: 'Portal not found' });
@@ -2689,8 +2889,8 @@ io.on('connection', (socket) => {
     for (const [sid, p] of players.entries()) {
       // Notify: player being transferred, players on destination map, GM
       const isAffected = p.id === player.id ||
-                       p.currentMapId === destinationMapId ||
-                       p.isGM;
+        p.currentMapId === destinationMapId ||
+        p.isGM;
 
       if (isAffected) {
         affectedPlayers.push(sid);
@@ -2699,7 +2899,7 @@ io.on('connection', (socket) => {
           playerId: player.id,
           playerName: player.name,
           newMapId: destinationMapId,
-          mapName: destMap.name || destinationMapId,
+          newMapName: destMap.name || destinationMapId,
           centerPosition: destinationPosition,
           transferredByGM: false,
           portalUsed: {
@@ -2708,14 +2908,21 @@ io.on('connection', (socket) => {
             portalName: portal.properties?.portalName || portal.name || 'Portal'
           },
           mapData: {
-            terrainData: destMap.terrainData || [],
-            wallData: destMap.wallData || [],
+            terrainData: destMap.terrainData || {},
+            wallData: destMap.wallData || {},
             tokens: destMap.tokens || {},
             characterTokens: destMap.characterTokens || {},
             gridItems: destMap.gridItems || {},
             dndElements: destMap.dndElements || [],
+            drawingPaths: destMap.drawingPaths || [],
+            drawingLayers: destMap.drawingLayers || [],
+            fogOfWarPaths: destMap.fogOfWarPaths || [],
+            fogErasePaths: destMap.fogErasePaths || [],
+            environmentalObjects: destMap.environmentalObjects || [],
             backgrounds: destMap.backgrounds || [],
-            gridSettings: destMap.gridSettings || {}
+            activeBackgroundId: destMap.activeBackgroundId || null,
+            gridSettings: destMap.gridSettings || {},
+            name: destMap.name || destinationMapId
           }
         });
       }
@@ -2750,8 +2957,8 @@ io.on('connection', (socket) => {
         tokens: {},
         characterTokens: {},
         gridItems: {},
-        terrainData: [],
-        wallData: [],
+        terrainData: {},
+        wallData: {},
         drawingPaths: [],
         fogOfWarData: [],
         dndElements: []
@@ -2769,7 +2976,12 @@ io.on('connection', (socket) => {
     // Batch write to Firebase
     firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
 
-    console.log(`💾 Map ${mapId} synced by ${player.name}`);
+    console.log(`💾 Map ${mapId} synced by ${player.name}:`);
+    console.log(`   - Grid Items: ${Object.keys(mapData.gridItems || {}).length}`);
+    console.log(`   - Tokens: ${Object.keys(mapData.tokens || {}).length}`);
+    console.log(`   - Terrain: ${Object.keys(mapData.terrainData || {}).length} cells`);
+    console.log(`   - Wall Data: ${Object.keys(mapData.wallData || {}).length} segments`);
+    console.log(`   - Fog Paths: ${(mapData.fogOfWarPaths || []).length}`);
   });
 
   // ========== END NEW HANDLERS ==========
@@ -3048,16 +3260,34 @@ io.on('connection', (socket) => {
     // CRITICAL FIX: Verify item exists before removing
     let itemRemoved = false;
     let removedItem = null;
+    const targetMapId = player.currentMapId || 'default';
 
-    if (data.gridItemId && room.gameState.gridItems) {
-      const gridItem = room.gameState.gridItems[data.gridItemId];
-      if (gridItem) {
+    if (data.gridItemId) {
+      // Check legacy global state
+      if (room.gameState.gridItems && room.gameState.gridItems[data.gridItemId]) {
+        const gridItem = room.gameState.gridItems[data.gridItemId];
         removedItem = { ...gridItem };
         delete room.gameState.gridItems[data.gridItemId];
         itemRemoved = true;
-        console.log(`🎁 Removing looted item ${data.gridItemId} from server state`);
-      } else {
-        console.warn(`⚠️ Item ${data.gridItemId} not found in grid items - may have already been looted`);
+        console.log(`🎁 Removing looted item ${data.gridItemId} from legacy server state`);
+      }
+
+      // Check map-specific state
+      if (room.gameState.maps &&
+        room.gameState.maps[targetMapId] &&
+        room.gameState.maps[targetMapId].gridItems &&
+        room.gameState.maps[targetMapId].gridItems[data.gridItemId]) {
+
+        if (!removedItem) {
+          removedItem = { ...room.gameState.maps[targetMapId].gridItems[data.gridItemId] };
+        }
+        delete room.gameState.maps[targetMapId].gridItems[data.gridItemId];
+        itemRemoved = true;
+        console.log(`🎁 Removing looted item ${data.gridItemId} from map ${targetMapId} state`);
+      }
+
+      if (!itemRemoved) {
+        console.warn(`⚠️ Item ${data.gridItemId} not found in grid items on map ${targetMapId} - may have already been looted`);
       }
     }
 
@@ -3093,7 +3323,8 @@ io.on('connection', (socket) => {
       playerId: player.id,
       playerName: player.name,
       timestamp: new Date(),
-      itemRemoved: itemRemoved
+      itemRemoved: itemRemoved,
+      mapId: targetMapId // CRITICAL FIX: Include mapId for filtering
     });
 
     console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source} (removed: ${itemRemoved})`);
@@ -3665,97 +3896,9 @@ io.on('connection', (socket) => {
   });
 
   // Handle terrain placement/updates
-  socket.on('terrain_update', async (data) => {
-    const player = players.get(socket.id);
-    if (!player || !player.isGM) {
-      socket.emit('error', { message: 'Only GM can modify terrain' });
-      return;
-    }
+  // DEPRECATED: Use unified map_update instead
+  // Removing this duplicate to prevent synchronization issues
 
-    const room = rooms.get(player.roomId);
-    if (!room) return;
-
-    // Get the target map ID - default to GM's current map or 'default'
-    const targetMapId = data.targetMapId || player.currentMapId || 'default';
-
-    // Ensure the maps object and specific map exist
-    if (!room.gameState.maps) {
-      room.gameState.maps = {};
-    }
-    if (!room.gameState.maps[targetMapId]) {
-      room.gameState.maps[targetMapId] = {
-        id: targetMapId,
-        name: targetMapId === 'default' ? 'Default Map' : `Map ${targetMapId}`,
-        terrainData: {}
-      };
-    }
-
-    const targetMap = room.gameState.maps[targetMapId];
-
-    // Apply terrain updates (can be batch updates)
-    if (data.terrainData) {
-      targetMap.terrainData = {
-        ...targetMap.terrainData,
-        ...data.terrainData
-      };
-    }
-
-    // Handle single tile update
-    if (data.tileKey && data.terrainType !== undefined) {
-      if (data.terrainType === null) {
-        delete targetMap.terrainData[data.tileKey];
-      } else {
-        targetMap.terrainData[data.tileKey] = data.terrainType;
-      }
-    }
-
-    // Also update legacy if this is the default map
-    if (targetMapId === 'default' || targetMapId === room.gameState.defaultMapId) {
-      if (!room.gameState.mapData) room.gameState.mapData = {};
-      if (data.terrainData) {
-        room.gameState.mapData.terrainData = {
-          ...room.gameState.mapData.terrainData,
-          ...data.terrainData
-        };
-      }
-    }
-
-    // Persist to Firebase
-    try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    } catch (error) {
-      console.error('Failed to persist terrain update:', error);
-    }
-
-    // MAP ISOLATION: Only broadcast to players on the SAME map
-    const playersOnThisMap = [];
-    for (const [socketId, playerData] of players.entries()) {
-      if (playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
-        playersOnThisMap.push(socketId);
-      }
-    }
-
-    // Also include the GM (the sender) if they aren't on the map but are editing it
-    if (!playersOnThisMap.includes(socket.id)) {
-      playersOnThisMap.push(socket.id);
-    }
-
-    // Broadcast to specific sockets only
-    for (const targetSocketId of playersOnThisMap) {
-      if (targetSocketId === socket.id) continue; // Don't send back to the sender if they already handled it
-
-      io.to(targetSocketId).emit('terrain_updated', {
-        terrainData: data.terrainData,
-        tileKey: data.tileKey,
-        terrainType: data.terrainType,
-        mapId: targetMapId,
-        updatedBy: player.id,
-        timestamp: new Date()
-      });
-    }
-
-    console.log(`🌲 Terrain updated on map ${targetMapId} by GM ${player.name}`);
-  });
 
   // Handle door state changes (open/close/lock)
   socket.on('door_state_changed', async (data) => {
@@ -3919,30 +4062,19 @@ io.on('connection', (socket) => {
     }
 
     // MAP ISOLATION: Only broadcast to players on the SAME map
-    const playersOnThisMap = [];
     for (const [socketId, playerData] of players.entries()) {
-      if (playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
-        playersOnThisMap.push(socketId);
+      if (socketId !== socket.id && playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
+        io.to(socketId).emit('light_source_updated', {
+          lightId,
+          lightData,
+          updateType,
+          mapId: targetMapId,
+          updatedBy: player.id,
+          timestamp: new Date()
+        });
       }
     }
 
-    // Also include the GM (the sender) if they aren't on the map but are editing it
-    if (!playersOnThisMap.includes(socket.id)) {
-      playersOnThisMap.push(socket.id);
-    }
-
-    // Broadcast to ALL players (not just those on same map)
-    // This ensures all players get correct map updates when GM switches maps
-    for (const [socketId, playerData] of players.entries()) {
-       io.to(socketId).emit('light_source_updated', {
-         lightId,
-         lightData,
-         updateType,
-         mapId: targetMapId,
-         updatedBy: player.id,
-         timestamp: new Date()
-       });
-    }
 
     console.log(`💡 Light source ${lightId} ${updateType} on map ${targetMapId} by GM ${player.name}`);
   });
@@ -4012,32 +4144,20 @@ io.on('connection', (socket) => {
     }
 
     // MAP ISOLATION: Only broadcast to players on the SAME map
-    const playersOnThisMap = [];
     for (const [socketId, playerData] of players.entries()) {
-      if (playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
-        playersOnThisMap.push(socketId);
+      if (socketId !== socket.id && playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
+        io.to(socketId).emit('fog_updated', {
+          fogOfWarPaths: data.fogOfWarPaths,
+          fogErasePaths: data.fogErasePaths,
+          exploredAreas: data.exploredAreas,
+          finalize: data.finalize,
+          mapId: targetMapId,
+          updatedBy: player.id,
+          timestamp: new Date()
+        });
       }
     }
 
-    // Also include the GM (the sender) if they aren't on the map but are editing it
-    if (!playersOnThisMap.includes(socket.id)) {
-      playersOnThisMap.push(socket.id);
-    }
-
-    // Broadcast to specific sockets only
-    for (const targetSocketId of playersOnThisMap) {
-      if (targetSocketId === socket.id) continue;
-
-      io.to(targetSocketId).emit('fog_updated', {
-        fogOfWarPaths: data.fogOfWarPaths,
-        fogErasePaths: data.fogErasePaths,
-        exploredAreas: data.exploredAreas,
-        finalize: data.finalize,
-        mapId: targetMapId,
-        updatedBy: player.id,
-        timestamp: new Date()
-      });
-    }
 
     console.log(`🌫️ Fog updated on map ${targetMapId} by GM ${player.name}`);
   });
@@ -4099,31 +4219,19 @@ io.on('connection', (socket) => {
     }
 
     // MAP ISOLATION: Only broadcast to players on the SAME map
-    const playersOnThisMap = [];
     for (const [socketId, playerData] of players.entries()) {
-      if (playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
-        playersOnThisMap.push(socketId);
+      if (socketId !== socket.id && playerData.roomId === player.roomId && playerData.currentMapId === targetMapId) {
+        io.to(socketId).emit('drawing_updated', {
+          drawingPaths: data.drawingPaths,
+          drawingLayers: data.drawingLayers,
+          finalize: data.finalize,
+          mapId: targetMapId,
+          updatedBy: player.id,
+          timestamp: new Date()
+        });
       }
     }
 
-    // Also include the GM (the sender) if they aren't on the map but are editing it
-    if (!playersOnThisMap.includes(socket.id)) {
-      playersOnThisMap.push(socket.id);
-    }
-
-    // Broadcast to specific sockets only
-    for (const targetSocketId of playersOnThisMap) {
-      if (targetSocketId === socket.id) continue;
-
-      io.to(targetSocketId).emit('drawing_updated', {
-        drawingPaths: data.drawingPaths,
-        drawingLayers: data.drawingLayers,
-        finalize: data.finalize,
-        mapId: targetMapId,
-        updatedBy: player.id,
-        timestamp: new Date()
-      });
-    }
 
     console.log(`🎨 Drawing updated on map ${targetMapId} by GM ${player.name}`);
   });

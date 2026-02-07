@@ -65,6 +65,7 @@ const ProfessionalVTTEditor = () => {
 
     // Track last terrain brush position for line interpolation
     const lastTerrainBrushPosRef = useRef(null);
+    const activeMapIdRef = useRef(null); // CRITICAL: Capture mapId on pointer down to prevent bleeding during transitions
 
     // Throttled function to update hover preview state
     const updateHoverPreviewState = useCallback(() => {
@@ -546,7 +547,7 @@ const ProfessionalVTTEditor = () => {
                 timestamp: Date.now()
             };
 
-            const pathId = addDrawingPath(pathData);
+            const pathId = addDrawingPath(pathData, getExplicitCurrentMapId());
         }
         setTextInput({ show: false, x: 0, y: 0, text: '', gridX: 0, gridY: 0 });
     }, [textInput, toolSettings, activeLayer, addDrawingPath]);
@@ -666,7 +667,7 @@ const ProfessionalVTTEditor = () => {
 
         // Remove the found paths
         pathsToRemove.forEach(path => {
-            removeDrawingPath(path.id);
+            removeDrawingPath(path.id, activeMapIdRef.current);
         });
     }, [drawingPaths, removeDrawingPath, gridToScreen]);
 
@@ -915,6 +916,11 @@ const ProfessionalVTTEditor = () => {
     const handleMouseDown = useCallback((e) => {
         if (!isEditorMode) return;
 
+        // CRITICAL: Capture the current map ID at the EXACT moment of mouse down
+        // This ID will be used for all subsequent move/up events for this interaction
+        // to prevent data bleeding if the map switches before the mouse is released.
+        activeMapIdRef.current = getExplicitCurrentMapId();
+
         // Ignore right-clicks (button 2) - let context menu handlers deal with them
         if (e.button === 2) {
             return;
@@ -1029,7 +1035,7 @@ const ProfessionalVTTEditor = () => {
                             }
                         };
 
-                        addDndElement(connectionData);
+                        addDndElement(connectionData, activeMapIdRef.current);
                         console.log('◉ Connection placed at:', portalCoords);
                     }
                     return;
@@ -1111,7 +1117,7 @@ const ProfessionalVTTEditor = () => {
                         });
                     }
 
-                    addEnvironmentalObject(objectData);
+                    addEnvironmentalObject(objectData, activeMapIdRef.current);
                 }
                 return;
             case 'object_select':
@@ -1130,7 +1136,7 @@ const ProfessionalVTTEditor = () => {
                 if (deleteCoords) {
                     const objectToDelete = getObjectAtPosition(deleteCoords.gridX, deleteCoords.gridY);
                     if (objectToDelete) {
-                        removeEnvironmentalObject(objectToDelete.id);
+                        removeEnvironmentalObject(objectToDelete.id, activeMapIdRef.current);
                     }
                 }
                 return;
@@ -1332,7 +1338,7 @@ const ProfessionalVTTEditor = () => {
                         const wallsNear = findWallsNearPosition(clickX, clickY);
                         if (wallsNear.length > 0) {
                             wallsNear.forEach(wall => {
-                                removeWall(wall.x1, wall.y1, wall.x2, wall.y2);
+                                removeWall(wall.x1, wall.y1, wall.x2, wall.y2, activeMapIdRef.current);
                             });
                         }
                     }
@@ -1529,11 +1535,11 @@ const ProfessionalVTTEditor = () => {
             }
             case 'fog_clear_all':
                 // Clear all fog - NO DRAWING STATE
-                clearAllFog();
+                clearAllFog(activeMapIdRef.current);
                 return;
             case 'fog_cover_map':
                 // Cover entire map with fog - NO DRAWING STATE
-                coverEntireMapWithFog(gridSize);
+                coverEntireMapWithFog(gridSize, activeMapIdRef.current);
                 return;
         }
 
@@ -1541,7 +1547,7 @@ const ProfessionalVTTEditor = () => {
         if (selectedTool === 'fog_erase') {
             const fogCoords = screenToGrid(e.clientX, e.clientY);
             if (fogCoords) {
-                removeFogAtPosition(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
+                removeFogAtPosition(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize, activeMapIdRef.current);
             }
             // Set drawing state for continuous painting while dragging
             setIsDrawing(true);
@@ -1621,7 +1627,7 @@ const ProfessionalVTTEditor = () => {
                                 timestamp: Date.now()
                             };
 
-                            addDrawingPath(pathData);
+                            addDrawingPath(pathData, activeMapIdRef.current);
 
                             // Reset drawing state
                             setIsDrawing(false);
@@ -1653,16 +1659,16 @@ const ProfessionalVTTEditor = () => {
 
         // Handle grid-based tool actions
         switch (selectedTool) {
-             case 'terrain_brush':
-                 // Apply terrain with brush
-                 // Use selectedTerrainType or default to 'grass' if not set
-                 const terrainType = toolSettings.selectedTerrainType || 'grass';
-                 // Convert brushSize to number if it's a string (legacy support)
-                 const brushSize = typeof toolSettings.brushSize === 'number'
-                     ? toolSettings.brushSize
-                     : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
-                         ? parseInt(toolSettings.brushSize) || 1
-                         : 1);
+            case 'terrain_brush':
+                // Apply terrain with brush
+                // Use selectedTerrainType or default to 'grass' if not set
+                const terrainType = toolSettings.selectedTerrainType || 'grass';
+                // Convert brushSize to number if it's a string (legacy support)
+                const brushSize = typeof toolSettings.brushSize === 'number'
+                    ? toolSettings.brushSize
+                    : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
+                        ? parseInt(toolSettings.brushSize) || 1
+                        : 1);
 
                 // Track last position for line interpolation
                 lastTerrainBrushPosRef.current = coords;
@@ -1672,14 +1678,14 @@ const ProfessionalVTTEditor = () => {
                     coords.gridY,
                     terrainType,
                     brushSize,
-                    getExplicitCurrentMapId() // Pass current map ID explicitly
+                    activeMapIdRef.current // Use captured map ID
                 );
                 break;
             case 'terrain_erase':
                 // Erase terrain with brush size
                 // Track last position for line interpolation
                 lastTerrainBrushPosRef.current = coords;
-                removeTerrainAtPosition(coords.gridX, coords.gridY, toolSettings.brushSize || 1);
+                removeTerrainAtPosition(coords.gridX, coords.gridY, toolSettings.brushSize || 1, activeMapIdRef.current);
                 break;
             case 'wall_draw':
                 // Handle different wall drawing modes
@@ -1814,14 +1820,16 @@ const ProfessionalVTTEditor = () => {
                             terrainCoords.gridX,
                             terrainCoords.gridY,
                             terrainType,
-                            brushSize
+                            brushSize,
+                            activeMapIdRef.current // Use captured map ID
                         );
                     } else {
                         paintTerrainBrush(
                             terrainCoords.gridX,
                             terrainCoords.gridY,
                             terrainType,
-                            brushSize
+                            brushSize,
+                            activeMapIdRef.current // Use captured map ID
                         );
                     }
                     lastTerrainBrushPosRef.current = terrainCoords;
@@ -1839,10 +1847,11 @@ const ProfessionalVTTEditor = () => {
                             lastTerrainBrushPosRef.current.gridY,
                             eraseCoords.gridX,
                             eraseCoords.gridY,
-                            brushSize
+                            brushSize,
+                            activeMapIdRef.current
                         );
                     } else {
-                        removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, brushSize);
+                        removeTerrainAtPosition(eraseCoords.gridX, eraseCoords.gridY, brushSize, activeMapIdRef.current);
                     }
                     lastTerrainBrushPosRef.current = eraseCoords;
                 }
@@ -1880,7 +1889,8 @@ const ProfessionalVTTEditor = () => {
                                         pendingFogPaintRef.current.worldX,
                                         pendingFogPaintRef.current.worldY,
                                         pendingFogPaintRef.current.brushSize,
-                                        gridSize
+                                        gridSize,
+                                        activeMapIdRef.current
                                     );
                                 }
                                 pendingFogPaintRef.current = null;
@@ -2155,12 +2165,12 @@ const ProfessionalVTTEditor = () => {
                                         // Remove from old position using all possible key formats
                                         oldKeyFormats.forEach(key => {
                                             if (windowOverlays[key]) {
-                                                removeWindowOverlay(parseFloat(key.split(',')[0]), parseFloat(key.split(',')[1]));
+                                                removeWindowOverlay(parseFloat(key.split(',')[0]), parseFloat(key.split(',')[1]), activeMapIdRef.current);
                                             }
                                         });
 
                                         // Add to new position with updated wallKey
-                                        setWindowOverlay(newX, newY, dragWindowRef.current.data.type, currentWallKey);
+                                        setWindowOverlay(newX, newY, dragWindowRef.current.data.type, currentWallKey, activeMapIdRef.current);
 
                                         // Update the ref immediately (sync) for next drag event
                                         dragWindowRef.current.gridX = newX;
@@ -2298,7 +2308,7 @@ const ProfessionalVTTEditor = () => {
                                                 return;
                                             }
 
-                                            moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2);
+                                            moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2, activeMapIdRef.current);
 
                                             // Update ref for next drag event
                                             dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
@@ -2336,7 +2346,7 @@ const ProfessionalVTTEditor = () => {
                                         break;
                                     }
 
-                                    moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2);
+                                    moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2, activeMapIdRef.current);
 
                                     // Update ref for next drag event
                                     dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
@@ -2440,7 +2450,7 @@ const ProfessionalVTTEditor = () => {
 
         // Finish fog paths if we were drawing fog
         if (selectedTool === 'fog_erase') {
-            finishFogErasePath();
+            finishFogErasePath(activeMapIdRef.current);
         }
 
         if (typeof window !== 'undefined') {
@@ -2472,7 +2482,8 @@ const ProfessionalVTTEditor = () => {
                     startPoint.gridY,
                     endPoint.gridX,
                     endPoint.gridY,
-                    wallType
+                    wallType,
+                    activeMapIdRef.current
                 );
             } else if (wallMode === 'rectangle') {
                 // Rectangle mode: place walls around a rectangle
@@ -2502,20 +2513,20 @@ const ProfessionalVTTEditor = () => {
                             // If neighbor is outside the rectangle, create a wall
                             if (neighbor.q < minX || neighbor.q > maxX || neighbor.r < minY || neighbor.r > maxY) {
                                 // Create wall between this hex and its neighbor
-                                setWall(hex.q, hex.r, neighbor.q, neighbor.r, wallType);
+                                setWall(hex.q, hex.r, neighbor.q, neighbor.r, wallType, activeMapIdRef.current);
                             }
                         });
                     });
                 } else {
                     // Square grid: create 4 walls
                     // Top wall
-                    setWall(minX, minY, maxX, minY, wallType);
+                    setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current);
                     // Bottom wall
-                    setWall(minX, maxY, maxX, maxY, wallType);
+                    setWall(minX, maxY, maxX, maxY, wallType, activeMapIdRef.current);
                     // Left wall
-                    setWall(minX, minY, minX, maxY, wallType);
+                    setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current);
                     // Right wall
-                    setWall(maxX, minY, maxX, maxY, wallType);
+                    setWall(maxX, minY, maxX, maxY, wallType, activeMapIdRef.current);
                 }
             }
         } else if (currentPath.length > 0 &&
@@ -2544,7 +2555,7 @@ const ProfessionalVTTEditor = () => {
                     timestamp: Date.now()
                 };
 
-                addDrawingPath(pathData);
+                addDrawingPath(pathData, activeMapIdRef.current);
             }
         }
 
@@ -2557,6 +2568,7 @@ const ProfessionalVTTEditor = () => {
         setIsCurrentlyDrawing(false);
         setCurrentDrawingTool('');
         lastTerrainBrushPosRef.current = null;
+        activeMapIdRef.current = null; // CRITICAL: Clear mapId on pointer up
     }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
     // Handle right-click context menu (used for completing polygons)
@@ -2578,7 +2590,7 @@ const ProfessionalVTTEditor = () => {
                 timestamp: Date.now()
             };
 
-            addDrawingPath(pathData);
+            addDrawingPath(pathData, activeMapIdRef.current);
 
             // Reset drawing state
             setIsDrawing(false);
@@ -2586,6 +2598,7 @@ const ProfessionalVTTEditor = () => {
             clearCurrentDrawing();
             setIsCurrentlyDrawing(false);
             setCurrentDrawingTool('');
+            activeMapIdRef.current = null;
         }
     }, [selectedTool, isDrawing, currentPath, toolSettings, addDrawingPath, clearCurrentDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
@@ -2646,12 +2659,12 @@ const ProfessionalVTTEditor = () => {
                     // Delete selected wall/window if in wall_select mode
                     if (selectedTool === 'wall_select' && isObjectLocked) {
                         if (selectedWindow) {
-                            removeWindowOverlay(selectedWindow.gridX, selectedWindow.gridY);
+                            removeWindowOverlay(selectedWindow.gridX, selectedWindow.gridY, getExplicitCurrentMapId());
                             setSelectedWindow(null);
                             setSelectedWindowKey(null);
                         } else if (selectedWallKey) {
                             const [x1, y1, x2, y2] = selectedWallKey.split(',').map(Number);
-                            removeWall(x1, y1, x2, y2);
+                            removeWall(x1, y1, x2, y2, getExplicitCurrentMapId());
                             setSelectedWallKey(null);
                         }
                         setIsObjectLocked(false);

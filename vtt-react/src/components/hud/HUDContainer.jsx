@@ -6,6 +6,7 @@ import useTargetingStore from '../../store/targetingStore';
 import useCharacterStore from '../../store/characterStore';
 import WowWindow from '../windows/WowWindow';
 import { InspectionProvider } from '../../contexts/InspectionContext';
+import ChatBubbleManager from '../chat/ChatBubbleManager';
 
 // Import the main character sheet components
 import CharacterPanel from '../character-sheet/Equipment';
@@ -185,6 +186,9 @@ const HUDContainer = () => {
                 restType={restOverlayType}
                 onClose={hideRestOverlay}
             />
+
+            {/* Chat Bubble Manager */}
+            <ChatBubbleManager />
 
             {/* Character Sheet Window for Party Member Inspection */}
             {characterSheetOpen && !isInspectingSelf && inspectedCharacter && (

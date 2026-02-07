@@ -401,14 +401,36 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         if (!afterimageEnabled || !dynamicFogEnabled || !viewingFromToken || isModeSwitching) {
             return;
         }
-        updateMemorySnapshots();
+
+        // PERFORMANCE FIX: Defer expensive memory snapshot updates to idle periods
+        // This prevents blocking when tokens are placed
+        if (typeof requestIdleCallback !== 'undefined') {
+            requestIdleCallback(() => {
+                updateMemorySnapshots();
+            }, { timeout: 100 });
+        } else {
+            setTimeout(() => {
+                updateMemorySnapshots();
+            }, 0);
+        }
     }, [afterimageEnabled, dynamicFogEnabled, viewingFromToken, visibleArea, updateMemorySnapshots, isModeSwitching]);
 
     // Update token afterimages when tokens move or visibility changes
     // CRITICAL FIX: Works when viewingFromToken is set, regardless of GM mode (allows GM to test)
     useEffect(() => {
         if (!afterimageEnabled || !dynamicFogEnabled || !viewingFromToken || isModeSwitching) return;
-        updateTokenAfterimages();
+
+        // PERFORMANCE FIX: Defer expensive afterimage updates to idle periods
+        // This prevents blocking when first token is placed
+        if (typeof requestIdleCallback !== 'undefined') {
+            requestIdleCallback(() => {
+                updateTokenAfterimages();
+            }, { timeout: 100 });
+        } else {
+            setTimeout(() => {
+                updateTokenAfterimages();
+            }, 0);
+        }
     }, [
         afterimageEnabled,
         dynamicFogEnabled,

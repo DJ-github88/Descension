@@ -313,7 +313,14 @@ const CanvasGridRenderer = ({
                 cancelAnimationFrame(renderRafRef.current);
                 renderRafRef.current = null;
             }
-            requestAnimationFrame(renderGrid);
+            // Throttle renders to ~60fps when not dragging to reduce desync with React
+            if (zoomRenderRafRef.current === null) {
+                requestAnimationFrame(renderGrid);
+                zoomRenderRafRef.current = requestAnimationFrame(() => {
+                    renderGrid();
+                    zoomRenderRafRef.current = null;
+                });
+            }
         }
     }, [renderGrid, isDraggingCamera, startDragRenderLoop]);
     

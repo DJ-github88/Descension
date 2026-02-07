@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
+import useMapStore from '../../../store/mapStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import UnifiedContextMenu from '../UnifiedContextMenu';
 
@@ -69,6 +70,14 @@ const ObjectSystem = () => {
         isGMMode,
         isBackgroundManipulationMode
     } = useGameStore();
+
+    const { getCurrentMapId } = useMapStore();
+
+    // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
+    const getExplicitCurrentMapId = () => {
+        const mapStoreState = useMapStore.getState();
+        return mapStoreState.currentMapId || 'default';
+    };
 
     // Calculate effective zoom and grid positioning
     const effectiveZoom = zoomLevel * playerZoom;
@@ -586,7 +595,7 @@ const ObjectSystem = () => {
             if (isEditorMode) {
                 environmentalObjects.forEach(obj => {
                     if (obj.selected) {
-                        updateEnvironmentalObject(obj.id, { ...obj, selected: false });
+                        updateEnvironmentalObject(obj.id, { ...obj, selected: false }, getExplicitCurrentMapId());
                     }
                 });
             }
@@ -698,7 +707,7 @@ const ObjectSystem = () => {
     // Handle removing selected object
     const handleRemoveObject = () => {
         if (selectedObject) {
-            removeEnvironmentalObject(selectedObject.id);
+            removeEnvironmentalObject(selectedObject.id, getExplicitCurrentMapId());
             setShowContextMenu(false);
             setSelectedObject(null);
         }
@@ -828,7 +837,7 @@ const ObjectSystem = () => {
             updateEnvironmentalObject(selectedObject.id, {
                 ...selectedObject,
                 scale: newScale
-            });
+            }, getExplicitCurrentMapId());
         } else if (isDragging) {
             // Handle dragging
             const worldPos = screenToWorld(screenX, screenY);
@@ -839,7 +848,7 @@ const ObjectSystem = () => {
                 ...selectedObject,
                 worldX: newWorldX,
                 worldY: newWorldY
-            });
+            }, getExplicitCurrentMapId());
         }
     }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, isGMMode, isOverConnection, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle, getObjectAtScreenPosition, hoveredGMNote]);
 

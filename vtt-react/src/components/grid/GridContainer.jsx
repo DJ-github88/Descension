@@ -109,9 +109,19 @@ const GridContainer = ({ gridItem }) => {
     };
   }, [showContextMenu]);
 
-  const toggleTooltipForTouch = () => {
-    if (lastPointerTypeRef.current !== 'touch') return;
-    setShowTooltip(prev => !prev);
+  const handleClick = (e) => {
+    // Distinguish between touch (usually for tooltips) and mouse (for looting)
+    if (lastPointerTypeRef.current === 'touch') {
+      setShowTooltip(prev => !prev);
+      return;
+    }
+
+    // Prevent propagation
+    e.stopPropagation();
+
+    // Loot the container on click - matches standard loot orb behavior
+    // This allows clicking a dropped backpack/chest to loot it entirely
+    lootItem(gridItem.id);
   };
 
   // Handle opening the container
@@ -161,12 +171,16 @@ const GridContainer = ({ gridItem }) => {
     // Convert grid position to world coordinates first
     const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
 
-    // Use the same coordinate conversion as CreatureToken for consistency
+    // Use same coordinate conversion as CreatureToken for consistency
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
 
-    return screenPos;
+    // Round to integers to prevent sub-pixel jitter/flickering
+    return {
+      x: Math.round(screenPos.x),
+      y: Math.round(screenPos.y)
+    };
   }, [
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
@@ -196,16 +210,16 @@ const GridContainer = ({ gridItem }) => {
         className="grid-container"
         style={{
           position: 'absolute',
-          left: screenPosition.x,
-          top: screenPosition.y,
+          left: 0,
+          top: 0,
           width: `${containerDimensions.width}px`,
           height: `${containerDimensions.height}px`,
-          transform: 'translate(-50%, -50%)',
+          transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
           border: `${Math.max(1, containerDimensions.width * 0.04)}px solid ${getQualityColor(originalItem.quality)}`,
           boxShadow: `0 0 ${containerDimensions.width * 0.2}px ${getQualityColor(originalItem.quality)}80`,
           backgroundImage: originalItem.imageUrl ? `url(${originalItem.imageUrl})` :
             (originalItem.iconId ? `url(${getIconUrl(originalItem.iconId, 'items')})` :
-            `url(${getIconUrl('brown-backpack-sleeping-bag', 'items')})`),
+              `url(${getIconUrl('brown-backpack-sleeping-bag', 'items')})`),
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           borderRadius: '8px',
@@ -213,6 +227,7 @@ const GridContainer = ({ gridItem }) => {
           cursor: 'pointer',
           zIndex: 100,
           pointerEvents: 'all',
+          willChange: 'transform',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease'
         }}
         onMouseEnter={handleMouseEnter}
@@ -226,7 +241,7 @@ const GridContainer = ({ gridItem }) => {
         onPointerMove={longPressHandlers.onPointerMove}
         onPointerUp={longPressHandlers.onPointerUp}
         onPointerCancel={longPressHandlers.onPointerCancel}
-        onClick={toggleTooltipForTouch}
+        onClick={handleClick}
       >
         <div
           className="grid-container-header"
@@ -274,6 +289,11 @@ const GridContainer = ({ gridItem }) => {
           y={contextMenuPosition.y}
           onClose={() => setShowContextMenu(false)}
           items={[
+            {
+              icon: <i className="fas fa-hand-holding-medical"></i>,
+              label: 'Loot Container',
+              onClick: handleLootContainer
+            },
             {
               icon: <i className="fas fa-box-open"></i>,
               label: originalItem.containerProperties?.isLocked ? 'Unlock Container' : 'Open Container',

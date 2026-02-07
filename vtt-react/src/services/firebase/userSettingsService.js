@@ -80,6 +80,8 @@ export const DEFAULT_USER_SETTINGS = {
   chatTimestamps: true,
   chatMessageHistory: 100,
   chatSoundNotifications: true,
+  showSpeechBubbles: true,        // Show speech bubbles for chat messages
+  speechBubbleDuration: 5,           // Seconds before bubbles fade (2-10)
 
   // Combat Settings
   autoRollInitiative: false,

@@ -54,6 +54,12 @@ const GridItem = ({ gridItem }) => {
     item = items.find(i => i.id === gridItem.itemId);
   }
 
+  // CRITICAL FIX: If item still not found, use gridItem properties directly
+  // This handles standalone items that aren't in the item store (e.g., items dropped from GM Notes)
+  if (!item) {
+    item = gridItem;
+  }
+
   // Calculate world position
   const itemPosition = useMemo(() => {
     if (!gridItem.gridPosition) {
@@ -77,7 +83,7 @@ const GridItem = ({ gridItem }) => {
 
     const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
 
-     return worldPos;
+    return worldPos;
   }, [gridItem.gridPosition, gridSystem]);
 
   // Check visibility (using the logic recovered from the corrupted file)
@@ -126,7 +132,7 @@ const GridItem = ({ gridItem }) => {
     return true;
   }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem, visibleArea]);
 
-  // Calculate screen position
+  // Calculate screen position with rounding to prevent sub-pixel jitter
   const screenPosition = useMemo(() => {
     if (!itemPosition) return { x: 0, y: 0 };
 
@@ -134,7 +140,11 @@ const GridItem = ({ gridItem }) => {
     const viewportHeight = window.innerHeight;
     const screenPos = gridSystem.worldToScreen(itemPosition.x, itemPosition.y, viewportWidth, viewportHeight);
 
-     return screenPos;
+    // Round to integers to prevent sub-pixel jitter/flickering
+    return {
+      x: Math.round(screenPos.x),
+      y: Math.round(screenPos.y)
+    };
   }, [itemPosition, gridSystem, cameraX, cameraY, effectiveZoom]);
 
   // Handle interactions
@@ -154,26 +164,51 @@ const GridItem = ({ gridItem }) => {
   };
 
   const handleLoot = () => {
+    console.log('🎁 Manually triggering loot for:', gridItem.id);
     lootItem(gridItem.id);
   };
 
-  const handleClick = (e) => {
-    // Only loot if this wasn't a drag operation
-    if (!isDraggingRef.current) {
+  const handlePointerDown = (e) => {
+    // Track start position and time for click detection
+    dragStartPositionRef.current = { x: e.clientX, y: e.clientY };
+    dragStartTimeRef.current = Date.now();
+    isDraggingRef.current = false;
+  };
+
+  const handlePointerUp = (e) => {
+    // Only handle left clicks for looting
+    if (e.button !== 0) return;
+
+    const dragDistance = Math.sqrt(
+      Math.pow(e.clientX - dragStartPositionRef.current.x, 2) +
+      Math.pow(e.clientY - dragStartPositionRef.current.y, 2)
+    );
+    const dragDuration = Date.now() - dragStartTimeRef.current;
+
+    // Check if it was a "clean" click: small movement and short duration
+    // OR just a very small movement (dist < 5) even if held for a bit
+    if (dragDistance < 5 && dragDuration < 500) {
+      console.log('💎 Valid Loot Click Detected:', {
+        itemId: gridItem?.id,
+        distance: dragDistance,
+        duration: dragDuration
+      });
       e.stopPropagation();
       lootItem(gridItem.id);
     }
+  };
+
+  const handleClick = (e) => {
+    // Prevent default click behavior as we handle it in pointerUp
+    e.stopPropagation();
   };
 
   const handleDragStart = (e) => {
     // Set global flag for Grid to accept the drop
     window.isDraggingItem = true;
     isDraggingRef.current = true;
-    dragStartTimeRef.current = Date.now();
-    dragStartPositionRef.current = { x: e.clientX, y: e.clientY };
 
     // Use the gridItem data directly as it contains the source of truth for the instance
-    // Merge with item definition to ensure all render properties are available during drag
     const dragData = {
       ...item, // Item definition properties (name, type, stats)
       ...gridItem, // Instance properties (id, position, quantity)
@@ -183,7 +218,7 @@ const GridItem = ({ gridItem }) => {
     e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
     e.dataTransfer.effectAllowed = 'move';
 
-    // Create a custom drag image that looks like the loot orb
+    // Create custom drag image...
     try {
       const dragImage = document.createElement('div');
       dragImage.style.width = `${itemSize}px`;
@@ -216,7 +251,9 @@ const GridItem = ({ gridItem }) => {
       e.dataTransfer.setDragImage(dragImage, itemSize / 2, itemSize / 2);
 
       setTimeout(() => {
-        document.body.removeChild(dragImage);
+        if (document.body.contains(dragImage)) {
+          document.body.removeChild(dragImage);
+        }
       }, 0);
     } catch (error) {
       console.warn('Could not set custom drag image:', error);
@@ -225,22 +262,10 @@ const GridItem = ({ gridItem }) => {
 
   const handleDragEnd = (e) => {
     window.isDraggingItem = false;
-
-    // Calculate drag distance to determine if it was a drag or a click
-    const dragDistance = Math.sqrt(
-      Math.pow(e.clientX - dragStartPositionRef.current.x, 2) +
-      Math.pow(e.clientY - dragStartPositionRef.current.y, 2)
-    );
-
-    // If drag distance is less than 5 pixels, consider it a click, not a drag
-    if (dragDistance < 5) {
+    // Short timeout to ensure pointer events don't trigger immediately after drag
+    setTimeout(() => {
       isDraggingRef.current = false;
-    } else {
-      // It was a drag, keep flag true briefly to prevent click handler
-      setTimeout(() => {
-        isDraggingRef.current = false;
-      }, 50);
-    }
+    }, 50);
   };
 
   if (!item || !itemVisibilityState) return null;
@@ -253,6 +278,8 @@ const GridItem = ({ gridItem }) => {
       <div
         className="grid-item-orb"
         draggable={true}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onClick={handleClick}
@@ -262,8 +289,8 @@ const GridItem = ({ gridItem }) => {
         data-container={gridItem.isContainer ? 'true' : 'false'}
         style={{
           position: 'absolute',
-          left: screenPosition.x,
-          top: screenPosition.y,
+          left: `${screenPosition.x}px`,
+          top: `${screenPosition.y}px`,
           width: `${itemSize}px`,
           height: `${itemSize}px`,
           transform: 'translate(-50%, -50%)',
@@ -277,7 +304,8 @@ const GridItem = ({ gridItem }) => {
           backgroundRepeat: 'no-repeat',
           cursor: 'grab',
           zIndex: 90,
-          pointerEvents: 'all'
+          pointerEvents: 'all',
+          willChange: 'transform'
         }}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}

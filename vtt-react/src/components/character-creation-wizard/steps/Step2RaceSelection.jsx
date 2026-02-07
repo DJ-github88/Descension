@@ -348,7 +348,7 @@ const getPassiveSummary = (trait = {}) => {
                                         onClick={() => setShowEpicLore(true)}
                                     >
                                         <i className="fas fa-book-open"></i>
-                                        View Race Lore
+                                        Lore
                                     </button>
                                 </div>
 

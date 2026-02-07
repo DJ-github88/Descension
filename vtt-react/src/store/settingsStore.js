@@ -269,6 +269,15 @@ const useSettingsStore = create(
         get().updateSettings({ chatSoundNotifications: enabled });
       },
 
+      setShowSpeechBubbles: (enabled) => {
+        get().updateSettings({ showSpeechBubbles: enabled });
+      },
+
+      setSpeechBubbleDuration: (duration) => {
+        const clampedDuration = Math.max(2, Math.min(10, duration));
+        get().updateSettings({ speechBubbleDuration: clampedDuration });
+      },
+
       // Combat Settings
       setAutoRollInitiative: (enabled) => {
         get().updateSettings({ autoRollInitiative: enabled });
@@ -488,7 +497,9 @@ export const getSettingsByCategory = (category) => {
         chatFontSize: state.chatFontSize,
         chatTimestamps: state.chatTimestamps,
         chatMessageHistory: state.chatMessageHistory,
-        chatSoundNotifications: state.chatSoundNotifications
+        chatSoundNotifications: state.chatSoundNotifications,
+        showSpeechBubbles: state.showSpeechBubbles,
+        speechBubbleDuration: state.speechBubbleDuration
       };
 
     case SETTINGS_CATEGORIES.COMBAT:

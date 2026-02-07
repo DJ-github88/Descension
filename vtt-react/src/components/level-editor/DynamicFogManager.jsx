@@ -152,7 +152,19 @@ const DynamicFogManager = ({ disabled = false }) => {
         // Only update if dependencies actually changed
         if (currentHash !== lastUpdateHash) {
             setLastUpdateHash(currentHash);
-            updateFogVisibility();
+
+            // PERFORMANCE FIX: Defer expensive visibility calculations to idle periods
+            // This prevents blocking on first token placement when FOV system initializes
+            if (typeof requestIdleCallback !== 'undefined') {
+                requestIdleCallback(() => {
+                    updateFogVisibility();
+                }, { timeout: 100 });
+            } else {
+                // Fallback for browsers without requestIdleCallback
+                setTimeout(() => {
+                    updateFogVisibility();
+                }, 0);
+            }
         }
     }, [updateFogVisibility, dynamicFogEnabled, tokens?.length, creatures?.length, wallData?.length, lightingEnabled, lightInteractsWithFog, lastUpdateHash]);
 

@@ -50,7 +50,7 @@ const createDefaultMap = (name = 'New Map') => ({
     gridSize: 50,
     gridOffsetX: 0,
     gridOffsetY: 0,
-    gridLineColor: 'rgba(212, 175, 55, 0.8)',
+    gridLineColor: '#000000',  // Match server default (black)
     gridLineThickness: 2,
     gridType: 'square' // 'square' or 'hex' - per-map grid type
 });
@@ -255,7 +255,7 @@ const useMapStore = create(
                         gridSize: gameStoreData.gridSize || 50,
                         gridOffsetX: gameStoreData.gridOffsetX || 0,
                         gridOffsetY: gameStoreData.gridOffsetY || 0,
-                        gridLineColor: gameStoreData.gridLineColor || 'rgba(64, 196, 255, 0.3)',
+                        gridLineColor: gameStoreData.gridLineColor || '#000000',
                         gridLineThickness: gameStoreData.gridLineThickness || 1,
 
                         // Save level editor data
@@ -485,10 +485,16 @@ const useMapStore = create(
 
             // Map switching functionality
             switchToMap: async (mapId) => {
+                // CRITICAL FIX: Set map switching lock to prevent mapUpdateBatcher from
+                // sending updates during transition (prevents terrain bleeding)
+                window._isMapSwitching = true;
+                console.log('🔒 [mapStore.switchToMap] Lock set - preventing updates during transition');
+
                 const state = get();
                 const targetMap = (state.maps || []).find(map => map.id === mapId);
 
                 if (!targetMap) {
+                    window._isMapSwitching = false; // Release lock on error
                     throw new Error(`Map with ID ${mapId} not found`);
                 }
 
@@ -504,6 +510,19 @@ const useMapStore = create(
 
                 // Switch to the new map
                 set({ currentMapId: mapId });
+
+                // CRITICAL FIX: Notify server of map change for proper isolation
+                // This ensures terrain/fog/etc updates only go to players on the same map
+                try {
+                    const { default: useGameStore } = await import('./gameStore');
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
+                        gameStore.multiplayerSocket.emit('update_current_map', { mapId });
+                        console.log(`📤 Notified server of map switch to: ${mapId}`);
+                    }
+                } catch (e) {
+                    console.warn('Could not notify server of map change:', e);
+                }
 
                 // Load the new map's state
                 const mapState = state.loadMapState();
@@ -524,7 +543,7 @@ const useMapStore = create(
                         gridSize: mapState.gridSize || 50,
                         gridOffsetX: mapState.gridOffsetX || 0,
                         gridOffsetY: mapState.gridOffsetY || 0,
-                        gridLineColor: mapState.gridLineColor || 'rgba(212, 175, 55, 0.8)',
+                        gridLineColor: mapState.gridLineColor || '#000000', // Match server/createDefaultMap defaults
                         gridLineThickness: mapState.gridLineThickness || 2,
                         gridType: mapState.gridType || 'square' // Restore per-map grid type
                     });
@@ -552,6 +571,7 @@ const useMapStore = create(
                     let socket = null;
                     let originalOnevent = null;
                     const pausedEvents = [];
+                    let switchComplete = false; // NEW: Track switch completion
 
                     if (wasInMultiplayer) {
                         socket = useGameStore.getState().multiplayerSocket;
@@ -623,21 +643,37 @@ const useMapStore = create(
                         useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
                     }
 
+                    // Mark switch as complete before resuming events
+                    switchComplete = true;
+
                     // CRITICAL FIX: Resume event processing after map switch
-                    // Process any events that arrived during the switch
+                    // Filter and process only events that are relevant to the new map
                     if (socket && wasInMultiplayer) {
                         socket.onevent = null; // Remove the pause handler
 
-                        // Small delay to ensure state is fully loaded before processing queued events
+                        // Filter queued events - only process those relevant to new map
+                        const filteredEvents = pausedEvents.filter(packet => {
+                            const eventMapId = packet.data?.mapId || packet.data?.targetMapId || mapId;
+                            return eventMapId === mapId; // Only process events for new map
+                        });
+
+                        // CRITICAL FIX: Wait longer to ensure state is fully loaded before processing events
                         setTimeout(() => {
-                            pausedEvents.forEach(packet => {
+                            filteredEvents.forEach(packet => {
                                 if (socket._onevent) {
                                     socket._onevent(packet);
                                 }
                             });
-                        }, 50);
+                        }, 100);
                     }
                 }
+
+                // CRITICAL FIX: Release map switching lock after switch is complete
+                // Use timeout to ensure all state updates have propagated
+                setTimeout(() => {
+                    window._isMapSwitching = false;
+                    console.log('🔓 [mapStore.switchToMap] Lock released - updates allowed');
+                }, 200);
 
                 return targetMap;
             },
@@ -705,34 +741,52 @@ const useMapStore = create(
                 const mapIdToSave = targetMapId || state.getCurrentMapId();
                 if (!mapIdToSave) return;
 
-                // Get grid items from gridItemStore and filter by target map ID
+                const isCurrentMap = mapIdToSave === state.getCurrentMapId();
+
+                // Get grid items - conditionally pull from store only if it's the current map
                 let gridItems = [];
-                try {
-                    const { default: useGridItemStore } = await import('./gridItemStore');
-                    const gridItemState = useGridItemStore.getState();
-                    gridItems = (gridItemState.gridItems || []).filter(item => item.mapId === mapIdToSave);
-                } catch (error) {
-                    console.warn('Could not load grid items:', error);
+                if (isCurrentMap) {
+                    try {
+                        const { default: useGridItemStore } = await import('./gridItemStore');
+                        const gridItemState = useGridItemStore.getState();
+                        gridItems = (gridItemState.gridItems || []).filter(item => item.mapId === mapIdToSave);
+                    } catch (error) {
+                        console.warn('Could not load grid items from store:', error);
+                    }
+                } else {
+                    // Pull from the map's own items if not current
+                    const map = (state.maps || []).find(m => m.id === mapIdToSave);
+                    gridItems = map?.gridItems || [];
                 }
 
-                // Get tokens from creatureStore (not gameStore)
+                // Get tokens from creatureStore (not gameStore) - only if current map
                 let tokens = [];
-                try {
-                    const { default: useCreatureStore } = await import('./creatureStore');
-                    const creatureStoreState = useCreatureStore.getState();
-                    tokens = creatureStoreState.tokens || [];
-                } catch (error) {
-                    console.warn('Could not load creature tokens:', error);
+                if (isCurrentMap) {
+                    try {
+                        const { default: useCreatureStore } = await import('./creatureStore');
+                        const creatureStoreState = useCreatureStore.getState();
+                        tokens = creatureStoreState.tokens || [];
+                    } catch (error) {
+                        console.warn('Could not load creature tokens:', error);
+                    }
+                } else {
+                    const map = (state.maps || []).find(m => m.id === mapIdToSave);
+                    tokens = map?.tokens || [];
                 }
 
-                // Get character tokens from characterTokenStore
+                // Get character tokens from characterTokenStore - only if current map
                 let characterTokens = [];
-                try {
-                    const { default: useCharacterTokenStore } = await import('./characterTokenStore');
-                    const characterTokenState = useCharacterTokenStore.getState();
-                    characterTokens = characterTokenState.characterTokens || [];
-                } catch (error) {
-                    console.warn('Could not load character tokens:', error);
+                if (isCurrentMap) {
+                    try {
+                        const { default: useCharacterTokenStore } = await import('./characterTokenStore');
+                        const characterTokenState = useCharacterTokenStore.getState();
+                        characterTokens = characterTokenState.characterTokens || [];
+                    } catch (error) {
+                        console.warn('Could not load character tokens:', error);
+                    }
+                } else {
+                    const map = (state.maps || []).find(m => m.id === mapIdToSave);
+                    characterTokens = map?.characterTokens || [];
                 }
 
                 const mapUpdates = {
@@ -755,7 +809,7 @@ const useMapStore = create(
                     gridSize: gameStoreData.gridSize || 50,
                     gridOffsetX: gameStoreData.gridOffsetX || 0,
                     gridOffsetY: gameStoreData.gridOffsetY || 0,
-                    gridLineColor: gameStoreData.gridLineColor || 'rgba(212, 175, 55, 0.8)',
+                    gridLineColor: gameStoreData.gridLineColor || '#000000',
                     gridLineThickness: gameStoreData.gridLineThickness || 2,
                     gridType: gameStoreData.gridType || 'square', // Save per-map grid type
 
@@ -779,71 +833,92 @@ const useMapStore = create(
                     gridItems: gridItems
                 };
 
+                // CRITICAL FIX: Validate all items have correct mapId before saving
+                // This prevents items from being saved to wrong map due to race conditions
+                const invalidItems = gridItems.filter(item => item.mapId && item.mapId !== mapIdToSave);
+                if (invalidItems.length > 0) {
+                    console.warn(`⚠️ Found ${invalidItems.length} items with wrong mapId, filtering out:`, invalidItems);
+                    gridItems = gridItems.filter(item => !item.mapId || item.mapId === mapIdToSave);
+                    mapUpdates.gridItems = gridItems;
+                }
+
                 // CRITICAL: Use mapIdToSave instead of currentMapId
                 state.updateMap(mapIdToSave, mapUpdates);
             },
 
-            loadMapState: async () => {
+            loadMapState: async (targetMapId = null) => {
                 const state = get();
-                const currentMap = state.getCurrentMap();
-                if (!currentMap) return null;
+                const mapIdToLoad = targetMapId || state.getCurrentMapId();
+                const targetMap = (state.maps || []).find(map => map.id === mapIdToLoad) || state.maps[0];
 
-                // CRITICAL FIX: Get grid items from gridItemStore, not just from map object
-                // This ensures we have the latest items that were just added/modified
-                let gridItemsFromStore = [];
-                try {
-                    const { default: useGridItemStore } = await import('./gridItemStore');
-                    const gridItemState = useGridItemStore.getState();
-                    const currentMapId = currentMap.id;
-                    gridItemsFromStore = (gridItemState.gridItems || []).filter(item => item.mapId === currentMapId);
-                } catch (error) {
-                    console.warn('Could not load grid items from gridItemStore:', error);
-                    gridItemsFromStore = currentMap.gridItems || [];
+                if (!targetMap) return null;
+
+                const isCurrentMap = mapIdToLoad === state.getCurrentMapId();
+
+                // CRITICAL FIX: Only get grid items from gridItemStore if it's the current map
+                // and if the store actually has items. This prevents the wipe-out bug.
+                // CRITICAL FIX: Ensure grid items is an array even if stored as object (server format)
+                let gridItemsData = targetMap.gridItems || [];
+                let gridItems = Array.isArray(gridItemsData) ? gridItemsData : Object.values(gridItemsData);
+
+                if (isCurrentMap) {
+                    try {
+                        const { default: useGridItemStore } = await import('./gridItemStore');
+                        const gridItemState = useGridItemStore.getState();
+                        const storeItems = (gridItemState.gridItems || []).filter(item => item.mapId === mapIdToLoad);
+
+                        // Only use store items if they exist, otherwise trust the map's persisted items
+                        if (storeItems.length > 0) {
+                            gridItems = storeItems;
+                        }
+                    } catch (error) {
+                        console.warn('Could not load grid items from gridItemStore:', error);
+                    }
                 }
 
                 return {
                     // Background system data
-                    backgrounds: currentMap.backgrounds || [],
-                    activeBackgroundId: currentMap.activeBackgroundId || null,
+                    backgrounds: targetMap.backgrounds || [],
+                    activeBackgroundId: targetMap.activeBackgroundId || null,
 
                     // Legacy background system
-                    backgroundImage: currentMap.backgroundImage || null,
-                    backgroundImageUrl: currentMap.backgroundImageUrl || '',
+                    backgroundImage: targetMap.backgroundImage || null,
+                    backgroundImageUrl: targetMap.backgroundImageUrl || '',
 
                     // Camera and view settings
-                    cameraX: currentMap.cameraX || 0,
-                    cameraY: currentMap.cameraY || 0,
-                    zoomLevel: currentMap.zoomLevel || 1.0,
+                    cameraX: targetMap.cameraX || 0,
+                    cameraY: targetMap.cameraY || 0,
+                    zoomLevel: targetMap.zoomLevel || 1.0,
 
                     // Grid settings
-                    gridSize: currentMap.gridSize || 50,
-                    gridOffsetX: currentMap.gridOffsetX || 0,
-                    gridOffsetY: currentMap.gridOffsetY || 0,
-                    gridLineColor: currentMap.gridLineColor || 'rgba(212, 175, 55, 0.8)',
-                    gridLineThickness: currentMap.gridLineThickness || 2,
-                    gridType: currentMap.gridType || 'square', // Per-map grid type
+                    gridSize: targetMap.gridSize || 50,
+                    gridOffsetX: targetMap.gridOffsetX || 0,
+                    gridOffsetY: targetMap.gridOffsetY || 0,
+                    gridLineColor: targetMap.gridLineColor || '#000000',
+                    gridLineThickness: targetMap.gridLineThickness || 2,
+                    gridType: targetMap.gridType || 'square', // Per-map grid type
 
                     // Level editor data
-                    terrainData: currentMap.terrainData || {},
-                    environmentalObjects: currentMap.environmentalObjects || [],
-                    dndElements: currentMap.dndElements || [],
-                    fogOfWarData: currentMap.fogOfWarData || {},
-                    fogOfWarPaths: currentMap.fogOfWarPaths || [],
-                    fogErasePaths: currentMap.fogErasePaths || [],
-                    wallData: currentMap.wallData || {},
-                    drawingPaths: currentMap.drawingPaths || [],
-                    drawingLayers: currentMap.drawingLayers || [],
+                    terrainData: targetMap.terrainData || {},
+                    environmentalObjects: targetMap.environmentalObjects || [],
+                    dndElements: targetMap.dndElements || [],
+                    fogOfWarData: targetMap.fogOfWarData || {},
+                    fogOfWarPaths: targetMap.fogOfWarPaths || [],
+                    fogErasePaths: targetMap.fogErasePaths || [],
+                    wallData: targetMap.wallData || {},
+                    drawingPaths: targetMap.drawingPaths || [],
+                    drawingLayers: targetMap.drawingLayers || [],
 
                     // Game entities
-                    creatures: currentMap.creatures || [],
-                    tokens: currentMap.tokens || [],
-                    characterTokens: currentMap.characterTokens || [],
+                    creatures: targetMap.creatures || [],
+                    tokens: Array.isArray(targetMap.tokens) ? (targetMap.tokens || []) : Object.values(targetMap.tokens || {}),
+                    characterTokens: Array.isArray(targetMap.characterTokens) ? (targetMap.characterTokens || []) : Object.values(targetMap.characterTokens || {}),
 
-                    // CRITICAL FIX: Use items from gridItemStore to get latest data
-                    gridItems: gridItemsFromStore,
+                    // CRITICAL FIX: Use merged items
+                    gridItems: gridItems,
 
                     // Portals
-                    portals: currentMap.portals || []
+                    portals: targetMap.portals || []
                 };
             },
 

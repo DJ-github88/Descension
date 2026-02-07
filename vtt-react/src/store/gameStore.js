@@ -32,7 +32,7 @@ const initialState = {
     gridType: 'square', // 'square' or 'hex' - grid type for the map
     gridOffsetX: 0,
     gridOffsetY: 0,
-    gridLineColor: 'rgba(255, 255, 255, 0.8)', // White color for grid lines
+    gridLineColor: '#000000', // Black color for grid lines (matches server default)
     gridLineThickness: 2, // Thicker lines for better visibility
     gridLineOpacity: 0.8, // Separate opacity control for grid lines
     gridBackgroundColor: '#d4c5b9', // Darker beige background color for the grid canvas
@@ -144,7 +144,7 @@ const handleGameStoreQuotaExceeded = (name, value) => {
                 gridType: value.gridType || 'square',
                 gridOffsetX: value.gridOffsetX || 0,
                 gridOffsetY: value.gridOffsetY || 0,
-                gridLineColor: value.gridLineColor || 'rgba(212, 175, 55, 0.8)',
+                gridLineColor: value.gridLineColor || '#000000',
                 gridLineThickness: value.gridLineThickness || 2,
                 windowScale: value.windowScale || 1.0,
                 // Remove all large data
@@ -776,7 +776,7 @@ const useGameStore = create((set, get) => ({
             gridSize: gridSize || 50,
             gridOffsetX: gridOffsetX || 0,
             gridOffsetY: gridOffsetY || 0,
-            gridLineColor: gridLineColor || 'rgba(212, 175, 55, 0.8)',
+            gridLineColor: gridLineColor || '#000000',
             gridLineThickness: gridLineThickness || 2
         });
     },
