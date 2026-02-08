@@ -1964,6 +1964,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     let highestProcessedSequence = 0;
     let processBufferTimeout = null;
 
+    // CRITICAL FIX: Keep legacy grid_item_update handlers disabled by default.
+    // The server's unified path emits `grid_item_updated`; having multiple legacy
+    // handlers active caused duplicate item applies during map transitions.
+    const ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER = false;
+
     // ========== SOCKET EVENT HANDLERS ==========
     // These process incoming updates from the server and other players
 
@@ -2586,6 +2591,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for Grid Item position updates from other players
     socket.on('grid_item_update', (data) => {
+      if (!ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER) return;
       const { type, data: updateData, playerId, mapId } = data;
 
       // Skip if it's our own update (we already applied it locally)
@@ -3388,6 +3394,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle grid item updates
     socket.on('grid_item_update', (data) => {
+      if (!ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER) return;
       // Import grid item store dynamically to avoid circular dependencies
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
         const gridItemStore = useGridItemStore.getState();
@@ -3628,15 +3635,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
         const levelEditorStore = useLevelEditorStore.getState();
         const mapData = data.mapData || {};
+        const localMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || {};
 
-        // Clear existing data first, then apply new map data
-        levelEditorStore.setTerrainData(mapData.terrainData || {});
-        levelEditorStore.setWallData(mapData.wallData || {});
-        levelEditorStore.setDrawingPaths(mapData.drawingPaths || []);
-        levelEditorStore.setDrawingLayers(mapData.drawingLayers || []);
-        levelEditorStore.setFogOfWarPaths(mapData.fogOfWarPaths || []);
-        levelEditorStore.setFogErasePaths(mapData.fogErasePaths || []);
-        levelEditorStore.setDndElements(mapData.dndElements || []);
+        // CRITICAL FIX: Avoid destructive clears when payload is partial.
+        // Prefer incoming payload, then local map cache; only skip if both missing.
+        const nextTerrainData = mapData.terrainData ?? localMap.terrainData;
+        const nextWallData = mapData.wallData ?? localMap.wallData;
+        const nextDrawingPaths = mapData.drawingPaths ?? localMap.drawingPaths;
+        const nextDrawingLayers = mapData.drawingLayers ?? localMap.drawingLayers;
+        const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMap.fogOfWarPaths;
+        const nextFogErasePaths = mapData.fogErasePaths ?? localMap.fogErasePaths;
+        const nextDndElements = mapData.dndElements ?? localMap.dndElements;
+
+        if (nextTerrainData !== undefined) levelEditorStore.setTerrainData(nextTerrainData || {});
+        else console.warn('⚠️ [player_map_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
+
+        if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
+        if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
+        if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
+        if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
+        if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
+        if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
 
         // CRITICAL FIX: Synchronize backgrounds and grid settings
         // This ensures the visuals match the new map
@@ -3726,19 +3745,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           currentGridItemsBeforeFilter: currentGridItems.map(i => ({ id: i.id, name: i.name, mapId: i.mapId }))
         });
 
-        // CRITICAL FIX: Remove items from OLD map (if oldMapId exists), then add items from new map
-        let filteredItems = currentGridItems;
-        if (data.oldMapId) {
-          filteredItems = currentGridItems.filter(item => item.mapId !== data.oldMapId);
-        }
+        // CRITICAL FIX: Replace target-map items atomically to avoid map bleed/duplication.
+        const nonTargetItems = currentGridItems.filter(item => (item?.mapId || 'default') !== data.newMapId);
+        const normalizedTargetItems = mapGridItems
+          .filter(item => (item?.mapId || data.newMapId || 'default') === data.newMapId)
+          .map(item => ({ ...item, mapId: item?.mapId || data.newMapId || 'default' }));
+        const dedupedTargetItems = Array.from(
+          new Map(normalizedTargetItems.map(item => [item.id, item])).values()
+        );
 
-        // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
-        const itemsWithValidMapId = mapGridItems.filter(item => {
-          const itemMapId = item.mapId || 'default';
-          return itemMapId === data.newMapId;
-        });
-
-        const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
+        const updatedGridItems = [...nonTargetItems, ...dedupedTargetItems];
 
         console.log(`📦 [player_map_changed] Final grid items:`, {
           totalItems: updatedGridItems.length,
@@ -3862,38 +3878,46 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }).then(({ default: useLevelEditorStore }) => {
         const levelEditorStore = useLevelEditorStore.getState();
         const mapData = data.mapData || {};
+        const localMapCache = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || {};
 
         window._isReceivingMapUpdate = true;
 
-        // CRITICAL FIX: Don't clear terrain first - just replace it
-        // This prevents flicker during map transitions by avoiding intermediate empty state
-        // setTerrainData() will replace the entire terrain array anyway
+        // CRITICAL FIX: Avoid destructive clears when gm_view_changed payload is partial.
+        // Prefer incoming payload, then local map cache; preserve current state if both missing.
+        const nextTerrainData = mapData.terrainData ?? localMapCache.terrainData;
+        const nextWallData = mapData.wallData ?? localMapCache.wallData;
+        const nextDrawingPaths = mapData.drawingPaths ?? localMapCache.drawingPaths;
+        const nextDrawingLayers = mapData.drawingLayers ?? localMapCache.drawingLayers;
+        const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMapCache.fogOfWarPaths;
+        const nextFogErasePaths = mapData.fogErasePaths ?? localMapCache.fogErasePaths;
+        const nextDndElements = mapData.dndElements ?? localMapCache.dndElements;
 
-        // Apply map data in a single batch to prevent flicker
-        levelEditorStore.setTerrainData(mapData.terrainData || {});
-        levelEditorStore.setWallData(mapData.wallData || {});
-        levelEditorStore.setDrawingPaths(mapData.drawingPaths || []);
-        levelEditorStore.setDrawingLayers(mapData.drawingLayers || []);
-        levelEditorStore.setFogOfWarPaths(mapData.fogOfWarPaths || []);
-        levelEditorStore.setFogErasePaths(mapData.fogErasePaths || []);
-        levelEditorStore.setDndElements(mapData.dndElements || []);
+        if (nextTerrainData !== undefined) levelEditorStore.setTerrainData(nextTerrainData || {});
+        else console.warn('⚠️ [gm_view_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
+
+        if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
+        if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
+        if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
+        if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
+        if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
+        if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
 
         setTimeout(() => {
           window._isReceivingMapUpdate = false;
           window._isMapSwitching = false;
         }, 300);
 
-        return mapData;
-      }).then((mapData) => {
+        return { mapData, localMapCache };
+      }).then(({ mapData, localMapCache }) => {
         // Step 2: Apply game store backgrounds and grid settings
         useGameStore.setState({
-          backgrounds: mapData.backgrounds || [],
-          activeBackgroundId: mapData.activeBackgroundId || null,
-          gridSize: mapData.gridSettings?.gridSize || 50,
-          gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
-          gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
-          gridLineColor: mapData.gridSettings?.gridLineColor || '#000000',
-          gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+          backgrounds: mapData.backgrounds ?? localMapCache.backgrounds ?? [],
+          activeBackgroundId: mapData.activeBackgroundId ?? localMapCache.activeBackgroundId ?? null,
+          gridSize: mapData.gridSettings?.gridSize ?? localMapCache.gridSettings?.gridSize ?? 50,
+          gridOffsetX: mapData.gridSettings?.gridOffsetX ?? localMapCache.gridSettings?.gridOffsetX ?? 0,
+          gridOffsetY: mapData.gridSettings?.gridOffsetY ?? localMapCache.gridSettings?.gridOffsetY ?? 0,
+          gridLineColor: mapData.gridSettings?.gridLineColor ?? localMapCache.gridSettings?.gridLineColor ?? '#000000',
+          gridLineThickness: mapData.gridSettings?.gridLineThickness ?? localMapCache.gridSettings?.gridLineThickness ?? 1
         });
       }).then(() => {
         // Step 3: Reload token/item payloads.
@@ -3927,11 +3951,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         if (!hasGridItemsPayload) {
           console.warn('⚠️ [gm_view_changed] Missing gridItems payload - skipping destructive grid item clear to prevent accidental wipe');
-        } else {
-          // CRITICAL: Synchronously clear grid items before rehydrating map payload
-          import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-            useGridItemStore.setState({ gridItems: [] });
-          });
         }
 
         // Load tokens for the new map
@@ -3983,23 +4002,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             const mapGridItems = gridItemsRaw ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw)) : [];
             const oldMapId = previousMapId;
 
-            // CRITICAL FIX: Remove items from PREVIOUS map, then REPLACE with new map's items
-            let filteredItems = [];
-            if (oldMapId) {
-              // Remove ALL items from previous map, don't keep any
-              filteredItems = currentGridItems.filter(item => item.mapId !== oldMapId);
-            } else {
-              // Keep items from all other maps
-              filteredItems = currentGridItems;
-            }
+            // CRITICAL FIX: Always replace target map's items with payload (deduped),
+            // and keep non-target maps intact.
+            const nonTargetItems = currentGridItems.filter(item => (item?.mapId || 'default') !== data.newMapId);
 
-            // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
-            const itemsWithValidMapId = mapGridItems.filter(item => {
-              const itemMapId = item.mapId || 'default';
-              return itemMapId === data.newMapId;
-            });
+            const normalizedTargetItems = mapGridItems
+              .filter(item => (item?.mapId || data.newMapId || 'default') === data.newMapId)
+              .map(item => ({ ...item, mapId: item?.mapId || data.newMapId || 'default' }));
 
-            const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
+            const dedupedTargetItems = Array.from(
+              new Map(normalizedTargetItems.map(item => [item.id, item])).values()
+            );
+
+            const updatedGridItems = [...nonTargetItems, ...dedupedTargetItems];
             useGridItemStore.setState({ gridItems: updatedGridItems });
 
             console.log(`✅ Map switch complete: ${data.mapName} (${data.newMapId})`, {

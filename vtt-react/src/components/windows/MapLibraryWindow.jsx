@@ -94,6 +94,65 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         return await loadMapState(mapId);
     }, [loadMapState]);
 
+    // Build a safe sync payload that only includes meaningful map sections.
+    // This avoids sending empty fallback data ({}/[]) during switch/transfer race windows.
+    const buildSafeSyncMapPayload = useCallback((mapId, mapName, mapState) => {
+        if (!mapId || !mapState) return { payload: null, hasAnyContent: false, contentSections: 0 };
+
+        const payload = { mapId };
+        if (mapName) payload.mapName = mapName;
+
+        let contentSections = 0;
+
+        const addObjectSection = (key, value) => {
+            if (value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length > 0) {
+                payload[key] = value;
+                contentSections += 1;
+            }
+        };
+
+        const addArraySection = (key, value) => {
+            if (Array.isArray(value) && value.length > 0) {
+                payload[key] = value;
+                contentSections += 1;
+            }
+        };
+
+        const addCollectionSection = (key, value) => {
+            if (Array.isArray(value)) {
+                addArraySection(key, value);
+                return;
+            }
+            addObjectSection(key, value);
+        };
+
+        addCollectionSection('gridItems', mapState.gridItems);
+        addObjectSection('terrainData', mapState.terrainData);
+        addCollectionSection('tokens', mapState.tokens);
+        addCollectionSection('characterTokens', mapState.characterTokens);
+        addObjectSection('wallData', mapState.wallData);
+        addArraySection('drawingPaths', mapState.drawingPaths);
+        addArraySection('drawingLayers', mapState.drawingLayers);
+        addObjectSection('fogOfWarData', mapState.fogOfWarData);
+        addArraySection('fogOfWarPaths', mapState.fogOfWarPaths);
+        addArraySection('fogErasePaths', mapState.fogErasePaths);
+        addArraySection('dndElements', mapState.dndElements);
+        addArraySection('backgrounds', mapState.backgrounds);
+        addArraySection('environmentalObjects', mapState.environmentalObjects);
+        addObjectSection('lightSources', mapState.lightSources);
+        addObjectSection('exploredAreas', mapState.exploredAreas);
+
+        if (mapState.activeBackgroundId !== undefined && mapState.activeBackgroundId !== null) {
+            payload.activeBackgroundId = mapState.activeBackgroundId;
+        }
+
+        return {
+            payload,
+            hasAnyContent: contentSections > 0,
+            contentSections
+        };
+    }, []);
+
     // Handle player drag start
     const handlePlayerDragStart = (e, player) => {
         if (!isGMMode) return;
@@ -149,38 +208,13 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 const mapState = await getMapState(targetMapId);
 
                 if (mapState) {
-                    // CRITICAL FIX: Add a content check to prevent wiping the destination map if state retrieval failed
-                    const hasTerrain = mapState.terrainData && Object.keys(mapState.terrainData).length > 0;
-                    const hasItems = mapState.gridItems && (Array.isArray(mapState.gridItems) ? mapState.gridItems.length > 0 : Object.keys(mapState.gridItems).length > 0);
-                    const hasTokens = (mapState.tokens && Object.keys(mapState.tokens).length > 0) || (mapState.characterTokens && Object.keys(mapState.characterTokens).length > 0);
-                    const hasWalls = mapState.wallData && Object.keys(mapState.wallData).length > 0;
-                    const hasDrawings = mapState.drawingPaths && mapState.drawingPaths.length > 0;
-
-                    const hasAnyContent = hasTerrain || hasItems || hasTokens || hasWalls || hasDrawings;
+                    const { payload: syncPayload, hasAnyContent, contentSections } = buildSafeSyncMapPayload(targetMapId, mapName, mapState);
 
                     if (!hasAnyContent) {
                         console.warn(`⚠️ [Player Transfer] Skipping sync for destination map ${targetMapId} - no content detected! (Preventing accidental wipe)`);
                     } else {
-                        multiplayerSocket.emit('sync_map_state', {
-                            mapId: targetMapId,
-                            mapName: mapName,
-                            gridItems: mapState.gridItems || [],
-                            terrainData: mapState.terrainData || {},
-
-                            wallData: mapState.wallData || {},
-                            drawingPaths: mapState.drawingPaths || [],
-                            drawingLayers: mapState.drawingLayers || [],
-                            fogOfWarData: mapState.fogOfWarData || {},
-                            fogOfWarPaths: mapState.fogOfWarPaths || [],
-                            fogErasePaths: mapState.fogErasePaths || [],
-                            dndElements: mapState.dndElements || [],
-                            backgrounds: mapState.backgrounds || [],
-                            activeBackgroundId: mapState.activeBackgroundId,
-                            environmentalObjects: mapState.environmentalObjects || [],
-                            lightSources: mapState.lightSources || {},
-                            exploredAreas: mapState.exploredAreas || []
-                        });
-                        console.log(`✅ Destination map state (${targetMapId}) synced to server for player transfer`);
+                        multiplayerSocket.emit('sync_map_state', syncPayload);
+                        console.log(`✅ Destination map state (${targetMapId}) synced to server for player transfer (${contentSections} sections)`);
                     }
                 }
             } catch (error) {
@@ -256,40 +290,19 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
                 try {
                     const destinationMapState = await loadMapState(mapId);
-                    if (destinationMapState && (
-                        destinationMapState.gridItems?.length > 0 ||
-                        destinationMapState.tokens?.length > 0 ||
-                        destinationMapState.dndElements?.length > 0 ||
-                        (destinationMapState.terrainData && Object.keys(destinationMapState.terrainData).length > 0) ||
-                        (destinationMapState.wallData && Object.keys(destinationMapState.wallData).length > 0) ||
-                        destinationMapState.drawingPaths?.length > 0 ||
-                        destinationMapState.environmentalObjects?.length > 0 ||
-                        destinationMapState.fogOfWarPaths?.length > 0 ||
-                        destinationMapState.backgrounds?.length > 0
-                    )) {
+                    if (destinationMapState) {
                         console.log(`💾 Syncing destination map ${mapId} before switching`);
                         const targetMap = maps.find(m => m.id === mapId);
-                        gameStoreState.multiplayerSocket.emit('sync_map_state', {
-                            mapId: mapId,
-                            mapName: targetMap?.name,
-                            gridItems: destinationMapState.gridItems,
-                            terrainData: destinationMapState.terrainData,
+                        const { payload: syncPayload, hasAnyContent, contentSections } = buildSafeSyncMapPayload(mapId, targetMap?.name, destinationMapState);
 
-                            wallData: destinationMapState.wallData,
-                            drawingPaths: destinationMapState.drawingPaths,
-                            drawingLayers: destinationMapState.drawingLayers,
-                            fogOfWarData: destinationMapState.fogOfWarData,
-                            fogOfWarPaths: destinationMapState.fogOfWarPaths,
-                            fogErasePaths: destinationMapState.fogErasePaths,
-                            dndElements: destinationMapState.dndElements,
-                            backgrounds: destinationMapState.backgrounds,
-                            activeBackgroundId: destinationMapState.activeBackgroundId,
-                            environmentalObjects: destinationMapState.environmentalObjects,
-                            lightSources: destinationMapState.lightSources,
-                            exploredAreas: destinationMapState.exploredAreas
-                        });
-                        // Small delay to allow server to process sync
-                        await new Promise(resolve => setTimeout(resolve, 100));
+                        if (!hasAnyContent) {
+                            console.warn(`⚠️ [Map Switch] Skipping destination sync for map ${mapId} - no content sections detected`);
+                        } else {
+                            gameStoreState.multiplayerSocket.emit('sync_map_state', syncPayload);
+                            console.log(`✅ [Map Switch] Synced destination map ${mapId} (${contentSections} sections)`);
+                            // Small delay to allow server to process sync
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        }
                     }
                 } catch (error) {
                     console.error('❌ Error syncing destination map:', error);
@@ -347,40 +360,15 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     const mapState = await getMapState(currentMapId);
 
                     if (mapState) {
-                        // CRITICAL FIX: Add a content check to prevent wiping the map if state retrieval failed
-                        const hasTerrain = mapState.terrainData && Object.keys(mapState.terrainData).length > 0;
-                        const hasItems = mapState.gridItems && (Array.isArray(mapState.gridItems) ? mapState.gridItems.length > 0 : Object.keys(mapState.gridItems).length > 0);
-                        const hasTokens = (mapState.tokens && Object.keys(mapState.tokens).length > 0) || (mapState.characterTokens && Object.keys(mapState.characterTokens).length > 0);
-                        const hasWalls = mapState.wallData && Object.keys(mapState.wallData).length > 0;
-                        const hasDrawings = mapState.drawingPaths && mapState.drawingPaths.length > 0;
-
-                        const hasAnyContent = hasTerrain || hasItems || hasTokens || hasWalls || hasDrawings;
+                        const map = maps.find(m => m.id === currentMapId);
+                        const { payload: syncPayload, hasAnyContent, contentSections } = buildSafeSyncMapPayload(currentMapId, map?.name, mapState);
 
                         if (!hasAnyContent) {
                             console.warn(`⚠️ [Sync] Skipping sync for map ${currentMapId} - no content detected! (Preventing accidental wipe)`);
                         } else {
-                            // Get the map object to get its name
-                            const map = maps.find(m => m.id === currentMapId);
                             console.log(`💾 Syncing map ${currentMapId} (${map?.name}) with ${Object.keys(mapState.terrainData || {}).length} terrain cells`);
-
-                            gameStoreState.multiplayerSocket.emit('sync_map_state', {
-                                mapId: currentMapId,
-                                mapName: map?.name, // CRITICAL: Send map name to ensure proper display
-                                gridItems: mapState.gridItems,
-                                terrainData: mapState.terrainData,
-                                wallData: mapState.wallData,
-                                drawingPaths: mapState.drawingPaths,
-                                drawingLayers: mapState.drawingLayers,
-                                fogOfWarData: mapState.fogOfWarData,
-                                fogOfWarPaths: mapState.fogOfWarPaths,
-                                fogErasePaths: mapState.fogErasePaths,
-                                dndElements: mapState.dndElements,
-                                backgrounds: mapState.backgrounds,
-                                activeBackgroundId: mapState.activeBackgroundId,
-                                environmentalObjects: mapState.environmentalObjects,
-                                lightSources: mapState.lightSources,
-                                exploredAreas: mapState.exploredAreas
-                            });
+                            gameStoreState.multiplayerSocket.emit('sync_map_state', syncPayload);
+                            console.log(`✅ [Sync] Map ${currentMapId} synced with ${contentSections} populated sections`);
                         }
                     }
                 }

@@ -139,9 +139,19 @@ const useGridItemStore = create((set, get) => ({
     }
 
     return set((state) => {
+      // CRITICAL FIX: Normalize incoming IDs to a stable grid ID so repeated syncs/map loads
+      // don't generate a fresh random ID every time (which causes duplicates).
+      const rawIncomingId = (item && item.id !== undefined && item.id !== null) ? String(item.id) : null;
+      const normalizedGridId = rawIncomingId
+        ? (rawIncomingId.startsWith('grid-item-') ? rawIncomingId : `grid-item-${rawIncomingId}`)
+        : generateId();
+
       // Check if item with this ID already exists (crucial for multiplayer sync)
       // If it exists, update it instead of adding a new one
-      const existingByIdIndex = item.id ? state.gridItems.findIndex(gi => gi.id === item.id) : -1;
+      const existingByIdIndex = state.gridItems.findIndex(gi =>
+        gi.id === normalizedGridId ||
+        (rawIncomingId && (gi.id === rawIncomingId || gi.itemId === rawIncomingId || gi.originalItemId === rawIncomingId))
+      );
 
       if (existingByIdIndex >= 0) {
         const updatedGridItems = [...state.gridItems];
@@ -262,17 +272,15 @@ const useGridItemStore = create((set, get) => ({
       const finalPosition = position || item.position || { x: 0, y: 0 };
       const finalGridPosition = finalPosition.gridPosition || item.gridPosition || { row: 0, col: 0 };
 
-      // CRITICAL FIX: Ensure all items on the grid have an ID starting with 'grid-item-'
-      // This is required for Grid.jsx to recognize them as existing items during dragging.
-      const gridId = (item.id && typeof item.id === 'string' && item.id.startsWith('grid-item-'))
-        ? item.id
-        : generateId();
+      // CRITICAL FIX: Use normalized stable grid ID
+      // (e.g. "gold_123" -> "grid-item-gold_123") so item identity survives re-syncs.
+      const gridId = normalizedGridId;
 
       const gridItem = {
         ...item,
         id: gridId,
-        itemId: item.itemId || (item.id && typeof item.id === 'string' && !item.id.startsWith('grid-item-') ? item.id : null), // Store library ID for looting
-        originalItemId: item.originalItemId || (item.id && typeof item.id === 'string' && !item.id.startsWith('grid-item-') ? item.id : null),
+        itemId: item.itemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null), // Store library ID for looting
+        originalItemId: item.originalItemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null),
         position: { x: finalPosition.x, y: finalPosition.y },
         gridPosition: {
           row: finalGridPosition.row,
@@ -794,17 +802,32 @@ const useGridItemStore = create((set, get) => ({
 
   // Load a grid item from saved state (bypasses position validation)
   loadGridItem: (item) => set((state) => {
-    // Ensure the item has required properties
-    if (!item.id) {
+    // CRITICAL FIX: Normalize IDs on load so persisted items don't duplicate when rehydrated.
+    const rawIncomingId = (item && item.id !== undefined && item.id !== null) ? String(item.id) : null;
+    const normalizedGridId = rawIncomingId
+      ? (rawIncomingId.startsWith('grid-item-') ? rawIncomingId : `grid-item-${rawIncomingId}`)
+      : null;
+
+    if (!normalizedGridId) {
       console.warn('⚠️ Grid item missing ID, skipping:', item);
       return state;
     }
 
+    const normalizedItem = {
+      ...item,
+      id: normalizedGridId,
+      itemId: item.itemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null),
+      originalItemId: item.originalItemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null)
+    };
+
     // Check if item already exists (avoid duplicates)
-    const existingItemIndex = state.gridItems.findIndex(gridItem => gridItem.id === item.id);
+    const existingItemIndex = state.gridItems.findIndex(gridItem =>
+      gridItem.id === normalizedGridId ||
+      (rawIncomingId && (gridItem.id === rawIncomingId || gridItem.itemId === rawIncomingId || gridItem.originalItemId === rawIncomingId))
+    );
     if (existingItemIndex >= 0) {
       const updatedGridItems = [...state.gridItems];
-      updatedGridItems[existingItemIndex] = item;
+      updatedGridItems[existingItemIndex] = normalizedItem;
       return {
         gridItems: updatedGridItems,
         lastUpdate: Date.now()
@@ -813,7 +836,7 @@ const useGridItemStore = create((set, get) => ({
 
     // Add new item
     return {
-      gridItems: [...state.gridItems, item],
+      gridItems: [...state.gridItems, normalizedItem],
       lastUpdate: Date.now()
     };
   }),

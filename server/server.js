@@ -3048,7 +3048,7 @@ io.on('connection', (socket) => {
     // Update map data defensively
     const existingMap = room.gameState.maps[mapId];
 
-    // Defensive merge helper
+    // Defensive merge helpers
     const mergeCollection = (collectionName, incoming, existing) => {
       // If incoming is null/undefined, keep existing
       if (incoming === undefined || incoming === null) return existing;
@@ -3078,12 +3078,72 @@ io.on('connection', (socket) => {
       return incoming; // Already an object
     };
 
+    const mergeObjectData = (collectionName, incoming, existing) => {
+      if (incoming === undefined || incoming === null) return existing;
+
+      const incomingCount = Object.keys(incoming).length;
+      const existingCount = existing ? Object.keys(existing).length : 0;
+
+      // Preserve existing non-empty object when incoming object is empty
+      // This prevents accidental wipes from stale/partial client snapshots.
+      if (incomingCount === 0 && existingCount > 0) {
+        console.log(`⚠️ [SERVER] [sync_map_state] Preserving ${collectionName} for map ${mapId} - incoming data was empty!`);
+        return existing;
+      }
+
+      return incoming;
+    };
+
+    const mergeArrayData = (collectionName, incoming, existing) => {
+      if (incoming === undefined || incoming === null) return existing;
+
+      const incomingCount = Array.isArray(incoming) ? incoming.length : 0;
+      const existingCount = Array.isArray(existing) ? existing.length : 0;
+
+      // Preserve existing non-empty array when incoming array is empty
+      if (incomingCount === 0 && existingCount > 0) {
+        console.log(`⚠️ [SERVER] [sync_map_state] Preserving ${collectionName} for map ${mapId} - incoming data was empty!`);
+        return existing;
+      }
+
+      return incoming;
+    };
+
+    const {
+      tokens,
+      characterTokens,
+      gridItems,
+      terrainData,
+      wallData,
+      drawingPaths,
+      drawingLayers,
+      fogOfWarData,
+      fogOfWarPaths,
+      fogErasePaths,
+      exploredAreas,
+      environmentalObjects,
+      dndElements,
+      lightSources,
+      ...restMapData
+    } = mapData;
+
     room.gameState.maps[mapId] = {
       ...existingMap,
-      ...mapData,
-      tokens: mergeCollection('tokens', mapData.tokens, existingMap.tokens),
-      characterTokens: mergeCollection('characterTokens', mapData.characterTokens, existingMap.characterTokens),
-      gridItems: mergeCollection('gridItems', mapData.gridItems, existingMap.gridItems),
+      ...restMapData,
+      tokens: mergeCollection('tokens', tokens, existingMap.tokens),
+      characterTokens: mergeCollection('characterTokens', characterTokens, existingMap.characterTokens),
+      gridItems: mergeCollection('gridItems', gridItems, existingMap.gridItems),
+      terrainData: mergeObjectData('terrainData', terrainData, existingMap.terrainData),
+      wallData: mergeObjectData('wallData', wallData, existingMap.wallData),
+      fogOfWarData: mergeObjectData('fogOfWarData', fogOfWarData, existingMap.fogOfWarData),
+      exploredAreas: mergeObjectData('exploredAreas', exploredAreas, existingMap.exploredAreas),
+      lightSources: mergeObjectData('lightSources', lightSources, existingMap.lightSources),
+      drawingPaths: mergeArrayData('drawingPaths', drawingPaths, existingMap.drawingPaths),
+      drawingLayers: mergeArrayData('drawingLayers', drawingLayers, existingMap.drawingLayers),
+      fogOfWarPaths: mergeArrayData('fogOfWarPaths', fogOfWarPaths, existingMap.fogOfWarPaths),
+      fogErasePaths: mergeArrayData('fogErasePaths', fogErasePaths, existingMap.fogErasePaths),
+      environmentalObjects: mergeArrayData('environmentalObjects', environmentalObjects, existingMap.environmentalObjects),
+      dndElements: mergeArrayData('dndElements', dndElements, existingMap.dndElements),
       lastUpdatedBy: player.id,
       lastUpdatedAt: new Date()
     };
