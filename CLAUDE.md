@@ -66,6 +66,16 @@
   - "Plan real-time state synchronization strategy"
   - "Evaluate performance bottlenecks in VTT"
 
+### Everything MCP
+- **Use when**: Need a reference for MCP capabilities or testing tool configurations
+- **Triggers**:
+  - Reference implementation checks
+  - Tool testing/validation
+  - Capability discovery
+- **Examples**:
+  - "Check how this MCP tool handles complex JSON input"
+  - "Verify tool output formatting"
+
 ## General Development Guidelines
 
 ### Code Quality

@@ -9,7 +9,7 @@ import { getIconUrl } from '../utils/assetManager';
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
-const generateId = () => `grid-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const generateId = () => `grid-item-${uuidv4()}`;
 
 // Simple queue so currency notifications never overlap
 const currencyNotificationQueue = [];
@@ -139,13 +139,11 @@ const useGridItemStore = create((set, get) => ({
     }
 
     return set((state) => {
-      // Check if we can stack this item with an existing one
-      const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
-
       // Check if item with this ID already exists (crucial for multiplayer sync)
-      // If it exists and isn't a stackable type being consolidated, update it instead of adding
+      // If it exists, update it instead of adding a new one
       const existingByIdIndex = item.id ? state.gridItems.findIndex(gi => gi.id === item.id) : -1;
-      if (existingByIdIndex >= 0 && (!isStackableType || item.stackable === false)) {
+
+      if (existingByIdIndex >= 0) {
         const updatedGridItems = [...state.gridItems];
         const finalPosition = position || item.position || updatedGridItems[existingByIdIndex].position || { x: 0, y: 0 };
         const finalGridPosition = finalPosition.gridPosition || item.gridPosition || updatedGridItems[existingByIdIndex].gridPosition || { row: 0, col: 0 };
@@ -154,7 +152,9 @@ const useGridItemStore = create((set, get) => ({
           ...updatedGridItems[existingByIdIndex],
           ...item,
           position: finalPosition,
-          gridPosition: finalGridPosition
+          gridPosition: finalGridPosition,
+          mapId: resolvedMapId, // Update mapId to match
+          lastModified: Date.now()
         };
 
         return {
@@ -162,6 +162,9 @@ const useGridItemStore = create((set, get) => ({
           lastUpdate: Date.now()
         };
       }
+
+      // Check if we can stack this item with an existing one
+      const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
 
       // Check if we can stack this item with an existing one
       if (isStackableType && item.stackable !== false) {

@@ -167,6 +167,13 @@ const mapUpdateBatcher = {
     emit: async (overrideTargetMapId = null) => {
         if (mapUpdateBatcher.isEmitting) return;
 
+        // CRITICAL FIX: Do NOT emit during map switch to prevent data bleeding
+        // Mouse events from the old map might still be in the batcher
+        if (typeof window !== 'undefined' && window._isMapSwitching) {
+            console.warn('⚠️ [Batcher] Blocking emit during map switch');
+            return;
+        }
+
         const updates = { ...mapUpdateBatcher.pendingUpdates };
         // Use override if provided (retry), otherwise captured, otherwise null
         const targetMapId = overrideTargetMapId || mapUpdateBatcher.capturedMapId;
@@ -205,7 +212,16 @@ const mapUpdateBatcher = {
             // CRITICAL FIX: Use mapId captured when updates were queued (capturedMapId)
             // If capturedMapId is missing (e.g. emitted manually), fallback to currentMapId
             const mapStoreMapId = mapStore.currentMapId;
-            const finalTargetMapId = targetMapId || mapStoreMapId || 'default';
+
+            // CRITICAL: If targetMapId is missing and we're not sure which map it belongs to, 
+            // DO NOT default to 'default' if we are in the middle of a switch.
+            const finalTargetMapId = targetMapId || mapStoreMapId;
+
+            if (!finalTargetMapId) {
+                console.error('❌ [Batcher] CRITICAL ERROR: Could not resolve targetMapId! Dropping update.');
+                return;
+            }
+
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
                 // IMPORTANT: Only emit if we're not currently receiving an update to avoid sync loops
                 if (!window._isReceivingMapUpdate) {
@@ -218,8 +234,8 @@ const mapUpdateBatcher = {
 
                     // CRITICAL FIX: Ensure targetMapId is never a string 'undefined' or empty
                     if (finalTargetMapId === 'undefined' || !finalTargetMapId) {
-                        console.error('❌ [Batcher] CRITICAL ERROR: targetMapId is invalid!', finalTargetMapId);
-                        emitData.targetMapId = 'default';
+                        console.error('❌ [Batcher] CRITICAL ERROR: finalTargetMapId is invalid!', finalTargetMapId);
+                        return; // Drop rather than leak
                     }
 
                     if (updates.terrainData || updates.wallData || updates.fogOfWarPaths) {

@@ -3396,8 +3396,9 @@ function GridComponent({
                         ? useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId)
                         : useItemStore.getState().items.find(item => item.id === gridItem.itemId);
 
-                    // Create a unique key that includes more properties to ensure proper re-rendering
-                    const uniqueKey = `${gridItem.id}-${gridItem.itemId || 'no-item'}-${gridItem.addedAt || Date.now()}-${forceRenderKey}`;
+                    // Simplified key: use just the unique gridItem.id
+                    // Stable keys are essential for performance and preventing React "Duplicate Key" warnings
+                    const uniqueKey = gridItem.id;
 
                     // If it's a container, render it as a container
                     if (originalItem && originalItem.type === 'container') {

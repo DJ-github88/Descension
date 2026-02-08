@@ -107,8 +107,36 @@ const validationSchemas = {
 
   // Map management
   map_update: Joi.object({
-    mapUpdates: Joi.object().optional(),
-    mapData: Joi.object().optional()
+    mapUpdates: Joi.object().required(),
+    mapData: Joi.object().optional(),
+    targetMapId: Joi.string().required(),
+    sequence: Joi.number().optional()
+  }),
+
+  sync_map_state: Joi.object({
+    mapId: Joi.string().required(),
+    mapName: Joi.string().optional().allow(''),
+    gridItems: Joi.array().optional(),
+    tokens: Joi.array().optional(),
+    characterTokens: Joi.array().optional(),
+    terrainData: Joi.object().optional(),
+    wallData: Joi.object().optional(),
+    drawingPaths: Joi.array().optional(),
+    drawingLayers: Joi.array().optional(),
+    fogOfWarData: Joi.object().optional(),
+    fogOfWarPaths: Joi.array().optional(),
+    fogErasePaths: Joi.array().optional(),
+    dndElements: Joi.array().optional(),
+    backgrounds: Joi.array().optional(),
+    activeBackgroundId: Joi.string().optional().allow(null, ''),
+    environmentalObjects: Joi.array().optional(),
+    lightSources: Joi.object().optional(),
+    exploredAreas: Joi.alternatives().try(Joi.object(), Joi.array().length(0)).optional().allow(null)
+  }),
+
+  sync_level_editor_state: Joi.object({
+    mapId: Joi.string().required(),
+    levelEditor: Joi.object().required()
   }),
 
   // Player updates

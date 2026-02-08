@@ -165,9 +165,8 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                             mapId: targetMapId,
                             mapName: mapName,
                             gridItems: mapState.gridItems || [],
-                            tokens: mapState.tokens || [],
-                            characterTokens: mapState.characterTokens || [],
                             terrainData: mapState.terrainData || {},
+
                             wallData: mapState.wallData || {},
                             drawingPaths: mapState.drawingPaths || [],
                             drawingLayers: mapState.drawingLayers || [],
@@ -198,14 +197,12 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             mapName: mapName // Send map name to avoid showing long numbers
         });
 
-        // CRITICAL FIX: If GM is transferring themselves, also emit gm_switch_view
-        // This ensures GM's "you are here" tag follows in Map Library
+        // CRITICAL FIX: If GM is transferring themselves, DO NOT emit gm_switch_view here.
+        // gm_transfer_player already triggers player_map_changed for the transferred player,
+        // including the GM when self-transferring. Emitting both events creates duplicate
+        // map-switch pipelines that can race and clear tokens with partial/empty payloads.
         if (isSelfTransfer) {
-            console.log(`🎯 GM transferring themselves - also emitting gm_switch_view`);
-            multiplayerSocket.emit('gm_switch_view', {
-                newMapId: targetMapId,
-                mapName: mapName
-            });
+            console.log(`🎯 GM self-transfer: relying on gm_transfer_player -> player_map_changed (skip duplicate gm_switch_view)`);
 
             // CRITICAL FIX: Update GM's own map assignment so tag follows in Map Library
             // This is needed because playerMapAssignments is used to display GM's location
@@ -258,7 +255,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             const gameStoreState = useGameStore.getState();
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
                 try {
-                    const destinationMapState = loadMapState(mapId);
+                    const destinationMapState = await loadMapState(mapId);
                     if (destinationMapState && (
                         destinationMapState.gridItems?.length > 0 ||
                         destinationMapState.tokens?.length > 0 ||
@@ -276,9 +273,8 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                             mapId: mapId,
                             mapName: targetMap?.name,
                             gridItems: destinationMapState.gridItems,
-                            tokens: destinationMapState.tokens,
-                            characterTokens: destinationMapState.characterTokens,
                             terrainData: destinationMapState.terrainData,
+
                             wallData: destinationMapState.wallData,
                             drawingPaths: destinationMapState.drawingPaths,
                             drawingLayers: destinationMapState.drawingLayers,
@@ -371,8 +367,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 mapId: currentMapId,
                                 mapName: map?.name, // CRITICAL: Send map name to ensure proper display
                                 gridItems: mapState.gridItems,
-                                tokens: mapState.tokens,
-                                characterTokens: mapState.characterTokens,
                                 terrainData: mapState.terrainData,
                                 wallData: mapState.wallData,
                                 drawingPaths: mapState.drawingPaths,
@@ -430,7 +424,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             let mapState = null;
             if (!(gameStoreState.isInMultiplayer && gameStoreState.isGMMode)) {
                 // Load new map state (fallback to map data if state not found)
-                mapState = loadMapState();
+                mapState = await loadMapState();
 
                 // If no map state found, use the map data directly (for newly created maps)
                 if (!mapState && targetMap) {
@@ -465,7 +459,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 console.log('🗺️ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
                 // CRITICAL FIX: Even in multiplayer mode, load local items from mapStore to avoid losing them
                 // The server's gm_view_changed will handle merging with server state
-                mapState = loadMapState();
+                mapState = await loadMapState();
                 if (!mapState && targetMap) {
                     mapState = {
                         backgrounds: [],

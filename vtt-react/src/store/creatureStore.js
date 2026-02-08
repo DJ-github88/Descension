@@ -8,6 +8,7 @@ if (typeof window !== 'undefined') {
 }
 
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 import useGameStore from './gameStore';
 import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
 
@@ -56,9 +57,20 @@ const useCreatureStore = create((set, get) => ({
     // If creature is an ID string, we'll need to find its full data
     const creatureId = typeof creature === 'string' ? creature : (creature.id || creature.creatureId);
     const libraryCreatures = get().creatures || [];
-    const creatureData = typeof creature === 'object' ? creature : (libraryCreatures.find(c => c.id === creatureId) || { id: creatureId });
+    let creatureData = typeof creature === 'object' ? creature : (libraryCreatures.find(c => c.id === creatureId));
 
-    const tokenId = forcedTokenId || (creatureData.tokenId) || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    // CRITICAL FIX: If creature data still not found, create a minimalist placeholder
+    // This allows the token to at least be added to the grid with its ID
+    if (!creatureData) {
+      console.warn(`⚠️ addCreatureToken: Creature ${creatureId} not found in library, creating placeholder`);
+      creatureData = {
+        id: creatureId,
+        name: `Creature ${creatureId.substring(0, 8)}...`,
+        isPlaceholder: true
+      };
+    }
+
+    const tokenId = forcedTokenId || (creatureData.tokenId) || `token-${uuidv4()}`;
 
     // CRITICAL: Capture current mapId IMMEDIATELY to prevent race conditions
     let capturedMapId = 'default';
@@ -430,7 +442,7 @@ const useCreatureStore = create((set, get) => ({
     if (!tokenData) return;
 
     set(state => {
-      const tokenId = tokenData.id || tokenData.tokenId || `token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      const tokenId = tokenData.id || tokenData.tokenId || `token-${uuidv4()}`;
       const existingTokens = state.creatureTokens || [];
       const tokenMapId = tokenData.mapId || 'default';
 

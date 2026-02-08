@@ -3553,8 +3553,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (!isInitialMapLoadRef.current) {
         if (showMapTransitions) {
           // CRITICAL FIX: Look up map name from local store if not provided by server
+          // OR if server provided a fallback string like "Map [ID]"
           const localMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId);
-          const mapName = data.newMapName || localMap?.name || 'Unknown Location';
+          let mapName = data.newMapName || localMap?.name || 'Unknown Location';
+
+          if (localMap?.name && (mapName.startsWith('Map ') || mapName === data.newMapId)) {
+            mapName = localMap.name;
+          }
 
           setMapTransition({
             isActive: true,
@@ -3580,10 +3585,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // This ensures the status indicator can find the map name
       const mapStore = useMapStore.getState();
       const existingMap = (mapStore.maps || []).find(m => m.id === data.newMapId);
+
+      // Determine best name for mapStore
+      const resolvedMapName = data.newMapName || data.mapData?.name || (existingMap?.name && !existingMap.name.startsWith('Map ') ? existingMap.name : `Map ${data.newMapId}`);
+
       if (!existingMap && data.newMapId) {
         const newMapEntry = {
           id: data.newMapId,
-          name: data.newMapName || data.mapData?.name || 'Unknown Map',
+          name: resolvedMapName,
           // Include basic map data so it's available
           terrainData: data.mapData?.terrainData || {},
           wallData: data.mapData?.wallData || {},
@@ -3600,6 +3609,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           maps: [...(mapStore.maps || []), newMapEntry]
         });
         console.log(`✅ [player_map_changed] Added map "${newMapEntry.name}" to mapStore.maps`);
+      } else if (existingMap && resolvedMapName && (!existingMap.name || existingMap.name.startsWith('Map ')) && !resolvedMapName.startsWith('Map ')) {
+        // Update existing map name if it was a fallback
+        useMapStore.getState().updateMap(data.newMapId, { name: resolvedMapName });
       }
 
       // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
@@ -3644,20 +3656,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }, 300);
       });
 
-      // Clear tokens from old map and apply new map's tokens
+      // Clear tokens and items from old map and apply new map's tokens
       clearCreatureTokens();
       clearCharacterTokens();
 
       // Add tokens from the new map
       if (data.mapData?.tokens) {
         Object.values(data.mapData.tokens).forEach(tokenData => {
-          if (tokenData.creature) {
-            addCreature(tokenData.creature);
-          } else if (tokenData.creatureId) {
-            console.warn(`⚠️ Token ${tokenData.id} missing creature data!`, tokenData);
+          // CRITICAL FIX: Robust creature data resolution
+          let creatureData = tokenData.creature;
+
+          if (!creatureData && tokenData.creatureId) {
+            // Check library if server didn't provide it
+            creatureData = useCreatureStore.getState().creatures?.find(c => c.id === tokenData.creatureId);
+            if (creatureData) {
+              console.log(`✅ [player_map_changed] Found missing creature data in local library for ${tokenData.creatureId}`);
+            }
           }
 
-          const creatureRef = tokenData.creatureId || tokenData.creature?.id || tokenData.creature;
+          if (creatureData) {
+            addCreature(creatureData);
+          } else if (tokenData.creatureId) {
+            console.warn(`⚠️ Token ${tokenData.id} missing creature data!`, tokenData);
+            // Even if data is missing, still try to add the token using creatureId
+          }
+
+          const creatureRef = tokenData.creatureId || creatureData?.id || tokenData.creature;
           if (creatureRef && tokenData.position) {
             // Load quietly and preserve ID/state; force target map for strict map isolation
             addToken(
@@ -3671,6 +3695,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
         });
       }
+
+      // Load character tokens for the new map
+      const characterTokensData = data.mapData?.characterTokens || {};
+      const characterTokens = Array.isArray(characterTokensData) ? characterTokensData : Object.values(characterTokensData);
+
+      if (characterTokens.length > 0) {
+        const { addCharacterTokenFromServer: addCharToken } = useCharacterTokenStore.getState();
+        characterTokens.forEach(tokenData => {
+          if (tokenData && tokenData.position) {
+            // CRITICAL: Pass mapId for proper map isolation
+            addCharToken(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
+          }
+        });
+      }
+
 
       // CRITICAL FIX: Load grid items for this map - keep items from all maps but filter by current mapId
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
@@ -3750,7 +3789,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Show transition overlay only for GM
       if (!isInitialMapLoadRef.current && showMapTransitions) {
-        const mapName = data.mapName || 'Unknown Realm';
+        // CRITICAL FIX: Look up map name from local store if server provided a fallback string
+        const localMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId);
+        let mapName = data.mapName || localMap?.name || 'Unknown Realm';
+
+        if (localMap?.name && (mapName.startsWith('Map ') || mapName === data.newMapId)) {
+          mapName = localMap.name;
+        }
+
         console.log('[GM VIEW CHANGED] Showing transition with map name:', mapName);
 
         setMapTransition({
@@ -3768,19 +3814,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setPlayerCurrentMapId(data.newMapId);
 
 
+      // Capture previous map before switching so later cleanup/remap logic can use it safely
+      const previousMapId = useMapStore.getState().currentMapId;
+
       // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
       // useMapStore is already imported at the top of the file - use it directly, not async import
       const mapStoreState = useMapStore.getState();
-      // Check if map exists in local store, if not create it
+      // Check if map exists in local store
       const existingMap = mapStoreState.maps?.find(m => m.id === data.newMapId);
+
+      // Determine best name for mapStore
+      const resolvedMapName = data.mapName || data.mapData?.name || (existingMap?.name && !existingMap.name.startsWith('Map ') ? existingMap.name : `Map ${data.newMapId}`);
+
       if (!existingMap) {
-        console.log('[GM VIEW CHANGED] Creating map in local store:', data.newMapId, data.mapName);
+        console.log('[GM VIEW CHANGED] Creating map in local store:', data.newMapId, resolvedMapName);
         // Create a map in local store
         mapStoreState.createMapWithoutSwitching({
           id: data.newMapId,
-          name: data.mapName || data.newMapId
+          name: resolvedMapName
         });
+      } else if (resolvedMapName && (!existingMap.name || existingMap.name.startsWith('Map ')) && !resolvedMapName.startsWith('Map ')) {
+        // Update existing map name if it was a fallback
+        mapStoreState.updateMap(data.newMapId, { name: resolvedMapName });
       }
+
       // SYNCHRONOUS update to ensure terrain updates use correct mapId immediately
       useMapStore.setState({ currentMapId: data.newMapId });
 
@@ -3839,68 +3896,120 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
         });
       }).then(() => {
-        // Step 3: Clear and reload tokens for this map
-        clearCreatureTokens();
-        clearCharacterTokens();
+        // Step 3: Reload token/item payloads.
+        // Guard against partial gm_view_changed payloads that omit token collections,
+        // which would otherwise clear stores and cause visible token loss for the GM.
+        const mapData = data.mapData || {};
 
-        if (data.mapData?.tokens) {
-          Object.values(data.mapData.tokens).forEach(tokenData => {
-            if (tokenData.creature) {
-              addCreature(tokenData.creature);
-            } else if (tokenData.creatureId) {
-              console.warn(`⚠️ Token ${tokenData.id} missing creature data!`, tokenData);
-            }
+        const mapStoreMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || null;
 
-            const creatureRef = tokenData.creatureId || tokenData.creature?.id || tokenData.creature;
-            if (creatureRef && tokenData.position) {
-              // Load quietly and preserve ID/state; force target map for strict map isolation
-              addToken(
-                creatureRef,
-                tokenData.position,
-                false,
-                tokenData.id || tokenData.tokenId,
-                tokenData.state,
-                data.newMapId || tokenData.mapId || 'default'
-              );
-            }
+        const serverTokensRaw = mapData.tokens;
+        const serverCharacterTokensRaw = mapData.characterTokens;
+        const serverGridItemsRaw = mapData.gridItems;
+
+        const fallbackTokensRaw = mapStoreMap?.tokens;
+        const fallbackCharacterTokensRaw = mapStoreMap?.characterTokens;
+        const fallbackGridItemsRaw = mapStoreMap?.gridItems;
+
+        const tokensRaw = serverTokensRaw !== undefined ? serverTokensRaw : fallbackTokensRaw;
+        const characterTokensRaw = serverCharacterTokensRaw !== undefined ? serverCharacterTokensRaw : fallbackCharacterTokensRaw;
+        const gridItemsRaw = serverGridItemsRaw !== undefined ? serverGridItemsRaw : fallbackGridItemsRaw;
+
+        const hasTokenPayload = tokensRaw !== undefined || characterTokensRaw !== undefined;
+        const hasGridItemsPayload = gridItemsRaw !== undefined;
+
+        if (!hasTokenPayload) {
+          console.warn('⚠️ [gm_view_changed] Missing token payload - skipping destructive token clear to prevent accidental wipe');
+        } else {
+          clearCreatureTokens();
+          clearCharacterTokens();
+        }
+
+        if (!hasGridItemsPayload) {
+          console.warn('⚠️ [gm_view_changed] Missing gridItems payload - skipping destructive grid item clear to prevent accidental wipe');
+        } else {
+          // CRITICAL: Synchronously clear grid items before rehydrating map payload
+          import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+            useGridItemStore.setState({ gridItems: [] });
           });
         }
 
-        return data.mapData;
-      }).then((mapData) => {
-        // Step 4: Load grid items for this map
-        return import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-          const currentGridItems = useGridItemStore.getState().gridItems || [];
-          const mapGridItems = Object.values(mapData?.gridItems || {});
-          const oldMapId = useMapStore.getState().currentMapId;
-
-          // CRITICAL FIX: Remove items from PREVIOUS map, then REPLACE with new map's items
-          let filteredItems = [];
-          if (oldMapId) {
-            // Remove ALL items from previous map, don't keep any
-            filteredItems = currentGridItems.filter(item => item.mapId !== oldMapId);
-          } else {
-            // Keep items from all other maps
-            filteredItems = currentGridItems;
+        // Load tokens for the new map
+        const tokens = tokensRaw ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw)) : [];
+        tokens.forEach(tokenData => {
+          // CRITICAL FIX: Robust creature data resolution
+          let creatureData = tokenData.creature;
+          if (!creatureData && tokenData.creatureId) {
+            creatureData = useCreatureStore.getState().creatures?.find(c => c.id === tokenData.creatureId);
+          }
+          if (creatureData) {
+            addCreature(creatureData);
           }
 
-          // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
-          const itemsWithValidMapId = mapGridItems.filter(item => {
-            const itemMapId = item.mapId || 'default';
-            return itemMapId === data.newMapId;
-          });
-
-          const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
-          useGridItemStore.setState({ gridItems: updatedGridItems });
-
-          console.log(`✅ Map switch complete: ${data.mapName} (${data.newMapId})`, {
-            gridItemsLoaded: updatedGridItems.length,
-            terrainDataPoints: Object.keys(mapData?.terrainData || {}).length
-          });
+          const creatureRef = tokenData.creatureId || creatureData?.id || tokenData.creature;
+          if (creatureRef && tokenData.position) {
+            addToken(
+              creatureRef,
+              tokenData.position,
+              false,
+              tokenData.id || tokenData.tokenId,
+              tokenData.state,
+              data.newMapId || tokenData.mapId || 'default'
+            );
+          }
         });
-      }).catch(error => {
-        console.error('❌ Error during map switch:', error);
-      });
+
+        // Load character tokens for the new map
+        const characterTokens = characterTokensRaw ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw)) : [];
+        console.log('♟️ [gm_view_changed] Received characterTokens:', characterTokens.length, characterTokens);
+        characterTokens.forEach(tokenData => {
+          if (tokenData && tokenData.position) {
+            console.log('♟️ [gm_view_changed] Adding character token:', tokenData.id, tokenData.playerId, tokenData.position);
+            addCharacterTokenFromServer(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
+          }
+        });
+
+
+        return {
+          mapData,
+          gridItemsRaw,
+          previousMapId
+        };
+      })
+        .then(({ mapData, gridItemsRaw, previousMapId }) => {
+          // Step 4: Load grid items for this map
+          return import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+            const currentGridItems = useGridItemStore.getState().gridItems || [];
+            const mapGridItems = gridItemsRaw ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw)) : [];
+            const oldMapId = previousMapId;
+
+            // CRITICAL FIX: Remove items from PREVIOUS map, then REPLACE with new map's items
+            let filteredItems = [];
+            if (oldMapId) {
+              // Remove ALL items from previous map, don't keep any
+              filteredItems = currentGridItems.filter(item => item.mapId !== oldMapId);
+            } else {
+              // Keep items from all other maps
+              filteredItems = currentGridItems;
+            }
+
+            // CRITICAL FIX: Add defensive check for items with inconsistent mapIds
+            const itemsWithValidMapId = mapGridItems.filter(item => {
+              const itemMapId = item.mapId || 'default';
+              return itemMapId === data.newMapId;
+            });
+
+            const updatedGridItems = [...filteredItems, ...itemsWithValidMapId];
+            useGridItemStore.setState({ gridItems: updatedGridItems });
+
+            console.log(`✅ Map switch complete: ${data.mapName} (${data.newMapId})`, {
+              gridItemsLoaded: updatedGridItems.length,
+              terrainDataPoints: Object.keys(mapData?.terrainData || {}).length
+            });
+          });
+        }).catch(error => {
+          console.error('❌ Error during map switch:', error);
+        });
 
     });
 
@@ -4922,6 +5031,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // ==========================================
       // CRITICAL FIX: MAP ISOLATION & INITIAL LOAD
       // ==========================================
+
+      // 0. Populate Creature Library from Global Legacy Tokens
+      // The server doesn't maintain a separate creature library, but it tracks specific tokens globally.
+      // We must extract creature data from these tokens to ensure the local library is populated.
+      // This safeguards against cases where map-specific token payloads miss embedded creature data.
+      if (room.gameState && room.gameState.tokens) {
+        let creatureCount = 0;
+        Object.values(room.gameState.tokens).forEach(tokenData => {
+          if (tokenData.creature) {
+            // Add creature to store (store handles deduplication)
+            addCreature(tokenData.creature);
+            creatureCount++;
+          }
+        });
+        console.log(`📚 Populated creature library with ${creatureCount} creatures from legacy tokens`);
+      }
 
       // 1. Initialize Map Store with all maps (essential for GM Map Library)
       if (room.gameState.maps) {

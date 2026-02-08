@@ -300,6 +300,8 @@ const usePresenceStore = create((set, get) => ({
    * Send a whisper message to a specific user
    */
   sendWhisper: (targetUserId, content) => {
+    const { currentUserPresence, onlineUsers, socket } = get();
+
     // Block guest users from sending whispers
     if (!currentUserPresence || currentUserPresence?.isGuest) {
       console.warn('Authentication required to send whispers');

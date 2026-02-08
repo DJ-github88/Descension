@@ -237,7 +237,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Get creature data using selector
   const creature = useCreatureStore(state => {
     const t = state.tokens?.find(tk => tk.id === tokenId);
-    return t ? state.creatures?.find(c => c.id === t.creatureId) : null;
+    // CRITICAL FIX: Fallback to token as creature data if not found in library
+    // Tokens contain a spread of creature data, so they are a valid fallback
+    return t ? state.creatures?.find(c => c.id === t.creatureId) || t : null;
   });
 
   // CRITICAL FIX: Gracefully handle missing creature data to prevent crashes

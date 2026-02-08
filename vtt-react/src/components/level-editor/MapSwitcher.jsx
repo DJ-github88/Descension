@@ -48,7 +48,7 @@ const MapSwitcher = () => {
             }
 
             // Load new map state
-            const mapState = loadMapState();
+            const mapState = await loadMapState();
             if (mapState) {
                 // Clear existing tokens first before loading new map's tokens
                 const { default: useCreatureStore } = await import('../../store/creatureStore');

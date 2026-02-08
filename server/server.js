@@ -110,16 +110,22 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
 let eventSequenceNumber = 0;
 
 // Map Validation Helper - ensures maps exist before assigning data
-function validateMapExists(room, mapId) {
+function validateMapExists(room, mapId, preferredName = null) {
   if (!room.gameState.maps) {
     room.gameState.maps = {};
   }
 
   if (!room.gameState.maps[mapId]) {
+    // Determine the best name to use
+    let initialName = preferredName;
+    if (!initialName) {
+      initialName = mapId === 'default' ? 'Default Map' : `Map ${mapId}`;
+    }
+
     // Create map if it doesn't exist
     room.gameState.maps[mapId] = {
       id: mapId,
-      name: mapId === 'default' ? 'Default Map' : `Map ${mapId}`,
+      name: initialName,
       tokens: {},
       characterTokens: {},
       gridItems: {},
@@ -132,7 +138,10 @@ function validateMapExists(room, mapId) {
       environmentalObjects: [],
       createdAt: new Date()
     };
-    console.log(`🗺️ Created new map structure: ${mapId}`);
+    console.log(`🗺️ Created new map structure: ${mapId} (${initialName})`);
+  } else if (preferredName && (!room.gameState.maps[mapId].name || room.gameState.maps[mapId].name.startsWith('Map '))) {
+    // Update name if it was a fallback and we now have a better one
+    room.gameState.maps[mapId].name = preferredName;
   }
 
   return room.gameState.maps[mapId];
@@ -1148,6 +1157,57 @@ function leaveRoom(socketId) {
 }
 
 // Socket.io connection handling
+// Helper: Migrate character token between maps
+const migrateCharacterToken = (room, playerId, oldMapId, newMapId, updatedById, newMapName = null) => {
+  if (!oldMapId) oldMapId = 'default';
+  if (!newMapId) newMapId = 'default';
+  if (oldMapId === newMapId) return;
+
+  if (room.gameState.maps && room.gameState.maps[oldMapId]) {
+    const oldMap = room.gameState.maps[oldMapId];
+    if (oldMap.characterTokens && oldMap.characterTokens[playerId]) {
+      console.log(`🚚 [TOKEN MIGRATION] Moving character token for player ${playerId} from ${oldMapId} to ${newMapId}`);
+
+      // Extract token data
+      const tokenData = { ...oldMap.characterTokens[playerId] };
+
+      // Update token's map association
+      tokenData.mapId = newMapId;
+      tokenData.lastUpdatedBy = updatedById;
+      tokenData.lastUpdatedAt = new Date();
+
+      // Remove from old map
+      delete oldMap.characterTokens[playerId];
+      oldMap.lastUpdatedBy = updatedById;
+      oldMap.lastUpdatedAt = new Date();
+
+      // Ensure destination map exists
+      if (!room.gameState.maps[newMapId]) {
+        room.gameState.maps[newMapId] = {
+          id: newMapId,
+          name: newMapName || `Map ${newMapId}`,
+          terrainData: {},
+          wallData: {},
+          gridItems: {},
+          tokens: {},
+          characterTokens: {}
+        };
+      }
+      if (!room.gameState.maps[newMapId].characterTokens) {
+        room.gameState.maps[newMapId].characterTokens = {};
+      }
+
+      // Add to new map
+      room.gameState.maps[newMapId].characterTokens[playerId] = tokenData;
+      room.gameState.maps[newMapId].lastUpdatedBy = updatedById;
+      room.gameState.maps[newMapId].lastUpdatedAt = new Date();
+
+      return true;
+    }
+  }
+  return false;
+};
+
 io.on('connection', (socket) => {
   logger.info('Player connected', { socketId: socket.id });
 
@@ -1325,6 +1385,9 @@ io.on('connection', (socket) => {
       room.gameState.playerMapAssignments = room.gameState.playerMapAssignments || {};
       room.gameState.playerMapAssignments[player.id] = newMapId;
 
+      // CRITICAL: Migrate character token
+      migrateCharacterToken(room, player.id, oldMapId, newMapId, player.id);
+
       // Persist to Firebase (non-blocking)
       firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
     }
@@ -1354,7 +1417,13 @@ io.on('connection', (socket) => {
     }
 
     // CRITICAL FIX: Get target map ID from data - this ensures map isolation
-    const targetMapId = data.mapId || data.targetMapId || 'default';
+    const targetMapId = data.mapId || data.targetMapId;
+
+    if (!targetMapId) {
+      console.error('❌ [SERVER] [sync_level_editor_state] CRITICAL ERROR: targetMapId is MISSING!');
+      socket.emit('error', { message: 'Missing targetMapId in sync_level_editor_state' });
+      return;
+    }
 
     // CRITICAL FIX: Validate and initialize map storage
     const mapData = validateMapExists(room, targetMapId);
@@ -2322,7 +2391,9 @@ io.on('connection', (socket) => {
     console.log(`📥 [SERVER] Received map_update [Seq: ${sequence}, TargetID: ${hasTargetId ? data.targetMapId : 'MISSING'}]`);
 
     if (!hasTargetId) {
-      console.warn('⚠️ [SERVER] [map_update] targetMapId is MISSING from packet! Defaulting to "default". Data keys:', Object.keys(data || {}));
+      console.error('❌ [SERVER] [map_update] CRITICAL ERROR: targetMapId is MISSING! Rejecting update to prevent data bleeding.');
+      socket.emit('error', { message: 'Missing targetMapId in map update' });
+      return;
     }
     const player = players.get(socket.id);
     if (!player) {
@@ -2348,8 +2419,8 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Always use targetMapId from GM's emit (player.currentMapId is wrong source!)
-    const targetMapId = data.targetMapId || 'default';
+    // Always use targetMapId from GM's emit
+    const targetMapId = data.targetMapId;
 
     // CRITICAL FIX: Validate map exists to ensure map isolation
     const mapData = validateMapExists(room, targetMapId);
@@ -2649,41 +2720,26 @@ io.on('connection', (socket) => {
     if (!room) return;
 
     // Update GM's current map on server
+    const oldMapId = player.currentMapId || 'default';
     player.currentMapId = data.newMapId;
 
+    // CRITICAL: Migrate character token for GM
+    migrateCharacterToken(room, player.id, oldMapId, data.newMapId, player.id, data.mapName);
+
     // Get target map data to include in broadcast
-    let targetMap = room.gameState.maps?.[data.newMapId];
+    const targetMap = validateMapExists(room, data.newMapId, data.mapName);
 
-    // CRITICAL FIX: Check if map has actual content before sending
-    // If map is empty (just created), load from Firebase to get complete data
-    if (targetMap) {
-      const hasTerrain = targetMap.terrainData && Object.keys(targetMap.terrainData).length > 0;
-      const hasGridItems = targetMap.gridItems && Object.keys(targetMap.gridItems).length > 0;
-      const hasWalls = targetMap.wallData && Object.keys(targetMap.wallData).length > 0;
-      const hasBackgrounds = targetMap.backgrounds && targetMap.backgrounds.length > 0;
-      const hasDrawings = targetMap.drawingPaths && targetMap.drawingPaths.length > 0;
-      const hasTokens = targetMap.tokens && Object.keys(targetMap.tokens).length > 0;
-      const hasCharacterTokens = targetMap.characterTokens && Object.keys(targetMap.characterTokens).length > 0;
-
-      // CRITICAL FIX: Include tokens in content check to prevent overwriting valid in-memory tokens with stale Firebase data
-      const hasAnyContent = hasTerrain || hasGridItems || hasWalls || hasBackgrounds || hasDrawings || hasTokens || hasCharacterTokens;
-
-      if (!hasAnyContent) {
-        console.log(`⚠️ Map ${data.newMapId} is empty in memory, loading from Firebase...`);
-        try {
-          const firebaseMapData = await firebaseService.getMapData(player.roomId, data.newMapId);
-          if (firebaseMapData && firebaseMapData.gridData) {
-            targetMap = firebaseMapData.gridData;
-            console.log(`✅ Loaded map data from Firebase for ${data.newMapId}`);
-          } else if (firebaseMapData) {
-            // If gridData not found but map exists, use it directly
-            targetMap = firebaseMapData;
-            console.log(`✅ Loaded map from Firebase (no gridData wrapper) for ${data.newMapId}`);
+    // CRITICAL FIX: Ensure all tokens in the target map have their full creature data
+    if (targetMap.tokens) {
+      Object.keys(targetMap.tokens).forEach(tokenId => {
+        const token = targetMap.tokens[tokenId];
+        if (!token.creature && token.creatureId) {
+          const globalToken = room.gameState.tokens?.[tokenId];
+          if (globalToken?.creature) {
+            token.creature = globalToken.creature;
           }
-        } catch (error) {
-          console.error(`❌ Failed to load map from Firebase:`, error);
         }
-      }
+      });
     }
 
     // CRITICAL FIX: Send view change only to GM (so only GM sees transition and loads new map)
@@ -2691,8 +2747,8 @@ io.on('connection', (socket) => {
       gmId: player.id,
       gmName: player.name,
       newMapId: data.newMapId,
-      mapName: data.mapName,
-      mapData: targetMap ? {
+      mapName: targetMap.name || data.mapName || 'Unknown Realm',
+      mapData: {
         terrainData: targetMap.terrainData || {},
         wallData: targetMap.wallData || {},
         environmentalObjects: targetMap.environmentalObjects || [],
@@ -2707,7 +2763,7 @@ io.on('connection', (socket) => {
         backgrounds: targetMap.backgrounds || [],
         activeBackgroundId: targetMap.activeBackgroundId || null,
         gridSettings: targetMap.gridSettings || {}
-      } : {}
+      }
     });
 
     // CRITICAL FIX: Notify other players that GM is viewing a different map (for Map Library indicator)
@@ -2752,9 +2808,13 @@ io.on('connection', (socket) => {
     }
 
     // Update target player's current map on server
-    const oldMapId = targetPlayer.currentMapId;
-    targetPlayer.currentMapId = data.destinationMapId;
+    const oldMapId = targetPlayer.currentMapId || 'default';
+    const destinationMapId = data.destinationMapId || 'default';
+    targetPlayer.currentMapId = destinationMapId;
     console.log(`✅ [gm_transfer_player] Updated ${targetPlayer.name}'s currentMapId: ${oldMapId} → ${targetPlayer.currentMapId}`);
+
+    // CRITICAL: Migrate character token
+    migrateCharacterToken(room, targetPlayer.id, oldMapId, destinationMapId, gmPlayer.id, data.mapName);
 
     // Notify the player being transferred
     io.to(targetPlayer.socketId).emit('player_transferred', {
@@ -2771,11 +2831,21 @@ io.on('connection', (socket) => {
     });
 
     // Get destination map data to include in broadcast
-    const destMap = room.gameState.maps?.[data.destinationMapId];
+    const destMap = validateMapExists(room, data.destinationMapId, data.mapName);
 
-    // FIX: Update map name if missing and provided by client
-    if (destMap && !destMap.name && data.mapName) {
-      destMap.name = data.mapName;
+    // CRITICAL FIX: Ensure all tokens in the destination map have their full creature data
+    // This prevents tokens from being "invisible" or throwing warnings on the client
+    if (destMap.tokens) {
+      Object.keys(destMap.tokens).forEach(tokenId => {
+        const token = destMap.tokens[tokenId];
+        if (!token.creature && token.creatureId) {
+          // Attempt to find creature data in global room state if missing from map-specific entry
+          const globalToken = room.gameState.tokens?.[tokenId];
+          if (globalToken?.creature) {
+            token.creature = globalToken.creature;
+          }
+        }
+      });
     }
 
     // CRITICAL FIX: Broadcast player_map_changed to affected players only
@@ -2795,9 +2865,9 @@ io.on('connection', (socket) => {
           playerId: targetPlayer.id,
           playerName: targetPlayer.name,
           newMapId: data.destinationMapId,
-          newMapName: destMap?.name || data.mapName || 'Unknown Location',
+          newMapName: destMap.name || data.mapName || 'Unknown Location',
           transferredByGM: true, // CRITICAL: Indicates this is an actual transfer, not just GM viewing different map
-          mapData: destMap ? {
+          mapData: {
             terrainData: destMap.terrainData || {},
             wallData: destMap.wallData || {},
             environmentalObjects: destMap.environmentalObjects || [],
@@ -2814,12 +2884,12 @@ io.on('connection', (socket) => {
             gridSettings: destMap.gridSettings || {},
             // Include map name for client to add to mapStore
             name: destMap.name || data.mapName || 'Unknown Map'
-          } : {}
+          }
         });
       }
     }
 
-    console.log(`🎮 GM transferred ${targetPlayer.name} to map ${data.destinationMapId}`);
+    console.log(`🎮 GM transferred ${targetPlayer.name} to map ${data.destinationMapId} (${destMap.name})`);
   });
 
   // Handler: Player uses connection/portal to transfer between maps
@@ -2878,7 +2948,11 @@ io.on('connection', (socket) => {
     }
 
     // Update player's current map
+    const oldMapId = player.currentMapId || 'default';
     player.currentMapId = destinationMapId;
+
+    // CRITICAL: Migrate character token
+    migrateCharacterToken(room, player.id, oldMapId, destinationMapId, player.id, destMap.name);
 
     // Prepare destination position
     const destinationPosition = portal.properties?.destinationPosition || destMap.cameraPosition || { x: 0, y: 0 };
@@ -2945,6 +3019,12 @@ io.on('connection', (socket) => {
 
     const { mapId, ...mapData } = data;
 
+    if (!mapId) {
+      console.error('❌ [SERVER] [sync_map_state] CRITICAL ERROR: mapId is MISSING!');
+      socket.emit('error', { message: 'Missing mapId in sync_map_state' });
+      return;
+    }
+
     // Ensure map structure exists
     if (!room.gameState.maps) {
       room.gameState.maps = {};
@@ -2965,10 +3045,45 @@ io.on('connection', (socket) => {
       };
     }
 
-    // Update map data
+    // Update map data defensively
+    const existingMap = room.gameState.maps[mapId];
+
+    // Defensive merge helper
+    const mergeCollection = (collectionName, incoming, existing) => {
+      // If incoming is null/undefined, keep existing
+      if (incoming === undefined || incoming === null) return existing;
+
+      // Handle arrays - convert to objects by ID
+      const incomingIsArray = Array.isArray(incoming);
+      const incomingCount = incomingIsArray ? incoming.length : Object.keys(incoming).length;
+
+      // CRITICAL PROTECT: If incoming is empty but server has data, preserve server data
+      // This prevents stale client snapshots from wiping tokens/items
+      if (incomingCount === 0 && existing && Object.keys(existing).length > 0) {
+        console.log(`⚠️ [SERVER] [sync_map_state] Preserving ${collectionName} for map ${mapId} - incoming data was empty!`);
+        return existing;
+      }
+
+      // Canonical storage is object by ID
+      if (incomingIsArray) {
+        const normalized = {};
+        incoming.forEach(item => {
+          if (item && (item.id || item.tokenId)) {
+            normalized[item.id || item.tokenId] = item;
+          }
+        });
+        return normalized;
+      }
+
+      return incoming; // Already an object
+    };
+
     room.gameState.maps[mapId] = {
-      ...room.gameState.maps[mapId],
+      ...existingMap,
       ...mapData,
+      tokens: mergeCollection('tokens', mapData.tokens, existingMap.tokens),
+      characterTokens: mergeCollection('characterTokens', mapData.characterTokens, existingMap.characterTokens),
+      gridItems: mergeCollection('gridItems', mapData.gridItems, existingMap.gridItems),
       lastUpdatedBy: player.id,
       lastUpdatedAt: new Date()
     };
@@ -2977,9 +3092,10 @@ io.on('connection', (socket) => {
     firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
 
     console.log(`💾 Map ${mapId} synced by ${player.name}:`);
-    console.log(`   - Grid Items: ${Object.keys(mapData.gridItems || {}).length}`);
-    console.log(`   - Tokens: ${Object.keys(mapData.tokens || {}).length}`);
+    console.log(`   - Grid Items: ${Object.keys(room.gameState.maps[mapId].gridItems || {}).length}`);
+    console.log(`   - Tokens: ${Object.keys(room.gameState.maps[mapId].tokens || {}).length}`);
     console.log(`   - Terrain: ${Object.keys(mapData.terrainData || {}).length} cells`);
+
     console.log(`   - Wall Data: ${Object.keys(mapData.wallData || {}).length} segments`);
     console.log(`   - Fog Paths: ${(mapData.fogOfWarPaths || []).length}`);
   });

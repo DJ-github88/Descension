@@ -525,7 +525,7 @@ const useMapStore = create(
                 }
 
                 // Load the new map's state
-                const mapState = state.loadMapState();
+                const mapState = await state.loadMapState();
                 if (mapState) {
                     // Import stores to load new state
                     const { default: useGameStore } = await import('./gameStore');
