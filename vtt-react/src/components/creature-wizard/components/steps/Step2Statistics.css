@@ -101,7 +101,7 @@
   overflow-y: auto;
 }
 
-.tab-content {
+.wizard-step .tab-content {
   animation: fadeIn 0.3s ease-in-out;
 }
 

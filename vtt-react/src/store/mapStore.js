@@ -648,8 +648,8 @@ const useMapStore = create(
 
                     // CRITICAL FIX: Resume event processing after map switch
                     // Filter and process only events that are relevant to the new map
-                    if (socket && wasInMultiplayer) {
-                        socket.onevent = null; // Remove the pause handler
+                    if (socket && wasInMultiplayer && originalOnevent) {
+                        socket.onevent = originalOnevent; // Restore the original handler
 
                         // Filter queued events - only process those relevant to new map
                         const filteredEvents = pausedEvents.filter(packet => {

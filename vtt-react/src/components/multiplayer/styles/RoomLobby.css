@@ -395,7 +395,7 @@
   background: var(--pf-gradient-parchment);
   color: var(--pf-brown-dark);
   border: 2px solid #8b4513;
-  border-bottom-color: var(--pf-parchment);
+  border-bottom-color: #8b4513;
   box-shadow:
     var(--pf-shadow-md),
     inset 0 2px 4px rgba(255, 255, 255, 0.4),
@@ -408,7 +408,7 @@
 .join-room-section,
 .create-room-section,
 .my-rooms-section {
-  animation: fadeIn 0.3s ease;
+  animation: roomSectionFadeIn 0.16s ease-out;
 }
 
 .join-room-section {
@@ -427,15 +427,13 @@
   display: none;
 }
 
-@keyframes fadeIn {
+@keyframes roomSectionFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 

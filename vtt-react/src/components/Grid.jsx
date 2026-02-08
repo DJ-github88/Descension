@@ -209,6 +209,29 @@ function GridComponent({
     // Initialize viewport size state first (needed by instantZoom function)
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
+    // Keep viewport dimensions in sync across resize, tab restore, and mode switches
+    const syncViewportSize = useCallback(() => {
+        try {
+            const gridSystem = getGridSystem();
+            const viewport = gridSystem.getViewportDimensions();
+
+            setViewportSize(prev => {
+                if (prev.width === viewport.width && prev.height === viewport.height) {
+                    return prev;
+                }
+                return { width: viewport.width, height: viewport.height };
+            });
+        } catch (error) {
+            setViewportSize(prev => {
+                const fallback = { width: window.innerWidth, height: window.innerHeight };
+                if (prev.width === fallback.width && prev.height === fallback.height) {
+                    return prev;
+                }
+                return fallback;
+            });
+        }
+    }, []);
+
     // ANIMATION FUNCTIONS - DEFINED AFTER VIEWPORT SIZE STATE
 
     // Instant zoom function for true mouse-centered zooming
@@ -661,110 +684,65 @@ function GridComponent({
 
     // Initialize map store with current state on first load
     useEffect(() => {
-        // Initialize the map store with the current game state
-        const levelEditorData = useLevelEditorStore.getState();
-        const gameStoreState = {
-            cameraX,
-            cameraY,
-            zoomLevel,
-            playerZoom,
-            gridSize,
-            gridOffsetX,
-            gridOffsetY,
-            gridLineColor,
-            gridLineThickness,
-            windowScale
-        };
-        initializeWithCurrentState(gameStoreState, levelEditorData);
-    }, []); // Only run once on mount
+        try {
+            initializeWithCurrentState(useGameStore.getState(), useLevelEditorStore.getState());
+        } catch (error) {
+            // Failed to initialize map store with current state
+        }
 
-    // Update viewport size on window resize and when editor mode changes
+        syncViewportSize();
+    }, [initializeWithCurrentState, syncViewportSize]);
+
     useEffect(() => {
-        const updateViewportSize = () => {
-            try {
-                // Store current camera position before viewport update
-                const preservedCameraX = cameraX;
-                const preservedCameraY = cameraY;
-                const preservedGridOffsetX = gridOffsetX;
-                const preservedGridOffsetY = gridOffsetY;
+        let rafId = null;
 
+        const scheduleViewportSync = () => {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+            }
+            rafId = requestAnimationFrame(() => {
+                rafId = null;
+                syncViewportSize();
+            });
+        };
 
-
-                // Update viewport size state
-                const gridSystem = getGridSystem();
-                const viewport = gridSystem.getViewportDimensions();
-                setViewportSize({ width: viewport.width, height: viewport.height });
-
-                // Immediately restore camera position and grid offset to prevent shifting
-                // Use multiple frames to ensure the update is complete
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        // Since we're using props now, we need to call the setter functions passed as props
-                        setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
-
-
-                    });
-                });
-
-            } catch (error) {
-                // Failed to update viewport size with grid preservation
-
-                // Fallback to basic viewport update
-                const gridSystem = getGridSystem();
-                const viewport = gridSystem.getViewportDimensions();
-                setViewportSize({ width: viewport.width, height: viewport.height });
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                scheduleViewportSync();
             }
         };
 
-        updateViewportSize();
-        window.addEventListener("resize", updateViewportSize);
+        const handlePageShow = () => {
+            scheduleViewportSync();
+        };
+
+        // Initial sync
+        syncViewportSize();
+
+        window.addEventListener("resize", scheduleViewportSync);
+        window.addEventListener("orientationchange", scheduleViewportSync);
+        window.addEventListener("pageshow", handlePageShow);
+        document.addEventListener("visibilitychange", handleVisibilityChange);
 
         return () => {
-            window.removeEventListener("resize", updateViewportSize);
-        };
-    }, []);
-
-    // Separate effect to handle editor mode changes immediately
-    useEffect(() => {
-
-
-        // Update viewport immediately when editor mode changes
-        const updateViewportForEditor = () => {
-            try {
-                // Store current camera position before viewport update
-                const preservedCameraX = cameraX;
-                const preservedCameraY = cameraY;
-                const preservedGridOffsetX = gridOffsetX;
-                const preservedGridOffsetY = gridOffsetY;
-
-
-
-                // Update viewport size state
-                const gridSystem = getGridSystem();
-                const viewport = gridSystem.getViewportDimensions();
-                setViewportSize({ width: viewport.width, height: viewport.height });
-
-                // Immediately restore camera position and grid offset to prevent shifting
-                // Use multiple frames to ensure the update is complete
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        // Since we're using props now, we need to call the setter functions passed as props
-                        setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
-
-
-                    });
-                });
-
-            } catch (error) {
-                // Failed to update viewport for editor mode change
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
             }
+            window.removeEventListener("resize", scheduleViewportSync);
+            window.removeEventListener("orientationchange", scheduleViewportSync);
+            window.removeEventListener("pageshow", handlePageShow);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
+    }, [syncViewportSize]);
 
-        // Small delay to allow the editor window to render
-        const timeoutId = setTimeout(updateViewportForEditor, 50);
+    // Update viewport when editor mode changes
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            syncViewportSize();
+        }, 50);
 
         return () => clearTimeout(timeoutId);
-    }, [isEditorMode]);
+    }, [isEditorMode, syncViewportSize]);
 
     // Listen for character token creation events
     useEffect(() => {

@@ -46,9 +46,19 @@ const PortalTransferDialog = ({
             // MULTIPLAYER: Emit socket event instead of handling locally
             // Server will validate the connection and send player_map_changed event
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-                gameStore.multiplayerSocket.emit('player_use_connection', {
-                    connectionId: portal.id
-                });
+                const socket = gameStore.multiplayerSocket;
+
+                // CRITICAL SAFETY: Check if emit exists (fixes this.onevent is not a function)
+                if (socket && typeof socket.emit === 'function') {
+                    socket.emit('player_use_connection', {
+                        connectionId: portal.id
+                    });
+                    console.log(`📡 [PortalTransfer] Emitted player_use_connection for ${portal.id}`);
+                } else {
+                    console.error('❌ [PortalTransfer] Socket found but emit is missing or invalid:', socket);
+                    // Fallback to local transfer if socket fails
+                    throw new Error('Socket emit failed');
+                }
 
                 // Close the dialog - the server will trigger the map transition
                 onClose();

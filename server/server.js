@@ -1158,7 +1158,7 @@ function leaveRoom(socketId) {
 
 // Socket.io connection handling
 // Helper: Migrate character token between maps
-const migrateCharacterToken = (room, playerId, oldMapId, newMapId, updatedById, newMapName = null) => {
+const migrateCharacterToken = (room, playerId, oldMapId, newMapId, updatedById, newMapName = null, newPosition = null) => {
   if (!oldMapId) oldMapId = 'default';
   if (!newMapId) newMapId = 'default';
   if (oldMapId === newMapId) return;
@@ -1175,6 +1175,12 @@ const migrateCharacterToken = (room, playerId, oldMapId, newMapId, updatedById, 
       tokenData.mapId = newMapId;
       tokenData.lastUpdatedBy = updatedById;
       tokenData.lastUpdatedAt = new Date();
+
+      // If a new position is provided (e.g. from a portal transfer), apply it now
+      if (newPosition) {
+        tokenData.position = newPosition;
+        console.log(`📍 [TOKEN MIGRATION] Updated position for token ${playerId} to:`, newPosition);
+      }
 
       // Remove from old map
       delete oldMap.characterTokens[playerId];
@@ -2501,14 +2507,22 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // CRITICAL FIX: Broadcast map_updated event to OTHER players on SAME MAP
+    // CRITICAL FIX: Broadcast map_updated event. 
+    // Structural updates (dndElements, environmentalObjects, gridSettings) must go to ALL players 
+    // in the room so their local map selector cache stays up to date.
+    // Performance updates (terrainData, wallData, fog) only go to players on that map.
+    const isStructuralUpdate = !!(mapUpdates.dndElements || mapUpdates.environmentalObjects || mapUpdates.gridSettings);
+
     let broadcastCount = 0;
-    console.log(`🔍 [map_update] Looking for players on map ${targetMapId} in room ${player.roomId}`);
+    console.log(`🔍 [map_update] Broadcasting update (Structural: ${isStructuralUpdate}) for map ${targetMapId} in room ${player.roomId}`);
+
     for (const [sid, p] of players.entries()) {
-      if (p.roomId === player.roomId) {
-        console.log(`   👤 ${p.name}: currentMapId=${p.currentMapId}, isGM=${p.isGM}, socketId=${sid.substring(0, 8)}...`);
-      }
-      if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
+      if (sid === socket.id || p.roomId !== player.roomId) continue;
+
+      const isOnSameMap = p.currentMapId === targetMapId;
+      const shouldReceive = isStructuralUpdate || isOnSameMap;
+
+      if (shouldReceive) {
         io.to(sid).emit('map_updated', {
           mapId: targetMapId,
           mapData: mapUpdates,
@@ -2516,7 +2530,6 @@ io.on('connection', (socket) => {
           sequence: sequence
         });
         broadcastCount++;
-        console.log(`   📤 Sent to ${p.name} (map: ${p.currentMapId})`);
       }
     }
 
@@ -2951,12 +2964,42 @@ io.on('connection', (socket) => {
     const oldMapId = player.currentMapId || 'default';
     player.currentMapId = destinationMapId;
 
-    // CRITICAL: Migrate character token
-    migrateCharacterToken(room, player.id, oldMapId, destinationMapId, player.id, destMap.name);
-
-    // Prepare destination position
-    const destinationPosition = portal.properties?.destinationPosition || destMap.cameraPosition || { x: 0, y: 0 };
+    // Prepare initial destination position
+    let destinationPosition = portal.properties?.destinationPosition || destMap.cameraPosition || { x: 0, y: 0 };
     const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
+
+    // IMPORTANT: Try to find the actual destination connection on the destination map to get its current position
+    // This ensures that if the destination was moved, we land at the correct spot
+    if (destinationConnectionId) {
+      const actualDestConnection = (destMap.dndElements || []).find(el => el.id === destinationConnectionId) ||
+        (destMap.portals?.[destinationConnectionId]);
+
+      if (actualDestConnection) {
+        if (actualDestConnection.position && actualDestConnection.position.x !== undefined) {
+          destinationPosition = { ...actualDestConnection.position };
+
+          // CRITICAL: Center the position if the element has dimensions
+          if (actualDestConnection.width && actualDestConnection.height) {
+            destinationPosition.x += actualDestConnection.width / 2;
+            destinationPosition.y += actualDestConnection.height / 2;
+            console.log(`📍 Centered position for destination connection ${destinationConnectionId}:`, destinationPosition);
+          } else {
+            console.log(`📍 Resolved live position for destination connection ${destinationConnectionId}:`, destinationPosition);
+          }
+        } else if (actualDestConnection.gridX !== undefined) {
+          // Fallback if it only has grid coordinates (should be rare for portals)
+          const gSize = destMap.gridSettings?.size || 70;
+          destinationPosition = {
+            x: (actualDestConnection.gridX + (actualDestConnection.width ? actualDestConnection.width / (2 * gSize) : 0.5)) * gSize,
+            y: (actualDestConnection.gridY + (actualDestConnection.height ? actualDestConnection.height / (2 * gSize) : 0.5)) * gSize
+          };
+          console.log(`📍 Resolved/Centered grid position for destination connection ${destinationConnectionId}:`, destinationPosition);
+        }
+      }
+    }
+
+    // CRITICAL: Migrate character token with the resolved destination position AFTER resolving it
+    migrateCharacterToken(room, player.id, oldMapId, destinationMapId, player.id, destMap.name, destinationPosition);
 
     // Broadcast to affected players
     const affectedPlayers = [];

@@ -1,0 +1,46 @@
+.connection-menu-container {
+    border-color: #4a90e2 !important;
+    background: linear-gradient(135deg, rgba(26, 15, 46, 0.98) 0%, rgba(45, 27, 61, 0.98) 100%) !important;
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.3) !important;
+}
+
+.connection-menu-container .context-menu-title {
+    color: #b8860b !important;
+    text-shadow: 0 0 10px rgba(184, 134, 11, 0.5) !important;
+}
+
+.connection-menu-container .context-menu-button {
+    background: rgba(74, 144, 226, 0.1) !important;
+    border-color: rgba(74, 144, 226, 0.3) !important;
+    color: #e6d7ff !important;
+}
+
+.connection-menu-container .context-menu-button:hover:not(:disabled) {
+    background: rgba(74, 144, 226, 0.2) !important;
+    border-color: rgba(74, 144, 226, 0.5) !important;
+    color: #ffffff !important;
+    transform: translateX(4px) !important;
+}
+
+.connection-menu-container .context-menu-button.danger {
+    background: rgba(220, 20, 60, 0.1) !important;
+    border-color: rgba(220, 20, 60, 0.3) !important;
+    color: #ff6b6b !important;
+}
+
+.connection-menu-container .context-menu-button.danger:hover:not(:disabled) {
+    background: rgba(220, 20, 60, 0.2) !important;
+    border-color: rgba(220, 20, 60, 0.5) !important;
+}
+
+.connection-menu-container .context-menu-separator {
+    background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.4), transparent) !important;
+}
+
+.connection-menu-header-item {
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    color: #87ceeb !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+}

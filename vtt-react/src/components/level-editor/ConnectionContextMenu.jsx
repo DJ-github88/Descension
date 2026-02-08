@@ -3,6 +3,7 @@ import UnifiedContextMenu from './UnifiedContextMenu';
 import ConnectionSelectorDialog from './ConnectionSelectorDialog';
 import ConnectionRenameDialog from './ConnectionRenameDialog';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
+import './styles/ConnectionContextMenu.css';
 
 const ConnectionContextMenu = memo(({
     visible,
@@ -14,6 +15,7 @@ const ConnectionContextMenu = memo(({
     onToggleVisibility,
     onConnect,
     onDelete,
+    onJump,
     maps,
     currentMapId,
     isGMMode
@@ -36,11 +38,14 @@ const ConnectionContextMenu = memo(({
         return null;
     }
 
+    const hasDestination = connection.properties?.destinationMapId;
+
     const menuItems = [
         {
             label: connection.properties?.portalName || 'Unnamed Connection',
             disabled: true,
-            icon: '◉' // Connection symbol
+            icon: '◉',
+            className: 'connection-menu-header-item'
         },
         { type: 'separator' },
         {
@@ -51,7 +56,7 @@ const ConnectionContextMenu = memo(({
             }
         },
         {
-            label: connection.properties?.isHidden ? 'Show' : 'Hide',
+            label: connection.properties?.isHidden ? 'Make Visible' : 'Hide from Players',
             icon: connection.properties?.isHidden ? '👁' : '👁‍🗨',
             onClick: () => {
                 onToggleVisibility(connection);
@@ -65,9 +70,21 @@ const ConnectionContextMenu = memo(({
                 setShowConnectionDialog(true);
             }
         },
+        {
+            label: 'Jump to Destination',
+            icon: '✨',
+            disabled: !hasDestination,
+            onClick: () => {
+                if (onJump) {
+                    onJump(connection);
+                }
+                onClose();
+            },
+            tooltip: hasDestination ? 'Instantly travel to the linked portal' : 'No destination configured'
+        },
         { type: 'separator' },
         {
-            label: 'Delete',
+            label: 'Sever Connection',
             icon: '🗑',
             onClick: () => {
                 setShowDeleteConfirm(true);
@@ -90,7 +107,8 @@ const ConnectionContextMenu = memo(({
                     onClose();
                 }}
                 items={menuItems}
-                title="Connection"
+                title="Mystical Anchor"
+                className="connection-menu-container"
             />
             {showRenameDialog && (
                 <ConnectionRenameDialog
@@ -120,7 +138,7 @@ const ConnectionContextMenu = memo(({
             )}
             {showDeleteConfirm && (
                 <ConfirmationDialog
-                    message={`Are you sure you want to delete the connection "${connection.properties?.portalName || 'Unnamed Connection'}"? This action cannot be undone.`}
+                    message={`Are you sure you want to sever the connection "${connection.properties?.portalName || 'Unnamed Connection'}"? This anchor point will be lost to the void.`}
                     onConfirm={() => {
                         onDelete(connection);
                         setShowDeleteConfirm(false);

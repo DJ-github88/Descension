@@ -59,6 +59,22 @@ const TileOverlay = () => {
     const objectHoverTimeoutRef = useRef(null);
     const overlayRef = useRef(null);
 
+    // CRITICAL FIX: Clear regular and object tooltips when map changes
+    // This prevents tooltips from the previous map persisting on the new map
+    useEffect(() => {
+        setHoveredTile(null);
+        setHoveredObject(null);
+        setShowTooltip(false);
+        setShowObjectTooltip(false);
+        setHoveredConnection(null);
+        setHoveredGMNote(null);
+
+        if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+        if (objectHoverTimeoutRef.current) clearTimeout(objectHoverTimeoutRef.current);
+
+        console.log(`🧹 [TileOverlay] Cleared tooltips for map change to: ${currentMapId}`);
+    }, [currentMapId]);
+
     // Listen for GM Notes open events from ObjectSystem
     useEffect(() => {
         const handleOpenGMNotes = (e) => {
@@ -486,16 +502,35 @@ const TileOverlay = () => {
             return;
         }
 
+        // Try to get a world position even if the caller only provided grid coordinates
+        let resolvedPosition = targetConnection.position;
+        if (!resolvedPosition || resolvedPosition.x === undefined) {
+            if (targetConnection.gridX !== undefined && targetConnection.gridY !== undefined) {
+                try {
+                    const gridSystem = getGridSystem();
+                    resolvedPosition = gridSystem.gridToWorld(targetConnection.gridX, targetConnection.gridY);
+                } catch (e) {
+                    console.warn('Failed to convert grid to world for connection:', e);
+                    resolvedPosition = { x: 0, y: 0 };
+                }
+            } else {
+                resolvedPosition = { x: 0, y: 0 };
+            }
+        }
+
         updateDndElement(sourceConnection.id, {
             ...sourceConnection,
             properties: {
                 ...sourceConnection.properties,
                 destinationMapId: targetConnection.mapId,
-                destinationPosition: targetConnection.position || { x: 0, y: 0 },
+                destinationPosition: resolvedPosition,
                 destinationConnectionId: targetConnection.id,
                 connectedToId: targetConnection.id // Keep for backwards compatibility
             }
         });
+
+        // Optional: show a small toast or log
+        console.log(`🔗 Established link from ${sourceConnection.id} to ${targetConnection.id} on map ${targetConnection.mapId}`);
     };
 
     const handleConnectionDelete = (connection) => {
@@ -2280,6 +2315,7 @@ const TileOverlay = () => {
                 onToggleVisibility={handleConnectionToggleVisibility}
                 onConnect={handleConnectionConnect}
                 onDelete={handleConnectionDelete}
+                onJump={handlePortalClick}
                 maps={maps}
                 currentMapId={currentMapId}
                 isGMMode={isGMMode}

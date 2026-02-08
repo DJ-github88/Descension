@@ -1265,7 +1265,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
               )}
             </div>
           </div>
-        )}
 
         <div className={`create-room-section ${activeTab !== 'create' ? 'hidden' : ''}`}>
             <h3>Create New Room</h3>
@@ -1409,7 +1408,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
               )}
             </div>
           </div>
-        )}
 
         {activeTab === 'my-rooms' && isAuthenticated && (
           <div className={`my-rooms-section ${activeTab !== 'my-rooms' ? 'hidden' : ''}`}>
