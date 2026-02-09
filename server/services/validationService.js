@@ -25,9 +25,11 @@ const validationSchemas = {
 
   // Chat and communication
   chat_message: Joi.object({
-    message: Joi.string().min(1).max(1000).required(),
-    type: Joi.string().valid('chat', 'system', 'roll').optional()
-  }),
+    message: Joi.string().min(1).max(1000).optional(),
+    content: Joi.string().min(1).max(1000).optional(),
+    type: Joi.string().valid('chat', 'system', 'roll', 'party').optional(),
+    channel: Joi.string().valid('global', 'party').optional()
+  }).or('message', 'content'),
 
   // Character management
   character_updated: Joi.object({

@@ -54,6 +54,13 @@ import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
 
+const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
+const chatDebug = (...args) => {
+  if (CHAT_DEBUG) {
+    console.log(...args);
+  }
+};
+
 // Connection Status Indicator Component
 const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount, currentMapName, onMapIconClick }) => {
   const getStatusInfo = () => {
@@ -1806,17 +1813,44 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for chat messages (Party Chat)
     socket.on('chat_message', (message) => {
-      console.log('💬 Received party chat message:', message);
+      chatDebug('💬 [socket:chat_message] inbound', {
+        id: message?.id,
+        messageId: message?.messageId,
+        senderId: message?.senderId,
+        playerId: message?.playerId,
+        type: message?.type,
+        hasContent: !!(message?.content || message?.message)
+      });
 
       const resolvedSenderId = message.playerId || message.senderId || message.userId || message.socketId || null;
       const resolvedSenderName = message.playerName || message.senderName || message.characterName || 'Unknown';
       const resolvedTimestamp = message.timestamp || message.serverTimestamp || new Date().toISOString();
       const resolvedContent = message.content || message.message || '';
+      const matchedPartyMember = usePartyStore.getState().partyMembers.find((member) =>
+        member?.id === resolvedSenderId ||
+        member?.socketId === resolvedSenderId ||
+        (resolvedSenderName && member?.name === resolvedSenderName)
+      );
+      const normalizedSenderId = matchedPartyMember?.id || resolvedSenderId || 'unknown_party_sender';
       const normalizedMessageId =
         message.id ||
         message.messageId ||
         message.clientMessageId ||
-        `${resolvedSenderId || 'unknown_party_sender'}:${resolvedTimestamp}:${resolvedContent}`;
+        `${normalizedSenderId}:${resolvedTimestamp}:${resolvedContent}`;
+
+      if (!resolvedContent) {
+        console.warn('⚠️ Dropping empty party chat payload from socket:', message);
+        return;
+      }
+
+      const presenceStore = usePresenceStore.getState();
+      const beforeCount = presenceStore.partyChatMessages.length;
+      const normalizedPartyType =
+        message?.type === 'party' ||
+        message?.type === 'chat' ||
+        message?.type === 'message'
+          ? 'party'
+          : 'party';
 
       // Add to notifications
       addNotification('social', {
@@ -1829,32 +1863,92 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         content: resolvedContent,
         type: 'message',
         timestamp: resolvedTimestamp,
-        playerId: resolvedSenderId,
+        playerId: normalizedSenderId,
         isGM: message.isGM
       });
 
-      // Add to presence store party chat
-      if (message.type === 'party' || message.type === 'chat') {
-        usePresenceStore.getState().addPartyChatMessage({
-          id: normalizedMessageId,
-          senderId: resolvedSenderId || 'unknown_party_sender',
-          senderName: resolvedSenderName,
-          senderClass: message.isGM ? 'GM' : 'Player',
-          senderLevel: 1,
-          content: resolvedContent,
-          timestamp: resolvedTimestamp,
-          type: 'party'
-        });
-        console.log('✅ Party message added to presence store');
-      }
+      // Add to presence store party chat (always, once non-empty and normalized)
+      presenceStore.addPartyChatMessage({
+        id: normalizedMessageId,
+        messageId: message.messageId || normalizedMessageId,
+        senderId: normalizedSenderId,
+        playerId: normalizedSenderId,
+        senderName: resolvedSenderName,
+        playerName: resolvedSenderName,
+        senderClass: message.isGM ? 'GM' : 'Player',
+        senderLevel: 1,
+        content: resolvedContent,
+        timestamp: resolvedTimestamp,
+        type: normalizedPartyType
+      });
+
+      const afterCount = usePresenceStore.getState().partyChatMessages.length;
+      chatDebug('💬 [socket:chat_message] appended', {
+        normalizedMessageId,
+        normalizedSenderId,
+        beforeCount,
+        afterCount,
+        delta: afterCount - beforeCount
+      });
     });
 
     // Listen for global chat messages to sync with presence store
     socket.on('global_chat_message', (message) => {
-      console.log('📨 Client received global_chat_message:', message);
+      chatDebug('🌐 [socket:global_chat_message] inbound', {
+        id: message?.id,
+        messageId: message?.messageId,
+        senderId: message?.senderId,
+        playerId: message?.playerId,
+        type: message?.type,
+        hasContent: !!(message?.content || message?.message)
+      });
       try {
-        usePresenceStore.getState().addGlobalMessage(message);
-        console.log('✅ Global message added to store');
+        const resolvedSenderId = message.playerId || message.senderId || message.userId || message.socketId || null;
+        const resolvedSenderName = message.playerName || message.senderName || message.characterName || 'Unknown';
+        const resolvedTimestamp = message.timestamp || message.serverTimestamp || new Date().toISOString();
+        const resolvedContent = message.content || message.message || '';
+        const matchedPartyMember = usePartyStore.getState().partyMembers.find((member) =>
+          member?.id === resolvedSenderId ||
+          member?.socketId === resolvedSenderId ||
+          (resolvedSenderName && member?.name === resolvedSenderName)
+        );
+        const normalizedSenderId = matchedPartyMember?.id || resolvedSenderId || 'unknown_global_sender';
+        const normalizedMessageId =
+          message.id ||
+          message.messageId ||
+          message.clientMessageId ||
+          `${normalizedSenderId}:${resolvedTimestamp}:${resolvedContent}`;
+
+        if (!resolvedContent) {
+          console.warn('⚠️ Dropping empty global chat payload from socket:', message);
+          return;
+        }
+
+        const presenceStore = usePresenceStore.getState();
+        const beforeCount = presenceStore.globalChatMessages.length;
+
+        presenceStore.addGlobalMessage({
+          ...message,
+          id: normalizedMessageId,
+          messageId: message.messageId || normalizedMessageId,
+          senderId: normalizedSenderId,
+          playerId: normalizedSenderId,
+          senderName: resolvedSenderName,
+          playerName: resolvedSenderName,
+          content: resolvedContent,
+          message: resolvedContent,
+          timestamp: resolvedTimestamp,
+          type: message.type || 'message'
+        });
+
+        const afterCount = usePresenceStore.getState().globalChatMessages.length;
+        chatDebug('🌐 [socket:global_chat_message] appended', {
+          normalizedMessageId,
+          normalizedSenderId,
+          beforeCount,
+          afterCount,
+          delta: afterCount - beforeCount
+        });
       } catch (error) {
         console.error('❌ Failed to add global chat message:', error);
       }
@@ -4266,8 +4360,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const currentPlayerName = currentPlayerRef.current?.name;
 
         // Create tab if it doesn't exist and switch to it
-        const whisperTabId = `whisper_${senderId}`;
-        addWhisperMessage(senderId, {
+        const resolvedWhisperUserId = addWhisperMessage(senderId, {
           id: message.id || `whisper_${Date.now()}`,
           senderId,
           senderName: message.senderName || 'Unknown',
@@ -4281,9 +4374,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
 
         // Switch to whisper tab if not already on it
+        const finalWhisperUserId = resolvedWhisperUserId || senderId;
+        const finalWhisperTabId = `whisper_${finalWhisperUserId}`;
         const { activeTab } = usePresenceStore.getState();
-        if (activeTab !== whisperTabId) {
-          setActiveTab(whisperTabId);
+        if (activeTab !== finalWhisperTabId) {
+          setActiveTab(finalWhisperTabId);
         }
       }).catch(error => {
         console.error('Failed to handle whisper message:', error);

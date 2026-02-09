@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import useSettingsStore from '../../store/settingsStore';
 import usePresenceStore from '../../store/presenceStore';
 import usePartyStore from '../../store/partyStore';
+import useGameStore from '../../store/gameStore';
 import '../../styles/chat-bubble.css';
 
 const ChatBubbleManager = () => {
@@ -16,12 +17,67 @@ const ChatBubbleManager = () => {
   const partyMembers = usePartyStore(state => state.partyMembers);
   
   // Get current user's ID from presence store
+  const currentGamePlayerId = useGameStore(state => state.currentPlayer?.id);
   const currentUserId = usePresenceStore(state => 
-    state.currentUserPresence?.userId || 'current-player'
+    state.currentUserPresence?.userId || currentGamePlayerId || 'current-player'
   );
   
   const [activeBubbles, setActiveBubbles] = useState([]);
   const processedMessageIds = useRef(new Set());
+  const senderQueuesRef = useRef(new Map());
+  const senderTimersRef = useRef(new Map());
+  const activeSenderKeysRef = useRef(new Set());
+
+  const clearAllBubbleTimers = () => {
+    senderTimersRef.current.forEach((timerId) => {
+      clearTimeout(timerId);
+    });
+    senderTimersRef.current.clear();
+  };
+
+  const getSenderKey = (senderId, senderName) => senderId || senderName || 'unknown-sender';
+
+  const showNextBubbleForSender = (senderKey) => {
+    const queue = senderQueuesRef.current.get(senderKey) || [];
+    const nextBubble = queue.shift();
+
+    if (!nextBubble) {
+      activeSenderKeysRef.current.delete(senderKey);
+      senderQueuesRef.current.delete(senderKey);
+      return;
+    }
+
+    senderQueuesRef.current.set(senderKey, queue);
+    activeSenderKeysRef.current.add(senderKey);
+
+    setActiveBubbles((prev) => {
+      const withoutSender = prev.filter((bubble) => bubble.senderKey !== senderKey);
+      return [...withoutSender, nextBubble].slice(-20);
+    });
+
+    const existingTimer = senderTimersRef.current.get(senderKey);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+    }
+
+    const timerId = setTimeout(() => {
+      setActiveBubbles((prev) => prev.filter((bubble) => bubble.id !== nextBubble.id));
+      showNextBubbleForSender(senderKey);
+    }, bubbleDuration);
+
+    senderTimersRef.current.set(senderKey, timerId);
+  };
+
+  const enqueueBubbleForSender = (bubble) => {
+    const senderKey = getSenderKey(bubble.senderId, bubble.sender);
+    const queue = senderQueuesRef.current.get(senderKey) || [];
+    queue.push({ ...bubble, senderKey });
+    senderQueuesRef.current.set(senderKey, queue);
+
+    if (!activeSenderKeysRef.current.has(senderKey)) {
+      showNextBubbleForSender(senderKey);
+    }
+  };
   
   // Determine if current user should see bubble
   const shouldShowBubbleForUser = (message) => {
@@ -53,12 +109,24 @@ const ChatBubbleManager = () => {
       return String(value).replace(/"/g, '\\"');
     };
 
-    const safeSenderId = esc(senderId);
+    const partyMemberMatch = partyMembers.find((member) =>
+      member?.id === senderId ||
+      member?.socketId === senderId ||
+      (senderName && member?.name === senderName)
+    );
+
+    const candidateSenderIds = Array.from(new Set([
+      senderId,
+      partyMemberMatch?.id,
+      partyMemberMatch?.socketId
+    ].filter(Boolean)));
+
+    const safeSenderIdSelectors = candidateSenderIds.map((id) => `[data-player-id="${esc(id)}"]`);
     const safeSenderName = esc(senderName);
 
     // Try party member HUD position first (look for data-player-id)
     const hudSelector = [
-      safeSenderId ? `[data-player-id="${safeSenderId}"]` : null,
+      ...safeSenderIdSelectors,
       safeSenderName ? `[data-character-name="${safeSenderName}"]` : null
     ].filter(Boolean).join(', ');
 
@@ -98,7 +166,7 @@ const ChatBubbleManager = () => {
     // Fallback: Try token position
     const tokenSelector = [
       safeSenderName ? `[data-character-name="${safeSenderName}"]` : null,
-      safeSenderId ? `[data-player-id="${safeSenderId}"]` : null
+      ...safeSenderIdSelectors
     ].filter(Boolean).join(', ');
 
     const tokenElement = tokenSelector ? document.querySelector(tokenSelector) : null;
@@ -124,10 +192,11 @@ const ChatBubbleManager = () => {
         setActiveBubbles([]);
         processedMessageIds.current.clear();
       }
+      clearAllBubbleTimers();
+      senderQueuesRef.current.clear();
+      activeSenderKeysRef.current.clear();
       return;
     }
-    
-    const newBubbles = [];
     
     // Process global chat messages
     const newGlobalMessages = globalMessages.filter(msg => 
@@ -137,7 +206,7 @@ const ChatBubbleManager = () => {
     newGlobalMessages.forEach(msg => {
       if (shouldShowBubbleForUser(msg)) {
         const position = getSenderPosition(msg.senderName, msg.senderId);
-        newBubbles.push({
+        enqueueBubbleForSender({
           id: msg.id,
           sender: msg.senderName,
           senderId: msg.senderId,
@@ -158,7 +227,7 @@ const ChatBubbleManager = () => {
     newPartyMessages.forEach(msg => {
       if (shouldShowBubbleForUser(msg)) {
         const position = getSenderPosition(msg.senderName, msg.senderId);
-        newBubbles.push({
+        enqueueBubbleForSender({
           id: msg.id,
           sender: msg.senderName,
           senderId: msg.senderId,
@@ -181,7 +250,7 @@ const ChatBubbleManager = () => {
         if (shouldShowBubbleForUser(msg)) {
           // For whispers, bubble shows from SENDER (person who whispered to you)
           const position = getSenderPosition(msg.senderName, msg.senderId);
-          newBubbles.push({
+          enqueueBubbleForSender({
             id: msg.id,
             sender: msg.senderName,
             senderId: msg.senderId,
@@ -195,23 +264,14 @@ const ChatBubbleManager = () => {
         processedMessageIds.current.add(msg.id);
       });
     });
-    
-    if (newBubbles.length === 0) return;
-    
-    // Add new bubbles with limit to 15 max (FIFO)
-    setActiveBubbles(prev => {
-      const combined = [...prev, ...newBubbles];
-      return combined.slice(-15);  // Keep only most recent 15
-    });
-    
-    // Remove bubbles after configured duration
-    setTimeout(() => {
-      setActiveBubbles(prev => 
-        prev.filter(b => !newBubbles.some(nb => nb.id === b.id))
-      );
-    }, bubbleDuration);
-    
+
   }, [globalMessages, partyMessages, whisperTabs, showSpeechBubbles, currentUserId, partyMembers, bubbleDuration]);
+
+  useEffect(() => {
+    return () => {
+      clearAllBubbleTimers();
+    };
+  }, []);
   
   // Listen for window resize to recalculate positions
   useEffect(() => {
@@ -252,10 +312,6 @@ const ChatBubbleManager = () => {
             zIndex: 9999
           }}
         >
-          <div className="chat-bubble-sender">
-            {bubble.sender}
-            {bubble.isWhisper && <span className="whisper-indicator"> (whisper)</span>}
-          </div>
           <div className="chat-bubble-content">{bubble.content}</div>
         </div>
       ))}

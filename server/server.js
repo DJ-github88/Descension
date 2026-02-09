@@ -360,6 +360,17 @@ io.use(createValidationMiddleware({
   maxErrorsPerMinute: 10
 }));
 
+// DIAGNOSTIC: Log accepted chat types for debugging party sync issues
+try {
+  const { validationSchemas } = require('./services/validationService');
+  const chatTypeSchema = validationSchemas.chat_message?.$_terms?.keys?.find(k => k.key === 'type')?.schema;
+  const validTypes = chatTypeSchema?._valids?._values || ['chat', 'system', 'roll', 'party'];
+  logger.info('💬 Chat validation active', { validTypes: Array.from(validTypes) });
+  console.log('💬 Chat validation active. Accepted types:', Array.from(validTypes));
+} catch (e) {
+  logger.warn('Failed to log chat validation metadata', { error: e.message });
+}
+
 // Add rate limiting middleware to Socket.IO
 io.use(rateLimitService.createMiddleware({
   logViolations: true,
@@ -1216,6 +1227,13 @@ const migrateCharacterToken = (room, playerId, oldMapId, newMapId, updatedById, 
 
 io.on('connection', (socket) => {
   logger.info('Player connected', { socketId: socket.id });
+
+  const chatDebugEnabled = process.env.CHAT_DEBUG === 'true' || process.env.NODE_ENV === 'development';
+  const chatDebug = (...args) => {
+    if (chatDebugEnabled) {
+      console.log(...args);
+    }
+  };
 
   // Hook up movement debouncer flush callback
   if (!movementDebouncer.flushCallback) {
@@ -3433,7 +3451,7 @@ io.on('connection', (socket) => {
 
     const message = {
       id: data?.id || uuidv4(),
-      messageId: data?.messageId || undefined,
+      messageId: data?.messageId || data?.id || undefined,
       senderId: data?.senderId || player.id,
       playerId: data?.playerId || player.id,
       senderName,
@@ -3454,7 +3472,23 @@ io.on('connection', (socket) => {
 
     firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
 
-    socket.to(player.roomId).emit('chat_message', message);
+    // Prefer Socket.IO room membership for delivery (source of truth for connected peers).
+    // This is more robust than players-map filtering during reconnect/resume flows.
+    const roomSocketIds = io.sockets.adapter.rooms.get(player.roomId) || new Set();
+    const recipients = Array.from(roomSocketIds).filter((sid) => sid !== socket.id);
+
+    chatDebug('💬 [chat_message] inbound', {
+      socketId: socket.id,
+      playerId: player.id,
+      roomId: player.roomId,
+      messageId: message.messageId || message.id,
+      recipients: recipients.length
+    });
+
+    // Broadcast directly to sockets currently joined to the Socket.IO room (excluding sender).
+    for (const sid of recipients) {
+      io.to(sid).emit('chat_message', message);
+    }
   });
 
   // Handle global chat messages (scoped to room)
@@ -3472,16 +3506,37 @@ io.on('connection', (socket) => {
 
     const message = {
       id: data?.id || uuidv4(),
+      messageId: data?.messageId || data?.id || undefined,
       senderId: data?.senderId || player.id,
+      playerId: data?.playerId || player.id,
       senderName,
+      playerName: senderName,
       senderClass: data?.senderClass,
       senderLevel: data?.senderLevel,
       content,
+      message: content,
       type: data?.type || 'message',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      roomId: player.roomId,
+      isGM: !!player.isGM
     };
 
-    io.to(player.roomId).emit('global_chat_message', message);
+    // Prefer Socket.IO room membership for delivery (source of truth for connected peers).
+    const roomSocketIds = io.sockets.adapter.rooms.get(player.roomId) || new Set();
+    const recipients = Array.from(roomSocketIds).filter((sid) => sid !== socket.id);
+
+    chatDebug('🌐 [global_chat_message] inbound', {
+      socketId: socket.id,
+      playerId: player.id,
+      roomId: player.roomId,
+      messageId: message.messageId || message.id,
+      recipients: recipients.length
+    });
+
+    // Sender already appends optimistically on client, so emit to peers only.
+    for (const sid of recipients) {
+      io.to(sid).emit('global_chat_message', message);
+    }
   });
 
   // Handle whisper messages (sender -> recipient)

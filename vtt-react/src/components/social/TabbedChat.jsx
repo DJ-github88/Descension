@@ -9,10 +9,16 @@ import usePresenceStore from '../../store/presenceStore';
 import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
-import useChatStore from '../../store/chatStore';
 import LootTab from './LootTab';
 import CombatTab from './CombatTab';
 import { getIconUrl } from '../../utils/assetManager';
+
+const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
+const chatDebug = (...args) => {
+  if (CHAT_DEBUG) {
+    console.log(...args);
+  }
+};
 
 const PLACEHOLDER_NAMES = new Set(['character name', 'unknown', 'guest']);
 
@@ -34,6 +40,7 @@ const TabbedChat = () => {
   const globalChatMessages = usePresenceStore((state) => state.globalChatMessages);
   const partyChatMessages = usePresenceStore((state) => state.partyChatMessages);
   const whisperTabs = usePresenceStore((state) => state.whisperTabs);
+  const presenceSocket = usePresenceStore((state) => state.socket);
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const sendGlobalMessage = usePresenceStore((state) => state.sendGlobalMessage);
   const sendWhisper = usePresenceStore((state) => state.sendWhisper);
@@ -114,16 +121,20 @@ const TabbedChat = () => {
       const senderClass = characterClass || currentUserPresence?.class || 'Adventurer';
       const senderLevel = characterLevel || currentUserPresence?.level || 1;
       const { multiplayerSocket } = useGameStore.getState();
+      // CRITICAL: For multiplayer HUD anchoring, prefer room player/socket identity over auth userId.
+      // userId can be Firebase uid which may not match in-room data-player-id attributes.
       const senderId =
-        currentUserPresence?.userId ||
         currentGamePlayer?.id ||
         partyMembers.find(m => m.name === senderName || m.characterName === senderName)?.id ||
         multiplayerSocket?.id ||
+        currentUserPresence?.userId ||
         'current-player';
 
       // Send party message
+      const generatedMessageId = `msg_${Date.now()}`;
       const message = {
-        id: `msg_${Date.now()}`,
+        id: generatedMessageId,
+        messageId: generatedMessageId,
         senderId: senderId,
         senderName: senderName,
         senderClass: senderClass,
@@ -133,39 +144,106 @@ const TabbedChat = () => {
         type: 'party'
       };
 
-      console.log('💬 Sending party message:', message);
-      console.log('📊 Party chat messages before:', partyChatMessages.length);
+      chatDebug('💬 [TabbedChat:party] compose', {
+        id: message.id,
+        messageId: message.messageId,
+        senderId: message.senderId,
+        senderName: message.senderName,
+        contentLength: message.content.length
+      });
 
-      // Check if in multiplayer mode and send through socket
-      const { multiplayerSocket: gameSocket } = useGameStore.getState();
-      const { sendMultiplayerMessage } = useChatStore.getState();
-      if (gameSocket && gameSocket.connected && sendMultiplayerMessage) {
-        console.log('💬 Sending party message through multiplayer socket');
+      const partyBefore = usePresenceStore.getState().partyChatMessages.length;
+
+      // Check if in multiplayer mode and send through best available socket
+      const gameState = useGameStore.getState();
+      const { multiplayerSocket: gameSocket, isInMultiplayer } = gameState;
+      const resolvedSocket = (gameSocket && gameSocket.connected)
+        ? gameSocket
+        : ((presenceSocket && presenceSocket.connected) ? presenceSocket : null);
+
+      const socketSource = resolvedSocket
+        ? (resolvedSocket === gameSocket ? 'gameStore.multiplayerSocket' : 'presenceStore.socket')
+        : 'none';
+
+      chatDebug('💬 [TabbedChat:party] socket-resolution', {
+        isInMultiplayer,
+        gameSocketConnected: !!gameSocket?.connected,
+        presenceSocketConnected: !!presenceSocket?.connected,
+        socketSource
+      });
+
+      if (resolvedSocket) {
+        console.log(`💬 Sending party message through ${socketSource} (explicit payload)`);
         // Optimistic local append so sender immediately sees their own message
         // even if socket echo is delayed/missed.
         addPartyChatMessage(message);
-        sendMultiplayerMessage(content);
+        const afterOptimistic = usePresenceStore.getState().partyChatMessages.length;
+        chatDebug('💬 [TabbedChat:party] optimistic-append', {
+          before: partyBefore,
+          after: afterOptimistic,
+          delta: afterOptimistic - partyBefore,
+          messageId: message.messageId
+        });
+
+        resolvedSocket.emit('chat_message', {
+          id: message.id,
+          messageId: message.messageId,
+          content: message.content,
+          message: message.content,
+          type: 'chat',
+          channel: 'party',
+          senderId: message.senderId,
+          playerId: message.senderId,
+          senderName: message.senderName,
+          playerName: message.senderName,
+          senderClass: message.senderClass,
+          senderLevel: message.senderLevel,
+          timestamp: message.timestamp
+        });
+
+        chatDebug('💬 [TabbedChat:party] socket emit', {
+          socketId: resolvedSocket.id,
+          connected: resolvedSocket.connected,
+          socketSource,
+          messageId: message.messageId,
+          senderId: message.senderId
+        });
+
+        setMessageInput('');
+        return;
+      }
+
+      if (isInMultiplayer && !resolvedSocket) {
+        console.warn('⚠️ Party chat not sent (multiplayer socket unavailable)');
+        addPartyChatMessage({
+          id: `system_party_send_failed_${Date.now()}`,
+          senderId: 'system',
+          senderName: 'System',
+          content: 'Party message failed to send: disconnected from multiplayer server.',
+          timestamp: new Date().toISOString(),
+          type: 'system'
+        });
         setMessageInput('');
         return;
       }
 
       // Single-player mode: add locally
       addPartyChatMessage(message);
-
-      // Verify message was added
-      setTimeout(() => {
-        const updatedMessages = usePresenceStore.getState().partyChatMessages;
-        console.log('📊 Party chat messages after:', updatedMessages.length);
-        console.log('✅ Party message added successfully');
-      }, 100);
+      const afterLocal = usePresenceStore.getState().partyChatMessages.length;
+      chatDebug('💬 [TabbedChat:party] local-only append', {
+        before: partyBefore,
+        after: afterLocal,
+        delta: afterLocal - partyBefore,
+        messageId: message.messageId
+      });
     } else if (activeTab.startsWith('whisper_')) {
       // Whisper to party member: Allow if in party
       const userId = activeTab.replace('whisper_', '');
-      
+
       // Check if target is a party member
       const partyMembers = usePartyStore.getState().partyMembers;
       const isPartyMember = partyMembers.some(m => m.id === userId);
-      
+
       if (isPartyMember && isInParty) {
         sendWhisper(userId, content);
       } else if (!currentUserPresence || currentUserPresence?.isGuest) {
@@ -192,7 +270,7 @@ const TabbedChat = () => {
       );
       return `Message your party - ${displayName}`;
     }
-  
+
     // Whisper: Allow if in party and target is party member
     if (activeTab.startsWith('whisper_') && isInParty) {
       const userId = activeTab.replace('whisper_', '');
@@ -209,12 +287,12 @@ const TabbedChat = () => {
         return `Whisper to ${targetName} - ${displayName}`;
       }
     }
-  
+
     // Global chat: Require authentication (keep existing restriction)
     if (activeTab === 'global' && (!currentUserPresence || currentUserPresence?.isGuest)) {
       return "Please log in to chat...";
     }
-  
+
     // Normal placeholder for authenticated users
     let displayName = getBestDisplayName(
       currentUserPresence?.accountName,
@@ -223,14 +301,14 @@ const TabbedChat = () => {
       currentGamePlayer?.name,
       'Unknown'
     );
-    if (currentUserPresence?.characterName && 
-        currentUserPresence?.accountName &&
-        currentUserPresence.characterName !== 'Guest' && 
-        currentUserPresence.characterName !== 'Unknown' &&
-        currentUserPresence.characterName !== currentUserPresence.accountName) {
+    if (currentUserPresence?.characterName &&
+      currentUserPresence?.accountName &&
+      currentUserPresence.characterName !== 'Guest' &&
+      currentUserPresence.characterName !== 'Unknown' &&
+      currentUserPresence.characterName !== currentUserPresence.accountName) {
       displayName = `${currentUserPresence.accountName}(${currentUserPresence.characterName})`;
     }
-  
+
     if (activeTab === 'global') {
       return displayName;
     } else if (activeTab === 'party') {
