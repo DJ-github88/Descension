@@ -9,47 +9,65 @@
 }
 
 /* Header Section with Preview */
-/* Header Section with Preview */
 .dialog-header-section {
     position: relative;
-    height: 100px;
+    height: 120px;
     width: 100%;
-    border-bottom: 2px solid var(--pf-brown-dark);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    background: var(--pf-parchment-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .map-preview-container {
     width: 100%;
     height: 100%;
     position: relative;
-    background: linear-gradient(135deg, #3d2c1f 0%, #2c1a0c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .map-preview-image {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     object-fit: cover;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
+    border: 2px solid var(--pf-brown-medium);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
 
 .map-preview-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(44, 26, 12, 0.6) 100%);
+    pointer-events: none;
 }
 
 .map-preview-placeholder {
-    width: 100%;
-    height: 100%;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
-    color: var(--pf-gold-dark);
-    opacity: 0.3;
-    background-image: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    font-size: 2.2rem;
+    color: var(--pf-brown-medium);
+    background: var(--pf-parchment);
+    border: 2px solid var(--pf-gold-dark);
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.map-preview-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed var(--pf-gold-dark);
+    opacity: 0.5;
 }
 
 /* Content Section */
@@ -60,33 +78,33 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 20px;
+    padding: 10px 20px;
 }
 
 .switch-text-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
+    width: 100%;
 }
 
 .switch-label {
     text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    color: #6d4f3b;
-    /* Deeper brown for better contrast */
-    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--pf-brown-dark);
+    opacity: 0.7;
+    font-weight: 800;
 }
 
 .target-map-name {
-    margin: 5px 0;
-    font-size: 2rem;
-    color: #3d2c1f;
-    /* Strong dark brown for maximum readability */
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-    /* Subtle light lift */
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--pf-brown-darkest);
+    font-weight: 700;
     letter-spacing: 1px;
+    line-height: 1.2;
 }
 
 .separator-ornament {
@@ -94,33 +112,31 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
-    width: 100%;
-    margin: 10px 0;
+    width: 60%;
+    margin: 15px 0;
 }
 
 .ornament-line {
-    height: 1px;
+    height: 1.5px;
     flex: 1;
-    max-width: 80px;
     background: linear-gradient(to right, transparent, var(--pf-gold-dark), transparent);
 }
 
 .ornament-diamond {
-    width: 8px;
-    height: 8px;
-    background: var(--pf-gold-dark);
+    width: 10px;
+    height: 10px;
+    background: var(--pf-gold);
     transform: rotate(45deg);
-    box-shadow: 0 0 5px var(--pf-gold-light);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
 }
 
 .save-warning {
-    font-size: 0.95rem;
-    color: #5c422e;
-    /* Darker brown */
+    font-size: 0.9rem;
+    color: var(--pf-brown-medium);
     font-style: italic;
-    margin: 10px 0 0 0;
-    max-width: 85%;
-    line-height: 1.5;
+    margin: 5px 0 0 0;
+    max-width: 90%;
+    line-height: 1.6;
     font-weight: 500;
 }
 
@@ -129,7 +145,7 @@
     display: flex;
     justify-content: center;
     gap: 16px;
-    padding: 15px;
+    padding: 20px;
     margin-top: auto;
     background: rgba(0, 0, 0, 0.05);
     /* Slight darkening for the action area */

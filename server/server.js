@@ -3408,6 +3408,137 @@ io.on('connection', (socket) => {
     console.log(`👑 Party update (${data.type}) from ${player.name}:`, data.data);
   });
 
+  // Handle party chat messages
+  socket.on('chat_message', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    const content = sanitizeChatMessage((data?.content || data?.message || '').toString().trim());
+    if (!content) {
+      return;
+    }
+
+    const senderName = sanitizePlayerName(
+      data?.senderName || data?.playerName || player.name || 'Unknown'
+    );
+
+    const message = {
+      id: data?.id || uuidv4(),
+      messageId: data?.messageId || undefined,
+      senderId: data?.senderId || player.id,
+      playerId: data?.playerId || player.id,
+      senderName,
+      playerName: senderName,
+      content,
+      message: content,
+      type: 'party',
+      timestamp: new Date().toISOString(),
+      roomId: player.roomId,
+      isGM: !!player.isGM
+    };
+
+    room.chatHistory = room.chatHistory || [];
+    room.chatHistory.push(message);
+    if (room.chatHistory.length > 200) {
+      room.chatHistory = room.chatHistory.slice(-200);
+    }
+
+    firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+
+    socket.to(player.roomId).emit('chat_message', message);
+  });
+
+  // Handle global chat messages (scoped to room)
+  socket.on('global_chat_message', (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const content = sanitizeChatMessage((data?.content || data?.message || '').toString().trim());
+    if (!content) return;
+
+    const senderName = sanitizePlayerName(data?.senderName || data?.playerName || player.name || 'Unknown');
+
+    const message = {
+      id: data?.id || uuidv4(),
+      senderId: data?.senderId || player.id,
+      senderName,
+      senderClass: data?.senderClass,
+      senderLevel: data?.senderLevel,
+      content,
+      type: data?.type || 'message',
+      timestamp: new Date().toISOString()
+    };
+
+    io.to(player.roomId).emit('global_chat_message', message);
+  });
+
+  // Handle whisper messages (sender -> recipient)
+  socket.on('whisper_message', (data) => {
+    const sender = players.get(socket.id);
+    if (!sender || !sender.roomId) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const content = sanitizeChatMessage((data?.content || '').toString().trim());
+    if (!content) return;
+
+    const recipientId = data?.recipientId;
+    if (!recipientId) {
+      socket.emit('error', { message: 'Missing recipientId for whisper' });
+      return;
+    }
+
+    const recipientSocketEntry = Array.from(players.entries()).find(([_sid, p]) =>
+      p.roomId === sender.roomId && (p.id === recipientId || _sid === recipientId)
+    );
+
+    if (!recipientSocketEntry) {
+      socket.emit('error', { message: 'Recipient not found in your room' });
+      return;
+    }
+
+    const [recipientSocketId, recipient] = recipientSocketEntry;
+    const senderName = sanitizePlayerName(data?.senderName || data?.playerName || sender.name || 'Unknown');
+    const recipientName = sanitizePlayerName(data?.recipientName || recipient.name || 'Unknown');
+
+    const base = {
+      id: data?.id || uuidv4(),
+      senderId: data?.senderId || sender.id,
+      senderName,
+      senderClass: data?.senderClass,
+      senderLevel: data?.senderLevel,
+      recipientId: recipient.id,
+      recipientName,
+      recipientClass: data?.recipientClass,
+      recipientLevel: data?.recipientLevel,
+      content,
+      timestamp: new Date().toISOString()
+    };
+
+    io.to(recipientSocketId).emit('whisper_received', {
+      ...base,
+      type: 'whisper_received'
+    });
+
+    socket.emit('whisper_sent', {
+      ...base,
+      type: 'whisper_sent'
+    });
+  });
+
   // Handle GM actions (XP awards, rests, etc.) - broadcasts to selected players only
   socket.on('gm_action', (data) => {
     const player = players.get(socket.id);

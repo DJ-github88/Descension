@@ -219,6 +219,12 @@ const usePresenceStore = create((set, get) => ({
     if (get().isGlobalChatMuted) return;
 
     set((state) => {
+      // Prevent duplicate messages (e.g. optimistic local add + socket echo)
+      const alreadyExists = state.globalChatMessages.some(msg => msg.id === message.id);
+      if (alreadyExists) {
+        return state;
+      }
+
       const messages = [...state.globalChatMessages, message];
 
       // Keep only last maxChatMessages
@@ -259,14 +265,19 @@ const usePresenceStore = create((set, get) => ({
       return false;
     }
 
-    // For testing without login, use a default user
-    const senderData = currentUserPresence || {
-      userId: 'unknown_user',
-      characterName: 'Unknown',
-      accountName: 'Unknown',
-      class: 'Adventurer',
-      level: 1
-    };
+    // Current user is required above; this keeps identity deterministic for routing/UI anchors
+    const senderData = currentUserPresence;
+
+    // Resolve a stable sender id for multiplayer + local fallback modes
+    let fallbackPlayerId = null;
+    try {
+      const gameState = require('./gameStore').default.getState();
+      fallbackPlayerId = gameState?.currentPlayer?.id || null;
+    } catch (e) {
+      // gameStore not available, continue with other fallbacks
+    }
+
+    const senderId = senderData?.userId || fallbackPlayerId || socket?.id || 'current-player';
 
     // Format sender name: AccountName(CharacterName) or just AccountName
     let senderName = senderData.accountName || senderData.characterName || 'Unknown';
@@ -276,7 +287,7 @@ const usePresenceStore = create((set, get) => ({
 
     const message = {
       id: uuidv4(),
-      senderId: senderData.userId,
+      senderId,
       senderName: senderName,
       senderClass: senderData.class,
       senderLevel: senderData.level,
@@ -285,13 +296,14 @@ const usePresenceStore = create((set, get) => ({
       type: 'message'
     };
 
-    // If socket connected, emit to server
+    // Always add locally first so sender immediately sees their message
+    // (even if server does not echo this event back)
+    const addGlobalMessage = get().addGlobalMessage;
+    addGlobalMessage(message);
+
+    // If socket connected, also emit to server for other clients
     if (socket && socket.connected) {
       socket.emit('global_chat_message', message);
-    } else {
-      // For testing without socket, add directly to local state
-      const addGlobalMessage = get().addGlobalMessage;
-      addGlobalMessage(message);
     }
 
     return true;
@@ -324,31 +336,56 @@ const usePresenceStore = create((set, get) => ({
     // Check if target is a mock user
     const targetUser = onlineUsers.get(targetUserId);
 
-    // Get sender data - try character store first, then presence, then fallback
-    let senderData = currentUserPresence;
-    let senderName = senderData?.characterName || senderData?.name || 'Unknown';
-    let senderClass = senderData?.class || 'Unknown';
-    let senderLevel = senderData?.level || 1;
-    let senderId = senderData?.userId || 'unknown_user';
+    // Resolve game state synchronously so message payload is complete before emitting
+    let gameStoreState = null;
+    let currentPlayer = null;
+    let multiplayerSocket = null;
+    try {
+      gameStoreState = require('./gameStore').default.getState();
+      currentPlayer = gameStoreState?.currentPlayer || null;
+      multiplayerSocket = gameStoreState?.multiplayerSocket || null;
+    } catch (e) {
+      // gameStore not available, continue with presence/socket data
+    }
 
-    // Try to get from character store if in multiplayer
-    import('./gameStore').then(({ default: useGameStore }) => {
-      const gameStore = useGameStore.getState();
-      if (gameStore.isInMultiplayer) {
-        import('./characterStore').then(({ default: useCharacterStore }) => {
-          const characterState = useCharacterStore.getState();
-          if (characterState.name) {
-            senderName = characterState.name;
-            senderClass = characterState.class || 'Unknown';
-            senderLevel = characterState.level || 1;
-          }
-        }).catch(() => {
-          // Ignore if character store not available
-        });
+    // Stable sender identity (avoid unknown placeholders that break routing/anchors)
+    const senderId =
+      currentUserPresence?.userId ||
+      currentPlayer?.id ||
+      multiplayerSocket?.id ||
+      socket?.id ||
+      'current-player';
+
+    let senderName =
+      currentUserPresence?.characterName ||
+      currentUserPresence?.name ||
+      currentPlayer?.characterName ||
+      currentPlayer?.name ||
+      'Unknown';
+
+    let senderClass =
+      currentUserPresence?.class ||
+      currentPlayer?.character?.class ||
+      'Unknown';
+
+    let senderLevel =
+      currentUserPresence?.level ||
+      currentPlayer?.character?.level ||
+      1;
+
+    // If we can map sender to party member, prefer party metadata for consistency
+    try {
+      const partyStore = require('./partyStore').default;
+      const partyState = partyStore.getState();
+      const senderPartyMember = partyState.partyMembers.find(m => m.id === senderId);
+      if (senderPartyMember) {
+        senderName = senderPartyMember.name || senderName;
+        senderClass = senderPartyMember.character?.class || senderClass;
+        senderLevel = senderPartyMember.character?.level || senderLevel;
       }
-    }).catch(() => {
-      // Ignore if game store not available
-    });
+    } catch (e) {
+      // Party store not available, keep existing sender metadata
+    }
 
     // Try to get recipient name from party store if in multiplayer
     let recipientName = targetUser?.characterName || targetUser?.name || 'Unknown';
@@ -376,18 +413,13 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    // CRITICAL FIX: Only add message locally for single-player mode
-    // In multiplayer mode, wait for server confirmation to avoid duplication
-    let isInMultiplayer = false;
-    try {
-      const gameStore = require('./gameStore').default.getState();
-      isInMultiplayer = gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected;
-    } catch (e) {
-      // Ignore if gameStore not available
-    }
+    // Only skip local add when multiplayer socket is actively connected
+    // (server will echo/confirm to avoid duplication)
+    const hasMultiplayerSocketConnection =
+      !!(gameStoreState?.isInMultiplayer && multiplayerSocket?.connected);
 
     // Only add locally if NOT in multiplayer mode (server will send confirmation)
-    if (!isInMultiplayer) {
+    if (!hasMultiplayerSocketConnection) {
       // Single-player mode or no socket - add locally
       get().addWhisperMessage(targetUserId, message);
     }
@@ -396,19 +428,10 @@ const usePresenceStore = create((set, get) => ({
       // Real user - send via socket (server will send confirmation)
       socket.emit('whisper_message', message);
     } else {
-      // Check if we're in multiplayer mode and use multiplayer socket
-      import('./gameStore').then(({ default: useGameStore }) => {
-        const gameStore = useGameStore.getState();
-        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-          // Use multiplayer socket for whispers (server will send confirmation)
-          gameStore.multiplayerSocket.emit('whisper_message', message);
-        } else if (isInMultiplayer) {
-          // Already added locally above if !isInMultiplayer
-          // This case is for when isInMultiplayer is true but socket specifically is not connected
-        }
-      }).catch(() => {
-        // Ignore errors if gameStore not available
-      });
+      // Use multiplayer socket when available
+      if (multiplayerSocket && multiplayerSocket.connected) {
+        multiplayerSocket.emit('whisper_message', message);
+      }
     }
 
     return true;
@@ -684,9 +707,26 @@ const usePresenceStore = create((set, get) => ({
    * Add party chat message
    */
   addPartyChatMessage: (message) => {
-    set(state => ({
-      partyChatMessages: [...state.partyChatMessages, message].slice(-100)
-    }));
+    set(state => {
+      const incomingId = message?.id;
+      const hasDuplicateById = incomingId
+        ? state.partyChatMessages.some(msg => msg.id === incomingId)
+        : false;
+
+      const hasDuplicateBySignature = state.partyChatMessages.some(msg =>
+        msg.senderId === message.senderId &&
+        msg.content === message.content &&
+        msg.timestamp === message.timestamp
+      );
+
+      if (hasDuplicateById || hasDuplicateBySignature) {
+        return state;
+      }
+
+      return {
+        partyChatMessages: [...state.partyChatMessages, message].slice(-100)
+      };
+    });
   },
 
   /**

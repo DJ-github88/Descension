@@ -14,6 +14,16 @@ import LootTab from './LootTab';
 import CombatTab from './CombatTab';
 import { getIconUrl } from '../../utils/assetManager';
 
+const PLACEHOLDER_NAMES = new Set(['character name', 'unknown', 'guest']);
+
+const sanitizeDisplayName = (value) => {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (PLACEHOLDER_NAMES.has(trimmed.toLowerCase())) return null;
+  return trimmed;
+};
+
 const TabbedChat = () => {
   const [messageInput, setMessageInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -34,6 +44,15 @@ const TabbedChat = () => {
   const characterName = useCharacterStore((state) => state.name);
   const characterClass = useCharacterStore((state) => state.class);
   const characterLevel = useCharacterStore((state) => state.level);
+  const currentGamePlayer = useGameStore((state) => state.currentPlayer);
+
+  const getBestDisplayName = (...candidates) => {
+    for (const candidate of candidates) {
+      const clean = sanitizeDisplayName(candidate);
+      if (clean) return clean;
+    }
+    return 'Unknown';
+  };
 
   // Get current messages based on active tab
   const getCurrentMessages = () => {
@@ -82,10 +101,25 @@ const TabbedChat = () => {
       sendGlobalMessage(content);
     } else if (activeTab === 'party') {
       // Party chat: Allow if in party, even without full authentication
-      const senderName = characterName || currentUserPresence?.characterName || 'Unknown';
+      const partyMembers = usePartyStore.getState().partyMembers;
+      const senderName = getBestDisplayName(
+        currentUserPresence?.characterName,
+        characterName,
+        currentGamePlayer?.name,
+        currentUserPresence?.displayName,
+        currentUserPresence?.accountName,
+        partyMembers.find((m) => sanitizeDisplayName(m?.characterName))?.characterName,
+        partyMembers.find((m) => sanitizeDisplayName(m?.name))?.name
+      );
       const senderClass = characterClass || currentUserPresence?.class || 'Adventurer';
       const senderLevel = characterLevel || currentUserPresence?.level || 1;
-      const senderId = currentUserPresence?.userId || 'unknown_user';
+      const { multiplayerSocket } = useGameStore.getState();
+      const senderId =
+        currentUserPresence?.userId ||
+        currentGamePlayer?.id ||
+        partyMembers.find(m => m.name === senderName || m.characterName === senderName)?.id ||
+        multiplayerSocket?.id ||
+        'current-player';
 
       // Send party message
       const message = {
@@ -103,10 +137,13 @@ const TabbedChat = () => {
       console.log('📊 Party chat messages before:', partyChatMessages.length);
 
       // Check if in multiplayer mode and send through socket
-      const { multiplayerSocket } = useGameStore.getState();
+      const { multiplayerSocket: gameSocket } = useGameStore.getState();
       const { sendMultiplayerMessage } = useChatStore.getState();
-      if (multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
+      if (gameSocket && gameSocket.connected && sendMultiplayerMessage) {
         console.log('💬 Sending party message through multiplayer socket');
+        // Optimistic local append so sender immediately sees their own message
+        // even if socket echo is delayed/missed.
+        addPartyChatMessage(message);
         sendMultiplayerMessage(content);
         setMessageInput('');
         return;
@@ -146,10 +183,13 @@ const TabbedChat = () => {
     // Party chat: Allow if in party, even without full authentication
     if (activeTab === 'party' && isInParty) {
       // Use fallback character data if currentUserPresence not available
-      const displayName = currentUserPresence?.accountName || 
-                       currentUserPresence?.characterName || 
-                       characterName || 
-                       'Player';
+      const displayName = getBestDisplayName(
+        currentUserPresence?.accountName,
+        currentUserPresence?.characterName,
+        characterName,
+        currentGamePlayer?.name,
+        'Player'
+      );
       return `Message your party - ${displayName}`;
     }
   
@@ -159,10 +199,13 @@ const TabbedChat = () => {
       const tab = whisperTabs.get(userId);
       if (tab && tab.user) {
         const targetName = tab.user.characterName || tab.user.name || 'Unknown';
-        const displayName = currentUserPresence?.accountName || 
-                         currentUserPresence?.characterName || 
-                         characterName || 
-                         'Player';
+        const displayName = getBestDisplayName(
+          currentUserPresence?.accountName,
+          currentUserPresence?.characterName,
+          characterName,
+          currentGamePlayer?.name,
+          'Player'
+        );
         return `Whisper to ${targetName} - ${displayName}`;
       }
     }
@@ -173,9 +216,13 @@ const TabbedChat = () => {
     }
   
     // Normal placeholder for authenticated users
-    let displayName = currentUserPresence?.accountName || 
-                     currentUserPresence?.characterName || 
-                     'Unknown';
+    let displayName = getBestDisplayName(
+      currentUserPresence?.accountName,
+      currentUserPresence?.characterName,
+      characterName,
+      currentGamePlayer?.name,
+      'Unknown'
+    );
     if (currentUserPresence?.characterName && 
         currentUserPresence?.accountName &&
         currentUserPresence.characterName !== 'Guest' && 
@@ -204,6 +251,7 @@ const TabbedChat = () => {
   const renderMessage = (message) => {
     // For testing without login, check against 'test_user' as well
     const isOwnMessage = message.senderId === currentUserPresence?.userId ||
+      message.senderId === currentGamePlayer?.id ||
       (message.senderId === 'test_user' && !currentUserPresence);
 
     if (message.type === 'system') {

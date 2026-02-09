@@ -29,10 +29,11 @@ const MapSwitchConfirmDialog = ({
             title="Map Selection"
             isOpen={isOpen}
             onClose={onClose}
-            defaultSize={{ width: 440, height: 380 }}
+            defaultSize={{ width: 440, height: 450 }}
             defaultPosition={position}
-            isModal={true}
+            modal={true}
             resizable={false}
+            centered={true}
         >
             <div className="map-switch-confirm-dialog">
                 <div className="dialog-header-section">
@@ -81,4 +82,3 @@ const MapSwitchConfirmDialog = ({
 };
 
 export default MapSwitchConfirmDialog;
-

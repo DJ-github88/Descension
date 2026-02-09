@@ -3,8 +3,7 @@ import { createPortal } from 'react-dom';
 import useSettingsStore from '../../store/settingsStore';
 import usePresenceStore from '../../store/presenceStore';
 import usePartyStore from '../../store/partyStore';
-import useCharacterStore from '../../store/characterStore';
-import './chat-bubble.css';
+import '../../styles/chat-bubble.css';
 
 const ChatBubbleManager = () => {
   const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
@@ -17,7 +16,6 @@ const ChatBubbleManager = () => {
   const partyMembers = usePartyStore(state => state.partyMembers);
   
   // Get current user's ID from presence store
-  const currentUser = useCharacterStore(state => state.name);
   const currentUserId = usePresenceStore(state => 
     state.currentUserPresence?.userId || 'current-player'
   );
@@ -32,10 +30,13 @@ const ChatBubbleManager = () => {
       return true;
     }
     
-    // Whisper messages: only recipient sees bubble
-    if (message.type === 'whisper_sent' || message.type === 'whisper_received') {
-      // Check if current user is the recipient
-      return message.recipientId === currentUserId;
+    // Whisper messages: recipient always sees incoming; sender sees own sent whisper
+    if (message.type === 'whisper_received') {
+      return !message.recipientId || message.recipientId === currentUserId;
+    }
+
+    if (message.type === 'whisper_sent') {
+      return message.senderId === currentUserId;
     }
     
     // System messages: no bubbles
@@ -44,10 +45,24 @@ const ChatBubbleManager = () => {
   
   // Get sender's screen position
   const getSenderPosition = (senderName, senderId) => {
+    const esc = (value) => {
+      if (!value) return '';
+      if (typeof window !== 'undefined' && window.CSS && window.CSS.escape) {
+        return window.CSS.escape(String(value));
+      }
+      return String(value).replace(/"/g, '\\"');
+    };
+
+    const safeSenderId = esc(senderId);
+    const safeSenderName = esc(senderName);
+
     // Try party member HUD position first (look for data-player-id)
-    const hudMemberElement = document.querySelector(
-      `[data-player-id="${senderId}"], [data-character-name="${senderName}"]`
-    );
+    const hudSelector = [
+      safeSenderId ? `[data-player-id="${safeSenderId}"]` : null,
+      safeSenderName ? `[data-character-name="${safeSenderName}"]` : null
+    ].filter(Boolean).join(', ');
+
+    const hudMemberElement = hudSelector ? document.querySelector(hudSelector) : null;
     
     if (hudMemberElement) {
       const rect = hudMemberElement.getBoundingClientRect();
@@ -60,11 +75,33 @@ const ChatBubbleManager = () => {
         element: hudMemberElement  // Store reference for dynamic updates
       };
     }
+
+    // Fallback: try matching party HUD member text by sender name
+    if (senderName) {
+      const partyFrames = Array.from(document.querySelectorAll('.party-member-frame'));
+      const matchingFrame = partyFrames.find((frame) => {
+        const nameEl = frame.querySelector('.member-name');
+        const text = (nameEl?.textContent || '').toLowerCase();
+        return text.includes(String(senderName).toLowerCase());
+      });
+
+      if (matchingFrame) {
+        const rect = matchingFrame.getBoundingClientRect();
+        return {
+          x: rect.right + 10,
+          y: rect.top + rect.height / 2 - 30,
+          element: matchingFrame
+        };
+      }
+    }
     
     // Fallback: Try token position
-    const tokenElement = document.querySelector(
-      `[data-character-name="${senderName}"], [data-player-id="${senderId}"]`
-    );
+    const tokenSelector = [
+      safeSenderName ? `[data-character-name="${safeSenderName}"]` : null,
+      safeSenderId ? `[data-player-id="${safeSenderId}"]` : null
+    ].filter(Boolean).join(', ');
+
+    const tokenElement = tokenSelector ? document.querySelector(tokenSelector) : null;
     
     if (tokenElement) {
       const rect = tokenElement.getBoundingClientRect();
@@ -106,6 +143,7 @@ const ChatBubbleManager = () => {
           senderId: msg.senderId,
           content: msg.content,
           position,
+          anchorElement: position.element,
           timestamp: Date.now()
         });
       }
@@ -126,6 +164,7 @@ const ChatBubbleManager = () => {
           senderId: msg.senderId,
           content: msg.content,
           position,
+          anchorElement: position.element,
           timestamp: Date.now()
         });
       }
@@ -148,6 +187,7 @@ const ChatBubbleManager = () => {
             senderId: msg.senderId,
             content: msg.content,
             position,
+            anchorElement: position.element,
             timestamp: Date.now(),
             isWhisper: true  // For visual styling distinction
           });
@@ -180,8 +220,8 @@ const ChatBubbleManager = () => {
     const handleResize = () => {
       setActiveBubbles(prev => 
         prev.map(bubble => {
-          if (bubble.element) {
-            const rect = bubble.element.getBoundingClientRect();
+          if (bubble.anchorElement) {
+            const rect = bubble.anchorElement.getBoundingClientRect();
             return {
               ...bubble,
               position: {

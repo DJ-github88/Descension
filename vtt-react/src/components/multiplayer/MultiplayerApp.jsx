@@ -1808,32 +1808,41 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('chat_message', (message) => {
       console.log('💬 Received party chat message:', message);
 
+      const resolvedSenderId = message.playerId || message.senderId || message.userId || message.socketId || null;
+      const resolvedSenderName = message.playerName || message.senderName || message.characterName || 'Unknown';
+      const resolvedTimestamp = message.timestamp || message.serverTimestamp || new Date().toISOString();
+      const resolvedContent = message.content || message.message || '';
+      const normalizedMessageId =
+        message.id ||
+        message.messageId ||
+        message.clientMessageId ||
+        `${resolvedSenderId || 'unknown_party_sender'}:${resolvedTimestamp}:${resolvedContent}`;
+
       // Add to notifications
       addNotification('social', {
         sender: {
-          name: message.playerName,
+          name: resolvedSenderName,
           class: message.isGM ? 'GM' : 'Player',
           level: 1,
           playerColor: message.playerColor || (message.isGM ? '#d4af37' : '#4a90e2')
         },
-        content: message.content,
+        content: resolvedContent,
         type: 'message',
-        timestamp: message.timestamp,
-        playerId: message.playerId,
+        timestamp: resolvedTimestamp,
+        playerId: resolvedSenderId,
         isGM: message.isGM
       });
 
       // Add to presence store party chat
       if (message.type === 'party' || message.type === 'chat') {
-        const timestamp = message.timestamp || new Date().toISOString();
         usePresenceStore.getState().addPartyChatMessage({
-          id: message.id || `msg_${Date.now()}`,
-          senderId: message.playerId,
-          senderName: message.playerName,
+          id: normalizedMessageId,
+          senderId: resolvedSenderId || 'unknown_party_sender',
+          senderName: resolvedSenderName,
           senderClass: message.isGM ? 'GM' : 'Player',
           senderLevel: 1,
-          content: message.content,
-          timestamp: timestamp,
+          content: resolvedContent,
+          timestamp: resolvedTimestamp,
           type: 'party'
         });
         console.log('✅ Party message added to presence store');
@@ -4247,22 +4256,25 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const { addWhisperMessage, setActiveTab } = usePresenceStore.getState();
         // Add whisper message to the appropriate tab
         // Use senderId to create/update the whisper tab (tab is for the sender)
-        const senderId = message.senderId;
+        const senderId = message.senderId || message.playerId || message.userId;
         if (!senderId) {
           console.error('Whisper message missing senderId:', message);
           return;
         }
 
+        const currentPlayerId = currentPlayerRef.current?.id;
+        const currentPlayerName = currentPlayerRef.current?.name;
+
         // Create tab if it doesn't exist and switch to it
         const whisperTabId = `whisper_${senderId}`;
         addWhisperMessage(senderId, {
           id: message.id || `whisper_${Date.now()}`,
-          senderId: message.senderId,
+          senderId,
           senderName: message.senderName || 'Unknown',
           senderClass: message.senderClass || 'Unknown',
           senderLevel: message.senderLevel || 1,
-          recipientId: message.recipientId || currentPlayerRef.current?.id,
-          recipientName: message.recipientName || currentPlayerRef.current?.name || 'Unknown',
+          recipientId: message.recipientId || currentPlayerId,
+          recipientName: message.recipientName || currentPlayerName || 'Unknown',
           content: message.content,
           timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
           type: 'whisper_received'
@@ -5526,10 +5538,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Get current player data for the message
           const activeCharacter = getActiveCharacter();
           const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
+          const currentPlayerId = currentPlayerData?.id || currentPlayerRef.current?.id || socketConnection?.id;
 
           socketConnection.emit('chat_message', {
             message: message,
+            content: message,
             type: 'party' // Explicitly set as party chat
+            ,
+            playerId: currentPlayerId,
+            senderId: currentPlayerId,
+            playerName: currentPlayerCharacterName,
+            senderName: currentPlayerCharacterName
           });
         } else {
           console.error('No socket connection for chat or socket disconnected');

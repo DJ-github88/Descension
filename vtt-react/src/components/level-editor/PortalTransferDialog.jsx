@@ -216,7 +216,7 @@ const PortalTransferDialog = ({
             title="Connection Transfer"
             isOpen={isOpen}
             onClose={onClose}
-            defaultSize={{ width: 500, height: 420 }}
+            defaultSize={{ width: 500, height: 480 }}
             defaultPosition={position}
             className="portal-transfer-dialog-window"
         >
