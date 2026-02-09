@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './styles/MapTransitionOverlay.css';
 
+export const MAP_TRANSITION_TIMINGS = {
+    FADE_IN_MS: 500,
+    SHOW_START_MS: 500,
+    EXIT_START_MS: 2000,
+    COMPLETE_MS: 2500,
+    // Map/data swap should happen only after fade-in has fully covered the viewport.
+    SAFE_SWAP_MS: 550
+};
+
 /**
  * MapTransitionOverlay - RPG-style transition effect when changing maps
  * Shows a cinematic blur/fade with the map name before revealing the new location
@@ -25,12 +34,12 @@ const MapTransitionOverlay = ({
         const showTimer = setTimeout(() => {
             // Phase 2: Show map name (500-2000ms)
             setPhase('showing');
-        }, 500);
+        }, MAP_TRANSITION_TIMINGS.SHOW_START_MS);
 
         const exitTimer = setTimeout(() => {
             // Phase 3: Fade out (2000-2500ms)
             setPhase('exiting');
-        }, 2000);
+        }, MAP_TRANSITION_TIMINGS.EXIT_START_MS);
 
         const completeTimer = setTimeout(() => {
             // Phase 4: Complete
@@ -38,7 +47,7 @@ const MapTransitionOverlay = ({
             if (onTransitionComplete) {
                 onTransitionComplete();
             }
-        }, 2500);
+        }, MAP_TRANSITION_TIMINGS.COMPLETE_MS);
 
         return () => {
             clearTimeout(showTimer);

@@ -5,7 +5,7 @@ import RoomLobby from './RoomLobby';
 // Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
 import CursorTracker from './CursorTracker';
-import MapTransitionOverlay from './MapTransitionOverlay';
+import MapTransitionOverlay, { MAP_TRANSITION_TIMINGS } from './MapTransitionOverlay';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
@@ -211,29 +211,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // NOTE: playerMapAssignments is now centralized in partyStore - see usePartyStore
   const isInitialMapLoadRef = useRef(true); // Flag to skip transition on first load
 
-  // Sync ref with state
-  useEffect(() => {
-    playerCurrentMapIdRef.current = playerCurrentMapId;
-  }, [playerCurrentMapId]);
-
-  // CRITICAL FIX: Sync playerCurrentMapId with mapStore.currentMapId
-  // This ensures the client-side filter for map_updated events is always correct,
-  // even when GM switches maps manually via switchToMap() without server assignment
-  // NOTE: Using full state subscription since mapStore doesn't have subscribeWithSelector
-  useEffect(() => {
-    let lastMapId = playerCurrentMapIdRef.current;
-    const unsubscribe = useMapStore.subscribe((state) => {
-      const currentMapId = state.currentMapId;
-      if (currentMapId && currentMapId !== lastMapId) {
-        lastMapId = currentMapId;
-        setPlayerCurrentMapId(currentMapId);
-        playerCurrentMapIdRef.current = currentMapId;
-        console.log(`🗺️ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
   const { setGMMode, setMultiplayerState, isGMMode, isInMultiplayer, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, cursorUpdateThrottle } = useGameStore((state) => ({
@@ -252,10 +229,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Get map transition preference from settings store
   const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
-
-
-  // Settings state
   const showCursorTracking = useSettingsStore(state => state.showCursorTracking);
+
   const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore((state) => ({
     updateCharacterInfo: state.updateCharacterInfo,
     setRoomName: state.setRoomName,
@@ -264,12 +239,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     startCharacterSession: state.startCharacterSession,
     endCharacterSession: state.endCharacterSession
   }));
+
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore((state) => ({
     addPartyMember: state.addPartyMember,
     removePartyMember: state.removePartyMember,
     createParty: state.createParty,
     updatePartyMember: state.updatePartyMember
   }));
+
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore((state) => ({
     addUser: state.addUser,
     removeUser: state.removeUser,
@@ -278,6 +255,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setMultiplayerIntegration: state.setMultiplayerIntegration,
     clearMultiplayerIntegration: state.clearMultiplayerIntegration
   }));
+
   const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken, removeToken, clearCreatureTokens } = useCreatureStore((state) => ({
     updateTokenPosition: state.updateTokenPosition,
     addCreature: state.addCreature,
@@ -285,20 +263,65 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     removeToken: state.removeToken,
     clearCreatureTokens: state.clearCreatureTokens
   }));
+
   const { updateCharacterTokenPosition, addCharacterTokenFromServer, removeCharacterToken, clearCharacterTokens } = useCharacterTokenStore((state) => ({
     updateCharacterTokenPosition: state?.updateCharacterTokenPosition || (() => console.warn('updateCharacterTokenPosition not available')),
     addCharacterTokenFromServer: state?.addCharacterTokenFromServer || (() => console.warn('addCharacterTokenFromServer not available')),
     removeCharacterToken: state?.removeCharacterToken || (() => console.warn('removeCharacterToken not available')),
     clearCharacterTokens: state?.clearCharacterTokens || (() => console.warn('clearCharacterTokens not available'))
   }));
+
   const { setMultiplayerSocket } = useDialogueStore((state) => ({
     setMultiplayerSocket: state.setMultiplayerSocket
   }));
+
   const { nextTurn, startCombat, getCombatState } = useCombatStore((state) => ({
     nextTurn: state.nextTurn,
     startCombat: state.startCombat,
     getCombatState: state.getCombatState
   }));
+
+  // Sync ref with state
+  useEffect(() => {
+    playerCurrentMapIdRef.current = playerCurrentMapId;
+  }, [playerCurrentMapId]);
+
+  // Manual map transition requests from UI flows (e.g. MapLibraryWindow / MapSwitcher)
+  useEffect(() => {
+    const handleManualMapTransitionRequested = (event) => {
+      if (!showMapTransitions) return;
+
+      const detail = event?.detail || {};
+      setMapTransition({
+        isActive: true,
+        mapName: detail.mapName || 'Unknown Realm',
+        transferredByGM: !!detail.transferredByGM
+      });
+    };
+
+    window.addEventListener('manual_map_transition_requested', handleManualMapTransitionRequested);
+    return () => {
+      window.removeEventListener('manual_map_transition_requested', handleManualMapTransitionRequested);
+    };
+  }, [showMapTransitions]);
+
+  // CRITICAL FIX: Sync playerCurrentMapId with mapStore.currentMapId
+  // This ensures the client-side filter for map_updated events is always correct,
+  // even when GM switches maps manually via switchToMap() without server assignment
+  // NOTE: Using full state subscription since mapStore doesn't have subscribeWithSelector
+  useEffect(() => {
+    let lastMapId = playerCurrentMapIdRef.current;
+    const unsubscribe = useMapStore.subscribe((state) => {
+      const currentMapId = state.currentMapId;
+      if (currentMapId && currentMapId !== lastMapId) {
+        lastMapId = currentMapId;
+        setPlayerCurrentMapId(currentMapId);
+        playerCurrentMapIdRef.current = currentMapId;
+        console.log(`🗺️ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
@@ -3556,8 +3579,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       console.log(`[Map] WE are being transferred to ${data.newMapId} (${data.newMapName || 'Unknown'})`);
 
-      // Show transition overlay - but skip on first entry to the room UNLESS it's a portal transfer
-      const isPortalTransfer = !!data.portalUsed;
+      // Show transition overlay - but skip on first entry to the room UNLESS it's a connection/portal transfer
+      const hasPortalMetadata = !!(
+        data.portalUsed && (
+          data.portalUsed.transferType === 'connection' ||
+          data.portalUsed.sourceConnectionId ||
+          data.portalUsed.destinationConnectionId ||
+          data.portalUsed.sourceMapId ||
+          data.portalUsed.destinationMapId
+        )
+      );
+
+      // Defensive fallback for legacy payloads that may omit portalUsed
+      const inferredConnectionTransfer = !!(
+        !data.transferredByGM &&
+        data.newMapId &&
+        data.centerPosition &&
+        Number.isFinite(data.centerPosition.x) &&
+        Number.isFinite(data.centerPosition.y)
+      );
+
+      const isPortalTransfer = hasPortalMetadata || inferredConnectionTransfer;
       const shouldShowTransition = showMapTransitions && (!isInitialMapLoadRef.current || isPortalTransfer);
 
       if (shouldShowTransition) {
@@ -3590,8 +3632,36 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // CRITICAL FIX: Update local map ID for filtering AND mapStore.currentMapId for terrain updates
       setPlayerCurrentMapId(data.newMapId);
 
-      // CRITICAL FIX: Defer heavy synchronization work to allow transition overlay to mount/animate
-      console.log(`⏱️ Deferring map data loading for ${data.newMapId} to allow transition effect...`);
+      // IMMEDIATE CAMERA LOCK: Establish authority immediately (before the defer delay) 
+      // to prevent other systems (like Grid.jsx auto-token-centering) from overriding 
+      // the camera during the loading/transition period.
+      if (
+        data.centerPosition &&
+        Number.isFinite(data.centerPosition.x) &&
+        Number.isFinite(data.centerPosition.y)
+      ) {
+        const gameStore = useGameStore.getState();
+        if (typeof gameStore.markTransferCameraAuthoritative === 'function') {
+          gameStore.markTransferCameraAuthoritative(
+            { x: data.centerPosition.x, y: data.centerPosition.y },
+            2500, // 2.5s lock to cover transition
+            'multiplayer-player_map_changed-immediate'
+          );
+          console.log('🎯 [player_map_changed] Initial authoritative camera lock established', {
+            pos: data.centerPosition,
+            mapId: data.newMapId
+          });
+        }
+
+        // Apply position immediately as well
+        if (gameStore.setCameraPosition) {
+          gameStore.setCameraPosition(data.centerPosition.x, data.centerPosition.y);
+        }
+      }
+
+      // CRITICAL FIX: Defer heavy synchronization work until transition fade-in has covered viewport.
+      const mapSwapDelay = shouldShowTransition ? MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
+      console.log(`⏱️ Deferring map data loading for ${data.newMapId} by ${mapSwapDelay}ms to avoid pre-reveal/flicker...`);
       setTimeout(() => {
         // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
         // This is the KEY fix for terrain appearing on wrong map
@@ -3774,17 +3844,48 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           useGridItemStore.setState({ gridItems: updatedGridItems });
         });
 
-        // Center camera on destination position if provided
-        if (data.centerPosition) {
+        // Center camera on destination position if provided.
+        // Apply immediately and again on next frame so this remains the final camera write
+        // after map payload hydration and any late store updates.
+        if (
+          data.centerPosition &&
+          Number.isFinite(data.centerPosition.x) &&
+          Number.isFinite(data.centerPosition.y)
+        ) {
           const gameStore = useGameStore.getState();
+          if (typeof gameStore.markTransferCameraAuthoritative === 'function') {
+            gameStore.markTransferCameraAuthoritative(
+              { x: data.centerPosition.x, y: data.centerPosition.y },
+              2500,
+              'multiplayer-player_map_changed-initial'
+            );
+          }
           if (gameStore.setCameraPosition) {
             gameStore.setCameraPosition(data.centerPosition.x, data.centerPosition.y);
+            requestAnimationFrame(() => {
+              const latestGameStore = useGameStore.getState();
+              if (typeof latestGameStore.markTransferCameraAuthoritative === 'function') {
+                latestGameStore.markTransferCameraAuthoritative(
+                  { x: data.centerPosition.x, y: data.centerPosition.y },
+                  2500,
+                  'multiplayer-player_map_changed-raf'
+                );
+              }
+              if (latestGameStore.setCameraPosition) {
+                latestGameStore.setCameraPosition(data.centerPosition.x, data.centerPosition.y);
+                console.log('🎯 [player_map_changed] Re-applied destination center as final camera write', {
+                  mapId: data.newMapId,
+                  centerPosition: data.centerPosition,
+                  source: 'multiplayer-player_map_changed'
+                });
+              }
+            });
           }
         }
 
         usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current?.id, data.newMapId);
         console.log(`✅ [player_map_changed] Player view switched to map: ${data.newMapName || data.newMapId}`);
-      }, 50); // 50ms is enough for a React render cycle to start the transition
+      }, mapSwapDelay);
     });
 
 
@@ -3814,7 +3915,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log('[GM VIEW CHANGED] Processing view change for GM:', data.gmName);
 
       // Show transition overlay only for GM
-      if (!isInitialMapLoadRef.current && showMapTransitions) {
+      const shouldShowTransition = !isInitialMapLoadRef.current && showMapTransitions;
+      if (shouldShowTransition) {
         // CRITICAL FIX: Look up map name from local store if server provided a fallback string
         const localMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId);
         let mapName = data.mapName || localMap?.name || 'Unknown Realm';
@@ -3832,209 +3934,218 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
+      const gmMapSwapDelay = shouldShowTransition ? MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
+
       // Mark that initial load is complete after first view change
       isInitialMapLoadRef.current = false;
+      const processGmViewChange = () => {
+        // Update local map ID for GM (for filtering incoming updates)
+        setPlayerCurrentMapId(data.newMapId);
 
 
-      // Update local map ID for GM (for filtering incoming updates)
-      setPlayerCurrentMapId(data.newMapId);
+        // Capture previous map before switching so later cleanup/remap logic can use it safely
+        const previousMapId = useMapStore.getState().currentMapId;
 
+        // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
+        // useMapStore is already imported at the top of the file - use it directly, not async import
+        const mapStoreState = useMapStore.getState();
+        // Check if map exists in local store
+        const existingMap = mapStoreState.maps?.find(m => m.id === data.newMapId);
 
-      // Capture previous map before switching so later cleanup/remap logic can use it safely
-      const previousMapId = useMapStore.getState().currentMapId;
+        // Determine best name for mapStore
+        const resolvedMapName = data.mapName || data.mapData?.name || (existingMap?.name && !existingMap.name.startsWith('Map ') ? existingMap.name : `Map ${data.newMapId}`);
 
-      // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
-      // useMapStore is already imported at the top of the file - use it directly, not async import
-      const mapStoreState = useMapStore.getState();
-      // Check if map exists in local store
-      const existingMap = mapStoreState.maps?.find(m => m.id === data.newMapId);
-
-      // Determine best name for mapStore
-      const resolvedMapName = data.mapName || data.mapData?.name || (existingMap?.name && !existingMap.name.startsWith('Map ') ? existingMap.name : `Map ${data.newMapId}`);
-
-      if (!existingMap) {
-        console.log('[GM VIEW CHANGED] Creating map in local store:', data.newMapId, resolvedMapName);
-        // Create a map in local store
-        mapStoreState.createMapWithoutSwitching({
-          id: data.newMapId,
-          name: resolvedMapName
-        });
-      } else if (resolvedMapName && (!existingMap.name || existingMap.name.startsWith('Map ')) && !resolvedMapName.startsWith('Map ')) {
-        // Update existing map name if it was a fallback
-        mapStoreState.updateMap(data.newMapId, { name: resolvedMapName });
-      }
-
-      // SYNCHRONOUS update to ensure terrain updates use correct mapId immediately
-      useMapStore.setState({ currentMapId: data.newMapId });
-
-      // CRITICAL FIX: Update GM's assignment in partyStore so their tag moves in Map Library
-      // FIXED: Changed data.mapId (doesn't exist) to data.newMapId
-      if (currentPlayerRef.current?.id) {
-        console.log('[GM VIEW CHANGED] Updating GM assignment:', currentPlayerRef.current.id, '->', data.newMapId);
-        usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current.id, data.newMapId);
-      }
-
-
-      // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
-      // Wrap ALL operations in a single chain to prevent race conditions
-      import('../../store/levelEditorStore').then(({ mapUpdateBatcher }) => {
-        if (mapUpdateBatcher) {
-          mapUpdateBatcher.clear();
-          console.log('🧹 [gm_view_changed] Batcher cleared to prevent data bleeding');
-        }
-      }).then(() => {
-        // Step 1: Apply new map data to level editor store
-        return import('../../store/levelEditorStore');
-      }).then(({ default: useLevelEditorStore }) => {
-        const levelEditorStore = useLevelEditorStore.getState();
-        const mapData = data.mapData || {};
-        const localMapCache = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || {};
-
-        window._isReceivingMapUpdate = true;
-
-        // CRITICAL FIX: Avoid destructive clears when gm_view_changed payload is partial.
-        // Prefer incoming payload, then local map cache; preserve current state if both missing.
-        const nextTerrainData = mapData.terrainData ?? localMapCache.terrainData;
-        const nextWallData = mapData.wallData ?? localMapCache.wallData;
-        const nextDrawingPaths = mapData.drawingPaths ?? localMapCache.drawingPaths;
-        const nextDrawingLayers = mapData.drawingLayers ?? localMapCache.drawingLayers;
-        const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMapCache.fogOfWarPaths;
-        const nextFogErasePaths = mapData.fogErasePaths ?? localMapCache.fogErasePaths;
-        const nextDndElements = mapData.dndElements ?? localMapCache.dndElements;
-
-        if (nextTerrainData !== undefined) levelEditorStore.setTerrainData(nextTerrainData || {});
-        else console.warn('⚠️ [gm_view_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
-
-        if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
-        if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
-        if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
-        if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
-        if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
-        if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
-
-        setTimeout(() => {
-          window._isReceivingMapUpdate = false;
-          window._isMapSwitching = false;
-        }, 300);
-
-        return { mapData, localMapCache };
-      }).then(({ mapData, localMapCache }) => {
-        // Step 2: Apply game store backgrounds and grid settings
-        useGameStore.setState({
-          backgrounds: mapData.backgrounds ?? localMapCache.backgrounds ?? [],
-          activeBackgroundId: mapData.activeBackgroundId ?? localMapCache.activeBackgroundId ?? null,
-          gridSize: mapData.gridSettings?.gridSize ?? localMapCache.gridSettings?.gridSize ?? 50,
-          gridOffsetX: mapData.gridSettings?.gridOffsetX ?? localMapCache.gridSettings?.gridOffsetX ?? 0,
-          gridOffsetY: mapData.gridSettings?.gridOffsetY ?? localMapCache.gridSettings?.gridOffsetY ?? 0,
-          gridLineColor: mapData.gridSettings?.gridLineColor ?? localMapCache.gridSettings?.gridLineColor ?? '#000000',
-          gridLineThickness: mapData.gridSettings?.gridLineThickness ?? localMapCache.gridSettings?.gridLineThickness ?? 1
-        });
-      }).then(() => {
-        // Step 3: Reload token/item payloads.
-        // Guard against partial gm_view_changed payloads that omit token collections,
-        // which would otherwise clear stores and cause visible token loss for the GM.
-        const mapData = data.mapData || {};
-
-        const mapStoreMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || null;
-
-        const serverTokensRaw = mapData.tokens;
-        const serverCharacterTokensRaw = mapData.characterTokens;
-        const serverGridItemsRaw = mapData.gridItems;
-
-        const fallbackTokensRaw = mapStoreMap?.tokens;
-        const fallbackCharacterTokensRaw = mapStoreMap?.characterTokens;
-        const fallbackGridItemsRaw = mapStoreMap?.gridItems;
-
-        const tokensRaw = serverTokensRaw !== undefined ? serverTokensRaw : fallbackTokensRaw;
-        const characterTokensRaw = serverCharacterTokensRaw !== undefined ? serverCharacterTokensRaw : fallbackCharacterTokensRaw;
-        const gridItemsRaw = serverGridItemsRaw !== undefined ? serverGridItemsRaw : fallbackGridItemsRaw;
-
-        const hasTokenPayload = tokensRaw !== undefined || characterTokensRaw !== undefined;
-        const hasGridItemsPayload = gridItemsRaw !== undefined;
-
-        if (!hasTokenPayload) {
-          console.warn('⚠️ [gm_view_changed] Missing token payload - skipping destructive token clear to prevent accidental wipe');
-        } else {
-          clearCreatureTokens();
-          clearCharacterTokens();
-        }
-
-        if (!hasGridItemsPayload) {
-          console.warn('⚠️ [gm_view_changed] Missing gridItems payload - skipping destructive grid item clear to prevent accidental wipe');
-        }
-
-        // Load tokens for the new map
-        const tokens = tokensRaw ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw)) : [];
-        tokens.forEach(tokenData => {
-          // CRITICAL FIX: Robust creature data resolution
-          let creatureData = tokenData.creature;
-          if (!creatureData && tokenData.creatureId) {
-            creatureData = useCreatureStore.getState().creatures?.find(c => c.id === tokenData.creatureId);
-          }
-          if (creatureData) {
-            addCreature(creatureData);
-          }
-
-          const creatureRef = tokenData.creatureId || creatureData?.id || tokenData.creature;
-          if (creatureRef && tokenData.position) {
-            addToken(
-              creatureRef,
-              tokenData.position,
-              false,
-              tokenData.id || tokenData.tokenId,
-              tokenData.state,
-              data.newMapId || tokenData.mapId || 'default'
-            );
-          }
-        });
-
-        // Load character tokens for the new map
-        const characterTokens = characterTokensRaw ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw)) : [];
-        console.log('♟️ [gm_view_changed] Received characterTokens:', characterTokens.length, characterTokens);
-        characterTokens.forEach(tokenData => {
-          if (tokenData && tokenData.position) {
-            console.log('♟️ [gm_view_changed] Adding character token:', tokenData.id, tokenData.playerId, tokenData.position);
-            addCharacterTokenFromServer(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
-          }
-        });
-
-
-        return {
-          mapData,
-          gridItemsRaw,
-          previousMapId
-        };
-      })
-        .then(({ mapData, gridItemsRaw, previousMapId }) => {
-          // Step 4: Load grid items for this map
-          return import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-            const currentGridItems = useGridItemStore.getState().gridItems || [];
-            const mapGridItems = gridItemsRaw ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw)) : [];
-            const oldMapId = previousMapId;
-
-            // CRITICAL FIX: Always replace target map's items with payload (deduped),
-            // and keep non-target maps intact.
-            const nonTargetItems = currentGridItems.filter(item => (item?.mapId || 'default') !== data.newMapId);
-
-            const normalizedTargetItems = mapGridItems
-              .filter(item => (item?.mapId || data.newMapId || 'default') === data.newMapId)
-              .map(item => ({ ...item, mapId: item?.mapId || data.newMapId || 'default' }));
-
-            const dedupedTargetItems = Array.from(
-              new Map(normalizedTargetItems.map(item => [item.id, item])).values()
-            );
-
-            const updatedGridItems = [...nonTargetItems, ...dedupedTargetItems];
-            useGridItemStore.setState({ gridItems: updatedGridItems });
-
-            console.log(`✅ Map switch complete: ${data.mapName} (${data.newMapId})`, {
-              gridItemsLoaded: updatedGridItems.length,
-              terrainDataPoints: Object.keys(mapData?.terrainData || {}).length
-            });
+        if (!existingMap) {
+          console.log('[GM VIEW CHANGED] Creating map in local store:', data.newMapId, resolvedMapName);
+          // Create a map in local store
+          mapStoreState.createMapWithoutSwitching({
+            id: data.newMapId,
+            name: resolvedMapName
           });
-        }).catch(error => {
-          console.error('❌ Error during map switch:', error);
-        });
+        } else if (resolvedMapName && (!existingMap.name || existingMap.name.startsWith('Map ')) && !resolvedMapName.startsWith('Map ')) {
+          // Update existing map name if it was a fallback
+          mapStoreState.updateMap(data.newMapId, { name: resolvedMapName });
+        }
+
+        // SYNCHRONOUS update to ensure terrain updates use correct mapId immediately
+        useMapStore.setState({ currentMapId: data.newMapId });
+
+        // CRITICAL FIX: Update GM's assignment in partyStore so their tag moves in Map Library
+        // FIXED: Changed data.mapId (doesn't exist) to data.newMapId
+        if (currentPlayerRef.current?.id) {
+          console.log('[GM VIEW CHANGED] Updating GM assignment:', currentPlayerRef.current.id, '->', data.newMapId);
+          usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current.id, data.newMapId);
+        }
+
+
+        // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
+        // Wrap ALL operations in a single chain to prevent race conditions
+        import('../../store/levelEditorStore').then(({ mapUpdateBatcher }) => {
+          if (mapUpdateBatcher) {
+            mapUpdateBatcher.clear();
+            console.log('🧹 [gm_view_changed] Batcher cleared to prevent data bleeding');
+          }
+        }).then(() => {
+          // Step 1: Apply new map data to level editor store
+          return import('../../store/levelEditorStore');
+        }).then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          const mapData = data.mapData || {};
+          const localMapCache = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || {};
+
+          window._isReceivingMapUpdate = true;
+
+          // CRITICAL FIX: Avoid destructive clears when gm_view_changed payload is partial.
+          // Prefer incoming payload, then local map cache; preserve current state if both missing.
+          const nextTerrainData = mapData.terrainData ?? localMapCache.terrainData;
+          const nextWallData = mapData.wallData ?? localMapCache.wallData;
+          const nextDrawingPaths = mapData.drawingPaths ?? localMapCache.drawingPaths;
+          const nextDrawingLayers = mapData.drawingLayers ?? localMapCache.drawingLayers;
+          const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMapCache.fogOfWarPaths;
+          const nextFogErasePaths = mapData.fogErasePaths ?? localMapCache.fogErasePaths;
+          const nextDndElements = mapData.dndElements ?? localMapCache.dndElements;
+
+          if (nextTerrainData !== undefined) levelEditorStore.setTerrainData(nextTerrainData || {});
+          else console.warn('⚠️ [gm_view_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
+
+          if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
+          if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
+          if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
+          if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
+          if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
+          if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
+
+          setTimeout(() => {
+            window._isReceivingMapUpdate = false;
+            window._isMapSwitching = false;
+          }, 300);
+
+          return { mapData, localMapCache };
+        }).then(({ mapData, localMapCache }) => {
+          // Step 2: Apply game store backgrounds and grid settings
+          useGameStore.setState({
+            backgrounds: mapData.backgrounds ?? localMapCache.backgrounds ?? [],
+            activeBackgroundId: mapData.activeBackgroundId ?? localMapCache.activeBackgroundId ?? null,
+            gridSize: mapData.gridSettings?.gridSize ?? localMapCache.gridSettings?.gridSize ?? 50,
+            gridOffsetX: mapData.gridSettings?.gridOffsetX ?? localMapCache.gridSettings?.gridOffsetX ?? 0,
+            gridOffsetY: mapData.gridSettings?.gridOffsetY ?? localMapCache.gridSettings?.gridOffsetY ?? 0,
+            gridLineColor: mapData.gridSettings?.gridLineColor ?? localMapCache.gridSettings?.gridLineColor ?? '#000000',
+            gridLineThickness: mapData.gridSettings?.gridLineThickness ?? localMapCache.gridSettings?.gridLineThickness ?? 1
+          });
+        }).then(() => {
+          // Step 3: Reload token/item payloads.
+          // Guard against partial gm_view_changed payloads that omit token collections,
+          // which would otherwise clear stores and cause visible token loss for the GM.
+          const mapData = data.mapData || {};
+
+          const mapStoreMap = useMapStore.getState().maps?.find(m => m.id === data.newMapId) || null;
+
+          const serverTokensRaw = mapData.tokens;
+          const serverCharacterTokensRaw = mapData.characterTokens;
+          const serverGridItemsRaw = mapData.gridItems;
+
+          const fallbackTokensRaw = mapStoreMap?.tokens;
+          const fallbackCharacterTokensRaw = mapStoreMap?.characterTokens;
+          const fallbackGridItemsRaw = mapStoreMap?.gridItems;
+
+          const tokensRaw = serverTokensRaw !== undefined ? serverTokensRaw : fallbackTokensRaw;
+          const characterTokensRaw = serverCharacterTokensRaw !== undefined ? serverCharacterTokensRaw : fallbackCharacterTokensRaw;
+          const gridItemsRaw = serverGridItemsRaw !== undefined ? serverGridItemsRaw : fallbackGridItemsRaw;
+
+          const hasTokenPayload = tokensRaw !== undefined || characterTokensRaw !== undefined;
+          const hasGridItemsPayload = gridItemsRaw !== undefined;
+
+          if (!hasTokenPayload) {
+            console.warn('⚠️ [gm_view_changed] Missing token payload - skipping destructive token clear to prevent accidental wipe');
+          } else {
+            clearCreatureTokens();
+            clearCharacterTokens();
+          }
+
+          if (!hasGridItemsPayload) {
+            console.warn('⚠️ [gm_view_changed] Missing gridItems payload - skipping destructive grid item clear to prevent accidental wipe');
+          }
+
+          // Load tokens for the new map
+          const tokens = tokensRaw ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw)) : [];
+          tokens.forEach(tokenData => {
+            // CRITICAL FIX: Robust creature data resolution
+            let creatureData = tokenData.creature;
+            if (!creatureData && tokenData.creatureId) {
+              creatureData = useCreatureStore.getState().creatures?.find(c => c.id === tokenData.creatureId);
+            }
+            if (creatureData) {
+              addCreature(creatureData);
+            }
+
+            const creatureRef = tokenData.creatureId || creatureData?.id || tokenData.creature;
+            if (creatureRef && tokenData.position) {
+              addToken(
+                creatureRef,
+                tokenData.position,
+                false,
+                tokenData.id || tokenData.tokenId,
+                tokenData.state,
+                data.newMapId || tokenData.mapId || 'default'
+              );
+            }
+          });
+
+          // Load character tokens for the new map
+          const characterTokens = characterTokensRaw ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw)) : [];
+          console.log('♟️ [gm_view_changed] Received characterTokens:', characterTokens.length, characterTokens);
+          characterTokens.forEach(tokenData => {
+            if (tokenData && tokenData.position) {
+              console.log('♟️ [gm_view_changed] Adding character token:', tokenData.id, tokenData.playerId, tokenData.position);
+              addCharacterTokenFromServer(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
+            }
+          });
+
+
+          return {
+            mapData,
+            gridItemsRaw,
+            previousMapId
+          };
+        })
+          .then(({ mapData, gridItemsRaw, previousMapId }) => {
+            // Step 4: Load grid items for this map
+            return import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+              const currentGridItems = useGridItemStore.getState().gridItems || [];
+              const mapGridItems = gridItemsRaw ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw)) : [];
+              const oldMapId = previousMapId;
+
+              // CRITICAL FIX: Always replace target map's items with payload (deduped),
+              // and keep non-target maps intact.
+              const nonTargetItems = currentGridItems.filter(item => (item?.mapId || 'default') !== data.newMapId);
+
+              const normalizedTargetItems = mapGridItems
+                .filter(item => (item?.mapId || data.newMapId || 'default') === data.newMapId)
+                .map(item => ({ ...item, mapId: item?.mapId || data.newMapId || 'default' }));
+
+              const dedupedTargetItems = Array.from(
+                new Map(normalizedTargetItems.map(item => [item.id, item])).values()
+              );
+
+              const updatedGridItems = [...nonTargetItems, ...dedupedTargetItems];
+              useGridItemStore.setState({ gridItems: updatedGridItems });
+
+              console.log(`✅ Map switch complete: ${data.mapName} (${data.newMapId})`, {
+                gridItemsLoaded: updatedGridItems.length,
+                terrainDataPoints: Object.keys(mapData?.terrainData || {}).length
+              });
+            });
+          }).catch(error => {
+            console.error('❌ Error during map switch:', error);
+          });
+      };
+
+      if (gmMapSwapDelay > 0) {
+        console.log(`⏱️ [GM VIEW CHANGED] Deferring heavy map swap work by ${gmMapSwapDelay}ms to avoid pre-reveal/flicker`);
+        setTimeout(processGmViewChange, gmMapSwapDelay);
+      } else {
+        processGmViewChange();
+      }
 
     });
 

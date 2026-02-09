@@ -4,9 +4,11 @@ import { FaImage, FaCopy, FaTrash, FaExchangeAlt, FaUsers, FaUserAlt } from 'rea
 import WowWindow from './WowWindow';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore, { mapUpdateBatcher } from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import usePartyStore from '../../store/partyStore';
+import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
@@ -63,6 +65,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         multiplayerSocket: state.multiplayerSocket,
         isGMMode: state.isGMMode
     }));
+    const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
 
     // Get party members and map assignments from store
     const { partyMembers, playerMapAssignments } = usePartyStore();
@@ -284,6 +287,22 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         console.log('🔒 [Map Switch] Lock set - preventing updates during transition');
 
         try {
+            const targetMapMeta = maps.find(m => m.id === mapId);
+
+            // Transition-first sequencing for multiplayer GM map switches.
+            // This prevents a pre-reveal flicker where destination map state appears
+            // before the transition cover is fully visible.
+            if (showMapTransitions && isInMultiplayer && isGMMode) {
+                window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+                    detail: {
+                        mapName: targetMapMeta?.name || 'Unknown Realm',
+                        transferredByGM: false
+                    }
+                }));
+
+                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+            }
+
             // CRITICAL FIX: In multiplayer GM mode, sync destination map state before switching
             // This ensures items on the destination map are available when we switch to it
             const gameStoreState = useGameStore.getState();

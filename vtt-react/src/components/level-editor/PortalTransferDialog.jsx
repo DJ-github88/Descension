@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WowWindow from '../windows/WowWindow';
 import useMapStore from '../../store/mapStore';
+import useSettingsStore from '../../store/settingsStore';
+import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
 import './styles/PortalTransferDialog.css';
 
 const PortalTransferDialog = ({
@@ -9,7 +12,7 @@ const PortalTransferDialog = ({
     portal,
     position = { x: 400, y: 300 }
 }) => {
-    const { maps, switchToMap, getCurrentMapId } = useMapStore();
+    const { maps, switchToMap } = useMapStore();
     const [isTransferring, setIsTransferring] = useState(false);
 
     // Get destination map info
@@ -67,49 +70,84 @@ const PortalTransferDialog = ({
             }
 
             // SINGLE PLAYER: Handle transfer locally (existing logic)
-            // Get destination connection position
-            const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
-            let destinationPosition = portal?.properties?.destinationPosition || { x: 0, y: 0 };
+            const waitForRenderStabilization = async () => {
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            };
 
-            // Find destination connection to get its actual position
+            // Keep transition sequencing consistent with the stable GM path
+            const showMapTransitions = useSettingsStore.getState().showMapTransitions;
+            if (showMapTransitions) {
+                window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+                    detail: {
+                        mapName: destinationMap?.name || 'Unknown Realm',
+                        transferredByGM: false
+                    }
+                }));
+
+                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+            }
+
+            // Switch to the destination map
+            await switchToMap(destinationMapId, {
+                skipCameraRestore: true,
+                source: 'portal-transfer-dialog'
+            });
+
+            // Ensure stores/render settled before resolving and applying destination coordinates
+            await waitForRenderStabilization();
+
+            const mapStoreState = useMapStore.getState();
+            const latestDestinationMap = (mapStoreState.maps || []).find(map => map.id === destinationMapId) || destinationMap;
+            const destinationPosition = portal?.properties?.destinationPosition;
+            const destinationPositionType = portal?.properties?.destinationPositionType;
+
+            // Resolve destination position deterministically (no ambiguous small-value heuristics)
             let worldPos = null;
+            const gridSystem = getGridSystem();
             if (destinationConnectionId) {
-                const destinationConnections = destinationMap.dndElements || [];
+                const destinationConnections = latestDestinationMap?.dndElements || [];
                 const destinationConnection = destinationConnections.find(el =>
                     (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
                 );
+
                 if (destinationConnection) {
-                    // Check if connection has world position or grid position
-                    if (destinationConnection.position &&
-                        destinationConnection.position.x !== undefined &&
-                        destinationConnection.position.y !== undefined) {
-                        // Already in world coordinates
-                        worldPos = destinationConnection.position;
-                    } else if (destinationConnection.gridX !== undefined &&
-                        destinationConnection.gridY !== undefined) {
-                        // Convert from grid coordinates to world coordinates
-                        const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
-                        const gridSystem = getGridSystem();
+                    if (Number.isFinite(destinationConnection.gridX) && Number.isFinite(destinationConnection.gridY)) {
                         worldPos = gridSystem.gridToWorld(destinationConnection.gridX, destinationConnection.gridY);
+                    } else if (
+                        Number.isFinite(destinationConnection.position?.x) &&
+                        Number.isFinite(destinationConnection.position?.y)
+                    ) {
+                        worldPos = destinationConnection.position;
                     }
                 }
             }
 
-            // Fallback to destinationPosition if connection not found
-            if (!worldPos) {
-                const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
-                const gridSystem = getGridSystem();
-                // Check if destinationPosition is grid or world coordinates
-                // If it's a small number, assume grid coordinates
-                if (destinationPosition.x < 1000 && destinationPosition.y < 1000) {
+            if (!worldPos && Number.isFinite(destinationPosition?.x) && Number.isFinite(destinationPosition?.y)) {
+                if (destinationPositionType === 'grid') {
                     worldPos = gridSystem.gridToWorld(destinationPosition.x, destinationPosition.y);
                 } else {
                     worldPos = destinationPosition;
                 }
             }
 
-            // Switch to the destination map
-            await switchToMap(destinationMapId);
+            // Safer final fallback than defaulting directly to origin
+            if (!worldPos && Number.isFinite(latestDestinationMap?.cameraPosition?.x) && Number.isFinite(latestDestinationMap?.cameraPosition?.y)) {
+                worldPos = { ...latestDestinationMap.cameraPosition };
+            }
+            if (!worldPos && Number.isFinite(latestDestinationMap?.cameraX) && Number.isFinite(latestDestinationMap?.cameraY)) {
+                worldPos = { x: latestDestinationMap.cameraX, y: latestDestinationMap.cameraY };
+            }
+            if (!worldPos) {
+                worldPos = { x: 0, y: 0 };
+            }
+            if (!Number.isFinite(worldPos.x) || !Number.isFinite(worldPos.y)) {
+                console.warn('⚠️ [PortalTransfer] Invalid destination worldPos resolved, using safe origin fallback', {
+                    worldPos,
+                    destinationMapId,
+                    destinationConnectionId
+                });
+                worldPos = { x: 0, y: 0 };
+            }
 
             // Move player tokens to destination position
             try {
@@ -138,12 +176,16 @@ const PortalTransferDialog = ({
                     }
                 }
 
-                // Center camera on destination position - use grid system for proper centering
-                const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
-                const gridSystem = getGridSystem();
-                requestAnimationFrame(() => {
-                    gridSystem.centerCameraOnWorld(worldPos.x, worldPos.y);
-                });
+                // Center camera only after token/map state is visible on the new map
+                await waitForRenderStabilization();
+                if (typeof gameStore.markTransferCameraAuthoritative === 'function') {
+                    gameStore.markTransferCameraAuthoritative(
+                        { x: worldPos.x, y: worldPos.y },
+                        2000,
+                        'portal-transfer-dialog-singleplayer'
+                    );
+                }
+                gridSystem.centerCameraOnWorld(worldPos.x, worldPos.y);
             } catch (tokenError) {
                 console.warn('Could not move tokens:', tokenError);
             }

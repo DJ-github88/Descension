@@ -1023,11 +1023,14 @@ const ProfessionalVTTEditor = () => {
                         // Create connection as dndElement
                         const connectionData = {
                             type: 'connection',
-                            position: { x: portalCoords.gridX, y: portalCoords.gridY },
+                            gridX: portalCoords.gridX,
+                            gridY: portalCoords.gridY,
+                            position: { x: portalCoords.worldX, y: portalCoords.worldY },
                             properties: {
                                 portalName: 'New Connection',
                                 destinationMapId: null,
-                                destinationPosition: null,
+                                destinationConnectionId: null,
+                                destinationPosition: null, // Keep for backward compatibility
                                 isActive: true,
                                 isHidden: false,
                                 color: '#4a90e2',
@@ -1036,7 +1039,10 @@ const ProfessionalVTTEditor = () => {
                         };
 
                         addDndElement(connectionData, activeMapIdRef.current);
-                        console.log('◉ Connection placed at:', portalCoords);
+                        console.log('◉ Connection placed at:', {
+                            grid: { x: portalCoords.gridX, y: portalCoords.gridY },
+                            world: { x: portalCoords.worldX, y: portalCoords.worldY }
+                        });
                     }
                     return;
                 }

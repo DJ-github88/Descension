@@ -484,11 +484,16 @@ const useMapStore = create(
             },
 
             // Map switching functionality
-            switchToMap: async (mapId) => {
+            switchToMap: async (mapId, options = {}) => {
+                const { skipCameraRestore = false, source = 'default' } = options || {};
                 // CRITICAL FIX: Set map switching lock to prevent mapUpdateBatcher from
                 // sending updates during transition (prevents terrain bleeding)
                 window._isMapSwitching = true;
-                console.log('🔒 [mapStore.switchToMap] Lock set - preventing updates during transition');
+                console.log('🔒 [mapStore.switchToMap] Lock set - preventing updates during transition', {
+                    mapId,
+                    skipCameraRestore,
+                    source
+                });
 
                 const state = get();
                 const targetMap = (state.maps || []).find(map => map.id === mapId);
@@ -532,13 +537,13 @@ const useMapStore = create(
                     const { default: useLevelEditorStore } = await import('./levelEditorStore');
 
                     // Update game store with new map data
-                    useGameStore.setState({
+                    // IMPORTANT: In connection-driven transfers we intentionally skip restoring
+                    // persisted map camera to avoid overwriting destination centering.
+                    const nextGameState = {
                         backgrounds: mapState.backgrounds || [],
                         activeBackgroundId: mapState.activeBackgroundId || null,
                         backgroundImage: mapState.backgroundImage || null,
                         backgroundImageUrl: mapState.backgroundImageUrl || '',
-                        cameraX: mapState.cameraX || 0,
-                        cameraY: mapState.cameraY || 0,
                         zoomLevel: mapState.zoomLevel || 1.0,
                         gridSize: mapState.gridSize || 50,
                         gridOffsetX: mapState.gridOffsetX || 0,
@@ -546,7 +551,23 @@ const useMapStore = create(
                         gridLineColor: mapState.gridLineColor || '#000000', // Match server/createDefaultMap defaults
                         gridLineThickness: mapState.gridLineThickness || 2,
                         gridType: mapState.gridType || 'square' // Restore per-map grid type
-                    });
+                    };
+
+                    if (!skipCameraRestore) {
+                        nextGameState.cameraX = mapState.cameraX || 0;
+                        nextGameState.cameraY = mapState.cameraY || 0;
+                    } else {
+                        console.log('🎯 [mapStore.switchToMap] Skipping camera restore for transfer flow', {
+                            mapId,
+                            source,
+                            persistedCamera: {
+                                x: mapState.cameraX || 0,
+                                y: mapState.cameraY || 0
+                            }
+                        });
+                    }
+
+                    useGameStore.setState(nextGameState);
 
                     // Clear and load tokens for the new map
                     const { default: useCreatureStore } = await import('./creatureStore');

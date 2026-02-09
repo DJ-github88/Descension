@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
+import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
 import './styles/MapSwitcher.css';
 
 const MapSwitcher = () => {
@@ -21,6 +23,7 @@ const MapSwitcher = () => {
     // Game and level editor stores for state synchronization
     const gameStore = useGameStore();
     const levelEditorStore = useLevelEditorStore();
+    const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
 
     // Get real-time data from stores for reactive updates
     const { dndElements } = useLevelEditorStore();
@@ -37,6 +40,21 @@ const MapSwitcher = () => {
         console.log('🔒 [MapSwitcher] Lock set - preventing updates during transition');
 
         try {
+            const targetMapMeta = maps.find(m => m.id === mapId);
+
+            // Transition-first sequencing for multiplayer GM quick map switches.
+            // Ensure overlay is active before any heavy map swap operations.
+            if (showMapTransitions && gameStore.isInMultiplayer && gameStore.isGMMode) {
+                window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+                    detail: {
+                        mapName: targetMapMeta?.name || 'Unknown Realm',
+                        transferredByGM: false
+                    }
+                }));
+
+                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+            }
+
             // Save current map state before switching
             await saveCurrentMapState(gameStore, levelEditorStore);
 

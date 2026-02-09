@@ -87,6 +87,11 @@ const initialState = {
 
     // Multi-player current user identification
     currentPlayer: null, // Stores current user's player object in multiplayer
+
+    // Transfer camera authority lock (prevents late camera writers from overriding transfer destination)
+    transferCameraLockUntil: 0,
+    transferCameraSource: null,
+    transferCameraTarget: null,
 };
 
 // Handle storage quota exceeded for game store
@@ -441,6 +446,30 @@ const useGameStore = create((set, get) => ({
     // Camera and zoom management
     setCameraPosition: (x, y) => {
         set({ cameraX: x, cameraY: y });
+    },
+
+    markTransferCameraAuthoritative: (target = null, durationMs = 1500, source = 'unknown') => {
+        const now = Date.now();
+        const lockUntil = now + Math.max(0, durationMs || 0);
+        set({
+            transferCameraLockUntil: lockUntil,
+            transferCameraSource: source,
+            transferCameraTarget: target && Number.isFinite(target.x) && Number.isFinite(target.y)
+                ? { x: target.x, y: target.y }
+                : null
+        });
+    },
+
+    isTransferCameraAuthoritative: () => {
+        return Date.now() < (get().transferCameraLockUntil || 0);
+    },
+
+    clearTransferCameraAuthoritative: () => {
+        set({
+            transferCameraLockUntil: 0,
+            transferCameraSource: null,
+            transferCameraTarget: null
+        });
     },
 
     moveCameraBy: (deltaX, deltaY) => {

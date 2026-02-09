@@ -535,8 +535,20 @@ function GridComponent({
                                 };
                                 editorStore.setViewingFromToken(tokenData);
 
-                                // Center camera on token initially
-                                gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
+                                // Center camera on token initially unless a transfer destination
+                                // camera write is currently authoritative.
+                                const transferCameraLocked =
+                                    typeof gameStore.isTransferCameraAuthoritative === 'function' &&
+                                    gameStore.isTransferCameraAuthoritative();
+
+                                console.log('📍 [Grid] [auto-center] transferCameraLocked:', transferCameraLocked, 'source:', gameStore.transferCameraSource);
+
+                                if (!transferCameraLocked) {
+                                    console.log('📍 [Grid] [auto-center] Applying setCameraPosition to token:', playerToken.position);
+                                    gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
+                                } else {
+                                    console.log('📍 [Grid] [auto-center] Camera is LOCKED by authoritative source, skipping auto-center to token.');
+                                }
                             });
                         } else {
                             // Default behavior: don't auto-enable view from token

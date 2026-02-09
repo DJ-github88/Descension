@@ -253,6 +253,7 @@ const usePresenceStore = create((set, get) => ({
     const { currentUserPresence, socket } = get();
 
     // Block guest users from sending global messages
+    // Note: Party chat and whispers to party members are handled separately in TabbedChat
     if (!currentUserPresence || currentUserPresence?.isGuest) {
       console.warn('Authentication required to send global chat messages');
       return false;
@@ -302,8 +303,20 @@ const usePresenceStore = create((set, get) => ({
   sendWhisper: (targetUserId, content) => {
     const { currentUserPresence, onlineUsers, socket } = get();
 
-    // Block guest users from sending whispers
-    if (!currentUserPresence || currentUserPresence?.isGuest) {
+    // Check if target is a party member
+    let allowWithoutAuth = false;
+    try {
+      const partyStore = require('./partyStore').default;
+      const partyState = partyStore.getState();
+      const isTargetInParty = partyState.partyMembers.some(m => m.id === targetUserId);
+      const isCurrentUserInParty = partyState.isInParty;
+      allowWithoutAuth = isTargetInParty && isCurrentUserInParty;
+    } catch (e) {
+      // Party store not available
+    }
+
+    // Only block if not whispering to party member
+    if (!allowWithoutAuth && (!currentUserPresence || currentUserPresence?.isGuest)) {
       console.warn('Authentication required to send whispers');
       return false;
     }

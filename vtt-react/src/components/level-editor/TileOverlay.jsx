@@ -14,6 +14,8 @@ import GMNotesWindow from './GMNotesWindow';
 import ConnectionContextMenu from './ConnectionContextMenu';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
 import useMapStore from '../../store/mapStore';
+import useSettingsStore from '../../store/settingsStore';
+import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
 import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
 import './styles/TileOverlay.css';
 
@@ -126,7 +128,8 @@ const TileOverlay = () => {
     } = useLevelEditorStore();
 
     // Game store for GM mode
-    const { isGMMode } = useGameStore();
+    const { isGMMode, isInMultiplayer } = useGameStore();
+    const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
 
     // Item and creature stores for GM note tooltip summary
     const { items } = useItemStore();
@@ -355,7 +358,8 @@ const TileOverlay = () => {
         const portalName = portal.properties?.portalName || (isPortal ? 'Connection' : 'Element');
         const destinationMapId = portal.properties?.destinationMapId;
         const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
-        const destinationPosition = portal.properties?.destinationPosition || { x: 0, y: 0 };
+        const destinationPosition = portal.properties?.destinationPosition || null;
+        const destinationPositionType = portal.properties?.destinationPositionType;
         const isActive = portal.properties?.isActive !== false;
         const isHidden = portal.properties?.isHidden === true;
 
@@ -389,80 +393,129 @@ const TileOverlay = () => {
                     return;
                 }
 
-                // Switch map if needed (do this first so we can get fresh data)
-                if (currentMapId !== destinationMapId) {
-                    // Defer map switch to prevent state update during render
-                    setTimeout(async () => {
-                        const { switchToMap } = useMapStore.getState();
-                        await switchToMap(destinationMapId);
-                        // Wait for map to fully load and level editor store to update
-                        await new Promise(resolve => setTimeout(resolve, 150));
-                    }, 0);
+                // Transition-first sequencing (matches map library/switcher behavior)
+                if (showMapTransitions && isInMultiplayer) {
+                    window.dispatchEvent(new CustomEvent('manual_map_transition_requested', {
+                        detail: {
+                            mapName: destinationMap?.name || 'Unknown Realm',
+                            transferredByGM: false
+                        }
+                    }));
+
+                    await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
                 }
+
+                // Switch map if needed (fully awaited to avoid stale reads/races)
+                if (currentMapId !== destinationMapId) {
+                    const { switchToMap } = useMapStore.getState();
+                    await switchToMap(destinationMapId, {
+                        skipCameraRestore: true,
+                        source: 'tile-overlay-connection-transfer'
+                    });
+                }
+
+                // Ensure render/store hydration completed before destination lookup/centering
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
                 // Now get the destination connection from the level editor store (after map switch)
                 // or from the map store if we didn't switch
                 let targetWorldPos = null;
                 let destinationConnection = null;
 
+                const mapStoreState = useMapStore.getState();
+                const latestDestinationMap = (mapStoreState.maps || []).find(m => m.id === destinationMapId) || destinationMap;
+
                 if (destinationConnectionId) {
-                    // After map switch, get dndElements from level editor store if we switched to that map
-                    // Otherwise get from map store
-                    if (currentMapId === destinationMapId) {
-                        // We're on the destination map - get from level editor store
-                        const { dndElements: currentDndElements } = useLevelEditorStore.getState();
-                        destinationConnection = currentDndElements.find(el =>
-                            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
-                        );
-                    } else {
-                        // Still on different map - get from map store
-                        const destinationConnections = destinationMap.dndElements || [];
-                        destinationConnection = destinationConnections.find(el =>
-                            (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
-                        );
-                    }
+                    const destinationConnections = latestDestinationMap.dndElements || [];
+                    destinationConnection = destinationConnections.find(el =>
+                        (el.type === 'portal' || el.type === 'connection') && el.id === destinationConnectionId
+                    );
 
                     if (destinationConnection) {
-                        // Check if connection has world position or grid position
-                        if (destinationConnection.position &&
-                            destinationConnection.position.x !== undefined &&
-                            destinationConnection.position.y !== undefined) {
-                            // Already in world coordinates
-                            targetWorldPos = destinationConnection.position;
-                        } else if (destinationConnection.gridX !== undefined &&
-                            destinationConnection.gridY !== undefined) {
-                            // Convert from grid coordinates to world coordinates
+                        // CRITICAL: Prefer canonical grid coordinates for exact tile centering parity.
+                        // Legacy `position` can drift and should only be used as fallback.
+                        if (Number.isFinite(destinationConnection.gridX) &&
+                            Number.isFinite(destinationConnection.gridY)) {
+                            // [PHASE 3] Preferred: Convert from grid coordinates to world coordinates (exact tile center)
                             const gridSystem = getGridSystem();
                             targetWorldPos = gridSystem.gridToWorld(destinationConnection.gridX, destinationConnection.gridY);
+                            console.log('📍 [TileOverlay] Resolved targetWorldPos from grid coordinates:', {
+                                grid: { x: destinationConnection.gridX, y: destinationConnection.gridY },
+                                world: targetWorldPos
+                            });
+                        } else if (destinationConnection.position &&
+                            Number.isFinite(destinationConnection.position.x) &&
+                            Number.isFinite(destinationConnection.position.y)) {
+                            // [PHASE 3] Handle legacy world positions - ensure they aren't accidentally grid coordinates
+                            // A world-coordinate position should typically be much larger than grid coords
+                            // unless it's very close to the origin.
+                            const pos = destinationConnection.position;
+                            if (Math.abs(pos.x) < 100 && Math.abs(pos.y) < 100) {
+                                console.warn('⚠️ [TileOverlay] connection.position looks like grid coordinates!', pos);
+                                // Fallback: treat as grid if suspiciously small
+                                const gridSystem = getGridSystem();
+                                targetWorldPos = gridSystem.gridToWorld(pos.x, pos.y);
+                            } else {
+                                targetWorldPos = pos;
+                            }
+                            console.log('📍 [TileOverlay] Resolved targetWorldPos from connection.position:', targetWorldPos);
                         }
                     }
                 }
 
-                // Fallback to destinationPosition if connection not found
-                if (!targetWorldPos) {
+                // Fallback to destinationPosition with explicit coordinate typing only
+                if (!targetWorldPos && destinationPosition &&
+                    Number.isFinite(destinationPosition.x) && Number.isFinite(destinationPosition.y)) {
                     const gridSystem = getGridSystem();
-                    // Check if destinationPosition is grid or world coordinates
-                    // If it's a small number, assume grid coordinates
-                    if (destinationPosition.x < 1000 && destinationPosition.y < 1000) {
+                    if (destinationPositionType === 'grid') {
                         targetWorldPos = gridSystem.gridToWorld(destinationPosition.x, destinationPosition.y);
+                        console.log('📍 [TileOverlay] Resolved targetWorldPos from grid-typed destinationPosition:', targetWorldPos);
                     } else {
+                        // Default to world coordinates to avoid ambiguous heuristic conversion.
                         targetWorldPos = destinationPosition;
+                        console.log('📍 [TileOverlay] Resolved targetWorldPos from world-typed destinationPosition:', targetWorldPos);
                     }
                 }
 
-                // Center camera on destination connection - use setTimeout to ensure everything is loaded
-                setTimeout(() => {
-                    const gridSystem = getGridSystem();
-                    // Use the grid system's center camera method for proper centering
-                    gridSystem.centerCameraOnWorld(targetWorldPos.x, targetWorldPos.y);
-                    console.log('🔍 Centered camera on destination connection:', {
-                        worldPos: targetWorldPos,
-                        gridPos: destinationConnection?.gridX !== undefined ?
-                            { x: destinationConnection.gridX, y: destinationConnection.gridY } :
-                            'N/A',
-                        connectionId: destinationConnectionId
+                // Final deterministic fallback: destination map camera center
+                if (!targetWorldPos && Number.isFinite(latestDestinationMap?.cameraX) && Number.isFinite(latestDestinationMap?.cameraY)) {
+                    targetWorldPos = { x: latestDestinationMap.cameraX, y: latestDestinationMap.cameraY };
+                    console.warn('⚠️ Falling back to destination map camera center for portal jump:', {
+                        destinationMapId,
+                        destinationConnectionId
                     });
-                }, 100); // Additional delay to ensure map is fully rendered
+                }
+
+                if (!targetWorldPos || !Number.isFinite(targetWorldPos.x) || !Number.isFinite(targetWorldPos.y)) {
+                    console.error('Failed to resolve a valid destination position for portal jump', {
+                        destinationMapId,
+                        destinationConnectionId,
+                        destinationPosition,
+                        destinationPositionType
+                    });
+                    return;
+                }
+
+                // Center camera after map + stores are visibly ready
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+                const gridSystem = getGridSystem();
+                const gameStore = useGameStore.getState();
+                if (typeof gameStore.markTransferCameraAuthoritative === 'function') {
+                    gameStore.markTransferCameraAuthoritative(
+                        { x: targetWorldPos.x, y: targetWorldPos.y },
+                        2000,
+                        'tile-overlay-connection-transfer'
+                    );
+                }
+                // Use the grid system's center camera method for proper centering
+                gridSystem.centerCameraOnWorld(targetWorldPos.x, targetWorldPos.y);
+                console.log('🔍 Centered camera on destination connection:', {
+                    worldPos: targetWorldPos,
+                    gridPos: destinationConnection?.gridX !== undefined ?
+                        { x: destinationConnection.gridX, y: destinationConnection.gridY } :
+                        'N/A',
+                    connectionId: destinationConnectionId
+                });
             } catch (error) {
                 console.error('Error centering view on destination connection:', error);
             }
@@ -524,6 +577,7 @@ const TileOverlay = () => {
                 ...sourceConnection.properties,
                 destinationMapId: targetConnection.mapId,
                 destinationPosition: resolvedPosition,
+                destinationPositionType: 'world',
                 destinationConnectionId: targetConnection.id,
                 connectedToId: targetConnection.id // Keep for backwards compatibility
             }
@@ -718,16 +772,16 @@ const TileOverlay = () => {
                         // Skip objects with free positioning (they're rendered by ObjectSystem)
                         if (obj.freePosition) return false;
 
-                        // Handle both coordinate systems: position.x/y and gridX/gridY
-                        const objX = obj.position?.x ?? obj.gridX;
-                        const objY = obj.position?.y ?? obj.gridY;
+                        // [PHASE 3] Prioritize explicit grid coordinates for tile flagging
+                        const objX = obj.gridX ?? (obj.position?.x);
+                        const objY = obj.gridY ?? (obj.position?.y);
                         return objX !== undefined && objY !== undefined &&
                             Math.floor(objX) === x && Math.floor(objY) === y;
                     });
                     const hasDndElements = showDndLayer && dndElements.some(element => {
-                        // Handle both coordinate systems: position.x/y and gridX/gridY
-                        const elemX = element.position?.x ?? element.gridX;
-                        const elemY = element.position?.y ?? element.gridY;
+                        // [PHASE 3] Prioritize explicit grid coordinates for tile flagging
+                        const elemX = element.gridX ?? (element.position?.x);
+                        const elemY = element.gridY ?? (element.position?.y);
                         return elemX !== undefined && elemY !== undefined &&
                             Math.floor(elemX) === x && Math.floor(elemY) === y;
                     });
@@ -737,8 +791,8 @@ const TileOverlay = () => {
                     // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
                     // Connections/Portals should always be shown even if tile is not normally visible
                     const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
-                        const elemX = element.position?.x ?? element.gridX;
-                        const elemY = element.position?.y ?? element.gridY;
+                        const elemX = element.gridX ?? (element.position?.x);
+                        const elemY = element.gridY ?? (element.position?.y);
                         return (element.type === 'portal' || element.type === 'connection') &&
                             elemX !== undefined && elemY !== undefined &&
                             Math.floor(elemX) === x && Math.floor(elemY) === y;
@@ -772,16 +826,16 @@ const TileOverlay = () => {
                         // Skip objects with free positioning (they're rendered by ObjectSystem)
                         if (obj.freePosition) return false;
 
-                        // Handle both coordinate systems: position.x/y and gridX/gridY
-                        const objX = obj.position?.x ?? obj.gridX;
-                        const objY = obj.position?.y ?? obj.gridY;
+                        // [PHASE 3] Prioritize gridX/gridY
+                        const objX = obj.gridX ?? (obj.position?.x);
+                        const objY = obj.gridY ?? (obj.position?.y);
                         return objX !== undefined && objY !== undefined &&
                             Math.floor(objX) === x && Math.floor(objY) === y;
                     });
                     const hasDndElements = showDndLayer && dndElements.some(element => {
-                        // Handle both coordinate systems: position.x/y and gridX/gridY
-                        const elemX = element.position?.x ?? element.gridX;
-                        const elemY = element.position?.y ?? element.gridY;
+                        // [PHASE 3] Prioritize gridX/gridY
+                        const elemX = element.gridX ?? (element.position?.x);
+                        const elemY = element.gridY ?? (element.position?.y);
                         return elemX !== undefined && elemY !== undefined &&
                             Math.floor(elemX) === x && Math.floor(elemY) === y;
                     });
@@ -791,8 +845,8 @@ const TileOverlay = () => {
                     // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
                     // Connections/Portals should always be shown even if tile is not normally visible
                     const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
-                        const elemX = element.position?.x ?? element.gridX;
-                        const elemY = element.position?.y ?? element.gridY;
+                        const elemX = element.gridX ?? (element.position?.x);
+                        const elemY = element.gridY ?? (element.position?.y);
                         return (element.type === 'portal' || element.type === 'connection') &&
                             elemX !== undefined && elemY !== undefined &&
                             Math.floor(elemX) === x && Math.floor(elemY) === y;
@@ -821,8 +875,9 @@ const TileOverlay = () => {
         const map = new Map();
         environmentalObjects.forEach(obj => {
             if (obj.freePosition) return; // Skip free-positioned objects
-            const objX = obj.position?.x ?? obj.gridX;
-            const objY = obj.position?.y ?? obj.gridY;
+            // [PHASE 4] Prioritize explicit grid coordinates
+            const objX = obj.gridX ?? (obj.position?.x);
+            const objY = obj.gridY ?? (obj.position?.y);
             if (objX !== undefined && objY !== undefined) {
                 const key = `${Math.floor(objX)},${Math.floor(objY)}`;
                 if (!map.has(key)) map.set(key, []);
@@ -835,8 +890,9 @@ const TileOverlay = () => {
     const elementsByPosition = useMemo(() => {
         const map = new Map();
         dndElements.forEach(element => {
-            const elemX = element.position?.x ?? element.gridX;
-            const elemY = element.position?.y ?? element.gridY;
+            // [PHASE 4] Prioritize explicit grid coordinates
+            const elemX = element.gridX ?? (element.position?.x);
+            const elemY = element.gridY ?? (element.position?.y);
             if (elemX !== undefined && elemY !== undefined) {
                 const key = `${Math.floor(elemX)},${Math.floor(elemY)}`;
                 if (!map.has(key)) map.set(key, []);
@@ -1677,8 +1733,8 @@ const TileOverlay = () => {
                                         if (!elementType && !isPortal) return null;
 
                                         // Check if this D&D element is under fog of war
-                                        const elemX = element.position?.x ?? element.gridX;
-                                        const elemY = element.position?.y ?? element.gridY;
+                                        const elemX = element.gridX ?? (element.position?.x);
+                                        const elemY = element.gridY ?? (element.position?.y);
                                         const elemGridX = Math.floor(elemX);
                                         const elemGridY = Math.floor(elemY);
                                         const hasFog = getFogOfWar(elemGridX, elemGridY);
@@ -2010,8 +2066,9 @@ const TileOverlay = () => {
                                         const objectDef = PROFESSIONAL_OBJECTS[obj.type];
                                         if (objectDef?.gmOnly && !isGMMode) return false;
 
-                                        const objX = obj.position?.x ?? obj.gridX;
-                                        const objY = obj.position?.y ?? obj.gridY;
+                                        // [PHASE 3] Prioritize gridX/gridY for filtering into tiles
+                                        const objX = obj.gridX ?? (obj.position?.x);
+                                        const objY = obj.gridY ?? (obj.position?.y);
                                         return objX !== undefined && objY !== undefined &&
                                             Math.floor(objX) === tile.x && Math.floor(objY) === tile.y;
                                     })
@@ -2064,16 +2121,17 @@ const TileOverlay = () => {
                                     <div className="dnd-indicator">
                                         {dndElements
                                             .filter(element => {
-                                                const elemX = element.position?.x ?? element.gridX;
-                                                const elemY = element.position?.y ?? element.gridY;
+                                                // [PHASE 3] Prioritize gridX/gridY for filtering into tiles
+                                                const elemX = element.gridX ?? (element.position?.x);
+                                                const elemY = element.gridY ?? (element.position?.y);
                                                 return elemX !== undefined && elemY !== undefined &&
                                                     Math.floor(elemX) === tile.x && Math.floor(elemY) === tile.y;
                                             })
                                             .map(element => {
                                                 const elementType = DND_ELEMENTS[element.type];
                                                 // Check if this D&D element is under fog of war
-                                                const elemX = element.position?.x ?? element.gridX;
-                                                const elemY = element.position?.y ?? element.gridY;
+                                                const elemX = element.gridX ?? (element.position?.x);
+                                                const elemY = element.gridY ?? (element.position?.y);
                                                 const elemGridX = Math.floor(elemX);
                                                 const elemGridY = Math.floor(elemY);
                                                 const hasFog = getFogOfWar(elemGridX, elemGridY);
@@ -2324,8 +2382,8 @@ const TileOverlay = () => {
             {/* Connection Tooltip - styled like character sheet tooltips */}
             {hoveredConnection && (() => {
                 const connectionHasFog = (() => {
-                    const elemX = hoveredConnection.position?.x ?? hoveredConnection.gridX;
-                    const elemY = hoveredConnection.position?.y ?? hoveredConnection.gridY;
+                    const elemX = hoveredConnection.gridX ?? (hoveredConnection.position?.x);
+                    const elemY = hoveredConnection.gridY ?? (hoveredConnection.position?.y);
                     const elemGridX = Math.floor(elemX);
                     const elemGridY = Math.floor(elemY);
                     return getFogOfWar(elemGridX, elemGridY);

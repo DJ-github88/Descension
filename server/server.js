@@ -2932,8 +2932,11 @@ io.on('connection', (socket) => {
       return;
     }
 
+    const isPortalOrConnection = (el) => el && (el.type === 'portal' || el.type === 'connection');
+
     const portal = currentMap.portals?.[connectionId] ||
-      currentMap.dndElements?.find(el => el.id === connectionId && el.type === 'portal');
+      currentMap.dndElements?.find(el => el.id === connectionId && isPortalOrConnection(el)) ||
+      currentMap.dndElements?.find(el => el.id === connectionId);
 
     if (!portal) {
       socket.emit('error', { message: 'Portal not found' });
@@ -2964,39 +2967,107 @@ io.on('connection', (socket) => {
     const oldMapId = player.currentMapId || 'default';
     player.currentMapId = destinationMapId;
 
-    // Prepare initial destination position
-    let destinationPosition = portal.properties?.destinationPosition || destMap.cameraPosition || { x: 0, y: 0 };
+    // Prepare initial destination position with deterministic fallback order
+    // IMPORTANT: centerPosition sent to clients must always be WORLD coordinates
+    let destinationPosition = null;
     const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
 
     // IMPORTANT: Try to find the actual destination connection on the destination map to get its current position
     // This ensures that if the destination was moved, we land at the correct spot
     if (destinationConnectionId) {
-      const actualDestConnection = (destMap.dndElements || []).find(el => el.id === destinationConnectionId) ||
+      const actualDestConnection = (destMap.dndElements || []).find(el => el.id === destinationConnectionId && isPortalOrConnection(el)) ||
+        (destMap.dndElements || []).find(el => el.id === destinationConnectionId) ||
         (destMap.portals?.[destinationConnectionId]);
 
       if (actualDestConnection) {
-        if (actualDestConnection.position && actualDestConnection.position.x !== undefined) {
-          destinationPosition = { ...actualDestConnection.position };
+        // Canonical center resolution: grid-first (stable), then world position
+        if (actualDestConnection.gridX !== undefined && actualDestConnection.gridY !== undefined) {
+          const gSize =
+            destMap.gridSettings?.gridSize ||
+            destMap.gridSettings?.size ||
+            room.gameState.gridSettings?.gridSize ||
+            room.gameState.gridSettings?.size ||
+            70;
 
-          // CRITICAL: Center the position if the element has dimensions
-          if (actualDestConnection.width && actualDestConnection.height) {
+          const widthTiles = Number.isFinite(actualDestConnection.width)
+            ? actualDestConnection.width / gSize
+            : 1;
+          const heightTiles = Number.isFinite(actualDestConnection.height)
+            ? actualDestConnection.height / gSize
+            : 1;
+
+          destinationPosition = {
+            x: (actualDestConnection.gridX + widthTiles / 2) * gSize,
+            y: (actualDestConnection.gridY + heightTiles / 2) * gSize
+          };
+          console.log(`📍 [player_use_connection] Resolved canonical grid center for dest ${destinationConnectionId}:`, {
+            pos: destinationPosition,
+            grid: { x: actualDestConnection.gridX, y: actualDestConnection.gridY },
+            tiles: { w: widthTiles, h: heightTiles },
+            gSize
+          });
+        } else if (actualDestConnection.position && actualDestConnection.position.x !== undefined && actualDestConnection.position.y !== undefined) {
+          destinationPosition = { ...actualDestConnection.position };
+          if (Number.isFinite(actualDestConnection.width) && Number.isFinite(actualDestConnection.height)) {
             destinationPosition.x += actualDestConnection.width / 2;
             destinationPosition.y += actualDestConnection.height / 2;
-            console.log(`📍 Centered position for destination connection ${destinationConnectionId}:`, destinationPosition);
-          } else {
-            console.log(`📍 Resolved live position for destination connection ${destinationConnectionId}:`, destinationPosition);
           }
-        } else if (actualDestConnection.gridX !== undefined) {
-          // Fallback if it only has grid coordinates (should be rare for portals)
-          const gSize = destMap.gridSettings?.size || 70;
-          destinationPosition = {
-            x: (actualDestConnection.gridX + (actualDestConnection.width ? actualDestConnection.width / (2 * gSize) : 0.5)) * gSize,
-            y: (actualDestConnection.gridY + (actualDestConnection.height ? actualDestConnection.height / (2 * gSize) : 0.5)) * gSize
-          };
-          console.log(`📍 Resolved/Centered grid position for destination connection ${destinationConnectionId}:`, destinationPosition);
+          console.log(`📍 [player_use_connection] Resolved world center for dest ${destinationConnectionId}:`, destinationPosition);
+        } else {
+          console.warn(`⚠️ [player_use_connection] Found destination connection ${destinationConnectionId} but it has no valid coordinates!`);
         }
+      } else {
+        console.warn(`⚠️ [player_use_connection] Destination connection ${destinationConnectionId} NOT found on map ${destinationMapId}`);
       }
     }
+
+    // Final fallback chain
+    if (!destinationPosition) {
+      if (portal.position && portal.position.x !== undefined && portal.position.y !== undefined) {
+        destinationPosition = { ...portal.position };
+        console.log('📍 [player_use_connection] Fallback: Using source portal world position');
+      } else if (portal.properties?.destinationPosition) {
+        const portalDestinationPosition = portal.properties.destinationPosition;
+        const portalDestinationPositionType = portal.properties?.destinationPositionType;
+
+        if (
+          portalDestinationPositionType === 'grid' &&
+          Number.isFinite(portalDestinationPosition?.x) &&
+          Number.isFinite(portalDestinationPosition?.y)
+        ) {
+          const gSize =
+            destMap.gridSettings?.gridSize ||
+            destMap.gridSettings?.size ||
+            70;
+
+          destinationPosition = {
+            x: (portalDestinationPosition.x + 0.5) * gSize,
+            y: (portalDestinationPosition.y + 0.5) * gSize
+          };
+          console.log('📍 [player_use_connection] Fallback: Using portal destination grid position');
+        } else {
+          destinationPosition = { ...portalDestinationPosition };
+          console.log('📍 [player_use_connection] Fallback: Using portal destination world position');
+        }
+      } else if (destMap.cameraPosition) {
+        destinationPosition = { ...destMap.cameraPosition };
+        console.log('📍 [player_use_connection] Fallback: Using destination map cameraPosition');
+      } else if (Number.isFinite(destMap.cameraX) && Number.isFinite(destMap.cameraY)) {
+        destinationPosition = { x: destMap.cameraX, y: destMap.cameraY };
+        console.log('📍 [player_use_connection] Fallback: Using destination map cameraX/Y');
+      } else {
+        destinationPosition = { x: 0, y: 0 };
+        console.warn('📍 [player_use_connection] Fallback: No coordinates found, defaulting to 0,0');
+      }
+    }
+
+    // Final guard: avoid malformed coordinates
+    if (!Number.isFinite(destinationPosition?.x) || !Number.isFinite(destinationPosition?.y)) {
+      destinationPosition = { x: 0, y: 0 };
+      console.error('📍 [player_use_connection] CRITICAL: malformed coordinates detected!', destinationPosition);
+    }
+
+    console.log(`📍 [player_use_connection] Final destinationPosition:`, destinationPosition);
 
     // CRITICAL: Migrate character token with the resolved destination position AFTER resolving it
     migrateCharacterToken(room, player.id, oldMapId, destinationMapId, player.id, destMap.name, destinationPosition);
@@ -3018,11 +3089,15 @@ io.on('connection', (socket) => {
           newMapId: destinationMapId,
           newMapName: destMap.name || destinationMapId,
           centerPosition: destinationPosition,
+          centerPositionType: 'world',
           transferredByGM: false,
           portalUsed: {
             sourceConnectionId: connectionId,
             destinationConnectionId: destinationConnectionId,
-            portalName: portal.properties?.portalName || portal.name || 'Portal'
+            sourceMapId: oldMapId,
+            destinationMapId,
+            portalName: portal.properties?.portalName || portal.name || 'Portal',
+            transferType: 'connection'
           },
           mapData: {
             terrainData: destMap.terrainData || {},

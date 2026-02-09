@@ -74,10 +74,14 @@ const TabbedChat = () => {
     if (!content) return;
 
     if (activeTab === 'global') {
-      // Send global message
+      // Global chat: Check authentication
+      if (!currentUserPresence || currentUserPresence?.isGuest) {
+        console.warn('Authentication required for global chat');
+        return;
+      }
       sendGlobalMessage(content);
     } else if (activeTab === 'party') {
-      // Use character store data if available, otherwise use presence or fallback
+      // Party chat: Allow if in party, even without full authentication
       const senderName = characterName || currentUserPresence?.characterName || 'Unknown';
       const senderClass = characterClass || currentUserPresence?.class || 'Adventurer';
       const senderLevel = characterLevel || currentUserPresence?.level || 1;
@@ -103,9 +107,7 @@ const TabbedChat = () => {
       const { sendMultiplayerMessage } = useChatStore.getState();
       if (multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
         console.log('💬 Sending party message through multiplayer socket');
-        // Send party message through multiplayer socket
         sendMultiplayerMessage(content);
-        // Don't add locally - it will come back through the socket
         setMessageInput('');
         return;
       }
@@ -120,9 +122,20 @@ const TabbedChat = () => {
         console.log('✅ Party message added successfully');
       }, 100);
     } else if (activeTab.startsWith('whisper_')) {
-      // Send whisper
+      // Whisper to party member: Allow if in party
       const userId = activeTab.replace('whisper_', '');
-      sendWhisper(userId, content);
+      
+      // Check if target is a party member
+      const partyMembers = usePartyStore.getState().partyMembers;
+      const isPartyMember = partyMembers.some(m => m.id === userId);
+      
+      if (isPartyMember && isInParty) {
+        sendWhisper(userId, content);
+      } else if (!currentUserPresence || currentUserPresence?.isGuest) {
+        console.warn('Authentication required for whispers to non-party members');
+      } else {
+        sendWhisper(userId, content);
+      }
     }
 
     setMessageInput('');
@@ -130,19 +143,47 @@ const TabbedChat = () => {
 
   // Get placeholder text based on active tab
   const getPlaceholder = () => {
-    // Check if authenticated
-    if (!currentUserPresence || currentUserPresence?.isGuest) {
+    // Party chat: Allow if in party, even without full authentication
+    if (activeTab === 'party' && isInParty) {
+      // Use fallback character data if currentUserPresence not available
+      const displayName = currentUserPresence?.accountName || 
+                       currentUserPresence?.characterName || 
+                       characterName || 
+                       'Player';
+      return `Message your party - ${displayName}`;
+    }
+  
+    // Whisper: Allow if in party and target is party member
+    if (activeTab.startsWith('whisper_') && isInParty) {
+      const userId = activeTab.replace('whisper_', '');
+      const tab = whisperTabs.get(userId);
+      if (tab && tab.user) {
+        const targetName = tab.user.characterName || tab.user.name || 'Unknown';
+        const displayName = currentUserPresence?.accountName || 
+                         currentUserPresence?.characterName || 
+                         characterName || 
+                         'Player';
+        return `Whisper to ${targetName} - ${displayName}`;
+      }
+    }
+  
+    // Global chat: Require authentication (keep existing restriction)
+    if (activeTab === 'global' && (!currentUserPresence || currentUserPresence?.isGuest)) {
       return "Please log in to chat...";
     }
-
-    // Format sender name: AccountName(CharacterName) or just AccountName
-    let displayName = currentUserPresence.accountName || currentUserPresence.characterName || 'Unknown';
-    if (currentUserPresence.characterName && currentUserPresence.accountName &&
-      currentUserPresence.characterName !== 'Guest' && currentUserPresence.characterName !== 'Unknown' &&
-      currentUserPresence.characterName !== currentUserPresence.accountName) {
+  
+    // Normal placeholder for authenticated users
+    let displayName = currentUserPresence?.accountName || 
+                     currentUserPresence?.characterName || 
+                     'Unknown';
+    if (currentUserPresence?.characterName && 
+        currentUserPresence?.accountName &&
+        currentUserPresence.characterName !== 'Guest' && 
+        currentUserPresence.characterName !== 'Unknown' &&
+        currentUserPresence.characterName !== currentUserPresence.accountName) {
       displayName = `${currentUserPresence.accountName}(${currentUserPresence.characterName})`;
     }
-
+  
     if (activeTab === 'global') {
       return displayName;
     } else if (activeTab === 'party') {
