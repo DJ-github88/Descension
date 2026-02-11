@@ -1,110 +1,29 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { CLASS_RESOURCE_TYPES } from '../data/classResources';
 import { getBackgroundNames } from '../data/backgroundData';
 
-// Sample data for initial state
-const SAMPLE_FRIENDS = [
-  {
-    id: '1',
-    name: 'Thordak',
-    friendId: 'IronHammer7821',
-    level: 12,
-    class: 'Dreadnaught',
-    background: 'Soldier',
-    race: 'Grimheart',
-    subrace: 'Delver Grimheart',
-    note: 'Dwarven fortress defender',
-    status: 'online',
-    location: 'Dwarven Halls',
-    isRealID: false
-  },
-  {
-    id: '3',
-    name: 'Elaria',
-    friendId: 'MoonWhisper3492',
-    level: 10,
-    class: 'Chronarch',
-    background: 'Sage',
-    race: 'Thornkin',
-    subrace: 'Courtly Thornkin',
-    note: 'Elven time manipulator',
-    status: 'online',
-    location: 'Arcane Academy',
-    isRealID: false
-  },
-  {
-    id: '4',
-    name: 'Grimjaw',
-    friendId: 'ShadowBlade5678',
-    level: 11,
-    class: 'Bladedancer',
-    background: 'Criminal',
-    race: 'Wildkin',
-    subrace: 'Wanderer Wildkin',
-    note: 'Halfling shadow scout',
-    status: 'away',
-    location: 'Merchant Quarter',
-    isRealID: false
-  },
-  {
-    id: '5',
-    name: 'Seraphina',
-    friendId: 'HolyLight1234',
-    level: 11,
-    class: 'Exorcist',
-    background: 'Folk Hero',
-    race: 'Nordmark',
-    subrace: 'Berserker',
-    note: 'Human spirit guardian',
-    status: 'offline',
-    location: '',
-    isRealID: false
-  },
-  {
-    id: '6',
-    name: 'Varis',
-    friendId: 'ForestGuard9876',
-    level: 8,
-    class: 'Warden',
-    background: 'Outlander',
-    race: 'Wildkin',
-    subrace: 'Guardian Wildkin',
-    note: 'Forest guardian',
-    status: 'away',
-    location: 'Misty Forest',
-    isRealID: false
-  }
-];
+const PLACEHOLDER_FRIEND_IDS = new Set([
+  'ironhammer7821',
+  'moonwhisper3492',
+  'shadowblade5678',
+  'holylight1234',
+  'forestguard9876'
+]);
 
-const SAMPLE_IGNORED = [
-  {
-    id: '7',
-    name: 'Trollius',
-    level: 3,
-    class: 'Berserker',
-    background: 'Outlander',
-    note: 'Disruptive player'
-  },
-  {
-    id: '8',
-    name: 'GoldHawker',
-    level: 1,
-    class: 'Minstrel',
-    background: 'Charlatan',
-    note: 'Gold seller'
-  }
-];
+const PLACEHOLDER_IGNORED_NAMES = new Set([
+  'trollius',
+  'goldhawker'
+]);
 
 // Initial state for the store
 const initialState = {
   // Friends list
-  friends: [...SAMPLE_FRIENDS],
+  friends: [],
   selectedFriend: null,
 
   // Ignore list
-  ignored: [...SAMPLE_IGNORED],
+  ignored: [],
   selectedIgnored: null,
 
   // Who list
@@ -127,20 +46,64 @@ const useSocialStore = create(
       // Tab actions
       setActiveTab: (tab) => set({ activeTab: tab }),
 
-      // Migration: Reset friends if they don't have friendId
-      migrateFriends: () => {
-        const { friends } = get();
-        const needsMigration = (friends || []).some(f => !f.friendId);
+      // Migration: sanitize social data and remove legacy placeholder entries
+      migrateSocialData: () => {
+        const { friends, ignored } = get();
+        const hasLegacyFriends = (friends || []).some(f => !f.friendId);
+        const hasPlaceholderFriends = (friends || []).some(f => {
+          const friendId = (f.friendId || '').toString().trim().toLowerCase();
+          return (f.isRealID === false) || PLACEHOLDER_FRIEND_IDS.has(friendId);
+        });
+        const hasPlaceholderIgnored = (ignored || []).some(i => {
+          const name = (i.name || '').toString().trim().toLowerCase();
+          return PLACEHOLDER_IGNORED_NAMES.has(name);
+        });
 
-        if (needsMigration) {
-          set({ friends: [...SAMPLE_FRIENDS] });
+        if (!hasLegacyFriends && !hasPlaceholderFriends && !hasPlaceholderIgnored) {
+          return;
         }
+
+        const normalizedFriends = (friends || [])
+          .filter(friend => {
+            const friendId = (friend.friendId || '').toString().trim().toLowerCase();
+            if (friend.isRealID === false) return false;
+            if (PLACEHOLDER_FRIEND_IDS.has(friendId)) return false;
+            return true;
+          })
+          .map(friend => ({
+            ...friend,
+            friendId: friend.friendId || null
+          }));
+
+        const normalizedIgnored = (ignored || []).filter(entry => {
+          const name = (entry.name || '').toString().trim().toLowerCase();
+          return !PLACEHOLDER_IGNORED_NAMES.has(name);
+        });
+
+        set({
+          friends: normalizedFriends,
+          ignored: normalizedIgnored
+        });
+      },
+
+      // Backward-compatibility alias
+      migrateFriends: () => {
+        get().migrateSocialData();
       },
 
       // Friend actions
       addFriend: (friend) => set(state => {
-        // Check if friend already exists
-        const exists = (state.friends || []).some(f => f.name.toLowerCase() === friend.name.toLowerCase());
+        const normalizedFriendId = friend.friendId ? String(friend.friendId).trim() : null;
+        const normalizedName = friend.name ? String(friend.name).trim().toLowerCase() : '';
+
+        // Check if friend already exists (prefer Friend ID uniqueness)
+        const exists = (state.friends || []).some(f => {
+          if (normalizedFriendId && f.friendId) {
+            return String(f.friendId).trim().toLowerCase() === normalizedFriendId.toLowerCase();
+          }
+          return (f.name || '').toLowerCase() === normalizedName;
+        });
+
         if (exists) return state;
 
         const newFriend = {
@@ -181,8 +144,17 @@ const useSocialStore = create(
 
       // Ignore actions
       addIgnored: (ignored) => set(state => {
-        // Check if already ignored
-        const exists = (state.ignored || []).some(i => i.name.toLowerCase() === ignored.name.toLowerCase());
+        const normalizedFriendId = ignored.friendId ? String(ignored.friendId).trim() : null;
+        const normalizedName = ignored.name ? String(ignored.name).trim().toLowerCase() : '';
+
+        // Check if already ignored (prefer Friend ID uniqueness)
+        const exists = (state.ignored || []).some(i => {
+          if (normalizedFriendId && i.friendId) {
+            return String(i.friendId).trim().toLowerCase() === normalizedFriendId.toLowerCase();
+          }
+          return (i.name || '').toLowerCase() === normalizedName;
+        });
+
         if (exists) return state;
 
         const newIgnored = {

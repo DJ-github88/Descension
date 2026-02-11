@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
+import authService from '../../services/authService';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -19,6 +20,9 @@ const FriendsList = () => {
     removeFriend,
     setFriendNote
   } = useSocialStore();
+  const user = useAuthStore(state => state.user);
+  const userData = useAuthStore(state => state.userData);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   // Party store for invites
   const { addPartyMember, isInParty, createParty } = usePartyStore();
@@ -30,7 +34,8 @@ const FriendsList = () => {
   const [contextMenu, setContextMenu] = useState(null);
   // State for add friend dialog
   const [showAddFriend, setShowAddFriend] = useState(false);
-  const [newFriendName, setNewFriendName] = useState('');
+  const [newFriendId, setNewFriendId] = useState('');
+  const [addFriendError, setAddFriendError] = useState('');
   // State for note dialog
   const [showNoteDialog, setShowNoteDialog] = useState(false);
   const [noteText, setNoteText] = useState('');
@@ -155,16 +160,56 @@ const FriendsList = () => {
   };
 
   // Handle add friend submit
-  const handleAddFriendSubmit = () => {
-    if (newFriendName.trim()) {
+  const handleAddFriendSubmit = async () => {
+    const rawInput = newFriendId.trim();
+    if (!rawInput) {
+      setAddFriendError('Please enter a Friend ID');
+      return;
+    }
+
+    const cleanFriendId = rawInput.startsWith('#') ? rawInput.slice(1) : rawInput;
+    if (!/^[a-zA-Z0-9]{3,20}$/.test(cleanFriendId)) {
+      setAddFriendError('Friend ID must be 3-20 letters/numbers');
+      return;
+    }
+
+    const currentUserFriendId = userData?.friendId || user?.friendId;
+    if (currentUserFriendId && currentUserFriendId.toLowerCase() === cleanFriendId.toLowerCase()) {
+      setAddFriendError('You cannot add yourself');
+      return;
+    }
+
+    const exists = (friends || []).some(f =>
+      (f.friendId || '').toLowerCase() === cleanFriendId.toLowerCase()
+    );
+    if (exists) {
+      setAddFriendError('This player is already in your friends list');
+      return;
+    }
+
+    try {
+      const foundUser = await authService.findUserByFriendId(cleanFriendId);
+      if (!foundUser) {
+        setAddFriendError('No user found with that Friend ID');
+        return;
+      }
+
       addFriend({
-        name: newFriendName.trim(),
+        id: foundUser.id,
+        name: foundUser.displayName || foundUser.email?.split('@')[0] || cleanFriendId,
+        friendId: foundUser.friendId,
         level: 1,
         class: 'Unknown',
-        status: 'offline'
+        status: 'offline',
+        isRealID: true
       });
-      setNewFriendName('');
+
+      setNewFriendId('');
+      setAddFriendError('');
       setShowAddFriend(false);
+    } catch (error) {
+      console.error('Error adding friend by Friend ID:', error);
+      setAddFriendError('Failed to add friend. Please try again.');
     }
   };
 
@@ -279,7 +324,7 @@ const FriendsList = () => {
 
       {/* Friends List */}
       <div className="friends-list">
-        {(!useAuthStore.getState().isAuthenticated || useAuthStore.getState().user?.isGuest) ? (
+        {(!isAuthenticated || user?.isGuest) ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-lock"></i>
@@ -331,11 +376,17 @@ const FriendsList = () => {
             <div className="social-modal-form">
               <input
                 type="text"
-                value={newFriendName}
-                onChange={(e) => setNewFriendName(e.target.value)}
-                placeholder="Enter character name"
+                value={newFriendId}
+                onChange={(e) => {
+                  setNewFriendId(e.target.value.replace(/[^a-zA-Z0-9#]/g, ''));
+                  setAddFriendError('');
+                }}
+                placeholder="Enter Friend ID (e.g. #StoneLight6117)"
                 className="who-input"
               />
+              {addFriendError && (
+                <div className="error-text" style={{ marginTop: '8px' }}>{addFriendError}</div>
+              )}
             </div>
             <div className="modal-actions">
               <button
@@ -346,7 +397,11 @@ const FriendsList = () => {
               </button>
               <button
                 className="social-button"
-                onClick={() => setShowAddFriend(false)}
+                onClick={() => {
+                  setShowAddFriend(false);
+                  setNewFriendId('');
+                  setAddFriendError('');
+                }}
               >
                 Cancel
               </button>

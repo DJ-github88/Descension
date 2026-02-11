@@ -82,6 +82,13 @@ const useChatStore = create(
 
       // Add a notification to a specific tab
       addNotification: (tab, notification) => set(state => {
+        // Guard against invalid tabs
+        let targetTab = tab;
+        if (!state.notifications[targetTab]) {
+          console.warn(`[ChatStore] Attempted to add notification to invalid tab: '${tab}'. Defaulting to 'social'.`, notification);
+          targetTab = 'social';
+        }
+
         // Create a new notification with ID and timestamp
         const newNotification = {
           id: uuidv4(),
@@ -90,22 +97,23 @@ const useChatStore = create(
         };
 
         // Add to the end of the array (newest last)
+        const currentNotifications = state.notifications[targetTab] || [];
         const tabNotifications = [
-          ...state.notifications[tab],
+          ...currentNotifications,
           newNotification
         ].slice(-MAX_MESSAGES); // Keep only the most recent notifications
 
         // Increment unread count if the window is not open or if a different tab is active
-        const shouldIncrementUnread = !state.isOpen || state.activeTab !== tab;
+        const shouldIncrementUnread = !state.isOpen || state.activeTab !== targetTab;
         const newUnreadCounts = {
           ...state.unreadCounts,
-          [tab]: shouldIncrementUnread ? state.unreadCounts[tab] + 1 : 0
+          [targetTab]: shouldIncrementUnread ? (state.unreadCounts[targetTab] || 0) + 1 : 0
         };
 
         return {
           notifications: {
             ...state.notifications,
-            [tab]: tabNotifications
+            [targetTab]: tabNotifications
           },
           unreadCounts: newUnreadCounts
         };

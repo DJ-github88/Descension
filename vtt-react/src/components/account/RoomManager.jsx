@@ -384,7 +384,7 @@ const RoomManager = () => {
         throw new Error('Room ID is required');
       }
 
-      // 1. Update Firestore if it's a persistent room (has a real ID, not test-room)
+      // 1. Update Firestore if it's a permanent room (has a real ID, not test-room)
       if (roomId && !roomId.includes('test')) {
         await updateRoom(roomId, updates);
         console.log('✅ Room updated in Firestore:', roomId, updates);
@@ -489,7 +489,7 @@ const RoomManager = () => {
             const serverUrl = process.env.REACT_APP_SOCKET_URL ||
               (process.env.NODE_ENV === 'production' ?
                 'https://descension-mythrill.up.railway.app' :
-                'http://localhost:3002'); // Fixed port to 3002 for dev
+                'http://localhost:3001');
 
             const response = await fetch(`${serverUrl}/rooms`, {
               method: 'GET',
@@ -1040,7 +1040,7 @@ const RoomManager = () => {
             <div className="no-rooms">
               <i className="fas fa-dungeon"></i>
               <h3>No Multiplayer Rooms Yet</h3>
-              <p>Create your first persistent room to start a campaign that saves your progress.</p>
+              <p>Create your first permanent room to start a campaign that saves your progress.</p>
               <div className="empty-state-actions">
                 <button
                   className="create-room-btn"

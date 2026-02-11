@@ -9,10 +9,13 @@ const Joi = require('joi');
 const validationSchemas = {
   // Room management
   create_room: Joi.object({
-    roomName: Joi.string().min(1).max(50).required(),
+    roomName: Joi.string().min(1).max(50).optional(), // Optional for permanent room resume
     gmName: Joi.string().min(1).max(50).required(),
     password: Joi.string().min(0).max(100).allow(''),
-    playerColor: Joi.string().regex(/^#[0-9A-Fa-f]{6}$/).optional()
+    playerColor: Joi.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
+    persistentRoomId: Joi.string().optional(), // For permanent room resume
+    character: Joi.object().optional().allow(null), // Character data for GM
+    partyMembers: Joi.array().optional() // Party members for room creation
   }),
 
   join_room: Joi.object({

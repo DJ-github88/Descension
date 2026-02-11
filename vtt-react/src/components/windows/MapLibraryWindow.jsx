@@ -495,22 +495,34 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 // Use the game store directly to ensure functions exist
                 const gameStoreState = useGameStore.getState();
 
-                // Clear existing tokens first, then load new ones
-                // This ensures tokens don't persist between maps
+                // Clear/reload token collections only when payload is present.
+                // This prevents accidental wipes when map payload is partial.
                 const { default: useCreatureStore } = await import('../../store/creatureStore');
                 const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
 
-                // Clear all tokens before loading new map's tokens
-                if (useCreatureStore.getState().clearTokens) {
-                    useCreatureStore.getState().clearTokens();
+                const tokensPayload = mapState.tokens;
+                const characterTokensPayload = mapState.characterTokens;
+                const hasTokensPayload = tokensPayload !== undefined;
+                const hasCharacterTokensPayload = characterTokensPayload !== undefined;
+
+                if (hasTokensPayload) {
+                    if (useCreatureStore.getState().clearTokens) {
+                        useCreatureStore.getState().clearTokens();
+                    } else {
+                        useCreatureStore.setState({ tokens: [] });
+                    }
                 } else {
-                    useCreatureStore.setState({ tokens: [] });
+                    console.warn('⚠️ [Map Switch] Missing creature token payload - preserving existing tokens to avoid accidental wipe');
                 }
 
-                if (useCharacterTokenStore.getState().clearCharacterTokens) {
-                    useCharacterTokenStore.getState().clearCharacterTokens();
+                if (hasCharacterTokensPayload) {
+                    if (useCharacterTokenStore.getState().clearCharacterTokens) {
+                        useCharacterTokenStore.getState().clearCharacterTokens();
+                    } else {
+                        useCharacterTokenStore.setState({ characterTokens: [] });
+                    }
                 } else {
-                    useCharacterTokenStore.setState({ characterTokens: [] });
+                    console.warn('⚠️ [Map Switch] Missing character token payload - preserving existing character tokens to avoid accidental wipe');
                 }
 
                 // Set other game state
@@ -519,9 +531,12 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 }
 
                 // Load tokens for the new map
-                if (mapState.tokens && mapState.tokens.length > 0) {
+                const normalizedTokens = Array.isArray(tokensPayload)
+                    ? tokensPayload
+                    : (tokensPayload ? Object.values(tokensPayload) : []);
+                if (hasTokensPayload && normalizedTokens.length > 0) {
                     const creatureStore = useCreatureStore.getState();
-                    mapState.tokens.forEach(token => {
+                    normalizedTokens.forEach(token => {
                         if (creatureStore.loadToken) {
                             creatureStore.loadToken(token);
                         }
@@ -529,9 +544,12 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 }
 
                 // Load character tokens for the new map
-                if (mapState.characterTokens && mapState.characterTokens.length > 0) {
+                const normalizedCharacterTokens = Array.isArray(characterTokensPayload)
+                    ? characterTokensPayload
+                    : (characterTokensPayload ? Object.values(characterTokensPayload) : []);
+                if (hasCharacterTokensPayload && normalizedCharacterTokens.length > 0) {
                     const characterTokenStore = useCharacterTokenStore.getState();
-                    mapState.characterTokens.forEach(token => {
+                    normalizedCharacterTokens.forEach(token => {
                         if (characterTokenStore.addCharacterTokenFromServer) {
                             characterTokenStore.addCharacterTokenFromServer(token.id, token.position, token.playerId);
                         }
@@ -604,12 +622,20 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         : defaultLayers);
                 }
 
-                // Update grid items store - merge items, don't replace entire store
+                // Update grid items store only when payload exists.
                 const { default: useGridItemStore } = await import('../../store/gridItemStore');
                 if (useGridItemStore) {
-                    // CRITICAL FIX: Replace entire gridItems array with map-specific items
-                    // This prevents duplicates and ensures clean state when switching maps
-                    useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
+                    const gridItemsPayload = mapState.gridItems;
+                    const hasGridItemsPayload = gridItemsPayload !== undefined;
+
+                    if (!hasGridItemsPayload) {
+                        console.warn('⚠️ [Map Switch] Missing gridItems payload - preserving existing items to avoid accidental wipe');
+                    } else {
+                        const normalizedGridItems = Array.isArray(gridItemsPayload)
+                            ? gridItemsPayload
+                            : Object.values(gridItemsPayload || {});
+                        useGridItemStore.setState({ gridItems: normalizedGridItems });
+                    }
                 }
 
             } else {

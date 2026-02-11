@@ -1,4 +1,4 @@
-// Game State Manager - Handles automatic saving and loading of persistent room state
+// Game State Manager - Handles automatic saving and loading of permanent room state
 import { saveCompleteGameState, loadCompleteGameState, updateGameStateSection } from './roomService';
 import useCreatureStore from '../store/creatureStore';
 import useLevelEditorStore from '../store/levelEditorStore';
@@ -57,11 +57,11 @@ class GameStateManager {
     const levelEditorStore = useLevelEditorStore.getState();
     this.unsubscribeLevelEditor = useLevelEditorStore.subscribe((state, prevState) => {
       if (state.terrainData !== prevState.terrainData ||
-          state.environmentalObjects !== prevState.environmentalObjects ||
-          state.wallData !== prevState.wallData ||
-          state.fogOfWarData !== prevState.fogOfWarData ||
-          state.drawingPaths !== prevState.drawingPaths ||
-          state.lightSources !== prevState.lightSources) {
+        state.environmentalObjects !== prevState.environmentalObjects ||
+        state.wallData !== prevState.wallData ||
+        state.fogOfWarData !== prevState.fogOfWarData ||
+        state.drawingPaths !== prevState.drawingPaths ||
+        state.lightSources !== prevState.lightSources) {
         this.markChanged('levelEditor');
       }
     });
@@ -70,10 +70,10 @@ class GameStateManager {
     const gameStore = useGameStore.getState();
     this.unsubscribeGame = useGameStore.subscribe((state, prevState) => {
       if (state.cameraX !== prevState.cameraX ||
-          state.cameraY !== prevState.cameraY ||
-          state.zoomLevel !== prevState.zoomLevel ||
-          state.backgrounds !== prevState.backgrounds ||
-          state.activeBackgroundId !== prevState.activeBackgroundId) {
+        state.cameraY !== prevState.cameraY ||
+        state.zoomLevel !== prevState.zoomLevel ||
+        state.backgrounds !== prevState.backgrounds ||
+        state.activeBackgroundId !== prevState.activeBackgroundId) {
         this.markChanged('mapData');
       }
     });
@@ -82,9 +82,9 @@ class GameStateManager {
     const combatStore = useCombatStore.getState();
     this.unsubscribeCombat = useCombatStore.subscribe((state, prevState) => {
       if (state.isInCombat !== prevState.isInCombat ||
-          state.turnOrder !== prevState.turnOrder ||
-          state.currentTurn !== prevState.currentTurn ||
-          state.round !== prevState.round) {
+        state.turnOrder !== prevState.turnOrder ||
+        state.currentTurn !== prevState.currentTurn ||
+        state.round !== prevState.round) {
         this.markChanged('combat');
       }
     });
@@ -134,21 +134,26 @@ class GameStateManager {
    */
   async applyGameStateToStores(gameState) {
     try {
-      // Apply creature/token data
+      // Apply creature/token data using loadToken for map filtering
       if (gameState.tokens && Object.keys(gameState.tokens).length > 0) {
         const creatureStore = useCreatureStore.getState();
-        const tokens = Object.values(gameState.tokens).map(token => ({
-          ...token,
-          id: token.id || token.creatureId
-        }));
-        creatureStore.setTokens(tokens);
+        // Use loadToken instead of setTokens to ensure map filtering is applied
+        // This prevents cross-map contamination when loading game state
+        Object.values(gameState.tokens).forEach(tokenData => {
+          // Ensure token has proper id field
+          const normalizedToken = {
+            ...tokenData,
+            id: tokenData.id || tokenData.creatureId
+          };
+          creatureStore.loadToken(normalizedToken);
+        });
       }
 
       // Apply level editor data
       if (gameState.levelEditor) {
         const levelEditorStore = useLevelEditorStore.getState();
         const { levelEditor } = gameState;
-        
+
         if (levelEditor.terrainData) levelEditorStore.setTerrainData(levelEditor.terrainData);
         if (levelEditor.environmentalObjects) levelEditorStore.setEnvironmentalObjects(levelEditor.environmentalObjects);
         if (levelEditor.wallData) levelEditorStore.setWallData(levelEditor.wallData);
@@ -162,7 +167,7 @@ class GameStateManager {
       if (gameState.mapData) {
         const gameStore = useGameStore.getState();
         const { mapData } = gameState;
-        
+
         if (mapData.cameraPosition) {
           gameStore.setCameraPosition(mapData.cameraPosition.x, mapData.cameraPosition.y);
         }

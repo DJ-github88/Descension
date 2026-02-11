@@ -6,7 +6,7 @@ import WhoList from '../social/WhoList';
 import '../../styles/social-window.css';
 
 const SocialWindow = ({ activeTab: propActiveTab, contentOnly = false }) => {
-  const { activeTab: storeActiveTab, setActiveTab } = useSocialStore();
+  const { activeTab: storeActiveTab, setActiveTab, migrateSocialData } = useSocialStore();
   const activeTab = propActiveTab || storeActiveTab;
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -18,6 +18,10 @@ const SocialWindow = ({ activeTab: propActiveTab, contentOnly = false }) => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    migrateSocialData();
+  }, [migrateSocialData]);
 
   // Render the appropriate tab content
   const renderContent = () => {

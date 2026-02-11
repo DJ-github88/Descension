@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
+import authService from '../../services/authService';
 import useSettingsStore from '../../store/settingsStore';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
@@ -17,12 +18,16 @@ const IgnoreList = () => {
     removeIgnored,
     setIgnoredNote
   } = useSocialStore();
+  const user = useAuthStore(state => state.user);
+  const userData = useAuthStore(state => state.userData);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
   // State for add ignore dialog
   const [showAddIgnore, setShowAddIgnore] = useState(false);
-  const [newIgnoreName, setNewIgnoreName] = useState('');
+  const [newIgnoreId, setNewIgnoreId] = useState('');
+  const [addIgnoreError, setAddIgnoreError] = useState('');
   // State for note dialog
   const [showNoteDialog, setShowNoteDialog] = useState(false);
   const [noteText, setNoteText] = useState('');
@@ -58,15 +63,55 @@ const IgnoreList = () => {
   };
 
   // Handle add ignore submit
-  const handleAddIgnoreSubmit = () => {
-    if (newIgnoreName.trim()) {
+  const handleAddIgnoreSubmit = async () => {
+    const rawInput = newIgnoreId.trim();
+    if (!rawInput) {
+      setAddIgnoreError('Please enter a Friend ID');
+      return;
+    }
+
+    const cleanFriendId = rawInput.startsWith('#') ? rawInput.slice(1) : rawInput;
+    if (!/^[a-zA-Z0-9]{3,20}$/.test(cleanFriendId)) {
+      setAddIgnoreError('Friend ID must be 3-20 letters/numbers');
+      return;
+    }
+
+    const currentUserFriendId = userData?.friendId || user?.friendId;
+    if (currentUserFriendId && currentUserFriendId.toLowerCase() === cleanFriendId.toLowerCase()) {
+      setAddIgnoreError('You cannot ignore yourself');
+      return;
+    }
+
+    const exists = (ignored || []).some(i =>
+      (i.friendId || '').toLowerCase() === cleanFriendId.toLowerCase()
+    );
+    if (exists) {
+      setAddIgnoreError('This player is already ignored');
+      return;
+    }
+
+    try {
+      const foundUser = await authService.findUserByFriendId(cleanFriendId);
+      if (!foundUser) {
+        setAddIgnoreError('No user found with that Friend ID');
+        return;
+      }
+
       addIgnored({
-        name: newIgnoreName.trim(),
+        id: foundUser.id,
+        name: foundUser.displayName || foundUser.email?.split('@')[0] || cleanFriendId,
+        friendId: foundUser.friendId,
         level: 1,
-        class: 'Unknown'
+        class: 'Unknown',
+        status: 'offline'
       });
-      setNewIgnoreName('');
+
+      setNewIgnoreId('');
+      setAddIgnoreError('');
       setShowAddIgnore(false);
+    } catch (error) {
+      console.error('Error adding ignored user by Friend ID:', error);
+      setAddIgnoreError('Failed to add ignored user. Please try again.');
     }
   };
 
@@ -157,7 +202,7 @@ const IgnoreList = () => {
 
       {/* Ignore List */}
       <div className="friends-list">
-        {(!useAuthStore.getState().isAuthenticated || useAuthStore.getState().user?.isGuest) ? (
+        {(!isAuthenticated || user?.isGuest) ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-lock"></i>
@@ -196,11 +241,17 @@ const IgnoreList = () => {
             <div className="social-modal-form">
               <input
                 type="text"
-                value={newIgnoreName}
-                onChange={(e) => setNewIgnoreName(e.target.value)}
-                placeholder="Enter character name"
+                value={newIgnoreId}
+                onChange={(e) => {
+                  setNewIgnoreId(e.target.value.replace(/[^a-zA-Z0-9#]/g, ''));
+                  setAddIgnoreError('');
+                }}
+                placeholder="Enter Friend ID (e.g. #StoneLight6117)"
                 className="who-input"
               />
+              {addIgnoreError && (
+                <div className="error-text" style={{ marginTop: '8px' }}>{addIgnoreError}</div>
+              )}
             </div>
             <div className="modal-actions">
               <button
@@ -211,7 +262,11 @@ const IgnoreList = () => {
               </button>
               <button
                 className="social-button"
-                onClick={() => setShowAddIgnore(false)}
+                onClick={() => {
+                  setShowAddIgnore(false);
+                  setNewIgnoreId('');
+                  setAddIgnoreError('');
+                }}
               >
                 Cancel
               </button>

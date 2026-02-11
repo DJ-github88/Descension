@@ -24,7 +24,7 @@ const ROOMS_COLLECTION = 'rooms';
 const ROOM_SESSIONS_COLLECTION = 'roomSessions';
 
 /**
- * Create a new persistent room in Firestore
+ * Create a new permanent room in Firestore
  * @param {Object} roomData - Room configuration
  * @returns {Promise<string>} - Room ID
  */

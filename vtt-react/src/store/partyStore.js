@@ -4,6 +4,45 @@ import { v4 as uuidv4 } from 'uuid';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
 
+const getSelfIdentifiers = (gameStore) => {
+    const ids = new Set(['current-player']);
+    if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
+    if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
+    return ids;
+};
+
+const isSelfMemberId = (memberId, gameStore) => {
+    const selfIds = getSelfIdentifiers(gameStore);
+    return selfIds.has(memberId);
+};
+
+const ensureSelfMember = (members, gameStore) => {
+    const selfIds = getSelfIdentifiers(gameStore);
+    const hasSelf = (members || []).some(member => selfIds.has(member.id));
+    if (hasSelf) return members || [];
+
+    const fallbackSelfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id || 'current-player';
+    const fallbackSelfName = gameStore?.currentPlayer?.name || 'Current Player';
+
+    return [
+        ...(members || []),
+        {
+            id: fallbackSelfId,
+            name: fallbackSelfName,
+            isGM: false,
+            status: PARTY_STATUS.ONLINE,
+            joinedAt: Date.now(),
+            character: {
+                class: 'Unknown',
+                level: 1,
+                health: { current: 45, max: 50 },
+                mana: { current: 45, max: 50 },
+                actionPoints: { current: 1, max: 3 }
+            }
+        }
+    ];
+};
+
 // Party member status types
 export const PARTY_STATUS = {
     ONLINE: 'online',
@@ -176,13 +215,27 @@ const usePartyStore = create(
                 return true;
             },
 
-            removePartyMember: (memberId) => {
+            removePartyMember: (memberId, force = false) => {
                 const state = get();
+                const gameStore = useGameStore.getState();
+
+                // Never allow removing yourself unless explicitly forced by internal migration/sync code.
+                if (!force && isSelfMemberId(memberId, gameStore)) {
+                    return false;
+                }
+
                 const memberToRemove = (state.partyMembers || []).find(member => member.id === memberId);
 
-                set(state => ({
-                    partyMembers: (state.partyMembers || []).filter(member => member.id !== memberId)
-                }));
+                set(state => {
+                    let updatedMembers = (state.partyMembers || []).filter(member => member.id !== memberId);
+
+                    // Safety net: while in a party, always keep the local player represented.
+                    if (state.isInParty) {
+                        updatedMembers = ensureSelfMember(updatedMembers, gameStore);
+                    }
+
+                    return { partyMembers: updatedMembers };
+                });
 
                 // Sync with multiplayer
                 if (memberToRemove) {
@@ -190,7 +243,6 @@ const usePartyStore = create(
                 }
 
                 // If current player is removed, they should be redirected (handled by MultiplayerApp)
-                const gameStore = useGameStore.getState();
                 const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
 
                 if (memberId === 'current-player' || memberId === myId) {

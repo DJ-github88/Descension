@@ -15,6 +15,9 @@ class RateLimitService {
       // Token movement - high frequency but throttle aggressive spam
       token_moved: { maxPerMinute: 300, maxPerSecond: 10 },
       character_moved: { maxPerMinute: 300, maxPerSecond: 10 },
+      // Cursor updates are intentionally high-frequency for smooth remote pointer tracking.
+      // Keep limits high enough to avoid freezing cursor streams under normal movement.
+      cursor_move: { maxPerMinute: 3600, maxPerSecond: 120 },
 
       // Combat actions - moderate frequency
       combat_action: { maxPerMinute: 60, maxPerSecond: 5 },

@@ -353,10 +353,12 @@
     height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
 }
 
 /* Center no-skill-selected when inside creature-section-content */
-.creature-section-content .skills-container:has(.no-skill-selected:only-child) {
+.creature-section-content .skills-container:has(> .no-skill-selected:only-child) {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -393,6 +395,11 @@
     padding: 0 !important;
 }
 
+/* Keep the right pane visually consistent with the rest of creature section content */
+.creature-section-content .skills-content {
+    background: transparent !important;
+}
+
 /* No Skill Selected State */
 .no-skill-selected {
     display: flex;
@@ -410,7 +417,7 @@
 }
 
 /* When skills-container only has no-skill-selected, center it properly */
-.skills-container:has(.no-skill-selected:only-child) {
+.skills-container:has(> .no-skill-selected:only-child) {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;

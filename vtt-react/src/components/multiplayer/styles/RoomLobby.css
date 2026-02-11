@@ -165,6 +165,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .error-content {
@@ -172,6 +173,8 @@
   align-items: center;
   gap: 8px;
   flex: 1;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 .error-content i {
@@ -1343,8 +1346,8 @@
   position: relative !important;
   overflow: hidden !important;
   font-family: 'Cinzel', serif !important;
-  min-height: 220px !important;
-  aspect-ratio: 360 / 220 !important;
+  min-height: 240px !important;
+  height: auto !important;
   contain: layout !important;
 }
 
@@ -1993,6 +1996,39 @@
   border-color: #d4af37;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+/* Permanent room toggle styles */
+.permanent-toggle-group {
+  margin-bottom: 20px;
+}
+
+.permanent-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.permanent-toggle-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c2416;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.permanent-toggle-text i {
+  font-size: 1rem;
+}
+
+.toggle-hint {
+  font-size: 0.8rem;
+  color: #5d4037;
+  font-weight: 500;
+  opacity: 0.85;
 }
 
 .create-room-prompt-btn i {

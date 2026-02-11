@@ -21,7 +21,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       'Cloud character save',
       '50 character slots',
-      '1 persistent room',
+      '1 permanent room',
       'Unlimited local play',
       'Basic multiplayer features'
     ],
@@ -36,7 +36,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       'Cloud character save',
       '50 character slots',
-      '3 persistent rooms',
+      '3 permanent rooms',
       'Unlimited local play',
       'Dev Preview access'
     ],
@@ -51,7 +51,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       'Cloud character save',
       '6 character slots',
-      '3 persistent rooms',
+      '3 permanent rooms',
       'Unlimited local play',
       'Advanced multiplayer features',
       'Priority support',
@@ -68,7 +68,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       'Cloud character save',
       '24 character slots',
-      '10 persistent rooms',
+      '10 permanent rooms',
       'Unlimited local play',
       'All multiplayer features',
       'Priority support',

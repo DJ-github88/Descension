@@ -697,7 +697,17 @@ async function initializePersistentRooms() {
     const persistentRooms = await firebaseService.loadPersistentRooms();
 
     if (persistentRooms && persistentRooms.length > 0) {
-      persistentRooms.forEach(room => {
+      // DIAGNOSTIC: Log room data being loaded
+      persistentRooms.forEach((room, index) => {
+        logger.info(`[initializePersistentRooms] Loading room ${index + 1}:`, {
+          roomId: room.id,
+          roomName: room.roomName,
+          gameStateMapCount: Object.keys(room.gameState?.maps || {}).length,
+          defaultMapHasGridItems: !!room.gameState?.maps?.default?.gridItems,
+          defaultMapGridItemsCount: Object.keys(room.gameState?.maps?.default?.gridItems || {}).length,
+          defaultMapTerrainCount: Object.keys(room.gameState?.maps?.default?.terrainData || {}).length
+        });
+
         // Convert plain object players to Map if they aren't already
         // (firebaseService handles this, but let's be double sure)
         if (room.players && !(room.players instanceof Map)) {
@@ -786,6 +796,34 @@ function validateRoomMembership(socket, roomId, requireGM = false) {
   return { valid: true, player, room };
 }
 
+// Helper to merge game state when resuming a permanent room
+function mergeRoomGameStateForResume(baseState, resumeState) {
+  if (!resumeState || typeof resumeState !== 'object') return baseState;
+
+  const merged = { ...baseState };
+
+  // Merge maps - preserve existing maps but overwrite with resume data if present
+  if (resumeState.maps) {
+    merged.maps = { ...merged.maps, ...resumeState.maps };
+  }
+
+  // Merge combat state
+  if (resumeState.combat) {
+    merged.combat = { ...merged.combat, ...resumeState.combat };
+  }
+
+  // Merge other key properties
+  if (resumeState.playerMapAssignments) {
+    merged.playerMapAssignments = { ...merged.playerMapAssignments, ...resumeState.playerMapAssignments };
+  }
+
+  if (resumeState.gridSettings) {
+    merged.gridSettings = { ...merged.gridSettings, ...resumeState.gridSettings };
+  }
+
+  return merged;
+}
+
 // Helper to update gameState using delta sync with conflict resolution
 async function updateGameStateWithDelta(roomId, newGameState, metadata = {}) {
   try {
@@ -862,7 +900,7 @@ async function verifyPassword(plainPassword, hashedPassword) {
 }
 
 // Room management functions
-async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#d4af37', _persistToFirebase = true) {
+async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#d4af37', _persistToFirebase = true, persistentRoomId = undefined) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
 
@@ -874,7 +912,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
     name: roomName,
     passwordHash: passwordHash, // Store hashed password, never plain text
     gm: {
-      id: gmPlayerId,
+      id: roomId, // CRITICAL FIX: Use same ID as room to prevent UUID mismatch
       name: gmName,
       socketId: gmSocketId,
       isGM: true, // Mark GM status
@@ -1249,54 +1287,172 @@ io.on('connection', (socket) => {
 
   // RESTORED: Handle room creation
   socket.on('create_room', async (data) => {
-    try {
-      const room = await createRoom(
-        data.roomName,
-        data.gmName,
-        socket.id,
-        data.password,
-        data.playerColor,
-        true // persist to firebase
-      );
+    let room = null;
 
-      // Handle persistent room data
-      if (data.persistentRoomId) {
-        room.persistentRoomId = data.persistentRoomId;
-        if (data.gameState) {
-          room.gameState = { ...room.gameState, ...data.gameState };
+    try {
+      // Validate input data
+      if (!data || !data.gmName) {
+        throw new Error('Invalid create_room data: missing gmName');
+      }
+
+      logger.info('[create_room] Received room creation request', {
+        gmName: data.gmName,
+        roomName: data.roomName,
+        hasPersistentRoomId: !!data.persistentRoomId,
+        persistentRoomId: data.persistentRoomId
+      });
+
+      // CRITICAL FIX: Check if this is a permanent room resume
+      const isPermanentRoomResume = !!data.persistentRoomId;
+
+      if (isPermanentRoomResume) {
+        // For permanent rooms, load fresh data from Firestore first
+        logger.info('[create_room] Loading Firestore data for permanent room', { persistentRoomId: data.persistentRoomId });
+
+        if (!data.persistentRoomId) {
+          throw new Error('Persistent room ID is required for room resume');
         }
+
+        const persistedRoomData = await firebaseService.getRoomData(data.persistentRoomId);
+
+        if (!persistedRoomData) {
+          throw new Error(`Permanent room not found in Firestore: ${data.persistentRoomId}`);
+        }
+
+        // Create room from persisted Firestore data
+        // This ensures room.id is Firestore document ID and contains proper gameState
+        room = await createRoom(
+          persistedRoomData.roomName || data.roomName || 'Campaign Room',
+          data.gmName,
+          socket.id,
+          data.password || '',
+          data.playerColor || '#d4af37',
+          true,
+          data.persistentRoomId // Pass Firestore document ID to createRoom
+        );
+
+        if (!room) {
+          throw new Error('Failed to create room from Firestore data');
+        }
+
+        logger.info('[create_room] Permanent room created from Firestore data', {
+          roomId: room.id,
+          roomName: room.name,
+          gameStateMapCount: Object.keys(room.gameState?.maps || {}).length,
+          defaultMapHasGridItems: !!room.gameState?.maps?.default?.gridItems,
+          defaultMapGridItemsCount: Object.keys(room.gameState?.maps?.default?.gridItems || {}).length
+        });
+
+        // Restore game state if provided (merge with existing in-memory data)
+        if (data.gameState && typeof data.gameState === 'object') {
+          room.gameState = mergeRoomGameStateForResume(room.gameState, data.gameState);
+          logger.info('[create_room] Merged game state from resume data');
+        }
+      } else {
+        // Normal room creation (temporary rooms)
+        if (!data.roomName) {
+          throw new Error('Room name is required for room creation');
+        }
+
+        room = await createRoom(
+          data.roomName,
+          data.gmName,
+          socket.id,
+          data.password || '',
+          data.playerColor || '#4a90e2',
+          false, // Do NOT persist to Firebase
+          undefined // No persistentRoomId for temporary rooms
+        );
+
+        if (!room) {
+          throw new Error('Failed to create temporary room');
+        }
+
+        logger.info('[create_room] Temporary room created', {
+          roomId: room.id,
+          roomName: room.name
+        });
+      }
+
+      // CRITICAL: Verify room was created successfully
+      if (!room) {
+        throw new Error('Room creation failed: room is null after creation');
+      }
+
+      if (!room.id) {
+        throw new Error('Room creation failed: room has no ID');
+      }
+
+      if (!room.gm) {
+        throw new Error('Room creation failed: room has no GM data');
       }
 
       // Update GM character data
       if (data.character && room.gm) {
         room.gm.character = data.character;
+        logger.info('[create_room] Updated GM character data', {
+          hasCharacter: !!data.character,
+          hasTokenSettings: !!data.character?.tokenSettings
+        });
       }
 
-      // Join the socket.io room
+      // Join socket.io room
       socket.join(room.id);
 
       // Emit room_joined event (RoomLobby expects this)
-      socket.emit('room_joined', {
+      const roomJoinedData = {
         room,
         player: room.gm,
         isGM: true,
+        isGMReconnect: false,
         sessionId: socket.id
+      };
+
+      logger.info('[create_room] Emitting room_joined', {
+        roomId: room.id,
+        hasRoom: !!roomJoinedData.room,
+        hasPlayer: !!roomJoinedData.player
       });
 
+      socket.emit('room_joined', roomJoinedData);
+
       // Also emit room_created for specific handling
-      socket.emit('room_created', {
+      const roomCreatedData = {
         room,
         playerId: room.gm.id,
         isGM: true
+      };
+
+      logger.info('[create_room] Emitting room_created', {
+        roomId: room.id,
+        roomName: room.name,
+        persistentRoomId: room.persistentRoomId
       });
+
+      socket.emit('room_created', roomCreatedData);
 
       // Broadcast update to all clients for lobby list
       io.emit('room_list_updated', getPublicRooms());
 
-      console.log(`✅ Room ${room.id} created by ${data.gmName}`);
+      logger.info(`✅ Room ${room.id} created by ${data.gmName}`);
     } catch (error) {
-      console.error('Create room error:', error);
-      socket.emit('error', { message: error.message || 'Failed to create room' });
+      logger.error('[create_room] Error creating room:', {
+        error: error.message,
+        stack: error.stack,
+        roomId: room?.id,
+        gmName: data?.gmName,
+        persistentRoomId: data?.persistentRoomId
+      });
+
+      // Emit error to client
+      socket.emit('error', {
+        message: error.message || 'Failed to create room',
+        details: {
+          type: 'room_creation_error',
+          roomId: room?.id,
+          persistentRoomId: data?.persistentRoomId
+        }
+      });
     }
   });
 
@@ -1709,8 +1865,7 @@ io.on('connection', (socket) => {
         lastMovedBy: player.id,
         lastMovedByName: player.name,
         lastMovedAt: new Date(),
-        // FIXED: Preserve velocity data for lag compensation
-        velocity: data.velocity || existingToken.velocity
+        velocity: data.velocity || existingToken.velocity || { x: 0, y: 0 }
       };
 
       // Persist to Firebase
@@ -1760,9 +1915,9 @@ io.on('connection', (socket) => {
     if (data.isDragging) {
       movementDebouncer.queueMove(player.roomId, tokenId, {
         position: data.position,
-        velocity: data.velocity || calculatedVelocity, // Use calculatedVelocity here
+        velocity: data.velocity || calculatedVelocity || { x: 0, y: 0 },
         playerId: player.id,
-        socketId: socket.id, // Needed for except() broadcasting
+        socketId: socket.id,
         isDragging: true,
         actionId: data.actionId
       });
@@ -1794,7 +1949,7 @@ io.on('connection', (socket) => {
             playerName: player.name,
             isDragging: false,
             serverTimestamp: now,
-            velocity: data.velocity || calculatedVelocity,
+            velocity: data.velocity || calculatedVelocity || { x: 0, y: 0 },
             actionId: data.actionId || `move_${now}`,
             sequence: ++eventSequenceNumber,
             mapId: targetMapId
@@ -4169,6 +4324,9 @@ io.on('connection', (socket) => {
 
     const tokenId = data.id || `creature_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
+    // Initialize state from creature stats if available
+    const creatureStats = data.creature?.stats || {};
+
     const tokenData = {
       id: tokenId,
       creatureId: data.creatureId,
@@ -4176,7 +4334,18 @@ io.on('connection', (socket) => {
       velocity: data.velocity || { x: 0, y: 0 },
       createdBy: player.id,
       createdAt: new Date(),
-      mapId: targetMapId
+      mapId: targetMapId,
+      state: {
+        currentHp: creatureStats.currentHp || creatureStats.maxHp || 0,
+        maxHp: creatureStats.maxHp || 100,
+        currentMana: creatureStats.currentMana || creatureStats.maxMana || 0,
+        maxMana: creatureStats.maxMana || 50,
+        currentActionPoints: creatureStats.currentActionPoints || creatureStats.maxActionPoints || 0,
+        maxActionPoints: creatureStats.maxActionPoints || 3,
+        conditions: [],
+        customName: null,
+        customIcon: null
+      }
     };
 
     // Store in global (legacy) and map-specific storage
@@ -4199,13 +4368,16 @@ io.on('connection', (socket) => {
     });
 
     // Broadcast to other players ON THE SAME MAP
+    // CRITICAL: Include full token state to prevent client-side reinitialization
     for (const [sid, p] of players.entries()) {
       if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
         io.to(sid).emit('creature_added', {
           id: tokenId,
           creatureId: data.creatureId,
+          token: tokenData,
+          state: tokenData.state,
           position: data.position,
-          velocity: data.velocity,
+          velocity: tokenData.velocity,
           createdBy: player.id,
           createdByName: player.name,
           timestamp: new Date(),
@@ -4236,12 +4408,16 @@ io.on('connection', (socket) => {
     }
     targetMapId = targetMapId || player.currentMapId || 'default';
 
-    // Update creature state
+    // Update creature state - CRITICAL: Merge into token.state, not top level
+    const existingToken = room.gameState.tokens[data.tokenId];
     const updateData = {
-      ...room.gameState.tokens[data.tokenId],
-      ...data.stateUpdates,
+      ...existingToken,
       lastUpdatedBy: player.id,
-      lastUpdatedAt: new Date()
+      lastUpdatedAt: new Date(),
+      state: {
+        ...(existingToken?.state || {}),
+        ...(data.stateUpdates || {})
+      }
     };
 
     room.gameState.tokens[data.tokenId] = updateData;
@@ -4258,9 +4434,9 @@ io.on('connection', (socket) => {
       console.error('Failed to persist creature update:', error);
     }
 
-    // Broadcast to other players on SAME MAP
+    // Broadcast to other players in room (creature state updates go to ALL players, not just same map)
     for (const [sid, p] of players.entries()) {
-      if (sid !== socket.id && p.roomId === player.roomId && p.currentMapId === targetMapId) {
+      if (sid !== socket.id && p.roomId === player.roomId) {
         io.to(sid).emit('creature_updated', {
           tokenId: data.tokenId,
           stateUpdates: data.stateUpdates,
