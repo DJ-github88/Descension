@@ -800,6 +800,30 @@ const useGridItemStore = create((set, get) => ({
   // Clear all items from the grid
   clearGrid: () => set({ gridItems: [] }),
 
+  // Set the entire collection of grid items (used during game state load)
+  setGridItems: (items) => set((state) => {
+    // CRITICAL FIX: Normalize incoming IDs to ensure stable identity even during re-sync/re-load
+    const normalizedItems = (Array.isArray(items) ? items : []).map(item => {
+      const rawIncomingId = (item && item.id !== undefined && item.id !== null) ? String(item.id) : null;
+      const normalizedGridId = rawIncomingId
+        ? (rawIncomingId.startsWith('grid-item-') ? rawIncomingId : `grid-item-${rawIncomingId}`)
+        : generateId();
+
+      return {
+        ...item,
+        id: normalizedGridId,
+        itemId: item.itemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null),
+        originalItemId: item.originalItemId || (rawIncomingId && !rawIncomingId.startsWith('grid-item-') ? rawIncomingId : null),
+        lastModified: item.lastModified || Date.now()
+      };
+    });
+
+    return {
+      gridItems: normalizedItems,
+      lastUpdate: Date.now()
+    };
+  }),
+
   // Load a grid item from saved state (bypasses position validation)
   loadGridItem: (item) => set((state) => {
     // CRITICAL FIX: Normalize IDs on load so persisted items don't duplicate when rehydrated.

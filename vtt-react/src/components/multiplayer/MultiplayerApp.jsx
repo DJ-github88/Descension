@@ -1078,6 +1078,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // The server emits room_created, then immediately room_joined
     socket.on('room_created', (data) => {
       console.log('✅ [MultiplayerApp] room_created received:', data);
+      console.log('🔍 Room structure check:', {
+        hasRoom: !!data.room,
+        hasPersistentRoomId: !!data.room?.persistentRoomId,
+        roomId: data.room?.id,
+        persistentRoomId: data.room?.persistentRoomId
+      });
 
       // Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -2328,23 +2334,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for creature tokens being added by GM
     socket.on('creature_added', (data) => {
-      const { id, creatureId, position, velocity, createdBy, createdByName, mapId } = data;
+      const { id, creatureId, position, velocity, createdBy, createdByName, mapId, token, state } = data;
 
       // Skip if we are the one who added it (GM adding creature)
       if (createdBy === socket.id) return;
 
       const creatureStore = require('../../store/creatureStore').default.getState();
-      // Find creature data in library or use minimal data from event
-      const libraryCreatures = creatureStore.creatures || [];
-      const creatureData = libraryCreatures.find(c => c.id === creatureId) || {
-        id: creatureId,
-        name: `Creature ${creatureId.substring(0, 8)}...`,
-        isPlaceholder: true
-      };
+
+      // CRITICAL: Use included state to preserve token state across clients
+      // If state is provided (new behavior), use it; otherwise fall back to library data
+      let creatureData;
+      if (token && state) {
+        // Use the full token data from server including state
+        creatureData = token;
+      } else {
+        // Fallback: Find creature data in library or use minimal data
+        const libraryCreatures = creatureStore.creatures || [];
+        creatureData = libraryCreatures.find(c => c.id === creatureId) || {
+          id: creatureId,
+          name: `Creature ${creatureId.substring(0, 8)}...`,
+          isPlaceholder: true
+        };
+      }
 
       // Add creature token locally without re-emitting to server
       creatureStore.addCreatureToken(creatureData, position, false, id, true, mapId);
-      console.log('🐉 Received creature_added:', { id, creatureId, position, mapId });
+      console.log('🐉 Received creature_added:', { id, creatureId, position, mapId, hasState: !!state });
     });
 
     // Listen for character movements from other players AND server confirmations
@@ -2712,8 +2727,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
-        // Pass initial state to ensure correct stats
-        addToken(data.creature.id, data.position, false, data.token.id, data.token.state, tokenMapId);
+        // CRITICAL FIX: Pass creature object directly with token state embedded
+        addToken(data.creature, data.position, false, data.token.id, data.token.state, tokenMapId);
       }
 
       // Show notification in chat only for new creations from other players, not syncs or own creations
@@ -2721,6 +2736,25 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `${data.playerName} placed ${data.creature.name} on the grid`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
+
+    // Listen for token creation confirmation from server
+    socket.on('token_create_confirmed', (data) => {
+      console.log('✅ [Token Creation] Token confirmed by server:', {
+        tokenId: data.token?.id,
+        creatureName: data.creature?.name,
+        success: data.success,
+        position: data.position
+      });
+
+      if (!data.success) {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: 'Failed to save token to Firebase. Data may not persist.',
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -5851,8 +5885,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Initialize game state manager for permanent room state
       if (room.persistentRoomId || room.id) {
-        // DISABLED: Game state loading causes old tokens to appear in fresh rooms
-        // Skip game state loading to prevent old tokens in fresh rooms
+        const roomId = room.persistentRoomId || room.id;
+        const isPermanentRoom = !!room.persistentRoomId;
+
+        console.log('🎮 Initializing game state manager for room:', roomId, {
+          isPermanentRoom,
+          isGM: isGameMaster,
+          hasSavedState: isPermanentRoom
+        });
+
+        // CRITICAL FIX: Re-enable gameStateManager for permanent rooms
+        // This will:
+        // 1. Load saved state from Firebase if room has been played before (resuming rooms)
+        // 2. Skip loading for fresh rooms (no saved state yet)
+        // 3. Auto-save changes for GMs only
+        // 4. Set up store listeners to track changes for auto-save
+        gameStateManager.initialize(roomId, isGameMaster).then(() => {
+          console.log('✅ Game state manager initialized successfully');
+        }).catch((error) => {
+          console.error('❌ Failed to initialize game state manager:', error);
+        });
       }
 
       // Set current room after all initialization is complete

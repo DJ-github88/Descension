@@ -115,12 +115,15 @@ class OptimizedFirebaseService {
       ...operation
     });
 
-    // Set timer for batch processing
+    // CRITICAL FIX: Only set timer if not already set to prevent lost updates
+    // When timer is reset, previously queued writes are lost
     if (!this.writeTimers.has(roomId)) {
       const timerId = setTimeout(() => {
         this.processBatchWrites(roomId);
+        // CRITICAL: Clear timer reference after processing
+        this.writeTimers.delete(roomId);
       }, this.batchWriteDelay);
-      
+
       this.writeTimers.set(roomId, timerId);
     }
 

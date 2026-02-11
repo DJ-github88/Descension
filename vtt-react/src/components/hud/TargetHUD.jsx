@@ -17,6 +17,7 @@ import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData } from '../../data/customBackgroundData';
 import { getEnhancedPathData } from '../../data/enhancedPathData';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
@@ -203,45 +204,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 };
             }
         } else if (targetType === 'creature') {
-            // For creatures, get current values from token state if available
+            // For creatures, use unified resource accessor
             const token = tokens.find(t => t.id === currentTarget.id);
+            const resources = getTokenResources(token || currentTarget, 'creature');
 
-            let health, mana, actionPoints;
-
-            // ALWAYS prioritize token state for real-time updates
-            if (token && token.state) {
-                // Use token state for current values, target stats for max values
-                // This ensures real-time updates when HP/mana/AP changes
-                health = {
-                    current: token.state?.currentHp || 0,
-                    max: currentTarget.stats?.maxHp || 35
-                };
-                mana = {
-                    current: token.state.currentMana || 0,
-                    max: currentTarget.stats?.maxMana || 0
-                };
-                actionPoints = {
-                    current: token.state.currentActionPoints || 0,
-                    max: currentTarget.stats?.maxActionPoints || 2
-                };
-            } else {
-                // Fallback to creature stats if no token found
-                // Use the creature's actual stats directly
-                health = {
-                    current: currentTarget.stats?.currentHp || currentTarget.stats?.maxHp || 35,
-                    max: currentTarget.stats?.maxHp || 35
-                };
-
-                mana = {
-                    current: currentTarget.stats?.currentMana || currentTarget.stats?.maxMana || 0,
-                    max: currentTarget.stats?.maxMana || 0
-                };
-
-                actionPoints = {
-                    current: currentTarget.stats?.currentActionPoints || currentTarget.stats?.maxActionPoints || 2,
-                    max: currentTarget.stats?.maxActionPoints || 2
-                };
-            }
+            const health = resources.health;
+            const mana = resources.mana;
+            const actionPoints = resources.actionPoints;
 
             return {
                 name: currentTarget.name,
@@ -920,21 +889,24 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 }
             }
         } else if (targetType === 'creature') {
-            // Update creature token
-            const tokenId = currentTarget.id;  // For creatures, currentTarget.id is the token ID
+            // Update creature token using unified utilities
+            const tokenId = currentTarget.id;
             const token = tokens.find(t => t.id === tokenId);
 
             if (token) {
-                const safeResource = resourceType === 'health' ? safeHealth :
-                    resourceType === 'mana' ? safeMana : safeActionPoints;
+                const resources = getTokenResources(token, 'creature');
+                const resourceMap = {
+                    'health': resources.health,
+                    'mana': resources.mana,
+                    'actionPoints': resources.actionPoints
+                };
+                const safeResource = resourceMap[resourceType];
                 const currentValue = safeResource.current;
                 const maxValue = safeResource.max;
                 const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
 
-                // Map resource types to token state properties
-                const stateKey = resourceType === 'health' ? 'currentHp' :
-                    resourceType === 'mana' ? 'currentMana' :
-                        resourceType === 'actionPoints' ? 'currentActionPoints' : null;
+                // Use unified state key accessor
+                const stateKey = getStateKeyForResource(resourceType);
 
                 if (stateKey) {
                     updateTokenState(token.id, {
@@ -1037,9 +1009,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 }
             }
         } else if (targetType === 'creature') {
-            const safeResource = resourceType === 'health' ? safeHealth :
-                resourceType === 'mana' ? safeMana : safeActionPoints;
-            if (!safeResource) return { current: 0, max: 0, temp: 0 };
+            // Use unified resource accessor for consistency
+            const token = tokens.find(t => t.id === currentTarget.id);
+            const resources = getTokenResources(token || currentTarget, 'creature');
+            const resourceMap = {
+                'health': resources.health,
+                'mana': resources.mana,
+                'actionPoints': resources.actionPoints
+            };
+            const safeResource = resourceMap[resourceType] || { current: 0, max: 0 };
+
             return {
                 current: safeResource.current || 0,
                 max: safeResource.max || 0,

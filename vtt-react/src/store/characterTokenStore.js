@@ -29,14 +29,27 @@ const useCharacterTokenStore = create(
         let isNewToken = false;
 
         // CRITICAL: Get current mapId IMMEDIATELY if not provided - ensures proper map isolation
+        // CRITICAL FIX: Check map switching lock to prevent race conditions during map transitions
         let resolvedMapId;
         if (targetMapId) {
           resolvedMapId = targetMapId;
         } else {
           try {
             const mapStore = require('./mapStore').default;
-            resolvedMapId = mapStore.getState().currentMapId || 'default';
+            const mapStoreState = mapStore.getState();
+            // CRITICAL FIX: If map is switching, delay token placement to prevent cross-map contamination
+            if (mapStoreState && window._isMapSwitching) {
+              console.warn('🔒 [characterTokenStore] Map switch in progress, delaying token placement');
+              // Return null to indicate placement should be retried after switch completes
+              return {
+                characterTokens: get().characterTokens,
+                _mapSwitchDelay: true,
+                _retryAfterMap: targetMapId
+              };
+            }
+            resolvedMapId = mapStoreState.currentMapId || 'default';
           } catch (error) {
+            console.warn('Could not get current map ID for token placement:', error);
             resolvedMapId = 'default';
           }
         }
@@ -58,13 +71,21 @@ const useCharacterTokenStore = create(
           }
 
           // Create a new character token with mapId for proper isolation
+          // CRITICAL: Initialize token state for consistency with creature tokens
           const newToken = {
             id: uuidv4(),
             isPlayerToken: !playerId,
             playerId: playerId,
             position,
             mapId: resolvedMapId,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            state: {
+              // Token-level state for conditions and unified resource access
+              // Actual resources are stored in character store, but we maintain
+              // this state structure for consistency with creature tokens
+              conditions: [],
+              lastModified: new Date().toISOString()
+            }
           };
           tokenId = newToken.id;
           isNewToken = true;
@@ -285,6 +306,21 @@ const useCharacterTokenStore = create(
         );
       },
 
+      // Get unified token resources (combines token state with character store)
+      getTokenResources: (tokenId) => {
+        const state = get();
+        const token = state.characterTokens.find(t => t.id === tokenId);
+        if (!token) return null;
+
+        // For character tokens, resources are in the character store
+        // but we return a consistent structure for unified access
+        return {
+          token,
+          // The actual resources are fetched from characterStore externally
+          // This helper is for token identification only
+        };
+      },
+
 
       // Add character token from server (for multiplayer sync)
       addCharacterTokenFromServer: (tokenId, position, playerId, mapId = null) => set(state => {
@@ -326,7 +362,12 @@ const useCharacterTokenStore = create(
               playerId: playerId,
               position,
               mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
-              createdAt: Date.now()
+              createdAt: Date.now(),
+              // CRITICAL: Initialize state for consistency with creature tokens
+              state: {
+                conditions: [],
+                lastModified: new Date().toISOString()
+              }
             }
           ];
 
@@ -345,7 +386,12 @@ const useCharacterTokenStore = create(
           const newToken = {
             ...tokenData,
             id: tokenId,
-            position: tokenData.position || { x: 0, y: 0 }
+            position: tokenData.position || { x: 0, y: 0 },
+            // CRITICAL: Ensure state exists for consistency with creature tokens
+            state: tokenData.state || {
+              conditions: [],
+              lastModified: new Date().toISOString()
+            }
           };
 
           return { characterTokens: [...state.characterTokens, newToken] };

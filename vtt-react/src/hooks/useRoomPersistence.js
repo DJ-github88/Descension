@@ -280,16 +280,59 @@ export const useRoomPersistence = (roomId) => {
     }
   }, [user, currentRoomId, loadRoomState]);
 
-  // Auto-save when room state changes (simplified - would need more specific watchers)
+  // Auto-save when room state changes (with store subscriptions for automatic saving)
   useEffect(() => {
+    let isMounted = true;
+    let unsubscribeTokens, unsubscribeCombat;
+
     if (user && !user.isGuest && currentRoomId) {
       scheduleAutoSave();
+
+      // CRITICAL FIX: Add store subscriptions for automatic saving on token/combat changes
+
+      // Import stores dynamically
+      import('../store/creatureStore').then(({ default: creatureStore }) => {
+        if (!isMounted) return;
+
+        // Watch for token changes (add/remove/move/state updates)
+        unsubscribeTokens = creatureStore.subscribe((state, prevState) => {
+          if (state.tokens !== prevState.tokens) {
+            console.log('🔄 Token state changed, scheduling auto-save');
+            scheduleAutoSave();
+          }
+        });
+
+        // Also watch combat state
+        import('../store/combatStore').then(({ default: combatStore }) => {
+          if (!isMounted) {
+            if (unsubscribeTokens) unsubscribeTokens();
+            return;
+          }
+
+          unsubscribeCombat = combatStore.subscribe((state, prevState) => {
+            if (state.isInCombat !== prevState.isInCombat ||
+              state.currentTurn !== prevState.currentTurn ||
+              state.round !== prevState.round) {
+              console.log('⚔️ Combat state changed, scheduling auto-save');
+              scheduleAutoSave();
+            }
+          });
+        });
+      });
     }
 
-    // Cleanup timer on unmount
+    // Cleanup timer and subscriptions on unmount
     return () => {
+      isMounted = false;
       if (roomStateTimerRef.current) {
         clearTimeout(roomStateTimerRef.current);
+      }
+      // CRITICAL FIX: Clean up store subscriptions
+      if (unsubscribeTokens) {
+        unsubscribeTokens();
+      }
+      if (unsubscribeCombat) {
+        unsubscribeCombat();
       }
     };
   }, [

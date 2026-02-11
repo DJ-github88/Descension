@@ -517,6 +517,10 @@ export const saveCompleteGameState = async (roomId, gameState) => {
     });
 
   } catch (error) {
+    if (error.code === 'permission-denied' || error.message.includes('permission')) {
+      console.warn(`⚠️ Firebase permission denied for saving game state in room ${roomId}. User may not be GM or in members array.`);
+      throw new Error('Firebase permission denied: You may not have permission to save this room state.');
+    }
     console.error('❌ Error saving complete game state:', error);
     throw error;
   }
@@ -542,10 +546,12 @@ export const loadCompleteGameState = async (roomId) => {
     return roomData.gameState || {};
   } catch (error) {
     // Check if this is a permission error and handle gracefully
-    if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
-      console.warn('⚠️ Firebase permission denied for room data access. User may not be in room members array.');
-      // Return empty game state instead of throwing to prevent repeated errors
-      return {};
+    if (error.code === 'permission-denied' || error.message.includes('permission')) {
+      console.warn(`⚠️ Firebase permission denied for loading room ${roomId}. User may not be in room members array.`);
+      // Re-throw with a clearer message so GameStateManager can decide what to do
+      const permError = new Error('Firebase permission denied: Missing or insufficient permissions to load this hall.');
+      permError.code = 'permission-denied';
+      throw permError;
     }
 
     console.error('❌ Error loading complete game state:', error);

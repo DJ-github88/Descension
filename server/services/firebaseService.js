@@ -85,7 +85,7 @@ const getRoomData = async (roomId) => {
       return null;
     }
 
-    const roomData = { id: roomSnap.id, ...roomSnap.data() };
+    const roomData = { ...roomSnap.data(), id: roomSnap.id }; // Ensure id property matches document ID
 
     logger.info(`[getRoomData] Main document loaded for ${roomId}`, {
       hasGameState: !!roomData.gameState,
@@ -197,6 +197,8 @@ const saveRoomDataSplit = async (roomId, roomData) => {
       name: roomData.name,
       passwordHash: roomData.passwordHash,
       gm: roomData.gm,
+      gmId: roomData.gmId || (roomData.gm ? roomData.gm.userId || roomData.gm.id : null),
+      members: roomData.members || (roomData.gm ? [roomData.gm.userId || roomData.gm.id] : []),
       players: roomData.players ? Object.fromEntries(roomData.players) : {},
       settings: roomData.settings || {},
       isActive: roomData.isActive !== false,
@@ -381,7 +383,10 @@ const saveRoomData = async (roomId, roomData) => {
     // For smaller documents, use traditional single-document storage
     const firestoreData = {
       ...roomData,
+      id: roomId, // Force ID to match document ID for consistency
       players: roomData.players ? Object.fromEntries(roomData.players) : {},
+      gmId: roomData.gmId || (roomData.gm ? roomData.gm.userId || roomData.gm.id : null),
+      members: roomData.members || (roomData.gm ? [roomData.gm.userId || roomData.gm.id] : []),
       lastModified: admin.firestore.FieldValue.serverTimestamp(),
       lastActivity: admin.firestore.FieldValue.serverTimestamp()
     };

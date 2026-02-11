@@ -11,6 +11,7 @@ import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import useGameStore from './gameStore';
 import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
+import { normalizeTokenData } from '../utils/tokenStateUtils';
 
 // Global recent token movements tracking (window scope for echo prevention)
 // Fallback to new Map if window is not defined (SSR compatibility)
@@ -85,6 +86,11 @@ const useCreatureStore = create((set, get) => ({
       }
     }
 
+    // CRITICAL: Use normalizeTokenData for consistent state initialization
+    // This ensures all tokens have proper state structure
+    // MUST be computed BEFORE sync block (line 136) to avoid ReferenceError
+    const normalizedCreature = normalizeTokenData(creatureData, 'creature');
+
     set((state) => {
       // Use captured mapId unless creature specifically defines one
       const currentMapId = creatureData.mapId || capturedMapId;
@@ -137,12 +143,13 @@ const useCreatureStore = create((set, get) => ({
           const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
 
-            // CRITICAL FIX: Include full creature data and target map for multiplayer sync
+            // CRITICAL FIX: Include normalized state in token sync data
+            // Use normalizedCreature.state to ensure state is properly initialized
             const tokenSyncData = {
               token: {
                 id: tokenId,
                 creatureId: creatureId,
-                state: creatureData.state,
+                state: normalizedCreature.state, // CRITICAL FIX: Use normalized state
                 mapId: currentMapId, // CRITICAL: Standard field name
                 targetMapId: currentMapId // Keep for backward compatibility
               },
@@ -160,24 +167,12 @@ const useCreatureStore = create((set, get) => ({
         }
       }
 
-      // Initialize state for new token
-      const initialState = creatureData.state || {
-        currentHp: creatureData.stats?.currentHp || creatureData.stats?.maxHp || 35,
-        currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 0,
-        currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 2,
-        conditions: creatureData.state?.conditions || [],
-        hiddenFromPlayers: creatureData.state?.hiddenFromPlayers || false,
-        customIcon: creatureData.state?.customIcon || null,
-        iconScale: creatureData.state?.iconScale || 100,
-        iconPosition: creatureData.state?.iconPosition || { x: 50, y: 50 }
-      };
-
       const newToken = {
-        ...creatureData,
+        ...normalizedCreature,
         id: tokenId,
         creatureId: creatureId,
         position,
-        state: forcedState || initialState,
+        state: forcedState || normalizedCreature.state,
         addedAt: Date.now(),
         mapId: currentMapId || 'default' // Add mapId for isolation
       };
@@ -314,16 +309,28 @@ const useCreatureStore = create((set, get) => ({
   // Update creature state (HP, Mana, conditions)
   updateCreatureState: (tokenId, stateUpdates) => set(state => {
     const updatedTokens = (state.creatureTokens || []).map(token =>
-      token.id === tokenId ? { ...token, state: { ...token.state, ...stateUpdates } } : token
+      token.id === tokenId ? {
+        ...token,
+        // CRITICAL FIX: Deep merge state to preserve nested objects (like conditions array)
+        state: {
+          ...(token.state || {}),
+          ...stateUpdates
+        }
+      } : token
     );
 
     // Import game store dynamically to broadcast to other players
     try {
       const gameStore = require('./gameStore').default;
       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        // CRITICAL FIX: Include current mapId for proper map isolation
+        const mapStore = require('./mapStore');
+        const currentMapId = mapStore.default.getState().currentMapId || 'default';
+        
         gameStore.multiplayerSocket.emit('creature_updated', {
           tokenId,
-          stateUpdates
+          stateUpdates,
+          mapId: currentMapId
         });
       }
     } catch (error) {
@@ -466,18 +473,16 @@ const useCreatureStore = create((set, get) => ({
       // Don't add if already exists
       if (existingTokens.some(t => t.id === tokenId)) return state;
 
+      // CRITICAL: Use normalizeTokenData for consistent state initialization
+      const normalizedToken = normalizeTokenData(tokenData, 'creature');
+
       const newToken = {
-        ...tokenData,
+        ...normalizedToken,
         id: tokenId,
         // Ensure positional data is correct
-        position: tokenData.position || { x: 0, y: 0 },
+        position: normalizedToken.position || { x: 0, y: 0 },
         // Ensure mapId is preserved
-        mapId: tokenMapId,
-        // Preserve state
-        state: tokenData.state || {
-          currentHp: tokenData.stats?.maxHp || 10,
-          conditions: []
-        }
+        mapId: tokenMapId
       };
 
       const updatedTokens = [...existingTokens, newToken];

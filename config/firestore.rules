@@ -57,6 +57,21 @@ service cloud.firestore {
       // Allow GM to delete rooms
       allow delete: if request.auth != null &&
         request.auth.uid == resource.data.gmId;
+
+      // Subcollections for split storage and chat
+      match /gameState/{documentId} {
+        allow read, write: if request.auth != null && (
+          request.auth.uid == get(/databases/$(database)/documents/rooms/$(roomId)).data.gmId ||
+          request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.members
+        );
+      }
+
+      match /chat/{documentId} {
+        allow read, write: if request.auth != null && (
+          request.auth.uid == get(/databases/$(database)/documents/rooms/$(roomId)).data.gmId ||
+          request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.members
+        );
+      }
     }
 
     // Room runtime state (tokens, items, environmental objects, combat, chat)

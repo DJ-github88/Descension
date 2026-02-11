@@ -267,7 +267,7 @@ class GameStateManager {
         // Combat state
         combat: {
           isActive: combatStore.isInCombat || false,
-          currentTurn: combatStore.currentTurn,
+          currentTurn: combatStore.currentTurn || null,
           turnOrder: combatStore.turnOrder || [],
           round: combatStore.round || 0
         },

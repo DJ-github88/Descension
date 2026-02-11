@@ -573,6 +573,25 @@ const useMapStore = create(
                     const { default: useCreatureStore } = await import('./creatureStore');
                     const { default: useCharacterTokenStore } = await import('./characterTokenStore');
 
+                    // CRITICAL FIX: Save current state before clearing to prevent data loss on map switch
+                    // This ensures any unsaved token changes are persisted before switching maps
+                    const gameStore = await import('./gameStore').then(module => module.default.getState());
+                    const shouldSave = gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected;
+                    
+                    if (shouldSave) {
+                        try {
+                            console.log('💾 Saving state before map switch to prevent data loss:', { from: currentMapId, to: mapId });
+                            gameStore.multiplayerSocket.emit('save_room_state_request', {
+                                roomId: gameStore.currentRoomId,
+                                reason: 'map_switch',
+                                fromMapId: currentMapId,
+                                toMapId: mapId
+                            });
+                        } catch (error) {
+                            console.warn('Failed to save room state before map switch:', error);
+                        }
+                    }
+
                     // Clear existing tokens first
                     if (useCreatureStore.getState().clearTokens) {
                         useCreatureStore.getState().clearTokens();
@@ -673,9 +692,12 @@ const useMapStore = create(
                         socket.onevent = originalOnevent; // Restore the original handler
 
                         // Filter queued events - only process those relevant to new map
+                        // CRITICAL FIX: Handle cases where packet.data is undefined or null
+                        // Events without explicit mapId belong to current map (default behavior)
                         const filteredEvents = pausedEvents.filter(packet => {
-                            const eventMapId = packet.data?.mapId || packet.data?.targetMapId || mapId;
-                            return eventMapId === mapId; // Only process events for new map
+                          const packetData = packet.data || {};
+                          const eventMapId = packetData.mapId || packetData.targetMapId || mapId;
+                          return eventMapId === mapId; // Only process events for new map
                         });
 
                         // CRITICAL FIX: Wait longer to ensure state is fully loaded before processing events
