@@ -34,8 +34,12 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
 
     // Handle creating a new party
-    const handleCreateParty = () => {
-        createParty(`${currentPlayerName}'s Party`);
+    const handleCreateParty = async () => {
+        try {
+            await createParty(`${currentPlayerName}'s Party`);
+        } catch (error) {
+            console.error('❌ Failed to create party:', error);
+        }
     };
 
     // Handle sending party invite

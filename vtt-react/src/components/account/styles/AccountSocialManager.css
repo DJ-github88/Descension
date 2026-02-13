@@ -1,0 +1,479 @@
+.account-social-manager {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 1.5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.social-header-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* My ID Card */
+.my-id-card {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f4f1e8 100%);
+    border: 2px solid #8b4513;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+    text-align: center;
+}
+
+.card-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #8b4513;
+    opacity: 0.7;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+
+.id-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(139, 69, 19, 0.05);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    border: 1px dashed rgba(139, 69, 19, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.id-display:hover {
+    background: rgba(139, 69, 19, 0.1);
+    border-color: #8b4513;
+    transform: translateY(-1px);
+}
+
+.id-display .hash {
+    color: #8b4513;
+    font-weight: 700;
+    font-size: 1.2rem;
+    opacity: 0.5;
+}
+
+.id-display .id-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d1810;
+    letter-spacing: 1px;
+}
+
+.id-display .copy-icon {
+    margin-left: 0.5rem;
+    color: #8b4513;
+    opacity: 0.4;
+    font-size: 1rem;
+}
+
+.id-hint {
+    font-size: 0.8rem;
+    color: #5d4e37;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* Add Friend Section */
+.add-friend-section {
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(139, 69, 19, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.add-friend-section h3 {
+    font-family: 'Cinzel', serif;
+    color: #2d1810;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+}
+
+.add-friend-form .input-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-friend-form input {
+    flex: 1;
+    background: #fdfbf7;
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #2d1810;
+    transition: all 0.2s ease;
+}
+
+.add-friend-form input:focus {
+    outline: none;
+    border-color: #8b4513;
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.add-friend-form button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+    color: #f4f1e8;
+    border: none;
+    border-radius: 8px;
+    padding: 0 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+}
+
+.add-friend-form button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    filter: brightness(1.1);
+}
+
+.add-friend-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.social-error {
+    margin-top: 0.75rem;
+    color: #d32f2f;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.social-success {
+    margin-top: 0.75rem;
+    color: #2e7d32;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Content Grid */
+.social-content-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+}
+
+.social-column {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    overflow: hidden;
+    height: 500px;
+}
+
+.column-header {
+    padding: 1rem 1.5rem;
+    background: rgba(139, 69, 19, 0.05);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.column-header h3 {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #2d1810;
+}
+
+.friends-list,
+.requests-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+/* Friend Item */
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: #fdfbf7;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.friend-item.offline {
+    filter: grayscale(0.8);
+    opacity: 0.7;
+    background: #f5f3ee;
+}
+
+.friend-item:hover {
+    transform: translateX(4px);
+    border-color: rgba(139, 69, 19, 0.3);
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.05);
+}
+
+.friend-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(139, 69, 19, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.presence-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid #fdfbf7;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.presence-indicator.online {
+    background: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+}
+
+.presence-indicator.offline {
+    background: #9e9e9e;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.friend-avatar i {
+    font-size: 1.2rem;
+    color: #8b4513;
+}
+
+.friend-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.friend-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.friend-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #2d1810;
+    font-size: 1.05rem;
+}
+
+.status-badge {
+    font-size: 0.7rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.online-text {
+    color: #2e7d32;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.offline-text {
+    color: #757575;
+    font-size: 0.75rem;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.friend-id {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: #8b4513;
+    opacity: 0.5;
+    letter-spacing: 0.5px;
+}
+
+.remove-friend-btn {
+    background: transparent;
+    border: none;
+    color: #8b4513;
+    opacity: 0.3;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.remove-friend-btn:hover {
+    opacity: 1;
+    color: #d32f2f;
+}
+
+/* Request Cards */
+.request-group h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #8b4513;
+    opacity: 0.6;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.request-group:first-child h4 {
+    margin-top: 0;
+}
+
+.request-card {
+    background: #fdfbf7;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.req-user {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+}
+
+.req-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #2d1810;
+}
+
+.req-id {
+    font-size: 0.75rem;
+    color: #8b4513;
+    opacity: 0.6;
+}
+
+.req-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.accept-btn,
+.decline-btn {
+    flex: 1;
+    padding: 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.accept-btn {
+    background: #8b4513;
+    color: #f4f1e8;
+    border: 1px solid #8b4513;
+}
+
+.decline-btn {
+    background: transparent;
+    border: 1px solid #d32f2f;
+    color: #d32f2f;
+}
+
+.req-status {
+    font-size: 0.8rem;
+    color: #5d4e37;
+    font-style: italic;
+    text-align: right;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #5d4e37;
+    opacity: 0.6;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVENESS MEDIA QUERIES ===== */
+
+/* Medium Screens (below 1100px) */
+@media screen and (max-width: 1100px) {
+    .social-header-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .social-content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .social-column {
+        height: 400px;
+    }
+}
+
+/* Small Screens (below 768px) */
+@media screen and (max-width: 768px) {
+    .account-social-manager {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .add-friend-form .input-group {
+        flex-direction: column;
+    }
+
+    .add-friend-form button {
+        padding: 0.75rem;
+        justify-content: center;
+        min-height: 45px;
+    }
+
+    .id-display .id-text {
+        font-size: 1.1rem;
+    }
+}

@@ -6,17 +6,20 @@ import authService from '../../services/authService';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useSettingsStore from '../../store/settingsStore';
+import usePresenceStore from '../../store/presenceStore';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
+import { formatTimeAgo } from '../../utils/timeUtils';
 import '../../styles/social-window.css';
 
 const FriendsList = () => {
   const windowScale = useSettingsStore(state => state.windowScale);
   const {
     friends,
+    friendPresence,
     selectedFriend,
     setSelectedFriend,
-    addFriend,
+    sendFriendRequest,
     removeFriend,
     setFriendNote
   } = useSocialStore();
@@ -76,7 +79,6 @@ const FriendsList = () => {
     };
 
     if (contextMenu) {
-      // Use a slight delay to avoid conflicts with the right-click event
       setTimeout(() => {
         document.addEventListener('click', handleClickOutside);
       }, 10);
@@ -86,137 +88,107 @@ const FriendsList = () => {
 
   // Handle whisper
   const handleWhisper = (player) => {
-    // Add a whisper notification to chat
     addSocialNotification({
       type: 'whisper_start',
       target: player.name,
       content: `Whisper conversation started with ${player.name}`,
       sender: { name: 'System', class: 'system', level: 0 }
     });
-
-    // Open chat window and switch to social tab
     setChatOpen(true);
     setChatTab('social');
-
-    // Close context menu
     closeContextMenu();
-
-
   };
 
-  // Handle invite
-  const handleInvite = (player) => {
-    if (!isInParty) {
-      // Create party automatically and add the player
-      createParty(`${player.name}'s Party`);
+  // Handle invite - async to wait for party creation
+  const handleInvite = async (player) => {
+    const sendPartyInvite = usePresenceStore.getState().sendPartyInvite;
+    const currentUserPresence = usePresenceStore.getState().currentUserPresence;
 
-      // Add notification about party creation
+    try {
+      if (!isInParty) {
+        const currentPlayerName = userData?.name || user?.displayName || currentUserPresence?.characterName || 'Unknown';
+        
+        // Await party creation before sending invite
+        await createParty(`${currentPlayerName}'s Party`, false, {
+          name: currentPlayerName,
+          characterName: currentPlayerName,
+          characterClass: currentUserPresence?.class || 'Unknown',
+          characterLevel: currentUserPresence?.level || 1
+        });
+
+        addSocialNotification({
+          type: 'party_created',
+          content: `Party created for ${currentPlayerName}`,
+          sender: { name: 'System', class: 'system', level: 0 }
+        });
+      }
+
+      // Send the invitation via socket
+      // player.id should be the target userId
+      if (player.id) {
+        sendPartyInvite(player.id, player.name);
+
+        addSocialNotification({
+          type: 'party_invite_sent',
+          target: player.name,
+          content: `Party invitation sent to ${player.name}`,
+          sender: { name: 'System', class: 'system', level: 0 }
+        });
+      } else {
+        console.error('❌ Could not send party invitation: player ID missing');
+      }
+    } catch (error) {
+      console.error('❌ Failed to create party or send invite:', error);
       addSocialNotification({
-        type: 'party_created',
-        content: `Party created and ${player.name} has been added`,
+        type: 'party_error',
+        content: `Failed to send party invitation: ${error.message}`,
         sender: { name: 'System', class: 'system', level: 0 }
       });
     }
 
-    // Add the player directly to the party
-    const newMember = {
-      id: `friend-${player.id}`,
-      name: player.name,
-      role: 'member',
-      status: player.status,
-      character: {
-        level: player.level,
-        race: 'Unknown', // Friends list doesn't include race
-        class: player.class,
-        health: { current: 100, max: 100 },
-        mana: { current: 50, max: 50 },
-        actionPoints: { current: 3, max: 3 }
-      }
-    };
-
-    addPartyMember(newMember);
-
-    // Add notification to chat
-    addSocialNotification({
-      type: 'party_member_added',
-      target: player.name,
-      content: `${player.name} has been added to your party`,
-      sender: { name: 'System', class: 'system', level: 0 }
-    });
-
-    // Open chat to show the message
-    setChatOpen(true);
-    setChatTab('social');
-
-    // Close context menu
     closeContextMenu();
-
-
-  };
-
-  // Handle add friend
-  const handleAddFriend = () => {
-    setShowAddFriend(true);
   };
 
   // Handle add friend submit
   const handleAddFriendSubmit = async () => {
-    const rawInput = newFriendId.trim();
+    const rawInput = newFriendId.replace(/\s+/g, '');
     if (!rawInput) {
       setAddFriendError('Please enter a Friend ID');
       return;
     }
 
     const cleanFriendId = rawInput.startsWith('#') ? rawInput.slice(1) : rawInput;
-    if (!/^[a-zA-Z0-9]{3,20}$/.test(cleanFriendId)) {
-      setAddFriendError('Friend ID must be 3-20 letters/numbers');
-      return;
-    }
-
     const currentUserFriendId = userData?.friendId || user?.friendId;
     if (currentUserFriendId && currentUserFriendId.toLowerCase() === cleanFriendId.toLowerCase()) {
       setAddFriendError('You cannot add yourself');
       return;
     }
 
-    const exists = (friends || []).some(f =>
-      (f.friendId || '').toLowerCase() === cleanFriendId.toLowerCase()
-    );
+    const exists = (friends || []).some(f => (f.friendId || '').toLowerCase() === cleanFriendId.toLowerCase());
     if (exists) {
       setAddFriendError('This player is already in your friends list');
       return;
     }
 
     try {
-      const foundUser = await authService.findUserByFriendId(cleanFriendId);
-      if (!foundUser) {
-        setAddFriendError('No user found with that Friend ID');
-        return;
+      const result = await sendFriendRequest(cleanFriendId);
+      if (result.success) {
+        setNewFriendId('');
+        setShowAddFriend(false);
+      } else {
+        setAddFriendError(result.error || 'Failed to send request');
       }
-
-      addFriend({
-        id: foundUser.id,
-        name: foundUser.displayName || foundUser.email?.split('@')[0] || cleanFriendId,
-        friendId: foundUser.friendId,
-        level: 1,
-        class: 'Unknown',
-        status: 'offline',
-        isRealID: true
-      });
-
-      setNewFriendId('');
-      setAddFriendError('');
-      setShowAddFriend(false);
     } catch (error) {
-      console.error('Error adding friend by Friend ID:', error);
-      setAddFriendError('Failed to add friend. Please try again.');
+      setAddFriendError('Failed to send request.');
     }
   };
 
-  // Handle remove friend
-  const handleRemoveFriend = (player) => {
-    removeFriend(player.id);
-    closeContextMenu();
+  // Handle send message
+  const handleSendMessage = () => {
+    const friend = enrichedFriends.find(f => f.id === selectedFriend);
+    if (friend && friend.status !== 'offline') {
+      handleWhisper(friend);
+    }
   };
 
   // Handle add note
@@ -227,40 +199,61 @@ const FriendsList = () => {
     closeContextMenu();
   };
 
-  // Handle note submit
   const handleNoteSubmit = () => {
     if (notePlayerId) {
       setFriendNote(notePlayerId, noteText);
       setShowNoteDialog(false);
-      setNotePlayerId(null);
-      setNoteText('');
     }
   };
 
-  // Handle send message
-  const handleSendMessage = () => {
-    const friend = friends.find(f => f.id === selectedFriend);
-    if (friend && friend.status === 'online') {
-      handleWhisper(friend);
-    }
+  const handleRemoveFriend = (player) => {
+    removeFriend(player.id);
+    closeContextMenu();
   };
 
-  // Filter friends by online status
-  const onlineFriends = (friends || []).filter(friend => friend.status === 'online' || friend.status === 'away');
-  const offlineFriends = (friends || []).filter(friend => friend.status === 'offline');
+  // Enrich friends with real-time presence data
+  const enrichedFriends = (friends || []).map(friend => {
+    const presence = friendPresence[friend.id];
+    return {
+      ...friend,
+      status: presence?.status || 'offline',
+      lastSeen: presence?.lastSeen || presence?.lastUpdated || null,
+      location: presence?.roomName || presence?.roomId || null,
+      level: presence?.level || friend.level,
+      class: presence?.class || friend.class,
+      userId: friend.id // Ensure userId is set for party invites
+    };
+  });
+
+  // Include 'idle' as an online status
+  const onlineFriends = enrichedFriends.filter(f => ['online', 'away', 'busy', 'idle'].includes(f.status));
+  const offlineFriends = enrichedFriends.filter(f => f.status === 'offline' || !f.status);
 
   // Render a friend entry using UserCard
   const renderFriendEntry = (friend) => {
-    // Build session display if friend is online
-    const sessionDisplay = friend.status === 'online' && friend.location ? (
-      <div className="user-session">
-        <span className="session-badge local">
-          <i className="fas fa-map-marker-alt"></i> {friend.location}
-        </span>
-      </div>
-    ) : null;
+    // Include 'idle' as an online status
+    const isOnline = ['online', 'away', 'busy', 'idle'].includes(friend.status);
 
-    // Build note display
+    let sessionDisplay = null;
+    if (isOnline && friend.location) {
+      sessionDisplay = (
+        <div className="user-session">
+          <span className="session-badge local">
+            <i className="fas fa-map-marker-alt"></i> {friend.location}
+          </span>
+        </div>
+      );
+    } else if (!isOnline && friend.lastSeen) {
+      sessionDisplay = (
+        <div className="user-session">
+          <span className="last-seen-text" style={{ fontSize: '0.75rem', color: '#999', marginTop: '2px', display: 'block' }}>
+            <i className="fas fa-clock" style={{ marginRight: '4px' }}></i>
+            Last seen {formatTimeAgo(friend.lastSeen)}
+          </span>
+        </div>
+      );
+    }
+
     const noteDisplay = friend.note ? (
       <div className="friend-note-display">
         <i className="fas fa-sticky-note"></i>
@@ -289,30 +282,21 @@ const FriendsList = () => {
 
   return (
     <div className="friends-list-container">
-      {/* Friends List Header with Actions */}
       <div className="friends-list-header">
         <div className="friends-list-title">Friends</div>
         <div className="friends-list-actions">
-          <button
-            className="compact-action-btn add-friend"
-            onClick={handleAddFriend}
-            title="Add Friend"
-          >
+          <button className="compact-action-btn add-friend" onClick={() => setShowAddFriend(true)} title="Add Friend">
             <i className="fas fa-user-plus"></i>
           </button>
           {selectedFriend && (
             <>
-              <button
-                className="compact-action-btn set-note"
-                onClick={() => handleAddNote(friends.find(f => f.id === selectedFriend))}
-                title="Set Note"
-              >
+              <button className="compact-action-btn set-note" onClick={() => handleAddNote(enrichedFriends.find(f => f.id === selectedFriend))} title="Set Note">
                 <i className="fas fa-sticky-note"></i>
               </button>
               <button
                 className="compact-action-btn send-message"
                 onClick={handleSendMessage}
-                disabled={friends.find(f => f.id === selectedFriend)?.status !== 'online'}
+                disabled={enrichedFriends.find(f => f.id === selectedFriend)?.status === 'offline'}
                 title="Send Message"
               >
                 <i className="fas fa-comment"></i>
@@ -322,42 +306,28 @@ const FriendsList = () => {
         </div>
       </div>
 
-      {/* Friends List */}
       <div className="friends-list">
         {(!isAuthenticated || user?.isGuest) ? (
           <div className="empty-state">
-            <div className="empty-state-icon">
-              <i className="fas fa-lock"></i>
-            </div>
+            <div className="empty-state-icon"><i className="fas fa-lock"></i></div>
             <div className="empty-state-text">Authentication Required</div>
-            <div className="empty-state-subtext">
-              Please log in to manage your friends list
-            </div>
           </div>
-        ) : (!friends || friends.length === 0) ? (
+        ) : enrichedFriends.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-state-icon">
-              <i className="fas fa-user-friends"></i>
-            </div>
+            <div className="empty-state-icon"><i className="fas fa-user-friends"></i></div>
             <div className="empty-state-text">No friends yet</div>
-            <div className="empty-state-subtext">
-              Click the + button above to add friends
-            </div>
           </div>
         ) : (
           <>
-            {/* Online Friends Section */}
             {onlineFriends.length > 0 && (
               <>
-                <div className="friends-section-header">Online Players ({onlineFriends.length})</div>
+                <div className="friends-section-header">Online ({onlineFriends.length})</div>
                 {onlineFriends.map(renderFriendEntry)}
               </>
             )}
-
-            {/* Offline Friends Section */}
             {offlineFriends.length > 0 && (
               <>
-                <div className="friends-section-header">Offline Players ({offlineFriends.length})</div>
+                <div className="friends-section-header">Offline ({offlineFriends.length})</div>
                 {offlineFriends.map(renderFriendEntry)}
               </>
             )}
@@ -365,89 +335,35 @@ const FriendsList = () => {
         )}
       </div>
 
-      {/* Add Friend Dialog */}
       {showAddFriend && createPortal(
         <div className="social-modal-overlay">
-          <div
-            className="social-modal-content"
-            style={{ transform: `scale(${windowScale})` }}
-          >
+          <div className="social-modal-content" style={{ transform: `scale(${windowScale})` }}>
             <h3>Add Friend</h3>
-            <div className="social-modal-form">
-              <input
-                type="text"
-                value={newFriendId}
-                onChange={(e) => {
-                  setNewFriendId(e.target.value.replace(/[^a-zA-Z0-9#]/g, ''));
-                  setAddFriendError('');
-                }}
-                placeholder="Enter Friend ID (e.g. #StoneLight6117)"
-                className="who-input"
-              />
-              {addFriendError && (
-                <div className="error-text" style={{ marginTop: '8px' }}>{addFriendError}</div>
-              )}
-            </div>
+            <input type="text" value={newFriendId} onChange={(e) => setNewFriendId(e.target.value)} placeholder="Friend ID" className="who-input" />
+            {addFriendError && <div className="error-text">{addFriendError}</div>}
             <div className="modal-actions">
-              <button
-                className="social-button"
-                onClick={handleAddFriendSubmit}
-              >
-                Add
-              </button>
-              <button
-                className="social-button"
-                onClick={() => {
-                  setShowAddFriend(false);
-                  setNewFriendId('');
-                  setAddFriendError('');
-                }}
-              >
-                Cancel
-              </button>
+              <button className="social-button" onClick={handleAddFriendSubmit}>Add</button>
+              <button className="social-button" onClick={() => setShowAddFriend(false)}>Cancel</button>
             </div>
           </div>
         </div>,
         document.body
       )}
 
-      {/* Note Dialog */}
       {showNoteDialog && createPortal(
         <div className="social-modal-overlay">
-          <div
-            className="social-modal-content note-modal"
-            style={{ transform: `scale(${windowScale})` }}
-          >
+          <div className="social-modal-content note-modal" style={{ transform: `scale(${windowScale})` }}>
             <h3>Set Note</h3>
-            <div className="social-modal-form">
-              <textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Enter note"
-                className="who-input"
-                rows={3}
-              />
-            </div>
+            <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Enter note" className="who-input" rows={3} />
             <div className="modal-actions">
-              <button
-                className="social-button"
-                onClick={handleNoteSubmit}
-              >
-                Save
-              </button>
-              <button
-                className="social-button"
-                onClick={() => setShowNoteDialog(false)}
-              >
-                Cancel
-              </button>
+              <button className="social-button" onClick={handleNoteSubmit}>Save</button>
+              <button className="social-button" onClick={() => setShowNoteDialog(false)}>Cancel</button>
             </div>
           </div>
         </div>,
         document.body
       )}
 
-      {/* Context Menu */}
       {contextMenu && (
         <SocialContextMenu
           x={contextMenu.x}
@@ -456,10 +372,7 @@ const FriendsList = () => {
           onClose={closeContextMenu}
           onWhisper={handleWhisper}
           onInvite={handleInvite}
-          onAddFriend={() => { }}
           onRemoveFriend={handleRemoveFriend}
-          onAddIgnore={() => { }}
-          onRemoveIgnore={() => { }}
           onAddNote={handleAddNote}
         />
       )}

@@ -2,8 +2,39 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Users can read/write their own user document
+    // SECURITY: Allow authenticated users to read other users to support Friend ID search
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ===== PRESENCE TRACKING =====
+    // User presence for online/offline status and session tracking
+    match /presence/{userId} {
+      // Allow reading for authenticated users (to see who's online)
+      allow read: if request.auth != null;
+      // Allow users to write their own presence
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ===== SOCIAL DATA =====
+    match /friendRequests/{requestId} {
+      allow read: if request.auth != null && (
+        request.auth.uid == resource.data.senderId ||
+        request.auth.uid == resource.data.receiverId
+      );
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.senderId;
+      allow update: if request.auth != null && (
+        (request.auth.uid == resource.data.receiverId &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])) ||
+        (request.auth.uid == resource.data.senderId &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']))
+      );
+      allow delete: if request.auth != null && (
+        request.auth.uid == resource.data.senderId ||
+        request.auth.uid == resource.data.receiverId
+      );
     }
 
     // ===== CHARACTER DATA PERSISTENCE =====

@@ -101,49 +101,58 @@ const WhoList = () => {
 
   };
 
-  // Handle invite
-  const handleInvite = (player) => {
-    if (!isInParty) {
-      // Create party automatically and add the player
-      createParty(`${player.name}'s Party`);
+  // Handle invite - async to wait for party creation
+  const handleInvite = async (player) => {
+    try {
+      if (!isInParty) {
+        // Create party automatically and wait for it
+        await createParty(`${player.name}'s Party`);
 
-      // Add notification about party creation
+        // Add notification about party creation
+        addSocialNotification({
+          type: 'party_created',
+          content: `Party created and ${player.name} has been invited`,
+          sender: { name: 'System', class: 'system', level: 0 }
+        });
+      }
+
+      // Add the player directly to the party
+      const newMember = {
+        id: `who-${player.id}`,
+        name: player.name,
+        role: 'member',
+        status: 'online',
+        character: {
+          level: player.level,
+          race: 'Unknown', // Who results don't include race
+          class: player.class,
+          health: { current: 100, max: 100 },
+          mana: { current: 50, max: 50 },
+          actionPoints: { current: 3, max: 3 }
+        }
+      };
+
+      addPartyMember(newMember);
+
+      // Add notification to chat
       addSocialNotification({
-        type: 'party_created',
-        content: `Party created and ${player.name} has been invited`,
+        type: 'party_member_added',
+        target: player.name,
+        content: `${player.name} has been added to your party`,
+        sender: { name: 'System', class: 'system', level: 0 }
+      });
+
+      // Open chat to show the message
+      setChatOpen(true);
+      setChatTab('social');
+    } catch (error) {
+      console.error('❌ Failed to create party or invite:', error);
+      addSocialNotification({
+        type: 'party_error',
+        content: `Failed to create party: ${error.message}`,
         sender: { name: 'System', class: 'system', level: 0 }
       });
     }
-
-    // Add the player directly to the party
-    const newMember = {
-      id: `who-${player.id}`,
-      name: player.name,
-      role: 'member',
-      status: 'online',
-      character: {
-        level: player.level,
-        race: 'Unknown', // Who results don't include race
-        class: player.class,
-        health: { current: 100, max: 100 },
-        mana: { current: 50, max: 50 },
-        actionPoints: { current: 3, max: 3 }
-      }
-    };
-
-    addPartyMember(newMember);
-
-    // Add notification to chat
-    addSocialNotification({
-      type: 'party_member_added',
-      target: player.name,
-      content: `${player.name} has been added to your party`,
-      sender: { name: 'System', class: 'system', level: 0 }
-    });
-
-    // Open chat to show the message
-    setChatOpen(true);
-    setChatTab('social');
 
     // Close context menu
     closeContextMenu();

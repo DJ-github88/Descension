@@ -1,528 +1,474 @@
+/**
+ * Party Store
+ * 
+ * Manages party state including:
+ * - Current party information
+ * - Party members list
+ * - Pending party invitations
+ * - Party chat messages
+ * - Party settings
+ * - Integration with presence system for party HUD
+ */
+
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
+import usePresenceStore from './presenceStore';
 
-const getSelfIdentifiers = (gameStore) => {
-    const ids = new Set(['current-player']);
-    if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
-    if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
-    return ids;
-};
-
-const isSelfMemberId = (memberId, gameStore) => {
-    const selfIds = getSelfIdentifiers(gameStore);
-    return selfIds.has(memberId);
-};
-
-const ensureSelfMember = (members, gameStore) => {
-    const selfIds = getSelfIdentifiers(gameStore);
-    const hasSelf = (members || []).some(member => selfIds.has(member.id));
-    if (hasSelf) return members || [];
-
-    const fallbackSelfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id || 'current-player';
-    const fallbackSelfName = gameStore?.currentPlayer?.name || 'Current Player';
-
-    return [
-        ...(members || []),
-        {
-            id: fallbackSelfId,
-            name: fallbackSelfName,
-            isGM: false,
-            status: PARTY_STATUS.ONLINE,
-            joinedAt: Date.now(),
-            character: {
-                class: 'Unknown',
-                level: 1,
-                health: { current: 45, max: 50 },
-                mana: { current: 45, max: 50 },
-                actionPoints: { current: 1, max: 3 }
-            }
-        }
-    ];
+const getSocket = () => {
+  const presenceState = usePresenceStore.getState();
+  return presenceState?.socket;
 };
 
 // Party member status types
 export const PARTY_STATUS = {
-    ONLINE: 'online',
-    AWAY: 'away',
-    BUSY: 'busy',
-    OFFLINE: 'offline'
+  ONLINE: 'online',
+  AWAY: 'away',
+  BUSY: 'busy',
+  OFFLINE: 'offline'
 };
 
-// Removed: Complex party roles - Room creator is GM, others are players
+const getSelfIdentifiers = (gameStore) => {
+  const ids = new Set(['current-player']);
+  if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
+  if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
+  return ids;
+};
+
+const isSelfMemberId = (memberId, gameStore) => {
+  const selfIds = getSelfIdentifiers(gameStore);
+  return selfIds.has(memberId);
+};
+
+const ensureSelfMember = (members, gameStore) => {
+  const selfIds = getSelfIdentifiers(gameStore);
+  const hasSelf = (members || []).some(member => selfIds.has(member.id));
+  if (hasSelf) return members || [];
+
+  // Only add a self member if we have a real game identity (in-game context).
+  // In social/lobby context, currentPlayer is null and there's no meaningful self ID.
+  const fallbackSelfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
+  if (!fallbackSelfId) return members || []; // No game identity — don't add phantom
+
+  const fallbackSelfName = gameStore?.currentPlayer?.name || 'Current Player';
+
+  return [
+    ...(members || []),
+    {
+      id: fallbackSelfId,
+      name: fallbackSelfName,
+      isGM: false,
+      status: PARTY_STATUS.ONLINE,
+      joinedAt: Date.now(),
+      character: {
+        class: 'Unknown',
+        level: 1,
+        health: { current: 45, max: 50 },
+        mana: { current: 45, max: 50 },
+        actionPoints: { current: 1, max: 3 }
+      }
+    }
+  ];
+};
 
 // Initial state
 const initialState = {
-    // Current party information
-    currentParty: null,
-    isInParty: false,
-    leaderId: null, // Track who has the crown (can be a player)
+  // Current party information
+  currentParty: null,
+  isInParty: false,
 
-    // Party members data
-    partyMembers: [], // Array of party member objects
+  // Party members data
+  partyMembers: [],
+  partyChatMessages: [],
 
-    // Player Map Assignments: Track which player is on which map
-    // format: { playerId: mapId }
-    playerMapAssignments: {},
+  // Pending invitations
+  pendingPartyInvites: [], // Invitations I've received
+  sentPartyInvites: [], // Invitations I've sent
 
-    // Party invitations
-    pendingInvites: [], // Invites sent by this player
-    receivedInvites: [], // Invites received by this player
+  // Party settings
+  partySettings: {
+    maxMembers: 6
+  },
 
-    // Party settings
-    partySettings: {
-        allowInvites: true,
-        autoAcceptFriends: false,
-        showMemberLocations: true,
-        shareResources: true
-    },
+  // HUD and UI state
+  memberPositions: {}, // memberId -> { x, y }
 
-    // HUD display settings
-    hudSettings: {
-        showPartyHUD: true,
-        hudPosition: { x: 20, y: 100 },
-        hudScale: 1.0,
-        showHealthBars: true,
-        showManaBars: true,
-        showActionPoints: true,
-        compactMode: false
-    },
-
-    // Individual member HUD positions
-    memberPositions: {},
-
-    // Multiplayer integration
-    multiplayerSocket: null
+  // Leader and GM mode
+  leaderId: null,
+  leaderMode: false
 };
 
-// Create the party store
-const usePartyStore = create(
-    persist(
-        (set, get) => ({
-            ...initialState,
-
-            // Party Management Actions
-            createParty: (partyName = 'New Party', currentPlayerName = 'Current Player', isGM = false) => {
-                const newParty = {
-                    id: uuidv4(),
-                    name: partyName,
-                    createdAt: Date.now(),
-                    maxMembers: 6,
-                    isPublic: false
-                };
-
-                // Removed: 125+ lines of hardcoded character data bloat
-
-                set({
-                    currentParty: newParty,
-                    isInParty: true,
-                    // Only set leaderId if the creator is actually the GM
-                    leaderId: isGM ? 'current-player' : null,
-                    partyMembers: [
-                        {
-                            id: 'current-player',
-                            name: currentPlayerName,
-                            isGM: isGM,
-                            status: PARTY_STATUS.ONLINE,
-                            joinedAt: Date.now(),
-                            character: {
-                                class: 'Unknown',
-                                level: 1,
-                                health: { current: 45, max: 50 },
-                                mana: { current: 45, max: 50 },
-                                actionPoints: { current: 1, max: 3 }
-                            }
-                        }
-                    ]
-                });
-            },
-
-            leaveParty: () => {
-                set({
-                    currentParty: null,
-                    isInParty: false,
-                    leaderId: null,
-                    partyMembers: []
-                });
-            },
-
-            disbandParty: () => {
-                // Only party leader can disband
-                const state = get();
-                const gameStore = useGameStore.getState();
-                const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
-                const isMe = state.currentParty?.leaderId === 'current-player' || state.currentParty?.leaderId === myId;
-
-                if (isMe) {
-                    set({
-                        currentParty: null,
-                        isInParty: false,
-                        leaderId: null,
-                        partyMembers: []
-                    });
-                }
-            },
-
-            // Member Management
-            addPartyMember: (memberData) => {
-                const state = get();
-                if (!state.isInParty || state.partyMembers.length >= (state.currentParty?.maxMembers || 6)) {
-                    return false;
-                }
-
-                // Check for duplicate members by ID OR by name to prevent duplicate HUDs
-                const existingMemberById = (state.partyMembers || []).find(member => member.id === memberData.id);
-                const existingMemberByName = (state.partyMembers || []).find(member => member.name === memberData.name);
-
-                if (existingMemberById) {
-                    return false;
-                }
-
-                if (existingMemberByName) {
-                    return false;
-                }
-
-                const newMember = {
-                    id: memberData.id || uuidv4(),
-                    socketId: memberData.socketId || memberData.id, // CRITICAL: Store socketId for character_updated lookups
-                    name: memberData.name,
-                    isGM: memberData.isGM || false, // Preserve GM status
-                    status: PARTY_STATUS.ONLINE,
-                    joinedAt: Date.now(),
-                    character: memberData.character || {
-                        class: 'Unknown',
-                        level: 1,
-                        health: { current: 45, max: 50 },
-                        mana: { current: 45, max: 50 },
-                        actionPoints: { current: 1, max: 3 }
-                    }
-                };
-
-
-                // Add new member without changing leadership
-                const updatedMembers = [...(state.partyMembers || []), newMember];
-
-                // Keep existing leadership structure
-                set(state => ({
-                    partyMembers: updatedMembers
-                }));
-
-                // Sync with multiplayer
-                get().syncPartyUpdate('member_added', newMember);
-
-                return true;
-            },
-
-            removePartyMember: (memberId, force = false) => {
-                const state = get();
-                const gameStore = useGameStore.getState();
-
-                // Never allow removing yourself unless explicitly forced by internal migration/sync code.
-                if (!force && isSelfMemberId(memberId, gameStore)) {
-                    return false;
-                }
-
-                const memberToRemove = (state.partyMembers || []).find(member => member.id === memberId);
-
-                set(state => {
-                    let updatedMembers = (state.partyMembers || []).filter(member => member.id !== memberId);
-
-                    // Safety net: while in a party, always keep the local player represented.
-                    if (state.isInParty) {
-                        updatedMembers = ensureSelfMember(updatedMembers, gameStore);
-                    }
-
-                    return { partyMembers: updatedMembers };
-                });
-
-                // Sync with multiplayer
-                if (memberToRemove) {
-                    get().syncPartyUpdate('member_removed', { memberId, memberData: memberToRemove });
-                }
-
-                // If current player is removed, they should be redirected (handled by MultiplayerApp)
-                const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
-
-                if (memberId === 'current-player' || memberId === myId) {
-                }
-            },
-
-            // Player Map Assignment Management
-            setPlayerMapAssignment: (playerId, mapId) => {
-                set(state => ({
-                    playerMapAssignments: {
-                        ...state.playerMapAssignments,
-                        [playerId]: mapId
-                    }
-                }));
-            },
-
-            setAllPlayerMapAssignments: (assignments) => {
-                set({ playerMapAssignments: assignments || {} });
-            },
-
-            updatePartyMember: (memberId, updates, isFromSync = false) => {
-                /*
-                console.log('📥 [updatePartyMember] Called:', {
-                    memberId,
-                    isFromSync,
-                    hasCharacter: !!updates.character,
-                    characterKeys: updates.character ? Object.keys(updates.character) : [],
-                    hasLore: !!updates.character?.lore,
-                    hasEquipment: !!updates.character?.equipment
-                });
-                */
-
-                set(state => {
-                    const updatedMembers = (state.partyMembers || []).map(member => {
-                        if (member.id === memberId) {
-                            // Deep merge character data if it exists in updates
-                            if (updates.character) {
-                                const newCharacter = {
-                                    ...member.character,
-                                    ...updates.character
-                                };
-
-                                // Deep merge nested objects to preserve existing data
-                                // This prevents partial updates from wiping out existing nested data
-                                const nestedObjects = [
-                                    'health', 'mana', 'actionPoints', 'classResource', // Resources
-                                    'stats', 'equipment', 'lore', 'tokenSettings', // Complex objects
-                                    'skillProgress', 'skillRanks', 'resistances' // Other nested data
-                                ];
-
-                                nestedObjects.forEach(key => {
-                                    if (updates.character[key] && typeof updates.character[key] === 'object') {
-                                        newCharacter[key] = {
-                                            ...(member.character?.[key] || {}),
-                                            ...updates.character[key]
-                                        };
-                                    }
-                                });
-
-                                /*
-                                console.log('📦 [updatePartyMember] Merged character:', {
-                                    memberId,
-                                    hasLore: !!newCharacter.lore,
-                                    hasEquipment: !!newCharacter.equipment,
-                                    loreKeys: newCharacter.lore ? Object.keys(newCharacter.lore) : [],
-                                    equipmentKeys: newCharacter.equipment ? Object.keys(newCharacter.equipment) : []
-                                });
-                                */
-
-                                return {
-                                    ...member,
-                                    ...updates,
-                                    character: newCharacter
-                                };
-                            }
-
-                            return { ...member, ...updates };
-                        }
-                        return member;
-                    });
-
-                    return { partyMembers: updatedMembers };
-                });
-
-                // Only sync with multiplayer if this is NOT a network sync (to prevent infinite loops)
-                if (!isFromSync) {
-                    get().syncPartyUpdate('member_updated', { memberId, updates });
-                }
-            },
-
-            setLeader: (newLeaderId, isFromSync = false) => {
-                set({ leaderId: newLeaderId });
-
-                // CRITICAL: Toggle isGMMode for ANY player who becomes/loses leadership
-                // This gives the new leader GM-like UI capabilities
-
-                // Import gameStore dynamically to avoid circular dependency
-                import('./gameStore').then(({ default: useGameStore }) => {
-                    const gameStore = useGameStore.getState();
-                    const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
-                    const amILeader = newLeaderId === 'current-player' || newLeaderId === myId;
-
-                    if (gameStore.isGMMode !== amILeader) {
-                        gameStore.setGMMode(amILeader);
-                        console.log(`🛠️ UI mode set to: ${amILeader ? 'LEADER (GM-like access)' : 'PLAYER (restricted)'}`);
-                    }
-                }).catch(err => console.error('Failed to update GM mode:', err));
-
-                // Only sync with multiplayer if this is a local action, not a sync from server
-                if (!isFromSync) {
-                    const gameStore = useGameStore.getState();
-                    const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id || 'current-player';
-                    let leaderIdToSend = newLeaderId;
-
-                    if ((newLeaderId === 'current-player' || newLeaderId === myId) && gameStore.multiplayerSocket?.id) {
-                        leaderIdToSend = gameStore.multiplayerSocket.id;
-                        console.log(`📤 Translating local leader ID to socket ID: ${leaderIdToSend}`);
-                    }
-
-                    get().syncPartyUpdate('leadership_transferred', { leaderId: leaderIdToSend });
-                }
-            },
-
-            // Invitation System
-            sendPartyInvite: (targetPlayerName) => {
-                const invite = {
-                    id: uuidv4(),
-                    targetPlayer: targetPlayerName,
-                    sentAt: Date.now(),
-                    status: 'pending'
-                };
-
-                set(state => ({
-                    pendingInvites: [...(state.pendingInvites || []), invite]
-                }));
-
-                // Add chat notification
-                const chatStore = useChatStore.getState();
-                chatStore.addSocialNotification({
-                    type: 'party_invite_sent',
-                    target: targetPlayerName,
-                    content: `Party invitation sent to ${targetPlayerName}`,
-                    sender: { name: 'System', class: 'system', level: 0 }
-                });
-            },
-
-            receivePartyInvite: (inviteData) => {
-                const invite = {
-                    id: uuidv4(),
-                    fromPlayer: inviteData.fromPlayer,
-                    partyName: inviteData.partyName,
-                    receivedAt: Date.now(),
-                    status: 'pending'
-                };
-
-                set(state => ({
-                    receivedInvites: [...(state.receivedInvites || []), invite]
-                }));
-
-                // Add chat notification
-                const chatStore = useChatStore.getState();
-                chatStore.addSocialNotification({
-                    type: 'party_invite_received',
-                    sender: { name: inviteData.fromPlayer, class: 'unknown', level: 0 },
-                    content: `${inviteData.fromPlayer} has invited you to join their party "${inviteData.partyName}"`
-                });
-            },
-
-            acceptPartyInvite: (inviteId) => {
-                const state = get();
-                const invite = (state.receivedInvites || []).find(inv => inv.id === inviteId);
-
-                if (invite) {
-                    // Join the party (this would typically involve network communication)
-                    set(state => ({
-                        receivedInvites: (state.receivedInvites || []).filter(inv => inv.id !== inviteId)
-                    }));
-                }
-            },
-
-            declinePartyInvite: (inviteId) => {
-                set(state => ({
-                    receivedInvites: (state.receivedInvites || []).filter(inv => inv.id !== inviteId)
-                }));
-            },
-
-            // Settings Management
-            updatePartySettings: (settings) => {
-                set(state => ({
-                    partySettings: { ...state.partySettings, ...settings }
-                }));
-            },
-
-            updateHUDSettings: (settings) => {
-                set(state => ({
-                    hudSettings: { ...state.hudSettings, ...settings }
-                }));
-            },
-
-            // HUD Position Management
-            setHUDPosition: (position) => {
-                set(state => ({
-                    hudSettings: { ...state.hudSettings, hudPosition: position }
-                }));
-            },
-
-            // Member Position Management
-            setMemberPosition: (memberId, position) => {
-                set(state => ({
-                    memberPositions: {
-                        ...state.memberPositions,
-                        [memberId]: position
-                    }
-                }));
-            },
-
-            getMemberPosition: (memberId) => {
-                const state = get();
-                return state.memberPositions[memberId] || null;
-            },
-
-            // Utility Functions
-            getPartyMember: (memberId) => {
-                const state = get();
-                return state.partyMembers.find(member => member.id === memberId);
-            },
-
-            // Removed: Complex party leadership - Room creator is always GM
-
-            // Removed: Complex leadership transfer - Room creator is always GM
-
-            getPartySize: () => {
-                const state = get();
-                return state.partyMembers.length;
-            },
-
-            // Multiplayer Synchronization
-            syncPartyUpdate: (updateType, data) => {
-                const gameStore = useGameStore.getState();
-                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                    // CRITICAL: Include playerId so receiving clients can identify the sender
-                    const socketId = gameStore.multiplayerSocket.id;
-                    gameStore.multiplayerSocket.emit('party_update', {
-                        type: updateType,
-                        data: data,
-                        playerId: socketId,
-                        timestamp: Date.now()
-                    });
-                    // console.log(`📤 Party update sent: ${updateType}`, data);
-                }
-            },
-
-            setMultiplayerSocket: (socket) => {
-                set({ multiplayerSocket: socket });
-            },
-
-            clearMultiplayerSocket: () => {
-                set({ multiplayerSocket: null });
-            },
-
-            // Reset store to initial state
-            resetStore: () => {
-                set({ ...initialState });
+// Create the store
+const usePartyStore = create((set, get) => ({
+  ...initialState,
+
+  // ==================== PARTY MANAGEMENT ====================
+
+  /**
+   * Create a new party with user as leader
+   * Returns a Promise that resolves when the party is created
+   */
+  createParty: (partyName = 'New Party', isGM = false, leaderData = null) => {
+    return new Promise((resolve, reject) => {
+      const socket = getSocket();
+
+      const actualLeaderData = leaderData || {
+        isGM,
+        name: isGM ? 'Game Master' : 'Party Leader',
+        characterName: isGM ? 'Game Master' : 'Party Leader',
+        characterClass: 'Unknown',
+        characterLevel: 1
+      };
+
+      if (!socket) {
+        // ALLOW LOCAL PARTY CREATION WITHOUT SOCKET
+        // This is critical for single-player/local-room modes or when server is unavailable
+        if (partyName === 'Single Player Party' || partyName.includes('Local')) {
+          console.log('📱 Creating local single-player party (no socket available)');
+          const localParty = {
+            id: 'local-party-' + Date.now(),
+            name: partyName,
+            members: {
+              'current-player': actualLeaderData
             }
-        }),
-        {
-            name: 'party-store',
-            storage: {
-                getItem: (name) => {
-                    const str = localStorage.getItem(name);
-                    if (!str) return null;
-                    return JSON.parse(str);
-                },
-                setItem: (name, value) => {
-                    localStorage.setItem(name, JSON.stringify(value));
-                },
-                removeItem: (name) => localStorage.removeItem(name)
-            }
+          };
+          set({
+            currentParty: localParty,
+            isInParty: true,
+            partyMembers: [actualLeaderData],
+            partyChatMessages: []
+          });
+          resolve(localParty);
+          return;
         }
-    )
-);
+
+        console.error('❌ Cannot create party: No socket connection');
+        reject(new Error('No socket connection'));
+        return;
+      }
+
+      console.log('🎉 Creating party:', { partyName, leaderData: actualLeaderData });
+
+      // Set up one-time listener for party_created response
+      const onPartyCreated = (partyData) => {
+        socket.off('party_created', onPartyCreated);
+        socket.off('party_error', onPartyError);
+
+        set(state => ({
+          currentParty: partyData,
+          isInParty: true,
+          partyMembers: Object.values(partyData.members) || [],
+          partyChatMessages: []
+        }));
+
+        resolve(partyData);
+      };
+
+      const onPartyError = (error) => {
+        socket.off('party_created', onPartyCreated);
+        socket.off('party_error', onPartyError);
+
+        // If error is "already in party", check if we have the party data and resolve
+        if (error.error === 'You are already in a party' && error.party) {
+          set(state => ({
+            currentParty: error.party,
+            isInParty: true,
+            partyMembers: Object.values(error.party.members) || [],
+            partyChatMessages: []
+          }));
+          resolve(error.party);
+        } else {
+          reject(new Error(error.error || 'Failed to create party'));
+        }
+      };
+
+      socket.once('party_created', onPartyCreated);
+      socket.once('party_error', onPartyError);
+
+      // Set a timeout in case server doesn't respond
+      setTimeout(() => {
+        socket.off('party_created', onPartyCreated);
+        socket.off('party_error', onPartyError);
+        reject(new Error('Party creation timeout'));
+      }, 10000);
+
+      socket.emit('create_party', {
+        partyName,
+        leaderData: actualLeaderData
+      });
+    });
+  },
+
+  /**
+   * Join an existing party
+   */
+  joinParty: (partyId) => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.error('❌ Cannot join party: No socket connection');
+      return;
+    }
+
+    console.log('📩 Joining party:', partyId);
+    socket.emit('join_party', { partyId });
+  },
+
+  /**
+   * Leave the current party
+   */
+  leaveParty: () => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket) {
+      console.error('❌ Cannot leave party: No socket connection');
+      return;
+    }
+
+    if (!currentParty) {
+      console.error('❌ Cannot leave party: Not in a party');
+      return;
+    }
+
+    console.log('👤 Leaving party:', currentParty.id);
+    socket.emit('leave_party');
+  },
+
+  /**
+   * Invite another user to the party
+   */
+  inviteToParty: (targetUserId) => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket) {
+      console.error('❌ Cannot invite to party: No socket connection');
+      return;
+    }
+
+    if (!currentParty) {
+      console.error('❌ Cannot invite to party: Not in a party');
+      return;
+    }
+
+    console.log('📩 Sending party invitation to:', targetUserId);
+    const fromUserId = usePresenceStore.getState().currentUserPresence?.userId;
+    socket.emit('invite_to_party', {
+      partyId: currentParty.id,
+      fromUserId,
+      toUserId: targetUserId
+    });
+  },
+
+  // ==================== INVITATION HANDLING ====================
+
+  /**
+   * Accept a party invitation
+   */
+  acceptPartyInvitation: (invitationId) => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.error('❌ Cannot accept party invitation: No socket connection');
+      return;
+    }
+
+    console.log('✅ Accepting party invitation:', invitationId);
+    socket.emit('accept_party_invite', { invitationId });
+
+    // Remove from pending
+    set(state => ({
+      pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
+    }));
+  },
+
+  /**
+   * Decline a party invitation
+   */
+  declinePartyInvitation: (invitationId) => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.error('❌ Cannot decline party invitation: No socket connection');
+      return;
+    }
+
+    console.log('❌ Declining party invitation:', invitationId);
+    socket.emit('decline_party_invite', { invitationId });
+
+    // Remove from pending
+    set(state => ({
+      pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
+    }));
+  },
+
+  // ==================== PARTY CHAT ====================
+
+  /**
+   * Send a message to party chat
+   */
+  sendPartyMessage: (message) => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket) {
+      console.error('❌ Cannot send party message: No socket connection');
+      return;
+    }
+
+    if (!currentParty) {
+      console.error('❌ Cannot send party message: Not in a party');
+      return;
+    }
+
+    console.log('💬 Sending party message:', message.substring(0, 50) + '...');
+    socket.emit('party_message', {
+      partyId: currentParty.id,
+      message
+    });
+  },
+
+  // ==================== GM SESSION ====================
+
+  /**
+   * Accept a GM session invitation (when GM with party joins a room)
+   */
+  acceptGMSessionInvitation: (invitationId, roomId) => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.error('❌ Cannot accept GM session: No socket connection');
+      return;
+    }
+
+    console.log('✅ Accepting GM session invitation:', { invitationId, roomId });
+    socket.emit('respond_to_room_invitation', {
+      invitationId,
+      roomId,
+      accepted: true
+    });
+  },
+
+  /**
+   * Decline a GM session invitation
+   */
+  declineGMSessionInvitation: (invitationId, roomId) => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.error('❌ Cannot decline GM session: No socket connection');
+      return;
+    }
+
+    console.log('❌ Declining GM session invitation:', { invitationId, roomId });
+    socket.emit('respond_to_room_invitation', {
+      invitationId,
+      roomId,
+      accepted: false
+    });
+  },
+
+  // ==================== PARTY MEMBER MANAGEMENT ====================
+
+  /**
+   * Add a member to the party
+   */
+  addPartyMember: (memberData) => {
+    set(state => ({
+      partyMembers: ensureSelfMember([...state.partyMembers, memberData], useGameStore.getState())
+    }));
+  },
+
+  /**
+   * Remove a member from the party
+   */
+  removePartyMember: (memberId) => {
+    const gameStore = useGameStore.getState();
+    set(state => ({
+      partyMembers: state.partyMembers.filter(m => !isSelfMemberId(m.id, gameStore) && m.id !== memberId)
+    }));
+  },
+
+  /**
+   * Update a specific party member's data
+   */
+  updatePartyMember: (memberId, updates, silent = false) => {
+    const gameStore = useGameStore.getState();
+    const isTargetSelf = isSelfMemberId(memberId, gameStore);
+
+    set(state => ({
+      partyMembers: state.partyMembers.map(m => {
+        const isMemberSelf = isSelfMemberId(m.id, gameStore);
+        if ((isTargetSelf && isMemberSelf) || m.id === memberId) {
+          return { ...m, ...updates };
+        }
+        return m;
+      })
+    }));
+  },
+
+  /**
+   * Get a specific party member
+   */
+  getPartyMember: (memberId) => {
+    const state = get();
+    return state.partyMembers.find(member => member.id === memberId);
+  },
+
+  /**
+   * Check if a user is in the party
+   */
+  isUserInParty: (userId) => {
+    const state = get();
+    return state.partyMembers.some(member => member.id === userId);
+  },
+
+  // ==================== UTILITIES ====================
+
+  /**
+   * Get party size
+   */
+  getPartySize: () => {
+    const state = get();
+    return state.partyMembers.length;
+  },
+
+  /**
+   * Get the current party ID
+   */
+  getCurrentPartyId: () => {
+    const state = get();
+    return state.currentParty?.id || null;
+  },
+
+  /**
+   * Set the position of a party member frame in the HUD
+   */
+  setMemberPosition: (memberId, position) => {
+    set(state => ({
+      memberPositions: {
+        ...state.memberPositions,
+        [memberId]: position
+      }
+    }));
+  },
+
+  /**
+   * Get the position of a party member frame
+   */
+  getMemberPosition: (memberId) => {
+    const state = get();
+    return state.memberPositions[memberId] || null;
+  },
+
+  /**
+   * Set the leader of the party
+   */
+  setLeader: (leaderId, leaderMode = false) => {
+    set({ leaderId, leaderMode });
+  }
+}));
 
 export default usePartyStore;

@@ -16,7 +16,9 @@ import ProfileEditModal from './ProfileEditModal';
 // Note: canAccessCampaignManager is available for future access control:
 // import CampaignManager, { canAccessCampaignManager, CAMPAIGN_ACCESS_CONFIG } from './CampaignManager';
 import ClassResourceBar from '../hud/ClassResourceBar';
+import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
+import AccountSocialManager from './AccountSocialManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
@@ -26,11 +28,50 @@ const AccountDashboard = ({ user }) => {
   const location = useLocation();
   const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
   const { characters, loadCharacters, currentCharacterId, deleteCharacter } = useCharacterStore();
+  const {
+    initialize: initializeSocial,
+    setFriends,
+    pendingRequests,
+    activeTab: socialTab,
+    acceptFriendRequest,
+    declineFriendRequest
+  } = useSocialStore();
+  const { initializePresence } = usePresenceStore();
   const [isLoading, setIsLoading] = useState(true);
+
+  // Initialize social listeners and presence tracking
+  useEffect(() => {
+    if (user?.uid) {
+      console.log('🔄 Initializing social store for user:', user.uid);
+      const unsubscribe = initializeSocial(user.uid);
+
+      // Mark user as online in dashboard
+      // Use userData if available, otherwise fallback to basic user info
+      const characterData = {
+        name: userData?.displayName || user.displayName || user.email?.split('@')[0] || 'Adventurer',
+        photoURL: userData?.photoURL || user.photoURL || null
+      };
+
+      initializePresence(
+        user.uid,
+        characterData,
+        { sessionType: 'dashboard' },
+        userData?.displayName || user.displayName,
+        user.isGuest,
+        userData?.friendId
+      ).then(() => {
+        console.log('✅ Presence initialized for dashboard');
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [user?.uid, userData, initializeSocial, initializePresence]);
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
-  const { pendingRequests, acceptFriendRequest, declineFriendRequest } = useSocialStore();
   const [showNotifications, setShowNotifications] = useState(false);
 
   const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
@@ -105,8 +146,6 @@ const AccountDashboard = ({ user }) => {
   const handleManageCharacters = () => {
     navigate('/account/characters');
   };
-
-
 
   const handleCreateCharacter = async () => {
     // Check character limits before allowing creation
@@ -352,6 +391,12 @@ const AccountDashboard = ({ user }) => {
               >
                 <span>Journal</span>
               </button>
+              <button
+                className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
+                onClick={() => setActiveTab('social')}
+              >
+                <span>Social</span>
+              </button>
             </div>
           </nav>
 
@@ -435,8 +480,6 @@ const AccountDashboard = ({ user }) => {
             </div>
           )}
 
-
-
           {activeTab === 'characters' && (
             <div className="tab-content">
               <div className="characters-full-view">
@@ -460,7 +503,7 @@ const AccountDashboard = ({ user }) => {
                       onClick={handleCreateCharacter}
                       disabled={characterLimitInfo && !characterLimitInfo.canCreate}
                       title={characterLimitInfo && !characterLimitInfo.canCreate ?
-                        `Character limit reached (${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
+                        `Character limit reached(${characterLimitInfo.limit}).Upgrade your membership to create more characters.` :
                         'Create a new character'
                       }
                     >
@@ -473,137 +516,45 @@ const AccountDashboard = ({ user }) => {
                 {characters && characters.length > 0 ? (
                   <div className="characters-grid-full">
                     {characters.map((character) => {
-                      // Helper function to get ability modifier
-                      const getModifier = (score) => {
-                        return Math.floor((score - 10) / 2);
-                      };
-
-                      // Helper function to format modifier
-                      const formatModifier = (modifier) => {
-                        return modifier >= 0 ? `+${modifier}` : `${modifier}`;
-                      };
-
-                      // Helper function to get proper race display name
-                      const getRaceDisplayName = (character) => {
-                        // Use stored raceDisplayName if available and valid
-                        if (character.raceDisplayName && character.raceDisplayName !== 'Unknown Race' && character.raceDisplayName !== 'Unknown') {
-                          return character.raceDisplayName;
-                        }
-
-                        // Look up proper subrace name from race data
-                        if (character.subrace && character.race) {
-                          const raceData = RACE_DATA[character.race];
-                          if (raceData && raceData.subraces) {
-                            // Find the subrace by ID - check both object keys and subrace.id
-                            let subraceData = null;
-                            // First try finding by ID in values
-                            subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
-                            // If not found, try finding by object key
-                            if (!subraceData && raceData.subraces[character.subrace]) {
-                              subraceData = raceData.subraces[character.subrace];
-                            }
-                            // Also try finding by key that matches subrace ID pattern
-                            if (!subraceData) {
-                              for (const [key, subraceObj] of Object.entries(raceData.subraces)) {
-                                if (subraceObj.id === character.subrace || key === character.subrace) {
-                                  subraceData = subraceObj;
-                                  break;
-                                }
-                              }
-                            }
-                            if (subraceData && subraceData.name) {
-                              return subraceData.name; // Return subrace name (e.g., "Bloodhammer")
-                            }
-                          }
-                          // Fallback to race name if subrace not found
-                          return raceData ? raceData.name : character.race;
-                        }
-
-                        // Just race name
-                        if (character.race) {
-                          const raceData = RACE_DATA[character.race];
-                          return raceData ? raceData.name : character.race;
-                        }
-
-                        return 'Unknown Race';
-                      };
-
-                      // Helper function to get class display name
-                      const getClassDisplayName = (character) => {
-                        return character.class || 'Adventurer';
-                      };
-
-                      // Helper function to get character image
-                      const getCharacterImage = (character) => {
-                        if (character.lore?.characterImage) {
-                          return character.lore.characterImage;
-                        }
-                        if (character.image) {
-                          return character.image;
-                        }
-                        // Check for characterIcon and convert to URL (check root level first, then lore)
-                        if (character.characterIcon) {
-                          return getWowIconUrl(character.characterIcon);
-                        }
-                        if (character.lore?.characterIcon) {
-                          return getWowIconUrl(character.lore.characterIcon);
-                        }
+                      const getModifier = (score) => Math.floor((score - 10) / 2);
+                      const formatModifier = (modifier) => modifier >= 0 ? `+${modifier}` : `${modifier}`;
+                      const getCharacterImage = (char) => {
+                        if (char.lore?.characterImage) return char.lore.characterImage;
+                        if (char.image) return char.image;
+                        if (char.characterIcon) return getWowIconUrl(char.characterIcon);
+                        if (char.lore?.characterIcon) return getWowIconUrl(char.lore.characterIcon);
                         return null;
                       };
 
-                      // Get character stats with defaults
                       const stats = character.stats || {
-                        strength: 10,
-                        agility: 10,
-                        constitution: 10,
-                        intelligence: 10,
-                        spirit: 10,
-                        charisma: 10
+                        strength: 10, agility: 10, constitution: 10,
+                        intelligence: 10, spirit: 10, charisma: 10
                       };
 
-                      // Calculate correct health and mana values
-                      const calculatedResources = calculateCharacterResources(character);
-                      const health = calculatedResources.health;
-                      const mana = calculatedResources.mana;
+                      const { health, mana } = calculateCharacterResources(character);
                       const actionPoints = character.actionPoints || character.resources?.actionPoints || { current: 3, max: 3 };
 
                       return (
                         <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
-                          {/* Character Header - Reorganized Layout */}
                           <div className="character-header">
-                            {/* Header Top: Name, Tags, and Portrait (portrait on right) */}
                             <div className="character-header-top">
                               <div className="character-name-tags-section">
                                 <h3 className="character-name">{character.name}</h3>
                                 <div className="character-class-race">
-                                  <span className="race-tag">{getRaceDisplayName(character)}</span>
-                                  <span className="class-tag">{getClassDisplayName(character)}</span>
+                                  <span className="race-tag">{character.raceDisplayName || character.race || 'Unknown Race'}</span>
+                                  <span className="class-tag">{character.class || 'Adventurer'}</span>
                                 </div>
                               </div>
                               <div className="character-portrait-section">
                                 <div className="character-portrait">
                                   {getCharacterImage(character) ? (
-                                    <img
-                                      src={getCharacterImage(character)}
-                                      alt={character.name}
-                                      width="65"
-                                      height="65"
-                                      onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'flex';
-                                      }}
-                                    />
-                                  ) : null}
-                                  <div
-                                    className="default-portrait-icon"
-                                    style={{ display: getCharacterImage(character) ? 'none' : 'flex' }}
-                                  >
-                                    {character.name.charAt(0).toUpperCase()}
-                                  </div>
+                                    <img src={getCharacterImage(character)} alt={character.name} width="65" height="65" />
+                                  ) : (
+                                    <div className="default-portrait-icon">{character.name.charAt(0).toUpperCase()}</div>
+                                  )}
                                 </div>
                               </div>
                             </div>
-                            {/* Resources Section - Full Width */}
                             <div className="character-resources-section">
                               <div className="character-resources">
                                 <div className="resource-bar-item health-resource">
@@ -612,10 +563,7 @@ const AccountDashboard = ({ user }) => {
                                     <span className="resource-value">{health.current}/{health.max}</span>
                                   </div>
                                   <div className="resource-bar-container">
-                                    <div
-                                      className="resource-bar-fill health-fill"
-                                      style={{ width: `${(health.current / health.max) * 100}%` }}
-                                    ></div>
+                                    <div className="resource-bar-fill health-fill" style={{ width: `${(health.current / health.max) * 100}%` }}></div>
                                   </div>
                                 </div>
                                 <div className="resource-bar-item mana-resource">
@@ -624,10 +572,7 @@ const AccountDashboard = ({ user }) => {
                                     <span className="resource-value">{mana.current}/{mana.max}</span>
                                   </div>
                                   <div className="resource-bar-container">
-                                    <div
-                                      className="resource-bar-fill mana-fill"
-                                      style={{ width: `${(mana.current / mana.max) * 100}%` }}
-                                    ></div>
+                                    <div className="resource-bar-fill mana-fill" style={{ width: `${(mana.current / mana.max) * 100}%` }}></div>
                                   </div>
                                 </div>
                                 <div className="resource-bar-item action-resource">
@@ -636,47 +581,13 @@ const AccountDashboard = ({ user }) => {
                                     <span className="resource-value">{actionPoints.current}/{actionPoints.max}</span>
                                   </div>
                                   <div className="resource-bar-container">
-                                    <div
-                                      className="resource-bar-fill ap-fill"
-                                      style={{ width: `${(actionPoints.current / actionPoints.max) * 100}%` }}
-                                    ></div>
+                                    <div className="resource-bar-fill ap-fill" style={{ width: `${(actionPoints.current / actionPoints.max) * 100}%` }}></div>
                                   </div>
                                 </div>
-
-                                {/* Class Resource Bar */}
-                                {(() => {
-                                  const className = getClassDisplayName(character);
-                                  const classConfig = getClassResourceConfig(className);
-                                  if (!classConfig) return null;
-
-                                  let classResource = character.classResource || initializeClassResource(className, stats);
-                                  if (!classResource) return null;
-
-                                  // Add some test values for demonstration
-                                  if (classResource.current === 0 && classResource.max > 0) {
-                                    classResource = {
-                                      ...classResource,
-                                      current: Math.floor(classResource.max * 0.6) // 60% filled for demo
-                                    };
-                                  }
-
-                                  return (
-                                    <div className="resource-bar-item class-resource-full">
-                                      <ClassResourceBar
-                                        characterClass={className}
-                                        classResource={classResource}
-                                        size="normal"
-                                        isGMMode={false}
-                                        context="account"
-                                      />
-                                    </div>
-                                  );
-                                })()}
                               </div>
                             </div>
                           </div>
 
-                          {/* Character Stats - Clean Single Row */}
                           <div className="character-stats-row">
                             {[
                               { key: 'strength', abbr: 'STR' },
@@ -694,36 +605,22 @@ const AccountDashboard = ({ user }) => {
                             ))}
                           </div>
 
-                          {/* Character Actions - Clean Icon Bar */}
                           <div className="character-actions-bar">
                             <button
                               className={`action-icon-btn ${currentCharacterId === character.id ? 'active' : 'select'}`}
                               onClick={() => handleSelectCharacter(character.id)}
-                              title={currentCharacterId === character.id ? 'Currently active' : 'Set as active character'}
                             >
                               <i className={`fas ${currentCharacterId === character.id ? 'fa-check-circle' : 'fa-circle'}`}></i>
                               <span>{currentCharacterId === character.id ? 'Active' : 'Select'}</span>
                             </button>
                             <div className="action-divider"></div>
-                            <button
-                              className="action-icon-btn edit"
-                              onClick={() => navigate(`/account/characters/edit/${character.id}`)}
-                              title="Edit character"
-                            >
+                            <button className="action-icon-btn edit" onClick={() => navigate(`/account/characters/edit/${character.id}`)}>
                               <i className="fas fa-pen"></i>
                             </button>
-                            <button
-                              className="action-icon-btn view"
-                              onClick={() => navigate(`/account/characters/view/${character.id}`)}
-                              title="View character sheet"
-                            >
+                            <button className="action-icon-btn view" onClick={() => navigate(`/account/characters/view/${character.id}`)}>
                               <i className="fas fa-eye"></i>
                             </button>
-                            <button
-                              className="action-icon-btn delete"
-                              onClick={() => handleDeleteCharacter(character)}
-                              title="Delete character"
-                            >
+                            <button className="action-icon-btn delete" onClick={() => handleDeleteCharacter(character)}>
                               <i className="fas fa-trash-alt"></i>
                             </button>
                           </div>
@@ -733,15 +630,10 @@ const AccountDashboard = ({ user }) => {
                   </div>
                 ) : (
                   <div className="no-characters">
-                    <div className="no-characters-icon">
-                      <i className="fas fa-users"></i>
-                    </div>
+                    <div className="no-characters-icon"><i className="fas fa-users"></i></div>
                     <h3>No Characters Yet</h3>
-                    <p>Create your first character to begin your adventure in the world of Mythrill!</p>
-                    <button
-                      className="create-character-btn"
-                      onClick={handleCreateCharacter}
-                    >
+                    <p>Create your first character to begin your adventure!</p>
+                    <button className="create-character-btn" onClick={handleCreateCharacter}>
                       <i className="fas fa-plus"></i>
                       Create Your First Character
                     </button>
@@ -762,9 +654,14 @@ const AccountDashboard = ({ user }) => {
               <AccountJournalManager user={user} />
             </div>
           )}
+
+          {activeTab === 'social' && (
+            <div className="tab-content">
+              <AccountSocialManager />
+            </div>
+          )}
         </main>
 
-        {/* Delete Confirmation Modal */}
         {showDeleteConfirm && selectedCharacter && (
           <div className="modal-overlay">
             <div className="delete-confirm-modal">
@@ -772,17 +669,11 @@ const AccountDashboard = ({ user }) => {
               <p>Are you sure you want to delete <strong>{selectedCharacter.name}</strong>?</p>
               <p className="warning-text">This action cannot be undone. All character data will be permanently lost.</p>
               <div className="modal-actions">
-                <button
-                  className="confirm-delete-btn"
-                  onClick={confirmDeleteCharacter}
-                >
+                <button className="confirm-delete-btn" onClick={confirmDeleteCharacter}>
                   <i className="fas fa-trash"></i>
                   Delete
                 </button>
-                <button
-                  className="cancel-btn"
-                  onClick={cancelDeleteCharacter}
-                >
+                <button className="cancel-btn" onClick={cancelDeleteCharacter}>
                   Cancel
                 </button>
               </div>
@@ -790,10 +681,7 @@ const AccountDashboard = ({ user }) => {
           </div>
         )}
       </div>
-      <ProfileEditModal
-        isOpen={isProfileEditOpen}
-        onClose={() => setIsProfileEditOpen(false)}
-      />
+      <ProfileEditModal isOpen={isProfileEditOpen} onClose={() => setIsProfileEditOpen(false)} />
     </div>
   );
 };

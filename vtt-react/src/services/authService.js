@@ -227,19 +227,33 @@ class AuthService {
     }
   }
 
-  // Find user by Friend ID
+  // Find user by Friend ID (case-insensitive)
   async findUserByFriendId(friendId) {
     if (!db) return null;
 
     try {
       const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('friendId', '==', friendId));
-      const querySnapshot = await getDocs(q);
+      // Normalize: trim, remove leading #, and lowercase
+      const normalizedFriendId = friendId.trim().replace(/^#/, '').toLowerCase();
 
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
+      // Attempt search by friendId_lowercase first (modern)
+      const qLower = query(usersRef, where('friendId_lowercase', '==', normalizedFriendId));
+      const querySnapshotLower = await getDocs(qLower);
+
+      if (!querySnapshotLower.empty) {
+        const userDoc = querySnapshotLower.docs[0];
         return { id: userDoc.id, ...userDoc.data() };
       }
+
+      // Fallback search by friendId (legacy)
+      const qLegacy = query(usersRef, where('friendId', '==', friendId.trim()));
+      const querySnapshotLegacy = await getDocs(qLegacy);
+
+      if (!querySnapshotLegacy.empty) {
+        const userDoc = querySnapshotLegacy.docs[0];
+        return { id: userDoc.id, ...userDoc.data() };
+      }
+
       return null;
     } catch (error) {
       console.error('Error finding user by friendId:', error);
@@ -275,6 +289,7 @@ class AuthService {
           email,
           photoURL: photoURL || null,
           friendId: finalFriendId,
+          friendId_lowercase: finalFriendId ? finalFriendId.toLowerCase() : null,
           createdAt,
           lastLoginAt: createdAt,
           // Default character data
@@ -302,9 +317,12 @@ class AuthService {
           lastLoginAt: new Date()
         };
 
-        // Migrate users without friendId
+        // Migrate users without friendId or friendId_lowercase
         if (!userData.friendId) {
           updates.friendId = this.generateFriendId();
+          updates.friendId_lowercase = updates.friendId.toLowerCase();
+        } else if (!userData.friendId_lowercase) {
+          updates.friendId_lowercase = userData.friendId.toLowerCase();
         }
 
         await updateDoc(userRef, updates);
@@ -358,8 +376,15 @@ class AuthService {
       }
 
       const userRef = doc(db, 'users', this.currentUser.uid);
+
+      // If updating friendId, also update friendId_lowercase
+      const updatePayload = { ...data };
+      if (data.friendId) {
+        updatePayload.friendId_lowercase = data.friendId.toLowerCase();
+      }
+
       await updateDoc(userRef, {
-        ...data,
+        ...updatePayload,
         updatedAt: new Date()
       });
       return { success: true };

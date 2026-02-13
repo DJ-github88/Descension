@@ -185,28 +185,27 @@ const TabbedChat = () => {
           messageId: message.messageId
         });
 
-        resolvedSocket.emit('chat_message', {
-          id: message.id,
-          messageId: message.messageId,
-          content: message.content,
-          message: message.content,
-          type: 'chat',
-          channel: 'party',
-          senderId: message.senderId,
-          playerId: message.senderId,
-          senderName: message.senderName,
-          playerName: message.senderName,
-          senderClass: message.senderClass,
-          senderLevel: message.senderLevel,
-          timestamp: message.timestamp
-        });
+        // Get party ID from partyStore
+        const currentParty = usePartyStore.getState().currentParty || usePresenceStore.getState().currentParty;
+        const currentPartyId = currentParty?.id;
+
+        if (currentPartyId) {
+          // Send via party_message event (matches server handler)
+          resolvedSocket.emit('party_message', {
+            partyId: currentPartyId,
+            message: message.content
+          });
+        } else {
+          console.warn('⚠️ No party ID found, cannot send party message');
+        }
 
         chatDebug('💬 [TabbedChat:party] socket emit', {
           socketId: resolvedSocket.id,
           connected: resolvedSocket.connected,
           socketSource,
           messageId: message.messageId,
-          senderId: message.senderId
+          senderId: message.senderId,
+          partyId: currentPartyId
         });
 
         setMessageInput('');

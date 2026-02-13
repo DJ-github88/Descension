@@ -6,6 +6,8 @@ import { RoomProvider } from "./contexts/RoomContext";
 import PersistenceProvider from "./components/providers/PersistenceProvider";
 import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
+import SocialNotificationLayer from "./components/social/SocialNotificationLayer";
+import GlobalSocketManager from "./components/social/GlobalSocketManager";
 import usePartyStore from "./store/partyStore";
 import useGameStore from "./store/gameStore";
 import useBuffStore from "./store/buffStore";
@@ -515,8 +517,8 @@ function GameScreen() {
                         console.log(`✅ Character loaded: ${character.name}`);
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
-                        leaveParty();
-                        createParty('Single Player Party', character.name);
+                        await leaveParty();
+                        await createParty('Single Player Party', character.name);
                         // Update current player with GM status in single-player mode
                         const { updatePartyMember } = usePartyStore.getState();
                         updatePartyMember('current-player', { isGM: isGMMode });
@@ -533,8 +535,8 @@ function GameScreen() {
                         console.log(`✅ Active character loaded: ${activeCharacter.name}`);
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
-                        leaveParty();
-                        createParty('Single Player Party', activeCharacter.name);
+                        await leaveParty();
+                        await createParty('Single Player Party', activeCharacter.name);
                         // Update current player with GM status in single-player mode
                         const { updatePartyMember } = usePartyStore.getState();
                         updatePartyMember('current-player', { isGM: isGMMode });
@@ -542,8 +544,8 @@ function GameScreen() {
                         console.log('No active character found');
                         // Create a basic single-player party even without a character
                         localStorage.removeItem('party-store');
-                        leaveParty();
-                        createParty('Single Player Party', 'Player');
+                        await leaveParty();
+                        await createParty('Single Player Party', 'Player');
                         // Update current player with GM status in single-player mode
                         const { updatePartyMember } = usePartyStore.getState();
                         updatePartyMember('current-player', { isGM: isGMMode });
@@ -1178,7 +1180,11 @@ const AppContent = ({
                 onClose={() => setShowPerformanceDashboard(false)}
             />
 
-            {/* Debug components removed - no longer needed */}
+            {/* Social Notifications (Invitations) */}
+            <SocialNotificationLayer />
+
+            {/* Global Socket Management */}
+            <GlobalSocketManager />
         </>
     );
 };

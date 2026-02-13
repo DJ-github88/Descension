@@ -10,10 +10,10 @@ import WowWindow from '../windows/WowWindow';
 import OnlineUsersList from './OnlineUsersList';
 import ChatTabs from './ChatTabs';
 import TabbedChat from './TabbedChat';
-import RoomInvitationNotification from './RoomInvitationNotification';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import useSocialStore from '../../store/socialStore';
 import '../../styles/global-chat.css';
 
 const GlobalChatWindow = ({ isOpen, onClose }) => {
@@ -39,8 +39,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const initializePresence = usePresenceStore((state) => state.initializePresence);
   const subscribeToOnlineUsers = usePresenceStore((state) => state.subscribeToOnlineUsers);
   const cleanup = usePresenceStore((state) => state.cleanup);
-  const pendingInvitations = usePresenceStore((state) => state.pendingInvitations);
   const openWhisperTab = usePresenceStore((state) => state.openWhisperTab);
+  const initializeSocial = useSocialStore((state) => state.initialize);
 
   // Initialize presence when window opens
   useEffect(() => {
@@ -75,6 +75,11 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       const friendId = userData?.friendId || user?.friendId || null;
       initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
       subscribeToOnlineUsers();
+
+      // Initialize social store for friends and requests
+      if (user?.uid) {
+        initializeSocial(user.uid);
+      }
     }
 
     // Mock users initialization removed
@@ -247,17 +252,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
           </div>
         </div>
       </WowWindow>
-
-      {/* Room Invitations */}
-      {pendingInvitations.map((invitation) => (
-        <RoomInvitationNotification
-          key={invitation.id}
-          invitation={invitation}
-        />
-      ))}
     </>
   );
 };
 
 export default GlobalChatWindow;
-

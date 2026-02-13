@@ -332,6 +332,34 @@ class DemoAuthService {
     return `${prefix}${suffix}${randomNums}`;
   }
 
+  // Find user by Friend ID (demo mode)
+  async findUserByFriendId(friendId) {
+    try {
+      const users = this.getAllUsers();
+      const normalizedFriendId = friendId.trim().toLowerCase();
+
+      const user = users.find(u =>
+        (u.friendId && u.friendId.toLowerCase() === normalizedFriendId) ||
+        (u.friendId_lowercase && u.friendId_lowercase === normalizedFriendId)
+      );
+
+      if (user) {
+        // Return public user data
+        return {
+          id: user.uid,
+          uid: user.uid,
+          displayName: user.displayName,
+          friendId: user.friendId,
+          photoURL: user.photoURL
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error('Demo findUserByFriendId error:', error);
+      return null;
+    }
+  }
+
   getCurrentUser() {
     return this.currentUser;
   }

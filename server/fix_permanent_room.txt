@@ -1,0 +1,26 @@
+if (data.persistentRoomId) {
+        room.persistentRoomId = data.persistentRoomId;
+        
+        const persistedRoomData = await firebaseService.getRoomData(data.persistentRoomId);
+        
+        if (persistedRoomData) {
+          room = createRoom(
+            persistedRoomData.roomName || data.roomName,
+            data.gmName,
+            socket.id,
+            data.password,
+            data.playerColor,
+            true,
+            data.persistentRoomId
+          );
+          
+          if (data.gameState && typeof data.gameState === "object") {
+            room.gameState = mergeRoomGameStateForResume(room.gameState, data.gameState);
+          }
+        } else {
+          socket.emit("error", { message: "Permanent room not found in database" });
+          return;
+        }
+      } else if (data.gameState) {
+        room.gameState = { ...room.gameState, ...data.gameState };
+      }

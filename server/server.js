@@ -690,6 +690,13 @@ app.get('/debug/rooms', (req, res) => {
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
+// Party system - in-memory for social groups formed in community window
+const parties = new Map(); // partyId -> Party object
+const userToParty = new Map(); // userId -> partyId
+const partyInvitations = new Map(); // invitationId -> Invitation object
+const onlineSocialUsers = new Map(); // socketId -> { userId, name, characterClass, characterLevel, ... }
+const pendingPartyCreations = new Map(); // userId -> { resolve, timeout, invites } - tracks auto-creation in progress
+
 // Load persistent rooms from Firestore on startup
 async function initializePersistentRooms() {
   try {
@@ -1677,6 +1684,82 @@ io.on('connection', (socket) => {
     } catch (error) {
       console.error('Join room error:', error);
       socket.emit('error', { message: error.message || 'Failed to join room' });
+    }
+  });
+
+  // GM Session Detection - Notify party members when GM with party joins a room
+  io.on('gm_joined_room', ({ userId, roomId, gmData }) => {
+    logger.info('GM joined room - checking for party', { userId, roomId, gmName: gmData.name });
+
+    const partyId = userToParty.get(userId);
+
+    if (partyId && parties.has(partyId)) {
+      const party = parties.get(partyId);
+
+      if (party.isActive) {
+        logger.info('GM has active party, notifying members', { partyId, partyName: party.name });
+
+        // Get room members
+        const room = rooms.get(roomId);
+        if (!room) {
+          logger.warn('Room not found for GM session notification');
+          return;
+        }
+
+        const roomMembers = room.players;
+        const memberIds = Object.keys(roomMembers);
+
+        // Find party members not already in the room
+        const partyMembersNotInRoom = Object.keys(party.members).filter(memberId => {
+          return !memberIds.includes(memberId);
+        });
+
+        logger.info('Party members to invite', { partyMembersNotInRoom, count: partyMembersNotInRoom.length });
+
+        // Send GM session invitations to party members not in the room
+        partyMembersNotInRoom.forEach(memberId => {
+          const memberData = party.members[memberId];
+
+          if (memberData) {
+            const memberSockets = getSocketsByUserId(memberId);
+
+            if (memberSockets.length > 0) {
+              const invitation = {
+                id: uuidv4(),
+                partyId,
+                roomId,
+                gmName: gmData.name,
+                gmCharacterName: gmData.characterName,
+                gmClass: gmData.characterClass,
+                gmLevel: gmData.characterLevel,
+                status: 'pending',
+                createdAt: Date.now(),
+                expiresAt: Date.now() + (5 * 60 * 1000) // 5 minutes
+              };
+
+              // Track which party members have been invited to this room
+              partyInvitations.set(invitation.id, invitation);
+
+              memberSockets.forEach(s => {
+                s.emit('gm_session_invitation', invitation);
+              });
+
+              logger.info('GM session invitation sent', {
+                to: memberId,
+                party: partyName,
+                room: roomId,
+                gm: gmData.name
+              });
+            } else {
+              logger.warn('Party member not connected for GM session notification', { memberId });
+            }
+          }
+        });
+      } else {
+        logger.info('Party is not active or no members', { partyId, isActive: party.isActive, memberCount: Object.keys(party.members).length });
+      }
+    } else {
+      logger.info('GM joined room but has no active party', { userId });
     }
   });
 
@@ -5156,6 +5239,838 @@ io.on('connection', (socket) => {
     console.log(`🪑 Environmental object ${objectId} ${updateType} on map ${targetMapId} by GM ${player.name}`);
   });
 
+  // --- Party System ---
+
+  // Create party - User creates new party and becomes leader
+  socket.on('create_party', ({ partyName, leaderData }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    logger.info('Creating party', { userId, partyName, leaderName: leaderData.name });
+
+    // Check if there's a pending party creation from invite_to_party (race condition handling)
+    const pendingCreation = pendingPartyCreations.get(userId);
+    if (pendingCreation && pendingCreation.resolvedPartyId) {
+      // A party was already auto-created for this user, use that one instead
+      const existingParty = parties.get(pendingCreation.resolvedPartyId);
+      if (existingParty) {
+        logger.info('Using auto-created party instead of creating new one', {
+          userId,
+          existingPartyId: pendingCreation.resolvedPartyId
+        });
+        socket.emit('party_created', existingParty);
+
+        // Process any queued invites inline
+        if (pendingCreation.pendingInvites && pendingCreation.pendingInvites.length > 0) {
+          logger.info('Processing queued invites from create_party', { count: pendingCreation.pendingInvites.length });
+          const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+          for (const queuedInvite of pendingCreation.pendingInvites) {
+            const targetSockets = getSocketsByUserId(queuedInvite.toUserId);
+            if (targetSockets.length > 0 && user) {
+              const invitationId = uuidv4();
+              const invitation = {
+                id: invitationId,
+                partyId: pendingCreation.resolvedPartyId,
+                partyName: existingParty.name,
+                fromUserId: userId,
+                fromUserName: user.name,
+                fromCharacterName: user.characterName || 'Unknown',
+                fromClass: user.characterClass || 'Unknown',
+                fromLevel: user.characterLevel || 1,
+                toUserId: queuedInvite.toUserId,
+                status: 'pending',
+                createdAt: Date.now(),
+                expiresAt: Date.now() + (60 * 1000)
+              };
+              partyInvitations.set(invitationId, invitation);
+              targetSockets.forEach(s => {
+                s.emit('party_invitation_received', invitation);
+              });
+              logger.info('Queued party invitation sent from create_party', { invitationId, toUserId: queuedInvite.toUserId });
+            }
+          }
+          pendingCreation.pendingInvites = [];
+        }
+        return;
+      }
+    }
+
+    // Check if user is already in a party
+    const existingPartyId = userToParty.get(userId);
+    if (existingPartyId) {
+      const existingParty = parties.get(existingPartyId);
+      socket.emit('party_error', {
+        error: 'You are already in a party',
+        party: existingParty
+      });
+      return;
+    }
+
+    // Create new party
+    const partyId = uuidv4();
+    const party = {
+      id: partyId,
+      name: partyName,
+      leaderId: userId,
+      leaderName: leaderData.name || 'Unknown',
+      leaderCharacterName: leaderData.characterName || 'Unknown',
+      leaderClass: leaderData.characterClass || 'Unknown',
+      leaderLevel: leaderData.characterLevel || 1,
+      members: {
+        [userId]: {
+          id: userId,
+          name: leaderData.name,
+          characterClass: leaderData.characterClass || 'Unknown',
+          characterLevel: leaderData.characterLevel || 1,
+          status: 'online',
+          joinedAt: Date.now()
+        }
+      },
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      maxMembers: 6,
+      isActive: true
+    };
+
+    // Store party
+    parties.set(partyId, party);
+
+    // Track user's party
+    userToParty.set(userId, partyId);
+
+    // Update user record
+    if (user) {
+      user.partyId = partyId;
+    }
+
+    // Mark pending creation as resolved (if any)
+    if (pendingCreation) {
+      pendingCreation.resolvedPartyId = partyId;
+    } else {
+      // Create pending entry for any future invites
+      pendingPartyCreations.set(userId, {
+        resolvedPartyId: partyId,
+        createdAt: Date.now(),
+        pendingInvites: []
+      });
+    }
+
+    logger.info('Party created successfully', { partyId, partyName, leader: leaderData.name });
+
+    // Notify creator
+    socket.emit('party_created', party);
+
+    // Log for debugging
+    logger.info('Party state after creation', {
+      partiesCount: parties.size,
+      userToPartyCount: userToParty.size,
+      partyMembers: Object.keys(party.members).length
+    });
+  });
+
+  // Join party - User joins existing party
+  socket.on('join_party', ({ partyId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    logger.info('User requesting to join party', { userId, partyId });
+
+    // Check if user is already in a party
+    const existingPartyId = userToParty.get(userId);
+    if (existingPartyId) {
+      const existingParty = parties.get(existingPartyId);
+      socket.emit('party_error', {
+        error: 'You are already in a party',
+        party: existingParty
+      });
+      return;
+    }
+
+    // Check if party exists and is active
+    const party = parties.get(partyId);
+    if (!party) {
+      socket.emit('party_error', {
+        error: 'Party not found',
+        partyId
+      });
+      return;
+    }
+
+    if (!party.isActive) {
+      socket.emit('party_error', {
+        error: 'This party is not active',
+        partyId
+      });
+      return;
+    }
+
+    // Check if party is full
+    const currentMemberCount = Object.keys(party.members).length;
+    if (currentMemberCount >= party.maxMembers) {
+      socket.emit('party_error', {
+        error: 'Party is full',
+        partyId,
+        currentMembers: currentMemberCount,
+        maxMembers: party.maxMembers
+      });
+      return;
+    }
+
+    // Add user to party
+    party.members[userId] = {
+      id: userId,
+      name: user.name,
+      characterClass: user.characterClass || 'Unknown',
+      characterLevel: user.characterLevel || 1,
+      status: 'online',
+      joinedAt: Date.now()
+    };
+
+    party.updatedAt = Date.now();
+
+    // Track user's party
+    userToParty.set(userId, partyId);
+
+    // Update user record
+    if (user) {
+      user.partyId = partyId;
+    }
+
+    // Notify all party members
+    Object.keys(party.members).forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_member_joined', {
+          partyId,
+          memberId: userId,
+          memberData: party.members[userId]
+        });
+      });
+    });
+
+    // Notify the user who joined
+    socket.emit('party_updated', party);
+
+    logger.info('User joined party successfully', { userId, partyId, partyName: party.name, memberCount: Object.keys(party.members).length });
+    logger.info('Party state after join', {
+      partiesCount: parties.size,
+      userToPartyCount: userToParty.size,
+      partyMembers: Object.keys(party.members).length
+    });
+  });
+
+  // Leave party - User leaves their current party
+  socket.on('leave_party', () => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    if (!user) {
+      socket.emit('party_error', {
+        error: 'User not found'
+      });
+      return;
+    }
+
+    const partyId = userToParty.get(userId);
+
+    if (!partyId) {
+      socket.emit('party_error', {
+        error: 'You are not in a party'
+      });
+      return;
+    }
+
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', {
+        error: 'Party not found',
+        partyId
+      });
+      return;
+    }
+
+    // Check if user is the party leader
+    if (party.leaderId === userId) {
+      // Leader is leaving - disband the party
+      logger.info('Party leader leaving, disbanding party', { partyId, partyName: party.name });
+
+      // Notify all party members that party is being disbanded
+      Object.keys(party.members).forEach(memberId => {
+        const memberSockets = getSocketsByUserId(memberId);
+        memberSockets.forEach(s => {
+          s.emit('party_disbanded', {
+            partyId,
+            partyName: party.name,
+            disbandedBy: party.leaderName
+          });
+        });
+      });
+
+      // Clean up
+      parties.delete(partyId);
+      Object.keys(party.members).forEach(memberId => {
+        userToParty.delete(memberId);
+        const member = players.get(memberId);
+        if (member) {
+          member.partyId = null;
+        }
+      });
+
+      socket.emit('party_left', { partyId });
+
+      logger.info('Party disbanded', { partyId, partyName });
+    } else {
+      // Regular member leaving
+      logger.info('Party member leaving', { userId, partyId, partyName: party.name });
+
+      // Remove from party
+      delete party.members[userId];
+      party.updatedAt = Date.now();
+
+      // Clean up user's party reference
+      userToParty.delete(userId);
+
+      // Update user record
+      if (user) {
+        user.partyId = null;
+      }
+
+      // Notify all party members
+      Object.keys(party.members).forEach(memberId => {
+        const memberSockets = getSocketsByUserId(memberId);
+        memberSockets.forEach(s => {
+          s.emit('party_member_left', {
+            partyId,
+            memberId: userId,
+            userName: user.name
+          });
+        });
+      });
+
+      // Check if party is empty, if so, delete it
+      const remainingMembers = Object.keys(party.members).length;
+      if (remainingMembers === 0) {
+        logger.info('Party is now empty, deleting', { partyId, partyName: party.name });
+        parties.delete(partyId);
+      } else {
+        // Update party with new leader (the longest-serving member)
+        const remainingMemberIds = Object.keys(party.members);
+        const newLeaderId = remainingMemberIds[0];
+        const newLeader = party.members[newLeaderId];
+
+        party.leaderId = newLeaderId;
+        party.leaderName = newLeader.name;
+        party.leaderCharacterName = newLeader.characterName;
+        party.leaderClass = newLeader.characterClass;
+        party.leaderLevel = newLeader.characterLevel;
+        party.updatedAt = Date.now();
+
+        // Notify everyone about new leader
+        Object.keys(party.members).forEach(memberId => {
+          const memberSockets = getSocketsByUserId(memberId);
+          memberSockets.forEach(s => {
+            s.emit('party_leader_changed', {
+              partyId,
+              newLeaderId,
+              newLeaderName: newLeader.name
+            });
+          });
+        });
+
+        logger.info('Party leadership transferred', { partyId, oldLeader: userId, newLeader: newLeaderId });
+      }
+
+      socket.emit('party_left', { partyId });
+
+      logger.info('Member left party successfully', { userId, partyId, partyName: party.name });
+      logger.info('Party state after member left', {
+        partiesCount: parties.size,
+        userToPartyCount: userToParty.size,
+        partyMembers: Object.keys(party.members).length
+      });
+    }
+  });
+
+  // Social Presence - Track users outside of rooms
+  socket.on('register_presence', (data) => {
+    // CRITICAL: Always prefer client-provided userId (data.userId) over stale socket identity.
+    // When a user re-authenticates (switches accounts) on the same socket, socket.data.userId
+    // would still hold the OLD user's ID. We must update to the new identity.
+    const userId = data.userId || socket.data?.userId;
+    if (!userId) return;
+
+    // Set socket.data.userId so getSocketsByUserId can find this socket
+    if (!socket.data) socket.data = {};
+    socket.data.userId = userId;
+
+    onlineSocialUsers.set(socket.id, {
+      userId,
+      name: data.name || data.characterName || 'Unknown',
+      characterClass: data.characterClass || data.class || 'Unknown',
+      characterLevel: data.characterLevel || data.level || 1,
+      updatedAt: Date.now()
+    });
+
+    logger.info('Social presence registered', { socketId: socket.id, userId, name: data.name });
+  });
+
+  // Invite to party - Party leader invites another user
+  socket.on('invite_to_party', async ({ partyId, fromUserId, toUserId }) => {
+    // Prevent self-invitation
+    if (fromUserId === toUserId) {
+      logger.warn('User attempted to invite themselves to a party', { userId: fromUserId });
+      socket.emit('party_error', {
+        error: 'You cannot invite yourself to a party'
+      });
+      return;
+    }
+
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    if (!user) {
+      socket.emit('party_error', {
+        error: 'User not found'
+      });
+      return;
+    }
+
+    let party;
+    let resolvedPartyId = partyId;
+
+    // Check if there's a pending party creation for this user (race condition protection)
+    const pendingCreation = pendingPartyCreations.get(fromUserId);
+    if (pendingCreation && !pendingCreation.resolvedPartyId) {
+      // Queue this invite to be processed after party creation completes
+      logger.info('Queueing invite - party creation in progress', { fromUserId, toUserId });
+      pendingCreation.pendingInvites = pendingCreation.pendingInvites || [];
+      pendingCreation.pendingInvites.push({ toUserId, socketId: socket.id });
+      return;
+    }
+
+    // If no party ID provided, check if user is already in one
+    if (!resolvedPartyId) {
+      resolvedPartyId = userToParty.get(fromUserId);
+    }
+
+    if (resolvedPartyId) {
+      party = parties.get(resolvedPartyId);
+    }
+
+    // If still no party, create a new one automatically
+    if (!party) {
+      // Mark that we're creating a party for this user (prevents race condition)
+      const creationId = uuidv4();
+      pendingPartyCreations.set(fromUserId, {
+        id: creationId,
+        createdAt: Date.now(),
+        pendingInvites: []
+      });
+
+      logger.info('Auto-creating party for invitation', { fromUserId, toUserId });
+      const newPartyId = uuidv4();
+      party = {
+        id: newPartyId,
+        name: `${user.characterName || user.name}'s Party`,
+        leaderId: fromUserId,
+        leaderName: user.name,
+        leaderCharacterName: user.characterName || 'Unknown',
+        leaderClass: user.characterClass || 'Unknown',
+        leaderLevel: user.characterLevel || 1,
+        members: {
+          [fromUserId]: {
+            id: fromUserId,
+            name: user.name,
+            characterClass: user.characterClass || 'Unknown',
+            characterLevel: user.characterLevel || 1,
+            status: 'online',
+            joinedAt: Date.now()
+          }
+        },
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        maxMembers: 6,
+        isActive: true
+      };
+
+      parties.set(newPartyId, party);
+      userToParty.set(fromUserId, newPartyId);
+      if (user) user.partyId = newPartyId;
+
+      resolvedPartyId = newPartyId;
+
+      // Mark creation as complete and store resolved party ID
+      const pending = pendingPartyCreations.get(fromUserId);
+      if (pending) {
+        pending.resolvedPartyId = newPartyId;
+      }
+
+      // Notify creator
+      socket.emit('party_created', party);
+
+      // Process any queued invites inline
+      if (pending && pending.pendingInvites && pending.pendingInvites.length > 0) {
+        logger.info('Processing queued invites', { count: pending.pendingInvites.length });
+        for (const queuedInvite of pending.pendingInvites) {
+          const targetSockets = getSocketsByUserId(queuedInvite.toUserId);
+          if (targetSockets.length > 0) {
+            const invitationId = uuidv4();
+            const invitation = {
+              id: invitationId,
+              partyId: newPartyId,
+              partyName: party.name,
+              fromUserId: fromUserId,
+              fromUserName: user.name,
+              fromCharacterName: user.characterName || 'Unknown',
+              fromClass: user.characterClass || 'Unknown',
+              fromLevel: user.characterLevel || 1,
+              toUserId: queuedInvite.toUserId,
+              status: 'pending',
+              createdAt: Date.now(),
+              expiresAt: Date.now() + (60 * 1000)
+            };
+            partyInvitations.set(invitationId, invitation);
+            targetSockets.forEach(s => {
+              s.emit('party_invitation_received', invitation);
+            });
+            logger.info('Queued party invitation sent', { invitationId, toUserId: queuedInvite.toUserId });
+          }
+        }
+        pending.pendingInvites = [];
+      }
+    }
+
+    // Verify inviter is the party leader
+    if (party.leaderId !== fromUserId) {
+      socket.emit('party_error', {
+        error: 'Only party leader can invite members',
+        partyId: resolvedPartyId
+      });
+      return;
+    }
+
+    // Check if party is full
+    const currentMemberCount = Object.keys(party.members).length;
+    if (currentMemberCount >= party.maxMembers) {
+      socket.emit('party_error', {
+        error: 'Party is full',
+        partyId: resolvedPartyId,
+        currentMembers: currentMemberCount,
+        maxMembers: party.maxMembers
+      });
+      return;
+    }
+
+    // Check if user is already in the party
+    if (party.members[toUserId]) {
+      socket.emit('party_error', {
+        error: 'User is already in this party'
+      });
+      return;
+    }
+
+    // Create invitation
+    const invitationId = uuidv4();
+    const invitation = {
+      id: invitationId,
+      partyId: resolvedPartyId,
+      partyName: party.name,
+      fromUserId: fromUserId,
+      fromUserName: user.name,
+      fromCharacterName: user.characterName || 'Unknown',
+      fromClass: user.characterClass || 'Unknown',
+      fromLevel: user.characterLevel || 1,
+      toUserId,
+      status: 'pending',
+      createdAt: Date.now(),
+      expiresAt: Date.now() + (60 * 1000) // 60 seconds
+    };
+
+    // Store invitation
+    partyInvitations.set(invitationId, invitation);
+
+    logger.info('Party invitation created', { invitationId, partyId: resolvedPartyId, from: user.name, to: toUserId });
+
+    // Send invitation to target user
+    const targetSockets = getSocketsByUserId(toUserId);
+
+    if (targetSockets.length > 0) {
+      targetSockets.forEach(s => {
+        s.emit('party_invitation_received', invitation);
+      });
+      logger.info('Party invitation sent', { to: targetSockets.length, users: toUserId });
+    } else {
+      // Target not connected
+      logger.warn('Target user not connected for party invitation', { toUserId });
+      socket.emit('party_invite_failed', {
+        invitationId,
+        error: 'User is not online'
+      });
+    }
+  });
+
+  // Accept party invitation - User accepts an invitation
+  socket.on('accept_party_invite', ({ invitationId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    if (!user) {
+      socket.emit('party_error', {
+        error: 'User not found'
+      });
+      return;
+    }
+
+    const invitation = partyInvitations.get(invitationId);
+
+    if (!invitation) {
+      socket.emit('party_error', {
+        error: 'Invitation not found or expired',
+        invitationId
+      });
+      return;
+    }
+
+    const partyId = invitation.partyId;
+
+    // Verify invitation is for this user
+    if (invitation.toUserId !== userId) {
+      socket.emit('party_error', {
+        error: 'This invitation is not for you'
+      });
+      return;
+    }
+
+    // Check if invitation is expired
+    if (Date.now() > invitation.expiresAt) {
+      socket.emit('party_error', {
+        error: 'This invitation has expired'
+      });
+      // Clean up expired invitation
+      partyInvitations.delete(invitationId);
+      return;
+    }
+
+    // Get the party
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', {
+        error: 'Party not found',
+        partyId
+      });
+      return;
+    }
+
+    // Check if party is still active
+    if (!party.isActive) {
+      socket.emit('party_error', {
+        error: 'This party is no longer active'
+      });
+      return;
+    }
+
+    // Check if party is full
+    const currentMemberCount = Object.keys(party.members).length;
+    if (currentMemberCount >= party.maxMembers) {
+      socket.emit('party_error', {
+        error: 'Party is full',
+        partyId,
+        currentMembers: currentMemberCount,
+        maxMembers: party.maxMembers
+      });
+      return;
+    }
+
+    // Check if user is already in a party
+    const existingPartyId = userToParty.get(userId);
+    if (existingPartyId) {
+      socket.emit('party_error', {
+        error: 'You are already in a party'
+      });
+      return;
+    }
+
+    // Add user to party
+    party.members[userId] = {
+      id: userId,
+      name: user.name,
+      characterClass: user.characterClass || 'Unknown',
+      characterLevel: user.characterLevel || 1,
+      status: 'online',
+      joinedAt: Date.now()
+    };
+
+    party.updatedAt = Date.now();
+
+    // Track user's party
+    userToParty.set(userId, partyId);
+
+    // Update user record
+    if (user) {
+      user.partyId = partyId;
+    }
+
+    // Update invitation status
+    invitation.status = 'accepted';
+    invitation.updatedAt = Date.now();
+
+    // Notify inviter that invitation was accepted
+    const inviterSockets = getSocketsByUserId(invitation.fromUserId);
+    inviterSockets.forEach(s => {
+      s.emit('party_invitation_accepted', {
+        invitationId,
+        userId,
+        userName: user.name
+      });
+    });
+
+    // Notify all party members that someone joined
+    Object.keys(party.members).forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_member_joined', {
+          partyId,
+          memberId: userId,
+          memberData: party.members[userId]
+        });
+      });
+    });
+
+    // Notify the user who joined
+    socket.emit('party_updated', party);
+
+    logger.info('Party invitation accepted', { userId, partyId, partyName: party.name, inviter: invitation.fromUserName });
+    logger.info('Party state after accept', {
+      partiesCount: parties.size,
+      userToPartyCount: userToParty.size,
+      partyMembers: Object.keys(party.members).length
+    });
+  });
+
+  // Decline party invitation - User declines an invitation
+  socket.on('decline_party_invite', ({ invitationId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    const invitation = partyInvitations.get(invitationId);
+
+    if (!invitation) {
+      socket.emit('party_error', {
+        error: 'Invitation not found or expired',
+        invitationId
+      });
+      return;
+    }
+
+    // Verify invitation is for this user
+    if (invitation.toUserId !== userId) {
+      socket.emit('party_error', {
+        error: 'This invitation is not for you'
+      });
+      return;
+    }
+
+    // Update invitation status
+    invitation.status = 'declined';
+    invitation.updatedAt = Date.now();
+
+    logger.info('Party invitation declined', { userId, invitationId });
+
+    // Notify inviter that invitation was declined
+    const inviterSockets = getSocketsByUserId(invitation.fromUserId);
+    inviterSockets.forEach(s => {
+      s.emit('party_invitation_declined', {
+        invitationId,
+        userId,
+        userName: user?.name || 'Someone'
+      });
+    });
+
+    logger.info('Invitation decline sent to inviter', { inviter: invitation.fromUserName, invitee: user?.name || 'Someone' });
+  });
+
+  // Send party message - Party member sends message to party chat
+  socket.on('party_message', ({ partyId, message }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const user = players.get(socket.id) || onlineSocialUsers.get(socket.id);
+
+    if (!user) {
+      socket.emit('party_error', {
+        error: 'User not found'
+      });
+      return;
+    }
+
+    const userPartyId = userToParty.get(userId);
+
+    if (!userPartyId) {
+      socket.emit('party_error', {
+        error: 'You are not in a party'
+      });
+      return;
+    }
+
+    if (userPartyId !== partyId) {
+      socket.emit('party_error', {
+        error: 'You are not a member of this party'
+      });
+      return;
+    }
+
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', {
+        error: 'Party not found',
+        partyId
+      });
+      return;
+    }
+
+    // Verify user is a party member
+    if (!party.members[userId]) {
+      socket.emit('party_error', {
+        error: 'You are not a member of this party'
+      });
+      return;
+    }
+
+    logger.info('Party message received', { userId, partyId, message });
+
+    // Broadcast message to all party members
+    Object.keys(party.members).forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_chat_message', {
+          partyId,
+          fromId: userId,
+          message,
+          timestamp: Date.now(),
+          senderName: user.name
+        });
+      });
+    });
+
+    logger.info('Party message broadcasted', { partyId, to: Object.keys(party.members).length });
+  });
+
+  // Helper function to get sockets by user ID
+  // Checks socket.data.userId (set during register_presence) and falls back
+  // to onlineSocialUsers map for sockets that registered via social presence
+  function getSocketsByUserId(userId) {
+    return Array.from(io.sockets.sockets.values()).filter(s => {
+      // Primary: check socket.data.userId (set during register_presence or auth)
+      if (s.data?.userId === userId) return true;
+      // Fallback: check onlineSocialUsers map (keyed by socket.id)
+      const socialUser = onlineSocialUsers.get(s.id);
+      if (socialUser && socialUser.userId === userId) return true;
+      return false;
+    });
+  }
+
+  // --- End of Party System ---
+
   // Player left notification - notify remaining players
   socket.on('leave_room', () => {
     const player = players.get(socket.id);
@@ -5200,6 +6115,7 @@ io.on('connection', (socket) => {
     // Common cleanup
     socket.leave(roomId);
     players.delete(socket.id);
+    onlineSocialUsers.delete(socket.id);
 
     // Broadcast list update to lobby users
     io.emit('room_list_updated', getPublicRooms());
@@ -5208,6 +6124,93 @@ io.on('connection', (socket) => {
   // Handle player disconnection (tab closed, internet lost, etc.)
   socket.on('disconnect', () => {
     const player = players.get(socket.id);
+    const userId = socket.data.userId;
+
+    // Clean up party state for this user
+    if (userId) {
+      const partyId = userToParty.get(userId);
+      if (partyId) {
+        const party = parties.get(partyId);
+        if (party) {
+          // Check if this was the party leader
+          if (party.leaderId === userId) {
+            // Remove leader from party members
+            delete party.members[userId];
+            const remainingMemberIds = Object.keys(party.members);
+
+            if (remainingMemberIds.length === 0) {
+              // Party is empty, disband it
+              parties.delete(partyId);
+              logger.info('Party disbanded - leader disconnected and no remaining members', { partyId, partyName: party.name });
+            } else {
+              // Transfer leadership to next member
+              const newLeaderId = remainingMemberIds[0];
+              const newLeader = party.members[newLeaderId];
+
+              party.leaderId = newLeaderId;
+              party.leaderName = newLeader.name;
+              party.leaderCharacterName = newLeader.characterName || 'Unknown';
+              party.leaderClass = newLeader.characterClass || 'Unknown';
+              party.leaderLevel = newLeader.characterLevel || 1;
+              party.updatedAt = Date.now();
+
+              // Notify remaining members about leadership change and member leaving
+              remainingMemberIds.forEach(memberId => {
+                const memberSockets = getSocketsByUserId(memberId);
+                memberSockets.forEach(s => {
+                  s.emit('party_leader_changed', {
+                    partyId,
+                    newLeaderId,
+                    newLeaderName: newLeader.name
+                  });
+                  s.emit('party_member_left', {
+                    partyId,
+                    memberId: userId,
+                    userName: party.leaderName
+                  });
+                });
+              });
+
+              logger.info('Party leadership transferred after leader disconnect', {
+                partyId, oldLeader: userId, newLeader: newLeaderId
+              });
+            }
+          } else {
+            // Regular member disconnecting - remove from party
+            delete party.members[userId];
+            party.updatedAt = Date.now();
+
+            // Notify remaining members
+            Object.keys(party.members).forEach(memberId => {
+              const memberSockets = getSocketsByUserId(memberId);
+              memberSockets.forEach(s => {
+                s.emit('party_member_left', {
+                  partyId,
+                  memberId: userId,
+                  userName: player?.name || 'Unknown'
+                });
+              });
+            });
+
+            logger.info('Party member disconnected', { partyId, userId, userName: player?.name });
+          }
+        }
+        // Clean up user's party mapping
+        userToParty.delete(userId);
+      }
+
+      // Clean up any pending party invitations for this user
+      for (const [invitationId, invitation] of partyInvitations) {
+        if (invitation.fromUserId === userId || invitation.toUserId === userId) {
+          partyInvitations.delete(invitationId);
+          logger.info('Cleaned up party invitation on disconnect', { invitationId, userId });
+        }
+      }
+    }
+
+    // Clean up online social users
+    onlineSocialUsers.delete(socket.id);
+
     if (!player) {
       logger.info('Unregistered socket disconnected', { socketId: socket.id });
       return;
@@ -5276,6 +6279,14 @@ const throttleCleanupInterval = setInterval(() => {
       if (now - timestamp > THROTTLE_ENTRY_LIFETIME) {
         global.recentCharacterMovements.delete(key);
       }
+    }
+  }
+
+  // Clean up pending party creations (race condition tracking)
+  for (const [userId, pending] of pendingPartyCreations.entries()) {
+    if (now - pending.createdAt > THROTTLE_ENTRY_LIFETIME) {
+      pendingPartyCreations.delete(userId);
+      logger.debug('Cleaned up pending party creation', { userId });
     }
   }
 }, 10000); // Clean up every 10 seconds

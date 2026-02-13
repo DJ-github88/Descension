@@ -1,22 +1,22 @@
 /**
  * Firebase Presence Service
- * 
+ *
  * Tracks user online status and session information in real-time.
- * Uses Firebase Realtime Database for presence with automatic disconnect handling.
+ * Uses Firestore with client-side heartbeat for automatic offline detection.
  */
 
 import {
-  ref as dbRef,
-  set,
-  onValue,
-  onDisconnect,
+  doc,
+  setDoc,
+  updateDoc,
+  onSnapshot,
+  getDoc,
+  getDocs,
+  collection,
   serverTimestamp,
-  get,
-  query,
-  orderByChild,
-  equalTo
-} from 'firebase/database';
-import { realtimeDb, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+  deleteDoc
+} from 'firebase/firestore';
+import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 
 class PresenceService {
   constructor() {
@@ -24,20 +24,22 @@ class PresenceService {
     this.currentUserId = null;
     this.presenceRef = null;
     this.listeners = new Map();
+    this.heartbeatInterval = null;
+    this.offlineHandlers = [];
   }
 
   /**
    * Set user as online with character and session data
    */
   async setOnline(userId, characterData, sessionData = {}) {
-    if (!this.isConfigured || !realtimeDb) {
-      console.warn('Firebase Realtime Database not configured, using local presence only');
+    if (!this.isConfigured || !db) {
+      console.warn('Firebase Firestore not configured, using local presence only');
       return false;
     }
 
     try {
       this.currentUserId = userId;
-      this.presenceRef = dbRef(realtimeDb, `presence/${userId}`);
+      this.presenceRef = doc(db, 'presence', userId);
 
       const presenceData = {
         userId,
@@ -56,7 +58,7 @@ class PresenceService {
         raceDisplayName: characterData.raceDisplayName || '',
         status: 'online',
         statusComment: '',
-        sessionType: sessionData.sessionType || null, // 'local' | 'multiplayer' | null
+        sessionType: sessionData.sessionType || null,
         roomId: sessionData.roomId || null,
         roomName: sessionData.roomName || null,
         roomParticipants: sessionData.roomParticipants || null,
@@ -65,16 +67,13 @@ class PresenceService {
         lastSeen: serverTimestamp()
       };
 
-      // Set presence data
-      await set(this.presenceRef, presenceData);
+      console.log('🟢 Setting user online:', userId, presenceData.characterName);
 
-      // Set up automatic cleanup on disconnect
-      const disconnectRef = onDisconnect(this.presenceRef);
-      await disconnectRef.set({
-        ...presenceData,
-        status: 'offline',
-        lastSeen: serverTimestamp()
-      });
+      await setDoc(this.presenceRef, presenceData, { merge: false });
+
+      // Start heartbeat and offline handlers
+      this.startHeartbeat(userId);
+      this.setupOfflineHandlers(userId);
 
       return true;
     } catch (error) {
@@ -84,15 +83,61 @@ class PresenceService {
   }
 
   /**
+   * Start heartbeat to keep presence alive
+   */
+  startHeartbeat(userId) {
+    if (this.heartbeatInterval) {
+      clearInterval(this.heartbeatInterval);
+    }
+
+    this.heartbeatInterval = setInterval(async () => {
+      try {
+        const presenceRef = doc(db, 'presence', userId);
+        await updateDoc(presenceRef, {
+          lastSeen: serverTimestamp()
+        });
+      } catch (error) {
+        console.error('❌ Heartbeat failed:', error);
+      }
+    }, 30000); // 30 seconds
+  }
+
+  /**
+   * Setup offline detection handlers
+   */
+  setupOfflineHandlers(userId) {
+    const handleOffline = async () => {
+      console.log('🔴 Setting user offline:', userId);
+      await this.setOffline(userId);
+    };
+
+    // Listen for page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        handleOffline();
+      }
+    });
+
+    // Listen for beforeunload (user closing tab/browser)
+    window.addEventListener('beforeunload', handleOffline);
+    window.addEventListener('unload', handleOffline);
+
+    // Listen for offline events (network connection)
+    window.addEventListener('offline', handleOffline);
+
+    this.offlineHandlers.push(handleOffline);
+  }
+
+  /**
    * Update user session information (local/multiplayer)
    */
   async updateSession(userId, sessionData) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return false;
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
+      const presenceRef = doc(db, 'presence', userId);
 
       const updates = {
         sessionType: sessionData.sessionType || null,
@@ -102,7 +147,8 @@ class PresenceService {
         lastSeen: serverTimestamp()
       };
 
-      await set(presenceRef, updates);
+      await updateDoc(presenceRef, updates);
+      console.log('📡 Updated session for user:', userId, updates);
       return true;
     } catch (error) {
       console.error('❌ Failed to update session:', error);
@@ -114,22 +160,21 @@ class PresenceService {
    * Update user status (online/away/busy) and optional status comment
    */
   async updateStatus(userId, status, statusComment = null) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return false;
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
+      const presenceRef = doc(db, 'presence', userId);
 
       // Get current data to preserve other fields
-      const snapshot = await get(presenceRef);
-      const currentData = snapshot.val();
-
-      if (!currentData) {
-        console.warn('No presence data found for user:', userId);
+      const snapshot = await getDoc(presenceRef);
+      if (!snapshot.exists()) {
+        console.warn('⚠️ No presence data found for user:', userId);
         return false;
       }
 
+      const currentData = snapshot.data();
       const updates = {
         ...currentData,
         status,
@@ -141,7 +186,8 @@ class PresenceService {
         updates.statusComment = statusComment;
       }
 
-      await set(presenceRef, updates);
+      await setDoc(presenceRef, updates, { merge: true });
+      console.log('🔄 Updated status for user:', userId, status);
       return true;
     } catch (error) {
       console.error('❌ Failed to update status:', error);
@@ -153,22 +199,21 @@ class PresenceService {
    * Update user character data (when switching characters)
    */
   async updateCharacterData(userId, characterData) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return false;
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
+      const presenceRef = doc(db, 'presence', userId);
 
-      // First get the current presence data to preserve session info
-      const snapshot = await get(presenceRef);
-      const currentData = snapshot.val();
-
-      if (!currentData) {
-        console.warn('No presence data found for user:', userId);
+      // First get current presence data to preserve session info
+      const snapshot = await getDoc(presenceRef);
+      if (!snapshot.exists()) {
+        console.warn('⚠️ No presence data found for user:', userId);
         return false;
       }
 
+      const currentData = snapshot.data();
       const updates = {
         ...currentData,
         characterId: characterData.id || currentData.characterId,
@@ -187,7 +232,8 @@ class PresenceService {
         lastSeen: serverTimestamp()
       };
 
-      await set(presenceRef, updates);
+      await setDoc(presenceRef, updates, { merge: true });
+      console.log('🎭 Updated character data for user:', userId, characterData.name);
       return true;
     } catch (error) {
       console.error('❌ Failed to update character data:', error);
@@ -199,22 +245,19 @@ class PresenceService {
    * Set user as offline
    */
   async setOffline(userId) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return false;
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
-      await set(presenceRef, {
+      const presenceRef = doc(db, 'presence', userId);
+
+      await updateDoc(presenceRef, {
         status: 'offline',
         lastSeen: serverTimestamp()
       });
 
-      // Cancel onDisconnect
-      if (this.presenceRef) {
-        await onDisconnect(this.presenceRef).cancel();
-      }
-
+      console.log('🔴 Set user offline:', userId);
       return true;
     } catch (error) {
       console.error('❌ Failed to set user offline:', error);
@@ -226,23 +269,27 @@ class PresenceService {
    * Subscribe to all online users
    */
   subscribeToOnlineUsers(callback) {
-    if (!this.isConfigured || !realtimeDb) {
-      console.warn('Firebase not configured, cannot subscribe to online users');
+    if (!this.isConfigured || !db) {
+      console.warn('⚠️ Firebase not configured, cannot subscribe to online users');
       return () => { };
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, 'presence');
+      const presenceRef = collection(db, 'presence');
 
-      const unsubscribe = onValue(presenceRef, (snapshot) => {
+      const unsubscribe = onSnapshot(presenceRef, (snapshot) => {
         const users = [];
-        snapshot.forEach((childSnapshot) => {
-          const userData = childSnapshot.val();
-          if (userData && userData.status === 'online') {
+        snapshot.forEach((docSnapshot) => {
+          const userData = docSnapshot.data();
+          // Include 'idle' as an online status
+          if (userData && ['online', 'away', 'busy', 'idle'].includes(userData.status)) {
             users.push(userData);
           }
         });
+        console.log('👥 Online users updated:', users.length, 'users');
         callback(users);
+      }, (error) => {
+        console.error('❌ Failed to subscribe to online users:', error);
       });
 
       return unsubscribe;
@@ -256,22 +303,26 @@ class PresenceService {
    * Subscribe to a specific user's presence
    */
   subscribeToUser(userId, callback) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return () => { };
     }
 
     try {
-      const userPresenceRef = dbRef(realtimeDb, `presence/${userId}`);
+      const userPresenceRef = doc(db, 'presence', userId);
 
-      const unsubscribe = onValue(userPresenceRef, (snapshot) => {
-        const userData = snapshot.val();
+      const unsubscribe = onSnapshot(userPresenceRef, (snapshot) => {
+        const userData = snapshot.data();
+        console.log('👤 User presence updated:', userId, userData?.status);
         callback(userData);
+      }, (error) => {
+        console.error('❌ Failed to subscribe to user:', userId, error);
+        callback(null);
       });
 
       this.listeners.set(userId, unsubscribe);
       return unsubscribe;
     } catch (error) {
-      console.error('❌ Failed to subscribe to user:', error);
+      console.error('❌ Failed to subscribe to user:', userId, error);
       return () => { };
     }
   }
@@ -284,6 +335,7 @@ class PresenceService {
     if (unsubscribe) {
       unsubscribe();
       this.listeners.delete(userId);
+      console.log('🔌 Unsubscribed from user:', userId);
     }
   }
 
@@ -291,22 +343,23 @@ class PresenceService {
    * Get all online users (one-time fetch)
    */
   async getOnlineUsers() {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return [];
     }
 
     try {
-      const presenceRef = dbRef(realtimeDb, 'presence');
-      const snapshot = await get(presenceRef);
+      const presenceRef = collection(db, 'presence');
+      const snapshot = await getDocs(presenceRef);
 
       const users = [];
-      snapshot.forEach((childSnapshot) => {
-        const userData = childSnapshot.val();
+      snapshot.forEach((docSnapshot) => {
+        const userData = docSnapshot.data();
         if (userData && userData.status === 'online') {
           users.push(userData);
         }
       });
 
+      console.log('👥 Fetched online users:', users.length);
       return users;
     } catch (error) {
       console.error('❌ Failed to get online users:', error);
@@ -318,14 +371,14 @@ class PresenceService {
    * Get a specific user's presence (one-time fetch)
    */
   async getUserPresence(userId) {
-    if (!this.isConfigured || !realtimeDb) {
+    if (!this.isConfigured || !db) {
       return null;
     }
 
     try {
-      const userPresenceRef = dbRef(realtimeDb, `presence/${userId}`);
-      const snapshot = await get(userPresenceRef);
-      return snapshot.val();
+      const userPresenceRef = doc(db, 'presence', userId);
+      const snapshot = await getDoc(userPresenceRef);
+      return snapshot.data();
     } catch (error) {
       console.error('❌ Failed to get user presence:', error);
       return null;
@@ -333,16 +386,40 @@ class PresenceService {
   }
 
   /**
-   * Clean up all listeners
+   * Clean up all listeners and heartbeat
    */
   cleanup() {
+    console.log('🧹 Cleaning up presence service for user:', this.currentUserId);
+
+    // Stop heartbeat
+    if (this.heartbeatInterval) {
+      clearInterval(this.heartbeatInterval);
+      this.heartbeatInterval = null;
+    }
+
+    // Remove offline handlers
+    if (this.offlineHandlers.length > 0) {
+      this.offlineHandlers.forEach((handler) => {
+        document.removeEventListener('visibilitychange', handler);
+        window.removeEventListener('beforeunload', handler);
+        window.removeEventListener('unload', handler);
+        window.removeEventListener('offline', handler);
+      });
+      this.offlineHandlers = [];
+    }
+
+    // Unsubscribe all user listeners
     this.listeners.forEach((unsubscribe) => {
       unsubscribe();
     });
     this.listeners.clear();
 
+    // Set current user offline if we're still authenticated
     if (this.currentUserId) {
-      this.setOffline(this.currentUserId);
+      this.setOffline(this.currentUserId).catch(err => {
+        console.error('❌ Failed to set offline during cleanup:', err);
+      });
+      this.currentUserId = null;
     }
   }
 }
@@ -350,4 +427,3 @@ class PresenceService {
 // Export singleton instance
 const presenceService = new PresenceService();
 export default presenceService;
-

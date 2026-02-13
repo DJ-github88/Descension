@@ -10,10 +10,12 @@ import { createPortal } from 'react-dom';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
+import PartyPanel from './PartyPanel';
 import useSocialStore from '../../store/socialStore';
 import useCharacterStore from '../../store/characterStore';
 import authService from '../../services/authService';
 import useSettingsStore from '../../store/settingsStore';
+import PartyCreationDialog from './PartyCreationDialog';
 import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
@@ -27,18 +29,19 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [showAddFriendPopup, setShowAddFriendPopup] = useState(false);
   const [friendIdInput, setFriendIdInput] = useState('');
   const [friendIdError, setFriendIdError] = useState('');
-  const [showNoteDialog, setShowNoteDialog] = useState(false);
+  const [showCreatePartyDialog, setShowCreatePartyDialog] = useState(false);
   const [noteText, setNoteText] = useState('');
   const [noteUserId, setNoteUserId] = useState(null);
   const [noteUserType, setNoteUserType] = useState(null); // 'friend' or 'ignored'
   const [showStatusMenu, setShowStatusMenu] = useState(false);
+  const [showNoteDialog, setShowNoteDialog] = useState(false);
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const updateStatus = usePresenceStore((state) => state.updateStatus);
   const { user } = useAuthStore();
-  const { isInParty, addPartyMember, createParty, partyMembers, removePartyMember } = usePartyStore();
-  const { friends, addFriend, sendFriendRequest, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote } = useSocialStore();
+  const { isInParty, addPartyMember, createParty, partyMembers, removePartyMember, leaveParty, sendPartyMessage, partyChatMessages, joinParty, inviteToParty } = usePartyStore();
+  const { friends, addFriend, sendFriendRequest, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote, friendPresence } = useSocialStore();
 
   // Migrate friends data on mount if needed
   useEffect(() => {
@@ -145,108 +148,118 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     closeContextMenu();
   };
 
-  const handleInviteToParty = () => {
-    if (contextMenu?.user) {
-      // If not in party, create one first with current character data
-      if (!isInParty) {
-        const currentPlayerName = characterName || currentUserPresence?.characterName || 'Unknown';
+  const handleLeaveParty = () => {
+    leaveParty();
+    closeContextMenu();
+  };
 
-        // Get proper background display name - ONLY custom backgrounds are valid
-        let backgroundDisplayName = characterBackground || currentUserPresence?.background || '';
-        if (backgroundDisplayName) {
-          const { getCustomBackgroundData } = require('../../data/customBackgroundData');
-          const customBgData = getCustomBackgroundData(backgroundDisplayName.toLowerCase());
-          if (customBgData) {
-            backgroundDisplayName = customBgData.name;
-          } else {
-            // Invalid background - not one of the 9 custom backgrounds
-            backgroundDisplayName = '';
-          }
-        }
-
-        const currentPlayerData = {
-          id: 'current-player',
-          name: currentPlayerName,
-          isGM: false,
-          status: 'online',
-          joinedAt: Date.now(),
-          character: {
-            class: characterClass || currentUserPresence?.class || 'Unknown',
-            level: characterLevel || currentUserPresence?.level || 1,
-            background: characterBackground || currentUserPresence?.background || '',
-            backgroundDisplayName: backgroundDisplayName,
-            path: characterPath || currentUserPresence?.path || '',
-            pathDisplayName: characterPathDisplayName || currentUserPresence?.pathDisplayName || '',
-            race: characterRace || currentUserPresence?.race || '',
-            subrace: characterSubrace || currentUserPresence?.subrace || '',
-            raceDisplayName: characterRaceDisplayName || currentUserPresence?.raceDisplayName || '',
-            health: { current: 100, max: 100 },
-            mana: { current: 50, max: 50 },
-            actionPoints: { current: 3, max: 3 }
-          }
-        };
-
-        createParty(`${currentPlayerName}'s Party`, currentPlayerName);
-
-        // Update the current player's data in the party
-        const updatePartyMember = usePartyStore.getState().updatePartyMember;
-        if (updatePartyMember) {
-          updatePartyMember('current-player', currentPlayerData);
-        }
-      }
-
-      // Add member to party with full character details
-      // Compute backgroundDisplayName for the invited user
-      let invitedUserBackgroundDisplayName = '';
-      if (contextMenu.user.background) {
-        const { getCustomBackgroundData } = require('../../data/customBackgroundData');
-        const customBgData = getCustomBackgroundData(contextMenu.user.background.toLowerCase());
-        if (customBgData) {
-          invitedUserBackgroundDisplayName = customBgData.name;
-        }
-      }
-
-      // Compute raceDisplayName for the invited user
-      let invitedUserRaceDisplayName = contextMenu.user.raceDisplayName || '';
-      if (!invitedUserRaceDisplayName && contextMenu.user.race && contextMenu.user.subrace) {
-        const { getFullRaceData } = require('../../data/raceData');
-        const raceData = getFullRaceData(contextMenu.user.race, contextMenu.user.subrace);
-        if (raceData) {
-          invitedUserRaceDisplayName = raceData.displayName;
-        }
-      }
-
-      const newMember = {
-        id: contextMenu.user.userId,
-        name: contextMenu.user.characterName,
-        isGM: false,
-        status: contextMenu.user.status || 'online',
-        joinedAt: Date.now(),
-        character: {
-          class: contextMenu.user.class,
-          level: contextMenu.user.level,
-          background: contextMenu.user.background,
-          backgroundDisplayName: invitedUserBackgroundDisplayName,
-          race: contextMenu.user.race,
-          subrace: contextMenu.user.subrace,
-          raceDisplayName: invitedUserRaceDisplayName,
-          health: { current: 100, max: 100 },
-          mana: { current: 50, max: 50 },
-          actionPoints: { current: 3, max: 3 }
-        }
-      };
-
-      addPartyMember(newMember);
-      console.log(`✅ Invited ${contextMenu.user.characterName} to party`);
+  const handlePromoteMember = () => {
+    const member = partyMembers.find(m => m.id === contextMenu.user.userId);
+    if (member) {
+      console.log('👑 Promoting member to leader:', contextMenu.user.name);
+      // TODO: Implement promotion logic when we have party roles
     }
+    closeContextMenu();
+  };
+
+  const handleRemovePartyMember = () => {
+    const member = partyMembers.find(m => m.id === contextMenu.user.userId);
+    if (member) {
+      console.log('🗑️ Removing party member:', contextMenu.user.name);
+      // TODO: Implement removal logic when we have party roles
+    }
+    closeContextMenu();
+  };
+
+  const handleDisbandParty = () => {
+    const partyId = getCurrentPartyId();
+    if (partyId) {
+      console.log('💥 Disbanding party:', partyId);
+      // TODO: Implement disband logic in partyStore
+    }
+    closeContextMenu();
+  };
+
+  const handleInviteToParty = async () => {
+    const sendPartyInvite = usePresenceStore.getState().sendPartyInvite;
+    const currentUserPresence = usePresenceStore.getState().currentUserPresence;
+
+    // Get the user ID - check multiple possible fields (userId, id, uid)
+    const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
+
+    // Prevent self-invitation
+    if (targetUserId === currentUserPresence?.userId) {
+      console.warn('⚠️ Cannot invite yourself to a party');
+      closeContextMenu();
+      return;
+    }
+
+    // Find online user to invite
+    const onlineUser = onlineUsers.find(u => u.userId === targetUserId);
+
+    // Get friend presence - try multiple ID fields
+    const friendPres = friendPresence[targetUserId] || friendPresence[contextMenu.user.id];
+
+    // Check if user is online (include 'idle' as a valid online status)
+    const isUserOnline = onlineUser || (friendPres && ['online', 'away', 'busy', 'idle'].includes(friendPres.status));
+
+    if (!isUserOnline) {
+      console.warn('⚠️ User not found or offline:', contextMenu.user.name, 'status:', friendPres?.status);
+      closeContextMenu();
+      return;
+    }
+
+    // Build target user with correct ID
+    const targetUser = onlineUser || {
+      ...contextMenu.user,
+      ...friendPres,
+      userId: targetUserId // Ensure userId is set
+    };
+
+    try {
+      // If not in party, create one first and wait for it
+      if (!isInParty) {
+        const currentPlayerName = currentUserPresence?.characterName || currentUserPresence?.accountName || 'Unknown';
+
+        await createParty(`${currentPlayerName}'s Party`, false, {
+          name: currentPlayerName,
+          characterName: currentPlayerName,
+          characterClass: currentUserPresence?.class || 'Unknown',
+          characterLevel: currentUserPresence?.level || 1
+        });
+
+        console.log('🎉 Party created for invitation');
+      }
+
+      // Now send the invitation using the correct user ID
+      const inviteTargetId = targetUser.userId || targetUser.id || targetUserId;
+      sendPartyInvite(inviteTargetId, targetUser.characterName || targetUser.name);
+      console.log('✅ Sent party invitation to:', targetUser.characterName || targetUser.name, 'ID:', inviteTargetId);
+    } catch (error) {
+      console.error('❌ Failed to send party invitation:', error);
+    }
+
     closeContextMenu();
   };
 
   const handleAddFriend = async () => {
     if (contextMenu?.user) {
       // Don't add yourself as a friend
-      if (contextMenu.user.userId === currentUserPresence?.userId) {
+      if (contextMenu.user.userId === currentUserPresence?.userId || contextMenu.user.uid === currentUserPresence?.userId) {
         console.log(`❌ Cannot add yourself as a friend`);
+        closeContextMenu();
+        return;
+      }
+
+      // Check if already friends
+      const alreadyFriend = (friends || []).some(f =>
+        (f.id === contextMenu.user.userId) ||
+        (f.id === contextMenu.user.uid) ||
+        (contextMenu.user.friendId && f.friendId === contextMenu.user.friendId)
+      );
+
+      if (alreadyFriend) {
+        console.log(`❌ Already friends with this user`);
         closeContextMenu();
         return;
       }
@@ -259,6 +272,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       } else {
         // Fallback or legacy support
         addFriend({
+          id: contextMenu.user.userId || contextMenu.user.uid,
           name: contextMenu.user.characterName || contextMenu.user.name,
           level: contextMenu.user.level,
           class: contextMenu.user.class,
@@ -269,7 +283,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
         });
       }
-      console.log(`✅ Added ${contextMenu.user.characterName} as friend`);
+      console.log(`✅ Friend action performed for ${contextMenu.user.characterName}`);
     }
     closeContextMenu();
   };
@@ -282,6 +296,14 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         removeFriend(friend.id);
         console.log(`✅ Removed ${friend.name} from friends`);
       }
+    }
+    closeContextMenu();
+  };
+
+  const handleIgnoreUser = () => {
+    if (contextMenu?.user) {
+      addIgnored(contextMenu.user);
+      console.log(`✅ Ignored user: ${contextMenu.user.characterName || contextMenu.user.name}`);
     }
     closeContextMenu();
   };
@@ -308,8 +330,17 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         return;
       }
 
+      // Check if trying to add yourself
+      const currentUserFriendId = user?.friendId || (currentUserPresence?.friendId);
+      if (foundUser.id === currentUserPresence?.userId || (currentUserFriendId && currentUserFriendId.toLowerCase() === cleanFriendId.toLowerCase())) {
+        setFriendIdError('You cannot add yourself');
+        return;
+      }
+
       // Check if already friends
-      const alreadyFriend = friends.some(f => f.friendId === foundUser.friendId);
+      const alreadyFriend = (friends || []).some(f =>
+        f.friendId === foundUser.friendId || f.id === foundUser.id
+      );
       if (alreadyFriend) {
         setFriendIdError('This user is already in your friends list');
         return;
@@ -337,15 +368,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     }
   };
 
-  const handleIgnoreUser = () => {
-    if (contextMenu?.user) {
-      const userName = contextMenu.user.characterName || contextMenu.user.name;
-      addIgnored({
-        name: userName,
-        note: 'Ignored from Community'
-      });
-      console.log(`✅ Ignored ${userName}`);
-    }
+  const handleCreateParty = () => {
+    setShowCreatePartyDialog(true);
     closeContextMenu();
   };
 
@@ -624,15 +648,15 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         {/* Friends Tab */}
         {activeTab === 'friends' && (
           <div className="users-section friends-section">
-            {/* Add Friend by ID Button */}
-            <div className="friends-actions">
+            {/* Quick Actions: Create Party */}
+            <div className="friends-quick-actions">
               <button
-                className="add-friend-by-id-btn"
-                onClick={() => setShowAddFriendPopup(true)}
-                title="Add Friend by ID"
+                className="create-party-btn"
+                onClick={handleCreateParty}
+                title="Create a new party"
               >
-                <i className="fas fa-user-plus"></i>
-                Add Friend by ID
+                <i className="fas fa-users"></i>
+                Create Party
               </button>
             </div>
 
@@ -645,15 +669,13 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             ) : (
               <div className="friends-list">
                 {filteredFriends.map((friend) => {
-                  // Find the friend in online users to get full details
-                  const onlineUser = onlineUsers.find(u => u.characterName === friend.name);
-                  // Merge friend data with online user data, preserving friendId
+                  const onlineUser = onlineUsers.find(u => u.userId === friend.id || u.characterName === friend.name);
+                  const friendPres = friendPresence[friend.id];
                   const friendData = onlineUser
-                    ? { ...onlineUser, friendId: friend.friendId }
-                    : friend;
-
-                  // Debug: Log friend data to see if friendId is present
-                  console.log('Friend data:', friend.name, 'friendId:', friend.friendId, 'merged:', friendData.friendId);
+                    ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id }
+                    : friendPres
+                      ? { ...friend, ...friendPres, friendId: friend.friendId, userId: friend.id }
+                      : { ...friend, status: 'offline', userId: friend.id };
 
                   return (
                     <UserCard
@@ -661,8 +683,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                       user={friendData}
                       nameFormat="global"
                       className="friend-card"
-                      showSessionInfo={!!onlineUser}
-                      sessionDisplay={onlineUser ? getSessionDisplay(onlineUser) : null}
+                      showSessionInfo={!!(onlineUser || friendPres)}
+                      sessionDisplay={(onlineUser || friendPres) ? getSessionDisplay(onlineUser || friendPres) : null}
                       showFriendId={true}
                       onContextMenu={(e) => handleContextMenu(e, friendData)}
                       additionalContent={
@@ -745,437 +767,354 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         {/* Party Tab */}
         {activeTab === 'party' && (
           <div className="users-section party-section">
-            {!isInParty || partyMembers.length === 0 ? (
-              <div className="no-users">
-                <i className="fas fa-users"></i>
-                <p>No party members</p>
-                <p className="hint">Invite players to your party from Online or Friends tabs</p>
-              </div>
-            ) : (
-              <div className="party-list">
-                {partyMembers.map((member) => {
-                  const isLeader = partyLeader && (member.id === partyLeader.id || member.name === partyLeader.name);
-                  const isCurrentPlayer = member.id === 'current-player';
-
-                  // Try to find matching online user for full details
-                  const onlineUser = onlineUsers.find(u => u.characterName === member.name);
-                  const displayData = onlineUser || member;
-
-                  // Compute backgroundDisplayName if not already set
-                  let computedBackgroundDisplayName = member.character?.backgroundDisplayName || displayData.backgroundDisplayName || '';
-                  if (!computedBackgroundDisplayName && (member.character?.background || displayData.background)) {
-                    const { getCustomBackgroundData } = require('../../data/customBackgroundData');
-                    const bgId = member.character?.background || displayData.background;
-                    const customBgData = getCustomBackgroundData(bgId.toLowerCase());
-                    if (customBgData) {
-                      computedBackgroundDisplayName = customBgData.name;
-                    }
-                  }
-
-                  // Merge member data with online user data
-                  // For current player, prioritize character store data
-                  const userData = isCurrentPlayer ? {
-                    characterName: characterName || member.name,
-                    name: characterName || member.name,
-                    level: characterLevel || member.character?.level || 1,
-                    class: characterClass || member.character?.class || 'Unknown',
-                    background: characterBackground || member.character?.background || displayData.background,
-                    backgroundDisplayName: characterBackgroundDisplayName || computedBackgroundDisplayName || displayData.backgroundDisplayName,
-                    path: characterPath || member.character?.path || displayData.path,
-                    pathDisplayName: characterPathDisplayName || member.character?.pathDisplayName || displayData.pathDisplayName,
-                    race: characterRace || member.character?.race || displayData.race,
-                    subrace: characterSubrace || member.character?.subrace || displayData.subrace,
-                    raceDisplayName: characterRaceDisplayName || member.character?.raceDisplayName || displayData.raceDisplayName,
-                    status: displayData.status || member.status,
-                    statusComment: displayData.statusComment
-                  } : {
-                    ...member.character,
-                    characterName: member.name,
-                    name: member.name,
-                    level: displayData.level || member.character?.level || 1,
-                    class: displayData.class || member.character?.class || 'Unknown',
-                    background: member.character?.background || displayData.background,
-                    backgroundDisplayName: computedBackgroundDisplayName || displayData.backgroundDisplayName,
-                    path: member.character?.path || displayData.path,
-                    pathDisplayName: member.character?.pathDisplayName || displayData.pathDisplayName,
-                    race: member.character?.race || displayData.race,
-                    subrace: member.character?.subrace || displayData.subrace,
-                    raceDisplayName: member.character?.raceDisplayName || displayData.raceDisplayName,
-                    status: displayData.status || member.status,
-                    statusComment: displayData.statusComment
-                  };
-
-                  return (
-                    <UserCard
-                      key={member.id}
-                      user={userData}
-                      nameFormat="party"
-                      isCurrentUser={isCurrentPlayer}
-                      isLeader={isLeader}
-                      showYouBadge={isCurrentPlayer}
-                      showLeaderCrown={true}
-                      showSessionInfo={!!onlineUser}
-                      sessionDisplay={onlineUser ? getSessionDisplay(onlineUser) : null}
-                      className={`party-member-card ${isCurrentPlayer ? 'current-player' : ''}`}
-                      onContextMenu={(e) => !isCurrentPlayer && handleContextMenu(e, onlineUser || {
-                        userId: member.id,
-                        characterName: member.name,
-                        name: member.name,
-                        level: member.character?.level || 1,
-                        class: member.character?.class || 'Unknown',
-                        background: member.character?.background,
-                        race: member.character?.race,
-                        subrace: member.character?.subrace,
-                        status: member.status
-                      })}
-                    />
-                  );
-                })}
-              </div>
-            )}
+            <PartyPanel onCreateParty={handleCreateParty} />
           </div>
         )}
       </div>
 
       {/* Add Friend by ID Popup */}
-      {showAddFriendPopup && createPortal(
-        <div className="social-modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
-          <div
-            className="social-modal-content add-friend-modal"
-            onClick={(e) => e.stopPropagation()}
-            style={{ transform: `scale(${windowScale})` }}
-          >
-            <div className="modal-header">
-              <h3>Add Friend by ID</h3>
-              <button
-                className="modal-close-btn"
-                onClick={() => {
-                  setShowAddFriendPopup(false);
-                  setFriendIdInput('');
-                  setFriendIdError('');
-                }}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <p className="modal-description">
-                Enter your friend's unique Friend ID to add them to your friends list.
-              </p>
-
-              <div className="friend-id-input-group">
-                <label htmlFor="friendIdInput">Friend ID</label>
-                <div className="friend-id-input-wrapper">
-                  <span className="friend-id-prefix">#</span>
-                  <input
-                    id="friendIdInput"
-                    type="text"
-                    value={friendIdInput}
-                    onChange={(e) => {
-                      setFriendIdInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
-                      setFriendIdError('');
-                    }}
-                    placeholder="e.g., WillburtTheGoat4"
-                    maxLength={20}
-                    className="friend-id-input"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleAddFriendById();
-                      }
-                    }}
-                  />
-                </div>
-                {friendIdError && (
-                  <span className="error-text">{friendIdError}</span>
-                )}
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button
-                className="modal-btn modal-btn-primary"
-                onClick={handleAddFriendById}
-                disabled={!friendIdInput.trim()}
-              >
-                <i className="fas fa-user-plus"></i>
-                Add Friend
-              </button>
-              <button
-                className="modal-btn modal-btn-secondary"
-                onClick={() => {
-                  setShowAddFriendPopup(false);
-                  setFriendIdInput('');
-                  setFriendIdError('');
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-
-      {/* Note Dialog */}
-      {showNoteDialog && createPortal(
-        <div className="social-modal-overlay">
-          <div
-            className="social-modal-content note-modal"
-            style={{ transform: `scale(${windowScale})` }}
-          >
-            <h3>Set Note</h3>
-            <div className="social-modal-form">
-              <textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Enter note"
-              />
-            </div>
-            <div className="modal-actions">
-              <button
-                className="social-button"
-                onClick={handleNoteSubmit}
-              >
-                Save
-              </button>
-              <button
-                className="social-button"
-                onClick={() => {
-                  setShowNoteDialog(false);
-                  setNoteUserId(null);
-                  setNoteUserType(null);
-                  setNoteText('');
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-
-      {/* Context Menu - Rendered via Portal */}
-      {contextMenu && createPortal(
-        <div
-          className="user-context-menu"
-          style={{
-            position: 'fixed',
-            left: `${contextMenu.x}px`,
-            top: `${contextMenu.y}px`,
-            zIndex: 9999999
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="context-menu-header">
-            {contextMenu.user.characterName || contextMenu.user.name}
-          </div>
-
-          {/* Show Unignore option for ignored users, otherwise show normal options */}
-          {contextMenu.isIgnored ? (
-            <>
-              <button
-                className="context-menu-item"
-                onClick={handleAddNote}
-              >
-                <i className="fas fa-sticky-note"></i>
-                Add/Edit Note
-              </button>
-              <button
-                className="context-menu-item"
-                onClick={() => {
-                  console.log('🔍 Attempting to unignore:', contextMenu.user);
-                  console.log('📋 Current ignored list:', ignored);
-
-                  if (contextMenu.user.id) {
-                    removeIgnored(contextMenu.user.id);
-                    console.log(`✅ Unignored ${contextMenu.user.name} (ID: ${contextMenu.user.id})`);
-
-                    // Verify removal
-                    setTimeout(() => {
-                      const updatedIgnored = useSocialStore.getState().ignored;
-                      console.log('📋 Updated ignored list:', updatedIgnored);
-                    }, 100);
-                  } else {
-                    console.error('❌ No ID found for user:', contextMenu.user);
-                  }
-                  closeContextMenu();
-                }}
-              >
-                <i className="fas fa-user-check"></i>
-                Unignore
-              </button>
-            </>
-          ) : (currentUserPresence?.userId && contextMenu.user.userId === currentUserPresence.userId) ||
-            (currentUserPresence?.userId && contextMenu.user.uid === currentUserPresence.userId) ? (
-            <>
-              {/* Status Change Options for Current User */}
-              <div className="context-menu-section">
-                <div className="context-menu-section-header">Change Status</div>
+      {
+        showAddFriendPopup && createPortal(
+          <div className="social-modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
+            <div
+              className="social-modal-content add-friend-modal"
+              onClick={(e) => e.stopPropagation()}
+              style={{ transform: `scale(${windowScale})` }}
+            >
+              <div className="modal-header">
+                <h3>Add Friend by ID</h3>
                 <button
-                  className="context-menu-item"
+                  className="modal-close-btn"
                   onClick={() => {
-                    handleStatusChange('online');
-                    closeContextMenu();
+                    setShowAddFriendPopup(false);
+                    setFriendIdInput('');
+                    setFriendIdError('');
                   }}
                 >
-                  <span className="status-icon">🟢</span>
-                  Online
-                </button>
-                <button
-                  className="context-menu-item"
-                  onClick={() => {
-                    handleStatusChange('away');
-                    closeContextMenu();
-                  }}
-                >
-                  <span className="status-icon">🟡</span>
-                  Away
-                </button>
-                <button
-                  className="context-menu-item"
-                  onClick={() => {
-                    handleStatusChange('busy');
-                    closeContextMenu();
-                  }}
-                >
-                  <span className="status-icon">🔴</span>
-                  Busy
-                </button>
-                <button
-                  className="context-menu-item"
-                  onClick={() => {
-                    handleStatusChange('offline');
-                    closeContextMenu();
-                  }}
-                >
-                  <span className="status-icon">⚫</span>
-                  Appear Offline
+                  <i className="fas fa-times"></i>
                 </button>
               </div>
 
-              {/* Status Comment Section */}
-              <div className="context-menu-section">
-                <div className="context-menu-section-header">Status Comment</div>
-                <input
-                  type="text"
-                  className="context-menu-input"
-                  placeholder="Looking For Campaign"
-                  value={statusCommentDraft}
-                  onChange={(e) => setStatusCommentDraft(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSaveStatusComment();
-                      closeContextMenu();
-                    }
-                  }}
-                  maxLength={100}
-                />
-                <div className="status-comment-footer">
-                  <small>{statusCommentDraft.length}/100</small>
-                  <button
-                    className="save-comment-btn"
-                    onClick={() => {
-                      handleSaveStatusComment();
-                      closeContextMenu();
-                    }}
-                  >
-                    Save
-                  </button>
+              <div className="modal-body">
+                <p className="modal-description">
+                  Enter your friend's unique Friend ID to add them to your friends list.
+                </p>
+
+                <div className="friend-id-input-group">
+                  <label htmlFor="friendIdInput">Friend ID</label>
+                  <div className="friend-id-input-wrapper">
+                    <span className="friend-id-prefix">#</span>
+                    <input
+                      id="friendIdInput"
+                      type="text"
+                      value={friendIdInput}
+                      onChange={(e) => {
+                        setFriendIdInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
+                        setFriendIdError('');
+                      }}
+                      placeholder="e.g., WillburtTheGoat4"
+                      maxLength={20}
+                      className="friend-id-input"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleAddFriendById();
+                        }
+                      }}
+                    />
+                  </div>
+                  {friendIdError && (
+                    <span className="error-text">{friendIdError}</span>
+                  )}
                 </div>
               </div>
-            </>
-          ) : (
-            <>
-              <button
-                className="context-menu-item"
-                onClick={handleWhisper}
-              >
-                <i className="fas fa-comment"></i>
-                Whisper
-              </button>
 
-              {/* Show different party options based on whether user is in party */}
-              {isUserInParty ? (
+              <div className="modal-footer">
                 <button
-                  className="context-menu-item danger"
-                  onClick={handleRemoveFromParty}
-                >
-                  <i className="fas fa-user-times"></i>
-                  Remove from Party
-                </button>
-              ) : (
-                <button
-                  className="context-menu-item"
-                  onClick={handleInviteToParty}
-                >
-                  <i className="fas fa-users"></i>
-                  Invite to Party
-                </button>
-              )}
-
-              {/* Show different options based on whether user is a friend */}
-              {activeTab === 'friends' ? (
-                <>
-                  <button
-                    className="context-menu-item"
-                    onClick={handleAddNote}
-                  >
-                    <i className="fas fa-sticky-note"></i>
-                    Add/Edit Note
-                  </button>
-                  <button
-                    className="context-menu-item danger"
-                    onClick={handleRemoveFriend}
-                  >
-                    <i className="fas fa-user-minus"></i>
-                    Remove Friend
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="context-menu-item"
-                  onClick={handleAddFriend}
+                  className="modal-btn modal-btn-primary"
+                  onClick={handleAddFriendById}
+                  disabled={!friendIdInput.trim()}
                 >
                   <i className="fas fa-user-plus"></i>
                   Add Friend
                 </button>
-              )}
+                <button
+                  className="modal-btn modal-btn-secondary"
+                  onClick={() => {
+                    setShowAddFriendPopup(false);
+                    setFriendIdInput('');
+                    setFriendIdError('');
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      }
 
-              <button
-                className="context-menu-item danger"
-                onClick={handleIgnoreUser}
-              >
-                <i className="fas fa-ban"></i>
-                Ignore
-              </button>
-            </>
-          )}
+      {/* Party Creation Dialog */}
+      {
+        showCreatePartyDialog && createPortal(
+          <PartyCreationDialog
+            isOpen={showCreatePartyDialog}
+            onClose={() => setShowCreatePartyDialog(false)}
+          />,
+          document.body
+        )
+      }
 
-          {isGMWithRoom && (
-            <button
-              className="context-menu-item"
-              onClick={handleInvite}
+      {/* Note Dialog */}
+      {
+        showNoteDialog && createPortal(
+          <div className="social-modal-overlay">
+            <div
+              className="social-modal-content note-modal"
+              style={{ transform: `scale(${windowScale})` }}
             >
-              <i className="fas fa-envelope"></i>
-              Invite to Room
-            </button>
-          )}
+              <h3>Set Note</h3>
+              <div className="social-modal-form">
+                <textarea
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                  placeholder="Enter note"
+                />
+              </div>
+              <div className="modal-actions">
+                <button
+                  className="social-button"
+                  onClick={handleNoteSubmit}
+                >
+                  Save
+                </button>
+                <button
+                  className="social-button"
+                  onClick={() => {
+                    setShowNoteDialog(false);
+                    setNoteUserId(null);
+                    setNoteUserType(null);
+                    setNoteText('');
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )
+      }
 
-          <button
-            className="context-menu-item"
-            onClick={closeContextMenu}
+      {/* Context Menu - Rendered via Portal */}
+      {
+        contextMenu && createPortal(
+          <div
+            className="user-context-menu"
+            style={{
+              position: 'fixed',
+              left: `${contextMenu.x}px`,
+              top: `${contextMenu.y}px`,
+              zIndex: 9999999
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <i className="fas fa-times"></i>
-            Cancel
-          </button>
-        </div>,
-        document.body
-      )}
-    </div>
+            <div className="context-menu-header">
+              {contextMenu.user.characterName || contextMenu.user.name}
+            </div>
+
+            {/* Show Unignore option for ignored users, otherwise show normal options */}
+            {contextMenu.isIgnored ? (
+              <>
+                <button
+                  className="context-menu-item"
+                  onClick={handleAddNote}
+                >
+                  <i className="fas fa-sticky-note"></i>
+                  Add/Edit Note
+                </button>
+                <button
+                  className="context-menu-item"
+                  onClick={() => {
+                    console.log('🔍 Attempting to unignore:', contextMenu.user);
+                    console.log('📋 Current ignored list:', ignored);
+
+                    if (contextMenu.user.id) {
+                      removeIgnored(contextMenu.user.id);
+                      console.log(`✅ Unignored ${contextMenu.user.name} (ID: ${contextMenu.user.id})`);
+
+                      // Verify removal
+                      setTimeout(() => {
+                        const updatedIgnored = useSocialStore.getState().ignored;
+                        console.log('📋 Updated ignored list:', updatedIgnored);
+                      }, 100);
+                    } else {
+                      console.error('❌ No ID found for user:', contextMenu.user);
+                    }
+                    closeContextMenu();
+                  }}
+                >
+                  <i className="fas fa-user-check"></i>
+                  Unignore
+                </button>
+              </>
+            ) : (currentUserPresence?.userId && contextMenu.user.userId === currentUserPresence.userId) ||
+              (currentUserPresence?.userId && contextMenu.user.uid === currentUserPresence.userId) ? (
+              <>
+                {/* Status Change Options for Current User */}
+                <div className="context-menu-section">
+                  <div className="context-menu-section-header">Change Status</div>
+                  <button
+                    className="context-menu-item"
+                    onClick={() => {
+                      handleStatusChange('online');
+                      closeContextMenu();
+                    }}
+                  >
+                    <span className="status-icon">🟢</span>
+                    Online
+                  </button>
+                  <button
+                    className="context-menu-item"
+                    onClick={() => {
+                      handleStatusChange('away');
+                      closeContextMenu();
+                    }}
+                  >
+                    <span className="status-icon">🟡</span>
+                    Away
+                  </button>
+                  <button
+                    className="context-menu-item"
+                    onClick={() => {
+                      handleStatusChange('busy');
+                      closeContextMenu();
+                    }}
+                  >
+                    <span className="status-icon">🔴</span>
+                    Busy
+                  </button>
+                  <button
+                    className="context-menu-item"
+                    onClick={() => {
+                      handleStatusChange('offline');
+                      closeContextMenu();
+                    }}
+                  >
+                    <span className="status-icon">⚫</span>
+                    Appear Offline
+                  </button>
+                </div>
+
+                {/* Status Comment Section */}
+                <div className="context-menu-section">
+                  <div className="context-menu-section-header">Status Comment</div>
+                  <input
+                    type="text"
+                    className="context-menu-input"
+                    placeholder="Looking For Campaign"
+                    value={statusCommentDraft}
+                    onChange={(e) => setStatusCommentDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSaveStatusComment();
+                        closeContextMenu();
+                      }
+                    }}
+                    maxLength={100}
+                  />
+                  <div className="status-comment-footer">
+                    <small>{statusCommentDraft.length}/100</small>
+                    <button
+                      className="save-comment-btn"
+                      onClick={() => {
+                        handleSaveStatusComment();
+                        closeContextMenu();
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  className="context-menu-item"
+                  onClick={handleWhisper}
+                >
+                  <i className="fas fa-comment"></i>
+                  Whisper
+                </button>
+
+                {/* Show different party options based on whether user is in party */}
+                {isUserInParty ? (
+                  <button
+                    className="context-menu-item danger"
+                    onClick={handleRemoveFromParty}
+                  >
+                    <i className="fas fa-user-times"></i>
+                    Remove from Party
+                  </button>
+                ) : (
+                  <button
+                    className="context-menu-item"
+                    onClick={handleInviteToParty}
+                  >
+                    <i className="fas fa-users"></i>
+                    Invite to Party
+                  </button>
+                )}
+
+                {/* Show different options based on whether user is a friend */}
+                {activeTab === 'friends' ? (
+                  <>
+                    <button
+                      className="context-menu-item"
+                      onClick={handleAddNote}
+                    >
+                      <i className="fas fa-sticky-note"></i>
+                      Add/Edit Note
+                    </button>
+                    <button
+                      className="context-menu-item danger"
+                      onClick={handleRemoveFriend}
+                    >
+                      <i className="fas fa-user-minus"></i>
+                      Remove Friend
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="context-menu-item"
+                    onClick={handleAddFriend}
+                  >
+                    <i className="fas fa-user-plus"></i>
+                    Add Friend
+                  </button>
+                )}
+
+                <button
+                  className="context-menu-item danger"
+                  onClick={handleIgnoreUser}
+                >
+                  <i className="fas fa-ban"></i>
+                  Ignore
+                </button>
+              </>
+            )}
+            <div className="context-menu-divider"></div>
+
+            <button className="context-menu-item" onClick={closeContextMenu}>
+              <i className="fas fa-times"></i>
+              Cancel
+            </button>
+          </div>,
+          document.body
+        )
+      }
+    </div >
   );
 };
 
 export default OnlineUsersList;
-

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 // Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
@@ -388,7 +388,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       useCreatureStore.getState().clearCreatureTokens();
       useCharacterTokenStore.getState().clearCharacterTokens();
     } else {
-      console.log('🛡️ Preserving map entity stores for permanent room resume');
+      console.log('🛡️ Preserving map entity stores for persistent room resume');
     }
 
     // Combat
@@ -605,9 +605,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
           const isPersistentRejoin = !!roomData?.persistentRoomId;
           if (isPersistentRejoin) {
-            console.warn('🛡️ [Reconnect] Permanent room rejoin detected — ensuring data persists!');
+            console.warn('🛡️ [Reconnect] Persistent room rejoin detected - skipping pre-join token clear to prevent accidental wipes');
           } else {
-            // Keep legacy cleanup for temporary/test/non-permanent rooms
+            // Keep legacy cleanup for temporary/test/non-persistent rooms
             clearCreatureTokens();
             clearCharacterTokens();
             console.log('🧹 Cleared tokens for room rejoin');
@@ -936,15 +936,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           } : null;
 
           if (isGMResume) {
-            // GM is resuming a permanent room - need to CREATE/ACTIVATE it on the socket server
-            console.log('👑 [Auto-Join] GM resuming permanent room - creating on server:', selectedRoomId);
+            // GM is resuming a persistent room - need to CREATE/ACTIVATE it on the socket server
+            console.log('👑 [Auto-Join] GM resuming persistent room - creating on server:', selectedRoomId);
 
             const createData = {
               roomName: resumeRoomName || 'Campaign Room',
               gmName: finalPlayerName,
               password: selectedRoomPassword || '',
               playerColor: '#d4af37', // Gold color for GM
-              persistentRoomId: selectedRoomId, // Link to Firebase permanent room
+              persistentRoomId: selectedRoomId, // Link to Firebase persistent room
               character: characterData,
               partyMembers: [] // GM resumes alone initially
             };
@@ -980,9 +980,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle socket errors - critical for join/create failures
     socket.on('error', (data) => {
       console.error('❌ Socket error received:', data);
-      if (typeof data === 'object') {
-        console.error('Socket Error Details:', JSON.stringify(data, null, 2));
-      }
 
       // If we are in the loading screen (isJoiningRoom but not currentRoom), 
       // handle the error by resetting state so the user isn't stuck
@@ -995,7 +992,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Show notification
         const errorMessage = typeof data === 'string' ? data : (data.message || 'Unknown error');
-        addNotificationRef.current('social', {
+        addNotificationRef.current('system', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `Error joining room: ${errorMessage}`,
           type: 'error',
@@ -1078,12 +1075,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // The server emits room_created, then immediately room_joined
     socket.on('room_created', (data) => {
       console.log('✅ [MultiplayerApp] room_created received:', data);
-      console.log('🔍 Room structure check:', {
-        hasRoom: !!data.room,
-        hasPersistentRoomId: !!data.room?.persistentRoomId,
-        roomId: data.room?.id,
-        persistentRoomId: data.room?.persistentRoomId
-      });
 
       // Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -1392,6 +1383,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data && data.tokenId) {
         removeCharacterToken(data.tokenId, false); // false = don't send back to server
       }
+    });
+
+    // Clean up tokens when joining a new room
+    // This listener handles the 'room_joined' confirmation or room state sync
+    socket.on('room_state_sync', () => {
+      // Optional: Could clear tokens here if the server sends a full state sync event
+      // typically join_room response handles initial load, but clearing old state is good practice
+      console.log('🧹 Clearing tokens for new room synchronization');
+      clearCreatureTokens();
+      clearCharacterTokens();
     });
 
     // Listen for character resource updates from other players
@@ -2319,49 +2320,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       updateTokenState(tokenId, stateUpdates, false);
     });
 
-    // Listen for creature state updates (HP, status, buffs) from GM
-    socket.on('creature_updated', (data) => {
-      const { tokenId, stateUpdates, updatedBy, mapId } = data;
-
-      // Skip if we are the one who sent it
-      if (updatedBy === socket.id) return;
-
-      const creatureStore = require('../../store/creatureStore').default.getState();
-      // Apply creature state update locally
-      creatureStore.updateTokenState(tokenId, stateUpdates, false);
-      console.log('🐉 Received creature_updated:', { tokenId, stateUpdates, mapId });
-    });
-
-    // Listen for creature tokens being added by GM
-    socket.on('creature_added', (data) => {
-      const { id, creatureId, position, velocity, createdBy, createdByName, mapId, token, state } = data;
-
-      // Skip if we are the one who added it (GM adding creature)
-      if (createdBy === socket.id) return;
-
-      const creatureStore = require('../../store/creatureStore').default.getState();
-
-      // CRITICAL: Use included state to preserve token state across clients
-      // If state is provided (new behavior), use it; otherwise fall back to library data
-      let creatureData;
-      if (token && state) {
-        // Use the full token data from server including state
-        creatureData = token;
-      } else {
-        // Fallback: Find creature data in library or use minimal data
-        const libraryCreatures = creatureStore.creatures || [];
-        creatureData = libraryCreatures.find(c => c.id === creatureId) || {
-          id: creatureId,
-          name: `Creature ${creatureId.substring(0, 8)}...`,
-          isPlaceholder: true
-        };
-      }
-
-      // Add creature token locally without re-emitting to server
-      creatureStore.addCreatureToken(creatureData, position, false, id, true, mapId);
-      console.log('🐉 Received creature_added:', { id, creatureId, position, mapId, hasState: !!state });
-    });
-
     // Listen for character movements from other players AND server confirmations
     // This handles: player moving their own token, GM moving any player's token
     socket.on('character_moved', (data) => {
@@ -2727,8 +2685,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
-        // CRITICAL FIX: Pass creature object directly with token state embedded
-        addToken(data.creature, data.position, false, data.token.id, data.token.state, tokenMapId);
+        // Pass initial state to ensure correct stats
+        addToken(data.creature.id, data.position, false, data.token.id, data.token.state, tokenMapId);
       }
 
       // Show notification in chat only for new creations from other players, not syncs or own creations
@@ -2736,25 +2694,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `${data.playerName} placed ${data.creature.name} on the grid`,
-          type: 'system',
-          timestamp: new Date().toISOString()
-        });
-      }
-    });
-
-    // Listen for token creation confirmation from server
-    socket.on('token_create_confirmed', (data) => {
-      console.log('✅ [Token Creation] Token confirmed by server:', {
-        tokenId: data.token?.id,
-        creatureName: data.creature?.name,
-        success: data.success,
-        position: data.position
-      });
-
-      if (!data.success) {
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: 'Failed to save token to Firebase. Data may not persist.',
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -4948,7 +4887,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse = false) => {
     // Clear all stores before joining a new room to ensure a clean slate.
-    // For permanent room resume, preserve map entities until authoritative payload hydration completes.
+    // For persistent room resume, preserve map entities until authoritative payload hydration completes.
     const isPersistentRoomResume = !!room?.persistentRoomId;
     clearAllMultiplayerStores({ preserveMapEntities: isPersistentRoomResume });
 
@@ -5216,7 +5155,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
         }
       } catch (error) {
-        console.warn('Failed to add player to permanent room:', error);
+        console.warn('Failed to add player to persistent room:', error);
         // Don't fail the room join if Firebase persistence fails
       }
     } catch (error) {
@@ -5497,23 +5436,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       console.log('📍 Initializing player on map:', startMapId);
 
-      console.log('🔍 [handleJoinRoom] Room structure received from server:', {
-        roomId: room.id,
-        hasGameState: !!room.gameState,
-        gameStateKeys: Object.keys(room.gameState || {}),
-        mapsCount: Object.keys(room.gameState?.maps || {}).length,
-        mapsKeys: Object.keys(room.gameState?.maps || {}),
-        defaultMapId: room.gameState?.defaultMapId,
-        hasDefaultMap: !!room.gameState?.maps?.default,
-        defaultMapStructure: room.gameState?.maps?.default ? {
-          hasGridItems: !!room.gameState.maps.default.gridItems,
-          gridItemsCount: Object.keys(room.gameState.maps.default.gridItems || {}).length,
-          gridItemIds: Object.keys(room.gameState.maps.default.gridItems || {}),
-          hasTerrainData: !!room.gameState.maps.default.terrainData,
-          terrainDataCount: Object.keys(room.gameState.maps.default.terrainData || {}).length
-        } : null
-      });
-
       // 3. Load Map-Specific Entities (Tokens, Items)
       // We must pull from specific map storage, NOT global legacy storage
       const targetMapData = room.gameState.maps?.[startMapId] || {};
@@ -5599,16 +5521,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const initialGridItems = gridItemsRaw
           ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw))
           : [];
-
-        console.log('🔍 [handleJoinRoom] Grid items data:', {
-          mapId: startMapId,
-          gridItemsRawType: typeof gridItemsRaw,
-          gridItemsRawIsArray: Array.isArray(gridItemsRaw),
-          gridItemsRawKeys: typeof gridItemsRaw === 'object' && !Array.isArray(gridItemsRaw) ? Object.keys(gridItemsRaw) : [],
-          initialGridItemsCount: initialGridItems.length,
-          initialGridItemsIds: initialGridItems.map(i => i.id),
-          hasInitialPayload: hasInitialGridItemsPayload
-        });
 
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const currentGridItems = useGridItemStore.getState().gridItems || [];
@@ -5697,8 +5609,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
-      // Create party with room name, character name, and GM status
-      // CORRECT ORDER: roomName, currentPlayerCharacterName, isGM
+      // Create party with current player's character name (not user name)
+      // Note: createParty automatically adds the current player, so we don't need to add them again
       createParty(room.name, currentPlayerCharacterName, isGameMaster);
 
       // CRITICAL FIX: Ensure initial leader is set for the party using the real player ID
@@ -5709,10 +5621,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }).catch(err => console.error('Failed to set initial party leader:', err));
 
+
+
+
+
       // Use real player ID so other players can identify this member uniquely
       const currentPlayerId = currentPlayerData?.id || 'current-player';
       const currentPlayerMember = {
         id: currentPlayerId,
+
+
         name: currentPlayerCharacterName,
         isGM: isGameMaster, // Include GM status for current player
         character: {
@@ -5731,11 +5649,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           lore: activeCharacter?.lore || characterStore.lore || {} // Include lore (which contains characterImage), default to empty object
         }
       };
-
-      // Ensure resources never default to 0/0 for display if stores are empty
-      if (!currentPlayerMember.character.health?.max) currentPlayerMember.character.health = { current: 45, max: 50 };
-      if (!currentPlayerMember.character.mana?.max) currentPlayerMember.character.mana = { current: 45, max: 50 };
-      if (!currentPlayerMember.character.actionPoints?.max) currentPlayerMember.character.actionPoints = { current: 1, max: 3 };
 
       // CRITICAL FIX: Ensure current player member has correct isGM status
       currentPlayerMember.isGM = isGameMaster;
@@ -5882,28 +5795,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Set up dialogue system for multiplayer
       setMultiplayerSocket(socketConnection, true, currentPlayerData?.id);
 
-      // Initialize game state manager for permanent room state
+      // Initialize game state manager for persistent room state
       if (room.persistentRoomId || room.id) {
-        const roomId = room.persistentRoomId || room.id;
-        const isPermanentRoom = !!room.persistentRoomId;
-
-        console.log('🎮 Initializing game state manager for room:', roomId, {
-          isPermanentRoom,
-          isGM: isGameMaster,
-          hasSavedState: isPermanentRoom
-        });
-
-        // CRITICAL FIX: Re-enable gameStateManager for permanent rooms
-        // This will:
-        // 1. Load saved state from Firebase if room has been played before (resuming rooms)
-        // 2. Skip loading for fresh rooms (no saved state yet)
-        // 3. Auto-save changes for GMs only
-        // 4. Set up store listeners to track changes for auto-save
-        gameStateManager.initialize(roomId, isGameMaster).then(() => {
-          console.log('✅ Game state manager initialized successfully');
-        }).catch((error) => {
-          console.error('❌ Failed to initialize game state manager:', error);
-        });
+        // DISABLED: Game state loading causes old tokens to appear in fresh rooms
+        // Skip game state loading to prevent old tokens in fresh rooms
       }
 
       // Set current room after all initialization is complete

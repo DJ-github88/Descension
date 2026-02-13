@@ -1,324 +1,336 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { getBackgroundNames } from '../data/backgroundData';
-
-const PLACEHOLDER_FRIEND_IDS = new Set([
-  'ironhammer7821',
-  'moonwhisper3492',
-  'shadowblade5678',
-  'holylight1234',
-  'forestguard9876'
-]);
-
-const PLACEHOLDER_IGNORED_NAMES = new Set([
-  'trollius',
-  'goldhawker'
-]);
+import socialService from '../services/socialService';
+import authService from '../services/authService';
+import presenceService from '../services/firebase/presenceService';
 
 // Initial state for the store
 const initialState = {
-  // Friends list
   friends: [],
-  selectedFriend: null,
-
-  // Ignore list
+  friendPresence: {}, // userId -> presenceData
+  pendingRequests: [],
   ignored: [],
+  selectedFriend: null,
   selectedIgnored: null,
-
-  // Who list
-  whoResults: [],
-  whoQuery: '',
-
-  // Active tab
-  activeTab: 'friends', // 'friends', 'ignored', 'who'
-
-  // Pending friend requests
-  pendingRequests: []
+  isLoading: false,
+  error: null,
+  activeTab: 'friends'
 };
 
+// Track presence subscriptions outside of state to avoid re-renders on every change
+const presenceSubscriptions = new Map();
+
 // Create the store
-const useSocialStore = create(
-  persist(
-    (set, get) => ({
-      ...initialState,
+export const useSocialStore = create((set, get) => ({
+  ...initialState,
 
-      // Tab actions
-      setActiveTab: (tab) => set({ activeTab: tab }),
+  // Initialization and Listeners
+  initialize: (userId) => {
+    if (!userId) return () => { };
 
-      // Migration: sanitize social data and remove legacy placeholder entries
-      migrateSocialData: () => {
-        const { friends, ignored } = get();
-        const hasLegacyFriends = (friends || []).some(f => !f.friendId);
-        const hasPlaceholderFriends = (friends || []).some(f => {
-          const friendId = (f.friendId || '').toString().trim().toLowerCase();
-          return (f.isRealID === false) || PLACEHOLDER_FRIEND_IDS.has(friendId);
-        });
-        const hasPlaceholderIgnored = (ignored || []).some(i => {
-          const name = (i.name || '').toString().trim().toLowerCase();
-          return PLACEHOLDER_IGNORED_NAMES.has(name);
-        });
+    set({ isLoading: true });
 
-        if (!hasLegacyFriends && !hasPlaceholderFriends && !hasPlaceholderIgnored) {
-          return;
-        }
-
-        const normalizedFriends = (friends || [])
-          .filter(friend => {
-            const friendId = (friend.friendId || '').toString().trim().toLowerCase();
-            if (friend.isRealID === false) return false;
-            if (PLACEHOLDER_FRIEND_IDS.has(friendId)) return false;
-            return true;
-          })
-          .map(friend => ({
-            ...friend,
-            friendId: friend.friendId || null
-          }));
-
-        const normalizedIgnored = (ignored || []).filter(entry => {
-          const name = (entry.name || '').toString().trim().toLowerCase();
-          return !PLACEHOLDER_IGNORED_NAMES.has(name);
-        });
-
-        set({
-          friends: normalizedFriends,
-          ignored: normalizedIgnored
-        });
-      },
-
-      // Backward-compatibility alias
-      migrateFriends: () => {
-        get().migrateSocialData();
-      },
-
-      // Friend actions
-      addFriend: (friend) => set(state => {
-        const normalizedFriendId = friend.friendId ? String(friend.friendId).trim() : null;
-        const normalizedName = friend.name ? String(friend.name).trim().toLowerCase() : '';
-
-        // Check if friend already exists (prefer Friend ID uniqueness)
-        const exists = (state.friends || []).some(f => {
-          if (normalizedFriendId && f.friendId) {
-            return String(f.friendId).trim().toLowerCase() === normalizedFriendId.toLowerCase();
-          }
-          return (f.name || '').toLowerCase() === normalizedName;
-        });
-
-        if (exists) return state;
-
-        const newFriend = {
-          ...friend,
-          id: friend.id || uuidv4(),
-          status: friend.status || 'offline',
-          note: friend.note || ''
-        };
-
-        return {
-          friends: [...state.friends, newFriend],
-          selectedFriend: newFriend.id
-        };
-      }),
-
-      removeFriend: (id) => set(state => ({
-        friends: (state.friends || []).filter(friend => friend.id !== id),
-        selectedFriend: state.selectedFriend === id ? null : state.selectedFriend
-      })),
-
-      updateFriend: (id, updates) => set(state => ({
-        friends: (state.friends || []).map(friend =>
-          friend.id === id
-            ? { ...friend, ...updates }
-            : friend
-        )
-      })),
-
-      setFriendNote: (id, note) => set(state => ({
-        friends: (state.friends || []).map(friend =>
-          friend.id === id
-            ? { ...friend, note }
-            : friend
-        )
-      })),
-
-      setSelectedFriend: (id) => set({ selectedFriend: id }),
-
-      // Ignore actions
-      addIgnored: (ignored) => set(state => {
-        const normalizedFriendId = ignored.friendId ? String(ignored.friendId).trim() : null;
-        const normalizedName = ignored.name ? String(ignored.name).trim().toLowerCase() : '';
-
-        // Check if already ignored (prefer Friend ID uniqueness)
-        const exists = (state.ignored || []).some(i => {
-          if (normalizedFriendId && i.friendId) {
-            return String(i.friendId).trim().toLowerCase() === normalizedFriendId.toLowerCase();
-          }
-          return (i.name || '').toLowerCase() === normalizedName;
-        });
-
-        if (exists) return state;
-
-        const newIgnored = {
-          ...ignored,
-          id: ignored.id || uuidv4(),
-          note: ignored.note || ''
-        };
-
-        return {
-          ignored: [...state.ignored, newIgnored],
-          selectedIgnored: newIgnored.id
-        };
-      }),
-
-      removeIgnored: (id) => {
-        set(state => {
-          const newIgnored = (state.ignored || []).filter(ignored => {
-            return ignored.id !== id;
-          });
-
-          return {
-            ignored: newIgnored,
-            selectedIgnored: state.selectedIgnored === id ? null : state.selectedIgnored
-          };
-        });
-      },
-
-      setIgnoredNote: (id, note) => set(state => ({
-        ignored: (state.ignored || []).map(ignored =>
-          ignored.id === id
-            ? { ...ignored, note }
-            : ignored
-        )
-      })),
-
-      setSelectedIgnored: (id) => set({ selectedIgnored: id }),
-
-      // Who actions
-      setWhoQuery: (query) => set({ whoQuery: query }),
-
-      searchWho: (query) => {
-        // In a real app, this would make an API call
-        // For now, simulate results using actual class data from the character system
-        const availableClasses = [
-          'Pyrofiend', 'Minstrel', 'Chronarch', 'Chaos Weaver', 'Fate Weaver', 'Gambler',
-          'Martyr', 'False Prophet', 'Exorcist', 'Plaguebringer', 'Lichborne', 'Deathcaller',
-          'Spellguard', 'Inscriptor', 'Arcanoneer', 'Witch Doctor', 'Formbender', 'Primalist',
-          'Berserker', 'Dreadnaught', 'Titan', 'Toxicologist', 'Covenbane', 'Bladedancer',
-          'Lunarch', 'Huntress', 'Warden'
-        ];
-        const availableBackgrounds = getBackgroundNames();
-        const locations = [
-          'Town Square', 'Temple District', 'Merchant Quarter', 'Arcane Academy',
-          'Tavern', 'Barracks', 'Library', 'Docks', 'Market', 'Guild Hall'
-        ];
-
-        const names = [
-          'Aric', 'Elindra', 'Thorne', 'Maelis', 'Grommash', 'Seraphina',
-          'Kael', 'Lyra', 'Darius', 'Zara', 'Finn', 'Nyx', 'Orion', 'Vera'
-        ];
-
-        const results = [];
-        for (let i = 0; i < 8; i++) {
-          const randomClass = availableClasses[Math.floor(Math.random() * availableClasses.length)];
-          const randomBackground = availableBackgrounds[Math.floor(Math.random() * availableBackgrounds.length)];
-          const randomName = names[Math.floor(Math.random() * names.length)];
-          const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-          const randomLevel = Math.floor(Math.random() * 15) + 1;
-
-          results.push({
-            id: `w${i + 1}`,
-            name: randomName,
-            level: randomLevel,
-            class: randomClass,
-            background: randomBackground,
-            location: randomLocation
-          });
-        }
-
-        set({
-          whoResults: results,
-          whoQuery: query
-        });
-      },
-
-      // Friend Request actions
-      sendFriendRequest: async (targetFriendId) => {
-        const { friends, pendingRequests } = get();
-
-        // Check if already friends
-        if (friends.some(f => f.friendId === targetFriendId)) {
-          return { error: 'Already friends', success: false };
-        }
-
-        // Check if already sent
-        if (pendingRequests.some(r => r.friendId === targetFriendId && r.type === 'sent')) {
-          return { error: 'Request already sent', success: false };
-        }
-
-        const newRequest = {
-          id: uuidv4(),
-          friendId: targetFriendId,
-          type: 'sent',
-          status: 'pending',
-          timestamp: Date.now()
-        };
-
-        set(state => ({
-          pendingRequests: [...state.pendingRequests, newRequest]
-        }));
-
-        return { success: true };
-      },
-
-      receiveFriendRequest: (request) => set(state => ({
-        pendingRequests: [...state.pendingRequests, {
-          ...request,
-          id: request.id || uuidv4(),
-          type: 'received',
-          status: 'pending',
-          timestamp: Date.now()
-        }]
-      })),
-
-      acceptFriendRequest: (requestId) => set(state => {
-        const request = state.pendingRequests.find(r => r.id === requestId);
-        if (!request) return state;
-
-        const newFriend = {
-          id: uuidv4(),
-          name: request.name || 'New Friend',
-          friendId: request.friendId,
-          status: 'online', // Assume online when accepting
-          isRealID: true
-        };
-
-        return {
-          friends: [...state.friends, newFriend],
-          pendingRequests: state.pendingRequests.filter(r => r.id !== requestId)
-        };
-      }),
-
-      declineFriendRequest: (requestId) => set(state => ({
-        pendingRequests: state.pendingRequests.filter(r => r.id !== requestId)
-      })),
-
-      // Reset store to initial state
-      resetStore: () => set(initialState)
-    }),
-    {
-      name: 'social-store',
-      storage: {
-        getItem: (name) => {
-          const str = localStorage.getItem(name);
-          if (!str) return null;
-          return JSON.parse(str);
-        },
-        setItem: (name, value) => {
-          localStorage.setItem(name, JSON.stringify(value));
-        },
-        removeItem: (name) => localStorage.removeItem(name)
+    // Load ignored from localStorage
+    const savedIgnored = localStorage.getItem(`mythrill_ignored_${userId}`);
+    if (savedIgnored) {
+      try {
+        set({ ignored: JSON.parse(savedIgnored) });
+      } catch (e) {
+        console.error('Error parsing ignored users:', e);
       }
     }
-  )
-);
+
+    // 1. Listen to incoming requests
+    const unsubscribeIncoming = socialService.subscribeToRequests(userId, (requests) => {
+      console.log('📩 Incoming friend requests updated:', requests);
+      set(state => {
+        const sent = state.pendingRequests.filter(r => r.type === 'sent');
+        return {
+          pendingRequests: [...sent, ...requests],
+          isLoading: false
+        };
+      });
+    });
+
+    // 2. Listen to sent requests
+    const unsubscribeSent = socialService.subscribeToSentRequests(userId, (requests) => {
+      console.log('📤 Sent friend requests updated:', requests);
+      set(state => {
+        const received = state.pendingRequests.filter(r => r.type === 'received');
+        return {
+          pendingRequests: [...received, ...requests],
+          isLoading: false
+        };
+      });
+    });
+
+    // 3. Listen to friends list updates
+    const unsubscribeFriends = socialService.subscribeToFriends(userId, (friends) => {
+      console.log('👥 Friends list updated:', friends);
+      const previousFriends = get().friends;
+      set({ friends: friends || [], isLoading: false });
+
+      // Handle presence subscriptions for new friends
+      const currentFriendIds = new Set((friends || []).map(f => f.id));
+      const previousFriendIds = new Set(previousFriends.map(f => f.id));
+
+      // Remove subscriptions for friends no longer in the list
+      previousFriendIds.forEach(id => {
+        if (!currentFriendIds.has(id)) {
+          const unsub = presenceSubscriptions.get(id);
+          if (unsub) {
+            unsub();
+            presenceSubscriptions.delete(id);
+            set(state => {
+              const newPresence = { ...state.friendPresence };
+              delete newPresence[id];
+              return { friendPresence: newPresence };
+            });
+          }
+        }
+      });
+
+      // Add subscriptions for new friends
+      currentFriendIds.forEach(id => {
+        if (!presenceSubscriptions.has(id)) {
+          console.log(`📡 Subscribing to presence for friend: ${id}`);
+          const unsub = presenceService.subscribeToUser(id, (presence) => {
+            if (presence) {
+              set(state => ({
+                friendPresence: {
+                  ...state.friendPresence,
+                  [id]: presence
+                }
+              }));
+            } else {
+              // Handle case where presence record is missing/null (offline)
+              set(state => ({
+                friendPresence: {
+                  ...state.friendPresence,
+                  [id]: { status: 'offline', lastSeen: Date.now() }
+                }
+              }));
+            }
+          });
+          presenceSubscriptions.set(id, unsub);
+        }
+      });
+    });
+
+    // 4. Listen to sent requests that have been accepted
+    const unsubscribeAccepted = socialService.subscribeToAcceptedRequests(userId, async (acceptedRequests) => {
+      if (acceptedRequests && acceptedRequests.length > 0) {
+        console.log('🎉 Some sent requests were accepted:', acceptedRequests);
+
+        for (const req of acceptedRequests) {
+          // Add this friend to MY list if they aren't there
+          // Use get().friends inside the loop to get the most up-to-date state
+          const friendId = req.receiverId;
+          const currentFriends = get().friends;
+
+          if (!currentFriends.some(f => f.id === friendId)) {
+            console.log(`🤝 Adding friend ${req.receiverName} to my document...`);
+            await socialService.addFriendToMyList({
+              id: friendId,
+              name: req.receiverName,
+              friendId: req.receiverFriendId,
+              photoURL: req.receiverPhotoURL || null
+            });
+          }
+
+          // Cleanup: Delete the request now that both sides have processed it
+          try {
+            console.log(`🧹 Cleaning up accepted request: ${req.id}`);
+            await socialService.deleteFriendRequest(req.id);
+          } catch (cleanupError) {
+            console.warn('⚠️ Non-fatal: Could not delete friend request document (permissions).', cleanupError);
+          }
+        }
+      }
+    });
+
+    return () => {
+      unsubscribeIncoming();
+      unsubscribeSent();
+      unsubscribeFriends();
+      unsubscribeAccepted();
+      // Clean up all presence subscriptions
+      presenceSubscriptions.forEach(unsub => unsub());
+      presenceSubscriptions.clear();
+    };
+  },
+
+  setFriends: (friends) => set({ friends: friends || [] }),
+  setActiveTab: (tab) => set({ activeTab: tab }),
+  setSelectedFriend: (id) => set({ selectedFriend: id }),
+  setSelectedIgnored: (id) => set({ selectedIgnored: id }),
+
+  // Actions
+  sendFriendRequest: async (targetFriendId) => {
+    const { friends, pendingRequests } = get();
+    const currentUser = authService.getCurrentUser();
+
+    if (!currentUser) return { error: 'Not authenticated', success: false };
+
+    set({ isLoading: true, error: null });
+
+    try {
+      // 1. Find the target user in Firestore
+      console.log('🔍 Searching for friend ID:', targetFriendId);
+      const targetUser = await authService.findUserByFriendId(targetFriendId);
+      if (!targetUser) {
+        console.warn('❌ User not found for ID:', targetFriendId);
+        set({ isLoading: false });
+        return { error: 'User not found', success: false };
+      }
+      console.log('👤 Target user found:', targetUser.id, targetUser.displayName);
+
+      if (targetUser.id === currentUser.uid) {
+        set({ isLoading: false });
+        return { error: "You can't add yourself", success: false };
+      }
+
+      // 2. Check if already friends
+      if (friends.some(f => f.friendId === targetFriendId || f.id === targetUser.id)) {
+        set({ isLoading: false });
+        return { error: 'Already friends', success: false };
+      }
+
+      // 3. Check if already sent
+      if (pendingRequests.some(r => r.receiverId === targetUser.id && r.status === 'pending')) {
+        set({ isLoading: false });
+        return { error: 'Request already sent', success: false };
+      }
+
+      // 4. Get current user full data for the request
+      const myData = await authService.getUserData(currentUser.uid);
+
+      // 5. Send request via service
+      const result = await socialService.sendFriendRequest(myData, targetUser);
+      set({ isLoading: false });
+      return result;
+    } catch (error) {
+      console.error('Store error sending friend request:', error);
+      set({ isLoading: false, error: error.message });
+      return { error: error.message, success: false };
+    }
+  },
+
+  addFriend: (friend) => {
+    set(state => ({
+      friends: [...state.friends, { ...friend, addedAt: Date.now() }]
+    }));
+  },
+
+  acceptFriendRequest: async (requestId) => {
+    const { pendingRequests } = get();
+    const currentUser = authService.getCurrentUser();
+    if (!currentUser) return;
+
+    const request = pendingRequests.find(r => r.id === requestId);
+    if (!request) return;
+
+    set({ isLoading: true });
+    try {
+      const myData = await authService.getUserData(currentUser.uid);
+      const result = await socialService.acceptFriendRequest(requestId, myData, request);
+
+      if (result.success) {
+        // Success! The listeners will update the lists
+      }
+      set({ isLoading: false });
+      return result;
+    } catch (error) {
+      console.error('Store error accepting friend request:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  declineFriendRequest: async (requestId) => {
+    set({ isLoading: true });
+    try {
+      await socialService.declineFriendRequest(requestId);
+      // Cleanup the request document
+      try {
+        await socialService.deleteFriendRequest(requestId);
+      } catch (cleanupError) {
+        console.warn('⚠️ Non-fatal: Could not delete declined friend request (permissions).', cleanupError);
+      }
+      set({ isLoading: false });
+    } catch (error) {
+      console.error('Store error declining friend request:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  removeFriend: async (friendId) => {
+    const currentUser = authService.getCurrentUser();
+    if (!currentUser) return;
+
+    set({ isLoading: true });
+    try {
+      const myData = await authService.getUserData(currentUser.uid);
+      await socialService.removeFriend(currentUser.uid, myData, friendId);
+      set({ isLoading: false });
+    } catch (error) {
+      console.error('Store error removing friend:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  // Ignored Users Actions
+  addIgnored: (ignoredUser) => {
+    set(state => {
+      const newIgnored = [...state.ignored, { ...ignoredUser, id: ignoredUser.id || uuidv4(), addedAt: Date.now() }];
+      const currentUser = authService.getCurrentUser();
+      if (currentUser) {
+        localStorage.setItem(`mythrill_ignored_${currentUser.uid}`, JSON.stringify(newIgnored));
+      }
+      return { ignored: newIgnored };
+    });
+  },
+
+  removeIgnored: (id) => {
+    set(state => {
+      const newIgnored = state.ignored.filter(i => i.id !== id);
+      const currentUser = authService.getCurrentUser();
+      if (currentUser) {
+        localStorage.setItem(`mythrill_ignored_${currentUser.uid}`, JSON.stringify(newIgnored));
+      }
+      return { ignored: newIgnored };
+    });
+  },
+
+  setFriendNote: (friendId, note) => {
+    set(state => ({
+      friends: state.friends.map(f => f.id === friendId ? { ...f, note } : f)
+    }));
+    // Note: In a real app, this should probably be saved to Firestore user doc
+  },
+
+  setIgnoredNote: (ignoredId, note) => {
+    set(state => {
+      const newIgnored = state.ignored.map(i => i.id === ignoredId ? { ...i, note } : i);
+      const currentUser = authService.getCurrentUser();
+      if (currentUser) {
+        localStorage.setItem(`mythrill_ignored_${currentUser.uid}`, JSON.stringify(newIgnored));
+      }
+      return { ignored: newIgnored };
+    });
+  },
+
+  // Migration Actions
+  migrateFriends: () => {
+    // Placeholder for migration logic if needed
+    console.log('SocialStore: migrateFriends called');
+  },
+
+  migrateSocialData: () => {
+    // Placeholder for migration logic if needed
+    console.log('SocialStore: migrateSocialData called');
+  },
+
+  resetStore: () => set(initialState)
+}));
 
 export default useSocialStore;
