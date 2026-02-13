@@ -11,8 +11,8 @@ import usePresenceStore from '../../store/presenceStore';
 import useSettingsStore from '../../store/settingsStore';
 import '../../styles/social-window.css';
 
-const PartyPanel = ({ onCreateParty }) => {
-  const { partyMembers, partyChatMessages, getCurrentPartyId } = usePartyStore();
+const PartyPanel = ({ onCreateParty, onContextMenu }) => {
+  const { partyMembers, partyChatMessages, getCurrentPartyId, leaderId } = usePartyStore();
   const currentUserPresence = usePresenceStore(state => state.currentUserPresence);
 
   const messagesEndRef = useRef(null);
@@ -50,13 +50,21 @@ const PartyPanel = ({ onCreateParty }) => {
       {/* Party Members List */}
       <div className="party-members-list-simple">
         {partyMembers.map((member) => {
-          const isLeader = member.isGM;
-          const isCurrentPlayer = member.id === 'current-player' || member.userId === currentUserPresence?.userId;
+          // Check if this member is the leader based on leaderId or isGM flag
+          const isLeader = member.id === leaderId || member.isGM;
+          const isCurrentPlayer = member.id === 'current-player' ||
+            member.id === currentUserPresence?.userId ||
+            member.userId === currentUserPresence?.userId ||
+            member.uid === currentUserPresence?.userId;
 
           return (
             <div
               key={member.id}
               className={`party-member-item-simple ${isCurrentPlayer ? 'is-self' : ''}`}
+              onContextMenu={(e) => onContextMenu && onContextMenu(e, {
+                ...member,
+                userId: member.userId || member.id // Ensure userId is available for the context menu
+              })}
             >
               <div className="member-main-info">
                 <span className="member-name-simple">
@@ -65,7 +73,7 @@ const PartyPanel = ({ onCreateParty }) => {
                   {isCurrentPlayer && <span className="self-tag">(You)</span>}
                 </span>
                 <span className="member-subtitle-simple">
-                  Lvl {member.level} {member.characterClass}
+                  Lvl {member.characterLevel || member.level} {member.characterClass || member.class}
                 </span>
               </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import WowWindow from '../windows/WowWindow';
-import usePartyStore, { PARTY_STATUS, PARTY_ROLES } from '../../store/partyStore';
+import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -16,16 +16,17 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
         isInParty,
         currentParty,
         partyMembers,
-        pendingInvites,
-        receivedInvites,
+        pendingPartyInvites: receivedInvites,
+        sentPartyInvites: pendingInvites,
         createParty,
         leaveParty,
         disbandParty,
         sendPartyInvite,
         acceptPartyInvite,
         declinePartyInvite,
-        removePartyMember,
+        kickPartyMember,
         isPartyLeader,
+        isUserLeader,
         addPartyMember
     } = usePartyStore();
 
@@ -71,7 +72,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     // Handle removing party member
     const handleRemoveMember = (memberId) => {
         if (isPartyLeader() && memberId !== 'current-player') {
-            removePartyMember(memberId);
+            kickPartyMember(memberId);
         }
     };
 
@@ -128,7 +129,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                     <div className="member-info">
                                         <div className="member-name">
                                             {member.name}
-                                            {member.role === PARTY_ROLES.LEADER && (
+                                            {isUserLeader(member.id) && (
                                                 <span className="role-badge leader">Leader</span>
                                             )}
                                         </div>

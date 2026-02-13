@@ -770,36 +770,74 @@ const usePresenceStore = create((set, get) => ({
       socket.on('party_created', (partyData) => {
         console.log('🎉 Party created:', partyData.name);
 
+        const members = partyData.members ? Object.values(partyData.members) : [];
         set(state => ({
           currentParty: partyData,
           isInParty: true,
-          partyMembers: Object.values(partyData.members) || [],
+          partyMembers: members,
           partyChatMessages: []
         }));
+
+        // Sync to partyStore so components reading from partyStore see the update
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState({
+            currentParty: partyData,
+            isInParty: true,
+            partyMembers: members,
+            partyChatMessages: [],
+            leaderId: partyData.leaderId || null
+          });
+        } catch (e) {
+          // partyStore not available
+        }
       });
 
       // A member joined the party
       socket.on('party_member_joined', ({ partyId, memberId, memberData }) => {
-        console.log('👤 Party member joined:', memberData.name);
+        console.log(`👤 Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
 
-        // Delegate to partyStore which owns ensureSelfMember logic
-        try {
-          const partyStore = require('./partyStore').default;
-          partyStore.getState().addPartyMember(memberData);
-        } catch (e) {
-          // Fallback: simple append without ensureSelfMember
-          set(state => ({
-            partyMembers: [...state.partyMembers, memberData]
-          }));
+        // Deduplicate: only add if not already present
+        const existingMembers = get().partyMembers || [];
+        const alreadyExists = existingMembers.some(m =>
+          (m.id === memberId || m.id === memberData.id || m.userId === memberId || m.userId === memberData.id)
+        );
+
+        if (!alreadyExists) {
+          const updatedMembers = [...existingMembers, memberData];
+          console.log(`📊 Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
+          set(state => ({ partyMembers: updatedMembers }));
+
+          // Sync to partyStore
+          try {
+            const partyStore = require('./partyStore').default;
+            const partyState = partyStore.getState();
+            console.log(`📊 Syncing to partyStore. Current partyStore count: ${partyState.partyMembers.length}`);
+
+            if (!partyState.partyMembers.some(m => (m.id === memberId || m.id === memberData.id))) {
+              partyStore.getState().addPartyMember(memberData);
+              console.log('✅ Called partyStore.addPartyMember');
+            } else {
+              console.log('ℹ️ Member already exists in partyStore');
+            }
+          } catch (e) {
+            console.warn('⚠️ Failed to sync join to partyStore:', e);
+          }
+        } else {
+          console.log('ℹ️ Member already exists in presenceStore');
         }
 
         // Add system message to party chat
-        const chatStore = require('./chatStore').default;
-        chatStore.getState().addSocialNotification({
-          type: 'party_member_joined',
-          sender: { name: memberData.name },
-          content: `${memberData.name} joined the party.`
-        });
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_member_joined',
+            sender: { name: memberData.name },
+            content: `${memberData.name} joined the party.`
+          });
+        } catch (e) {
+          // chatStore not available
+        }
       });
 
       // A member left the party
@@ -807,67 +845,124 @@ const usePresenceStore = create((set, get) => ({
         console.log('👤 Party member left:', userName);
 
         set(state => ({
-          partyMembers: state.partyMembers.filter(m => m.id !== memberId)
+          partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
         }));
 
+        // Sync to partyStore
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState(state => ({
+            partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
+          }));
+        } catch (e) {
+          // partyStore not available
+        }
+
         // Add system message to party chat
-        const chatStore = require('./chatStore').default;
-        chatStore.getState().addSocialNotification({
-          type: 'party_member_left',
-          sender: { name: userName },
-          content: `${userName} left the party.`
-        });
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_member_left',
+            sender: { name: userName },
+            content: `${userName} left the party.`
+          });
+        } catch (e) {
+          // chatStore not available
+        }
       });
 
       // Party leadership changed (when leader leaves)
       socket.on('party_leader_changed', ({ partyId, newLeaderId, newLeaderName }) => {
         console.log('👑 Party leadership changed:', newLeaderName);
 
-        set(state => ({
-          partyMembers: state.partyMembers.map(m => {
+        const updater = state => ({
+          partyMembers: (state.partyMembers || []).map(m => {
             if (m.id === newLeaderId) {
               return { ...m, isGM: true };
             } else {
               return { ...m, isGM: false };
             }
           })
-        }));
+        });
+
+        set(updater);
+
+        // Sync to partyStore
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState(state => ({
+            ...updater(state),
+            leaderId: newLeaderId
+          }));
+        } catch (e) {
+          // partyStore not available
+        }
       });
 
       // Party was disbanded
       socket.on('party_disbanded', ({ partyId, partyName, disbandedBy }) => {
         console.log('💥 Party disbanded:', partyName);
 
-        set(state => ({
+        const resetState = {
           currentParty: null,
           isInParty: false,
           partyMembers: [],
           partyChatMessages: []
-        }));
+        };
+
+        set(state => resetState);
+
+        // Sync to partyStore
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
+        } catch (e) {
+          // partyStore not available
+        }
       });
 
       // Party was left (user perspective)
       socket.on('party_left', ({ partyId }) => {
         console.log('👤 Left party:', partyId);
 
-        set(state => ({
+        const resetState = {
           currentParty: null,
           isInParty: false,
           partyMembers: [],
           partyChatMessages: []
-        }));
+        };
+
+        set(state => resetState);
+
+        // Sync to partyStore
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
+        } catch (e) {
+          // partyStore not available
+        }
       });
 
       // Party was updated (also sent to user who just joined via accept_party_invite)
       socket.on('party_updated', (partyData) => {
         console.log('🔄 Party updated:', partyData.name);
 
-        // Sync full party state from server data
-        const members = partyData.members ? Object.values(partyData.members) : [];
+        const currentMembers = get().partyMembers || [];
+        const newMembers = partyData.members ? Object.values(partyData.members) : [];
+
+        // POTENTIAL FIX: Don't downgrade member count if we are the leader
+        // Server might send a stale initial party state to the leader right after an invite accepts
+        const isLeader = partyData.leaderId === get().currentUserPresence?.userId;
+
+        if (isLeader && currentMembers.length > newMembers.length) {
+          console.log('⚠️ Ignoring party_updated: Local member count is higher than server update');
+          return;
+        }
+
         set(state => ({
           currentParty: partyData,
           isInParty: true,
-          partyMembers: members
+          partyMembers: newMembers
         }));
 
         // Also sync to partyStore
@@ -876,10 +971,48 @@ const usePresenceStore = create((set, get) => ({
           partyStore.setState({
             currentParty: partyData,
             isInParty: true,
-            partyMembers: members
+            partyMembers: newMembers,
+            leaderId: partyData.leaderId || null
           });
         } catch (e) {
           // partyStore not available, presenceStore state is sufficient
+        }
+      });
+
+      // Member removed from party (kick or self-leave via server)
+      socket.on('member_removed', ({ partyId, targetUserId, userName }) => {
+        console.log('👤 Member removed from party:', userName);
+
+        const isSelf = get().currentUserPresence?.userId === targetUserId;
+
+        if (isSelf) {
+          const resetState = {
+            currentParty: null,
+            isInParty: false,
+            partyMembers: [],
+            partyChatMessages: []
+          };
+          set(resetState);
+
+          try {
+            const partyStore = require('./partyStore').default;
+            partyStore.setState({
+              ...resetState,
+              leaderId: null,
+              leaderMode: false
+            });
+          } catch (e) { }
+        } else {
+          set(state => ({
+            partyMembers: (state.partyMembers || []).filter(m => m.id !== targetUserId)
+          }));
+
+          try {
+            const partyStore = require('./partyStore').default;
+            partyStore.setState(state => ({
+              partyMembers: (state.partyMembers || []).filter(m => m.id !== targetUserId)
+            }));
+          } catch (e) { }
         }
       });
 
@@ -1053,6 +1186,29 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
+   * Open a whisper tab for a user
+   */
+  openWhisperTab: (user) => {
+    if (!user) return;
+    const userId = user.userId || user.uid || user.id;
+    if (!userId) return;
+
+    const { whisperTabs } = get();
+    if (!whisperTabs.has(userId)) {
+      // Create empty tab if it doesn't exist
+      const newTabs = new Map(whisperTabs);
+      newTabs.set(userId, {
+        user,
+        messages: [],
+        unreadCount: 0
+      });
+      set({ whisperTabs: newTabs, activeTab: `whisper_${userId}` });
+    } else {
+      set({ activeTab: `whisper_${userId}` });
+    }
+  },
+
+  /**
    * Close whisper tab
    */
   closeWhisperTab: (userId) => {
@@ -1108,7 +1264,7 @@ const usePresenceStore = create((set, get) => ({
       if (!user) {
         // Try to get from party store synchronously (if already imported)
         try {
-          const partyStore = require('../store/partyStore').default;
+          const partyStore = require('./partyStore').default;
           const partyState = partyStore.getState();
           const partyMember = partyState.partyMembers.find(m => m.id === resolvedUserId || m.id === userId);
           if (partyMember) {

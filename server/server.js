@@ -5740,6 +5740,16 @@ io.on('connection', (socket) => {
       }
     }
 
+    // Check if target user is already in a party
+    const targetPartyId = userToParty.get(toUserId);
+    if (targetPartyId) {
+      socket.emit('party_error', {
+        error: 'That player is already in a group.',
+        partyId: resolvedPartyId
+      });
+      return;
+    }
+
     // Verify inviter is the party leader
     if (party.leaderId !== fromUserId) {
       socket.emit('party_error', {
@@ -6054,6 +6064,146 @@ io.on('connection', (socket) => {
 
     logger.info('Party message broadcasted', { partyId, to: Object.keys(party.members).length });
   });
+
+  // Promote to leader - Party leader transfers leadership to another member
+  socket.on('promote_to_leader', ({ partyId, newLeaderId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', { error: 'Party not found', partyId });
+      return;
+    }
+
+    if (party.leaderId !== userId) {
+      socket.emit('party_error', { error: 'Only party leader can promote members', partyId });
+      return;
+    }
+
+    const newLeader = party.members[newLeaderId];
+    if (!newLeader) {
+      socket.emit('party_error', { error: 'Target member not found in party', partyId });
+      return;
+    }
+
+    // Update leadership
+    party.leaderId = newLeaderId;
+    party.leaderName = newLeader.name;
+    party.leaderCharacterName = newLeader.characterName || 'Unknown';
+    party.leaderClass = newLeader.characterClass || 'Unknown';
+    party.leaderLevel = newLeader.characterLevel || 1;
+    party.updatedAt = Date.now();
+
+    // Notify all party members
+    Object.keys(party.members).forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_leader_changed', {
+          partyId,
+          newLeaderId,
+          newLeaderName: newLeader.name
+        });
+      });
+    });
+
+    logger.info('Party leadership transferred via promotion', { partyId, oldLeader: userId, newLeader: newLeaderId });
+  });
+
+  // Remove from party - Party leader removes a member
+  socket.on('remove_party_member', ({ partyId, targetUserId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', { error: 'Party not found', partyId });
+      return;
+    }
+
+    if (party.leaderId !== userId) {
+      socket.emit('party_error', { error: 'Only party leader can remove members', partyId });
+      return;
+    }
+
+    if (userId === targetUserId) {
+      socket.emit('party_error', { error: 'You cannot remove yourself. Use leave_party instead.', partyId });
+      return;
+    }
+
+    const targetMember = party.members[targetUserId];
+    if (!targetMember) {
+      socket.emit('party_error', { error: 'Member not found in party', partyId });
+      return;
+    }
+
+    // Remove from party
+    delete party.members[targetUserId];
+    userToParty.delete(targetUserId);
+
+    // Update user record if they are online
+    const targetSockets = getSocketsByUserId(targetUserId);
+    targetSockets.forEach(s => {
+      const targetUser = onlineSocialUsers.get(s.id) || players.get(s.id);
+      if (targetUser) targetUser.partyId = null;
+      s.emit('party_left', { partyId, removed: true });
+    });
+
+    party.updatedAt = Date.now();
+
+    // Notify all remaining party members
+    Object.keys(party.members).forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_member_left', {
+          partyId,
+          memberId: targetUserId,
+          userName: targetMember.name,
+          removed: true
+        });
+      });
+    });
+
+    logger.info('Member removed from party by leader', { partyId, leaderId: userId, removedId: targetUserId });
+  });
+
+  // Disband party - Party leader disbands the entire party
+  socket.on('disband_party', ({ partyId }) => {
+    const userId = socket.data?.userId || onlineSocialUsers.get(socket.id)?.userId;
+    const party = parties.get(partyId);
+
+    if (!party) {
+      socket.emit('party_error', { error: 'Party not found', partyId });
+      return;
+    }
+
+    if (party.leaderId !== userId) {
+      socket.emit('party_error', { error: 'Only party leader can disband the party', partyId });
+      return;
+    }
+
+    logger.info('Disbanding party', { partyId, disbandedBy: userId });
+
+    const memberIds = Object.keys(party.members);
+    const partyName = party.name;
+
+    // Notify all members and clean up
+    memberIds.forEach(memberId => {
+      const memberSockets = getSocketsByUserId(memberId);
+      memberSockets.forEach(s => {
+        s.emit('party_disbanded', { partyId, partyName, disbandedBy: userId });
+
+        // Update user record if online
+        const memberUser = onlineSocialUsers.get(s.id) || players.get(s.id);
+        if (memberUser) memberUser.partyId = null;
+      });
+
+      userToParty.delete(memberId);
+    });
+
+    // Final cleanup
+    party.isActive = false;
+    parties.delete(partyId);
+  });
+
 
   // Helper function to get sockets by user ID
   // Checks socket.data.userId (set during register_presence) and falls back

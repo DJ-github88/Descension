@@ -12,8 +12,6 @@
 
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import useChatStore from './chatStore';
-import useGameStore from './gameStore';
 import usePresenceStore from './presenceStore';
 
 const getSocket = () => {
@@ -29,44 +27,87 @@ export const PARTY_STATUS = {
   OFFLINE: 'offline'
 };
 
-const getSelfIdentifiers = (gameStore) => {
+const getSelfIdentifiers = () => {
   const ids = new Set(['current-player']);
-  if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
-  if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
+
+  // Get from gameStore if available
+  try {
+    const gameStore = require('./gameStore').default.getState();
+    if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
+    if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
+  } catch (e) {
+    // gameStore might not be initialized or have circular dependency issues
+  }
+
+  // Get from presenceStore if available
+  try {
+    const presenceStore = require('./presenceStore').default.getState();
+    if (presenceStore?.currentUserPresence?.userId) ids.add(presenceStore.currentUserPresence.userId);
+  } catch (e) {
+    // presenceStore might not be initialized
+  }
+
   return ids;
 };
 
-const isSelfMemberId = (memberId, gameStore) => {
-  const selfIds = getSelfIdentifiers(gameStore);
+const isSelfMemberId = (memberId) => {
+  const selfIds = getSelfIdentifiers();
   return selfIds.has(memberId);
 };
 
-const ensureSelfMember = (members, gameStore) => {
-  const selfIds = getSelfIdentifiers(gameStore);
-  const hasSelf = (members || []).some(member => selfIds.has(member.id));
+const ensureSelfMember = (members) => {
+  const selfIds = getSelfIdentifiers();
+  const hasSelf = (members || []).some(member =>
+    selfIds.has(member.id) || selfIds.has(member.userId) || selfIds.has(member.uid)
+  );
   if (hasSelf) return members || [];
 
-  // Only add a self member if we have a real game identity (in-game context).
-  // In social/lobby context, currentPlayer is null and there's no meaningful self ID.
-  const fallbackSelfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
-  if (!fallbackSelfId) return members || []; // No game identity — don't add phantom
+  // Use presenceStore as primary source for social/lobby context
+  let selfId = null;
+  let selfName = 'Current Player';
+  let selfClass = 'Unknown';
+  let selfLevel = 1;
 
-  const fallbackSelfName = gameStore?.currentPlayer?.name || 'Current Player';
+  try {
+    const presenceStore = require('./presenceStore').default.getState();
+    const presence = presenceStore.currentUserPresence;
+    if (presence?.userId) {
+      selfId = presence.userId;
+      selfName = presence.characterName || presence.accountName || selfName;
+      selfClass = presence.class || selfClass;
+      selfLevel = presence.level || selfLevel;
+    }
+  } catch (e) { }
+
+  // Fallback to gameStore if presenceStore didn't yield an ID
+  if (!selfId) {
+    try {
+      const gameStore = require('./gameStore').default.getState();
+      selfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
+      if (selfId) {
+        selfName = gameStore?.currentPlayer?.name || selfName;
+      }
+    } catch (e) { }
+  }
+
+  if (!selfId) return members || []; // Still no identity — don't add phantom
 
   return [
     ...(members || []),
     {
-      id: fallbackSelfId,
-      name: fallbackSelfName,
+      id: selfId,
+      name: selfName,
       isGM: false,
       status: PARTY_STATUS.ONLINE,
       joinedAt: Date.now(),
+      characterClass: selfClass,
+      characterLevel: selfLevel,
       character: {
-        class: 'Unknown',
-        level: 1,
-        health: { current: 45, max: 50 },
-        mana: { current: 45, max: 50 },
-        actionPoints: { current: 1, max: 3 }
+        class: selfClass,
+        level: selfLevel,
+        health: { current: 100, max: 100 },
+        mana: { current: 100, max: 100 },
+        actionPoints: { current: 3, max: 3 }
       }
     }
   ];
@@ -377,30 +418,78 @@ const usePartyStore = create((set, get) => ({
    */
   addPartyMember: (memberData) => {
     set(state => ({
-      partyMembers: ensureSelfMember([...state.partyMembers, memberData], useGameStore.getState())
+      partyMembers: ensureSelfMember([...state.partyMembers, memberData])
     }));
   },
 
   /**
-   * Remove a member from the party
+   * Remove a member from the party (local state update)
    */
   removePartyMember: (memberId) => {
-    const gameStore = useGameStore.getState();
     set(state => ({
-      partyMembers: state.partyMembers.filter(m => !isSelfMemberId(m.id, gameStore) && m.id !== memberId)
+      partyMembers: state.partyMembers.filter(m => !isSelfMemberId(m.id) && m.id !== memberId)
     }));
+  },
+
+  /**
+   * Promote a member to leader
+   */
+  promotePartyMember: (memberId) => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket || !currentParty) return;
+
+    console.log('👑 Promoting member to leader:', memberId);
+    socket.emit('promote_to_leader', {
+      partyId: currentParty.id,
+      newLeaderId: memberId
+    });
+  },
+
+  /**
+   * Kick a member from the party
+   */
+  kickPartyMember: (memberId) => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket || !currentParty) return;
+
+    console.log('🗑️ Kicking member from party:', memberId);
+    socket.emit('remove_party_member', {
+      partyId: currentParty.id,
+      targetUserId: memberId
+    });
+  },
+
+  /**
+   * Disband the entire party
+   */
+  disbandParty: () => {
+    const socket = getSocket();
+    const { currentParty } = get();
+
+    if (!socket || !currentParty) {
+      console.warn('⚠️ Cannot disband: No socket or no party');
+      return;
+    }
+
+    console.log('💥 Disbanding party:', currentParty.id);
+    socket.emit('disband_party', {
+      partyId: currentParty.id
+    });
   },
 
   /**
    * Update a specific party member's data
    */
   updatePartyMember: (memberId, updates, silent = false) => {
-    const gameStore = useGameStore.getState();
-    const isTargetSelf = isSelfMemberId(memberId, gameStore);
+    const isTargetSelf = isSelfMemberId(memberId);
 
     set(state => ({
       partyMembers: state.partyMembers.map(m => {
-        const isMemberSelf = isSelfMemberId(m.id, gameStore);
+        const isMemberSelf = isSelfMemberId(m.id);
         if ((isTargetSelf && isMemberSelf) || m.id === memberId) {
           return { ...m, ...updates };
         }
@@ -468,6 +557,37 @@ const usePartyStore = create((set, get) => ({
    */
   setLeader: (leaderId, leaderMode = false) => {
     set({ leaderId, leaderMode });
+  },
+
+  /**
+   * Check if current user is the party leader
+   */
+  isPartyLeader: () => {
+    const { leaderId } = get();
+    if (!leaderId) return false;
+
+    // Check various identity forms
+    try {
+      const gameStore = require('./gameStore').default.getState();
+      const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id;
+      if (myId && leaderId === myId) return true;
+    } catch (e) { }
+
+    try {
+      const presenceStore = require('./presenceStore').default.getState();
+      const myPresenceId = presenceStore.currentUserPresence?.userId;
+      if (myPresenceId && leaderId === myPresenceId) return true;
+    } catch (e) { }
+
+    return leaderId === 'current-player';
+  },
+
+  /**
+   * Check if a specific user is the party leader
+   */
+  isUserLeader: (userId) => {
+    const { leaderId } = get();
+    return leaderId && userId === leaderId;
   }
 }));
 
