@@ -111,18 +111,34 @@ class PresenceService {
       await this.setOffline(userId);
     };
 
+    // Timer for delayed offline on visibility change
+    let visibilityTimer = null;
+    const VISIBILITY_OFFLINE_DELAY = 5 * 60 * 1000; // 5 minutes
+
     // Listen for page visibility changes
+    // CRITICAL FIX: Only go offline after prolonged hidden state (5 minutes)
+    // This prevents users from appearing offline when just switching tabs
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
-        handleOffline();
+        // Start timer - only go offline after 5 minutes hidden
+        visibilityTimer = setTimeout(() => {
+          console.log('⏰ User hidden for 5 minutes, marking offline');
+          handleOffline();
+        }, VISIBILITY_OFFLINE_DELAY);
+      } else {
+        // Cancel timer if user returns before 5 minutes
+        if (visibilityTimer) {
+          clearTimeout(visibilityTimer);
+          visibilityTimer = null;
+        }
       }
     });
 
-    // Listen for beforeunload (user closing tab/browser)
+    // Listen for beforeunload (user closing tab/browser) - immediate offline
     window.addEventListener('beforeunload', handleOffline);
     window.addEventListener('unload', handleOffline);
 
-    // Listen for offline events (network connection)
+    // Listen for offline events (network connection) - immediate offline
     window.addEventListener('offline', handleOffline);
 
     this.offlineHandlers.push(handleOffline);
@@ -281,8 +297,7 @@ class PresenceService {
         const users = [];
         snapshot.forEach((docSnapshot) => {
           const userData = docSnapshot.data();
-          // Include 'idle' as an online status
-          if (userData && ['online', 'away', 'busy', 'idle'].includes(userData.status)) {
+          if (this.isUserOnline(userData)) {
             users.push(userData);
           }
         });
@@ -354,7 +369,7 @@ class PresenceService {
       const users = [];
       snapshot.forEach((docSnapshot) => {
         const userData = docSnapshot.data();
-        if (userData && userData.status === 'online') {
+        if (this.isUserOnline(userData)) {
           users.push(userData);
         }
       });
@@ -382,6 +397,37 @@ class PresenceService {
     } catch (error) {
       console.error('❌ Failed to get user presence:', error);
       return null;
+    }
+  }
+
+  /**
+   * Check if a user is truly online (valid status AND fresh lastSeen)
+   * @param {Object|null} presenceData - The presence data from Firestore
+   * @param {number} stalenessThresholdMs - Threshold in ms (default 90 seconds)
+   * @returns {boolean} - True if user is truly online
+   */
+  isUserOnline(presenceData, stalenessThresholdMs = 90 * 1000) {
+    if (!presenceData) return false;
+
+    const validStatuses = ['online', 'away', 'busy'];
+    if (!validStatuses.includes(presenceData.status)) return false;
+
+    const lastSeen = presenceData.lastSeen;
+    if (!lastSeen) return false;
+
+    try {
+      const lastSeenTime = typeof lastSeen.toDate === 'function'
+        ? lastSeen.toDate()
+        : new Date(lastSeen);
+
+      // Use server time offset if available for more accurate age calculation
+      const lastSeenTimeMs = lastSeenTime.getTime();
+      const ageMs = Date.now() - lastSeenTimeMs;
+
+      return ageMs < stalenessThresholdMs;
+    } catch (e) {
+      console.warn('⚠️ Failed to parse lastSeen timestamp:', e);
+      return false;
     }
   }
 

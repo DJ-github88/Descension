@@ -449,16 +449,21 @@ const TabbedChat = () => {
 
         {/* Input Area */}
         <form className="chat-input-form" onSubmit={handleSendMessage}>
-          <input
-            ref={inputRef}
-            type="text"
-            className="chat-input"
-            value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-            placeholder={getPlaceholder()}
-            maxLength={500}
-            autoFocus={activeTab.startsWith('whisper_')}
-          />
+          <div className="input-field-wrapper">
+            <input
+              ref={inputRef}
+              type="text"
+              className="chat-input"
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+              placeholder={getPlaceholder()}
+              maxLength={500}
+              autoFocus={activeTab.startsWith('whisper_')}
+            />
+            <span className="character-counter">
+              {messageInput.length} / 500
+            </span>
+          </div>
           <button
             type="submit"
             className="send-button"
@@ -467,11 +472,6 @@ const TabbedChat = () => {
             <i className="fas fa-paper-plane"></i>
           </button>
         </form>
-
-        {/* Character Counter */}
-        <div className="character-counter">
-          {messageInput.length} / 500
-        </div>
       </>
     );
   };

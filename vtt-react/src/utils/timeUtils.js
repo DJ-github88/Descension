@@ -10,8 +10,10 @@
 export const formatTimeAgo = (timestamp) => {
     if (!timestamp) return 'Never';
 
-    const now = Date.now();
     const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return 'Never';
+
+    const now = Date.now();
     const seconds = Math.floor((now - date.getTime()) / 1000);
 
     if (seconds < 60) return 'Just now';

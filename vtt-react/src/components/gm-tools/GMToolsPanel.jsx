@@ -13,17 +13,19 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   const [activeTab, setActiveTab] = useState('players');
   const [connectedPlayers, setConnectedPlayers] = useState([]);
   const [roomSettings, setRoomSettings] = useState({});
-  
-  const { 
-    isGMMode, 
-    isInMultiplayer, 
-    multiplayerRoom, 
-    multiplayerSocket 
+
+  const {
+    isGMMode,
+    isInMultiplayer,
+    multiplayerRoom,
+    multiplayerSocket
   } = useGameStore();
-  
-  const { 
-    isInCombat, 
-    currentTurn, 
+
+  const roomId = multiplayerRoom?.id || '';
+
+  const {
+    isInCombat,
+    currentTurn,
     turnOrder,
     startCombat,
     endCombat,
@@ -85,7 +87,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   const handleRoomSettingChange = (setting, value) => {
     const newSettings = { ...roomSettings, [setting]: value };
     setRoomSettings(newSettings);
-    
+
     if (multiplayerSocket) {
       multiplayerSocket.emit('update_room_settings', newSettings);
     }
@@ -124,37 +126,79 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
       const xpAmount = parseInt(partyXPAmount);
       if (isNaN(xpAmount) || xpAmount <= 0) return;
 
-      // Award XP to all players (including current player if in party)
+      // Award XP to all players including self
       console.log(`💰 Awarding ${xpAmount} XP to entire party`);
 
-      // Award to current player
+      if (isInMultiplayer && multiplayerSocket?.connected) {
+        multiplayerSocket.emit('gm_action', {
+          type: 'award_xp',
+          amount: xpAmount,
+          roomId: roomId,
+          targetPlayerIds: ['all'] // Special target for all players
+        });
+      }
+
+      // Also apply locally for the GM's character if they have one
       const useCharacterStore = require('../../store/characterStore').default;
       useCharacterStore.getState().awardExperience(xpAmount);
 
-      // TODO: Award to other party members via multiplayer
-
-      addNotification({
-        type: 'system',
-        message: `GM awarded ${xpAmount} XP to the party!`,
-        timestamp: Date.now()
+      addNotification('system', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `GM awarded ${xpAmount} XP to the party!`,
+        isSystem: true,
+        timestamp: new Date().toISOString()
       });
 
       setShowXPModal(false);
       setPartyXPAmount('');
     };
 
+    const handleHealAll = () => {
+      if (window.confirm('Are you sure you want to heal the entire party to full?')) {
+        console.log('💚 Healing entire party');
+
+        if (isInMultiplayer && multiplayerSocket?.connected) {
+          multiplayerSocket.emit('gm_action', {
+            type: 'heal_all',
+            action: 'heal_all',
+            roomId: roomId
+          });
+        }
+
+        // Also apply locally
+        const useCharacterStore = require('../../store/characterStore').default;
+        const charStore = useCharacterStore.getState();
+        charStore.updateResource('health', charStore.health.max, charStore.health.max);
+
+        addNotification('system', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `You have healed the entire party.`,
+          isSystem: true,
+          timestamp: new Date().toISOString()
+        });
+      }
+    };
+
     return (
       <div className="gm-tab-content">
         <h3>Connected Players ({connectedPlayers.length})</h3>
 
-        {/* Party-wide XP Award */}
-        <div className="party-actions" style={{ marginBottom: '15px' }}>
+        {/* Party-wide Actions */}
+        <div className="party-actions" style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
           <button
             className="gm-btn gm-btn-primary"
             onClick={() => setShowXPModal(true)}
             title="Award XP to entire party"
           >
             ⭐ Award Party XP
+          </button>
+          <button
+            className="gm-btn gm-btn-primary"
+            onClick={handleHealAll}
+            title="Heal entire party to full"
+            style={{ backgroundColor: '#2ecc71' }}
+          >
+            💚 Heal All
           </button>
         </div>
 
@@ -301,10 +345,10 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             {isInCombat ? '⚔️ Combat Active' : '🕊️ Combat Inactive'}
           </span>
         </div>
-        
+
         <div className="combat-actions">
           {!isInCombat ? (
-            <button 
+            <button
               className="gm-btn gm-btn-primary"
               onClick={() => handleCombatAction('start')}
             >
@@ -312,17 +356,30 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             </button>
           ) : (
             <>
-              <button 
+              <button
                 className="gm-btn gm-btn-secondary"
                 onClick={() => handleCombatAction('next_turn')}
               >
                 Next Turn
               </button>
-              <button 
+              <button
                 className="gm-btn gm-btn-danger"
                 onClick={() => handleCombatAction('end')}
               >
                 End Combat
+              </button>
+              <button
+                className="gm-btn gm-btn-danger"
+                onClick={() => {
+                  if (window.confirm('FORCE RESET combat? This will clear all combat state for everyone.')) {
+                    import('../../store/combatStore').then(({ default: useCombatStore }) => {
+                      useCombatStore.getState().forceResetCombat();
+                    });
+                  }
+                }}
+                style={{ marginLeft: '10px', backgroundColor: '#e74c3c', borderStyle: 'dashed' }}
+              >
+                Reset Combat
               </button>
             </>
           )}
@@ -333,8 +390,8 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             <h4>Turn Order</h4>
             <div className="turn-list">
               {turnOrder.map((participant, index) => (
-                <div 
-                  key={participant.id} 
+                <div
+                  key={participant.id}
                   className={`turn-item ${index === currentTurn ? 'current-turn' : ''}`}
                 >
                   <span className="turn-name">{participant.name}</span>
@@ -348,33 +405,80 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
     </div>
   );
 
+  const renderWorldTab = () => (
+    <div className="gm-tab-content">
+      <h3>World & Map Tools</h3>
+      <div className="world-actions" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="action-group">
+          <h4>Fog of War</h4>
+          <p style={{ fontSize: '12px', color: '#666', marginBottom: '10px' }}>
+            Actions affecting the current map and visibility for all players.
+          </p>
+          <button
+            className="gm-btn gm-btn-danger"
+            onClick={() => {
+              if (window.confirm('Are you sure you want to CLEAR ALL fog of war for everyone?')) {
+                import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+                  useLevelEditorStore.getState().clearAllFog();
+                });
+              }
+            }}
+          >
+            🌫️ Clear All Fog (Broadcast)
+          </button>
+        </div>
+
+        <div className="action-group">
+          <h4>Map Synchronization</h4>
+          <button
+            className="gm-btn gm-btn-secondary"
+            onClick={() => {
+              if (multiplayerSocket && roomId) {
+                // Force a full map update to all clients
+                multiplayerSocket.emit('request_full_map_sync', { roomId });
+                addNotification('system', {
+                  sender: { name: 'System', class: 'system', level: 0 },
+                  content: 'Requested full map synchronization for all clients.',
+                  isSystem: true,
+                  timestamp: new Date().toISOString()
+                });
+              }
+            }}
+          >
+            🔄 Force Map Sync
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderSettingsTab = () => (
     <div className="gm-tab-content">
       <h3>Room Settings</h3>
       <div className="settings-grid">
         <div className="setting-item">
           <label>Max Players</label>
-          <input 
-            type="number" 
-            min="1" 
+          <input
+            type="number"
+            min="1"
             max="20"
             value={roomSettings.maxPlayers || 6}
             onChange={(e) => handleRoomSettingChange('maxPlayers', parseInt(e.target.value))}
           />
         </div>
-        
+
         <div className="setting-item">
           <label>Allow Spectators</label>
-          <input 
+          <input
             type="checkbox"
             checked={roomSettings.allowSpectators || false}
             onChange={(e) => handleRoomSettingChange('allowSpectators', e.target.checked)}
           />
         </div>
-        
+
         <div className="setting-item">
           <label>Auto-save Interval (minutes)</label>
-          <select 
+          <select
             value={roomSettings.autoSaveInterval || 5}
             onChange={(e) => handleRoomSettingChange('autoSaveInterval', parseInt(e.target.value))}
           >
@@ -385,10 +489,10 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             <option value={0}>Disabled</option>
           </select>
         </div>
-        
+
         <div className="setting-item">
           <label>Player Token Movement</label>
-          <select 
+          <select
             value={roomSettings.playerTokenMovement || 'own'}
             onChange={(e) => handleRoomSettingChange('playerTokenMovement', e.target.value)}
           >
@@ -397,10 +501,10 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             <option value="none">No movement</option>
           </select>
         </div>
-        
+
         <div className="setting-item">
           <label>Dice Roll Visibility</label>
-          <select 
+          <select
             value={roomSettings.diceVisibility || 'all'}
             onChange={(e) => handleRoomSettingChange('diceVisibility', e.target.value)}
           >
@@ -416,6 +520,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   const tabs = [
     { id: 'players', label: 'Players', icon: '👥' },
     { id: 'combat', label: 'Combat', icon: '⚔️' },
+    { id: 'world', label: 'World', icon: '🌍' },
     { id: 'settings', label: 'Settings', icon: '⚙️' }
   ];
 
@@ -427,7 +532,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
         <h2>🎲 GM Tools</h2>
         <button className="gm-tools-close" onClick={onClose}>×</button>
       </div>
-      
+
       <div className="gm-tools-tabs">
         {tabs.map(tab => (
           <button
@@ -440,10 +545,11 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
           </button>
         ))}
       </div>
-      
+
       <div className="gm-tools-content">
         {activeTab === 'players' && renderPlayersTab()}
         {activeTab === 'combat' && renderCombatTab()}
+        {activeTab === 'world' && renderWorldTab()}
         {activeTab === 'settings' && renderSettingsTab()}
       </div>
     </div>

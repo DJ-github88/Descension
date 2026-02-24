@@ -9,6 +9,7 @@ const initialState = {
   friends: [],
   friendPresence: {}, // userId -> presenceData
   pendingRequests: [],
+  acceptanceNotifications: [], // { id, friendName } – shown to the sender when accepted
   ignored: [],
   selectedFriend: null,
   selectedIgnored: null,
@@ -19,6 +20,9 @@ const initialState = {
 
 // Track presence subscriptions outside of state to avoid re-renders on every change
 const presenceSubscriptions = new Map();
+
+// Track processed accepted request IDs to prevent duplicate processing
+const processedAcceptedRequestIds = new Set();
 
 // Create the store
 export const useSocialStore = create((set, get) => ({
@@ -119,32 +123,66 @@ export const useSocialStore = create((set, get) => ({
 
     // 4. Listen to sent requests that have been accepted
     const unsubscribeAccepted = socialService.subscribeToAcceptedRequests(userId, async (acceptedRequests) => {
-      if (acceptedRequests && acceptedRequests.length > 0) {
-        console.log('🎉 Some sent requests were accepted:', acceptedRequests);
+      if (!acceptedRequests || acceptedRequests.length === 0) return;
 
-        for (const req of acceptedRequests) {
-          // Add this friend to MY list if they aren't there
-          // Use get().friends inside the loop to get the most up-to-date state
-          const friendId = req.receiverId;
-          const currentFriends = get().friends;
+      for (const req of acceptedRequests) {
+        // Skip if already processed (idempotency check)
+        if (processedAcceptedRequestIds.has(req.id)) {
+          console.log('⏭️ Skipping already processed request:', req.id);
+          continue;
+        }
+        processedAcceptedRequestIds.add(req.id);
 
-          if (!currentFriends.some(f => f.id === friendId)) {
-            console.log(`🤝 Adding friend ${req.receiverName} to my document...`);
-            await socialService.addFriendToMyList({
-              id: friendId,
-              name: req.receiverName,
-              friendId: req.receiverFriendId,
-              photoURL: req.receiverPhotoURL || null
-            });
+        // Guard: Verify we are the sender of this request
+        if (req.senderId !== userId) {
+          console.warn('⚠️ Received accepted request where we are not the sender, skipping');
+          continue;
+        }
+
+        // The friend to add is the RECEIVER of our request (the person who accepted)
+        const friendId = req.receiverId;
+
+        // Guard: Don't add yourself as a friend
+        if (friendId === userId) {
+          console.warn('⚠️ Cannot add yourself as friend, skipping');
+          continue;
+        }
+
+        // Add this friend to MY list if they aren't there
+        const currentFriends = get().friends;
+
+        if (!currentFriends.some(f => f.id === friendId)) {
+          console.log(`🤝 Adding friend ${req.receiverName} (${friendId}) to my document...`);
+          const result = await socialService.addFriendToMyList({
+            id: friendId,
+            name: req.receiverName,
+            friendId: req.receiverFriendId,
+            photoURL: req.receiverPhotoURL || null
+          });
+
+          if (!result.success) {
+            console.error('❌ Failed to add friend:', result.error);
           }
+        } else {
+          console.log(`✅ Friend ${req.receiverName} already in list`);
+        }
 
-          // Cleanup: Delete the request now that both sides have processed it
-          try {
-            console.log(`🧹 Cleaning up accepted request: ${req.id}`);
-            await socialService.deleteFriendRequest(req.id);
-          } catch (cleanupError) {
-            console.warn('⚠️ Non-fatal: Could not delete friend request document (permissions).', cleanupError);
-          }
+        // Show a toast notification to the sender
+        set(state => ({
+          acceptanceNotifications: [
+            ...state.acceptanceNotifications,
+            { id: req.id, friendName: req.receiverName }
+          ]
+        }));
+
+        // Cleanup: Delete the request now that both sides have processed it
+        try {
+          console.log(`🧹 Cleaning up accepted request: ${req.id}`);
+          await socialService.deleteFriendRequest(req.id);
+          // Remove from processed set after successful cleanup
+          processedAcceptedRequestIds.delete(req.id);
+        } catch (cleanupError) {
+          console.warn('⚠️ Non-fatal: Could not delete friend request document:', cleanupError.message);
         }
       }
     });
@@ -157,6 +195,8 @@ export const useSocialStore = create((set, get) => ({
       // Clean up all presence subscriptions
       presenceSubscriptions.forEach(unsub => unsub());
       presenceSubscriptions.clear();
+      // Clear processed request IDs
+      processedAcceptedRequestIds.clear();
     };
   },
 
@@ -249,18 +289,21 @@ export const useSocialStore = create((set, get) => ({
   declineFriendRequest: async (requestId) => {
     set({ isLoading: true });
     try {
+      // Service now hard-deletes the document directly
       await socialService.declineFriendRequest(requestId);
-      // Cleanup the request document
-      try {
-        await socialService.deleteFriendRequest(requestId);
-      } catch (cleanupError) {
-        console.warn('⚠️ Non-fatal: Could not delete declined friend request (permissions).', cleanupError);
-      }
       set({ isLoading: false });
+      return { success: true };
     } catch (error) {
       console.error('Store error declining friend request:', error);
       set({ isLoading: false });
+      return { success: false, error: error.message };
     }
+  },
+
+  dismissAcceptanceNotification: (id) => {
+    set(state => ({
+      acceptanceNotifications: state.acceptanceNotifications.filter(n => n.id !== id)
+    }));
   },
 
   removeFriend: async (friendId) => {
@@ -281,6 +324,10 @@ export const useSocialStore = create((set, get) => ({
   // Ignored Users Actions
   addIgnored: (ignoredUser) => {
     set(state => {
+      // Prevent duplicate ignores
+      const exists = state.ignored.some(i => i.id === ignoredUser.id || (i.friendId && i.friendId === ignoredUser.friendId));
+      if (exists) return state;
+
       const newIgnored = [...state.ignored, { ...ignoredUser, id: ignoredUser.id || uuidv4(), addedAt: Date.now() }];
       const currentUser = authService.getCurrentUser();
       if (currentUser) {
@@ -320,9 +367,48 @@ export const useSocialStore = create((set, get) => ({
   },
 
   // Migration Actions
-  migrateFriends: () => {
-    // Placeholder for migration logic if needed
-    console.log('SocialStore: migrateFriends called');
+  migrateFriends: async () => {
+    const { friends } = get();
+    const userId = authService.getCurrentUser()?.uid;
+    if (!userId || !friends || friends.length === 0) return;
+
+    // Find friends with missing data
+    const friendsToMigrate = friends.filter(f => !f.name || !f.friendId);
+    if (friendsToMigrate.length === 0) return;
+
+    console.log(`🔄 SocialStore: Found ${friendsToMigrate.length} friends needing data migration`);
+
+    try {
+      let hasUpdates = false;
+      const updatedFriends = [...friends];
+
+      for (let i = 0; i < updatedFriends.length; i++) {
+        const friend = updatedFriends[i];
+        if (!friend.name || !friend.friendId) {
+          console.log(`🔍 Fetching missing data for friend ID: ${friend.id}`);
+          const fullData = await authService.getUserData(friend.id);
+
+          if (fullData) {
+            updatedFriends[i] = {
+              ...friend,
+              name: fullData.displayName || fullData.accountName || 'Unknown',
+              friendId: fullData.friendId,
+              photoURL: fullData.photoURL || friend.photoURL || null
+            };
+            hasUpdates = true;
+          }
+        }
+      }
+
+      if (hasUpdates) {
+        console.log('✅ SocialStore: Migration complete, updating Firestore...');
+        // Update the user's friends list in Firestore
+        await authService.updateUserData({ friends: updatedFriends });
+        // The subscriber will update the store state automatically
+      }
+    } catch (error) {
+      console.error('❌ SocialStore: Error migrating friends:', error);
+    }
   },
 
   migrateSocialData: () => {
@@ -330,7 +416,10 @@ export const useSocialStore = create((set, get) => ({
     console.log('SocialStore: migrateSocialData called');
   },
 
-  resetStore: () => set(initialState)
+  resetStore: () => {
+    processedAcceptedRequestIds.clear();
+    return set(initialState);
+  }
 }));
 
 export default useSocialStore;

@@ -66,7 +66,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   // CRITICAL FIX: Get navigate function for room code URL routing
   const navigate = useNavigate();
 
-  const { getActiveCharacter } = useCharacterStore();
+  const { getActiveCharacter, loadCharacters } = useCharacterStore();
   const { isInParty, partyMembers } = usePartyStore();
   const [playerName, setPlayerName] = useState('');
   const [playerColor, setPlayerColor] = useState('#4a90e2'); // Default blue color
@@ -85,6 +85,33 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [usePasswordProtection, setUsePasswordProtection] = useState(false); // Toggle for optional password
   const [makePermanent, setMakePermanent] = useState(false); // Mark room as permanent for local persistence
+  const [charactersLoaded, setCharactersLoaded] = useState(false);
+
+  // CRITICAL FIX: Load characters when RoomLobby mounts to ensure they're available
+  useEffect(() => {
+    const loadCharactersOnMount = async () => {
+      try {
+        // Check if characters are already loaded
+        const charStore = useCharacterStore.getState();
+        if (charStore.characters && charStore.characters.length > 0) {
+          console.log('🎮 RoomLobby: Characters already loaded:', charStore.characters.length);
+          setCharactersLoaded(true);
+          return;
+        }
+
+        // Try to load characters if they're not loaded
+        console.log('🎮 RoomLobby: Loading characters...');
+        const characters = await loadCharacters();
+        console.log('🎮 RoomLobby: Characters loaded:', characters?.length || 0);
+        setCharactersLoaded(true);
+      } catch (error) {
+        console.warn('⚠️ RoomLobby: Failed to load characters:', error);
+        setCharactersLoaded(true); // Still allow access even if loading fails
+      }
+    };
+
+    loadCharactersOnMount();
+  }, [loadCharacters]);
 
   // Use refs to store current values and avoid recreating socket listeners
   const onJoinRoomRef = useRef(onJoinRoom);
@@ -477,7 +504,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         return;
       }
 
-      const response = await fetch(`${SOCKET_URL}/rooms`, {
+      const response = await fetch(`${SOCKET_URL}/api/rooms`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -636,6 +663,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         // Include GM's character data for proper player HUD display
         character: activeCharacter ? {
           id: activeCharacter.id,
+          userId: useAuthStore.getState().user?.uid, // Include Firebase UID for party notifications
           name: activeCharacter.name,
           class: activeCharacter.class,
           race: activeCharacter.race,
@@ -725,6 +753,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         // Include GM's character data for proper player HUD display
         character: activeCharacter ? {
           id: activeCharacter.id,
+          userId: useAuthStore.getState().user?.uid, // Include Firebase UID for party notifications
           name: activeCharacter.name,
           class: activeCharacter.class,
           race: activeCharacter.race,
@@ -758,7 +787,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         roomId: room.id,
         playerName: playerNameRef.current.trim(),
         password: room.password || '', // This is handled by the server's joinRoom
-        playerColor: playerColor
+        playerColor: playerColor,
+        character: activeCharacter ? {
+          ...activeCharacter, // CRITICAL FIX: Send full character data for immediate gameState population
+          id: activeCharacter.id,
+          userId: useAuthStore.getState().user?.uid
+        } : null
       };
 
       console.log('📤 [RoomLobby] Joining persistent room as player:', room.id);
@@ -811,9 +845,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       password: roomPasswordRef.current.trim(),
       playerColor: playerColor,
       isPermanent: makePermanent, // Mark room as permanent for local persistence
+      userId: useAuthStore.getState().user?.uid, // Include Firebase UID at top level for party notifications
       // Include GM's character data for proper player HUD display
       character: activeCharacter ? {
         id: activeCharacter.id,
+        userId: useAuthStore.getState().user?.uid, // Include Firebase UID for party notifications
         name: activeCharacter.name,
         class: activeCharacter.class,
         race: activeCharacter.race,
@@ -932,6 +968,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       playerColor: playerColor,
       character: (activeCharacter) ? {
         id: activeCharacter.id || 'guest-char',
+        userId: useAuthStore.getState().user?.uid, // Include Firebase UID for party notifications
         name: activeCharacter.name || finalPlayerName,
         class: activeCharacter.class || 'Unknown',
         race: activeCharacter.race || 'Unknown',
@@ -943,7 +980,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         actionPoints: activeCharacter.actionPoints || { current: 1, max: 3 },
         alignment: activeCharacter.alignment || 'Neutral Good',
         background: activeCharacter.background || '',
-        classResource: activeCharacter.classResource || { current: 0, max: 0 },
+        // Only include classResource if it has a valid max value (prevents 0/0 bar)
+        ...(activeCharacter.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
         // CRITICAL FIX: Get current inventory from inventory store to ensure latest data
         inventory: (() => {
           try {

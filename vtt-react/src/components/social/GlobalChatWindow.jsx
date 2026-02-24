@@ -42,13 +42,18 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const openWhisperTab = usePresenceStore((state) => state.openWhisperTab);
   const initializeSocial = useSocialStore((state) => state.initialize);
 
-  // Initialize presence when window opens
+  // Initialize presence when window opens (fallback if not already initialized by GlobalSocketManager)
+  // NOTE: GlobalSocketManager now initializes presence on login, so this is a backup
   useEffect(() => {
     if (isOpen && !currentUserPresence) {
+      // CRITICAL: Check for default "Character Name" and use account name as fallback
+      const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
+      const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (user?.displayName || 'Guest');
+      
       // Use character data if available, otherwise use defaults
       const characterData = {
         id: characterId || 'temp_character',
-        name: characterName || 'Guest',
+        name: resolvedCharacterName,
         level: characterLevel || 1,
         class: characterClass || 'Adventurer',
         background: characterBackground || '',
@@ -69,28 +74,30 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       const accountName = user?.displayName || 'Unknown';
       const isGuest = user?.isGuest || false;
 
-      console.log('🎭 Initializing presence with character:', characterData);
+      console.log('🎭 GlobalChatWindow: Initializing presence (fallback) with character:', characterData);
       console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
       console.log('🎭 Account Name:', accountName, 'isGuest:', isGuest);
       const friendId = userData?.friendId || user?.friendId || null;
       initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
       subscribeToOnlineUsers();
-
-      // Initialize social store for friends and requests
-      if (user?.uid) {
-        initializeSocial(user.uid);
-      }
     }
 
-    // Mock users initialization removed
+    // Initialize social store for friends and requests (always when window opens and user exists)
+    if (isOpen && user?.uid) {
+      initializeSocial(user.uid);
+    }
   }, [isOpen, user, characterId, currentUserPresence]);
 
   // Update presence when character changes
   useEffect(() => {
     if (isOpen && characterId && currentUserPresence) {
+      // CRITICAL: Check for default "Character Name" and use account name as fallback
+      const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
+      const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (user?.displayName || 'Adventurer');
+      
       const characterData = {
         id: characterId,
-        name: characterName,
+        name: resolvedCharacterName,
         level: characterLevel,
         class: characterClass,
         background: characterBackground,

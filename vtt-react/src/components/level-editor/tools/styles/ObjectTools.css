@@ -36,7 +36,7 @@
     flex-wrap: wrap;
 }
 
-.action-btn {
+.object-tools .action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,31 +54,31 @@
     color: var(--pf-text-primary, #2d1810);
 }
 
-.action-btn:hover {
+.object-tools .action-btn:hover {
     background: var(--pf-parchment-light, #f8f4e6);
     border-color: var(--pf-gold, #d4af37);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.action-btn.active {
+.object-tools .action-btn.active {
     background: var(--pf-gold-light, #f4e4a6);
     border-color: var(--pf-gold, #d4af37);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     transform: translateY(-1px);
 }
 
-.action-btn.primary.active {
+.object-tools .action-btn.primary.active {
     background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
     border-color: var(--pf-gold, #d4af37);
 }
 
-.action-btn.danger:hover {
+.object-tools .action-btn.danger:hover {
     border-color: #dc3545;
     background: #ffeaea;
 }
 
-.action-btn.danger.active {
+.object-tools .action-btn.danger.active {
     background: #ffebee;
     border-color: #dc3545;
     box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);

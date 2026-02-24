@@ -39,6 +39,16 @@ const AccountDashboard = ({ user }) => {
   const { initializePresence } = usePresenceStore();
   const [isLoading, setIsLoading] = useState(true);
 
+  // Ensure proper body class for account pages (fixes styling issues after leaving game)
+  useEffect(() => {
+    document.body.classList.remove('game-mode');
+    document.body.classList.add('landing-mode');
+
+    return () => {
+      // Cleanup handled by other components on navigation
+    };
+  }, []);
+
   // Initialize social listeners and presence tracking
   useEffect(() => {
     if (user?.uid) {
@@ -325,7 +335,7 @@ const AccountDashboard = ({ user }) => {
   }
 
   return (
-    <div className="account-dashboard-container">
+    <div className="account-dashboard-container account-dashboard-page">
       {user?.isGuest && (
         <div className="guest-tooltip">
           <i className="fas fa-info-circle"></i>
@@ -428,8 +438,8 @@ const AccountDashboard = ({ user }) => {
                       receivedRequests.map(request => (
                         <div key={request.id} className="request-item">
                           <div className="request-info">
-                            <span className="request-name">{request.name || 'Unknown User'}</span>
-                            <span className="request-id">#{request.friendId}</span>
+                            <span className="request-name">{request.senderName || 'Unknown User'}</span>
+                            <span className="request-id">#{request.senderFriendId}</span>
                           </div>
                           <div className="request-actions">
                             <button

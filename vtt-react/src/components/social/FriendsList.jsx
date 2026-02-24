@@ -7,6 +7,7 @@ import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useSettingsStore from '../../store/settingsStore';
 import usePresenceStore from '../../store/presenceStore';
+import presenceService from '../../services/firebase/presenceService';
 import SocialContextMenu from './SocialContextMenu';
 import UserCard from './UserCard';
 import { formatTimeAgo } from '../../utils/timeUtils';
@@ -103,11 +104,12 @@ const FriendsList = () => {
   const handleInvite = async (player) => {
     const sendPartyInvite = usePresenceStore.getState().sendPartyInvite;
     const currentUserPresence = usePresenceStore.getState().currentUserPresence;
+    const ensureSocketConnected = usePresenceStore.getState().ensureSocketConnected;
 
     try {
       if (!isInParty) {
         const currentPlayerName = userData?.name || user?.displayName || currentUserPresence?.characterName || 'Unknown';
-        
+
         // Await party creation before sending invite
         await createParty(`${currentPlayerName}'s Party`, false, {
           name: currentPlayerName,
@@ -123,10 +125,19 @@ const FriendsList = () => {
         });
       }
 
+      // Ensure social socket is connected before sending invite
+      const socketReady = await ensureSocketConnected(5000);
+      if (!socketReady) {
+        throw new Error('Social server unavailable - could not connect socket for party invite');
+      }
+
       // Send the invitation via socket
       // player.id should be the target userId
       if (player.id) {
-        sendPartyInvite(player.id, player.name);
+        const inviteSent = sendPartyInvite(player.id, player.name);
+        if (!inviteSent) {
+          throw new Error('Failed to send party invite (socket not connected)');
+        }
 
         addSocialNotification({
           type: 'party_invite_sent',
@@ -186,7 +197,7 @@ const FriendsList = () => {
   // Handle send message
   const handleSendMessage = () => {
     const friend = enrichedFriends.find(f => f.id === selectedFriend);
-    if (friend && friend.status !== 'offline') {
+    if (friend && friend.isOnline) {
       handleWhisper(friend);
     }
   };
@@ -214,6 +225,7 @@ const FriendsList = () => {
   // Enrich friends with real-time presence data
   const enrichedFriends = (friends || []).map(friend => {
     const presence = friendPresence[friend.id];
+    const isOnline = presenceService.isUserOnline(presence);
     return {
       ...friend,
       status: presence?.status || 'offline',
@@ -221,18 +233,17 @@ const FriendsList = () => {
       location: presence?.roomName || presence?.roomId || null,
       level: presence?.level || friend.level,
       class: presence?.class || friend.class,
-      userId: friend.id // Ensure userId is set for party invites
+      userId: friend.id,
+      isOnline
     };
   });
 
-  // Include 'idle' as an online status
-  const onlineFriends = enrichedFriends.filter(f => ['online', 'away', 'busy', 'idle'].includes(f.status));
-  const offlineFriends = enrichedFriends.filter(f => f.status === 'offline' || !f.status);
+  const onlineFriends = enrichedFriends.filter(f => f.isOnline);
+  const offlineFriends = enrichedFriends.filter(f => !f.isOnline);
 
   // Render a friend entry using UserCard
   const renderFriendEntry = (friend) => {
-    // Include 'idle' as an online status
-    const isOnline = ['online', 'away', 'busy', 'idle'].includes(friend.status);
+    const isOnline = friend.isOnline;
 
     let sessionDisplay = null;
     if (isOnline && friend.location) {
@@ -267,7 +278,8 @@ const FriendsList = () => {
         user={{
           ...friend,
           characterName: friend.name,
-          userId: friend.id
+          userId: friend.id,
+          isFriend: true
         }}
         className="friend-card"
         showFriendId={true}
@@ -296,7 +308,7 @@ const FriendsList = () => {
               <button
                 className="compact-action-btn send-message"
                 onClick={handleSendMessage}
-                disabled={enrichedFriends.find(f => f.id === selectedFriend)?.status === 'offline'}
+                disabled={!enrichedFriends.find(f => f.id === selectedFriend)?.isOnline}
                 title="Send Message"
               >
                 <i className="fas fa-comment"></i>

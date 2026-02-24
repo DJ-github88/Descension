@@ -25,15 +25,16 @@ const PartyPanel = ({ onCreateParty, onContextMenu }) => {
           <i className="fas fa-users"></i>
         </div>
         <p>No party</p>
-        <p className="hint">Create or join a party to see party chat and member list.</p>
-        {onCreateParty && (
-          <button className="create-party-btn-large" onClick={onCreateParty}>
-            <i className="fas fa-plus"></i> Create Party
-          </button>
-        )}
+        <p className="hint">Right-click a friend or online user to invite them to a party.</p>
+        {/* Create Party button removed per user request */}
       </div>
     );
   }
+
+  // Import UserCard dynamically to avoid circular dependencies if any, 
+  // though typically standard import is fine. 
+  // We'll use the one from parent context or just standard import.
+  const UserCard = require('./UserCard').default;
 
   return (
     <div className="party-panel">
@@ -47,8 +48,8 @@ const PartyPanel = ({ onCreateParty, onContextMenu }) => {
         </span>
       </div>
 
-      {/* Party Members List */}
-      <div className="party-members-list-simple">
+      {/* Party Members List - Using UserCard for consistency */}
+      <div className="party-members-list">
         {partyMembers.map((member) => {
           // Check if this member is the leader based on leaderId or isGM flag
           const isLeader = member.id === leaderId || member.isGM;
@@ -57,33 +58,32 @@ const PartyPanel = ({ onCreateParty, onContextMenu }) => {
             member.userId === currentUserPresence?.userId ||
             member.uid === currentUserPresence?.userId;
 
+          // normalize member data for UserCard
+          const userCardData = {
+            ...member,
+            characterName: member.name, // Party members usually have 'name' set to character name
+            level: member.characterLevel || member.level,
+            class: member.characterClass || member.class,
+            // Add status if available, default to online
+            status: member.status || 'online',
+            isFriend: member.isFriend // If flag exists from previous stores
+          };
+
           return (
-            <div
+            <UserCard
               key={member.id}
-              className={`party-member-item-simple ${isCurrentPlayer ? 'is-self' : ''}`}
+              user={userCardData}
+              nameFormat="party"
+              isCurrentUser={isCurrentPlayer}
+              isLeader={isLeader}
+              showLeaderCrown={true}
+              showYouBadge={true}
+              className="party-member-card"
               onContextMenu={(e) => onContextMenu && onContextMenu(e, {
                 ...member,
-                userId: member.userId || member.id // Ensure userId is available for the context menu
+                userId: member.userId || member.id
               })}
-            >
-              <div className="member-main-info">
-                <span className="member-name-simple">
-                  {member.name}
-                  {isLeader && <i className="fas fa-crown leader-icon-simple" title="Party Leader"></i>}
-                  {isCurrentPlayer && <span className="self-tag">(You)</span>}
-                </span>
-                <span className="member-subtitle-simple">
-                  Lvl {member.characterLevel || member.level} {member.characterClass || member.class}
-                </span>
-              </div>
-
-              <div className={`member-status-simple ${member.status || 'online'}`}>
-                {(!member.status || member.status === 'online') && <i className="fas fa-circle online" title="Online"></i>}
-                {member.status === 'away' && <i className="fas fa-circle away" title="Away"></i>}
-                {member.status === 'busy' && <i className="fas fa-circle busy" title="Busy"></i>}
-                {member.status === 'offline' && <i className="fas fa-circle offline" title="Offline"></i>}
-              </div>
-            </div>
+            />
           );
         })}
       </div>

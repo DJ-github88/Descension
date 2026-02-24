@@ -86,6 +86,13 @@ class SocialService {
      */
     async addFriendToMyList(friendInfo) {
         if (!db || !auth.currentUser) return { error: 'Not authenticated', success: false };
+
+        // Guard: Prevent adding yourself as a friend
+        if (friendInfo.id === auth.currentUser.uid) {
+            console.warn('⚠️ Cannot add yourself as a friend');
+            return { success: false, error: 'Cannot add yourself' };
+        }
+
         try {
             const myUserRef = doc(db, 'users', auth.currentUser.uid);
             await updateDoc(myUserRef, {
@@ -144,7 +151,17 @@ class SocialService {
     async deleteFriendRequest(requestId) {
         if (!db) return { error: 'Not authenticated', success: false };
         try {
-            await deleteDoc(doc(db, REQUESTS_COLLECTION, requestId));
+            const requestRef = doc(db, REQUESTS_COLLECTION, requestId);
+
+            // Check if document exists first to avoid unnecessary errors
+            const snap = await getDoc(requestRef);
+            if (!snap.exists()) {
+                console.log('🧹 Friend request already deleted:', requestId);
+                return { success: true };
+            }
+
+            await deleteDoc(requestRef);
+            console.log('🧹 Friend request deleted:', requestId);
             return { success: true };
         } catch (error) {
             console.error('Error deleting friend request:', error);
@@ -153,17 +170,18 @@ class SocialService {
     }
 
     /**
-     * Decline a friend request
+     * Decline a friend request – hard-deletes the document to keep things clean.
      */
     async declineFriendRequest(requestId) {
         if (!db) return { error: 'Not authenticated', success: false };
 
         try {
             const requestRef = doc(db, REQUESTS_COLLECTION, requestId);
-            await updateDoc(requestRef, {
-                status: 'declined',
-                updatedAt: serverTimestamp()
-            });
+            const snap = await getDoc(requestRef);
+            if (snap.exists()) {
+                await deleteDoc(requestRef);
+            }
+            console.log('🚫 Friend request declined and removed:', requestId);
             return { success: true };
         } catch (error) {
             console.error('Error declining friend request:', error);
@@ -172,29 +190,21 @@ class SocialService {
     }
 
     /**
-     * Remove a friend
+     * Remove a friend (asymmetric - only updates own list)
+     * Note: Does NOT update the other user's list due to Firestore permission rules
      */
     async removeFriend(myUid, myUserData, friendId) {
         if (!db) return { error: 'Not authenticated', success: false };
 
         try {
             const myUserRef = doc(db, 'users', myUid);
-            const friendUserRef = doc(db, 'users', friendId);
-
-            // Let's get the latest docs to be safe
             const mySnap = await getDoc(myUserRef);
-            const friendSnap = await getDoc(friendUserRef);
 
             if (mySnap.exists()) {
                 const myFriends = mySnap.data().friends || [];
                 const updatedMyFriends = myFriends.filter(f => f.id !== friendId);
                 await updateDoc(myUserRef, { friends: updatedMyFriends });
-            }
-
-            if (friendSnap.exists()) {
-                const friendFriends = friendSnap.data().friends || [];
-                const updatedFriendFriends = friendFriends.filter(f => f.id !== myUid);
-                await updateDoc(friendUserRef, { friends: updatedFriendFriends });
+                console.log('✅ Friend removed from your list:', friendId);
             }
 
             return { success: true };

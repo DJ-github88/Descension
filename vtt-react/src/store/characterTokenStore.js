@@ -117,18 +117,19 @@ const useCharacterTokenStore = create(
           });
         }
 
-        // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
-        Promise.all([
-          import('../store/gameStore'),
-          import('../store/levelEditorStore'),
-          import('../store/partyStore')
-        ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }, { default: usePartyStore }]) => {
-          const gameStore = useGameStore.getState();
-          const levelEditorStore = useLevelEditorStore.getState();
-          const partyStore = usePartyStore.getState();
+          // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+          Promise.all([
+            import('../store/gameStore'),
+            import('../store/levelEditorStore'),
+            import('../store/partyStore')
+          ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }, { default: usePartyStore }]) => {
+            const gameStore = useGameStore.getState();
+            const levelEditorStore = useLevelEditorStore.getState();
+            const partyStore = usePartyStore.getState();
 
-          // CRITICAL FIX: Only switch to player mode if we are NOT the leader
-          const isLeader = partyStore.leaderId === 'current-player';
+            // CRITICAL FIX: Use isPartyLeader() function instead of direct comparison
+            // This properly handles all leader identification methods (Firebase UID, socket ID, etc.)
+            const isLeader = partyStore.isPartyLeader();
 
           if (!isLeader) {
             console.log('👤 Player placed token, switching to player mode');

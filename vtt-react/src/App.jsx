@@ -154,13 +154,24 @@ const loadGameStyles = () => {
 const cleanupGameStyles = () => {
     // Remove game mode class and add landing mode class
     document.body.classList.remove('game-mode');
+
+    // CRITICAL: Remove dynamically loaded game stylesheets
+    if (gameStylesheets.length > 0) {
+        console.log(`🧹 Removing ${gameStylesheets.length} game stylesheets...`);
+        gameStylesheets.forEach(sheet => {
+            if (sheet && sheet.parentNode) {
+                sheet.parentNode.removeChild(sheet);
+            }
+        });
+        gameStylesheets = [];
+    }
     document.body.classList.add('landing-mode');
 
     // Force reset any global styles that might have been applied
     // Remove any dynamically added style elements that might contain global rules
     const dynamicStyles = document.querySelectorAll('style[data-styled], style[data-emotion]');
     dynamicStyles.forEach(style => {
-        if (style.textContent && style.textContent.includes('*')) {
+        if (style.textContent && (style.textContent.includes('*') || style.textContent.includes('body.game-mode'))) {
             // Remove styles that contain global selectors
             style.remove();
         }
@@ -302,7 +313,54 @@ function GameScreen() {
                         console.log('👤 Loading player state for character:', character.name);
                         await roomStateService.applyPlayerState(playerState, character.id);
                     }
+
+                    // CRITICAL FIX: Create party with full character data for HUD display
+                    // Without this, the HUD shows empty bars because partyMembers has no character data
+                    await leaveParty();
+                    await createParty('Single Player Party', true, {
+                        isGM: true,
+                        name: character.name,
+                        characterName: character.name,
+                        characterClass: character.class || 'Unknown',
+                        characterLevel: character.level || 1
+                    });
+
+                    // Update party member with full character data including resources
+                    const { updatePartyMember } = usePartyStore.getState();
+                    const characterStore = useCharacterStore.getState();
+                    updatePartyMember('current-player', {
+                        id: 'current-player',
+                        name: character.name,
+                        isGM: true,
+                        character: {
+                            class: character.class || characterStore.class || 'Unknown',
+                            level: character.level || characterStore.level || 1,
+                            health: character.health || characterStore.health || { current: 45, max: 50 },
+                            mana: character.mana || characterStore.mana || { current: 45, max: 50 },
+                            actionPoints: character.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
+                            race: character.race || characterStore.race || 'Unknown',
+                            raceDisplayName: character.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
+                            background: character.background || characterStore.background || '',
+                            backgroundDisplayName: character.backgroundDisplayName || characterStore.backgroundDisplayName || '',
+                            path: character.path || characterStore.path || '',
+                            pathDisplayName: character.pathDisplayName || characterStore.pathDisplayName || '',
+                            classResource: character.classResource || characterStore.classResource,
+                            tokenSettings: character.tokenSettings || characterStore.tokenSettings || {},
+                            lore: character.lore || characterStore.lore || {}
+                        }
+                    }, true);
+                    console.log('✅ Party created with character data for local room');
                 }
+            } else {
+                // No character specified - create basic party for GM
+                await leaveParty();
+                await createParty('Single Player Party', true, {
+                    isGM: true,
+                    name: 'Game Master',
+                    characterName: 'Game Master',
+                    characterClass: 'Unknown',
+                    characterLevel: 1
+                });
             }
 
             // Re-enable auto-save after loading is complete
@@ -518,10 +576,36 @@ function GameScreen() {
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        await createParty('Single Player Party', character.name);
-                        // Update current player with GM status in single-player mode
+                        
+                        // FIXED: Correct argument order - (partyName, isGM, leaderData)
+                        await createParty('Single Player Party', true, {
+                            isGM: true,
+                            name: character.name,
+                            characterName: character.name,
+                            characterClass: character.class || 'Unknown',
+                            characterLevel: character.level || 1
+                        });
+                        
+                        // CRITICAL FIX: Update party member with full character data for HUD
                         const { updatePartyMember } = usePartyStore.getState();
-                        updatePartyMember('current-player', { isGM: isGMMode });
+                        const characterStore = useCharacterStore.getState();
+                        updatePartyMember('current-player', {
+                            id: 'current-player',
+                            name: character.name,
+                            isGM: isGMMode,
+                            character: {
+                                class: character.class || characterStore.class || 'Unknown',
+                                level: character.level || characterStore.level || 1,
+                                health: character.health || characterStore.health || { current: 45, max: 50 },
+                                mana: character.mana || characterStore.mana || { current: 45, max: 50 },
+                                actionPoints: character.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
+                                race: character.race || characterStore.race || 'Unknown',
+                                raceDisplayName: character.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
+                                classResource: character.classResource || characterStore.classResource,
+                                tokenSettings: character.tokenSettings || characterStore.tokenSettings || {},
+                                lore: character.lore || characterStore.lore || {}
+                            }
+                        }, true);
                     } else {
                         console.error(`❌ Failed to load character: ${characterId}`);
                         // Fall back to loading any active character
@@ -536,19 +620,65 @@ function GameScreen() {
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        await createParty('Single Player Party', activeCharacter.name);
-                        // Update current player with GM status in single-player mode
+                        
+                        // FIXED: Correct argument order - (partyName, isGM, leaderData)
+                        await createParty('Single Player Party', true, {
+                            isGM: true,
+                            name: activeCharacter.name,
+                            characterName: activeCharacter.name,
+                            characterClass: activeCharacter.class || 'Unknown',
+                            characterLevel: activeCharacter.level || 1
+                        });
+                        
+                        // CRITICAL FIX: Update party member with full character data for HUD
                         const { updatePartyMember } = usePartyStore.getState();
-                        updatePartyMember('current-player', { isGM: isGMMode });
+                        const characterStore = useCharacterStore.getState();
+                        updatePartyMember('current-player', {
+                            id: 'current-player',
+                            name: activeCharacter.name,
+                            isGM: isGMMode,
+                            character: {
+                                class: activeCharacter.class || characterStore.class || 'Unknown',
+                                level: activeCharacter.level || characterStore.level || 1,
+                                health: activeCharacter.health || characterStore.health || { current: 45, max: 50 },
+                                mana: activeCharacter.mana || characterStore.mana || { current: 45, max: 50 },
+                                actionPoints: activeCharacter.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
+                                race: activeCharacter.race || characterStore.race || 'Unknown',
+                                raceDisplayName: activeCharacter.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
+                                classResource: activeCharacter.classResource || characterStore.classResource,
+                                tokenSettings: activeCharacter.tokenSettings || characterStore.tokenSettings || {},
+                                lore: activeCharacter.lore || characterStore.lore || {}
+                            }
+                        }, true);
                     } else {
                         console.log('No active character found');
                         // Create a basic single-player party even without a character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        await createParty('Single Player Party', 'Player');
-                        // Update current player with GM status in single-player mode
+                        
+                        // FIXED: Correct argument order - (partyName, isGM, leaderData)
+                        await createParty('Single Player Party', true, {
+                            isGM: true,
+                            name: 'Player',
+                            characterName: 'Player',
+                            characterClass: 'Unknown',
+                            characterLevel: 1
+                        });
+                        
+                        // Update with basic GM data
                         const { updatePartyMember } = usePartyStore.getState();
-                        updatePartyMember('current-player', { isGM: isGMMode });
+                        updatePartyMember('current-player', {
+                            id: 'current-player',
+                            name: 'Player',
+                            isGM: isGMMode,
+                            character: {
+                                class: 'Unknown',
+                                level: 1,
+                                health: { current: 45, max: 50 },
+                                mana: { current: 45, max: 50 },
+                                actionPoints: { current: 1, max: 3 }
+                            }
+                        }, true);
                     }
                 }
             } catch (error) {

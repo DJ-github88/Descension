@@ -1,23 +1,34 @@
 /**
  * Room Invitation Notification Component
  * 
- * Toast-style notification for room invitations.
- * Appears in the bottom-right corner with accept/decline buttons.
+ * Premium fantasy-themed notification for room/session invitations.
+ * Matches the PartyInviteNotification design language.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import usePresenceStore from '../../store/presenceStore';
 
 const RoomInvitationNotification = ({ invitation }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [isEntering, setIsEntering] = useState(true);
+  const [isLeaving, setIsLeaving] = useState(false);
   const [isExpiring, setIsExpiring] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
+  const timerRef = useRef(null);
 
   const respondToInvite = usePresenceStore((state) => state.respondToInvite);
 
+  const timerProgress = (timeLeft / 60) * 100;
+
+  // Entrance animation
+  useEffect(() => {
+    const enterTimer = setTimeout(() => setIsEntering(false), 600);
+    return () => clearTimeout(enterTimer);
+  }, []);
+
   // Countdown timer
   useEffect(() => {
-    const interval = setInterval(() => {
+    timerRef.current = setInterval(() => {
       const remaining = Math.max(0, Math.floor((invitation.expiresAt - Date.now()) / 1000));
       setTimeLeft(remaining);
 
@@ -26,34 +37,58 @@ const RoomInvitationNotification = ({ invitation }) => {
       }
 
       if (remaining <= 0) {
-        handleDecline();
+        handleDismiss(false);
       }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timerRef.current);
   }, [invitation.expiresAt]);
 
-  // Handle accept
-  const handleAccept = () => {
-    respondToInvite(invitation.id, true, invitation.roomId);
-    setIsVisible(false);
+  const handleDismiss = (accepted) => {
+    setIsLeaving(true);
+    setTimeout(() => {
+      if (accepted) {
+        respondToInvite(invitation.id, true, invitation.roomId);
+      } else {
+        respondToInvite(invitation.id, false);
+      }
+      setIsVisible(false);
+    }, 400);
   };
 
-  // Handle decline
-  const handleDecline = () => {
-    respondToInvite(invitation.id, false);
-    setIsVisible(false);
-  };
+  const handleAccept = () => handleDismiss(true);
+  const handleDecline = () => handleDismiss(false);
 
   if (!isVisible) return null;
 
+  // SVG timer ring values
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (timerProgress / 100) * circumference;
+
   return (
-    <div className={`room-invitation-notification ${isExpiring ? 'expiring' : ''}`}>
-      <div className="invitation-header">
-        <i className="fas fa-envelope"></i>
-        <span>Room Invitation</span>
+    <div className={`room-invite-premium ${isEntering ? 'entering' : ''} ${isLeaving ? 'leaving' : ''} ${isExpiring ? 'expiring' : ''}`}>
+      {/* Decorative corner flourishes */}
+      <div className="invite-corner invite-corner-tl">✦</div>
+      <div className="invite-corner invite-corner-tr">✦</div>
+      <div className="invite-corner invite-corner-bl">✦</div>
+      <div className="invite-corner invite-corner-br">✦</div>
+
+      {/* Glowing top accent line */}
+      <div className="invite-accent-line" style={{ background: 'linear-gradient(90deg, transparent, #c9a83f, transparent)' }} />
+
+      {/* Header */}
+      <div className="invite-premium-header">
+        <div className="invite-seal" style={{ '--seal-color': '#c9a83f' }}>
+          <i className="fas fa-dungeon"></i>
+          <div className="seal-glow" />
+        </div>
+        <div className="invite-title-block">
+          <span className="invite-title">Room Invitation</span>
+          <span className="invite-subtitle">A new adventure awaits</span>
+        </div>
         <button
-          className="close-notification"
+          className="invite-close-btn"
           onClick={handleDecline}
           title="Decline"
         >
@@ -61,35 +96,77 @@ const RoomInvitationNotification = ({ invitation }) => {
         </button>
       </div>
 
-      <div className="invitation-content">
-        <p className="invitation-from">
-          <strong>{invitation.gmName}</strong> has invited you to join:
-        </p>
-        <p className="invitation-room">
-          <i className="fas fa-dungeon"></i>
-          {invitation.roomName}
-        </p>
+      {/* Divider */}
+      <div className="invite-divider">
+        <span className="divider-ornament">⚔</span>
       </div>
 
-      <div className="invitation-timer">
-        <i className="fas fa-clock"></i>
-        <span>Expires in {timeLeft}s</span>
+      {/* GM Info */}
+      <div className="invite-sender-card">
+        <div className="sender-avatar-premium" style={{ borderColor: '#c9a83f' }}>
+          <i className="fas fa-hat-wizard"></i>
+          <div className="avatar-class-ring" style={{ borderColor: '#c9a83f' }} />
+        </div>
+        <div className="sender-details-premium" style={{ flex: 1 }}>
+          <span className="sender-name-premium" style={{ color: '#c9a83f' }}>
+            {invitation.gmName}
+          </span>
+          <span className="sender-class-premium">
+            <i className="fas fa-crown" style={{ color: '#c9a83f', marginRight: '4px', fontSize: '0.65rem' }}></i>
+            Game Master
+          </span>
+        </div>
+
+        {/* Circular Timer */}
+        <div className={`invite-timer-ring ${isExpiring ? 'expiring' : ''}`}>
+          <svg viewBox="0 0 50 50" className="timer-svg">
+            <circle
+              className="timer-track"
+              cx="25" cy="25" r={radius}
+              fill="none"
+              strokeWidth="3"
+            />
+            <circle
+              className="timer-progress"
+              cx="25" cy="25" r={radius}
+              fill="none"
+              strokeWidth="3"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              style={{ stroke: isExpiring ? '#a52a2a' : '#c9a83f' }}
+            />
+          </svg>
+          <span className={`timer-text ${isExpiring ? 'expiring' : ''}`}>{timeLeft}</span>
+        </div>
       </div>
 
-      <div className="invitation-actions">
+      {/* Room Name */}
+      <div className="room-name-display">
+        <i className="fas fa-scroll"></i>
+        <span>{invitation.roomName}</span>
+      </div>
+
+      {/* Message */}
+      <p className="invite-message">
+        <strong>{invitation.gmName}</strong> beckons you to join their campaign.
+      </p>
+
+      {/* Action Buttons */}
+      <div className="invite-actions-premium">
         <button
-          className="accept-button"
+          className="invite-btn invite-accept-btn"
           onClick={handleAccept}
+          style={{ '--btn-color': '#c9a83f' }}
         >
-          <i className="fas fa-check"></i>
-          Accept
+          <i className="fas fa-door-open"></i>
+          <span>Enter</span>
         </button>
         <button
-          className="decline-button"
+          className="invite-btn invite-decline-btn"
           onClick={handleDecline}
         >
-          <i className="fas fa-times"></i>
-          Decline
+          <i className="fas fa-ban"></i>
+          <span>Decline</span>
         </button>
       </div>
     </div>
@@ -97,4 +174,3 @@ const RoomInvitationNotification = ({ invitation }) => {
 };
 
 export default RoomInvitationNotification;
-

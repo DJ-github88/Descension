@@ -631,6 +631,21 @@ const useCombatStore = create((set, get) => ({
             activeMovement: null,
             pendingMovementConfirmation: null
         });
+
+        // MULTIPLAYER SYNC: Emit GM action for reset combat
+        try {
+            const useGameStore = require('./gameStore').default;
+            const gameState = useGameStore.getState();
+            if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
+                gameState.multiplayerSocket.emit('gm_action', {
+                    type: 'reset_combat',
+                    action: 'reset_combat',
+                    timestamp: Date.now()
+                });
+            }
+        } catch (error) {
+            console.warn('Failed to emit reset_combat gm_action:', error);
+        }
     },
 
     // Debug function to log current state

@@ -953,7 +953,7 @@ const ClassResourceBar = ({
         }
     };
 
-    const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics?.max || 20 };
+    const finalClassResource = classResource || { current: 0, max: 0 };
 
     // Calculate and store menu positions
     const updateMinstrelPositions = useCallback(() => {
@@ -10240,6 +10240,12 @@ const ClassResourceBar = ({
     const isWitchDoctor = finalConfig.visual?.type === 'voodoo-essence';
 
     const isTitan = finalConfig.visual?.type === 'celestial-devotion';
+
+    // Hide CR bar if class has no resource system (max === 0)
+    // This prevents showing "0/0" bars for GMs or characters without class resources
+    if (!finalClassResource.max || finalClassResource.max === 0) {
+        return null;
+    }
 
     return (
         <>

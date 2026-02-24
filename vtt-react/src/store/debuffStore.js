@@ -6,19 +6,19 @@ const useDebuffStore = create(
     persist(
         (set, get) => ({
             activeDebuffs: [],
-            
+
             // Add a new debuff
-            addDebuff: (debuff) => {
+            addDebuff: (debuff, silent = false) => {
                 const { activeDebuffs } = get();
                 const newDebuff = {
-                    id: `debuff_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                    id: debuff.id || `debuff_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                     name: debuff.name,
                     icon: debuff.icon,
                     description: debuff.description,
                     effectSummary: debuff.effectSummary || '',
                     effects: debuff.effects || {},
                     duration: debuff.duration || 60, // Duration in seconds
-                    startTime: Date.now(),
+                    startTime: debuff.startTime || Date.now(),
                     source: debuff.source || 'spell',
                     stackable: debuff.stackable || false,
                     type: 'debuff',
@@ -42,7 +42,7 @@ const useDebuffStore = create(
 
                 // For round-based debuffs, don't set endTime (they don't expire automatically)
                 if (debuff.durationType !== 'rounds') {
-                    newDebuff.endTime = Date.now() + (debuff.duration || 60) * 1000;
+                    newDebuff.endTime = debuff.endTime || (Date.now() + (debuff.duration || 60) * 1000);
                 }
 
                 // Check if debuff is stackable (now also considers target)
@@ -56,19 +56,22 @@ const useDebuffStore = create(
                     set({ activeDebuffs: [...activeDebuffs, newDebuff] });
                 }
 
-                // Sync with multiplayer
-                get().syncDebuffUpdate('debuff_added', newDebuff);
+                // Sync with multiplayer if not silent
+                if (!silent) {
+                    get().syncDebuffUpdate('debuff_added', newDebuff);
+                }
 
                 // Set up automatic removal timer (only for time-based debuffs)
                 if (newDebuff.durationType !== 'rounds') {
+                    const remainingTime = Math.max(0, newDebuff.endTime - Date.now());
                     setTimeout(() => {
                         get().removeDebuff(newDebuff.id);
-                    }, newDebuff.duration * 1000);
+                    }, remainingTime);
                 }
             },
 
             // Remove a debuff by ID - also cleans up token.state.conditions
-            removeDebuff: (debuffId) => {
+            removeDebuff: (debuffId, silent = false) => {
                 const { activeDebuffs } = get();
                 const debuffToRemove = activeDebuffs.find(debuff => debuff.id === debuffId);
 
@@ -122,7 +125,7 @@ const useDebuffStore = create(
                 }
 
                 // Sync with multiplayer
-                if (debuffToRemove) {
+                if (debuffToRemove && !silent) {
                     get().syncDebuffUpdate('debuff_removed', { debuffId, debuffData: debuffToRemove });
                 }
             },

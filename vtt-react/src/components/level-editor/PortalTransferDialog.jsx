@@ -3,7 +3,7 @@ import WowWindow from '../windows/WowWindow';
 import useMapStore from '../../store/mapStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
+import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import './styles/PortalTransferDialog.css';
 
 const PortalTransferDialog = ({
@@ -84,7 +84,7 @@ const PortalTransferDialog = ({
                     }
                 }));
 
-                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+                await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
             }
 
             // Switch to the destination map

@@ -167,7 +167,7 @@ const RoomManager = () => {
           'https://descension-mythrill.up.railway.app' :
           'http://localhost:3001');
 
-      const response = await fetch(`${serverUrl}/rooms`, {
+      const response = await fetch(`${serverUrl}/api/rooms`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(5000) // 5 second timeout
@@ -491,7 +491,7 @@ const RoomManager = () => {
                 'https://descension-mythrill.up.railway.app' :
                 'http://localhost:3001');
 
-            const response = await fetch(`${serverUrl}/rooms`, {
+            const response = await fetch(`${serverUrl}/api/rooms`, {
               method: 'GET',
               headers: { 'Content-Type': 'application/json' },
               signal: AbortSignal.timeout(5000)

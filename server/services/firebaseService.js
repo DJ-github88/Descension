@@ -717,5 +717,19 @@ module.exports = {
   getUserData,
   verifyIdToken,
   loadPersistentRooms,
-  saveCharacterDocument
+  saveCharacterDocument,
+  validateConnection: async () => {
+    if (!db) return { success: false, message: 'Firebase not initialized' };
+    try {
+      const testRef = db.collection('_server_health_check').doc('write_test');
+      await testRef.set({
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        serverTime: Date.now()
+      });
+      await testRef.delete();
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message, code: error.code };
+    }
+  }
 };

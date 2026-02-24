@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useRoomContext } from '../contexts/RoomContext';
 import useAuthStore from '../store/authStore';
 import usePresenceStore from '../store/presenceStore';
 
@@ -38,6 +39,7 @@ const SESSION_CONFIG = {
 export const useSessionManagement = () => {
   const { user, isAuthenticated, signOut, refreshAuthState } = useAuthStore();
   const { updateStatus } = usePresenceStore();
+  const { isInRoom } = useRoomContext();
 
   // Session timers
   const sessionTimerRef = useRef(null);
@@ -52,6 +54,10 @@ export const useSessionManagement = () => {
 
   // Activity tracking
   const activityThrottleRef = useRef(null);
+
+  // Refs to handle circular dependency between callbacks
+  const showSessionWarningRef = useRef(null);
+  const resetSessionTimersRef = useRef(null);
 
   /**
    * Clear all session timers
@@ -77,106 +83,24 @@ export const useSessionManagement = () => {
   /**
    * Show session warning modal
    */
-  const showSessionWarning = useCallback(() => {
-    if (isWarningShownRef.current) return;
 
-    // CRITICAL FIX: Don't show warning if user is not authenticated
-    const { isAuthenticated: currentlyAuth, user: currentUser } = useAuthStore.getState();
-    if (!currentlyAuth || !currentUser) {
-      console.log('Session warning skipped - user is not authenticated');
-      return;
-    }
-
-    isWarningShownRef.current = true;
-
-    // Create and show warning modal
-    const warningModal = document.createElement('div');
-    warningModal.id = 'session-warning-modal';
-    warningModal.innerHTML = `
-      <div style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        font-family: 'Cinzel', serif;
-      ">
-        <div style="
-          background: #ede4d3; /* Parchment beige */
-          border: 2px solid #8b4513; /* Dark brown border */
-          border-radius: 8px;
-          padding: 2rem;
-          max-width: 500px;
-          color: #2c1810; /* Dark brown text */
-          text-align: center;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 50px rgba(139, 69, 19, 0.1);
-        ">
-          <h3 style="margin-bottom: 1rem; color: #c62828; font-size: 1.5rem; border-bottom: 1px solid rgba(139, 69, 19, 0.2); padding-bottom: 0.5rem;">Session Expiring Soon</h3>
-          <p style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.6;">
-            You will be automatically logged out in 5 minutes due to inactivity.
-            Click "Stay Logged In" to continue your session.
-          </p>
-          <div style="display: flex; gap: 1rem; justify-content: center;">
-            <button id="extend-session" style="
-              background: linear-gradient(to bottom, #8b4513, #5e2f0d);
-              color: white;
-              border: 1px solid #3e1f09;
-              padding: 0.75rem 1.5rem;
-              border-radius: 4px;
-              cursor: pointer;
-              font-weight: bold;
-              font-family: 'Cinzel', serif;
-              box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            ">Stay Logged In</button>
-            <button id="logout-now" style="
-              background: linear-gradient(to bottom, #d32f2f, #b71c1c);
-              color: white;
-              border: 1px solid #7f0000;
-              padding: 0.75rem 1.5rem;
-              border-radius: 4px;
-              cursor: pointer;
-              font-family: 'Cinzel', serif;
-              box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            ">Log Out Now</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(warningModal);
-
-    // Handle button clicks
-    const extendButton = warningModal.querySelector('#extend-session');
-    const logoutButton = warningModal.querySelector('#logout-now');
-
-    extendButton.onclick = () => {
-      document.body.removeChild(warningModal);
-      isWarningShownRef.current = false;
-      resetSessionTimers();
-    };
-
-    logoutButton.onclick = () => {
-      document.body.removeChild(warningModal);
-      handleSessionTimeout();
-    };
-
-    // Auto-logout after warning period
-    warningTimerRef.current = setTimeout(() => {
-      if (document.body.contains(warningModal)) {
-        document.body.removeChild(warningModal);
-      }
-      handleSessionTimeout();
-    }, SESSION_CONFIG.WARNING_PERIOD);
-  }, []);
+  /**
+   * Show session warning modal
+   */
 
   /**
    * Handle session timeout (auto-logout)
    */
+
+  /**
+   * Reset session timers on user activity
+   */
+
+  /**
+   * Handle user activity events
+   */
+  
+
   const handleSessionTimeout = useCallback(async () => {
     console.log('Session timeout - auto-logging out user');
 
@@ -209,11 +133,144 @@ export const useSessionManagement = () => {
     }, 100);
   }, [signOut, updateStatus, clearTimers]);
 
-  /**
-   * Reset session timers on user activity
-   */
+  const showSessionWarning = useCallback(() => {
+    if (isWarningShownRef.current) return;
+
+    // CRITICAL FIX: Don't show warning if user is not authenticated
+    const { isAuthenticated: currentlyAuth, user: currentUser } = useAuthStore.getState();
+    if (!currentlyAuth || !currentUser) {
+      console.log('Session warning skipped - user is not authenticated');
+      return;
+    }
+
+    isWarningShownRef.current = true;
+
+    // Create and show warning modal
+    const warningModal = document.createElement('div');
+    warningModal.id = 'session-warning-modal';
+
+    let remainingSeconds = Math.floor(SESSION_CONFIG.WARNING_PERIOD / 1000);
+
+    const updateModalContent = () => {
+      const minutes = Math.floor(remainingSeconds / 60);
+      const seconds = remainingSeconds % 60;
+      const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+      warningModal.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          font-family: 'Cinzel', serif;
+        ">
+          <div style="
+            background: #ede4d3; /* Parchment beige */
+            border: 2px solid #8b4513; /* Dark brown border */
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 500px;
+            color: #2c1810; /* Dark brown text */
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 0 50px rgba(139, 69, 19, 0.1);
+          ">
+            <h3 style="margin-bottom: 1rem; color: #c62828; font-size: 1.5rem; border-bottom: 1px solid rgba(139, 69, 19, 0.2); padding-bottom: 0.5rem;">Session Expiring Soon</h3>
+            <p style="margin-bottom: 0.5rem; font-size: 1.1rem; line-height: 1.6;">
+              You will be automatically logged out due to inactivity in:
+            </p>
+            <p style="margin-bottom: 1.5rem; font-size: 2.5rem; font-weight: bold; color: #c62828; letter-spacing: 2px;">
+              ${timeString}
+            </p>
+            <p style="margin-bottom: 1.5rem; font-size: 1rem;">
+              Click "Stay Logged In" to continue your session.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+              <button id="extend-session" style="
+                background: linear-gradient(to bottom, #8b4513, #5e2f0d);
+                color: white;
+                border: 1px solid #3e1f09;
+                padding: 0.75rem 1.5rem;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                font-family: 'Cinzel', serif;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+              ">Stay Logged In</button>
+              <button id="logout-now" style="
+                background: linear-gradient(to bottom, #d32f2f, #b71c1c);
+                color: white;
+                border: 1px solid #7f0000;
+                padding: 0.75rem 1.5rem;
+                border-radius: 4px;
+                cursor: pointer;
+                font-family: 'Cinzel', serif;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+              ">Log Out Now</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Re-attach handlers because we just overwrote innerHTML
+      const extendButton = warningModal.querySelector('#extend-session');
+      const logoutButton = warningModal.querySelector('#logout-now');
+
+      if (extendButton) {
+        extendButton.onclick = () => {
+          clearInterval(countdownInterval);
+          document.body.removeChild(warningModal);
+          isWarningShownRef.current = false;
+          if (resetSessionTimersRef.current) resetSessionTimersRef.current();
+        };
+      }
+
+      if (logoutButton) {
+        logoutButton.onclick = () => {
+          clearInterval(countdownInterval);
+          document.body.removeChild(warningModal);
+          handleSessionTimeout();
+        };
+      }
+    };
+
+    updateModalContent();
+    document.body.appendChild(warningModal);
+
+    // Dynamic countdown timer
+    const countdownInterval = setInterval(() => {
+      remainingSeconds -= 1;
+      if (remainingSeconds <= 0) {
+        clearInterval(countdownInterval);
+      } else {
+        updateModalContent();
+      }
+    }, 1000);
+
+    // Auto-logout after warning period
+    warningTimerRef.current = setTimeout(() => {
+      clearInterval(countdownInterval);
+      if (document.body.contains(warningModal)) {
+        document.body.removeChild(warningModal);
+      }
+      handleSessionTimeout();
+    }, SESSION_CONFIG.WARNING_PERIOD);
+  }, [handleSessionTimeout]);
+
   const resetSessionTimers = useCallback(() => {
     if (!isAuthenticated || !user) return;
+
+    // CRITICAL FIX: Don't start idle timers if user is in a room or game
+    if (isInRoom) {
+      console.log('Session timers bypassed - user is in a room/game');
+      clearTimers();
+      return;
+    }
 
     const now = Date.now();
     lastActivityRef.current = now;
@@ -225,9 +282,9 @@ export const useSessionManagement = () => {
     isIdleRef.current = false;
     isWarningShownRef.current = false;
 
-    // Update presence if user was idle
+    // Update presence if user was away (idle)
     const currentPresence = usePresenceStore.getState().currentUserPresence;
-    if (currentPresence?.status === 'idle') {
+    if (currentPresence?.status === 'away') {
       updateStatus('online', null);
     }
 
@@ -239,16 +296,13 @@ export const useSessionManagement = () => {
     // Set idle warning timer (30 minutes)
     idleTimerRef.current = setTimeout(() => {
       isIdleRef.current = true;
-      updateStatus('idle', 'User inactive');
-      showSessionWarning();
+      updateStatus('away', 'User inactive');
+      if (showSessionWarningRef.current) showSessionWarningRef.current();
     }, SESSION_CONFIG.IDLE_TIMEOUT);
 
-  }, [isAuthenticated, user, clearTimers, updateStatus, handleSessionTimeout, showSessionWarning]);
+  }, [isAuthenticated, user, clearTimers, updateStatus, handleSessionTimeout]);
 
-  /**
-   * Handle user activity events
-   */
-  const handleActivity = useCallback((event) => {
+const handleActivity = useCallback((event) => {
     // Throttle activity events to avoid excessive processing
     if (activityThrottleRef.current) return;
 
@@ -329,7 +383,13 @@ export const useSessionManagement = () => {
     };
   }, [isAuthenticated]);
 
-  // Initialize session management
+  
+  // Keep refs updated for circular calls
+  useEffect(() => {
+    showSessionWarningRef.current = showSessionWarning;
+    resetSessionTimersRef.current = resetSessionTimers;
+  }, [showSessionWarning, resetSessionTimers]);
+// Initialize session management
   useEffect(() => {
     if (!isAuthenticated || !user) {
       clearTimers();
@@ -371,7 +431,7 @@ export const useSessionManagement = () => {
         document.body.removeChild(warningModal);
       }
     };
-  }, [isAuthenticated, user, handleActivity, resetSessionTimers, restoreSession, saveSessionState, clearTimers]);
+  }, [isAuthenticated, user, handleActivity, resetSessionTimers, restoreSession, saveSessionState, clearTimers, isInRoom]);
 
   // Save session state when user navigates away
   useEffect(() => {

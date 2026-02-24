@@ -361,7 +361,7 @@
 }
 
 /* Empty state */
-.empty-state {
+.chat-window .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,21 +372,21 @@
   padding: 20px;
 }
 
-.empty-state-icon {
+.chat-window .empty-state-icon {
   font-size: 32px;
   margin-bottom: 15px;
   color: #89dceb;
   opacity: 0.6;
 }
 
-.empty-state-text {
+.chat-window .empty-state-text {
   font-size: 16px;
   margin-bottom: 8px;
   font-family: 'Arial', sans-serif;
   color: #ccc;
 }
 
-.empty-state-subtext {
+.chat-window .empty-state-subtext {
   font-size: 13px;
   color: #888;
   font-style: italic;

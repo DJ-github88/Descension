@@ -1,0 +1,850 @@
+/* =====================================================
+   Standardized Social Notifications - Fantasy Premium Theme
+   =====================================================*/
+
+/* ---- Notification Layer ---- */
+.social-notification-layer {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    pointer-events: none;
+}
+
+.social-notification-layer>* {
+    pointer-events: auto;
+}
+
+/* =====================================================
+   PREMIUM PARTY INVITE NOTIFICATION
+   =====================================================*/
+
+.party-invite-premium {
+    width: 330px;
+    padding: 0;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    color: #e0d8c8;
+
+    /* Dark fantasy background */
+    background:
+        linear-gradient(145deg,
+            rgba(28, 22, 18, 0.98) 0%,
+            rgba(38, 28, 22, 0.97) 40%,
+            rgba(32, 24, 18, 0.98) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(212, 175, 55, 0.1),
+        0 0 30px rgba(212, 175, 55, 0.05);
+
+    /* Entry animation */
+    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: bottom right;
+}
+
+.party-invite-premium.entering {
+    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.party-invite-premium.leaving {
+    animation: inviteSlideOut 0.4s ease-in forwards;
+}
+
+.party-invite-premium.expiring {
+    border-color: rgba(165, 42, 42, 0.4);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(165, 42, 42, 0.15);
+}
+
+.party-invite-premium.expiring .invite-accent-line {
+    background: linear-gradient(90deg, transparent, #a52a2a, transparent) !important;
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+/* ---- Corner Flourishes ---- */
+.invite-corner {
+    position: absolute;
+    font-size: 0.55rem;
+    color: rgba(212, 175, 55, 0.3);
+    z-index: 2;
+    line-height: 1;
+}
+
+.invite-corner-tl {
+    top: 6px;
+    left: 8px;
+}
+
+.invite-corner-tr {
+    top: 6px;
+    right: 8px;
+}
+
+.invite-corner-bl {
+    bottom: 6px;
+    left: 8px;
+}
+
+.invite-corner-br {
+    bottom: 6px;
+    right: 8px;
+}
+
+/* ---- Accent Line ---- */
+.invite-accent-line {
+    height: 2px;
+    width: 100%;
+    opacity: 0.8;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ---- Header ---- */
+.invite-premium-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px 10px;
+}
+
+/* Seal / Icon */
+.invite-seal {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(212, 175, 55, 0.25), rgba(139, 69, 19, 0.3));
+    border: 2px solid var(--seal-color, #d4af37);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    animation: sealPulse 2.5s ease-in-out infinite;
+}
+
+.invite-seal i {
+    font-size: 1rem;
+    color: var(--seal-color, #d4af37);
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.5));
+    z-index: 1;
+}
+
+.seal-glow {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--seal-color, rgba(212, 175, 55, 0.2)), transparent 70%);
+    opacity: 0.4;
+    animation: sealGlow 2.5s ease-in-out infinite;
+}
+
+/* Title Block */
+.invite-title-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.invite-title {
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.invite-subtitle {
+    font-size: 0.68rem;
+    color: rgba(224, 216, 200, 0.45);
+    font-style: italic;
+    letter-spacing: 0.3px;
+}
+
+/* Close Button */
+.invite-close-btn {
+    background: none;
+    border: none;
+    color: rgba(224, 216, 200, 0.35);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+    border-radius: 4px;
+}
+
+.invite-close-btn:hover {
+    color: #a52a2a;
+    background: rgba(165, 42, 42, 0.1);
+    transform: rotate(90deg);
+}
+
+/* ---- Divider ---- */
+.invite-divider {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    margin: 2px 0 8px;
+}
+
+.invite-divider::before,
+.invite-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+}
+
+.divider-ornament {
+    font-size: 0.6rem;
+    color: rgba(212, 175, 55, 0.35);
+    padding: 0 10px;
+}
+
+/* ---- Sender Card ---- */
+.invite-sender-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 12px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+/* Avatar */
+.sender-avatar-premium {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(45, 35, 28, 0.9), rgba(60, 45, 35, 0.9));
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.sender-avatar-premium i {
+    font-size: 1.1rem;
+    color: rgba(224, 216, 200, 0.7);
+}
+
+.avatar-class-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 8px;
+    border: 1px solid;
+    opacity: 0.3;
+}
+
+/* Sender Details */
+.sender-details-premium {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.sender-name-premium {
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-shadow: 0 0 8px currentColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sender-class-premium {
+    font-size: 0.72rem;
+    color: rgba(224, 216, 200, 0.55);
+    letter-spacing: 0.3px;
+}
+
+/* ---- Circular Timer Ring ---- */
+.invite-timer-ring {
+    width: 46px;
+    height: 46px;
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-track {
+    stroke: rgba(212, 175, 55, 0.1);
+}
+
+.timer-progress {
+    transition: stroke-dashoffset 1s linear, stroke 0.5s ease;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 3px currentColor);
+}
+
+.timer-text {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(224, 216, 200, 0.8);
+}
+
+.timer-text.expiring {
+    color: #a52a2a;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.invite-timer-ring.expiring .timer-progress {
+    filter: drop-shadow(0 0 5px #a52a2a);
+}
+
+/* ---- Message ---- */
+.invite-message {
+    padding: 10px 16px 6px;
+    font-size: 0.82rem;
+    color: rgba(224, 216, 200, 0.6);
+    line-height: 1.4;
+    text-align: center;
+    margin: 0;
+}
+
+.invite-message strong {
+    color: #d4af37;
+    font-weight: 600;
+}
+
+/* ---- Action Buttons ---- */
+.invite-actions-premium {
+    display: flex;
+    gap: 10px;
+    padding: 10px 14px 14px;
+}
+
+.invite-btn {
+    flex: 1;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.invite-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.invite-btn:hover::before {
+    opacity: 1;
+}
+
+/* Accept Button */
+.invite-accept-btn {
+    background: linear-gradient(135deg, #d4af37, #8b6914);
+    color: #1c1612;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.invite-accept-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(212, 175, 55, 0.4);
+    filter: brightness(1.15);
+}
+
+.invite-accept-btn:active {
+    transform: translateY(0);
+}
+
+.invite-accept-btn i {
+    font-size: 0.85rem;
+}
+
+/* Decline Button */
+.invite-decline-btn {
+    background: rgba(224, 216, 200, 0.06);
+    color: rgba(224, 216, 200, 0.55);
+    border: 1px solid rgba(224, 216, 200, 0.1);
+}
+
+.invite-decline-btn:hover {
+    background: rgba(165, 42, 42, 0.12);
+    color: #c04040;
+    border-color: rgba(165, 42, 42, 0.25);
+    transform: translateY(-2px);
+}
+
+.invite-decline-btn:active {
+    transform: translateY(0);
+}
+
+.invite-decline-btn i {
+    font-size: 0.8rem;
+}
+
+/* =====================================================
+   ANIMATIONS
+   =====================================================*/
+
+@keyframes inviteSlideIn {
+    0% {
+        transform: translateX(120%) scale(0.8);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateX(-5%) scale(1.02);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes inviteSlideOut {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(120%) scale(0.85);
+        opacity: 0;
+    }
+}
+
+@keyframes sealPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(212, 175, 55, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
+    }
+}
+
+@keyframes sealGlow {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.15);
+    }
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+/* =====================================================
+   PREMIUM ROOM INVITE NOTIFICATION
+   =====================================================*/
+
+.room-invite-premium {
+    width: 330px;
+    padding: 0;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    color: #e0d8c8;
+
+    background:
+        linear-gradient(145deg,
+            rgba(28, 22, 18, 0.98) 0%,
+            rgba(38, 28, 22, 0.97) 40%,
+            rgba(32, 24, 18, 0.98) 100%);
+    border: 1px solid rgba(201, 168, 63, 0.25);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(201, 168, 63, 0.1),
+        0 0 30px rgba(201, 168, 63, 0.05);
+
+    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: bottom right;
+}
+
+.room-invite-premium.entering {
+    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.room-invite-premium.leaving {
+    animation: inviteSlideOut 0.4s ease-in forwards;
+}
+
+.room-invite-premium.expiring {
+    border-color: rgba(165, 42, 42, 0.4);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(165, 42, 42, 0.15);
+}
+
+.room-invite-premium.expiring .invite-accent-line {
+    background: linear-gradient(90deg, transparent, #a52a2a, transparent) !important;
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+/* Room Name Display */
+.room-name-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 12px 0;
+    padding: 8px 14px;
+    background: rgba(201, 168, 63, 0.08);
+    border: 1px solid rgba(201, 168, 63, 0.15);
+    border-radius: 5px;
+}
+
+.room-name-display i {
+    color: #c9a83f;
+    font-size: 0.9rem;
+    filter: drop-shadow(0 0 3px rgba(201, 168, 63, 0.4));
+}
+
+.room-name-display span {
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #e0d8c8;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px rgba(201, 168, 63, 0.2);
+}
+
+
+/* =====================================================
+   LEGACY ROOM INVITATION (keep backward-compatible)
+   =====================================================*/
+
+.room-invitation-notification,
+.gm-session-invitation-container {
+    background-color: #f0e6d2;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #8b4513;
+    border-radius: 4px;
+    padding: 14px;
+    width: 290px;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.35),
+        inset 0 0 30px rgba(139, 69, 19, 0.08);
+    color: #3a3a3a;
+    position: relative;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.room-invitation-notification.expiring,
+.gm-session-invitation-container.expiring {
+    border-color: #7a3b2e;
+    box-shadow:
+        0 0 15px rgba(122, 59, 46, 0.3),
+        inset 0 0 50px rgba(255, 100, 100, 0.05);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Header */
+.invitation-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px double rgba(139, 69, 19, 0.2);
+}
+
+.invitation-header i {
+    color: #7a3b2e;
+    font-size: 1.3rem;
+    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+}
+
+.invitation-header span {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-grow: 1;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.close-notification,
+.close-invitation-btn {
+    background: none;
+    border: none;
+    color: #8b4513;
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 2px;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.close-notification:hover,
+.close-invitation-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* Content */
+.invitation-content {
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.invitation-from {
+    color: #5d4037;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.invitation-from strong {
+    color: #7a3b2e;
+    font-weight: 700;
+}
+
+.invitation-room {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4a2c20;
+    margin: 6px 0;
+    padding: 6px 10px;
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 4px;
+    border: 1px dashed rgba(139, 69, 19, 0.2);
+}
+
+.invitation-room i {
+    color: #d4af37;
+}
+
+/* Sender Preview (legacy) */
+.sender-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(139, 69, 19, 0.08);
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.sender-avatar {
+    width: 38px;
+    height: 38px;
+    background: #7a3b2e;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f0e6d2;
+    font-size: 1.1rem;
+    border: 2px solid #d4af37;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sender-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sender-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #4a2c20;
+}
+
+.sender-details {
+    font-size: 0.8rem;
+    color: #5d4037;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Timer (legacy) */
+.invitation-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #5d4037;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.invitation-timer i {
+    font-size: 0.85rem;
+    color: #7a3b2e;
+}
+
+.expiring .invitation-timer {
+    color: #7a3b2e;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.timer-bar-container {
+    height: 6px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 12px;
+    border: 1px solid rgba(139, 69, 19, 0.05);
+}
+
+.timer-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #f0c850);
+    transition: width 1s linear;
+}
+
+.expiring .timer-bar {
+    background: linear-gradient(90deg, #7a3b2e, #a52a2a);
+}
+
+/* Actions (legacy) */
+.invitation-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.invitation-actions button {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.accept-button {
+    background: #7a3b2e;
+    color: #f0e6d2;
+    border: 1px solid #5d4037;
+}
+
+.accept-button:hover {
+    background: #8b4513;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.decline-button {
+    background: #e8dcc0;
+    color: #5d4037;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.decline-button:hover {
+    background: #dcc8a0;
+    color: #3a3a3a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.invitation-actions button i {
+    font-size: 1rem;
+}

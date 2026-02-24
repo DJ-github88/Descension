@@ -15,7 +15,9 @@
 }
 
 /* Allow text selection for input fields and text areas */
-input, textarea, [contenteditable="true"] {
+input,
+textarea,
+[contenteditable="true"] {
   user-select: text;
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -64,7 +66,8 @@ input, textarea, [contenteditable="true"] {
   margin: var(--pf-space-6) 0;
 }
 
-.nav-button, .hud-button {
+.nav-button,
+.hud-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +89,8 @@ input, textarea, [contenteditable="true"] {
   overflow: hidden;
 }
 
-.nav-button:hover, .hud-button:hover {
+.nav-button:hover,
+.hud-button:hover {
   background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
   border-color: var(--pf-brown-dark);
   color: var(--pf-text-primary);
@@ -96,7 +100,8 @@ input, textarea, [contenteditable="true"] {
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-.nav-button:active, .hud-button:active {
+.nav-button:active,
+.hud-button:active {
   transform: translateY(0);
   box-shadow:
     0 1px 2px rgba(139, 69, 19, 0.3),
@@ -106,152 +111,152 @@ input, textarea, [contenteditable="true"] {
 /* ===== PATHFINDER NAVIGATION BAR ===== */
 
 .navigation {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius-lg);
-    box-shadow: var(--pf-shadow-parchment);
-    padding: var(--pf-space-2);
-    display: flex;
-    flex-direction: row;
-    gap: var(--pf-space-1);
-    align-items: center;
-    user-select: none;
-    cursor: move;
-    transform: translate(0, 0);
-    touch-action: none;
-    backdrop-filter: blur(4px);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-2);
+  display: flex;
+  flex-direction: row;
+  gap: var(--pf-space-1);
+  align-items: center;
+  user-select: none;
+  cursor: move;
+  transform: translate(0, 0);
+  touch-action: none;
+  backdrop-filter: blur(4px);
 }
 
 .main-nav-button {
-    background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
-    color: var(--pf-text-secondary);
-    border: 2px solid var(--pf-brown-medium);
-    padding: var(--pf-space-2);
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: var(--pf-border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--pf-transition-normal);
-    width: 36px;
-    height: 36px;
-    margin: 0;
-    position: relative;
-    box-shadow:
-        0 2px 4px rgba(139, 69, 19, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
+  color: var(--pf-text-secondary);
+  border: 2px solid var(--pf-brown-medium);
+  padding: var(--pf-space-2);
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: var(--pf-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--pf-transition-normal);
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  position: relative;
+  box-shadow:
+    0 2px 4px rgba(139, 69, 19, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .main-nav-button:hover {
-    background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
-    border-color: var(--pf-brown-dark);
-    color: var(--pf-text-primary);
-    transform: translateY(-1px);
-    box-shadow:
-        0 4px 8px rgba(139, 69, 19, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
+  border-color: var(--pf-brown-dark);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .main-nav-button:active {
-    background: linear-gradient(180deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
-    transform: translateY(0px);
-    box-shadow:
-        0 1px 2px rgba(139, 69, 19, 0.3),
-        inset 0 2px 4px rgba(139, 69, 19, 0.1);
+  background: linear-gradient(180deg, var(--pf-parchment-dark), var(--pf-parchment-darker));
+  transform: translateY(0px);
+  box-shadow:
+    0 1px 2px rgba(139, 69, 19, 0.3),
+    inset 0 2px 4px rgba(139, 69, 19, 0.1);
 }
 
 .nav-icon {
-    width: 24px;
-    height: 24px;
-    stroke: var(--pf-text-secondary);
-    opacity: 0.9;
-    filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.3));
+  width: 24px;
+  height: 24px;
+  stroke: var(--pf-text-secondary);
+  opacity: 0.9;
+  filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.3));
 }
 
 .main-nav-button.active {
-    background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
-    border-color: var(--pf-gold-dark);
-    color: var(--pf-brown-darkest);
-    box-shadow:
-        0 4px 12px rgba(212, 175, 55, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow:
+    0 4px 12px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .main-nav-button.active .nav-icon {
-    stroke: var(--pf-brown-darkest);
-    opacity: 1;
+  stroke: var(--pf-brown-darkest);
+  opacity: 1;
 }
 
 /* Mobile navigation and window sizing */
 @media (max-width: 768px) {
-    .App {
-        padding: var(--pf-space-mobile-4);
-    }
+  .App {
+    padding: var(--pf-space-mobile-4);
+  }
 
-    .navigation {
-        left: 50%;
-        right: auto;
-        transform: translate(-50%, 0);
-        bottom: var(--pf-space-mobile-4);
-        width: calc(100% - (2 * var(--pf-space-mobile-4)));
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: var(--pf-space-mobile-2);
-        padding: var(--pf-space-mobile-2);
-    }
+  .navigation {
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, 0);
+    bottom: var(--pf-space-mobile-4);
+    width: calc(100% - (2 * var(--pf-space-mobile-4)));
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--pf-space-mobile-2);
+    padding: var(--pf-space-mobile-2);
+  }
 
-    .main-nav-button {
-        width: var(--pf-touch-target-comfortable);
-        height: var(--pf-touch-target-comfortable);
-        padding: var(--pf-space-mobile-2);
-    }
+  .main-nav-button {
+    width: var(--pf-touch-target-comfortable);
+    height: var(--pf-touch-target-comfortable);
+    padding: var(--pf-space-mobile-2);
+  }
 
-    .nav-icon {
-        width: 20px;
-        height: 20px;
-    }
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+  }
 
-    .wow-window,
-    .draggable-window,
-    .shop-window,
-    .item-wizard-modal,
-    .quick-item-generator-modal,
-    .categorize-modal {
-        max-width: 95vw;
-        max-height: 80vh;
-        left: 50% !important;
-        transform: translate(-50%, 0);
-    }
+  .wow-window,
+  .draggable-window,
+  .shop-window,
+  .item-wizard-modal,
+  .quick-item-generator-modal,
+  .categorize-modal {
+    max-width: 95vw;
+    max-height: 80vh;
+    left: 50% !important;
+    transform: translate(-50%, 0);
+  }
 }
 
 .hotkey {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    background: var(--pf-brown-dark);
-    color: var(--pf-text-on-dark);
-    padding: 1px 3px;
-    font-size: 9px;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0px;
-    border-radius: 3px;
-    border: 1px solid var(--pf-brown-medium);
-    opacity: 0.8;
-    min-width: 12px;
-    text-align: center;
-    pointer-events: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: var(--pf-brown-dark);
+  color: var(--pf-text-on-dark);
+  padding: 1px 3px;
+  font-size: 9px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0px;
+  border-radius: 3px;
+  border: 1px solid var(--pf-brown-medium);
+  opacity: 0.8;
+  min-width: 12px;
+  text-align: center;
+  pointer-events: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .main-nav-button:hover .hotkey {
-    opacity: 1;
-    background: var(--pf-brown-darkest);
-    border-color: var(--pf-brown-dark);
+  opacity: 1;
+  background: var(--pf-brown-darkest);
+  border-color: var(--pf-brown-dark);
 }
 
 /* ===== PATHFINDER CREATURE LIBRARY ===== */
@@ -458,7 +463,7 @@ input, textarea, [contenteditable="true"] {
   box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
 }
 
-.creature-resistances > div {
+.creature-resistances>div {
   display: inline-block;
   margin: var(--pf-space-1) var(--pf-space-2);
   padding: var(--pf-space-1) var(--pf-space-2);
@@ -1074,13 +1079,47 @@ input, textarea, [contenteditable="true"] {
 }
 
 /* ===== PATHFINDER INPUT STYLES ===== */
+/* NOTE: Scoped to game-specific containers only to prevent leakage into account pages */
 
-input[type="number"],
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select,
-textarea {
+.game-screen input[type="number"],
+.game-screen input[type="text"],
+.game-screen input[type="email"],
+.game-screen input[type="password"],
+.game-screen select,
+.game-screen textarea,
+.character-sheet input[type="number"],
+.character-sheet input[type="text"],
+.character-sheet input[type="email"],
+.character-sheet input[type="password"],
+.character-sheet select,
+.character-sheet textarea,
+.item-wizard-modal input[type="number"],
+.item-wizard-modal input[type="text"],
+.item-wizard-modal input[type="email"],
+.item-wizard-modal input[type="password"],
+.item-wizard-modal select,
+.item-wizard-modal textarea,
+.spell-wizard input[type="number"],
+.spell-wizard input[type="text"],
+.spell-wizard input[type="email"],
+.spell-wizard input[type="password"],
+.spell-wizard select,
+.spell-wizard textarea,
+.container-wizard input[type="number"],
+.container-wizard input[type="text"],
+.container-wizard input[type="email"],
+.container-wizard input[type="password"],
+.container-wizard select,
+.container-wizard textarea,
+.combat-tracker input[type="number"],
+.combat-tracker input[type="text"],
+.combat-tracker select,
+.wow-window input[type="number"],
+.wow-window input[type="text"],
+.wow-window input[type="email"],
+.wow-window input[type="password"],
+.wow-window select,
+.wow-window textarea {
   -moz-appearance: textfield;
   appearance: textfield;
   margin: 0;
@@ -1103,13 +1142,34 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* Focus styles */
-input[type="number"]:focus,
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
+/* Focus styles - scoped to game containers */
+.game-screen input[type="number"]:focus,
+.game-screen input[type="text"]:focus,
+.game-screen input[type="email"]:focus,
+.game-screen input[type="password"]:focus,
+.game-screen select:focus,
+.game-screen textarea:focus,
+.character-sheet input[type="number"]:focus,
+.character-sheet input[type="text"]:focus,
+.character-sheet input[type="email"]:focus,
+.character-sheet input[type="password"]:focus,
+.character-sheet select:focus,
+.character-sheet textarea:focus,
+.item-wizard-modal input[type="number"]:focus,
+.item-wizard-modal input[type="text"]:focus,
+.item-wizard-modal input[type="email"]:focus,
+.item-wizard-modal input[type="password"]:focus,
+.item-wizard-modal select:focus,
+.item-wizard-modal textarea:focus,
+.spell-wizard input[type="number"]:focus,
+.spell-wizard input[type="text"]:focus,
+.spell-wizard select:focus,
+.container-wizard input[type="number"]:focus,
+.container-wizard input[type="text"]:focus,
+.container-wizard select:focus,
+.wow-window input[type="number"]:focus,
+.wow-window input[type="text"]:focus,
+.wow-window select:focus {
   outline: none;
   border-color: var(--pf-gold);
   background: var(--pf-parchment-light);
@@ -1117,6 +1177,7 @@ textarea:focus {
     inset 0 1px 2px rgba(139, 69, 19, 0.1),
     0 0 8px rgba(212, 175, 55, 0.3);
 }
+
 
 /* ===== PATHFINDER DAMAGE TYPE GRID STYLES ===== */
 
@@ -1444,7 +1505,7 @@ textarea:focus {
   background: var(--pf-gradient-parchment);
 }
 
-.empty-state {
+.spellbook-content .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1484,9 +1545,9 @@ textarea:focus {
 .wow-nav-button.premium {
   position: relative;
   background: linear-gradient(145deg,
-    rgba(212, 175, 55, 0.1) 0%,
-    rgba(212, 175, 55, 0.05) 50%,
-    rgba(212, 175, 55, 0.1) 100%);
+      rgba(212, 175, 55, 0.1) 0%,
+      rgba(212, 175, 55, 0.05) 50%,
+      rgba(212, 175, 55, 0.1) 100%);
   border: 2px solid var(--pf-gold, #d4af37);
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
@@ -1525,9 +1586,9 @@ textarea:focus {
 
 .wow-nav-button.premium:hover {
   background: linear-gradient(145deg,
-    rgba(212, 175, 55, 0.2) 0%,
-    rgba(212, 175, 55, 0.1) 50%,
-    rgba(212, 175, 55, 0.2) 100%);
+      rgba(212, 175, 55, 0.2) 0%,
+      rgba(212, 175, 55, 0.1) 50%,
+      rgba(212, 175, 55, 0.2) 100%);
   border-color: #c19b26;
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
   transform: scale(1.05);

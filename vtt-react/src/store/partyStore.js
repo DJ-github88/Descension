@@ -47,57 +47,120 @@ const getSelfIdentifiers = () => {
     // presenceStore might not be initialized
   }
 
+  // Get from authStore if available
+  try {
+    const authStore = require('./authStore').default.getState();
+    if (authStore?.user?.uid) ids.add(authStore.user.uid);
+  } catch (e) {
+    // authStore might not be initialized
+  }
+
+  // Get from sessionStorage as a last resort for cross-tab stability
+  try {
+    const storedUid = sessionStorage.getItem('firebaseUserId');
+    if (storedUid) ids.add(storedUid);
+  } catch (e) { }
+
   return ids;
 };
 
-const isSelfMemberId = (memberId) => {
+const isSelfMemberId = (memberId, userId) => {
   const selfIds = getSelfIdentifiers();
-  return selfIds.has(memberId);
+  return selfIds.has(memberId) || (userId && selfIds.has(userId));
 };
 
 const ensureSelfMember = (members) => {
-  const selfIds = getSelfIdentifiers();
-  const hasSelf = (members || []).some(member =>
-    selfIds.has(member.id) || selfIds.has(member.userId) || selfIds.has(member.uid)
-  );
-  if (hasSelf) return members || [];
+  const membersArray = members || [];
 
-  // Use presenceStore as primary source for social/lobby context
+  // If there are already members being added, check if WE are one of them
+  const selfIds = getSelfIdentifiers();
+  const hasSelf = membersArray.some(member =>
+    selfIds.has(member.id) || selfIds.has(member.userId) || selfIds.has(member.uid) || selfIds.has(member.socketId)
+  );
+
+  // If we already have a representation in the members list, don't inject a fallback
+  if (hasSelf) {
+    return membersArray;
+  }
+
+  // Only inject fallback when no members exist OR no self representation exists
+  // Primary target for selfId is the Firebase UID if available
   let selfId = null;
   let selfName = 'Current Player';
   let selfClass = 'Unknown';
   let selfLevel = 1;
+  let isGM = false;
 
+  // Try authStore first for most stable identity
+  try {
+    const authStore = require('./authStore').default.getState();
+    if (authStore?.user?.uid) {
+      selfId = authStore.user.uid;
+    }
+  } catch (e) { }
+
+  // Try presenceStore
   try {
     const presenceStore = require('./presenceStore').default.getState();
     const presence = presenceStore.currentUserPresence;
     if (presence?.userId) {
-      selfId = presence.userId;
+      selfId = selfId || presence.userId;
       selfName = presence.characterName || presence.accountName || selfName;
       selfClass = presence.class || selfClass;
       selfLevel = presence.level || selfLevel;
     }
   } catch (e) { }
 
-  // Fallback to gameStore if presenceStore didn't yield an ID
-  if (!selfId) {
+  // Fallback to gameStore
+  if (!selfId || selfName === 'Current Player') {
     try {
       const gameStore = require('./gameStore').default.getState();
-      selfId = gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
-      if (selfId) {
+      selfId = selfId || gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
+      if (selfId && selfName === 'Current Player') {
         selfName = gameStore?.currentPlayer?.name || selfName;
       }
+      isGM = gameStore?.isGMMode || false;
     } catch (e) { }
   }
 
-  if (!selfId) return members || []; // Still no identity — don't add phantom
+  // Still no identity — don't add phantom member
+  if (!selfId) return membersArray;
+
+  // Try to get actual character data from characterStore instead of using defaults
+  let healthData = { current: 45, max: 50 };
+  let manaData = { current: 45, max: 50 };
+  let apData = { current: 1, max: 3 };
+
+  try {
+    const characterStore = require('./characterStore').default.getState();
+    if (characterStore?.health?.max > 0) {
+      healthData = { current: characterStore.health.current || 0, max: characterStore.health.max };
+    }
+    if (characterStore?.mana?.max > 0) {
+      manaData = { current: characterStore.mana.current || 0, max: characterStore.mana.max };
+    }
+    if (characterStore?.actionPoints?.max > 0) {
+      apData = { current: characterStore.actionPoints.current || 0, max: characterStore.actionPoints.max };
+    }
+    // Also get class/level from characterStore if available
+    if (characterStore?.class) selfClass = characterStore.class;
+    if (characterStore?.level) selfLevel = characterStore.level;
+    if (characterStore?.name && characterStore.name !== 'Character Name') {
+      selfName = characterStore.name;
+    }
+    // Update selfId to UID if available from store logic
+    const userId = characterStore.userId || characterStore.uid;
+    if (userId) selfId = userId;
+  } catch (e) { }
 
   return [
-    ...(members || []),
+    ...membersArray,
     {
       id: selfId,
+      userId: selfId, // Ensure both are identical for the self fallback
       name: selfName,
-      isGM: false,
+      isGM: isGM,
+      isConnected: true, // Self is always connected
       status: PARTY_STATUS.ONLINE,
       joinedAt: Date.now(),
       characterClass: selfClass,
@@ -105,9 +168,9 @@ const ensureSelfMember = (members) => {
       character: {
         class: selfClass,
         level: selfLevel,
-        health: { current: 100, max: 100 },
-        mana: { current: 100, max: 100 },
-        actionPoints: { current: 3, max: 3 }
+        health: healthData,
+        mana: manaData,
+        actionPoints: apData
       }
     }
   ];
@@ -135,9 +198,16 @@ const initialState = {
   // HUD and UI state
   memberPositions: {}, // memberId -> { x, y }
 
+  // Map assignments: playerId -> mapId
+  playerMapAssignments: {},
+
   // Leader and GM mode
   leaderId: null,
-  leaderMode: false
+  leaderMode: false,
+
+  // Creation lock
+  isCreatingParty: false,
+  partyCreationPromise: null
 };
 
 // Create the store
@@ -147,11 +217,28 @@ const usePartyStore = create((set, get) => ({
   // ==================== PARTY MANAGEMENT ====================
 
   /**
+   * Reset the store to initial state
+   */
+  resetStore: () => {
+    set(initialState);
+  },
+
+  /**
    * Create a new party with user as leader
    * Returns a Promise that resolves when the party is created
    */
   createParty: (partyName = 'New Party', isGM = false, leaderData = null) => {
-    return new Promise((resolve, reject) => {
+    const { isCreatingParty, partyCreationPromise } = get();
+
+    // Return existing promise if already creating
+    if (isCreatingParty && partyCreationPromise) {
+      console.log('⚠️ Party creation already in progress, returning existing promise');
+      return partyCreationPromise;
+    }
+
+    const creationPromise = new Promise((resolve, reject) => {
+      set({ isCreatingParty: true });
+
       const socket = getSocket();
 
       const actualLeaderData = leaderData || {
@@ -162,46 +249,88 @@ const usePartyStore = create((set, get) => ({
         characterLevel: 1
       };
 
-      if (!socket) {
+      // Check if socket is available AND connected
+      const isSocketConnected = socket && socket.connected;
+
+      if (!isSocketConnected) {
         // ALLOW LOCAL PARTY CREATION WITHOUT SOCKET
         // This is critical for single-player/local-room modes or when server is unavailable
-        if (partyName === 'Single Player Party' || partyName.includes('Local')) {
-          console.log('📱 Creating local single-player party (no socket available)');
-          const localParty = {
-            id: 'local-party-' + Date.now(),
-            name: partyName,
-            members: {
-              'current-player': actualLeaderData
-            }
-          };
-          set({
-            currentParty: localParty,
-            isInParty: true,
-            partyMembers: [actualLeaderData],
-            partyChatMessages: []
-          });
-          resolve(localParty);
-          return;
-        }
+        // Also allow when user explicitly wants a local party or socket is unreachable
+        console.log('📱 Creating local party (no socket connection available)');
 
-        console.error('❌ Cannot create party: No socket connection');
-        reject(new Error('No socket connection'));
+        const localParty = {
+          id: 'local-party-' + Date.now(),
+          name: partyName,
+          members: {
+            'current-player': actualLeaderData
+          },
+          isLocal: true // Mark as local-only party
+        };
+
+        set({
+          currentParty: localParty,
+          isInParty: true,
+          partyMembers: [actualLeaderData],
+          partyChatMessages: [],
+          isCreatingParty: false,
+          partyCreationPromise: null
+        });
+
+        console.log('✅ Local party created successfully:', partyName);
+        resolve(localParty);
         return;
       }
 
       console.log('🎉 Creating party:', { partyName, leaderData: actualLeaderData });
 
       // Set up one-time listener for party_created response
-      const onPartyCreated = (partyData) => {
+      const onPartyCreated = (payload) => {
         socket.off('party_created', onPartyCreated);
         socket.off('party_error', onPartyError);
 
-        set(state => ({
-          currentParty: partyData,
-          isInParty: true,
-          partyMembers: Object.values(partyData.members) || [],
-          partyChatMessages: []
-        }));
+        const partyData = payload.party || payload;
+
+        // MERGE members instead of replacing the whole array
+        // This prevents losing local character data or "current-player" entry
+        set(state => {
+          let membersArray = [];
+
+          if (Array.isArray(partyData.members)) {
+            membersArray = partyData.members;
+          } else if (partyData.members) {
+            membersArray = Object.values(partyData.members);
+          }
+
+          let updatedMembers = [...state.partyMembers];
+
+          membersArray.forEach(newMember => {
+            const selfIds = getSelfIdentifiers();
+            const isNewMemberSelf = selfIds.has(newMember.id) || (newMember.userId && selfIds.has(newMember.userId));
+
+            const existingIndex = updatedMembers.findIndex(m => {
+              if (isNewMemberSelf) {
+                return selfIds.has(m.id) || (m.userId && selfIds.has(m.userId)) || m.id === 'current-player';
+              }
+              return m.id === newMember.id || m.userId === newMember.id || m.id === newMember.userId || (m.userId && m.userId === newMember.userId);
+            });
+
+            if (existingIndex >= 0) {
+              updatedMembers[existingIndex] = { ...updatedMembers[existingIndex], ...newMember };
+            } else {
+              updatedMembers.push(newMember);
+            }
+          });
+
+          return {
+            currentParty: partyData,
+            isInParty: true,
+            partyMembers: updatedMembers,
+            partyChatMessages: [],
+            leaderId: partyData.leaderId || null,
+            isCreatingParty: false,
+            partyCreationPromise: null
+          };
+        });
 
         resolve(partyData);
       };
@@ -212,14 +341,47 @@ const usePartyStore = create((set, get) => ({
 
         // If error is "already in party", check if we have the party data and resolve
         if (error.error === 'You are already in a party' && error.party) {
-          set(state => ({
-            currentParty: error.party,
-            isInParty: true,
-            partyMembers: Object.values(error.party.members) || [],
-            partyChatMessages: []
-          }));
+          // MERGE members even on error case
+          set(state => {
+            let membersArray = [];
+            if (Array.isArray(error.party.members)) {
+              membersArray = error.party.members;
+            } else if (error.party.members) {
+              membersArray = Object.values(error.party.members);
+            }
+            let updatedMembers = [...state.partyMembers];
+
+            membersArray.forEach(newMember => {
+              const selfIds = getSelfIdentifiers();
+              const isNewMemberSelf = selfIds.has(newMember.id) || (newMember.userId && selfIds.has(newMember.userId));
+
+              const existingIndex = updatedMembers.findIndex(m => {
+                if (isNewMemberSelf) {
+                  return selfIds.has(m.id) || (m.userId && selfIds.has(m.userId)) || m.id === 'current-player';
+                }
+                return m.id === newMember.id || m.userId === newMember.id || m.id === newMember.userId || (m.userId && m.userId === newMember.userId);
+              });
+
+              if (existingIndex >= 0) {
+                updatedMembers[existingIndex] = { ...updatedMembers[existingIndex], ...newMember };
+              } else {
+                updatedMembers.push(newMember);
+              }
+            });
+
+            return {
+              currentParty: error.party,
+              isInParty: true,
+              partyMembers: updatedMembers,
+              partyChatMessages: [],
+              leaderId: error.party.leaderId || null,
+              isCreatingParty: false,
+              partyCreationPromise: null
+            };
+          });
           resolve(error.party);
         } else {
+          set({ isCreatingParty: false, partyCreationPromise: null });
           reject(new Error(error.error || 'Failed to create party'));
         }
       };
@@ -229,9 +391,14 @@ const usePartyStore = create((set, get) => ({
 
       // Set a timeout in case server doesn't respond
       setTimeout(() => {
-        socket.off('party_created', onPartyCreated);
-        socket.off('party_error', onPartyError);
-        reject(new Error('Party creation timeout'));
+        // Check if still creating before rejecting (to avoid race with success)
+        const currentState = get();
+        if (currentState.isCreatingParty && currentState.partyCreationPromise === creationPromise) {
+          socket.off('party_created', onPartyCreated);
+          socket.off('party_error', onPartyError);
+          set({ isCreatingParty: false, partyCreationPromise: null });
+          reject(new Error('Party creation timeout'));
+        }
       }, 10000);
 
       socket.emit('create_party', {
@@ -239,6 +406,9 @@ const usePartyStore = create((set, get) => ({
         leaderData: actualLeaderData
       });
     });
+
+    set({ isCreatingParty: true, partyCreationPromise: creationPromise });
+    return creationPromise;
   },
 
   /**
@@ -415,11 +585,78 @@ const usePartyStore = create((set, get) => ({
 
   /**
    * Add a member to the party
+   * Deduplicates by multiple fields (id, userId, name, socketId) to prevent duplicates
+   * from different sources (social party vs multiplayer room)
    */
   addPartyMember: (memberData) => {
-    set(state => ({
-      partyMembers: ensureSelfMember([...state.partyMembers, memberData])
-    }));
+    set(state => {
+      // Enhanced deduplication: check multiple fields
+      const selfIds = getSelfIdentifiers();
+      const isMemberNewSelf = selfIds.has(memberData.id) ||
+        (memberData.userId && selfIds.has(memberData.userId)) ||
+        (memberData.uid && selfIds.has(memberData.uid)) ||
+        (memberData.socketId && selfIds.has(memberData.socketId));
+
+      // CRITICAL FIX: If adding a GM and we are already GM in the party, don't add duplicate
+      // This prevents GM from seeing their own HUD twice when creating a room
+      if (memberData.isGM && !isMemberNewSelf) {
+        const existingGM = state.partyMembers.find(m => m.isGM);
+        if (existingGM) {
+          // Check if the existing GM is actually us (current player)
+          const isExistingGMSelf = selfIds.has(existingGM.id) ||
+            (existingGM.userId && selfIds.has(existingGM.userId)) ||
+            (existingGM.socketId && selfIds.has(existingGM.socketId));
+
+          if (isExistingGMSelf) {
+            console.log(`🚫 Skipping GM member add - current player is already GM: ${memberData.name || memberData.id}`);
+            return state;
+          }
+        }
+      }
+
+      const existingIndex = state.partyMembers.findIndex(m => {
+        // If we are adding ourselves, match any existing entry that is also self
+        if (isMemberNewSelf) {
+          const isExistingSelf = selfIds.has(m.id) ||
+            (m.userId && selfIds.has(m.userId)) ||
+            (m.uid && selfIds.has(m.uid)) ||
+            (m.socketId && selfIds.has(m.socketId)) ||
+            m.id === 'current-player';
+          if (isExistingSelf) return true;
+        }
+
+        // Check by multiple ID forms
+        const mIds = [m.id, m.userId, m.uid, m.socketId].filter(Boolean);
+        const newDataIds = [memberData.id, memberData.userId, memberData.uid, memberData.socketId].filter(Boolean);
+
+        // If any IDs match, it's the same person
+        if (mIds.some(id => newDataIds.includes(id))) return true;
+
+        // Check by name AND isGM (GM is usually unique in a room)
+        if (m.isGM && memberData.isGM) return true;
+
+        // Check by name (only if both have names and same class to avoid false positives)
+        // This is a last resort fallback for cases where IDs might be missing (historical data)
+        if (m.name && memberData.name && m.name === memberData.name) {
+          const sameClass = m.character?.class === memberData.character?.class;
+          const sameLevel = m.character?.level === memberData.character?.level;
+          if (sameClass && sameLevel) return true;
+        }
+        return false;
+      });
+
+      if (existingIndex >= 0) {
+        const updated = [...state.partyMembers];
+        // Merge data, preferring new data but preserving any missing fields
+        updated[existingIndex] = { ...updated[existingIndex], ...memberData };
+        console.log(`🔄 Updated existing party member: ${memberData.name || memberData.id}`);
+        return { partyMembers: updated };
+      }
+
+      console.log(`➕ Adding new party member: ${memberData.name || memberData.id}`);
+      const newMembersList = [...state.partyMembers, memberData];
+      return { partyMembers: newMembersList };
+    });
   },
 
   /**
@@ -483,14 +720,31 @@ const usePartyStore = create((set, get) => ({
 
   /**
    * Update a specific party member's data
+   * CRITICAL FIX: Deep merge character object to preserve nested resources (health, mana, actionPoints)
    */
   updatePartyMember: (memberId, updates, silent = false) => {
-    const isTargetSelf = isSelfMemberId(memberId);
+    const isTargetSelf = isSelfMemberId(memberId, updates?.userId);
 
     set(state => ({
       partyMembers: state.partyMembers.map(m => {
-        const isMemberSelf = isSelfMemberId(m.id);
-        if ((isTargetSelf && isMemberSelf) || m.id === memberId) {
+        const isMemberSelf = isSelfMemberId(m.id, m.userId);
+        if ((isTargetSelf && isMemberSelf) || m.id === memberId || (m.userId && m.userId === memberId)) {
+          // Deep merge character object if present in updates
+          if (updates.character && m.character) {
+            const mergedCharacter = {
+              ...m.character,
+              ...updates.character,
+              // Deep merge nested resources to prevent data loss
+              ...(updates.character.health ? { health: { ...m.character.health, ...updates.character.health } } : {}),
+              ...(updates.character.mana ? { mana: { ...m.character.mana, ...updates.character.mana } } : {}),
+              ...(updates.character.actionPoints ? { actionPoints: { ...m.character.actionPoints, ...updates.character.actionPoints } } : {}),
+              // Preserve classResource if not explicitly updated
+              ...(m.character.classResource && !updates.character.classResource ? { classResource: m.character.classResource } : {}),
+              // Deep merge classResource if both exist
+              ...(updates.character.classResource && m.character.classResource ? { classResource: { ...m.character.classResource, ...updates.character.classResource } } : {})
+            };
+            return { ...m, ...updates, character: mergedCharacter };
+          }
           return { ...m, ...updates };
         }
         return m;
@@ -560,6 +814,27 @@ const usePartyStore = create((set, get) => ({
   },
 
   /**
+   * Set a single player's map assignment
+   */
+  setPlayerMapAssignment: (playerId, mapId) => {
+    if (!playerId) return;
+    set(state => ({
+      playerMapAssignments: {
+        ...state.playerMapAssignments,
+        [playerId]: mapId
+      }
+    }));
+  },
+
+  /**
+   * Set all player map assignments at once (bulk update)
+   */
+  setAllPlayerMapAssignments: (assignments) => {
+    if (!assignments || typeof assignments !== 'object') return;
+    set({ playerMapAssignments: { ...assignments } });
+  },
+
+  /**
    * Check if current user is the party leader
    */
   isPartyLeader: () => {
@@ -567,16 +842,25 @@ const usePartyStore = create((set, get) => ({
     if (!leaderId) return false;
 
     // Check various identity forms
+    const selfIds = getSelfIdentifiers();
+    if (selfIds.has(leaderId)) return true;
+
     try {
       const gameStore = require('./gameStore').default.getState();
       const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id;
-      if (myId && leaderId === myId) return true;
+      if (myId && (leaderId === myId || selfIds.has(myId))) return true;
     } catch (e) { }
 
     try {
       const presenceStore = require('./presenceStore').default.getState();
       const myPresenceId = presenceStore.currentUserPresence?.userId;
-      if (myPresenceId && leaderId === myPresenceId) return true;
+      if (myPresenceId && (leaderId === myPresenceId || selfIds.has(myPresenceId))) return true;
+    } catch (e) { }
+
+    try {
+      const authStore = require('./authStore').default.getState();
+      const myUserId = authStore.user?.uid;
+      if (myUserId && (leaderId === myUserId || selfIds.has(myUserId))) return true;
     } catch (e) { }
 
     return leaderId === 'current-player';
@@ -588,6 +872,51 @@ const usePartyStore = create((set, get) => ({
   isUserLeader: (userId) => {
     const { leaderId } = get();
     return leaderId && userId === leaderId;
+  },
+
+  /**
+   * Reset store to initial state (used when joining/leaving rooms)
+   */
+  resetStore: () => {
+    set({
+      currentParty: null,
+      isInParty: false,
+      partyMembers: [],
+      partyChatMessages: [],
+      pendingPartyInvites: [],
+      sentPartyInvites: [],
+      leaderId: null,
+      leaderMode: false,
+      memberPositions: {},
+      playerMapAssignments: {}
+    });
+  },
+
+  /**
+   * Clear party members only (used when transitioning from social party to room party)
+   * Prevents duplicate HUDs when entering a multiplayer room
+   */
+  clearPartyMembers: () => {
+    set({
+      partyMembers: [],
+      isInParty: false,
+      leaderId: null,
+      leaderMode: false,
+      memberPositions: {},
+      playerMapAssignments: {}
+    });
+  },
+
+  /**
+   * Replace all party members with new list (used for room transitions)
+   * More efficient than clear + add for each member
+   */
+  replacePartyMembers: (members) => {
+    const membersList = Array.isArray(members) ? members : [];
+    set({
+      partyMembers: membersList,
+      isInParty: membersList.length > 0
+    });
   }
 }));
 

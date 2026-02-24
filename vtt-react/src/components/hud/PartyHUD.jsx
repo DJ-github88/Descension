@@ -12,6 +12,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import { CONDITIONS } from '../../data/conditionsData';
 import useChatStore from '../../store/chatStore';
 import usePresenceStore from '../../store/presenceStore';
+import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
@@ -23,27 +24,46 @@ import { getIconUrl } from '../../utils/assetManager';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
+
 // Helper to check if an ID belongs to the current player
-function isSelfId(id) {
+// CRITICAL FIX: Check against userId (Firebase UID) FIRST, then server UUID, then socket.io ID
+function isSelfId(id, userId, myIds = {}) {
     if (!id) return false;
     if (id === 'current-player') return true;
+
+    // Use passed-in reactive IDs if available - prioritize these as they are tab-specific
+    if (myIds.serverId && id === myIds.serverId) return true;
+    if (myIds.socketId && id === myIds.socketId) return true;
+    
+    // Only match userId if we DON'T have a more specific connection ID match available
+    const hasStrictIds = !!(myIds.serverId || myIds.socketId);
+    if (!hasStrictIds && myIds.userId && (id === myIds.userId || userId === myIds.userId)) return true;
+
+    // Fallback to store state (non-reactive fallback)
     try {
-        const gameStore = useGameStore.getState();
-        const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id;
-        return myId && id === myId;
+        const gameSate = useGameStore.getState();
+        const serverId = gameSate.currentPlayer?.id;
+        const socketId = gameSate.multiplayerSocket?.id;
+        const authUid = useAuthStore.getState().user?.uid;
+
+        if (id === serverId || id === socketId) return true;
+        
+        // Only fallback to userId if no serverId is known for the candidate
+        if (!hasStrictIds && authUid && (id === authUid || userId === authUid)) return true;
+
+        return id === 'current-player';
     } catch (e) {
         return id === 'current-player';
     }
 }
 
-const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
+const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
     const frameRef = useRef(null);
     const healthBarRef = useRef(null);
     const manaBarRef = useRef(null);
     const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
-    const leaderId = usePartyStore(state => state.leaderId);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
     const currentPlayerStoreData = useCharacterStore(state => ({
@@ -691,12 +711,21 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                         )}
                     </div>
                     {/* GM/Leader Crown */}
-                    {(member.id === leaderId || (isSelfId(member.id) && isSelfId(leaderId))) && (
+                    {/* CRITICAL FIX: Show crown only for actual GM or real leaderId match */}
+                    {/* Avoid 'current-player' fallback triggering crown on non-GM players */}
+                    {(member.isGM ||
+                        (leaderId && leaderId !== 'current-player' && (
+                            member.id === leaderId ||
+                            member.socketId === leaderId ||
+                            member.userId === leaderId
+                        )) ||
+                        (isCurrentPlayer && leaderId === 'current-player' && member.isGM)
+                    ) && (
 
-                        <div className="leader-crown">
-                            <i className="fas fa-crown"></i>
-                        </div>
-                    )}
+                            <div className="leader-crown">
+                                <i className="fas fa-crown"></i>
+                            </div>
+                        )}
                 </div>
 
                 {/* Info Section */}
@@ -1541,9 +1570,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 backgroundDisplayName: state.backgroundDisplayName,
                 path: state.path,
                 pathDisplayName: state.pathDisplayName,
-                health: state.health,
-                mana: state.mana,
-                actionPoints: state.actionPoints,
+                // CRITICAL: Always ensure valid resource values for HUD display
+                health: (state.health?.max > 0) ? state.health : { current: 45, max: 50 },
+                mana: (state.mana?.max > 0) ? state.mana : { current: 45, max: 50 },
+                actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 1, max: 3 },
                 tempHealth: state.tempHealth || 0,
                 tempMana: state.tempMana || 0,
                 tempActionPoints: state.tempActionPoints || 0,
@@ -1554,7 +1584,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             (characterData) => {
                 // Update the current player in the party store when character data changes
                 const partyState = usePartyStore.getState();
-                const currentMember = partyState.partyMembers.find(m => isSelfId(m.id));
+                const currentMember = partyState.partyMembers.find(m =>
+                    isSelfId(m.userId, m.userId) || isSelfId(m.id, m.userId));
                 if (currentMember) {
                     usePartyStore.getState().updatePartyMember(currentMember.id, {
 
@@ -1619,7 +1650,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         updatePartyMember,
         getMemberPosition,
         setMemberPosition,
-        currentParty
+        currentParty,
+        leaderId // Get leaderId from store hook for reactivity
     } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource, updateClassResource } = useCharacterStore();
@@ -1628,6 +1660,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { addNotification, addCombatNotification } = useChatStore();
     const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+    const alignment = useCharacterStore(state => state.alignment);
+    const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
+
+    // Reactive identity IDs for robust isSelfId matching
+    const myIds = {
+        userId: useAuthStore(state => state.user?.uid),
+        serverId: useGameStore(state => state.currentPlayer?.id),
+        socketId: useGameStore(state => state.multiplayerSocket?.id)
+    };
+
     const currentPlayerData = useCharacterStore(state => ({
         // Use baseName or name from store, but we'll override this with lobby name if needed
         name: state.name,
@@ -1642,9 +1684,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         pathDisplayName: state.pathDisplayName,
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
-        health: state.health,
-        mana: state.mana,
-        actionPoints: state.actionPoints,
+        // CRITICAL: Always ensure valid resource values for HUD display
+        // Use fallbacks if store values are missing or invalid
+        health: (state.health?.max > 0) ? state.health : { current: 45, max: 50 },
+        mana: (state.mana?.max > 0) ? state.mana : { current: 45, max: 50 },
+        actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 1, max: 3 },
         tempHealth: state.tempHealth || 0,
         tempMana: state.tempMana || 0,
         tempActionPoints: state.tempActionPoints || 0,
@@ -1810,12 +1854,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const handleCreateToken = () => {
         if (!contextMenuMember) return;
 
-        // Check if this is the current player
-        // CRITICAL FIX: Use ID instead of name to avoid collisions
-        const isSelf = contextMenuMember.id === 'current-player';
+        // Check if this is the current player for isSelf flag
+        // CRITICAL FIX: Use isSelfId for proper identification
+        const isSelf = isSelfId(contextMenuMember.id, contextMenuMember.userId, myIds);
 
-        if (isSelf && onCreateToken) {
-            // Only allow creating tokens for the current player
+        // Allow creating tokens for ANY party member (not just self)
+        // This lets GM create tokens for players and players create their own tokens
+        if (onCreateToken) {
             onCreateToken(contextMenuMember, isSelf);
         }
 
@@ -1825,8 +1870,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const handleUninviteMember = () => {
         if (!contextMenuMember) return;
 
-        // Don't allow removing the current player (check by name and ID)
-        if (contextMenuMember.name === currentPlayerData.name || isSelfId(contextMenuMember.id)) {
+        // Don't allow removing the current player (check by name, ID, and userId)
+        if (contextMenuMember.name === currentPlayerData.name ||
+            isSelfId(contextMenuMember.userId, contextMenuMember.userId, myIds) ||
+            isSelfId(contextMenuMember.id, contextMenuMember.userId, myIds)) {
 
             setShowContextMenu(false);
             return;
@@ -1875,8 +1922,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const handleTransferLeadership = () => {
         if (!contextMenuMember) return;
 
-        // Don't allow transferring to yourself
-        if (isSelfId(contextMenuMember.id)) {
+        // Don't allow transferring to yourself (check userId, id, and socketId)
+        if (isSelfId(contextMenuMember.userId, contextMenuMember.userId) ||
+            isSelfId(contextMenuMember.id, contextMenuMember.userId)) {
 
             setShowContextMenu(false);
             return;
@@ -1920,13 +1968,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Handler for class resource updates (e.g., Inferno Veil)
     const handleClassResourceUpdate = (memberId, field, value) => {
-        if (isSelfId(memberId)) {
+        if (isSelfId(memberId) || isSelfId(memberId, undefined)) {
 
             // Update current player's class resource in character store
             updateClassResource(field, value);
         } else {
             // Update party member's class resource in party store
-            const member = partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId);
             if (member && member.character?.classResource) {
                 updatePartyMember(memberId, {
                     character: {
@@ -1947,12 +1995,24 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         resourceBarRefs.current[memberId] = refs;
     }, []);
 
+    // Helper function to find a party member by any of their IDs (id, userId, or socketId)
+    const findMemberById = (memberId, members = partyMembers) => {
+        if (memberId === 'current-player') {
+            return members.find(m => m.id === 'current-player');
+        }
+        return members.find(m => 
+            m.id === memberId || 
+            m.userId === memberId || 
+            m.socketId === memberId
+        );
+    };
+
     // Helper function to get character name from memberId
     const getCharacterName = (memberId) => {
         if (memberId === 'current-player') {
             return currentPlayerData.name || 'Player';
         }
-        const member = partyMembers.find(m => m.id === memberId);
+        const member = findMemberById(memberId);
         return member?.name || 'Unknown';
     };
 
@@ -2089,7 +2149,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 currentValue = currentPlayerData[resourceType]?.current || 0;
                 maxValue = currentPlayerData[resourceType]?.max || 0;
             } else {
-                const member = partyMembers.find(m => m.id === memberId);
+                const member = findMemberById(memberId);
                 if (!member) return;
                 currentValue = member.character?.[resourceType]?.current || 0;
                 maxValue = member.character?.[resourceType]?.max || 0;
@@ -2134,10 +2194,21 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             resourceType,
             adjustment,
             asTemporary,
-            isCurrentPlayer: memberId === 'current-player'
+            isCurrentPlayer: memberId === 'current-player',
+            hasSocket: !!socket,
+            socketConnected: socket?.connected
         });
 
-        if (isSelfId(memberId)) {
+        // CRITICAL DEBUG: Log if socket is not available
+        if (!socket || !socket.connected) {
+            console.warn('⚠️ PartyHUD: Socket not available or not connected', {
+                hasSocket: !!socket,
+                socketConnected: socket?.connected,
+                socketId: socket?.id
+            });
+        }
+
+        if (isSelfId(memberId, undefined, myIds)) {
 
             // Update current player's resources in character store
             // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
@@ -2200,51 +2271,67 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
             // Emit update for current player
             if (socket && socket.connected && adjustment !== 0) {
-                // Use the hook imported at the top of the file
-                const getActiveCharacter = useCharacterStore.getState().getActiveCharacter;
-                const activeCharacter = getActiveCharacter();
-                if (activeCharacter) {
-                    // We need to construct the updated character data or fetch it again
-                    // Since store updates are synchronous, we might be able to fetch valid data
-                    // But safer to reconstruct with what we know if possible, or just rely on store
-                    setTimeout(() => {
-                        const updatedChar = getActiveCharacter();
-                        if (updatedChar) {
-                            socket.emit('character_updated', {
-                                characterId: updatedChar.id,
-                                character: updatedChar
-                            });
+                // Get fresh data from character store
+                const charState = useCharacterStore.getState();
+                const currentResource = charState[resourceType];
+                const currentTempValue = charState[tempField];
+                
+                // Capture values to emit
+                const capturedCurrent = currentResource?.current;
+                const capturedMax = currentResource?.max;
+                const capturedTemp = currentTempValue;
+                const capturedPlayerId = myId;
+                const capturedPlayerName = charState.name;
+                const capturedResourceType = resourceType;
+                const currentSocket = socket;
 
-                            // Also emit individual resource update including temp values for immediate HUD sync
-                            socket.emit('character_resource_updated', {
-                                playerId: myId,
+                console.log('📤 PartyHUD emitting self resource update:', {
+                    playerId: capturedPlayerId,
+                    playerName: capturedPlayerName,
+                    resource: capturedResourceType,
+                    current: capturedCurrent,
+                    max: capturedMax,
+                    temp: capturedTemp,
+                    socketConnected: currentSocket?.connected
+                });
 
-                                playerName: updatedChar.name, // Include name for fallback matching
-                                resource: resourceType,
-                                current: updatedChar[resourceType]?.current,
-                                max: updatedChar[resourceType]?.max,
-                                temp: updatedChar[tempField],
-                                timestamp: Date.now()
-                            });
-                        }
-                    }, 0);
+                if (capturedCurrent !== undefined && capturedMax !== undefined) {
+                    // Emit resource update immediately
+                    currentSocket.emit('character_resource_updated', {
+                        playerId: capturedPlayerId,
+                        playerName: capturedPlayerName,
+                        resource: capturedResourceType,
+                        current: capturedCurrent,
+                        max: capturedMax,
+                        temp: capturedTemp,
+                        adjustment: adjustment,
+                        timestamp: Date.now()
+                    });
+                    console.log('✅ PartyHUD emitted self character_resource_updated');
                 }
             }
         } else {
             // Update party member's resources (NOT current player)
             // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
             const partyState = usePartyStore.getState();
-            const member = partyState.partyMembers.find(m => m.id === memberId);
-            if (member) {
-                const currentValue = member.character?.[resourceType]?.current || 0;
-                const maxValue = member.character?.[resourceType]?.max || 0;
-                const currentTemp = member.character?.[tempField] || 0;
+            const member = findMemberById(memberId, partyState.partyMembers);
+            if (member && member.character) {
+                const currentValue = member.character[resourceType]?.current || 0;
+                const maxValue = member.character[resourceType]?.max || 0;
+                const currentTemp = member.character[tempField] || 0;
+                
+                // CRITICAL FIX: Calculate new values BEFORE update, then emit those calculated values
+                // This prevents stale data issues when reading from store after async update
+                let finalCurrentValue = currentValue;
+                let finalTempValue = currentTemp;
+                const capturedPlayerName = member.name;
 
                 if (asTemporary && adjustment > 0) {
                     // Add as temporary resource (overheal)
                     const overhealAmount = (currentValue + adjustment) - maxValue;
+                    finalCurrentValue = maxValue;
+                    finalTempValue = currentTemp + overhealAmount;
 
-                    // Set resource to max and add overheal as temporary
                     updatePartyMember(memberId, {
                         character: {
                             ...member.character,
@@ -2252,7 +2339,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                 ...member.character[resourceType],
                                 current: maxValue
                             },
-                            [tempField]: currentTemp + overhealAmount
+                            [tempField]: finalTempValue
                         }
                     });
                 } else if (adjustment < 0) {
@@ -2265,11 +2352,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     // First, reduce temporary resources
                     if (currentTemp > 0) {
                         if (damageAmount <= currentTemp) {
-                            // All damage absorbed by temporary resources
                             newTemp = currentTemp - damageAmount;
                             remainingDamage = 0;
                         } else {
-                            // Temporary resources exhausted, remaining damage goes to actual resource
                             remainingDamage = damageAmount - currentTemp;
                             newTemp = 0;
                         }
@@ -2279,8 +2364,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     if (remainingDamage > 0) {
                         newValue = Math.max(0, currentValue - remainingDamage);
                     }
+                    
+                    finalCurrentValue = newValue;
+                    finalTempValue = newTemp;
 
-                    // Update both resource and temporary resource
                     updatePartyMember(memberId, {
                         character: {
                             ...member.character,
@@ -2293,13 +2380,15 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 } else {
                     // Normal positive adjustment (healing/restoring, no overheal)
-                    const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    finalCurrentValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    finalTempValue = currentTemp;
+                    
                     updatePartyMember(memberId, {
                         character: {
                             ...member.character,
                             [resourceType]: {
                                 ...member.character[resourceType],
-                                current: newValue
+                                current: finalCurrentValue
                             }
                         }
                     });
@@ -2315,33 +2404,29 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
 
                 // Emit update for party member (GM updating another player)
+                // CRITICAL FIX: Emit the CALCULATED values directly, not re-reading from store
                 if (socket && socket.connected && adjustment !== 0) {
-                    // Use setTimeout to ensure store has updated
-                    setTimeout(() => {
-                        const usePartyStore = require('../../store/partyStore').default;
-                        const updatedMember = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+                    console.log('📤 PartyHUD emitting resource update (calculated values):', {
+                        playerId: memberId,
+                        playerName: capturedPlayerName,
+                        resource: resourceType,
+                        current: finalCurrentValue,
+                        max: maxValue,
+                        temp: finalTempValue,
+                        socketConnected: socket?.connected
+                    });
 
-                        console.log('📤 PartyHUD preparing to emit:', {
-                            memberId,
-                            foundMember: !!updatedMember,
-                            memberName: updatedMember?.name,
-                            resourceType,
-                            adjustment
-                        });
-
-                        if (updatedMember && updatedMember.character) {
-                            socket.emit('character_resource_updated', {
-                                playerId: memberId,
-                                playerName: updatedMember.name, // Include name for fallback matching
-                                resource: resourceType,
-                                current: updatedMember.character[resourceType]?.current,
-                                max: updatedMember.character[resourceType]?.max,
-                                temp: updatedMember.character[tempField],
-                                adjustment: adjustment, // Include adjustment for FCT sync
-                                timestamp: Date.now()
-                            });
-                        }
-                    }, 0);
+                    socket.emit('character_resource_updated', {
+                        playerId: memberId,
+                        playerName: capturedPlayerName,
+                        resource: resourceType,
+                        current: finalCurrentValue,
+                        max: maxValue,
+                        temp: finalTempValue,
+                        adjustment: adjustment,
+                        timestamp: Date.now()
+                    });
+                    console.log('✅ PartyHUD emitted character_resource_updated');
                 }
             }
         }
@@ -2509,7 +2594,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const actorName = getActorName();
         const newLevel = isSelfId(memberId) ? useCharacterStore.getState().level :
 
-            (partyMembers.find(m => m.id === memberId)?.character?.level || '?');
+            (findMemberById(memberId)?.character?.level || '?');
         const levelMessages = levelChange > 0 ? [
             `${characterName} reached level ${newLevel}`,
             `${characterName} leveled up!`,
@@ -2549,7 +2634,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             handleResourceAdjust(memberId, 'health', healAmount);
             if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
                 const maxHp = member.character?.health?.max || 0;
                 const currentHp = member.character?.health?.current || 0;
@@ -2568,44 +2653,59 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const maxHp = charState.health?.max || 0;
-            const currentHp = charState.health?.current || 0;
-            const maxMp = charState.mana?.max || 0;
-            const currentMp = charState.mana?.current || 0;
-            const maxAp = charState.actionPoints?.max || 0;
-            const currentAp = charState.actionPoints?.current || 0;
-            const healthAmount = maxHp - currentHp;
-            const manaAmount = maxMp - currentMp;
-            const apAmount = maxAp - currentAp;
+            const maxHp = charState.health?.max ?? 0;
+            const currentHp = charState.health?.current ?? 0;
+            const maxMp = charState.mana?.max ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const maxAp = charState.actionPoints?.max ?? 0;
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const healthAmount = Math.max(0, maxHp - currentHp);
+            const manaAmount = Math.max(0, maxMp - currentMp);
+            const apAmount = Math.max(0, maxAp - currentAp);
+
+            // Skip if nothing to restore
+            if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                console.log('ℹ️ handleFullRestoreAll: All resources already full, skipping');
+                setShowContextMenu(false);
+                return;
+            }
 
             // Skip individual logging - we'll log once at the end
-            applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
-            applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
-            applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+            if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+            if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+            if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
 
             // Log as single combined message
             if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                 logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, true);
             }
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
-            if (member) {
-                const maxHp = member.character?.health?.max || 0;
-                const currentHp = member.character?.health?.current || 0;
-                const maxMp = member.character?.mana?.max || 0;
-                const currentMp = member.character?.mana?.current || 0;
-                const maxAp = member.character?.actionPoints?.max || 0;
-                const currentAp = member.character?.actionPoints?.current || 0;
-                const healthAmount = maxHp - currentHp;
-                const manaAmount = maxMp - currentMp;
-                const apAmount = maxAp - currentAp;
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
+            if (member && member.character) {
+                const maxHp = member.character.health?.max ?? 0;
+                const currentHp = member.character.health?.current ?? 0;
+                const maxMp = member.character.mana?.max ?? 0;
+                const currentMp = member.character.mana?.current ?? 0;
+                const maxAp = member.character.actionPoints?.max ?? 0;
+                const currentAp = member.character.actionPoints?.current ?? 0;
+                const healthAmount = Math.max(0, maxHp - currentHp);
+                const manaAmount = Math.max(0, maxMp - currentMp);
+                const apAmount = Math.max(0, maxAp - currentAp);
+
+                // Skip if nothing to restore
+                if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                    console.log('ℹ️ handleFullRestoreAll: All resources already full, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
 
                 // Skip individual logging - we'll log once at the end
-                applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
-                applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
-                applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
+                if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', healthAmount, false, true);
+                if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', manaAmount, false, true);
+                if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', apAmount, false, true);
 
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
@@ -2623,42 +2723,59 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const currentHp = charState.health?.current || 0;
-            const tempHp = charState.tempHealth || 0;
-            const currentMp = charState.mana?.current || 0;
-            const tempMp = charState.tempMana || 0;
-            const currentAp = charState.actionPoints?.current || 0;
-            const tempAp = charState.tempActionPoints || 0;
+            const currentHp = charState.health?.current ?? 0;
+            const tempHp = charState.tempHealth ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const tempMp = charState.tempMana ?? 0;
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const tempAp = charState.tempActionPoints ?? 0;
             const healthAmount = currentHp + tempHp;
             const manaAmount = currentMp + tempMp;
             const apAmount = currentAp + tempAp;
 
+            // Skip if nothing to drain
+            if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                console.log('ℹ️ handleFullDrainAll: All resources already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+
             // Drain all resources including temporary - skip individual logging
-            applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
-            applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
-            applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
+            if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+            if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+            if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
 
             // Log as single combined message
             if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
                 logFullResourceChange(characterName, healthAmount, manaAmount, apAmount, false);
             }
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
-                const currentHp = member.character?.health?.current || 0;
-                const tempHp = member.character?.tempHealth || 0;
-                const currentMp = member.character?.mana?.current || 0;
-                const tempMp = member.character?.tempMana || 0;
-                const currentAp = member.character?.actionPoints?.current || 0;
-                const tempAp = member.character?.tempActionPoints || 0;
+                const currentHp = member.character?.health?.current ?? 0;
+                const tempHp = member.character?.tempHealth ?? 0;
+                const currentMp = member.character?.mana?.current ?? 0;
+                const tempMp = member.character?.tempMana ?? 0;
+                const currentAp = member.character?.actionPoints?.current ?? 0;
+                const tempAp = member.character?.tempActionPoints ?? 0;
                 const healthAmount = currentHp + tempHp;
                 const manaAmount = currentMp + tempMp;
                 const apAmount = currentAp + tempAp;
 
+                // Skip if nothing to drain
+                if (healthAmount === 0 && manaAmount === 0 && apAmount === 0) {
+                    console.log('ℹ️ handleFullDrainAll: All resources already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+
                 // Drain all resources including temporary - skip individual logging
-                applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+                if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
+                if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
+                if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
                 applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
                 applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
 
@@ -2677,19 +2794,39 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         const memberId = contextMenuMember.id;
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        // This handles GM's own HUD which may have a server UUID instead of 'current-player'
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const currentHp = charState.health?.current || 0;
-            const tempHp = charState.tempHealth || 0;
+            const currentHp = charState.health?.current ?? 0;
+            const tempHp = charState.tempHealth ?? 0;
+            const totalDamage = currentHp + tempHp;
+            
+            // Skip if already dead (no adjustment needed)
+            if (totalDamage <= 0) {
+                console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+            
             // Drain both current and temporary HP
-            handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
+            handleResourceAdjust(memberId, 'health', -totalDamage);
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
-                const currentHp = member.character?.health?.current || 0;
-                const tempHp = member.character?.tempHealth || 0;
+                const currentHp = member.character?.health?.current ?? 0;
+                const tempHp = member.character?.tempHealth ?? 0;
+                const totalDamage = currentHp + tempHp;
+                
+                // Skip if already dead (no adjustment needed)
+                if (totalDamage <= 0) {
+                    console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+                
                 // Drain both current and temporary HP
-                handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
+                handleResourceAdjust(memberId, 'health', -totalDamage);
             }
         }
         setShowContextMenu(false);
@@ -2702,20 +2839,37 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const currentMp = charState.mana?.current || 0;
-            const tempMp = charState.tempMana || 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const tempMp = charState.tempMana ?? 0;
             const drainAmount = currentMp + tempMp;
+            
+            // Skip if nothing to drain
+            if (drainAmount <= 0) {
+                console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+            
             // Drain both current and temporary mana
             handleResourceAdjust(memberId, 'mana', -drainAmount);
             if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
-                const currentMp = member.character?.mana?.current || 0;
-                const tempMp = member.character?.tempMana || 0;
+                const currentMp = member.character?.mana?.current ?? 0;
+                const tempMp = member.character?.tempMana ?? 0;
                 const drainAmount = currentMp + tempMp;
+                
+                // Skip if nothing to drain
+                if (drainAmount <= 0) {
+                    console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+                
                 // Drain both current and temporary mana
                 handleResourceAdjust(memberId, 'mana', -drainAmount);
                 if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
@@ -2731,19 +2885,36 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const maxMp = charState.mana?.max || 0;
-            const currentMp = charState.mana?.current || 0;
-            const restoreAmount = maxMp - currentMp;
+            const maxMp = charState.mana?.max ?? 0;
+            const currentMp = charState.mana?.current ?? 0;
+            const restoreAmount = Math.max(0, maxMp - currentMp);
+            
+            // Skip if already at max
+            if (restoreAmount <= 0) {
+                console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+            
             handleResourceAdjust(memberId, 'mana', restoreAmount);
             if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
-                const maxMp = member.character?.mana?.max || 0;
-                const currentMp = member.character?.mana?.current || 0;
-                const restoreAmount = maxMp - currentMp;
+                const maxMp = member.character?.mana?.max ?? 0;
+                const currentMp = member.character?.mana?.current ?? 0;
+                const restoreAmount = Math.max(0, maxMp - currentMp);
+                
+                // Skip if already at max
+                if (restoreAmount <= 0) {
+                    console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+                
                 handleResourceAdjust(memberId, 'mana', restoreAmount);
                 if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
             }
@@ -2758,20 +2929,37 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
 
-        if (memberId === 'current-player') {
+        // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
+        if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
-            const currentAp = charState.actionPoints?.current || 0;
-            const tempAp = charState.tempActionPoints || 0;
+            const currentAp = charState.actionPoints?.current ?? 0;
+            const tempAp = charState.tempActionPoints ?? 0;
             const drainAmount = currentAp + tempAp;
+            
+            // Skip if nothing to drain
+            if (drainAmount <= 0) {
+                console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
+                setShowContextMenu(false);
+                return;
+            }
+            
             // Drain both current and temporary AP
             handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
             if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
         } else {
-            const member = usePartyStore.getState().partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
-                const currentAp = member.character?.actionPoints?.current || 0;
-                const tempAp = member.character?.tempActionPoints || 0;
+                const currentAp = member.character?.actionPoints?.current ?? 0;
+                const tempAp = member.character?.tempActionPoints ?? 0;
                 const drainAmount = currentAp + tempAp;
+                
+                // Skip if nothing to drain
+                if (drainAmount <= 0) {
+                    console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
+                    setShowContextMenu(false);
+                    return;
+                }
+                
                 // Drain both current and temporary AP
                 handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
                 if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
@@ -2801,9 +2989,24 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Simple rule: Show HUDs for all room members
     // No complex leadership - room creator is GM, others are players
-    const displayMembers = partyMembers.map(member => {
+    // CRITICAL FIX: Filter to only show connected members or current-player
+    const displayMembers = partyMembers
+        .filter(member => {
+            // Always show current player
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            if (isSelf || member.id === 'current-player') return true;
+            // Only show other members if they are actually connected to the room
+            return member.isConnected === true;
+        })
+        .map(member => {
         // Update current player with live character data
-        if (isSelfId(member.id)) {
+        // CRITICAL FIX: Check member.userId FIRST (most reliable), then id and socketId
+        const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+            isSelfId(member.id, member.userId, myIds) ||
+            isSelfId(member.socketId, member.userId, myIds);
+        if (isSelf) {
 
             // Debug logging for party HUD resource display
             if (currentPlayerData.name === 'YAD') {
@@ -2841,7 +3044,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
             };
         }
-        return member;
+        // CRITICAL: Ensure non-current players also have valid resource fallbacks
+        return {
+            ...member,
+            character: {
+                ...member.character,
+                health: (member.character?.health?.max > 0) ? member.character.health : { current: 45, max: 50 },
+                mana: (member.character?.mana?.max > 0) ? member.character.mana : { current: 45, max: 50 },
+                actionPoints: (member.character?.actionPoints?.max > 0) ? member.character.actionPoints : { current: 1, max: 3 }
+            }
+        };
     });
 
     return (
@@ -2896,8 +3108,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
                                     member={member}
-                                    isCurrentPlayer={isSelfId(member.id)}
-
+                                    isCurrentPlayer={isSelfId(member.userId, member.userId, myIds) || isSelfId(member.id, member.userId, myIds) || isSelfId(member.socketId, member.userId, myIds)}
+                                    leaderId={leaderId}
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}
                                     onBuffContextMenu={handleBuffContextMenu}
@@ -2942,7 +3154,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 });
 
                 // Only show create token for current player
-                if (contextMenuMember?.name === currentPlayerData.name || isSelfId(contextMenuMember?.id)) {
+                if (contextMenuMember?.name === currentPlayerData.name || isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds)) {
 
                     menuItems.push({
                         icon: <i className="fas fa-plus-circle"></i>,
@@ -3135,7 +3347,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                         const currentAp = currentPlayerData.actionPoints?.current || 0;
                                         handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
                                     } else {
-                                        const member = partyMembers.find(m => m.id === memberId);
+            const member = findMemberById(memberId);
                                         if (member) {
                                             const maxAp = member.character?.actionPoints?.max || 0;
                                             const currentAp = member.character?.actionPoints?.current || 0;
@@ -3241,7 +3453,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
 
                 // Leadership transfer - show options if current player is actual GM
-                const currentMember = partyMembers.find(m => isSelfId(m.id));
+                const currentMember = partyMembers.find(m => isSelfId(m.id, m.userId, myIds));
 
                 const isActualGM = currentMember?.isGM;
                 const leaderId = usePartyStore.getState().leaderId;
@@ -3249,9 +3461,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 if (isActualGM) {
                     menuItems.push({ type: 'separator' });
 
-                    if (isSelfId(contextMenuMember?.id)) {
+                    if (isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds)) {
                         // Current player (GM) context menu
-                        if (!isSelfId(leaderId)) {
+                        if (!isSelfId(leaderId, undefined, myIds)) {
                             menuItems.push({
                                 icon: <i className="fas fa-crown"></i>,
                                 label: 'Regain Leadership',

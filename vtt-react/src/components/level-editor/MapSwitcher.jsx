@@ -4,7 +4,7 @@ import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
-import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
+import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import './styles/MapSwitcher.css';
 
 const MapSwitcher = () => {
@@ -52,7 +52,7 @@ const MapSwitcher = () => {
                     }
                 }));
 
-                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+                await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
             }
 
             // Save current map state before switching

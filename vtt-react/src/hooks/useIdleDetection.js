@@ -1,7 +1,7 @@
 /**
  * Idle Detection Hook
  * 
- * Automatically detects user inactivity and updates their status to 'idle' after 2 minutes.
+ * Automatically detects user inactivity and updates their status to 'away' after 2 minutes.
  * Restores previous status when user becomes active again.
  */
 
@@ -27,27 +27,27 @@ const useIdleDetection = () => {
     // Get current status to check if we should restore
     const currentStatus = usePresenceStore.getState().currentUserPresence?.status;
 
-    // If user was idle and is now active, restore their previous status
-    // BUT only if the current status is still 'idle' (user hasn't manually changed it)
-    if (isIdleRef.current && previousStatusRef.current && currentStatus === 'idle') {
+    // If user was idle (away) and is now active, restore their previous status
+    // BUT only if the current status is still 'away' (user hasn't manually changed it)
+    if (isIdleRef.current && previousStatusRef.current && currentStatus === 'away') {
       updateStatus(previousStatusRef.current, null);
       isIdleRef.current = false;
       previousStatusRef.current = null;
-    } else if (isIdleRef.current && currentStatus !== 'idle') {
+    } else if (isIdleRef.current && currentStatus !== 'away') {
       // User manually changed status while idle, so clear idle state without restoring
       isIdleRef.current = false;
       previousStatusRef.current = null;
     }
 
-    // Set new timer to mark user as idle after 2 minutes
+    // Set new timer to mark user as away after 2 minutes
     idleTimerRef.current = setTimeout(() => {
       const currentStatus = usePresenceStore.getState().currentUserPresence?.status;
 
-      // Only set to idle if user is not already idle or offline
-      if (currentStatus && currentStatus !== 'idle' && currentStatus !== 'offline') {
+      // Only set to away if user is not already away or offline
+      if (currentStatus && currentStatus !== 'away' && currentStatus !== 'offline') {
         previousStatusRef.current = currentStatus;
         isIdleRef.current = true;
-        updateStatus('idle', null);
+        updateStatus('away', null);
       }
     }, IDLE_TIMEOUT);
   };

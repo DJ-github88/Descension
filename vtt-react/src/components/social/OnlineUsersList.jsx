@@ -10,13 +10,15 @@ import { createPortal } from 'react-dom';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
-import PartyPanel from './PartyPanel';
+
 import useSocialStore from '../../store/socialStore';
 import useCharacterStore from '../../store/characterStore';
 import authService from '../../services/authService';
 import useSettingsStore from '../../store/settingsStore';
+import presenceService from '../../services/firebase/presenceService';
 import PartyCreationDialog from './PartyCreationDialog';
 import UserCard from './UserCard';
+import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import '../../styles/social-window.css';
 
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
@@ -35,6 +37,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [noteUserType, setNoteUserType] = useState(null); // 'friend' or 'ignored'
   const [showStatusMenu, setShowStatusMenu] = useState(false);
   const [showNoteDialog, setShowNoteDialog] = useState(false);
+  const [pendingRemoveFriend, setPendingRemoveFriend] = useState(null);
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
@@ -102,10 +105,15 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     });
   }, [friends, currentUserPresence]);
 
-  // Filter out offline users from the global list
+  // Filter out offline users from the global list, but always include current user
   const activeOnlineUsers = useMemo(() => {
-    return onlineUsers.filter(u => u.status !== 'offline');
-  }, [onlineUsers]);
+    return onlineUsers.filter(u => {
+      // Always show current user (even when appearing offline)
+      if (u.userId === currentUserPresence?.userId) return true;
+      // Others must pass isUserOnline check (filters out 'offline' status)
+      return presenceService.isUserOnline(u);
+    });
+  }, [onlineUsers, currentUserPresence?.userId]);
 
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
@@ -213,6 +221,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const handleInviteToParty = async () => {
     const sendPartyInvite = usePresenceStore.getState().sendPartyInvite;
     const currentUserPresence = usePresenceStore.getState().currentUserPresence;
+    const ensureSocketConnected = usePresenceStore.getState().ensureSocketConnected;
 
     // Get the user ID - check multiple possible fields (userId, id, uid)
     const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
@@ -227,11 +236,9 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     // Find online user to invite
     const onlineUser = onlineUsers.find(u => u.userId === targetUserId);
 
-    // Get friend presence - try multiple ID fields
     const friendPres = friendPresence[targetUserId] || friendPresence[contextMenu.user.id];
 
-    // Check if user is online (include 'idle' as a valid online status)
-    const isUserOnline = onlineUser || (friendPres && ['online', 'away', 'busy', 'idle'].includes(friendPres.status));
+    const isUserOnline = onlineUser || presenceService.isUserOnline(friendPres);
 
     if (!isUserOnline) {
       console.warn('⚠️ User not found or offline:', contextMenu.user.name, 'status:', friendPres?.status);
@@ -247,6 +254,13 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     };
 
     try {
+      // Ensure social socket is connected before any party operation
+      // (including createParty) to avoid create timeout paths.
+      const socketReady = await ensureSocketConnected(5000);
+      if (!socketReady) {
+        throw new Error('Social server unavailable - could not connect socket for party invite');
+      }
+
       // If not in party, create one first and wait for it
       if (!isInParty) {
         const currentPlayerName = currentUserPresence?.characterName || currentUserPresence?.accountName || 'Unknown';
@@ -263,7 +277,10 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
       // Now send the invitation using the correct user ID
       const inviteTargetId = targetUser.userId || targetUser.id || targetUserId;
-      sendPartyInvite(inviteTargetId, targetUser.characterName || targetUser.name);
+      const inviteSent = sendPartyInvite(inviteTargetId, targetUser.characterName || targetUser.name);
+      if (!inviteSent) {
+        throw new Error('Failed to send party invite (socket not connected)');
+      }
       console.log('✅ Sent party invitation to:', targetUser.characterName || targetUser.name, 'ID:', inviteTargetId);
     } catch (error) {
       console.error('❌ Failed to send party invitation:', error);
@@ -320,11 +337,9 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   const handleRemoveFriend = () => {
     if (contextMenu?.user) {
-      // Find friend by name
       const friend = friends.find(f => f.name === contextMenu.user.characterName || f.name === contextMenu.user.name);
       if (friend) {
-        removeFriend(friend.id);
-        console.log(`✅ Removed ${friend.name} from friends`);
+        setPendingRemoveFriend(friend);
       }
     }
     closeContextMenu();
@@ -481,8 +496,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       case 'online': return '🟢';
       case 'away': return '🟡';
       case 'busy': return '🔴';
-      case 'idle': return '⚪'; // Grey for idle
-      case 'offline': return '⚫'; // White/grey for appear offline
+      case 'offline': return '⚪'; // White for appear offline
       default: return '⚪';
     }
   };
@@ -642,26 +656,31 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               filteredUsers.map((user) => {
                 const isCurrentUser = user.userId === currentUserPresence?.userId;
 
-                // For current user, merge character store data with online user data
-                const userData = isCurrentUser ? {
+                // Check if user is a friend or ignored
+                const isFriend = (friends || []).some(f => f.id === user.userId || f.friendId === user.friendId);
+                const isIgnored = (ignored || []).some(i => i.id === user.userId || i.name === user.characterName);
+
+                // ONLY use characterStore values for the local user's own card.
+                // For other users, use the presence data directly.
+                const userData = {
                   ...user,
-                  characterName: characterName || user.characterName || user.name,
-                  name: characterName || user.name,
-                  level: characterLevel || user.level || 1,
-                  class: characterClass || user.class || 'Unknown',
-                  background: characterBackground || user.background,
-                  backgroundDisplayName: characterBackgroundDisplayName || user.backgroundDisplayName,
-                  path: characterPath || user.path,
-                  pathDisplayName: characterPathDisplayName || user.pathDisplayName,
-                  race: characterRace || user.race,
-                  subrace: characterSubrace || user.subrace,
-                  raceDisplayName: characterRaceDisplayName || user.raceDisplayName
-                } : user;
+                  characterName: isCurrentUser ? (characterName || user.characterName) : (user.characterName || ''),
+                  name: user.name, // The account name
+                  level: isCurrentUser ? (characterLevel || user.level) : user.level,
+                  class: isCurrentUser ? (characterClass || user.class) : user.class,
+                  background: isCurrentUser ? (characterBackground || user.background) : user.background,
+                  backgroundDisplayName: isCurrentUser ? (characterBackgroundDisplayName || user.backgroundDisplayName) : user.backgroundDisplayName,
+                  race: isCurrentUser ? (characterRace || user.race) : user.race,
+                  subrace: isCurrentUser ? (characterSubrace || user.subrace) : user.subrace,
+                  raceDisplayName: isCurrentUser ? (characterRaceDisplayName || user.raceDisplayName) : user.raceDisplayName,
+                  isFriend,
+                  isIgnored
+                };
 
                 return (
                   <UserCard
                     key={user.userId}
-                    user={userData}
+                    user={isCurrentUser ? { ...userData, isFriend: false, isIgnored: false } : userData}
                     nameFormat="global"
                     isCurrentUser={isCurrentUser}
                     showYouBadge={isCurrentUser}
@@ -679,17 +698,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         {/* Friends Tab */}
         {activeTab === 'friends' && (
           <div className="users-section friends-section">
-            {/* Quick Actions: Create Party */}
-            <div className="friends-quick-actions">
-              <button
-                className="create-party-btn"
-                onClick={handleCreateParty}
-                title="Create a new party"
-              >
-                <i className="fas fa-users"></i>
-                Create Party
-              </button>
-            </div>
+
 
             {filteredFriends.length === 0 ? (
               <div className="no-users">
@@ -703,10 +712,10 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                   const onlineUser = onlineUsers.find(u => u.userId === friend.id || u.characterName === friend.name);
                   const friendPres = friendPresence[friend.id];
                   const friendData = onlineUser
-                    ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id }
+                    ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id, isFriend: true }
                     : friendPres
-                      ? { ...friend, ...friendPres, friendId: friend.friendId, userId: friend.id }
-                      : { ...friend, status: 'offline', userId: friend.id };
+                      ? { ...friend, ...friendPres, friendId: friend.friendId, userId: friend.id, isFriend: true }
+                      : { ...friend, status: 'offline', userId: friend.id, isFriend: true };
 
                   return (
                     <UserCard
@@ -748,7 +757,10 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 {ignored.map((ignoredUser) => {
                   // Find the ignored user in online users to get current status
                   const onlineUser = onlineUsers.find(u => u.characterName === ignoredUser.name);
-                  const userData = onlineUser || ignoredUser;
+                  const userData = {
+                    ...(onlineUser || ignoredUser),
+                    isIgnored: true
+                  };
 
                   return (
                     <UserCard
@@ -798,10 +810,46 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         {/* Party Tab */}
         {activeTab === 'party' && (
           <div className="users-section party-section">
-            <PartyPanel
-              onCreateParty={handleCreateParty}
-              onContextMenu={handleContextMenu}
-            />
+            {!getCurrentPartyId() ? (
+              <div className="no-users">
+                <i className="fas fa-users"></i>
+                <p>No party</p>
+                <p className="hint">Right-click a friend or online user to invite them to a party.</p>
+              </div>
+            ) : (
+              partyMembers.map((member) => {
+                const isLeader = member.id === usePartyStore.getState().leaderId || member.isGM || member.isLeader;
+                const isCurrentPlayer = member.id === 'current-player' ||
+                  member.id === currentUserPresence?.userId ||
+                  member.userId === currentUserPresence?.userId ||
+                  member.uid === currentUserPresence?.userId;
+
+                const userCardData = {
+                  ...member,
+                  characterName: member.name,
+                  level: member.characterLevel || member.level,
+                  class: member.characterClass || member.class,
+                  status: member.status || 'online'
+                };
+
+                return (
+                  <UserCard
+                    key={member.id}
+                    user={userCardData}
+                    nameFormat="party"
+                    isCurrentUser={isCurrentPlayer}
+                    isLeader={isLeader}
+                    showLeaderCrown={true}
+                    showYouBadge={true}
+                    className="party-member-card"
+                    onContextMenu={(e) => handleContextMenu(e, {
+                      ...member,
+                      userId: member.userId || member.id
+                    })}
+                  />
+                );
+              })
+            )}
           </div>
         )}
       </div>
@@ -961,7 +1009,11 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             {(() => {
               const targetUserId = contextMenu.user.userId || contextMenu.user.uid || contextMenu.user.id;
               const isContextMenuUserSelf = currentUserPresence?.userId === targetUserId;
-              const isUserInParty = isInParty;
+              // Check if the TARGET user is in the party (not just if current user is in a party)
+              const targetUserInParty = partyMembers.some(m =>
+                m.id === targetUserId ||
+                m.userId === targetUserId
+              );
 
               return contextMenu.isIgnored ? (
                 <>
@@ -1039,7 +1091,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                         closeContextMenu();
                       }}
                     >
-                      <span className="status-icon">⚫</span>
+                      <span className="status-icon">⚪</span>
                       Appear Offline
                     </button>
                   </div>
@@ -1086,7 +1138,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                   </button>
 
                   {/* Show different party options based on whether user is in party */}
-                  {isUserInParty ? (
+                  {targetUserInParty ? (
                     <>
                       {/* Only show leader options if current user is leader and target is NOT self */}
                       {isLeader && !isContextMenuUserSelf && (
@@ -1188,6 +1240,18 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           document.body
         )
       }
+
+      {pendingRemoveFriend && createPortal(
+        <ConfirmationDialog
+          message={`Remove "${pendingRemoveFriend.name}" from your friends list?`}
+          onConfirm={() => {
+            removeFriend(pendingRemoveFriend.id);
+            setPendingRemoveFriend(null);
+          }}
+          onCancel={() => setPendingRemoveFriend(null)}
+        />,
+        document.body
+      )}
     </div >
   );
 };

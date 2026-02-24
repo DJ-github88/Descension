@@ -15,7 +15,7 @@ import ConnectionContextMenu from './ConnectionContextMenu';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
 import useMapStore from '../../store/mapStore';
 import useSettingsStore from '../../store/settingsStore';
-import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
+import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
 import './styles/TileOverlay.css';
 
@@ -402,7 +402,7 @@ const TileOverlay = () => {
                         }
                     }));
 
-                    await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+                    await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
                 }
 
                 // Switch map if needed (fully awaited to avoid stale reads/races)

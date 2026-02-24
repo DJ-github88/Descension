@@ -56,7 +56,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const setDefaultViewFromToken = useSettingsStore(state => state.setDefaultViewFromToken);
     const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
     const setShowMapTransitions = useSettingsStore(state => state.setShowMapTransitions);
-    
+
     // Speech bubble settings
     const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
     const setShowSpeechBubbles = useSettingsStore(state => state.setShowSpeechBubbles);
@@ -152,6 +152,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
         if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected && selectedPlayersForRest.length > 0) {
             multiplayerSocket.emit('gm_action', {
                 type: 'short_rest',
+                roomId: multiplayerRoom?.id,
                 targetPlayerIds: selectedPlayersForRest
             });
         }
@@ -166,6 +167,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
         if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected && selectedPlayersForRest.length > 0) {
             multiplayerSocket.emit('gm_action', {
                 type: 'long_rest',
+                roomId: multiplayerRoom?.id,
                 targetPlayerIds: selectedPlayersForRest
             });
         }
@@ -180,6 +182,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             multiplayerSocket.emit('gm_action', {
                 type: 'award_xp',
                 amount,
+                roomId: multiplayerRoom?.id,
                 targetPlayerIds: selectedPlayersForXP
             });
         }
@@ -191,7 +194,10 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     // Helper to sync gameplay settings in multiplayer
     const syncGameplaySettings = (settings) => {
         if (isGMMode && isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-            multiplayerSocket.emit('sync_gameplay_settings', settings);
+            multiplayerSocket.emit('sync_gameplay_settings', {
+                ...settings,
+                roomId: multiplayerRoom?.id
+            });
         }
     };
 
@@ -201,6 +207,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             multiplayerSocket.emit('gm_action', {
                 type: 'adjust_level',
                 amount,
+                roomId: multiplayerRoom?.id,
                 targetPlayerIds: selectedPlayersForXP
             });
         }
@@ -208,8 +215,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             adjustLevel(amount);
         }
     };
-
-    // Handle leave multiplayer room
     const handleLeaveMultiplayer = () => {
         if (window.confirm('Are you sure you want to leave the multiplayer room?')) {
             leaveMultiplayer();
@@ -510,15 +515,15 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="settings-group">
                         <div className="control-group">
                             <label className="control-label control-checkbox">
-                                <input 
-                                    type="checkbox" 
-                                    checked={showSpeechBubbles} 
+                                <input
+                                    type="checkbox"
+                                    checked={showSpeechBubbles}
                                     onChange={(e) => setShowSpeechBubbles({ showSpeechBubbles: e.target.checked })}
-                                    style={{ marginRight: '8px' }} 
+                                    style={{ marginRight: '8px' }}
                                 />
                                 Show Speech Bubbles
                             </label>
@@ -526,7 +531,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 <p>Display floating speech bubbles next to player HUD elements when they send chat messages. Bubbles appear for all players in global/party chat, and only the recipient sees whisper bubbles.</p>
                             </div>
                         </div>
-                        
+
                         {showSpeechBubbles && (
                             <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', borderRadius: '6px', border: '1px solid rgba(139, 69, 19, 0.2)' }}>
                                 <label className="control-label">
@@ -534,14 +539,14 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 </label>
                                 <div className="control-row" style={{ marginTop: '8px' }}>
                                     <span className="range-label">2s</span>
-                                    <input 
-                                        type="range" 
-                                        min="2" 
-                                        max="10" 
+                                    <input
+                                        type="range"
+                                        min="2"
+                                        max="10"
                                         step="1"
                                         value={speechBubbleDuration}
                                         onChange={(e) => setSpeechBubbleDuration({ speechBubbleDuration: parseInt(e.target.value) })}
-                                        className="control-slider" 
+                                        className="control-slider"
                                     />
                                     <span className="range-label">10s</span>
                                 </div>

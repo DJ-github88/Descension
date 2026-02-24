@@ -2,14 +2,16 @@
 
 .combat-selection-content {
     padding: 24px;
-    background: #f0e6d2; /* Solid parchment background */
+    background: #f0e6d2;
+    /* Solid parchment background */
     color: #3a3a3a;
     font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
+    /* Prevent scrolling */
 }
 
 /* ===== SIMPLE HEADER ===== */
@@ -34,7 +36,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    min-height: 0; /* Allow flex shrinking */
+    min-height: 0;
+    /* Allow flex shrinking */
 }
 
 .combatants-header {
@@ -123,7 +126,7 @@
 
 /* ===== EMPTY STATE ===== */
 
-.empty-state {
+.combat-selection-content .empty-state {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -140,7 +143,7 @@
     opacity: 0.4;
 }
 
-.empty-state p {
+.combat-selection-content .empty-state p {
     font-size: 18px;
     font-weight: 600;
     margin: 0;

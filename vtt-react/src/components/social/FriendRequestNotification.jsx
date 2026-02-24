@@ -54,7 +54,7 @@ const FriendRequestNotification = ({ request }) => {
                     </div>
                     <div className="sender-info">
                         <span className="sender-name">{request.senderName || 'Unknown Player'}</span>
-                        <span className="sender-details">Friend ID: {request.friendId || 'N/A'}</span>
+                        <span className="sender-details">Friend ID: #{request.senderFriendId || 'N/A'}</span>
                     </div>
                 </div>
             </div>

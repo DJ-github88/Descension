@@ -1968,6 +1968,17 @@ const useLevelEditorStore = create((set, get) => ({
     // Clear all fog of war
     clearFogOfWar: () => {
         set({ fogOfWarData: {} });
+
+        // Emit GM action for multiplayer synchronization
+        const useGameStore = require('./gameStore').default;
+        const gameStore = useGameStore.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            gameStore.multiplayerSocket.emit('gm_action', {
+                type: 'clear_fog',
+                action: 'clear_fog',
+                timestamp: Date.now()
+            });
+        }
     },
 
     // Calculate all revealed areas based on current tokens and settings
@@ -2531,6 +2542,17 @@ const useLevelEditorStore = create((set, get) => ({
             mapUpdateBatcher.addUpdate('fogOfWarPaths', [], mapId);
             mapUpdateBatcher.addUpdate('fogErasePaths', [], mapId);
             mapUpdateBatcher.addUpdate('fogOfWarData', {}, mapId);
+
+            // Also emit GM action for multiplayer synchronization
+            const useGameStore = require('./gameStore').default;
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                gameStore.multiplayerSocket.emit('gm_action', {
+                    type: 'clear_fog',
+                    action: 'clear_fog',
+                    timestamp: Date.now()
+                });
+            }
         }
     },
 

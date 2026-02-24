@@ -49,7 +49,7 @@ export const DEFAULT_USER_SETTINGS = {
   showGridCoordinates: false,
 
   // Cursor & Interaction Settings
-  showCursorTracking: true,
+  showCursorTracking: false,
   cursorPingEnabled: true,
   cursorPingColor: '#FF6B6B',
 

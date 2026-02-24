@@ -17,6 +17,29 @@ const chatDebug = (...args) => {
   }
 };
 
+const DEFAULT_SOCIAL_SOCKET_URL = 'https://descension-mythrill.up.railway.app';
+
+const getSocketUrlCandidates = () => {
+  const envUrl = process.env.REACT_APP_SOCKET_URL;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const candidates = [];
+
+  if (envUrl) {
+    candidates.push(envUrl);
+  } else {
+    candidates.push(isProduction ? DEFAULT_SOCIAL_SOCKET_URL : 'http://localhost:3001');
+  }
+
+  const primaryUrl = candidates[0] || '';
+  const shouldAddProductionFallback = !isProduction && /localhost|127\.0\.0\.1/i.test(primaryUrl);
+
+  if (shouldAddProductionFallback && !candidates.includes(DEFAULT_SOCIAL_SOCKET_URL)) {
+    candidates.push(DEFAULT_SOCIAL_SOCKET_URL);
+  }
+
+  return candidates.filter(Boolean);
+};
+
 const safeLower = (v) => (typeof v === 'string' ? v.trim().toLowerCase() : '');
 
 const findPartyMemberByAnyId = (partyMembers = [], id) => {
@@ -58,6 +81,9 @@ const usePresenceStore = create((set, get) => ({
   // Party chat state (integrated with partyStore)
   partyChatMessages: [],
 
+  // Party members (synced with partyStore for HUD display)
+  partyMembers: [],
+
   // Room invitations
   pendingInvitations: [],
 
@@ -66,6 +92,9 @@ const usePresenceStore = create((set, get) => ({
 
   // GM session invitation (when GM with party joins a room)
   gmSessionInvitation: null,
+
+  // Pending multiplayer join (after accepting GM session invitation)
+  pendingMultiplayerJoin: null,
 
   // Socket connection
   socket: null,
@@ -114,8 +143,22 @@ const usePresenceStore = create((set, get) => ({
       socket.emit('register_presence', {
         userId,
         name: characterData.name || characterData.characterName,
+        accountName, // CRITICAL: Include account name for fallback when character name is generic
         characterClass: characterData.class || characterData.characterClass,
-        characterLevel: characterData.level || characterData.characterLevel
+        characterLevel: characterData.level || characterData.characterLevel,
+        // Include full character data for HUD display in party/rooms
+        character: {
+          class: characterData.class || characterData.characterClass || 'Unknown',
+          level: characterData.level || characterData.characterLevel || 1,
+          health: characterData.health || { current: 45, max: 50 },
+          mana: characterData.mana || { current: 45, max: 50 },
+          actionPoints: characterData.actionPoints || { current: 1, max: 3 },
+          race: characterData.race || 'Unknown',
+          raceDisplayName: characterData.raceDisplayName || 'Unknown'
+        },
+        health: characterData.health || { current: 45, max: 50 },
+        mana: characterData.mana || { current: 45, max: 50 },
+        actionPoints: characterData.actionPoints || { current: 1, max: 3 }
       });
     }
 
@@ -193,6 +236,52 @@ const usePresenceStore = create((set, get) => ({
   /**
    * Update current user's status (online/away/busy) and optional status comment
    */
+  // Helper for centralized party updates from various socket events
+  handlePartyUpdate: (partyData) => {
+    if (!partyData) return;
+
+    const members = partyData.members ? (
+      Array.isArray(partyData.members) ? partyData.members : Object.values(partyData.members)
+    ) : [];
+
+    // Enrich all members with character data if missing
+    const enrichedMembers = members.map(m => ({
+      ...m,
+      character: m.character || {
+        class: m.characterClass || 'Unknown',
+        level: m.characterLevel || 1,
+        health: { current: 45, max: 50 },
+        mana: { current: 45, max: 50 },
+        actionPoints: { current: 1, max: 3 }
+      }
+    }));
+
+    set(state => ({
+      currentParty: partyData,
+      isInParty: true,
+      partyMembers: enrichedMembers
+    }));
+
+    // Sync to partyStore
+    try {
+      const gameStore = require('./gameStore').default;
+      const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
+      const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
+
+      if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
+        const partyStore = require('./partyStore').default;
+        partyStore.setState({
+          currentParty: partyData,
+          isInParty: true,
+          partyMembers: enrichedMembers,
+          leaderId: partyData.leaderId || null
+        });
+      }
+    } catch (e) {
+      console.warn('⚠️ Failed to sync party update to partyStore:', e);
+    }
+  },
+
   updateStatus: async (status, statusComment = null) => {
     const { currentUserPresence, onlineUsers } = get();
 
@@ -531,25 +620,30 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    // Only skip local add when multiplayer socket is actively connected
-    // (server will echo/confirm to avoid duplication)
-    const hasMultiplayerSocketConnection =
-      !!(gameStoreState?.isInMultiplayer && multiplayerSocket?.connected);
+    console.log('📤 Sending whisper:', {
+      recipientId: normalizedRecipientId,
+      recipientName: recipientName,
+      targetUserFound: !!targetUser,
+      recipientPartyMemberFound: !!recipientPartyMember,
+      socketConnected: socket?.connected
+    });
 
-    // Only add locally if NOT in multiplayer mode (server will send confirmation)
-    if (!hasMultiplayerSocketConnection) {
-      // Single-player mode or no socket - add locally
+    // FIXED: Always rely on server confirmation to avoid duplicates
+    // Server will send whisper_sent confirmation which adds to UI
+    // Only add locally if there's NO socket connection at all (truly offline)
+    const hasAnySocketConnection = (socket && socket.connected) || (multiplayerSocket && multiplayerSocket.connected);
+
+    if (!hasAnySocketConnection) {
+      // Truly offline - add locally only
       get().addWhisperMessage(normalizedRecipientId, message);
     }
 
     if (socket && socket.connected) {
-      // Real user - send via socket (server will send confirmation)
+      // Send via social socket (server will send confirmation)
       socket.emit('whisper_message', message);
-    } else {
+    } else if (multiplayerSocket && multiplayerSocket.connected) {
       // Use multiplayer socket when available
-      if (multiplayerSocket && multiplayerSocket.connected) {
-        multiplayerSocket.emit('whisper_message', message);
-      }
+      multiplayerSocket.emit('whisper_message', message);
     }
 
     return true;
@@ -630,16 +724,29 @@ const usePresenceStore = create((set, get) => ({
     const { socket, isConnected } = get();
 
     // If already connected, don't re-initialize
-    if (socket && isConnected) {
+    if (socket?.connected && isConnected) {
       return socket;
     }
 
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
-      (process.env.NODE_ENV === 'production'
-        ? 'https://descension-mythrill.up.railway.app'
-        : 'http://localhost:3001');
+    // Clean up stale disconnected socket before reinitializing
+    if (socket && !socket.connected) {
+      try {
+        socket.removeAllListeners();
+        socket.disconnect();
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+      set({ socket: null, isConnected: false });
+    }
 
-    console.log('🔌 Initializing global socket at:', SOCKET_URL);
+    const socketUrlCandidates = getSocketUrlCandidates();
+    if (socketUrlCandidates.length === 0) {
+      console.error('❌ No socket URL candidates configured for social socket');
+      return null;
+    }
+
+    let [primarySocketUrl, ...fallbackSocketUrls] = socketUrlCandidates;
+    let fallbackAttempted = false;
 
     // Get auth token
     let authToken = null;
@@ -653,33 +760,124 @@ const usePresenceStore = create((set, get) => ({
       console.warn('Could not get auth token for global socket:', error);
     }
 
-    const newSocket = io(SOCKET_URL, {
+    const socketOptions = {
       auth: {
         token: authToken
       },
       reconnection: true,
       reconnectionAttempts: 5,
-      reconnectionDelay: 1000
+      reconnectionDelay: 1000,
+      timeout: 5000
+    };
+
+    const wireConnectionHandlers = (activeSocket, socketUrl) => {
+      // Handle (re)connection - re-register presence
+      activeSocket.on('connect', () => {
+        console.log('🔌 Socket connected:', activeSocket.id, 'url:', socketUrl);
+        get().setConnected(true);
+
+        // Re-register presence on (re)connection
+        const { currentUserPresence } = get();
+        if (currentUserPresence) {
+          console.log('📝 Re-registering presence on connect for:', currentUserPresence.userId);
+          activeSocket.emit('register_presence', {
+            userId: currentUserPresence.userId,
+            name: currentUserPresence.name || currentUserPresence.characterName,
+            accountName: currentUserPresence.accountName || null, // CRITICAL: Include account name for fallback
+            characterClass: currentUserPresence.class || currentUserPresence.characterClass,
+            characterLevel: currentUserPresence.level || currentUserPresence.characterLevel,
+            // Include character data for HUD display
+            character: {
+              class: currentUserPresence.class || 'Unknown',
+              level: currentUserPresence.level || 1,
+              health: currentUserPresence.health || { current: 45, max: 50 },
+              mana: currentUserPresence.mana || { current: 45, max: 50 },
+              actionPoints: currentUserPresence.actionPoints || { current: 1, max: 3 },
+              race: currentUserPresence.race || 'Unknown',
+              raceDisplayName: currentUserPresence.raceDisplayName || 'Unknown'
+            },
+            health: currentUserPresence.health || { current: 45, max: 50 },
+            mana: currentUserPresence.mana || { current: 45, max: 50 },
+            actionPoints: currentUserPresence.actionPoints || { current: 1, max: 3 }
+          });
+        }
+      });
+
+      activeSocket.on('connect_error', (error) => {
+        console.error('❌ Socket connection error:', error);
+        get().setConnected(false);
+
+        // Development fallback: if localhost is unreachable, retry once against production social server
+        if (!fallbackAttempted && fallbackSocketUrls.length > 0) {
+          const fallbackUrl = fallbackSocketUrls.shift();
+          fallbackAttempted = true;
+
+          console.warn(`⚠️ Primary social socket unavailable (${socketUrl}). Retrying with fallback: ${fallbackUrl}`);
+
+          try {
+            activeSocket.removeAllListeners();
+            activeSocket.disconnect();
+          } catch (e) {
+            // Ignore cleanup errors
+          }
+
+          set({ socket: null, isConnected: false });
+          createSocket(fallbackUrl);
+        }
+      });
+
+      activeSocket.on('connect_timeout', () => {
+        console.error('❌ Socket connection timeout');
+        get().setConnected(false);
+      });
+
+      activeSocket.on('error', (error) => {
+        console.error('❌ Socket error:', error);
+      });
+    };
+
+    const createSocket = (socketUrl) => {
+      console.log('🔌 Initializing global socket at:', socketUrl);
+      const nextSocket = io(socketUrl, socketOptions);
+      get().setSocket(nextSocket);
+      wireConnectionHandlers(nextSocket, socketUrl);
+      return nextSocket;
+    };
+
+    return createSocket(primarySocketUrl);
+  },
+
+  /**
+   * Ensure the global social socket is connected (with timeout)
+   */
+  ensureSocketConnected: async (timeoutMs = 5000) => {
+    const state = get();
+    if (state.socket?.connected || state.isConnected) {
+      return true;
+    }
+
+    await state.initializeGlobalSocket();
+
+    if (get().socket?.connected || get().isConnected) {
+      return true;
+    }
+
+    const startTime = Date.now();
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        const latestState = get();
+        if (latestState.socket?.connected || latestState.isConnected) {
+          clearInterval(interval);
+          resolve(true);
+          return;
+        }
+
+        if (Date.now() - startTime >= timeoutMs) {
+          clearInterval(interval);
+          resolve(false);
+        }
+      }, 150);
     });
-
-    get().setSocket(newSocket);
-
-    // Add connection error handlers
-    newSocket.on('connect_error', (error) => {
-      console.error('❌ Socket connection error:', error);
-      get().setConnected(false);
-    });
-
-    newSocket.on('connect_timeout', () => {
-      console.error('❌ Socket connection timeout');
-      get().setConnected(false);
-    });
-
-    newSocket.on('error', (error) => {
-      console.error('❌ Socket error:', error);
-    });
-
-    return newSocket;
   },
 
   /**
@@ -689,13 +887,26 @@ const usePresenceStore = create((set, get) => ({
   sendPartyInvite: (targetUserId, targetPlayerName) => {
     const { currentUserPresence, socket } = get();
 
-    if (!currentUserPresence || !socket || !socket.connected) {
+    let activeSocket = socket;
+    if (!activeSocket || !activeSocket.connected) {
+      try {
+        const gameSocket = require('./gameStore').default.getState()?.multiplayerSocket;
+        if (gameSocket && gameSocket.connected) {
+          activeSocket = gameSocket;
+        }
+      } catch (e) {
+        // gameStore might not be available
+      }
+    }
+
+    if (!currentUserPresence || !activeSocket || !activeSocket.connected) {
+      console.warn('⚠️ Cannot send party invite: social socket is not connected');
       return false;
     }
 
     // Server will look up the party from userToParty using fromUserId
     // If no party exists, server will auto-create one
-    socket.emit('invite_to_party', {
+    activeSocket.emit('invite_to_party', {
       partyId: null, // Server resolves this from userToParty
       fromUserId: currentUserPresence.userId,
       toUserId: targetUserId
@@ -709,15 +920,27 @@ const usePresenceStore = create((set, get) => ({
    */
   respondToPartyInvite: (inviteId, accepted) => {
     const { socket } = get();
+    let activeSocket = socket;
 
-    if (!socket || !socket.connected) {
+    if (!activeSocket || !activeSocket.connected) {
+      try {
+        const gameSocket = require('./gameStore').default.getState()?.multiplayerSocket;
+        if (gameSocket && gameSocket.connected) {
+          activeSocket = gameSocket;
+        }
+      } catch (e) {
+        // gameStore might not be available
+      }
+    }
+
+    if (!activeSocket || !activeSocket.connected) {
       return false;
     }
 
     if (accepted) {
-      socket.emit('accept_party_invite', { invitationId: inviteId });
+      activeSocket.emit('accept_party_invite', { invitationId: inviteId });
     } else {
-      socket.emit('decline_party_invite', { invitationId: inviteId });
+      activeSocket.emit('decline_party_invite', { invitationId: inviteId });
     }
 
     // Remove from pending
@@ -762,69 +985,179 @@ const usePresenceStore = create((set, get) => ({
           userId: currentUserPresence.userId,
           name: currentUserPresence.name || currentUserPresence.characterName,
           characterClass: currentUserPresence.class || currentUserPresence.characterClass,
-          characterLevel: currentUserPresence.level || currentUserPresence.characterLevel
+          characterLevel: currentUserPresence.level || currentUserPresence.characterLevel,
+          // Include character data for HUD display
+          character: {
+            class: currentUserPresence.class || 'Unknown',
+            level: currentUserPresence.level || 1,
+            health: currentUserPresence.health || { current: 45, max: 50 },
+            mana: currentUserPresence.mana || { current: 45, max: 50 },
+            actionPoints: currentUserPresence.actionPoints || { current: 1, max: 3 },
+            race: currentUserPresence.race || 'Unknown',
+            raceDisplayName: currentUserPresence.raceDisplayName || 'Unknown'
+          },
+          health: currentUserPresence.health || { current: 45, max: 50 },
+          mana: currentUserPresence.mana || { current: 45, max: 50 },
+          actionPoints: currentUserPresence.actionPoints || { current: 1, max: 3 }
         });
       }
 
       // Party was created successfully
-      socket.on('party_created', (partyData) => {
+      socket.on('party_created', (payload) => {
+        const partyData = payload.party || payload;
         console.log('🎉 Party created:', partyData.name);
 
-        const members = partyData.members ? Object.values(partyData.members) : [];
+        // Add system message if not in multiplayer
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_created',
+            sender: { name: 'Party System' },
+            content: `Party "${partyData.name || 'New Party'}" has been created.`
+          });
+        } catch (e) { }
+
+        // Don't overwrite room party if we're in a multiplayer room
+        try {
+          const gameStore = require('./gameStore').default;
+          const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
+          const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
+
+          if (isInMultiplayerRoom || isEnteringMultiplayer) {
+            console.log('⏭️ Skipping party_created sync - in multiplayer room');
+            return;
+          }
+        } catch (e) {
+          // gameStore might not be available
+        }
+
+        get().handlePartyUpdate(partyData);
+      });
+
+      // Party joined or updated (used for initial state sync)
+      const handlePartySync = (payload) => {
+        const partyData = payload.party || payload;
+        if (!partyData) return;
+
+        console.log('🔄 Party sync received:', partyData.name || partyData.id);
+
+        const members = partyData.members ? (
+          Array.isArray(partyData.members) ? partyData.members : Object.values(partyData.members)
+        ) : [];
+
         set(state => ({
           currentParty: partyData,
           isInParty: true,
-          partyMembers: members,
-          partyChatMessages: []
+          partyMembers: members
         }));
 
-        // Sync to partyStore so components reading from partyStore see the update
         try {
-          const partyStore = require('./partyStore').default;
-          partyStore.setState({
-            currentParty: partyData,
-            isInParty: true,
-            partyMembers: members,
-            partyChatMessages: [],
-            leaderId: partyData.leaderId || null
-          });
+          const gameStore = require('./gameStore').default;
+          const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
+          const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
+
+          if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
+            const partyStore = require('./partyStore').default;
+            partyStore.setState({
+              currentParty: partyData,
+              isInParty: true,
+              partyMembers: members,
+              leaderId: partyData.leaderId || null
+            });
+          }
         } catch (e) {
-          // partyStore not available
+          console.warn('⚠️ Failed to sync party update to partyStore:', e);
         }
+      };
+
+      socket.on('party_joined', (payload) => {
+        const partyData = payload.party || payload;
+        if (!partyData) return;
+        console.log('🔄 Party joined:', partyData.name || partyData.id);
+
+        // Add system message if not in multiplayer
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_joined',
+            sender: { name: 'Party System' },
+            content: `You have joined the party "${partyData.name || 'New Party'}".`
+          });
+        } catch (e) { }
+
+        get().handlePartyUpdate(partyData);
       });
 
       // A member joined the party
-      socket.on('party_member_joined', ({ partyId, memberId, memberData }) => {
+      socket.on('party_member_joined', (payload) => {
+        // SAFEGUARD: Ensure payload exists
+        if (!payload) return;
+
+        const partyId = payload.partyId || (payload.party?.id);
+        const memberId = payload.memberId || payload.member?.id;
+        const memberData = payload.memberData || payload.member;
+
+        if (!memberData) {
+          console.warn('⚠️ Received party_member_joined with missing memberData:', payload);
+          return;
+        }
+
         console.log(`👤 Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
 
-        // Deduplicate: only add if not already present
+        // Ensure memberData has character object with default resources if not provided
+        const enrichedMemberData = {
+          ...memberData,
+          character: memberData.character || {
+            class: memberData.characterClass || 'Unknown',
+            level: memberData.characterLevel || 1,
+            health: { current: 45, max: 50 },
+            mana: { current: 45, max: 50 },
+            actionPoints: { current: 1, max: 3 }
+          }
+        };
+
+        // Deduplicate: only add if not already present in the global presence list
         const existingMembers = get().partyMembers || [];
         const alreadyExists = existingMembers.some(m =>
           (m.id === memberId || m.id === memberData.id || m.userId === memberId || m.userId === memberData.id)
         );
 
         if (!alreadyExists) {
-          const updatedMembers = [...existingMembers, memberData];
+          const updatedMembers = [...existingMembers, enrichedMemberData];
           console.log(`📊 Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
           set(state => ({ partyMembers: updatedMembers }));
-
-          // Sync to partyStore
-          try {
-            const partyStore = require('./partyStore').default;
-            const partyState = partyStore.getState();
-            console.log(`📊 Syncing to partyStore. Current partyStore count: ${partyState.partyMembers.length}`);
-
-            if (!partyState.partyMembers.some(m => (m.id === memberId || m.id === memberData.id))) {
-              partyStore.getState().addPartyMember(memberData);
-              console.log('✅ Called partyStore.addPartyMember');
-            } else {
-              console.log('ℹ️ Member already exists in partyStore');
-            }
-          } catch (e) {
-            console.warn('⚠️ Failed to sync join to partyStore:', e);
-          }
         } else {
           console.log('ℹ️ Member already exists in presenceStore');
+        }
+
+        // Sync to partyStore REGARDLESS of whether they were in presenceStore already,
+        // but ONLY if not in multiplayer mode AND not entering multiplayer.
+        // This ensures they show up in the specific "Your Party" UI.
+        try {
+          const gameStore = require('./gameStore').default;
+          const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
+          const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
+
+          if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
+            const partyStore = require('./partyStore').default;
+            const partyState = partyStore.getState();
+
+            // Deduplicate within partyStore specifically
+            const inPartyStore = partyState.partyMembers.some(m =>
+              (m.id === memberId || m.id === memberData.id || m.userId === memberId || m.userId === memberData.id)
+            );
+
+            if (!inPartyStore) {
+              console.log(`📊 Syncing ${memberData.name} to partyStore.`);
+              partyStore.getState().addPartyMember(enrichedMemberData);
+            } else {
+              console.log(`ℹ️ ${memberData.name} already exists in partyStore`);
+            }
+          } else {
+            console.log('ℹ️ Skipping partyStore sync - in multiplayer room or entering multiplayer');
+          }
+        } catch (e) {
+          console.warn('⚠️ Failed to sync join to partyStore:', e);
         }
 
         // Add system message to party chat
@@ -899,9 +1232,70 @@ const usePresenceStore = create((set, get) => ({
         }
       });
 
+      // Party now has only one member (offer to disband) - LEGACY: Now auto-disbanded
+      socket.on('party_single_member', ({ partyId, partyName, message }) => {
+        console.log('👤 You are now the only party member');
+
+        // Show notification
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_update',
+            sender: { name: 'Party System' },
+            content: message || 'You are now the only member of this party. Consider disbanding if you no longer need it.'
+          });
+        } catch (e) {
+          // chatStore not available
+        }
+      });
+
+      // Party auto-disbanded (only 1 member remaining)
+      socket.on('party_auto_disbanded', ({ partyId, partyName, message }) => {
+        console.log('💥 Party auto-disbanded:', partyName);
+
+        // Show notification
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_disbanded',
+            sender: { name: 'Party System' },
+            content: message || `${partyName} has been disbanded - all other members have left.`
+          });
+        } catch (e) {
+          // chatStore not available
+        }
+
+        const resetState = {
+          currentParty: null,
+          isInParty: false,
+          partyMembers: [],
+          partyChatMessages: []
+        };
+
+        set(state => resetState);
+
+        // Sync to partyStore
+        try {
+          const partyStore = require('./partyStore').default;
+          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
+        } catch (e) {
+          // partyStore not available
+        }
+      });
+
       // Party was disbanded
       socket.on('party_disbanded', ({ partyId, partyName, disbandedBy }) => {
         console.log('💥 Party disbanded:', partyName);
+
+        // Add system message if not in multiplayer
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_disbanded',
+            sender: { name: 'Party System' },
+            content: `The party "${partyName || 'Game Session'}" has been disbanded.`
+          });
+        } catch (e) { }
 
         const resetState = {
           currentParty: null,
@@ -925,6 +1319,16 @@ const usePresenceStore = create((set, get) => ({
       socket.on('party_left', ({ partyId }) => {
         console.log('👤 Left party:', partyId);
 
+        // Add system message if not in multiplayer
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_left',
+            sender: { name: 'Party System' },
+            content: `You have left the party.`
+          });
+        } catch (e) { }
+
         const resetState = {
           currentParty: null,
           isInParty: false,
@@ -943,40 +1347,12 @@ const usePresenceStore = create((set, get) => ({
         }
       });
 
-      // Party was updated (also sent to user who just joined via accept_party_invite)
-      socket.on('party_updated', (partyData) => {
+      // Party was updated (also handled by party_joined)
+      socket.on('party_updated', (payload) => {
+        if (!payload) return;
+        const partyData = payload.party || payload;
         console.log('🔄 Party updated:', partyData.name);
-
-        const currentMembers = get().partyMembers || [];
-        const newMembers = partyData.members ? Object.values(partyData.members) : [];
-
-        // POTENTIAL FIX: Don't downgrade member count if we are the leader
-        // Server might send a stale initial party state to the leader right after an invite accepts
-        const isLeader = partyData.leaderId === get().currentUserPresence?.userId;
-
-        if (isLeader && currentMembers.length > newMembers.length) {
-          console.log('⚠️ Ignoring party_updated: Local member count is higher than server update');
-          return;
-        }
-
-        set(state => ({
-          currentParty: partyData,
-          isInParty: true,
-          partyMembers: newMembers
-        }));
-
-        // Also sync to partyStore
-        try {
-          const partyStore = require('./partyStore').default;
-          partyStore.setState({
-            currentParty: partyData,
-            isInParty: true,
-            partyMembers: newMembers,
-            leaderId: partyData.leaderId || null
-          });
-        } catch (e) {
-          // partyStore not available, presenceStore state is sufficient
-        }
+        get().handlePartyUpdate(partyData);
       });
 
       // Member removed from party (kick or self-leave via server)
@@ -995,6 +1371,15 @@ const usePresenceStore = create((set, get) => ({
           set(resetState);
 
           try {
+            const chatStore = require('./chatStore').default;
+            chatStore.getState().addSocialNotification({
+              type: 'party_member_removed',
+              sender: { name: 'Party System' },
+              content: `You have been removed from the party.`
+            });
+          } catch (e) { }
+
+          try {
             const partyStore = require('./partyStore').default;
             partyStore.setState({
               ...resetState,
@@ -1003,15 +1388,17 @@ const usePresenceStore = create((set, get) => ({
             });
           } catch (e) { }
         } else {
-          set(state => ({
-            partyMembers: (state.partyMembers || []).filter(m => m.id !== targetUserId)
-          }));
+          set(state => {
+            const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
+            return { partyMembers: updatedMembers };
+          });
 
           try {
             const partyStore = require('./partyStore').default;
-            partyStore.setState(state => ({
-              partyMembers: (state.partyMembers || []).filter(m => m.id !== targetUserId)
-            }));
+            partyStore.setState(state => {
+              const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
+              return { partyMembers: updatedMembers };
+            });
           } catch (e) { }
         }
       });
@@ -1071,7 +1458,15 @@ const usePresenceStore = create((set, get) => ({
       socket.on('party_chat_message', ({ partyId, fromId, message, timestamp, senderName }) => {
         // Skip messages from self — already optimistically appended by TabbedChat
         const { currentUserPresence } = get();
-        if (fromId === currentUserPresence?.userId) return;
+        // Resolve self ID: check multiple common identity fields 
+        const isSelf = fromId === currentUserPresence?.userId ||
+          fromId === currentUserPresence?.id ||
+          fromId === socket.id;
+
+        if (isSelf) {
+          console.log('💬 Skipping self-echo for party message');
+          return;
+        }
 
         console.log('💬 Party chat message:', senderName, message.substring(0, 30));
 
@@ -1105,11 +1500,95 @@ const usePresenceStore = create((set, get) => ({
 
       // GM session invitation received
       socket.on('gm_session_invitation', (invitation) => {
-        console.log('🎭 GM session invitation received:', invitation.partyName);
+        if (!invitation) return;
 
-        set(state => ({
+        console.log('🎭 GM session invitation received:', {
+          partyName: invitation.partyName,
+          gmName: invitation.gmName,
+          roomId: invitation.roomId,
+          invitationId: invitation.id,
+          fullInvitation: invitation
+        });
+
+        // CRITICAL FIX: Set enteringMultiplayer flag to prevent social party sync
+        sessionStorage.setItem('enteringMultiplayer', 'true');
+
+        // CRITICAL FIX: Clear social party members from partyStore to prevent duplicate HUDs
+        // When joining the GM's room, we'll get fresh party member data from the room
+        try {
+          const partyStore = require('./partyStore').default;
+          const currentMembers = partyStore.getState().partyMembers || [];
+          if (currentMembers.length > 0) {
+            console.log('🧹 Clearing social party members on GM session invitation', {
+              count: currentMembers.length,
+              names: currentMembers.map(m => m.name)
+            });
+            partyStore.getState().clearPartyMembers();
+          }
+        } catch (e) {
+          console.warn('⚠️ Failed to clear party members on GM session invitation:', e);
+        }
+
+        // Set flag to trigger invitation UI
+        set({
           gmSessionInvitation: invitation
-        }));
+        });
+      });
+
+      // Whisper message received (for global/presence socket, outside game rooms)
+      socket.on('whisper_received', (message) => {
+        console.log('💬 Whisper received:', {
+          senderId: message.senderId,
+          senderName: message.senderName,
+          recipientId: message.recipientId,
+          recipientName: message.recipientName,
+          content: message.content?.substring(0, 30)
+        });
+
+        // Add to whisper tab - use senderId as the key for received messages
+        get().addWhisperMessage(message.senderId, {
+          ...message,
+          type: 'whisper_received'
+        });
+      });
+
+      // Whisper sent confirmation (for global/presence socket)
+      socket.on('whisper_sent', (message) => {
+        console.log('✅ Whisper sent confirmation:', {
+          recipientId: message.recipientId,
+          recipientName: message.recipientName,
+          content: message.content?.substring(0, 30)
+        });
+
+        // Add to whisper tab as sent message - use recipientId as the key
+        get().addWhisperMessage(message.recipientId, {
+          ...message,
+          type: 'whisper_sent'
+        });
+      });
+
+      // Another user's status changed (for real-time updates in Online Users list)
+      socket.on('user_status_changed', ({ userId, status, statusComment }) => {
+        console.log('🔄 User status changed:', { userId, status });
+
+        const { onlineUsers, currentUserPresence } = get();
+
+        // Don't update if this is the current user (we already updated locally)
+        if (userId === currentUserPresence?.userId) return;
+
+        // Update the user in the onlineUsers map
+        const newOnlineUsers = new Map(onlineUsers);
+        const user = newOnlineUsers.get(userId);
+
+        if (user) {
+          newOnlineUsers.set(userId, {
+            ...user,
+            status,
+            statusComment: statusComment || null,
+            lastUpdated: Date.now()
+          });
+          set({ onlineUsers: newOnlineUsers });
+        }
       });
     }
 
@@ -1135,6 +1614,8 @@ const usePresenceStore = create((set, get) => ({
 
   /**
    * Accept GM session invitation
+   * Stores invitation data and triggers navigation to /multiplayer
+   * where MultiplayerApp will complete the join
    */
   acceptGMSessionInvitation: () => {
     const { gmSessionInvitation, socket } = get();
@@ -1150,13 +1631,35 @@ const usePresenceStore = create((set, get) => ({
     }
 
     console.log('✅ Accepting GM session invitation:', gmSessionInvitation.partyName);
-    socket.emit('respond_to_room_invitation', {
+
+    // Set flag to prevent social party from syncing to partyStore during transition
+    sessionStorage.setItem('enteringMultiplayer', 'true');
+
+    // CRITICAL FIX: Store invitation details in sessionStorage for MultiplayerApp to pickup
+    // This allows the join to be handled by the multiplayer socket correctly.
+    sessionStorage.setItem('pendingGMSessionInvitation', JSON.stringify({
       invitationId: gmSessionInvitation.id,
       roomId: gmSessionInvitation.roomId,
-      accepted: true
-    });
+      partyName: gmSessionInvitation.partyName
+    }));
 
-    set({ gmSessionInvitation: null });
+    console.log('💾 [presenceStore] Saved pendingGMSessionInvitation to sessionStorage');
+
+    // Set flag to trigger navigation to /multiplayer so MultiplayerApp mounts
+    set({
+      gmSessionInvitation: null,
+      pendingMultiplayerJoin: {
+        roomId: gmSessionInvitation.roomId,
+        partyName: gmSessionInvitation.partyName
+      }
+    });
+  },
+
+  /**
+   * Clear pending multiplayer join (called after navigation completes)
+   */
+  clearPendingMultiplayerJoin: () => {
+    set({ pendingMultiplayerJoin: null });
   },
 
   /**
@@ -1445,6 +1948,7 @@ const usePresenceStore = create((set, get) => ({
       whisperTabs: new Map(),
       globalChatMessages: [],
       partyChatMessages: [],
+      partyMembers: [],
       pendingInvitations: [],
       pendingPartyInvites: [],
       socket: null,

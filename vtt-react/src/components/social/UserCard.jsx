@@ -4,15 +4,13 @@
  * Unified user card component for displaying player information consistently
  * across Online, Friends, Ignored, and Party tabs in the community window.
  * 
- * Adheres strictly to character creation options:
- * - Classes: 27 classes (Pyrofiend, Minstrel, Chronarch, etc.)
- * - Backgrounds: 9 custom backgrounds (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel)
- * - Races: Nordmark, Corvani, Dwarf, Halfling, Graveworn (with subraces)
+ * Display rules:
+ * - If NO character is selected: show only the display/account name
+ * - If a character IS selected: show character name, subrace, class, and level
  */
 
 import React from 'react';
-import { getCustomBackgroundData } from '../../data/customBackgroundData';
-import { getFullRaceData, getRaceData } from '../../data/raceData';
+import { getFullRaceData } from '../../data/raceData';
 
 const UserCard = ({
   user,
@@ -29,147 +27,123 @@ const UserCard = ({
   className = '',
   additionalContent = null
 }) => {
-  // Helper to get the display name based on format
-  const getDisplayName = () => {
-    const accName = user.accountName || user.name || (user.isGuest ? 'Guest' : 'Unknown');
-    const charName = user.characterName || (user.character?.name) || '';
+  // Determine if user has a character selected
+  const charName = user.characterName || (user.character?.name) || '';
+  const hasCharacter = charName && charName !== 'Guest' && charName !== 'Unknown' && charName !== 'none' && charName !== '';
 
-    if (nameFormat === 'global') {
-      // For global/friends: AccountName(CharacterName)
-      // Only show character name if it's special and not same as account name
-      if (charName && charName !== 'Guest' && charName !== 'Unknown' && charName !== accName) {
-        return `${accName}(${charName})`;
-      }
-      return accName;
-    } else {
-      // For parties/in-game: CharacterName (fallback to AccountName)
-      if (charName && charName !== 'Guest' && charName !== 'Unknown') {
-        return charName;
-      }
-      return accName;
-    }
-  };
-  // Helper to get background display name from backgroundData
-  const getBackgroundDisplayName = (backgroundId) => {
-    if (!backgroundId) return '';
+  // Account/display name (always available)
+  const accountName = user.accountName || user.displayName || user.name || (user.isGuest ? 'Guest' : 'Unknown');
 
-    // Import background data
-    const { getBackgroundData } = require('../../data/backgroundData');
-    const bgData = getBackgroundData(backgroundId);
-    if (bgData) return bgData.name;
+  // Get race display name only when character exists
+  const getRaceDisplayName = (userData) => {
+    if (!hasCharacter) return '';
+    if (userData.raceDisplayName) return userData.raceDisplayName;
+    if (userData.character?.raceDisplayName) return userData.character.raceDisplayName;
 
-    // If not found, return empty string
-    return '';
-  };
+    const race = userData.race || userData.character?.race;
+    const subrace = userData.subrace || userData.character?.subrace;
 
-  // Helper to get background from lore if available
-  const getBackgroundFromLore = (user) => {
-    // Check if user has lore object with background
-    if (user.lore?.background) {
-      return user.lore.background;
-    }
-    return '';
-  };
-
-  // Helper to get race display name
-  const getRaceDisplayName = (user) => {
-    // Prefer pre-computed raceDisplayName
-    if (user.raceDisplayName) return user.raceDisplayName;
-
-    // Try to compute from race and subrace
-    if (user.race && user.subrace) {
-      const fullRaceData = getFullRaceData(user.race, user.subrace);
+    if (race && subrace) {
+      const fullRaceData = getFullRaceData(race, subrace);
       if (fullRaceData?.subrace?.name) return fullRaceData.subrace.name;
     }
-
-    // Fallback to subrace or race
-    return user.subrace || user.race || '';
+    return subrace || race || '';
   };
 
-  // Get status icon
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'online': return '🟢';
-      case 'away': return '🟡';
-      case 'busy': return '🔴';
-      case 'idle': return '⚪'; // Grey for idle
-      case 'offline': return '⚫'; // White/grey for appear offline
-      default: return '⚪';
+  const actualStatus = user.status || 'offline';
+  const statusComment = user.statusComment;
+
+  // Character stats — only if a character is selected
+  const charLevel = hasCharacter ? (user.level || user.character?.level || user.characterLevel || 1) : null;
+  const charClass = hasCharacter ? (user.class || user.character?.class || user.characterClass || '') : null;
+  const charRace = hasCharacter ? getRaceDisplayName(user) : null;
+
+  // Filter out empty/placeholder values
+  const showCharClass = charClass && charClass !== 'Unknown' && charClass !== 'Unknown Class';
+  const showCharRace = charRace && charRace !== 'Unknown Race' && charRace !== 'Unknown';
+
+  const isYou = isCurrentUser && showYouBadge;
+  const isLeaderBadge = isLeader && showLeaderCrown;
+
+  // Build the primary display name
+  const getPrimaryName = () => {
+    if (nameFormat === 'global') {
+      // Global tab: Show account name, and character name in parentheses if different
+      if (hasCharacter && charName !== accountName) {
+        return accountName;
+      }
+      return accountName;
+    } else {
+      // Party/other tabs: Show character name if available, otherwise account name
+      if (hasCharacter) {
+        return charName;
+      }
+      return accountName;
     }
   };
 
-  // Get background display name - check multiple sources
-  const backgroundDisplayName =
-    user.backgroundDisplayName ||
-    getBackgroundDisplayName(user.background) ||
-    getBackgroundFromLore(user);
-  const raceDisplayName = getRaceDisplayName(user);
+  // Show character name subtitle on global tab
+  const showCharNameSubtitle = nameFormat === 'global' && hasCharacter && charName !== accountName;
 
   return (
     <div
-      className={`user-card ${className} ${isCurrentUser ? 'current-user' : ''}`}
+      className={`user-card ${className} ${isCurrentUser ? 'current-player' : ''} ${user.isFriend ? 'is-friend' : ''} ${user.isIgnored ? 'is-ignored' : ''}`}
       onClick={onClick}
       onContextMenu={onContextMenu}
-      title={user.statusComment || ''}
+      title={statusComment || ''}
     >
-      {/* Status Indicator */}
-      <div className="user-status">
-        <span className="status-icon">{getStatusIcon(user.status)}</span>
-      </div>
-
-      {/* User Info */}
-      <div className="user-info">
-        {/* Name Row */}
-        <div className="user-name">
-          {getDisplayName()}
-          {showFriendId && user.friendId && (
-            <span className="friend-id-badge" title="Friend ID">
-              #{user.friendId}
-            </span>
-          )}
-          {showLeaderCrown && isLeader && (
-            <span className="leader-crown" title="Party Leader">👑</span>
-          )}
-          {showYouBadge && isCurrentUser && (
-            <span className="you-badge">(You)</span>
-          )}
-          {user.statusComment && (
-            <span className="status-comment-indicator" title={user.statusComment}>
-              💬
-            </span>
-          )}
+      {/* Header row: status orb + name + badges */}
+      <div className="user-card-header">
+        <div className="user-status-orb-container">
+          <span className={`status-orb status-${actualStatus.toLowerCase()}`} title={actualStatus}></span>
         </div>
 
-        {/* Character Details - Clean intuitive overview */}
-        <div className="user-details-new">
-          {/* Level and Class - Large and prominent */}
-          <div className="level-class-row">
-            <span className="level-text">Lvl {user.level || 1}</span>
-            <span className="class-text">{user.class || 'Unknown'}</span>
+        <div className="user-main-info">
+          <div className="user-name-row">
+            <span className="user-name" title={getPrimaryName()}>{getPrimaryName()}</span>
+            {isYou && <span className="badge badge-you">YOU</span>}
+            {isLeaderBadge && <span className="badge badge-leader"><i className="fas fa-crown"></i></span>}
           </div>
-
-          {/* Background and Race - Clean display without labels */}
-          {(backgroundDisplayName || raceDisplayName) && (
-            <div className="character-traits">
-              {backgroundDisplayName && (
-                <span className="character-trait">{backgroundDisplayName}</span>
-              )}
-              {raceDisplayName && (
-                <span className="character-trait">{raceDisplayName}</span>
-              )}
-            </div>
+          {showCharNameSubtitle && (
+            <span className="user-char-subtitle">{charName}</span>
           )}
+          {statusComment && <span className="user-status-comment">{statusComment}</span>}
         </div>
-
-        {/* Session Info */}
-        {showSessionInfo && sessionDisplay}
-
-        {/* Additional Content (e.g., ignored note) */}
-        {additionalContent}
       </div>
+
+      {/* Character details — ONLY if character is selected and has meaningful data */}
+      {hasCharacter && (showCharClass || showCharRace || charLevel) && (
+        <div className="user-card-body">
+          <div className="character-stats-row">
+            {charLevel && <span className="character-level-badge">Lv. {charLevel}</span>}
+            {showCharRace && <span className="character-race">{charRace}</span>}
+            {showCharClass && <span className="character-class">{charClass}</span>}
+          </div>
+        </div>
+      )}
+
+      {/* Session info */}
+      {showSessionInfo && sessionDisplay && (
+        <div className="user-card-session">
+          {sessionDisplay}
+        </div>
+      )}
+
+      {/* Friend ID badge */}
+      {showFriendId && user.friendId && (
+        <div className="user-card-friend-id">
+          <span className="friend-id-tag">#{user.friendId}</span>
+        </div>
+      )}
+
+      {/* Additional content (notes, action buttons, etc.) */}
+      {additionalContent && (
+        <div className="user-card-footer">
+          {additionalContent}
+        </div>
+      )}
     </div>
   );
 };
 
 export default UserCard;
-

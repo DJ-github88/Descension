@@ -5,7 +5,7 @@ import RoomLobby from './RoomLobby';
 // Removed: LocalhostMultiplayerSimulator - as requested to reduce bloat
 import GameSessionInvitation from './GameSessionInvitation';
 import CursorTracker from './CursorTracker';
-import MapTransitionOverlay, { MAP_TRANSITION_TIMINGS } from './MapTransitionOverlay';
+import UnifiedTransitionOverlay, { TRANSITION_TIMINGS } from './UnifiedTransitionOverlay';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
@@ -118,76 +118,7 @@ const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount, current
   );
 };
 
-// Themed Join Loading Overlay with Continue button
-const JoinLoadingOverlay = ({ roomName, isReady, onContinue, isFadingOut }) => {
-  const [countdown, setCountdown] = useState(0);
-  const [showContinue, setShowContinue] = useState(true);
 
-
-  // No countdown needed anymore, button appears instantly if ready
-  useEffect(() => {
-    if (isReady) {
-      setShowContinue(true);
-    }
-  }, [isReady]);
-
-
-  // Also show continue when room is ready
-  useEffect(() => {
-    if (isReady && countdown <= 0) {
-      setShowContinue(true);
-    }
-  }, [isReady, countdown]);
-
-  return (
-    <div className={`join-loading-overlay ${isFadingOut ? 'fade-out' : ''}`}>
-      <div className="join-loading-content">
-        <div className="join-loading-spinner">
-          <i className="fas fa-dharmachakra fa-spin"></i>
-        </div>
-        <h2 className="join-loading-title">Entering the Realm</h2>
-        <p className="join-loading-subtitle">
-          {roomName ? `Preparing ${roomName}...` : 'Forging the mystical connection...'}
-        </p>
-        <div className="join-loading-pulse"></div>
-
-        {/* Continue Button - appears when ready */}
-        {showContinue && isReady && !isFadingOut && (
-          <button
-            className="join-loading-continue-btn"
-            onClick={onContinue}
-          >
-            <i className="fas fa-door-open"></i>
-            Enter the Realm
-          </button>
-        )}
-
-        {/* Skip hint - shows countdown when not ready yet */}
-        {!showContinue && !isFadingOut && (
-          <p className="join-loading-countdown">
-            {isReady ? `Ready in ${countdown}...` : `Connecting... ${countdown}s`}
-          </p>
-        )}
-
-        {/* Show waiting message if countdown done but not ready */}
-        {showContinue && !isReady && !isFadingOut && (
-          <p className="join-loading-waiting">
-            <i className="fas fa-hourglass-half fa-pulse"></i>
-            Waiting for connection...
-          </p>
-        )}
-
-        {/* Fading message */}
-        {isFadingOut && (
-          <p className="join-loading-fading-msg">
-            <i className="fas fa-sparkles"></i>
-            The path opens before you...
-          </p>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // CRITICAL FIX: Get room code from URL params for room code routing
@@ -205,8 +136,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
   const [isJoiningRoom, setIsJoiningRoom] = useState(() => {
-    // If we have auto-join data in localStorage, start in joining state to prevent lobby flicker
-    return !!localStorage.getItem('selectedRoomId');
+    // If we have auto-join data in localStorage or sessionStorage, start in joining state to prevent lobby flicker
+    return !!localStorage.getItem('selectedRoomId') || !!sessionStorage.getItem('pendingGMSessionInvitation');
   });
   const [connectionQuality, setConnectionQuality] = useState({ latency: 0, quality: 'good' }); // IMPROVEMENT: Track connection quality
 
@@ -214,6 +145,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [pendingRoomData, setPendingRoomData] = useState(null);
   const [isRoomReady, setIsRoomReady] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingStatusMessage, setLoadingStatusMessage] = useState(null);
+  const [showContinue, setShowContinue] = useState(false);
+  const [joinStartTime, setJoinStartTime] = useState(null);
+  const joinStartTimeRef = useRef(null); // Ref to avoid race condition with state
+  const MIN_LOADING_DURATION = 1500; // 1.5 seconds minimum loading time
+
+  // Helper to start joining room with synchronized ref (avoids race condition)
+  const startJoiningRoom = useCallback(() => {
+    const now = Date.now();
+    console.log('🔄 [MultiplayerApp] startJoiningRoom called at:', new Date(now).toLocaleTimeString());
+    joinStartTimeRef.current = now;
+    setJoinStartTime(now);
+    setIsJoiningRoom(true);
+  }, []);
 
   // MAP ISOLATION: Track player's current map and transition state
   const [playerCurrentMapId, setPlayerCurrentMapId] = useState('default');
@@ -257,11 +203,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     endCharacterSession: state.endCharacterSession
   }));
 
-  const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore((state) => ({
+  const { addPartyMember, removePartyMember, createParty, updatePartyMember, isInParty } = usePartyStore((state) => ({
     addPartyMember: state.addPartyMember,
     removePartyMember: state.removePartyMember,
     createParty: state.createParty,
-    updatePartyMember: state.updatePartyMember
+    updatePartyMember: state.updatePartyMember,
+    isInParty: state.isInParty
   }));
 
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore((state) => ({
@@ -302,6 +249,82 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     playerCurrentMapIdRef.current = playerCurrentMapId;
   }, [playerCurrentMapId]);
+
+  // Loading progress simulation for join overlay
+  useEffect(() => {
+    if (!isJoiningRoom || isFadingOut) {
+      setLoadingProgress(0);
+      setShowContinue(false);
+      setJoinStartTime(null);
+      joinStartTimeRef.current = null;
+      return;
+    }
+
+    // Record when joining started (for minimum duration enforcement)
+    // Use ref to avoid race condition - state update may not be immediate
+    if (!joinStartTimeRef.current) {
+      const now = Date.now();
+      joinStartTimeRef.current = now;
+      setJoinStartTime(now);
+    }
+
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      if (currentProgress < 95) {
+        currentProgress += Math.random() * 8 + 2;
+        currentProgress = Math.min(currentProgress, 95);
+        setLoadingProgress(currentProgress);
+      }
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, [isJoiningRoom, isFadingOut]);
+
+  // Complete progress when room is ready (with minimum duration)
+  useEffect(() => {
+    if (!isRoomReady || !isJoiningRoom || isFadingOut) return;
+
+    const startTime = joinStartTimeRef.current || joinStartTime;
+    if (!startTime) return;
+
+    const elapsed = Date.now() - startTime;
+    const remainingTime = Math.max(0, MIN_LOADING_DURATION - elapsed);
+    console.log('⏱️ [MultiplayerApp] Progress Effect:', {
+      isRoomReady,
+      isJoiningRoom,
+      showContinue,
+      elapsed,
+      remainingTime,
+      pendingRoomData: !!pendingRoomData,
+      isInvitationJoin: pendingRoomData?.isInvitationJoin
+    });
+
+    // Ensure progress completes to 100%
+    setLoadingProgress(100);
+
+    // AUTOMATION: If this was an invitation or auto-join flow, skip the button
+    // Also skip for GMs who just created the room (they're in a hurry!)
+    const isInvitation = pendingRoomData?.isInvitationJoin;
+    const isGMCreating = isGM && !currentRoom; // Joining for the first time as GM
+
+    if (isInvitation || isGMCreating) {
+      const timer = setTimeout(() => {
+        if (isJoiningRoom && !isFadingOut) {
+          handleLoadingContinue();
+        }
+      }, remainingTime);
+      return () => clearTimeout(timer);
+    }
+
+    // Otherwise, show continue button after minimum duration
+    const timer = setTimeout(() => {
+      if (isJoiningRoom && !isFadingOut) {
+        setShowContinue(true);
+      }
+    }, remainingTime);
+
+    return () => clearTimeout(timer);
+  }, [isRoomReady, isJoiningRoom, isFadingOut, joinStartTime, isGM, !!currentRoom, !!pendingRoomData?.isInvitationJoin]);
 
   // Manual map transition requests from UI flows (e.g. MapLibraryWindow / MapSwitcher)
   useEffect(() => {
@@ -400,9 +423,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     usePresenceStore.getState().cleanup();
 
-    // Party
+    // Party - CRITICAL: Clear both partyStore AND presenceStore party data
+    // to prevent social party members from appearing in multiplayer room
     const partyStore = usePartyStore.getState();
     if (partyStore.resetStore) partyStore.resetStore();
+
+    // Also explicitly clear presenceStore party members to prevent HUD duplicates
+    usePresenceStore.setState({
+      currentParty: null,
+      isInParty: false,
+      partyMembers: []
+    });
 
     // Grid Items
     if (!preserveMapEntities) {
@@ -429,6 +460,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const isJoiningRoomRef = useRef(isJoiningRoom);
   const currentPlayerRef = useRef(currentPlayer);
   const pendingRoomDataRef = useRef(pendingRoomData);
+  const activeJoinIdRef = useRef(null); // Track current join sequence to prevent stale joins
+  const autoJoinAttemptedRef = useRef(false); // Ref to prevent redundant checkAutoJoin calls
+  const isAutoJoinSequenceRef = useRef(false); // Ref to track if we're in an auto-continue join flow
 
   // Update refs when state changes
   useEffect(() => {
@@ -538,6 +572,244 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [cleanupThrottleMaps]);
 
+  // ========== AUTO-JOIN LOGIC FOR DIRECT NAVIGATION ==========
+  const checkAutoJoin = useCallback(async () => {
+    // 1. Connection Guard: Must be connected to do anything
+    if (!socket || !socket.connected) return;
+
+    // 2. Concurrency Guard: Move this to the VERY TOP to prevent race conditions
+    // between rapid socket events and this async function
+    if (autoJoinAttemptedRef.current) {
+      console.log('🔄 [Auto-Join] Already attempted or in progress, skipping');
+      return;
+    }
+
+    // Set immediately before any async work to block other calls
+    autoJoinAttemptedRef.current = true;
+
+    const selectedRoomId = localStorage.getItem('selectedRoomId');
+    const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
+    const isGMResume = localStorage.getItem('isGMResume') === 'true';
+    const resumeRoomName = localStorage.getItem('resumeRoomName');
+    const pendingInvitation = sessionStorage.getItem('pendingGMSessionInvitation');
+
+    console.log('🔍 [Auto-Join] checkAutoJoin triggered:', {
+      hasSelectedRoom: !!selectedRoomId,
+      hasInvitation: !!pendingInvitation,
+      isJoining: isJoiningRoomRef.current,
+      inRoom: !!currentRoomRef.current
+    });
+
+    // Handle session invitations first (priority)
+    if (pendingInvitation && !currentRoomRef.current) {
+      try {
+        const invitation = JSON.parse(pendingInvitation);
+        console.log('📨 [Auto-Join] Found pending GM session invitation, responding:', invitation.partyName);
+        setLoadingStatusMessage(`Accepting invitation from ${invitation.senderName || 'GM'}...`);
+
+        // Mark that we've initiated an invitation response sequence
+        isAutoJoinSequenceRef.current = true;
+
+        startJoiningRoom();
+        setConnectionStatus('connecting');
+
+        // CRITICAL: Ensure we only emit once per unique invitation ID, but allow controlled retries
+        const lastEmittedInvitationId = sessionStorage.getItem('lastEmittedInvitationId');
+        const retryCount = parseInt(sessionStorage.getItem('invitationRetryCount') || '0', 10);
+
+        if (lastEmittedInvitationId === invitation.invitationId && retryCount >= 1) {
+          console.log('⏭️ [Auto-Join] Already attempted and retried for this invitation, waiting for server or timeout...');
+          return;
+        }
+
+        if (lastEmittedInvitationId === invitation.invitationId) {
+          console.log('🔄 [Auto-Join] Retrying invitation response (1/1)...');
+          sessionStorage.setItem('invitationRetryCount', (retryCount + 1).toString());
+        } else {
+          sessionStorage.setItem('lastEmittedInvitationId', invitation.invitationId);
+          sessionStorage.setItem('invitationRetryCount', '0');
+        }
+
+        socket.emit('respond_to_room_invitation', {
+          invitationId: invitation.invitationId,
+          roomId: invitation.roomId,
+          accepted: true,
+          character: useCharacterStore.getState().getActiveCharacter() // Added character data
+        });
+
+        // Safety timeout for server response
+        setTimeout(() => {
+          if (isJoiningRoomRef.current && !currentRoomRef.current) {
+            setLoadingStatusMessage('Still waiting for realm access...');
+            console.warn('⚠️ [Auto-Join] Server took too long to respond to invitation, resetting attempt flag');
+            autoJoinAttemptedRef.current = false;
+
+            // If we've already retried, show error or allow manual join
+            const finalRetryCount = parseInt(sessionStorage.getItem('invitationRetryCount') || '0', 10);
+            if (finalRetryCount >= 1) {
+              console.error('❌ [Auto-Join] Invitation response totally timed out after retry.');
+              addNotification('social', {
+                sender: { name: 'System', class: 'system', level: 0 },
+                content: 'Server connection timed out while joining the realm. Please try joining manually.',
+                type: 'system',
+                timestamp: new Date().toISOString()
+              });
+              setIsJoiningRoom(false);
+              setConnectionStatus('error');
+            }
+          }
+        }, 8000); // 8 seconds for first attempt, then retry will happen on next trigger
+
+        return;
+      } catch (e) {
+        console.error('Failed to parse pending GM session invitation:', e);
+        sessionStorage.removeItem('pendingGMSessionInvitation');
+      }
+    }
+
+    // Check if we have a room to join and the socket is connected
+    // NOTE: We check !currentRoomRef.current to avoid re-joining if already in a room
+    if (selectedRoomId && !currentRoomRef.current) {
+      console.log('🚀 [Auto-Join] Initiating join for:', selectedRoomId, { isGMResume });
+
+      // Mark as auto-continue sequence
+      isAutoJoinSequenceRef.current = true;
+
+      // Clear auto-join flags immediately to prevent loops on error/reconnect
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('selectedRoomPassword');
+      localStorage.removeItem('isGMResume');
+      localStorage.removeItem('resumeRoomName');
+
+      startJoiningRoom();
+      setConnectionStatus('connecting');
+
+      // Ensure character data is loaded before joining
+      let activeCharacter = getActiveCharacter();
+      if (!activeCharacter) {
+        console.log('🚀 [Auto-Join] Loading active character before join...');
+        activeCharacter = await loadActiveCharacter();
+      }
+
+      const inventoryState = useInventoryStore.getState();
+      // CRITICAL: Determine the display name, using account name as fallback for generic defaults
+      let finalPlayerName = activeCharacter?.name || 'Adventurer';
+      if (finalPlayerName === 'Character Name' || finalPlayerName === 'Adventurer') {
+        try {
+          const { user } = useAuthStore.getState();
+          finalPlayerName = user?.displayName || user?.email?.split('@')[0] || finalPlayerName;
+        } catch (e) { }
+      }
+
+      // Character data for both create and join
+      const characterData = activeCharacter ? {
+        id: activeCharacter.id || 'guest-char',
+        name: activeCharacter.name || finalPlayerName,
+        class: activeCharacter.class || 'Unknown',
+        race: activeCharacter.race || 'Unknown',
+        subrace: activeCharacter.subrace || '',
+        raceDisplayName: activeCharacter.raceDisplayName || '',
+        level: activeCharacter.level || 1,
+        health: activeCharacter.health || { current: 45, max: 50 },
+        mana: activeCharacter.mana || { current: 45, max: 50 },
+        actionPoints: activeCharacter.actionPoints || { current: 1, max: 3 },
+        alignment: activeCharacter.alignment || 'Neutral Good',
+        background: activeCharacter.background || '',
+        // Only include classResource if it has a valid max value (prevents 0/0 bar)
+        ...(activeCharacter.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
+        inventory: {
+          items: inventoryState.items || [],
+          currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+          encumbranceState: inventoryState.encumbranceState || 'normal'
+        },
+        equipment: activeCharacter.equipment,
+        stats: activeCharacter.stats,
+        lore: activeCharacter.lore,
+        tokenSettings: activeCharacter.tokenSettings
+      } : null;
+
+      if (isGMResume) {
+        // GM is resuming a permanent room - need to CREATE/ACTIVATE it on the socket server
+        console.log('👑 [Auto-Join] GM resuming permanent room - creating on server:', selectedRoomId);
+
+        // CRITICAL FIX: Clear social party members BEFORE creating room (not after)
+        try {
+          const currentPartyMembers = usePartyStore.getState().partyMembers || [];
+          if (currentPartyMembers.length > 0) {
+            console.log('🧹 Clearing social party members BEFORE create_room');
+            usePartyStore.getState().clearPartyMembers();
+          }
+        } catch (e) {
+          console.warn('⚠️ Failed to clear party members before create_room:', e);
+        }
+
+        // Set flag to prevent social party from syncing to partyStore during transition
+        sessionStorage.setItem('enteringMultiplayer', 'true');
+
+        const createData = {
+          roomName: resumeRoomName || 'Campaign Room',
+          gmName: finalPlayerName,
+          password: selectedRoomPassword || '',
+          playerColor: '#d4af37', // Gold color for GM
+          persistentRoomId: selectedRoomId, // Link to Firebase permanent room
+          character: characterData,
+          partyMembers: [] // GM resumes alone initially
+        };
+
+        console.log('📤 [Auto-Join] Sending create_room for GM resume:', selectedRoomId);
+        socket.emit('create_room', createData);
+      } else {
+        // Regular player joining or test room
+        const joinData = {
+          roomId: selectedRoomId,
+          playerName: finalPlayerName,
+          password: selectedRoomPassword || '',
+          playerColor: '#4a90e2', // Default blue color matching RoomLobby
+          character: characterData
+        };
+
+        console.log('📤 [Auto-Join] Sending join_room:', selectedRoomId);
+        socket.emit('join_room', joinData);
+      }
+    } else if (isJoiningRoomRef.current && !pendingInvitation && !selectedRoomId) {
+      // CRITICAL: If we're in joining state but there's no selectedRoomId or invitation,
+      // the auto-join failed or was already cleared - reset the state
+      console.log('⚠️ [Auto-Join] No room data found but isJoiningRoom=true, resetting state');
+      setIsJoiningRoom(false);
+      setConnectionStatus('disconnected');
+    }
+  }, [socket, startJoiningRoom, getActiveCharacter, loadActiveCharacter]);
+
+
+  // ROBUST TRIGGER: Effect to monitor connection status and trigger auto-join
+  useEffect(() => {
+    if (socket && socket.connected) {
+      checkAutoJoin();
+    }
+
+    const handleConnect = () => {
+      checkAutoJoin();
+    };
+
+    socket?.on('connect', handleConnect);
+    return () => {
+      socket?.off('connect', handleConnect);
+    };
+  }, [socket, socket?.connected, checkAutoJoin]);
+
+  // ROBUST TRIGGER: Effect to monitor session storage changes
+  useEffect(() => {
+    const checkInterval = setInterval(() => {
+      if (sessionStorage.getItem('pendingGMSessionInvitation') && !currentRoomRef.current && !isJoiningRoomRef.current) {
+        console.log('⚡ [Auto-Trigger] Detected pending invitation in storage, triggering join');
+        autoJoinAttemptedRef.current = false;
+        checkAutoJoin();
+      }
+    }, 1000);
+
+    return () => clearInterval(checkInterval);
+  }, [checkAutoJoin]);
+
   // Socket server URL - adjust based on environment (memoized to prevent recreation)
   const SOCKET_URL = useMemo(() => {
     const resolvedUrl = process.env.REACT_APP_SOCKET_URL ||
@@ -581,14 +853,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // CRITICAL: Expose socket globally for HUD components that need direct access
       window.multiplayerSocket = newSocket;
+      console.log('🔌 [MultiplayerApp] Multiplayer socket created and exposed to window.multiplayerSocket');
 
       // Removed enhanced multiplayer system - was causing conflicts
 
       // Enhanced connection event listeners with status feedback
       newSocket.on('connect', () => {
+        console.log('🔌 [MultiplayerApp] Multiplayer socket CONNECTED:', newSocket.id);
         setIsConnecting(false);
         // Don't set to 'connected' here - wait for room join to complete
         // setConnectionStatus('connected');
+
+        // MOVED: CHECK FOR PENDING GM SESSION INVITATION now handled in checkAutoJoin
+        // This ensures the join is emitted on the multiplayer socket.
 
         // AUTO-REJOIN: If we have room data and were already connected, re-join automatically
         // This is CRITICAL for handling temporary socket disconnections (e.g. tab sleep, network swap)
@@ -600,7 +877,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             roomId: roomData.persistentRoomId || roomData.id,
             playerName: currentPlayerRef.current?.name || 'Reconnecting...',
             password: roomPasswordRef.current || '',
-            isReconnect: true
+            isReconnect: true,
+            character: useCharacterStore.getState().getActiveCharacter() || null // CRITICAL FIX: Send character data on reconnect
           });
 
           const isPersistentRejoin = !!roomData?.persistentRoomId;
@@ -829,16 +1107,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     return unsubscribe;
   }, [socket]);
 
+  // Consolidate all multiplayer socket listeners
   useEffect(() => {
     if (!socket) return;
 
     // IMPROVEMENT: Monitor socket connection status with quality tracking
-    socket.on('connect', () => {
-      // Don't set connection status here - wait for room join to complete
-      // setConnectionStatus('connected');
+    const handleConnect = () => {
       setIsConnecting(false);
 
-      // IMPROVEMENT: Measure latency on connect using existing ping/pong pattern
+      // IMPROVEMENT: Measure latency on connect
       const startTime = Date.now();
       socket.emit('ping');
       socket.once('pong', () => {
@@ -846,7 +1123,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const quality = latency < 100 ? 'excellent' : latency < 200 ? 'good' : latency < 500 ? 'fair' : 'poor';
         setConnectionQuality({ latency, quality });
 
-        // Log connection quality
         if (quality === 'poor') {
           console.warn(`⚠️ High latency detected: ${latency}ms`);
           addNotification('social', {
@@ -858,7 +1134,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       });
 
-      // IMPROVEMENT: Periodic latency checks
+      // Periodic latency checks
       const latencyCheckInterval = setInterval(() => {
         if (socket.connected) {
           const pingStart = Date.now();
@@ -871,121 +1147,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         } else {
           clearInterval(latencyCheckInterval);
         }
-      }, 30000); // Check every 30 seconds
+      }, 30000);
 
-      // Store interval for cleanup
       socket._latencyCheckInterval = latencyCheckInterval;
 
-      // ========== AUTO-JOIN LOGIC FOR DIRECT NAVIGATION ==========
-      const checkAutoJoin = async () => {
-        const selectedRoomId = localStorage.getItem('selectedRoomId');
-        const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
-        const isGMResume = localStorage.getItem('isGMResume') === 'true';
-        const resumeRoomName = localStorage.getItem('resumeRoomName');
-
-        // Check if we have a room to join and the socket is connected
-        // NOTE: We check !currentRoomRef.current to avoid re-joining if already in a room
-        // We do NOT check !isJoiningRoom because the initial state sets isJoiningRoom=true
-        // when selectedRoomId exists (to show loading overlay immediately)
-        if (selectedRoomId && !currentRoomRef.current) {
-          console.log('🚀 [Auto-Join] Detected pending room join:', selectedRoomId, { isGMResume });
-
-          // Clear auto-join flags immediately to prevent loops on error/reconnect
-          localStorage.removeItem('selectedRoomId');
-          localStorage.removeItem('selectedRoomPassword');
-          localStorage.removeItem('isGMResume');
-          localStorage.removeItem('resumeRoomName');
-
-          setIsJoiningRoom(true);
-          setConnectionStatus('connecting');
-
-          // Ensure character data is loaded before joining
-          let activeCharacter = getActiveCharacter();
-          if (!activeCharacter) {
-            console.log('🚀 [Auto-Join] Loading active character before join...');
-            activeCharacter = await loadActiveCharacter();
-          }
-
-          const inventoryState = useInventoryStore.getState();
-          const finalPlayerName = activeCharacter?.name || 'Adventurer';
-
-          // Character data for both create and join
-          const characterData = activeCharacter ? {
-            id: activeCharacter.id || 'guest-char',
-            name: activeCharacter.name || finalPlayerName,
-            class: activeCharacter.class || 'Unknown',
-            race: activeCharacter.race || 'Unknown',
-            subrace: activeCharacter.subrace || '',
-            raceDisplayName: activeCharacter.raceDisplayName || '',
-            level: activeCharacter.level || 1,
-            health: activeCharacter.health || { current: 45, max: 50 },
-            mana: activeCharacter.mana || { current: 45, max: 50 },
-            actionPoints: activeCharacter.actionPoints || { current: 1, max: 3 },
-            alignment: activeCharacter.alignment || 'Neutral Good',
-            background: activeCharacter.background || '',
-            classResource: activeCharacter.classResource || { current: 0, max: 0 },
-            inventory: {
-              items: inventoryState.items || [],
-              currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-              encumbranceState: inventoryState.encumbranceState || 'normal'
-            },
-            equipment: activeCharacter.equipment,
-            stats: activeCharacter.stats,
-            lore: activeCharacter.lore,
-            tokenSettings: activeCharacter.tokenSettings
-          } : null;
-
-          if (isGMResume) {
-            // GM is resuming a permanent room - need to CREATE/ACTIVATE it on the socket server
-            console.log('👑 [Auto-Join] GM resuming permanent room - creating on server:', selectedRoomId);
-
-            const createData = {
-              roomName: resumeRoomName || 'Campaign Room',
-              gmName: finalPlayerName,
-              password: selectedRoomPassword || '',
-              playerColor: '#d4af37', // Gold color for GM
-              persistentRoomId: selectedRoomId, // Link to Firebase permanent room
-              character: characterData,
-              partyMembers: [] // GM resumes alone initially
-            };
-
-            console.log('📤 [Auto-Join] Sending create_room for GM resume:', selectedRoomId);
-            socket.emit('create_room', createData);
-          } else {
-            // Regular player joining or test room
-            const joinData = {
-              roomId: selectedRoomId,
-              playerName: finalPlayerName,
-              password: selectedRoomPassword || '',
-              playerColor: '#4a90e2', // Default blue color matching RoomLobby
-              character: characterData
-            };
-
-            console.log('📤 [Auto-Join] Sending join_room:', selectedRoomId);
-            socket.emit('join_room', joinData);
-          }
-        } else if (!selectedRoomId && isJoiningRoom && !currentRoomRef.current) {
-          // CRITICAL: If we're in joining state but there's no selectedRoomId,
-          // the auto-join failed or was already cleared - reset the state
-          console.log('⚠️ [Auto-Join] No selectedRoomId found but isJoiningRoom=true, resetting state');
-          setIsJoiningRoom(false);
-          setConnectionStatus('disconnected');
-        }
-      };
-
-      // Run auto-join check
+      // Trigger auto-join logic
       checkAutoJoin();
+    };
+
+    socket.on('connect', handleConnect);
+
+    socket.on('disconnect', (reason) => {
+      console.log('🔌 Socket disconnected:', reason);
+      setConnectionStatus('disconnected');
+      // Reset auto-join attempt on disconnect so it can retry on next connection
+      // if we are still on the loading screen
+      autoJoinAttemptedRef.current = false;
     });
 
-    // Handle socket errors - critical for join/create failures
     socket.on('error', (data) => {
       console.error('❌ Socket error received:', data);
       if (typeof data === 'object') {
         console.error('Socket Error Details:', JSON.stringify(data, null, 2));
       }
 
-      // If we are in the loading screen (isJoiningRoom but not currentRoom), 
-      // handle the error by resetting state so the user isn't stuck
       if (isJoiningRoomRef.current && !currentRoomRef.current) {
         console.log('⚠️ Error during join/create, resetting loading state');
         setIsJoiningRoom(false);
@@ -993,7 +1178,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setIsRoomReady(false);
         setConnectionStatus('error');
 
-        // Show notification
+        // Allow retrying auto-join if it failed
+        autoJoinAttemptedRef.current = false;
+        isAutoJoinSequenceRef.current = false;
+
         const errorMessage = typeof data === 'string' ? data : (data.message || 'Unknown error');
         addNotificationRef.current('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -1005,17 +1193,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('disconnect', (reason) => {
-      // If disconnect was not intentional, show it as an error
       setConnectionStatus(reason === 'io client disconnect' ? 'disconnected' : 'error');
       setConnectionQuality({ latency: 0, quality: 'disconnected' });
 
-      // IMPROVEMENT: Clear latency check interval
       if (socket._latencyCheckInterval) {
         clearInterval(socket._latencyCheckInterval);
         delete socket._latencyCheckInterval;
       }
 
-      // IMPROVEMENT: Provide user feedback based on disconnect reason
       if (reason === 'io server disconnect') {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -1033,16 +1218,37 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // CRITICAL: Handle room_joined event for auto-join scenarios
-    // When auto-joining from landing page, RoomLobby isn't mounted to handle this
+    // CRITICAL: Handle room_joined event
     socket.on('room_joined', (data) => {
       console.log('✅ [MultiplayerApp] room_joined received:', data);
 
-      // If we're already in a room, ignore (RoomLobby might have handled it)
+      // Guard: If we're already in a room, ignore (RoomLobby might have handled it)
       if (currentRoomRef.current) {
         console.log('⚠️ [MultiplayerApp] Already in room, ignoring room_joined');
         return;
       }
+
+      // Guard: Check for stale/duplicate join using join ID
+      const joinId = data.room?.id || data.room?.persistentRoomId;
+      if (activeJoinIdRef.current && activeJoinIdRef.current !== joinId) {
+        console.log('⚠️ [MultiplayerApp] Stale room_joined (different room), ignoring', {
+          activeJoinId: activeJoinIdRef.current,
+          receivedJoinId: joinId
+        });
+        return;
+      }
+
+      // Guard: If we already have pending room data for the same room, don't overwrite
+      if (pendingRoomDataRef.current && pendingRoomDataRef.current.room) {
+        const pendingRoomId = pendingRoomDataRef.current.room.id || pendingRoomDataRef.current.room.persistentRoomId;
+        if (pendingRoomId === joinId) {
+          console.log('⚠️ [MultiplayerApp] Already have pending data for this room, ignoring duplicate');
+          return;
+        }
+      }
+
+      // Mark this join as active
+      activeJoinIdRef.current = joinId;
 
       // Use explicit isGM flag from server
       const isGameMaster = data.isGM || data.isGMReconnect || false;
@@ -1054,8 +1260,51 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       localStorage.removeItem('selectedRoomId');
       localStorage.removeItem('selectedRoomPassword');
 
-      // Store room data for the Continue button flow
-      // Instant access enabled - Continue button shown immediately if ready
+      // DETECT AUTO-CONTINUE INTENT
+      // Skip "Continue" button for:
+      // 1. Invitations (already verified via sessionStorage)
+      // 2. Auto-joins (marked by isAutoJoinSequenceRef)
+      // 3. New GM creations (captured by isJoiningRoomRef during the current session)
+      const pendingInvitationStr = sessionStorage.getItem('pendingGMSessionInvitation');
+      let shouldAutoContinue = isAutoJoinSequenceRef.current;
+
+      console.log('🔍 [MultiplayerApp] Detecting auto-continue intent:', {
+        isAutoJoinSequence: isAutoJoinSequenceRef.current,
+        hasPendingInvitation: !!pendingInvitationStr,
+        receivedJoinId: joinId
+      });
+
+      if (pendingInvitationStr) {
+        try {
+          const invitation = JSON.parse(pendingInvitationStr);
+          console.log('🔍 [MultiplayerApp] Comparing invitation IDs:', {
+            invitationRoomId: invitation.roomId,
+            joinId: joinId
+          });
+
+          // Robust comparison: check if invitation.roomId matches joinId
+          if (invitation.roomId === joinId ||
+            (data.room?.persistentRoomId && invitation.roomId === data.room.persistentRoomId) ||
+            (data.room?.id && invitation.roomId === data.room.id)) {
+            console.log('✨ [MultiplayerApp] Verified invitation join for auto-continue:', invitation.partyName);
+            shouldAutoContinue = true;
+            sessionStorage.removeItem('pendingGMSessionInvitation');
+          } else {
+            console.warn('⚠️ [MultiplayerApp] Invitation Room ID mismatch:', {
+              invitationRoomId: invitation.roomId,
+              joinRoomId: data.room?.id,
+              joinPersistentId: data.room?.persistentRoomId
+            });
+          }
+        } catch (e) {
+          console.error('❌ Failed to parse pending invitation in room_joined:', e);
+        }
+      }
+
+      // Reset auto-join intent once captured in roomData
+      isAutoJoinSequenceRef.current = false;
+
+      // Record room data for the transition
       const roomData = {
         room: data.room,
         socket: socket,
@@ -1063,15 +1312,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         player: data.player,
         password: usedPassword,
         levelEditor: data.levelEditor,
-        gridSettings: data.gridSettings
+        gridSettings: data.gridSettings,
+        isInvitationJoin: shouldAutoContinue // Flag to skip "Continue" button
       };
 
       // Store room data for the Continue button flow
       setPendingRoomData(roomData);
-
       pendingRoomDataRef.current = roomData;
       setIsRoomReady(true);
-      console.log('✅ [MultiplayerApp] Room data stored, waiting for user to continue');
+
+      // Update URL with room code for shareable links
+      const roomCode = data.room.persistentRoomId || data.room.id;
+      if (roomCode) {
+        navigate(`/multiplayer/${roomCode}`, { replace: true });
+      }
+
+      console.log('✅ [MultiplayerApp] Room data stored and isRoomReady set to true', {
+        room: data.room.name,
+        isInvitationJoin: shouldAutoContinue,
+        isGM: isGameMaster
+      });
+
+      if (shouldAutoContinue) {
+        setLoadingStatusMessage('Finalizing entry...');
+      } else {
+        setLoadingStatusMessage(null); // Clear custom message so default stage text takes over
+      }
     });
 
     // CRITICAL: Handle room_created event for GM resume flow
@@ -1084,6 +1350,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         roomId: data.room?.id,
         persistentRoomId: data.room?.persistentRoomId
       });
+
+      // Note: Party members are already cleared BEFORE create_room is emitted
+      // This is just a safety check in case clear failed earlier
+      try {
+        const currentPartyMembers = usePartyStore.getState().partyMembers || [];
+        // Only clear if there are still members (safety check)
+        if (currentPartyMembers.length > 0 && currentPartyMembers.some(m => !m.isGM)) {
+          console.log('🧹 Safety clear: Removing non-GM party members on room_created');
+          const gmsOnly = currentPartyMembers.filter(m => m.isGM);
+          usePartyStore.getState().replacePartyMembers(gmsOnly);
+        }
+      } catch (e) {
+        console.warn('⚠️ Failed to verify party members on room_created:', e);
+      }
 
       // Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -1162,12 +1442,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
 
       // Use character name if available, otherwise fall back to player name
-      const playerCharacterName = data.player.character?.name || data.player.name;
+      let playerCharacterName = data.player.character?.name || data.player.name;
 
-      // Skip adding ourselves to prevent duplicate HUDs - check both ID and name
+      // CRITICAL: Use account name as fallback for "Character Name"
+      if (playerCharacterName === 'Character Name' || playerCharacterName === 'Character Name (Room Name)') {
+        playerCharacterName = data.player.accountName || data.player.name || 'Player';
+      }
+
+      // Skip adding ourselves to prevent duplicate HUDs - check strict IDs only
+      // CRITICAL FIX: Do NOT check by name, as multiple players (or GM) might have the same name/account during testing
       const isCurrentPlayer = data.player.id === currentPlayerRef.current?.id ||
-        playerCharacterName === currentPlayerRef.current?.name ||
-        data.player.name === currentPlayerRef.current?.name;
+        data.player.socketId === socket.id;
 
       if (!isCurrentPlayer) {
 
@@ -1176,17 +1461,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         console.log('🆔 player_joined - Adding party member with:', {
           playerId: data.player.id,
+          playerSocketId: data.player.socketId,
+          playerUserId: data.player.userId,
           playerName: playerCharacterName,
           serverPlayerName: data.player.name
         });
 
         // Add to party system with character data first
         // CRITICAL FIX: Ensure isGM is explicitly false for joining players (only room creator is GM)
+        // CRITICAL FIX: Add isConnected: true since player has actually joined the room
+        const playerCharClassResource = data.player.character?.classResource;
         const newPartyMember = {
           id: data.player.id,
-          socketId: data.player.id, // CRITICAL: Store socketId for character_updated lookups
+          socketId: data.player.socketId || data.player.id, // CRITICAL: Store actual socket.io ID for character_updated lookups
+          userId: data.player.userId, // CRITICAL: Firebase UID for reliable identification
           name: playerCharacterName,
           isGM: false, // Joining players are never GM - only room creator is GM
+          isConnected: true, // Player has actually joined the room
           character: {
             class: data.player.character?.class || 'Unknown',
             level: data.player.character?.level || 1,
@@ -1197,11 +1488,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: data.player.character?.race || 'Unknown',
             subrace: data.player.character?.subrace || '',
             raceDisplayName: raceDisplayName,
-            classResource: data.player.character?.classResource || { current: 0, max: 0 }, // Include class resource
             tokenSettings: data.player.character?.tokenSettings || {}, // Include token settings
             lore: data.player.character?.lore || {} // Include lore (which contains characterImage)
           }
         };
+
+        // Only add classResource if it has a valid max value (prevents 0/0 bar)
+        if (playerCharClassResource?.max) {
+          newPartyMember.character.classResource = playerCharClassResource;
+        }
 
         // Add party member
         addPartyMember(newPartyMember);
@@ -1395,89 +1690,60 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     // Listen for character resource updates from other players
+    // CONSOLIDATED: Handles both formats:
+    // - Format 1: {playerId, playerName, resource, current, max, temp, adjustment} - from GM updates
+    // - Format 2: {senderSocketId, characterId, newValues, deltas} - from player self-updates
     socket.on('character_resource_updated', (data) => {
-      const { playerId, playerName, resource, current, max, temp, adjustment } = data;
-
-      // Multiple ways to identify current player for robust matching
       const currentPlayerId = currentPlayerRef.current?.id;
       const currentPlayerName = currentPlayerRef.current?.name;
 
-      // Check if this update is for the current player (GM updating us)
-      // Match by: exact ID, 'current-player' literal, or player name fallback
-      const isCurrentPlayer =
-        playerId === currentPlayerId ||
-        playerId === 'current-player' ||
-        (playerName && playerName === currentPlayerName);
+      // Detect format and handle accordingly
+      if (data.resource !== undefined && data.current !== undefined) {
+        // Format 1: Single resource update from GM
+        const { playerId, playerName, resource, current, max, temp, adjustment } = data;
 
-      console.log('🔍 character_resource_updated check:', {
-        receivedPlayerId: playerId,
-        receivedPlayerName: playerName,
-        currentPlayerId,
-        currentPlayerName,
-        isCurrentPlayer,
-        resource,
-        current,
-        max
-      });
+        // Check if this update is for the current player (GM updating us)
+        const isCurrentPlayer =
+          playerId === currentPlayerId ||
+          playerId === 'current-player' ||
+          (playerName && playerName === currentPlayerName);
 
-      if (isCurrentPlayer) {
-        // Update current player's character store directly
-        const charStore = require('../../store/characterStore').default;
-        charStore.getState().updateResource(resource, current, max);
+        console.log('🔍 character_resource_updated check:', {
+          receivedPlayerId: playerId,
+          receivedPlayerName: playerName,
+          currentPlayerId,
+          currentPlayerName,
+          isCurrentPlayer,
+          resource,
+          current,
+          max
+        });
 
-        // Also update temporary resources if provided
-        if (temp !== undefined) {
-          charStore.getState().updateTempResource(resource, temp);
-        }
+        if (isCurrentPlayer) {
+          // Update current player's character store directly
+          const charStore = require('../../store/characterStore').default;
 
-        // Show synchronized floating combat text for current player
-        if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
-          const playerFrame = document.querySelector('.player-status-frame') || document.querySelector('.player-hud');
-          const rect = playerFrame ? playerFrame.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight - 150 };
-
-          let textType = 'damage';
-          if (adjustment > 0) {
-            textType = resource === 'health' ? 'heal' : resource === 'mana' ? 'mana' : 'ap';
+          if (resource === 'classResource') {
+            // Class resource update - use the full classResource object if provided
+            if (data.classResource) {
+              charStore.getState().setState({ classResource: data.classResource });
+            } else {
+              charStore.getState().updateClassResource('current', current);
+              charStore.getState().updateClassResource('max', max);
+            }
           } else {
-            textType = resource === 'health' ? 'damage' : resource === 'mana' ? 'mana-loss' : 'ap-loss';
+            charStore.getState().updateResource(resource, current, max);
+
+            // Also update temporary resources if provided
+            if (temp !== undefined) {
+              charStore.getState().updateTempResource(resource, temp);
+            }
           }
 
-          window.showFloatingCombatText(
-            Math.abs(adjustment),
-            textType,
-            { x: rect.left + (playerFrame ? 100 : 0), y: rect.top + (playerFrame ? 20 : 0) }
-          );
-        }
-
-        console.log(`💊 GM updated my ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
-      } else {
-        // Update the party member's resource
-        const memberUpdate = {
-          character: {
-            [resource]: { current, max }
-          }
-        };
-
-        // Also update temporary resources if provided
-        if (temp !== undefined) {
-          const tempFieldMap = {
-            'health': 'tempHealth',
-            'mana': 'tempMana',
-            'actionPoints': 'tempActionPoints'
-          };
-          const tempField = tempFieldMap[resource];
-          if (tempField) {
-            memberUpdate.character[tempField] = temp;
-          }
-        }
-
-        updatePartyMember(playerId, memberUpdate);
-
-        // Show synchronized floating combat text for party member
-        if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
-          const frame = document.querySelector(`.party-frame-${playerId}`);
-          if (frame) {
-            const rect = frame.getBoundingClientRect();
+          // Show synchronized floating combat text for current player
+          if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+            const playerFrame = document.querySelector('.player-status-frame') || document.querySelector('.player-hud');
+            const rect = playerFrame ? playerFrame.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight - 150 };
 
             let textType = 'damage';
             if (adjustment > 0) {
@@ -1489,12 +1755,115 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             window.showFloatingCombatText(
               Math.abs(adjustment),
               textType,
-              { x: rect.left + 50, y: rect.top + 30 }
+              { x: rect.left + (playerFrame ? 100 : 0), y: rect.top + (playerFrame ? 20 : 0) }
             );
           }
+
+          console.log(`💊 Resource sync: ${resource} updated to ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
+        } else {
+          // Update the party member's resource
+          const memberUpdate = {
+            character: {}
+          };
+
+          if (resource === 'classResource') {
+            // Class resource update
+            memberUpdate.character.classResource = data.classResource || { current, max };
+          } else {
+            memberUpdate.character[resource] = { current, max };
+          }
+
+          // Also update temporary resources if provided
+          if (temp !== undefined && resource !== 'classResource') {
+            const tempFieldMap = {
+              'health': 'tempHealth',
+              'mana': 'tempMana',
+              'actionPoints': 'tempActionPoints'
+            };
+            const tempField = tempFieldMap[resource];
+            if (tempField) {
+              memberUpdate.character[tempField] = temp;
+            }
+          }
+
+          updatePartyMember(playerId, memberUpdate);
+
+          // Show synchronized floating combat text for party member
+          if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+            const frame = document.querySelector(`.party-frame-${playerId}`);
+            if (frame) {
+              const rect = frame.getBoundingClientRect();
+
+              let textType = 'damage';
+              if (adjustment > 0) {
+                textType = resource === 'health' ? 'heal' : resource === 'mana' ? 'mana' : 'ap';
+              } else {
+                textType = resource === 'health' ? 'damage' : resource === 'mana' ? 'mana-loss' : 'ap-loss';
+              }
+
+              window.showFloatingCombatText(
+                Math.abs(adjustment),
+                textType,
+                { x: rect.left + 50, y: rect.top + 30 }
+              );
+            }
+          }
+
+          console.log(`💊 Updated ${data.playerName || playerId}'s ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
+        }
+      } else if (data.newValues || data.deltas) {
+        // Format 2: Delta-based update from another player's self-update
+        const senderSocketId = data.senderSocketId || data.socketId || data.updatedBy;
+        const characterId = data.characterId;
+        const updatedBy = data.updatedBy;
+
+        // Skip if this is our own update (we already updated locally)
+        if ((senderSocketId && senderSocketId === socket.id) || (updatedBy && updatedBy === socket.id)) {
+          return;
         }
 
-        console.log(`💊 Updated ${data.playerName || playerId}'s ${resource}: ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
+        const partyStore = usePartyStore.getState();
+        let partyMember = partyStore.partyMembers.find(m =>
+          m.socketId === senderSocketId ||
+          m.id === characterId ||
+          m.id === updatedBy ||
+          m.socketId === updatedBy
+        );
+
+        // FALLBACK: If not found and this is likely from GM
+        if (!partyMember && !characterId) {
+          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
+          if (gmMember) partyMember = gmMember;
+        }
+
+        if (!partyMember) return;
+
+        const updates = { character: {} };
+
+        // Handle delta-based updates
+        if (data.newValues) {
+          Object.entries(data.newValues).forEach(([resource, value]) => {
+            if (resource === 'classResource') {
+              updates.character.classResource = data.classResource || {
+                current: value,
+                max: data.max || partyMember.character?.classResource?.max || 5
+              };
+            } else {
+              updates.character[resource] = {
+                current: value,
+                max: data.max || partyMember.character?.[resource]?.max || 100
+              };
+            }
+          });
+        }
+
+        // Also handle classResource if explicitly provided
+        if (data.classResource) {
+          updates.character.classResource = data.classResource;
+        }
+
+        usePartyStore.getState().updatePartyMember(partyMember.id, updates, true);
+        console.log(`💊 Synced ${partyMember.name}'s resources from their update`);
       }
     });
 
@@ -1573,10 +1942,86 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           });
           break;
 
+        case 'heal_all':
+          // Heal local character
+          import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+            const charStore = useCharacterStore.getState();
+            charStore.updateResource('health', charStore.health.max, charStore.health.max);
+
+            // Show notification
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `A Game Master has fully healed the party.`,
+              isSystem: true,
+              timestamp: new Date().toISOString()
+            });
+            console.log('💚 Party healed by GM');
+          });
+          break;
+
+        case 'clear_fog':
+          // Clear fog locally
+          import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+            useLevelEditorStore.getState().clearAllFog();
+            console.log('🌫️ Fog cleared by GM');
+          });
+          break;
+
+        case 'reset_combat':
+          // Reset combat locally
+          import('../../store/combatStore').then(({ default: useCombatStore }) => {
+            useCombatStore.getState().forceResetCombat();
+            console.log('⚔️ Combat reset by GM');
+          });
+          break;
+
         default:
           console.warn('Unknown GM action type:', type);
       }
     });
+
+    // Listen for buff updates from other players
+    socket.on('buff_update', (data) => {
+      const { type, data: buffData, senderSocketId } = data;
+
+      // Skip if we sent this
+      if (senderSocketId === socket.id) return;
+
+      console.log('✨ Received buff update:', type, buffData);
+
+      import('../../store/buffStore').then(({ default: useBuffStore }) => {
+        const buffStore = useBuffStore.getState();
+        if (type === 'buff_added') {
+          // Add buff silently (don't re-sync)
+          buffStore.addBuff(buffData, true);
+        } else if (type === 'buff_removed') {
+          // Remove buff silently (don't re-sync)
+          buffStore.removeBuff(data.buffId || buffData.id, true);
+        }
+      });
+    });
+
+    // Listen for debuff updates from other players
+    socket.on('debuff_update', (data) => {
+      const { type, data: debuffData, senderSocketId } = data;
+
+      // Skip if we sent this
+      if (senderSocketId === socket.id) return;
+
+      console.log('🥀 Received debuff update:', type, debuffData);
+
+      import('../../store/debuffStore').then(({ default: useDebuffStore }) => {
+        const debuffStore = useDebuffStore.getState();
+        if (type === 'debuff_added') {
+          // Add debuff silently (don't re-sync)
+          debuffStore.addDebuff(debuffData, true);
+        } else if (type === 'debuff_removed') {
+          // Remove debuff silently (don't re-sync)
+          debuffStore.removeDebuff(data.debuffId || debuffData.id, true);
+        }
+      });
+    });
+
 
     // Listen for gameplay settings synchronization from GM
     socket.on('sync_gameplay_settings', (data) => {
@@ -2925,199 +3370,212 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
       const senderSocketId = data.character?.playerId || data.characterId;
+      const serverPlayerId = data.character?.serverPlayerId; // Server-assigned UUID
+      const senderUserId = data.character?.userId || data.userId; // Firebase UID - MOST RELIABLE
       const characterName = data.character?.name;
       const updatedBy = data.updatedBy; // Player ID of sender from server
       const isFromGM = data.isGM || false; // Server may indicate if this is from GM
 
       console.log('📥 [character_updated] Received:', {
         senderSocketId,
+        serverPlayerId,
+        senderUserId,
         characterName,
         updatedBy,
         mySocketId: socket.id,
+        myUserId: useAuthStore.getState().user?.uid,
         hasLore: !!data.character?.lore,
         hasEquipment: !!data.character?.equipment,
         class: data.character?.class
       });
 
-      // CRITICAL FIX: Use socket.id to check if this is our own update
-      // The senderSocketId in the data is the sender's socket ID, compare against our socket.id
-      if (senderSocketId && senderSocketId !== socket.id) {
-        // CRITICAL FIX: Find party member by multiple strategies since party members use UUIDs
-        // but character_updated events use socket IDs
-        const partyStore = usePartyStore.getState();
-        let partyMember = partyStore.partyMembers.find(m =>
-          m.socketId === senderSocketId || // Match by stored socket ID
-          m.socketId === updatedBy || // Match by server-provided sender ID stored as socketId
+      // CRITICAL FIX: Check if this is our own update using userId FIRST (most reliable)
+      const mySocketId = socket.id;
+      const myServerId = useGameStore.getState().currentPlayer?.id;
+      const myUserId = useAuthStore.getState().user?.uid;
+
+      const isOwnUpdate = (senderUserId && senderUserId === myUserId) ||
+        (senderSocketId && senderSocketId === mySocketId) ||
+        (serverPlayerId && serverPlayerId === myServerId);
+
+      if (isOwnUpdate) {
+        console.log('📥 [character_updated] Skipping own update');
+        return;
+      }
+
+      // CRITICAL FIX: Find party member by multiple strategies, userId FIRST
+      const partyStore = usePartyStore.getState();
+      let partyMember = partyStore.partyMembers.find(m =>
+        m.userId === senderUserId // 1. Match by Firebase UID (MOST RELIABLE)
+      );
+
+      // 2. If not found by userId, try other methods
+      if (!partyMember) {
+        partyMember = partyStore.partyMembers.find(m =>
+          m.socketId === senderSocketId || // Match by socket ID
+          m.socketId === serverPlayerId || // Match by server UUID stored as socketId
+          m.id === serverPlayerId || // Match by server UUID
           m.id === updatedBy || // Match by ID since server uses player.id as updatedBy
-          m.name === characterName || // Match by character name
           m.id === senderSocketId // Match by ID (in case they match)
         );
+      }
 
-        // FALLBACK: If not found and this is from GM, find the GM party member
-        if (!partyMember) {
-          // Check if sender is the GM by looking at who ISN'T us and IS the GM
-          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
-          if (gmMember) {
-            console.log('📥 [character_updated] Trying GM fallback match:', { gmMemberName: gmMember.name });
-            partyMember = gmMember;
+      // 3. Last resort: match by name, but ONLY if name is NOT "Character Name"
+      // (to avoid false matches when both have default name)
+      if (!partyMember && characterName && characterName !== 'Character Name') {
+        partyMember = partyStore.partyMembers.find(m => m.name === characterName);
+      }
+
+      // FALLBACK: If not found and this is from GM, find the GM party member
+      if (!partyMember) {
+        // Check if sender is the GM by looking at who ISN'T us and IS the GM
+        const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
+        if (gmMember) {
+          console.log('📥 [character_updated] Trying GM fallback match:', { gmMemberName: gmMember.name, gmMemberUserId: gmMember.userId });
+          partyMember = gmMember;
+        }
+      }
+
+      if (!partyMember) {
+        console.warn('📥 [character_updated] Could not find party member for:', { senderSocketId, serverPlayerId, senderUserId, characterName, updatedBy });
+        return;
+      }
+
+      // Store socketId on the member for future lookups
+      const targetMemberId = partyMember.id;
+      console.log('📥 [character_updated] Found party member:', { targetMemberId, name: partyMember.name });
+
+      // CRITICAL FIX: Preserve GM's custom display name if incoming name is a default placeholder
+      const incomingName = data.character.name;
+      const isDefaultName = !incomingName ||
+        incomingName === 'Character Name' ||
+        incomingName === 'Character Name (Room Name)' ||
+        incomingName.trim() === '';
+
+      // Only update name if incoming is NOT a default placeholder
+      const shouldUpdateName = !isDefaultName;
+      const memberName = shouldUpdateName ? incomingName : partyMember.name;
+
+      // Calculate proper race display name from race and subrace data
+      let raceDisplayName = data.character.raceDisplayName || 'Unknown';
+
+      // CRITICAL FIX: Use actual character data with proper fallbacks
+      const baseCharacterData = {
+        ...data.character,
+        socketId: senderSocketId, // Store socketId for future lookups
+        // Ensure we don't have nulls for critical stats
+        health: data.character.health || { current: 45, max: 50 },
+        mana: data.character.mana || { current: 45, max: 50 },
+        actionPoints: data.character.actionPoints || { current: 1, max: 3 },
+        // CRITICAL FIX: Always include classResource, even if empty
+        classResource: data.character.classResource || { current: 0, max: 0 }
+      };
+
+      console.log('📦 [character_updated] baseCharacterData keys:', Object.keys(baseCharacterData));
+
+      if (data.character.race && data.character.subrace) {
+        import('../../data/raceData').then(({ getFullRaceData }) => {
+          const raceData = getFullRaceData(data.character.race, data.character.subrace);
+          if (raceData) {
+            // Combine Race and Subrace for better display (e.g. "Nordmark (Bloodhammer)")
+            const updatedRaceDisplayName = `${raceData.race.name} (${raceData.subrace.name})`;
+
+            // Update party member with correct race display name
+            // CRITICAL: Only update name if it's not a default placeholder
+            const updateData = {
+              socketId: senderSocketId,
+              character: {
+                ...baseCharacterData,
+                raceDisplayName: updatedRaceDisplayName
+              }
+            };
+            if (shouldUpdateName) {
+              updateData.name = memberName;
+            }
+            usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
           }
-        }
-
-        if (!partyMember) {
-          console.warn('📥 [character_updated] Could not find party member for:', { senderSocketId, characterName, updatedBy });
-          return;
-        }
-
-        // Store socketId on the member for future lookups
-        const targetMemberId = partyMember.id;
-        console.log('📥 [character_updated] Found party member:', { targetMemberId, name: partyMember.name });
-
-        // Calculate proper race display name from race and subrace data
-        let raceDisplayName = data.character.raceDisplayName || 'Unknown';
-
-        // CRITICAL FIX: Use actual character data
-        const baseCharacterData = {
-          ...data.character,
-          socketId: senderSocketId, // Store socketId for future lookups
-          // Ensure we don't have nulls for critical stats
-          health: data.character.health || { current: 45, max: 50 },
-          mana: data.character.mana || { current: 45, max: 50 },
-          actionPoints: data.character.actionPoints || { current: 1, max: 3 }
-        };
-
-        console.log('📦 [character_updated] baseCharacterData keys:', Object.keys(baseCharacterData));
-
-        if (data.character.race && data.character.subrace) {
-          import('../../data/raceData').then(({ getFullRaceData }) => {
-            const raceData = getFullRaceData(data.character.race, data.character.subrace);
-            if (raceData) {
-              // Combine Race and Subrace for better display (e.g. "Nordmark (Bloodhammer)")
-              const updatedRaceDisplayName = `${raceData.race.name} (${raceData.subrace.name})`;
-
-              // Update party member with correct race display name
-              usePartyStore.getState().updatePartyMember(targetMemberId, {
-                name: data.character.name,
-                socketId: senderSocketId,
-                character: {
-                  ...baseCharacterData,
-                  raceDisplayName: updatedRaceDisplayName
-                }
-              }, true);
-            }
-          }).catch(error => {
-            console.warn('Failed to calculate race display name:', error);
-            // Fallback to base data
-            usePartyStore.getState().updatePartyMember(targetMemberId, {
-              name: data.character.name,
-              socketId: senderSocketId,
-              character: baseCharacterData
-            }, true);
-          });
-        } else if (data.character.race) {
-          import('../../data/raceData').then(({ getRaceData }) => {
-            const raceData = getRaceData(data.character.race);
-            if (raceData) {
-              const updatedRaceDisplayName = raceData.name;
-              // Update party member with correct race display name
-              usePartyStore.getState().updatePartyMember(targetMemberId, {
-                name: data.character.name,
-                socketId: senderSocketId,
-                character: {
-                  ...baseCharacterData,
-                  raceDisplayName: updatedRaceDisplayName
-                }
-              }, true);
-            }
-          }).catch(error => {
-            console.warn('Failed to get race data:', error);
-            // Fallback to base data
-            usePartyStore.getState().updatePartyMember(targetMemberId, {
-              name: data.character.name,
-              socketId: senderSocketId,
-              character: baseCharacterData
-            }, true);
-          });
-        } else {
-          // No race data to process, use base data
-          usePartyStore.getState().updatePartyMember(targetMemberId, {
-            name: data.character.name,
+        }).catch(error => {
+          console.warn('Failed to calculate race display name:', error);
+          // Fallback to base data
+          const updateData = {
             socketId: senderSocketId,
             character: baseCharacterData
-          }, true);
-        }
-
-        // Update chat user data
-        try {
-          updateUser(senderSocketId, {
-            name: data.character.name,
-            class: data.character.class || 'Unknown',
-            level: data.character.level || 1
-          });
-        } catch (error) {
-          // Fallback to adding if update fails
-          addUser({
-            id: senderSocketId,
-            name: data.character.name,
-            class: data.character.class || 'Unknown',
-            level: data.character.level || 1,
-            status: 'online'
-          });
-        }
-
-        // Update connected players list with character data
-        setConnectedPlayers(prev => prev.map(player =>
-          player.id === senderSocketId
-            ? { ...player, character: data.character }
-            : player
-        ));
-      }
-    });
-
-    // Listen for high-frequency character resource updates
-    socket.on('character_resource_updated', (data) => {
-      const senderSocketId = data.senderSocketId || data.socketId || data.updatedBy;
-      const characterId = data.characterId;
-      const updatedBy = data.updatedBy;
-
-      // CRITICAL FIX: Use socket.id to check if this is our own update
-      if ((senderSocketId && senderSocketId !== socket.id) || (updatedBy && updatedBy !== socket.id)) {
-        const partyStore = usePartyStore.getState();
-        let partyMember = partyStore.partyMembers.find(m =>
-          m.socketId === senderSocketId ||
-          m.id === characterId ||
-          m.id === updatedBy ||
-          m.socketId === updatedBy
-        );
-
-        // FALLBACK: If not found and this is likely from GM (no characterId or special flag)
-        if (!partyMember && !characterId) {
-          const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
-          if (gmMember) partyMember = gmMember;
-        }
-
-        if (!partyMember) return;
-
-        const updates = { character: {} };
-
-        // Handle delta-based updates
-        if (data.newValues) {
-          Object.entries(data.newValues).forEach(([resource, value]) => {
-            updates.character[resource] = {
-              current: value,
-              max: data.max || partyMember.character?.[resource]?.max || 100
-            };
-          });
-        } else if (data.resource) {
-          // Handle old format
-          updates.character[data.resource] = {
-            current: data.current,
-            max: data.max || partyMember.character?.[data.resource]?.max || 100
           };
+          if (shouldUpdateName) {
+            updateData.name = memberName;
+          }
+          usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+        });
+      } else if (data.character.race) {
+        import('../../data/raceData').then(({ getRaceData }) => {
+          const raceData = getRaceData(data.character.race);
+          if (raceData) {
+            const updatedRaceDisplayName = raceData.name;
+            // Update party member with correct race display name
+            // CRITICAL: Only update name if it's not a default placeholder
+            const updateData = {
+              socketId: senderSocketId,
+              character: {
+                ...baseCharacterData,
+                raceDisplayName: updatedRaceDisplayName
+              }
+            };
+            if (shouldUpdateName) {
+              updateData.name = memberName;
+            }
+            usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+          }
+        }).catch(error => {
+          console.warn('Failed to get race data:', error);
+          // Fallback to base data
+          const updateData = {
+            socketId: senderSocketId,
+            character: baseCharacterData
+          };
+          if (shouldUpdateName) {
+            updateData.name = memberName;
+          }
+          usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+        });
+      } else {
+        // No race data to process, use base data
+        const updateData = {
+          socketId: senderSocketId,
+          character: baseCharacterData
+        };
+        if (shouldUpdateName) {
+          updateData.name = memberName;
         }
-
-        usePartyStore.getState().updatePartyMember(partyMember.id, updates, true);
+        usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
       }
+
+      // Update chat user data
+      try {
+        updateUser(senderSocketId, {
+          name: data.character.name,
+          class: data.character.class || 'Unknown',
+          level: data.character.level || 1
+        });
+      } catch (error) {
+        // Fallback to adding if update fails
+        addUser({
+          id: senderSocketId,
+          name: data.character.name,
+          class: data.character.class || 'Unknown',
+          level: data.character.level || 1,
+          status: 'online'
+        });
+      }
+
+      // Update connected players list with character data
+      setConnectedPlayers(prev => prev.map(player =>
+        player.id === senderSocketId
+          ? { ...player, character: data.character }
+          : player
+      ));
     });
+
+    // REMOVED: Duplicate character_resource_updated handler - consolidated into single handler above
 
     // Listen for character equipment updates from other players
     socket.on('character_equipment_updated', (data) => {
@@ -3888,7 +4346,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // CRITICAL FIX: Defer heavy synchronization work until transition fade-in has covered viewport.
-      const mapSwapDelay = shouldShowTransition ? MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
+      const mapSwapDelay = shouldShowTransition ? TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
       console.log(`⏱️ Deferring map data loading for ${data.newMapId} by ${mapSwapDelay}ms to avoid pre-reveal/flicker...`);
       setTimeout(() => {
         // CRITICAL FIX: Synchronously update mapStore.currentMapId so terrain updates use correct targetMapId
@@ -4184,7 +4642,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      const gmMapSwapDelay = shouldShowTransition ? MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
+      const gmMapSwapDelay = shouldShowTransition ? TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
 
       // Mark that initial load is complete after first view change
       isInitialMapLoadRef.current = false;
@@ -4862,6 +5320,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   health: activeCharacter.health,
                   mana: activeCharacter.mana,
                   actionPoints: activeCharacter.actionPoints,
+                  // CRITICAL FIX: Always include classResource if it has a valid max value
+                  ...(activeCharacter.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
                   playerId: currentPlayerRef.current.id
                 }
               });
@@ -4928,6 +5388,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('player_location_updated');
       socket.off('global_chat_message');
       socket.off('character_updated');
+      socket.off('character_resource_updated'); // CRITICAL: Clean up resource update handler
       socket.off('token_updated');
       socket.off('sync_error');
       socket.off('connect_error');
@@ -4947,12 +5408,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
   const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse = false) => {
+    // Declare currentUserId at the top scope of handleJoinRoom to avoid ReferenceErrors in subsequent blocks
+    let currentUserId = null;
+
+    // Clear the enteringMultiplayer flag - we're now in the room
+    sessionStorage.removeItem('enteringMultiplayer');
+
     // Clear all stores before joining a new room to ensure a clean slate.
     // For permanent room resume, preserve map entities until authoritative payload hydration completes.
     const isPersistentRoomResume = !!room?.persistentRoomId;
     clearAllMultiplayerStores({ preserveMapEntities: isPersistentRoomResume });
 
-    setIsJoiningRoom(true);
+    // CRITICAL: Ensure party members are cleared BEFORE we start adding new room members
+    // This prevents social party members from leaking into the room HUD
+    usePartyStore.getState().replacePartyMembers([]);
+    usePresenceStore.setState({
+      currentParty: null,
+      isInParty: false,
+      partyMembers: []
+    });
+
+    startJoiningRoom();
     setConnectionStatus('connecting');
 
     // Show joining notification
@@ -5123,17 +5599,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Set current player info - use explicit playerObject from server if available
       const activeCharacter = getActiveCharacter();
 
+      // CRITICAL: Get userId from authStore for reliable player identification
+      try {
+        const { user } = useAuthStore.getState();
+        currentUserId = user?.uid;
+      } catch (e) {
+        console.warn('Could not get userId from authStore:', e);
+      }
+
       console.log('🆔 handleJoinRoom - Setting up current player:', {
         playerObject,
         playerObjectId: playerObject?.id,
         playerObjectName: playerObject?.name,
         activeCharacterName: activeCharacter?.name,
-        isGameMaster
+        isGameMaster,
+        currentUserId
       });
 
       if (playerObject) {
         currentPlayerData = {
           ...playerObject,
+          userId: currentUserId, // CRITICAL: Add Firebase UID for reliable identification
           name: activeCharacter?.name || playerObject.character?.name || playerObject.name,
           isGM: isGameMaster
         };
@@ -5141,6 +5627,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Fallback for GM if playerObject is somehow missing
         currentPlayerData = {
           ...room.gm,
+          userId: currentUserId, // CRITICAL: Add Firebase UID
           name: activeCharacter?.name || room.gm?.character?.name || room.gm?.name || 'Game Master',
           isGM: true
         };
@@ -5158,6 +5645,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const lastPlayer = playersList.length > 0 ? playersList[playersList.length - 1] : { name: 'Player' };
         currentPlayerData = {
           ...lastPlayer,
+          userId: currentUserId, // CRITICAL: Add Firebase UID
           name: activeCharacter?.name || lastPlayer.character?.name || lastPlayer.name,
           isGM: false
         };
@@ -5400,7 +5888,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             inventory: activeCharacter.inventory || { items: [], currency: { platinum: 0, gold: 0, silver: 0, copper: 0 } },
             experience: activeCharacter.experience,
             exhaustionLevel: activeCharacter.exhaustionLevel,
-            classResource: activeCharacter.classResource || { current: 0, max: 0 }, // Include class resource
+            // Only include classResource if it has a valid max value
+            ...(activeCharacter.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
             tokenSettings: activeCharacter.tokenSettings, // Include token settings
             lore: activeCharacter.lore, // Include lore (which contains characterImage)
             playerId: currentPlayerData?.id || 'current-player'
@@ -5697,36 +6186,94 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
-      // Create party with room name, character name, and GM status
-      // CORRECT ORDER: roomName, currentPlayerCharacterName, isGM
-      createParty(room.name, currentPlayerCharacterName, isGameMaster);
+      // CRITICAL: Determine the display name, using account name as fallback for "Character Name"
+      let displayName = currentPlayerCharacterName;
+      if (displayName === 'Character Name' || displayName === 'Character Name (Room Name)') {
+        // Use account name from authStore as fallback
+        try {
+          const { user } = useAuthStore.getState();
+          displayName = user?.displayName || user?.email?.split('@')[0] || currentPlayerData?.name || 'Player';
+        } catch (e) {
+          displayName = currentPlayerData?.name || 'Player';
+        }
+      }
+
+      // Create party with room name, GM status, and leader data
+      // FIXED: Correct argument order - (partyName, isGM, leaderData)
+      // CRITICAL FIX: Clear existing social party members when entering a room to prevent duplicate HUDs
+      // Social party and room party are separate systems - we must reset when transitioning
+      const partyStoreState = usePartyStore.getState();
+      const existingPartyMembers = partyStoreState.partyMembers || [];
+      const hasExistingMembers = existingPartyMembers.length > 0;
+
+      // Always clear social party members when entering a room to prevent duplicate HUDs
+      if (hasExistingMembers) {
+        console.log('🧹 Clearing existing party members before room entry to prevent duplicates', {
+          existingCount: existingPartyMembers.length,
+          existingNames: existingPartyMembers.map(m => m.name)
+        });
+        usePartyStore.getState().replacePartyMembers([]);
+      }
+
+      // CRITICAL: Get character resources with proper fallbacks
+      const createHealth = (activeCharacter?.health?.max > 0) ? activeCharacter.health :
+        (characterStore.health?.max > 0) ? characterStore.health : { current: 45, max: 50 };
+      const createMana = (activeCharacter?.mana?.max > 0) ? activeCharacter.mana :
+        (characterStore.mana?.max > 0) ? characterStore.mana : { current: 45, max: 50 };
+      const createActionPoints = (activeCharacter?.actionPoints?.max > 0) ? activeCharacter.actionPoints :
+        (characterStore.actionPoints?.max > 0) ? characterStore.actionPoints : { current: 1, max: 3 };
+
+      // Set party basics in store directly instead of createParty() which is async/unreliable in this flow
+      usePartyStore.setState({
+        currentParty: { id: room.id, name: room.name },
+        isInParty: true,
+        partyChatMessages: [],
+        pendingPartyInvites: [],
+        sentPartyInvites: []
+      });
 
       // CRITICAL FIX: Ensure initial leader is set for the party using the real player ID
-      import('../../store/partyStore').then(({ default: usePartyStore }) => {
-        const leaderId = isGameMaster ? (currentPlayerData?.id || 'current-player') : (room.gm?.id || 'room-gm');
-        if (leaderId) {
-          usePartyStore.getState().setLeader(leaderId, true);
-        }
-      }).catch(err => console.error('Failed to set initial party leader:', err));
+      // Set synchronously (not via async import) to ensure leaderId is available when HUD renders
+      const leaderId = isGameMaster ? (currentPlayerData?.id || 'current-player') : (room.gm?.id || 'room-gm');
+      if (leaderId) {
+        usePartyStore.getState().setLeader(leaderId, true);
+        console.log('👑 Party leader set:', leaderId, 'isGM:', isGameMaster);
+      }
 
       // Use real player ID so other players can identify this member uniquely
       const currentPlayerId = currentPlayerData?.id || 'current-player';
+
+      // CRITICAL: Get character data with explicit fallbacks for each resource
+      // This ensures HUD bars always have valid values even without an active character
+      const charHealth = activeCharacter?.health?.max ? activeCharacter.health :
+        (characterStore.health?.max ? characterStore.health : { current: 45, max: 50 });
+      const charMana = activeCharacter?.mana?.max ? activeCharacter.mana :
+        (characterStore.mana?.max ? characterStore.mana : { current: 45, max: 50 });
+      const charActionPoints = activeCharacter?.actionPoints?.max ? activeCharacter.actionPoints :
+        (characterStore.actionPoints?.max ? characterStore.actionPoints : { current: 1, max: 3 });
+
       const currentPlayerMember = {
         id: currentPlayerId,
-        name: currentPlayerCharacterName,
+        socketId: socketConnection?.id || currentPlayerId, // CRITICAL: Store socket.id for character_updated lookups
+        userId: currentUserId, // CRITICAL: Firebase UID for reliable identification
+        name: displayName, // Use displayName with account name fallback
         isGM: isGameMaster, // Include GM status for current player
+        isConnected: true, // CRITICAL: Required for PartyHUD displayMembers filter
         character: {
           class: activeCharacter?.class || characterStore.class || 'Unknown',
           level: activeCharacter?.level || characterStore.level || 1,
-          health: activeCharacter?.health || characterStore.health || { current: 45, max: 50 },
-          mana: activeCharacter?.mana || characterStore.mana || { current: 45, max: 50 },
-          actionPoints: activeCharacter?.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
+          health: charHealth,
+          mana: charMana,
+          actionPoints: charActionPoints,
           race: activeCharacter?.race || characterStore.race || 'Unknown',
           raceDisplayName: activeCharacter?.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
           background: activeCharacter?.background || characterStore.background || '',
           backgroundDisplayName: backgroundDisplayName,
           path: activeCharacter?.path || characterStore.path || '',
           pathDisplayName: pathDisplayName,
+          // Only include classResource if there's an active character with a valid resource system
+          // Otherwise omit it so ClassResourceBar doesn't render a 0/0 bar
+          ...(activeCharacter?.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
           tokenSettings: activeCharacter?.tokenSettings || characterStore.tokenSettings || {}, // Include token settings, default to empty object
           lore: activeCharacter?.lore || characterStore.lore || {} // Include lore (which contains characterImage), default to empty object
         }
@@ -5740,11 +6287,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // CRITICAL FIX: Ensure current player member has correct isGM status
       currentPlayerMember.isGM = isGameMaster;
 
-      // Replace the placeholder 'current-player' (added by createParty) in-place.
-      // IMPORTANT: Do not remove then add, because removePartyMember() can trigger
-      // ensureSelfMember() and re-insert a fallback "Current Player" entry, causing
-      // duplicate local HUD frames ("Current Player" + real character name).
-      usePartyStore.getState().updatePartyMember('current-player', currentPlayerMember, true);
+      console.log('🎮 Current player member data:', {
+        id: currentPlayerMember.id,
+        socketId: currentPlayerMember.socketId,
+        userId: currentPlayerMember.userId,
+        name: currentPlayerMember.name,
+        isGM: currentPlayerMember.isGM,
+        health: currentPlayerMember.character.health,
+        mana: currentPlayerMember.character.mana,
+        actionPoints: currentPlayerMember.character.actionPoints
+      });
+
+      // Add current player as first party member
+      usePartyStore.getState().addPartyMember(currentPlayerMember);
 
 
 
@@ -5765,31 +6320,66 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         status: 'online'
       });
 
-      // Add GM to party if GM is not the current player
-      if (room.gm && room.gm.id !== currentPlayerData?.id) {
-        const gmCharacterName = room.gm.character?.name || room.gm.name;
+      // 3. Add GM to party if GM is not the current player
+      const gmId = room.gm?.id;
+      const gmUserId = room.gmId || room.gm?.userId; // CRITICAL: Use room.gmId from server
+      const isGmSelf = (gmId && (gmId === currentPlayerData?.id || gmId === currentPlayerData?.userId)) ||
+        (gmUserId && (gmUserId === currentPlayerData?.id || gmUserId === currentPlayerData?.userId));
+
+      if (room.gm && !isGmSelf) {
+        let gmCharacterName = room.gm.character?.name || room.gm.name;
+
+        // CRITICAL: Use account name as fallback for "Character Name"
+        if (gmCharacterName === 'Character Name' || gmCharacterName === 'Character Name (Room Name)') {
+          // Try to get GM's account name from room data
+          gmCharacterName = room.gmAccountName || room.gm.name || 'Game Master';
+        }
+
+        console.log('👤 Adding GM to party:', {
+          gmId: room.gm.id,
+          gmName: gmCharacterName,
+          gmUserId: gmUserId,
+          gmSocketId: room.gm?.socketId
+        });
+
+        // Only include classResource if it has a valid max value
+        const gmClassResource = room.gm.character?.classResource;
+
+        // Ensure GM has valid resource data with proper fallbacks
+        const gmHealth = room.gm.character?.health?.max ? room.gm.character.health : { current: 45, max: 50 };
+        const gmMana = room.gm.character?.mana?.max ? room.gm.character.mana : { current: 45, max: 50 };
+        const gmActionPoints = room.gm.character?.actionPoints?.max ? room.gm.character.actionPoints : { current: 1, max: 3 };
+
+        const gmCharacter = {
+          class: room.gm.character?.class || 'Unknown',
+          level: room.gm.character?.level || 1,
+          health: gmHealth,
+          mana: gmMana,
+          actionPoints: gmActionPoints,
+          race: room.gm.character?.race || 'Unknown',
+          subrace: room.gm.character?.subrace || '',
+          raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
+          background: room.gm.character?.background || '',
+          backgroundDisplayName: room.gm.character?.backgroundDisplayName || '',
+          path: room.gm.character?.path || '',
+          pathDisplayName: room.gm.character?.pathDisplayName || '',
+          tokenSettings: room.gm.character?.tokenSettings || {},
+          lore: room.gm.character?.lore || {}
+        };
+
+        // Only add classResource if it has a valid max value (prevents 0/0 bar)
+        if (gmClassResource?.max) {
+          gmCharacter.classResource = gmClassResource;
+        }
 
         addPartyMember({
           id: room.gm.id,
+          socketId: room.gm.socketId || room.gm.id, // CRITICAL: Store socket.id for character_updated lookups
+          userId: gmUserId, // CRITICAL: Propagate Firebase UID
           name: gmCharacterName,
           isGM: true,
-          character: {
-            class: room.gm.character?.class || 'Unknown',
-            level: room.gm.character?.level || 1,
-            health: room.gm.character?.health || { current: 45, max: 50 },
-            mana: room.gm.character?.mana || { current: 45, max: 50 },
-            actionPoints: room.gm.character?.actionPoints || { current: 1, max: 3 },
-            race: room.gm.character?.race || 'Unknown',
-            subrace: room.gm.character?.subrace || '',
-            raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
-            background: room.gm.character?.background || '',
-            backgroundDisplayName: room.gm.character?.backgroundDisplayName || '',
-            path: room.gm.character?.path || '',
-            pathDisplayName: room.gm.character?.pathDisplayName || '',
-            classResource: room.gm.character?.classResource || { current: 0, max: 0 },
-            tokenSettings: room.gm.character?.tokenSettings || {},
-            lore: room.gm.character?.lore || {}
-          }
+          isConnected: true, // CRITICAL: Required for PartyHUD displayMembers filter
+          character: gmCharacter
         });
 
         addUser({
@@ -5799,36 +6389,57 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           level: room.gm.character?.level || 1,
           status: 'online'
         });
+
+        // Set GM as party leader
+        usePartyStore.getState().setLeader(room.gm.id, room.gm.id === currentPlayerData?.id);
       }
 
       // CRITICAL FIX: Add other players to party using the uniquePlayers list
-      // This ensures players already joined (e.g. while GM was loading) are correctly shown
-      if (uniquePlayers && uniquePlayers.length > 0) {
-        uniquePlayers.forEach(player => {
+      // Filter out the GM if they were already added above to prevent duplicate HUDs
+      const playersToAdd = uniquePlayers.filter(player => player.id !== room.gm?.id);
+
+      if (playersToAdd.length > 0) {
+        playersToAdd.forEach(player => {
           // uniquePlayers already filters out current player and duplicates
-          const playerCharacterName = player.character?.name || player.name;
+          let playerCharacterName = player.character?.name || player.name;
+
+          // CRITICAL: Use account name as fallback for "Character Name"
+          if (playerCharacterName === 'Character Name' || playerCharacterName === 'Character Name (Room Name)') {
+            playerCharacterName = player.accountName || player.name || 'Player';
+          }
+
+          // Only include classResource if it has a valid max value
+          const playerClassResource = player.character?.classResource;
+          const playerCharacter = {
+            class: player.character?.class || 'Unknown',
+            level: player.character?.level || 1,
+            health: player.character?.health || { current: 45, max: 50 },
+            mana: player.character?.mana || { current: 45, max: 50 },
+            actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
+            race: player.character?.race || 'Unknown',
+            subrace: player.character?.subrace || '',
+            raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+            background: player.character?.background || '',
+            backgroundDisplayName: player.character?.backgroundDisplayName || '',
+            path: player.character?.path || '',
+            pathDisplayName: player.character?.pathDisplayName || '',
+            tokenSettings: player.character?.tokenSettings || {},
+            lore: player.character?.lore || {}
+          };
+
+          // Only add classResource if it has a valid max value (prevents 0/0 bar)
+          if (playerClassResource?.max) {
+            playerCharacter.classResource = playerClassResource;
+          }
 
           const playerMember = {
             id: player.id,
+            socketId: player.socketId || player.id, // CRITICAL: Store socket.id for character_updated lookups
+            userId: player.userId, // CRITICAL: Firebase UID for reliable identification
             name: playerCharacterName,
             isGM: player.isGM || false,
-            character: {
-              class: player.character?.class || 'Unknown',
-              level: player.character?.level || 1,
-              health: player.character?.health || { current: 45, max: 50 },
-              mana: player.character?.mana || { current: 45, max: 50 },
-              actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
-              race: player.character?.race || 'Unknown',
-              subrace: player.character?.subrace || '',
-              raceDisplayName: player.character?.raceDisplayName || 'Unknown',
-              background: player.character?.background || '',
-              backgroundDisplayName: player.character?.backgroundDisplayName || '',
-              path: player.character?.path || '',
-              pathDisplayName: player.character?.pathDisplayName || '',
-              classResource: player.character?.classResource || { current: 0, max: 0 },
-              tokenSettings: player.character?.tokenSettings || {},
-              lore: player.character?.lore || {}
-            }
+            isConnected: true, // CRITICAL: Required for PartyHUD displayMembers filter
+            character: playerCharacter
           };
 
           addPartyMember(playerMember);
@@ -5859,8 +6470,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           socketConnection.emit('chat_message', {
             message: message,
             content: message,
-            type: 'party' // Explicitly set as party chat
-            ,
+            type: 'party', // Explicitly set as party chat
             playerId: currentPlayerId,
             senderId: currentPlayerId,
             playerName: currentPlayerCharacterName,
@@ -5914,7 +6524,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setIsJoiningRoom(false);
       }
       setConnectionStatus('connected');
-
 
       // Welcome notification
       addNotificationRef.current('social', {
@@ -6024,18 +6633,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   };
 
   // Handler for when user clicks Continue on the loading screen
-  const handleLoadingContinue = () => {
+  const handleLoadingContinue = async () => {
     if (pendingRoomData) {
       console.log('🚀 [MultiplayerApp] User clicked Continue, starting RPG fade out...');
+      setLoadingStatusMessage('Entering the realm...');
 
       // Start fade out immediately and hide button
       setIsFadingOut(true);
       const roomToJoin = { ...pendingRoomData };
       pendingRoomDataRef.current = null; // Clear ref so no more buffering happens
+      activeJoinIdRef.current = null; // Clear join ID to allow future joins
 
-      // Give the browser a moment to commit the state change and start the animation 
-      // before processing the heavy handleJoinRoom logic
-      setTimeout(async () => {
+      try {
+        // Give the browser a moment to commit the state change and start the animation 
+        // before processing the heavy handleJoinRoom logic
+        await new Promise(resolve => setTimeout(resolve, 50));
+
+        // SAFETY TIMEOUT: Ensure we eventually exit loading state even if handleJoinRoom hangs
+        const safetyExitTimer = setTimeout(() => {
+          if (isJoiningRoomRef.current) {
+            console.warn('⚠️ [MultiplayerApp] Safety timeout triggered during handleJoinRoom. Forcing loading screen closed.');
+            setIsJoiningRoom(false);
+            setIsFadingOut(false);
+          }
+        }, 12000); // 12 seconds safety net
+
+        console.log('🛠️ [MultiplayerApp] Executing handleJoinRoom...');
+
         // Perform the actual room join logic but don't clear loading screen yet
         await handleJoinRoom(
           roomToJoin.room,
@@ -6048,15 +6672,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           true // skipSetJoiningFalse
         );
 
+        console.log('🛠️ [MultiplayerApp] handleJoinRoom execution completed');
+        clearTimeout(safetyExitTimer);
+      } catch (error) {
+        console.error('❌ Error handling loading continue:', error);
+        // Ensure we eventually exit loading state even on error
+        setTimeout(() => {
+          setIsJoiningRoom(false);
+          setIsFadingOut(false);
+        }, 3000);
+      } finally {
         // Wait for the fade animation to complete fully (now slower for cinematic effect)
         setTimeout(() => {
           setIsJoiningRoom(false);
           setIsFadingOut(false);
           setPendingRoomData(null);
           setIsRoomReady(false);
+          setLoadingProgress(0);
+          setShowContinue(false);
           console.log('✨ [MultiplayerApp] RPG fade out complete');
         }, 2500); // 2.5s matches the updated CSS transition
-      }, 50);
+      }
     }
   };
 
@@ -6093,11 +6729,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             />
           </RoomProvider>
         )}
-        <JoinLoadingOverlay
+        <UnifiedTransitionOverlay
+          isVisible={true}
+          mode="join"
+          progress={isFadingOut ? 100 : loadingProgress}
+          statusMessage={loadingStatusMessage}
           roomName={roomName}
           isReady={isRoomReady && !isFadingOut}
-          onContinue={handleLoadingContinue}
+          showContinue={showContinue && isRoomReady}
           isFadingOut={isFadingOut}
+          onContinue={handleLoadingContinue}
         />
       </>
     );
@@ -6110,7 +6751,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         socket={socket}
         onJoinRoom={handleJoinRoom}
         onReturnToLanding={onReturnToSinglePlayer}
-        onJoinAttempt={(roomId) => setIsJoiningRoom(true)}
+        onJoinAttempt={(roomId) => {
+          // CRITICAL FIX: Set enteringMultiplayer flag and clear party BEFORE any room operation
+          // This prevents social party members from appearing in the room HUD
+          sessionStorage.setItem('enteringMultiplayer', 'true');
+          try {
+            const currentMembers = usePartyStore.getState().partyMembers || [];
+            if (currentMembers.length > 0) {
+              console.log('🧹 Clearing social party members on join attempt', {
+                count: currentMembers.length,
+                names: currentMembers.map(m => m.name)
+              });
+              usePartyStore.getState().clearPartyMembers();
+            }
+          } catch (e) {
+            console.warn('⚠️ Failed to clear party members on join attempt:', e);
+          }
+
+          isAutoJoinSequenceRef.current = true; // NEW creation/join from lobby should also auto-continue
+          startJoiningRoom();
+        }}
       />
     );
   }
@@ -6349,8 +7009,9 @@ const MultiplayerGameContent = ({
       {isInMultiplayer && <CursorTracker socket={socket} />}
 
       {/* Map Transition Overlay - shown when traveling between maps */}
-      <MapTransitionOverlay
+      <UnifiedTransitionOverlay
         isVisible={mapTransition.isActive}
+        mode="map"
         mapName={mapTransition.mapName}
         transferredByGM={mapTransition.transferredByGM}
         onTransitionComplete={handleTransitionComplete}

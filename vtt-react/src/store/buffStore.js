@@ -9,17 +9,17 @@ const useBuffStore = create(
             activeBuffs: [],
 
             // Add a new buff
-            addBuff: (buff) => {
+            addBuff: (buff, silent = false) => {
                 const { activeBuffs } = get();
                 const newBuff = {
-                    id: `buff_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                    id: buff.id || `buff_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                     name: buff.name,
                     icon: buff.icon,
                     description: buff.description,
                     effectSummary: buff.effectSummary || '',
                     effects: buff.effects || {},
                     duration: buff.duration || 60, // Duration in seconds
-                    startTime: Date.now(),
+                    startTime: buff.startTime || Date.now(),
                     source: buff.source || 'consumable',
                     stackable: buff.stackable || false,
                     // New targeting properties
@@ -42,7 +42,7 @@ const useBuffStore = create(
 
                 // For round-based buffs, don't set endTime (they don't expire automatically)
                 if (buff.durationType !== 'rounds') {
-                    newBuff.endTime = Date.now() + (buff.duration || 60) * 1000;
+                    newBuff.endTime = buff.endTime || (Date.now() + (buff.duration || 60) * 1000);
                 }
 
                 // Check if buff is stackable (now also considers target)
@@ -56,19 +56,22 @@ const useBuffStore = create(
                     set({ activeBuffs: [...activeBuffs, newBuff] });
                 }
 
-                // Sync with multiplayer
-                get().syncBuffUpdate('buff_added', newBuff);
+                // Sync with multiplayer if not silent
+                if (!silent) {
+                    get().syncBuffUpdate('buff_added', newBuff);
+                }
 
                 // Set up automatic removal timer (only for time-based buffs)
                 if (newBuff.durationType !== 'rounds') {
+                    const remainingTime = Math.max(0, newBuff.endTime - Date.now());
                     setTimeout(() => {
                         get().removeBuff(newBuff.id);
-                    }, newBuff.duration * 1000);
+                    }, remainingTime);
                 }
             },
 
             // Remove a buff by ID - also cleans up token.state.conditions
-            removeBuff: (buffId) => {
+            removeBuff: (buffId, silent = false) => {
                 const { activeBuffs } = get();
                 const buffToRemove = activeBuffs.find(buff => buff.id === buffId);
 
@@ -122,7 +125,7 @@ const useBuffStore = create(
                 }
 
                 // Sync with multiplayer
-                if (buffToRemove) {
+                if (buffToRemove && !silent) {
                     get().syncBuffUpdate('buff_removed', { buffId, buffData: buffToRemove });
                 }
             },

@@ -1,210 +1,275 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import useAuthStore from '../../store/authStore';
 import useSocialStore from '../../store/socialStore';
 import { formatTimeAgo } from '../../utils/timeUtils';
+import ConfirmationDialog from '../item-generation/ConfirmationDialog';
+import UserCard from '../social/UserCard';
 import './styles/AccountSocialManager.css';
 
 const AccountSocialManager = () => {
-    const { userData } = useAuthStore();
+    const [friendIdInput, setFriendIdInput] = useState('');
+    const [socialError, setSocialError] = useState('');
+    const [socialSuccess, setSocialSuccess] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [pendingRemoveFriend, setPendingRemoveFriend] = useState(null);
+
     const {
         friends,
-        friendPresence,
         pendingRequests,
-        sendFriendRequest,
+        removeFriend,
         acceptFriendRequest,
         declineFriendRequest,
-        removeFriend
+        sendFriendRequest,
+        friendPresence,
+        migrateFriends
     } = useSocialStore();
 
-    const [friendIdInput, setFriendIdInput] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
-    const [searchError, setSearchError] = useState(null);
-    const [searchSuccess, setSearchSuccess] = useState(null);
+    // Trigger migration on mount
+    React.useEffect(() => {
+        migrateFriends();
+    }, [migrateFriends]);
 
-    const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
-    const sentRequests = (pendingRequests || []).filter(r => r.type === 'sent' && r.status === 'pending');
+    const { user, userData } = useAuthStore();
+
+    // Split pending requests into received and sent
+    const pendingInvites = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
+    const sentInvites = (pendingRequests || []).filter(r => r.type === 'sent' && r.status === 'pending');
 
     const handleAddFriend = async (e) => {
         e.preventDefault();
-        setSearchError(null);
-        setSearchSuccess(null);
+        setSocialError('');
+        setSocialSuccess('');
 
-        const cleanId = friendIdInput.trim().replace(/^#/, '');
-        if (!cleanId) {
-            setSearchError('Please enter a Friend ID');
+        const targetFriendId = friendIdInput.trim();
+        if (!targetFriendId) {
+            setSocialError('Please enter a Friend ID');
             return;
         }
 
-        setIsSearching(true);
+        const cleanFriendId = targetFriendId.startsWith('#') ? targetFriendId.slice(1) : targetFriendId;
+        const myFriendId = userData?.friendId || user?.friendId;
+
+        if (cleanFriendId === myFriendId) {
+            setSocialError("You cannot add yourself as a friend");
+            return;
+        }
+
+        setIsLoading(true);
         try {
-            const result = await sendFriendRequest(cleanId);
-            if (result.success) {
-                setSearchSuccess(`Friend request sent to #${cleanId}!`);
-                setFriendIdInput('');
+            const result = await sendFriendRequest(cleanFriendId);
+            if (result && !result.success) {
+                setSocialError(result.error || 'Failed to send friend request');
             } else {
-                setSearchError(result.error || 'Failed to send request');
+                setSocialSuccess(`Friend request sent to #${cleanFriendId}`);
+                setFriendIdInput('');
             }
-        } catch (err) {
-            setSearchError('An unexpected error occurred');
-            console.error(err);
+        } catch (error) {
+            setSocialError(error.message || 'Failed to send friend request');
         } finally {
-            setIsSearching(false);
+            setIsLoading(false);
         }
     };
 
-    const copyFriendId = () => {
-        const fullId = userData?.friendId;
-        if (fullId) {
-            navigator.clipboard.writeText(fullId);
+    const copyMyId = () => {
+        const myFriendId = userData?.friendId || user?.friendId;
+        if (myFriendId) {
+            navigator.clipboard.writeText(`#${myFriendId}`);
+            setSocialSuccess('Friend ID copied to clipboard!');
+            setTimeout(() => setSocialSuccess(''), 3000);
         }
+    };
+
+    const renderFriendItem = (friend) => {
+        // friend is an object from the friends array: { id, name, friendId, ... }
+        const presence = friendPresence?.[friend.id] || { status: 'offline' };
+
+        const friendData = {
+            id: friend.id,
+            userId: friend.id,
+            name: friend.name || presence.accountName || presence.characterName || 'Unknown Friend',
+            accountName: friend.name || presence.accountName || 'Unknown',
+            characterName: presence.characterName,
+            status: presence.status || 'offline',
+            lastSeen: presence.lastSeen,
+            level: presence.level,
+            class: presence.class,
+            race: presence.race,
+            subrace: presence.subrace,
+            raceDisplayName: presence.raceDisplayName,
+            background: presence.background,
+            friendId: friend.friendId,
+            location: presence.location,
+            isFriend: true
+        };
+
+        const sessionDisplay = !friendData.status || friendData.status === 'offline' ? (
+            friendData.lastSeen ? (
+                <span className="last-seen-text">
+                    Last seen {formatTimeAgo(friendData.lastSeen)}
+                </span>
+            ) : null
+        ) : (
+            friendData.location ? (
+                <span className="location-badge">
+                    <i className="fas fa-map-marker-alt"></i> {friendData.location}
+                </span>
+            ) : null
+        );
+
+        return (
+            <UserCard
+                key={friend.id}
+                user={friendData}
+                showSessionInfo={true}
+                sessionDisplay={sessionDisplay}
+                showFriendId={true}
+                additionalContent={
+                    <button
+                        className="remove-friend-btn"
+                        onClick={() => setPendingRemoveFriend({ id: friend.id, name: friendData.name })}
+                        title="Remove Friend"
+                    >
+                        <i className="fas fa-user-minus"></i>
+                    </button>
+                }
+            />
+        );
+    };
+
+    const renderRequestCard = (request, type) => {
+        const isReceived = type === 'received';
+        const displayId = isReceived ? request.senderFriendId : request.receiverFriendId;
+        const displayName = isReceived
+            ? (request.senderName || 'Unknown User')
+            : (request.receiverName || 'Unknown User');
+
+        const requestUser = {
+            id: request.id,
+            name: displayName,
+            accountName: displayName,
+            friendId: displayId,
+            status: 'offline'
+        };
+
+        return (
+            <UserCard
+                key={request.id}
+                user={requestUser}
+                showFriendId={true}
+                className="request-card-enhanced"
+                additionalContent={
+                    <div className="req-actions">
+                        {isReceived ? (
+                            <>
+                                <button className="accept-btn" onClick={() => acceptFriendRequest(request.id)}>
+                                    Accept
+                                </button>
+                                <button className="decline-btn" onClick={() => declineFriendRequest(request.id)}>
+                                    Decline
+                                </button>
+                            </>
+                        ) : (
+                            <span className="req-status">Pending...</span>
+                        )}
+                    </div>
+                }
+            />
+        );
     };
 
     return (
         <div className="account-social-manager">
             <div className="social-header-section">
-                <div className="my-id-card">
+                <div className="my-id-card" onClick={copyMyId}>
                     <div className="card-label">Your Friend ID</div>
-                    <div className="id-display" onClick={copyFriendId} title="Click to copy">
+                    <div className="id-display">
                         <span className="hash">#</span>
-                        <span className="id-text">{userData?.friendId || '-------'}</span>
-                        <i className="far fa-copy copy-icon"></i>
+                        <span className="id-text">{userData?.friendId || user?.friendId || '-------'}</span>
+                        <i className="fas fa-copy copy-icon"></i>
                     </div>
-                    <p className="id-hint">Share this ID with others so they can add you.</p>
+                    <p className="id-hint">Click to copy and share with friends</p>
                 </div>
 
                 <div className="add-friend-section">
-                    <h3>Add a Friend</h3>
+                    <h3>Add Friend</h3>
                     <form className="add-friend-form" onSubmit={handleAddFriend}>
                         <div className="input-group">
                             <input
                                 type="text"
-                                placeholder="Enter Friend ID (e.g. DragonWalker1234)"
+                                placeholder="Enter Friend ID (e.g., #StoneLight6117)"
                                 value={friendIdInput}
                                 onChange={(e) => setFriendIdInput(e.target.value)}
-                                disabled={isSearching}
                             />
-                            <button type="submit" disabled={isSearching || !friendIdInput.trim()}>
-                                {isSearching ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-user-plus"></i>}
-                                <span>Send Request</span>
+                            <button type="submit" disabled={isLoading}>
+                                <i className="fas fa-user-plus"></i>
+                                {isLoading ? 'Sending...' : 'Send Request'}
                             </button>
                         </div>
-                        {searchError && <div className="social-error">{searchError}</div>}
-                        {searchSuccess && <div className="social-success">{searchSuccess}</div>}
+                        {socialError && <div className="social-error">{socialError}</div>}
+                        {socialSuccess && <div className="social-success">{socialSuccess}</div>}
                     </form>
                 </div>
             </div>
 
             <div className="social-content-grid">
-                {/* Friends List */}
                 <div className="social-column friends-column">
                     <div className="column-header">
                         <h3>Friends ({friends?.length || 0})</h3>
                     </div>
                     <div className="friends-list">
                         {friends && friends.length > 0 ? (
-                            friends.map(friend => {
-                                const presence = friendPresence[friend.id];
-                                // Include 'idle' as an online status
-                                const isOnline = ['online', 'away', 'busy', 'idle'].includes(presence?.status);
-                                const lastSeen = presence?.lastSeen || friend.addedAt;
-
-                                return (
-                                    <div key={friend.id} className={`friend-item ${!isOnline ? 'offline' : ''}`}>
-                                        <div className="friend-avatar">
-                                            {friend.photoURL ? (
-                                                <img src={friend.photoURL} alt="" />
-                                            ) : (
-                                                <i className="fas fa-user"></i>
-                                            )}
-                                            <div className={`presence-indicator ${isOnline ? 'online' : 'offline'}`} />
-                                        </div>
-                                        <div className="friend-info">
-                                            <div className="friend-name-row">
-                                                <div className="friend-name">{friend.name}</div>
-                                                <div className="status-badge">
-                                                    {isOnline ? (
-                                                        <span className="online-text">Online</span>
-                                                    ) : (
-                                                        <span className="offline-text">
-                                                            Last seen {formatTimeAgo(lastSeen)}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className="friend-id">#{friend.friendId}</div>
-                                        </div>
-                                        <button
-                                            className="remove-friend-btn"
-                                            onClick={() => removeFriend(friend.id)}
-                                            title="Remove Friend"
-                                        >
-                                            <i className="fas fa-user-minus"></i>
-                                        </button>
-                                    </div>
-                                );
-                            })
+                            friends.map(friend => renderFriendItem(friend))
                         ) : (
                             <div className="empty-state">
-                                <i className="fas fa-users"></i>
-                                <p>No adventurers found yet.</p>
+                                <i className="fas fa-user-group"></i>
+                                <p>No friends yet</p>
+                                <p>Add friends using their unique ID!</p>
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Requests Column */}
                 <div className="social-column requests-column">
                     <div className="column-header">
                         <h3>Pending Requests</h3>
                     </div>
-
                     <div className="requests-container">
-                        {receivedRequests.length > 0 && (
+                        {pendingInvites && pendingInvites.length > 0 && (
                             <div className="request-group">
-                                <h4>Received ({receivedRequests.length})</h4>
-                                {receivedRequests.map(req => (
-                                    <div key={req.id} className="request-card received">
-                                        <div className="req-user">
-                                            <span className="req-name">{req.senderName}</span>
-                                            <span className="req-id">#{req.senderFriendId}</span>
-                                        </div>
-                                        <div className="req-actions">
-                                            <button className="accept-btn" onClick={() => acceptFriendRequest(req.id)}>
-                                                Accept
-                                            </button>
-                                            <button className="decline-btn" onClick={() => declineFriendRequest(req.id)}>
-                                                Decline
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                                <h4>Received ({pendingInvites.length})</h4>
+                                {pendingInvites.map(req => renderRequestCard(req, 'received'))}
                             </div>
                         )}
 
-                        {sentRequests.length > 0 && (
+                        {sentInvites && sentInvites.length > 0 && (
                             <div className="request-group">
-                                <h4>Sent ({sentRequests.length})</h4>
-                                {sentRequests.map(req => (
-                                    <div key={req.id} className="request-card sent">
-                                        <div className="req-user">
-                                            <span className="req-name">{req.receiverName}</span>
-                                            <span className="req-id">#{req.receiverFriendId}</span>
-                                        </div>
-                                        <div className="req-status">Waiting...</div>
-                                    </div>
-                                ))}
+                                <h4>Sent ({sentInvites.length})</h4>
+                                {sentInvites.map(req => renderRequestCard(req, 'sent'))}
                             </div>
                         )}
 
-                        {receivedRequests.length === 0 && sentRequests.length === 0 && (
+                        {(!pendingInvites || pendingInvites.length === 0) && (!sentInvites || sentInvites.length === 0) && (
                             <div className="empty-state">
-                                <i className="far fa-paper-plane"></i>
-                                <p>No pending requests.</p>
+                                <i className="fas fa-paper-plane"></i>
+                                <p>No pending requests</p>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+
+            {pendingRemoveFriend && createPortal(
+                <ConfirmationDialog
+                    message={`Remove "${pendingRemoveFriend.name}" from your friends list?`}
+                    onConfirm={() => {
+                        removeFriend(pendingRemoveFriend.id);
+                        setPendingRemoveFriend(null);
+                    }}
+                    onCancel={() => setPendingRemoveFriend(null)}
+                />,
+                document.body
+            )}
         </div>
     );
 };

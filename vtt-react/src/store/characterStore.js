@@ -407,16 +407,20 @@ const useCharacterStore = create((set, get) => ({
     syncWithMultiplayer: () => {
         const state = get();
         const gameStore = useGameStore.getState();
+        const userId = getCurrentUserId(); // Get Firebase UID once
 
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
             // CRITICAL: Use socket.id as the playerId so receiving clients can identify which party member to update
-            const playerId = gameStore.multiplayerSocket.id;
+            const socketId = gameStore.multiplayerSocket.id;
+            const serverPlayerId = gameStore.currentPlayer?.id; // Server-assigned UUID
             const characterId = state.currentCharacterId || state.id || 'player-character';
 
             gameStore.multiplayerSocket.emit('character_updated', {
                 characterId,
                 character: {
-                    playerId, // CRITICAL: Include playerId so receiver knows which party member this is
+                    playerId: socketId, // CRITICAL: Socket.io ID for socket-based lookups
+                    serverPlayerId: serverPlayerId, // CRITICAL: Server UUID for UUID-based lookups
+                    userId: userId, // CRITICAL: Firebase UID - MOST RELIABLE IDENTIFIER
                     name: state.name,
                     baseName: state.baseName,
                     race: state.race,
@@ -447,21 +451,49 @@ const useCharacterStore = create((set, get) => ({
                     background: state.background,
                     backgroundDisplayName: state.backgroundDisplayName
                 },
-                userId: getCurrentUserId()
+                userId: userId // Also at top level for convenience
             });
         }
     },
 
     // Helper to sync resources with multiplayer
+    // FIXED: Now emits 'character_resource_updated' with absolute values instead of deltas
+    // This matches the format that MultiplayerApp.jsx handler expects
     syncResourcesWithMultiplayer: (deltas) => {
         const state = get();
         const gameStore = useGameStore.getState();
 
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-            gameStore.multiplayerSocket.emit('character_resource_delta', {
-                characterId: state.currentCharacterId || state.id || 'player-character',
-                deltas
-            });
+            const socketId = gameStore.multiplayerSocket.id;
+            const serverPlayerId = gameStore.currentPlayer?.id;
+            const roomId = gameStore.multiplayerRoom?.id;
+
+            if (!roomId) {
+                console.warn('syncResourcesWithMultiplayer: No roomId available');
+                return;
+            }
+
+            // Emit each resource change as a separate event with absolute values
+            // This matches the format PartyHUD uses, which MultiplayerApp.jsx handles correctly
+            if (deltas && Object.keys(deltas).length > 0) {
+                Object.entries(deltas).forEach(([resourceType, delta]) => {
+                    const resourceData = state[resourceType] || { current: 0, max: 0 };
+                    
+                    gameStore.multiplayerSocket.emit('character_resource_updated', {
+                        roomId: roomId,
+                        playerId: serverPlayerId || socketId,
+                        playerName: state.name,
+                        resource: resourceType,
+                        current: resourceData.current,
+                        max: resourceData.max,
+                        temp: state[`temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`] || 0,
+                        adjustment: delta,
+                        senderSocketId: socketId,
+                        characterId: state.currentCharacterId || state.id,
+                        timestamp: Date.now()
+                    });
+                });
+            }
         }
     },
 
@@ -2114,6 +2146,21 @@ const useCharacterStore = create((set, get) => ({
     loadCharacters: async () => {
         set({ isLoading: true, error: null });
         try {
+            // CRITICAL FIX: Wait for auth to initialize to prevent race conditions with localStorage clearing
+            // If we check userId before auth is done, we might think the user logged out and clear their data
+            const authStore = require('./authStore').default;
+            if (!authStore.getState().isAuthInitialized) {
+                // Wait up to 2 seconds for auth initialization (App.jsx also has initialization logic)
+                let checks = 0;
+                while (!authStore.getState().isAuthInitialized && checks < 20) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    checks++;
+                }
+
+                if (!authStore.getState().isAuthInitialized) {
+                    console.warn('⚠️ Auth initialization timeout in loadCharacters - proceeding with caution');
+                }
+            }
             const userId = getCurrentUserId();
             const useFirebase = shouldUseFirebase();
 

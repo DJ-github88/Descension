@@ -93,6 +93,8 @@
 - Bootstrap for responsive UI components
 
 ### File Organization
+
+#### Frontend (vtt-react/src/)
 ```
 vtt-react/src/
   components/     - Reusable UI components
@@ -101,6 +103,30 @@ vtt-react/src/
   services/        - API and external service integrations
   utils/           - Helper functions
   hooks/           - Custom React hooks
+```
+
+#### Backend (server/)
+```
+server/
+  server.js              - Main entry point
+  handlers/
+    socketHandlers.js    - All socket.io event handlers
+    roomHandlers.js      - Room CRUD operations
+  services/
+    syncService.js       - FirebaseBatchWriter, MovementDebouncer
+    firebaseService.js   - Firebase operations
+    validationService.js - Input validation
+    rateLimitService.js  - Rate limiting
+    logger.js            - Logging service
+  utils/
+    validators.js        - Validation helpers
+  tests/
+    socketHandlers.test.js
+    roomHandlers.test.js
+    integration-test.js
+  docs/
+    API.md               - Socket event documentation
+    ARCHITECTURE.md      - Architecture documentation
 ```
 
 ### State Management
@@ -166,3 +192,60 @@ vtt-react/src/
 - Changing user flows
 - Fixing visual bugs
 - Implementing new user interactions
+
+## Server Architecture (Refactored)
+
+The server has been modularized for better maintainability:
+
+### Key Modules
+- `handlers/socketHandlers.js` - All 64 socket event handlers
+- `handlers/roomHandlers.js` - Room CRUD operations
+- `services/syncService.js` - State synchronization services
+
+### Key Services
+- **FirebaseBatchWriter** - Batches writes to reduce quota usage (flushes every 500ms)
+- **MovementDebouncer** - Debounces token movements (flushes every 50ms)
+
+### Socket Events (64 total)
+- **Room**: create_room, join_room, leave_room, disconnect
+- **Tokens**: token_created, token_moved, token_updated, token_removed
+- **Characters**: character_updated, character_resource_updated, character_moved
+- **Maps**: map_update, grid_item_update, sync_map_state
+- **Combat**: combat_started, combat_ended, combat_turn_changed
+- **Chat**: chat_message, global_chat_message, whisper_message
+- **Environment**: fog_update, wall_update, light_source_update
+- **Party**: create_party, join_party, invite_to_party, etc.
+
+### Running Tests
+```bash
+# Unit tests
+npm test tests/socketHandlers.test.js
+npm test tests/roomHandlers.test.js
+
+# Integration test
+node tests/integration-test.js
+```
+
+### Migration to Refactored Server
+```bash
+cd server
+cp server.js server.backup.js
+cp server.refactored.js server.js
+npm start
+```
+
+## Known Bug Fixes (Feb 2026)
+
+### 1.1 HP/Mana/AP Live Sync
+- Fixed deep merge in `partyStore.js` for character resources
+- Fixed value capture in `PartyHUD.jsx` before emit
+
+### 1.2 Display Name Override
+- Fixed in `MultiplayerApp.jsx` to preserve GM custom names
+
+### 1.3 Duplicate HUDs
+- Fixed by clearing party members BEFORE create_room
+- Added `isConnected` flag to party members
+
+### 1.4 Class Resource Bar
+- Fixed classResource inclusion in character sync data

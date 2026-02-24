@@ -8,7 +8,7 @@ import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore, { mapUpdateBatcher } from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import usePartyStore from '../../store/partyStore';
-import { MAP_TRANSITION_TIMINGS } from '../multiplayer/MapTransitionOverlay';
+import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
@@ -300,7 +300,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     }
                 }));
 
-                await new Promise(resolve => setTimeout(resolve, MAP_TRANSITION_TIMINGS.SAFE_SWAP_MS));
+                await new Promise(resolve => setTimeout(resolve, TRANSITION_TIMINGS.SAFE_SWAP_MS));
             }
 
             // CRITICAL FIX: In multiplayer GM mode, sync destination map state before switching

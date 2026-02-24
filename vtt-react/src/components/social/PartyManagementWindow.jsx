@@ -4,7 +4,9 @@ import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import usePresenceStore from '../../store/presenceStore';
+import UserCard from './UserCard';
 import '../../styles/party-hud.css';
+import useAuthStore from '../../store/authStore';
 
 const PartyManagementWindow = ({ isOpen, onClose }) => {
     const [invitePlayerName, setInvitePlayerName] = useState('');
@@ -27,11 +29,12 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
         kickPartyMember,
         isPartyLeader,
         isUserLeader,
-        addPartyMember
+        addPartyMember,
+        leaderId
     } = usePartyStore();
 
     const { name: currentPlayerName } = useCharacterStore();
-    const { friends } = useSocialStore();
+    const { friends, friendPresence } = useSocialStore();
     const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
 
     // Handle creating a new party
@@ -52,11 +55,11 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     };
 
     // Get online friends for inviting
-    const onlineFriends = (friends || []).filter(friendId => {
-        const onlineUser = onlineUsers.find(user => user.uid === friendId);
-        return onlineUser && onlineUser.status !== 'offline';
-    }).map(friendId => {
-        return onlineUsers.find(user => user.uid === friendId);
+    const onlineFriends = (friends || []).filter(friend => {
+        const presence = friendPresence?.[friend.id] || onlineUsers.find(user => user.uid === friend.id);
+        return presence && presence.status !== 'offline';
+    }).map(friend => {
+        return friendPresence?.[friend.id] || onlineUsers.find(user => user.uid === friend.id);
     }).filter(Boolean);
 
     // Handle accepting invite
@@ -83,6 +86,75 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
         } else {
             leaveParty();
         }
+    };
+
+    const renderPartyMember = (member) => {
+        const isLeader = member.id === leaderId || member.isGM;
+        const isCurrentPlayer = member.id === 'current-player' || member.userId === useAuthStore.getState().user?.uid;
+
+        const userCardData = {
+            ...member,
+            characterName: member.name,
+            level: member.character?.level || member.level,
+            class: member.character?.class || member.class,
+            race: member.character?.race || member.race,
+            status: member.status || 'online'
+        };
+
+        return (
+            <UserCard
+                key={member.id}
+                user={userCardData}
+                nameFormat="party"
+                isCurrentUser={isCurrentPlayer}
+                isLeader={isLeader}
+                showLeaderCrown={true}
+                showYouBadge={true}
+                className="party-member-card-enhanced"
+                additionalContent={
+                    isPartyLeader() && member.id !== 'current-player' && (
+                        <button
+                            className="remove-member-button"
+                            onClick={() => handleRemoveMember(member.id)}
+                            title="Remove Member"
+                        >
+                            <i className="fas fa-times"></i>
+                        </button>
+                    )
+                }
+            />
+        );
+    };
+
+    const renderFriendInviteItem = (friend) => {
+        const isAlreadyInParty = partyMembers.some(m => m.name === friend.characterName || m.name === friend.name);
+
+        const friendData = {
+            ...friend,
+            name: friend.displayName || friend.accountName || friend.name,
+            characterName: friend.characterName || friend.name,
+            level: friend.characterLevel || friend.level,
+            class: friend.characterClass || friend.class,
+            status: friend.status || 'online'
+        };
+
+        return (
+            <UserCard
+                key={friend.uid || friend.id}
+                user={friendData}
+                className="friend-invite-card"
+                additionalContent={
+                    <button
+                        className="friend-invite-btn"
+                        onClick={() => handleSendInvite(friendData.characterName)}
+                        disabled={isAlreadyInParty}
+                    >
+                        <i className="fas fa-plus"></i>
+                        {isAlreadyInParty ? 'In Party' : 'Invite'}
+                    </button>
+                }
+            />
+        );
     };
 
 
@@ -124,33 +196,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                         {/* Party Members List */}
                         <div className="party-members-list">
                             <h4>Party Members</h4>
-                            {partyMembers.map(member => (
-                                <div key={member.id} className="party-member-item">
-                                    <div className="member-info">
-                                        <div className="member-name">
-                                            {member.name}
-                                            {isUserLeader(member.id) && (
-                                                <span className="role-badge leader">Leader</span>
-                                            )}
-                                        </div>
-                                        <div className="member-details">
-                                            {member.character?.race} {member.character?.class}
-                                            {member.character?.level && ` (Level ${member.character.level})`}
-                                        </div>
-                                        <div className="member-status">
-                                            Status: <span className={`status ${member.status}`}>{member.status}</span>
-                                        </div>
-                                    </div>
-                                    {isPartyLeader() && member.id !== 'current-player' && (
-                                        <button
-                                            className="remove-member-button"
-                                            onClick={() => handleRemoveMember(member.id)}
-                                        >
-                                            <i className="fas fa-times"></i>
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
+                            {partyMembers.map(member => renderPartyMember(member))}
                         </div>
 
                         {/* Party Actions */}
@@ -184,24 +230,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                             {inviteTab === 'friends' ? (
                                                 <div className="friends-invite-list">
                                                     {onlineFriends.length > 0 ? (
-                                                        onlineFriends.map(friend => (
-                                                            <div key={friend.uid} className="friend-invite-item">
-                                                                <div className="friend-info">
-                                                                    <div className="friend-name">{friend.displayName}</div>
-                                                                    <div className="friend-character">
-                                                                        {friend.characterName} (Level {friend.characterLevel} {friend.characterClass})
-                                                                    </div>
-                                                                </div>
-                                                                <button
-                                                                    className="friend-invite-btn"
-                                                                    onClick={() => handleSendInvite(friend.displayName)}
-                                                                    disabled={partyMembers.some(m => m.name === friend.displayName)}
-                                                                >
-                                                                    <i className="fas fa-plus"></i>
-                                                                    {partyMembers.some(m => m.name === friend.displayName) ? 'In Party' : 'Invite'}
-                                                                </button>
-                                                            </div>
-                                                        ))
+                                                        onlineFriends.map(friend => renderFriendInviteItem(friend))
                                                     ) : (
                                                         <div className="no-friends-message">
                                                             <i className="fas fa-users-slash"></i>

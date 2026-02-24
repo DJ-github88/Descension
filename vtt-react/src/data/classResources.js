@@ -968,10 +968,43 @@ export const initializeClassResource = (className, characterStats) => {
     if (!config) return null;
 
     const level = characterStats.level || 1;
+    
+    // Handle different resource structure types
+    let current = 0;
+    let max = 5; // Default fallback
+    let timeShards = null;
+    let temporalStrain = null;
+    let notes = null;
+    
+    // Dual-resource systems (Chronarch)
+    if (config.mechanics.timeShards && config.mechanics.temporalStrain) {
+        timeShards = {
+            max: config.mechanics.timeShards.max || 10,
+            current: config.mechanics.timeShards.current || 0
+        };
+        temporalStrain = {
+            max: config.mechanics.temporalStrain.max || 10,
+            current: config.mechanics.temporalStrain.current || 0
+        };
+        max = timeShards.max; // Use timeShards max as primary max for HUD
+        current = timeShards.current;
+    }
+    // Musical notes system (Minstrel)
+    else if (config.mechanics.maxPerNote && config.mechanics.totalNotes) {
+        notes = [];
+        max = config.mechanics.totalNotes;
+        current = 0;
+    }
+    // Standard current/max structure
+    else if (config.mechanics.max !== undefined) {
+        current = config.mechanics.current || 0;
+        max = config.mechanics.max;
+    }
+    
     const baseResource = {
         type: config.id,
-        current: config.mechanics.current,
-        max: config.mechanics.max,
+        current: current,
+        max: max,
         stacks: [],
         phase: config.mechanics.phase || null,
         threshold: 0,
@@ -984,6 +1017,13 @@ export const initializeClassResource = (className, characterStats) => {
         stance: config.mechanics.stance || null,
         wardTokens: config.mechanics.wardTokens || 0,
         precision: config.mechanics.precision || 0,
+        // Dual-resource support
+        timeShards: timeShards,
+        temporalStrain: temporalStrain,
+        // Musical notes support
+        notes: notes,
+        maxPerNote: config.mechanics.maxPerNote || 0,
+        totalNotes: config.mechanics.totalNotes || 0,
         activeEffects: [],
         lastUpdate: Date.now()
     };

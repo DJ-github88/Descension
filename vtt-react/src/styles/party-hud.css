@@ -212,7 +212,8 @@
     flex-direction: column;
     gap: 3px;
     min-width: 80px;
-    overflow: visible; /* Allow tooltips to show */
+    overflow: visible;
+    /* Allow tooltips to show */
     position: relative;
 }
 
@@ -1475,21 +1476,23 @@
 }
 
 .accept-button {
-    background: #4CAF50;
-    color: white;
+    background: #7a3b2e;
+    color: #f0e6d2;
+    border: 1px solid #5d4037;
 }
 
 .accept-button:hover {
-    background: #45a049;
+    background: #8b4513;
 }
 
 .decline-button {
-    background: #F44336;
-    color: white;
+    background: #e8dcc0;
+    color: #5d4037;
+    border: 1px solid rgba(139, 69, 19, 0.2);
 }
 
 .decline-button:hover {
-    background: #D32F2F;
+    background: #dcc8a0;
 }
 
 .invite-status {
@@ -1508,13 +1511,14 @@
     z-index: 1000;
 }
 
-.party-hud-frames > div {
+.party-hud-frames>div {
     pointer-events: all;
 }
 
 /* Ensure proper spacing between frames with different heights */
 .party-hud-frames .react-draggable {
-    margin-bottom: 10px; /* Add spacing between draggable frames */
+    margin-bottom: 10px;
+    /* Add spacing between draggable frames */
 }
 
 .party-member-frame {
@@ -1527,8 +1531,10 @@
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    min-height: 70px; /* Base minimum height */
-    height: auto; /* Allow dynamic height growth */
+    min-height: 70px;
+    /* Base minimum height */
+    height: auto;
+    /* Allow dynamic height growth */
     width: 240px;
     box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.3),
@@ -1538,8 +1544,9 @@
     /* Ensure frame expands properly for 4th resource bar */
     /* Allow overflow for tooltips, but content should be constrained by width */
     overflow: visible;
-    box-sizing: border-box; /* Ensure padding/border are included in width */
-    
+    box-sizing: border-box;
+    /* Ensure padding/border are included in width */
+
     /* Performance optimizations for smooth dragging */
     will-change: transform;
     backface-visibility: hidden;
@@ -1555,7 +1562,8 @@
 
 /* Ensure frames with 4th resource bars get additional height */
 .party-member-frame.has-class-resource {
-    min-height: 88px; /* Increased minimum height when class resource bar is present */
+    min-height: 88px;
+    /* Increased minimum height when class resource bar is present */
 }
 
 /* For complex class resource displays that need more space */
@@ -1567,17 +1575,20 @@
 .party-member-frame.class-plaguebringer,
 .party-member-frame.class-toxicologist,
 .party-member-frame.class-false-prophet {
-    min-height: 110px; /* Extra height for complex displays with menus */
+    min-height: 110px;
+    /* Extra height for complex displays with menus */
 }
 
 /* Deathcaller needs extra height for dual bars display */
 .party-member-frame.class-deathcaller {
-    min-height: 145px; /* Extra height for dual bars display with breathing room */
+    min-height: 145px;
+    /* Extra height for dual bars display with breathing room */
 }
 
 /* Chronarch needs extra height for dual bars */
 .party-member-frame.class-chronarch {
-    min-height: 145px; /* Extra height for dual bars display with breathing room */
+    min-height: 145px;
+    /* Extra height for dual bars display with breathing room */
 }
 
 .party-member-frame:hover {
@@ -1660,9 +1671,12 @@
 }
 
 @keyframes crownShine {
-    0%, 100% {
+
+    0%,
+    100% {
         filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
     }
+
     50% {
         filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.9));
     }
@@ -1674,11 +1688,16 @@
     flex-direction: column;
     gap: 4px;
     padding-top: 2px;
-    min-height: fit-content; /* Allow growth for additional resource bars */
-    height: auto; /* Allow dynamic height expansion */
-    min-width: 0; /* Allow flex shrinking */
-    width: 100%; /* Ensure container takes full width */
-    max-width: 100%; /* Prevent overflow */
+    min-height: fit-content;
+    /* Allow growth for additional resource bars */
+    height: auto;
+    /* Allow dynamic height expansion */
+    min-width: 0;
+    /* Allow flex shrinking */
+    width: 100%;
+    /* Ensure container takes full width */
+    max-width: 100%;
+    /* Prevent overflow */
     box-sizing: border-box;
     /* Don't clip here - let the frame handle overflow */
 }
@@ -1771,11 +1790,16 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 2px !important;
-    min-height: fit-content !important; /* Ensure container grows with content */
-    height: auto !important; /* Allow dynamic height expansion */
-    flex: 0 1 auto !important; /* Don't force flex growth, allow natural sizing */
-    width: 100% !important; /* Ensure container takes full width */
-    max-width: 100% !important; /* Prevent overflow */
+    min-height: fit-content !important;
+    /* Ensure container grows with content */
+    height: auto !important;
+    /* Allow dynamic height expansion */
+    flex: 0 1 auto !important;
+    /* Don't force flex growth, allow natural sizing */
+    width: 100% !important;
+    /* Ensure container takes full width */
+    max-width: 100% !important;
+    /* Prevent overflow */
     box-sizing: border-box !important;
     /* Don't clip here - bars need to be fully visible, frame will clip if needed */
 }
@@ -1834,34 +1858,23 @@
 
 .status-dot.online {
     background: #4CAF50;
-    box-shadow:
-        0 0 6px rgba(76, 175, 80, 0.6),
-        0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
 }
 
 .status-dot.away {
-    background: #FF9800;
-    box-shadow:
-        0 0 6px rgba(255, 152, 0, 0.6),
-        0 1px 2px rgba(0, 0, 0, 0.3);
+    background: #FFC107;
+    box-shadow: none;
 }
 
 .status-dot.busy {
     background: #F44336;
-    box-shadow:
-        0 0 6px rgba(244, 67, 54, 0.6),
-        0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.status-dot.idle {
-    background: #9E9E9E;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
 }
 
 .status-dot.offline {
     background: #FFFFFF;
-    border-color: #5a4a38;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border: 2px solid #9E9E9E;
+    box-shadow: none;
 }
 
 .party-context-menu {
@@ -1938,7 +1951,7 @@
     z-index: 1000;
 }
 
-.target-hud-frame > div {
+.target-hud-frame>div {
     pointer-events: all;
 }
 
@@ -2355,7 +2368,7 @@
     .party-hud .resource-text {
         font-size: 14px !important;
         font-weight: 700 !important;
-        text-shadow: 
+        text-shadow:
             1px 1px 2px rgba(0, 0, 0, 0.9),
             -1px -1px 2px rgba(0, 0, 0, 0.9),
             1px -1px 2px rgba(0, 0, 0, 0.9),
@@ -2473,7 +2486,7 @@
     .resource-bars-container .ap-bar .bar-text {
         font-size: 15px !important;
         font-weight: 700 !important;
-        text-shadow: 
+        text-shadow:
             2px 2px 3px rgba(0, 0, 0, 1),
             -2px -2px 3px rgba(0, 0, 0, 1),
             2px -2px 3px rgba(0, 0, 0, 1),
