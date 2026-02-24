@@ -15,9 +15,6 @@ const mockFirebaseService = {
   updateRoomGameState: sinon.stub().resolves(true)
 };
 
-// Stub the firebase service require
-jest.mock('../services/firebaseService', () => mockFirebaseService);
-
 describe('Room Handlers', () => {
   let rooms, players;
 
