@@ -90,8 +90,14 @@ const usePresenceStore = create((set, get) => ({
   // Party invitations
   pendingPartyInvites: [],
 
+  // Sent party invites (for sender feedback notification)
+  sentPartyInvites: [],
+
   // GM session invitation (when GM with party joins a room)
   gmSessionInvitation: null,
+
+  // Party event toasts (member joined/left, invite outcomes)
+  partyEventNotifications: [],
 
   // Pending multiplayer join (after accepting GM session invitation)
   pendingMultiplayerJoin: null,
@@ -99,6 +105,36 @@ const usePresenceStore = create((set, get) => ({
   // Socket connection
   socket: null,
   isConnected: false,
+  _boundSocketId: null, // Track bound socket ID to prevent duplicate listeners
+
+  // Event deduplication: Track recently processed events to prevent duplicate notifications
+  // when multiple sockets receive the same event
+  _processedEvents: new Map(), // Map<eventSignature, timestamp>
+  
+  // Helper to check if event was recently processed (within 2 seconds)
+  _wasEventRecentlyProcessed: (eventType, ...identifiers) => {
+    const key = `${eventType}:${identifiers.filter(Boolean).join(':')}`;
+    const state = get();
+    const lastProcessed = state._processedEvents.get(key);
+    const now = Date.now();
+    
+    if (lastProcessed && (now - lastProcessed) < 2000) {
+      console.log(`🔄 [Dedup] Skipping duplicate event: ${key}`);
+      return true;
+    }
+    
+    // Mark as processed
+    state._processedEvents.set(key, now);
+    
+    // Cleanup old entries (keep only last 10 seconds)
+    for (const [k, timestamp] of state._processedEvents.entries()) {
+      if (now - timestamp > 10000) {
+        state._processedEvents.delete(k);
+      }
+    }
+    
+    return false;
+  },
 
   // Subscriptions
   presenceUnsubscribe: null,
@@ -887,12 +923,15 @@ const usePresenceStore = create((set, get) => ({
   sendPartyInvite: (targetUserId, targetPlayerName) => {
     const { currentUserPresence, socket } = get();
 
+    console.log(`📢 [presenceStore] sendPartyInvite called for target: ${targetUserId} (${targetPlayerName})`);
+
     let activeSocket = socket;
     if (!activeSocket || !activeSocket.connected) {
       try {
         const gameSocket = require('./gameStore').default.getState()?.multiplayerSocket;
         if (gameSocket && gameSocket.connected) {
           activeSocket = gameSocket;
+          console.log('📢 [presenceStore] Using game multiplayer socket as fallback');
         }
       } catch (e) {
         // gameStore might not be available
@@ -900,14 +939,39 @@ const usePresenceStore = create((set, get) => ({
     }
 
     if (!currentUserPresence || !activeSocket || !activeSocket.connected) {
-      console.warn('⚠️ Cannot send party invite: social socket is not connected');
+      console.warn('⚠️ Cannot send party invite: social socket is not connected', { currentUserPresence: !!currentUserPresence, socket: !!activeSocket, connected: activeSocket?.connected });
       return false;
     }
 
-    // Server will look up the party from userToParty using fromUserId
-    // If no party exists, server will auto-create one
+    // Track this sent invite for sender feedback UI
+    const sentInviteEntry = {
+      id: Date.now().toString(),
+      invitationId: null, // Will be updated when server confirms with invitation_sent event
+      targetUserId,
+      targetName: targetPlayerName || targetUserId,
+      sentAt: Date.now(),
+      outcome: null // 'accepted' | 'declined' | null
+    };
+
+    console.log('📢 [presenceStore] Adding sentInviteEntry to state:', sentInviteEntry);
+    set(state => ({
+      sentPartyInvites: [...state.sentPartyInvites, sentInviteEntry]
+    }));
+
+    // Try to explicitly get current partyId if we are in one
+    let explicitPartyId = null;
+    try {
+      const partyStore = require('./partyStore').default;
+      explicitPartyId = partyStore.getState().currentParty?.id || null;
+      console.log('📢 [presenceStore] Fetched explicitPartyId:', explicitPartyId);
+    } catch (e) {
+      // partyStore not available
+    }
+
+    // Server will look up the party from userToParty using fromUserId if explicitPartyId is null
+    console.log('📢 [presenceStore] Emitting invite_to_party to server...', { partyId: explicitPartyId, toUserId: targetUserId });
     activeSocket.emit('invite_to_party', {
-      partyId: null, // Server resolves this from userToParty
+      partyId: explicitPartyId,
       fromUserId: currentUserPresence.userId,
       toUserId: targetUserId
     });
@@ -974,9 +1038,72 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
+   * Dismiss a sent invite notification
+   */
+  dismissSentPartyInvite: (inviteId) => {
+    set((state) => ({
+      sentPartyInvites: state.sentPartyInvites.filter(inv => inv.id !== inviteId)
+    }));
+  },
+
+  /**
+   * Dismiss a party event toast notification
+   */
+  dismissPartyEventNotification: (notifId) => {
+    set((state) => ({
+      partyEventNotifications: state.partyEventNotifications.filter(n => n.id !== notifId)
+    }));
+  },
+
+  /**
    * Set socket connection
    */
   setSocket: (socket) => {
+    const existingSocket = get().socket;
+    
+    // CRITICAL FIX: Track bound socket ID to prevent duplicate listener registration
+    // If same socket is passed again, don't re-bind listeners
+    const boundSocketId = get()._boundSocketId;
+    if (socket && socket.id && boundSocketId === socket.id) {
+      console.log('⏭️ [setSocket] Socket already bound, skipping listener setup');
+      return;
+    }
+
+    // CRITICAL: Clean up existing socket to prevent duplicate listeners
+    // BUT: Don't disconnect if we're in multiplayer mode - the multiplayer socket
+    // must stay connected to receive room events like player_joined
+    if (existingSocket && existingSocket !== socket) {
+      // Check if we're in multiplayer mode before disconnecting
+      let isInMultiplayer = false;
+      try {
+        const gameStore = require('./gameStore').default;
+        isInMultiplayer = gameStore.getState().isInMultiplayer;
+      } catch (e) {
+        // gameStore might not be available
+      }
+
+      const isEnteringMultiplayer = typeof sessionStorage !== 'undefined' && 
+        sessionStorage.getItem('enteringMultiplayer') === 'true';
+
+      if (isInMultiplayer || isEnteringMultiplayer) {
+        console.log('⏭️ [setSocket] Skipping socket disconnect - in multiplayer mode');
+        // Still remove listeners from old socket to prevent duplicates
+        try {
+          existingSocket.removeAllListeners();
+        } catch (e) {
+          // Ignore cleanup errors
+        }
+      } else if (existingSocket.connected) {
+        console.log('🧹 [setSocket] Cleaning up previous socket before setting new one');
+        try {
+          existingSocket.removeAllListeners();
+          existingSocket.disconnect();
+        } catch (e) {
+          // Ignore cleanup errors
+        }
+      }
+    }
+
     if (socket) {
       // Register presence if already initialized
       const { currentUserPresence } = get();
@@ -1032,6 +1159,12 @@ const usePresenceStore = create((set, get) => ({
         }
 
         get().handlePartyUpdate(partyData);
+
+        // Add visual feedback notification
+        get().addPartyEventNotification('party_created', {
+          name: partyData.name || 'New Party',
+          message: `Party "${partyData.name || 'New Party'}" created successfully`
+        });
       });
 
       // Party joined or updated (used for initial state sync)
@@ -1075,16 +1208,8 @@ const usePresenceStore = create((set, get) => ({
         if (!partyData) return;
         console.log('🔄 Party joined:', partyData.name || partyData.id);
 
-        // Add system message if not in multiplayer
-        try {
-          const chatStore = require('./chatStore').default;
-          chatStore.getState().addSocialNotification({
-            type: 'party_joined',
-            sender: { name: 'Party System' },
-            content: `You have joined the party "${partyData.name || 'New Party'}".`
-          });
-        } catch (e) { }
-
+        // Update party state - notification will be shown by party_join_confirmed
+        // This prevents duplicate notifications since both events fire on join
         get().handlePartyUpdate(partyData);
       });
 
@@ -1099,6 +1224,11 @@ const usePresenceStore = create((set, get) => ({
 
         if (!memberData) {
           console.warn('⚠️ Received party_member_joined with missing memberData:', payload);
+          return;
+        }
+
+        // DEDUPLICATION: Skip if this event was recently processed
+        if (get()._wasEventRecentlyProcessed('party_member_joined', partyId, memberId || memberData.id)) {
           return;
         }
 
@@ -1126,6 +1256,12 @@ const usePresenceStore = create((set, get) => ({
           const updatedMembers = [...existingMembers, enrichedMemberData];
           console.log(`📊 Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
           set(state => ({ partyMembers: updatedMembers }));
+
+          // Add visual feedback notification only when member is NEW (prevents duplicate notifications)
+          get().addPartyEventNotification('joined', {
+            memberName: memberData.name,
+            message: `${memberData.name} joined the party`
+          });
         } else {
           console.log('ℹ️ Member already exists in presenceStore');
         }
@@ -1167,6 +1303,66 @@ const usePresenceStore = create((set, get) => ({
             type: 'party_member_joined',
             sender: { name: memberData.name },
             content: `${memberData.name} joined the party.`
+          });
+        } catch (e) {
+          // chatStore not available
+        }
+      });
+
+      // Invite was accepted - specific notification for the inviter
+      socket.on('party_invite_accepted', ({ partyId, memberId, memberName, memberData }) => {
+        // DEDUPLICATION: Skip if this event was recently processed
+        if (get()._wasEventRecentlyProcessed('party_invite_accepted', partyId, memberId || memberName)) {
+          return;
+        }
+
+        console.log(`✅ Your party invite was accepted by: ${memberName}`);
+
+        // Show "accepted your invite" toast to the inviter
+        get().addPartyEventNotification('accepted', {
+          memberName: memberName,
+          message: `${memberName} accepted your party invite`
+        });
+
+        // Add to chat notifications
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_invite_accepted',
+            sender: { name: memberName },
+            content: `${memberName} accepted your party invitation.`
+          });
+        } catch (e) {
+          // chatStore not available
+        }
+      });
+
+      // Receiver confirmation - you successfully joined a party
+      socket.on('party_join_confirmed', ({ partyId, partyName, memberCount }) => {
+        // DEDUPLICATION: Skip if this event was recently processed
+        if (get()._wasEventRecentlyProcessed('party_join_confirmed', partyId)) {
+          return;
+        }
+
+        console.log(`✅ You joined party: ${partyName || partyId}`);
+
+        // Show toast notification to the receiver
+        get().addPartyEventNotification('you_joined', {
+          partyName: partyName,
+          message: partyName 
+            ? `You joined "${partyName}"`
+            : 'You joined the party!'
+        });
+
+        // Add to chat notifications
+        try {
+          const chatStore = require('./chatStore').default;
+          chatStore.getState().addSocialNotification({
+            type: 'party_joined',
+            sender: { name: 'Party System' },
+            content: partyName 
+              ? `You joined party "${partyName}" (${memberCount} members).`
+              : `You joined the party (${memberCount} members).`
           });
         } catch (e) {
           // chatStore not available
@@ -1390,7 +1586,14 @@ const usePresenceStore = create((set, get) => ({
         } else {
           set(state => {
             const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
-            return { partyMembers: updatedMembers };
+            return {
+              partyMembers: updatedMembers,
+              // Push a party event toast so remaining members see who left
+              partyEventNotifications: [
+                ...state.partyEventNotifications,
+                { id: `left-${targetUserId}-${Date.now()}`, type: 'left', memberName: userName || 'A member' }
+              ]
+            };
           });
 
           try {
@@ -1420,37 +1623,84 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
-      // Party invitation was accepted
-      socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
-        console.log('✅ Party invitation accepted:', userName);
+      // Server confirms invitation was sent (with real invitationId for matching)
+      socket.on('invitation_sent', ({ invitationId, toUserId }) => {
+        console.log('📤 [invitation_sent] Server confirmed invite sent:', { invitationId, toUserId });
 
-        set(state => ({
-          pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
-        }));
-
-        // Show notification
-        const chatStore = require('./chatStore').default;
-        chatStore.getState().addSocialNotification({
-          type: 'party_invitation_accepted',
-          sender: { name: userName },
-          content: `${userName} accepted your party invitation!`
+        // Update the matching sent invite entry with the real invitationId
+        set(state => {
+          const updatedInvites = state.sentPartyInvites.map(inv => {
+            // Match by targetUserId (most reliable) or by recent timestamp (fallback)
+            const isRecent = Date.now() - inv.sentAt < 5000; // Within last 5 seconds
+            if (inv.targetUserId === toUserId || (inv.invitationId === null && isRecent)) {
+              console.log(`📤 [invitation_sent] Updating invite for ${inv.targetName} with invitationId: ${invitationId}`);
+              return { ...inv, invitationId };
+            }
+            return inv;
+          });
+          return { sentPartyInvites: updatedInvites };
         });
       });
 
-      // Party invitation was declined
-      socket.on('party_invitation_declined', ({ invitationId, userName }) => {
-        console.log('❌ Party invitation declined:', userName);
+      // Party invitation was accepted
+      // NOTE: This event ONLY updates the sentPartyInvites list.
+      // Notifications are handled by party_invite_accepted handler to prevent duplicates.
+      socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
+        console.log('✅ Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
 
         set(state => ({
-          pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
+          pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
+          sentPartyInvites: state.sentPartyInvites.map(inv => {
+            const matches = inv.invitationId === invitationId ||
+                            inv.targetUserId === userId ||
+                            inv.targetName === userName ||
+                            inv.targetUserId === userName;
+            return matches ? { ...inv, outcome: 'accepted' } : inv;
+          })
+          // REMOVED: Duplicate toast notification - handled by party_invite_accepted
         }));
+      });
 
-        // Show notification
+      // Party invitation was declined
+      socket.on('party_invitation_declined', ({ invitationId, userId, userName }) => {
+        console.log('❌ Party invitation declined:', userName, 'invitationId:', invitationId);
+
+        set(state => {
+          const updatedInvites = state.sentPartyInvites.map(inv => {
+            // Match by invitationId (most reliable) OR userId OR userName
+            const matches = inv.invitationId === invitationId ||
+                            inv.targetUserId === userId ||
+                            inv.targetName === userName;
+            return matches ? { ...inv, outcome: 'declined' } : inv;
+          });
+
+          return {
+            pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
+            sentPartyInvites: updatedInvites,
+            // Push a party event toast
+            partyEventNotifications: [
+              ...state.partyEventNotifications,
+              { id: `decline-${invitationId || Date.now()}`, type: 'declined', memberName: userName }
+            ]
+          };
+        });
+
+        // Show notification in chat
         const chatStore = require('./chatStore').default;
         chatStore.getState().addSocialNotification({
           type: 'party_invitation_declined',
           sender: { name: userName },
           content: `${userName} declined your party invitation`
+        });
+      });
+
+      // Receiver confirmation - you declined an invite
+      socket.on('invitation_declined_confirmed', ({ invitationId }) => {
+        console.log('✅ Party invite declined');
+
+        // Show toast notification to the decliner
+        get().addPartyEventNotification('you_declined', {
+          message: 'You declined the party invitation'
         });
       });
 
@@ -1592,7 +1842,11 @@ const usePresenceStore = create((set, get) => ({
       });
     }
 
-    set({ socket, isConnected: socket?.connected || false });
+    set({ 
+      socket, 
+      isConnected: socket?.connected || false,
+      _boundSocketId: socket?.id || null
+    });
   },
 
   /**
@@ -1648,6 +1902,7 @@ const usePresenceStore = create((set, get) => ({
     // Set flag to trigger navigation to /multiplayer so MultiplayerApp mounts
     set({
       gmSessionInvitation: null,
+      pendingPartyInvites: [], // CRITICAL: Clear regular party invites when joining a GM session
       pendingMultiplayerJoin: {
         roomId: gmSessionInvitation.roomId,
         partyName: gmSessionInvitation.partyName
@@ -1686,6 +1941,36 @@ const usePresenceStore = create((set, get) => ({
     });
 
     set({ gmSessionInvitation: null });
+  },
+
+  /**
+   * Add a party event notification toast
+   */
+  addPartyEventNotification: (type, data) => {
+    const notification = {
+      id: uuidv4(),
+      type,
+      ...data,
+      timestamp: Date.now()
+    };
+
+    set(state => ({
+      partyEventNotifications: [...state.partyEventNotifications, notification]
+    }));
+
+    // Auto-remove after 6 seconds
+    setTimeout(() => {
+      get().clearPartyEventNotification(notification.id);
+    }, 6000);
+  },
+
+  /**
+   * Clear a specific party event notification
+   */
+  clearPartyEventNotification: (id) => {
+    set(state => ({
+      partyEventNotifications: state.partyEventNotifications.filter(n => n.id !== id)
+    }));
   },
 
   /**

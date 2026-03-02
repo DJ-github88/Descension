@@ -119,6 +119,11 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations,
                 characterIcon: state.characterData.characterIcon,
+                iconBackgroundColor: state.characterData.iconBackgroundColor,
+                iconBorderColor: state.characterData.iconBorderColor,
+                iconBackgroundImage: state.characterData.iconBackgroundImage,
+                iconScale: state.characterData.iconScale,
+                iconBackgroundScale: state.characterData.iconBackgroundScale,
                 class_spells: state.characterData.class_spells,
                 selectedEquipment: state.characterData.selectedEquipment || [],
                 remainingCurrency: state.characterData.remainingCurrency || {
@@ -234,22 +239,16 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
             {/* Footer with navigation */}
             <div className="wizard-footer">
                 <div className="wizard-navigation">
-                    <div className="nav-left">
-                        <button
-                            type="button"
-                            className="wizard-btn wizard-btn-cancel"
-                            onClick={handleCancel}
-                            disabled={isLoading}
-                        >
-                            Cancel
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        className="wizard-btn wizard-btn-cancel"
+                        onClick={handleCancel}
+                        disabled={isLoading}
+                    >
+                        Cancel
+                    </button>
 
-                    <div className="nav-center">
-                        {/* Empty center for balanced spacing */}
-                    </div>
-
-                    <div className="nav-right">
+                    <div className="nav-buttons">
                         {!isFirstStep && (
                             <button
                                 type="button"

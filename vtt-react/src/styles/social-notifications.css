@@ -2,7 +2,7 @@
    Standardized Social Notifications - Fantasy Premium Theme
    =====================================================*/
 
-/* ---- Notification Layer ---- */
+/* ---- Notification Layer (toast stack – bottom-right) ---- */
 .social-notification-layer {
     position: fixed;
     bottom: 25px;
@@ -10,11 +10,30 @@
     z-index: 10000;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     pointer-events: none;
+    align-items: flex-end;
 }
 
 .social-notification-layer>* {
+    pointer-events: auto;
+}
+
+/* ---- Centered Invite Overlay (party / room / GM session invites) ---- */
+.invite-overlay-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10500;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    pointer-events: none;
+}
+
+.invite-overlay-center>* {
     pointer-events: auto;
 }
 
@@ -44,17 +63,17 @@
         inset 0 1px 0 rgba(212, 175, 55, 0.1),
         0 0 30px rgba(212, 175, 55, 0.05);
 
-    /* Entry animation */
-    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    transform-origin: bottom right;
+    /* Entry animation – scale from center */
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center center;
 }
 
 .party-invite-premium.entering {
-    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .party-invite-premium.leaving {
-    animation: inviteSlideOut 0.4s ease-in forwards;
+    animation: inviteScaleOut 0.4s ease-in forwards;
 }
 
 .party-invite-premium.expiring {
@@ -423,6 +442,36 @@
    ANIMATIONS
    =====================================================*/
 
+@keyframes inviteScaleIn {
+    0% {
+        transform: scale(0.78);
+        opacity: 0;
+    }
+
+    65% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes inviteScaleOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.78);
+        opacity: 0;
+    }
+}
+
+/* Keep legacy slide animations for any remaining consumers */
 @keyframes inviteSlideIn {
     0% {
         transform: translateX(120%) scale(0.8);
@@ -847,4 +896,220 @@
 
 .invitation-actions button i {
     font-size: 1rem;
+}
+
+/* =====================================================
+   GM SESSION INVITE – GOLD COLOR OVERRIDE
+   =====================================================*/
+.gm-session-premium {
+    border-color: rgba(201, 168, 63, 0.35);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(201, 168, 63, 0.12),
+        0 0 30px rgba(201, 168, 63, 0.06);
+}
+
+/* =====================================================
+   ROOM INVITE – use centered scale animation too
+   =====================================================*/
+.room-invite-premium.entering {
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.room-invite-premium.leaving {
+    animation: inviteScaleOut 0.4s ease-in forwards;
+}
+
+.room-invite-premium {
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center center;
+}
+
+/* ---- room name display ---- */
+.room-name-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 16px 6px;
+    padding: 6px 12px;
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: rgba(224, 216, 200, 0.7);
+}
+
+.room-name-display i {
+    color: rgba(212, 175, 55, 0.5);
+    font-size: 0.75rem;
+}
+
+/* =====================================================
+   PARTY INVITE SENT TOAST (sender feedback)
+   =====================================================*/
+.party-invite-sent-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    width: 280px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(28, 22, 18, 0.96), rgba(38, 28, 22, 0.95));
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #e0d8c8;
+    animation: toastSlideIn 0.35s ease-out forwards;
+    position: relative;
+}
+
+.party-invite-sent-toast.entering {
+    animation: toastSlideIn 0.35s ease-out forwards;
+}
+
+.party-invite-sent-toast.leaving {
+    animation: toastSlideOut 0.35s ease-in forwards;
+}
+
+.party-invite-sent-toast.outcome-accepted {
+    border-color: rgba(76, 175, 80, 0.3);
+}
+
+.party-invite-sent-toast.outcome-declined {
+    border-color: rgba(192, 64, 64, 0.3);
+}
+
+.invite-sent-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.invite-sent-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+}
+
+.invite-sent-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #e0d8c8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.invite-sent-sub {
+    font-size: 0.68rem;
+    color: rgba(224, 216, 200, 0.45);
+    font-style: italic;
+}
+
+.invite-sent-timer {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invite-sent-timer-text {
+    position: absolute;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #c9a83f;
+}
+
+.invite-sent-timer.expiring .invite-sent-timer-text {
+    color: #a52a2a;
+}
+
+.invite-sent-close {
+    background: none;
+    border: none;
+    color: rgba(224, 216, 200, 0.35);
+    cursor: pointer;
+    font-size: 0.65rem;
+    padding: 2px 4px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.invite-sent-close:hover {
+    color: rgba(224, 216, 200, 0.8);
+}
+
+/* =====================================================
+   PARTY EVENT TOAST (join / leave / accepted / declined)
+   =====================================================*/
+.party-event-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    width: 260px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(28, 22, 18, 0.96), rgba(38, 28, 22, 0.95));
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #e0d8c8;
+    animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+.party-event-toast.entering {
+    animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+.party-event-toast.leaving {
+    animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+.party-event-text {
+    flex: 1;
+    font-size: 0.8rem;
+}
+
+.party-event-close {
+    background: none;
+    border: none;
+    color: rgba(224, 216, 200, 0.35);
+    cursor: pointer;
+    font-size: 0.6rem;
+    padding: 2px;
+    transition: color 0.2s;
+}
+
+.party-event-close:hover {
+    color: rgba(224, 216, 200, 0.75);
+}
+
+/* Toast slide animations */
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(110%);
+        opacity: 0;
+    }
 }

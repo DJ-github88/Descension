@@ -34,7 +34,7 @@ function isSelfId(id, userId, myIds = {}) {
     // Use passed-in reactive IDs if available - prioritize these as they are tab-specific
     if (myIds.serverId && id === myIds.serverId) return true;
     if (myIds.socketId && id === myIds.socketId) return true;
-    
+
     // Only match userId if we DON'T have a more specific connection ID match available
     const hasStrictIds = !!(myIds.serverId || myIds.socketId);
     if (!hasStrictIds && myIds.userId && (id === myIds.userId || userId === myIds.userId)) return true;
@@ -47,7 +47,7 @@ function isSelfId(id, userId, myIds = {}) {
         const authUid = useAuthStore.getState().user?.uid;
 
         if (id === serverId || id === socketId) return true;
-        
+
         // Only fallback to userId if no serverId is known for the candidate
         if (!hasStrictIds && authUid && (id === authUid || userId === authUid)) return true;
 
@@ -2000,9 +2000,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (memberId === 'current-player') {
             return members.find(m => m.id === 'current-player');
         }
-        return members.find(m => 
-            m.id === memberId || 
-            m.userId === memberId || 
+        return members.find(m =>
+            m.id === memberId ||
+            m.userId === memberId ||
             m.socketId === memberId
         );
     };
@@ -2260,8 +2260,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 updateResource(resourceType, newValue, maxValue);
             }
 
-            // Show floating combat text for party member
-            showFloatingTextForResource(memberId, resourceType, adjustment, memberId);
+            // Scrolling combat text removed per user request to eliminate wild animations
 
             // Log resource change (only log if there's an actual change and logging is not skipped)
             if (adjustment !== 0 && !asTemporary && !skipLogging) {
@@ -2270,46 +2269,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             }
 
             // Emit update for current player
-            if (socket && socket.connected && adjustment !== 0) {
-                // Get fresh data from character store
-                const charState = useCharacterStore.getState();
-                const currentResource = charState[resourceType];
-                const currentTempValue = charState[tempField];
-                
-                // Capture values to emit
-                const capturedCurrent = currentResource?.current;
-                const capturedMax = currentResource?.max;
-                const capturedTemp = currentTempValue;
-                const capturedPlayerId = myId;
-                const capturedPlayerName = charState.name;
-                const capturedResourceType = resourceType;
-                const currentSocket = socket;
-
-                console.log('📤 PartyHUD emitting self resource update:', {
-                    playerId: capturedPlayerId,
-                    playerName: capturedPlayerName,
-                    resource: capturedResourceType,
-                    current: capturedCurrent,
-                    max: capturedMax,
-                    temp: capturedTemp,
-                    socketConnected: currentSocket?.connected
-                });
-
-                if (capturedCurrent !== undefined && capturedMax !== undefined) {
-                    // Emit resource update immediately
-                    currentSocket.emit('character_resource_updated', {
-                        playerId: capturedPlayerId,
-                        playerName: capturedPlayerName,
-                        resource: capturedResourceType,
-                        current: capturedCurrent,
-                        max: capturedMax,
-                        temp: capturedTemp,
-                        adjustment: adjustment,
-                        timestamp: Date.now()
-                    });
-                    console.log('✅ PartyHUD emitted self character_resource_updated');
-                }
-            }
+            // MULTIPLAYER SYNC: No longer needed here as characterStore.updateResource handles it
         } else {
             // Update party member's resources (NOT current player)
             // CRITICAL: Get fresh data from store to avoid stale state in rapid updates
@@ -2319,7 +2279,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const currentValue = member.character[resourceType]?.current || 0;
                 const maxValue = member.character[resourceType]?.max || 0;
                 const currentTemp = member.character[tempField] || 0;
-                
+
                 // CRITICAL FIX: Calculate new values BEFORE update, then emit those calculated values
                 // This prevents stale data issues when reading from store after async update
                 let finalCurrentValue = currentValue;
@@ -2364,7 +2324,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     if (remainingDamage > 0) {
                         newValue = Math.max(0, currentValue - remainingDamage);
                     }
-                    
+
                     finalCurrentValue = newValue;
                     finalTempValue = newTemp;
 
@@ -2382,7 +2342,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     // Normal positive adjustment (healing/restoring, no overheal)
                     finalCurrentValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
                     finalTempValue = currentTemp;
-                    
+
                     updatePartyMember(memberId, {
                         character: {
                             ...member.character,
@@ -2394,8 +2354,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
-                // Show floating combat text for party member
-                showFloatingTextForResource(memberId, resourceType, adjustment, memberId);
+                // Scrolling combat text removed per user request to eliminate wild animations
 
                 // Log the resource change (only log if there's an actual change and logging is not skipped)
                 if (adjustment !== 0 && !asTemporary && !skipLogging) {
@@ -2406,6 +2365,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 // Emit update for party member (GM updating another player)
                 // CRITICAL FIX: Emit the CALCULATED values directly, not re-reading from store
                 if (socket && socket.connected && adjustment !== 0) {
+                    const gameStore = useGameStore.getState();
+                    const roomId = gameStore.multiplayerRoom?.id;
+
                     console.log('📤 PartyHUD emitting resource update (calculated values):', {
                         playerId: memberId,
                         playerName: capturedPlayerName,
@@ -2413,11 +2375,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         current: finalCurrentValue,
                         max: maxValue,
                         temp: finalTempValue,
-                        socketConnected: socket?.connected
+                        roomId: roomId
                     });
 
                     socket.emit('character_resource_updated', {
+                        roomId: roomId, // CRITICAL: Required for server-side broadcasting
                         playerId: memberId,
+                        userId: member.userId || member.uid, // Add stable ID
+                        socketId: member.socketId, // Add socket ID
                         playerName: capturedPlayerName,
                         resource: resourceType,
                         current: finalCurrentValue,
@@ -2430,55 +2395,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
             }
         }
-    };
-
-    const showFloatingTextForResource = (memberId, resourceType, adjustment, refMemberId) => {
-        if (!window.showFloatingCombatText) return;
-
-        // Determine text type based on resource and adjustment direction
-        let textType;
-        if (resourceType === 'health') {
-            textType = adjustment > 0 ? 'heal' : 'damage';
-        } else if (resourceType === 'mana') {
-            textType = adjustment > 0 ? 'mana' : 'mana-loss';
-        } else if (resourceType === 'actionPoints') {
-            textType = adjustment > 0 ? 'ap' : 'ap-loss';
-        }
-
-        if (!textType) return;
-
-        // Get the resource bar ref for this member and resource type
-        let floatingTextPosition;
-        const refs = resourceBarRefs.current[refMemberId];
-
-        if (refs && refs[resourceType] && refs[resourceType].current) {
-            const rect = refs[resourceType].current.getBoundingClientRect();
-            floatingTextPosition = {
-                x: rect.left + rect.width / 2,
-                y: rect.top - 20 // Position above the bar
-            };
-        } else {
-            // Fallback positioning
-            if (memberId === 'current-player') {
-                floatingTextPosition = { x: 120, y: window.innerHeight - 100 };
-            } else {
-                const memberPosition = getMemberPosition(memberId);
-                if (memberPosition) {
-                    floatingTextPosition = {
-                        x: memberPosition.x + 100,
-                        y: memberPosition.y + 20
-                    };
-                } else {
-                    floatingTextPosition = { x: 200, y: 300 };
-                }
-            }
-        }
-
-        window.showFloatingCombatText(
-            Math.abs(adjustment).toString(),
-            textType,
-            floatingTextPosition
-        );
     };
 
     // Handle custom amount adjustments
@@ -2537,15 +2453,26 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const characterName = getCharacterName(memberId);
         const absAmount = Math.abs(xpAmount);
 
-        if (memberId === 'current-player') {
+        if (isSelfId(memberId, undefined, myIds)) {
             // Award XP to current player
             useCharacterStore.getState().awardExperience(xpAmount);
             console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
         } else {
-            // For other party members, we'd need to send this through multiplayer
-            // For now, just log it
-            console.log(`💰 Would ${xpAmount > 0 ? 'award' : 'remove'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} party member ${memberId}`);
-            // TODO: Implement multiplayer XP award
+            // MULTIPLAYER SYNC: Send XP award through socket
+            const socket = window.multiplayerSocket;
+            if (socket && socket.connected) {
+                const member = findMemberById(memberId, partyMembers);
+                socket.emit('gm_action', {
+                    type: 'award_xp',
+                    amount: xpAmount,
+                    targetPlayerId: memberId, // Specific target
+                    targetUserId: member?.userId || memberId, // Stable identifier
+                    playerName: characterName
+                });
+                console.log(`💰 Emitted 'award_xp' gm_action for ${characterName}: ${xpAmount} XP`);
+            } else {
+                console.warn('💰 Cannot award XP: Socket not connected');
+            }
         }
 
         // Log to combat tab
@@ -2579,15 +2506,26 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const characterName = getCharacterName(memberId);
         const absChange = Math.abs(levelChange);
 
-        if (memberId === 'current-player') {
+        if (isSelfId(memberId, undefined, myIds)) {
             // Adjust level for current player
             useCharacterStore.getState().adjustLevel(levelChange);
             console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
         } else {
-            // For other party members, we'd need to send this through multiplayer
-            // For now, just log it
-            console.log(`📊 Would ${levelChange > 0 ? 'add' : 'remove'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} party member ${memberId}`);
-            // TODO: Implement multiplayer level adjustment
+            // MULTIPLAYER SYNC: Send level adjustment through socket
+            const socket = window.multiplayerSocket;
+            if (socket && socket.connected) {
+                const member = findMemberById(memberId, partyMembers);
+                socket.emit('gm_action', {
+                    type: 'adjust_level',
+                    amount: levelChange,
+                    targetPlayerId: memberId, // Specific target
+                    targetUserId: member?.userId || memberId, // Stable identifier
+                    playerName: characterName
+                });
+                console.log(`📊 Emitted 'adjust_level' gm_action for ${characterName}: ${levelChange} level(s)`);
+            } else {
+                console.warn('📊 Cannot adjust level: Socket not connected');
+            }
         }
 
         // Log to combat tab - get level after change
@@ -2776,8 +2714,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 if (healthAmount > 0) applyResourceAdjustment(memberId, 'health', -healthAmount, false, true);
                 if (manaAmount > 0) applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
                 if (apAmount > 0) applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
-                applyResourceAdjustment(memberId, 'mana', -manaAmount, false, true);
-                applyResourceAdjustment(memberId, 'actionPoints', -apAmount, false, true);
 
                 // Log as single combined message
                 if (healthAmount > 0 || manaAmount > 0 || apAmount > 0) {
@@ -2801,14 +2737,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const currentHp = charState.health?.current ?? 0;
             const tempHp = charState.tempHealth ?? 0;
             const totalDamage = currentHp + tempHp;
-            
+
             // Skip if already dead (no adjustment needed)
             if (totalDamage <= 0) {
                 console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
                 setShowContextMenu(false);
                 return;
             }
-            
+
             // Drain both current and temporary HP
             handleResourceAdjust(memberId, 'health', -totalDamage);
         } else {
@@ -2817,14 +2753,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const currentHp = member.character?.health?.current ?? 0;
                 const tempHp = member.character?.tempHealth ?? 0;
                 const totalDamage = currentHp + tempHp;
-                
+
                 // Skip if already dead (no adjustment needed)
                 if (totalDamage <= 0) {
                     console.log('ℹ️ handleKill: Character already at 0 HP, skipping');
                     setShowContextMenu(false);
                     return;
                 }
-                
+
                 // Drain both current and temporary HP
                 handleResourceAdjust(memberId, 'health', -totalDamage);
             }
@@ -2845,34 +2781,34 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const currentMp = charState.mana?.current ?? 0;
             const tempMp = charState.tempMana ?? 0;
             const drainAmount = currentMp + tempMp;
-            
+
             // Skip if nothing to drain
             if (drainAmount <= 0) {
                 console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
                 setShowContextMenu(false);
                 return;
             }
-            
+
             // Drain both current and temporary mana
             handleResourceAdjust(memberId, 'mana', -drainAmount);
-            if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+            // logResourceChange removed - handled by handleResourceAdjust
         } else {
             const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
                 const currentMp = member.character?.mana?.current ?? 0;
                 const tempMp = member.character?.tempMana ?? 0;
                 const drainAmount = currentMp + tempMp;
-                
+
                 // Skip if nothing to drain
                 if (drainAmount <= 0) {
                     console.log('ℹ️ handleDrainMana: Mana already at 0, skipping');
                     setShowContextMenu(false);
                     return;
                 }
-                
+
                 // Drain both current and temporary mana
                 handleResourceAdjust(memberId, 'mana', -drainAmount);
-                if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -2891,32 +2827,32 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const maxMp = charState.mana?.max ?? 0;
             const currentMp = charState.mana?.current ?? 0;
             const restoreAmount = Math.max(0, maxMp - currentMp);
-            
+
             // Skip if already at max
             if (restoreAmount <= 0) {
                 console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
                 setShowContextMenu(false);
                 return;
             }
-            
+
             handleResourceAdjust(memberId, 'mana', restoreAmount);
-            if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+            // logResourceChange removed - handled by handleResourceAdjust
         } else {
             const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
                 const maxMp = member.character?.mana?.max ?? 0;
                 const currentMp = member.character?.mana?.current ?? 0;
                 const restoreAmount = Math.max(0, maxMp - currentMp);
-                
+
                 // Skip if already at max
                 if (restoreAmount <= 0) {
                     console.log('ℹ️ handleFullRestoreMana: Mana already at max, skipping');
                     setShowContextMenu(false);
                     return;
                 }
-                
+
                 handleResourceAdjust(memberId, 'mana', restoreAmount);
-                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -2935,34 +2871,34 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const currentAp = charState.actionPoints?.current ?? 0;
             const tempAp = charState.tempActionPoints ?? 0;
             const drainAmount = currentAp + tempAp;
-            
+
             // Skip if nothing to drain
             if (drainAmount <= 0) {
                 console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
                 setShowContextMenu(false);
                 return;
             }
-            
+
             // Drain both current and temporary AP
             handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
-            if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+            // logResourceChange removed - handled by handleResourceAdjust
         } else {
             const member = findMemberById(memberId, usePartyStore.getState().partyMembers);
             if (member) {
                 const currentAp = member.character?.actionPoints?.current ?? 0;
                 const tempAp = member.character?.tempActionPoints ?? 0;
                 const drainAmount = currentAp + tempAp;
-                
+
                 // Skip if nothing to drain
                 if (drainAmount <= 0) {
                     console.log('ℹ️ handleDrainAP: AP already at 0, skipping');
                     setShowContextMenu(false);
                     return;
                 }
-                
+
                 // Drain both current and temporary AP
                 handleResourceAdjust(memberId, 'actionPoints', -drainAmount);
-                if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -3001,60 +2937,60 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             return member.isConnected === true;
         })
         .map(member => {
-        // Update current player with live character data
-        // CRITICAL FIX: Check member.userId FIRST (most reliable), then id and socketId
-        const isSelf = isSelfId(member.userId, member.userId, myIds) ||
-            isSelfId(member.id, member.userId, myIds) ||
-            isSelfId(member.socketId, member.userId, myIds);
-        if (isSelf) {
+            // Update current player with live character data
+            // CRITICAL FIX: Check member.userId FIRST (most reliable), then id and socketId
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            if (isSelf) {
 
-            // Debug logging for party HUD resource display
-            if (currentPlayerData.name === 'YAD') {
-                console.log('🔍 PartyHUD current player data:', {
-                    characterName: currentPlayerData.name,
-                    health: currentPlayerData.health,
-                    mana: currentPlayerData.mana,
-                    derivedStats: currentPlayerData.derivedStats
-                });
+                // Debug logging for party HUD resource display
+                if (currentPlayerData.name === 'YAD') {
+                    console.log('🔍 PartyHUD current player data:', {
+                        characterName: currentPlayerData.name,
+                        health: currentPlayerData.health,
+                        mana: currentPlayerData.mana,
+                        derivedStats: currentPlayerData.derivedStats
+                    });
+                }
+
+                return {
+                    ...member, // Preserve all existing member data including isGM
+                    // CRITICAL FIX: Use the name from the lobby (member.name) if the character store name is default/generic
+                    // This ensures Guest names like "Mitch Connor" are preserved over "Character Name"
+                    name: (currentPlayerData.name === 'Character Name' || !currentPlayerData.name) ? member.name : currentPlayerData.name,
+                    status: currentUserPresence?.status || 'online', // Add status from presence
+                    character: {
+                        level: currentPlayerData.level,
+                        race: currentPlayerData.race,
+                        subrace: currentPlayerData.subrace,
+                        raceDisplayName: currentPlayerData.raceDisplayName,
+                        class: currentPlayerData.class,
+                        alignment: currentPlayerData.alignment,
+                        exhaustionLevel: currentPlayerData.exhaustionLevel,
+                        health: currentPlayerData.health,
+                        mana: currentPlayerData.mana,
+                        actionPoints: currentPlayerData.actionPoints,
+                        tempHealth: currentPlayerData.tempHealth,
+                        tempMana: currentPlayerData.tempMana,
+                        tempActionPoints: currentPlayerData.tempActionPoints,
+                        classResource: currentPlayerData.classResource,
+                        lore: currentPlayerData.lore,
+                        tokenSettings: currentPlayerData.tokenSettings
+                    }
+                };
             }
-
+            // CRITICAL: Ensure non-current players also have valid resource fallbacks
             return {
-                ...member, // Preserve all existing member data including isGM
-                // CRITICAL FIX: Use the name from the lobby (member.name) if the character store name is default/generic
-                // This ensures Guest names like "Mitch Connor" are preserved over "Character Name"
-                name: (currentPlayerData.name === 'Character Name' || !currentPlayerData.name) ? member.name : currentPlayerData.name,
-                status: currentUserPresence?.status || 'online', // Add status from presence
+                ...member,
                 character: {
-                    level: currentPlayerData.level,
-                    race: currentPlayerData.race,
-                    subrace: currentPlayerData.subrace,
-                    raceDisplayName: currentPlayerData.raceDisplayName,
-                    class: currentPlayerData.class,
-                    alignment: currentPlayerData.alignment,
-                    exhaustionLevel: currentPlayerData.exhaustionLevel,
-                    health: currentPlayerData.health,
-                    mana: currentPlayerData.mana,
-                    actionPoints: currentPlayerData.actionPoints,
-                    tempHealth: currentPlayerData.tempHealth,
-                    tempMana: currentPlayerData.tempMana,
-                    tempActionPoints: currentPlayerData.tempActionPoints,
-                    classResource: currentPlayerData.classResource,
-                    lore: currentPlayerData.lore,
-                    tokenSettings: currentPlayerData.tokenSettings
+                    ...member.character,
+                    health: (member.character?.health?.max > 0) ? member.character.health : { current: 45, max: 50 },
+                    mana: (member.character?.mana?.max > 0) ? member.character.mana : { current: 45, max: 50 },
+                    actionPoints: (member.character?.actionPoints?.max > 0) ? member.character.actionPoints : { current: 1, max: 3 }
                 }
             };
-        }
-        // CRITICAL: Ensure non-current players also have valid resource fallbacks
-        return {
-            ...member,
-            character: {
-                ...member.character,
-                health: (member.character?.health?.max > 0) ? member.character.health : { current: 45, max: 50 },
-                mana: (member.character?.mana?.max > 0) ? member.character.mana : { current: 45, max: 50 },
-                actionPoints: (member.character?.actionPoints?.max > 0) ? member.character.actionPoints : { current: 1, max: 3 }
-            }
-        };
-    });
+        });
 
     return (
         <>
@@ -3347,7 +3283,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                         const currentAp = currentPlayerData.actionPoints?.current || 0;
                                         handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
                                     } else {
-            const member = findMemberById(memberId);
+                                        const member = findMemberById(memberId);
                                         if (member) {
                                             const maxAp = member.character?.actionPoints?.max || 0;
                                             const currentAp = member.character?.actionPoints?.current || 0;

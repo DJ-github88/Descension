@@ -145,7 +145,7 @@
   grid-column: 1;
   grid-row: 1;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   height: 100vh;
   width: 100vw;
 }
@@ -193,7 +193,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
   }
-  
+
   .creation-help {
     grid-column: 1;
     grid-row: 2;
@@ -202,13 +202,13 @@
     max-height: none;
     padding: 1.5rem;
   }
-  
+
   .creation-main {
     grid-column: 1;
     grid-row: 3;
     max-height: none;
   }
-  
+
   .help-stats {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -220,29 +220,29 @@
     gap: 1rem;
     text-align: center;
   }
-  
+
   .creation-main {
     padding: 1rem;
   }
-  
+
   .creation-help {
     padding: 1rem;
   }
-  
+
   .help-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .help-card {
     padding: 1rem;
   }
-  
+
   .error-content {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
   }
-  
+
   .error-close {
     margin-left: 0;
   }
@@ -252,19 +252,20 @@
   .character-creation-page {
     grid-template-rows: auto 1fr;
   }
-  
+
   .creation-help {
-    display: none; /* Hide sidebar on very small screens */
+    display: none;
+    /* Hide sidebar on very small screens */
   }
-  
+
   .creation-main {
     grid-column: 1 / -1;
   }
-  
+
   .header-title h1 {
     font-size: 1.5rem;
   }
-  
+
   .page-header {
     padding: 1rem 0;
   }

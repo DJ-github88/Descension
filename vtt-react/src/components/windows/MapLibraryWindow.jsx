@@ -134,6 +134,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         addCollectionSection('tokens', mapState.tokens);
         addCollectionSection('characterTokens', mapState.characterTokens);
         addObjectSection('wallData', mapState.wallData);
+        addObjectSection('windowOverlays', mapState.windowOverlays);
         addArraySection('drawingPaths', mapState.drawingPaths);
         addArraySection('drawingLayers', mapState.drawingLayers);
         addObjectSection('fogOfWarData', mapState.fogOfWarData);
@@ -182,7 +183,22 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         const playerId = e.dataTransfer.getData('playerId');
         const playerName = e.dataTransfer.getData('playerName');
 
+        // DETAILED LOGGING: Log transfer initiation
+        console.log('🔄 [Player Transfer] Drop event received', {
+            playerId,
+            playerName,
+            targetMapId,
+            hasSocket: !!multiplayerSocket,
+            isGMMode,
+            currentMapId
+        });
+
         if (!playerId || !multiplayerSocket || !isGMMode) {
+            console.warn('⚠️ [Player Transfer] Aborted - missing requirements', {
+                hasPlayerId: !!playerId,
+                hasSocket: !!multiplayerSocket,
+                isGMMode
+            });
             setDraggingPlayer(null);
             setDropTargetMapId(null);
             return;
@@ -198,13 +214,22 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         const mapName = targetMap?.name || null;
 
         // Check if GM is transferring themselves
-        const gmPlayerId = usePartyStore.getState().leaderId;
+        const partyStore = usePartyStore.getState();
+        const gmPlayerId = partyStore.leaderId;
         const isSelfTransfer = playerId === gmPlayerId;
+
+        // DETAILED LOGGING: Log GM detection
+        console.log('👤 [Player Transfer] GM detection', {
+            playerId,
+            gmPlayerId,
+            isSelfTransfer,
+            leaderId: gmPlayerId
+        });
 
         // CRITICAL FIX: Sync destination map state before transferring player
         // This ensures items placed on map are available when player arrives
         if (targetMapId !== currentMapId) {
-            console.log(`💾 Syncing destination map state before transfer: ${targetMapId}`);
+            console.log(`💾 [Player Transfer] Syncing destination map state: ${targetMapId}`);
             try {
                 // Load the state for the target map
                 // Our updated loadMapState handles pulling the correct data for non-current maps
@@ -217,21 +242,35 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                         console.warn(`⚠️ [Player Transfer] Skipping sync for destination map ${targetMapId} - no content detected! (Preventing accidental wipe)`);
                     } else {
                         multiplayerSocket.emit('sync_map_state', syncPayload);
-                        console.log(`✅ Destination map state (${targetMapId}) synced to server for player transfer (${contentSections} sections)`);
+                        console.log(`✅ [Player Transfer] Destination map state synced (${contentSections} sections)`);
                     }
                 }
             } catch (error) {
-                console.error('❌ Error syncing destination map before transfer:', error);
+                console.error('❌ [Player Transfer] Error syncing destination map:', error);
             }
         }
 
+        // Get room ID for the transfer
+        const roomId = useGameStore.getState().multiplayerRoom?.id;
+        
+        // DETAILED LOGGING: Log emit details
+        console.log('🎯 [Player Transfer] Emitting gm_transfer_player', {
+            roomId,
+            playerId,
+            targetMapId,
+            mapName,
+            isSelfTransfer,
+            socketConnected: multiplayerSocket?.connected,
+            socketId: multiplayerSocket?.id
+        });
+
         // Emit gm_transfer_player event to server
-        console.log(`🎯 GM transferring player ${playerName} to map ${targetMapId}`);
         multiplayerSocket.emit('gm_transfer_player', {
-            targetPlayerId: playerId,
-            destinationMapId: targetMapId,
+            roomId: roomId,
+            playerId: playerId,
+            targetMapId: targetMapId,
             destinationPosition: { x: 0, y: 0 }, // Default to center
-            mapName: mapName // Send map name to avoid showing long numbers
+            destinationMapName: mapName // Send map name to avoid showing long numbers
         });
 
         // CRITICAL FIX: If GM is transferring themselves, DO NOT emit gm_switch_view here.
@@ -239,19 +278,19 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         // including the GM when self-transferring. Emitting both events creates duplicate
         // map-switch pipelines that can race and clear tokens with partial/empty payloads.
         if (isSelfTransfer) {
-            console.log(`🎯 GM self-transfer: relying on gm_transfer_player -> player_map_changed (skip duplicate gm_switch_view)`);
+            console.log(`🎯 [Player Transfer] GM self-transfer - waiting for forced_map_transfer from server`);
 
             // CRITICAL FIX: Update GM's own map assignment so tag follows in Map Library
             // This is needed because playerMapAssignments is used to display GM's location
-            const gmPlayerId = usePartyStore.getState().leaderId;
             if (gmPlayerId) {
                 usePartyStore.getState().setPlayerMapAssignment(gmPlayerId, targetMapId);
+                console.log(`📍 [Player Transfer] Updated GM map assignment to: ${targetMapId}`);
             }
         }
 
         // Optimistically update partyStore
         usePartyStore.getState().setPlayerMapAssignment(playerId, targetMapId);
-
+        console.log(`📍 [Player Transfer] Optimistically updated ${playerName}'s map assignment to: ${targetMapId}`);
 
         setDraggingPlayer(null);
         setDropTargetMapId(null);
@@ -599,6 +638,9 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 }
                 if (levelEditorState.setWallData) {
                     levelEditorState.setWallData(mapState.wallData || {});
+                }
+                if (levelEditorState.setWindowOverlays) {
+                    levelEditorState.setWindowOverlays(mapState.windowOverlays || {});
                 }
                 // Always clear and load drawings for the new map
                 if (levelEditorState.setDrawingPaths) {

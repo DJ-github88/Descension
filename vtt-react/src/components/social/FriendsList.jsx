@@ -106,35 +106,36 @@ const FriendsList = () => {
     const currentUserPresence = usePresenceStore.getState().currentUserPresence;
     const ensureSocketConnected = usePresenceStore.getState().ensureSocketConnected;
 
+    console.log('📢 [FriendsList] handleInvite triggered for:', player.name, player.id);
     try {
+      // Ensure social socket is connected before creating party or sending invite
+      console.log('📢 [FriendsList] Ensuring socket is connected...');
+      const socketReady = await ensureSocketConnected(5000);
+      console.log('📢 [FriendsList] socketReady:', socketReady);
+      if (!socketReady) {
+        throw new Error('Social server unavailable - could not connect socket for party invite');
+      }
+
       if (!isInParty) {
         const currentPlayerName = userData?.name || user?.displayName || currentUserPresence?.characterName || 'Unknown';
 
         // Await party creation before sending invite
+        console.log(`📢 [FriendsList] Not in party, creating one for ${currentPlayerName}...`);
         await createParty(`${currentPlayerName}'s Party`, false, {
           name: currentPlayerName,
           characterName: currentPlayerName,
           characterClass: currentUserPresence?.class || 'Unknown',
           characterLevel: currentUserPresence?.level || 1
         });
-
-        addSocialNotification({
-          type: 'party_created',
-          content: `Party created for ${currentPlayerName}`,
-          sender: { name: 'System', class: 'system', level: 0 }
-        });
-      }
-
-      // Ensure social socket is connected before sending invite
-      const socketReady = await ensureSocketConnected(5000);
-      if (!socketReady) {
-        throw new Error('Social server unavailable - could not connect socket for party invite');
+        console.log('📢 [FriendsList] Party created successfully!');
       }
 
       // Send the invitation via socket
       // player.id should be the target userId
+      console.log('📢 [FriendsList] Sending party invite via socket to:', player.id);
       if (player.id) {
         const inviteSent = sendPartyInvite(player.id, player.name);
+        console.log('📢 [FriendsList] sendPartyInvite returned:', inviteSent);
         if (!inviteSent) {
           throw new Error('Failed to send party invite (socket not connected)');
         }

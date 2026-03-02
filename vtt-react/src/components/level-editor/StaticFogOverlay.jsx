@@ -4,6 +4,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
 
 /**
  * StaticFogOverlay - Renders path-based and tile-based fog of war on a canvas
@@ -14,6 +15,13 @@ const StaticFogOverlay = () => {
     const offscreenCanvasRef = useRef(null);
     const tempCanvasRef = useRef(null);
     const isDraggingCameraRef = useRef(false);
+    
+    // PERFORMANCE: Track last render state to skip redundant redraws
+    const lastRenderStateRef = useRef({
+        cameraKey: null,
+        visibilityKey: null,
+        lastRenderTime: 0
+    });
 
     // Store Subscriptions - Game State
     const gridSize = useGameStore(state => state.gridSize) || 50;
@@ -42,6 +50,11 @@ const StaticFogOverlay = () => {
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges) || {};
     const getFogState = useLevelEditorStore(state => state.getFogState);
+    
+    // Per-player memory subscriptions for explored areas
+    const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
+    const playerMemories = useLevelEditorStore(state => state.playerMemories);
+    const wallData = useLevelEditorStore(state => state.wallData) || {};
 
     const creatureTokens = useCreatureStore(state => state.tokens) || [];
     const characterTokens = useCharacterTokenStore(state => state.characterTokens) || [];
@@ -88,13 +101,48 @@ const StaticFogOverlay = () => {
         );
     }, [viewingFromToken, creatureTokens, characterTokens]);
 
-    // Vision polygons for all tokens (used by GM to see what players see)
-    const allTokensVisibilityPolygons = useMemo(() => [], []);
+    // Vision polygons for all tokens (used by GM to see what players/creatures can see)
+    const allTokensVisibilityPolygons = useMemo(() => {
+        if (!isGMMode || viewingFromToken) return [];
+        
+        const allTokens = [...creatureTokens, ...characterTokens];
+        return allTokens.map(token => {
+            if (!token.position) return null;
+            const tokenId = token.creatureId || token.characterId || token.id;
+            const vision = tokenVisionRanges[tokenId] || { range: 6 };
+            const polygon = calculateVisibilityPolygon(
+                token.position.x, token.position.y,
+                vision.range, wallData, gridSize, gridOffsetX, gridOffsetY
+            );
+            return { token, polygon, visionRange: vision.range };
+        }).filter(p => p && p.polygon && p.polygon.length > 0);
+    }, [isGMMode, viewingFromToken, creatureTokens, characterTokens, tokenVisionRanges, wallData, gridSize, gridOffsetX, gridOffsetY]);
 
-    // Main render function
+    // Main render function - OPTIMIZED with change detection
     const renderFog = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas || !fogOfWarEnabled || !isFogLayerVisible) return;
+
+        // PERFORMANCE: Check if anything significant changed before rendering
+        const currentCameraKey = `${cameraX.toFixed(0)},${cameraY.toFixed(0)},${(zoomLevel * playerZoom).toFixed(2)}`;
+        const currentVisibilityKey = `${visibleAreaSet?.size || 0}_${visibilityPolygon?.length || 0}`;
+        const now = Date.now();
+        
+        const lastState = lastRenderStateRef.current;
+        const cameraChanged = lastState.cameraKey !== currentCameraKey;
+        const visibilityChanged = lastState.visibilityKey !== currentVisibilityKey;
+        
+        // Skip render if nothing changed and it's been less than 100ms
+        if (!cameraChanged && !visibilityChanged && (now - lastState.lastRenderTime) < 100) {
+            return;
+        }
+        
+        // Update cache
+        lastRenderStateRef.current = {
+            cameraKey: currentCameraKey,
+            visibilityKey: currentVisibilityKey,
+            lastRenderTime: now
+        };
 
         // Initialize or resize offscreen canvas for smooth painted fog
         if (!offscreenCanvasRef.current) {
@@ -159,40 +207,28 @@ const StaticFogOverlay = () => {
             }
         };
 
-        // Draw stars on fog (optimized for performance)
+        // Draw stars on fog - simple and performant
+        // Stars are drawn BEFORE visibility mask so they get masked out in viewable area
         const drawStars = (ctx, canvasWidth, canvasHeight) => {
-            const maxStars = 100;
-            const starsToDraw = maxStars;
-
+            const maxStars = 100; // Fixed count for performance
+            
             ctx.save();
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-
-            const starsPerCheck = 5;
-            let checkCounter = 0;
-
-            for (let i = 0; i < starsToDraw; i++) {
-                const seed = (i * 7919) % 10000;
-                const x = (seed * 137) % canvasWidth;
-                const y = (seed * 271) % canvasHeight;
-
-                const flicker = Math.sin(starTime * 0.01 + seed) * 0.3 + 0.7;
-                const starOpacity = Math.max(0.4, Math.min(1.0, flicker));
-
-                checkCounter++;
-                if (checkCounter >= starsPerCheck) {
-                    checkCounter = 0;
-                    const worldPos = screenToWorld(x, y);
-                    const fogState = getFogState(worldPos.x, worldPos.y);
-                    if (fogState !== 'covered' && fogState !== 'explored') {
-                        continue;
-                    }
-                }
-
-                ctx.globalAlpha = starOpacity;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            
+            // Simple seeded random for consistent star positions
+            for (let i = 0; i < maxStars; i++) {
+                const seed = 12345 + i * 7919;
+                const x = ((seed * 137) % 10000) / 10000 * canvasWidth;
+                const y = ((seed * 271) % 10000) / 10000 * canvasHeight;
+                
+                // Simple twinkle
+                const twinkle = Math.sin(starTime * 0.02 + i) * 0.3 + 0.7;
+                ctx.globalAlpha = Math.max(0.3, Math.min(1.0, twinkle));
+                
+                // Simple 1px star
                 ctx.fillRect(x, y, 1, 1);
             }
-
+            
             ctx.restore();
         };
 
@@ -230,11 +266,17 @@ const StaticFogOverlay = () => {
                     ctx.fillStyle = coveredFogColor;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+                    // CRITICAL FIX: Read explored areas from per-player memories
                     const levelEditorState = useLevelEditorStore.getState();
-                    const exploredPolygons = levelEditorState.exploredPolygons || [];
-                    const exploredCircles = levelEditorState.exploredCircles || [];
+                    const currentPlayerIdLocal = levelEditorState.currentPlayerId;
+                    const playerMemoriesLocal = currentPlayerIdLocal ? levelEditorState.playerMemories[currentPlayerIdLocal] : null;
+                    
+                    // Use per-player memories if available, fallback to global for backward compatibility
+                    const exploredPolygons = playerMemoriesLocal?.exploredPolygons || levelEditorState.exploredPolygons || [];
+                    const exploredCircles = playerMemoriesLocal?.exploredCircles || levelEditorState.exploredCircles || [];
 
-                    if (viewingFromToken && !isGMMode && (exploredPolygons.length > 0 || exploredCircles.length > 0)) {
+                    // Render explored areas (allow GM testing by removing !isGMMode restriction)
+                    if (viewingFromToken && (exploredPolygons.length > 0 || exploredCircles.length > 0)) {
                         const exploredFogColor = getFogColorLocal('explored');
                         ctx.globalCompositeOperation = 'source-over';
                         exploredPolygons.forEach(polygon => {
@@ -357,7 +399,7 @@ const StaticFogOverlay = () => {
         });
 
         ctx.globalCompositeOperation = 'source-over';
-        drawStars(ctx, canvas.width, canvas.height);
+        // Stars are drawn at the end after visibility mask is applied
         ctx.restore();
 
         let visibilityMask = null;
@@ -367,7 +409,17 @@ const StaticFogOverlay = () => {
             visibilityMask.height = canvas.height;
             const maskCtx = visibilityMask.getContext('2d');
             maskCtx.clearRect(0, 0, visibilityMask.width, visibilityMask.height);
-            allTokensVisibilityPolygons.forEach(({ token, polygon, visionRange }) => {
+            
+            // Generate distinct colors for each token's vision
+            const getTokenColor = (index) => {
+                const colors = [
+                    '#4CAF50', '#2196F3', '#FF9800', '#E91E63', '#9C27B0',
+                    '#00BCD4', '#8BC34A', '#FF5722', '#607D8B', '#795548'
+                ];
+                return colors[index % colors.length];
+            };
+            
+            allTokensVisibilityPolygons.forEach(({ token, polygon, visionRange }, index) => {
                 if (!polygon || polygon.length === 0) return;
                 const tokenScreenPos = worldToScreen(token.position.x, token.position.y);
                 const visionRangeInPixels = visionRange * 50 * effectiveZoom;
@@ -395,6 +447,37 @@ const StaticFogOverlay = () => {
             ctx.globalCompositeOperation = 'destination-out';
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
+            
+            // Draw colored outlines for each token's vision range
+            ctx.globalCompositeOperation = 'source-over';
+            allTokensVisibilityPolygons.forEach(({ token, polygon, visionRange }, index) => {
+                if (!polygon || polygon.length === 0) return;
+                const color = getTokenColor(index);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = 0.7;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                const firstPoint = worldToScreen(polygon[0].x, polygon[0].y);
+                ctx.moveTo(firstPoint.x, firstPoint.y);
+                for (let i = 1; i < polygon.length; i++) {
+                    const point = worldToScreen(polygon[i].x, polygon[i].y);
+                    ctx.lineTo(point.x, point.y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                
+                // Draw token name label at center
+                const tokenScreenPos = worldToScreen(token.position.x, token.position.y);
+                const tokenName = token.name || token.creatureId || token.characterId || `Token ${index + 1}`;
+                ctx.font = '10px Arial';
+                ctx.fillStyle = color;
+                ctx.globalAlpha = 0.9;
+                ctx.textAlign = 'center';
+                ctx.fillText(tokenName, tokenScreenPos.x, tokenScreenPos.y - 10);
+            });
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
         }
         else if ((!isGMMode || viewingFromToken) && currentViewingToken && visibleArea && visibilityPolygon && visibilityPolygon.length > 0) {
             const tokenPosition = currentViewingToken.position;
@@ -446,16 +529,17 @@ const StaticFogOverlay = () => {
             ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
         });
 
+        // Draw stars BEFORE visibility mask is applied so they get masked out in viewable area
+        if (!isGMMode && viewingFromToken && !isDraggingCameraRef.current) {
+            drawStars(ctx, canvas.width, canvas.height);
+        }
+
         if (visibilityMask) {
             ctx.globalCompositeOperation = 'destination-out';
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
         }
-
-        if (!isGMMode && !isDraggingCameraRef.current) {
-            drawStars(ctx, canvas.width, canvas.height);
-        }
-    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, isFogLayerVisible, zoomLevel, playerZoom, cameraX, cameraY, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld]);
+    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, isFogLayerVisible, zoomLevel, playerZoom, cameraX, cameraY, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, wallData, gridSize, gridOffsetX, gridOffsetY]);
 
     useEffect(() => {
         renderFog();

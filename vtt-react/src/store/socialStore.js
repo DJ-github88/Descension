@@ -24,6 +24,17 @@ const presenceSubscriptions = new Map();
 // Track processed accepted request IDs to prevent duplicate processing
 const processedAcceptedRequestIds = new Set();
 
+// Track Firestore subscription unsubscribe functions for cleanup
+let socialUnsubscribers = {
+  incoming: null,
+  sent: null,
+  friends: null,
+  accepted: null
+};
+
+// Store cleanup functions returned by initialize()
+let initializeCleanupFn = null;
+
 // Create the store
 export const useSocialStore = create((set, get) => ({
   ...initialState,
@@ -187,7 +198,7 @@ export const useSocialStore = create((set, get) => ({
       }
     });
 
-    return () => {
+    const cleanupFn = () => {
       unsubscribeIncoming();
       unsubscribeSent();
       unsubscribeFriends();
@@ -198,6 +209,22 @@ export const useSocialStore = create((set, get) => ({
       // Clear processed request IDs
       processedAcceptedRequestIds.clear();
     };
+
+    initializeCleanupFn = cleanupFn;
+    return cleanupFn;
+  },
+
+  // Cleanup method for sign-out - call BEFORE signOut() to avoid permission errors
+  cleanup: () => {
+    console.log('🧹 SocialStore: Cleaning up Firestore subscriptions...');
+    if (initializeCleanupFn) {
+      initializeCleanupFn();
+      initializeCleanupFn = null;
+    }
+    // Also clear presence subscriptions
+    presenceSubscriptions.forEach(unsub => unsub());
+    presenceSubscriptions.clear();
+    processedAcceptedRequestIds.clear();
   },
 
   setFriends: (friends) => set({ friends: friends || [] }),

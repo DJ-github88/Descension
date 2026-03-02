@@ -22,13 +22,13 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
     useEffect(() => {
         if (isOpen && token) {
             const existingVision = tokenVisionRanges[token.creatureId];
-            
+
             if (existingVision) {
                 // Convert tiles back to feet for display
                 const rangeInFeet = existingVision.range * feetPerTile;
                 setVisionRange(rangeInFeet);
                 setVisionType(existingVision.type);
-                
+
                 // Check if it's a custom range
                 const isStandardRange = Object.values(VISION_RANGES).includes(rangeInFeet);
                 if (!isStandardRange) {
@@ -54,20 +54,20 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
     const handleSave = () => {
         if (!token) return;
 
-        const finalRange = useCustomRange ? 
-            parseInt(customRange) || 60 : 
+        const finalRange = useCustomRange ?
+            parseInt(customRange) || 60 :
             visionRange;
 
         // Convert feet to tiles
         const rangeInTiles = feetToTiles(finalRange, feetPerTile);
 
-        setTokenVision(token.creatureId, rangeInTiles, visionType);
+        setTokenVision(token.creatureId, rangeInTiles, visionType, true);
         onClose();
     };
 
     const handleRemoveVision = () => {
         if (!token) return;
-        
+
         removeTokenVision(token.creatureId);
         onClose();
     };
@@ -90,7 +90,7 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
     if (!isOpen) return null;
 
     const creatureName = creature?.name || token?.name || 'Unknown';
-    const currentVisionInTiles = useCustomRange ? 
+    const currentVisionInTiles = useCustomRange ?
         feetToTiles(parseInt(customRange) || 60, feetPerTile) :
         feetToTiles(visionRange, feetPerTile);
 
@@ -124,7 +124,7 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
                     {/* Vision Range Selection */}
                     <div className="vision-section">
                         <h4 className="section-title">Vision Range</h4>
-                        
+
                         {/* Standard Ranges */}
                         <div className="range-presets">
                             {Object.entries(VISION_RANGES).map(([key, range]) => (
@@ -148,7 +148,7 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
                                 />
                                 Custom Range
                             </label>
-                            
+
                             {useCustomRange && (
                                 <div className="custom-range-input">
                                     <input
@@ -176,7 +176,7 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
                             <div className="summary-item">
                                 <span className="summary-label">Range:</span>
                                 <span className="summary-value">
-                                    {useCustomRange ? customRange : visionRange} feet 
+                                    {useCustomRange ? customRange : visionRange} feet
                                     ({currentVisionInTiles} tiles)
                                 </span>
                             </div>

@@ -210,6 +210,21 @@ class GameStateManager {
         }
       }
 
+      // Apply per-player memories (for permanent rooms)
+      // Each player has individual explored areas and token afterimages
+      if (gameState.playerMemories) {
+        const levelEditorStore = useLevelEditorStore.getState();
+        levelEditorStore.setPlayerMemories(gameState.playerMemories);
+        console.log('✅ Loaded per-player memories:', Object.keys(gameState.playerMemories).length, 'players');
+      }
+
+      // Apply legacy explored areas (for backward compatibility)
+      if (gameState.exploredAreas || gameState.exploredCircles || gameState.exploredPolygons) {
+        const levelEditorStore = useLevelEditorStore.getState();
+        if (gameState.exploredAreas) levelEditorStore.setExploredAreas(gameState.exploredAreas);
+        // Note: exploredCircles and exploredPolygons are stored in playerMemories now
+      }
+
     } catch (error) {
       console.error('❌ Error applying game state to stores:', error);
     }
@@ -295,6 +310,16 @@ class GameStateManager {
           globalIllumination: 0.3,
           lightSources: levelEditorStore.lightSources || []
         },
+
+        // Per-player memories - each player has individual exploration memories
+        // This is the key data for the fog/memory system
+        playerMemories: levelEditorStore.playerMemories || {},
+        currentPlayerId: levelEditorStore.currentPlayerId || null,
+
+        // Legacy explored areas (for backward compatibility)
+        exploredAreas: levelEditorStore.exploredAreas || {},
+        exploredCircles: levelEditorStore.exploredCircles || [],
+        exploredPolygons: levelEditorStore.exploredPolygons || [],
 
         // Notes (placeholder for future implementation)
         notes: {

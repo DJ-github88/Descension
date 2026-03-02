@@ -39,8 +39,22 @@ const GlobalSocketManager = () => {
     const characterPathDisplayName = useCharacterStore((state) => state.pathDisplayName);
 
     // Initialize socket when authenticated but not connected
+    // CRITICAL FIX: Skip initialization if we're entering or in a multiplayer room
+    // to prevent race condition where a new socket disconnects the multiplayer socket
     useEffect(() => {
         if (isAuthenticated && user && !isConnected && !socket) {
+            // Check if we're in multiplayer mode - if so, the multiplayer socket handles everything
+            const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
+            try {
+                const gameStore = require('../../store/gameStore').default;
+                const isInMultiplayer = gameStore.getState().isInMultiplayer;
+                if (isInMultiplayer || isEnteringMultiplayer) {
+                    console.log('⏭️ Skipping global socket init - in multiplayer mode');
+                    return;
+                }
+            } catch (e) {
+                // gameStore might not be available, continue with init
+            }
             console.log('🔄 Authenticated but no socket. Initializing global socket...');
             initializeGlobalSocket();
         }

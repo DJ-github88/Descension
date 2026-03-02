@@ -115,8 +115,12 @@ const Step1BasicInfo = () => {
     // Get current image style based on transformations
     const getImageStyle = () => {
         const transforms = characterData.imageTransformations || imageTransformations;
+        const iconScale = characterData.iconScale || 1;
+        const iconOffsetX = characterData.iconOffsetX || 0;
+        const iconOffsetY = characterData.iconOffsetY || 0;
+
         return {
-            transform: `scale(${transforms.scale}) rotate(${transforms.rotation}deg) translate(${transforms.positionX}px, ${transforms.positionY}px)`
+            transform: `scale(${transforms.scale * iconScale}) rotate(${transforms.rotation}deg) translate(${transforms.positionX + iconOffsetX}px, ${transforms.positionY + iconOffsetY}px)`
         };
     };
 
@@ -135,14 +139,15 @@ const Step1BasicInfo = () => {
                         <div className="preview-image-container">
                             {imagePreview || characterData.characterImage ? (
                                 <div
-                                    className="character-portrait-container"
+                                    className={`character-portrait-container ${characterData.iconBackgroundImage ? 'has-custom-background' : ''}`}
                                     onClick={() => setShowAppearanceModal(true)}
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
                                         backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center'
+                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
+                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundRepeat: 'no-repeat'
                                     }}
                                 >
                                     <img
@@ -159,20 +164,24 @@ const Step1BasicInfo = () => {
                                 </div>
                             ) : characterData.characterIcon ? (
                                 <div
-                                    className="character-portrait-container"
+                                    className={`character-portrait-container ${characterData.iconBackgroundImage ? 'has-custom-background' : ''}`}
                                     onClick={() => setShowAppearanceModal(true)}
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
                                         backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center'
+                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
+                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundRepeat: 'no-repeat'
                                     }}
                                 >
                                     <img
                                         src={getCustomIconUrl(characterData.characterIcon, 'creatures')}
                                         alt="Character icon"
                                         className="character-portrait"
+                                        style={{
+                                            transform: `scale(${characterData.iconScale || 1}) translate(${characterData.iconOffsetX || 0}px, ${characterData.iconOffsetY || 0}px)`
+                                        }}
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src = getCustomIconUrl('Human/Icon1', 'creatures');
@@ -186,14 +195,15 @@ const Step1BasicInfo = () => {
                                 </div>
                             ) : (
                                 <div
-                                    className="placeholder-portrait"
+                                    className={`placeholder-portrait ${characterData.iconBackgroundImage ? 'has-custom-background' : ''}`}
                                     onClick={() => setShowAppearanceModal(true)}
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
                                         backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
+                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
+                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundRepeat: 'no-repeat',
                                         cursor: 'pointer'
                                     }}
                                 >

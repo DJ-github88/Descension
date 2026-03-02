@@ -577,7 +577,7 @@ const useMapStore = create(
                     // This ensures any unsaved token changes are persisted before switching maps
                     const gameStore = await import('./gameStore').then(module => module.default.getState());
                     const shouldSave = gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected;
-                    
+
                     if (shouldSave) {
                         try {
                             console.log('💾 Saving state before map switch to prevent data loss:', { from: currentMapId, to: mapId });
@@ -661,6 +661,9 @@ const useMapStore = create(
                     if (levelEditorState.setFogOfWarData) {
                         levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
                     }
+                    if (levelEditorState.setWindowOverlays && mapState.windowOverlays !== undefined) {
+                        levelEditorState.setWindowOverlays(mapState.windowOverlays || {});
+                    }
                     if (levelEditorState.setFogOfWarPaths) {
                         levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
                     }
@@ -695,9 +698,9 @@ const useMapStore = create(
                         // CRITICAL FIX: Handle cases where packet.data is undefined or null
                         // Events without explicit mapId belong to current map (default behavior)
                         const filteredEvents = pausedEvents.filter(packet => {
-                          const packetData = packet.data || {};
-                          const eventMapId = packetData.mapId || packetData.targetMapId || mapId;
-                          return eventMapId === mapId; // Only process events for new map
+                            const packetData = packet.data || {};
+                            const eventMapId = packetData.mapId || packetData.targetMapId || mapId;
+                            return eventMapId === mapId; // Only process events for new map
                         });
 
                         // CRITICAL FIX: Wait longer to ensure state is fully loaded before processing events
@@ -864,6 +867,7 @@ const useMapStore = create(
                     fogOfWarPaths: levelEditorData.fogOfWarPaths || [],
                     fogErasePaths: levelEditorData.fogErasePaths || [],
                     wallData: levelEditorData.wallData || {},
+                    windowOverlays: levelEditorData.windowOverlays || {},
                     drawingPaths: levelEditorData.drawingPaths || [],
                     drawingLayers: levelEditorData.drawingLayers || [],
 
@@ -949,6 +953,7 @@ const useMapStore = create(
                     fogOfWarPaths: targetMap.fogOfWarPaths || [],
                     fogErasePaths: targetMap.fogErasePaths || [],
                     wallData: targetMap.wallData || {},
+                    windowOverlays: targetMap.windowOverlays || {},
                     drawingPaths: targetMap.drawingPaths || [],
                     drawingLayers: targetMap.drawingLayers || [],
 

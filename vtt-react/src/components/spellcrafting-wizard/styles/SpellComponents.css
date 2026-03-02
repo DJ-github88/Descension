@@ -340,7 +340,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 15000; /* Increased to ensure it appears above spellbook window */
+  z-index: 15000;
+  /* Increased to ensure it appears above spellbook window */
   backdrop-filter: blur(3px);
 }
 
@@ -357,7 +358,7 @@
   box-shadow: var(--pf-shadow-xl);
 }
 
-.modal-header {
+.item-library-modal .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -366,7 +367,7 @@
   background: var(--pf-gradient-header);
 }
 
-.modal-header h3 {
+.item-library-modal .modal-header h3 {
   margin: 0;
   color: var(--pf-text-primary);
   font-family: var(--pf-font-display);

@@ -1817,6 +1817,67 @@
   background: linear-gradient(180deg, #c0392b, #922b21, #c0392b);
 }
 
+/* Party Member Card - Enhanced parchment theme */
+.user-card.party-member-card {
+  background: linear-gradient(135deg,
+      rgba(248, 244, 230, 0.9) 0%,
+      rgba(240, 230, 210, 0.8) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-card.party-member-card:hover {
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(248, 244, 230, 0.85) 100%);
+  border-color: rgba(139, 69, 19, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 5px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.user-card.party-member-card.current-player {
+  background: linear-gradient(135deg,
+      rgba(139, 69, 19, 0.12) 0%,
+      rgba(160, 140, 112, 0.15) 100%);
+  border-color: rgba(139, 69, 19, 0.35);
+}
+
+.user-card.party-member-card.current-player::before {
+  background: linear-gradient(180deg, #8b4513, #6b3410, #8b4513);
+  opacity: 0.8;
+}
+
+/* Friend Card */
+.user-card.friend-card {
+  opacity: 0.98;
+}
+
+.user-card.friend-card:hover {
+  background: linear-gradient(135deg, #fffcf5 0%, #f5efe0 100%);
+}
+
+/* Ignored Card */
+.user-card.ignored-card {
+  background: linear-gradient(135deg, #f8f0f0 0%, #f5f0f0 100%);
+  border-left: 3px solid #c0392b;
+  opacity: 0.75;
+}
+
+.user-card.ignored-card::before {
+  background: linear-gradient(180deg, #c0392b, #922b21, #c0392b);
+}
+
+.user-card.ignored-card:hover {
+  background: linear-gradient(135deg, #fff5f5 0%, #fef8f8 100%);
+  opacity: 0.9;
+}
+
 /* Header Row */
 .user-card-header {
   display: flex;
@@ -2029,6 +2090,32 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+/* Friend and Ignored Note Display */
+.friend-note-display,
+.ignored-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  padding: 4px 8px;
+  background: rgba(139, 111, 71, 0.12);
+  border-left: 2px solid #8b6f47;
+  border-radius: 3px;
+}
+
+.friend-note-display i,
+.ignored-note i {
+  font-size: 10px;
+  color: #8b6f47;
+}
+
+.friend-note-display span,
+.ignored-note span {
+  font-size: 11px;
+  color: #4a3d2e;
+  font-style: italic;
 }
 
 /* Remove friend button */

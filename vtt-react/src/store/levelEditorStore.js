@@ -227,6 +227,7 @@ const mapUpdateBatcher = {
                 if (!window._isReceivingMapUpdate) {
                     const sequence = ++batchSequenceNumber;
                     const emitData = {
+                        roomId: gameStore.multiplayerRoom?.id, // CRITICAL: Include roomId for server validation
                         mapUpdates: updates,
                         targetMapId: finalTargetMapId, // CRITICAL: This MUST be present
                         sequence: sequence
@@ -242,6 +243,7 @@ const mapUpdateBatcher = {
                         console.log(`🌐 [Batcher] Emitting ${Object.keys(updates).join(', ')} to map: ${emitData.targetMapId} (Captured: ${targetMapId}, Store: ${mapStoreMapId})`);
                         // Explicitly log the packet structure to verify presence of targetMapId
                         console.log('📤 [Batcher] Packet Structure:', {
+                            roomId: emitData.roomId,
                             hasUpdates: !!emitData.mapUpdates,
                             targetMapId: emitData.targetMapId,
                             sequence: emitData.sequence
@@ -778,6 +780,23 @@ export const TOOL_TYPES = {
     FOG_CLEAR: 'fog-clear' // New fog clearing tool - GM only
 };
 
+// Ray casting algorithm for point-in-polygon check (for polygon-based explored areas)
+const pointInPolygon = (point, polygon) => {
+    if (!polygon || polygon.length < 3) return false;
+
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const xi = polygon[i].x, yi = polygon[i].y;
+        const xj = polygon[j].x, yj = polygon[j].y;
+
+        if (((yi > point.y) !== (yj > point.y)) &&
+            (point.x < (xj - xi) * (point.y - yi) / (yj - yi) + xi)) {
+            inside = !inside;
+        }
+    }
+    return inside;
+};
+
 const initialState = {
     // Editor state
     isEditorMode: false,
@@ -868,6 +887,11 @@ const initialState = {
     memorySnapshots: {}, // { "x,y": { terrain, walls, objects, dndElements, timestamp } } - Snapshots of what was visible when last seen
     tokenAfterimages: {}, // { tokenId: { position: {x, y}, data: tokenData, lastSeenTimestamp } } - Afterimages of tokens that moved out of view
     afterimageEnabled: true, // Enable/disable afterimage system
+
+    // Per-player memory system - Each player has individual exploration memories
+    // Structure: { [playerId]: { exploredAreas, exploredCircles, exploredPolygons, tokenAfterimages, memorySnapshots } }
+    playerMemories: {},
+    currentPlayerId: null, // Set when player joins room (Firebase UID or socket ID)
 
     // Dynamic fog settings
     dynamicFogEnabled: true,
@@ -1857,12 +1881,12 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     // Token vision management
-    setTokenVision: (tokenId, range, type = 'normal') => {
+    setTokenVision: (tokenId, range, type = 'normal', isManual = false) => {
         const state = get();
         set({
             tokenVisionRanges: {
                 ...state.tokenVisionRanges,
-                [tokenId]: { range, type }
+                [tokenId]: { range, type, manuallySet: isManual }
             }
         });
     },
@@ -3097,9 +3121,318 @@ const useLevelEditorStore = create((set, get) => ({
         }
     },
 
+    // ==================== PER-PLAYER MEMORY SYSTEM ====================
+    // Each player has individual exploration memories that persist across sessions
+    // Memories are keyed by player ID (Firebase UID or socket ID)
+
+    // Set current player ID for memory operations
+    setCurrentPlayerId: (playerId) => set({ currentPlayerId: playerId }),
+
+    // Get current player's memories (with fallback to empty)
+    getPlayerMemories: () => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return null;
+        return state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+    },
+
+    // Set entire player memories object (for loading from persistence)
+    setPlayerMemories: (playerMemories) => set({ playerMemories }),
+
+    // Update specific player's memory
+    updatePlayerMemory: (playerId, memoryData) => {
+        const state = get();
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...(state.playerMemories[playerId] || {
+                        exploredAreas: {},
+                        exploredCircles: [],
+                        exploredPolygons: [],
+                        memorySnapshots: {},
+                        tokenAfterimages: {}
+                    }),
+                    ...memoryData
+                }
+            }
+        });
+    },
+
+    // Set explored area for current player
+    setPlayerExploredArea: (x, y, explored = true) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const key = `${x},${y}`;
+        const currentMemories = state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+
+        let newExploredAreas;
+        if (explored) {
+            newExploredAreas = { ...currentMemories.exploredAreas, [key]: true };
+        } else {
+            newExploredAreas = { ...currentMemories.exploredAreas };
+            delete newExploredAreas[key];
+        }
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    exploredAreas: newExploredAreas
+                }
+            }
+        });
+    },
+
+    // Add explored circle for current player (world coordinates)
+    addPlayerExploredCircle: (worldX, worldY, radius) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const currentMemories = state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    exploredCircles: [
+                        ...currentMemories.exploredCircles,
+                        { x: worldX, y: worldY, radius, timestamp: Date.now() }
+                    ]
+                }
+            }
+        });
+    },
+
+    // Add explored polygon for current player (visibility polygon)
+    addPlayerExploredPolygon: (polygon) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        if (!polygon || polygon.length < 3) return;
+
+        const currentMemories = state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+
+        const existingCount = currentMemories.exploredPolygons.length;
+
+        // PERFORMANCE: Limit the number of polygons to prevent memory bloat
+        // Keep only the last 200 polygons (covers significant exploration history)
+        let polygonsToKeep = currentMemories.exploredPolygons;
+        if (existingCount > 200) {
+            polygonsToKeep = currentMemories.exploredPolygons.slice(-200);
+        }
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    exploredPolygons: [
+                        ...polygonsToKeep,
+                        { points: polygon, timestamp: Date.now() }
+                    ]
+                }
+            }
+        });
+    },
+
+    // Create memory snapshot for current player at tile position
+    createPlayerMemorySnapshot: (x, y, snapshotData) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const key = `${x},${y}`;
+        const currentMemories = state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    memorySnapshots: {
+                        ...currentMemories.memorySnapshots,
+                        [key]: {
+                            ...snapshotData,
+                            timestamp: Date.now()
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    // Update token afterimage for current player
+    updatePlayerTokenAfterimage: (tokenId, tokenData, position) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const currentMemories = state.playerMemories[playerId] || {
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {}
+        };
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    tokenAfterimages: {
+                        ...currentMemories.tokenAfterimages,
+                        [tokenId]: {
+                            position,
+                            data: tokenData,
+                            lastSeenTimestamp: Date.now()
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    // Remove token afterimage for current player
+    removePlayerTokenAfterimage: (tokenId) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const currentMemories = state.playerMemories[playerId];
+        if (!currentMemories || !currentMemories.tokenAfterimages[tokenId]) return;
+
+        const newAfterimages = { ...currentMemories.tokenAfterimages };
+        delete newAfterimages[tokenId];
+
+        set({
+            playerMemories: {
+                ...state.playerMemories,
+                [playerId]: {
+                    ...currentMemories,
+                    tokenAfterimages: newAfterimages
+                }
+            }
+        });
+    },
+
+    // Check if position is explored for current player
+    isPlayerPositionExplored: (worldX, worldY) => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return false;
+
+        const memories = state.playerMemories[playerId];
+        if (!memories) return false;
+
+        // Get grid settings from gameStore for coordinate conversion
+        let gridSize = 50, gridOffsetX = 0, gridOffsetY = 0;
+        try {
+            const gameStore = require('./gameStore').default.getState();
+            gridSize = gameStore.gridSize || 50;
+            gridOffsetX = gameStore.gridOffsetX || 0;
+            gridOffsetY = gameStore.gridOffsetY || 0;
+        } catch (e) {
+            // Use defaults if gameStore unavailable
+        }
+
+        // Check tile-based explored areas
+        const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
+        const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
+        const tileKey = `${gridX},${gridY}`;
+        if (memories.exploredAreas && memories.exploredAreas[tileKey]) return true;
+
+        // Check circle-based explored areas
+        const circles = memories.exploredCircles || [];
+        for (const circle of circles) {
+            const dx = worldX - circle.x;
+            const dy = worldY - circle.y;
+            if (Math.sqrt(dx * dx + dy * dy) <= circle.radius) return true;
+        }
+
+        // Check polygon-based explored areas
+        const polygons = memories.exploredPolygons || [];
+        for (const polygon of polygons) {
+            if (pointInPolygon({ x: worldX, y: worldY }, polygon.points)) return true;
+        }
+
+        return false;
+    },
+
+    // Get current player's token afterimages
+    getPlayerTokenAfterimages: () => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return {};
+        return state.playerMemories[playerId]?.tokenAfterimages || {};
+    },
+
+    // Get current player's memory snapshots
+    getPlayerMemorySnapshots: () => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return {};
+        return state.playerMemories[playerId]?.memorySnapshots || {};
+    },
+
+    // Clear memories for current player (for room leave)
+    clearCurrentPlayerMemories: () => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+        if (!playerId) return;
+
+        const newPlayerMemories = { ...state.playerMemories };
+        delete newPlayerMemories[playerId];
+        set({ playerMemories: newPlayerMemories });
+    },
+
     // Reset store to initial state
+    // CRITICAL FIX: Preserve playerMemories and currentPlayerId to maintain exploration progress
     resetStore: () => {
-        set({ ...initialState });
+        const state = get();
+        set({
+            ...initialState,
+            // Preserve player-specific memory data
+            playerMemories: state.playerMemories,
+            currentPlayerId: state.currentPlayerId
+        });
     }
 }));
 

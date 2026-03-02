@@ -23,8 +23,37 @@ const useCharacterTokenStore = create(
       // Character tokens on the grid
       characterTokens: [],
 
+      // Helper to ensure position objects always have x and y
+      normalizePosition: (pos, fallback = { x: 0, y: 0 }) => {
+        if (!pos) return { x: fallback.x ?? 0, y: fallback.y ?? 0 };
+
+        // Handle array format [x, y]
+        if (Array.isArray(pos)) {
+          return { x: pos[0] ?? fallback.x ?? 0, y: pos[1] ?? fallback.y ?? 0 };
+        }
+
+        // Handle object format - look for x/y in various common places
+        const x = pos.x ?? pos.left ?? (pos.position ? pos.position.x : undefined);
+        const y = pos.y ?? pos.top ?? (pos.position ? pos.position.y : undefined);
+
+        // If we have both, return them. Otherwise, try to derive from gridPosition if available.
+        if (x !== undefined && y !== undefined) {
+          return { x, y, gridPosition: pos.gridPosition || fallback.gridPosition };
+        }
+
+        // Fallback to existing coordinates if available, otherwise 0
+        return {
+          x: x ?? fallback.x ?? 0,
+          y: y ?? fallback.y ?? 0,
+          gridPosition: pos.gridPosition || fallback.gridPosition
+        };
+      },
+
       // Add a character token to the grid
       addCharacterToken: (position, playerId = null, targetMapId = null, sendToServer = true) => {
+        // Robust position extraction
+        const finalPosition = get().normalizePosition(position);
+
         let tokenId = null;
         let isNewToken = false;
 
@@ -76,7 +105,7 @@ const useCharacterTokenStore = create(
             id: uuidv4(),
             isPlayerToken: !playerId,
             playerId: playerId,
-            position,
+            position: finalPosition,
             mapId: resolvedMapId,
             createdAt: Date.now(),
             state: {
@@ -117,19 +146,19 @@ const useCharacterTokenStore = create(
           });
         }
 
-          // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
-          Promise.all([
-            import('../store/gameStore'),
-            import('../store/levelEditorStore'),
-            import('../store/partyStore')
-          ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }, { default: usePartyStore }]) => {
-            const gameStore = useGameStore.getState();
-            const levelEditorStore = useLevelEditorStore.getState();
-            const partyStore = usePartyStore.getState();
+        // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+        Promise.all([
+          import('../store/gameStore'),
+          import('../store/levelEditorStore'),
+          import('../store/partyStore')
+        ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }, { default: usePartyStore }]) => {
+          const gameStore = useGameStore.getState();
+          const levelEditorStore = useLevelEditorStore.getState();
+          const partyStore = usePartyStore.getState();
 
-            // CRITICAL FIX: Use isPartyLeader() function instead of direct comparison
-            // This properly handles all leader identification methods (Firebase UID, socket ID, etc.)
-            const isLeader = partyStore.isPartyLeader();
+          // CRITICAL FIX: Use isPartyLeader() function instead of direct comparison
+          // This properly handles all leader identification methods (Firebase UID, socket ID, etc.)
+          const isLeader = partyStore.isPartyLeader();
 
           if (!isLeader) {
             console.log('👤 Player placed token, switching to player mode');
@@ -145,7 +174,17 @@ const useCharacterTokenStore = create(
               id: tokenId,
               type: 'character',
               characterId: playerId || 'local_player',
-              position: position
+              position: finalPosition
+            });
+          } else if (levelEditorStore.dynamicFogEnabled && !gameStore.isGMMode) {
+            // CRITICAL FIX: Enable viewingFromToken for players when dynamic fog is enabled
+            // This ensures the afterimage/memory system works for players
+            console.log('👁️ [Afterimage] Auto-enabling viewingFromToken for player (dynamic fog enabled)');
+            levelEditorStore.setViewingFromToken({
+              id: tokenId,
+              type: 'character',
+              characterId: playerId || 'local_player',
+              position: finalPosition
             });
           } else if (isNewToken) {
             levelEditorStore.setViewingFromToken(null);
@@ -161,11 +200,22 @@ const useCharacterTokenStore = create(
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
               // Get the token we just created to include its mapId
               const token = get().characterTokens.find(t => t.id === tokenId);
+              const mapId = token?.mapId || 'default';
+
               gameStore.multiplayerSocket.emit('character_token_created', {
+                roomId: gameStore.multiplayerRoom?.id,
                 playerId: playerId || 'local_player',
                 tokenId: tokenId,
-                position: position,
-                targetMapId: token?.mapId || 'default' // CRITICAL: Include mapId for proper isolation
+                token: {
+                  id: tokenId,
+                  playerId: playerId || 'local_player',
+                  position: finalPosition,
+                  mapId: mapId,
+                  createdAt: Date.now()
+                },
+                position: finalPosition,
+                mapId: mapId,
+                targetMapId: mapId
               });
               console.log('📤 Character token placement synced to server:', tokenId, 'on map:', token?.mapId);
             }
@@ -182,53 +232,44 @@ const useCharacterTokenStore = create(
           token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
         );
 
-        const targetPos = position?.x !== undefined ? position : position;
+        if (!existingToken) return state;
+
+        // CRITICAL: Normalize target position to ensure x/y exist
+        const targetPos = get().normalizePosition(position, existingToken.position);
         const isSyncEvent = !!position?.isSyncEvent;
         const now = Date.now();
         const recentMoveKey = `token_${playerIdOrTokenId}`;
 
-        // Ensure global tracking Map exists
-        if (!window.recentTokenMovements) {
-          window.recentTokenMovements = new Map();
-        }
+        if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
         const recentTokenMovements = window.recentTokenMovements;
         const recentMove = recentTokenMovements.get(recentMoveKey);
 
-        // If this is a local movement (not from server), track it as authoritative for a short time
+        // If local movement, track it as authoritative
         if (!isSyncEvent) {
           recentTokenMovements.set(recentMoveKey, {
             tokenKey: playerIdOrTokenId,
-            position: { x: targetPos.x, y: targetPos.y },
+            position: targetPos,
             timestamp: now,
             isLocal: true
           });
         }
 
-        // If we recently moved this token locally, ignore any server updates for it for a short grace period
+        // If we recently moved this token locally, ignore any server updates
         if (isSyncEvent && recentMove && recentMove.isLocal && (now - recentMove.timestamp) < ECHO_PREVENTION_WINDOW_MS) {
           const isSamePosition =
             Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
             Math.round(recentMove.position.y) === Math.round(targetPos.y);
 
-          if (isSamePosition) {
-            return state;
-          }
-
-          // Local movement is still authoritative
-          console.log(`🚫 Ignoring conflicting server movement for ${playerIdOrTokenId} - local movement is authoritative`);
+          if (isSamePosition) return state;
           return state;
         }
 
-        // Clean position object for store storage
-        const finalPos = { x: targetPos.x, y: targetPos.y };
-
         const updatedTokens = state.characterTokens.map(token =>
           token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
-            ? { ...token, position: finalPos }
+            ? { ...token, position: targetPos }
             : token
         );
 
-        console.log(`🔷 Character token ${playerIdOrTokenId} moved to`, finalPos);
         return { characterTokens: updatedTokens };
       }),
 
@@ -254,6 +295,7 @@ const useCharacterTokenStore = create(
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
               gameStore.multiplayerSocket.emit('character_token_updated', {
+                roomId: gameStore.multiplayerRoom?.id,
                 tokenId,
                 stateUpdates
               });
@@ -328,6 +370,9 @@ const useCharacterTokenStore = create(
         // Find character token to update
         const existingToken = state.characterTokens.find(token => token.id === tokenId);
 
+        // CRITICAL: Normalize position to ensure x/y exist
+        const targetPos = get().normalizePosition(position, existingToken?.position);
+
         // Standardized tracking key
         const recentMoveKey = `token_${tokenId}`;
         const now = Date.now();
@@ -346,14 +391,14 @@ const useCharacterTokenStore = create(
         // Track this movement to prevent future echoes
         recentTokenMovements.set(recentMoveKey, {
           tokenKey: tokenId,
-          position,
+          position: targetPos,
           timestamp: now
         });
 
         // Update existing token or create new one with mapId for proper isolation
         const updatedTokens = existingToken
           ? state.characterTokens.map(token =>
-            token.id === tokenId ? { ...token, position, mapId: mapId || token.mapId } : token
+            token.id === tokenId ? { ...token, position: targetPos, mapId: mapId || token.mapId } : token
           )
           : [
             ...state.characterTokens,
@@ -361,7 +406,7 @@ const useCharacterTokenStore = create(
               id: tokenId,
               isPlayerToken: false, // FIXED: Server tokens are NOT local player's token
               playerId: playerId,
-              position,
+              position: targetPos,
               mapId: mapId || 'default', // CRITICAL: Include mapId for proper isolation
               createdAt: Date.now(),
               // CRITICAL: Initialize state for consistency with creature tokens

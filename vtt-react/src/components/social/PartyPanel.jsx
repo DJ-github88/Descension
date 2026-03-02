@@ -12,13 +12,13 @@ import useSettingsStore from '../../store/settingsStore';
 import '../../styles/social-window.css';
 
 const PartyPanel = ({ onCreateParty, onContextMenu }) => {
-  const { partyMembers, partyChatMessages, getCurrentPartyId, leaderId } = usePartyStore();
+  const { partyMembers, partyChatMessages, currentParty, leaderId } = usePartyStore();
   const currentUserPresence = usePresenceStore(state => state.currentUserPresence);
 
   const messagesEndRef = useRef(null);
   const windowScale = useSettingsStore(state => state.windowScale);
 
-  if (!getCurrentPartyId()) {
+  if (!currentParty?.id) {
     return (
       <div className="party-panel-empty">
         <div className="party-panel-empty-icon">

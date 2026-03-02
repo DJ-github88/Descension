@@ -385,8 +385,9 @@ const useCharacterStore = create((set, get) => ({
         if (state.race && state.subrace) {
             const raceData = getFullRaceData(state.race, state.subrace);
             if (raceData) {
-                // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
-                set({ raceDisplayName: `${raceData.subrace.name} (${raceData.race.name})` });
+                // Standard format: "Subrace Race" e.g. "Berserker Nordmark"
+                // This matches what most users expect for a display name
+                set({ raceDisplayName: `${raceData.subrace.name} ${raceData.race.name}` });
             }
         } else if (state.race) {
             // If only race is selected, use the race's proper name
@@ -413,9 +414,31 @@ const useCharacterStore = create((set, get) => ({
             // CRITICAL: Use socket.id as the playerId so receiving clients can identify which party member to update
             const socketId = gameStore.multiplayerSocket.id;
             const serverPlayerId = gameStore.currentPlayer?.id; // Server-assigned UUID
-            const characterId = state.currentCharacterId || state.id || 'player-character';
+            const characterId = state.currentCharacterId || state.id || userId || 'player-character';
+            const roomId = gameStore.multiplayerRoom?.id;
+
+            if (!roomId) {
+                console.warn('⚠️ syncWithMultiplayer: No roomId available. Sync aborted.', {
+                    socketId: socketId,
+                    userId: userId,
+                    gameIsInMultiplayer: gameStore.isInMultiplayer,
+                    hasSocket: !!gameStore.multiplayerSocket
+                });
+                return;
+            }
+
+            console.log('📤 Syncing character with multiplayer:', {
+                characterId: characterId,
+                name: state.name,
+                class: state.class,
+                race: state.race,
+                subrace: state.subrace,
+                userId: userId,
+                roomId: roomId
+            });
 
             gameStore.multiplayerSocket.emit('character_updated', {
+                roomId: roomId,
                 characterId,
                 character: {
                     playerId: socketId, // CRITICAL: Socket.io ID for socket-based lookups
@@ -434,9 +457,9 @@ const useCharacterStore = create((set, get) => ({
                     health: state.health,
                     mana: state.mana,
                     actionPoints: state.actionPoints,
-                    tempHealth: state.tempHealth,
-                    tempMana: state.tempMana,
-                    tempActionPoints: state.tempActionPoints,
+                    tempHealth: state.tempHealth || 0,
+                    tempMana: state.tempMana || 0,
+                    tempActionPoints: state.tempActionPoints || 0,
                     classResource: state.classResource,
                     equipment: state.equipment,
                     resistances: state.resistances,
@@ -451,7 +474,9 @@ const useCharacterStore = create((set, get) => ({
                     background: state.background,
                     backgroundDisplayName: state.backgroundDisplayName
                 },
-                userId: userId // Also at top level for convenience
+                senderSocketId: socketId,
+                userId: userId, // Also at top level for convenience
+                syncSource: 'characterStore'
             });
         }
     },
@@ -462,6 +487,7 @@ const useCharacterStore = create((set, get) => ({
     syncResourcesWithMultiplayer: (deltas) => {
         const state = get();
         const gameStore = useGameStore.getState();
+        const stableUserId = getCurrentUserId();
 
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
             const socketId = gameStore.multiplayerSocket.id;
@@ -478,10 +504,12 @@ const useCharacterStore = create((set, get) => ({
             if (deltas && Object.keys(deltas).length > 0) {
                 Object.entries(deltas).forEach(([resourceType, delta]) => {
                     const resourceData = state[resourceType] || { current: 0, max: 0 };
-                    
-                    gameStore.multiplayerSocket.emit('character_resource_updated', {
+
+                    const eventData = {
                         roomId: roomId,
                         playerId: serverPlayerId || socketId,
+                        userId: stableUserId, // CRITICAL: Use stable Firebase UID for reliable identification
+                        socketId: socketId,
                         playerName: state.name,
                         resource: resourceType,
                         current: resourceData.current,
@@ -491,7 +519,14 @@ const useCharacterStore = create((set, get) => ({
                         senderSocketId: socketId,
                         characterId: state.currentCharacterId || state.id,
                         timestamp: Date.now()
-                    });
+                    };
+
+                    // CRITICAL: For classResource, send the full object to preserve stacks, charges, etc.
+                    if (resourceType === 'classResource') {
+                        eventData.classResource = state.classResource;
+                    }
+
+                    gameStore.multiplayerSocket.emit('character_resource_updated', eventData);
                 });
             }
         }
@@ -1672,13 +1707,21 @@ const useCharacterStore = create((set, get) => ({
         get().syncWithMultiplayer();
     },
 
-    updateResource: (resource, current, max) => {
+    updateResource: (resource, current, max, temp, skipSync = false, skipSave = false) => {
         set(state => {
             const oldResource = state[resource] || { current: 0, max: 0 };
             const newResource = {
                 current: current !== undefined ? Math.min(max || oldResource.max, Math.max(0, current)) : oldResource.current,
                 max: max !== undefined ? Math.max(0, max) : oldResource.max
             };
+
+            const tempField = `temp${resource.charAt(0).toUpperCase() + resource.slice(1)}`;
+            const updates = { [resource]: newResource };
+
+            // Handle optional temp resource update
+            if (temp !== undefined) {
+                updates[tempField] = Math.max(0, temp);
+            }
 
             // If health changed, recalculate derived stats to apply conditional passives (like Battle Fury)
             let newDerivedStats = state.derivedStats;
@@ -1708,10 +1751,11 @@ const useCharacterStore = create((set, get) => ({
 
                 const encumbranceState = getEncumbranceState();
                 newDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, newResource, state.race, state.subrace);
+                updates.derivedStats = newDerivedStats;
             }
 
             // CRITICAL FIX: Debounced auto-save to Firebase/Multiplayer for resource changes
-            if (state.currentCharacterId) {
+            if (state.currentCharacterId && !skipSave) {
                 if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
                 characterAutoSaveTimer = setTimeout(() => {
                     try {
@@ -1723,40 +1767,38 @@ const useCharacterStore = create((set, get) => ({
             }
 
             // MULTIPLAYER SYNC: Broadcast resource changes to other players
-            const delta = {};
-            if (current !== undefined) delta[resource] = current - oldResource.current;
+            if (!skipSync) {
+                const delta = {};
+                if (current !== undefined) delta[resource] = current - oldResource.current;
+                else if (temp !== undefined) delta[resource] = 0; // Trigger sync if only temp changed
 
-            get().syncResourcesWithMultiplayer(delta);
+                setTimeout(() => get().syncResourcesWithMultiplayer(delta), 0);
+            }
 
-            return {
-                [resource]: newResource,
-                ...(resource === 'health' ? { derivedStats: newDerivedStats } : {})
-            };
+            return updates;
         });
     },
 
     // Temporary resource management
-    updateTempResource: (resourceType, amount) => {
+    updateTempResource: (resourceType, amount, skipSync = false, skipSave = false) => {
         set(state => {
             const tempField = `temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`;
             const newAmount = Math.max(0, amount);
 
             // MULTIPLAYER SYNC
-            try {
-                const useGameStore = require('./gameStore').default;
-                const gameState = useGameStore.getState();
-                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
-                    const resourceData = state[resourceType] || { current: 0, max: 0 };
-                    gameState.multiplayerSocket.emit('character_resource_updated', {
-                        resource: resourceType,
-                        current: resourceData.current,
-                        max: resourceData.max,
-                        temp: newAmount,
-                        timestamp: Date.now()
-                    });
-                }
-            } catch (e) {
-                console.warn('Failed to sync temp resource:', e);
+            if (!skipSync) {
+                setTimeout(() => {
+                    // Use the unified sync logic for temp resources
+                    get().syncResourcesWithMultiplayer({ [resourceType]: 0 });
+                }, 0);
+            }
+
+            // AUTO-SAVE
+            if (state.currentCharacterId && !skipSave) {
+                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
+                characterAutoSaveTimer = setTimeout(() => {
+                    get().saveCurrentCharacter();
+                }, CHARACTER_AUTO_SAVE_DELAY);
             }
 
             return { [tempField]: newAmount };
@@ -1764,7 +1806,7 @@ const useCharacterStore = create((set, get) => ({
     },
 
     // Class resource management functions
-    updateClassResource: (field, value) => {
+    updateClassResource: (field, value, skipSync = false, skipSave = false) => {
         set(state => {
             if (!state.classResource) return state;
 
@@ -1775,7 +1817,7 @@ const useCharacterStore = create((set, get) => ({
             };
 
             // CRITICAL FIX: Debounced auto-save for class resource changes
-            if (state.currentCharacterId) {
+            if (state.currentCharacterId && !skipSave) {
                 if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
                 characterAutoSaveTimer = setTimeout(() => {
                     try {
@@ -1786,13 +1828,18 @@ const useCharacterStore = create((set, get) => ({
                 }, CHARACTER_AUTO_SAVE_DELAY);
             }
 
+            // Sync with multiplayer (de-prioritized or separate event)
+            if (!skipSync) {
+                setTimeout(() => {
+                    // Trigger sync for class resource specifically
+                    get().syncResourcesWithMultiplayer({ classResource: 0 });
+                }, 0);
+            }
+
             return {
                 classResource: updatedResource
             };
         });
-
-        // Sync with multiplayer
-        get().syncWithMultiplayer();
     },
 
     // Consume class resource (spend points/charges/etc.)
@@ -3767,6 +3814,9 @@ const useCharacterStore = create((set, get) => ({
 
             return { experience: newExperience };
         });
+
+        get().debouncedSave();
+        get().syncWithMultiplayer();
     },
 
     // Award experience (adds to current XP, can be negative to remove XP)
@@ -3976,10 +4026,9 @@ const useCharacterStore = create((set, get) => ({
             });
         }
 
-        // Save character after level adjustment
-        setTimeout(() => {
-            get().saveCurrentCharacter();
-        }, 100); // Small delay to ensure state is updated
+        // Save and sync character after level adjustment
+        get().debouncedSave();
+        get().syncWithMultiplayer();
     },
 
     updateLevel: (newLevel) => {

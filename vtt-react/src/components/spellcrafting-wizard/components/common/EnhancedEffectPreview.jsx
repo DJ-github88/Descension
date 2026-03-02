@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles/effect-preview.css';
 import { getIconUrl } from '../../utils/iconUtils';
 import { getCreatureTokenIconUrl, getIconUrl as getAbilityIconUrl } from '../../../../utils/assetManager';
+import { formatEffectComponent } from './SpellCardUtils';
 
 // Helper function to get effect icons
 const getEffectIconUrl = (effectType) => {
@@ -179,7 +180,7 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
       const elementType = settings?.elementType || 'Fire';
       const damageType = settings?.damageType === 'dot' ? 'DoT' :
         (settings?.damageType?.charAt(0).toUpperCase() + settings?.damageType?.slice(1) ||
-        (subType === 'dot' ? 'DoT' : 'Direct'));
+          (subType === 'dot' ? 'DoT' : 'Direct'));
 
       return (
         <>
@@ -270,7 +271,7 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
     <div className="effect-preview-conditional-item">
       <div className="effect-preview-conditional-header">
         <div className="effect-preview-conditional-icon"
-             style={{ backgroundImage: `url(${getEffectIconUrl(effectType)})` }}></div>
+          style={{ backgroundImage: `url(${getEffectIconUrl(effectType)})` }}></div>
         <div className="effect-preview-conditional-title">{triggerName}</div>
       </div>
 
@@ -337,12 +338,11 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
           <PropertyDisplay
             icon="property-icon-save"
             label="Save"
-            value={`DC ${settings.difficultyClass} (${
-              settings.savingThrow === 'agility' ? 'Agility' :
-              settings.savingThrow === 'spirit' ? 'Spirit' :
-              settings.savingThrow ? settings.savingThrow.charAt(0).toUpperCase() + settings.savingThrow.slice(1) :
-              'Constitution'
-            })`}
+            value={`DC ${settings.difficultyClass} (${settings.savingThrow === 'agility' ? 'Agility' :
+                settings.savingThrow === 'spirit' ? 'Spirit' :
+                  settings.savingThrow ? settings.savingThrow.charAt(0).toUpperCase() + settings.savingThrow.slice(1) :
+                    'Constitution'
+              })`}
           />
         )}
 
@@ -378,43 +378,43 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
 
         {/* Progressive Stages for restoration effects */}
         {baseType === 'restoration' && settings?.isProgressiveOverTime &&
-         settings?.overTimeProgressiveStages && settings.overTimeProgressiveStages.length > 0 && (
-          <div style={{ width: '100%', marginTop: '8px' }}>
-            <div className="effect-preview-property" style={{ width: '100%' }}>
-              <div className="effect-preview-property-icon property-icon-duration"></div>
-              <div className="effect-preview-property-label">Progressive Stages:</div>
-              <div className="effect-preview-property-value">
-                {settings.overTimeProgressiveStages.map((stage, index) => (
-                  <div key={index}>
-                    Stage {index + 1}: Triggers at {stage.triggerAt || 0} {settings.tickFrequency || 'rounds'}
-                  </div>
-                ))}
+          settings?.overTimeProgressiveStages && settings.overTimeProgressiveStages.length > 0 && (
+            <div style={{ width: '100%', marginTop: '8px' }}>
+              <div className="effect-preview-property" style={{ width: '100%' }}>
+                <div className="effect-preview-property-icon property-icon-duration"></div>
+                <div className="effect-preview-property-label">Progressive Stages:</div>
+                <div className="effect-preview-property-value">
+                  {settings.overTimeProgressiveStages.map((stage, index) => (
+                    <div key={index}>
+                      Stage {index + 1}: Triggers at {stage.triggerAt || 0} {settings.tickFrequency || 'rounds'}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
 
       {/* Stat Modifiers/Penalties */}
       {((settings?.statModifiers && settings.statModifiers.length > 0) ||
         (settings?.statPenalties && settings.statPenalties.length > 0)) && (
-        <div className="effect-preview-conditional-content" style={{ marginTop: '8px' }}>
-          {settings?.statModifiers && settings.statModifiers.map((stat, index) => (
-            <StatDisplay key={index} stat={stat} isDebuff={false} />
-          ))}
-          {settings?.statPenalties && settings.statPenalties.map((stat, index) => (
-            <StatDisplay key={index} stat={stat} isDebuff={true} />
-          ))}
-        </div>
-      )}
+          <div className="effect-preview-conditional-content" style={{ marginTop: '8px' }}>
+            {settings?.statModifiers && settings.statModifiers.map((stat, index) => (
+              <StatDisplay key={index} stat={stat} isDebuff={false} />
+            ))}
+            {settings?.statPenalties && settings.statPenalties.map((stat, index) => (
+              <StatDisplay key={index} stat={stat} isDebuff={true} />
+            ))}
+          </div>
+        )}
 
       {/* Empty state */}
       {!getDurationDisplay() && !settings?.difficultyClass && !settings?.savingThrow &&
-       !settings?.controlType && !formulas && !getDamageTypeDisplay() && !getResourceTypeDisplay() &&
-       (!settings?.statModifiers || settings.statModifiers.length === 0) &&
-       (!settings?.statPenalties || settings.statPenalties.length === 0) && (
-        <div className="effect-preview-empty">No conditional settings configured</div>
-      )}
+        !settings?.controlType && !formulas && !getDamageTypeDisplay() && !getResourceTypeDisplay() &&
+        (!settings?.statModifiers || settings.statModifiers.length === 0) &&
+        (!settings?.statPenalties || settings.statPenalties.length === 0) && (
+          <div className="effect-preview-empty">No conditional settings configured</div>
+        )}
     </div>
   );
 };
@@ -435,7 +435,7 @@ const EnhancedEffectPreview = ({
       const parts = effectType.split('_');
       const effectTypePart = parts[0];
       const subType = parts.slice(1).join(' ');
-      
+
       // Handle special sub-type formatting
       let formattedSubType = subType.toLowerCase();
       if (formattedSubType === 'hot') {
@@ -443,11 +443,11 @@ const EnhancedEffectPreview = ({
       } else if (formattedSubType === 'dot') {
         formattedSubType = 'DoT';
       } else {
-        formattedSubType = formattedSubType.split(' ').map(word => 
+        formattedSubType = formattedSubType.split(' ').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ');
       }
-      
+
       const formattedEffectType = effectTypePart.charAt(0).toUpperCase() + effectTypePart.slice(1);
       return `${formattedSubType} ${formattedEffectType}`;
     }
@@ -561,14 +561,14 @@ const EnhancedEffectPreview = ({
             {/* Healing effects */}
             {(selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && baseConfig && (() => {
               // Use formatEffectComponent for proper formatting - need to pass full spell context
-              const spell = { 
-                healingConfig: baseConfig, 
+              const spell = {
+                healingConfig: baseConfig,
                 resolution: state?.resolution || 'DICE',
                 cardConfig: state?.cardConfig || baseConfig.cardConfig,
                 coinConfig: state?.coinConfig || baseConfig.coinConfig
               };
               const formattedEffect = formatEffectComponent(spell, 'healing', selectedEffect);
-              
+
               if (formattedEffect) {
                 return (
                   <PropertyDisplay
@@ -578,7 +578,7 @@ const EnhancedEffectPreview = ({
                   />
                 );
               }
-              
+
               // Fallback to detailed properties
               return (
                 <>
@@ -590,9 +590,9 @@ const EnhancedEffectPreview = ({
                   <PropertyDisplay
                     icon="effect-icon-healing"
                     label="Type"
-                    value={baseConfig.healingType === 'hot' ? 'HoT' : 
-                           baseConfig.healingType === 'shield' ? 'Shield' :
-                           baseConfig.healingType?.charAt(0).toUpperCase() + baseConfig.healingType?.slice(1) || 'Direct'}
+                    value={baseConfig.healingType === 'hot' ? 'HoT' :
+                      baseConfig.healingType === 'shield' ? 'Shield' :
+                        baseConfig.healingType?.charAt(0).toUpperCase() + baseConfig.healingType?.slice(1) || 'Direct'}
                   />
                   {selectedEffect === 'healing_hot' && (
                     <PropertyDisplay
@@ -669,12 +669,11 @@ const EnhancedEffectPreview = ({
                 <PropertyDisplay
                   icon="property-icon-save"
                   label="Save"
-                  value={`DC ${baseConfig.difficultyClass || '15'} (${
-                    baseConfig.savingThrow === 'agility' ? 'Agility' :
-                    baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
-                    baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
-                    'Constitution'
-                  })`}
+                  value={`DC ${baseConfig.difficultyClass || '15'} (${baseConfig.savingThrow === 'agility' ? 'Agility' :
+                      baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
+                        baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
+                          'Constitution'
+                    })`}
                 />
 
                 {/* Control type for debuff_control */}
@@ -709,13 +708,13 @@ const EnhancedEffectPreview = ({
 
                 {/* Stat penalties */}
                 {(selectedEffect === 'debuff_stat' || selectedEffect === 'debuff') &&
-                 baseConfig.statPenalties && baseConfig.statPenalties.length > 0 && (
-                  <div style={{ width: '100%', marginTop: '8px' }}>
-                    {baseConfig.statPenalties.map((stat, index) => (
-                      <StatDisplay key={index} stat={stat} isDebuff={true} />
-                    ))}
-                  </div>
-                )}
+                  baseConfig.statPenalties && baseConfig.statPenalties.length > 0 && (
+                    <div style={{ width: '100%', marginTop: '8px' }}>
+                      {baseConfig.statPenalties.map((stat, index) => (
+                        <StatDisplay key={index} stat={stat} isDebuff={true} />
+                      ))}
+                    </div>
+                  )}
               </>
             )}
 
@@ -730,12 +729,11 @@ const EnhancedEffectPreview = ({
                 <PropertyDisplay
                   icon="property-icon-save"
                   label="Save"
-                  value={`DC ${baseConfig.difficultyClass || '15'} (${
-                    baseConfig.savingThrow === 'agility' ? 'Agility' :
-                    baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
-                    baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
-                    'Strength'
-                  })`}
+                  value={`DC ${baseConfig.difficultyClass || '15'} (${baseConfig.savingThrow === 'agility' ? 'Agility' :
+                      baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
+                        baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
+                          'Strength'
+                    })`}
                 />
                 <PropertyDisplay
                   icon="property-icon-control"
@@ -912,40 +910,40 @@ const EnhancedEffectPreview = ({
 
       {/* Trigger Information */}
       {effectTriggers[selectedEffect] &&
-       effectTriggers[selectedEffect].compoundTriggers &&
-       effectTriggers[selectedEffect].compoundTriggers.length > 0 && (
-        <div className="effect-preview-section">
-          <h5 className="effect-preview-subtitle trigger-conditions">
-            Trigger Conditions
-          </h5>
+        effectTriggers[selectedEffect].compoundTriggers &&
+        effectTriggers[selectedEffect].compoundTriggers.length > 0 && (
+          <div className="effect-preview-section">
+            <h5 className="effect-preview-subtitle trigger-conditions">
+              Trigger Conditions
+            </h5>
 
-          <p>
-            When {effectTriggers[selectedEffect].logicType === 'AND' ? 'all' : 'any'} of these conditions are met,
-            the {getEffectDisplayName(selectedEffect).toLowerCase()} effect will activate:
-          </p>
+            <p>
+              When {effectTriggers[selectedEffect].logicType === 'AND' ? 'all' : 'any'} of these conditions are met,
+              the {getEffectDisplayName(selectedEffect).toLowerCase()} effect will activate:
+            </p>
 
-          <div className="effect-preview-trigger-list">
-            {effectTriggers[selectedEffect].compoundTriggers.map((trigger, index) => (
-              <TriggerDisplay
-                key={index}
-                trigger={trigger}
-                resourceTypes={resourceTypes}
-              />
-            ))}
-          </div>
-
-          {effectTriggers[selectedEffect].targetingOverride && (
-            <div className="effect-preview-property" style={{ marginTop: '10px' }}>
-              <div className="effect-preview-property-icon effect-icon-utility"></div>
-              <div className="effect-preview-property-label">Targeting Override</div>
-              <div className="effect-preview-property-value">
-                {effectTriggers[selectedEffect].targetingOverride.charAt(0).toUpperCase() +
-                 effectTriggers[selectedEffect].targetingOverride.slice(1)}
-              </div>
+            <div className="effect-preview-trigger-list">
+              {effectTriggers[selectedEffect].compoundTriggers.map((trigger, index) => (
+                <TriggerDisplay
+                  key={index}
+                  trigger={trigger}
+                  resourceTypes={resourceTypes}
+                />
+              ))}
             </div>
-          )}
-        </div>
-      )}
+
+            {effectTriggers[selectedEffect].targetingOverride && (
+              <div className="effect-preview-property" style={{ marginTop: '10px' }}>
+                <div className="effect-preview-property-icon effect-icon-utility"></div>
+                <div className="effect-preview-property-label">Targeting Override</div>
+                <div className="effect-preview-property-value">
+                  {effectTriggers[selectedEffect].targetingOverride.charAt(0).toUpperCase() +
+                    effectTriggers[selectedEffect].targetingOverride.slice(1)}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
       {/* Conditional Effect Information */}
       {conditionalEffects[selectedEffect]?.isConditional && (
@@ -1118,9 +1116,9 @@ const EnhancedEffectPreview = ({
 
             {/* For other effect types */}
             {!selectedEffect?.startsWith('damage') && !selectedEffect?.startsWith('healing') &&
-             !selectedEffect?.startsWith('buff') && !selectedEffect?.startsWith('debuff') &&
-             !selectedEffect?.startsWith('control') &&
-             Object.entries(conditionalEffects[selectedEffect]?.conditionalFormulas || {}).map(([triggerId, formula], index) => {
+              !selectedEffect?.startsWith('buff') && !selectedEffect?.startsWith('debuff') &&
+              !selectedEffect?.startsWith('control') &&
+              Object.entries(conditionalEffects[selectedEffect]?.conditionalFormulas || {}).map(([triggerId, formula], index) => {
                 // Find the trigger name
                 let triggerName = 'Default';
                 if (triggerId !== 'default') {
@@ -1155,17 +1153,17 @@ const EnhancedEffectPreview = ({
 
             {/* Empty state */}
             {((selectedEffect === 'damage' || selectedEffect?.startsWith('damage_') ||
-               selectedEffect === 'healing' || selectedEffect?.startsWith('healing_') ||
-               selectedEffect === 'restoration' || selectedEffect?.startsWith('restoration_')) &&
+              selectedEffect === 'healing' || selectedEffect?.startsWith('healing_') ||
+              selectedEffect === 'restoration' || selectedEffect?.startsWith('restoration_')) &&
               Object.entries(conditionalEffects[selectedEffect]?.conditionalFormulas || {}).length === 0) ||
-             ((selectedEffect === 'buff' || selectedEffect?.startsWith('buff_') ||
-               selectedEffect === 'debuff' || selectedEffect?.startsWith('debuff_') ||
-               selectedEffect === 'control' || selectedEffect?.startsWith('control_')) &&
-              Object.entries(conditionalEffects[selectedEffect]?.conditionalSettings || {}).length === 0) ||
-             (!selectedEffect?.startsWith('damage') && !selectedEffect?.startsWith('healing') &&
-              !selectedEffect?.startsWith('restoration') && !selectedEffect?.startsWith('buff') &&
-              !selectedEffect?.startsWith('debuff') && !selectedEffect?.startsWith('control') &&
-              Object.entries(conditionalEffects[selectedEffect]?.conditionalFormulas || {}).length === 0) ? (
+              ((selectedEffect === 'buff' || selectedEffect?.startsWith('buff_') ||
+                selectedEffect === 'debuff' || selectedEffect?.startsWith('debuff_') ||
+                selectedEffect === 'control' || selectedEffect?.startsWith('control_')) &&
+                Object.entries(conditionalEffects[selectedEffect]?.conditionalSettings || {}).length === 0) ||
+              (!selectedEffect?.startsWith('damage') && !selectedEffect?.startsWith('healing') &&
+                !selectedEffect?.startsWith('restoration') && !selectedEffect?.startsWith('buff') &&
+                !selectedEffect?.startsWith('debuff') && !selectedEffect?.startsWith('control') &&
+                Object.entries(conditionalEffects[selectedEffect]?.conditionalFormulas || {}).length === 0) ? (
               <div className="effect-preview-empty">
                 No conditional settings have been configured yet.
               </div>

@@ -31,11 +31,9 @@ const AfterimageOverlay = () => {
     // NOTE: cameraX/cameraY are read directly in render callback to avoid re-renders
 
     // PERFORMANCE FIX: Use selective subscriptions
+    // UPDATED: Now uses per-player memory system
     const afterimageEnabled = useLevelEditorStore(state => state.afterimageEnabled);
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
-    const exploredAreas = useLevelEditorStore(state => state.exploredAreas);
-    const memorySnapshots = useLevelEditorStore(state => state.memorySnapshots);
-    const tokenAfterimages = useLevelEditorStore(state => state.tokenAfterimages);
     const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
     const wallData = useLevelEditorStore(state => state.wallData);
@@ -43,39 +41,72 @@ const AfterimageOverlay = () => {
     const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects);
     const dndElements = useLevelEditorStore(state => state.dndElements);
 
-    const { tokens } = useCreatureStore();
+    // Per-player memory subscriptions
+    const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
+    const playerMemories = useLevelEditorStore(state => state.playerMemories);
+    const isPlayerPositionExplored = useLevelEditorStore(state => state.isPlayerPositionExplored);
+    const getPlayerTokenAfterimages = useLevelEditorStore(state => state.getPlayerTokenAfterimages);
+    const getPlayerMemorySnapshots = useLevelEditorStore(state => state.getPlayerMemorySnapshots);
+
+    // Legacy subscriptions for backward compatibility
+    const exploredAreas = useLevelEditorStore(state => state.exploredAreas);
+    const memorySnapshots = useLevelEditorStore(state => state.memorySnapshots);
+    const tokenAfterimages = useLevelEditorStore(state => state.tokenAfterimages);
+
     const { characterTokens } = useCharacterTokenStore();
-    const { tokens: creatureTokens } = useCreatureStore();
+    const { creatureTokens } = useCreatureStore();
     const { gridItems } = useGridItemStore();
 
+    // Get current player's memories (with fallback to legacy)
+    const currentPlayerMemories = useMemo(() => {
+        if (!currentPlayerId || !playerMemories) return null;
+        return playerMemories[currentPlayerId] || null;
+    }, [currentPlayerId, playerMemories]);
+
+    // Get current player's token afterimages (with fallback to legacy)
+    const currentTokenAfterimages = useMemo(() => {
+        return currentPlayerMemories?.tokenAfterimages || tokenAfterimages || {};
+    }, [currentPlayerMemories, tokenAfterimages]);
+
+    // Get current player's memory snapshots (with fallback to legacy)
+    const currentMemorySnapshots = useMemo(() => {
+        if (currentPlayerMemories?.memorySnapshots) {
+            return currentPlayerMemories.memorySnapshots;
+        }
+        return memorySnapshots || {};
+    }, [currentPlayerMemories, memorySnapshots]);
+
     const effectiveZoom = zoomLevel * playerZoom;
-    
+
     // Cache for processed (grayscale) images to avoid reprocessing every frame
     const processedImageCacheRef = useRef(new Map());
-    
+
+    // Throttle debug logging
+    const lastLogTimeRef = useRef(0);
+
     // State for triggering re-renders when images load
     const [imageLoadTrigger, setImageLoadTrigger] = useState(0);
-    
+
     // PERFORMANCE FIX: Helper function to get or create cached grayscale image
     // This prevents re-processing every tile on every frame
     const getGrayscaleCanvas = useCallback((img, tileSize, url) => {
         if (!img || !img.complete || img.naturalWidth === 0) return null;
-        
+
         // Cache key includes tile size since we need different cached versions for different zoom levels
         const cacheKey = `${url}_${tileSize}`;
-        
+
         // Check if already cached
         if (processedImageCacheRef.current.has(cacheKey)) {
             return processedImageCacheRef.current.get(cacheKey);
         }
-        
+
         // Create grayscale version and cache it
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = tileSize;
         tempCanvas.height = tileSize;
         const tempCtx = tempCanvas.getContext('2d');
         tempCtx.drawImage(img, 0, 0, tileSize, tileSize);
-        
+
         const imageData = tempCtx.getImageData(0, 0, tileSize, tileSize);
         const data_array = imageData.data;
         for (let i = 0; i < data_array.length; i += 4) {
@@ -85,10 +116,10 @@ const AfterimageOverlay = () => {
             data_array[i + 2] = gray * 1.1;
         }
         tempCtx.putImageData(imageData, 0, 0);
-        
+
         // Cache the processed canvas
         processedImageCacheRef.current.set(cacheKey, tempCanvas);
-        
+
         // Limit cache size to prevent memory bloat
         if (processedImageCacheRef.current.size > 500) {
             // Remove oldest entries
@@ -97,14 +128,14 @@ const AfterimageOverlay = () => {
                 processedImageCacheRef.current.delete(keys[i]);
             }
         }
-        
+
         return tempCanvas;
     }, []);
-    
+
     // Helper function to load and cache images
     const loadImage = useCallback((url) => {
         if (!url) return null;
-        
+
         // Check cache first
         if (imageCacheRef.current.has(url)) {
             const cached = imageCacheRef.current.get(url);
@@ -112,15 +143,15 @@ const AfterimageOverlay = () => {
                 return cached.image;
             }
         }
-        
+
         // Create new image entry
         const entry = { loaded: false, image: null, promise: null };
         imageCacheRef.current.set(url, entry);
-        
+
         // Load image
         const img = new Image();
         img.crossOrigin = 'anonymous';
-        
+
         entry.promise = new Promise((resolve, reject) => {
             img.onload = () => {
                 entry.loaded = true;
@@ -138,7 +169,7 @@ const AfterimageOverlay = () => {
             };
             img.src = url;
         });
-        
+
         return null; // Return null for async loading
     }, []);
 
@@ -173,647 +204,496 @@ const AfterimageOverlay = () => {
         return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
     }, [visibleArea]);
 
-    // Render afterimages on canvas
+    // Render afterimages on canvas - FULL IMPLEMENTATION with terrain/walls/loot/tokens
     const renderAfterimages = useCallback(() => {
         const canvas = canvasRef.current;
+
         if (!canvas || !afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) {
+            // Only log if there might be afterimages to show but conditions aren't met
+            if (Object.keys(currentTokenAfterimages).length > 0) {
+                console.log('🖼️ [AfterimageOverlay] Not rendering - conditions:', {
+                    hasCanvas: !!canvas,
+                    afterimageEnabled,
+                    isGMMode,
+                    dynamicFogEnabled,
+                    viewingFromToken: !!viewingFromToken,
+                    afterimageCount: Object.keys(currentTokenAfterimages).length
+                });
+            }
             return;
         }
 
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
 
-        // Clear canvas
+        // Resize canvas if needed
+        if (canvas.width !== rect.width || canvas.height !== rect.height) {
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Get viewport bounds for culling (calculate once, reuse for both memory snapshots and token afterimages)
+        // Get viewport bounds for culling
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
-        const padding = 200; // Extra padding for culling
+        const padding = 100;
         const minScreenX = -padding;
         const maxScreenX = viewport.width + padding;
         const minScreenY = -padding;
         const maxScreenY = viewport.height + padding;
 
-        // PERFORMANCE: Limit snapshots processed per frame and pre-filter by viewport
-        const snapshotEntries = Object.entries(memorySnapshots);
-        const maxSnapshotsPerFrame = 300; // Limit to prevent performance issues
-        
-        // Pre-filter snapshots by viewport before processing
-        const snapshotsToProcess = snapshotEntries.filter(([tileKey, snapshot]) => {
-            const [gridX, gridY] = tileKey.split(',').map(Number);
-            const tileWorldPos = gridToWorld(gridX, gridY);
-            const screenPos = worldToScreen(tileWorldPos.x, tileWorldPos.y);
-            const tileSize = gridSize * effectiveZoom;
-            
-            // Early viewport culling
-            if (screenPos.x < minScreenX - tileSize * 2 || screenPos.x > maxScreenX + tileSize * 2 ||
-                screenPos.y < minScreenY - tileSize * 2 || screenPos.y > maxScreenY + tileSize * 2) {
-                return false; // Outside viewport
-            }
-            
-            // Skip if currently visible (early exit for performance)
-            // FIXED: Only skip if the tile itself is visible, not adjacent tiles
-            // This prevents gaps between visible and memory tiles
-            if (visibleAreaSet.has(tileKey)) {
-                return false; // Currently visible - show real-time view instead
-            }
-            
-            return true;
-        }).slice(0, maxSnapshotsPerFrame);
-        
-        // Render memory snapshots for previously explored areas
-        snapshotsToProcess.forEach(([tileKey, snapshot]) => {
-            const [gridX, gridY] = tileKey.split(',').map(Number);
-            const tileWorldPos = gridToWorld(gridX, gridY);
-            const screenPos = worldToScreen(tileWorldPos.x, tileWorldPos.y);
-            const tileSize = gridSize * effectiveZoom;
+        const tileSize = gridSize * effectiveZoom;
+        const levelEditorStore = useLevelEditorStore.getState();
 
-            // Check if this position is in an explored circle (not tile-based)
-            const levelEditorStore = useLevelEditorStore.getState();
-            const isExplored = levelEditorStore.isPositionExplored 
-                ? levelEditorStore.isPositionExplored(tileWorldPos.x, tileWorldPos.y)
-                : (exploredAreas[tileKey] || false);
-            
-            if (!isExplored) {
-                return; // Not explored - don't show afterimage
-            }
+        // DEBUG: Log player memory state (throttled to every 2 seconds)
+        const now = Date.now();
+        if (now - lastLogTimeRef.current > 2000) {
+            lastLogTimeRef.current = now;
+            const playerMemoryState = levelEditorStore.playerMemories?.[levelEditorStore.currentPlayerId];
+            const tokenAfterimagesKeys = Object.keys(playerMemoryState?.tokenAfterimages || {});
+            const currentTokenAfterimagesKeys = Object.keys(currentTokenAfterimages || {});
+            console.log('🖼️ [AfterimageOverlay] State:',
+                'currentPlayerId=', levelEditorStore.currentPlayerId,
+                'exploredPolygons=', (playerMemoryState?.exploredPolygons || []).length,
+                'tokenAfterimages=', tokenAfterimagesKeys.length,
+                'keys=', tokenAfterimagesKeys,
+                'currentTokenAfterimages=', currentTokenAfterimagesKeys.length,
+                'afterimageEnabled=', afterimageEnabled,
+                'dynamicFogEnabled=', dynamicFogEnabled,
+                'viewingFromToken=', viewingFromToken?.id,
+                'visibleAreaSize=', visibleAreaSet?.size
+            );
+        }
 
-            // Render shadowy afterimage with reduced opacity
-            // FIXED: No square rendering - afterimages are shown within explored circles
-            ctx.save();
-            ctx.globalAlpha = 0.5; // Ghostly appearance
+        // Helper: Check if tile is currently visible
+        const isTileVisible = (worldX, worldY) => {
+            if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
+            const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+            const tileKey = `${gridCoords.x},${gridCoords.y}`;
+            return visibleAreaSet.has(tileKey);
+        };
 
-            // Render terrain afterimage if available
-            if (snapshot.terrain) {
-                // Check if real terrain is currently visible
-                // FIXED: Only check if the tile itself is visible, not adjacent tiles
-                // This prevents gaps between visible and memory tiles
-                const currentTerrain = terrainData[tileKey];
-                const isTileVisible = visibleAreaSet.has(tileKey);
-                
-                if (!currentTerrain || !isTileVisible) {
-                    let terrainType, variationIndex;
-                    if (typeof snapshot.terrain === 'string') {
-                        terrainType = snapshot.terrain;
-                        variationIndex = 0;
-                    } else if (snapshot.terrain && typeof snapshot.terrain === 'object') {
-                        terrainType = snapshot.terrain.type;
-                        variationIndex = snapshot.terrain.variation || 0;
-                    } else {
-                        terrainType = snapshot.terrain;
-                        variationIndex = 0;
-                    }
+        // Helper: Check if position has been explored by the player
+        const isExploredPos = (worldX, worldY) => {
+            return isPlayerPositionExplored(worldX, worldY);
+        };
 
-                    const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                    if (terrain) {
-                        ctx.globalAlpha = 0.4;
-                        
-                        // Try to render terrain tile variation if available
-                        if (terrain.tileVariations && terrain.tileVariations.length > 0) {
-                            const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
-                            const cachedEntry = imageCacheRef.current.get(tileVariationPath);
-                            const img = cachedEntry?.loaded ? cachedEntry.image : null;
-                            
-                            if (img && img.complete && img.naturalWidth > 0) {
-                                // PERFORMANCE FIX: Use cached grayscale image instead of processing every frame
-                                const grayscaleCanvas = getGrayscaleCanvas(img, tileSize, tileVariationPath);
-                                if (grayscaleCanvas) {
-                                    ctx.drawImage(grayscaleCanvas, screenPos.x - tileSize / 2, screenPos.y - tileSize / 2);
-                                }
-                            } else {
-                                // Fallback: render colored rectangle
-                                if (!cachedEntry || !cachedEntry.loaded) {
-                                    loadImage(tileVariationPath);
-                                }
-                                ctx.fillStyle = terrain.color + '80';
-                                ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
-                            }
-                        } else {
-                            // Fallback: render colored rectangle
-                            ctx.fillStyle = terrain.color + '80';
-                            ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
-                        }
-                    }
-                }
+        // =====================================================
+        // 1. RENDER TERRAIN TILE AFTERIMAGES
+        // =====================================================
+        const snapshotEntries = Object.entries(currentMemorySnapshots);
+        const maxTerrainToRender = 100; // Limit for performance
+
+        let terrainRendered = 0;
+        for (const [tileKey, snapshot] of snapshotEntries) {
+            if (terrainRendered >= maxTerrainToRender) break;
+            if (!snapshot?.terrain) continue;
+
+            // Parse tile coordinates
+            const [coordX, coordY] = tileKey.split(',').map(Number);
+            const worldPos = gridSystem.gridToWorld(coordX, coordY);
+
+            // Skip if currently visible
+            if (isTileVisible(worldPos.x, worldPos.y)) continue;
+
+            // Skip if not explored
+            if (!isExploredPos(worldPos.x, worldPos.y)) continue;
+
+            const screenPos = worldToScreen(worldPos.x, worldPos.y);
+
+            // Viewport culling
+            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                continue;
             }
 
-            // Render wall afterimages
-            if (snapshot.walls && snapshot.walls.length > 0) {
-                snapshot.walls.forEach(({ key: wallKey, data: wallData_item }) => {
-                    // Parse wall coordinates
-                    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-                    
-                    // Check if real wall is currently visible
-                    // If ANY tile the wall passes through OR adjacent tiles are visible, don't show afterimage
-                    const currentWall = wallData[wallKey];
-                    let isWallCurrentlyVisible = false;
-                    
-                    if (currentWall && visibleAreaSet && visibleAreaSet.size > 0) {
-                        // Check endpoint tiles and their adjacent tiles
-                        const tile1Key = `${x1},${y1}`;
-                        const tile2Key = `${x2},${y2}`;
-                        
-                        // Check if endpoint tiles or adjacent tiles are visible
-                        const checkTileAndAdjacent = (tx, ty) => {
-                            return visibleAreaSet.has(`${tx},${ty}`) ||
-                                visibleAreaSet.has(`${tx - 1},${ty}`) ||
-                                visibleAreaSet.has(`${tx + 1},${ty}`) ||
-                                visibleAreaSet.has(`${tx},${ty - 1}`) ||
-                                visibleAreaSet.has(`${tx},${ty + 1}`) ||
-                                visibleAreaSet.has(`${tx - 1},${ty - 1}`) ||
-                                visibleAreaSet.has(`${tx + 1},${ty - 1}`) ||
-                                visibleAreaSet.has(`${tx - 1},${ty + 1}`) ||
-                                visibleAreaSet.has(`${tx + 1},${ty + 1}`);
-                        };
-                        
-                        if (checkTileAndAdjacent(x1, y1) || checkTileAndAdjacent(x2, y2)) {
-                            isWallCurrentlyVisible = true;
-                        } else {
-                            // Check intermediate tiles along the wall
-                            if (x1 === x2) {
-                                // Vertical wall
-                                for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
-                                    if (checkTileAndAdjacent(x1, y)) {
-                                        isWallCurrentlyVisible = true;
-                                        break;
-                                    }
-                                }
-                            } else if (y1 === y2) {
-                                // Horizontal wall
-                                for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
-                                    if (checkTileAndAdjacent(x, y1)) {
-                                        isWallCurrentlyVisible = true;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                // Diagonal wall - check both endpoint tiles and adjacent
-                                if (checkTileAndAdjacent(x1, y1) || checkTileAndAdjacent(x2, y2)) {
-                                    isWallCurrentlyVisible = true;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (isWallCurrentlyVisible) {
-                        return; // Real wall is visible, skip afterimage
-                    }
-                    
-                    const wallType = typeof wallData_item === 'string' ? wallData_item : wallData_item.type;
-                    const wallTypeData = WALL_TYPES[wallType];
-                    if (!wallTypeData) return;
-                    
-                    // Convert wall endpoints to screen coordinates (use corners, not centers)
-                    const gridSystem = getGridSystem();
-                    const { gridType } = gridSystem.getGridState();
-                    
-                    let startScreen, endScreen;
-                    
-                    if (gridType === 'hex') {
-                        // For hex grids, get the edge between the two hex coordinates
-                        const edge = gridSystem.getHexEdge(x1, y1, x2, y2);
-                        if (edge) {
-                            const viewport = gridSystem.getViewportDimensions();
-                            startScreen = gridSystem.worldToScreen(edge.start.x, edge.start.y, viewport.width, viewport.height);
-                            endScreen = gridSystem.worldToScreen(edge.end.x, edge.end.y, viewport.width, viewport.height);
-                        } else {
-                            // Fallback to corner positions
-                            startScreen = gridToScreenForWalls(x1, y1);
-                            endScreen = gridToScreenForWalls(x2, y2);
-                        }
-                    } else {
-                        // Square grid: use corner positions (matches CanvasWallSystem)
-                        startScreen = gridToScreenForWalls(x1, y1);
-                        endScreen = gridToScreenForWalls(x2, y2);
-                    }
-                    
-                    // Viewport culling for walls
-                    const wallPadding = 50;
-                    if ((startScreen.x < minScreenX - wallPadding && endScreen.x < minScreenX - wallPadding) ||
-                        (startScreen.x > maxScreenX + wallPadding && endScreen.x > maxScreenX + wallPadding) ||
-                        (startScreen.y < minScreenY - wallPadding && endScreen.y < minScreenY - wallPadding) ||
-                        (startScreen.y > maxScreenY + wallPadding && endScreen.y > maxScreenY + wallPadding)) {
-                        return; // Wall is completely outside viewport
-                    }
-                    
-                    // Render wall afterimage with ghostly appearance
-                    ctx.save();
-                    ctx.globalAlpha = 0.5;
-                    ctx.strokeStyle = wallTypeData.color + 'CC';
-                    ctx.lineWidth = 4;
-                    ctx.shadowColor = 'rgba(150, 140, 180, 0.6)';
-                    ctx.shadowBlur = 4;
-                    ctx.beginPath();
-                    ctx.moveTo(startScreen.x, startScreen.y);
-                    ctx.lineTo(endScreen.x, endScreen.y);
-                    ctx.stroke();
-                    ctx.shadowBlur = 0;
-                    ctx.restore();
-                });
+            // Get terrain type and variation
+            let terrainType, variationIndex;
+            if (typeof snapshot.terrain === 'string') {
+                terrainType = snapshot.terrain;
+                variationIndex = 0;
+            } else if (snapshot.terrain && typeof snapshot.terrain === 'object') {
+                terrainType = snapshot.terrain.type;
+                variationIndex = snapshot.terrain.variation || 0;
+            } else {
+                continue;
             }
 
-            // Render objects afterimages
-            if (snapshot.objects && snapshot.objects.length > 0) {
-                snapshot.objects.forEach(obj => {
-                    ctx.globalAlpha = 0.3;
-                    // Render object afterimage (simplified representation)
-                    ctx.fillStyle = 'rgba(150, 150, 150, 0.3)';
-                    ctx.fillRect(
-                        screenPos.x - tileSize / 4,
-                        screenPos.y - tileSize / 4,
-                        tileSize / 2,
-                        tileSize / 2
-                    );
-                });
-            }
+            const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+            if (!terrain) continue;
 
-            // Render grid item afterimages (loot orbs)
-            if (snapshot.gridItems && snapshot.gridItems.length > 0) {
-                snapshot.gridItems.forEach(item => {
-                    // Check if real item is currently visible
-                    const currentGridSystem = getGridSystem();
-                    const itemWorldPos = item.position ? 
-                        { x: item.position.x, y: item.position.y } :
-                        currentGridSystem.gridToWorld(item.gridPosition?.col || 0, item.gridPosition?.row || 0);
-                    const itemGridCoords = currentGridSystem.worldToGrid(itemWorldPos.x, itemWorldPos.y);
-                    const itemTileKey = `${itemGridCoords.x},${itemGridCoords.y}`;
-                    // Check if item tile is visible
-                    // FIXED: Only check if the tile itself is visible, not adjacent tiles
-                    // This prevents gaps between visible and memory tiles
-                    const isItemTileVisible = visibleAreaSet.has(itemTileKey);
-                    const isRealItemVisible = isItemTileVisible && 
-                        gridItems.some(gi => gi.id === item.id);
-                    
-                    // Check if item has itemId (either itemId or originalItemStoreId)
-                    const itemIdToLookup = item.itemId || item.originalItemStoreId;
-                    if (!isRealItemVisible && itemIdToLookup) {
-                        // Viewport culling
-                        const orbSize = gridSize * effectiveZoom * 0.6;
-                        const orbScreenPos = worldToScreen(itemWorldPos.x, itemWorldPos.y);
-                        
-                        if (orbScreenPos.x < minScreenX - orbSize || orbScreenPos.x > maxScreenX + orbSize ||
-                            orbScreenPos.y < minScreenY - orbSize || orbScreenPos.y > maxScreenY + orbSize) {
-                            return; // Outside viewport
-                        }
-                        
+            // Determine image path: prefer tileVariations, fall back to terrain.texture
+            const tileVariationPath = terrain.tileVariations?.length
+                ? (terrain.tileVariations[variationIndex] || terrain.tileVariations[0])
+                : (terrain.texture || null);
+
+            if (tileVariationPath) {
+                // Image-based terrain tile
+                const cachedEntry = imageCacheRef.current.get(tileVariationPath);
+                const img = cachedEntry?.loaded ? cachedEntry.image : null;
+
+                if (img && img.complete && img.naturalWidth > 0) {
+                    const grayCanvas = getGrayscaleCanvas(img, tileSize, tileVariationPath);
+                    if (grayCanvas) {
                         ctx.save();
-                        
-                        // Get item icon/image
-                        const itemStore = useItemStore.getState();
-                        const originalItem = itemStore.items.find(i => 
-                            i.id === item.itemId || i.id === item.originalItemStoreId
-                        );
-                        
-                        // Helper to get icon ID (matches GridItem.jsx logic)
-                        const getItemIcon = (type, subtype) => {
-                            const typeIcons = {
-                                weapon: 'inv_sword_04',
-                                armor: 'inv_chest_cloth_01',
-                                accessory: 'inv_jewelry_ring_01',
-                                consumable: 'inv_potion_51',
-                                miscellaneous: 'inv_misc_questionmark',
-                                material: 'inv_fabric_wool_01',
-                                quest: 'inv_misc_note_01',
-                                container: 'inv_box_01'
-                            };
-                            return typeIcons[type] || 'inv_misc_questionmark';
-                        };
-                        
-                        const itemForTooltip = originalItem ? {
-                            ...originalItem,
-                            quantity: item.quantity || originalItem.quantity || 1
-                        } : {
-                            ...item,
-                            id: itemIdToLookup,
-                            name: item.customName || item.name || 'Unknown Item',
-                            quality: item.quality || item.rarity || 'common',
-                            rarity: item.rarity || item.quality || 'common',
-                            type: item.type || 'misc',
-                            iconId: item.iconId || null
-                        };
-                        
-                        const iconId = itemForTooltip.iconId || 
-                                     (originalItem && originalItem.iconId) ||
-                                     getItemIcon(itemForTooltip.type, itemForTooltip.subtype);
-                        const iconUrl = getIconUrl(iconId, 'items');
-                        
-                        const quality = itemForTooltip.quality || itemForTooltip.rarity || 'common';
-                        const borderColor = RARITY_COLORS[quality]?.border || '#8B4513';
-                        
-                        // Draw circular orb background
-                        ctx.globalAlpha = 0.5;
-                        ctx.fillStyle = 'rgba(80, 70, 100, 0.4)';
-                        ctx.beginPath();
-                        ctx.arc(orbScreenPos.x, orbScreenPos.y, orbSize / 2, 0, Math.PI * 2);
-                        ctx.fill();
-                        
-                        // Draw border
-                        ctx.strokeStyle = borderColor + 'CC';
-                        ctx.lineWidth = 2;
-                        ctx.shadowColor = 'rgba(150, 140, 180, 0.6)';
-                        ctx.shadowBlur = 4;
-                        ctx.beginPath();
-                        ctx.arc(orbScreenPos.x, orbScreenPos.y, orbSize / 2, 0, Math.PI * 2);
-                        ctx.stroke();
-                        ctx.shadowBlur = 0;
-                        
-                        // Try to load and render item icon
-                        const cachedEntry = imageCacheRef.current.get(iconUrl);
-                        const img = cachedEntry?.loaded ? cachedEntry.image : null;
-                        
-                        if (img && img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
-                            // Use cached processed image if available
-                            const processedCacheKey = `${iconUrl}_${Math.floor(orbSize)}`;
-                            let processedCanvas = processedImageCacheRef.current.get(processedCacheKey);
-                            
-                            if (!processedCanvas) {
-                                // Create and cache processed image
-                                processedCanvas = document.createElement('canvas');
-                                processedCanvas.width = orbSize;
-                                processedCanvas.height = orbSize;
-                                const tempCtx = processedCanvas.getContext('2d');
-                                
-                                tempCtx.save();
-                                tempCtx.beginPath();
-                                tempCtx.arc(orbSize / 2, orbSize / 2, orbSize / 2, 0, Math.PI * 2);
-                                tempCtx.clip();
-                                tempCtx.drawImage(img, 0, 0, orbSize, orbSize);
-                                tempCtx.restore();
-                                
-                                // Apply grayscale filter
-                                const imageData = tempCtx.getImageData(0, 0, orbSize, orbSize);
-                                const data_array = imageData.data;
-                                for (let i = 0; i < data_array.length; i += 4) {
-                                    const gray = data_array[i] * 0.299 + data_array[i + 1] * 0.587 + data_array[i + 2] * 0.114;
-                                    data_array[i] = gray * 0.85;
-                                    data_array[i + 1] = gray * 0.9;
-                                    data_array[i + 2] = gray * 1.1;
-                                    data_array[i + 3] = data_array[i + 3] * 0.7;
-                                }
-                                tempCtx.putImageData(imageData, 0, 0);
-                                
-                                processedImageCacheRef.current.set(processedCacheKey, processedCanvas);
-                            }
-                            
-                            // Draw the cached processed circular icon
-                            ctx.save();
-                            ctx.beginPath();
-                            ctx.arc(orbScreenPos.x, orbScreenPos.y, orbSize / 2, 0, Math.PI * 2);
-                            ctx.clip();
-                            ctx.globalAlpha = 0.6;
-                            ctx.drawImage(processedCanvas, orbScreenPos.x - orbSize / 2, orbScreenPos.y - orbSize / 2);
-                            ctx.restore();
-                        } else {
-                            // Image not loaded yet - trigger loading
-                            if (!cachedEntry || !cachedEntry.loaded) {
-                                loadImage(iconUrl);
-                            }
-                            // Don't show placeholder - wait for image to load
-                        }
-                        
+                        ctx.globalAlpha = 0.6;
+                        ctx.drawImage(grayCanvas, screenPos.x - tileSize / 2, screenPos.y - tileSize / 2);
                         ctx.restore();
+                        terrainRendered++;
                     }
-                });
+                } else if (!cachedEntry || !cachedEntry.loaded) {
+                    loadImage(tileVariationPath);
+                }
+            } else if (terrain.color) {
+                // Color-based terrain tile (procedural) — draw as greyscale rectangle
+                // Convert hex color to greyscale value
+                const hexColor = terrain.color.replace('#', '');
+                const r = parseInt(hexColor.substring(0, 2), 16);
+                const g = parseInt(hexColor.substring(2, 4), 16);
+                const b = parseInt(hexColor.substring(4, 6), 16);
+                const gray = Math.floor(r * 0.299 + g * 0.587 + b * 0.114);
+                // Darken slightly for a "memory" look, slight blue tint
+                const dr = Math.floor(gray * 0.85);
+                const dg = Math.floor(gray * 0.88);
+                const db = Math.floor(gray * 1.05);
+
+                ctx.save();
+                ctx.globalAlpha = 0.55;
+                ctx.fillStyle = `rgb(${dr},${dg},${db})`;
+                ctx.fillRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+                // Subtle border so tiles are distinguishable
+                ctx.globalAlpha = 0.2;
+                ctx.strokeStyle = `rgb(${Math.floor(dr * 0.7)},${Math.floor(dg * 0.7)},${Math.floor(db * 0.7)})`;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(screenPos.x - tileSize / 2, screenPos.y - tileSize / 2, tileSize, tileSize);
+                ctx.restore();
+                terrainRendered++;
             }
+        }
+
+        // =====================================================
+        // 2. RENDER WALL AFTERIMAGES
+        // =====================================================
+        const wallEntries = Object.entries(wallData || {});
+        const maxWallsToRender = 50;
+
+        let wallsRendered = 0;
+        for (const [wallKey, wall] of wallEntries) {
+            if (wallsRendered >= maxWallsToRender) break;
+
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+
+            // Get world positions for wall endpoints
+            const worldPos1 = gridSystem.gridToWorldCorner(x1, y1);
+            const worldPos2 = gridSystem.gridToWorldCorner(x2, y2);
+            const midX = (worldPos1.x + worldPos2.x) / 2;
+            const midY = (worldPos1.y + worldPos2.y) / 2;
+
+            // Skip if currently visible
+            if (isTileVisible(midX, midY)) continue;
+
+            // Skip if not explored
+            if (!isExploredPos(midX, midY)) continue;
+
+            const screenPos1 = worldToScreen(worldPos1.x, worldPos1.y);
+            const screenPos2 = worldToScreen(worldPos2.x, worldPos2.y);
+
+            // Viewport culling
+            const minX = Math.min(screenPos1.x, screenPos2.x);
+            const maxX = Math.max(screenPos1.x, screenPos2.x);
+            const minY = Math.min(screenPos1.y, screenPos2.y);
+            const maxY = Math.max(screenPos1.y, screenPos2.y);
+
+            if (maxX < minScreenX || minX > maxScreenX || maxY < minScreenY || minY > maxScreenY) {
+                continue;
+            }
+
+            // Draw ghostly wall
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.strokeStyle = '#667788';
+            ctx.lineWidth = 3 * effectiveZoom;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(screenPos1.x, screenPos1.y);
+            ctx.lineTo(screenPos2.x, screenPos2.y);
+            ctx.stroke();
 
             ctx.restore();
-        });
+            wallsRendered++;
+        }
 
-        // Render token afterimages (reuse viewport bounds from above)
-        Object.entries(tokenAfterimages).forEach(([tokenId, afterimage]) => {
+        // =====================================================
+        // 3. RENDER LOOT ORB AFTERIMAGES (from grid items)
+        // =====================================================
+        const maxLootToRender = 30;
+        let lootRendered = 0;
+
+        for (const [tileKey, snapshot] of snapshotEntries) {
+            if (lootRendered >= maxLootToRender) break;
+            if (!snapshot?.gridItems?.length) continue;
+
+            const [coordX, coordY] = tileKey.split(',').map(Number);
+            const worldPos = gridSystem.gridToWorld(coordX, coordY);
+
+            // Skip if currently visible
+            if (isTileVisible(worldPos.x, worldPos.y)) continue;
+
+            // Skip if not explored
+            if (!isExploredPos(worldPos.x, worldPos.y)) continue;
+
+            const screenPos = worldToScreen(worldPos.x, worldPos.y);
+
+            // Viewport culling
+            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                continue;
+            }
+
+            for (const item of snapshot.gridItems) {
+                if (lootRendered >= maxLootToRender) break;
+
+                const itemIdToLookup = item.itemId || item.originalItemStoreId;
+                if (!itemIdToLookup) continue;
+
+                const itemStore = useItemStore.getState();
+                const originalItem = itemStore.items.find(i =>
+                    i.id === item.itemId || i.id === item.originalItemStoreId
+                );
+
+                const getItemIcon = (type, subtype) => {
+                    const typeIcons = {
+                        weapon: 'inv_sword_04',
+                        armor: 'inv_chest_cloth_01',
+                        accessory: 'inv_jewelry_ring_01',
+                        consumable: 'inv_potion_51',
+                        miscellaneous: 'inv_misc_questionmark',
+                        material: 'inv_fabric_wool_01',
+                        quest: 'inv_misc_note_01',
+                        container: 'inv_box_01'
+                    };
+                    return typeIcons[type] || 'inv_misc_questionmark';
+                };
+
+                const iconId = item.iconId || (originalItem && originalItem.iconId) ||
+                    getItemIcon(item.type, item.subtype);
+                const iconUrl = getIconUrl(iconId, 'items');
+
+                const orbSize = tileSize * 0.5;
+
+                // Draw ghostly loot orb
+                ctx.save();
+                ctx.globalAlpha = 1.0;
+
+                // Draw orb background
+                const rarity = item.rarity || 'common';
+                const rarityColor = RARITY_COLORS[rarity] || '#888888';
+                // Safety check: ensure rarityColor is a valid hex string
+                const safeColor = (typeof rarityColor === 'string' && rarityColor.startsWith('#'))
+                    ? rarityColor
+                    : '#888888';
+                ctx.fillStyle = `rgba(${parseInt(safeColor.slice(1, 3), 16)}, ${parseInt(safeColor.slice(3, 5), 16)}, ${parseInt(safeColor.slice(5, 7), 16)}, 0.3)`;
+                ctx.beginPath();
+                ctx.arc(screenPos.x, screenPos.y, orbSize / 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw orb border
+                ctx.strokeStyle = '#667788';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(screenPos.x, screenPos.y, orbSize / 2, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Load and draw icon
+                const cachedEntry = imageCacheRef.current.get(iconUrl);
+                const img = cachedEntry?.loaded ? cachedEntry.image : null;
+
+                if (img && img.complete && img.naturalWidth > 0) {
+                    const grayCanvas = getGrayscaleCanvas(img, orbSize, iconUrl);
+                    if (grayCanvas) {
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(screenPos.x, screenPos.y, orbSize / 2 - 2, 0, Math.PI * 2);
+                        ctx.clip();
+                        ctx.drawImage(grayCanvas, screenPos.x - orbSize / 2 + 2, screenPos.y - orbSize / 2 + 2);
+                        ctx.restore();
+                    }
+                } else if (!cachedEntry || !cachedEntry.loaded) {
+                    loadImage(iconUrl);
+                }
+
+                ctx.restore();
+                lootRendered++;
+            }
+        }
+
+        // =====================================================
+        // 4. RENDER TOKEN AFTERIMAGES (existing logic)
+        // =====================================================
+        const afterimageEntries = Object.entries(currentTokenAfterimages);
+        const maxTokensToRender = 20;
+        const afterimagesToRender = afterimageEntries.slice(0, maxTokensToRender);
+
+        if (afterimageEntries.length > 0) {
+            console.log('🖼️ [AfterimageOverlay] Rendering token afterimages:', afterimageEntries.length, 'tokens');
+        }
+
+        let afterimagesActuallyRendered = 0;
+
+        afterimageEntries.forEach(([tokenId, afterimage]) => {
+            if (afterimagesActuallyRendered >= maxTokensToRender) return;
+
             const { position, data } = afterimage;
-            
-            // FIXED: Position can be in world coordinates (from lastSeenPositions) or grid coordinates
-            // Check if position has worldPosition (preferred) or use grid coordinates
-            let tokenWorldPos;
-            if (position.worldPosition) {
-                // Use world position directly (more accurate)
-                tokenWorldPos = position.worldPosition;
-            } else if (position.x !== undefined && position.y !== undefined) {
-                // Fallback: assume grid coordinates and convert
-                tokenWorldPos = gridToWorld(position.x, position.y);
-            } else {
-                return; // Invalid position
-            }
-            
-            const screenPos = worldToScreen(tokenWorldPos.x, tokenWorldPos.y);
-            
-            // Viewport culling - skip if outside viewport
-            if (screenPos.x < minScreenX || screenPos.x > maxScreenX ||
-                screenPos.y < minScreenY || screenPos.y > maxScreenY) {
-                return; // Outside viewport
-            }
-            
-            const tokenSize = gridSize * effectiveZoom * 0.8; // Slightly smaller than real token
 
-            // Check if this position is in an explored area - afterimages should show in fog
-            // FIXED: Use isPositionExplored to check circles instead of tile-based
-            const levelEditorStore = useLevelEditorStore.getState();
-            const isExplored = levelEditorStore.isPositionExplored 
-                ? levelEditorStore.isPositionExplored(tokenWorldPos.x, tokenWorldPos.y)
-                : (exploredAreas[`${Math.floor(position.x)},${Math.floor(position.y)}`] || false);
+            // ALWAYS LOG for debugging creature afterimage issues
+            console.log('🖼️ [AfterimageOverlay] Processing afterimage:', {
+                tokenId,
+                hasPosition: !!position,
+                hasWorldPosition: !!position?.worldPosition,
+                positionData: position,
+                hasData: !!data,
+                dataType: data?.type,
+                dataCreatureId: data?.creatureId,
+                dataIcon: data?.icon,
+                dataTokenIcon: data?.tokenIcon,
+                dataCustomIcon: data?.customIcon,
+                dataStateCustomIcon: data?.state?.customIcon
+            });
 
-            if (!isExplored) {
-                // Not explored yet - don't show afterimage
+            if (!position) {
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - no position in afterimage`);
                 return;
             }
 
-            // Check if the real token corresponding to this afterimage is currently visible
-            // If the real token is visible (in the visibleAreaSet), don't show its afterimage
-            const allTokens = [...creatureTokens, ...(characterTokens || [])];
-            const realToken = allTokens.find(t => {
-                // Match by ID, creatureId, or characterId
-                return t.id === tokenId || 
-                       t.creatureId === tokenId || 
-                       t.characterId === tokenId ||
-                       (data && ((t.creatureId === data.creatureId) || (t.characterId === data.characterId)));
-            });
-
-            if (realToken && realToken.position) {
-                // Calculate the real token's grid position using grid system (supports both square and hex)
-                const gridSystem = getGridSystem();
-                const realTokenGridCoords = gridSystem.worldToGrid(realToken.position.x, realToken.position.y);
-                const realTokenTileKey = `${realTokenGridCoords.x},${realTokenGridCoords.y}`;
-                
-                // Check if the real token is in the visible area (accounts for walls/LOS)
-                if (visibleAreaSet.has(realTokenTileKey)) {
-                    return; // Don't show afterimage if the real token is currently visible
-                }
+            let tokenWorldPos;
+            if (position.worldPosition) {
+                tokenWorldPos = position.worldPosition;
+            } else if (position.x !== undefined && position.y !== undefined) {
+                tokenWorldPos = gridToWorld(position.x, position.y);
+            } else {
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - no valid position format`);
+                return;
             }
 
-            // Afterimages are managed by MemorySnapshotManager - only render if the area is explored but not currently visible
-            
-            // Show afterimage in fog (explored area) where token was last seen
-            // This works even if the area is currently visible but token moved away
+            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} worldPos:`, tokenWorldPos);
 
-            // Get token image/icon from afterimage data first
-            // Only render afterimage if we have an image - no empty circles
+            // Skip if not explored - ALWAYS LOG THIS CHECK
+            const isExplored = isExploredPos(tokenWorldPos.x, tokenWorldPos.y);
+            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} isExplored:`, isExplored);
+            if (!isExplored) {
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - NOT EXPLORED. Pos:`, tokenWorldPos);
+                return;
+            }
+
+            // NOTE: We intentionally do NOT skip if the last-seen tile is currently visible.
+            // Tokens are mobile — the creature may have moved OUT of view even though the player
+            // can still see the tile where they last spotted it. The afterimage is a memory of
+            // where the token WAS, and it must remain visible at that spot until the player sees
+            // the token again at its new location.
+
+            const screenPos = worldToScreen(tokenWorldPos.x, tokenWorldPos.y);
+            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} screenPos:`, screenPos);
+
+            // Viewport culling
+            if (screenPos.x < minScreenX || screenPos.x > maxScreenX ||
+                screenPos.y < minScreenY || screenPos.y > maxScreenY) {
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - OUTSIDE VIEWPORT. ScreenPos:`, screenPos, 'bounds:', { minScreenX, maxScreenX, minScreenY, maxScreenY });
+                return;
+            }
+
+            const tokenSize = gridSize * effectiveZoom * 0.8;
+
+            // Get image URL - ALWAYS LOG THIS
             let imageUrl = null;
-            let imageTransformations = null;
-            
             if (data) {
-                // Check if it's a creature token
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} checking image URL. dataType:`, data.type, 'creatureId:', data.creatureId, 'tokenIcon:', data.tokenIcon, 'icon:', data.icon);
                 if (data.type === 'creature' || data.creatureId || data.tokenIcon) {
-                    // Use custom icon if available, otherwise use token icon
-                    // Check multiple possible locations for the icon - match CreatureToken logic exactly
-                    const customIcon = data.state?.customIcon || 
-                                     data.customTokenImage || 
-                                     data.customIcon ||
-                                     (data.state && data.state.customIcon);
-                    // Get token icon - creature data should be merged in, so tokenIcon should be available
+                    const customIcon = data.state?.customIcon || data.customTokenImage || data.customIcon;
                     const tokenIcon = data.tokenIcon || data.icon;
-                    
+                    console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} creature path - customIcon:`, customIcon, 'tokenIcon:', tokenIcon);
                     if (customIcon) {
                         imageUrl = customIcon;
                     } else if (tokenIcon) {
-                        // Use the same getCreatureTokenIconUrl logic as CreatureToken
-                        const creatureType = data.type || data.creatureType;
-                        imageUrl = getCreatureTokenIconUrl(tokenIcon, creatureType);
+                        imageUrl = getCreatureTokenIconUrl(tokenIcon, data.type || data.creatureType);
                     }
-                    
-                    // Get image transformations from token state - match CreatureToken logic
-                    if (data.state?.iconScale) {
-                        imageTransformations = {
-                            scale: data.state.iconScale / 100,
-                            positionX: data.state.iconPosition?.x || 50,
-                            positionY: data.state.iconPosition?.y || 50
-                        };
-                    } else if (data.imageTransformations) {
-                        imageTransformations = data.imageTransformations;
-                    }
-                } 
-                // Check if it's a character token
-                else if (data.type === 'character' || data.characterId || data.characterImage || data.lore?.characterImage) {
-                    // Check multiple possible locations for character image
-                    imageUrl = data.characterImage || 
-                              data.lore?.characterImage || 
-                              data.lore?.characterIcon ||
-                              data.characterIcon;
-                    imageTransformations = data.lore?.imageTransformations;
+                } else if (data.type === 'character' || data.characterId) {
+                    imageUrl = data.characterImage || data.lore?.characterImage || data.characterIcon;
+                    console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} character path - imageUrl:`, imageUrl);
                 }
             }
-            
-            // Only render afterimage if we have an image URL - no empty circles
+
+            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} final imageUrl:`, imageUrl);
+
             if (!imageUrl) {
-                ctx.restore();
-                return; // Skip rendering if no image available
+                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - NO IMAGE URL. Full data:`, JSON.stringify(data, null, 2));
+                return;
             }
-            
-            // Render token afterimage with ghostly appearance
+
+            console.log(`🖼️ [AfterimageOverlay] ✅ RENDERING afterimage for ${tokenId} with imageUrl:`, imageUrl);
+            afterimagesActuallyRendered++;
+
+            // Draw ghostly token
             ctx.save();
-            ctx.globalAlpha = 0.85; // More visible afterimage - ghostly but clear
-            
-            // Draw ghostly background fill for the token
-            ctx.fillStyle = 'rgba(80, 70, 100, 0.6)'; // Ghostly purple-gray background
+            ctx.globalAlpha = 1.0;
+
+            // Background
+            ctx.fillStyle = 'rgba(80, 70, 100, 0.5)';
             ctx.beginPath();
             ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
             ctx.fill();
-            
-            // Draw token border/circle with ghostly glow
-            const borderColor = data?.tokenBorder || '#8888aa';
-            ctx.strokeStyle = borderColor;
-            ctx.lineWidth = 3;
-            ctx.shadowColor = 'rgba(150, 140, 180, 0.8)';
-            ctx.shadowBlur = 8;
+
+            // Border
+            ctx.strokeStyle = data?.tokenBorder || '#8888aa';
+            ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
             ctx.stroke();
-            ctx.shadowBlur = 0;
-            
-            // Try to get cached image or load it
+
+            // Load and draw image
             const cachedEntry = imageCacheRef.current.get(imageUrl);
             const img = cachedEntry?.loaded ? cachedEntry.image : null;
-            
+
             if (img && img.complete && img.naturalWidth > 0) {
-                // Image is loaded and valid - draw it synchronously
-                // Create a temporary canvas to apply grayscale filter
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = tokenSize;
-                tempCanvas.height = tokenSize;
-                const tempCtx = tempCanvas.getContext('2d');
-                
-                // Draw image to temp canvas
-                tempCtx.save();
-                tempCtx.beginPath();
-                tempCtx.arc(tokenSize / 2, tokenSize / 2, tokenSize / 2, 0, Math.PI * 2);
-                tempCtx.clip();
-                
-                // Apply image transformations if available - match CreatureToken logic
-                const scale = imageTransformations?.scale || (data?.state?.iconScale ? data.state.iconScale / 100 : 1);
-                const posX = imageTransformations?.positionX || (data?.state?.iconPosition?.x || 50);
-                const posY = imageTransformations?.positionY || (data?.state?.iconPosition?.y || 50);
-                const rotation = imageTransformations?.rotation || 0;
-                
-                // Match CreatureToken rendering logic
-                tempCtx.translate(tokenSize / 2, tokenSize / 2);
-                if (rotation) {
-                    tempCtx.rotate((rotation * Math.PI) / 180);
+                const grayCanvas = getGrayscaleCanvas(img, tokenSize, imageUrl);
+                if (grayCanvas) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
+                    ctx.clip();
+                    ctx.drawImage(grayCanvas, screenPos.x - tokenSize / 2, screenPos.y - tokenSize / 2);
+                    ctx.restore();
                 }
-                tempCtx.scale(scale, scale);
-                tempCtx.translate(-tokenSize / 2, -tokenSize / 2);
-                
-                // Calculate image position - match CreatureToken backgroundPosition logic
-                const imgX = (tokenSize / 2) - (tokenSize * scale / 2) + ((posX - 50) * tokenSize * scale / 100);
-                const imgY = (tokenSize / 2) - (tokenSize * scale / 2) - ((posY - 50) * tokenSize * scale / 100);
-                
-                // Draw image centered and scaled
-                tempCtx.drawImage(img, imgX, imgY, tokenSize * scale, tokenSize * scale);
-                tempCtx.restore();
-                
-                // Apply grayscale + slight blue tint for ghostly memory effect
-                const imageData = tempCtx.getImageData(0, 0, tokenSize, tokenSize);
-                const data_array = imageData.data;
-                for (let i = 0; i < data_array.length; i += 4) {
-                    const gray = data_array[i] * 0.299 + data_array[i + 1] * 0.587 + data_array[i + 2] * 0.114;
-                    // Add slight blue tint for ghostly effect
-                    data_array[i] = gray * 0.85;           // Red - slightly reduced
-                    data_array[i + 1] = gray * 0.9;        // Green - slightly reduced
-                    data_array[i + 2] = gray * 1.1;        // Blue - slightly boosted
-                }
-                tempCtx.putImageData(imageData, 0, 0);
-                
-                // Draw the processed image to the main canvas
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
-                ctx.clip();
-                ctx.drawImage(tempCanvas, screenPos.x - tokenSize / 2, screenPos.y - tokenSize / 2);
-                ctx.restore();
-            } else {
-                // Image not loaded yet - render placeholder ghost circle while loading
-                if (!cachedEntry || !cachedEntry.loaded) {
-                    loadImage(imageUrl);
-                }
-                // Draw a "?" or silhouette placeholder
-                ctx.fillStyle = 'rgba(120, 110, 140, 0.7)';
-                ctx.font = `bold ${tokenSize * 0.5}px sans-serif`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('?', screenPos.x, screenPos.y);
+            } else if (!cachedEntry || !cachedEntry.loaded) {
+                loadImage(imageUrl);
             }
 
             ctx.restore();
         });
+
+        if (afterimagesActuallyRendered > 0) {
+            console.log('🖼️ [AfterimageOverlay] Total afterimages rendered:', afterimagesActuallyRendered);
+        }
     }, [
         afterimageEnabled,
         isGMMode,
         dynamicFogEnabled,
         viewingFromToken,
-        exploredAreas,
-        memorySnapshots,
-        tokenAfterimages,
+        currentTokenAfterimages,
+        currentMemorySnapshots,
+        currentPlayerId,
         visibleAreaSet,
         effectiveZoom,
         gridSize,
+        gridOffsetX,
+        gridOffsetY,
+        wallData,
         gridToWorld,
         worldToScreen,
-        gridToScreenForWalls,
-        terrainData,
-        wallData,
-        gridItems
+        getGrayscaleCanvas,
+        loadImage,
+        isPlayerPositionExplored,
+        currentPlayerMemories
     ]);
 
     // Throttle rendering for performance
@@ -844,15 +724,15 @@ const AfterimageOverlay = () => {
         const isInViewport = (x, y) => {
             const buffer = 100;
             return x >= viewportLeft - buffer &&
-                   x <= viewportRight + buffer &&
-                   y >= viewportTop - buffer &&
-                   y <= viewportBottom + buffer;
+                x <= viewportRight + buffer &&
+                y >= viewportTop - buffer &&
+                y <= viewportBottom + buffer;
         };
 
         let hasNewImages = false;
 
         // Load images for terrain tiles from memory snapshots
-        Object.values(memorySnapshots).forEach(snapshot => {
+        Object.values(currentMemorySnapshots).forEach(snapshot => {
             // PERFORMANCE FIX: Only load terrain images that are in viewport
             if (snapshot.position && !isInViewport(snapshot.position.x, snapshot.position.y)) {
                 return;
@@ -891,10 +771,10 @@ const AfterimageOverlay = () => {
                     const itemIdToLookup = item.itemId || item.originalItemStoreId;
                     if (itemIdToLookup) {
                         const itemStore = useItemStore.getState();
-                        const originalItem = itemStore.items.find(i => 
+                        const originalItem = itemStore.items.find(i =>
                             i.id === item.itemId || i.id === item.originalItemStoreId
                         );
-                        
+
                         const getItemIcon = (type, subtype) => {
                             const typeIcons = {
                                 weapon: 'inv_sword_04',
@@ -908,7 +788,7 @@ const AfterimageOverlay = () => {
                             };
                             return typeIcons[type] || 'inv_misc_questionmark';
                         };
-                        
+
                         const itemForTooltip = originalItem ? {
                             ...originalItem,
                             quantity: item.quantity || 1
@@ -917,12 +797,12 @@ const AfterimageOverlay = () => {
                             id: itemIdToLookup,
                             type: item.type || 'misc'
                         };
-                        
-                        const iconId = itemForTooltip.iconId || 
-                                     (originalItem && originalItem.iconId) ||
-                                     getItemIcon(itemForTooltip.type, itemForTooltip.subtype);
+
+                        const iconId = itemForTooltip.iconId ||
+                            (originalItem && originalItem.iconId) ||
+                            getItemIcon(itemForTooltip.type, itemForTooltip.subtype);
                         const iconUrl = getIconUrl(iconId, 'items');
-                        
+
                         const cachedEntry = imageCacheRef.current.get(iconUrl);
                         if (!cachedEntry || !cachedEntry.loaded) {
                             hasNewImages = true;
@@ -934,7 +814,8 @@ const AfterimageOverlay = () => {
         });
 
         // Load images for all token afterimages
-        Object.entries(tokenAfterimages).forEach(([tokenId, afterimage]) => {
+        // UPDATED: Use per-player token afterimages with fallback to legacy
+        Object.entries(currentTokenAfterimages).forEach(([tokenId, afterimage]) => {
             const { data } = afterimage;
 
             // PERFORMANCE FIX: Only load token images that are in viewport
@@ -948,54 +829,54 @@ const AfterimageOverlay = () => {
                 // Use the same logic as the render function to extract image URL
                 if (data.type === 'creature' || data.creatureId || data.tokenIcon) {
                     // Check multiple possible locations for the icon
-                    const customIcon = data.state?.customIcon || 
-                                     data.customTokenImage || 
-                                     data.customIcon ||
-                                     (data.state && data.state.customIcon);
+                    const customIcon = data.state?.customIcon ||
+                        data.customTokenImage ||
+                        data.customIcon ||
+                        (data.state && data.state.customIcon);
                     const tokenIcon = data.tokenIcon || data.icon;
-                    
+
                     if (customIcon) {
                         imageUrl = customIcon;
                     } else if (tokenIcon) {
                         imageUrl = getCreatureTokenIconUrl(tokenIcon, data.type);
                     }
                 } else if (data.type === 'character' || data.characterId || data.characterImage || data.lore?.characterImage) {
-                    imageUrl = data.characterImage || 
-                              data.lore?.characterImage || 
-                              data.lore?.characterIcon ||
-                              data.characterIcon;
+                    imageUrl = data.characterImage ||
+                        data.lore?.characterImage ||
+                        data.lore?.characterIcon ||
+                        data.characterIcon;
                 }
             }
-            
+
             if (imageUrl) {
                 const cachedEntry = imageCacheRef.current.get(imageUrl);
                 if (!cachedEntry || !cachedEntry.loaded) {
                     hasNewImages = true;
                     const img = new Image();
                     img.crossOrigin = 'anonymous';
-                    
+
                     const entry = { loaded: false, image: null };
                     imageCacheRef.current.set(imageUrl, entry);
-                    
+
                     img.onload = () => {
                         entry.loaded = true;
                         entry.image = img;
                         // Trigger re-render when image loads
                         setImageLoadTrigger(prev => prev + 1);
                     };
-                    
+
                     img.onerror = () => {
                         entry.loaded = false;
                         entry.image = null;
                         // Still trigger re-render even on error to show fallback
                         setImageLoadTrigger(prev => prev + 1);
                     };
-                    
+
                     img.src = imageUrl;
                 }
             }
         });
-        
+
         // If we started loading new images, trigger a render after a short delay
         // This ensures the canvas re-renders once images are loaded
         if (hasNewImages) {
@@ -1004,10 +885,10 @@ const AfterimageOverlay = () => {
                     throttledRenderRef.current();
                 }
             }, 100);
-            
+
             return () => clearTimeout(timeoutId);
         }
-    }, [tokenAfterimages, memorySnapshots, afterimageEnabled, isGMMode, dynamicFogEnabled, viewingFromToken, loadImage]);
+    }, [currentTokenAfterimages, currentMemorySnapshots, afterimageEnabled, isGMMode, dynamicFogEnabled, viewingFromToken, loadImage]);
 
     // Trigger render when non-camera dependencies change
     useEffect(() => {
@@ -1028,9 +909,10 @@ const AfterimageOverlay = () => {
         gridSize,
         gridOffsetX,
         gridOffsetY,
-        imageLoadTrigger // Trigger re-render when images load
+        imageLoadTrigger, // Trigger re-render when images load
+        currentPlayerMemories
     ]);
-    
+
     // Subscribe to camera changes and trigger re-renders via RAF throttling
     useEffect(() => {
         const unsubscribe = useGameStore.subscribe((state, prevState) => {
@@ -1047,7 +929,7 @@ const AfterimageOverlay = () => {
                 }
             }
         });
-        
+
         return () => unsubscribe();
     }, []);
 
@@ -1056,6 +938,8 @@ const AfterimageOverlay = () => {
         return null;
     }
 
+    // Afterimages render ABOVE the fog layer (z-index: 41) so they are visible in explored areas
+    // Memories should be visible to help players remember what they've seen
     return (
         <canvas
             ref={canvasRef}
@@ -1066,7 +950,7 @@ const AfterimageOverlay = () => {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: 20001, // ABOVE fog (20000) so afterimages are visible on top of explored fog
+                zIndex: 41, // ABOVE fog (40) so afterimages are visible in explored areas
                 mixBlendMode: 'normal' // Normal blend so afterimages are clearly visible
             }}
         />

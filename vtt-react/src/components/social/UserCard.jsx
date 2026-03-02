@@ -50,7 +50,7 @@ const UserCard = ({
     return subrace || race || '';
   };
 
-  const actualStatus = user.status || 'offline';
+  const actualStatus = user.status || 'online';
   const statusComment = user.statusComment;
 
   // Character stats — only if a character is selected

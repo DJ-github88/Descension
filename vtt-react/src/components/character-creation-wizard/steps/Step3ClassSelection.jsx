@@ -1,87 +1,69 @@
 /**
  * Step 3: Class Selection
  *
- * Class selection step with layout matching the race selection
+ * Class selection with tabbed modal for viewing details
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
-import { getIconUrl } from '../../../utils/assetManager';
-import ItemTooltip from '../../item-generation/ItemTooltip';
+import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import TabbedSelectionModal from '../components/TabbedSelectionModal';
+import { OverviewTab, FeaturesTab, EquipmentTab, DamageTypesTab } from '../components/tabs';
 
 const Step3ClassSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const [selectedClass, setSelectedClass] = useState(state.characterData.class);
-    const [hoveredClass, setHoveredClass] = useState(null);
-    const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
-    const tooltipRef = useRef(null);
+    
+    const [showModal, setShowModal] = useState(false);
+    const [viewingClass, setViewingClass] = useState(null);
 
     const { validationErrors } = state;
 
-    // All 27 character classes as flat list (corrected from CharacterCreation.jsx)
     const characterClasses = [
-        // Infernal Path
         { name: 'Pyrofiend', icon: 'fas fa-fire', description: 'Demonic fire wielder with ascending corruption stages', theme: 'fire' },
         { name: 'Minstrel', icon: 'fas fa-music', description: 'Musical spellcaster combining notes into powerful chords', theme: 'music' },
         { name: 'Chronarch', icon: 'fas fa-clock', description: 'Time manipulator building temporal energy', theme: 'time' },
         { name: 'Chaos Weaver', icon: 'fas fa-dice', description: 'Reality bender using chaos dice and entropy', theme: 'chaos' },
         { name: 'Fate Weaver', icon: 'fas fa-cards', description: 'Destiny manipulator using cards and threads of fate', theme: 'fate' },
         { name: 'Gambler', icon: 'fas fa-coins', description: 'Fate manipulator balancing luck and risk', theme: 'luck' },
-
-        // Zealot Path
         { name: 'Martyr', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through pain', theme: 'sacrifice' },
         { name: 'False Prophet', icon: 'fas fa-eye-slash', description: 'Deceptive preacher spreading lies and corruption', theme: 'deception' },
         { name: 'Exorcist', icon: 'fas fa-hand-sparkles', description: 'Holy warrior banishing evil spirits', theme: 'holy' },
         { name: 'Oracle', icon: 'fas fa-eye', description: 'Seer with prophetic visions and fate manipulation', theme: 'divination' },
-
-        // Harrow Path
         { name: 'Plaguebringer', icon: 'fas fa-skull', description: 'Disease spreader with contagious plague stacks', theme: 'disease' },
         { name: 'Lichborne', icon: 'fas fa-skull-crossbones', description: 'Undead spellcaster with phylactery power', theme: 'undead' },
         { name: 'Deathcaller', icon: 'fas fa-ghost', description: 'Necromancer harvesting souls for dark magic', theme: 'necromancy' },
-
-        // Arcanist Path
         { name: 'Spellguard', icon: 'fas fa-shield-alt', description: 'Protective mage with magical ward layers', theme: 'protection' },
         { name: 'Inscriptor', icon: 'fas fa-scroll', description: 'Runic scholar creating magical glyph circuits', theme: 'runes' },
         { name: 'Arcanoneer', icon: 'fas fa-wand-magic-sparkles', description: 'Elemental cannon wielder with volatility risk', theme: 'elemental' },
-
-        // Hexer Path
         { name: 'Witch Doctor', icon: 'fas fa-hat-wizard', description: 'Spiritual invoker channeling loa spirits', theme: 'spiritual' },
         { name: 'Formbender', icon: 'fas fa-paw', description: 'Shapeshifter with primal instinct energy', theme: 'primal' },
         { name: 'Primalist', icon: 'fas fa-tree', description: 'Totem master resonating with elemental forces', theme: 'nature' },
-
-        // Reaver Path
         { name: 'Berserker', icon: 'fas fa-hammer', description: 'Fury warrior with momentum thresholds', theme: 'rage' },
         { name: 'Dreadnaught', icon: 'fas fa-shield', description: 'Fortress defender with siege capabilities', theme: 'fortress' },
         { name: 'Titan', icon: 'fas fa-mountain', description: 'Gravity manipulator with strain overload', theme: 'gravity' },
-
-        // Mercenary Path
         { name: 'Toxicologist', icon: 'fas fa-flask', description: 'Poison crafter with alchemical vials', theme: 'alchemy' },
         { name: 'Covenbane', icon: 'fas fa-ban', description: 'Witch hunter with anti-magic seals', theme: 'anti-magic' },
         { name: 'Bladedancer', icon: 'fas fa-wind', description: 'Finesse fighter with edge and flourish', theme: 'finesse' },
-
-        // Sentinel Path
         { name: 'Lunarch', icon: 'fas fa-moon', description: 'Lunar mage with phase-based energy', theme: 'lunar' },
         { name: 'Huntress', icon: 'fas fa-crosshairs', description: 'Tracker with quarry marks and precision', theme: 'hunter' },
         { name: 'Warden', icon: 'fas fa-shield', description: 'Barrier guardian with protective bulwarks', theme: 'guardian' }
     ];
 
-    // Handle class selection
     const handleClassSelect = (className) => {
         setSelectedClass(className);
         dispatch(wizardActionCreators.setClass(className));
+        setShowModal(false);
+        setViewingClass(null);
     };
 
-    // Get preview data (hovered or selected)
-    const getPreviewClassData = () => {
-        const previewName = hoveredClass || selectedClass;
-        return previewName ? characterClasses.find(cls => cls.name === previewName) : null;
+    const handleClassCardClick = (className) => {
+        const classData = characterClasses.find(cls => cls.name === className);
+        setViewingClass(classData);
+        setShowModal(true);
     };
 
-    const previewClass = getPreviewClassData();
-
-    // Helper functions for extended class preview
     const getClassRole = (className) => {
         const roles = {
             'Pyrofiend': 'Damage Dealer',
@@ -94,13 +76,12 @@ const Step3ClassSelection = () => {
             'False Prophet': 'Control/Deception',
             'Exorcist': 'Support/Banishment',
             'Oracle': 'Support/Divination',
-            'Factionist': 'Support/Buff',
             'Plaguebringer': 'Damage/Debuff',
             'Deathcaller': 'Necromancy/Control',
             'Lichborne': 'Caster/Undead',
             'Spellguard': 'Anti-Magic/Defense',
             'Inscriptor': 'Utility/Enchantment',
-            'Arcanophage': 'Magic Absorption',
+            'Arcanoneer': 'Ranged/Artillery',
             'Witch Doctor': 'Healing/Curse',
             'Formbender': 'Shapeshifter/Utility',
             'Primalist': 'Elemental/Damage',
@@ -129,13 +110,12 @@ const Step3ClassSelection = () => {
             'False Prophet': 'Deception Marks',
             'Exorcist': 'Dominance Die',
             'Oracle': 'Prophetic Visions',
-            'Factionist': 'Faction Influence',
             'Plaguebringer': 'Plague Stacks',
             'Deathcaller': 'Necrotic Ascension',
             'Lichborne': 'Phylactery Power',
             'Spellguard': 'Ward Charges',
             'Inscriptor': 'Runic Power',
-            'Arcanophage': 'Absorbed Magic',
+            'Arcanoneer': 'Volatility',
             'Witch Doctor': 'Spirit Totems',
             'Formbender': 'Form Energy',
             'Primalist': 'Elemental Force',
@@ -151,138 +131,6 @@ const Step3ClassSelection = () => {
         };
         return resources[className] || 'Class Energy';
     };
-
-    // Helper function to get full item objects from item names
-    const getFullItemObjects = (itemNames) => {
-        return itemNames.map(itemName => {
-            return STARTING_EQUIPMENT_LIBRARY.find(item =>
-                item.name.toLowerCase() === itemName.toLowerCase()
-            );
-        }).filter(item => item); // Remove undefined items
-    };
-
-    // Equipment hover handlers (same as equipment selection)
-    const handleItemMouseEnter = (e, item) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        // Use more conservative estimates and add buffer
-        const tooltipWidth = 280; // Increased estimate with buffer
-        const tooltipHeight = 250; // Increased estimate with buffer
-        const margin = 15; // Increased margin
-
-        // Preferred position: right of item, aligned to top
-        let x = rect.right + margin;
-        let y = rect.top;
-
-        // Check if preferred position fits
-        const fitsRight = (x + tooltipWidth) <= viewportWidth;
-        const fitsBelow = (y + tooltipHeight) <= viewportHeight;
-
-        if (!fitsRight) {
-            // Try left side
-            x = rect.left - tooltipWidth - margin;
-            if (x < margin) {
-                // Doesn't fit left either, center horizontally
-                x = (viewportWidth - tooltipWidth) / 2;
-            }
-        }
-
-        // Handle vertical positioning
-        if (!fitsBelow) {
-            // Try above the item
-            y = rect.top - tooltipHeight - margin;
-            if (y < margin) {
-                // Doesn't fit above, position below but clamp to viewport
-                y = Math.max(margin, viewportHeight - tooltipHeight - margin);
-            }
-        }
-
-        // Final clamping to ensure tooltip stays within viewport
-        x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
-        y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
-
-        setTooltip({
-            show: true,
-            item: item,
-            x: x,
-            y: y
-        });
-    };
-
-    const handleItemMouseMove = (e) => {
-        if (tooltip.show) {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-
-            // Use more conservative estimates and add buffer
-            const tooltipWidth = 280; // Increased estimate with buffer
-            const tooltipHeight = 250; // Increased estimate with buffer
-            const margin = 15; // Increased margin
-
-            // Preferred position: right of item, aligned to top
-            let x = rect.right + margin;
-            let y = rect.top;
-
-            // Check if preferred position fits
-            const fitsRight = (x + tooltipWidth) <= viewportWidth;
-            const fitsBelow = (y + tooltipHeight) <= viewportHeight;
-
-            if (!fitsRight) {
-                // Try left side
-                x = rect.left - tooltipWidth - margin;
-                if (x < margin) {
-                    // Doesn't fit left either, center horizontally
-                    x = (viewportWidth - tooltipWidth) / 2;
-                }
-            }
-
-            // Handle vertical positioning
-            if (!fitsBelow) {
-                // Try above the item
-                y = rect.top - tooltipHeight - margin;
-                if (y < margin) {
-                    // Doesn't fit above, position below but clamp to viewport
-                    y = Math.max(margin, viewportHeight - tooltipHeight - margin);
-                }
-            }
-
-            // Final clamping to ensure tooltip stays within viewport
-            x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
-            y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
-
-            setTooltip(prev => ({
-                ...prev,
-                x: x,
-                y: y
-            }));
-        }
-    };
-
-    const handleItemMouseLeave = () => {
-        setTooltip({ show: false, item: null, x: 0, y: 0 });
-    };
-
-    // Debug tooltip dimensions
-    useEffect(() => {
-        if (tooltip.show && tooltipRef.current) {
-            const rect = tooltipRef.current.getBoundingClientRect();
-            console.log('Tooltip dimensions:', {
-                width: rect.width,
-                height: rect.height,
-                x: rect.x,
-                y: rect.y,
-                right: rect.right,
-                bottom: rect.bottom,
-                viewport: {
-                    width: window.innerWidth,
-                    height: window.innerHeight
-                }
-            });
-        }
-    }, [tooltip.show]);
 
     const getClassFeatures = (className) => {
         const features = {
@@ -462,261 +310,46 @@ const Step3ClassSelection = () => {
         return flavors[className] || 'A unique path of power and destiny awaits those who walk this road.';
     };
 
-    const getRecommendedStats = (className) => {
-        const statRecommendations = {
-            'Pyrofiend': [
-                { name: 'Intelligence', priority: 3 },
-                { name: 'Constitution', priority: 2 },
-                { name: 'Charisma', priority: 1 }
-            ],
-            'Minstrel': [
-                { name: 'Charisma', priority: 3 },
-                { name: 'Intelligence', priority: 2 },
-                { name: 'Agility', priority: 1 }
-            ],
-            'Chronarch': [
-                { name: 'Intelligence', priority: 3 },
-                { name: 'Spirit', priority: 2 },
-                { name: 'Constitution', priority: 1 }
-            ],
-            'Chaos Weaver': [
-                { name: 'Intelligence', priority: 3 },
-                { name: 'Charisma', priority: 2 },
-                { name: 'Spirit', priority: 1 }
-            ],
-            'Gambler': [
-                { name: 'Charisma', priority: 3 },
-                { name: 'Agility', priority: 2 },
-                { name: 'Intelligence', priority: 1 }
-            ],
-            'Bladedancer': [
-                { name: 'Agility', priority: 3 },
-                { name: 'Strength', priority: 2 },
-                { name: 'Constitution', priority: 1 }
-            ],
-            'Berserker': [
-                { name: 'Strength', priority: 3 },
-                { name: 'Constitution', priority: 2 },
-                { name: 'Agility', priority: 1 }
-            ],
-            'Warden': [
-                { name: 'Constitution', priority: 3 },
-                { name: 'Strength', priority: 2 },
-                { name: 'Spirit', priority: 1 }
-            ]
+    const getStartingEquipment = (className) => {
+        const equipment = {
+            'Pyrofiend': { weapons: ['Smoldering Staff', 'Ember Dagger'], armor: ['Ash-Stained Robes'], tools: ['Infernal Grimoire', 'Sulfur Pouch'], accessories: ['Flame Amulet'] },
+            'Minstrel': { weapons: ['Traveler\'s Lute', 'Silver Rapier'], armor: ['Performer\'s Outfit'], tools: ['Book of Ballads'], accessories: ['Enchanted Tuning Fork'] },
+            'Chronarch': { weapons: ['Temporal Staff'], armor: ['Temporal Robes'], tools: ['Pocket Watch of Chronos'], accessories: ['Hourglass Pendant', 'Time Crystal'] },
+            'Chaos Weaver': { weapons: ['Wand of Entropy'], armor: ['Shifting Robes'], tools: ['Chaos Dice Set', 'Reality Anchor'], accessories: ['Orb of Entropy'] },
+            'Fate Weaver': { weapons: ['Thread-Bound Staff', 'Destiny Blade'], armor: ['Weaver\'s Robes'], tools: ['Deck of Fate', 'Thread Spool'], accessories: ['Thread of Destiny', 'Fate Pendant'] },
+            'Gambler': { weapons: ['Duelist\'s Rapier'], armor: ['Gambler\'s Vest'], tools: ['Fate Deck', 'Loaded Dice'], accessories: ['Lucky Coin'] },
+            'Martyr': { weapons: ['Sacred Mace', 'Sacrificial Blade'], armor: ['Scarred Plate'], tools: ['Tome of Suffering'], accessories: ['Martyr\'s Holy Symbol'] },
+            'False Prophet': { weapons: ['Charlatan\'s Staff', 'Whisper Blade'], armor: ['Deception Robes'], tools: ['Tome of Corruption'], accessories: ['Counterfeit Relic', 'Shadow Amulet'] },
+            'Exorcist': { weapons: ['Banishment Staff'], armor: ['Purification Robes'], tools: ['Vial of Holy Water'], accessories: ['Exorcist\'s Holy Symbol', 'Warding Rings'] },
+            'Oracle': { weapons: ['Oracle\'s Divination Staff'], armor: ['Prophetic Robes'], tools: ['Oracle\'s Tarot Deck'], accessories: ['Scrying Orb', 'Necklace of Fate'] },
+            'Plaguebringer': { weapons: ['Plague Staff'], armor: ['Contaminated Robes'], tools: ['Plague Vial', 'Tome of Rot'], accessories: ['Pestilence Mask'] },
+            'Lichborne': { weapons: ['Frost Staff'], armor: ['Undead Robes'], tools: ['Necromantic Tome'], accessories: ['Phylactery', 'Soul Gem'] },
+            'Deathcaller': { weapons: ['Bone Wand'], armor: ['Necromancer\'s Robes'], tools: ['Soul Catcher'], accessories: ['Soul Gem', 'Skull Amulet'] },
+            'Spellguard': { weapons: ['Warding Staff'], armor: ['Protective Robes'], tools: ['Tome of Protection'], accessories: ['Warding Amulet', 'Ward Stone'] },
+            'Inscriptor': { weapons: ['Runic Chisel'], armor: ['Runic Robes'], tools: ['Rune Stone Set', 'Rune Pouch'], accessories: ['Glyph Amulet'] },
+            'Arcanoneer': { weapons: ['Arcane Pistol'], armor: ['Magical Leathers'], tools: ['Arcane Ammo Pouch', 'Gunslinger\'s Manual'], accessories: ['Precision Sight'] },
+            'Witch Doctor': { weapons: ['Totem Staff'], armor: ['Tribal Robes'], tools: ['Voodoo Doll', 'Herb Pouch'], accessories: ['Spirit Mask'] },
+            'Formbender': { weapons: ['Primal Staff', 'Beast Claw'], armor: ['Primal Leathers'], tools: ['Shape Totem'], accessories: ['Beast Fang Necklace'] },
+            'Primalist': { weapons: ['Elemental Staff'], armor: ['Nature\'s Robes'], tools: ['Totem Pouch', 'Totem Stone'], accessories: ['Elemental Crystal'] },
+            'Berserker': { weapons: ['Berserker\'s Greataxe', 'Battle Axe'], armor: ['Berserker Hide'], tools: ['War Paint'], accessories: ['Rage Totem'] },
+            'Dreadnaught': { weapons: ['Heavy Warhammer', 'Siege Ram'], armor: ['Tower Shield', 'Fortress Plate', 'Bastion Helmet'] },
+            'Titan': { weapons: ['Gravity Maul'], armor: ['Gravity Plate'], tools: ['Tome of Gravity'], accessories: ['Gravity Core', 'Strain Brace'] },
+            'Toxicologist': { weapons: ['Envenomed Dagger'], armor: ['Poison-Resistant Robes'], tools: ['Poison Vial Set', 'Alchemy Tome'], accessories: ['Alchemist\'s Bandolier', 'Toxic Ring'] },
+            'Covenbane': { weapons: ['Nullifying Blade'], armor: ['Anti-Magic Armor'], tools: ['Witch Hunter\'s Tome'], accessories: ['Hexbreaker Seal', 'Null Amulet'] },
+            'Bladedancer': { weapons: ['Twin Dancing Blades'], armor: ['Dancer\'s Leathers', 'Flourish Cloak'], tools: ['Dance Manual'], accessories: ['Ring of Grace'] },
+            'Lunarch': { weapons: ['Lunar Bow'], armor: ['Lunar Robes'], tools: ['Lunar Tome'], accessories: ['Moonstone Amulet', 'Phase Crystal'] },
+            'Huntress': { weapons: ['Shadow Glaive'], armor: ['Tracker\'s Gear'], tools: ['Tracking Kit', 'Ranger\'s Manual'], accessories: ['Prey Mark'] },
+            'Warden': { weapons: ['Guardian Spear'], armor: ['Warden\'s Chainmail', 'Guardian Shield'], accessories: ['Protection Amulet', 'Barrier Stone'] }
         };
-        return statRecommendations[className] || [
-            { name: 'Intelligence', priority: 2 },
-            { name: 'Constitution', priority: 2 },
-            { name: 'Agility', priority: 1 }
+        const classEq = equipment[className] || {};
+        return [
+            ...(classEq.weapons || []),
+            ...(classEq.armor || []),
+            ...(classEq.tools || []),
+            ...(classEq.accessories || [])
         ];
     };
 
-    // Helper function to get starting equipment that class adds to pool
-    const getStartingEquipment = (className) => {
-        const equipment = {
-            'Pyrofiend': {
-                weapons: ['Smoldering Staff', 'Ember Dagger'],
-                armor: ['Ash-Stained Robes'],
-                tools: ['Infernal Grimoire', 'Sulfur Pouch'],
-                accessories: ['Flame Amulet']
-            },
-            'Minstrel': {
-                weapons: ['Traveler\'s Lute', 'Silver Rapier'],
-                armor: ['Performer\'s Outfit'],
-                tools: ['Book of Ballads'],
-                accessories: ['Enchanted Tuning Fork']
-            },
-            'Chronarch': {
-                weapons: ['Temporal Staff'],
-                armor: ['Temporal Robes'],
-                tools: ['Pocket Watch of Chronos'],
-                accessories: ['Hourglass Pendant', 'Time Crystal']
-            },
-            'Chaos Weaver': {
-                weapons: ['Wand of Entropy'],
-                armor: ['Shifting Robes'],
-                tools: ['Chaos Dice Set', 'Reality Anchor'],
-                accessories: ['Orb of Entropy']
-            },
-            'Fate Weaver': {
-                weapons: ['Thread-Bound Staff', 'Destiny Blade'],
-                armor: ['Weaver\'s Robes'],
-                tools: ['Deck of Fate', 'Thread Spool'],
-                accessories: ['Thread of Destiny', 'Fate Pendant']
-            },
-            'Gambler': {
-                weapons: ['Duelist\'s Rapier'],
-                armor: ['Gambler\'s Vest'],
-                tools: ['Fate Deck', 'Loaded Dice'],
-                accessories: ['Lucky Coin']
-            },
-            'Martyr': {
-                weapons: ['Sacred Mace', 'Sacrificial Blade'],
-                armor: ['Scarred Plate'],
-                tools: ['Tome of Suffering'],
-                accessories: ['Martyr\'s Holy Symbol']
-            },
-            'False Prophet': {
-                weapons: ['Charlatan\'s Staff', 'Whisper Blade'],
-                armor: ['Deception Robes'],
-                tools: ['Tome of Corruption'],
-                accessories: ['Counterfeit Relic', 'Shadow Amulet']
-            },
-            'Exorcist': {
-                weapons: ['Banishment Staff'],
-                armor: ['Purification Robes'],
-                tools: ['Vial of Holy Water'],
-                accessories: ['Exorcist\'s Holy Symbol', 'Warding Rings']
-            },
-            'Oracle': {
-                weapons: ['Oracle\'s Divination Staff'],
-                armor: ['Prophetic Robes'],
-                tools: ['Oracle\'s Tarot Deck'],
-                accessories: ['Scrying Orb', 'Necklace of Fate']
-            },
-            'Plaguebringer': {
-                weapons: ['Plague Staff'],
-                armor: ['Contaminated Robes'],
-                tools: ['Plague Vial', 'Tome of Rot'],
-                accessories: ['Pestilence Mask']
-            },
-            'Lichborne': {
-                weapons: ['Frost Staff'],
-                armor: ['Undead Robes'],
-                tools: ['Necromantic Tome'],
-                accessories: ['Phylactery', 'Soul Gem']
-            },
-            'Deathcaller': {
-                weapons: ['Bone Wand'],
-                armor: ['Necromancer\'s Robes'],
-                tools: ['Soul Catcher'],
-                accessories: ['Soul Gem', 'Skull Amulet']
-            },
-            'Spellguard': {
-                weapons: ['Warding Staff'],
-                armor: ['Protective Robes'],
-                tools: ['Tome of Protection'],
-                accessories: ['Warding Amulet', 'Ward Stone']
-            },
-            'Inscriptor': {
-                weapons: ['Runic Chisel'],
-                armor: ['Runic Robes'],
-                tools: ['Rune Stone Set', 'Rune Pouch'],
-                accessories: ['Glyph Amulet']
-            },
-            'Arcanoneer': {
-                weapons: ['Arcane Pistol'],
-                armor: ['Magical Leathers'],
-                tools: ['Arcane Ammo Pouch', 'Gunslinger\'s Manual'],
-                accessories: ['Precision Sight']
-            },
-            'Witch Doctor': {
-                weapons: ['Totem Staff'],
-                armor: ['Tribal Robes'],
-                tools: ['Voodoo Doll', 'Herb Pouch'],
-                accessories: ['Spirit Mask']
-            },
-            'Formbender': {
-                weapons: ['Primal Staff', 'Beast Claw'],
-                armor: ['Primal Leathers'],
-                tools: ['Shape Totem'],
-                accessories: ['Beast Fang Necklace']
-            },
-            'Primalist': {
-                weapons: ['Elemental Staff'],
-                armor: ['Nature\'s Robes'],
-                tools: ['Totem Pouch', 'Totem Stone'],
-                accessories: ['Elemental Crystal']
-            },
-            'Berserker': {
-                weapons: ['Berserker\'s Greataxe', 'Battle Axe'],
-                armor: ['Berserker Hide'],
-                tools: ['War Paint'],
-                accessories: ['Rage Totem']
-            },
-            'Dreadnaught': {
-                weapons: ['Heavy Warhammer', 'Siege Ram'],
-                armor: ['Tower Shield', 'Fortress Plate', 'Bastion Helmet']
-            },
-            'Titan': {
-                weapons: ['Gravity Maul'],
-                armor: ['Gravity Plate'],
-                tools: ['Tome of Gravity'],
-                accessories: ['Gravity Core', 'Strain Brace']
-            },
-            'Toxicologist': {
-                weapons: ['Envenomed Dagger'],
-                armor: ['Poison-Resistant Robes'],
-                tools: ['Poison Vial Set', 'Alchemy Tome'],
-                accessories: ['Alchemist\'s Bandolier', 'Toxic Ring']
-            },
-            'Covenbane': {
-                weapons: ['Nullifying Blade'],
-                armor: ['Anti-Magic Armor'],
-                tools: ['Witch Hunter\'s Tome'],
-                accessories: ['Hexbreaker Seal', 'Null Amulet']
-            },
-            'Bladedancer': {
-                weapons: ['Twin Dancing Blades'],
-                armor: ['Dancer\'s Leathers', 'Flourish Cloak'],
-                tools: ['Dance Manual'],
-                accessories: ['Ring of Grace']
-            },
-            'Lunarch': {
-                weapons: ['Lunar Bow'],
-                armor: ['Lunar Robes'],
-                tools: ['Lunar Tome'],
-                accessories: ['Moonstone Amulet', 'Phase Crystal']
-            },
-            'Huntress': {
-                weapons: ['Shadow Glaive'],
-                armor: ['Tracker\'s Gear'],
-                tools: ['Tracking Kit', 'Ranger\'s Manual'],
-                accessories: ['Prey Mark']
-            },
-            'Warden': {
-                weapons: ['Guardian Spear'],
-                armor: ['Warden\'s Chainmail', 'Guardian Shield'],
-                accessories: ['Protection Amulet', 'Barrier Stone']
-            },
-            'Justicar': {
-                weapons: ['Justicar\'s Blade'],
-                armor: ['Shield of Faith', 'Holy Plate'],
-                tools: ['Tome of Justice'],
-                accessories: ['Righteous Amulet']
-            },
-            'Oathkeeper': {
-                weapons: ['Oathbound Blade'],
-                armor: ['Vow Plate'],
-                tools: ['Tome of Vows'],
-                accessories: ['Oath Ring', 'Oath Seal']
-            },
-            'Factionist': {
-                weapons: ['Faction Longsword'],
-                armor: ['Faction Uniform'],
-                tools: ['Faction Banner'],
-                accessories: ['Faction Seal Ring', 'Faction Medallion']
-            },
-            'Arcanophage': {
-                weapons: ['Absorption Orb', 'Magic Absorption Staff'],
-                armor: ['Void Robes'],
-                tools: ['Tome of Absorption'],
-                accessories: ['Absorption Ring']
-            }
-        };
-        const classEq = equipment[className] || {};
-        // Return empty object structure if no equipment
-        return {
-            weapons: classEq.weapons || [],
-            armor: classEq.armor || [],
-            tools: classEq.tools || [],
-            accessories: classEq.accessories || [],
-            consumables: classEq.consumables || []
-        };
-    };
-
-    // Helper function to get damage types (for all classes)
     const getDamageTypes = (className) => {
         const damageTypes = {
             'Pyrofiend': ['Fire', 'Chaos'],
@@ -750,143 +383,88 @@ const Step3ClassSelection = () => {
         return damageTypes[className] || ['Physical', 'Magical'];
     };
 
-    // Helper function to get playstyle tips
-    const getPlaystyleTips = (className) => {
-        const tips = {
-            'Pyrofiend': [
-                'Focus on building corruption stacks for maximum damage',
-                'Use fire resistance to survive your own flames',
-                'Combine fire spells for devastating combos',
-                'Manage corruption carefully to avoid self-destruction'
-            ],
-            'Minstrel': [
-                'Use songs to control the battlefield',
-                'Combine offensive spells with inspiring melodies',
-                'Position carefully to affect multiple allies',
-                'Maintain concentration on key performances'
-            ],
-            'Chronarch': [
-                'Master timing for maximum spell effectiveness',
-                'Use temporal abilities to control encounter flow',
-                'Coordinate with allies for time-based combos',
-                'Balance offensive and utility time magic'
-            ],
-            'Chaos Weaver': [
-                'Embrace unpredictability in your strategy',
-                'Use chaos dice to turn the tide of battle',
-                'Adapt quickly to random spell effects',
-                'Risk management is key to survival'
-            ],
-            'Gambler': [
-                'Take calculated risks for maximum reward',
-                'Use luck manipulation strategically',
-                'Know when to fold and when to go all-in',
-                'Build fortune before making big plays'
-            ],
-            'Bladedancer': [
-                'Maintain fluid movement in combat',
-                'Use stance changes to adapt to situations',
-                'Focus on positioning and timing',
-                'Combine grace with deadly precision'
-            ],
-            'Berserker': [
-                'Build rage through combat engagement',
-                'Use momentum to chain devastating attacks',
-                'Balance fury with tactical awareness',
-                'Channel anger into focused destruction'
-            ],
-            'Warden': [
-                'Use terrain and positioning to your advantage',
-                'Focus on protecting allies with barriers',
-                'Combine nature magic with defensive tactics',
-                'Control the battlefield with binding spells'
-            ]
-        };
-        return tips[className] || [
-            'Adapt your strategy to the situation',
-            'Work with your team for best results',
-            'Practice your core abilities regularly',
-            'Learn from each encounter'
-        ];
-    };
+    const buildModalTabs = () => {
+        if (!viewingClass) return [];
 
-    // Helper function to get multiclass synergy
-    const getMulticlassSynergy = (className) => {
-        const synergy = {
-            'Pyrofiend': [
-                { name: 'Chaos Weaver', rating: 5 },
-                { name: 'Berserker', rating: 4 },
-                { name: 'Gambler', rating: 3 },
-                { name: 'Warden', rating: 1 }
-            ],
-            'Minstrel': [
-                { name: 'Gambler', rating: 5 },
-                { name: 'Chronarch', rating: 4 },
-                { name: 'Chaos Weaver', rating: 3 },
-                { name: 'Berserker', rating: 2 }
-            ],
-            'Chronarch': [
-                { name: 'Minstrel', rating: 5 },
-                { name: 'Chaos Weaver', rating: 4 },
-                { name: 'Pyrofiend', rating: 3 },
-                { name: 'Berserker', rating: 2 }
-            ],
-            'Chaos Weaver': [
-                { name: 'Pyrofiend', rating: 5 },
-                { name: 'Gambler', rating: 4 },
-                { name: 'Chronarch', rating: 4 },
-                { name: 'Warden', rating: 2 }
-            ],
-            'Gambler': [
-                { name: 'Minstrel', rating: 5 },
-                { name: 'Chaos Weaver', rating: 4 },
-                { name: 'Bladedancer', rating: 3 },
-                { name: 'Berserker', rating: 2 }
-            ],
-            'Bladedancer': [
-                { name: 'Berserker', rating: 4 },
-                { name: 'Gambler', rating: 3 },
-                { name: 'Warden', rating: 3 },
-                { name: 'Pyrofiend', rating: 2 }
-            ],
-            'Berserker': [
-                { name: 'Pyrofiend', rating: 4 },
-                { name: 'Bladedancer', rating: 4 },
-                { name: 'Warden', rating: 3 },
-                { name: 'Minstrel', rating: 2 }
-            ],
-            'Warden': [
-                { name: 'Chronarch', rating: 4 },
-                { name: 'Berserker', rating: 3 },
-                { name: 'Bladedancer', rating: 3 },
-                { name: 'Pyrofiend', rating: 1 }
-            ]
-        };
-        return synergy[className] || [
-            { name: 'Versatile', rating: 3 },
-            { name: 'Adaptable', rating: 3 },
-            { name: 'Balanced', rating: 3 }
+        const equipment = getStartingEquipment(viewingClass.name);
+        const damageTypes = getDamageTypes(viewingClass.name);
+        const features = getClassFeatures(viewingClass.name);
+
+        return [
+            {
+                id: 'overview',
+                label: 'Overview',
+                content: (
+                    <OverviewTab
+                        flavorText={getClassFlavor(viewingClass.name)}
+                        metaBadges={[
+                            { label: 'Theme', value: viewingClass.theme },
+                            { label: 'Role', value: getClassRole(viewingClass.name) },
+                            { label: 'Resource', value: getClassResource(viewingClass.name) }
+                        ]}
+                    />
+                )
+            },
+            {
+                id: 'features',
+                label: 'Features',
+                badge: features.length.toString(),
+                content: (
+                    <FeaturesTab
+                        features={features}
+                        title="Class Features"
+                    />
+                )
+            },
+            {
+                id: 'equipment',
+                label: 'Equipment',
+                badge: equipment.length > 0 ? equipment.length.toString() : null,
+                content: (
+                    <EquipmentTab
+                        equipmentNames={equipment}
+                        note="These items are added to your starting equipment pool. You can purchase additional items in Step 10."
+                    />
+                )
+            },
+            {
+                id: 'damage-types',
+                label: 'Damage Types',
+                content: (
+                    <DamageTypesTab damageTypes={damageTypes} />
+                )
+            }
         ];
     };
 
     return (
         <div className="wizard-step-content">
-            <div className="class-selection-layout">
-                {/* Left side - Class selection */}
+            <div className="step-header">
+                <h2 className="step-title">
+                    <i className="fas fa-fire"></i>
+                    Choose Your Calling
+                </h2>
+                <p className="step-description">
+                    Your class defines not merely what you do, but who you are destined to become. 
+                    Will you harness the destructive fury of the Pyrofiend, weave reality itself as a Chaos Weaver, 
+                    or perhaps walk the shadowed path of the Deathcaller? Each calling offers unique powers, 
+                    mechanics, and a playstyle that will shape your legend.
+                </p>
+            </div>
+            <div className="step-body">
+            <div className="class-selection-layout-fullwidth">
                 <div className="class-selection-panel">
                     <div className="class-section">
                         <h3 className="section-title">
                             <i className="fas fa-sword"></i>
-                            Choose Class
+                            Available Classes
                         </h3>
-                        <div className="class-grid">
+                        <div className="class-grid-fullwidth">
                             {characterClasses.map((classData) => (
                                 <div
                                     key={classData.name}
                                     className={`class-card ${selectedClass === classData.name ? 'selected' : ''}`}
-                                    onClick={() => handleClassSelect(classData.name)}
-                                    onMouseEnter={() => setHoveredClass(classData.name)}
-                                    onMouseLeave={() => setHoveredClass(null)}
+                                    onClick={() => handleClassCardClick(classData.name)}
                                 >
                                     <div className="class-info">
                                         <h4 className="class-name">{classData.name}</h4>
@@ -894,260 +472,29 @@ const Step3ClassSelection = () => {
                                             {classData.description}
                                         </p>
                                     </div>
+                                    <button className="class-view-btn">
+                                        <i className="fas fa-eye"></i> View Details
+                                    </button>
                                 </div>
                             ))}
                         </div>
                     </div>
-
-                    {validationErrors.class && (
-                        <div className="error-message">
-                            <i className="fas fa-exclamation-triangle"></i>
-                            {validationErrors.class}
-                        </div>
-                    )}
-
                 </div>
+            </div>
 
-                {/* Right side - Class preview */}
-                <div className="class-preview-container">
-                    {previewClass ? (
-                        <div className="subrace-info-section">
-                            <h2 className="class-preview-title">{previewClass.name}</h2>
-
-                            <p className="class-flavor-text">
-                                {getClassFlavor(previewClass.name)}
-                            </p>
-
-                            <div className="class-meta-row">
-                                <span className="meta-badge"><span className="meta-label">Theme</span>{previewClass.theme}</span>
-                                <span className="meta-badge"><span className="meta-label">Role</span>{getClassRole(previewClass.name)}</span>
-                                <span className="meta-badge"><span className="meta-label">Resource</span>{getClassResource(previewClass.name)}</span>
-                            </div>
-
-                            <div className="class-features-list">
-                                {getClassFeatures(previewClass.name).map((feature, index) => (
-                                    <div key={index} className="feature-bullet">{feature}</div>
-                                ))}
-                            </div>
-
-                            {(() => {
-                                const eq = getStartingEquipment(previewClass.name);
-                                const hasEquipment = (eq.weapons && eq.weapons.length > 0) ||
-                                    (eq.armor && eq.armor.length > 0) ||
-                                    (eq.tools && eq.tools.length > 0) ||
-                                    (eq.accessories && eq.accessories.length > 0) ||
-                                    (eq.consumables && eq.consumables.length > 0);
-                                return hasEquipment ? (
-                                    <div className="starting-equipment-section">
-                                        <h4 className="equipment-section-title">
-                                            <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
-                                        </h4>
-                                        <div
-                                            className="equipment-preview-grid"
-                                            style={{
-                                                minHeight: (() => {
-                                                    const allItemNames = [
-                                                        ...(eq.weapons || []),
-                                                        ...(eq.armor || []),
-                                                        ...(eq.tools || []),
-                                                        ...(eq.accessories || []),
-                                                        ...(eq.consumables || [])
-                                                    ];
-                                                    const fullItems = getFullItemObjects(allItemNames);
-                                                    if (fullItems.length === 0) return '120px';
-
-                                                    const estimatedRows = Math.max(2, Math.ceil(fullItems.length / 3) + 1);
-                                                    const cellSize = 40;
-                                                    const rowGap = 2;
-                                                    const gridPadding = 8;
-                                                    const gridHeight = (gridPadding * 2) + (estimatedRows * cellSize) + ((estimatedRows - 1) * rowGap);
-                                                    return `${gridHeight}px`;
-                                                })()
-                                            }}
-                                        >
-                                            {(() => {
-                                                // Get all item names and convert to full objects
-                                                const allItemNames = [
-                                                    ...(eq.weapons || []),
-                                                    ...(eq.armor || []),
-                                                    ...(eq.tools || []),
-                                                    ...(eq.accessories || []),
-                                                    ...(eq.consumables || [])
-                                                ];
-
-                                                const fullItems = getFullItemObjects(allItemNames);
-
-                                                // Equipment shop grid logic
-                                                const COLS = 6; // Smaller grid for class preview
-                                                const occupiedCells = new Map(); // Track occupied cells by "row,col" key
-                                                const gridRows = [];
-                                                const itemWrappers = [];
-                                                let totalRows = 0;
-
-                                                // Calculate grid constants
-                                                const cellSize = 40;
-                                                const cellGap = 1;
-                                                const rowGap = 2;
-                                                const gridPadding = 8;
-
-                                                // Place items in grid with proper dimensions
-                                                fullItems.forEach((item, index) => {
-                                                    if (!item) return;
-
-                                                    const width = item.width || 1;
-                                                    const height = item.height || 1;
-
-                                                    // Find a spot for this item - dynamically expand grid if needed
-                                                    let placed = false;
-                                                    let maxRowToCheck = Math.max(6, totalRows + height + 2); // Limit to 6 rows max
-
-                                                    for (let row = 0; row < maxRowToCheck && !placed; row++) {
-                                                        for (let col = 0; col < COLS && !placed; col++) {
-                                                            // Check if this position and area is free
-                                                            let canPlace = true;
-                                                            for (let dy = 0; dy < height && canPlace; dy++) {
-                                                                for (let dx = 0; dx < width && canPlace; dx++) {
-                                                                    if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
-                                                                        canPlace = false;
-                                                                    }
-                                                                }
-                                                            }
-
-                                                            if (canPlace) {
-                                                                // Mark cells as occupied
-                                                                for (let dy = 0; dy < height; dy++) {
-                                                                    for (let dx = 0; dx < width; dx++) {
-                                                                        occupiedCells.set(`${row + dy},${col + dx}`, true);
-                                                                    }
-                                                                }
-
-                                                                // Calculate position relative to grid container (accounting for 8px padding)
-                                                                const itemLeft = gridPadding + col * (cellSize + cellGap);
-                                                                const itemTop = gridPadding + row * (cellSize + rowGap);
-                                                                const itemWidth = width * cellSize + (width - 1) * cellGap;
-                                                                const itemHeight = height * cellSize + (height - 1) * rowGap;
-
-                                                                // Mark the first cell as occupied for rendering
-                                                                if (!gridRows[row]) gridRows[row] = [];
-                                                                gridRows[row][col] = true;
-
-                                                                // Create item wrapper as separate element
-                                                                itemWrappers.push(
-                                                                    <div
-                                                                        key={`item-${index}`}
-                                                                        className="equipment-preview-item-wrapper"
-                                                                        style={{
-                                                                            width: `${itemWidth}px`,
-                                                                            height: `${itemHeight}px`,
-                                                                            left: `${itemLeft}px`,
-                                                                            top: `${itemTop}px`
-                                                                        }}
-                                                                        onMouseEnter={(e) => handleItemMouseEnter(e, item)}
-                                                                        onMouseMove={handleItemMouseMove}
-                                                                        onMouseLeave={handleItemMouseLeave}
-                                                                    >
-                                                                        <div
-                                                                            className="equipment-item-icon"
-                                                                            style={{
-                                                                                backgroundImage: `url(${getIconUrl(item.iconId, 'items')})`,
-                                                                                backgroundColor: 'transparent',
-                                                                                width: '100%',
-                                                                                height: '100%',
-                                                                                backgroundSize: 'contain',
-                                                                                backgroundPosition: 'center',
-                                                                                backgroundRepeat: 'no-repeat',
-                                                                                position: 'absolute',
-                                                                                top: 0,
-                                                                                left: 0
-                                                                            }}
-                                                                            title={item.name}
-                                                                        />
-                                                                    </div>
-                                                                );
-                                                                placed = true;
-                                                                totalRows = Math.max(totalRows, row + height);
-                                                            }
-                                                        }
-                                                    }
-                                                });
-
-                                                // Ensure we have enough rows for all placed items
-                                                const minRows = Math.max(2, totalRows + 1);
-                                                while (gridRows.length < minRows) {
-                                                    gridRows.push(new Array(COLS).fill(null));
-                                                }
-
-                                                // Calculate grid height: padding (top + bottom) + rows * (cell height + row gap) - last row gap
-                                                const gridHeight = (gridPadding * 2) + (gridRows.length * cellSize) + ((gridRows.length - 1) * rowGap);
-
-                                                // Render grid rows and item wrappers
-                                                return (
-                                                    <>
-                                                        {/* Grid cells */}
-                                                        {gridRows.map((rowCells, rowIndex) => (
-                                                            <div key={`row-${rowIndex}`} className="equipment-preview-row">
-                                                                {Array.from({ length: COLS }, (_, colIndex) => {
-                                                                    const isOccupied = occupiedCells.has(`${rowIndex},${colIndex}`);
-                                                                    return (
-                                                                        <div
-                                                                            key={`cell-${rowIndex}-${colIndex}`}
-                                                                            className={`equipment-preview-cell ${isOccupied ? 'occupied' : 'empty'}`}
-                                                                        ></div>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        ))}
-                                                        {/* Item wrappers positioned absolutely */}
-                                                        {itemWrappers}
-                                                        {/* Spacer to ensure grid container expands to fit all rows */}
-                                                        <div style={{
-                                                            height: `${gridHeight}px`,
-                                                            width: '1px',
-                                                            position: 'absolute',
-                                                            pointerEvents: 'none',
-                                                            visibility: 'hidden',
-                                                            top: 0,
-                                                            left: 0
-                                                        }}></div>
-                                                    </>
-                                                );
-                                            })()}
-                                        </div>
-
-                                        <div className="equipment-pool-note">
-                                            <div className="note-content">
-                                                <i className="fas fa-info-circle"></i>
-                                                <span>These items are added to your starting equipment pool. You can purchase additional items like these in Step 10 among other equipment choices. Equipping happens during actual gameplay.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : null;
-                            })()}
-                        </div>
-                    ) : (
-                        <div className="preview-placeholder">
-                            <i className="fas fa-sword"></i>
-                            <h3>Select a Class</h3>
-                            <p>Hover over or select a class to see its details and abilities.</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Item Tooltip */}
-                {tooltip.show && tooltip.item && (
-                    <div
-                        ref={tooltipRef}
-                        style={{
-                            position: 'fixed',
-                            left: tooltip.x,
-                            top: tooltip.y,
-                            zIndex: 1000,
-                            pointerEvents: 'none'
-                        }}
-                    >
-                        <ItemTooltip item={tooltip.item} />
-                    </div>
-                )}
+            <TabbedSelectionModal
+                isOpen={showModal}
+                onClose={() => {
+                    setShowModal(false);
+                    setViewingClass(null);
+                }}
+                onSelect={() => viewingClass && handleClassSelect(viewingClass.name)}
+                selectedItem={viewingClass}
+                selectionType="Class"
+                tabs={buildModalTabs()}
+                width="950px"
+                icon={viewingClass?.icon}
+            />
             </div>
         </div>
     );

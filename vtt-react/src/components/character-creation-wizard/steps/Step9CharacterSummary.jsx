@@ -189,11 +189,49 @@ const Step9CharacterSummary = () => {
     const backgroundAbilities = characterData.background ? getBackgroundAbilities(characterData.background) : [];
     const pathData = characterData.path ? getPathData(characterData.path) : null;
 
+    // Build completion checklist
+    const checklistItems = [
+        { label: 'Character Name', done: !!(characterData.name && characterData.name.trim()) },
+        { label: 'Race & Subrace', done: !!(characterData.race && characterData.subrace) },
+        { label: 'Class', done: !!characterData.class },
+        { label: 'Background', done: !!characterData.background },
+        { label: 'Discipline (Path)', done: !!characterData.path },
+        { label: 'Ability Scores', done: !!(characterData.baseStats && Object.values(characterData.baseStats).some(v => v > 0)) },
+        { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
+    ];
+    const allComplete = checklistItems.every(i => i.done);
+    const missingCount = checklistItems.filter(i => !i.done).length;
+
     return (
         <div className="wizard-step-content">
             <div className="step-body">
                 <div className="character-summary-layout">
+                    {/* Completion Checklist */}
+                    <div className="summary-checklist">
+                        <div className="summary-checklist-header">
+                            <i className={allComplete ? 'fas fa-check-circle' : 'fas fa-clipboard-list'}></i>
+                            Character Completion Checklist
+                        </div>
+                        <div className="summary-checklist-body">
+                            <div className="summary-checklist-grid">
+                                {checklistItems.map((item) => (
+                                    <div key={item.label} className={`summary-check-item ${item.done ? 'complete' : 'incomplete'}`}>
+                                        <i className={`summary-check-icon fas ${item.done ? 'fa-check-circle' : 'fa-times-circle'}`}></i>
+                                        {item.label}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className={`summary-ready-banner ${allComplete ? 'all-complete' : 'has-missing'}`}>
+                                <i className={`fas ${allComplete ? 'fa-dragon' : 'fa-exclamation-circle'}`}></i>
+                                {allComplete
+                                    ? 'Your hero is ready! Click "Create Character" to begin your adventure.'
+                                    : `${missingCount} item${missingCount > 1 ? 's' : ''} still needed before creating your character.`}
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Left side - Character details */}
+
                     <div className="summary-details">
                         {/* Basic Information */}
                         <div className="summary-section">

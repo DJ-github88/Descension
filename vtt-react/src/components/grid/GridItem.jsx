@@ -108,25 +108,27 @@ const GridItem = ({ gridItem }) => {
         return visibleAreaSet.has(itemTileKey);
       }
 
-      // FIX: Show items during room initialization when visibleAreaSet is not yet calculated
-      // If visibleAreaSet is null or empty (no fog data yet), show items based on distance to viewing token
-      // This ensures GM-placed items are visible to players when they first enter a room
+      // FIX: When dynamicFogEnabled is true and viewingFromToken is set,
+      // but visibleAreaSet is empty (visibility not yet calculated), HIDE items
+      // They will be revealed once visibility is calculated by TokenVisibilityCalculator
+      // This prevents items from appearing through fog before visibility data is ready
       if (!visibleArea || visibleAreaSet.size === 0) {
-        // If viewingFromToken is not set yet (player just joined), default to showing items
-        // Items will be hidden once player token view is established and FOV is calculated
-        if (!viewingFromToken || !viewingFromToken.position) {
-          return true; // Show items initially
+        // If we have a viewing token and dynamic fog is enabled, hide items until visibility is calculated
+        if (viewingFromToken && viewingFromToken.position) {
+          return false; // Hide until visibility is calculated
         }
+        // If no viewing token position, show items (fallback for initialization)
+        return true;
       }
 
       // Not in visible area - hide item (afterimages will show it in explored areas)
       return false;
     }
 
-    // FIX: If not viewing from a token and not in GM mode, always visible (normal view)
-    // This ensures items are visible to players when not viewing from any token and not in GM mode
+    // FIXED: If not viewing from a token and not in GM mode, always visible (normal view)
+    // This provides a visual reference for players until they select a vision source
     if (!viewingFromToken && !isGMMode) {
-      return true; // Show items when not viewing from any token and not in GM mode
+      return true;
     }
 
     return true;

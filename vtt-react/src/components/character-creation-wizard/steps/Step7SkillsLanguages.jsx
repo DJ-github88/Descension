@@ -635,7 +635,7 @@ const Step7SkillsLanguages = () => {
                                                     <div className="quest-preview-list">
                                                         {quests.map(quest => (
                                                             <div key={quest.id} className="quest-preview-item">
-                                                                <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                <img src={getIconUrl(quest.icon, 'abilities')} alt={quest.name} className="quest-preview-icon" />
                                                                 <div className="quest-preview-info">
                                                                     <strong>{quest.name}</strong>
                                                                     <p>{quest.description}</p>
@@ -726,7 +726,7 @@ const Step7SkillsLanguages = () => {
                                                     <div className="quest-preview-list">
                                                         {quests.map(quest => (
                                                             <div key={quest.id} className="quest-preview-item">
-                                                                <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                <img src={getIconUrl(quest.icon, 'abilities')} alt={quest.name} className="quest-preview-icon" />
                                                                 <div className="quest-preview-info">
                                                                     <strong>{quest.name}</strong>
                                                                     <p>{quest.description}</p>

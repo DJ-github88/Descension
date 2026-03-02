@@ -27,6 +27,7 @@ import ShopWindow from '../shop/ShopWindow';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
+import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 
 // Helper function to calculate ability modifier (D&D style)
 const calculateModifier = (abilityScore) => {
@@ -340,10 +341,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         });
 
         // Send to server with actionId for tracking
+        const gameStore = useGameStore.getState();
+        const roomId = gameStore.multiplayerRoom?.id;
+        const currentMapId = token.mapId || 'default';
+
         multiplayerSocket.emit('token_moved', {
           tokenId: token.id,
           position: position,
-          actionId: actionId // For server confirmation tracking
+          roomId: roomId,
+          mapId: currentMapId,
+          actionId: actionId
         });
       });
     }
@@ -376,6 +383,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const fovAngle = useLevelEditorStore(state => state.fovAngle);
   const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
   const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
+  const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
   const getExploredArea = useLevelEditorStore(state => state.getExploredArea);
   const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
   const [isHovering, setIsHovering] = useState(false);
@@ -408,6 +416,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   }, [viewingFromToken?.position]);
 
+  // Determine ownership for visibility safety fallback
+  const mySocketId = useGameStore(state => state.multiplayerSocket?.id);
+  const myCharName = useCharacterStore(state => state.name);
+  const ownerId = token?.ownerId || token?.playerId;
+  const isOwnToken = ownerId === mySocketId ||
+    ownerId === myCharName ||
+    ownerId === 'current-player';
+
   // Check if this token is visible based on FOV (only if viewing from a token)
   // Returns: true = fully visible, false = hidden
   // Note: Afterimages handle showing tokens at their remembered positions in explored areas
@@ -415,9 +431,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
   const lastVisibilityCheckRef = useRef({ cacheKey: null, result: true });
   const tokenVisibilityState = React.useMemo(() => {
+    // 1. PRIMARY SAFETY CHECKS (Always visible to owner/viewer)
     // If this is the viewing token, always visible
     if (isViewingFrom) return true;
 
+    // Safety fallback - Players should ALWAYS be able to see tokens they own.
+    if (isOwnToken && !isGMMode) return true;
+
+    // 2. FOV VISIBILITY CALCULATIONS
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
     // GM mode should NOT restrict token visibility - GM can always see all tokens
     if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
@@ -426,18 +447,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         return false; // No position - hide token
       }
 
-      // Get visibility polygon from store for accurate point-in-polygon check
+      // Use visibilityPolygon from scope (extracted via hook for reactivity)
       const levelEditorStore = useLevelEditorStore.getState();
-      const visibilityPolygon = levelEditorStore.visibilityPolygon;
 
-      // Create a comprehensive cache key that includes all factors affecting visibility
-      // Position alone is not enough - visibility depends on viewing token position and visibility area
-      // FIXED: Include a sample of visibleAreaSet to detect content changes (not just size)
+      // FIXED: Include a stable identifier for the vision area content to detect changes even if size is same
+      const visionAreaKey = visibleArea && visibleArea.length > 0
+        ? `${visibleArea[0]}_${visibleArea[visibleArea.length - 1]}_${visibleArea.length}`
+        : 'none';
+
+      // FIXED: Restore missing variables for cache key
       const movementCount = viewingTokenMovementRef.current.count || 0;
       const viewingPosKey = viewingFromToken?.position
         ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}`
         : 'none';
-      const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
+
+      const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visionAreaKey}_${viewingPosKey}`;
       if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
         return lastVisibilityCheckRef.current.result;
       }
@@ -488,26 +512,28 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
       }
 
-      // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
-      // This prevents tokens from being hidden during initialization
-      if (!visible && viewingFromToken && viewingFromToken.position &&
-        (!visibleAreaSet || visibleAreaSet.size === 0)) {
-        const viewingPos = viewingFromToken.position;
-        const dx = position.x - viewingPos.x;
-        const dy = position.y - viewingPos.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+      // FIXED: NO distance-based fallback when dynamicFogEnabled is true
+      // When viewing from a token with dynamic fog enabled, tokens should be hidden
+      // until visibility is properly calculated by TokenVisibilityCalculator
+      // This prevents tokens from appearing through fog before visibility data is ready
+      if (!visible && viewingFromToken && viewingFromToken.position && dynamicFogEnabled) {
+        // Hide tokens until visibility is calculated - don't use distance fallback
+        // TokenVisibilityCalculator will update visibleAreaSet, which will then show visible tokens
+        visible = false;
+      }
 
-        // Get vision range for viewing token
-        const viewingTokenId = viewingFromToken.type === 'creature'
-          ? (viewingFromToken.creatureId || viewingFromToken.id)
-          : (viewingFromToken.characterId || viewingFromToken.id || viewingFromToken.playerId);
-        const viewingTokenVision = levelEditorStore.tokenVisionRanges[viewingTokenId];
-        const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
-        const visionRangeInWorld = visionRange * tokenGridSize;
+      // ADDITIONAL CHECK: Also verify using visibility polygon for wall occlusion
+      // This ensures tokens behind blocking walls are properly hidden
 
-        // If token is within vision range, show it (only as fallback when no proper visibility data)
-        if (distance <= visionRangeInWorld) {
-          visible = true;
+      if (visibilityPolygon && visibilityPolygon.length >= 3) {
+        const isInVisibilityPolygon = isPointInPolygon(
+          position.x,
+          position.y,
+          visibilityPolygon
+        );
+
+        if (!isInVisibilityPolygon) {
+          visible = false;
         }
       }
 
@@ -519,9 +545,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       return visible;
     }
 
-    // If not viewing from a token or in GM mode, always visible (normal view)
+    // FIX: If not viewing from a token and not in GM mode, show everything
+    // Dynamic fog only applies when actively viewing from a token
+    // This prevents tokens from being hidden during initial setup before viewingFromToken is set
+    if (!viewingFromToken && !isGMMode && dynamicFogEnabled) {
+      return true; // Show tokens when no viewing token is set yet (fallback)
+    }
+
+    // If not viewing from a token and not in GM mode and dynamic fog is disabled, visible (normal view)
+    if (!viewingFromToken && !isGMMode && !dynamicFogEnabled) {
+      return true;
+    }
+
+    // Default: visible (GM mode or no fog system active)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet]);
+  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, gridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, isOwnToken, visibilityPolygon]);
 
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {
@@ -1417,7 +1455,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
 
     // Show floating combat text at token's screen position
-    if (window.showFloatingCombatText) {
+    // Scrolling combat text removed per user request to eliminate wild animations
+    if (false && window.showFloatingCombatText) {
       window.showFloatingCombatText(
         amount.toString(),
         'damage',
@@ -1448,7 +1487,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
 
     // Show floating combat text at token's screen position
-    if (window.showFloatingCombatText) {
+    // Scrolling combat text removed per user request to eliminate wild animations
+    if (false && window.showFloatingCombatText) {
       window.showFloatingCombatText(
         amount.toString(),
         'heal',

@@ -721,6 +721,7 @@ const usePartyStore = create((set, get) => ({
   /**
    * Update a specific party member's data
    * CRITICAL FIX: Deep merge character object to preserve nested resources (health, mana, actionPoints)
+   * CRITICAL FIX: Match by multiple ID types (id, userId, socketId) for reliable updates
    */
   updatePartyMember: (memberId, updates, silent = false) => {
     const isTargetSelf = isSelfMemberId(memberId, updates?.userId);
@@ -728,7 +729,15 @@ const usePartyStore = create((set, get) => ({
     set(state => ({
       partyMembers: state.partyMembers.map(m => {
         const isMemberSelf = isSelfMemberId(m.id, m.userId);
-        if ((isTargetSelf && isMemberSelf) || m.id === memberId || (m.userId && m.userId === memberId)) {
+        // CRITICAL FIX: Match by multiple ID types for reliable identification
+        const matchesById =
+          m.id === memberId ||
+          m.userId === memberId ||
+          m.socketId === memberId ||
+          (updates?.userId && (m.id === updates.userId || m.userId === updates.userId || m.socketId === updates.userId)) ||
+          (updates?.socketId && (m.id === updates.socketId || m.userId === updates.socketId || m.socketId === updates.socketId));
+
+        if ((isTargetSelf && isMemberSelf) || matchesById) {
           // Deep merge character object if present in updates
           if (updates.character && m.character) {
             const mergedCharacter = {
@@ -741,8 +750,19 @@ const usePartyStore = create((set, get) => ({
               // Preserve classResource if not explicitly updated
               ...(m.character.classResource && !updates.character.classResource ? { classResource: m.character.classResource } : {}),
               // Deep merge classResource if both exist
-              ...(updates.character.classResource && m.character.classResource ? { classResource: { ...m.character.classResource, ...updates.character.classResource } } : {})
+              ...(updates.character.classResource && m.character.classResource ? { classResource: { ...m.character.classResource, ...updates.character.classResource } } : {}),
+              // CRITICAL FIX: Preserve display names if not explicitly in update
+              race: updates.character.race ?? m.character.race,
+              raceDisplayName: updates.character.raceDisplayName ?? m.character.raceDisplayName,
+              class: updates.character.class ?? m.character.class,
+              background: updates.character.background ?? m.character.background,
+              backgroundDisplayName: updates.character.backgroundDisplayName ?? m.character.backgroundDisplayName,
+              path: updates.character.path ?? m.character.path,
+              pathDisplayName: updates.character.pathDisplayName ?? m.character.pathDisplayName,
+              lore: updates.character.lore ?? m.character.lore,
+              tokenSettings: updates.character.tokenSettings ?? m.character.tokenSettings
             };
+
             return { ...m, ...updates, character: mergedCharacter };
           }
           return { ...m, ...updates };
@@ -753,68 +773,43 @@ const usePartyStore = create((set, get) => ({
   },
 
   /**
-   * Get a specific party member
+   * Set the party leader
+   * @param {string} leaderId - ID of the leader (or 'current-player' for self)
+   * @param {boolean} silent - If true, prevents re-broadcasting (legacy flag support)
    */
-  getPartyMember: (memberId) => {
-    const state = get();
-    return state.partyMembers.find(member => member.id === memberId);
+  setLeader: (leaderId, silent = false) => {
+    const isSelf = leaderId === 'current-player' || isSelfMemberId(leaderId);
+    set({
+      leaderId,
+      leaderMode: isSelf
+    });
   },
 
   /**
-   * Check if a user is in the party
+   * Check if current user is the party leader
+   * Uses the same self-identification logic as isSelfMemberId for consistency
+   * @returns {boolean} true if current user is the party leader
    */
-  isUserInParty: (userId) => {
-    const state = get();
-    return state.partyMembers.some(member => member.id === userId);
-  },
-
-  // ==================== UTILITIES ====================
-
-  /**
-   * Get party size
-   */
-  getPartySize: () => {
-    const state = get();
-    return state.partyMembers.length;
+  isPartyLeader: () => {
+    const { leaderId } = get();
+    if (!leaderId) return false;
+    const selfIds = getSelfIdentifiers();
+    return selfIds.has(leaderId);
   },
 
   /**
-   * Get the current party ID
+   * Check if a specific user ID is the party leader
+   * @param {string} userId - The user ID to check
+   * @returns {boolean} true if the given userId is the party leader
    */
-  getCurrentPartyId: () => {
-    const state = get();
-    return state.currentParty?.id || null;
+  isUserLeader: (userId) => {
+    const { leaderId } = get();
+    if (!leaderId || !userId) return false;
+    return leaderId === userId;
   },
 
   /**
-   * Set the position of a party member frame in the HUD
-   */
-  setMemberPosition: (memberId, position) => {
-    set(state => ({
-      memberPositions: {
-        ...state.memberPositions,
-        [memberId]: position
-      }
-    }));
-  },
-
-  /**
-   * Get the position of a party member frame
-   */
-  getMemberPosition: (memberId) => {
-    const state = get();
-    return state.memberPositions[memberId] || null;
-  },
-
-  /**
-   * Set the leader of the party
-   */
-  setLeader: (leaderId, leaderMode = false) => {
-    set({ leaderId, leaderMode });
-  },
-
-  /**
-   * Set a single player's map assignment
+   * Update map assignment for a player
    */
   setPlayerMapAssignment: (playerId, mapId) => {
     if (!playerId) return;
@@ -827,69 +822,22 @@ const usePartyStore = create((set, get) => ({
   },
 
   /**
-   * Set all player map assignments at once (bulk update)
+   * Get a member's HUD position
    */
-  setAllPlayerMapAssignments: (assignments) => {
-    if (!assignments || typeof assignments !== 'object') return;
-    set({ playerMapAssignments: { ...assignments } });
+  getMemberPosition: (memberId) => {
+    return get().memberPositions[memberId];
   },
 
   /**
-   * Check if current user is the party leader
+   * Set a member's HUD position
    */
-  isPartyLeader: () => {
-    const { leaderId } = get();
-    if (!leaderId) return false;
-
-    // Check various identity forms
-    const selfIds = getSelfIdentifiers();
-    if (selfIds.has(leaderId)) return true;
-
-    try {
-      const gameStore = require('./gameStore').default.getState();
-      const myId = gameStore.currentPlayer?.id || gameStore.multiplayerSocket?.id;
-      if (myId && (leaderId === myId || selfIds.has(myId))) return true;
-    } catch (e) { }
-
-    try {
-      const presenceStore = require('./presenceStore').default.getState();
-      const myPresenceId = presenceStore.currentUserPresence?.userId;
-      if (myPresenceId && (leaderId === myPresenceId || selfIds.has(myPresenceId))) return true;
-    } catch (e) { }
-
-    try {
-      const authStore = require('./authStore').default.getState();
-      const myUserId = authStore.user?.uid;
-      if (myUserId && (leaderId === myUserId || selfIds.has(myUserId))) return true;
-    } catch (e) { }
-
-    return leaderId === 'current-player';
-  },
-
-  /**
-   * Check if a specific user is the party leader
-   */
-  isUserLeader: (userId) => {
-    const { leaderId } = get();
-    return leaderId && userId === leaderId;
-  },
-
-  /**
-   * Reset store to initial state (used when joining/leaving rooms)
-   */
-  resetStore: () => {
-    set({
-      currentParty: null,
-      isInParty: false,
-      partyMembers: [],
-      partyChatMessages: [],
-      pendingPartyInvites: [],
-      sentPartyInvites: [],
-      leaderId: null,
-      leaderMode: false,
-      memberPositions: {},
-      playerMapAssignments: {}
-    });
+  setMemberPosition: (memberId, position) => {
+    set(state => ({
+      memberPositions: {
+        ...state.memberPositions,
+        [memberId]: position
+      }
+    }));
   },
 
   /**

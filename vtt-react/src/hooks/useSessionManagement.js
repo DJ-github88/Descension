@@ -12,6 +12,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useRoomContext } from '../contexts/RoomContext';
 import useAuthStore from '../store/authStore';
 import usePresenceStore from '../store/presenceStore';
+import useSocialStore from '../store/socialStore';
 
 // Session configuration
 const SESSION_CONFIG = {
@@ -103,6 +104,18 @@ export const useSessionManagement = () => {
 
   const handleSessionTimeout = useCallback(async () => {
     console.log('Session timeout - auto-logging out user');
+
+    // CRITICAL: Clean up Firestore subscriptions BEFORE signOut to prevent permission errors
+    // The subscriptions will fail with "Missing or insufficient permissions" if auth is cleared first
+    try {
+      const { cleanup: socialCleanup } = useSocialStore.getState();
+      if (socialCleanup) {
+        console.log('🧹 Cleaning up social subscriptions before signOut...');
+        socialCleanup();
+      }
+    } catch (e) {
+      console.warn('Non-fatal: Could not cleanup social subscriptions:', e.message);
+    }
 
     // Update presence status to offline
     if (updateStatus) {

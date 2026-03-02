@@ -421,19 +421,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const chatStore = useChatStore.getState();
     if (chatStore.resetStore) chatStore.resetStore();
 
-    usePresenceStore.getState().cleanup();
+    // CRITICAL FIX: Do NOT call cleanup() here - it clears the socket which triggers
+    // GlobalSocketManager to create a new socket, which then disconnects the multiplayer
+    // socket via setSocket()'s cleanup logic. This causes the GM to be disconnected from
+    // the socket.io room and miss player_joined events.
+    // Instead, only clear the presence data we actually need to reset.
+    usePresenceStore.setState({
+      currentParty: null,
+      isInParty: false,
+      partyMembers: [],
+      pendingInvitations: [],
+      pendingPartyInvites: [],
+      globalChatMessages: [],
+      partyChatMessages: [],
+      whisperTabs: new Map()
+      // NOTE: We intentionally do NOT clear socket, isConnected, or currentUserPresence
+      // to maintain the active connection to the multiplayer server.
+    });
 
     // Party - CRITICAL: Clear both partyStore AND presenceStore party data
     // to prevent social party members from appearing in multiplayer room
     const partyStore = usePartyStore.getState();
     if (partyStore.resetStore) partyStore.resetStore();
-
-    // Also explicitly clear presenceStore party members to prevent HUD duplicates
-    usePresenceStore.setState({
-      currentParty: null,
-      isInParty: false,
-      partyMembers: []
-    });
 
     // Grid Items
     if (!preserveMapEntities) {
@@ -1075,6 +1084,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const handleAuthChange = async () => {
       if (!socket) return;
 
+      // CRITICAL FIX: Don't disconnect during active map transfers
+      // This prevents the socket from being disconnected mid-transfer which causes
+      // the RoomLobby to appear and the transfer to fail
+      if (window._isMapSwitching) {
+        console.log('⏭️ [Auth] Skipping socket reconnect during map switch');
+        return;
+      }
+
+      // CRITICAL FIX: Don't disconnect if we're in a multiplayer room
+      // The multiplayer socket must stay connected to receive room events
+      const gameStore = require('../../store/gameStore').default;
+      const isInMultiplayer = gameStore.getState().isInMultiplayer;
+      if (isInMultiplayer) {
+        console.log('⏭️ [Auth] Skipping socket reconnect - in multiplayer room');
+        return;
+      }
+
       try {
         const authState = authStore.getState();
 
@@ -1085,7 +1111,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Get fresh auth token (only for authenticated users, not guests)
         let authToken = null;
-        if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && authState.user.getIdToken) {
+        if (authState.user && !authState.isDevelopmentBypass && !authState.user?.isGuest && authState.user.getIdToken) {
           authToken = await authState.user.getIdToken(true); // Force refresh
         }
 
@@ -1250,6 +1276,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Mark this join as active
       activeJoinIdRef.current = joinId;
 
+      // Update actual player count from room data (+1 for GM)
+      const roomPlayers = data.room?.players || [];
+      const playerCount = (Array.isArray(roomPlayers) ? roomPlayers.length : Object.keys(roomPlayers).length) + 1;
+      setActualPlayerCount(playerCount);
+
       // Use explicit isGM flag from server
       const isGameMaster = data.isGM || data.isGMReconnect || false;
 
@@ -1382,10 +1413,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     // Listen for player join/leave events
-    socket.on('player_joined', (data) => {
-      // Update actual player count from server - Always add 1 for the GM
-      // The server typically counts only non-GM players in the players list
-      setActualPlayerCount(data.playerCount);
+    socket.on('player_joined', async (data) => {
+      if (!data || !data.player) return;
+
+      // Server sends total count (players + GM), use it directly
+      setActualPlayerCount(data.playerCount || 1);
 
       // Update player locations if provided
       if (data.room && data.room.playerMapAssignments) {
@@ -1452,7 +1484,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Skip adding ourselves to prevent duplicate HUDs - check strict IDs only
       // CRITICAL FIX: Do NOT check by name, as multiple players (or GM) might have the same name/account during testing
       const isCurrentPlayer = data.player.id === currentPlayerRef.current?.id ||
-        data.player.socketId === socket.id;
+        data.player.socketId === socket?.id;
 
       if (!isCurrentPlayer) {
 
@@ -1506,7 +1538,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           import('../../data/raceData').then(({ getFullRaceData }) => {
             const raceData = getFullRaceData(data.player.character.race, data.player.character.subrace);
             if (raceData) {
-              const updatedRaceDisplayName = raceData.subrace.name;
+              const updatedRaceDisplayName = `${raceData.subrace.name} ${raceData.race.name}`;
               // Update the party member with the correct race display name
               updatePartyMember(data.player.id, {
                 character: {
@@ -1540,6 +1572,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         if (socket && socket.connected) {
           socket.emit('party_member_added', {
             member: newPartyMember
+          });
+
+          // CRITICAL: Also broadcast OUR character to the newcomer so they see us correctly
+          import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+            useCharacterStore.getState().syncWithMultiplayer();
+            console.log('📤 Broadcasted local character to newcomer:', playerCharacterName);
           });
         }
       }
@@ -1583,6 +1621,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             levelEditor: {
               terrainData: mapTerrainData,
               wallData: mapWallData,
+              windowOverlays: mapWindowOverlays,
               environmentalObjects: playerMap?.environmentalObjects || levelEditorStore.environmentalObjects || [],
               drawingPaths: mapDrawingPaths,
               drawingLayers: mapDrawingLayers,
@@ -1593,8 +1632,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               lightSources: playerMap?.lightSources || levelEditorStore.lightSources || {},
               dynamicFogEnabled: levelEditorStore.dynamicFogEnabled,
               respectLineOfSight: levelEditorStore.respectLineOfSight,
-              dndElements: mapDndElements,
-              gridItems: useGridItemStore.getState().gridItems.filter(item => item.mapId === playerMapId)
+              dndElements: mapDndElements
             },
             gridSettings: {
               gridType: playerMap?.gridSettings?.gridType || gameStore.gridType || 'square',
@@ -1614,6 +1652,35 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               defaultViewFromToken: gameStore.defaultViewFromToken
             }
           });
+
+          // CRITICAL: Explicitly broadcast tokens for the specific map
+          const creatureStore = (await import('../../store/creatureStore')).default.getState();
+          const tokens = Object.fromEntries(
+            Object.entries(creatureStore.tokens || {}).filter(([_, t]) => (t.mapId || 'default') === playerMapId)
+          );
+
+          if (Object.keys(tokens).length > 0) {
+            console.log(`📤 Broadcasting ${Object.keys(tokens).length} tokens for map ${playerMapId}`);
+            socket.emit('sync_tokens', {
+              mapId: playerMapId,
+              tokens: tokens,
+              recipientPlayerId: data.player.id // Optional hint for server to only send to this player
+            });
+          }
+
+          // CRITICAL: Explicitly broadcast grid items for the specific map
+          const gridItemStore = (await import('../../store/gridItemStore')).default.getState();
+          const gridItems = (gridItemStore.gridItems || []).filter(item => (item.mapId || 'default') === playerMapId);
+
+          if (gridItems.length > 0) {
+            console.log(`📤 Broadcasting ${gridItems.length} grid items for map ${playerMapId}`);
+            socket.emit('sync_grid_items', {
+              mapId: playerMapId,
+              gridItems: Object.fromEntries(gridItems.map(item => [item.id, item])),
+              recipientPlayerId: data.player.id
+            });
+          }
+
         } catch (error) {
           console.error('Failed to broadcast level editor state:', error);
         }
@@ -1635,12 +1702,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         type: 'system',
         timestamp: new Date().toISOString()
       });
-    });
-
-    // Listen for player count updates
-    socket.on('player_count_updated', (data) => {
-      // Update actual player count from server - Always add 1 for GM
-      setActualPlayerCount(data.playerCount);
     });
 
     // Listen for character token creation
@@ -1675,6 +1736,60 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // PARTY INVITATION RESPONSE HANDLERS (fallback for when invite sent via multiplayer socket)
+    // These mirror the handlers in presenceStore.js for cross-socket compatibility
+    socket.on('invitation_sent', ({ invitationId, toUserId }) => {
+      console.log('📤 [MultiplayerApp] invitation_sent received:', { invitationId, toUserId });
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        usePresenceStore.setState(state => {
+          const updatedInvites = state.sentPartyInvites.map(inv => {
+            const isRecent = Date.now() - inv.sentAt < 5000;
+            if (inv.targetUserId === toUserId || (inv.invitationId === null && isRecent)) {
+              return { ...inv, invitationId };
+            }
+            return inv;
+          });
+          return { sentPartyInvites: updatedInvites };
+        });
+      });
+    });
+
+    socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
+      console.log('✅ [MultiplayerApp] party_invitation_accepted:', userName);
+      // NOTE: Only update sentPartyInvites list. Notifications handled by presenceStore party_invite_accepted
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        const store = usePresenceStore.getState();
+        const updatedInvites = store.sentPartyInvites.map(inv => {
+          const matches = inv.invitationId === invitationId ||
+            inv.targetUserId === userId ||
+            inv.targetName === userName;
+          return matches ? { ...inv, outcome: 'accepted' } : inv;
+        });
+        usePresenceStore.setState({
+          sentPartyInvites: updatedInvites
+          // REMOVED: Duplicate toast - handled by presenceStore party_invite_accepted
+        });
+      });
+    });
+
+    socket.on('party_invitation_declined', ({ invitationId, userId, userName }) => {
+      console.log('❌ [MultiplayerApp] party_invitation_declined:', userName);
+      // NOTE: Only update sentPartyInvites list. Notifications handled by presenceStore
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        const store = usePresenceStore.getState();
+        const updatedInvites = store.sentPartyInvites.map(inv => {
+          const matches = inv.invitationId === invitationId ||
+            inv.targetUserId === userId ||
+            inv.targetName === userName;
+          return matches ? { ...inv, outcome: 'declined' } : inv;
+        });
+        usePresenceStore.setState({
+          sentPartyInvites: updatedInvites
+          // REMOVED: Duplicate toast - handled by presenceStore
+        });
+      });
+    });
+
     // Listen for token removal
     socket.on('token_removed', (data) => {
       if (data && data.tokenId) {
@@ -1694,6 +1809,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // - Format 1: {playerId, playerName, resource, current, max, temp, adjustment} - from GM updates
     // - Format 2: {senderSocketId, characterId, newValues, deltas} - from player self-updates
     socket.on('character_resource_updated', (data) => {
+      if (!data) return;
+
       const currentPlayerId = currentPlayerRef.current?.id;
       const currentPlayerName = currentPlayerRef.current?.name;
 
@@ -1702,17 +1819,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Format 1: Single resource update from GM
         const { playerId, playerName, resource, current, max, temp, adjustment } = data;
 
-        // Check if this update is for the current player (GM updating us)
+        // CRITICAL FIX: Define identifiers needed for robust self-check
+        const { user } = useAuthStore.getState();
+        const currentUserId = user?.uid;
+        const currentSocketId = socket?.id;
+        const myServerId = currentPlayerRef.current?.id;
+
+        // Check if this update is for the current player (GM updating us, or our own update echoing back)
         const isCurrentPlayer =
-          playerId === currentPlayerId ||
           playerId === 'current-player' ||
+          (currentUserId && (playerId === currentUserId || data.userId === currentUserId)) ||
+          (myServerId && (playerId === myServerId || data.userId === myServerId)) ||
+          (currentSocketId && (playerId === currentSocketId || data.socketId === currentSocketId)) ||
           (playerName && playerName === currentPlayerName);
 
         console.log('🔍 character_resource_updated check:', {
           receivedPlayerId: playerId,
+          receivedUserId: data.userId,
+          receivedSocketId: data.socketId,
           receivedPlayerName: playerName,
           currentPlayerId,
-          currentPlayerName,
+          myServerId,
+          currentUserId,
           isCurrentPlayer,
           resource,
           current,
@@ -1726,22 +1854,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (resource === 'classResource') {
             // Class resource update - use the full classResource object if provided
             if (data.classResource) {
-              charStore.getState().setState({ classResource: data.classResource });
+              // Use the hook's setState directly instead of trying to call it on the state object
+              charStore.setState({ classResource: data.classResource });
             } else {
-              charStore.getState().updateClassResource('current', current);
-              charStore.getState().updateClassResource('max', max);
+              charStore.getState().updateClassResource('current', current, true, true);
+              charStore.getState().updateClassResource('max', max, true, true);
             }
           } else {
-            charStore.getState().updateResource(resource, current, max);
-
-            // Also update temporary resources if provided
-            if (temp !== undefined) {
-              charStore.getState().updateTempResource(resource, temp);
-            }
+            charStore.getState().updateResource(resource, current, max, temp, true, true);
           }
 
-          // Show synchronized floating combat text for current player
-          if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+          // Scrolling combat text removed per user request to eliminate wild animations
+          if (false && window.showFloatingCombatText && adjustment && adjustment !== 0) {
             const playerFrame = document.querySelector('.player-status-frame') || document.querySelector('.player-hud');
             const rect = playerFrame ? playerFrame.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight - 150 };
 
@@ -1762,6 +1886,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           console.log(`💊 Resource sync: ${resource} updated to ${current}/${max}${temp !== undefined ? ` (Temp: ${temp})` : ''}`);
         } else {
           // Update the party member's resource
+          // CRITICAL FIX: Find the correct party member by multiple ID types
+          const partyStore = usePartyStore.getState();
+          const targetMember = partyStore.partyMembers.find(m =>
+            m.id === playerId ||
+            m.id === data.userId ||
+            m.id === data.socketId ||
+            m.userId === playerId ||
+            m.userId === data.userId ||
+            m.socketId === playerId ||
+            m.socketId === data.socketId ||
+            (playerName && m.name === playerName)
+          );
+
+          if (!targetMember) {
+            console.warn('⚠️ character_resource_updated: Party member not found', {
+              playerId,
+              userId: data.userId,
+              socketId: data.socketId,
+              playerName,
+              availableMembers: partyStore.partyMembers.map(m => ({ id: m.id, userId: m.userId, socketId: m.socketId, name: m.name }))
+            });
+            return;
+          }
+
           const memberUpdate = {
             character: {}
           };
@@ -1786,10 +1934,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             }
           }
 
-          updatePartyMember(playerId, memberUpdate);
+          // Use the found member's ID for the update
+          updatePartyMember(targetMember.id, memberUpdate);
 
-          // Show synchronized floating combat text for party member
-          if (window.showFloatingCombatText && adjustment && adjustment !== 0) {
+          // Scrolling combat text removed per user request to eliminate wild animations
+          if (false && window.showFloatingCombatText && adjustment && adjustment !== 0) {
             const frame = document.querySelector(`.party-frame-${playerId}`);
             if (frame) {
               const rect = frame.getBoundingClientRect();
@@ -1814,20 +1963,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       } else if (data.newValues || data.deltas) {
         // Format 2: Delta-based update from another player's self-update
         const senderSocketId = data.senderSocketId || data.socketId || data.updatedBy;
+        const senderUserId = data.userId || data.senderUserId;
         const characterId = data.characterId;
         const updatedBy = data.updatedBy;
 
         // Skip if this is our own update (we already updated locally)
-        if ((senderSocketId && senderSocketId === socket.id) || (updatedBy && updatedBy === socket.id)) {
+        const mySocketId = socket?.id;
+        const myServerId = useGameStore.getState().currentPlayer?.id;
+        const myUserId = useAuthStore.getState().user?.uid;
+
+        if ((senderSocketId && senderSocketId === mySocketId) ||
+          (updatedBy && updatedBy === mySocketId) ||
+          (senderUserId && senderUserId === myUserId) ||
+          (updatedBy && updatedBy === myServerId)) {
           return;
         }
 
         const partyStore = usePartyStore.getState();
         let partyMember = partyStore.partyMembers.find(m =>
-          m.socketId === senderSocketId ||
-          m.id === characterId ||
-          m.id === updatedBy ||
-          m.socketId === updatedBy
+          (senderUserId && m.userId === senderUserId) || // Match by Firebase UID (Most stable)
+          (senderSocketId && m.socketId === senderSocketId) || // Match by current socket ID
+          (characterId && m.id === characterId) || // Match by character/server ID
+          (updatedBy && (m.id === updatedBy || m.socketId === updatedBy)) // Match by updatedBy
         );
 
         // FALLBACK: If not found and this is likely from GM
@@ -1835,6 +1992,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
           if (gmMember) partyMember = gmMember;
         }
+
+        console.log('💊 Multi-resource sync check:', {
+          found: !!partyMember,
+          name: partyMember?.name,
+          senderUserId,
+          senderSocketId,
+          characterId
+        });
 
         if (!partyMember) return;
 
@@ -1869,7 +2034,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for GM actions (XP awards, rests, etc.)
     socket.on('gm_action', (data) => {
-      const { type, amount } = data;
+      if (!data) return;
+      const { type, amount, targetPlayerId, targetUserId } = data;
+
+      // CRITICAL FIX: Verify if this player is the intended target
+      const myId = currentPlayerRef.current?.id;
+      const myUserId = useAuthStore.getState().user?.uid;
+      const mySocketId = socket?.id;
+
+      const isTarget = !targetPlayerId && !targetUserId ? true : // Broadcast to all
+        (targetPlayerId === 'current-player') ||
+        (myId && (targetPlayerId === myId || targetUserId === myId)) ||
+        (myUserId && (targetUserId === myUserId || targetPlayerId === myUserId)) ||
+        (mySocketId && (targetPlayerId === mySocketId || targetUserId === mySocketId));
+
+      if (!isTarget) {
+        console.log('🎮 GM action ignored (not target):', type, { targetPlayerId, targetUserId, myId, myUserId });
+        return;
+      }
 
       console.log('🎮 Received GM action:', type, data);
 
@@ -1982,10 +2164,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for buff updates from other players
     socket.on('buff_update', (data) => {
+      if (!data) return;
       const { type, data: buffData, senderSocketId } = data;
 
       // Skip if we sent this
-      if (senderSocketId === socket.id) return;
+      if (senderSocketId === socket?.id) return;
 
       console.log('✨ Received buff update:', type, buffData);
 
@@ -2003,10 +2186,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for debuff updates from other players
     socket.on('debuff_update', (data) => {
+      if (!data) return;
       const { type, data: debuffData, senderSocketId } = data;
 
       // Skip if we sent this
-      if (senderSocketId === socket.id) return;
+      if (senderSocketId === socket?.id) return;
 
       console.log('🥀 Received debuff update:', type, debuffData);
 
@@ -2025,6 +2209,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for gameplay settings synchronization from GM
     socket.on('sync_gameplay_settings', (data) => {
+      if (!data) return;
       console.log('⚙️ Received synchronized gameplay settings from GM:', data);
 
       Promise.all([
@@ -2107,6 +2292,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for combat start from GM
     socket.on('combat_started', (data) => {
+      if (!data) return;
       console.log('⚔️ Received combat_started from server:', data);
 
       // Update combat store with received state
@@ -2127,6 +2313,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for combat end from GM
     socket.on('combat_ended', (data) => {
+      if (!data) return;
       console.log('🏳️ Received combat_ended from server:', data);
 
       // Reset combat store
@@ -2137,6 +2324,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for combat turn changes from GM
     socket.on('combat_turn_changed', (data) => {
+      if (!data) return;
       console.log('⚔️ Received combat_turn_changed from server:', data);
 
       const combatState = useCombatStore.getState();
@@ -2152,6 +2340,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('player_left', (data) => {
+      if (!data || !data.player) return;
+
       // CRITICAL FIX: Check if the leaving player is the current player
       // If so, navigate to landing page (they were disconnected)
       if (data.player.id === currentPlayerRef.current?.id) {
@@ -2162,8 +2352,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
-      // Update actual player count from server - Always add 1 for the GM
-      setActualPlayerCount(data.playerCount);
+      // Server sends total count (players + GM), use it directly
+      setActualPlayerCount(data.playerCount || 1);
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
@@ -2321,6 +2511,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for chat messages (Party Chat)
     socket.on('chat_message', (message) => {
+      if (!message) return;
+
       chatDebug('💬 [socket:chat_message] inbound', {
         id: message?.id,
         messageId: message?.messageId,
@@ -2341,9 +2533,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       );
       const normalizedSenderId = matchedPartyMember?.id || resolvedSenderId || 'unknown_party_sender';
       const normalizedMessageId =
-        message.id ||
-        message.messageId ||
-        message.clientMessageId ||
+        message?.id ||
+        message?.messageId ||
+        message?.clientMessageId ||
         `${normalizedSenderId}:${resolvedTimestamp}:${resolvedContent}`;
 
       if (!resolvedContent) {
@@ -2364,26 +2556,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       addNotification('social', {
         sender: {
           name: resolvedSenderName,
-          class: message.isGM ? 'GM' : 'Player',
+          class: message?.isGM ? 'GM' : 'Player',
           level: 1,
-          playerColor: message.playerColor || (message.isGM ? '#d4af37' : '#4a90e2')
+          playerColor: message?.playerColor || (message?.isGM ? '#d4af37' : '#4a90e2')
         },
         content: resolvedContent,
         type: 'message',
         timestamp: resolvedTimestamp,
         playerId: normalizedSenderId,
-        isGM: message.isGM
+        isGM: message?.isGM
       });
 
       // Add to presence store party chat (always, once non-empty and normalized)
       presenceStore.addPartyChatMessage({
         id: normalizedMessageId,
-        messageId: message.messageId || normalizedMessageId,
+        messageId: message?.messageId || normalizedMessageId,
         senderId: normalizedSenderId,
         playerId: normalizedSenderId,
         senderName: resolvedSenderName,
         playerName: resolvedSenderName,
-        senderClass: message.isGM ? 'GM' : 'Player',
+        senderClass: message?.isGM ? 'GM' : 'Player',
         senderLevel: 1,
         content: resolvedContent,
         timestamp: resolvedTimestamp,
@@ -2402,6 +2594,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for global chat messages to sync with presence store
     socket.on('global_chat_message', (message) => {
+      if (!message) return;
+
       chatDebug('🌐 [socket:global_chat_message] inbound', {
         id: message?.id,
         messageId: message?.messageId,
@@ -2422,9 +2616,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         );
         const normalizedSenderId = matchedPartyMember?.id || resolvedSenderId || 'unknown_global_sender';
         const normalizedMessageId =
-          message.id ||
-          message.messageId ||
-          message.clientMessageId ||
+          message?.id ||
+          message?.messageId ||
+          message?.clientMessageId ||
           `${normalizedSenderId}:${resolvedTimestamp}:${resolvedContent}`;
 
         if (!resolvedContent) {
@@ -2464,7 +2658,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // ========== CRITICAL: Level Editor State Synchronization ==========
     // Listen for level editor state sync from GM
-    socket.on('level_editor_state_sync', (data) => {
+    // FIXED: Server emits 'level_editor_state_synced' (past tense)
+    socket.on('level_editor_state_synced', (data) => {
       console.log('🗺️ Received level_editor_state_sync:', {
         mapId: data.mapId,
         hasLevelEditor: !!data.levelEditor,
@@ -2488,6 +2683,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (data.levelEditor.wallData !== undefined) {
             levelEditorStore.setWallData(data.levelEditor.wallData);
+          }
+          if (data.levelEditor.windowOverlays !== undefined) {
+            levelEditorStore.setWindowOverlays(data.levelEditor.windowOverlays);
           }
           if (data.levelEditor.environmentalObjects !== undefined) {
             levelEditorStore.setEnvironmentalObjects(data.levelEditor.environmentalObjects);
@@ -2598,11 +2796,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     let highestProcessedSequence = 0;
     let processBufferTimeout = null;
 
-    // CRITICAL FIX: Keep legacy grid_item_update handlers disabled by default.
-    // The server's unified path emits `grid_item_updated`; having multiple legacy
-    // handlers active caused duplicate item applies during map transitions.
-    const ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER = false;
-
     // ========== SOCKET EVENT HANDLERS ==========
     // These process incoming updates from the server and other players
 
@@ -2617,7 +2810,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         position: data.position,
         isDragging: data.isDragging,
         fromPlayerId: data.playerId,
-        isFromSelf: data.playerId === socket.id
+        isFromSelf: data.playerId === socket?.id
       });
 
       // CRITICAL FIX: Filter by mapId to prevent cross-map contamination
@@ -2641,13 +2834,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         window.multiplayerDragState.has(`token_${creatureId}`)
       ));
 
-      const isOwnMovement = (data.playerId === socket.id) && isDraggingOurToken;
+      const isOwnMovement = (data.playerId === socket?.id) && isDraggingOurToken;
 
       // Standardized tracking key
       const recentMovementKey = `token_${targetId}`;
       const recentMovementTime = window.recentTokenMovements?.get(recentMovementKey)?.timestamp;
       const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000 &&
-        data.playerId === socket.id;
+        data.playerId === socket?.id;
 
       // CRITICAL FIX: Resolve pending actionId BEFORE any early returns
       // to clear the optimistic update. 
@@ -2694,40 +2887,66 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   // FIXED: Do NOT early return here. We resolved it above for the initiator, 
                   // but other players still need to process this movement update.
                   // The initiator's update to the store is handled locally during drag/drop.
-                  if (data.playerId === socket.id) {
+                  if (data.playerId === socket?.id) {
                     return;
                   }
 
-                  // CRITICAL FIX: Find token by unique token ID token OR creatureId
-                  const currentTokens = useCreatureStore.getState().tokens;
-                  const token = currentTokens.find(t => t.id === update.targetId || t.creatureId === update.targetId);
+                  // CRITICAL FIX: Find token by unique token ID token OR creatureId in BOTH stores
+                  const creatureStore = useCreatureStore.getState();
+                  let token = creatureStore.tokens.find(t => t.id === update.targetId || t.creatureId === update.targetId);
+                  let isCreature = true;
+
+                  // If not found in creature store, check character token store
+                  if (!token) {
+                    try {
+                      const charTokenStore = require('../../store/characterTokenStore').default.getState();
+                      token = charTokenStore.characterTokens.find(t => t.id === update.targetId);
+                      isCreature = false;
+                    } catch (e) {
+                      console.warn('Could not check characterTokenStore:', e);
+                    }
+                  }
+
                   if (token) {
                     // CRITICAL FIX: Only update position if it's significantly different to prevent micro-jumps
-                    // This prevents position jumps when GM starts dragging player tokens
-                    // FIX: position is a top-level property of token, not in token.state
                     const currentTokenPosition = token.position || { x: 0, y: 0 };
+
+                    // Safety check for update.position
+                    if (!update.position || update.position.x === undefined) {
+                      console.warn('⚠️ Invalid position in movement update:', update.position);
+                      return;
+                    }
+
                     const distance = Math.sqrt(
                       Math.pow(update.position.x - currentTokenPosition.x, 2) +
                       Math.pow(update.position.y - currentTokenPosition.y, 2)
                     );
 
                     // CRITICAL FIX: Always update position when dragging starts or when distance is significant
-                    // When GM starts dragging a player token, accept the first position update even if distance is small
-                    // This prevents the player from seeing the token start from the wrong position
-                    const shouldUpdate = data.isDragging || distance > 1 || distance === 0; // Accept dragging, significant changes, or exact matches
+                    const shouldUpdate = data.isDragging || distance > 1 || distance === 0;
 
                     if (shouldUpdate) {
                       const myRole = isGMRef.current ? 'GM' : 'Player';
-                      console.log(`✅ [${myRole}] Updating token position:`, {
+                      console.log(`✅ [${myRole}] Updating ${isCreature ? 'creature' : 'character'} token position:`, {
                         tokenId: token.id,
                         from: { x: Math.round(currentTokenPosition.x), y: Math.round(currentTokenPosition.y) },
-                        to: { x: Math.round(update.position.x), y: Math.round(update.position.y) },
-                        distance: Math.round(distance)
+                        to: { x: Math.round(update.position.x), y: Math.round(update.position.y) }
                       });
-                      updateCreatureTokenPosition(token.id, {
-                        ...update.position,
-                        isSyncEvent: true // CRITICAL: Mark as sync event to allow store tracking
-                      });
+
+                      if (isCreature) {
+                        updateCreatureTokenPosition(token.id, {
+                          ...update.position,
+                          isSyncEvent: true
+                        });
+                      } else {
+                        // For character tokens, use their specialized update function
+                        try {
+                          const charTokenStore = require('../../store/characterTokenStore').default.getState();
+                          charTokenStore.addCharacterTokenFromServer(token.id, update.position, token.playerId, token.mapId);
+                        } catch (e) {
+                          console.warn('Failed to update character token position:', e);
+                        }
+                      }
                     }
                   } else {
                     console.warn('⚠️ Token not found for movement update:', {
@@ -2740,7 +2959,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               });
             });
           }
-        }, 33); // Increased delay to reduce frequency and prevent performance issues
+        }, 5); // Reduced delay for maximum responsiveness
       }
 
       // Clean up throttle entry immediately when dragging stops
@@ -2757,7 +2976,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const { tokenId, stateUpdates, updatedBy } = data;
 
       // Skip if we are the one who sent it
-      if (updatedBy === socket.id) return;
+      if (updatedBy === socket?.id) return;
 
       const { updateTokenState } = require('../../store/creatureStore').default.getState();
       // Apply update locally, but don't re-emit to server
@@ -2769,7 +2988,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const { tokenId, stateUpdates, updatedBy, mapId } = data;
 
       // Skip if we are the one who sent it
-      if (updatedBy === socket.id) return;
+      if (updatedBy === socket?.id) return;
 
       const creatureStore = require('../../store/creatureStore').default.getState();
       // Apply creature state update locally
@@ -2782,7 +3001,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const { id, creatureId, position, velocity, createdBy, createdByName, mapId, token, state } = data;
 
       // Skip if we are the one who added it (GM adding creature)
-      if (createdBy === socket.id) return;
+      if (createdBy === socket?.id) return;
 
       const creatureStore = require('../../store/creatureStore').default.getState();
 
@@ -2817,7 +3036,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         characterId: data.characterId, // Should be the token owner's player ID
         playerId: data.playerId,       // Who moved the token (sender - could be GM)
         position: data.position,
-        mySocketId: socket.id,
+        mySocketId: socket?.id,
         myPlayerId: currentPlayerRef.current?.id,
         hasTokenId: !!data.tokenId,    // Quick check - if false, we have a problem!
         hasCharacterId: !!data.characterId
@@ -2878,18 +3097,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
-      const isOwnMovement = senderId === socket.id || (currentPlayerRef.current && senderId === currentPlayerRef.current.id);
+      const isOwnMovement = senderId === socket?.id || (currentPlayerRef.current && senderId === currentPlayerRef.current.id);
 
-      // Standardized tracking key - MUST match CharacterToken.jsx
+      // CRITICAL FIX: Enhanced echo prevention - skip if:
+      // 1. This is our own movement based on senderId/socket matching
+      // 2. We are currently dragging this specific token
+      // 3. We recently moved this specific tokenId locally (within 1000ms grace period)
+
+      const isDraggingOurToken = window.multiplayerDragState?.has(`token_${targetCharacterId}`);
       const recentMovementKey = `token_${targetCharacterId}`;
       const recentMovementEntry = window.recentTokenMovements?.get(recentMovementKey);
       const recentMovementTime = recentMovementEntry?.timestamp;
 
-      // CRITICAL FIX: Enhanced echo prevention - skip if:
-      // 1. This is our own movement based on senderId/socket matching
-      // 2. We recently moved this specific tokenId locally (within 1000ms grace period)
-      if (isOwnMovement) {
-        console.log('🚫 Skipping character_moved - isOwnMovement:', { senderId, socketId: socket.id });
+      if (isOwnMovement || isDraggingOurToken) {
+        if (isOwnMovement) console.log('🚫 Skipping character_moved - isOwnMovement:', { targetCharacterId });
+        if (isDraggingOurToken) console.log('🚫 Skipping character_moved - currently dragging:', { targetCharacterId });
         return;
       }
 
@@ -3093,14 +3315,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     // Listen for grid item updates (moves, removes) from other players
-    socket.on('grid_item_updated', (data) => {
+    // FIXED: Server emits 'grid_item_update' (not 'grid_item_updated')
+    // FIXED: Server uses 'action' not 'updateType', and 'item' not 'itemData'
+    socket.on('grid_item_update', (data) => {
       const myRole = isGMRef.current ? 'GM' : 'Player';
-      console.log(`📨 [${myRole}] Received grid_item_updated:`, {
-        updateType: data.updateType,
+      console.log(`📨 [${myRole}] Received grid_item_update:`, {
+        action: data.action,
         itemId: data.itemId,
-        position: data.position,
-        fromPlayer: data.updatedByName,
-        itemMapId: data.mapId
+        mapId: data.mapId,
+        addedBy: data.addedBy,
+        updatedBy: data.updatedBy,
+        removedBy: data.removedBy
       });
 
       // CRITICAL FIX: Filter by current map - only update items on same map
@@ -3108,21 +3333,25 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const itemMapId = data.mapId || 'default';
 
       if (itemMapId !== currentMapId) {
-        console.log(`📦 Skipping grid_item_updated - different map (item: ${itemMapId}, current: ${currentMapId})`);
+        console.log(`📦 Skipping grid_item_update - different map (item: ${itemMapId}, current: ${currentMapId})`);
         return;
       }
 
-      // Handle different update types
+      // Handle different action types (server uses 'action', not 'updateType')
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
         const gridItemStore = useGridItemStore.getState();
 
-        if (data.updateType === 'add') {
-          // Add new item to grid
-          gridItemStore.addItemToGrid(data.itemData, data.position, false, itemMapId);
-        } else if (data.updateType === 'move') {
-          // Update position of existing item
-          gridItemStore.updateItemPosition(data.itemId, data.position, false, itemMapId);
-        } else if (data.updateType === 'remove') {
+        if (data.action === 'add' && data.item) {
+          // Add new item to grid - server sends 'item' with position inside
+          const position = data.item.position || data.item.gridPosition;
+          gridItemStore.addItemToGrid(data.item, position, false, itemMapId);
+        } else if (data.action === 'update' && data.itemId && data.updates) {
+          // Update item - server sends 'updates' object
+          if (data.updates.position || data.updates.gridPosition) {
+            gridItemStore.updateItemPosition(data.itemId, data.updates.position || data.updates.gridPosition, false, itemMapId);
+          }
+          // Could also handle other property updates here if needed
+        } else if (data.action === 'remove' && data.itemId) {
           // Remove item from grid
           gridItemStore.removeItemFromGrid(data.itemId, false);
         }
@@ -3141,11 +3370,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         position: data.position,
         fromPlayer: data.playerName,
         isSync: data.isSync,
-        isFromSelf: data.playerId === socket.id,
+        isFromSelf: data.playerId === socket?.id,
         tokenMapId: data.mapId
       });
       const isSync = data.isSync;
-      const myPlayerId = socket.id; // Use socket.id for reliable self-identification
+      const myPlayerId = socket?.id; // Use socket.id for reliable self-identification
 
       // CRITICAL FIX: Check if this is our own token creation being echoed back
       const isOwnTokenCreation = data.playerId === myPlayerId;
@@ -3167,20 +3396,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Only add token for sync events, and for new creations from other players
-      if (isSync || !isSync) {
+      if (data.token) {
         // First ensure that creature exists in the store
-        addCreature(data.creature);
+        const creatureData = data.creature || data.token.creature;
+        if (creatureData) {
+          addCreature(creatureData);
+        }
 
         // Then add the token without sending back to server (avoid infinite loop)
-        // CRITICAL FIX: Pass creature object directly with token state embedded
-        addToken(data.creature, data.position, false, data.token.id, data.token.state, tokenMapId);
+        // CRITICAL FIX: Ensure position is robustly extracted from multiple sources
+        const position = data.position || data.token?.position || data.token?.gridPosition || { x: 0, y: 0 };
+        const tokenId = data.token.id || data.tokenId;
+        const creatureId = data.creature?.id || data.token.creatureId;
+
+        console.log(`🔷 [${myRole}] Adding/Updating token: ${tokenId} at`, position);
+        addToken(creatureData || creatureId, position, false, tokenId, data.token.state || true, tokenMapId);
+      } else {
+        console.warn('⚠️ Received token_created event without token data:', data);
       }
 
       // Show notification in chat only for new creations from other players, not syncs or own creations
       if (!isSync && data.playerId !== myPlayerId) {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.playerName} placed ${data.creature.name} on the grid`,
+          content: `${data.playerName || 'Player'} placed ${data.creature?.name || data.character?.name || 'a token'} on the grid`,
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -3229,7 +3468,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.playerId !== currentPlayerRef.current?.id) {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
+          content: `${data.looter} looted ${data.item?.name || 'an item'} (x${data.quantity || 1}) from ${data.source}`,
           type: 'system',
           timestamp: new Date().toISOString()
         });
@@ -3285,41 +3524,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Listen for Grid Item position updates from other players
-    socket.on('grid_item_update', (data) => {
-      if (!ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER) return;
-      const { type, data: updateData, playerId, mapId } = data;
-
-      // Skip if it's our own update (we already applied it locally)
-      if (playerId === socket.id) return;
-
-      // CRITICAL FIX: Filter by current map - only process updates for items on the same map
-      const currentMapId = useMapStore.getState().currentMapId || 'default';
-      const itemMapId = mapId || 'default';
-
-      if (itemMapId !== currentMapId) {
-        // console.log(`📦 Skipping grid_item_update - different map`);
-        return;
-      }
-
-      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const { updateItemPosition, removeItemFromGrid, gridItems } = useGridItemStore.getState();
-
-        if (type === 'grid_item_moved' && updateData.gridItemId && updateData.newPosition) {
-          console.log('📦 Received grid item move from other player:', updateData.gridItemId);
-          updateItemPosition(updateData.gridItemId, updateData.newPosition, false);
-        } else if (type === 'grid_item_removed' && updateData.gridItemId) {
-          console.log('📦 Received grid item removal from other player:', updateData.gridItemId);
-          const itemExists = gridItems.find(item => item.id === updateData.gridItemId);
-          if (itemExists) {
-            removeItemFromGrid(updateData.gridItemId);
-          }
-        }
-      }).catch(error => {
-        console.error('Failed to import gridItemStore for grid item update:', error);
-      });
-    });
-
+    // NOTE: Legacy grid_item_update handler removed - using unified handler above
     // NOTE: item_dropped is handled above with proper map isolation filtering at line ~2301
     // This duplicate handler was removed to prevent duplicate item additions
 
@@ -3327,22 +3532,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('sync_tokens', (data) => {
       const currentMapId = useMapStore.getState().currentMapId || 'default';
 
+      console.log('🔄 [sync_tokens] Received token sync, currentMapId:', currentMapId, '| token count:', Object.keys(data.tokens || {}).length);
+
       // Add each token without sending back to server
       Object.values(data.tokens).forEach(tokenData => {
-        // ID check to see if it belongs to this map
-        // If token doesn't have mapId, assume default unless we are strict
+        // Map ID matching: treat missing/null mapId as 'default'
         const tokenMapId = tokenData.mapId || tokenData.targetMapId || 'default';
-        if (tokenMapId !== currentMapId) return;
 
-        // First ensure the creature exists (if we have creature data)
+        // Accept token if: (a) exact map match, or (b) both are 'default'
+        const isMapMatch = tokenMapId === currentMapId || (tokenMapId === 'default' && (!currentMapId || currentMapId === 'default'));
+        if (!isMapMatch) {
+          console.log(`🎭 [sync_tokens] Skipping token ${tokenData.id} – map mismatch (token: ${tokenMapId}, current: ${currentMapId})`);
+          return;
+        }
+
+        // First ensure the creature exists in the library
         if (tokenData.creature) {
           addCreature(tokenData.creature);
         }
 
-        // Then add the token with the correct token ID
-        addToken(tokenData.creatureId, tokenData.position, false, tokenData.id, tokenData.state);
+        // Add the token – pass the creature object if available so addCreatureToken
+        // doesn't have to do a library lookup (which may fail for first-time sync)
+        const creatureArg = tokenData.creature || tokenData.creatureId;
+        addToken(creatureArg, tokenData.position, false, tokenData.id, tokenData.state, tokenMapId);
       });
     });
+
 
     // Listen for character token synchronization
     socket.on('sync_character_tokens', (data) => {
@@ -3376,30 +3591,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const updatedBy = data.updatedBy; // Player ID of sender from server
       const isFromGM = data.isGM || false; // Server may indicate if this is from GM
 
-      console.log('📥 [character_updated] Received:', {
+      console.info('📡 [character_updated] Received:', {
         senderSocketId,
         serverPlayerId,
         senderUserId,
         characterName,
         updatedBy,
-        mySocketId: socket.id,
-        myUserId: useAuthStore.getState().user?.uid,
-        hasLore: !!data.character?.lore,
-        hasEquipment: !!data.character?.equipment,
-        class: data.character?.class
+        class: data.character?.class,
+        race: data.character?.race,
+        subrace: data.character?.subrace
       });
 
-      // CRITICAL FIX: Check if this is our own update using userId FIRST (most reliable)
-      const mySocketId = socket.id;
+      // CRITICAL FIX: Check if this is our own update using multiple identifiers
+      const mySocketId = socket?.id;
       const myServerId = useGameStore.getState().currentPlayer?.id;
       const myUserId = useAuthStore.getState().user?.uid;
+      const myCharacterId = useCharacterStore.getState().currentCharacterId;
 
-      const isOwnUpdate = (senderUserId && senderUserId === myUserId) ||
-        (senderSocketId && senderSocketId === mySocketId) ||
-        (serverPlayerId && serverPlayerId === myServerId);
+      const isOwnUpdate = (senderUserId && myUserId && senderUserId === myUserId) ||
+        (senderSocketId && mySocketId && senderSocketId === mySocketId) ||
+        (serverPlayerId && myServerId && serverPlayerId === myServerId) ||
+        (data.characterId && myCharacterId && data.characterId === myCharacterId);
 
       if (isOwnUpdate) {
-        console.log('📥 [character_updated] Skipping own update');
+        console.log('🔄 [character_updated] Skipping own update echo:', { senderUserId, myUserId });
         return;
       }
 
@@ -3412,23 +3627,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // 2. If not found by userId, try other methods
       if (!partyMember) {
         partyMember = partyStore.partyMembers.find(m =>
-          m.socketId === senderSocketId || // Match by socket ID
-          m.socketId === serverPlayerId || // Match by server UUID stored as socketId
-          m.id === serverPlayerId || // Match by server UUID
-          m.id === updatedBy || // Match by ID since server uses player.id as updatedBy
-          m.id === senderSocketId // Match by ID (in case they match)
+          (senderSocketId && (m.socketId === senderSocketId || m.id === senderSocketId)) ||
+          (serverPlayerId && (m.id === serverPlayerId || m.socketId === serverPlayerId)) ||
+          (updatedBy && (m.id === updatedBy || m.socketId === updatedBy)) ||
+          (senderUserId && (m.id === senderUserId || m.socketId === senderUserId))
         );
       }
 
       // 3. Last resort: match by name, but ONLY if name is NOT "Character Name"
-      // (to avoid false matches when both have default name)
       if (!partyMember && characterName && characterName !== 'Character Name') {
         partyMember = partyStore.partyMembers.find(m => m.name === characterName);
       }
 
       // FALLBACK: If not found and this is from GM, find the GM party member
       if (!partyMember) {
-        // Check if sender is the GM by looking at who ISN'T us and IS the GM
         const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
         if (gmMember) {
           console.log('📥 [character_updated] Trying GM fallback match:', { gmMemberName: gmMember.name, gmMemberUserId: gmMember.userId });
@@ -3437,13 +3649,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       if (!partyMember) {
-        console.warn('📥 [character_updated] Could not find party member for:', { senderSocketId, serverPlayerId, senderUserId, characterName, updatedBy });
+        console.warn('📥 [character_updated] Could not find party member for:', {
+          senderSocketId,
+          serverPlayerId,
+          senderUserId,
+          characterName,
+          updatedBy,
+          availableMembers: partyStore.partyMembers.map(m => ({ id: m.id, userId: m.userId, socketId: m.socketId, name: m.name }))
+        });
         return;
       }
 
       // Store socketId on the member for future lookups
       const targetMemberId = partyMember.id;
-      console.log('📥 [character_updated] Found party member:', { targetMemberId, name: partyMember.name });
+      console.log('📥 [character_updated] Found party member:', {
+        targetMemberId,
+        name: partyMember.name,
+        matchSource: partyMember.userId === senderUserId ? 'userId' : 'other-id'
+      });
 
       // CRITICAL FIX: Preserve GM's custom display name if incoming name is a default placeholder
       const incomingName = data.character.name;
@@ -3456,10 +3679,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const shouldUpdateName = !isDefaultName;
       const memberName = shouldUpdateName ? incomingName : partyMember.name;
 
-      // Calculate proper race display name from race and subrace data
-      let raceDisplayName = data.character.raceDisplayName || 'Unknown';
-
       // CRITICAL FIX: Use actual character data with proper fallbacks
+      // Include ALL display fields for proper sync
       const baseCharacterData = {
         ...data.character,
         socketId: senderSocketId, // Store socketId for future lookups
@@ -3468,85 +3689,75 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         mana: data.character.mana || { current: 45, max: 50 },
         actionPoints: data.character.actionPoints || { current: 1, max: 3 },
         // CRITICAL FIX: Always include classResource, even if empty
-        classResource: data.character.classResource || { current: 0, max: 0 }
+        classResource: data.character.classResource || { current: 0, max: 0 },
+        // CRITICAL FIX: Include display names for race/class/background/path
+        race: data.character.race || partyMember.character?.race || 'Unknown',
+        subrace: data.character.subrace || partyMember.character?.subrace || '',
+        raceDisplayName: data.character.raceDisplayName || partyMember.character?.raceDisplayName || 'Unknown',
+        class: data.character.class || partyMember.character?.class || 'Unknown',
+        background: data.character.background || partyMember.character?.background || '',
+        backgroundDisplayName: data.character.backgroundDisplayName || partyMember.character?.backgroundDisplayName || '',
+        path: data.character.path || partyMember.character?.path || '',
+        pathDisplayName: data.character.pathDisplayName || partyMember.character?.pathDisplayName || '',
+        alignment: data.character.alignment || partyMember.character?.alignment || 'Neutral',
+        level: data.character.level || partyMember.character?.level || 1,
+        lore: data.character.lore || partyMember.character?.lore || {},
+        tokenSettings: data.character.tokenSettings || partyMember.character?.tokenSettings || {}
       };
 
       console.log('📦 [character_updated] baseCharacterData keys:', Object.keys(baseCharacterData));
 
+      // Update party member immediately with raw data to ensure sync happens even if async import fails
+      console.log('📦 [character_updated] Performing immediate update for:', targetMemberId);
+
+      const immediateUpdateData = {
+        socketId: senderSocketId,
+        character: baseCharacterData
+      };
+
+      if (shouldUpdateName) {
+        immediateUpdateData.name = memberName;
+      }
+
+      partyStore.updatePartyMember(targetMemberId, immediateUpdateData, true);
+
+      // 4. Refine display names asynchronously if we have race information
       if (data.character.race && data.character.subrace) {
+        console.log('🧬 [character_updated] Refining race+subrace display name...');
         import('../../data/raceData').then(({ getFullRaceData }) => {
           const raceData = getFullRaceData(data.character.race, data.character.subrace);
           if (raceData) {
-            // Combine Race and Subrace for better display (e.g. "Nordmark (Bloodhammer)")
-            const updatedRaceDisplayName = `${raceData.race.name} (${raceData.subrace.name})`;
+            const updatedRaceDisplayName = `${raceData.subrace.name} ${raceData.race.name}`;
+            console.log('✅ [character_updated] Calculated full race name:', updatedRaceDisplayName);
 
-            // Update party member with correct race display name
-            // CRITICAL: Only update name if it's not a default placeholder
-            const updateData = {
-              socketId: senderSocketId,
+            const refineData = {
               character: {
                 ...baseCharacterData,
                 raceDisplayName: updatedRaceDisplayName
               }
             };
-            if (shouldUpdateName) {
-              updateData.name = memberName;
-            }
-            usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+            partyStore.updatePartyMember(targetMemberId, refineData, true);
           }
         }).catch(error => {
-          console.warn('Failed to calculate race display name:', error);
-          // Fallback to base data
-          const updateData = {
-            socketId: senderSocketId,
-            character: baseCharacterData
-          };
-          if (shouldUpdateName) {
-            updateData.name = memberName;
-          }
-          usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+          console.warn('❌ [character_updated] Race display refinement failed:', error);
         });
       } else if (data.character.race) {
+        console.log('🧬 [character_updated] Refining race display name...');
         import('../../data/raceData').then(({ getRaceData }) => {
           const raceData = getRaceData(data.character.race);
           if (raceData) {
-            const updatedRaceDisplayName = raceData.name;
-            // Update party member with correct race display name
-            // CRITICAL: Only update name if it's not a default placeholder
-            const updateData = {
-              socketId: senderSocketId,
+            console.log('✅ [character_updated] Calculated race name:', raceData.name);
+            const refineData = {
               character: {
                 ...baseCharacterData,
-                raceDisplayName: updatedRaceDisplayName
+                raceDisplayName: raceData.name
               }
             };
-            if (shouldUpdateName) {
-              updateData.name = memberName;
-            }
-            usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+            partyStore.updatePartyMember(targetMemberId, refineData, true);
           }
         }).catch(error => {
-          console.warn('Failed to get race data:', error);
-          // Fallback to base data
-          const updateData = {
-            socketId: senderSocketId,
-            character: baseCharacterData
-          };
-          if (shouldUpdateName) {
-            updateData.name = memberName;
-          }
-          usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
+          console.warn('❌ [character_updated] Race display refinement failed:', error);
         });
-      } else {
-        // No race data to process, use base data
-        const updateData = {
-          socketId: senderSocketId,
-          character: baseCharacterData
-        };
-        if (shouldUpdateName) {
-          updateData.name = memberName;
-        }
-        usePartyStore.getState().updatePartyMember(targetMemberId, updateData, true);
       }
 
       // Update chat user data
@@ -3584,7 +3795,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const updatedBy = data.updatedBy;
 
       // Update party member with new equipment and stats
-      if ((senderSocketId && senderSocketId !== socket.id) || (updatedBy && updatedBy !== socket.id)) {
+      if ((senderSocketId && senderSocketId !== socket?.id) || (updatedBy && updatedBy !== socket?.id)) {
         const partyStore = usePartyStore.getState();
         let partyMember = partyStore.partyMembers.find(m =>
           m.socketId === senderSocketId ||
@@ -3721,6 +3932,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (data.mapData.wallData !== undefined) {
             levelEditorStore.setWallData(data.mapData.wallData);
+          }
+          if (data.mapData.windowOverlays !== undefined) {
+            levelEditorStore.setWindowOverlays(data.mapData.windowOverlays);
           }
           if (data.mapData.fogOfWarPaths !== undefined) {
             levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
@@ -4101,54 +4315,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Handle grid item updates
-    socket.on('grid_item_update', (data) => {
-      if (!ENABLE_LEGACY_GRID_ITEM_UPDATE_HANDLER) return;
-      // Import grid item store dynamically to avoid circular dependencies
-      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const gridItemStore = useGridItemStore.getState();
-
-        // Only process updates from other players (not our own)
-        // Use socket.id for the most reliable comparison in mixed environments
-        const myPlayerId = socket.id;
-        if (data.playerId !== myPlayerId) {
-          // CRITICAL FIX: Filter by current map - only process updates for items on the same map
-          const currentMapId = useMapStore.getState().currentMapId || 'default';
-          const itemMapId = data.mapId || 'default';
-
-          if (itemMapId !== currentMapId) {
-            console.log(`📦 Skipping grid_item_update (2nd handler) - different map (item: ${itemMapId}, current: ${currentMapId})`);
-            return;
-          }
-
-          switch (data.type) {
-            case 'grid_item_added':
-              // Add item to grid - pass false to avoid sync loop
-              if (data.data && data.data.item && data.data.position) {
-                gridItemStore.addItemToGrid(data.data.item, data.data.position, false);
-              }
-              break;
-
-            case 'grid_item_removed':
-              // Remove item from grid - pass false to avoid sync loop
-              if (data.data && data.data.gridItemId) {
-                gridItemStore.removeItemFromGrid(data.data.gridItemId, false);
-              }
-              break;
-
-            case 'grid_item_moved':
-              // Move item on grid - pass false to avoid sync loop
-              if (data.data && data.data.gridItemId && data.data.newPosition) {
-                gridItemStore.updateItemPosition(data.data.gridItemId, data.data.newPosition, false);
-              }
-              break;
-          }
-        }
-      });
-    });
+    // NOTE: Legacy grid_item_update handler removed - using unified handler at line ~3190
 
     // Listen for map updates (fog of war, drawing, tiles)
-    socket.on('map_updated', (data) => {
+    // FIXED: Server emits 'map_update' (not 'map_updated')
+    socket.on('map_update', (data) => {
       console.log(`📥 [map_updated] Received for map ${data.mapId}, I'm on ${playerCurrentMapIdRef.current}, updatedBy: ${data.updatedBy}`);
       // CRITICAL FIX: Only process updates for the map we are currently on
       // This prevents "bleeding" of changes from other maps
@@ -4207,6 +4378,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Update wall data if provided
         if (mapData.wallData !== undefined) {
           levelEditorStore.setWallData(mapData.wallData);
+        }
+        if (mapData.windowOverlays !== undefined) {
+          levelEditorStore.setWindowOverlays(mapData.windowOverlays);
         }
 
         // Update drawing layers if provided
@@ -4369,6 +4543,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             // Include basic map data so it's available
             terrainData: data.mapData?.terrainData || {},
             wallData: data.mapData?.wallData || {},
+            windowOverlays: data.mapData?.windowOverlays || {},
             drawingPaths: data.mapData?.drawingPaths || [],
             drawingLayers: data.mapData?.drawingLayers || [],
             fogOfWarPaths: data.mapData?.fogOfWarPaths || [],
@@ -4407,6 +4582,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Prefer incoming payload, then local map cache; only skip if both missing.
           const nextTerrainData = mapData.terrainData ?? localMap.terrainData;
           const nextWallData = mapData.wallData ?? localMap.wallData;
+          const nextWindowOverlays = mapData.windowOverlays ?? localMap.windowOverlays;
           const nextDrawingPaths = mapData.drawingPaths ?? localMap.drawingPaths;
           const nextDrawingLayers = mapData.drawingLayers ?? localMap.drawingLayers;
           const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMap.fogOfWarPaths;
@@ -4417,6 +4593,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           else console.warn('⚠️ [player_map_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
 
           if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
+          // Restore window/door overlays
+          if (nextWindowOverlays !== undefined && levelEditorStore.setWindowOverlays) {
+            levelEditorStore.setWindowOverlays(nextWindowOverlays || {});
+          }
           if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
           if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
           if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
@@ -4596,6 +4776,153 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }, mapSwapDelay);
     });
 
+    // Handle forced map transfer from GM (when GM drags a player to a different map)
+    socket.on('forced_map_transfer', (data) => {
+      // DETAILED LOGGING: Log full transfer data
+      console.log('🔄 [forced_map_transfer] Received from server', {
+        mapId: data.mapId,
+        mapName: data.mapName,
+        reason: data.reason,
+        hasMapData: !!data.mapData,
+        mapDataKeys: data.mapData ? Object.keys(data.mapData) : [],
+        tokenCount: data.mapData?.tokens ? Object.keys(data.mapData.tokens).length : 0,
+        characterTokenCount: data.mapData?.characterTokens ? Object.keys(data.mapData.characterTokens).length : 0,
+        gridItemCount: data.mapData?.gridItems ? Object.keys(data.mapData.gridItems).length : 0,
+        currentPlayerId: currentPlayerRef.current?.id,
+        socketId: socket?.id
+      });
+
+      // Block outgoing updates during map switch
+      window._isMapSwitching = true;
+      console.log('🔒 [forced_map_transfer] Set window._isMapSwitching = true');
+
+      // Show transition overlay
+      const shouldShowTransition = !isInitialMapLoadRef.current;
+      console.log('🎬 [forced_map_transfer] Transition decision', {
+        shouldShowTransition,
+        isInitialMapLoad: isInitialMapLoadRef.current
+      });
+
+      if (shouldShowTransition) {
+        const localMap = useMapStore.getState().maps?.find(m => m.id === data.mapId);
+        const mapName = data.mapName || localMap?.name || data.mapId || 'Unknown Location';
+        setMapTransition({
+          isActive: true,
+          mapName: mapName,
+          transferredByGM: true
+        });
+        console.log('🎬 [forced_map_transfer] Started transition overlay for:', mapName);
+      }
+
+      isInitialMapLoadRef.current = false;
+
+      // Update local map ID and party assignment
+      setPlayerCurrentMapId(data.mapId);
+      useMapStore.setState({ currentMapId: data.mapId });
+      usePartyStore.getState().setPlayerMapAssignment(currentPlayerRef.current?.id, data.mapId);
+      console.log('📍 [forced_map_transfer] Updated map IDs', {
+        playerCurrentMapId: data.mapId,
+        mapStoreCurrentMapId: data.mapId
+      });
+
+      // If server sent map data, hydrate our stores now
+      const mapSwapDelay = shouldShowTransition ? TRANSITION_TIMINGS.SAFE_SWAP_MS : 0;
+      console.log('⏱️ [forced_map_transfer] Scheduling hydration in', mapSwapDelay, 'ms');
+
+      setTimeout(() => {
+        const mapData = data.mapData || {};
+        const localMapCache = useMapStore.getState().maps?.find(m => m.id === data.mapId) || {};
+
+        console.log('📦 [forced_map_transfer] Starting hydration', {
+          hasServerMapData: Object.keys(mapData).length > 0,
+          hasLocalMapCache: !!localMapCache.id,
+          serverDataKeys: Object.keys(mapData)
+        });
+
+        if (Object.keys(mapData).length > 0) {
+          import('../../store/levelEditorStore').then(({ default: useLevelEditorStore, mapUpdateBatcher }) => {
+            if (mapUpdateBatcher) mapUpdateBatcher.clear();
+            const les = useLevelEditorStore.getState();
+            window._isReceivingMapUpdate = true;
+
+            const nextTerrain = mapData.terrainData ?? localMapCache.terrainData;
+            const nextWall = mapData.wallData ?? localMapCache.wallData;
+            const nextWindowOverlays = mapData.windowOverlays ?? localMapCache.windowOverlays;
+            const nextFogPaths = mapData.fogOfWarPaths ?? localMapCache.fogOfWarPaths;
+            const nextFogErase = mapData.fogErasePaths ?? localMapCache.fogErasePaths;
+            const nextDraw = mapData.drawingPaths ?? localMapCache.drawingPaths;
+            const nextLayers = mapData.drawingLayers ?? localMapCache.drawingLayers;
+            const nextDnd = mapData.dndElements ?? localMapCache.dndElements;
+
+            if (nextTerrain !== undefined && les.setTerrainData) les.setTerrainData(nextTerrain || {});
+            if (nextWall !== undefined && les.setWallData) les.setWallData(nextWall || {});
+            if (nextWindowOverlays !== undefined && les.setWindowOverlays) les.setWindowOverlays(nextWindowOverlays || {});
+            if (nextFogPaths !== undefined && les.setFogOfWarPaths) les.setFogOfWarPaths(nextFogPaths || []);
+            if (nextFogErase !== undefined && les.setFogErasePaths) les.setFogErasePaths(nextFogErase || []);
+            if (nextDraw !== undefined && les.setDrawingPaths) les.setDrawingPaths(nextDraw || []);
+            if (nextLayers !== undefined && les.setDrawingLayers) les.setDrawingLayers(nextLayers || []);
+            if (nextDnd !== undefined && les.setDndElements) les.setDndElements(nextDnd || []);
+
+            if (les.setFogOfWarData && mapData.fogOfWarData !== undefined)
+              les.setFogOfWarData(mapData.fogOfWarData || {});
+
+            useGameStore.setState({
+              backgrounds: mapData.backgrounds || [],
+              activeBackgroundId: mapData.activeBackgroundId || null,
+              gridSize: mapData.gridSettings?.gridSize || 50,
+              gridOffsetX: mapData.gridSettings?.gridOffsetX || 0,
+              gridOffsetY: mapData.gridSettings?.gridOffsetY || 0,
+              gridLineColor: mapData.gridSettings?.gridLineColor || '#000000',
+              gridLineThickness: mapData.gridSettings?.gridLineThickness || 1
+            });
+
+            setTimeout(() => { window._isReceivingMapUpdate = false; }, 200);
+
+            // Load tokens
+            const tokensRaw = mapData.tokens;
+            const characterTokensRaw = mapData.characterTokens;
+            if (tokensRaw !== undefined || characterTokensRaw !== undefined) {
+              clearCreatureTokens();
+              clearCharacterTokens();
+              const tokens = tokensRaw ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw)) : [];
+              console.log('👾 [forced_map_transfer] Loading tokens', { tokenCount: tokens.length });
+              tokens.forEach(tokenData => {
+                let creatureData = tokenData.creature;
+                if (!creatureData && tokenData.creatureId)
+                  creatureData = useCreatureStore.getState().creatures?.find(c => c.id === tokenData.creatureId);
+                if (creatureData) addCreature(creatureData);
+                const creatureRef = tokenData.creatureId || creatureData?.id;
+                if (creatureRef && tokenData.position)
+                  addToken(creatureRef, tokenData.position, false, tokenData.id, tokenData.state, data.mapId);
+              });
+              const charTokens = characterTokensRaw
+                ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw))
+                : [];
+              console.log('👤 [forced_map_transfer] Loading character tokens', { charTokenCount: charTokens.length });
+              const { addCharacterTokenFromServer: addCharToken } = useCharacterTokenStore.getState();
+              charTokens.forEach(tokenData => {
+                if (tokenData && tokenData.position)
+                  addCharToken(tokenData.id, tokenData.position, tokenData.playerId, data.mapId);
+              });
+            }
+          });
+        }
+
+        // If the GM just transferred themselves, fetch fresh positions just like gm_view_changed
+        const gameStoreCurrent = useGameStore.getState();
+        if (gameStoreCurrent.isGMMode && socket?.connected) {
+          socket.emit('gm_request_fresh_positions', {
+            roomId: gameStoreCurrent.multiplayerRoom?.id,
+            mapId: data.mapId
+          });
+          console.log(`📡 [forced_map_transfer] Requested fresh character positions for map ${data.mapId}`);
+        }
+
+        window._isMapSwitching = false;
+        console.log('🔓 [forced_map_transfer] Set window._isMapSwitching = false');
+        console.log(`✅ [forced_map_transfer] Transfer complete to map: ${data.mapId} (${data.mapName || 'unnamed'})`);
+      }, mapSwapDelay);
+    });
 
     // Handle GM view change (for GM switching maps to edit)
     socket.on('gm_view_changed', (data) => {
@@ -4707,6 +5034,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Prefer incoming payload, then local map cache; preserve current state if both missing.
           const nextTerrainData = mapData.terrainData ?? localMapCache.terrainData;
           const nextWallData = mapData.wallData ?? localMapCache.wallData;
+          const nextWindowOverlays = mapData.windowOverlays ?? localMapCache.windowOverlays;
           const nextDrawingPaths = mapData.drawingPaths ?? localMapCache.drawingPaths;
           const nextDrawingLayers = mapData.drawingLayers ?? localMapCache.drawingLayers;
           const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMapCache.fogOfWarPaths;
@@ -4717,6 +5045,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           else console.warn('⚠️ [gm_view_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
 
           if (nextWallData !== undefined) levelEditorStore.setWallData(nextWallData || {});
+          // Restore window/door overlays
+          if (nextWindowOverlays !== undefined && levelEditorStore.setWindowOverlays) {
+            levelEditorStore.setWindowOverlays(nextWindowOverlays || {});
+          }
           if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
           if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
           if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
@@ -4842,6 +5174,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 gridItemsLoaded: updatedGridItems.length,
                 terrainDataPoints: Object.keys(mapData?.terrainData || {}).length
               });
+
+              // Bug 3 fix: After loading cached token data, request a FRESH positions snapshot
+              // from the server. Players may have moved while GM was on another map, so
+              // server state is authoritative.
+              const gameStoreCurrent = useGameStore.getState();
+              if (gameStoreCurrent.isGMMode && socket?.connected) {
+                socket.emit('gm_request_fresh_positions', {
+                  roomId: gameStoreCurrent.multiplayerRoom?.id,
+                  mapId: data.newMapId
+                });
+                console.log(`📡 [gm_view_changed] Requested fresh character positions for map ${data.newMapId}`);
+              }
             });
           }).catch(error => {
             console.error('❌ Error during map switch:', error);
@@ -4890,6 +5234,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Update GM's assignment in partyStore so their tag moves in Map Library
       usePartyStore.getState().setPlayerMapAssignment(data.gmId, data.newMapId);
+    });
+
+    // Handle fresh positions received from GM request
+    socket.on('fresh_positions_received', (data) => {
+      console.log('📡 [fresh_positions_received] Hydrating authoritative GM token positions:', data.mapId);
+
+      const { tokens, characterTokens } = data;
+
+      if (characterTokens) {
+        const charStore = require('../../store/characterTokenStore').default.getState();
+        Object.values(characterTokens).forEach(tk => {
+          if (tk && tk.position) {
+            charStore.addCharacterTokenFromServer(tk.id || tk.tokenId, tk.position, tk.playerId, data.mapId);
+          }
+        });
+      }
+
+      if (tokens) {
+        const ctStore = useCreatureStore.getState();
+        Object.values(tokens).forEach(tk => {
+          if (tk && tk.position && (tk.creatureId || tk.id)) {
+            ctStore.updateTokenPosition(tk.creatureId || tk.id, tk.position.x, tk.position.y);
+          }
+        });
+      }
     });
 
     // Listen for area remove operations from GM
@@ -5346,7 +5715,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('room_joined'); // CRITICAL: Clean up auto-join handler
       socket.off('room_created'); // CRITICAL: Clean up GM resume handler
       socket.off('player_joined');
-      socket.off('player_count_updated');
       socket.off('party_member_added');
       socket.off('player_left');
       socket.off('room_closed');
@@ -5453,6 +5821,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (levelEditorState.wallData !== undefined) {
             levelEditorStore.setWallData(levelEditorState.wallData);
+          }
+          if (levelEditorState.windowOverlays !== undefined) {
+            levelEditorStore.setWindowOverlays(levelEditorState.windowOverlays);
           }
           if (levelEditorState.environmentalObjects !== undefined) {
             levelEditorStore.setEnvironmentalObjects(levelEditorState.environmentalObjects);
@@ -5653,6 +6024,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       setCurrentPlayer(currentPlayerData);
       window.currentPlayerId = currentPlayerData?.id;
+
+      // CRITICAL: Set player ID in levelEditorStore for per-player memory system
+      // This ensures each player has individual exploration memories
+      try {
+        const levelEditorStore = useLevelEditorStore.getState();
+        const playerIdForMemories = currentUserId || socketConnection?.id || currentPlayerData?.id || 'local-player';
+        if (playerIdForMemories && levelEditorStore.currentPlayerId !== playerIdForMemories) {
+          levelEditorStore.setCurrentPlayerId(playerIdForMemories);
+          console.log('🆔 Set current player ID for per-player memories:', playerIdForMemories);
+        }
+      } catch (e) {
+        console.warn('Could not set player ID for per-player memories:', e);
+      }
 
       // CRITICAL: Clear auto-join flags upon successful entry
       localStorage.removeItem('selectedRoomId');
@@ -6064,6 +6448,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             // Check if it's our own token, if so, ensure local store matches
             if (charTokenData.playerId === currentPlayerData?.id) {
               updateCharacterTokenPosition(charTokenData.position);
+
+              // CRITICAL FIX: Set viewingFromToken for player when they have a character token
+              // This enables the afterimage/memory system for players
+              try {
+                const levelEditorStore = useLevelEditorStore.getState();
+                if (levelEditorStore.dynamicFogEnabled && !levelEditorStore.viewingFromToken) {
+                  console.log('👁️ [Afterimage] Setting viewingFromToken for player:', charTokenData.id);
+                  levelEditorStore.setViewingFromToken({
+                    id: charTokenData.id,
+                    type: 'character',
+                    characterId: charTokenData.playerId,
+                    position: charTokenData.position
+                  });
+                }
+              } catch (e) {
+                console.warn('Could not set viewingFromToken for player:', e);
+              }
             } else {
               // For other players, we need to add them visually
               // But characterStore might not have their data yet. 
@@ -6531,6 +6932,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         content: `🎉 Welcome to ${room.name}! You have joined as ${isGameMaster ? 'Game Master' : 'Player'}. The adventure awaits!`,
         type: 'system',
         timestamp: new Date().toISOString()
+      });
+
+      // CRITICAL: Trigger initial character sync so everyone sees us correctly
+      import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+        useCharacterStore.getState().syncWithMultiplayer();
+        console.log('🚀 Triggered initial character sync upon room entry');
       });
 
       // Additional helpful notification for new players

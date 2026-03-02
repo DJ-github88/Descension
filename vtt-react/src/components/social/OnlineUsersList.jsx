@@ -56,8 +56,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     joinParty,
     inviteToParty,
     promotePartyMember,
-    kickPartyMember,
-    getCurrentPartyId
+    kickPartyMember
   } = usePartyStore();
   const { friends, addFriend, sendFriendRequest, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote, friendPresence } = useSocialStore();
 
@@ -99,8 +98,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const filteredFriends = useMemo(() => {
     if (!friends) return [];
     return friends.filter(friend => {
-      // Exclude current user by character name
-      if (friend.name === currentUserPresence?.characterName) return false;
+      // Exclude current user by unique ID, not character name
+      if (friend.id === currentUserPresence?.userId) return false;
       return true;
     });
   }, [friends, currentUserPresence]);
@@ -209,14 +208,15 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   };
 
   const handleDisbandParty = () => {
-    const { disbandParty } = usePartyStore.getState();
-    const partyId = getCurrentPartyId();
+    const { disbandParty, currentParty: partyState } = usePartyStore.getState();
+    const partyId = partyState?.id;
     if (partyId) {
       console.log('💥 Disbanding party:', partyId);
       disbandParty();
     }
     closeContextMenu();
   };
+
 
   const handleInviteToParty = async () => {
     const sendPartyInvite = usePresenceStore.getState().sendPartyInvite;
@@ -337,7 +337,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   const handleRemoveFriend = () => {
     if (contextMenu?.user) {
-      const friend = friends.find(f => f.name === contextMenu.user.characterName || f.name === contextMenu.user.name);
+      const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
+      const friend = friends.find(f => f.id === targetUserId);
       if (friend) {
         setPendingRemoveFriend(friend);
       }
@@ -420,10 +421,10 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   const handleRemoveFromParty = () => {
     if (contextMenu?.user) {
-      const userName = contextMenu.user.characterName || contextMenu.user.name;
-      // Find party member by userId or name
+      const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
+      // Find party member ONLY by userId
       const member = partyMembers.find(m =>
-        m.id === contextMenu.user.userId || m.name === userName
+        m.id === targetUserId || m.userId === targetUserId
       );
 
       if (member) {
@@ -437,11 +438,11 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   // Handle add/edit note
   const handleAddNote = () => {
     if (contextMenu?.user) {
-      const userName = contextMenu.user.characterName || contextMenu.user.name;
+      const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
 
-      // Determine if this is a friend or ignored user
-      const friend = friends.find(f => f.name === userName);
-      const ignoredUser = ignored.find(i => i.name === userName);
+      // Determine if this is a friend or ignored user by ID
+      const friend = friends.find(f => f.id === targetUserId);
+      const ignoredUser = ignored.find(i => i.id === targetUserId);
 
       if (friend) {
         setNoteText(friend.note || '');
@@ -481,13 +482,16 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     m.id === contextMenu.user.userId ||
     m.userId === contextMenu.user.userId ||
     m.id === contextMenu.user.id ||
-    m.name === (contextMenu.user.characterName || contextMenu.user.name)
+    m.userId === contextMenu.user.id
   ) : false;
 
   const isContextMenuUserSelf = contextMenu?.user ? (
     contextMenu.user.userId === currentUserPresence?.userId ||
     contextMenu.user.uid === currentUserPresence?.userId ||
-    contextMenu.user.id === currentUserPresence?.userId
+    contextMenu.user.id === currentUserPresence?.userId ||
+    contextMenu.user.userId === 'current-player' ||
+    contextMenu.user.id === 'current-player' ||
+    contextMenu.user.isSelf === true
   ) : false;
 
   // Get status icon
@@ -539,6 +543,18 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   // Get session display
   const getSessionDisplay = (user) => {
+    if (!user) return null;
+
+    // Check if user is offline
+    if (user.status === 'offline') {
+      return (
+        <div className="session-info offline">
+          <i className="fas fa-minus-circle"></i>
+          <span>Offline</span>
+        </div>
+      );
+    }
+
     if (user.sessionType === 'local') {
       return (
         <div className="session-info local">
@@ -558,12 +574,9 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         </div>
       );
     }
-    return (
-      <div className="session-info idle">
-        <i className="fas fa-circle"></i>
-        <span>Idle</span>
-      </div>
-    );
+
+    // Online but no active session - don't show idle, just don't show session info
+    return null;
   };
 
 
@@ -657,8 +670,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 const isCurrentUser = user.userId === currentUserPresence?.userId;
 
                 // Check if user is a friend or ignored
-                const isFriend = (friends || []).some(f => f.id === user.userId || f.friendId === user.friendId);
-                const isIgnored = (ignored || []).some(i => i.id === user.userId || i.name === user.characterName);
+                const isIgnored = (ignored || []).some(i => i.id === user.userId);
+                const isFriend = (friends || []).some(f => f.id === user.userId);
 
                 // ONLY use characterStore values for the local user's own card.
                 // For other users, use the presence data directly.
@@ -709,8 +722,12 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             ) : (
               <div className="friends-list">
                 {filteredFriends.map((friend) => {
-                  const onlineUser = onlineUsers.find(u => u.userId === friend.id || u.characterName === friend.name);
+                  const onlineUser = activeOnlineUsers.find(u =>
+                    u.userId === friend.id
+                  );
                   const friendPres = friendPresence[friend.id];
+                  const isOffline = !onlineUser && !friendPres;
+
                   const friendData = onlineUser
                     ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id, isFriend: true }
                     : friendPres
@@ -723,8 +740,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                       user={friendData}
                       nameFormat="global"
                       className="friend-card"
-                      showSessionInfo={!!(onlineUser || friendPres)}
-                      sessionDisplay={(onlineUser || friendPres) ? getSessionDisplay(onlineUser || friendPres) : null}
+                      showSessionInfo={!!(onlineUser || friendPres || isOffline)}
+                      sessionDisplay={getSessionDisplay(onlineUser || friendPres || (isOffline ? { status: 'offline' } : null))}
                       showFriendId={true}
                       onContextMenu={(e) => handleContextMenu(e, friendData)}
                       additionalContent={
@@ -756,7 +773,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               <div className="ignored-list">
                 {ignored.map((ignoredUser) => {
                   // Find the ignored user in online users to get current status
-                  const onlineUser = onlineUsers.find(u => u.characterName === ignoredUser.name);
+                  const onlineUser = onlineUsers.find(u => u.userId === ignoredUser.id);
                   const userData = {
                     ...(onlineUser || ignoredUser),
                     isIgnored: true
@@ -810,7 +827,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         {/* Party Tab */}
         {activeTab === 'party' && (
           <div className="users-section party-section">
-            {!getCurrentPartyId() ? (
+            {!currentParty?.id ? (
               <div className="no-users">
                 <i className="fas fa-users"></i>
                 <p>No party</p>
@@ -844,7 +861,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     className="party-member-card"
                     onContextMenu={(e) => handleContextMenu(e, {
                       ...member,
-                      userId: member.userId || member.id
+                      userId: member.userId || member.id,
+                      isSelf: isCurrentPlayer
                     })}
                   />
                 );

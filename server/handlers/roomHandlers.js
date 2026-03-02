@@ -92,7 +92,7 @@ function getPublicRooms(rooms) {
 /**
  * Validate player membership in a room
  * @param {Object} socket - Socket instance
- * @param {string} roomId - Room ID to validate
+ * @param {string} roomId - Room ID to validate (optional - falls back to player's roomId)
  * @param {boolean} requireGM - Whether GM privileges are required
  * @param {Map} players - Players map
  * @param {Map} rooms - Rooms map
@@ -104,7 +104,11 @@ function validateRoomMembership(socket, roomId, requireGM, players, rooms) {
     return { valid: false, error: 'Player not found' };
   }
 
-  if (player.roomId !== roomId) {
+  // CRITICAL FIX: Use player's roomId as fallback when not provided in data
+  // This allows socket events that don't include roomId to still validate correctly
+  const effectiveRoomId = roomId || player.roomId;
+
+  if (player.roomId !== effectiveRoomId) {
     return { valid: false, error: 'Not a member of this room' };
   }
 
@@ -112,7 +116,7 @@ function validateRoomMembership(socket, roomId, requireGM, players, rooms) {
     return { valid: false, error: 'GM privileges required' };
   }
 
-  const room = rooms.get(roomId);
+  const room = rooms.get(effectiveRoomId);
   if (!room) {
     return { valid: false, error: 'Room not found' };
   }

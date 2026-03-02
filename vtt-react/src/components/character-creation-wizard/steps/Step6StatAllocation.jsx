@@ -175,16 +175,9 @@ const Step6StatAllocation = () => {
                                             </div>
                                         </div>
                                     </div>
-                                );
+                            );
                             })}
                         </div>
-
-                        {validationErrors.stats && (
-                            <div className="error-message">
-                                <i className="fas fa-exclamation-triangle"></i>
-                                {validationErrors.stats}
-                            </div>
-                        )}
                     </div>
 
                     {/* Right side - Character summary */}

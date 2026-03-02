@@ -683,55 +683,15 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     updateResource(resourceType, newValue, maxValue);
                 }
 
-                // Show floating combat text for current player at Target HUD position
-                if (window.showFloatingCombatText && adjustment !== 0) {
-                    let textType;
-                    if (resourceType === 'health') {
-                        textType = adjustment > 0 ? 'heal' : 'damage';
-                    } else if (resourceType === 'mana') {
-                        textType = adjustment > 0 ? 'mana' : 'mana-loss';
-                    } else if (resourceType === 'actionPoints') {
-                        textType = adjustment > 0 ? 'ap' : 'ap-loss';
-                    }
-
-                    // Position floating text at the actual Target HUD DOM element location
-                    let floatingTextPosition;
-                    if (nodeRef.current) {
-                        const rect = nodeRef.current.getBoundingClientRect();
-                        floatingTextPosition = {
-                            x: rect.left + rect.width / 2,
-                            y: rect.top - 20 // Position above the HUD for better visibility
-                        };
-                    } else {
-                        // Fallback to center of screen
-                        floatingTextPosition = {
-                            x: window.innerWidth / 2,
-                            y: window.innerHeight / 2
-                        };
-                    }
-
-                    console.log('🎯 Target HUD: About to call showFloatingCombatText for current player:', {
-                        adjustment,
-                        textType,
-                        position: floatingTextPosition,
-                        functionExists: typeof window.showFloatingCombatText
-                    });
-
-                    // Add a small delay to ensure DOM is updated
-                    setTimeout(() => {
-                        window.showFloatingCombatText(
-                            Math.abs(adjustment).toString(),
-                            textType,
-                            floatingTextPosition
-                        );
-                    }, 50);
-                }
+                // Scrolling combat text removed per user request to eliminate wild animations
 
                 // Log the resource change (unless logging is skipped)
                 if (adjustment !== 0 && !skipLogging) {
                     const characterName = getTargetName();
                     logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
                 }
+
+                // MULTIPLAYER SYNC: No longer needed here as characterStore.updateResource handles it
             } else {
                 // Update party member through party store
                 const partyState = usePartyStore.getState();
@@ -798,6 +758,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 if (updatedMember && updatedMember.character) {
                                     socket.emit('character_resource_updated', {
                                         playerId: memberId,
+                                        userId: updatedMember.userId || updatedMember.uid, // Add stable ID
+                                        socketId: updatedMember.socketId, // Add socket ID
                                         playerName: updatedMember.name, // Include name for fallback matching
                                         resource: resourceType,
                                         current: updatedMember.character[resourceType]?.current,
@@ -831,6 +793,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 if (updatedMember && updatedMember.character) {
                                     socket.emit('character_resource_updated', {
                                         playerId: memberId,
+                                        userId: updatedMember.userId || updatedMember.uid, // Add stable ID
+                                        socketId: updatedMember.socketId, // Add socket ID
                                         playerName: updatedMember.name, // Include name for fallback matching
                                         resource: resourceType,
                                         current: updatedMember.character[resourceType]?.current,
@@ -844,42 +808,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         }
                     }
 
-                    // Show floating combat text for party member at Target HUD position
-                    if (window.showFloatingCombatText && adjustment !== 0) {
-                        let textType;
-                        if (resourceType === 'health') {
-                            textType = adjustment > 0 ? 'heal' : 'damage';
-                        } else if (resourceType === 'mana') {
-                            textType = adjustment > 0 ? 'mana' : 'mana-loss';
-                        } else if (resourceType === 'actionPoints') {
-                            textType = adjustment > 0 ? 'ap' : 'ap-loss';
-                        }
-
-                        // Position floating text at the actual Target HUD DOM element location
-                        let floatingTextPosition;
-                        if (nodeRef.current) {
-                            const rect = nodeRef.current.getBoundingClientRect();
-                            floatingTextPosition = {
-                                x: rect.left + rect.width / 2,
-                                y: rect.top - 20 // Position above the HUD for better visibility
-                            };
-                        } else {
-                            // Fallback to stored position
-                            const targetHUDPos = getTargetHUDPosition();
-                            floatingTextPosition = {
-                                x: targetHUDPos.x + 100,
-                                y: targetHUDPos.y - 20 // Position above the HUD
-                            };
-                        }
-
-                        setTimeout(() => {
-                            window.showFloatingCombatText(
-                                Math.abs(adjustment).toString(),
-                                textType,
-                                floatingTextPosition
-                            );
-                        }, 50);
-                    }
+                    // Scrolling combat text removed per user request to eliminate wild animations
 
                     // Log the resource change (unless logging is skipped)
                     if (adjustment !== 0 && !skipLogging) {
@@ -913,56 +842,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         [stateKey]: newValue
                     });
 
-                    // Show floating combat text at token's screen position
-                    if (window.showFloatingCombatText && token.position && adjustment !== 0) {
-                        // Determine text type based on resource and adjustment direction
-                        let textType;
-                        if (resourceType === 'health') {
-                            textType = adjustment > 0 ? 'heal' : 'damage';
-                        } else if (resourceType === 'mana') {
-                            textType = adjustment > 0 ? 'mana' : 'mana-loss';
-                        } else if (resourceType === 'actionPoints') {
-                            textType = adjustment > 0 ? 'ap' : 'ap-loss';
-                        }
-
-                        // Get the token's screen position using the grid system
-                        const gridSystem = window.gridSystem;
-                        if (gridSystem) {
-                            try {
-                                // Get viewport dimensions for proper coordinate conversion (same as CreatureToken)
-                                const viewportWidth = window.innerWidth;
-                                const viewportHeight = window.innerHeight;
-                                const screenPos = gridSystem.worldToScreen(token.position.x, token.position.y, viewportWidth, viewportHeight);
-
-                                // Add a small delay to ensure DOM is updated
-                                setTimeout(() => {
-                                    console.log('🎯 Creature floating text:', {
-                                        tokenPosition: token.position,
-                                        screenPos,
-                                        adjustment,
-                                        textType
-                                    });
-                                    window.showFloatingCombatText(
-                                        Math.abs(adjustment).toString(),
-                                        textType,
-                                        { x: screenPos.x, y: screenPos.y }
-                                    );
-                                }, 50);
-                            } catch (error) {
-                                console.error('❌ Failed to convert creature token position to screen coordinates:', error);
-                                // Fallback: show floating text at a default position
-                                setTimeout(() => {
-                                    window.showFloatingCombatText(
-                                        Math.abs(adjustment).toString(),
-                                        textType,
-                                        { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-                                    );
-                                }, 50);
-                            }
-                        } else {
-                            console.error('❌ Grid system not available for creature floating text');
-                        }
-                    }
+                    // Scrolling combat text removed per user request to eliminate wild animations
 
                     // Log the resource change (unless logging is skipped)
                     if (adjustment !== 0 && !skipLogging) {
@@ -1209,7 +1089,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const currentHp = characterState.health?.current || 0;
                 const healAmount = maxHp - currentHp;
                 handleResourceAdjust('health', healAmount);
-                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+                // logResourceChange removed - handled by handleResourceAdjust
             } else {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
@@ -1218,7 +1098,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const currentHp = member.character.health?.current || 0;
                     const healAmount = maxHp - currentHp;
                     handleResourceAdjust('health', healAmount);
-                    if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+                    // logResourceChange removed - handled by handleResourceAdjust
                 }
             }
         } else if (targetType === 'creature') {
@@ -1229,7 +1109,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const currentHp = token.state?.currentHp || 0;
                 const healAmount = maxHp - currentHp;
                 handleResourceAdjust('health', healAmount);
-                if (healAmount > 0) logResourceChange(characterName, 'health', healAmount, true);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -1282,7 +1162,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const tempMp = characterState.tempMana || 0;
                 const drainAmount = currentMp + tempMp;
                 handleResourceAdjust('mana', -drainAmount);
-                if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             } else {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
@@ -1291,7 +1171,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const tempMp = member.character.tempMana || 0;
                     const drainAmount = currentMp + tempMp;
                     handleResourceAdjust('mana', -drainAmount);
-                    if (drainAmount > 0) logResourceChange(characterName, 'mana', -drainAmount, false);
+                    // logResourceChange removed - handled by handleResourceAdjust
                 }
             }
         } else if (targetType === 'creature') {
@@ -1300,7 +1180,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             if (token) {
                 const currentMp = token.state?.currentMana || 0;
                 handleResourceAdjust('mana', -currentMp);
-                if (currentMp > 0) logResourceChange(characterName, 'mana', -currentMp, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -1321,7 +1201,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const currentMp = characterState.mana?.current || 0;
                 const restoreAmount = maxMp - currentMp;
                 handleResourceAdjust('mana', restoreAmount);
-                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+                // logResourceChange removed - handled by handleResourceAdjust
             } else {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
@@ -1330,7 +1210,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const currentMp = member.character.mana?.current || 0;
                     const restoreAmount = maxMp - currentMp;
                     handleResourceAdjust('mana', restoreAmount);
-                    if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+                    // logResourceChange removed - handled by handleResourceAdjust
                 }
             }
         } else if (targetType === 'creature') {
@@ -1341,7 +1221,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const currentMp = token.state?.currentMana || 0;
                 const restoreAmount = maxMp - currentMp;
                 handleResourceAdjust('mana', restoreAmount);
-                if (restoreAmount > 0) logResourceChange(characterName, 'mana', restoreAmount, true);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);
@@ -1362,7 +1242,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const tempAp = characterState.tempActionPoints || 0;
                 const drainAmount = currentAp + tempAp;
                 handleResourceAdjust('actionPoints', -drainAmount);
-                if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             } else {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
@@ -1371,7 +1251,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const tempAp = member.character.tempActionPoints || 0;
                     const drainAmount = currentAp + tempAp;
                     handleResourceAdjust('actionPoints', -drainAmount);
-                    if (drainAmount > 0) logResourceChange(characterName, 'actionPoints', -drainAmount, false);
+                    // logResourceChange removed - handled by handleResourceAdjust
                 }
             }
         } else if (targetType === 'creature') {
@@ -1380,7 +1260,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             if (token) {
                 const currentAp = token.state?.currentActionPoints || 0;
                 handleResourceAdjust('actionPoints', -currentAp);
-                if (currentAp > 0) logResourceChange(characterName, 'actionPoints', -currentAp, false);
+                // logResourceChange removed - handled by handleResourceAdjust
             }
         }
         setShowContextMenu(false);

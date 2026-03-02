@@ -111,8 +111,8 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
   // Drag state
   const [isDragging, setIsDragging] = useState(false);
 
-  // Visibility state
-  const [isVisible, setIsVisible] = useState(false);
+  // Visibility state - starts true so the head is visible on page load
+  const [isVisible, setIsVisible] = useState(true);
 
   const messages = STEP_MESSAGES[currentStep] || STEP_MESSAGES[1];
   const intervalRef = useRef(null);
@@ -233,7 +233,7 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
     if (!containerElement) return;
 
     const rect = containerElement.getBoundingClientRect();
-    
+
     // Store initial positions in ref
     dragStateRef.current = {
       startMouseX: e.clientX,
@@ -256,7 +256,7 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
 
     const handleMouseMove = (e) => {
       const { startMouseX, startMouseY, startPosX, startPosY } = dragStateRef.current;
-      
+
       // Calculate how much the mouse has moved from the starting position
       const deltaX = e.clientX - startMouseX;
       const deltaY = e.clientY - startMouseY;

@@ -626,7 +626,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           isGM: false,
           color: playerColor || '#4a90e2',
           character: character || null,
-          currentMapId: room.gameState.defaultMapId || 'default'
+          currentMapId: room.gameState.defaultMapId || 'default',
+          userId: socket.data?.userId || data.userId || null
         };
 
         room.players.set(playerId, player);
@@ -660,7 +661,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             name: player.name,
             socketId: socket.id,
             character: player.character,
-            currentMapId: player.currentMapId
+            currentMapId: player.currentMapId,
+            userId: player.userId || null // ADD THIS LINE
           },
           playerCount: room.players.size + 1
         });
@@ -697,7 +699,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       // Notify other players
       socket.to(player.roomId).emit('player_left', {
         playerId: player.id,
-        playerName: player.name
+        playerName: player.name,
+        playerCount: room.players.size + 1
       });
 
       // Update room list
@@ -740,7 +743,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           }
           socket.to(player.roomId).emit('player_left', {
             playerId: player.id,
-            playerName: player.name
+            playerName: player.name,
+            playerCount: room.players.size + 1
           });
         }
       }
@@ -777,18 +781,19 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         map.tokens[tokenId] = token;
         room.gameState.tokens[tokenId] = token; // Legacy support
 
-        // Broadcast to all players in room
-        io.to(data.roomId).emit('token_created', {
-          token,
+        // Broadcast to all players in room using room.id from validation
+        io.to(room.id).emit('token_created', {
+          ...data, // Relay all metadata (creature, position, player info)
+          token,   // Overwrite with processed token
           mapId,
           createdBy: socket.id,
           sequence: getNextEventSequence()
         });
 
         // Queue Firebase update
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
-        logger.debug('[token_created] Token created', { tokenId, mapId, roomId: data.roomId });
+        logger.debug('[token_created] Token created', { tokenId, mapId, roomId: room.id });
 
       } catch (error) {
         logger.error('[token_created] Error:', { error: error.message });
@@ -804,7 +809,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const mapId = data.mapId || room.gameState.defaultMapId || 'default';
 
         // Queue movement for debouncing
-        movementDebouncer.queueMove(data.roomId, data.tokenId, {
+        movementDebouncer.queueMove(room.id, data.tokenId, {
           position: data.position,
           velocity: data.velocity,
           playerId: socket.id,
@@ -832,7 +837,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             updatedAt: Date.now()
           };
 
-          io.to(data.roomId).emit('token_updated', {
+          io.to(room.id).emit('token_updated', {
             tokenId: data.tokenId,
             updates: data.updates,
             mapId,
@@ -840,7 +845,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             sequence: getNextEventSequence()
           });
 
-          firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+          firebaseBatchWriter.queueWrite(room.id, room.gameState);
         }
 
       } catch (error) {
@@ -854,13 +859,14 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const { room } = validation;
-        const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+        const mapId = data.mapId || data.targetMapId || room.gameState.defaultMapId || 'default';
         const map = validateMapExists(room, mapId);
 
-        const tokenId = data.token.id || uuidv4();
+        const tokenId = data.token?.id || data.tokenId || uuidv4();
         const token = {
           ...data.token,
           id: tokenId,
+          playerId: data.playerId,
           createdBy: socket.id,
           createdAt: Date.now()
         };
@@ -868,14 +874,15 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         map.characterTokens[tokenId] = token;
         room.gameState.characterTokens[tokenId] = token; // Legacy support
 
-        io.to(data.roomId).emit('character_token_created', {
-          token,
+        io.to(room.id).emit('character_token_created', {
+          ...data, // Relay all metadata (playerId, position, etc.)
+          token,   // Overwrite with processed token
           mapId,
           createdBy: socket.id,
           sequence: getNextEventSequence()
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[character_token_created] Error:', { error: error.message });
@@ -894,14 +901,14 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         delete map.tokens[data.tokenId];
         delete room.gameState.tokens[data.tokenId]; // Legacy support
 
-        io.to(data.roomId).emit('token_removed', {
+        io.to(room.id).emit('token_removed', {
           tokenId: data.tokenId,
           mapId,
           removedBy: socket.id,
           sequence: getNextEventSequence()
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[token_removed] Error:', { error: error.message });
@@ -920,14 +927,14 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         delete map.characterTokens[data.tokenId];
         delete room.gameState.characterTokens[data.tokenId]; // Legacy support
 
-        io.to(data.roomId).emit('character_token_removed', {
+        io.to(room.id).emit('character_token_removed', {
           tokenId: data.tokenId,
           mapId,
           removedBy: socket.id,
           sequence: getNextEventSequence()
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[character_token_removed] Error:', { error: error.message });
@@ -952,9 +959,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           }
         }
 
-        // Broadcast movement to room
-        socket.to(data.roomId).emit('character_moved', {
+        // Broadcast movement to room (including initiator for consistency)
+        // using room.id from validation to ensure it reaches the correct room
+        socket.to(room.id).emit('character_moved', {
           playerId: player.id,
+          characterId: data.characterId || player.id,
+          tokenId: data.tokenId,
           position: data.position,
           mapId,
           timestamp: Date.now()
@@ -1004,6 +1014,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     });
 
     socket.on('character_updated', async (data) => {
+      console.log(`📥 [Server] character_updated received from ${socket.id}`, {
+        characterId: data.characterId,
+        name: data.character?.name,
+        race: data.character?.race,
+        class: data.character?.class
+      });
       try {
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) return;
@@ -1022,11 +1038,14 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           room.players.set(player.id, player);
         }
 
-        // Broadcast to room
-        socket.to(data.roomId).emit('character_updated', {
+        // Broadcast to room (including sender so they can verify sync)
+        io.to(data.roomId).emit('character_updated', {
           playerId: player.id,
+          characterId: data.characterId,
           character: player.character,
           updatedBy: socket.id,
+          senderSocketId: socket.id,
+          senderUserId: socket.data.userId || data.userId,
           timestamp: Date.now()
         });
 
@@ -1151,6 +1170,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         // Broadcast to room
         io.to(data.roomId).emit('character_resource_updated', {
           playerId: targetPlayer.id,
+          userId: targetPlayer.userId || targetPlayer.id,
+          socketId: targetPlayer.socketId,
           playerName: targetPlayer.name,
           resource: data.resource,
           current: data.current,
@@ -1245,6 +1266,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         // Update level editor state
         if (data.terrainData) map.terrainData = data.terrainData;
         if (data.wallData) map.wallData = data.wallData;
+        if (data.windowOverlays !== undefined) map.windowOverlays = data.windowOverlays;
         if (data.environmentalObjects) map.environmentalObjects = data.environmentalObjects;
         if (data.drawingPaths) map.drawingPaths = data.drawingPaths;
         if (data.drawingLayers) map.drawingLayers = data.drawingLayers;
@@ -1253,12 +1275,13 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (data.lightSources) map.lightSources = data.lightSources;
         if (data.dndElements) map.dndElements = data.dndElements;
 
-        // Broadcast to room
-        socket.to(data.roomId).emit('level_editor_state_synced', {
+        // Broadcast to room using room.id from validation
+        socket.to(room.id).emit('level_editor_state_synced', {
           mapId,
           state: {
             terrainData: map.terrainData,
             wallData: map.wallData,
+            windowOverlays: map.windowOverlays || {},
             environmentalObjects: map.environmentalObjects,
             drawingPaths: map.drawingPaths,
             fogOfWarData: map.fogOfWarData,
@@ -1268,7 +1291,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           sequence: getNextEventSequence()
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[sync_level_editor_state] Error:', { error: error.message });
@@ -1277,17 +1300,21 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     socket.on('map_update', async (data) => {
       try {
+        const sequence = data?.sequence || 'no-seq';
+        const hasTargetId = !!data?.targetMapId;
+        logger.debug(`[map_update] Received [Seq: ${sequence}, TargetID: ${hasTargetId ? data.targetMapId : 'N/A'}]`);
+
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) return;
 
-        const { room } = validation;
+        const { room, player } = validation;
 
-        // Handle map creation/updates
+        // Handle map creation/updates (structural changes)
         if (data.action === 'create' && data.map) {
           const mapId = data.map.id || uuidv4();
           validateMapExists(room, mapId, data.map.name);
 
-          io.to(data.roomId).emit('map_update', {
+          io.to(room.id).emit('map_update', {
             action: 'create',
             map: { id: mapId, ...data.map },
             createdBy: socket.id
@@ -1297,14 +1324,135 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             delete room.gameState.maps[data.mapId];
           }
 
-          io.to(data.roomId).emit('map_update', {
+          io.to(room.id).emit('map_update', {
             action: 'delete',
             mapId: data.mapId,
             deletedBy: socket.id
           });
+        } else if (data.mapUpdates && data.targetMapId) {
+          // CRITICAL: Handle terrain/item sync (restored from old server.js)
+          // This was accidentally removed during refactoring to socketHandlers.js
+
+          // Only GM can update map state for live synchronization
+          if (!player.isGM) {
+            logger.warn('[map_update] Non-GM attempted terrain sync');
+            return;
+          }
+
+          const targetMapId = data.targetMapId;
+          const mapData = validateMapExists(room, targetMapId);
+          const mapUpdates = data.mapUpdates;
+
+          // Handle terrain data updates
+          if (mapUpdates.terrainData) {
+            mapData.terrainData = {
+              ...mapData.terrainData || {},
+              ...mapUpdates.terrainData
+            };
+            // Handle null values (deleted tiles)
+            for (const [key, value] of Object.entries(mapUpdates.terrainData)) {
+              if (value === null && mapData.terrainData[key] !== undefined) {
+                delete mapData.terrainData[key];
+              }
+            }
+          }
+
+          // Handle wall data updates
+          if (mapUpdates.wallData !== undefined) {
+            mapData.wallData = {
+              ...mapData.wallData || {},
+              ...mapUpdates.wallData
+            };
+            // Handle null values (deleted walls)
+            for (const [key, value] of Object.entries(mapUpdates.wallData)) {
+              if (value === null && mapData.wallData[key] !== undefined) {
+                delete mapData.wallData[key];
+              }
+            }
+          }
+
+          // Handle fog of war updates
+          if (mapUpdates.fogOfWar !== undefined) {
+            mapData.fogOfWarData = mapUpdates.fogOfWar;
+          }
+          if (mapUpdates.fogOfWarPaths !== undefined) {
+            mapData.fogOfWarPaths = mapUpdates.fogOfWarPaths;
+          }
+          if (mapUpdates.fogErasePaths !== undefined) {
+            mapData.fogErasePaths = mapUpdates.fogErasePaths;
+          }
+          if (mapUpdates.exploredAreas !== undefined) {
+            mapData.exploredAreas = mapUpdates.exploredAreas
+          }
+
+          // Handle drawing updates
+          if (mapUpdates.drawingLayers !== undefined) {
+            mapData.drawingLayers = mapUpdates.drawingLayers;
+          }
+          if (mapUpdates.drawingPaths !== undefined) {
+            mapData.drawingPaths = mapUpdates.drawingPaths;
+          }
+
+          // Handle dndElements (connections/portals)
+          if (mapUpdates.dndElements !== undefined) {
+            mapData.dndElements = mapUpdates.dndElements;
+          }
+
+          // Handle environmental objects
+          if (mapUpdates.environmentalObjects !== undefined) {
+            mapData.environmentalObjects = mapUpdates.environmentalObjects;
+          }
+
+          // Handle window overlays (windows and doors)
+          if (mapUpdates.windowOverlays !== undefined) {
+            mapData.windowOverlays = {
+              ...mapData.windowOverlays || {},
+              ...mapUpdates.windowOverlays
+            };
+            // Handle null values (removed windows/doors)
+            for (const [key, value] of Object.entries(mapUpdates.windowOverlays)) {
+              if (value === null && mapData.windowOverlays[key] !== undefined) {
+                delete mapData.windowOverlays[key];
+              }
+            }
+          }
+
+          // Handle light sources
+          if (mapUpdates.lightSources !== undefined) {
+            mapData.lightSources = mapUpdates.lightSources;
+          }
+
+          // Handle grid settings
+          if (mapUpdates.gridSettings !== undefined) {
+            mapData.gridSettings = mapUpdates.gridSettings;
+          }
+
+          // Broadcast to players on the same map
+          // Structural updates go to all players, terrain updates only to players on that map
+          const isStructuralUpdate = !!(mapUpdates.dndElements || mapUpdates.environmentalObjects || mapUpdates.gridSettings);
+          let broadcastCount = 0;
+
+          for (const [sid, p] of players.entries()) {
+            if (sid === socket.id || p.roomId !== player.roomId) continue;
+
+            const isOnSameMap = p.currentMapId === targetMapId;
+            const shouldReceive = isStructuralUpdate || isOnSameMap;
+
+            if (shouldReceive) {
+              io.to(sid).emit('map_update', {
+                mapId: targetMapId,
+                mapData: mapUpdates,
+                updatedBy: player.id,
+                sequence: sequence
+              });
+              broadcastCount++;
+            }
+          }
+
+          logger.debug(`[map_update] Terrain sync on ${targetMapId} by GM ${player.name}: ${Object.keys(mapUpdates).join(', ')} → ${broadcastCount} players`);
         }
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[map_update] Error:', { error: error.message });
@@ -1340,27 +1488,34 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const { room } = validation;
-        const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+        // CRITICAL FIX: Support both mapId and targetMapId from client
+        const mapId = data.mapId || data.targetMapId || room.gameState.defaultMapId || 'default';
         const map = validateMapExists(room, mapId);
 
-        if (data.action === 'add' && data.item) {
-          const itemId = data.item.id || uuidv4();
-          map.gridItems[itemId] = { ...data.item, id: itemId };
+        // CRITICAL FIX: Support both action and updateType from client
+        const action = data.action || data.updateType;
 
-          io.to(data.roomId).emit('grid_item_update', {
+        if (action === 'add' && (data.item || data.itemData)) {
+          // CRITICAL FIX: Support both item and itemData from client
+          const item = data.item || data.itemData;
+          const itemId = item.id || uuidv4();
+          map.gridItems[itemId] = { ...item, id: itemId };
+
+          io.to(room.id).emit('grid_item_update', {
             action: 'add',
             item: map.gridItems[itemId],
+            itemId,
             mapId,
             addedBy: socket.id
           });
-        } else if (data.action === 'update' && data.itemId && data.updates) {
+        } else if (action === 'update' && data.itemId && data.updates) {
           if (map.gridItems[data.itemId]) {
             map.gridItems[data.itemId] = {
               ...map.gridItems[data.itemId],
               ...data.updates
             };
 
-            io.to(data.roomId).emit('grid_item_update', {
+            io.to(room.id).emit('grid_item_update', {
               action: 'update',
               itemId: data.itemId,
               updates: data.updates,
@@ -1368,10 +1523,28 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
               updatedBy: socket.id
             });
           }
-        } else if (data.action === 'remove' && data.itemId) {
+        } else if (action === 'move' && data.itemId && data.position) {
+          // CRITICAL FIX: Handle move action from client
+          if (map.gridItems[data.itemId]) {
+            map.gridItems[data.itemId] = {
+              ...map.gridItems[data.itemId],
+              position: data.position,
+              gridPosition: data.gridPosition || data.position?.gridPosition
+            };
+
+            io.to(room.id).emit('grid_item_update', {
+              action: 'move',
+              itemId: data.itemId,
+              position: data.position,
+              gridPosition: data.gridPosition,
+              mapId,
+              movedBy: socket.id
+            });
+          }
+        } else if (action === 'remove' && data.itemId) {
           delete map.gridItems[data.itemId];
 
-          io.to(data.roomId).emit('grid_item_update', {
+          io.to(room.id).emit('grid_item_update', {
             action: 'remove',
             itemId: data.itemId,
             mapId,
@@ -1379,7 +1552,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           });
         }
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
       } catch (error) {
         logger.error('[grid_item_update] Error:', { error: error.message });
@@ -1404,6 +1577,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             gridItems: map.gridItems || {},
             terrainData: map.terrainData || {},
             wallData: map.wallData || {},
+            windowOverlays: map.windowOverlays || {},
             environmentalObjects: map.environmentalObjects || [],
             drawingPaths: map.drawingPaths || [],
             fogOfWarData: map.fogOfWarData || {},
@@ -1424,11 +1598,58 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const validation = validateRoomMembership(socket, data.roomId, true);
         if (!validation.valid) return;
 
-        const { player } = validation;
+        const { room, player } = validation;
 
-        // Toggle GM view mode
+        // Case 1: Actual map navigation (GM switches to a different map)
+        if (data.newMapId) {
+          const targetMapId = data.newMapId;
+
+          // Update GM's current map
+          player.currentMapId = targetMapId;
+          if (room.gameState.playerMapAssignments) {
+            room.gameState.playerMapAssignments[player.id] = targetMapId;
+          }
+
+          // Get or create the target map's state
+          const targetMap = validateMapExists(room, targetMapId, data.mapName);
+
+          // Build full map data to send back to the GM so client can restore all state
+          const mapData = {
+            terrainData: targetMap.terrainData || {},
+            wallData: targetMap.wallData || {},
+            windowOverlays: targetMap.windowOverlays || {},
+            drawingPaths: targetMap.drawingPaths || [],
+            drawingLayers: targetMap.drawingLayers || [],
+            fogOfWarData: targetMap.fogOfWarData || {},
+            fogOfWarPaths: targetMap.fogOfWarPaths || [],
+            fogErasePaths: targetMap.fogErasePaths || [],
+            dndElements: targetMap.dndElements || [],
+            environmentalObjects: targetMap.environmentalObjects || [],
+            lightSources: targetMap.lightSources || {},
+            backgrounds: targetMap.backgrounds || [],
+            activeBackgroundId: targetMap.activeBackgroundId || null,
+            // Live token positions — uses server's authoritative state
+            tokens: targetMap.tokens || {},
+            characterTokens: targetMap.characterTokens || {},
+            gridItems: targetMap.gridItems || {},
+            gridSettings: targetMap.gridSettings || {}
+          };
+
+          // Send to the GM only (they initiated the switch)
+          socket.emit('gm_view_changed', {
+            gmId: player.id,
+            gmName: player.name,
+            newMapId: targetMapId,
+            mapName: data.mapName || targetMap.name || targetMapId,
+            mapData
+          });
+
+          logger.info(`[gm_switch_view] GM ${player.name} switched to map ${targetMapId}`);
+          return;
+        }
+
+        // Case 2: Legacy viewMode toggle (player/gm perspective)
         player.gmViewMode = data.viewMode || 'player';
-
         socket.to(data.roomId).emit('gm_view_changed', {
           gmId: player.id,
           viewMode: player.gmViewMode
@@ -1441,13 +1662,81 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     socket.on('gm_transfer_player', async (data) => {
       try {
+        // DETAILED LOGGING: Log incoming transfer request
+        logger.info('[gm_transfer_player] Request received', {
+          roomId: data.roomId,
+          playerId: data.playerId,
+          targetMapId: data.targetMapId,
+          destinationMapName: data.destinationMapName,
+          senderSocketId: socket.id
+        });
+
         const validation = validateRoomMembership(socket, data.roomId, true);
-        if (!validation.valid) return;
+        if (!validation.valid) {
+          logger.warn('[gm_transfer_player] Validation failed', { 
+            roomId: data.roomId, 
+            playerId: data.playerId 
+          });
+          return;
+        }
 
         const { room } = validation;
 
-        const targetPlayer = room.players.get(data.playerId);
-        if (!targetPlayer) return;
+        // DETAILED LOGGING: Log room state for debugging
+        logger.info('[gm_transfer_player] Room state', {
+          roomId: room.id,
+          gmId: room.gm?.id,
+          gmSocketId: room.gm?.socketId,
+          gmUserId: room.gmId,
+          playersCount: room.players.size,
+          playerIds: Array.from(room.players.keys())
+        });
+
+        let targetPlayer = room.players.get(data.playerId);
+
+        // ENHANCED FIX: If not found in players map, check if it's the GM using multiple ID sources
+        // This handles cases where GM's ID might be roomId, socketId, or userId
+        if (!targetPlayer && room.gm) {
+          const gmIdMatches = 
+            room.gm.id === data.playerId ||
+            room.gm.socketId === data.playerId ||
+            room.gm.socketId === socket.id ||
+            room.gmId === data.playerId ||
+            (room.gm.userId && room.gm.userId === data.playerId);
+          
+          if (gmIdMatches) {
+            targetPlayer = room.gm;
+            logger.info('[gm_transfer_player] Found GM via enhanced ID match', {
+              playerId: data.playerId,
+              gmId: room.gm.id,
+              gmSocketId: room.gm.socketId,
+              gmUserId: room.gmId,
+              matchedBy: room.gm.id === data.playerId ? 'gm.id' :
+                         room.gm.socketId === data.playerId ? 'gm.socketId' :
+                         room.gm.socketId === socket.id ? 'sender socket' :
+                         room.gmId === data.playerId ? 'gmId' : 'userId'
+            });
+          }
+        }
+
+        if (!targetPlayer) {
+          logger.warn('[gm_transfer_player] Player not found in room', { 
+            playerId: data.playerId, 
+            roomId: room.id,
+            availablePlayerIds: Array.from(room.players.keys()),
+            gmId: room.gm?.id,
+            gmSocketId: room.gm?.socketId
+          });
+          return;
+        }
+
+        // DETAILED LOGGING: Log target player found
+        logger.info('[gm_transfer_player] Target player found', {
+          playerId: targetPlayer.id,
+          playerName: targetPlayer.name || targetPlayer.characterName,
+          playerSocketId: targetPlayer.socketId,
+          isGM: targetPlayer.isGM || room.gm === targetPlayer
+        });
 
         // Transfer player to different map
         if (data.targetMapId) {
@@ -1456,15 +1745,93 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             room.gameState.playerMapAssignments[data.playerId] = data.targetMapId;
           }
 
-          // Notify player
+          // Get the target map state to send with the transfer event
+          const targetMap = validateMapExists(room, data.targetMapId, data.destinationMapName);
+          const mapData = {
+            terrainData: targetMap.terrainData || {},
+            wallData: targetMap.wallData || {},
+            windowOverlays: targetMap.windowOverlays || {},
+            drawingPaths: targetMap.drawingPaths || [],
+            drawingLayers: targetMap.drawingLayers || [],
+            fogOfWarData: targetMap.fogOfWarData || {},
+            fogOfWarPaths: targetMap.fogOfWarPaths || [],
+            fogErasePaths: targetMap.fogErasePaths || [],
+            dndElements: targetMap.dndElements || [],
+            environmentalObjects: targetMap.environmentalObjects || [],
+            backgrounds: targetMap.backgrounds || [],
+            activeBackgroundId: targetMap.activeBackgroundId || null,
+            tokens: targetMap.tokens || {},
+            characterTokens: targetMap.characterTokens || {},
+            gridItems: targetMap.gridItems || {},
+            gridSettings: targetMap.gridSettings || {}
+          };
+
+          // DETAILED LOGGING: Log map data being sent
+          logger.info('[gm_transfer_player] Sending forced_map_transfer', {
+            targetSocketId: targetPlayer.socketId,
+            mapId: data.targetMapId,
+            mapName: data.destinationMapName,
+            hasTokens: Object.keys(mapData.tokens || {}).length > 0,
+            hasCharacterTokens: Object.keys(mapData.characterTokens || {}).length > 0,
+            hasGridItems: Object.keys(mapData.gridItems || {}).length > 0
+          });
+
+          // Notify player with full map data so they can hydrate immediately
           io.to(targetPlayer.socketId).emit('forced_map_transfer', {
             mapId: data.targetMapId,
-            reason: data.reason || 'GM transferred you'
+            mapName: data.destinationMapName || data.targetMapId,
+            reason: data.reason || 'GM transferred you',
+            mapData
+          });
+
+          // Notify everyone else that a player moved explicitly
+          io.to(data.roomId).emit('player_location_updated', {
+            playerId: targetPlayer.id,
+            playerName: targetPlayer.name || targetPlayer.characterName || 'Player',
+            newMapId: data.targetMapId,
+            transferredByGM: true
+          });
+
+          logger.info('[gm_transfer_player] Transfer complete', {
+            playerId: targetPlayer.id,
+            playerName: targetPlayer.name || targetPlayer.characterName,
+            newMapId: data.targetMapId
           });
         }
 
       } catch (error) {
-        logger.error('[gm_transfer_player] Error:', { error: error.message });
+        logger.error('[gm_transfer_player] Error:', { 
+          error: error.message, 
+          stack: error.stack,
+          data: {
+            roomId: data.roomId,
+            playerId: data.playerId,
+            targetMapId: data.targetMapId
+          }
+        });
+      }
+    });
+
+    // GM requests fresh character positions for a map (e.g. after switching back to it)
+    socket.on('gm_request_fresh_positions', async (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId, true);
+        if (!validation.valid) return;
+
+        const { room } = validation;
+        const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+        const map = validateMapExists(room, mapId);
+
+        // Send back the server's authoritative characterToken positions for this map
+        socket.emit('fresh_positions_received', {
+          mapId,
+          characterTokens: map.characterTokens || {},
+          tokens: map.tokens || {}
+        });
+
+        logger.info(`[gm_request_fresh_positions] Sent fresh positions for map ${mapId}`);
+      } catch (error) {
+        logger.error('[gm_request_fresh_positions] Error:', { error: error.message });
       }
     });
 
@@ -1672,8 +2039,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) return;
 
-        // Broadcast loot to room
-        io.to(data.roomId).emit('item_looted', {
+        const { room } = validation;
+
+        // Broadcast loot to room using room.id from validation
+        io.to(room.id).emit('item_looted', {
           itemId: data.itemId,
           playerId: data.playerId,
           quantity: data.quantity,
@@ -2337,7 +2706,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
               currentMapId: player.currentMapId,
               isGM: false
             },
-            playerCount: room.players.size
+            playerCount: room.players.size + 1
           });
 
         } else {
@@ -2633,7 +3002,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     socket.on('register_presence', (data) => {
       try {
-        let userId = socket.data.userId;
+        let userId = socket.data.userId || data.userId;
         let name = data.name || 'Unknown';
 
         const player = players.get(socket.id);
@@ -2646,9 +3015,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           if (socket.data.isGuest) {
             userId = 'guest-' + socket.id;
           } else {
-            // Try to use direct data from client if authenticated context is missing
-            // This is risky but allows minimal functionality
-            // console.warn('Registering presence without userId on socket');
+            logger.warn('[register_presence] No userId available', { socketId: socket.id, dataUserId: data.userId });
             return;
           }
         }
@@ -2714,16 +3081,18 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     socket.on('invite_to_party', async ({ partyId, fromUserId, toUserId }) => {
       try {
+        logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
         let targetPartyId = partyId;
 
         // Resolve partyId from user if not provided (client sends null)
         if (!targetPartyId && fromUserId) {
           targetPartyId = userToParty.get(fromUserId);
-          logger.info('[invite_to_party] Resolved partyId from user', { fromUserId, targetPartyId });
+          logger.info('📢 [invite_to_party] Resolved partyId from user', { fromUserId, targetPartyId });
         }
 
         const party = parties.get(targetPartyId);
         if (!party) {
+          logger.warn('📢 [invite_to_party] Party not found', { targetPartyId });
           socket.emit('party_error', { error: 'Party not found' });
           return;
         }
@@ -2750,19 +3119,26 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             ...invitation,
             partyName: party.name,
             fromUserName: inviterData.name || 'Unknown',
-            senderName: inviterData.name || 'Unknown', // FIX: Match client expectation
-            senderLevel: inviterData.characterLevel || 1, // FIX: Match client expectation
-            senderClass: inviterData.characterClass || 'Unknown', // FIX: Match client expectation
+            senderName: inviterData.name || 'Unknown',
+            senderLevel: inviterData.characterLevel || 1,
+            senderClass: inviterData.characterClass || 'Unknown',
             fromUserId
+          });
+          logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, targetSocketId });
+        } else {
+          logger.warn('📢 [invite_to_party] Target user not found in onlineSocialUsers', {
+            toUserId,
+            onlineUsersCount: onlineSocialUsers.size,
+            onlineUserIds: Array.from(onlineSocialUsers.values()).map(u => u.userId).slice(0, 10)
           });
         }
 
+        // Notify sender that the invitation was actually processed/sent
         socket.emit('invitation_sent', { invitationId, toUserId });
-
-        logger.info('[invite_to_party] Invitation sent', { invitationId, toUserId });
+        logger.info('📢 [invite_to_party] Invitation sent confirmation emitted', { invitationId, toUserId });
 
       } catch (error) {
-        logger.error('[invite_to_party] Error:', { error: error.message });
+        logger.error('📢 [invite_to_party] Error:', { error: error.message });
       }
     });
 
@@ -2824,6 +3200,31 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           }
         });
 
+        // Notify the inviter specifically that their invite was accepted
+        if (invitation.fromUserId && invitation.fromUserId !== userId) {
+          const inviterSockets = getSocketsByUserId(invitation.fromUserId);
+          inviterSockets.forEach(s => {
+            s.emit('party_invite_accepted', {
+              partyId: invitation.partyId,
+              memberId: userId,
+              memberName: userName,
+              memberData: memberData
+            });
+            s.emit('party_invitation_accepted', {
+              invitationId,
+              userId,
+              userName
+            });
+          });
+        }
+
+        // Notify the receiver that they successfully joined
+        socket.emit('party_join_confirmed', {
+          partyId: invitation.partyId,
+          partyName: party.name,
+          memberCount: Object.keys(party.members).length
+        });
+
         logger.info('[accept_party_invite] Player joined party', {
           playerId: userId,
           partyId: invitation.partyId
@@ -2839,12 +3240,24 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const invitation = partyInvitations.get(invitationId);
         if (!invitation) return;
 
+        // Resolve the decliner's name
+        let declinerName = invitation.toUserId;
+        const socialUser = onlineSocialUsers.get(socket.id);
+        if (socialUser && socialUser.name) {
+          declinerName = socialUser.name;
+        }
+
         partyInvitations.delete(invitationId);
 
         // Notify inviter
         const inviterSockets = getSocketsByUserId(invitation.fromUserId);
-        inviterSockets.forEach(s => s.emit('invitation_declined', { invitationId }));
+        inviterSockets.forEach(s => s.emit('party_invitation_declined', {
+          invitationId,
+          userId: invitation.toUserId,
+          userName: declinerName
+        }));
 
+        // Confirm to decliner
         socket.emit('invitation_declined_confirmed', { invitationId });
 
       } catch (error) {

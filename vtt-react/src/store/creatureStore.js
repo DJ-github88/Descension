@@ -23,6 +23,31 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
 // Cleanup throttle - only clean up old movements every 10 seconds
 const CLEANUP_INTERVAL = 10000;
 let lastCleanup = Date.now();
+// Helper to ensure position objects always have x and y
+const normalizePosition = (pos, fallback = { x: 0, y: 0 }) => {
+  if (!pos) return { x: fallback.x ?? 0, y: fallback.y ?? 0 };
+
+  // Handle array format [x, y]
+  if (Array.isArray(pos)) {
+    return { x: pos[0] ?? fallback.x ?? 0, y: pos[1] ?? fallback.y ?? 0 };
+  }
+
+  // Handle object format - look for x/y in various common places
+  const x = pos.x ?? pos.left ?? (pos.position ? pos.position.x : undefined);
+  const y = pos.y ?? pos.top ?? (pos.position ? pos.position.y : undefined);
+
+  // If we have both, return them. Otherwise, try to derive from gridPosition if available.
+  if (x !== undefined && y !== undefined) {
+    return { x, y, gridPosition: pos.gridPosition || fallback.gridPosition || null };
+  }
+
+  // Fallback to existing coordinates if available, otherwise 0
+  return {
+    x: x ?? fallback.x ?? 0,
+    y: y ?? fallback.y ?? 0,
+    gridPosition: pos.gridPosition || fallback.gridPosition || null
+  };
+};
 
 const useCreatureStore = create((set, get) => ({
   // Creature tokens on the grid
@@ -39,26 +64,48 @@ const useCreatureStore = create((set, get) => ({
   // Library Management
   setCreatures: (creatures) => set({ creatures }),
 
-  addCreature: (creature) => set(state => ({
-    creatures: [...state.creatures, {
-      ...creature,
-      id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      dateCreated: new Date().toISOString(),
-      lastModified: new Date().toISOString()
-    }]
-  })),
+  addCreature: (creature) => {
+    if (!creature) {
+      console.warn('⚠️ addCreature called with null or undefined creature data');
+      return;
+    }
+
+    set(state => ({
+      creatures: [...(state.creatures || []), {
+        ...creature,
+        id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        dateCreated: new Date().toISOString(),
+        lastModified: new Date().toISOString()
+      }]
+    }));
+  },
 
   // Add creature token to the grid
   addCreatureToken: (creature, position, sendToServer = true, forcedTokenIdOrSync = null, isSyncEvent = false, targetMapId = null) => {
     // Handle overloaded arguments from addToken alias
     const forcedTokenId = typeof forcedTokenIdOrSync === 'string' ? forcedTokenIdOrSync : null;
     const forcedState = typeof forcedTokenIdOrSync === 'object' ? forcedTokenIdOrSync : (typeof isSyncEvent === 'object' ? isSyncEvent : null);
-    const isSync = (typeof forcedTokenIdOrSync === 'boolean' && forcedTokenIdOrSync) || (typeof isSyncEvent === 'boolean' && isSyncEvent);
+
+    // CRITICAL: isSync should be true if either isSyncEvent is true OR if it's an object (state from server)
+    // AND p4 (forcedTokenIdOrSync) is a string (tokenId from server).
+    const isSync = (typeof isSyncEvent === 'boolean' && isSyncEvent) ||
+      (typeof forcedTokenIdOrSync === 'string' && isSyncEvent !== false) ||
+      (typeof forcedTokenIdOrSync === 'boolean' && forcedTokenIdOrSync);
 
     // If creature is an ID string, we'll need to find its full data
-    const creatureId = typeof creature === 'string' ? creature : (creature.id || creature.creatureId);
+    const creatureId = typeof creature === 'string' ? creature : (creature?.id || creature?.creatureId);
+
+    // CRITICAL FIX: Robust position extraction to prevent 0,0 jumps
+    const finalPosition = normalizePosition(position || (creature && typeof creature === 'object' ? creature.position : null));
+
+    // Safety check: if we have no creature data or ID, we cannot add a token
+    if (!creature && !creatureId) {
+      console.error('❌ addCreatureToken: No creature data or ID provided');
+      return;
+    }
+
     const libraryCreatures = get().creatures || [];
-    let creatureData = typeof creature === 'object' ? creature : (libraryCreatures.find(c => c.id === creatureId));
+    let creatureData = (creature && typeof creature === 'object') ? creature : (libraryCreatures.find(c => c.id === creatureId));
 
     // CRITICAL FIX: If creature data still not found, create a minimalist placeholder
     // This allows the token to at least be added to the grid with its ID
@@ -99,8 +146,16 @@ const useCreatureStore = create((set, get) => ({
       const tokenExists = existingTokens.some(t => t.id === tokenId);
 
       if (tokenExists) {
-        console.log('🔄 Token already exists, skipping addition:', tokenId);
-        return state;
+        console.log('🔄 Token already exists, updating position/state instead of adding:', tokenId);
+        const updatedTokens = state.creatureTokens.map(t =>
+          t.id === tokenId
+            ? { ...t, position: finalPosition, state: forcedState || t.state, mapId: currentMapId }
+            : t
+        );
+        return {
+          creatureTokens: updatedTokens,
+          tokens: updatedTokens
+        };
       }
 
       const moveKey = `token_${tokenId}`;
@@ -120,7 +175,7 @@ const useCreatureStore = create((set, get) => ({
 
       // Track this movement
       recentTokenMovements.set(moveKey, {
-        position: position,
+        position: finalPosition,
         timestamp: now,
         isLocal: !isSync,
         velocity: creatureData.velocity || { x: 0, y: 0 }
@@ -154,7 +209,7 @@ const useCreatureStore = create((set, get) => ({
                 targetMapId: currentMapId // Keep for backward compatibility
               },
               creature: creatureData,
-              position: position,
+              position: finalPosition,
               tokenId: tokenId,
               mapId: currentMapId, // CRITICAL: Standard field name
               targetMapId: currentMapId // Include map ID for map isolation
@@ -171,7 +226,7 @@ const useCreatureStore = create((set, get) => ({
         ...normalizedCreature,
         id: tokenId,
         creatureId: creatureId,
-        position,
+        position: finalPosition,
         state: forcedState || normalizedCreature.state,
         addedAt: Date.now(),
         mapId: currentMapId || 'default' // Add mapId for isolation
@@ -199,20 +254,19 @@ const useCreatureStore = create((set, get) => ({
   // Update creature token position
   updateCreaturePosition: (tokenId, position, velocity = null) => set(state => {
     const isSyncEvent = !!position?.isSyncEvent;
-    const targetPos = position?.x !== undefined ? position : position;
 
     const currentTokens = state.creatureTokens || [];
     const existingToken = currentTokens.find(t => t.id === tokenId);
 
     if (!existingToken) return state;
 
+    // CRITICAL: Normalize target position to ensure x/y exist
+    const targetPos = normalizePosition(position, existingToken.position);
+
     const now = Date.now();
     const recentMoveKey = `token_${tokenId}`;
 
-    // Ensure global tracking Map exists
-    if (!window.recentTokenMovements) {
-      window.recentTokenMovements = new Map();
-    }
+    if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
     const recentTokenMovements = window.recentTokenMovements;
     const recentMove = recentTokenMovements.get(recentMoveKey);
 
@@ -231,11 +285,10 @@ const useCreatureStore = create((set, get) => ({
       const isSamePos = Math.round(recentMove.position.x) === Math.round(targetPos.x) &&
         Math.round(recentMove.position.y) === Math.round(targetPos.y);
       if (isSamePos) return state;
-      console.log(`🚫 Ignoring server movement for creature ${tokenId} (local is authoritative)`);
       return state;
     }
 
-    const finalPos = isSyncEvent ? { x: targetPos.x, y: targetPos.y } : targetPos;
+    const finalPos = targetPos;
 
     const updated = currentTokens.map(t =>
       t.id === tokenId ? { ...t, position: finalPos, mapId: position?.mapId || t.mapId || 'default' } : t
@@ -326,7 +379,7 @@ const useCreatureStore = create((set, get) => ({
         // CRITICAL FIX: Include current mapId for proper map isolation
         const mapStore = require('./mapStore');
         const currentMapId = mapStore.default.getState().currentMapId || 'default';
-        
+
         gameStore.multiplayerSocket.emit('creature_updated', {
           tokenId,
           stateUpdates,

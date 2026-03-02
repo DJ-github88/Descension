@@ -32,6 +32,7 @@ import WallOverlay from "./level-editor/WallOverlay";
 import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
 import StaticFogOverlay from "./level-editor/StaticFogOverlay";
 import AfterimageOverlay from "./level-editor/AfterimageOverlay";
+import TokenVisibilityCalculator from "./level-editor/TokenVisibilityCalculator";
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
@@ -459,13 +460,14 @@ function GridComponent({
         }
 
         // Check if player has explicitly disabled view from token
-        const { playerViewFromTokenDisabled } = useLevelEditorStore.getState();
+        const { playerViewFromTokenDisabled, dynamicFogEnabled: isDynamicFogEnabled } = useLevelEditorStore.getState();
 
         // Run on initial load OR when mode switches to player mode
         // ALSO run if viewingFromToken is not set (for auto-detection on any load) - ONLY for players
         // BUT don't auto-enable if player has explicitly disabled it
         // CRITICAL: Also re-run when defaultViewFromToken changes to react to GM setting changes
-        const shouldAutoDetect = (isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken) && !playerViewFromTokenDisabled;
+        // FIXED: Also auto-detect if dynamic fog is enabled, as players MUST have a viewing token for vision
+        const shouldAutoDetect = (isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken || (isDynamicFogEnabled && !viewingFromToken)) && !playerViewFromTokenDisabled;
 
         // If the GM setting changed, we ignore the hasSetPlayerViewRef check once to force an update
         const gmSettingChanged = previousDefaultViewRef.current !== defaultViewFromToken;
@@ -480,9 +482,7 @@ function GridComponent({
             React.startTransition(() => {
                 // Get fresh token data from stores
                 const characterStore = useCharacterTokenStore.getState();
-                const creatureStore = useCreatureStore.getState();
                 const currentCharacterTokens = characterStore.characterTokens || [];
-                const currentCreatureTokens = creatureStore.tokens || [];
                 let playerToken = null;
 
                 if (isInMultiplayer && multiplayerRoom && !isGMMode) {
@@ -497,12 +497,10 @@ function GridComponent({
                     if (!playerToken && currentCharacterTokens.length > 0) {
                         playerToken = currentCharacterTokens[0];
                     }
-                    // Removed creature token fallback - players should never view from creature tokens
                 }
 
                 if (playerToken && playerToken.position) {
                     // CRITICAL: Only allow character tokens for player view - never creature tokens
-                    // If somehow a creature token got through, skip it
                     if (playerToken.isCreature) {
                         return; // Don't set creature tokens as viewing tokens for players
                     }
@@ -511,21 +509,20 @@ function GridComponent({
                     hasSetPlayerViewRef.current = true;
 
                     // PERFORMANCE FIX: Batch all state updates to prevent cascading re-renders
-                    // Using unstable_batchedUpdates ensures all updates happen in a single render cycle
                     requestAnimationFrame(() => {
                         const gameStore = useGameStore.getState();
                         const editorStore = useLevelEditorStore.getState();
 
-                        // Only auto-enable view from token if GM has configured it
-                        if (gameStore.defaultViewFromToken) {
-                            // Batch all state updates together
+                        // FIXED: Auto-enable view from token IF GM has configured it OR if dynamic fog is enabled
+                        // This ensures players have a vision source when fog is active
+                        if (gameStore.defaultViewFromToken || editorStore.dynamicFogEnabled) {
                             unstable_batchedUpdates(() => {
-                                // Enable dynamic fog if not already enabled
-                                if (!editorStore.dynamicFogEnabled) {
+                                // Enable dynamic fog if it was forced by GM setting
+                                if (gameStore.defaultViewFromToken && !editorStore.dynamicFogEnabled) {
                                     editorStore.setDynamicFogEnabled(true);
                                 }
 
-                                // Set viewing token to player's character token (never creature tokens)
+                                // Set viewing token to player's character token
                                 const tokenData = {
                                     type: 'character',
                                     id: playerToken.id,
@@ -535,28 +532,19 @@ function GridComponent({
                                 };
                                 editorStore.setViewingFromToken(tokenData);
 
-                                // Center camera on token initially unless a transfer destination
-                                // camera write is currently authoritative.
+                                // Center camera on token initially
                                 const transferCameraLocked =
                                     typeof gameStore.isTransferCameraAuthoritative === 'function' &&
                                     gameStore.isTransferCameraAuthoritative();
 
-                                console.log('📍 [Grid] [auto-center] transferCameraLocked:', transferCameraLocked, 'source:', gameStore.transferCameraSource);
-
                                 if (!transferCameraLocked) {
-                                    console.log('📍 [Grid] [auto-center] Applying setCameraPosition to token:', playerToken.position);
                                     gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
-                                } else {
-                                    console.log('📍 [Grid] [auto-center] Camera is LOCKED by authoritative source, skipping auto-center to token.');
                                 }
                             });
-                        } else {
-                            // Default behavior: don't auto-enable view from token
-                            // Player must manually select it if they want fog of war restrictions
-                            unstable_batchedUpdates(() => {
-                                editorStore.setViewingFromToken(null);
-                            });
                         }
+                        // FIXED: Removed the 'else' block that was clearing viewingFromToken.
+                        // Clearing was overriding manual selections and causing black screens when
+                        // defaultViewFromToken was false but fog was active.
                     });
                 }
             });
@@ -3750,6 +3738,9 @@ function GridComponent({
 
                 {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
                 <TextInteractionOverlay gridRef={gridRef} />
+
+                {/* Token Visibility Calculator - Calculates visibleArea and visibilityPolygon for fog system */}
+                <TokenVisibilityCalculator />
 
                 {/* Fog Systems - Available for both GM and Player modes */}
                 <StaticFogOverlay />

@@ -891,8 +891,8 @@ const useGridItemStore = create((set, get) => ({
           y: newPosition.y
         },
         gridPosition: {
-          row: newPosition.gridPosition.row,
-          col: newPosition.gridPosition.col
+          row: newPosition.gridPosition?.row ?? existingItem.gridPosition?.row ?? 0,
+          col: newPosition.gridPosition?.col ?? existingItem.gridPosition?.col ?? 0
         },
         mapId: resolvedMapId
       };
@@ -931,6 +931,9 @@ const useGridItemStore = create((set, get) => ({
         }
       }
 
+      // Get roomId for server validation
+      const roomId = gameStore.multiplayerRoom?.id;
+
       // CRITICAL FIX: Use correct event name based on update type
       // Server expects 'grid_item_update' for all operations (add, move, remove)
       if (updateType === 'grid_item_added' || updateType === 'add') {
@@ -939,25 +942,32 @@ const useGridItemStore = create((set, get) => ({
         const gridPosition = (position && position.gridPosition) || (item && item.gridPosition);
 
         gameStore.multiplayerSocket.emit('grid_item_update', {
-          updateType: 'add',
+          roomId,
+          action: 'add', // CRITICAL: Use 'action' to match MultiplayerApp.jsx
           itemId: item.id,
-          itemData: item,
+          item: item, // CRITICAL: Use 'item' to match MultiplayerApp.jsx
           position: position,
           gridPosition: gridPosition,
           targetMapId: data.targetMapId || item.mapId || currentMapId
         });
       } else if (updateType === 'grid_item_moved' || updateType === 'move') {
-        // Server expects 'grid_item_update' with { updateType: 'move', itemId, position, targetMapId }
+        // CRITICAL FIX: Align with MultiplayerApp.jsx receiver expectations
+        // Use 'update' action and wrap position/gridPosition in an 'updates' object
         gameStore.multiplayerSocket.emit('grid_item_update', {
-          updateType: 'move',
-          itemId: data.itemId || data.gridItemId, // Support both field names
-          position: data.position || data.newPosition, // Support both field names
+          roomId,
+          action: 'update', // CRITICAL: Use 'action' to match MultiplayerApp.jsx
+          itemId: data.itemId || data.gridItemId,
+          updates: {
+            position: data.position || data.newPosition,
+            gridPosition: (data.position || data.newPosition)?.gridPosition
+          },
           targetMapId: data.targetMapId || currentMapId
         });
       } else {
         // For removes (and other updates), use the general update event
         gameStore.multiplayerSocket.emit('grid_item_update', {
-          updateType: (updateType === 'grid_item_removed' || updateType === 'remove') ? 'remove' : updateType,
+          roomId,
+          action: (updateType === 'grid_item_removed' || updateType === 'remove') ? 'remove' : updateType,
           itemId: data.itemId || data.id,
           targetMapId: data.targetMapId || currentMapId
         });

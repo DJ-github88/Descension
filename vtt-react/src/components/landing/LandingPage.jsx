@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
+import usePresenceStore from '../../store/presenceStore';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
@@ -15,6 +16,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const navigate = useNavigate();
   const location = useLocation();
   const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
+
+  // Party state for indicator
+  const isInParty = usePresenceStore((state) => state.isInParty);
+  const currentParty = usePresenceStore((state) => state.currentParty);
+  const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+  const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
 
   // Save active section to localStorage when it changes
   useEffect(() => {
@@ -259,11 +266,15 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
             <div className="header-actions">
               <button
-                className="community-btn"
+                className={`community-btn ${isInParty ? 'in-party' : ''}`}
                 onClick={handleCommunityClick}
-                title="Community Chat"
+                title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
               >
                 <i className="fas fa-users"></i>
+                {isInParty && (
+                  <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`} 
+                     title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
+                )}
                 Community
               </button>
 

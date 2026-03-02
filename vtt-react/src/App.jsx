@@ -231,6 +231,7 @@ function GameScreen() {
 
     // Enable auto-save for local rooms
     const { forceSave, setLoading } = useLocalRoomAutoSave();
+    const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Save when component unmounts (navigating away from game)
     useEffect(() => {
@@ -576,7 +577,7 @@ function GameScreen() {
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        
+
                         // FIXED: Correct argument order - (partyName, isGM, leaderData)
                         await createParty('Single Player Party', true, {
                             isGM: true,
@@ -585,7 +586,7 @@ function GameScreen() {
                             characterClass: character.class || 'Unknown',
                             characterLevel: character.level || 1
                         });
-                        
+
                         // CRITICAL FIX: Update party member with full character data for HUD
                         const { updatePartyMember } = usePartyStore.getState();
                         const characterStore = useCharacterStore.getState();
@@ -620,7 +621,7 @@ function GameScreen() {
                         // Clear any existing party and create a single-player party with this character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        
+
                         // FIXED: Correct argument order - (partyName, isGM, leaderData)
                         await createParty('Single Player Party', true, {
                             isGM: true,
@@ -629,7 +630,7 @@ function GameScreen() {
                             characterClass: activeCharacter.class || 'Unknown',
                             characterLevel: activeCharacter.level || 1
                         });
-                        
+
                         // CRITICAL FIX: Update party member with full character data for HUD
                         const { updatePartyMember } = usePartyStore.getState();
                         const characterStore = useCharacterStore.getState();
@@ -655,7 +656,7 @@ function GameScreen() {
                         // Create a basic single-player party even without a character
                         localStorage.removeItem('party-store');
                         await leaveParty();
-                        
+
                         // FIXED: Correct argument order - (partyName, isGM, leaderData)
                         await createParty('Single Player Party', true, {
                             isGM: true,
@@ -664,7 +665,7 @@ function GameScreen() {
                             characterClass: 'Unknown',
                             characterLevel: 1
                         });
-                        
+
                         // Update with basic GM data
                         const { updatePartyMember } = usePartyStore.getState();
                         updatePartyMember('current-player', {

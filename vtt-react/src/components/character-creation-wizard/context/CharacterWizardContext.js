@@ -101,6 +101,12 @@ const initialState = {
         iconBackgroundColor: '#f8f5eb',
         iconBorderColor: '#d4af37',
         iconBackgroundImage: null,
+        iconScale: 1,
+        iconOffsetX: 0,
+        iconOffsetY: 0,
+        iconBackgroundScale: 1,
+        iconBackgroundOffsetX: 0,
+        iconBackgroundOffsetY: 0,
 
         // Race and subrace
         race: '',
@@ -468,7 +474,13 @@ const characterWizardReducer = (state, action) => {
                     remainingCurrency: existingChar.inventory?.currency || null,
                     iconBackgroundColor: existingChar.iconBackgroundColor || '#f8f5eb',
                     iconBorderColor: existingChar.iconBorderColor || '#d4af37',
-                    iconBackgroundImage: existingChar.iconBackgroundImage || null
+                    iconBackgroundImage: existingChar.iconBackgroundImage || null,
+                    iconScale: existingChar.iconScale || 1,
+                    iconOffsetX: existingChar.iconOffsetX || 0,
+                    iconOffsetY: existingChar.iconOffsetY || 0,
+                    iconBackgroundScale: existingChar.iconBackgroundScale || 1,
+                    iconBackgroundOffsetX: existingChar.iconBackgroundOffsetX || 0,
+                    iconBackgroundOffsetY: existingChar.iconBackgroundOffsetY || 0
                 },
                 // Mark all steps as completed for existing character
                 completedSteps: Object.values(WIZARD_STEPS)

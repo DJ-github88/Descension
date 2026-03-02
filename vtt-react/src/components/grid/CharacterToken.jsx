@@ -17,6 +17,7 @@ import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
+import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 
 const CharacterToken = ({
     tokenId,
@@ -150,10 +151,13 @@ const CharacterToken = ({
     // PERFORMANCE FIX: Only subscribe to what we actually need to prevent re-renders
     const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
+    const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const fovAngle = useLevelEditorStore(state => state.fovAngle);
     const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
     const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
+    const setTokenVision = useLevelEditorStore(state => state.setTokenVision);
+    const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges);
     const [isHovering, setIsHovering] = useState(false);
     // PERFORMANCE FIX: Selective subscriptions
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
@@ -185,6 +189,38 @@ const CharacterToken = ({
         }
     }, [viewingFromToken?.position]);
 
+    // AUTO-INITIALIZE vision range from character derived stats
+    // This ensures each character sees the correct radius (racial + equipment bonuses)
+    // Only applies to THIS token when it is the active viewing token
+    useEffect(() => {
+        if (!isViewingFrom) return;
+        if (!tokenId) return;
+
+        // Only auto-set if the GM hasn't manually configured a range already
+        const existingVision = tokenVisionRanges?.[tokenId];
+        if (existingVision?.manuallySet) return; // Don't override manual GM setting
+
+        // Get vision range from character derived stats (in feet)
+        const charState = useCharacterStore.getState();
+        const derivedVisionFeet = charState.derivedStats?.visionRange;
+
+        if (derivedVisionFeet && derivedVisionFeet > 0 && feetPerTile > 0) {
+            const visionRangeTiles = Math.round(derivedVisionFeet / feetPerTile);
+            if (visionRangeTiles > 0) {
+                // Determine vision type from darkvision stat
+                const darkvisionFeet = charState.derivedStats?.darkvision || 0;
+                const visionType = darkvisionFeet > 0 ? 'darkvision' : 'normal';
+                setTokenVision(tokenId, visionRangeTiles, visionType);
+                console.log(`👁️ [CharacterToken] Auto-set vision for ${tokenId}: ${visionRangeTiles} tiles (${derivedVisionFeet}ft), type: ${visionType}`);
+            }
+        } else {
+            // Character stats not yet loaded - use sensible default (30ft = 6 tiles)
+            const defaultRange = Math.round(30 / Math.max(feetPerTile, 1));
+            setTokenVision(tokenId, defaultRange, 'normal');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isViewingFrom, tokenId, feetPerTile]);
+
     // Check if this token is visible based on FOV (only if viewing from a token)
     // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
     const lastVisibilityCheckRef = useRef({ cacheKey: null, result: true });
@@ -202,7 +238,7 @@ const CharacterToken = ({
 
             // Get visibility polygon from store for accurate point-in-polygon check
             const levelEditorStore = useLevelEditorStore.getState();
-            const visibilityPolygon = levelEditorStore.visibilityPolygon;
+            // Use visibilityPolygon from scope (extracted via hook for reactivity)
 
             // Create a comprehensive cache key that includes all factors affecting visibility
             // Position alone is not enough - visibility depends on viewing token position and visibility area
@@ -285,15 +321,31 @@ const CharacterToken = ({
                 }
             }
 
+            // ADDITIONAL check: Also verify using visibility polygon for wall occlusion
+            // This ensures tokens behind blocking walls are properly hidden
+            // Use the existing visibilityPolygon from line 206 instead of redeclaring
+            if (visibilityPolygon && visibilityPolygon.length >= 3) {
+                const isInVisibilityPolygon = isPointInPolygon(
+                    position.x,
+                    position.y,
+                    visibilityPolygon
+                );
+
+                if (!isInVisibilityPolygon) {
+                    visible = false;
+                }
+            }
+
             // Cache the result
             lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
 
             return visible;
         }
 
+
         // If not viewing from a token, always visible (normal view)
         return true;
-    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet]);
+    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, visibilityPolygon]);
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -890,7 +942,7 @@ const CharacterToken = ({
                 if (now - lastNetworkUpdate > 100) {
                     const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-
+    
                     multiplayerSocket.emit('character_moved', {
                         tokenId: tokenId,
                         characterId: tokenPlayerId,

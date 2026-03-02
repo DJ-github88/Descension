@@ -3,6 +3,24 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import authService from '../services/authService';
 
+// Lazy imports to avoid circular dependencies
+let socialStoreModule = null;
+let presenceStoreModule = null;
+
+const getSocialStore = () => {
+  if (!socialStoreModule) {
+    socialStoreModule = require('./socialStore');
+  }
+  return socialStoreModule.default || socialStoreModule;
+};
+
+const getPresenceStore = () => {
+  if (!presenceStoreModule) {
+    presenceStoreModule = require('./presenceStore');
+  }
+  return presenceStoreModule.default || presenceStoreModule;
+};
+
 const useAuthStore = create(
   persist(
     (set, get) => ({
@@ -30,6 +48,17 @@ const useAuthStore = create(
           get().loadUserData();
         } else {
           set({ userData: null });
+
+          // Clean up presence when user logs out or session expires
+          try {
+            const presenceStore = require('./presenceStore').default;
+            if (presenceStore.getState().currentUserPresence) {
+              console.log('🧹 AuthStore clearing presence data for logged-out user');
+              presenceStore.getState().cleanup();
+            }
+          } catch (error) {
+            console.warn('⚠️ Could not clean up presence data on logout:', error);
+          }
         }
       },
 
@@ -295,6 +324,30 @@ const useAuthStore = create(
           }
 
           // Regular user sign out
+          // CRITICAL: Clean up Firestore subscriptions BEFORE signOut to prevent permission errors
+          // The subscriptions will fail with "Missing or insufficient permissions" if auth is cleared first
+          try {
+            const socialStore = getSocialStore();
+            const { cleanup: socialCleanup } = socialStore.getState();
+            if (socialCleanup) {
+              console.log('🧹 Cleaning up social subscriptions before signOut...');
+              socialCleanup();
+            }
+          } catch (e) {
+            console.warn('Non-fatal: Could not cleanup social subscriptions:', e.message);
+          }
+
+          try {
+            const presenceStore = getPresenceStore();
+            const { cleanup: presenceCleanup } = presenceStore.getState();
+            if (presenceCleanup) {
+              console.log('🧹 Cleaning up presence subscriptions before signOut...');
+              presenceCleanup();
+            }
+          } catch (e) {
+            console.warn('Non-fatal: Could not cleanup presence subscriptions:', e.message);
+          }
+
           const result = await authService.signOut();
 
           if (result.success) {
