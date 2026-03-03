@@ -3169,6 +3169,15 @@ const useCharacterStore = create((set, get) => ({
         }
     },
 
+    debouncedSave: () => {
+        if (characterAutoSaveTimer) {
+            clearTimeout(characterAutoSaveTimer);
+        }
+        characterAutoSaveTimer = setTimeout(() => {
+            get().saveCurrentCharacter();
+        }, CHARACTER_AUTO_SAVE_DELAY);
+    },
+
     saveCurrentCharacter: () => {
         const state = get();
         if (!state.currentCharacterId) return;

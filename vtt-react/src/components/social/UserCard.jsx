@@ -11,6 +11,7 @@
 
 import React from 'react';
 import { getFullRaceData } from '../../data/raceData';
+import '../../styles/user-card.css';
 
 const UserCard = ({
   user,

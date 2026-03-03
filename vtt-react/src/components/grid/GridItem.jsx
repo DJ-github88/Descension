@@ -8,6 +8,7 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
+import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 import '../../styles/grid-container.css'; // Re-use grid-container styles for now or basic styles
 
 const GridItem = ({ gridItem }) => {
@@ -31,6 +32,7 @@ const GridItem = ({ gridItem }) => {
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
+  const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
 
   // Compute visibleAreaSet for O(1) lookups
   const visibleAreaSet = useMemo(() => {
@@ -102,6 +104,24 @@ const GridItem = ({ gridItem }) => {
 
       // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
       if (visibleAreaSet && visibleAreaSet.size > 0) {
+        // WALL-OCCLUSION FIX: When visibilityPolygon is available (computed from wall data),
+        // use it as the definitive arbiter BEFORE checking the grid tile.
+        // This prevents an item behind a wall from being considered visible just because
+        // its tile is partially in the visibleArea set.
+        if (visibilityPolygon && visibilityPolygon.length >= 3) {
+          const isInVisibilityPolygon = isPointInPolygon(
+            itemPosition.x,
+            itemPosition.y,
+            visibilityPolygon
+          );
+          return isInVisibilityPolygon;
+        } else if (viewingFromToken && dynamicFogEnabled) {
+          // CRITICAL FIX: If we are in precise mode but don't have a polygon yet,
+          // do NOT assume visible based on tile alone. This prevents items from
+          // flashing through walls during moves.
+          return false;
+        }
+
         const itemGridCoords = gridSystem.worldToGrid(itemPosition.x, itemPosition.y);
         const itemTileKey = `${itemGridCoords.x},${itemGridCoords.y}`;
         // Only show item if it's in the visible area
@@ -132,7 +152,7 @@ const GridItem = ({ gridItem }) => {
     }
 
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem, visibleArea]);
+  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem, visibleArea, visibilityPolygon]);
 
   // Calculate screen position with rounding to prevent sub-pixel jitter
   const screenPosition = useMemo(() => {

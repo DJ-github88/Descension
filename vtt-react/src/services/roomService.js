@@ -325,7 +325,8 @@ export const joinRoom = async (roomId, userId, password) => {
     const roomData = await getRoomData(roomId);
 
     if (!roomData) {
-      throw new Error('Room not found');
+      console.warn(`❌ [joinRoom] Room not found in Firestore: ${roomId}`);
+      throw new Error(`Room not found: ${roomId}`);
     }
 
     // Check password - handle both empty and non-empty passwords

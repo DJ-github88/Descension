@@ -480,35 +480,39 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       if (visibleAreaSet && visibleAreaSet.size > 0) {
         visible = visibleAreaSet.has(tokenTileKey);
 
-        // FIXED: Also check adjacent tiles in case the token is on a tile boundary
-        // This helps with tokens that should be visible but aren't due to coordinate rounding
+        // WALL-OCCLUSION FIX: When visibilityPolygon is available (computed from wall data),
+        // use it as the definitive arbiter BEFORE expanding to adjacent tiles.
+        // This prevents a token behind a wall from being considered visible just because
+        // one of its adjacent tiles (on the player's side) is in the visibleArea set.
+        if (visibilityPolygon && visibilityPolygon.length >= 3) {
+          const isInVisibilityPolygon = isPointInPolygon(
+            position.x,
+            position.y,
+            visibilityPolygon
+          );
+
+          // Cache the result
+          lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: isInVisibilityPolygon };
+          return isInVisibilityPolygon;
+        }
+
+        // No polygon available: fall back to adjacent-tile expansion
+        // (only used when wall data is absent / uncalculated)
         if (!visible) {
-          // Check adjacent tiles (8-directional)
+          // Check adjacent tiles (4-directional only to reduce false positives)
           const adjacentTiles = [
             `${tokenGridCoords.x - 1},${tokenGridCoords.y}`,
             `${tokenGridCoords.x + 1},${tokenGridCoords.y}`,
             `${tokenGridCoords.x},${tokenGridCoords.y - 1}`,
-            `${tokenGridCoords.x},${tokenGridCoords.y + 1}`,
-            `${tokenGridCoords.x - 1},${tokenGridCoords.y - 1}`,
-            `${tokenGridCoords.x + 1},${tokenGridCoords.y - 1}`,
-            `${tokenGridCoords.x - 1},${tokenGridCoords.y + 1}`,
-            `${tokenGridCoords.x + 1},${tokenGridCoords.y + 1}`
+            `${tokenGridCoords.x},${tokenGridCoords.y + 1}`
           ];
 
-          // If any adjacent tile is visible, consider the token visible
-          // This helps with edge cases where the token is between tiles
           for (const adjacentTile of adjacentTiles) {
             if (visibleAreaSet.has(adjacentTile)) {
               visible = true;
               break;
             }
           }
-        }
-
-        // FIXED: Clear visibility cache when visibleAreaSet changes to force recalculation
-        // This ensures tokens appear immediately when they enter the visible area
-        if (visible && lastVisibilityCheckRef.current.result !== visible) {
-          lastVisibilityCheckRef.current.cacheKey = null; // Invalidate cache
         }
       }
 
@@ -520,21 +524,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // Hide tokens until visibility is calculated - don't use distance fallback
         // TokenVisibilityCalculator will update visibleAreaSet, which will then show visible tokens
         visible = false;
-      }
-
-      // ADDITIONAL CHECK: Also verify using visibility polygon for wall occlusion
-      // This ensures tokens behind blocking walls are properly hidden
-
-      if (visibilityPolygon && visibilityPolygon.length >= 3) {
-        const isInVisibilityPolygon = isPointInPolygon(
-          position.x,
-          position.y,
-          visibilityPolygon
-        );
-
-        if (!isInVisibilityPolygon) {
-          visible = false;
-        }
       }
 
       // Cache the result

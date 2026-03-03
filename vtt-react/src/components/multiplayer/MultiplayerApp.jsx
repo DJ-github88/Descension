@@ -1610,6 +1610,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const mapFogErasePaths = playerMap?.fogErasePaths || (playerMapId === mapStore.currentMapId ? levelEditorStore.fogErasePaths : []) || [];
           const mapDndElements = playerMap?.dndElements || (playerMapId === mapStore.currentMapId ? levelEditorStore.dndElements : []) || [];
 
+          // Map-specific overlays (windows, doors, etc.)
+          const mapWindowOverlays = playerMap?.windowOverlays || (playerMapId === mapStore.currentMapId ? levelEditorStore.windowOverlays : {}) || {};
+
           console.log(`🗺️ Sending terrain for map ${playerMapId}:`, {
             terrainTileCount: Object.keys(mapTerrainData).length,
             isFromMapStore: !!playerMap?.terrainData,
@@ -2035,21 +2038,37 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for GM actions (XP awards, rests, etc.)
     socket.on('gm_action', (data) => {
       if (!data) return;
-      const { type, amount, targetPlayerId, targetUserId } = data;
+      const { type, amount, targetPlayerId, targetUserId, targetPlayerIds } = data;
 
       // CRITICAL FIX: Verify if this player is the intended target
       const myId = currentPlayerRef.current?.id;
       const myUserId = useAuthStore.getState().user?.uid;
       const mySocketId = socket?.id;
 
-      const isTarget = !targetPlayerId && !targetUserId ? true : // Broadcast to all
-        (targetPlayerId === 'current-player') ||
-        (myId && (targetPlayerId === myId || targetUserId === myId)) ||
-        (myUserId && (targetUserId === myUserId || targetPlayerId === myUserId)) ||
-        (mySocketId && (targetPlayerId === mySocketId || targetUserId === mySocketId));
+      // Support both singular (targetPlayerId/targetUserId) and plural (targetPlayerIds array) formats
+      const isTarget = (() => {
+        // If no targeting specified, broadcast to all
+        if (!targetPlayerId && !targetUserId && (!targetPlayerIds || targetPlayerIds.length === 0)) {
+          return true;
+        }
+        // Check array format (targetPlayerIds)
+        if (targetPlayerIds && Array.isArray(targetPlayerIds) && targetPlayerIds.length > 0) {
+          return targetPlayerIds.some(id =>
+            id === 'current-player' ||
+            id === myId ||
+            id === myUserId ||
+            id === mySocketId
+          );
+        }
+        // Check singular format (targetPlayerId/targetUserId)
+        return (targetPlayerId === 'current-player') ||
+          (myId && (targetPlayerId === myId || targetUserId === myId)) ||
+          (myUserId && (targetUserId === myUserId || targetPlayerId === myUserId)) ||
+          (mySocketId && (targetPlayerId === mySocketId || targetUserId === mySocketId));
+      })();
 
       if (!isTarget) {
-        console.log('🎮 GM action ignored (not target):', type, { targetPlayerId, targetUserId, myId, myUserId });
+        console.log('🎮 GM action ignored (not target):', type, { targetPlayerId, targetUserId, targetPlayerIds, myId, myUserId });
         return;
       }
 
@@ -4562,12 +4581,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           useMapStore.getState().updateMap(data.newMapId, { name: resolvedMapName });
         }
 
-        // CRITICAL: Clear batcher to prevent pending updates from old map bleeding to new map
-        import('../../store/levelEditorStore').then(({ mapUpdateBatcher }) => {
+        // CRITICAL FIX: Clear fog, memories, and exploration data on map change
+        // These are per-map and must not bleed into the new map
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore, mapUpdateBatcher }) => {
           if (mapUpdateBatcher) {
             mapUpdateBatcher.clear();
-            console.log('🧹 [player_map_changed] Batcher cleared to prevent data bleeding');
+            console.log('🧹 [player_map_changed] Batcher cleared');
           }
+          const les = useLevelEditorStore.getState();
+          if (les.clearAllFogAndMemories) {
+            les.clearAllFogAndMemories();
+          }
+          console.log('🧹 [player_map_changed] Cleared player memories and exploration data for new map');
         });
 
         // Apply the new map data to level editor store
@@ -4839,11 +4864,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           serverDataKeys: Object.keys(mapData)
         });
 
+        // Always clear tokens on map switch to prevent stale tokens from lingering
+        clearCreatureTokens();
+        clearCharacterTokens();
+        console.log('🧹 [forced_map_transfer] Cleared old creature/character tokens');
+
         if (Object.keys(mapData).length > 0) {
           import('../../store/levelEditorStore').then(({ default: useLevelEditorStore, mapUpdateBatcher }) => {
             if (mapUpdateBatcher) mapUpdateBatcher.clear();
             const les = useLevelEditorStore.getState();
             window._isReceivingMapUpdate = true;
+
+            // CRITICAL FIX: Clear all fog and memories on map change
+            if (les.clearAllFogAndMemories) {
+              les.clearAllFogAndMemories();
+            }
 
             const nextTerrain = mapData.terrainData ?? localMapCache.terrainData;
             const nextWall = mapData.wallData ?? localMapCache.wallData;
@@ -4878,12 +4913,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
             setTimeout(() => { window._isReceivingMapUpdate = false; }, 200);
 
-            // Load tokens
+            // Load tokens if payload present
             const tokensRaw = mapData.tokens;
             const characterTokensRaw = mapData.characterTokens;
-            if (tokensRaw !== undefined || characterTokensRaw !== undefined) {
-              clearCreatureTokens();
-              clearCharacterTokens();
+
+            if (tokensRaw !== undefined) {
               const tokens = tokensRaw ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw)) : [];
               console.log('👾 [forced_map_transfer] Loading tokens', { tokenCount: tokens.length });
               tokens.forEach(tokenData => {
@@ -4895,6 +4929,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 if (creatureRef && tokenData.position)
                   addToken(creatureRef, tokenData.position, false, tokenData.id, tokenData.state, data.mapId);
               });
+            } else {
+              console.warn('⚠️ [forced_map_transfer] No token payload - tokens already cleared');
+            }
+
+            if (characterTokensRaw !== undefined) {
               const charTokens = characterTokensRaw
                 ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw))
                 : [];
@@ -4904,6 +4943,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                 if (tokenData && tokenData.position)
                   addCharToken(tokenData.id, tokenData.position, tokenData.playerId, data.mapId);
               });
+            }
+          });
+        } else {
+          // No mapData at all - tokens were already cleared above
+          console.warn('⚠️ [forced_map_transfer] No mapData - requesting fresh state');
+          if (socket?.connected) {
+            socket.emit('gm_request_fresh_positions', {
+              roomId: useGameStore.getState().multiplayerRoom?.id,
+              mapId: data.mapId
+            });
+          }
+          // Still clear memories even without map data
+          import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+            const les = useLevelEditorStore.getState();
+            if (les.clearAllFogAndMemories) {
+              les.clearAllFogAndMemories();
             }
           });
         }

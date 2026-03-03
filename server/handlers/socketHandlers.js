@@ -2039,14 +2039,18 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) return;
 
-        const { room } = validation;
+        const { room, player } = validation;
 
-        // Broadcast loot to room using room.id from validation
         io.to(room.id).emit('item_looted', {
-          itemId: data.itemId,
-          playerId: data.playerId,
+          gridItemId: data.gridItemId,
+          item: data.item,
           quantity: data.quantity,
-          lootedBy: socket.id
+          source: data.source,
+          looter: data.looter,
+          playerId: player.id,
+          itemRemoved: true,
+          mapId: data.mapId || player.currentMapId || 'default',
+          timestamp: new Date().toISOString()
         });
 
       } catch (error) {

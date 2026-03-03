@@ -444,7 +444,7 @@ const CreatureLibrary = ({ onEdit }) => {
           ) : (
             <>
               <div className="creature-cards-container">
-                {filteredCreatures.map(creature => {
+                {filteredCreatures.map((creature, index) => {
                   // Create a memoized handler for each creature to prevent recreating functions on every render
                   const handleDragStart = (e) => {
                     // Set the creature ID directly
@@ -479,12 +479,12 @@ const CreatureLibrary = ({ onEdit }) => {
                     setTimeout(() => {
                       document.body.removeChild(dragImage);
                     }, 100);
- 
+
                   };
- 
+
                   return (
                     <div
-                      key={creature.id}
+                      key={`${creature.id}-${index}`}
                       className={`creature-card-wrapper ${library.selectedCreature === creature.id ? 'selected' : ''}`}
                       onClick={(e) => {
                         // Don't trigger if clicking the drag overlay

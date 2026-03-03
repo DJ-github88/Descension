@@ -107,7 +107,6 @@ const enqueueItemNotification = (html, quality = 'common', displayDuration = 250
 
 // Create the grid item store
 // NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
-const mapStore = require('./mapStore').default;
 const useGridItemStore = create((set, get) => ({
   // State
   gridItems: [], // Items placed on the grid
@@ -667,12 +666,17 @@ const useGridItemStore = create((set, get) => ({
             // Send to multiplayer server if needed
             if (sendToServer && gameStore.isInMultiplayer) {
               if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                // Dynamic import to avoid circular dependency
+                const mapStore = require('./mapStore').default;
+                const currentMapId = mapStore.getState().currentMapId || 'default';
+
                 gameStore.multiplayerSocket.emit('item_looted', {
                   item: itemToUse,
-                  quantity: gridItem.quantity || 1,
+                  quantity: 1,
                   source: 'Grid Item',
                   looter: looterName,
-                  gridItemId: gridItemId
+                  gridItemId: gridItemId,
+                  mapId: currentMapId
                 });
               }
             }
@@ -968,7 +972,7 @@ const useGridItemStore = create((set, get) => ({
         gameStore.multiplayerSocket.emit('grid_item_update', {
           roomId,
           action: (updateType === 'grid_item_removed' || updateType === 'remove') ? 'remove' : updateType,
-          itemId: data.itemId || data.id,
+          itemId: data.itemId || data.id || data.gridItemId, // CRITICAL FIX: Include gridItemId for looting removals
           targetMapId: data.targetMapId || currentMapId
         });
       }

@@ -8,6 +8,7 @@ import useItemStore from '../../store/itemStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { rafThrottle } from '../../utils/performanceUtils';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 import { PROFESSIONAL_TERRAIN_TYPES } from './terrain/TerrainSystem';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 
@@ -36,6 +37,7 @@ const AfterimageOverlay = () => {
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
+    const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const wallData = useLevelEditorStore(state => state.wallData);
     const terrainData = useLevelEditorStore(state => state.terrainData);
     const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects);
@@ -265,7 +267,34 @@ const AfterimageOverlay = () => {
             );
         }
 
-        // Helper: Check if tile is currently visible
+        // Helper: Check if tile is actually visible (accounting for wall occlusion)
+        const isPointVisible = (worldX, worldY) => {
+            // Coarse grid check first (performance)
+            if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
+            const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+            const tileKey = `${gridCoords.x},${gridCoords.y}`;
+            const tileInVisibleArea = visibleAreaSet.has(tileKey);
+
+            // If tile isn't even in the visible grid area, it's definitely not visible
+            if (!tileInVisibleArea) return false;
+
+            // If we have a high-precision polygon, use it to check for wall occlusion
+            if (visibilityPolygon && visibilityPolygon.length >= 3) {
+                return isPointInPolygon(worldX, worldY, visibilityPolygon);
+            }
+
+            // Fallback to coarse check if polygon isn't ready
+            // CRITICAL FIX: If we are in precise mode (viewingFromToken + dynamicFogEnabled) 
+            // but polygon is missing/under recalculation, assume NOT visible (occluded).
+            // This prevents afterimages from disappearing during the momentary gap while moving.
+            if (viewingFromToken && dynamicFogEnabled) {
+                return false; // Safely assume occluded if polygon is missing in precise mode
+            }
+
+            return true;
+        };
+
+        // Helper: Check if tile is currently visible (legacy coarse check for terrain)
         const isTileVisible = (worldX, worldY) => {
             if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
             const gridCoords = gridSystem.worldToGrid(worldX, worldY);
@@ -437,8 +466,8 @@ const AfterimageOverlay = () => {
             const [coordX, coordY] = tileKey.split(',').map(Number);
             const worldPos = gridSystem.gridToWorld(coordX, coordY);
 
-            // Skip if currently visible
-            if (isTileVisible(worldPos.x, worldPos.y)) continue;
+            // Skip if currently visible (precise check for items/orbs)
+            if (isPointVisible(worldPos.x, worldPos.y)) continue;
 
             // Skip if not explored
             if (!isExploredPos(worldPos.x, worldPos.y)) continue;
@@ -683,6 +712,7 @@ const AfterimageOverlay = () => {
         currentMemorySnapshots,
         currentPlayerId,
         visibleAreaSet,
+        visibilityPolygon,
         effectiveZoom,
         gridSize,
         gridOffsetX,

@@ -1,10 +1,5 @@
 // Game State Manager - Handles automatic saving and loading of permanent room state
 import { saveCompleteGameState, loadCompleteGameState, updateGameStateSection } from './roomService';
-import useCreatureStore from '../store/creatureStore';
-import useLevelEditorStore from '../store/levelEditorStore';
-import useGameStore from '../store/gameStore';
-import useCombatStore from '../store/combatStore';
-import useGridItemStore from '../store/gridItemStore';
 
 class GameStateManager {
   constructor() {
@@ -45,6 +40,12 @@ class GameStateManager {
    * Set up listeners for store changes to trigger saves
    */
   setupStoreListeners() {
+    const useCreatureStore = require('../store/creatureStore').default;
+    const useLevelEditorStore = require('../store/levelEditorStore').default;
+    const useGameStore = require('../store/gameStore').default;
+    const useCombatStore = require('../store/combatStore').default;
+    const useGridItemStore = require('../store/gridItemStore').default;
+
     // Listen for token changes
     const creatureStore = useCreatureStore.getState();
     this.unsubscribeCreatures = useCreatureStore.subscribe((state, prevState) => {
@@ -136,6 +137,7 @@ class GameStateManager {
     try {
       // Apply creature/token data using loadToken for map filtering
       if (gameState.tokens && Object.keys(gameState.tokens).length > 0) {
+        const useCreatureStore = require('../store/creatureStore').default;
         const creatureStore = useCreatureStore.getState();
         // Use loadToken instead of setTokens to ensure map filtering is applied
         // This prevents cross-map contamination when loading game state
@@ -151,6 +153,7 @@ class GameStateManager {
 
       // Apply level editor data
       if (gameState.levelEditor) {
+        const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
         const { levelEditor } = gameState;
 
@@ -165,6 +168,7 @@ class GameStateManager {
 
       // Apply game data (camera, backgrounds, etc.)
       if (gameState.mapData) {
+        const useGameStore = require('../store/gameStore').default;
         const gameStore = useGameStore.getState();
         const { mapData } = gameState;
 
@@ -184,6 +188,7 @@ class GameStateManager {
 
       // Apply combat state
       if (gameState.combat) {
+        const useCombatStore = require('../store/combatStore').default;
         const combatStore = useCombatStore.getState();
         if (gameState.combat.isActive) {
           // Restore combat state carefully
@@ -202,6 +207,7 @@ class GameStateManager {
 
       // Apply inventory/grid items
       if (gameState.inventory) {
+        const useGridItemStore = require('../store/gridItemStore').default;
         const gridItemStore = useGridItemStore.getState();
         if (gameState.inventory.droppedItems) {
           // Convert dropped items back to grid items
@@ -213,6 +219,7 @@ class GameStateManager {
       // Apply per-player memories (for permanent rooms)
       // Each player has individual explored areas and token afterimages
       if (gameState.playerMemories) {
+        const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
         levelEditorStore.setPlayerMemories(gameState.playerMemories);
         console.log('✅ Loaded per-player memories:', Object.keys(gameState.playerMemories).length, 'players');
@@ -220,6 +227,7 @@ class GameStateManager {
 
       // Apply legacy explored areas (for backward compatibility)
       if (gameState.exploredAreas || gameState.exploredCircles || gameState.exploredPolygons) {
+        const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
         if (gameState.exploredAreas) levelEditorStore.setExploredAreas(gameState.exploredAreas);
         // Note: exploredCircles and exploredPolygons are stored in playerMemories now
@@ -229,13 +237,18 @@ class GameStateManager {
       console.error('❌ Error applying game state to stores:', error);
     }
   }
-
   /**
    * Collect current game state from all stores
    * @returns {Object} - Complete game state object
    */
   collectGameStateFromStores() {
     try {
+      const useCreatureStore = require('../store/creatureStore').default;
+      const useLevelEditorStore = require('../store/levelEditorStore').default;
+      const useGameStore = require('../store/gameStore').default;
+      const useCombatStore = require('../store/combatStore').default;
+      const useGridItemStore = require('../store/gridItemStore').default;
+
       const creatureStore = useCreatureStore.getState();
       const levelEditorStore = useLevelEditorStore.getState();
       const gameStore = useGameStore.getState();

@@ -56,6 +56,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const setDefaultViewFromToken = useSettingsStore(state => state.setDefaultViewFromToken);
     const showMapTransitions = useSettingsStore(state => state.showMapTransitions);
     const setShowMapTransitions = useSettingsStore(state => state.setShowMapTransitions);
+    const viewUpdateOnPlacement = useSettingsStore(state => state.viewUpdateOnPlacement ?? true);
+    const setViewUpdateOnPlacement = useSettingsStore(state => state.setViewUpdateOnPlacement);
 
     // Speech bubble settings
     const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
@@ -488,6 +490,36 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             </div>
                         </div>
                     )}
+                </div>
+
+                <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(75, 0, 130, 0.06), rgba(75, 0, 130, 0.03))', border: '1px solid rgba(75, 0, 130, 0.15)', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                        <i className="fas fa-eye" style={{ fontSize: '20px', color: '#6a0dad' }}></i>
+                        <div>
+                            <h3 style={{ margin: '0 0 4px 0', color: '#6a0dad', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Vision &amp; Fog</h3>
+                            <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Control how your field of view updates when moving your token</p>
+                        </div>
+                    </div>
+                    <div className="settings-group">
+                        <div className="control-group">
+                            <label className="control-label control-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={viewUpdateOnPlacement}
+                                    onChange={(e) => setViewUpdateOnPlacement(e.target.checked)}
+                                    style={{ marginRight: '8px' }}
+                                />
+                                Update view on placement only (recommended)
+                            </label>
+                            <div className="control-help">
+                                <p>
+                                    {viewUpdateOnPlacement
+                                        ? 'Your fog-of-war and vision cone only update when you drop your token. Less distracting while planning movement.'
+                                        : 'Your fog-of-war and vision cone update continuously while dragging. Useful for precise vision checks during movement.'}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

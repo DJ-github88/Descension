@@ -3,6 +3,7 @@ import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { calculateVisibleTiles, calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
 
@@ -55,6 +56,9 @@ const TokenVisibilityCalculator = () => {
     const addExploredPolygon = useLevelEditorStore(state => state.addExploredPolygon);
     const addPlayerExploredPolygon = useLevelEditorStore(state => state.addPlayerExploredPolygon);
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
+
+    // Vision update timing setting
+    const viewUpdateOnPlacement = useSettingsStore(state => state.viewUpdateOnPlacement ?? true);
 
     // Token store subscriptions - for getting LIVE token positions
     // CRITICAL: Must use creatureTokens (state.tokens is always empty - broken alias in creatureStore)
@@ -140,6 +144,12 @@ const TokenVisibilityCalculator = () => {
             return;
         }
 
+        // PERFORMANCE: Skip recalculation while token is being dragged (placement-only mode)
+        // The fog will update correctly on mouseup when the token is dropped
+        if (viewUpdateOnPlacement && window._isDraggingToken) {
+            return;
+        }
+
         const gridSystem = getGridSystem();
         const { range: visionRange, type: visionType } = visionSettings;
 
@@ -212,7 +222,8 @@ const TokenVisibilityCalculator = () => {
         setVisibilityPolygon,
         addExploredPolygon,
         addPlayerExploredPolygon,
-        currentPlayerId
+        currentPlayerId,
+        viewUpdateOnPlacement
     ]);
 
     // Recalculate visibility when dependencies change - WITH THROTTLING

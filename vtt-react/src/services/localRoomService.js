@@ -4,12 +4,7 @@ import roomStateService from './roomStateService';
 import campaignService from './campaignService';
 import { validateRoomName } from '../utils/validationUtils';
 
-// Performance Optimization: Eagerly import stores to avoid lag during auto-save
-import useGameStore from '../store/gameStore';
-import useCreatureStore from '../store/creatureStore';
-import useGridItemStore from '../store/gridItemStore';
-import useLevelEditorStore from '../store/levelEditorStore';
-import useCharacterStore from '../store/characterStore';
+// Performance Optimization: Stores are now imported dynamically inside methods to avoid circular dependencies
 
 const LOCAL_ROOMS_KEY = 'mythrill_local_rooms';
 const LOCAL_ROOM_STATE_PREFIX = 'mythrill_local_room_state_';
@@ -289,10 +284,15 @@ class LocalRoomService {
    */
   async collectCurrentGameState() {
     try {
+      const useGameStore = require('../store/gameStore').default;
+      const useCreatureStore = require('../store/creatureStore').default;
+      const useGridItemStore = require('../store/gridItemStore').default;
+      const useLevelEditorStore = require('../store/levelEditorStore').default;
+
       const gameState = useGameStore.getState();
       const creatureState = useCreatureStore.getState();
       const gridItemState = useGridItemStore.getState();
-      const levelEditorState = useLevelEditorStore.getState();
+      const levelEditorStore = useLevelEditorStore.getState();
 
       return {
         // Background system - ensure all background data is captured
@@ -383,6 +383,7 @@ class LocalRoomService {
 
       // Save player-specific state if character is active
       try {
+        const useCharacterStore = require('../store/characterStore').default;
         const activeCharacter = useCharacterStore.getState().activeCharacter;
         if (activeCharacter) {
           const playerState = await roomStateService.collectPlayerState(activeCharacter.id);

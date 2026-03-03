@@ -3423,6 +3423,37 @@ const useLevelEditorStore = create((set, get) => ({
         set({ playerMemories: newPlayerMemories });
     },
 
+    // Clear all fog of war, exploration data, and memories
+    // Used when switching maps to prevent cross-map data contamination
+    clearAllFogAndMemories: () => {
+        const state = get();
+        const playerId = state.currentPlayerId;
+
+        let newPlayerMemories = { ...state.playerMemories };
+        if (playerId) {
+            delete newPlayerMemories[playerId];
+        }
+
+        set({
+            // Legacy/Top-level exploration data
+            exploredAreas: {},
+            exploredCircles: [],
+            exploredPolygons: [],
+            memorySnapshots: {},
+            tokenAfterimages: {},
+            revealedAreas: {},
+
+            // Current visibility
+            visibleArea: null,
+            visibilityPolygon: null,
+
+            // Per-player memories
+            playerMemories: newPlayerMemories
+        });
+
+        console.log('🧹 [levelEditorStore] Cleared all fog and memories');
+    },
+
     // Reset store to initial state
     // CRITICAL FIX: Preserve playerMemories and currentPlayerId to maintain exploration progress
     resetStore: () => {

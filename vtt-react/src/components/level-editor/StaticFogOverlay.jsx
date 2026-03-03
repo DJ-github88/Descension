@@ -201,9 +201,9 @@ const StaticFogOverlay = () => {
             }
             switch (fogState) {
                 case 'viewable': return 'rgba(25, 25, 50, 0.0)';
-                case 'explored': return 'rgba(30, 25, 50, 0.75)';
+                case 'explored': return 'rgba(30, 25, 50, 0.68)';
                 case 'covered':
-                default: return 'rgba(10, 10, 25, 1.0)';
+                default: return 'rgba(10, 10, 25, 0.92)';
             }
         };
 
@@ -505,9 +505,9 @@ const StaticFogOverlay = () => {
                 maskCtx.clip();
                 const gradient = maskCtx.createRadialGradient(tokenScreenPos.x, tokenScreenPos.y, 0, tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels);
                 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.7, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.8)');
-                gradient.addColorStop(0.95, 'rgba(255, 255, 255, 0.4)');
+                gradient.addColorStop(0.65, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.7)');
+                gradient.addColorStop(0.9, 'rgba(255, 255, 255, 0.4)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.fillStyle = gradient;
                 maskCtx.fillRect(0, 0, visibilityMask.width, visibilityMask.height);

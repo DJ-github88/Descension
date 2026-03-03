@@ -3,6 +3,8 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useItemStore from '../../store/gridItemStore';
+import useMapStore from '../../store/mapStore';
+import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 
 /**
  * MemorySnapshotManager - Handles memory snapshots and afterimages for previously explored areas
@@ -48,6 +50,7 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
     const { creatureTokens, creatures } = useCreatureStore();
     const { characterTokens } = useCharacterTokenStore();
     const { gridItems } = useItemStore();
+    const { currentMapId } = useMapStore();
 
     // Track where the player LAST SAW each token (for afterimage placement)
     // Key: tokenId, Value: { gridPosition: {x, y}, worldPosition: {x, y}, tokenData: {...}, timestamp }
@@ -279,8 +282,33 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
             if (viewingFromToken && viewingFromToken.position) {
                 if (visibleAreaSet && visibleAreaSet.size > 0) {
-                    // Use the visibleAreaSet which already accounts for walls and line of sight
+                    // PRIMARY CHECK: Use the visibleAreaSet which already accounts for grid-based visibility
                     isCurrentlyVisible = visibleAreaSet.has(tokenTileKey);
+
+                    // WALL-OCCLUSION FIX: Even if the tile is visible, the token itself
+                    // might be behind a wall. Use the visibilityPolygon for precision.
+                    if (isCurrentlyVisible) {
+                        if (visibilityPolygon && visibilityPolygon.length >= 3) {
+                            const isInVisibilityPolygon = isPointInPolygon(
+                                token.position.x,
+                                token.position.y,
+                                visibilityPolygon
+                            );
+                            if (!isInVisibilityPolygon) {
+                                isCurrentlyVisible = false;
+                                // console.log('👻 [Afterimage] Token occluded by wall despite visible tile:', token.id);
+                            }
+                        } else if (viewingFromToken && dynamicFogEnabled) {
+                            // CRITICAL FIX: If we are in precise vision mode but don't have a polygon yet 
+                            // (e.g. during a move), do NOT assume visible if we previously thought it was invisible.
+                            // This prevents temporary polygon gaps from deleting existing afterimages.
+                            const prevState = currentVisibility.get(token.id);
+                            if (prevState && !prevState.visible) {
+                                isCurrentlyVisible = false;
+                                // console.log('👻 [Afterimage] Polygon missing during precise mode, maintaining invisibility for token:', token.id);
+                            }
+                        }
+                    }
                 } else {
                     // Visibility not calculated yet - assume visible to prevent premature afterimage creation
                     isCurrentlyVisible = true;
@@ -427,8 +455,31 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                                     const currentGridX = Math.floor((currentToken.position.x - gridOffsetX) / gridSize);
                                     const currentGridY = Math.floor((currentToken.position.y - gridOffsetY) / gridSize);
                                     const currentTileKey = `${currentGridX},${currentGridY}`;
-                                    stillInvisible = !currentVisibleSet.has(currentTileKey);
-                                    console.log('👻 [Afterimage] Re-check visibility for token:', token.id, 'stillInvisible:', stillInvisible, 'tileKey:', currentTileKey, 'visibleSetSize:', currentVisibleSet.size);
+
+                                    // PRIMARY CHECK: Tile-based visibility
+                                    const isInVisibleTile = currentVisibleSet.has(currentTileKey);
+
+                                    // WALL-OCCLUSION FIX: Also check visibilityPolygon for precise wall detection
+                                    // Matches the authoritative logic in CreatureToken.jsx/CharacterToken.jsx
+                                    const currentPolygon = currentStore.visibilityPolygon;
+                                    let isInPolygon = false; // Default to false (occluded) if in precise mode but polygon missing
+
+                                    if (currentPolygon && currentPolygon.length >= 3) {
+                                        isInPolygon = isPointInPolygon(
+                                            currentToken.position.x,
+                                            currentToken.position.y,
+                                            currentPolygon
+                                        );
+                                    } else if (!viewingFromToken || !dynamicFogEnabled) {
+                                        // If not in precise mode, default to true (use tile only)
+                                        isInPolygon = true;
+                                    }
+
+                                    // Token is only "truly" visible if it's in a visible tile AND not occluded by a wall
+                                    const isVisible = isInVisibleTile && isInPolygon;
+                                    stillInvisible = !isVisible;
+
+                                    console.log(`👻 [Afterimage] Re-check for ${token.id}: stillInvisible=${stillInvisible} (Tile=${isInVisibleTile}, Polygon=${isInPolygon})`);
                                 }
                             } else {
                                 console.log('👻 [Afterimage] No visibleAreaSet, assuming still invisible');
@@ -566,6 +617,7 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         gridOffsetX,
         gridOffsetY,
         visibleAreaSet,
+        visibilityPolygon,
         updatePlayerTokenAfterimage,
         removePlayerTokenAfterimage,
         setPlayerExploredArea,
@@ -654,6 +706,24 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         updateTokenAfterimages,
         isModeSwitching
     ]);
+
+    // Clear tracking refs on map change to prevent cross-map afterimage bleed
+    useEffect(() => {
+        if (!currentMapId) return;
+
+        console.log('🧹 [MemorySnapshotManager] Map changed, clearing tracking refs:', currentMapId);
+
+        // Clear tracking refs
+        lastSeenPositionsRef.current.clear();
+        currentVisibilityRef.current.clear();
+
+        // Clear any pending invisible timers
+        const becomingInvisible = becomingInvisibleRef.current;
+        becomingInvisible.forEach((timerId) => {
+            clearTimeout(timerId);
+        });
+        becomingInvisible.clear();
+    }, [currentMapId]);
 
     // Cleanup all timers on unmount
     useEffect(() => {

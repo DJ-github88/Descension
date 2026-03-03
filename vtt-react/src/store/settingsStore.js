@@ -195,6 +195,11 @@ const useSettingsStore = create(
         get().updateSettings({ gmOverlayOpacity: clampedOpacity });
       },
 
+      // Vision & Fog Settings
+      setViewUpdateOnPlacement: (enabled) => {
+        get().updateSettings({ viewUpdateOnPlacement: enabled });
+      },
+
       // Audio Settings
       setMasterVolume: (volume) => {
         const clampedVolume = Math.max(0, Math.min(1, volume));
@@ -367,6 +372,7 @@ const useSettingsStore = create(
         defaultViewFromToken: state.defaultViewFromToken,
         showGMArea: state.showGMArea,
         gmOverlayOpacity: state.gmOverlayOpacity,
+        viewUpdateOnPlacement: state.viewUpdateOnPlacement,
 
         // Audio
         masterVolume: state.masterVolume,
@@ -384,12 +390,13 @@ const useSettingsStore = create(
         maxFPS: state.maxFPS,
         showMapTransitions: state.showMapTransitions,
 
-
         // Chat
         chatFontSize: state.chatFontSize,
         chatTimestamps: state.chatTimestamps,
         chatMessageHistory: state.chatMessageHistory,
         chatSoundNotifications: state.chatSoundNotifications,
+        showSpeechBubbles: state.showSpeechBubbles,
+        speechBubbleDuration: state.speechBubbleDuration,
 
         // Combat
         autoRollInitiative: state.autoRollInitiative,
@@ -468,7 +475,8 @@ export const getSettingsByCategory = (category) => {
       return {
         defaultViewFromToken: state.defaultViewFromToken,
         showGMArea: state.showGMArea,
-        gmOverlayOpacity: state.gmOverlayOpacity
+        gmOverlayOpacity: state.gmOverlayOpacity,
+        viewUpdateOnPlacement: state.viewUpdateOnPlacement
       };
 
     case SETTINGS_CATEGORIES.AUDIO:
@@ -490,7 +498,6 @@ export const getSettingsByCategory = (category) => {
         maxFPS: state.maxFPS,
         showMapTransitions: state.showMapTransitions
       };
-
 
     case SETTINGS_CATEGORIES.CHAT:
       return {

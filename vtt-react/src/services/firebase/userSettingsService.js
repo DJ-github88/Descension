@@ -57,6 +57,7 @@ export const DEFAULT_USER_SETTINGS = {
   defaultViewFromToken: false,
   showGMArea: true,
   gmOverlayOpacity: 0.8,
+  viewUpdateOnPlacement: true, // When true: fog/view only updates on token drop, not during drag
 
   // Audio Settings
   masterVolume: 0.8,

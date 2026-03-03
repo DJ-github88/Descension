@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
 import localRoomService from '../services/localRoomService';
-import useGameStore from '../store/gameStore';
-import useCreatureStore from '../store/creatureStore';
-import useGridItemStore from '../store/gridItemStore';
-import useLevelEditorStore from '../store/levelEditorStore';
+// Stores are now imported dynamically inside the useEffect to avoid circular dependencies
 
 /**
  * Hook to automatically save local room state when game state changes
@@ -29,7 +26,7 @@ const useLocalRoomAutoSave = () => {
     } else {
     }
   };
-  
+
   // Debounced save function to prevent excessive saves
   const debouncedSave = () => {
     if (isLoadingRef.current) {
@@ -60,8 +57,8 @@ const useLocalRoomAutoSave = () => {
 
   // Check if we're in a local room
   const isInLocalRoom = () => {
-    return localStorage.getItem('isLocalRoom') === 'true' && 
-           localStorage.getItem('selectedLocalRoomId');
+    return localStorage.getItem('isLocalRoom') === 'true' &&
+      localStorage.getItem('selectedLocalRoomId');
   };
 
   useEffect(() => {
@@ -75,6 +72,12 @@ const useLocalRoomAutoSave = () => {
         }
       };
     }
+
+    // Import stores dynamically to avoid circular dependencies
+    const useGameStore = require('../store/gameStore').default;
+    const useCreatureStore = require('../store/creatureStore').default;
+    const useGridItemStore = require('../store/gridItemStore').default;
+    const useLevelEditorStore = require('../store/levelEditorStore').default;
 
     // Subscribe to game store changes (backgrounds, camera, etc.)
     const unsubscribeGame = useGameStore.subscribe((state, prevState) => {
@@ -91,10 +94,10 @@ const useLocalRoomAutoSave = () => {
       // Check for background changes (skip camera position changes - too frequent and less critical)
       // Camera position is saved when other changes occur or on unmount
       if (state.backgrounds !== prevState.backgrounds ||
-          state.activeBackgroundId !== prevState.activeBackgroundId ||
-          state.backgroundImageUrl !== prevState.backgroundImageUrl ||
-          state.backgroundImage !== prevState.backgroundImage ||
-          state.zoomLevel !== prevState.zoomLevel) {
+        state.activeBackgroundId !== prevState.activeBackgroundId ||
+        state.backgroundImageUrl !== prevState.backgroundImageUrl ||
+        state.backgroundImage !== prevState.backgroundImage ||
+        state.zoomLevel !== prevState.zoomLevel) {
         debouncedSave();
       }
     });
@@ -112,7 +115,7 @@ const useLocalRoomAutoSave = () => {
     // Subscribe to grid item changes (dropped items)
     const unsubscribeGridItems = useGridItemStore.subscribe((state, prevState) => {
       if (!isInLocalRoom()) return;
-      
+
       if (state.gridItems !== prevState.gridItems) {
         debouncedSave();
       }
@@ -121,10 +124,10 @@ const useLocalRoomAutoSave = () => {
     // Subscribe to level editor changes
     const unsubscribeLevelEditor = useLevelEditorStore.subscribe((state, prevState) => {
       if (!isInLocalRoom()) return;
-      
+
       if (state.terrainData !== prevState.terrainData ||
-          state.environmentalObjects !== prevState.environmentalObjects ||
-          state.lightSources !== prevState.lightSources) {
+        state.environmentalObjects !== prevState.environmentalObjects ||
+        state.lightSources !== prevState.lightSources) {
         debouncedSave();
       }
     });
@@ -136,11 +139,11 @@ const useLocalRoomAutoSave = () => {
       unsubscribeCreatures();
       unsubscribeGridItems();
       unsubscribeLevelEditor();
-      
+
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
-      
+
     };
   }, []); // Empty dependency array - we check isInLocalRoom() inside the effect
 

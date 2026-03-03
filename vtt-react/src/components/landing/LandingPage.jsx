@@ -73,10 +73,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
   // Handle community button click
   const handleCommunityClick = () => {
-    setShowCommunity(true);
+    setShowCommunity(prev => !prev);
   };
-
-
 
   const renderHomeSection = () => (
     <div className="landing-section">
@@ -272,8 +270,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               >
                 <i className="fas fa-users"></i>
                 {isInParty && (
-                  <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`} 
-                     title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
+                  <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
+                    title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
                 )}
                 Community
               </button>

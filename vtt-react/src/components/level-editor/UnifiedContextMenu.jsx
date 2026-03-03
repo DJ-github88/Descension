@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import '../../styles/unified-context-menu.css';
 
 const UnifiedContextMenu = ({
@@ -12,16 +12,44 @@ const UnifiedContextMenu = ({
 }) => {
     const menuRef = useRef(null);
     const [hoveredSubmenuIndex, setHoveredSubmenuIndex] = useState(null);
+    const [position, setPosition] = useState({ left: -9999, top: -9999 });
+    const [isPositioned, setIsPositioned] = useState(false);
 
-    // Debug: Log when menu renders
-    useEffect(() => {
-        if (visible) {
-            /*
-            console.log('🖱️ [CONTEXT MENU] Rendering with items:', items);
-            console.log('🖱️ [CONTEXT MENU] Items with submenus:', items.filter(item => item.submenu));
-            */
+    // Calculate position after DOM mount but before paint to prevent "jump"
+    useLayoutEffect(() => {
+        if (!visible) {
+            setIsPositioned(false);
+            setPosition({ left: -9999, top: -9999 });
+            return;
         }
-    }, [visible, items]);
+
+        if (menuRef.current) {
+            const menuRect = menuRef.current.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            let left = x;
+            let top = y;
+
+            if (left + menuRect.width > viewportWidth) {
+                left = Math.max(10, x - menuRect.width);
+            }
+
+            if (top + menuRect.height > viewportHeight) {
+                top = Math.max(10, y - menuRect.height);
+            }
+
+            setPosition({ left, top });
+            setIsPositioned(true);
+        }
+    }, [visible, x, y]);
+
+    // Reset position when hidden
+    useEffect(() => {
+        if (!visible) {
+            setIsPositioned(false);
+        }
+    }, [visible]);
 
     // Handle clicks outside the menu and prevent wheel events from bubbling
     useEffect(() => {
@@ -90,41 +118,16 @@ const UnifiedContextMenu = ({
         }
     }, [visible, onClose, disableClickOutside]);
 
-    // Calculate position to keep menu on screen
-    const getMenuPosition = () => {
-        if (!menuRef.current) return { left: x, top: y };
-
-        const menuRect = menuRef.current.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        let left = x;
-        let top = y;
-
-        // Adjust horizontal position if menu would go off screen
-        if (left + menuRect.width > viewportWidth) {
-            left = Math.max(10, x - menuRect.width);
-        }
-
-        // Adjust vertical position if menu would go off screen
-        if (top + menuRect.height > viewportHeight) {
-            top = Math.max(10, y - menuRect.height);
-        }
-
-        return { left, top };
-    };
-
     if (!visible) return null;
-
-    const position = getMenuPosition();
 
     return (
         <div
             ref={menuRef}
-            className="unified-context-menu compact"
+            className={`unified-context-menu compact${isPositioned ? '' : ' positioning'}`}
             style={{
                 left: position.left,
-                top: position.top
+                top: position.top,
+                visibility: isPositioned ? 'visible' : 'hidden'
             }}
             onClick={(e) => {
                 e.stopPropagation();
