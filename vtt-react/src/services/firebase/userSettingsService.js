@@ -36,7 +36,7 @@ function checkFirebaseAvailable() {
  */
 export const DEFAULT_USER_SETTINGS = {
   // Window & UI Settings
-  windowScale: 1.0,
+  windowScale: 0.8,
   uiTheme: 'fantasy', // 'fantasy', 'modern', 'dark'
   showAnimations: true,
   showTooltips: true,

@@ -113,7 +113,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
     // Helper function to convert actual scale to display percentage
     const scaleToDisplayPercent = (scale) => {
-        return Math.round((scale / 0.6889) * 100);
+        return Math.round((scale / 0.8) * 100);
     };
 
     // Handle window scale preview change
@@ -131,19 +131,19 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
     // Reset window scale preview
     const resetWindowScalePreview = () => {
-        setPreviewWindowScale(0.6889);
-        setHasScaleChanges(Math.abs(0.6889 - windowScale) > 0.01);
+        setPreviewWindowScale(0.8);
+        setHasScaleChanges(Math.abs(0.8 - windowScale) > 0.01);
     };
 
     // Quick scale adjustments
     const previewScaleDown = () => {
-        const newScale = Math.max(0.4, previewWindowScale / 1.1);
+        const newScale = Math.max(0.5, previewWindowScale - 0.05);
         setPreviewWindowScale(newScale);
         setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
     };
 
     const previewScaleUp = () => {
-        const newScale = Math.min(1.2, previewWindowScale * 1.1);
+        const newScale = Math.min(2.0, previewWindowScale + 0.05);
         setPreviewWindowScale(newScale);
         setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
     };
@@ -251,22 +251,22 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             <span style={{ fontSize: '12px', color: '#8b6f47' }}>Larger</span>
                         </div>
                         <div className="control-row" style={{ justifyContent: 'center', gap: '12px' }}>
-                            <button className="control-button secondary" onClick={previewScaleDown} disabled={previewWindowScale <= 0.4} style={{ minWidth: '80px' }} title="Make windows smaller">
+                            <button className="control-button secondary" onClick={previewScaleDown} disabled={previewWindowScale <= 0.5} style={{ minWidth: '80px' }} title="Make windows smaller">
                                 <i className="fas fa-minus" style={{ marginRight: '6px' }}></i>Smaller
                             </button>
                             <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px', maxWidth: '300px' }}>
-                                <span className="range-label">60%</span>
-                                <input type="range" min="0.4" max="1.2" step="0.05" value={previewWindowScale} onChange={handleWindowScalePreviewChange} className="control-slider" style={{ flex: 1 }} />
-                                <span className="range-label">175%</span>
+                                <span className="range-label">50%</span>
+                                <input type="range" min="0.5" max="2.0" step="0.05" value={previewWindowScale} onChange={handleWindowScalePreviewChange} className="control-slider" style={{ flex: 1 }} />
+                                <span className="range-label">200%</span>
                             </div>
-                            <button className="control-button secondary" onClick={previewScaleUp} disabled={previewWindowScale >= 1.2} style={{ minWidth: '80px' }} title="Make windows larger">
+                            <button className="control-button secondary" onClick={previewScaleUp} disabled={previewWindowScale >= 2.0} style={{ minWidth: '80px' }} title="Make windows larger">
                                 <i className="fas fa-plus" style={{ marginRight: '6px' }}></i>Larger
                             </button>
                         </div>
                     </div>
 
                     <div className="control-actions" style={{ justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                        <button className="control-button secondary" onClick={resetWindowScalePreview} style={{ minWidth: '120px' }} title="Reset to default 100% scale">
+                        <button className="control-button secondary" onClick={resetWindowScalePreview} style={{ minWidth: '120px' }} title="Reset to standard 100% scale">
                             <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>Reset to 100%
                         </button>
                         <button className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`} onClick={applyWindowScale} disabled={!hasScaleChanges} style={{ minWidth: '120px' }}>

@@ -68,6 +68,18 @@ const useDebuffStore = create(
                         get().removeDebuff(newDebuff.id);
                     }, remainingTime);
                 }
+
+                // Force stat update in character store to sync stats/resources
+                try {
+                    const characterStore = require('./characterStore').default;
+                    const { stats, updateStat } = characterStore.getState();
+                    if (stats && updateStat) {
+                        // Simply updating one stat to force recalculation of all derived stats and sync
+                        updateStat('strength', stats.strength);
+                    }
+                } catch (e) {
+                    console.warn('Could not trigger stat update after adding debuff:', e);
+                }
             },
 
             // Remove a debuff by ID - also cleans up token.state.conditions
@@ -127,6 +139,17 @@ const useDebuffStore = create(
                 // Sync with multiplayer
                 if (debuffToRemove && !silent) {
                     get().syncDebuffUpdate('debuff_removed', { debuffId, debuffData: debuffToRemove });
+                }
+
+                // Force stat update in character store to sync stats/resources
+                try {
+                    const characterStore = require('./characterStore').default;
+                    const { stats, updateStat } = characterStore.getState();
+                    if (stats && updateStat) {
+                        updateStat('strength', stats.strength);
+                    }
+                } catch (e) {
+                    console.warn('Could not trigger stat update after removing debuff:', e);
                 }
             },
 

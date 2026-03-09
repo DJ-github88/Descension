@@ -314,7 +314,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
     return bonuses;
 }
 
-export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0, health = null, race = null, subrace = null) {
+export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0, health = null, race = null, subrace = null, buffModifiers = {}) {
     // Apply skill bonuses to base stats first
     const modifiedStats = { ...totalStats };
 
@@ -378,6 +378,13 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     baseHealthRegen += (equipmentBonuses.healthRegen || 0);
     baseManaRegen += (equipmentBonuses.manaRegen || 0);
     baseHealingPower += (equipmentBonuses.healingPower || 0);
+
+    // Apply buff/debuff modifiers
+    baseMaxHealth += (buffModifiers.maxHealth || 0);
+    baseMaxMana += (buffModifiers.maxMana || 0);
+    baseHealthRegen += (buffModifiers.healthRegen || 0);
+    baseManaRegen += (buffModifiers.manaRegen || 0);
+    baseHealingPower += (buffModifiers.healingPower || 0);
 
     // Apply percentage bonuses
     if (equipmentBonuses.maxHealthPercent) {

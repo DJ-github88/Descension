@@ -68,6 +68,18 @@ const useBuffStore = create(
                         get().removeBuff(newBuff.id);
                     }, remainingTime);
                 }
+
+                // Force stat update in character store to sync stats/resources
+                try {
+                    const characterStore = require('./characterStore').default;
+                    const { stats, updateStat } = characterStore.getState();
+                    if (stats && updateStat) {
+                        // Simply updating one stat to force recalculation of all derived stats and sync
+                        updateStat('strength', stats.strength);
+                    }
+                } catch (e) {
+                    console.warn('Could not trigger stat update after adding buff:', e);
+                }
             },
 
             // Remove a buff by ID - also cleans up token.state.conditions
@@ -127,6 +139,17 @@ const useBuffStore = create(
                 // Sync with multiplayer
                 if (buffToRemove && !silent) {
                     get().syncBuffUpdate('buff_removed', { buffId, buffData: buffToRemove });
+                }
+
+                // Force stat update in character store to sync stats/resources
+                try {
+                    const characterStore = require('./characterStore').default;
+                    const { stats, updateStat } = characterStore.getState();
+                    if (stats && updateStat) {
+                        updateStat('strength', stats.strength);
+                    }
+                } catch (e) {
+                    console.warn('Could not trigger stat update after removing buff:', e);
                 }
             },
 

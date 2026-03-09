@@ -542,6 +542,18 @@ const useCharacterStore = create((set, get) => ({
                 : newStats;
             const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
 
+            // Fetch buff/debuff effects for derived stats
+            const buffStore = require('./buffStore').default;
+            const debuffStore = require('./debuffStore').default;
+            const buffModifiers = buffStore.getState().getActiveEffects();
+            const debuffModifiers = debuffStore.getState().getActiveDebuffEffects();
+
+            // Merge modifiers (debuffs should already be negative)
+            const combinedModifiers = { ...buffModifiers };
+            Object.entries(debuffModifiers).forEach(([stat, value]) => {
+                combinedModifiers[stat] = (combinedModifiers[stat] || 0) + value;
+            });
+
             // Apply equipment bonuses to stats before calculating derived stats
             const totalStats = { ...effectiveStats };
             const statMapping = {
@@ -560,7 +572,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
 
             // Update health and mana max values when constitution or intelligence change
             let newHealth = { ...state.health };
@@ -623,6 +635,18 @@ const useCharacterStore = create((set, get) => ({
             const newEquipment = { ...state.equipment, [slot]: item };
             const oldEquipmentBonuses = calculateEquipmentBonuses(state.equipment);
             const equipmentBonuses = calculateEquipmentBonuses(newEquipment);
+
+            // Fetch buff/debuff effects for derived stats
+            const buffStore = require('./buffStore').default;
+            const debuffStore = require('./debuffStore').default;
+            const buffModifiers = buffStore.getState().getActiveEffects();
+            const debuffModifiers = debuffStore.getState().getActiveDebuffEffects();
+
+            // Merge modifiers (debuffs should already be negative)
+            const combinedModifiers = { ...buffModifiers };
+            Object.entries(debuffModifiers).forEach(([stat, value]) => {
+                combinedModifiers[stat] = (combinedModifiers[stat] || 0) + value;
+            });
             // Apply racial modifiers to get effective stats for calculations
             const effectiveStats = state.race && state.subrace
                 ? applyRacialModifiers(state.stats, state.race, state.subrace)
@@ -646,7 +670,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
 
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
@@ -736,6 +760,10 @@ const useCharacterStore = create((set, get) => ({
                 resistances: newResistances
             };
         });
+
+        // CRITICAL: Sync with multiplayer after state is fully updated
+        get().syncWithMultiplayer();
+        get().syncResourcesWithMultiplayer(['health', 'mana']);
     },
 
     // Equip an item from inventory to a specific slot
