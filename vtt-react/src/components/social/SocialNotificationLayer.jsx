@@ -18,6 +18,7 @@ import FriendRequestNotification from './FriendRequestNotification';
 import FriendAcceptedNotification from './FriendAcceptedNotification';
 import PartyInviteSentNotification from './PartyInviteSentNotification';
 import PartyEventToast from './PartyEventToast';
+import SessionJoinRequestContainer from './SessionJoinRequest';
 import '../../styles/global-chat.css';
 import '../../styles/social-notifications.css';
 
@@ -28,6 +29,7 @@ const SocialNotificationLayer = () => {
   const pendingInvitations = usePresenceStore((state) => state.pendingInvitations);
   const pendingPartyInvites = usePresenceStore((state) => state.pendingPartyInvites);
   const gmSessionInvitation = usePresenceStore((state) => state.gmSessionInvitation);
+  const sessionJoinRequests = usePresenceStore((state) => state.sessionJoinRequests);
   const pendingMultiplayerJoin = usePresenceStore((state) => state.pendingMultiplayerJoin);
   const clearPendingMultiplayerJoin = usePresenceStore((state) => state.clearPendingMultiplayerJoin);
 
@@ -61,13 +63,17 @@ const SocialNotificationLayer = () => {
   // Only render the center-screen modal layer when there are modal invitations
   const hasCenteredInvites = pendingPartyInvites.length > 0
     || pendingInvitations.length > 0
-    || !!gmSessionInvitation;
+    || !!gmSessionInvitation
+    || sessionJoinRequests.length > 0;
 
   return (
     <>
       {/* ─── Center-Screen Invite Modal Layer ─── */}
       {hasCenteredInvites && (
         <div className="invite-overlay-center">
+          {/* Session Join Requests */}
+          <SessionJoinRequestContainer />
+
           {/* Party Invitations */}
           {pendingPartyInvites.map((invitation) => (
             <PartyInviteNotification

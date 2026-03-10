@@ -91,6 +91,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
   const { createRoom, hashPassword, verifyPassword, getPublicRooms, validateRoomMembership, mergeRoomGameStateForResume } = helpers;
   const { firebaseBatchWriter, movementDebouncer, eventBatcher, realtimeSync } = services;
 
+  const roomJoinRequests = new Map();
+
   io.on('connection', (socket) => {
     logger.info('Player connected', { socketId: socket.id });
 
@@ -250,6 +252,87 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       });
     };
 
+    /**
+     * Handle party member departure (called by leave_party and disconnect)
+     * Handles edge case of multiple tabs/windows: only removes from party if no other connections exist
+     * @param {string} userId - User ID leaving the party
+     * @param {string} userName - User's display name
+     * @param {string} socketId - Socket ID (for multi-tab detection)
+     */
+    const handlePartyLeave = (userId, userName, socketId) => {
+      if (!userId) {
+        logger.debug('[handlePartyLeave] No userId provided, skipping');
+        return;
+      }
+
+      const partyId = userToParty.get(userId);
+      if (!partyId) {
+        logger.debug('[handlePartyLeave] User not in any party', { userId });
+        return;
+      }
+
+      const party = parties.get(partyId);
+      if (!party) {
+        logger.warn('[handlePartyLeave] Party not found', { partyId, userId });
+        userToParty.delete(userId);
+        return;
+      }
+
+      // EDGE CASE: Check if user has other active connections (multiple tabs/windows)
+      const userSockets = getSocketsByUserId(userId);
+      const hasOtherConnections = userSockets.some(s => s.id !== socketId && s.connected);
+
+      if (hasOtherConnections) {
+        logger.info('[handlePartyLeave] User has other active connections, keeping in party', {
+          userId,
+          socketId,
+          otherSocketCount: userSockets.filter(s => s.id !== socketId && s.connected).length
+        });
+        return;
+      }
+
+      // Remove member from party
+      delete party.members[userId];
+      userToParty.delete(userId);
+
+      // Check if party should be disbanded
+      const remainingMemberIds = Object.keys(party.members);
+      if (remainingMemberIds.length === 0 || party.leaderId === userId) {
+        // Disband party
+        logger.info('[handlePartyLeave] Disbanding party', {
+          partyId,
+          partyName: party.name,
+          reason: remainingMemberIds.length === 0 ? 'empty' : 'leader_left',
+          leaderId: party.leaderId,
+          leavingUserId: userId
+        });
+
+        remainingMemberIds.forEach(memberId => {
+          userToParty.delete(memberId);
+          const memberSockets = getSocketsByUserId(memberId);
+          memberSockets.forEach(s => s.emit('party_disbanded', { partyId, reason: 'leader_left' }));
+        });
+        parties.delete(partyId);
+      } else {
+        // Notify remaining members
+        logger.info('[handlePartyLeave] Member left party, notifying others', {
+          userId,
+          userName,
+          partyId,
+          remainingMembers: remainingMemberIds.length
+        });
+
+        remainingMemberIds.forEach(memberId => {
+          const memberSockets = getSocketsByUserId(memberId);
+          memberSockets.forEach(s => s.emit('party_member_left', {
+            partyId,
+            memberId: userId,
+            memberName: userName
+          }));
+        });
+      }
+    };
+
     const notifyPartyMembersOfGMJoin = (userId, roomId, gmData) => {
       logger.info('GM joined room - checking for party', { userId, roomId, gmName: gmData.name });
 
@@ -356,6 +439,21 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         movementDebouncer.flush(io, rooms, players);
       };
     }
+
+    // Utility to strip undefined values from objects before Firestore write
+    // Firestore crashes with "invalid data" error if fields are explicitly undefined
+    const stripUndefined = (obj) => {
+      if (obj === null || typeof obj !== 'object') return obj;
+      if (Array.isArray(obj)) return obj.map(stripUndefined);
+
+      const newObj = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (value !== undefined) {
+          newObj[key] = stripUndefined(value);
+        }
+      }
+      return newObj;
+    };
 
     // ==================== UTILITY HANDLERS ====================
 
@@ -664,7 +762,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             currentMapId: player.currentMapId,
             userId: player.userId || null // ADD THIS LINE
           },
-          playerCount: room.players.size + 1
+          playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
         });
 
         // Update room list
@@ -700,7 +798,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       socket.to(player.roomId).emit('player_left', {
         playerId: player.id,
         playerName: player.name,
-        playerCount: room.players.size + 1
+        playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
       });
 
       // Update room list
@@ -710,6 +808,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     });
 
     socket.on('disconnect', () => {
+      // 1. Clean up social presence
       const socialPresence = onlineSocialUsers.get(socket.id);
       if (socialPresence) {
         onlineSocialUsers.delete(socket.id);
@@ -719,6 +818,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         });
       }
 
+      // 2. Get player info
       const player = players.get(socket.id);
       if (!player) {
         logger.debug('[disconnect] Unknown room player disconnected', {
@@ -728,13 +828,34 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         return;
       }
 
+      // 3. Resolve user identity for party cleanup
+      let userId = socket.data.userId || player.id;
+      let userName = player.name;
+
+      // Also check socialPresence if available
+      if (socialPresence && socialPresence.userId) {
+        userId = socialPresence.userId;
+        userName = socialPresence.name || userName;
+      }
+
+      // 4. Handle party leave (CRITICAL FIX - this was missing!)
+      handlePartyLeave(userId, userName, socket.id);
+
+      // 5. Handle room cleanup
       const room = rooms.get(player.roomId);
       if (room) {
         if (player.isGM) {
           // GM disconnected - mark room as inactive but don't delete
           room.isActive = false;
           room.gmDisconnectedAt = new Date();
-          logger.info('[disconnect] GM disconnected, room marked inactive', { roomId: room.id });
+          logger.info('[disconnect] GM disconnected, room marked inactive', { roomId: room.id, userId });
+
+          // Notify players in room that GM disconnected
+          socket.to(player.roomId).emit('gm_disconnected', {
+            gmName: player.name,
+            gmId: userId,
+            roomId: room.id
+          });
         } else {
           // Regular player disconnected
           room.players.delete(player.id);
@@ -744,15 +865,16 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           socket.to(player.roomId).emit('player_left', {
             playerId: player.id,
             playerName: player.name,
-            playerCount: room.players.size + 1
+            playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
           });
         }
       }
 
+      // 6. Remove from players map
       players.delete(socket.id);
-      logger.info('[disconnect] Player disconnected', { socketId: socket.id, playerId: player.id });
+      logger.info('[disconnect] Player disconnected', { socketId: socket.id, playerId: player.id, userId });
 
-      // Update room list
+      // 7. Update room list
       io.emit('room_list', getPublicRooms());
     });
 
@@ -830,22 +952,31 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const mapId = data.mapId || room.gameState.defaultMapId || 'default';
         const map = validateMapExists(room, mapId);
 
-        if (map.tokens[data.tokenId]) {
-          map.tokens[data.tokenId] = {
-            ...map.tokens[data.tokenId],
-            ...data.updates,
+        // CRITICAL FIX: Also check map.creatures for compatibility
+        const isToken = !!map.tokens[data.tokenId];
+        const isCreature = !!(map.creatures && map.creatures[data.tokenId]);
+        const updates = data.updates || data.stateUpdates || {};
+
+        if (isToken || isCreature) {
+          const targetStore = isToken ? map.tokens : map.creatures;
+
+          targetStore[data.tokenId] = {
+            ...targetStore[data.tokenId],
+            ...updates,
             updatedAt: Date.now()
           };
 
           io.to(room.id).emit('token_updated', {
             tokenId: data.tokenId,
-            updates: data.updates,
+            updates: updates,
             mapId,
             updatedBy: socket.id,
             sequence: getNextEventSequence()
           });
 
-          firebaseBatchWriter.queueWrite(room.id, room.gameState);
+          // Strip undefined values before queuing write to prevent Firestore crash
+          const sanitizedState = stripUndefined(room.gameState);
+          firebaseBatchWriter.queueWrite(room.id, sanitizedState);
         }
 
       } catch (error) {
@@ -1673,9 +1804,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         const validation = validateRoomMembership(socket, data.roomId, true);
         if (!validation.valid) {
-          logger.warn('[gm_transfer_player] Validation failed', { 
-            roomId: data.roomId, 
-            playerId: data.playerId 
+          logger.warn('[gm_transfer_player] Validation failed', {
+            roomId: data.roomId,
+            playerId: data.playerId
           });
           return;
         }
@@ -1697,13 +1828,13 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         // ENHANCED FIX: If not found in players map, check if it's the GM using multiple ID sources
         // This handles cases where GM's ID might be roomId, socketId, or userId
         if (!targetPlayer && room.gm) {
-          const gmIdMatches = 
+          const gmIdMatches =
             room.gm.id === data.playerId ||
             room.gm.socketId === data.playerId ||
             room.gm.socketId === socket.id ||
             room.gmId === data.playerId ||
             (room.gm.userId && room.gm.userId === data.playerId);
-          
+
           if (gmIdMatches) {
             targetPlayer = room.gm;
             logger.info('[gm_transfer_player] Found GM via enhanced ID match', {
@@ -1712,16 +1843,16 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
               gmSocketId: room.gm.socketId,
               gmUserId: room.gmId,
               matchedBy: room.gm.id === data.playerId ? 'gm.id' :
-                         room.gm.socketId === data.playerId ? 'gm.socketId' :
-                         room.gm.socketId === socket.id ? 'sender socket' :
-                         room.gmId === data.playerId ? 'gmId' : 'userId'
+                room.gm.socketId === data.playerId ? 'gm.socketId' :
+                  room.gm.socketId === socket.id ? 'sender socket' :
+                    room.gmId === data.playerId ? 'gmId' : 'userId'
             });
           }
         }
 
         if (!targetPlayer) {
-          logger.warn('[gm_transfer_player] Player not found in room', { 
-            playerId: data.playerId, 
+          logger.warn('[gm_transfer_player] Player not found in room', {
+            playerId: data.playerId,
             roomId: room.id,
             availablePlayerIds: Array.from(room.players.keys()),
             gmId: room.gm?.id,
@@ -1800,8 +1931,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
 
       } catch (error) {
-        logger.error('[gm_transfer_player] Error:', { 
-          error: error.message, 
+        logger.error('[gm_transfer_player] Error:', {
+          error: error.message,
           stack: error.stack,
           data: {
             roomId: data.roomId,
@@ -2271,20 +2402,23 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const mapId = data.mapId || room.gameState.defaultMapId || 'default';
         const map = validateMapExists(room, mapId);
 
+        const updates = data.updates || data.stateUpdates || {};
         if (map.creatures && map.creatures[data.creatureId]) {
           map.creatures[data.creatureId] = {
             ...map.creatures[data.creatureId],
-            ...data.updates
+            ...updates
           };
 
           io.to(data.roomId).emit('creature_updated', {
             creatureId: data.creatureId,
-            updates: data.updates,
+            updates: updates,
             mapId,
             updatedBy: socket.id
           });
 
-          firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+          // Strip undefined values before queuing write to prevent Firestore crash
+          const sanitizedState = stripUndefined(room.gameState);
+          firebaseBatchWriter.queueWrite(data.roomId, sanitizedState);
         }
 
       } catch (error) {
@@ -2710,7 +2844,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
               currentMapId: player.currentMapId,
               isGM: false
             },
-            playerCount: room.players.size + 1
+            playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
           });
 
         } else {
@@ -2963,44 +3097,21 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           userName = socialUser.name;
         }
 
-        if (!userId) return;
-
-        const partyId = userToParty.get(userId);
-        if (!partyId) return;
-
-        const party = parties.get(partyId);
-        if (!party) return;
-
-        // Remove member
-        delete party.members[userId];
-        userToParty.delete(userId);
-
-        // If party is empty or leader left, disband
-        const remainingMemberIds = Object.keys(party.members);
-        if (remainingMemberIds.length === 0 || party.leaderId === userId) {
-          remainingMemberIds.forEach(memberId => {
-            userToParty.delete(memberId);
-            const memberSockets = getSocketsByUserId(memberId);
-            memberSockets.forEach(s => s.emit('party_disbanded', { partyId }));
-          });
-          parties.delete(partyId);
-        } else {
-          // Notify remaining members
-          remainingMemberIds.forEach(memberId => {
-            const memberSockets = getSocketsByUserId(memberId);
-            memberSockets.forEach(s => s.emit('party_member_left', {
-              memberId: userId,
-              memberName: userName
-            }));
-          });
+        if (!userId) {
+          logger.warn('[leave_party] No userId found', { socketId: socket.id });
+          return;
         }
 
-        socket.emit('party_left', { partyId });
+        // Use extracted function for party leave logic
+        handlePartyLeave(userId, userName, socket.id);
 
-        logger.info('[leave_party] Player left party', { playerId: userId, partyId });
+        // Confirm to leaving user
+        socket.emit('party_left', { success: true });
+
+        logger.info('[leave_party] Player left party', { playerId: userId, socketId: socket.id });
 
       } catch (error) {
-        logger.error('[leave_party] Error:', { error: error.message });
+        logger.error('[leave_party] Error:', { error: error.message, stack: error.stack });
       }
     });
 
@@ -3080,69 +3191,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
       } catch (error) {
         logger.error('[update_status] Error:', { error: error.message });
-      }
-    });
-
-    socket.on('invite_to_party', async ({ partyId, fromUserId, toUserId }) => {
-      try {
-        logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
-        let targetPartyId = partyId;
-
-        // Resolve partyId from user if not provided (client sends null)
-        if (!targetPartyId && fromUserId) {
-          targetPartyId = userToParty.get(fromUserId);
-          logger.info('📢 [invite_to_party] Resolved partyId from user', { fromUserId, targetPartyId });
-        }
-
-        const party = parties.get(targetPartyId);
-        if (!party) {
-          logger.warn('📢 [invite_to_party] Party not found', { targetPartyId });
-          socket.emit('party_error', { error: 'Party not found' });
-          return;
-        }
-
-        const invitationId = uuidv4();
-        const invitation = {
-          id: invitationId,
-          partyId: targetPartyId,
-          fromUserId,
-          toUserId,
-          createdAt: Date.now(),
-          expiresAt: Date.now() + (5 * 60 * 1000) // 5 minutes
-        };
-
-        partyInvitations.set(invitationId, invitation);
-
-        // Find target user's socket
-        const targetSocketId = Array.from(onlineSocialUsers.entries())
-          .find(([_, user]) => user.userId === toUserId)?.[0];
-
-        if (targetSocketId) {
-          const inviterData = onlineSocialUsers.get(socket.id) || {};
-          io.to(targetSocketId).emit('party_invitation_received', {
-            ...invitation,
-            partyName: party.name,
-            fromUserName: inviterData.name || 'Unknown',
-            senderName: inviterData.name || 'Unknown',
-            senderLevel: inviterData.characterLevel || 1,
-            senderClass: inviterData.characterClass || 'Unknown',
-            fromUserId
-          });
-          logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, targetSocketId });
-        } else {
-          logger.warn('📢 [invite_to_party] Target user not found in onlineSocialUsers', {
-            toUserId,
-            onlineUsersCount: onlineSocialUsers.size,
-            onlineUserIds: Array.from(onlineSocialUsers.values()).map(u => u.userId).slice(0, 10)
-          });
-        }
-
-        // Notify sender that the invitation was actually processed/sent
-        socket.emit('invitation_sent', { invitationId, toUserId });
-        logger.info('📢 [invite_to_party] Invitation sent confirmation emitted', { invitationId, toUserId });
-
-      } catch (error) {
-        logger.error('📢 [invite_to_party] Error:', { error: error.message });
       }
     });
 
@@ -3459,6 +3507,272 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
       } catch (error) {
         logger.error('[disband_party] Error:', { error: error.message });
+      }
+    });
+
+    // ==================== SESSION INVITATION HANDLERS ====================
+
+    socket.on('request_to_join_session', async (data) => {
+      try {
+        const { leaderId, roomId, requesterId, requesterName } = data;
+
+        logger.info('[request_to_join_session] Join request received', {
+          leaderId, roomId, requesterId, requesterName
+        });
+
+        const room = rooms.get(roomId);
+        if (!room) {
+          socket.emit('join_error', { message: 'Room not found' });
+          logger.warn('[request_to_join_session] Room not found', { roomId });
+          return;
+        }
+
+        const leaderInRoom = Array.from(players.values())
+          .some(p => (p.userId === leaderId || p.id === leaderId) && p.roomId === roomId);
+
+        if (!leaderInRoom) {
+          socket.emit('join_error', { message: 'Leader is not in this session' });
+          logger.warn('[request_to_join_session] Leader not in room', { leaderId, roomId });
+          return;
+        }
+
+        const requestId = uuidv4();
+        const request = {
+          id: requestId,
+          roomId,
+          requesterId,
+          requesterName,
+          leaderId,
+          createdAt: Date.now(),
+          expiresAt: Date.now() + 60000
+        };
+
+        roomJoinRequests.set(requestId, request);
+
+        const leaderSockets = getSocketsByUserId(leaderId);
+        if (leaderSockets.length > 0) {
+          leaderSockets.forEach(s => {
+            s.emit('session_join_request', request);
+          });
+          logger.info('[request_to_join_session] Join request sent to leader', {
+            requestId, requesterId, leaderId
+          });
+        } else {
+          socket.emit('join_error', { message: 'Leader is not online' });
+          logger.warn('[request_to_join_session] Leader not online', { leaderId });
+          roomJoinRequests.delete(requestId);
+        }
+
+      } catch (error) {
+        logger.error('[request_to_join_session] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('respond_to_join_request', async (data) => {
+      try {
+        const { requestId, accepted } = data;
+
+        logger.info('[respond_to_join_request] Response received', { requestId, accepted });
+
+        const request = roomJoinRequests.get(requestId);
+        if (!request) {
+          socket.emit('join_error', { message: 'Request not found or expired' });
+          logger.warn('[respond_to_join_request] Request not found', { requestId });
+          return;
+        }
+
+        if (Date.now() > request.expiresAt) {
+          roomJoinRequests.delete(requestId);
+          socket.emit('join_error', { message: 'Request expired' });
+          logger.warn('[respond_to_join_request] Request expired', { requestId });
+          return;
+        }
+
+        const requesterSockets = getSocketsByUserId(request.requesterId);
+
+        if (accepted) {
+          const invitation = {
+            id: uuidv4(),
+            roomId: request.roomId,
+            partyName: 'Session Join',
+            gmName: request.leaderId,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 300000
+          };
+
+          partyInvitations.set(invitation.id, invitation);
+
+          if (requesterSockets.length > 0) {
+            requesterSockets.forEach(s => {
+              s.emit('join_request_accepted', {
+                invitation,
+                roomId: request.roomId
+              });
+            });
+          }
+
+          logger.info('[respond_to_join_request] Join request accepted', {
+            requestId, requesterId: request.requesterId
+          });
+        } else {
+          if (requesterSockets.length > 0) {
+            requesterSockets.forEach(s => {
+              s.emit('join_request_declined', {
+                requestId,
+                leaderId: request.leaderId
+              });
+            });
+          }
+
+          logger.info('[respond_to_join_request] Join request declined', {
+            requestId, requesterId: request.requesterId
+          });
+        }
+
+        roomJoinRequests.delete(requestId);
+
+      } catch (error) {
+        logger.error('[respond_to_join_request] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('invite_member_to_session', async (data) => {
+      try {
+        const { memberId, roomId } = data;
+        const userId = socket.data?.userId;
+
+        logger.info('[invite_member_to_session] Session invite received', {
+          memberId, roomId, inviterId: userId
+        });
+
+        const player = players.get(socket.id);
+        if (!player || player.roomId !== roomId) {
+          socket.emit('invite_error', { message: 'You must be in the session to invite' });
+          logger.warn('[invite_member_to_session] Inviter not in room', { socketId: socket.id });
+          return;
+        }
+
+        const room = rooms.get(roomId);
+        if (!room) {
+          socket.emit('invite_error', { message: 'Room not found' });
+          logger.warn('[invite_member_to_session] Room not found', { roomId });
+          return;
+        }
+
+        const memberSockets = getSocketsByUserId(memberId);
+        if (memberSockets.length === 0) {
+          socket.emit('invite_error', { message: 'Member not online' });
+          logger.warn('[invite_member_to_session] Member not online', { memberId });
+          return;
+        }
+
+        const invitation = {
+          id: uuidv4(),
+          roomId,
+          partyName: room.name || 'Game Session',
+          gmName: player.name,
+          gmCharacterName: player.character?.name || player.name,
+          gmClass: player.character?.class,
+          gmLevel: player.character?.level,
+          status: 'pending',
+          createdAt: Date.now(),
+          expiresAt: Date.now() + 300000
+        };
+
+        partyInvitations.set(invitation.id, invitation);
+
+        memberSockets.forEach(s => {
+          s.emit('gm_session_invitation', invitation);
+        });
+
+        socket.emit('session_invitation_sent', { memberId, invitationId: invitation.id });
+
+        logger.info('[invite_member_to_session] Session invitation sent', {
+          memberId, roomId, invitationId: invitation.id
+        });
+
+      } catch (error) {
+        logger.error('[invite_member_to_session] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('invite_to_party', async ({ partyId, fromUserId, toUserId }) => {
+      try {
+        logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
+
+        const targetUserPartyId = userToParty.get(toUserId);
+        if (targetUserPartyId) {
+          // Validate the party actually still exists — userToParty can hold stale
+          // entries if a party was disbanded without cleanly removing all members.
+          const targetUserParty = parties.get(targetUserPartyId);
+          if (!targetUserParty) {
+            // Stale entry — clean it up and allow the invite to proceed
+            logger.warn('📢 [invite_to_party] Cleaning stale userToParty entry for target', { toUserId, stalePartyId: targetUserPartyId });
+            userToParty.delete(toUserId);
+          } else {
+            logger.info('📢 [invite_to_party] Target user already in party', { toUserId, existingPartyId: targetUserPartyId });
+            socket.emit('party_invite_failed', {
+              error: 'User is already in a party',
+              toUserId: toUserId
+            });
+            return;
+          }
+        }
+
+        let targetPartyId = partyId;
+
+        if (!targetPartyId && fromUserId) {
+          targetPartyId = userToParty.get(fromUserId);
+          logger.info('📢 [invite_to_party] Resolved partyId from user', { fromUserId, targetPartyId });
+        }
+
+        const party = parties.get(targetPartyId);
+        if (!party) {
+          logger.warn('📢 [invite_to_party] Party not found', { targetPartyId });
+          socket.emit('party_error', { error: 'Party not found' });
+          return;
+        }
+
+        const invitationId = uuidv4();
+        const invitation = {
+          id: invitationId,
+          partyId: targetPartyId,
+          fromUserId,
+          toUserId,
+          createdAt: Date.now(),
+          expiresAt: Date.now() + (5 * 60 * 1000)
+        };
+
+        partyInvitations.set(invitationId, invitation);
+
+        const targetSocketId = Array.from(onlineSocialUsers.entries())
+          .find(([_, user]) => user.userId === toUserId)?.[0];
+
+        if (targetSocketId) {
+          const inviterData = onlineSocialUsers.get(socket.id) || {};
+          io.to(targetSocketId).emit('party_invitation_received', {
+            ...invitation,
+            partyName: party.name,
+            fromUserName: inviterData.name || 'Unknown',
+            senderName: inviterData.name || 'Unknown',
+            senderLevel: inviterData.characterLevel || 1,
+            senderClass: inviterData.characterClass || 'Unknown',
+            fromUserId
+          });
+          logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, targetSocketId });
+        } else {
+          logger.warn('📢 [invite_to_party] Target user not found in onlineSocialUsers', {
+            toUserId,
+            onlineUsersCount: onlineSocialUsers.size,
+            onlineUserIds: Array.from(onlineSocialUsers.values()).map(u => u.userId).slice(0, 10)
+          });
+        }
+
+        socket.emit('invitation_sent', { invitationId, toUserId });
+        logger.info('📢 [invite_to_party] Invitation sent confirmation emitted', { invitationId, toUserId });
+
+      } catch (error) {
+        logger.error('📢 [invite_to_party] Error:', { error: error.message });
       }
     });
 

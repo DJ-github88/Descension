@@ -270,21 +270,28 @@ const ProfessionalVTTEditor = () => {
             // Don't auto-select any object when switching to objects tab
             // User must explicitly choose which object to place
             if (tabId === 'objects' && firstTool.id === 'object_place') {
-                const newSettings = {
-                    ...toolSettings,
-                    selectedObjectType: undefined,
-                    selectedPlacementType: undefined
-                };
-                setToolSettings(newSettings);
+                // CRITICAL FIX: Defer setToolSettings to avoid React 'update during render' warning
+                // which causes stale state snapshots (including drawingPaths) in the batcher
+                setTimeout(() => {
+                    const newSettings = {
+                        ...toolSettings,
+                        selectedObjectType: undefined,
+                        selectedPlacementType: undefined
+                    };
+                    setToolSettings(newSettings);
+                }, 0);
             }
         }
 
         // Clear terrain-specific settings when switching away from terrain tab
+        // CRITICAL FIX: Defer to avoid React 'update during render' warning
         if (tabId !== 'terrain') {
-            const newSettings = { ...toolSettings };
-            delete newSettings.selectedTerrainType;
-            setToolSettings(newSettings);
-            console.log('🧹 Cleared selectedTerrainType from tool settings');
+            setTimeout(() => {
+                const newSettings = { ...toolSettings };
+                delete newSettings.selectedTerrainType;
+                setToolSettings(newSettings);
+                console.log('🧹 Cleared selectedTerrainType from tool settings');
+            }, 0);
         }
     };
 

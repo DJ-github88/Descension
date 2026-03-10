@@ -33,6 +33,9 @@ const GridItem = ({ gridItem }) => {
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
+  // Used to determine if fog is covering the map (needs to hide items for no-token players)
+  const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
+  const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
 
   // Compute visibleAreaSet for O(1) lookups
   const visibleAreaSet = useMemo(() => {
@@ -145,14 +148,19 @@ const GridItem = ({ gridItem }) => {
       return false;
     }
 
-    // FIXED: If not viewing from a token and not in GM mode, always visible (normal view)
-    // This provides a visual reference for players until they select a vision source
+    // FIXED: If not viewing from a token and not in GM mode, check if fog covers the map.
+    // If fog content exists, hide items until the player places a token.
+    // Without fog content, show items normally (no fog = all visible).
     if (!viewingFromToken && !isGMMode) {
-      return true;
+      const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
+      if (hasFogContent) {
+        return false; // Map is fogged — hide until player places a token
+      }
+      return true; // No fog — show normally
     }
 
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem, visibleArea, visibilityPolygon]);
+  }, [viewingFromToken, dynamicFogEnabled, itemPosition, gridSize, gridItem.id, gridItem.name, isGMMode, visibleAreaSet, gridSystem, visibleArea, visibilityPolygon, fogOfWarPaths, fogOfWarData]);
 
   // Calculate screen position with rounding to prevent sub-pixel jitter
   const screenPosition = useMemo(() => {

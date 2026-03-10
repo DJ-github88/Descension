@@ -348,15 +348,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     // Get target ID for buffs/debuffs
     const getTargetId = () => {
         if (targetType === 'party_member' || targetType === 'player') {
-            // If targeting current player, check both 'current-player' and 'player' IDs
-            if (currentTarget.id === 'current-player') {
-                // Try 'player' first (standard buff/debuff targetId), then fallback to 'current-player'
-                const playerBuffs = getBuffsForTarget('player');
-                const playerDebuffs = getDebuffsForTarget('player');
-                if (playerBuffs.length > 0 || playerDebuffs.length > 0) {
-                    return 'player';
-                }
-                return 'current-player';
+            const gameStore = useGameStore.getState();
+            const currentPlayerId = gameStore.currentPlayer?.id;
+
+            // If targeting current player, check 'current-player', 'player', and actual playerId
+            if (currentTarget.id === 'current-player' ||
+                (currentPlayerId && currentTarget.id === currentPlayerId)) {
+                return currentTarget.id;
             }
             return currentTarget.id;
         } else if (targetType === 'creature') {
@@ -367,17 +365,93 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     };
 
     const targetId = getTargetId();
-    // Get buffs/debuffs, also check 'player' if targetId is 'current-player'
-    let targetBuffs = targetId ? getBuffsForTarget(targetId) : [];
-    let targetDebuffs = targetId ? getDebuffsForTarget(targetId) : [];
+    const gameStore = useGameStore.getState();
+    const currentPlayerId = gameStore.currentPlayer?.id;
 
-    // If targeting current player and no buffs found, also check 'player' ID
-    if (targetType === 'party_member' || targetType === 'player') {
-        if (currentTarget.id === 'current-player' && targetBuffs.length === 0 && targetDebuffs.length === 0) {
-            targetBuffs = getBuffsForTarget('player');
-            targetDebuffs = getDebuffsForTarget('player');
+    // Get all relevant store buffs/debuffs
+    let rawBuffs = [];
+    let rawDebuffs = [];
+
+    if (targetId) {
+        rawBuffs = [...getBuffsForTarget(targetId)];
+        rawDebuffs = [...getDebuffsForTarget(targetId)];
+
+        // If it's the current player, also check the aliases
+        if (targetId === 'current-player' || (currentPlayerId && targetId === currentPlayerId)) {
+            if (targetId !== 'player') {
+                rawBuffs = [...rawBuffs, ...getBuffsForTarget('player')];
+                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget('player')];
+            }
+            if (targetId !== 'current-player') {
+                rawBuffs = [...rawBuffs, ...getBuffsForTarget('current-player')];
+                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget('current-player')];
+            }
+            if (currentPlayerId && targetId !== currentPlayerId) {
+                rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
+                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+            }
         }
     }
+
+    // Get conditions from token state
+    let rawConditions = [];
+    if (targetType === 'creature' && currentTarget?.id) {
+        const token = tokens.find(t => t.id === currentTarget.id);
+        rawConditions = token?.state?.conditions || [];
+    }
+
+    // CONSOLIDATION & DEDUPLICATION LOGIC
+    const finalBuffs = [];
+    const finalDebuffs = [];
+    const seenNames = new Set();
+    const seenIds = new Set();
+
+    // 1. Process store buffs first (they usually have more info/durations)
+    rawBuffs.forEach(b => {
+        if (seenIds.has(b.id) || seenNames.has(b.name.toLowerCase())) return;
+        finalBuffs.push(b);
+        seenIds.add(b.id);
+        seenNames.add(b.name.toLowerCase());
+    });
+
+    // 2. Process store debuffs
+    rawDebuffs.forEach(d => {
+        if (seenIds.has(d.id) || seenNames.has(d.name.toLowerCase())) return;
+        finalDebuffs.push(d);
+        seenIds.add(d.id);
+        seenNames.add(d.name.toLowerCase());
+    });
+
+    // 3. Process token conditions and merge into buffs/debuffs based on type
+    rawConditions.forEach(c => {
+        const name = (c.name || c.id || '').toLowerCase();
+        if (seenNames.has(name)) return;
+
+        // Look up metadata in CONDITIONS data
+        const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
+
+        const mergedCondition = {
+            ...c,
+            id: c.id || `cond_${Date.now()}_${Math.random()}`,
+            name: c.name || c.id,
+            icon: c.icon || conditionData.icon,
+            color: c.color || conditionData.color,
+            description: c.description || conditionData.description,
+            type: conditionData.type || 'debuff'
+        };
+
+        if (mergedCondition.type === 'buff') {
+            finalBuffs.push(mergedCondition);
+        } else {
+            finalDebuffs.push(mergedCondition);
+        }
+        seenNames.add(name);
+    });
+
+    // Use these consolidated lists for rendering
+    const targetBuffs = finalBuffs;
+    const targetDebuffs = finalDebuffs;
+    const targetConditions = []; // This will now be empty as they are merged into buffs/debuffs
 
     // Calculate resource percentages and colors
     const healthPercent = safeHealth.max > 0 ? Math.min(100, Math.max(0, (Number(safeHealth.current) / Number(safeHealth.max)) * 100)) : 0;
@@ -431,6 +505,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 console.log('🎯 TargetHUD: Character sheet opener not available');
             }
         } else if (targetType === 'creature') {
+            // CRITICAL FIX: Only GMs can inspect creatures
+            if (!isGMMode) {
+                console.warn('⚠️ TargetHUD: Players cannot inspect creature tokens');
+                setShowContextMenu(false);
+                return;
+            }
+
             // For creatures, fetch the full creature data from the store and open the inspection window
             console.log('🎯 TargetHUD: Opening creature inspection for:', targetData.name);
             console.log('🎯 TargetHUD: Fetching full creature data for token ID:', currentTarget.id);
@@ -742,34 +823,36 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             }
                         });
 
-                        // MULTIPLAYER SYNC: Notify the player about the resource update
+                        // MULTIPLAYER SYNC: Emit calculated values directly (no setTimeout)
                         const socket = window.multiplayerSocket;
                         if (socket && socket.connected && adjustment !== 0) {
-                            setTimeout(() => {
-                                const partyState = usePartyStore.getState();
-                                const updatedMember = partyState.partyMembers.find(m => m.id === memberId);
-                                console.log('📤 TargetHUD emitting character_resource_updated:', {
-                                    memberId,
-                                    memberName: updatedMember?.name,
-                                    allPartyMemberIds: partyState.partyMembers.map(m => ({ id: m.id, name: m.name })),
-                                    resourceType,
-                                    adjustment
-                                });
-                                if (updatedMember && updatedMember.character) {
-                                    socket.emit('character_resource_updated', {
-                                        playerId: memberId,
-                                        userId: updatedMember.userId || updatedMember.uid, // Add stable ID
-                                        socketId: updatedMember.socketId, // Add socket ID
-                                        playerName: updatedMember.name, // Include name for fallback matching
-                                        resource: resourceType,
-                                        current: updatedMember.character[resourceType]?.current,
-                                        max: updatedMember.character[resourceType]?.max,
-                                        temp: updatedMember.character[tempField],
-                                        adjustment: adjustment, // Include adjustment for FCT sync
-                                        timestamp: Date.now()
-                                    });
-                                }
-                            }, 0);
+                            const gameStore = useGameStore.getState();
+                            const roomId = gameStore.multiplayerRoom?.id;
+                            const capturedPlayerName = member.name;
+
+                            console.log('📤 TargetHUD emitting character_resource_updated (negative):', {
+                                playerId: memberId,
+                                playerName: capturedPlayerName,
+                                resource: resourceType,
+                                current: newValue,
+                                max: maxValue,
+                                temp: newTemp,
+                                roomId: roomId
+                            });
+
+                            socket.emit('character_resource_updated', {
+                                roomId: roomId,
+                                playerId: memberId,
+                                userId: member.userId || member.uid,
+                                socketId: member.socketId,
+                                playerName: capturedPlayerName,
+                                resource: resourceType,
+                                current: newValue,
+                                max: maxValue,
+                                temp: newTemp,
+                                adjustment: adjustment,
+                                timestamp: Date.now()
+                            });
                         }
                     } else {
                         // Positive adjustment (healing/restoring)
@@ -784,27 +867,35 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             }
                         });
 
-                        // MULTIPLAYER SYNC: Notify the player about the resource update
+                        // MULTIPLAYER SYNC: Emit calculated values directly (no setTimeout)
                         const socket = window.multiplayerSocket;
                         if (socket && socket.connected && adjustment !== 0) {
-                            setTimeout(() => {
-                                const partyState = usePartyStore.getState();
-                                const updatedMember = partyState.partyMembers.find(m => m.id === memberId);
-                                if (updatedMember && updatedMember.character) {
-                                    socket.emit('character_resource_updated', {
-                                        playerId: memberId,
-                                        userId: updatedMember.userId || updatedMember.uid, // Add stable ID
-                                        socketId: updatedMember.socketId, // Add socket ID
-                                        playerName: updatedMember.name, // Include name for fallback matching
-                                        resource: resourceType,
-                                        current: updatedMember.character[resourceType]?.current,
-                                        max: updatedMember.character[resourceType]?.max,
-                                        temp: updatedMember.character[tempField],
-                                        adjustment: adjustment, // Include adjustment for FCT sync
-                                        timestamp: Date.now()
-                                    });
-                                }
-                            }, 0);
+                            const gameStore = useGameStore.getState();
+                            const roomId = gameStore.multiplayerRoom?.id;
+                            const capturedPlayerName = member.name;
+
+                            console.log('📤 TargetHUD emitting character_resource_updated (positive):', {
+                                playerId: memberId,
+                                playerName: capturedPlayerName,
+                                resource: resourceType,
+                                current: newValue,
+                                max: maxValue,
+                                roomId: roomId
+                            });
+
+                            socket.emit('character_resource_updated', {
+                                roomId: roomId,
+                                playerId: memberId,
+                                userId: member.userId || member.uid,
+                                socketId: member.socketId,
+                                playerName: capturedPlayerName,
+                                resource: resourceType,
+                                current: newValue,
+                                max: maxValue,
+                                temp: currentTemp,
+                                adjustment: adjustment,
+                                timestamp: Date.now()
+                            });
                         }
                     }
 
@@ -1764,78 +1855,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                         </div>
                                     )}
 
-                                    {/* Conditions Row */}
-                                    {targetConditions.length > 0 && (
-                                        <div className="target-conditions" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                                            {targetConditions.map((condition) => {
-                                                const conditionData = CONDITIONS[condition.id] || CONDITIONS[condition.name?.toLowerCase()] || {
-                                                    name: condition.name || condition.id,
-                                                    icon: condition.icon || '/assets/icons/Status/buff/star-emblem-power.png',
-                                                    color: condition.color || '#FFD700',
-                                                    description: condition.description || ''
-                                                };
-
-                                                const tooltipContent = {
-                                                    title: conditionData.name,
-                                                    description: conditionData.description,
-                                                    duration: formatConditionTime(condition)
-                                                };
-
-                                                return (
-                                                    <div
-                                                        key={condition.id || condition.name}
-                                                        style={{
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            alignItems: 'center',
-                                                            pointerEvents: 'auto'
-                                                        }}
-                                                    >
-                                                        <div
-                                                            className="condition-icon"
-                                                            style={{
-                                                                backgroundColor: conditionData.color,
-                                                                width: '32px',
-                                                                height: '32px',
-                                                                borderRadius: '4px',
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center',
-                                                                border: '2px solid rgba(255, 255, 255, 0.3)',
-                                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-                                                            }}
-                                                            onMouseEnter={(e) => handleTooltipShow(e, tooltipContent)}
-                                                            onMouseLeave={handleTooltipHide}
-                                                            onContextMenu={(e) => handleConditionRightClick(e, { ...condition, type: 'condition', targetId: targetType === 'creature' ? currentTarget.id : (currentTarget.id === 'current-player' ? 'current-player' : currentTarget.id) }, 'condition')}
-                                                        >
-                                                            {conditionData.icon && conditionData.icon.startsWith('/assets/') ? (
-                                                                <img
-                                                                    src={conditionData.icon}
-                                                                    alt={conditionData.name}
-                                                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                                    onError={(e) => {
-                                                                        e.target.style.display = 'none';
-                                                                    }}
-                                                                />
-                                                            ) : (
-                                                                <i className={conditionData.icon || 'fas fa-circle'} style={{ fontSize: '16px', color: '#fff' }}></i>
-                                                            )}
-                                                        </div>
-                                                        <div style={{
-                                                            fontSize: '10px',
-                                                            color: '#f0e6d2',
-                                                            fontWeight: 'bold',
-                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                                            marginTop: '2px',
-                                                            fontFamily: 'Cinzel, serif'
-                                                        }}>
-                                                            {formatConditionTime(condition)}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    )}
+                                    {/* Conditions Row merged into buffs/debuffs row above */}
                                 </div>
                             );
                         })()}
@@ -1847,17 +1867,21 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             {showContextMenu && (() => {
                 const menuItems = [];
 
-                // Inspect
-                menuItems.push({
-                    icon: <i className="fas fa-search"></i>,
-                    label: 'Inspect',
-                    onClick: (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setShowContextMenu(false);
-                        handleInspectTarget();
-                    }
-                });
+                // Inspect - Only show for creatures if GM, otherwise show for players/party members
+                const showInspect = targetType !== 'creature' || isGMMode;
+
+                if (showInspect) {
+                    menuItems.push({
+                        icon: <i className="fas fa-search"></i>,
+                        label: 'Inspect',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowContextMenu(false);
+                            handleInspectTarget();
+                        }
+                    });
+                }
 
                 // Clear Target
                 menuItems.push({

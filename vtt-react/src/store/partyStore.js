@@ -241,12 +241,16 @@ const usePartyStore = create((set, get) => ({
 
       const socket = getSocket();
 
-      const actualLeaderData = leaderData || {
+      const actualLeaderData = {
+        id: leaderData?.id || 'current-player',
+        userId: leaderData?.userId || (leaderData?.id || 'current-player'),
+        isConnected: true,
         isGM,
-        name: isGM ? 'Game Master' : 'Party Leader',
-        characterName: isGM ? 'Game Master' : 'Party Leader',
-        characterClass: 'Unknown',
-        characterLevel: 1
+        name: leaderData?.name || (isGM ? 'Game Master' : 'Party Leader'),
+        characterName: leaderData?.characterName || (isGM ? 'Game Master' : 'Party Leader'),
+        characterClass: leaderData?.characterClass || 'Unknown',
+        characterLevel: leaderData?.characterLevel || 1,
+        ...leaderData // Spread rest of data if available
       };
 
       // Check if socket is available AND connected

@@ -158,6 +158,9 @@ const CharacterToken = ({
     const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
     const setTokenVision = useLevelEditorStore(state => state.setTokenVision);
     const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges);
+    // Fog content: used to hide tokens for players with no viewing token when the map is fogged
+    const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
+    const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
     const [isHovering, setIsHovering] = useState(false);
     // PERFORMANCE FIX: Selective subscriptions
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
@@ -343,9 +346,19 @@ const CharacterToken = ({
         }
 
 
+        // If not viewing from a token and not in GM mode, check if fog covers the map.
+        // If fog content exists, hide tokens until the player places their own token.
+        // Note: once placed, isViewingFrom will be true for the player's own token, so it won't use this path.
+        if (!viewingFromToken && !isGMMode) {
+            const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
+            if (hasFogContent) {
+                return false; // Map is fogged — hide until player places a token
+            }
+        }
+
         // If not viewing from a token, always visible (normal view)
         return true;
-    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, visibilityPolygon]);
+    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, visibilityPolygon, fogOfWarPaths, fogOfWarData]);
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -1936,31 +1949,33 @@ const CharacterToken = ({
                 const menuItems = [];
 
                 // Token Actions submenu
-                menuItems.push({
-                    icon: <i className="fas fa-cog"></i>,
-                    label: 'Token Actions',
-                    submenu: [
-                        {
-                            icon: <i className="fas fa-search"></i>,
-                            label: 'Inspect',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleInspectCharacter();
-                            }
+                const tokenActionsSubmenu = [
+                    {
+                        icon: <i className="fas fa-search"></i>,
+                        label: 'Inspect',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowContextMenu(false);
+                            handleInspectCharacter();
+                        }
+                    },
+                    {
+                        icon: <i className="fas fa-crosshairs"></i>,
+                        label: isTargeted ? 'Clear Target' : 'Target',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowContextMenu(false);
+                            handleTarget();
                         },
-                        {
-                            icon: <i className="fas fa-crosshairs"></i>,
-                            label: isTargeted ? 'Clear Target' : 'Target',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleTarget();
-                            },
-                            className: isTargeted ? 'active' : ''
-                        },
+                        className: isTargeted ? 'active' : ''
+                    }
+                ];
+
+                // Add GM/Owner actions to Token Actions
+                if (isGMMode) {
+                    tokenActionsSubmenu.push(
                         {
                             icon: <i className="fas fa-copy"></i>,
                             label: 'Duplicate',
@@ -2015,209 +2030,218 @@ const CharacterToken = ({
                             },
                             className: 'danger'
                         }
-                    ]
+                    );
+                }
+
+                menuItems.push({
+                    icon: <i className="fas fa-cog"></i>,
+                    label: 'Token Actions',
+                    submenu: tokenActionsSubmenu
                 });
 
-                // Health submenu
-                menuItems.push({
-                    icon: <i className="fas fa-heart"></i>,
-                    label: 'Health',
-                    submenu: [
-                        {
-                            icon: <i className="fas fa-minus-circle"></i>,
-                            label: 'Damage (5)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleDamageToken(5);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-minus-circle"></i>,
-                            label: 'Damage (10)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleDamageToken(10);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-edit"></i>,
-                            label: 'Custom Damage',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleCustomAmount('damage');
-                            }
-                        },
-                        { type: 'separator' },
-                        {
-                            icon: <i className="fas fa-plus-circle"></i>,
-                            label: 'Heal (5)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleHealToken(5);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-plus-circle"></i>,
-                            label: 'Heal (10)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleHealToken(10);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-edit"></i>,
-                            label: 'Custom Heal',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleCustomAmount('heal');
-                            }
-                        },
-                        { type: 'separator' },
-                        {
-                            icon: <i className="fas fa-heart"></i>,
-                            label: 'Full Heal',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleFullHeal();
+                // Health, Mana, and Status submenus are GM-only to prevent player cheating/confusion
+                if (isGMMode) {
+                    // Health submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-heart"></i>,
+                        label: 'Health',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (5)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleDamageToken(5);
+                                }
                             },
-                            className: 'heal'
-                        },
-                        {
-                            icon: <i className="fas fa-skull"></i>,
-                            label: 'Kill',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleKill();
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (10)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleDamageToken(10);
+                                }
                             },
-                            className: 'danger'
-                        }
-                    ]
-                });
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Damage',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('damage');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (5)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleHealToken(5);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (10)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleHealToken(10);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Heal',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('heal');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-heart"></i>,
+                                label: 'Full Heal',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleFullHeal();
+                                },
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-skull"></i>,
+                                label: 'Kill',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleKill();
+                                },
+                                className: 'danger'
+                            }
+                        ]
+                    });
 
-                // Mana submenu
-                menuItems.push({
-                    icon: <i className="fas fa-magic"></i>,
-                    label: 'Mana',
-                    submenu: [
-                        {
-                            icon: <i className="fas fa-minus-circle"></i>,
-                            label: 'Drain (5)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleManaDamage(5);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-minus-circle"></i>,
-                            label: 'Drain (10)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleManaDamage(10);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-edit"></i>,
-                            label: 'Custom Drain',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleCustomAmount('mana-damage');
-                            }
-                        },
-                        { type: 'separator' },
-                        {
-                            icon: <i className="fas fa-plus-circle"></i>,
-                            label: 'Restore (5)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleManaHeal(5);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-plus-circle"></i>,
-                            label: 'Restore (10)',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleManaHeal(10);
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-edit"></i>,
-                            label: 'Custom Restore',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleCustomAmount('mana-heal');
-                            }
-                        },
-                        { type: 'separator' },
-                        {
-                            icon: <i className="fas fa-battery-empty"></i>,
-                            label: 'Drain All',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleDrainMana();
+                    // Mana submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-magic"></i>,
+                        label: 'Mana',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (5)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleManaDamage(5);
+                                }
                             },
-                            className: 'danger'
-                        }
-                    ]
-                });
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (10)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleManaDamage(10);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Drain',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('mana-damage');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (5)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleManaHeal(5);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (10)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleManaHeal(10);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('mana-heal');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleDrainMana();
+                                },
+                                className: 'danger'
+                            }
+                        ]
+                    });
 
-                // Status submenu
-                menuItems.push({
-                    icon: <i className="fas fa-magic"></i>,
-                    label: 'Status',
-                    submenu: [
-                        {
-                            icon: <i className="fas fa-bolt"></i>,
-                            label: 'Conditions',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleOpenConditions();
+                    // Status submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-magic"></i>,
+                        label: 'Status',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-bolt"></i>,
+                                label: 'Conditions',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleOpenConditions();
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Add Buff/Debuff',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleOpenBuffDebuffCreator();
+                                }
                             }
-                        },
-                        {
-                            icon: <i className="fas fa-plus-circle"></i>,
-                            label: 'Add Buff/Debuff',
-                            onClick: (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false);
-                                handleOpenBuffDebuffCreator();
-                            }
-                        }
-                    ]
-                });
+                        ]
+                    });
+                }
 
                 return createPortal(
                     <div

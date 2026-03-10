@@ -5,9 +5,9 @@ import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
-import { 
-    PRIMARY_STAT_MODIFIERS, 
-    SECONDARY_STAT_MODIFIERS, 
+import {
+    PRIMARY_STAT_MODIFIERS,
+    SECONDARY_STAT_MODIFIERS,
     COMBAT_STAT_MODIFIERS,
     UTILITY_STAT_MODIFIERS,
     RESISTANCE_MODIFIERS,
@@ -19,10 +19,10 @@ import './BuffDebuffCreatorModal.css';
 
 // Helper component to render icon (image or Font Awesome)
 const IconRenderer = ({ icon, color, className = '' }) => {
-  if (icon && icon.startsWith('/assets/')) {
-    return <img src={icon} alt="" className={className} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
-  }
-  return <i className={icon} style={{ color }}></i>;
+    if (icon && icon.startsWith('/assets/')) {
+        return <img src={icon} alt="" className={className} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
+    }
+    return <i className={icon} style={{ color }}></i>;
 };
 
 // Available damage/element types
@@ -43,41 +43,41 @@ const ELEMENT_TYPES = [
 
 // Function to get all icons from a Status directory category
 const getAllIconsFromCategory = (categoryName, loadedCategoryIcons = {}, allLoadedIcons = []) => {
-  if (categoryName === 'All') {
-    // Return all loaded icons
-    return allLoadedIcons;
-  }
-  
-  // Start with condition icons if available
-  const conditionIcons = CONDITION_ICONS_BY_CATEGORY[categoryName] || [];
-  
-  // Add loaded icons from Status directory if available
-  const loadedIcons = loadedCategoryIcons[categoryName] || [];
-  
-  // Also filter from allLoadedIcons by category
-  const categoryIconsFromAll = allLoadedIcons.filter(icon => icon.category === categoryName);
-  
-  // Combine all sources, avoiding duplicates
-  const allIcons = [...conditionIcons];
-  const iconIds = new Set(conditionIcons.map(icon => icon.id));
-  
-  // Add loaded category icons
-  loadedIcons.forEach(icon => {
-    if (!iconIds.has(icon.id)) {
-      allIcons.push(icon);
-      iconIds.add(icon.id);
+    if (categoryName === 'All') {
+        // Return all loaded icons
+        return allLoadedIcons;
     }
-  });
-  
-  // Add icons from allLoadedIcons for this category
-  categoryIconsFromAll.forEach(icon => {
-    if (!iconIds.has(icon.id)) {
-      allIcons.push(icon);
-      iconIds.add(icon.id);
-    }
-  });
-  
-  return allIcons;
+
+    // Start with condition icons if available
+    const conditionIcons = CONDITION_ICONS_BY_CATEGORY[categoryName] || [];
+
+    // Add loaded icons from Status directory if available
+    const loadedIcons = loadedCategoryIcons[categoryName] || [];
+
+    // Also filter from allLoadedIcons by category
+    const categoryIconsFromAll = allLoadedIcons.filter(icon => icon.category === categoryName);
+
+    // Combine all sources, avoiding duplicates
+    const allIcons = [...conditionIcons];
+    const iconIds = new Set(conditionIcons.map(icon => icon.id));
+
+    // Add loaded category icons
+    loadedIcons.forEach(icon => {
+        if (!iconIds.has(icon.id)) {
+            allIcons.push(icon);
+            iconIds.add(icon.id);
+        }
+    });
+
+    // Add icons from allLoadedIcons for this category
+    categoryIconsFromAll.forEach(icon => {
+        if (!iconIds.has(icon.id)) {
+            allIcons.push(icon);
+            iconIds.add(icon.id);
+        }
+    });
+
+    return allIcons;
 };
 
 // All available icons (condition icons)
@@ -98,7 +98,7 @@ const PRESET_CATEGORIES = [
 const ALL_STATS = (() => {
     const seenIds = new Set();
     const stats = [];
-    
+
     const addStats = (arr, category) => {
         arr.forEach(s => {
             if (!seenIds.has(s.id)) {
@@ -107,21 +107,21 @@ const ALL_STATS = (() => {
             }
         });
     };
-    
+
     addStats(PRIMARY_STAT_MODIFIERS, 'Primary');
     addStats(SECONDARY_STAT_MODIFIERS, 'Secondary');
     addStats(COMBAT_STAT_MODIFIERS, 'Combat');
     addStats(DAMAGE_TYPE_MODIFIERS, 'Spell Power');
     addStats(UTILITY_STAT_MODIFIERS, 'Utility');
     addStats(RESISTANCE_MODIFIERS, 'Resistance');
-    
+
     return stats;
 })();
 
-const BuffDebuffCreatorModal = ({ 
-    isOpen, 
-    onClose, 
-    tokenId, 
+const BuffDebuffCreatorModal = ({
+    isOpen,
+    onClose,
+    tokenId,
     creature,
     initialType = null // 'buff' or 'debuff' to start with that tab
 }) => {
@@ -197,14 +197,14 @@ const BuffDebuffCreatorModal = ({
     // Load all icons when icon picker opens
     useEffect(() => {
         if (!showIconPicker) return;
-        
+
         // Load all icons if not already loaded
         if (allIcons.length === 0 && !iconsLoading) {
             setIconsLoading(true);
             loadAllIcons().then(icons => {
                 setAllIcons(icons);
                 setIconsLoading(false);
-                
+
                 // Also populate categoryIcons from allIcons for faster access
                 const categorized = {};
                 icons.forEach(icon => {
@@ -226,10 +226,10 @@ const BuffDebuffCreatorModal = ({
     // Load icons from Status directory when category changes (fallback if allIcons not loaded)
     useEffect(() => {
         if (!showIconPicker || selectedIconCategory === 'All') return;
-        
+
         // Check if we already loaded icons for this category
         if (categoryIcons[selectedIconCategory]) return;
-        
+
         // Only load if allIcons hasn't been loaded yet
         if (allIcons.length === 0) {
             // Load icons from the Status directory
@@ -254,7 +254,7 @@ const BuffDebuffCreatorModal = ({
     // Filter presets based on category and search
     const filteredPresets = presets.filter(preset => {
         const matchesCategory = presetCategory === 'all' || preset.category === presetCategory;
-        const matchesSearch = presetSearchTerm === '' || 
+        const matchesSearch = presetSearchTerm === '' ||
             preset.name.toLowerCase().includes(presetSearchTerm.toLowerCase()) ||
             preset.description.toLowerCase().includes(presetSearchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
@@ -348,33 +348,37 @@ const BuffDebuffCreatorModal = ({
 
         // Build structured effect summary (separate from user description)
         const effectSummaryParts = [];
-        
+
         if (effectConfig.hasOverTimeEffect) {
-            const otTypeLabel = effectConfig.overTimeType === 'healing' ? 'Heals' : 
-                               effectConfig.overTimeType === 'mana_regen' ? 'Restores mana' :
-                               effectConfig.overTimeType === 'mana_drain' ? 'Drains mana' : 'Deals';
+            const otTypeLabel = effectConfig.overTimeType === 'healing' ? 'Heals' :
+                effectConfig.overTimeType === 'mana_regen' ? 'Restores mana' :
+                    effectConfig.overTimeType === 'mana_drain' ? 'Drains mana' : 'Deals';
             const elementLabel = effectConfig.overTimeType === 'damage' ? ` ${effectConfig.overTimeElement}` : '';
-            const effectLabel = effectConfig.overTimeType === 'damage' ? ' damage' : 
-                               effectConfig.overTimeType === 'healing' ? '' : '';
-            const tickLabel = effectConfig.tickFrequencyValue > 1 
+            const effectLabel = effectConfig.overTimeType === 'damage' ? ' damage' :
+                effectConfig.overTimeType === 'healing' ? '' : '';
+            const tickLabel = effectConfig.tickFrequencyValue > 1
                 ? `every ${effectConfig.tickFrequencyValue} ${effectConfig.tickFrequencyUnit}`
                 : `every ${effectConfig.tickFrequencyUnit.replace(/s$/, '')}`;
-            
+
             effectSummaryParts.push(`${otTypeLabel} ${effectConfig.overTimeFormula}${elementLabel}${effectLabel} ${tickLabel}`);
         }
-        
+
         if (effectConfig.statModifiers && effectConfig.statModifiers.length > 0) {
             effectConfig.statModifiers.forEach(m => {
                 effectSummaryParts.push(`${m.value > 0 ? '+' : ''}${m.value} ${m.name}`);
             });
         }
-        
+
         const effectSummary = effectSummaryParts.join(' | ');
 
-        // Determine targetId - use 'player' for player character tokens, otherwise use tokenId
-        const isPlayerToken = token?.isPlayerToken || (characterTokens.find(t => t.id === tokenId)?.isPlayerToken);
-        const finalTargetId = isPlayerToken ? 'player' : tokenId;
-        
+        // Determine targetId - use actual playerId for character tokens for better sync
+        const isCharacterToken = token?.isPlayerToken !== undefined;
+        // CRITICAL: use token.playerId if available, fallback to 'local_player' only if truly a local-only token
+        const finalTargetId = isCharacterToken ? (token.playerId || 'local_player') : tokenId;
+
+        // Also ensure targetType is correctly set
+        const finalTargetType = isCharacterToken ? 'player' : 'token';
+
         // Add to buff/debuff store for HUD display (this handles the visual ring)
         const storeData = {
             name: effectConfig.name,
@@ -384,7 +388,7 @@ const BuffDebuffCreatorModal = ({
             effects: effects,
             source: 'manual',
             targetId: finalTargetId,
-            targetType: isPlayerToken ? 'player' : 'token',
+            targetType: finalTargetType,
             icon: effectConfig.icon,
             color: effectConfig.color,
             durationType: effectConfig.durationType,
@@ -422,7 +426,7 @@ const BuffDebuffCreatorModal = ({
         addPreset({
             name: effectName,
             description: effectDescription,
-            category: hasOverTimeEffect 
+            category: hasOverTimeEffect
                 ? (overTimeType === 'healing' ? 'hot' : 'dot')
                 : (effectType === 'buff' ? 'stat_buff' : 'stat_debuff'),
             effectType,
@@ -469,7 +473,7 @@ const BuffDebuffCreatorModal = ({
 
     // Update a stat modifier value
     const updateStatModifierValue = (statId, newValue) => {
-        setStatModifiers(statModifiers.map(m => 
+        setStatModifiers(statModifiers.map(m =>
             m.stat === statId ? { ...m, value: parseInt(newValue) || 0 } : m
         ));
     };
@@ -504,7 +508,7 @@ const BuffDebuffCreatorModal = ({
 
     return createPortal(
         <div className="buff-debuff-modal-overlay" onClick={onClose}>
-            <div 
+            <div
                 ref={modalRef}
                 className="buff-debuff-modal"
                 onClick={(e) => e.stopPropagation()}
@@ -522,14 +526,14 @@ const BuffDebuffCreatorModal = ({
 
                 {/* Tab Navigation */}
                 <div className="bdm-tabs">
-                    <button 
+                    <button
                         className={`bdm-tab ${activeTab === 'create' ? 'active' : ''}`}
                         onClick={() => setActiveTab('create')}
                     >
                         <i className="fas fa-plus-circle"></i>
                         Create New
                     </button>
-                    <button 
+                    <button
                         className={`bdm-tab ${activeTab === 'presets' ? 'active' : ''}`}
                         onClick={() => setActiveTab('presets')}
                     >
@@ -544,14 +548,14 @@ const BuffDebuffCreatorModal = ({
                         <div className="bdm-create-section">
                             {/* Effect Type Toggle */}
                             <div className="bdm-type-toggle">
-                                <button 
+                                <button
                                     className={`bdm-type-btn buff ${effectType === 'buff' ? 'active' : ''}`}
                                     onClick={() => setEffectType('buff')}
                                 >
                                     <i className="fas fa-arrow-up"></i>
                                     Buff
                                 </button>
-                                <button 
+                                <button
                                     className={`bdm-type-btn debuff ${effectType === 'debuff' ? 'active' : ''}`}
                                     onClick={() => setEffectType('debuff')}
                                 >
@@ -613,7 +617,7 @@ const BuffDebuffCreatorModal = ({
                                                         </div>
                                                     ) : (
                                                         getAllIconsFromCategory(selectedIconCategory, categoryIcons, allIcons).map(icon => (
-                                                            <div 
+                                                            <div
                                                                 key={icon.id}
                                                                 className="bdm-icon-option"
                                                                 onClick={(e) => {
@@ -714,7 +718,7 @@ const BuffDebuffCreatorModal = ({
                                         {(overTimeType === 'damage') && (
                                             <div className="bdm-element-select">
                                                 {ELEMENT_TYPES.filter(e => e.id !== 'healing').map(element => (
-                                                    <div 
+                                                    <div
                                                         key={element.id}
                                                         className={`bdm-element-option ${overTimeElement === element.id ? 'selected' : ''}`}
                                                         onClick={() => setOverTimeElement(element.id)}
@@ -762,7 +766,7 @@ const BuffDebuffCreatorModal = ({
                             <div className="bdm-section">
                                 <div className="bdm-section-header">
                                     <h4>Stat Modifiers</h4>
-                                    <button 
+                                    <button
                                         className="bdm-add-btn"
                                         onClick={() => setShowStatPicker(!showStatPicker)}
                                     >
@@ -784,7 +788,7 @@ const BuffDebuffCreatorModal = ({
                                         </div>
                                         <div className="bdm-stat-list">
                                             {statsByCategory[selectedStatCategory]?.map(stat => (
-                                                <div 
+                                                <div
                                                     key={stat.id}
                                                     className="bdm-stat-option"
                                                     onClick={() => addStatModifier(stat)}
@@ -806,7 +810,7 @@ const BuffDebuffCreatorModal = ({
                                                     value={mod.value}
                                                     onChange={(e) => updateStatModifierValue(mod.stat, e.target.value)}
                                                 />
-                                                <button 
+                                                <button
                                                     className="bdm-remove-btn"
                                                     onClick={() => removeStatModifier(mod.stat)}
                                                 >
@@ -828,7 +832,7 @@ const BuffDebuffCreatorModal = ({
                                     <i className="fas fa-save"></i>
                                     Save Preset
                                 </button>
-                                <button 
+                                <button
                                     className={`bdm-btn primary ${effectType}`}
                                     onClick={() => applyEffect()}
                                 >
@@ -870,8 +874,8 @@ const BuffDebuffCreatorModal = ({
                                     </div>
                                 ) : (
                                     filteredPresets.map(preset => (
-                                        <div 
-                                            key={preset.id} 
+                                        <div
+                                            key={preset.id}
                                             className={`bdm-preset-card ${preset.effectType}`}
                                         >
                                             <div className="bdm-preset-icon">
@@ -890,14 +894,14 @@ const BuffDebuffCreatorModal = ({
                                                 </div>
                                             </div>
                                             <div className="bdm-preset-actions">
-                                                <button 
+                                                <button
                                                     className="bdm-preset-btn apply"
                                                     onClick={() => quickApplyPreset(preset)}
                                                     title="Apply Now"
                                                 >
                                                     <i className="fas fa-play"></i>
                                                 </button>
-                                                <button 
+                                                <button
                                                     className="bdm-preset-btn edit"
                                                     onClick={() => applyPresetToForm(preset)}
                                                     title="Edit & Customize"
@@ -905,7 +909,7 @@ const BuffDebuffCreatorModal = ({
                                                     <i className="fas fa-edit"></i>
                                                 </button>
                                                 {!preset.isBuiltIn && (
-                                                    <button 
+                                                    <button
                                                         className="bdm-preset-btn delete"
                                                         onClick={() => removePreset(preset.id)}
                                                         title="Delete"

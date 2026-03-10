@@ -580,6 +580,8 @@ function GameScreen() {
 
                         // FIXED: Correct argument order - (partyName, isGM, leaderData)
                         await createParty('Single Player Party', true, {
+                            id: 'current-player',
+                            userId: 'current-player',
                             isGM: true,
                             name: character.name,
                             characterName: character.name,
@@ -624,6 +626,8 @@ function GameScreen() {
 
                         // FIXED: Correct argument order - (partyName, isGM, leaderData)
                         await createParty('Single Player Party', true, {
+                            id: 'current-player',
+                            userId: 'current-player',
                             isGM: true,
                             name: activeCharacter.name,
                             characterName: activeCharacter.name,

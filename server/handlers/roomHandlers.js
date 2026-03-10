@@ -80,7 +80,7 @@ function getPublicRooms(rooms) {
     .map(room => ({
       id: room.id,
       name: room.name,
-      playerCount: (room.players?.size || 0) + 1,
+      playerCount: (room.players?.size || 0) + (room.gm && room.players && room.players.has(room.gm.id) ? 0 : 1),
       maxPlayers: room.settings?.maxPlayers || 6,
       gm: room.gm?.name || 'Unknown',
       createdAt: room.createdAt,
@@ -142,9 +142,10 @@ function mergeRoomGameStateForResume(baseState, resumeState) {
 
   // Deep merge maps to preserve all nested data from both sources
   if (resumeState.maps) {
+    const baseMaps = merged.maps || {};
     merged.maps = {};
-    for (const mapId of new Set([...Object.keys(merged.maps || {}), ...Object.keys(resumeState.maps || {})])) {
-      const baseMap = merged.maps?.[mapId];
+    for (const mapId of new Set([...Object.keys(baseMaps), ...Object.keys(resumeState.maps)])) {
+      const baseMap = baseMaps[mapId];
       const resumeMap = resumeState.maps?.[mapId];
       if (baseMap && resumeMap) {
         merged.maps[mapId] = {
@@ -233,7 +234,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
     name: roomName,
     passwordHash: passwordHash,
     gm: {
-      id: roomId,
+      id: gmPlayerId,
       name: gmName,
       socketId: gmSocketId,
       isGM: true,

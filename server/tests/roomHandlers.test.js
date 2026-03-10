@@ -21,7 +21,7 @@ describe('Room Handlers', () => {
   beforeEach(() => {
     rooms = new Map();
     players = new Map();
-    
+
     // Reset stubs
     mockFirebaseService.saveRoomData.reset();
     mockFirebaseService.getRoomData.reset();
@@ -38,7 +38,7 @@ describe('Room Handlers', () => {
     it('should hash a password', async () => {
       const password = 'testpassword123';
       const hash = await hashPassword(password);
-      
+
       expect(hash).to.be.a('string');
       expect(hash).to.not.equal(password);
       expect(hash.length).to.be.greaterThan(50);
@@ -57,7 +57,7 @@ describe('Room Handlers', () => {
     it('should produce different hashes for same password', async () => {
       const hash1 = await hashPassword('password');
       const hash2 = await hashPassword('password');
-      
+
       // bcrypt should produce different salts
       expect(hash1).to.not.equal(hash2);
     });
@@ -69,7 +69,7 @@ describe('Room Handlers', () => {
     it('should verify correct password', async () => {
       const password = 'correctpassword';
       const hash = await hashPassword(password);
-      
+
       const result = await verifyPassword(password, hash);
       expect(result).to.be.true;
     });
@@ -77,7 +77,7 @@ describe('Room Handlers', () => {
     it('should reject incorrect password', async () => {
       const password = 'correctpassword';
       const hash = await hashPassword(password);
-      
+
       const result = await verifyPassword('wrongpassword', hash);
       expect(result).to.be.false;
     });
@@ -94,7 +94,7 @@ describe('Room Handlers', () => {
 
     it('should deny access when room has password and user provides none', async () => {
       const hash = await hashPassword('roompassword');
-      
+
       const result = await verifyPassword(null, hash);
       expect(result).to.be.false;
     });
@@ -141,28 +141,44 @@ describe('Room Handlers', () => {
 
     it('should return only active rooms', () => {
       const publicRooms = getPublicRooms(rooms);
-      
+
       expect(publicRooms).to.have.lengthOf(2);
       expect(publicRooms.find(r => r.id === 'room-1')).to.exist;
       expect(publicRooms.find(r => r.id === 'room-2')).to.be.undefined;
     });
 
-    it('should include correct player count (+1 for GM)', () => {
+    it('should include correct player count (de-duplicating GM)', () => {
+      // Case 1: GM not in players map
+      rooms.set('test-1', {
+        id: 'test-1',
+        isActive: true,
+        gm: { id: 'gm-1', name: 'GM 1' },
+        players: new Map([['p1', {}]]),
+      });
+
+      // Case 2: GM IS in players map (e.g. after color update)
+      rooms.set('test-2', {
+        id: 'test-2',
+        isActive: true,
+        gm: { id: 'gm-2', name: 'GM 2' },
+        players: new Map([['p2', {}], ['gm-2', {}]]),
+      });
+
       const publicRooms = getPublicRooms(rooms);
-      
-      const room1 = publicRooms.find(r => r.id === 'room-1');
-      expect(room1.playerCount).to.equal(2); // 1 player + 1 GM
-      
-      const room3 = publicRooms.find(r => r.id === 'room-3');
-      expect(room3.playerCount).to.equal(3); // 2 players + 1 GM
+
+      const roomTest1 = publicRooms.find(r => r.id === 'test-1');
+      expect(roomTest1.playerCount).to.equal(2); // 1 player + 1 GM (not in map)
+
+      const roomTest2 = publicRooms.find(r => r.id === 'test-2');
+      expect(roomTest2.playerCount).to.equal(2); // 1 player + 1 GM (redundant in map)
     });
 
     it('should report password status correctly', () => {
       const publicRooms = getPublicRooms(rooms);
-      
+
       const room1 = publicRooms.find(r => r.id === 'room-1');
       expect(room1.hasPassword).to.be.false;
-      
+
       const room3 = publicRooms.find(r => r.id === 'room-3');
       expect(room3.hasPassword).to.be.true;
     });
@@ -173,9 +189,9 @@ describe('Room Handlers', () => {
 
     it('should return invalid for non-existent player', () => {
       const socket = { id: 'socket-1' };
-      
+
       const result = validateRoomMembership(socket, 'room-1', false, players, rooms);
-      
+
       expect(result.valid).to.be.false;
       expect(result.error).to.equal('Player not found');
     });
@@ -183,9 +199,9 @@ describe('Room Handlers', () => {
     it('should return invalid for wrong room', () => {
       const socket = { id: 'socket-1' };
       players.set('socket-1', { id: 'player-1', roomId: 'room-1' });
-      
+
       const result = validateRoomMembership(socket, 'room-2', false, players, rooms);
-      
+
       expect(result.valid).to.be.false;
       expect(result.error).to.equal('Not a member of this room');
     });
@@ -194,9 +210,9 @@ describe('Room Handlers', () => {
       const socket = { id: 'socket-1' };
       players.set('socket-1', { id: 'player-1', roomId: 'room-1', isGM: false });
       rooms.set('room-1', { id: 'room-1', players: new Map([['player-1', {}]]) });
-      
+
       const result = validateRoomMembership(socket, 'room-1', true, players, rooms);
-      
+
       expect(result.valid).to.be.false;
       expect(result.error).to.equal('GM privileges required');
     });
@@ -205,9 +221,9 @@ describe('Room Handlers', () => {
       const socket = { id: 'socket-1' };
       players.set('socket-1', { id: 'player-1', roomId: 'room-1', isGM: true });
       rooms.set('room-1', { id: 'room-1', players: new Map() });
-      
+
       const result = validateRoomMembership(socket, 'room-1', true, players, rooms);
-      
+
       expect(result.valid).to.be.true;
       expect(result.player).to.exist;
       expect(result.room).to.exist;
@@ -217,9 +233,9 @@ describe('Room Handlers', () => {
       const socket = { id: 'socket-1' };
       players.set('socket-1', { id: 'player-1', roomId: 'room-1', isGM: false });
       rooms.set('room-1', { id: 'room-1', players: new Map([['player-1', { id: 'player-1' }]]) });
-      
+
       const result = validateRoomMembership(socket, 'room-1', false, players, rooms);
-      
+
       expect(result.valid).to.be.true;
     });
   });
@@ -229,9 +245,9 @@ describe('Room Handlers', () => {
 
     it('should return base state if resume state is null', () => {
       const baseState = { tokens: { t1: {} } };
-      
+
       const result = mergeRoomGameStateForResume(baseState, null);
-      
+
       expect(result).to.equal(baseState);
     });
 
@@ -244,7 +260,7 @@ describe('Room Handlers', () => {
           }
         }
       };
-      
+
       const resumeState = {
         maps: {
           'default': {
@@ -256,9 +272,9 @@ describe('Room Handlers', () => {
           }
         }
       };
-      
+
       const result = mergeRoomGameStateForResume(baseState, resumeState);
-      
+
       expect(result.maps['default'].tokens.t1).to.exist;
       expect(result.maps['default'].tokens.t2).to.exist;
       expect(result.maps['default'].terrainData.data).to.equal('new');
@@ -269,7 +285,7 @@ describe('Room Handlers', () => {
       const baseState = {
         combat: { isActive: false, turnOrder: [] }
       };
-      
+
       const resumeState = {
         combat: {
           isActive: true,
@@ -277,9 +293,9 @@ describe('Room Handlers', () => {
           round: 2
         }
       };
-      
+
       const result = mergeRoomGameStateForResume(baseState, resumeState);
-      
+
       expect(result.combat.isActive).to.be.true;
       expect(result.combat.round).to.equal(2);
     });
@@ -288,13 +304,13 @@ describe('Room Handlers', () => {
       const baseState = {
         playerMapAssignments: { 'player-1': 'default' }
       };
-      
+
       const resumeState = {
         playerMapAssignments: { 'player-2': 'dungeon', 'player-1': 'forest' }
       };
-      
+
       const result = mergeRoomGameStateForResume(baseState, resumeState);
-      
+
       expect(result.playerMapAssignments['player-1']).to.equal('forest');
       expect(result.playerMapAssignments['player-2']).to.equal('dungeon');
     });
@@ -339,20 +355,20 @@ describe('Room Handlers', () => {
 
     it('should remove inactive rooms with no players', () => {
       cleanupInactiveRooms(rooms, players);
-      
+
       expect(rooms.has('room-1')).to.be.true;
       expect(rooms.has('room-2')).to.be.false;
     });
 
     it('should not remove rooms with players', () => {
       cleanupInactiveRooms(rooms, players);
-      
+
       expect(rooms.has('room-3')).to.be.true;
     });
 
     it('should not remove permanent rooms', () => {
       cleanupInactiveRooms(rooms, players);
-      
+
       expect(rooms.has('room-4')).to.be.true;
     });
   });

@@ -20,11 +20,7 @@ const VTTDrawingEngine = () => {
         addLightSource,
         currentDrawingPath,
         isCurrentlyDrawing,
-        currentDrawingTool,
-        // Fog visibility state
-        viewingFromToken,
-        dynamicFogEnabled,
-        visibleArea
+        currentDrawingTool
     } = useLevelEditorStore();
 
     const {
@@ -37,12 +33,6 @@ const VTTDrawingEngine = () => {
         playerZoom,
         isGMMode
     } = useGameStore();
-    
-    // Convert visibleArea to Set for fast lookup
-    const visibleAreaSet = useMemo(() => {
-        if (!visibleArea) return null;
-        return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-    }, [visibleArea]);
 
     // Calculate effective zoom and transformations
     const effectiveZoom = zoomLevel * playerZoom;
@@ -93,46 +83,11 @@ const VTTDrawingEngine = () => {
                 return path.layer === layer.id;
             });
 
+            // NOTE: Drawings are GM tools for pointing things out to players.
+            // They should ALWAYS be visible regardless of fog/explored areas/view range.
+            // This is intentional - drawings render ABOVE fog (z-index 45) for this purpose.
             layerPaths.forEach(path => {
                 if (!path.points || path.points.length === 0) return;
-
-                // VISIBILITY CHECK: Skip drawings not in visible area (when fog is enabled)
-                // Only check for drawing tools, not fog/terrain tools which are system-level
-                const isDrawingTool = ['freehand', 'line', 'rectangle', 'circle', 'polygon', 'text'].includes(path.tool);
-                if (isDrawingTool && !isGMMode && viewingFromToken && dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
-                    // Get the center point of the path to check visibility
-                    const gridSystem = getGridSystem();
-                    let pathCenterGridX, pathCenterGridY;
-                    
-                    if (path.points[0] && path.points[0].isWorldCoords) {
-                        // World coordinates
-                        const worldCoords = gridSystem.worldToGrid(path.points[0].worldX, path.points[0].worldY);
-                        pathCenterGridX = worldCoords.x;
-                        pathCenterGridY = worldCoords.y;
-                    } else if (path.points[0] && path.points[0].isFreehand) {
-                        // Screen coordinates (legacy) - convert to grid
-                        const worldCoords = gridSystem.screenToWorld(path.points[0].x, path.points[0].y, canvas.width, canvas.height);
-                        const gridCoords = gridSystem.worldToGrid(worldCoords.x, worldCoords.y);
-                        pathCenterGridX = gridCoords.x;
-                        pathCenterGridY = gridCoords.y;
-                    } else if (path.points[0] && path.points[0].gridX !== undefined) {
-                        // Grid coordinates - use directly
-                        pathCenterGridX = path.points[0].gridX;
-                        pathCenterGridY = path.points[0].gridY;
-                    } else {
-                        // Unknown format - allow rendering
-                        pathCenterGridX = null;
-                        pathCenterGridY = null;
-                    }
-                    
-                    // Check if path center is in visible area
-                    if (pathCenterGridX !== null && pathCenterGridY !== null) {
-                        const tileKey = `${Math.floor(pathCenterGridX)},${Math.floor(pathCenterGridY)}`;
-                        if (!visibleAreaSet.has(tileKey)) {
-                            return; // Skip this drawing - not visible
-                        }
-                    }
-                }
 
                 ctx.save();
 

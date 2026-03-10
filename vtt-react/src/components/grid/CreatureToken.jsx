@@ -386,6 +386,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
   const getExploredArea = useLevelEditorStore(state => state.getExploredArea);
   const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
+  // Fog content: used to hide tokens for players with no viewing token when the map is fogged
+  const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
+  const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
   const [isHovering, setIsHovering] = useState(false);
   const gridOffsetX = useGameStore(state => state.gridOffsetX);
   const gridOffsetY = useGameStore(state => state.gridOffsetY);
@@ -534,21 +537,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       return visible;
     }
 
-    // FIX: If not viewing from a token and not in GM mode, show everything
-    // Dynamic fog only applies when actively viewing from a token
-    // This prevents tokens from being hidden during initial setup before viewingFromToken is set
-    if (!viewingFromToken && !isGMMode && dynamicFogEnabled) {
-      return true; // Show tokens when no viewing token is set yet (fallback)
-    }
-
-    // If not viewing from a token and not in GM mode and dynamic fog is disabled, visible (normal view)
-    if (!viewingFromToken && !isGMMode && !dynamicFogEnabled) {
-      return true;
+    // FIX: If not viewing from a token and not in GM mode, check if fog covers the map.
+    // If fog content exists, hide tokens until the player places a token (which sets viewingFromToken).
+    if (!viewingFromToken && !isGMMode) {
+      const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
+      if (hasFogContent) {
+        return false; // Map is fogged — hide until player places a token
+      }
+      return true; // No fog — show normally
     }
 
     // Default: visible (GM mode or no fog system active)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, gridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, isOwnToken, visibilityPolygon]);
+  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, gridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, isOwnToken, visibilityPolygon, fogOfWarPaths, fogOfWarData]);
 
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {
@@ -1952,23 +1953,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               setShowContextMenu(false);
               handleViewDetails();
             }
-          }
-        ];
-
-        if (creature.isShopkeeper) {
-          tokenActionsSubmenu.push({
-            icon: <i className="fas fa-store"></i>,
-            label: 'Open Shop',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleOpenShop();
-            }
-          });
-        }
-
-        tokenActionsSubmenu.push(
+          },
           {
             icon: <i className="fas fa-crosshairs"></i>,
             label: isTargeted ? 'Clear Target' : 'Target',
@@ -1979,109 +1964,133 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               handleTargetCreature();
             },
             className: isTargeted ? 'active' : ''
-          },
-          {
-            icon: <i className="fas fa-copy"></i>,
-            label: 'Duplicate',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleDuplicateToken();
-            }
-          },
-          // CRITICAL: Only allow GM to view from creature tokens - players can only view from their own character tokens
-          ...(isGMMode ? [{
-            icon: <i className="fas fa-eye"></i>,
-            label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              const levelEditorStore = useLevelEditorStore.getState();
-              if (isViewingFrom) {
-                // Deselect view from token
-                levelEditorStore.setViewingFromToken(null);
-              } else if (position) {
-                // Enable dynamic fog if not already enabled
-                const { dynamicFogEnabled, setDynamicFogEnabled } = levelEditorStore;
-                if (!dynamicFogEnabled) {
-                  setDynamicFogEnabled(true);
-                }
-                // Reset the disabled flag since GM is explicitly enabling it
-                levelEditorStore.playerViewFromTokenDisabled = false;
-                // Set this token as the viewing token (restricts fog reveal to token's vision)
-                const tokenData = {
-                  type: 'creature',
-                  id: token.id,
-                  creatureId: token.creatureId,
-                  position: position
-                };
-                levelEditorStore.setViewingFromToken(tokenData);
-                // Center camera on token initially (but don't lock it)
-                const gameStore = useGameStore.getState();
-                gameStore.setCameraPosition(position.x, position.y);
+          }
+        ];
+
+        // Players only get Inspect and Target. GMs and Shopkeepers get more.
+        if (creature.isShopkeeper) {
+          // Players CAN open shops if it's a shopkeeper, usually. 
+          // However, the instructions were specific: "only be able to inspect, clear target/target"
+          // We'll keep it for GMs, but what about players? 
+          // If players can't open shops from here, they might be stuck.
+          // BUT, if I follow "ONLY inspect, target/clear target", I should hide it from players.
+          // I will follow the instructions literally.
+          if (isGMMode) {
+            tokenActionsSubmenu.splice(1, 0, {
+              icon: <i className="fas fa-store"></i>,
+              label: 'Open Shop',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleOpenShop();
+              }
+            });
+          }
+        }
+
+        // Add GM actions to Token Actions
+        if (isGMMode) {
+          tokenActionsSubmenu.push(
+            {
+              icon: <i className="fas fa-copy"></i>,
+              label: 'Duplicate',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleDuplicateToken();
               }
             },
-            className: isViewingFrom ? 'active' : ''
-          }] : []),
-          {
-            icon: <i className="fas fa-tag"></i>,
-            label: 'Rename',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleRenameToken();
-            }
-          },
-          {
-            icon: <i className="fas fa-image"></i>,
-            label: 'Change Icon',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleChangeIcon();
-            }
-          },
-          {
-            icon: <i className="fas fa-edit"></i>,
-            label: 'Edit',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleEditCreature();
-            }
-          },
-          {
-            icon: <i className="fas fa-trash"></i>,
-            label: 'Remove',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleRemoveToken();
+            {
+              icon: <i className="fas fa-eye"></i>,
+              label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                const levelEditorStore = useLevelEditorStore.getState();
+                if (isViewingFrom) {
+                  // Deselect view from token
+                  levelEditorStore.setViewingFromToken(null);
+                } else if (position) {
+                  // Enable dynamic fog if not already enabled
+                  const { dynamicFogEnabled, setDynamicFogEnabled } = levelEditorStore;
+                  if (!dynamicFogEnabled) {
+                    setDynamicFogEnabled(true);
+                  }
+                  // Reset the disabled flag since GM is explicitly enabling it
+                  levelEditorStore.playerViewFromTokenDisabled = false;
+                  // Set this token as the viewing token (restricts fog reveal to token's vision)
+                  const tokenData = {
+                    type: 'creature',
+                    id: token.id,
+                    creatureId: token.creatureId,
+                    position: position
+                  };
+                  levelEditorStore.setViewingFromToken(tokenData);
+                  // Center camera on token initially (but don't lock it)
+                  const gameStore = useGameStore.getState();
+                  gameStore.setCameraPosition(position.x, position.y);
+                }
+              },
+              className: isViewingFrom ? 'active' : ''
             },
-            className: 'danger'
-          }
-        );
-
-        if (isGMMode) {
-          tokenActionsSubmenu.push({
-            icon: <i className={`fas ${token.state.hiddenFromPlayers ? 'fa-eye' : 'fa-eye-slash'}`}></i>,
-            label: token.state.hiddenFromPlayers ? 'Show to Players' : 'Hide from Players',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              updateTokenState(tokenId, {
-                hiddenFromPlayers: !token.state.hiddenFromPlayers
-              });
-              setShowContextMenu(false);
+            {
+              icon: <i className="fas fa-tag"></i>,
+              label: 'Rename',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleRenameToken();
+              }
             },
-            className: token.state.hiddenFromPlayers ? 'active' : ''
-          });
+            {
+              icon: <i className="fas fa-image"></i>,
+              label: 'Change Icon',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleChangeIcon();
+              }
+            },
+            {
+              icon: <i className="fas fa-edit"></i>,
+              label: 'Edit',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleEditCreature();
+              }
+            },
+            {
+              icon: <i className="fas fa-trash"></i>,
+              label: 'Remove',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleRemoveToken();
+              },
+              className: 'danger'
+            },
+            {
+              icon: <i className={`fas ${token.state.hiddenFromPlayers ? 'fa-eye' : 'fa-eye-slash'}`}></i>,
+              label: token.state.hiddenFromPlayers ? 'Show to Players' : 'Hide from Players',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateTokenState(tokenId, {
+                  hiddenFromPlayers: !token.state.hiddenFromPlayers
+                });
+                setShowContextMenu(false);
+              },
+              className: token.state.hiddenFromPlayers ? 'active' : ''
+            }
+          );
         }
 
         menuItems.push({
@@ -2090,276 +2099,284 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           submenu: tokenActionsSubmenu
         });
 
-        // Health submenu
-        menuItems.push({
-          icon: <i className="fas fa-heart"></i>,
-          label: 'Health',
-          submenu: [
-            {
-              icon: <i className="fas fa-minus-circle"></i>,
-              label: 'Damage (5)',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleDamageToken(5);
-              }
-            },
-            {
-              icon: <i className="fas fa-minus-circle"></i>,
-              label: 'Damage (10)',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleDamageToken(10);
-              }
-            },
-            {
-              icon: <i className="fas fa-edit"></i>,
-              label: 'Custom Damage',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleCustomAmount('damage');
-              }
-            },
-            { type: 'separator' },
-            {
-              icon: <i className="fas fa-plus-circle"></i>,
-              label: 'Heal (5)',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleHealToken(5);
-              }
-            },
-            {
-              icon: <i className="fas fa-plus-circle"></i>,
-              label: 'Heal (10)',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleHealToken(10);
-              }
-            },
-            {
-              icon: <i className="fas fa-edit"></i>,
-              label: 'Custom Heal',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleCustomAmount('heal');
-              }
-            },
-            { type: 'separator' },
-            {
-              icon: <i className="fas fa-heart"></i>,
-              label: 'Full Heal',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleFullHeal();
-              },
-              className: 'heal'
-            },
-            {
-              icon: <i className="fas fa-skull"></i>,
-              label: 'Kill',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleKill();
-              },
-              className: 'danger'
-            }
-          ]
-        });
-
-        // Mana submenu - Only show if creature has mana
-        if (creature && creature.stats.maxMana > 0) {
+        // Health, Mana, and Status submenus are GM-ONLY
+        if (isGMMode) {
+          // Health submenu
           menuItems.push({
-            icon: <i className="fas fa-magic"></i>,
-            label: 'Mana',
+            icon: <i className="fas fa-heart"></i>,
+            label: 'Health',
             submenu: [
               {
                 icon: <i className="fas fa-minus-circle"></i>,
-                label: 'Drain (5)',
+                label: 'Damage (5)',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleManaDamage(5);
+                  handleDamageToken(5);
                 }
               },
               {
                 icon: <i className="fas fa-minus-circle"></i>,
-                label: 'Drain (10)',
+                label: 'Damage (10)',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleManaDamage(10);
+                  handleDamageToken(10);
                 }
               },
               {
                 icon: <i className="fas fa-edit"></i>,
-                label: 'Custom Drain',
+                label: 'Custom Damage',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleCustomAmount('mana-damage');
+                  handleCustomAmount('damage');
                 }
               },
               { type: 'separator' },
               {
                 icon: <i className="fas fa-plus-circle"></i>,
-                label: 'Restore (5)',
+                label: 'Heal (5)',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleManaHeal(5);
+                  handleHealToken(5);
                 }
               },
               {
                 icon: <i className="fas fa-plus-circle"></i>,
-                label: 'Restore (10)',
+                label: 'Heal (10)',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleManaHeal(10);
+                  handleHealToken(10);
                 }
               },
               {
                 icon: <i className="fas fa-edit"></i>,
-                label: 'Custom Restore',
+                label: 'Custom Heal',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleCustomAmount('mana-heal');
+                  handleCustomAmount('heal');
                 }
               },
               { type: 'separator' },
               {
-                icon: <i className="fas fa-magic"></i>,
-                label: 'Full Restore',
+                icon: <i className="fas fa-heart"></i>,
+                label: 'Full Heal',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleFullManaRestore();
+                  handleFullHeal();
                 },
                 className: 'heal'
               },
               {
-                icon: <i className="fas fa-ban"></i>,
-                label: 'Drain All',
+                icon: <i className="fas fa-skull"></i>,
+                label: 'Kill',
                 onClick: (e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowContextMenu(false);
-                  handleDrainAllMana();
+                  handleKill();
                 },
                 className: 'danger'
               }
             ]
           });
-        }
 
-        // Status submenu
-        menuItems.push({
-          icon: <i className="fas fa-magic"></i>,
-          label: 'Status',
-          submenu: [
-            {
-              icon: <i className="fas fa-bolt"></i>,
-              label: 'Conditions',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowContextMenu(false);
-                handleOpenConditions();
-              }
-            },
-            {
-              icon: <i className="fas fa-plus-circle"></i>,
-              label: 'Add Buff/Debuff',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleOpenBuffDebuffCreator();
-              }
-            },
-            {
-              icon: <i className="fas fa-shield-alt"></i>,
-              label: 'Toggle Defense',
-              onClick: (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                // Toggle defensive stance
-                const currentConditions = token.state.conditions || [];
-                const hasDefending = currentConditions.some(c => c.id === 'defending');
-
-                if (hasDefending) {
-                  // Remove defending condition
-                  const updatedConditions = currentConditions.filter(c => c.id !== 'defending');
-                  updateTokenState(tokenId, { conditions: updatedConditions });
-
-                  // Remove from buff store
-                  const { activeBuffs, removeBuff } = useBuffStore.getState();
-                  const buffToRemove = activeBuffs.find(b =>
-                    b.name === 'Defending' && b.targetId === tokenId
-                  );
-                  if (buffToRemove) {
-                    removeBuff(buffToRemove.id);
+          // Mana submenu - Only show if creature has mana
+          if (creature && creature.stats.maxMana > 0) {
+            menuItems.push({
+              icon: <i className="fas fa-magic"></i>,
+              label: 'Mana',
+              submenu: [
+                {
+                  icon: <i className="fas fa-minus-circle"></i>,
+                  label: 'Drain (5)',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleManaDamage(5);
                   }
-                } else {
-                  // Add defending condition
-                  const defendingCondition = {
-                    id: 'defending',
-                    name: 'Defending',
-                    description: 'Increased armor and damage resistance',
-                    type: 'buff',
-                    color: '#4682B4',
-                    icon: 'fas fa-shield-alt',
-                    severity: 'beneficial',
-                    appliedAt: Date.now(),
-                    duration: 600000,
-                    source: 'manual'
-                  };
-                  const updatedConditions = [...currentConditions, defendingCondition];
-                  updateTokenState(tokenId, { conditions: updatedConditions });
-
-                  // Add to buff store
-                  const { addBuff } = useBuffStore.getState();
-                  addBuff({
-                    name: 'Defending',
-                    description: 'Increased armor and damage resistance',
-                    duration: 600,
-                    effects: { armor: 2 },
-                    source: 'condition',
-                    targetId: tokenId,
-                    targetType: 'token',
-                    icon: 'fas fa-shield-alt',
-                    color: '#4682B4'
-                  });
+                },
+                {
+                  icon: <i className="fas fa-minus-circle"></i>,
+                  label: 'Drain (10)',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleManaDamage(10);
+                  }
+                },
+                {
+                  icon: <i className="fas fa-edit"></i>,
+                  label: 'Custom Drain',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleCustomAmount('mana-damage');
+                  }
+                },
+                { type: 'separator' },
+                {
+                  icon: <i className="fas fa-plus-circle"></i>,
+                  label: 'Restore (5)',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleManaHeal(5);
+                  }
+                },
+                {
+                  icon: <i className="fas fa-plus-circle"></i>,
+                  label: 'Restore (10)',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleManaHeal(10);
+                  }
+                },
+                {
+                  icon: <i className="fas fa-edit"></i>,
+                  label: 'Custom Restore',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleCustomAmount('mana-heal');
+                  }
+                },
+                { type: 'separator' },
+                {
+                  icon: <i className="fas fa-magic"></i>,
+                  label: 'Full Restore',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleFullManaRestore();
+                  },
+                  className: 'heal'
+                },
+                {
+                  icon: <i className="fas fa-ban"></i>,
+                  label: 'Drain All',
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowContextMenu(false);
+                    handleDrainAllMana();
+                  },
+                  className: 'danger'
                 }
-                setShowContextMenu(false);
+              ]
+            });
+          }
+
+          // Status submenu
+          menuItems.push({
+            icon: <i className="fas fa-magic"></i>,
+            label: 'Status',
+            submenu: [
+              {
+                icon: <i className="fas fa-bolt"></i>,
+                label: 'Conditions',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleOpenConditions();
+                }
+              },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Add Buff/Debuff',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleOpenBuffDebuffCreator();
+                }
+              },
+              {
+                icon: <i className="fas fa-shield-alt"></i>,
+                label: 'Toggle Defense',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  // Toggle defensive stance
+                  const currentConditions = token.state.conditions || [];
+                  const hasDefending = currentConditions.some(c => c.id === 'defending');
+
+                  if (hasDefending) {
+                    // Remove defending condition
+                    const updatedConditions = currentConditions.filter(c => c.id !== 'defending');
+                    updateTokenState(tokenId, { conditions: updatedConditions });
+
+                    // Remove from buff store
+                    const { activeBuffs, removeBuff } = useBuffStore.getState();
+                    const buffToRemove = activeBuffs.find(b =>
+                      b.name === 'Defending' && b.targetId === tokenId
+                    );
+                    if (buffToRemove) {
+                      removeBuff(buffToRemove.id);
+                    }
+                  } else {
+                    // Add defending condition
+                    const defendingCondition = {
+                      id: 'defending',
+                      name: 'Defending',
+                      description: 'Increased armor and damage resistance',
+                      type: 'buff',
+                      color: '#4682B4',
+                      icon: 'fas fa-shield-alt',
+                      severity: 'beneficial',
+                      appliedAt: Date.now(),
+                      duration: 600000,
+                      source: 'manual'
+                    };
+                    const updatedConditions = [...currentConditions, defendingCondition];
+                    updateTokenState(tokenId, { conditions: updatedConditions });
+
+                    // Add to buff store
+                    const { addBuff } = useBuffStore.getState();
+                    const isCharacter = token?.isPlayerToken || token?.type === 'character';
+                    const targetTypeSetting = isCharacter ? 'character' : 'creature';
+
+                    addBuff({
+                      id: `defending-${tokenId}`,
+                      name: 'Defending',
+                      description: 'Increased armor and damage resistance',
+                      duration: 600,
+                      effects: { armor: 2 },
+                      source: 'condition',
+                      targetId: tokenId,
+                      targetType: targetTypeSetting,
+                      type: 'buff',
+                      icon: '/assets/icons/Status/buff/shield-protection.png',
+                      color: '#4682B4'
+                    }, false);
+                  }
+                  setShowContextMenu(false);
+                }
               }
-            }
-          ]
-        });
+            ]
+          });
+        }
 
         return createPortal(
           <div

@@ -14,17 +14,17 @@ const isCustomIcon = (iconType) => {
 // Get icon URL for custom icons
 const getOrbIconUrl = (iconType) => {
   if (!iconType || !isCustomIcon(iconType)) return null;
-  
+
   // Determine icon category based on path
-  if (iconType.toLowerCase().includes('icon') || 
-      iconType.includes('Dark Elf') || iconType.includes('Demon') || 
-      iconType.includes('Dwarf') || iconType.includes('Elves') ||
-      iconType.includes('Human') || iconType.includes('Monsters') ||
-      iconType.includes('Undead') || iconType.includes('Pirates') ||
-      iconType.includes('Kobolds') || iconType.includes('Orc')) {
+  if (iconType.toLowerCase().includes('icon') ||
+    iconType.includes('Dark Elf') || iconType.includes('Demon') ||
+    iconType.includes('Dwarf') || iconType.includes('Elves') ||
+    iconType.includes('Human') || iconType.includes('Monsters') ||
+    iconType.includes('Undead') || iconType.includes('Pirates') ||
+    iconType.includes('Kobolds') || iconType.includes('Orc')) {
     return getCustomIconUrl(iconType, 'creatures');
   }
-  
+
   // Default to abilities folder
   return getCustomIconUrl(iconType, 'abilities');
 };
@@ -69,15 +69,49 @@ const ORB_ICONS = [
 
 // Color options for orbs
 const ORB_COLORS = [
-  '#d4af37', '#cd7f32', '#c0c0c0', '#e74c3c', '#3498db', 
-  '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e91e63', 
+  '#d4af37', '#cd7f32', '#c0c0c0', '#e74c3c', '#3498db',
+  '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e91e63',
   '#795548', '#607d8b'
 ];
 
 // Folder colors
 const FOLDER_COLORS = [
-  '#d4af37', '#cd7f32', '#8b4513', '#e74c3c', '#3498db', 
+  '#d4af37', '#cd7f32', '#8b4513', '#e74c3c', '#3498db',
   '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#795548'
+];
+
+// List of available background images (from /assets/Backgrounds/)
+const BACKGROUND_FILES = [
+  'CrystalCave.png',
+  'DenseForest.png',
+  'DesertTemple.png',
+  'Embers.png',
+  'Flowers.png',
+  'Forest1.png',
+  'Forest2.png',
+  'Forest3.png',
+  'Forest4.png',
+  'Frost.png',
+  'FrozTemple.png',
+  'GloomyCave.png',
+  'HazyCave.png',
+  'MountainDesert.png',
+  'MountainFrost.png',
+  'MountainIce.png',
+  'mountains1.png',
+  'mountains2.png',
+  'mountains3.png',
+  'mountains4.png',
+  'MountainSky.png',
+  'NightFrost.png',
+  'OpenForest.png',
+  'Sky.png',
+  'Smoke.png',
+  'Spikey Cave.png',
+  'Stonehedge.png',
+  'Temple.png',
+  'Volcano Lake.png',
+  'Volcano.png'
 ];
 
 // Helper to get background image URL
@@ -100,6 +134,8 @@ const AccountJournalManager = ({ user }) => {
   const [editingFolder, setEditingFolder] = useState(null);
   const [newFolderName, setNewFolderName] = useState('');
   const [newFolderColor, setNewFolderColor] = useState(FOLDER_COLORS[0]);
+  const [showBackgroundModal, setShowBackgroundModal] = useState(false);
+  const [backgroundInput, setBackgroundInput] = useState('');
   const [draggedOrb, setDraggedOrb] = useState(null);
   const [editingNote, setEditingNote] = useState(null);
   const [noteTitle, setNoteTitle] = useState('');
@@ -186,7 +222,7 @@ const AccountJournalManager = ({ user }) => {
     // Only handle left mouse button (button 0)
     // Right button (button 2) is handled by onContextMenu
     if (e.button !== 0) return;
-    
+
     if (connectingFrom) {
       // We're in connection mode
       if (connectingFrom === 'waiting') {
@@ -204,38 +240,38 @@ const AccountJournalManager = ({ user }) => {
         return;
       }
     }
-    
+
     e.preventDefault();
     e.stopPropagation();
-    
+
     const boardRect = boardRef.current?.getBoundingClientRect();
     if (!boardRect) return;
-    
+
     const startX = e.clientX;
     const startY = e.clientY;
     const startOrbX = orb.position.x;
     const startOrbY = orb.position.y;
-    
+
     let hasMoved = false;
     const DRAG_THRESHOLD = 5; // Pixels of movement before considering it a drag
-    
+
     setDraggedOrb(orb.id);
-    
+
     const handleMouseMove = (moveEvent) => {
       const deltaX = Math.abs(moveEvent.clientX - startX);
       const deltaY = Math.abs(moveEvent.clientY - startY);
-      
+
       // If mouse moved more than threshold, it's a drag
       if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
         hasMoved = true;
       }
-      
+
       const newX = Math.max(0, Math.min(boardRect.width - 60, startOrbX + (moveEvent.clientX - startX)));
       const newY = Math.max(0, Math.min(boardRect.height - 60, startOrbY + (moveEvent.clientY - startY)));
-      
+
       updateOrbPosition(orb.id, { x: newX, y: newY });
     };
-    
+
     const handleMouseUp = (upEvent) => {
       // Only handle left mouse button
       if (upEvent.button !== 0) {
@@ -244,11 +280,11 @@ const AccountJournalManager = ({ user }) => {
         document.removeEventListener('mouseup', handleMouseUp);
         return;
       }
-      
+
       setDraggedOrb(null);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
-      
+
       // If mouse didn't move much, treat it as a click and open the popup
       if (!hasMoved) {
         const content = getContentByOrb(orb);
@@ -257,7 +293,7 @@ const AccountJournalManager = ({ user }) => {
         }
       }
     };
-    
+
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
   }, [connectingFrom, addConnection, updateOrbPosition, getContentByOrb]);
@@ -265,18 +301,18 @@ const AccountJournalManager = ({ user }) => {
   // Handle dropping onto board
   const handleBoardDrop = useCallback((e) => {
     e.preventDefault();
-    
+
     const knowledgeId = e.dataTransfer.getData('knowledge/id');
     const noteId = e.dataTransfer.getData('note/id');
-    
+
     if (!knowledgeId && !noteId) return;
-    
+
     const boardRect = boardRef.current?.getBoundingClientRect();
     if (!boardRect) return;
-    
+
     const x = e.clientX - boardRect.left - 30;
     const y = e.clientY - boardRect.top - 30;
-    
+
     if (noteId) {
       addKnowledgeOrb(noteId, { x, y }, 'note', 'sticky-note', '#f39c12');
     } else if (knowledgeId) {
@@ -315,7 +351,7 @@ const AccountJournalManager = ({ user }) => {
   const handleSelectItemForOrb = (item, type) => {
     setSelectedItemForOrb({ ...item, sourceType: type });
     setAddOrbTitle(item?.title || '');
-    
+
     if (type === 'note') {
       setAddOrbIcon('sticky-note');
       setAddOrbColor('#f39c12');
@@ -326,7 +362,7 @@ const AccountJournalManager = ({ user }) => {
       setAddOrbIcon('scroll');
       setAddOrbColor('#d4af37');
     }
-    
+
     setAddOrbStep('customize');
   };
 
@@ -345,14 +381,16 @@ const AccountJournalManager = ({ user }) => {
 
   // Handle folder save (for received/notes)
   const handleSaveFolder = () => {
+    console.log('AccountJournalManager: handleSaveFolder called', { newFolderName, editingFolder });
     if (!newFolderName.trim()) return;
-    
+
     if (editingFolder) {
       updateFolder(editingFolder.id, { name: newFolderName, color: newFolderColor });
     } else {
-      addFolder(newFolderName, newFolderColor);
+      const newId = addFolder(newFolderName, newFolderColor);
+      setCurrentFolder(newId);
     }
-    
+
     setShowFolderModal(false);
     setNewFolderName('');
     setNewFolderColor(FOLDER_COLORS[0]);
@@ -361,32 +399,40 @@ const AccountJournalManager = ({ user }) => {
 
   // Handle board save (for knowledge board)
   const handleSaveBoard = () => {
-    if (!newBoardName.trim()) return;
-    
+    console.log('AccountJournalManager: handleSaveBoard called', { newBoardName, editingBoard });
+    if (!newBoardName.trim()) {
+      console.warn('AccountJournalManager: Cannot save board - name is empty');
+      return;
+    }
+
     if (editingBoard) {
+      console.log('AccountJournalManager: Updating existing board', editingBoard.id);
       updateKnowledgeBoard(editingBoard.id, { name: newBoardName, color: newBoardColor, icon: newBoardIcon });
     } else {
+      console.log('AccountJournalManager: Creating new board', newBoardName);
       const newId = addKnowledgeBoard(newBoardName, newBoardColor, newBoardIcon);
+      console.log('AccountJournalManager: New board created with ID:', newId);
       setCurrentBoard(newId);
     }
-    
+
     setShowBoardModal(false);
     setNewBoardName('');
     setNewBoardColor(FOLDER_COLORS[0]);
     setNewBoardIcon('fa-project-diagram');
     setEditingBoard(null);
+    console.log('AccountJournalManager: Board modal closed and state reset');
   };
 
   // Handle note save
   const handleSaveNote = () => {
     if (!noteTitle.trim()) return;
-    
+
     if (editingNote) {
       updateNote(editingNote.id, { title: noteTitle, content: noteContent });
     } else {
       addNote(noteTitle, noteContent);
     }
-    
+
     setEditingNote(null);
     setNoteTitle('');
     setNoteContent('');
@@ -403,8 +449,8 @@ const AccountJournalManager = ({ user }) => {
           {activeSection === 'board' ? (
             /* Board selector for Knowledge Board tab */
             <>
-              <select 
-                value={currentBoardId || ''} 
+              <select
+                value={currentBoardId || ''}
                 onChange={(e) => setCurrentBoard(e.target.value || null)}
                 className="folder-select"
               >
@@ -413,7 +459,7 @@ const AccountJournalManager = ({ user }) => {
                   <option key={board.id} value={board.id}>{board.name}</option>
                 ))}
               </select>
-              <button 
+              <button
                 className="btn btn-primary journal-new-folder-btn"
                 onClick={() => {
                   setEditingBoard(null);
@@ -423,11 +469,11 @@ const AccountJournalManager = ({ user }) => {
                   setShowBoardModal(true);
                 }}
               >
-                + New Board
+                <i className="fas fa-plus"></i> New Board
               </button>
               {currentBoardId && (
                 <>
-                  <button 
+                  <button
                     className="btn btn-secondary folder-edit-btn"
                     onClick={() => {
                       const board = knowledgeBoards.find(b => b.id === currentBoardId);
@@ -443,7 +489,7 @@ const AccountJournalManager = ({ user }) => {
                   >
                     <i className="fas fa-edit"></i>
                   </button>
-                  <button 
+                  <button
                     className="btn btn-danger folder-delete-btn"
                     onClick={() => {
                       const board = knowledgeBoards.find(b => b.id === currentBoardId);
@@ -461,8 +507,8 @@ const AccountJournalManager = ({ user }) => {
           ) : (
             /* Folder selector for Received/Notes tabs */
             <>
-              <select 
-                value={currentFolderId || ''} 
+              <select
+                value={currentFolderId || ''}
                 onChange={(e) => setCurrentFolder(e.target.value || null)}
                 className="folder-select"
               >
@@ -471,7 +517,7 @@ const AccountJournalManager = ({ user }) => {
                   <option key={folder.id} value={folder.id}>{folder.name}</option>
                 ))}
               </select>
-              <button 
+              <button
                 className="btn btn-primary journal-new-folder-btn"
                 onClick={() => {
                   setEditingFolder(null);
@@ -480,11 +526,11 @@ const AccountJournalManager = ({ user }) => {
                   setShowFolderModal(true);
                 }}
               >
-                + New Folder
+                <i className="fas fa-plus"></i> New Folder
               </button>
               {currentFolderId && (
                 <>
-                  <button 
+                  <button
                     className="btn btn-secondary folder-edit-btn"
                     onClick={() => {
                       const folder = journalFolders.find(f => f.id === currentFolderId);
@@ -499,7 +545,7 @@ const AccountJournalManager = ({ user }) => {
                   >
                     <i className="fas fa-edit"></i>
                   </button>
-                  <button 
+                  <button
                     className="btn btn-danger folder-delete-btn"
                     onClick={() => {
                       const folder = journalFolders.find(f => f.id === currentFolderId);
@@ -542,7 +588,7 @@ const AccountJournalManager = ({ user }) => {
           <div className="journal-board-section">
             <div className="board-toolbar">
               <button
-                className="toolbar-btn primary"
+                className="btn btn-primary"
                 onClick={() => {
                   setShowAddOrbPopup(true);
                   setAddOrbStep('select');
@@ -555,20 +601,33 @@ const AccountJournalManager = ({ user }) => {
                 Add Orb
               </button>
               <button
-                className={`toolbar-btn ${connectingFrom ? 'active' : ''}`}
+                className={`btn ${connectingFrom ? 'btn-primary' : 'btn-secondary'}`}
                 onClick={() => setConnectingFrom(connectingFrom ? null : 'waiting')}
               >
                 <i className="fas fa-link"></i>
                 {connectingFrom ? 'Cancel' : 'Connect'}
               </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  const currentBackground = getBoardBackground();
+                  setBackgroundInput(currentBackground?.url || '');
+                  setShowBackgroundModal(true);
+                }}
+                title={currentBoardId ? "Set board background image" : "Select a board first to set background"}
+                disabled={!currentBoardId}
+              >
+                <i className="fas fa-image"></i>
+                Background
+              </button>
               <span className="toolbar-hint">
-                {connectingFrom 
-                  ? 'Click two orbs to connect them' 
+                {connectingFrom
+                  ? 'Click two orbs to connect them'
                   : 'Click "Add Orb" to add content, or drag items from other tabs'}
               </span>
             </div>
-            
-            <div 
+
+            <div
               ref={boardRef}
               className="knowledge-board"
               style={(() => {
@@ -591,47 +650,47 @@ const AccountJournalManager = ({ user }) => {
                     const fromOrb = knowledgeOrbs.find(o => o.id === conn.fromOrbId);
                     const toOrb = knowledgeOrbs.find(o => o.id === conn.toOrbId);
                     if (!fromOrb || !toOrb) return false;
-                    
+
                     // If no board selected, show all connections
                     if (!currentBoardId) return true;
-                    
+
                     // If board selected, only show connections where both orbs are in that board
                     return fromOrb.boardId === currentBoardId && toOrb.boardId === currentBoardId;
                   })
                   .map(conn => {
-                  const fromOrb = filteredOrbs.find(o => o.id === conn.fromOrbId);
-                  const toOrb = filteredOrbs.find(o => o.id === conn.toOrbId);
-                  
-                  if (!fromOrb || !toOrb) return null;
-                  
-                  const x1 = fromOrb.position.x + 30;
-                  const y1 = fromOrb.position.y + 30;
-                  const x2 = toOrb.position.x + 30;
-                  const y2 = toOrb.position.y + 30;
-                  
-                  return (
-                    <g key={conn.id} className="connection-group">
-                      <line
-                        x1={x1} y1={y1} x2={x2} y2={y2}
-                        className="connection-line"
-                      />
-                      <line
-                        x1={x1} y1={y1} x2={x2} y2={y2}
-                        className="connection-hitbox"
-                        onClick={() => removeConnection(conn.id)}
-                      />
-                    </g>
-                  );
-                })}
+                    const fromOrb = filteredOrbs.find(o => o.id === conn.fromOrbId);
+                    const toOrb = filteredOrbs.find(o => o.id === conn.toOrbId);
+
+                    if (!fromOrb || !toOrb) return null;
+
+                    const x1 = fromOrb.position.x + 30;
+                    const y1 = fromOrb.position.y + 30;
+                    const x2 = toOrb.position.x + 30;
+                    const y2 = toOrb.position.y + 30;
+
+                    return (
+                      <g key={conn.id} className="connection-group">
+                        <line
+                          x1={x1} y1={y1} x2={x2} y2={y2}
+                          className="connection-line"
+                        />
+                        <line
+                          x1={x1} y1={y1} x2={x2} y2={y2}
+                          className="connection-hitbox"
+                          onClick={() => removeConnection(conn.id)}
+                        />
+                      </g>
+                    );
+                  })}
               </svg>
-              
+
               {/* Orbs */}
               {filteredOrbs.map(orb => {
                 const content = getContentByOrb(orb);
                 const hasCustomIcon = isCustomIcon(orb.iconType);
                 const customIconUrl = hasCustomIcon ? getOrbIconUrl(orb.iconType) : null;
                 const iconData = !hasCustomIcon ? (ORB_ICONS.find(i => i.id === orb.iconType) || ORB_ICONS[0]) : null;
-                
+
                 return (
                   <div
                     key={orb.id}
@@ -652,9 +711,9 @@ const AccountJournalManager = ({ user }) => {
                     }}
                   >
                     {hasCustomIcon ? (
-                      <img 
-                        src={customIconUrl} 
-                        alt="" 
+                      <img
+                        src={customIconUrl}
+                        alt=""
                         className="orb-custom-icon"
                         onError={(e) => { e.target.style.display = 'none'; }}
                       />
@@ -665,7 +724,7 @@ const AccountJournalManager = ({ user }) => {
                   </div>
                 );
               })}
-              
+
               {filteredOrbs.length === 0 && (
                 <div className="board-empty">
                   <i className="fas fa-project-diagram"></i>
@@ -712,7 +771,7 @@ const AccountJournalManager = ({ user }) => {
                       <span className="card-date">{new Date(knowledge.receivedAt).toLocaleDateString()}</span>
                     </div>
                     <div className="card-actions">
-                      <button 
+                      <button
                         className="card-action-btn"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -752,7 +811,7 @@ const AccountJournalManager = ({ user }) => {
               />
               <div className="note-editor-actions">
                 {editingNote && (
-                  <button 
+                  <button
                     className="btn btn-secondary"
                     onClick={() => {
                       setEditingNote(null);
@@ -763,7 +822,7 @@ const AccountJournalManager = ({ user }) => {
                     Cancel
                   </button>
                 )}
-                <button 
+                <button
                   className="btn btn-primary"
                   onClick={handleSaveNote}
                   disabled={!noteTitle.trim()}
@@ -808,7 +867,7 @@ const AccountJournalManager = ({ user }) => {
                       </p>
                       <div className="note-card-footer">
                         <span className="note-date">{new Date(note.lastModified).toLocaleDateString()}</span>
-                        <button 
+                        <button
                           className="note-delete-btn"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -854,7 +913,7 @@ const AccountJournalManager = ({ user }) => {
         <div className="modal-overlay" onClick={() => setShowOrbEditor(null)}>
           <div className="orb-editor-modal" onClick={(e) => e.stopPropagation()}>
             <h4>Edit Orb</h4>
-            
+
             <div className="editor-section">
               <label>Icon</label>
               <div className="icon-grid">
@@ -873,7 +932,7 @@ const AccountJournalManager = ({ user }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="editor-section">
               <label>Color</label>
               <div className="color-grid">
@@ -890,9 +949,9 @@ const AccountJournalManager = ({ user }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="editor-actions">
-              <button 
+              <button
                 className="btn btn-danger"
                 onClick={() => {
                   removeOrb(showOrbEditor.id);
@@ -901,7 +960,7 @@ const AccountJournalManager = ({ user }) => {
               >
                 <i className="fas fa-trash"></i> Remove
               </button>
-              <button 
+              <button
                 className="btn btn-primary"
                 onClick={() => setShowOrbEditor(null)}
               >
@@ -913,23 +972,23 @@ const AccountJournalManager = ({ user }) => {
         document.body
       )}
 
-      {/* Folder Modal (for Received/Notes) */}
+      {/* Folder Creation/Editing Modal */}
       {showFolderModal && createPortal(
-        <div className="modal-overlay" onClick={() => setShowFolderModal(false)}>
-          <div className="folder-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>{editingFolder ? 'Edit Folder' : 'New Folder'}</h4>
-            
+        <div className="modal-overlay folder-modal-overlay" onClick={() => setShowFolderModal(false)}>
+          <div className="folder-modal journal-folder-modal" onClick={(e) => e.stopPropagation()}>
+            <h4>{editingFolder ? 'Edit Folder' : 'Create New Folder'}</h4>
+
             <div className="form-field">
               <label>Folder Name</label>
               <input
                 type="text"
                 value={newFolderName}
                 onChange={(e) => setNewFolderName(e.target.value)}
-                placeholder="e.g., Icewind Dale Campaign"
+                placeholder="Enter folder name..."
                 autoFocus
               />
             </div>
-            
+
             <div className="form-field">
               <label>Color</label>
               <div className="folder-color-grid">
@@ -943,10 +1002,10 @@ const AccountJournalManager = ({ user }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="modal-actions">
               {editingFolder && (
-                <button 
+                <button
                   className="btn btn-danger"
                   onClick={() => {
                     removeFolder(editingFolder.id);
@@ -958,14 +1017,14 @@ const AccountJournalManager = ({ user }) => {
                 </button>
               )}
               <button className="btn btn-secondary" onClick={() => setShowFolderModal(false)}>
-                Cancel
+                <i className="fas fa-times"></i> Cancel
               </button>
-              <button 
+              <button
                 className="btn btn-primary"
                 onClick={handleSaveFolder}
                 disabled={!newFolderName.trim()}
               >
-                {editingFolder ? 'Save' : 'Create'}
+                <i className="fas fa-check"></i> {editingFolder ? 'Save' : 'Create'}
               </button>
             </div>
           </div>
@@ -973,31 +1032,31 @@ const AccountJournalManager = ({ user }) => {
         document.body
       )}
 
-      {/* Board Modal (for Knowledge Board) */}
+      {/* Board Creation/Editing Modal */}
       {showBoardModal && createPortal(
-        <div className="modal-overlay" onClick={() => setShowBoardModal(false)}>
-          <div className="folder-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>{editingBoard ? 'Edit Board' : 'New Board'}</h4>
-            
+        <div className="modal-overlay board-modal-overlay" onClick={() => setShowBoardModal(false)}>
+          <div className="folder-modal board-creation-modal" onClick={(e) => e.stopPropagation()}>
+            <h4>{editingBoard ? 'Edit Knowledge Board' : 'Create New Knowledge Board'}</h4>
+
             <div className="form-field">
               <label>Board Name</label>
               <input
                 type="text"
                 value={newBoardName}
                 onChange={(e) => setNewBoardName(e.target.value)}
-                placeholder="e.g., Main Quest Board"
+                placeholder="Enter board name..."
                 autoFocus
               />
             </div>
-            
+
             <div className="form-field">
-              <label>Icon</label>
-              <div className="icon-grid">
+              <label>Board Icon</label>
+              <div className="orb-icon-grid">
                 {BOARD_ICONS.map(icon => (
                   <button
                     key={icon.id}
-                    className={`icon-option ${newBoardIcon === icon.id ? 'selected' : ''}`}
-                    onClick={() => setNewBoardIcon(icon.id)}
+                    className={`orb-icon-option ${newBoardIcon === icon.icon ? 'selected' : ''}`}
+                    onClick={() => setNewBoardIcon(icon.icon)}
                     title={icon.label}
                   >
                     <i className={`fas ${icon.icon}`}></i>
@@ -1005,9 +1064,9 @@ const AccountJournalManager = ({ user }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="form-field">
-              <label>Color</label>
+              <label>Board Color</label>
               <div className="folder-color-grid">
                 {FOLDER_COLORS.map(color => (
                   <button
@@ -1019,10 +1078,10 @@ const AccountJournalManager = ({ user }) => {
                 ))}
               </div>
             </div>
-            
+
             <div className="modal-actions">
               {editingBoard && (
-                <button 
+                <button
                   className="btn btn-danger"
                   onClick={() => {
                     removeKnowledgeBoard(editingBoard.id);
@@ -1034,14 +1093,14 @@ const AccountJournalManager = ({ user }) => {
                 </button>
               )}
               <button className="btn btn-secondary" onClick={() => setShowBoardModal(false)}>
-                Cancel
+                <i className="fas fa-times"></i> Cancel
               </button>
-              <button 
+              <button
                 className="btn btn-primary"
                 onClick={handleSaveBoard}
                 disabled={!newBoardName.trim()}
               >
-                {editingBoard ? 'Save' : 'Create'}
+                <i className="fas fa-check"></i> {editingBoard ? 'Save' : 'Create'}
               </button>
             </div>
           </div>
@@ -1058,9 +1117,9 @@ const AccountJournalManager = ({ user }) => {
             <p className="warning">This will also remove any orbs referencing this item.</p>
             <div className="modal-actions">
               <button className="btn btn-secondary" onClick={() => setShowDeleteConfirm(null)}>
-                Cancel
+                <i className="fas fa-times"></i> Cancel
               </button>
-              <button 
+              <button
                 className="btn btn-danger"
                 onClick={() => {
                   if (showDeleteConfirm.type === 'knowledge') {
@@ -1079,9 +1138,68 @@ const AccountJournalManager = ({ user }) => {
         document.body
       )}
 
+      {/* Background Selection Modal */}
+      {showBackgroundModal && createPortal(
+        <div className="modal-overlay background-modal-overlay" onClick={() => setShowBackgroundModal(false)}>
+          <div className="folder-modal background-selection-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h4>Set Board Background</h4>
+              <button className="modal-close-btn" onClick={() => setShowBackgroundModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <p className="field-hint">Select a thematic background for your knowledge board.</p>
+              <div className="background-grid">
+                <div
+                  className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
+                  onClick={() => {
+                    clearBoardBackground();
+                    setShowBackgroundModal(false);
+                  }}
+                >
+                  <div className="bg-preview-none">
+                    <i className="fas fa-ban"></i>
+                  </div>
+                  <span className="bg-name">None</span>
+                </div>
+                {BACKGROUND_FILES.map(bgFile => {
+                  const bgUrl = getBackgroundImageUrl(bgFile);
+                  const currentBackground = getBoardBackground();
+                  const isSelected = currentBackground?.url === bgFile;
+                  return (
+                    <div
+                      key={bgFile}
+                      className={`background-option ${isSelected ? 'selected' : ''}`}
+                      onClick={() => {
+                        setBoardBackground({ url: bgFile, name: bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim() });
+                        setShowBackgroundModal(false);
+                      }}
+                    >
+                      <div className="bg-preview">
+                        <img src={bgUrl} alt={bgFile} />
+                      </div>
+                      <span className="bg-name">{bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-secondary" onClick={() => setShowBackgroundModal(false)}>
+                <i className="fas fa-times"></i> Close
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
       {/* Add Orb Popup */}
       {showAddOrbPopup && createPortal(
-        <div 
+        <div
           className="orb-editor-overlay"
           onClick={() => {
             setShowAddOrbPopup(false);
@@ -1089,12 +1207,12 @@ const AccountJournalManager = ({ user }) => {
             setSelectedItemForOrb(null);
           }}
         >
-          <div 
+          <div
             className="orb-editor"
             onClick={(e) => e.stopPropagation()}
           >
             <h4>{addOrbStep === 'select' ? 'Add to Knowledge Board' : 'Customize Orb'}</h4>
-            
+
             {addOrbStep === 'select' ? (
               <>
                 <div className="orb-editor-section">
@@ -1112,17 +1230,17 @@ const AccountJournalManager = ({ user }) => {
                 </div>
 
                 <div className="orb-editor-section">
-                  <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                  <div className="board-toolbar-actions" style={{ marginBottom: '12px' }}>
                     <button
-                      className={`toolbar-btn ${addOrbActiveTab === 'received' ? 'active' : ''}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '6px 12px' }}
+                      className={`btn ${addOrbActiveTab === 'received' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1, fontSize: '11px', padding: '10px' }}
                       onClick={() => setAddOrbActiveTab('received')}
                     >
                       <i className="fas fa-inbox"></i> Received ({searchedKnowledge.length})
                     </button>
                     <button
-                      className={`toolbar-btn ${addOrbActiveTab === 'notes' ? 'active' : ''}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '6px 12px' }}
+                      className={`btn ${addOrbActiveTab === 'notes' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1, fontSize: '11px', padding: '10px' }}
                       onClick={() => setAddOrbActiveTab('notes')}
                     >
                       <i className="fas fa-sticky-note"></i> Notes ({searchedNotes.length})
@@ -1217,15 +1335,16 @@ const AccountJournalManager = ({ user }) => {
                 </div>
 
                 <div className="orb-editor-actions">
-                  <button 
-                    className="orb-editor-done"
+                  <button
+                    className="btn btn-secondary"
                     onClick={() => {
                       setShowAddOrbPopup(false);
                       setAddOrbStep('select');
                       setSelectedItemForOrb(null);
                     }}
+                    style={{ flex: 1 }}
                   >
-                    Cancel
+                    <i className="fas fa-times"></i> Cancel
                   </button>
                 </div>
               </>
@@ -1241,7 +1360,7 @@ const AccountJournalManager = ({ user }) => {
                     placeholder="Orb label (leave empty to use content title)"
                   />
                 </div>
-                
+
                 <div className="orb-editor-section">
                   <label>Icon</label>
                   <div className="orb-icon-grid">
@@ -1257,7 +1376,7 @@ const AccountJournalManager = ({ user }) => {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="orb-editor-section">
                   <label>Color</label>
                   <div className="orb-color-grid">
@@ -1271,22 +1390,22 @@ const AccountJournalManager = ({ user }) => {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="orb-editor-actions">
-                  <button 
-                    className="orb-editor-done"
+                  <button
+                    className="btn btn-secondary"
                     onClick={() => {
                       setAddOrbStep('select');
                       setSelectedItemForOrb(null);
                     }}
                   >
-                    Back
+                    <i className="fas fa-chevron-left"></i> Back
                   </button>
-                  <button 
-                    className="orb-editor-done"
+                  <button
+                    className="btn btn-primary"
                     onClick={handleAddOrbConfirm}
                   >
-                    Add to Board
+                    <i className="fas fa-plus-circle"></i> Add to Board
                   </button>
                 </div>
               </>

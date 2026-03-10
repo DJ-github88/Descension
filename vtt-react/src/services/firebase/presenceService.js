@@ -62,6 +62,8 @@ class PresenceService {
         roomId: sessionData.roomId || null,
         roomName: sessionData.roomName || null,
         roomParticipants: sessionData.roomParticipants || null,
+        partyId: sessionData.partyId || null,
+        partyName: sessionData.partyName || null,
         friendId: sessionData.friendId || null,
         connectedAt: serverTimestamp(),
         lastSeen: serverTimestamp()
@@ -157,9 +159,11 @@ class PresenceService {
 
       const updates = {
         sessionType: sessionData.sessionType || null,
-        roomId: sessionData.roomId || null,
-        roomName: sessionData.roomName || null,
-        roomParticipants: sessionData.roomParticipants || null,
+        roomId: sessionData.roomId !== undefined ? sessionData.roomId : null,
+        roomName: sessionData.roomName !== undefined ? sessionData.roomName : null,
+        roomParticipants: sessionData.roomParticipants !== undefined ? sessionData.roomParticipants : null,
+        partyId: sessionData.partyId !== undefined ? sessionData.partyId : null,
+        partyName: sessionData.partyName !== undefined ? sessionData.partyName : null,
         lastSeen: serverTimestamp()
       };
 

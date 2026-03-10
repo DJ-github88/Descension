@@ -23,6 +23,19 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
 
+  // Community notification badge state
+  const whisperTabs = usePresenceStore((state) => state.whisperTabs);
+  const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
+
+  // Calculate total unread count for community badge
+  const totalCommunityUnread = React.useMemo(() => {
+    let total = partyChatUnreadCount || 0;
+    whisperTabs?.forEach(tab => {
+      total += tab.unreadCount || 0;
+    });
+    return total;
+  }, [whisperTabs, partyChatUnreadCount]);
+
   // Save active section to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('landingActiveSection', activeSection);
@@ -269,6 +282,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                 title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
               >
                 <i className="fas fa-users"></i>
+                {totalCommunityUnread > 0 && (
+                  <span className="community-notification-badge">
+                    {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+                  </span>
+                )}
                 {isInParty && (
                   <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
                     title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>

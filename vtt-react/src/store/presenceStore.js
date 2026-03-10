@@ -80,6 +80,10 @@ const usePresenceStore = create((set, get) => ({
 
   // Party chat state (integrated with partyStore)
   partyChatMessages: [],
+  partyChatUnreadCount: 0,
+
+  // Community window state (for cross-component sync)
+  isCommunityWindowOpen: false,
 
   // Party members (synced with partyStore for HUD display)
   partyMembers: [],
@@ -99,6 +103,12 @@ const usePresenceStore = create((set, get) => ({
   // Party event toasts (member joined/left, invite outcomes)
   partyEventNotifications: [],
 
+  // Session join requests (as leader)
+  sessionJoinRequests: [],
+
+  // Sent join requests (as member)
+  sentJoinRequests: [],
+
   // Pending multiplayer join (after accepting GM session invitation)
   pendingMultiplayerJoin: null,
 
@@ -110,29 +120,29 @@ const usePresenceStore = create((set, get) => ({
   // Event deduplication: Track recently processed events to prevent duplicate notifications
   // when multiple sockets receive the same event
   _processedEvents: new Map(), // Map<eventSignature, timestamp>
-  
+
   // Helper to check if event was recently processed (within 2 seconds)
   _wasEventRecentlyProcessed: (eventType, ...identifiers) => {
     const key = `${eventType}:${identifiers.filter(Boolean).join(':')}`;
     const state = get();
     const lastProcessed = state._processedEvents.get(key);
     const now = Date.now();
-    
+
     if (lastProcessed && (now - lastProcessed) < 2000) {
       console.log(`🔄 [Dedup] Skipping duplicate event: ${key}`);
       return true;
     }
-    
+
     // Mark as processed
     state._processedEvents.set(key, now);
-    
+
     // Cleanup old entries (keep only last 10 seconds)
     for (const [k, timestamp] of state._processedEvents.entries()) {
       if (now - timestamp > 10000) {
         state._processedEvents.delete(k);
       }
     }
-    
+
     return false;
   },
 
@@ -143,7 +153,14 @@ const usePresenceStore = create((set, get) => ({
    * Set the active chat tab
    */
   setActiveTab: (tabId) => {
-    set({ activeTab: tabId });
+    const { partyChatUnreadCount } = get();
+
+    // Clear party unread when switching to party tab
+    if (tabId === 'party' && partyChatUnreadCount > 0) {
+      set({ activeTab: tabId, partyChatUnreadCount: 0 });
+    } else {
+      set({ activeTab: tabId });
+    }
   },
 
   /**
@@ -297,6 +314,15 @@ const usePresenceStore = create((set, get) => ({
       isInParty: true,
       partyMembers: enrichedMembers
     }));
+
+    // Sync partyId to Firestore presence
+    const { currentUserPresence } = get();
+    if (currentUserPresence) {
+      presenceService.updateSession(currentUserPresence.userId, {
+        partyId: partyData.id,
+        partyName: partyData.name
+      });
+    }
 
     // Sync to partyStore
     try {
@@ -1060,7 +1086,7 @@ const usePresenceStore = create((set, get) => ({
    */
   setSocket: (socket) => {
     const existingSocket = get().socket;
-    
+
     // CRITICAL FIX: Track bound socket ID to prevent duplicate listener registration
     // If same socket is passed again, don't re-bind listeners
     const boundSocketId = get()._boundSocketId;
@@ -1082,7 +1108,7 @@ const usePresenceStore = create((set, get) => ({
         // gameStore might not be available
       }
 
-      const isEnteringMultiplayer = typeof sessionStorage !== 'undefined' && 
+      const isEnteringMultiplayer = typeof sessionStorage !== 'undefined' &&
         sessionStorage.getItem('enteringMultiplayer') === 'true';
 
       if (isInMultiplayer || isEnteringMultiplayer) {
@@ -1349,7 +1375,7 @@ const usePresenceStore = create((set, get) => ({
         // Show toast notification to the receiver
         get().addPartyEventNotification('you_joined', {
           partyName: partyName,
-          message: partyName 
+          message: partyName
             ? `You joined "${partyName}"`
             : 'You joined the party!'
         });
@@ -1360,7 +1386,7 @@ const usePresenceStore = create((set, get) => ({
           chatStore.getState().addSocialNotification({
             type: 'party_joined',
             sender: { name: 'Party System' },
-            content: partyName 
+            content: partyName
               ? `You joined party "${partyName}" (${memberCount} members).`
               : `You joined the party (${memberCount} members).`
           });
@@ -1470,6 +1496,15 @@ const usePresenceStore = create((set, get) => ({
 
         set(state => resetState);
 
+        // Clear party from Firestore presence
+        const { currentUserPresence } = get();
+        if (currentUserPresence) {
+          presenceService.updateSession(currentUserPresence.userId, {
+            partyId: null,
+            partyName: null
+          });
+        }
+
         // Sync to partyStore
         try {
           const partyStore = require('./partyStore').default;
@@ -1502,6 +1537,15 @@ const usePresenceStore = create((set, get) => ({
 
         set(state => resetState);
 
+        // Clear party from Firestore presence
+        const { currentUserPresence } = get();
+        if (currentUserPresence) {
+          presenceService.updateSession(currentUserPresence.userId, {
+            partyId: null,
+            partyName: null
+          });
+        }
+
         // Sync to partyStore
         try {
           const partyStore = require('./partyStore').default;
@@ -1533,6 +1577,15 @@ const usePresenceStore = create((set, get) => ({
         };
 
         set(state => resetState);
+
+        // Clear party from Firestore presence
+        const { currentUserPresence } = get();
+        if (currentUserPresence) {
+          presenceService.updateSession(currentUserPresence.userId, {
+            partyId: null,
+            partyName: null
+          });
+        }
 
         // Sync to partyStore
         try {
@@ -1640,6 +1693,11 @@ const usePresenceStore = create((set, get) => ({
           });
           return { sentPartyInvites: updatedInvites };
         });
+
+        // Add toast notification for the sender
+        get().addPartyEventNotification('invitation_sent', {
+          message: 'Invitation delivered'
+        });
       });
 
       // Party invitation was accepted
@@ -1652,9 +1710,9 @@ const usePresenceStore = create((set, get) => ({
           pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
           sentPartyInvites: state.sentPartyInvites.map(inv => {
             const matches = inv.invitationId === invitationId ||
-                            inv.targetUserId === userId ||
-                            inv.targetName === userName ||
-                            inv.targetUserId === userName;
+              inv.targetUserId === userId ||
+              inv.targetName === userName ||
+              inv.targetUserId === userName;
             return matches ? { ...inv, outcome: 'accepted' } : inv;
           })
           // REMOVED: Duplicate toast notification - handled by party_invite_accepted
@@ -1669,8 +1727,8 @@ const usePresenceStore = create((set, get) => ({
           const updatedInvites = state.sentPartyInvites.map(inv => {
             // Match by invitationId (most reliable) OR userId OR userName
             const matches = inv.invitationId === invitationId ||
-                            inv.targetUserId === userId ||
-                            inv.targetName === userName;
+              inv.targetUserId === userId ||
+              inv.targetName === userName;
             return matches ? { ...inv, outcome: 'declined' } : inv;
           });
 
@@ -1785,6 +1843,122 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
+      socket.on('session_join_request', (request) => {
+        if (!request) return;
+
+        console.log('📨 Session join request received:', {
+          requesterName: request.requesterName,
+          requesterId: request.requesterId,
+          roomId: request.roomId,
+          requestId: request.id
+        });
+
+        set(state => ({
+          sessionJoinRequests: [...state.sessionJoinRequests, request]
+        }));
+
+        get().addPartyEventNotification('join_request_received', {
+          message: `${request.requesterName} wants to join your session`,
+          requestId: request.id
+        });
+
+        setTimeout(() => {
+          const currentRequests = get().sessionJoinRequests;
+          const stillExists = currentRequests.some(r => r.id === request.id);
+          if (stillExists) {
+            set(state => ({
+              sessionJoinRequests: state.sessionJoinRequests.filter(r => r.id !== request.id)
+            }));
+            get().addPartyEventNotification('join_request_expired', {
+              message: 'Join request expired'
+            });
+          }
+        }, 60000);
+      });
+
+      socket.on('join_request_accepted', (data) => {
+        console.log('✅ Join request accepted:', data);
+
+        const { invitation, roomId } = data;
+
+        sessionStorage.setItem('enteringMultiplayer', 'true');
+
+        try {
+          const partyStore = require('./partyStore').default;
+          const currentMembers = partyStore.getState().partyMembers || [];
+          if (currentMembers.length > 0) {
+            console.log('🧹 Clearing party members on join request acceptance');
+            partyStore.getState().clearPartyMembers();
+          }
+        } catch (e) {
+          console.warn('⚠️ Failed to clear party members:', e);
+        }
+
+        set({
+          gmSessionInvitation: invitation,
+          sentJoinRequests: []
+        });
+
+        get().addPartyEventNotification('join_request_accepted', {
+          message: 'Your join request was accepted!'
+        });
+      });
+
+      socket.on('join_request_declined', (data) => {
+        console.log('❌ Join request declined:', data);
+
+        set(state => ({
+          sentJoinRequests: state.sentJoinRequests.filter(r => r.id !== data.requestId)
+        }));
+
+        get().addPartyEventNotification('join_request_declined', {
+          message: 'Your join request was declined'
+        });
+      });
+
+      socket.on('party_invite_failed', (data) => {
+        console.error('❌ Party invite failed:', data);
+
+        // Update the sent invite entry as failed
+        set(state => ({
+          sentPartyInvites: state.sentPartyInvites.map(inv => {
+            // Match by targetUserId or recent timestamp
+            const isRecent = Date.now() - inv.sentAt < 10000;
+            if (inv.targetUserId === data.toUserId || (inv.outcome === null && isRecent)) {
+              return { ...inv, outcome: 'failed', error: data.error };
+            }
+            return inv;
+          })
+        }));
+
+        // Show toast notification
+        get().addPartyEventNotification('invite_failed', {
+          message: data.error || 'Failed to invite user'
+        });
+
+        const chatStore = require('./chatStore').default;
+        chatStore.getState().addSocialNotification({
+          type: 'party_invite_failed',
+          content: data.error || 'Failed to invite user'
+        });
+      });
+
+      socket.on('session_invitation_sent', (data) => {
+        console.log('✅ Session invitation sent:', data);
+
+        get().addPartyEventNotification('session_invitation_sent', {
+          message: 'Session invitation sent'
+        });
+      });
+
+      socket.on('invite_error', (data) => {
+        console.error('❌ Invite error:', data);
+
+        get().addPartyEventNotification('invite_error', {
+          message: data.message || 'Failed to send invitation'
+        });
+      });
+
       // Whisper message received (for global/presence socket, outside game rooms)
       socket.on('whisper_received', (message) => {
         console.log('💬 Whisper received:', {
@@ -1842,8 +2016,8 @@ const usePresenceStore = create((set, get) => ({
       });
     }
 
-    set({ 
-      socket, 
+    set({
+      socket,
       isConnected: socket?.connected || false,
       _boundSocketId: socket?.id || null
     });
@@ -1915,6 +2089,98 @@ const usePresenceStore = create((set, get) => ({
    */
   clearPendingMultiplayerJoin: () => {
     set({ pendingMultiplayerJoin: null });
+  },
+
+  /**
+   * Request to join a leader's session
+   */
+  requestToJoinSession: (leaderId, roomId, requesterId, requesterName) => {
+    const { socket } = get();
+
+    if (!socket || !socket.connected) {
+      console.error('❌ No socket connection for join request');
+      return false;
+    }
+
+    console.log('📨 Sending join request to leader:', { leaderId, roomId, requesterId, requesterName });
+
+    const requestId = uuidv4();
+    const request = {
+      id: requestId,
+      leaderId,
+      roomId,
+      requesterId,
+      requesterName,
+      createdAt: Date.now()
+    };
+
+    set(state => ({
+      sentJoinRequests: [...state.sentJoinRequests, request]
+    }));
+
+    socket.emit('request_to_join_session', {
+      leaderId,
+      roomId,
+      requesterId,
+      requesterName
+    });
+
+    return true;
+  },
+
+  /**
+   * Respond to a session join request (as leader)
+   */
+  respondToJoinRequest: (requestId, accepted) => {
+    const { socket } = get();
+
+    if (!socket || !socket.connected) {
+      console.error('❌ No socket connection for join request response');
+      return false;
+    }
+
+    console.log(`${accepted ? '✅' : '❌'} Responding to join request:`, { requestId, accepted });
+
+    socket.emit('respond_to_join_request', {
+      requestId,
+      accepted
+    });
+
+    set(state => ({
+      sessionJoinRequests: state.sessionJoinRequests.filter(r => r.id !== requestId)
+    }));
+
+    return true;
+  },
+
+  /**
+   * Send session invitation to a party member (as leader in session)
+   */
+  sendSessionInvitation: (memberId, roomId) => {
+    const { socket } = get();
+
+    if (!socket || !socket.connected) {
+      console.error('❌ No socket connection for session invitation');
+      return false;
+    }
+
+    console.log('📨 Sending session invitation:', { memberId, roomId });
+
+    socket.emit('invite_member_to_session', {
+      memberId,
+      roomId
+    });
+
+    return true;
+  },
+
+  /**
+   * Dismiss a session join request
+   */
+  dismissSessionJoinRequest: (requestId) => {
+    set(state => ({
+      sessionJoinRequests: state.sessionJoinRequests.filter(r => r.id !== requestId)
+    }));
   },
 
   /**
@@ -1990,9 +2256,16 @@ const usePresenceStore = create((set, get) => ({
         messages: [],
         unreadCount: 0
       });
-      set({ whisperTabs: newTabs, activeTab: `whisper_${userId}` });
+      set({
+        whisperTabs: newTabs,
+        activeTab: `whisper_${userId}`,
+        isCommunityWindowOpen: true
+      });
     } else {
-      set({ activeTab: `whisper_${userId}` });
+      set({
+        activeTab: `whisper_${userId}`,
+        isCommunityWindowOpen: true
+      });
     }
   },
 
@@ -2120,8 +2393,9 @@ const usePresenceStore = create((set, get) => ({
     // Add message to tab
     tab.messages.push(message);
 
-    // Increment unread count if not on this tab
-    if (activeTab !== `whisper_${resolvedUserId}`) {
+    // Increment unread count if community window is closed or not on this tab
+    const { isCommunityWindowOpen } = get();
+    if (!isCommunityWindowOpen || activeTab !== `whisper_${resolvedUserId}`) {
       tab.unreadCount++;
     }
 
@@ -2183,8 +2457,14 @@ const usePresenceStore = create((set, get) => ({
         return state;
       }
 
+      // Increment unread count if community window is closed or not on party tab
+      const shouldIncrementUnread = !state.isCommunityWindowOpen || state.activeTab !== 'party';
+
       return {
-        partyChatMessages: [...state.partyChatMessages, message].slice(-100)
+        partyChatMessages: [...state.partyChatMessages, message].slice(-100),
+        partyChatUnreadCount: shouldIncrementUnread
+          ? (state.partyChatUnreadCount || 0) + 1
+          : state.partyChatUnreadCount
       };
     });
   },
@@ -2194,6 +2474,32 @@ const usePresenceStore = create((set, get) => ({
    */
   clearPartyMessages: () => {
     set({ partyChatMessages: [] });
+  },
+
+  /**
+   * Clear party chat unread count
+   */
+  clearPartyChatUnread: () => {
+    set({ partyChatUnreadCount: 0 });
+  },
+
+  /**
+   * Set community window open state
+   */
+  setCommunityWindowOpen: (isOpen) => {
+    set({ isCommunityWindowOpen: isOpen });
+  },
+
+  /**
+   * Get total unread count for community (whispers + party chat)
+   */
+  getTotalCommunityUnread: () => {
+    const { whisperTabs, partyChatUnreadCount } = get();
+    let total = partyChatUnreadCount || 0;
+    whisperTabs.forEach(tab => {
+      total += tab.unreadCount || 0;
+    });
+    return total;
   },
 
   /**
@@ -2233,6 +2539,8 @@ const usePresenceStore = create((set, get) => ({
       whisperTabs: new Map(),
       globalChatMessages: [],
       partyChatMessages: [],
+      partyChatUnreadCount: 0,
+      isCommunityWindowOpen: false,
       partyMembers: [],
       pendingInvitations: [],
       pendingPartyInvites: [],

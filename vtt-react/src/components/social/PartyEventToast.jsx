@@ -16,6 +16,8 @@ const ICONS = {
     disbanded: { icon: 'fas fa-skull', color: '#c9a83f', label: 'The party was disbanded' },
     you_joined: { icon: 'fas fa-door-open', color: '#4caf50', label: '' },
     you_declined: { icon: 'fas fa-times-circle', color: '#e57373', label: '' },
+    invite_failed: { icon: 'fas fa-exclamation-circle', color: '#e57373', label: 'Invite failed' },
+    invitation_sent: { icon: 'fas fa-paper-plane', color: '#c9a83f', label: 'Invitation sent' },
 };
 
 const PartyEventToast = ({ event, onDismiss }) => {
@@ -35,16 +37,17 @@ const PartyEventToast = ({ event, onDismiss }) => {
         <div className={`party-event-toast ${isLeaving ? 'leaving' : 'entering'}`}>
             <i className={meta.icon} style={{ color: meta.color, fontSize: '1rem', flexShrink: 0 }}></i>
             <span className="party-event-text">
-                {event.type === 'disbanded'
-                    ? meta.label
-                    : event.type === 'you_joined'
-                        ? event.partyName 
-                            ? <>You joined <strong>{event.partyName}</strong></>
-                            : <><strong>You joined the party!</strong></>
-                        : event.type === 'you_declined'
-                            ? <><strong>You declined</strong> the party invitation</>
-                            : <><strong>{event.memberName}</strong> {meta.label}</>
-                }
+                {event.message ? <strong>{event.message}</strong> : (
+                    event.type === 'disbanded'
+                        ? meta.label
+                        : event.type === 'you_joined'
+                            ? event.partyName
+                                ? <>You joined <strong>{event.partyName}</strong></>
+                                : <><strong>You joined the party!</strong></>
+                            : event.type === 'you_declined'
+                                ? <><strong>You declined</strong> the party invitation</>
+                                : <><strong>{event.memberName}</strong> {meta.label}</>
+                )}
             </span>
             <button className="party-event-close" onClick={() => { setIsLeaving(true); setTimeout(() => onDismiss(event.id), 400); }}>
                 <i className="fas fa-times"></i>

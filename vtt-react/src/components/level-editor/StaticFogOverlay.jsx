@@ -7,6 +7,24 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
 
 /**
+ * Helper function for consistent fog colors across the component
+ * Returns localized colors for different fog states (covered, explored, etc.)
+ */
+const getFogColorLocal = (state) => {
+    switch (state) {
+        case 'covered':
+            return 'rgba(10, 10, 25, 0.97)'; // Deep midnight-blue for full fog
+        case 'explored':
+            return 'rgba(25, 20, 45, 0.65)'; // Slightly translucent dark purple for explored areas
+        case 'viewable':
+        case 'cleared':
+            return 'rgba(0, 0, 0, 0)'; // Transparent for visible areas
+        default:
+            return 'rgba(10, 10, 25, 0.97)'; // Default to covered
+    }
+};
+
+/**
  * StaticFogOverlay - Renders path-based and tile-based fog of war on a canvas
  * Optimized with offscreen caching and viewport culling
  */
@@ -15,7 +33,7 @@ const StaticFogOverlay = () => {
     const offscreenCanvasRef = useRef(null);
     const tempCanvasRef = useRef(null);
     const isDraggingCameraRef = useRef(false);
-    
+
     // PERFORMANCE: Track last render state to skip redundant redraws
     const lastRenderStateRef = useRef({
         cameraKey: null,
@@ -50,7 +68,7 @@ const StaticFogOverlay = () => {
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges) || {};
     const getFogState = useLevelEditorStore(state => state.getFogState);
-    
+
     // Per-player memory subscriptions for explored areas
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
     const playerMemories = useLevelEditorStore(state => state.playerMemories);
@@ -104,7 +122,7 @@ const StaticFogOverlay = () => {
     // Vision polygons for all tokens (used by GM to see what players/creatures can see)
     const allTokensVisibilityPolygons = useMemo(() => {
         if (!isGMMode || viewingFromToken) return [];
-        
+
         const allTokens = [...creatureTokens, ...characterTokens];
         return allTokens.map(token => {
             if (!token.position) return null;
@@ -127,16 +145,16 @@ const StaticFogOverlay = () => {
         const currentCameraKey = `${cameraX.toFixed(0)},${cameraY.toFixed(0)},${(zoomLevel * playerZoom).toFixed(2)}`;
         const currentVisibilityKey = `${visibleAreaSet?.size || 0}_${visibilityPolygon?.length || 0}`;
         const now = Date.now();
-        
+
         const lastState = lastRenderStateRef.current;
         const cameraChanged = lastState.cameraKey !== currentCameraKey;
         const visibilityChanged = lastState.visibilityKey !== currentVisibilityKey;
-        
+
         // Skip render if nothing changed and it's been less than 100ms
         if (!cameraChanged && !visibilityChanged && (now - lastState.lastRenderTime) < 100) {
             return;
         }
-        
+
         // Update cache
         lastRenderStateRef.current = {
             cameraKey: currentCameraKey,
@@ -184,53 +202,42 @@ const StaticFogOverlay = () => {
         // Star flickering animation time (for performance, update every 500ms)
         const starTime = Math.floor(Date.now() / 500) % 1000;
 
-        ctx.save();
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-
-        // FOG COLOR SYSTEM:
-        const getFogColorLocal = (fogState = 'covered') => {
-            if (isGMMode) {
-                switch (fogState) {
-                    case 'viewable': return 'rgba(25, 25, 50, 0.05)';
-                    case 'explored': return 'rgba(60, 40, 90, 0.25)';
-                    case 'covered':
-                    default: return 'rgba(20, 15, 45, 0.4)';
-                }
-            }
-            switch (fogState) {
-                case 'viewable': return 'rgba(25, 25, 50, 0.0)';
-                case 'explored': return 'rgba(30, 25, 50, 0.68)';
-                case 'covered':
-                default: return 'rgba(10, 10, 25, 0.92)';
-            }
-        };
-
         // Draw stars on fog - simple and performant
         // Stars are drawn BEFORE visibility mask so they get masked out in viewable area
         const drawStars = (ctx, canvasWidth, canvasHeight) => {
             const maxStars = 100; // Fixed count for performance
-            
+
             ctx.save();
             ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            
+
             // Simple seeded random for consistent star positions
             for (let i = 0; i < maxStars; i++) {
                 const seed = 12345 + i * 7919;
                 const x = ((seed * 137) % 10000) / 10000 * canvasWidth;
                 const y = ((seed * 271) % 10000) / 10000 * canvasHeight;
-                
+
                 // Simple twinkle
                 const twinkle = Math.sin(starTime * 0.02 + i) * 0.3 + 0.7;
                 ctx.globalAlpha = Math.max(0.3, Math.min(1.0, twinkle));
-                
+
                 // Simple 1px star
                 ctx.fillRect(x, y, 1, 1);
             }
-            
+
             ctx.restore();
         };
+
+        // PLAYER MODE - NO TOKEN: When fog is active AND fog has actually been placed,
+        // show full opaque darkness until the player places a token.
+        // If no fog content exists yet, skip — the map should be visible normally.
+        const hasFogContent = visibleFogPaths.length > 0 || Object.keys(fogOfWarData).length > 0;
+        if (!isGMMode && !viewingFromToken && hasFogContent) {
+            ctx.fillStyle = 'rgba(10, 10, 25, 0.97)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Still draw stars so the full-fog screen looks like a starry void
+            drawStars(ctx, canvas.width, canvas.height);
+            return;
+        }
 
         const maxPathsToProcess = 200;
         const isFullCoverageFog = (path) => path.isFullCoverage || (path.id && path.id.startsWith('fog_cover_entire_map_')) || (path.points && path.points.length > 20000);
@@ -270,31 +277,90 @@ const StaticFogOverlay = () => {
                     const levelEditorState = useLevelEditorStore.getState();
                     const currentPlayerIdLocal = levelEditorState.currentPlayerId;
                     const playerMemoriesLocal = currentPlayerIdLocal ? levelEditorState.playerMemories[currentPlayerIdLocal] : null;
-                    
+
                     // Use per-player memories if available, fallback to global for backward compatibility
                     const exploredPolygons = playerMemoriesLocal?.exploredPolygons || levelEditorState.exploredPolygons || [];
                     const exploredCircles = playerMemoriesLocal?.exploredCircles || levelEditorState.exploredCircles || [];
 
-                    // Render explored areas (allow GM testing by removing !isGMMode restriction)
+                    // Render explored areas only when a token is viewing
+                    // If there is no viewing token in player mode, show nothing (full fog)
                     if (viewingFromToken && (exploredPolygons.length > 0 || exploredCircles.length > 0)) {
                         const exploredFogColor = getFogColorLocal('explored');
                         ctx.globalCompositeOperation = 'source-over';
-                        exploredPolygons.forEach(polygon => {
-                            if (!polygon.points || polygon.points.length < 3) return;
-                            const screenPoints = polygon.points.map(p => worldToScreen(p.x, p.y));
-                            ctx.beginPath();
-                            ctx.moveTo(screenPoints[0].x, screenPoints[0].y);
-                            for (let i = 1; i < screenPoints.length; i++) ctx.lineTo(screenPoints[i].x, screenPoints[i].y);
-                            ctx.closePath();
-                            ctx.fillStyle = exploredFogColor;
-                            ctx.fill();
-                        });
+
+                        // Explored polygons: clip-based radial gradient — no CSS blur, no pixel artefacts.
+                        // Each polygon is clipped and filled with a gradient that fades toward its edges,
+                        // giving a smooth vignette without any jagged pixelated outline.
+                        if (exploredPolygons.length > 0) {
+                            const rgbMatchPoly = exploredFogColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+                            const [, pr, pg, pb] = rgbMatchPoly || ['', '30', '25', '50'];
+
+                            exploredPolygons.forEach(polygon => {
+                                if (!polygon.points || polygon.points.length < 3) return;
+                                const screenPoints = polygon.points.map(p => worldToScreen(p.x, p.y));
+
+                                // Compute centroid so the gradient starts from the polygon centre
+                                let cx = 0, cy = 0;
+                                screenPoints.forEach(p => { cx += p.x; cy += p.y; });
+                                cx /= screenPoints.length;
+                                cy /= screenPoints.length;
+
+                                // Compute bounding radius (max distance from centroid to any vertex)
+                                let maxR = 0;
+                                screenPoints.forEach(p => {
+                                    const d = Math.sqrt((p.x - cx) ** 2 + (p.y - cy) ** 2);
+                                    if (d > maxR) maxR = d;
+                                });
+                                if (maxR < 1) return;
+
+                                // Clip to the polygon shape, then fill with a radial gradient
+                                ctx.save();
+                                ctx.beginPath();
+                                ctx.moveTo(screenPoints[0].x, screenPoints[0].y);
+                                for (let i = 1; i < screenPoints.length; i++) ctx.lineTo(screenPoints[i].x, screenPoints[i].y);
+                                ctx.closePath();
+                                ctx.clip();
+
+                                // Radial gradient: solid explored colour in the centre, fades to transparent at the polygon boundary
+                                const polyGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 1.05);
+                                polyGradient.addColorStop(0, `rgba(${pr},${pg},${pb},0.68)`);
+                                polyGradient.addColorStop(0.55, `rgba(${pr},${pg},${pb},0.68)`);
+                                polyGradient.addColorStop(0.72, `rgba(${pr},${pg},${pb},0.50)`);
+                                polyGradient.addColorStop(0.85, `rgba(${pr},${pg},${pb},0.28)`);
+                                polyGradient.addColorStop(0.94, `rgba(${pr},${pg},${pb},0.08)`);
+                                polyGradient.addColorStop(1, `rgba(${pr},${pg},${pb},0)`);
+                                ctx.fillStyle = polyGradient;
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                ctx.restore();
+                            });
+                        }
+
+                        // Explored circles: radial gradient with a very smooth fade-out edge
+                        const rgbMatch = exploredFogColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
                         exploredCircles.forEach(circle => {
                             const screenPos = worldToScreen(circle.x, circle.y);
-                            const radius = circle.radius * effectiveZoom;
+                            // Expand radius slightly so the soft fade starts inside the actual range
+                            const radius = circle.radius * effectiveZoom * 1.12;
                             ctx.beginPath();
                             ctx.arc(screenPos.x, screenPos.y, radius, 0, Math.PI * 2);
-                            ctx.fillStyle = exploredFogColor;
+                            if (rgbMatch) {
+                                const [, r, g, b] = rgbMatch;
+                                const exploredGradient = ctx.createRadialGradient(
+                                    screenPos.x, screenPos.y, 0,
+                                    screenPos.x, screenPos.y, radius
+                                );
+                                // Large clear centre, long gentle fade-out into full transparency
+                                exploredGradient.addColorStop(0, `rgba(${r},${g},${b},0.68)`);
+                                exploredGradient.addColorStop(0.50, `rgba(${r},${g},${b},0.68)`);
+                                exploredGradient.addColorStop(0.68, `rgba(${r},${g},${b},0.50)`);
+                                exploredGradient.addColorStop(0.80, `rgba(${r},${g},${b},0.30)`);
+                                exploredGradient.addColorStop(0.90, `rgba(${r},${g},${b},0.12)`);
+                                exploredGradient.addColorStop(0.97, `rgba(${r},${g},${b},0.03)`);
+                                exploredGradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+                                ctx.fillStyle = exploredGradient;
+                            } else {
+                                ctx.fillStyle = exploredFogColor;
+                            }
                             ctx.fill();
                         });
                     }
@@ -409,7 +475,7 @@ const StaticFogOverlay = () => {
             visibilityMask.height = canvas.height;
             const maskCtx = visibilityMask.getContext('2d');
             maskCtx.clearRect(0, 0, visibilityMask.width, visibilityMask.height);
-            
+
             // Generate distinct colors for each token's vision
             const getTokenColor = (index) => {
                 const colors = [
@@ -418,7 +484,7 @@ const StaticFogOverlay = () => {
                 ];
                 return colors[index % colors.length];
             };
-            
+
             allTokensVisibilityPolygons.forEach(({ token, polygon, visionRange }, index) => {
                 if (!polygon || polygon.length === 0) return;
                 const tokenScreenPos = worldToScreen(token.position.x, token.position.y);
@@ -432,11 +498,13 @@ const StaticFogOverlay = () => {
                     maskCtx.lineTo(point.x, point.y);
                 }
                 maskCtx.closePath();
+                // Vignette: large clear centre (68%), smooth fade over outer 32%
                 const gradient = maskCtx.createRadialGradient(tokenScreenPos.x, tokenScreenPos.y, 0, tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels);
                 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.65, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.7)');
-                gradient.addColorStop(0.9, 'rgba(255, 255, 255, 0.4)');
+                gradient.addColorStop(0.68, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(0.78, 'rgba(255, 255, 255, 0.80)');
+                gradient.addColorStop(0.87, 'rgba(255, 255, 255, 0.50)');
+                gradient.addColorStop(0.94, 'rgba(255, 255, 255, 0.18)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.save();
                 maskCtx.clip();
@@ -447,7 +515,7 @@ const StaticFogOverlay = () => {
             ctx.globalCompositeOperation = 'destination-out';
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
-            
+
             // Draw colored outlines for each token's vision range
             ctx.globalCompositeOperation = 'source-over';
             allTokensVisibilityPolygons.forEach(({ token, polygon, visionRange }, index) => {
@@ -466,7 +534,7 @@ const StaticFogOverlay = () => {
                 }
                 ctx.closePath();
                 ctx.stroke();
-                
+
                 // Draw token name label at center
                 const tokenScreenPos = worldToScreen(token.position.x, token.position.y);
                 const tokenName = token.name || token.creatureId || token.characterId || `Token ${index + 1}`;
@@ -489,29 +557,53 @@ const StaticFogOverlay = () => {
             const tokenScreenPos = worldToScreen(tokenPosition.x, tokenPosition.y);
             let visionRangeInPixels = visionRange * 50 * effectiveZoom;
             if (Number.isFinite(tokenScreenPos.x) && Number.isFinite(tokenScreenPos.y) && visionRangeInPixels > 0) {
+                // Step 1: draw the polygon shape onto an intermediate canvas with blur for soft edges
+                const shapeCanvas = document.createElement('canvas');
+                shapeCanvas.width = canvas.width;
+                shapeCanvas.height = canvas.height;
+                const shapeCtx = shapeCanvas.getContext('2d');
+
+                // Blur the polygon boundary so the fog blends gently at blocked edges
+                shapeCtx.filter = 'blur(10px)';
+                shapeCtx.fillStyle = 'rgba(255,255,255,1)';
+                shapeCtx.beginPath();
+                const firstPointS = worldToScreen(visibilityPolygon[0].x, visibilityPolygon[0].y);
+                shapeCtx.moveTo(firstPointS.x, firstPointS.y);
+                for (let i = 1; i < visibilityPolygon.length; i++) {
+                    const point = worldToScreen(visibilityPolygon[i].x, visibilityPolygon[i].y);
+                    shapeCtx.lineTo(point.x, point.y);
+                }
+                shapeCtx.closePath();
+                shapeCtx.fill();
+                shapeCtx.filter = 'none';
+
+                // Step 2: apply radial vignette gradient clipped to the blurred shape
+                // This gives a soft vision-radius edge AND soft polygon-boundary edge
                 visibilityMask = document.createElement('canvas');
                 visibilityMask.width = canvas.width;
                 visibilityMask.height = canvas.height;
                 const maskCtx = visibilityMask.getContext('2d');
-                maskCtx.beginPath();
-                const firstPoint = worldToScreen(visibilityPolygon[0].x, visibilityPolygon[0].y);
-                maskCtx.moveTo(firstPoint.x, firstPoint.y);
-                for (let i = 1; i < visibilityPolygon.length; i++) {
-                    const point = worldToScreen(visibilityPolygon[i].x, visibilityPolygon[i].y);
-                    maskCtx.lineTo(point.x, point.y);
-                }
-                maskCtx.closePath();
-                maskCtx.save();
-                maskCtx.clip();
-                const gradient = maskCtx.createRadialGradient(tokenScreenPos.x, tokenScreenPos.y, 0, tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels);
+
+                // Use the blurred shape as a clip by compositing
+                maskCtx.drawImage(shapeCanvas, 0, 0);
+                maskCtx.globalCompositeOperation = 'source-in';
+
+                // Vignette gradient — large clear center, very gradual fade toward edge
+                const gradient = maskCtx.createRadialGradient(
+                    tokenScreenPos.x, tokenScreenPos.y, 0,
+                    tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels
+                );
                 gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.65, 'rgba(255, 255, 255, 1)');
-                gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.7)');
-                gradient.addColorStop(0.9, 'rgba(255, 255, 255, 0.4)');
+                gradient.addColorStop(0.40, 'rgba(255, 255, 255, 1)');
+                gradient.addColorStop(0.55, 'rgba(255, 255, 255, 0.95)');
+                gradient.addColorStop(0.68, 'rgba(255, 255, 255, 0.78)');
+                gradient.addColorStop(0.78, 'rgba(255, 255, 255, 0.52)');
+                gradient.addColorStop(0.87, 'rgba(255, 255, 255, 0.25)');
+                gradient.addColorStop(0.94, 'rgba(255, 255, 255, 0.08)');
                 gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 maskCtx.fillStyle = gradient;
                 maskCtx.fillRect(0, 0, visibilityMask.width, visibilityMask.height);
-                maskCtx.restore();
+
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.globalAlpha = 1;
                 ctx.drawImage(visibilityMask, 0, 0);
@@ -534,7 +626,9 @@ const StaticFogOverlay = () => {
             drawStars(ctx, canvas.width, canvas.height);
         }
 
-        if (visibilityMask) {
+        // visibilityMask was already applied above inline for the player-view case.
+        // For the GM token overview case the mask is still applied here.
+        if (visibilityMask && isGMMode && !viewingFromToken) {
             ctx.globalCompositeOperation = 'destination-out';
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);

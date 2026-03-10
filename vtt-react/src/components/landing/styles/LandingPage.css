@@ -397,6 +397,22 @@ body svg[data-icon] {
   color: #4caf50;
 }
 
+.community-btn .community-notification-badge {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 16px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
 @keyframes party-indicator-pulse {
   0%, 100% {
     transform: scale(1);

@@ -355,12 +355,12 @@ const useCreatureStore = create((set, get) => ({
   setWindowSize: (size) => set({ windowSize: size }),
 
   // Update creature state (HP, Mana, conditions)
-  updateTokenState: (tokenId, stateUpdates) => {
-    get().updateCreatureState(tokenId, stateUpdates);
+  updateTokenState: (tokenId, stateUpdates, sendToServer = true) => {
+    get().updateCreatureState(tokenId, stateUpdates, sendToServer);
   },
 
   // Update creature state (HP, Mana, conditions)
-  updateCreatureState: (tokenId, stateUpdates) => set(state => {
+  updateCreatureState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
     const updatedTokens = (state.creatureTokens || []).map(token =>
       token.id === tokenId ? {
         ...token,
@@ -373,21 +373,32 @@ const useCreatureStore = create((set, get) => ({
     );
 
     // Import game store dynamically to broadcast to other players
-    try {
-      const gameStore = require('./gameStore').default;
-      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-        // CRITICAL FIX: Include current mapId for proper map isolation
-        const mapStore = require('./mapStore');
-        const currentMapId = mapStore.default.getState().currentMapId || 'default';
+    if (sendToServer) {
+      try {
+        const gameStore = require('./gameStore').default.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          // CRITICAL FIX: Include current mapId for proper map isolation
+          const mapStore = require('./mapStore');
+          const currentMapId = mapStore.default.getState().currentMapId || 'default';
 
-        gameStore.multiplayerSocket.emit('creature_updated', {
-          tokenId,
-          stateUpdates,
-          mapId: currentMapId
-        });
+          // CRITICAL FIX: Emit BOTH for compatibility, but prefer token_updated for server-side persistence
+          gameStore.multiplayerSocket.emit('token_updated', {
+            tokenId,
+            updates: stateUpdates, // server expects 'updates' key
+            stateUpdates,         // fallback for older handlers
+            mapId: currentMapId,
+            updatedBy: gameStore.multiplayerSocket.id
+          });
+
+          gameStore.multiplayerSocket.emit('creature_updated', {
+            tokenId,
+            stateUpdates,
+            mapId: currentMapId
+          });
+        }
+      } catch (error) {
+        console.warn('Could not broadcast creature state update:', error);
       }
-    } catch (error) {
-      console.warn('Could not broadcast creature state update:', error);
     }
 
     return {
@@ -407,10 +418,22 @@ const useCreatureStore = create((set, get) => ({
     try {
       const gameStore = useGameStore.getState();
       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+        const mapStore = require('./mapStore');
+        const currentMapId = mapStore.default.getState().currentMapId || 'default';
+
         // Send a general update event
+        gameStore.multiplayerSocket.emit('token_updated', {
+          tokenId: creatureId,
+          updates: updates,
+          mapId: currentMapId,
+          updatedBy: gameStore.multiplayerSocket.id
+        });
+
         gameStore.multiplayerSocket.emit('creature_updated', {
           tokenId: creatureId,
-          stateUpdates: updates
+          updates: updates,
+          stateUpdates: updates,
+          mapId: currentMapId
         });
       }
     } catch (error) {

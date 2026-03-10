@@ -6,6 +6,7 @@ import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import usePartyStore from '../store/partyStore';
 import useWindowManagerStore from '../store/windowManagerStore';
+import usePresenceStore from '../store/presenceStore';
 import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
 import ExitGameConfirmDialog from './dialogs/ExitGameConfirmDialog';
@@ -649,6 +650,34 @@ export default function Navigation({ onReturnToLanding }) {
         clearCombatStorage
     } = useCombatStore();
 
+    // Presence store for community window state and unread notifications
+    const isCommunityWindowOpen = usePresenceStore(state => state.isCommunityWindowOpen);
+    const setCommunityWindowOpen = usePresenceStore(state => state.setCommunityWindowOpen);
+    const whisperTabs = usePresenceStore(state => state.whisperTabs);
+    const partyChatUnreadCount = usePresenceStore(state => state.partyChatUnreadCount);
+
+    // Calculate total unread count for community badge
+    const totalCommunityUnread = React.useMemo(() => {
+        let total = partyChatUnreadCount || 0;
+        whisperTabs?.forEach(tab => {
+            total += tab.unreadCount || 0;
+        });
+        return total;
+    }, [whisperTabs, partyChatUnreadCount]);
+
+    // Sync community window state with openWindows Set
+    useEffect(() => {
+        setOpenWindows(prev => {
+            const newSet = new Set(prev);
+            if (isCommunityWindowOpen) {
+                newSet.add('community');
+            } else {
+                newSet.delete('community');
+            }
+            return newSet;
+        });
+    }, [isCommunityWindowOpen]);
+
     // Player restricted buttons set - cached outside component to avoid recreation
     // Fixed: Moved from this.playerRestrictedButtonsSet to proper const declaration
     const playerRestrictedButtonsSet = new Set([
@@ -741,6 +770,12 @@ export default function Navigation({ onReturnToLanding }) {
             return;
         }
 
+        // Special handling for community window (use presence store state)
+        if (windowId === 'community') {
+            setCommunityWindowOpen(!isCommunityWindowOpen);
+            return;
+        }
+
         const newOpenWindows = new Set(openWindows);
         if (openWindows.has(windowId)) {
             newOpenWindows.delete(windowId);
@@ -748,7 +783,7 @@ export default function Navigation({ onReturnToLanding }) {
             newOpenWindows.add(windowId);
         }
         setOpenWindows(newOpenWindows);
-    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode]);
+    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
 
     const handleKeyPress = useCallback((e) => {
         // Don't handle shortcuts if user is typing in an input field or content editable element
@@ -1354,6 +1389,11 @@ export default function Navigation({ onReturnToLanding }) {
                                                     >
                                                         {button.svg}
                                                     </svg>
+                                                    {button.id === 'community' && totalCommunityUnread > 0 && (
+                                                        <span className="nav-notification-badge">
+                                                            {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+                                                        </span>
+                                                    )}
                                                     <div className="shortcut">
                                                         {button.shortcut}
                                                     </div>

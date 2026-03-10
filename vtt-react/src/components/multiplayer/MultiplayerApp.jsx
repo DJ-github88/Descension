@@ -1276,10 +1276,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Mark this join as active
       activeJoinIdRef.current = joinId;
 
-      // Update actual player count from room data (+1 for GM)
-      const roomPlayers = data.room?.players || [];
-      const playerCount = (Array.isArray(roomPlayers) ? roomPlayers.length : Object.keys(roomPlayers).length) + 1;
-      setActualPlayerCount(playerCount);
+      // Use server's playerCount directly (already includes GM - avoids double-counting)
+      setActualPlayerCount(data.playerCount || 1);
 
       // Use explicit isGM flag from server
       const isGameMaster = data.isGM || data.isGMReconnect || false;
@@ -3010,9 +3008,57 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (updatedBy === socket?.id) return;
 
       const creatureStore = require('../../store/creatureStore').default.getState();
-      // Apply creature state update locally
+      // Apply creature state update locally without re-emitting
       creatureStore.updateTokenState(tokenId, stateUpdates, false);
       console.log('🐉 Received creature_updated:', { tokenId, stateUpdates, mapId });
+    });
+
+    // Listen for generic token updates (HP, Mana, conditions)
+    socket.on('token_updated', (data) => {
+      const { tokenId, updates, updatedBy, mapId } = data;
+
+      // Skip if we are the one who sent it
+      if (updatedBy === socket?.id) return;
+
+      const creatureStore = require('../../store/creatureStore').default.getState();
+
+      // Check if this token is a creature in our store
+      const token = creatureStore.creatureTokens.find(t => t.id === tokenId);
+      if (token) {
+        // Apply creature state update locally without re-emitting
+        creatureStore.updateTokenState(tokenId, updates, false);
+        console.log('🐉 Received token_updated for creature:', { tokenId, updates, mapId });
+      }
+    });
+
+    // Listen for buff updates from other players/GM
+    socket.on('buff_update', (data) => {
+      const { type, data: buffData, senderSocketId } = data;
+      // Skip if we are the one who sent it (senderSocketId is usually the one who emitted)
+      if (senderSocketId === socket?.id) return;
+
+      const buffStore = require('../../store/buffStore').default.getState();
+      if (type === 'buff_added') {
+        buffStore.addBuff(buffData, true); // silent = true to avoid echo
+      } else if (type === 'buff_removed') {
+        buffStore.removeBuff(buffData.buffId, true); // silent = true to avoid echo
+      }
+      console.log('✨ Received buff_update:', { type, buffData });
+    });
+
+    // Listen for debuff updates from other players/GM
+    socket.on('debuff_update', (data) => {
+      const { type, data: debuffData, senderSocketId } = data;
+      // Skip if we are the one who sent it
+      if (senderSocketId === socket?.id) return;
+
+      const debuffStore = require('../../store/debuffStore').default.getState();
+      if (type === 'debuff_added') {
+        debuffStore.addDebuff(debuffData, true); // silent = true to avoid echo
+      } else if (type === 'debuff_removed') {
+        debuffStore.removeDebuff(debuffData.debuffId, true); // silent = true to avoid echo
+      }
+      console.log('💀 Received debuff_update:', { type, debuffData });
     });
 
     // Listen for creature tokens being added by GM
@@ -5830,6 +5876,47 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
+  // ENHANCEMENT: Handle browser close/tab close to properly leave game session
+  // This provides best-effort cleanup on browser close, but server-side cleanup is authoritative
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (socket && socket.connected && currentRoom) {
+        console.log('🚪 [BeforeUnload] Browser closing, attempting to leave room and party');
+
+        // Try to send leave events (may not complete if browser closes quickly)
+        // Server-side disconnect handler is the authoritative cleanup mechanism
+        try {
+          socket.emit('leave_room');
+          socket.emit('leave_party');
+          console.log('✅ [BeforeUnload] Leave events sent');
+        } catch (error) {
+          console.warn('⚠️ [BeforeUnload] Failed to send leave events:', error);
+        }
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      // Handle tab switching (hidden/visible)
+      if (document.visibilityState === 'hidden') {
+        console.log('📱 [VisibilityChange] Tab hidden');
+        // Optionally: could emit 'away' status to party here
+      } else if (document.visibilityState === 'visible') {
+        console.log('📱 [VisibilityChange] Tab visible');
+        // Optionally: could emit 'online' status to party here
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      // Cleanup event listeners
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [socket, currentRoom]); // Re-run when socket or room changes
+
   const handleJoinRoom = async (room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse = false) => {
     // Declare currentUserId at the top scope of handleJoinRoom to avoid ReferenceErrors in subsequent blocks
     let currentUserId = null;
@@ -6099,7 +6186,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       localStorage.removeItem('isTestRoom');
 
 
-      // Set initial player count
+      // Set initial player count - use room.playerCount when available (already includes GM)
+      // Fallback: calculate manually + 1 for GM
       let initialCount = 0;
       if (Array.isArray(room.players)) {
         initialCount = room.players.length;
@@ -6108,7 +6196,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       } else if (room.players && typeof room.players === 'object') {
         initialCount = Object.keys(room.players).length;
       }
-      setActualPlayerCount(initialCount + 1); // Total including GM
+      setActualPlayerCount(room.playerCount || (initialCount + 1));
 
       // Add player to Firebase room members for persistence (if authenticated)
       try {

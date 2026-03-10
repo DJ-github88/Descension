@@ -58,7 +58,7 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
     const strokeDashoffset = circumference - ((timeLeft / 60) * circumference);
 
     const outcomeClass = invite.outcome === 'accepted' ? 'outcome-accepted'
-        : invite.outcome === 'declined' ? 'outcome-declined'
+        : invite.outcome === 'declined' || invite.outcome === 'failed' ? 'outcome-declined'
             : '';
 
     return (
@@ -66,7 +66,7 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
             <div className="invite-sent-icon">
                 {invite.outcome === 'accepted'
                     ? <i className="fas fa-check-circle" style={{ color: '#4caf50' }}></i>
-                    : invite.outcome === 'declined'
+                    : (invite.outcome === 'declined' || invite.outcome === 'failed')
                         ? <i className="fas fa-times-circle" style={{ color: '#c04040' }}></i>
                         : <i className="fas fa-paper-plane" style={{ color: '#c9a83f' }}></i>
                 }
@@ -77,7 +77,9 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
                         ? `${invite.targetName} joined the party!`
                         : invite.outcome === 'declined'
                             ? `${invite.targetName} declined.`
-                            : `Invite sent to ${invite.targetName}`
+                            : invite.outcome === 'failed'
+                                ? `Failed: ${invite.error || 'User already in party'}`
+                                : `Invite sent to ${invite.targetName}`
                     }
                 </span>
                 {!invite.outcome && (

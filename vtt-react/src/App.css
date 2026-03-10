@@ -1597,3 +1597,21 @@ input[type="number"]::-webkit-outer-spin-button {
 .wow-nav-button.premium .wow-nav-icon {
   stroke: var(--pf-gold, #d4af37);
 }
+
+/* Notification badge for navigation buttons (e.g., community button) */
+.wow-nav-button .nav-notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px;
+  font-size: 9px;
+  font-weight: bold;
+  min-width: 16px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  pointer-events: none;
+}

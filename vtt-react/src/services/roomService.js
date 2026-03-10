@@ -511,9 +511,10 @@ export const saveCompleteGameState = async (roomId, gameState) => {
 
   try {
     const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+    // NOTE: Only update gameState and lastActivity to match Firestore security rules
+    // (members can only update these two fields, GM can update any field)
     await updateDoc(roomRef, {
       gameState: gameState,
-      lastModified: serverTimestamp(),
       lastActivity: serverTimestamp()
     });
 

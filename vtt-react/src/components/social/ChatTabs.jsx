@@ -18,6 +18,7 @@ const ChatTabs = () => {
   const closeWhisperTab = usePresenceStore((state) => state.closeWhisperTab);
   const globalChatMessages = usePresenceStore((state) => state.globalChatMessages);
   const partyChatMessages = usePresenceStore((state) => state.partyChatMessages);
+  const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
   const isInParty = usePartyStore((state) => state.isInParty);
 
   // Check if in game session (local or multiplayer)
@@ -194,6 +195,9 @@ const ChatTabs = () => {
         >
           <i className="fas fa-users"></i>
           <span>Party</span>
+          {partyChatUnreadCount > 0 && (
+            <span className="unread-badge">{partyChatUnreadCount}</span>
+          )}
           {activeTab === 'party' && partyChatMessages.length > 0 && (
             <button
               className="tab-clear-btn"

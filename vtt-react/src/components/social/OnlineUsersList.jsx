@@ -281,7 +281,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       if (!inviteSent) {
         throw new Error('Failed to send party invite (socket not connected)');
       }
-      console.log('✅ Sent party invitation to:', targetUser.characterName || targetUser.name, 'ID:', inviteTargetId);
+      console.log('📡 Party invitation requested for:', targetUser.characterName || targetUser.name, 'ID:', inviteTargetId);
     } catch (error) {
       console.error('❌ Failed to send party invitation:', error);
     }
@@ -573,6 +573,13 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           )}
         </div>
       );
+    } else if (user.partyId) {
+      return (
+        <div className="session-info party">
+          <i className="fas fa-user-friends"></i>
+          <span>In Party: {user.partyName || 'Active'}</span>
+        </div>
+      );
     }
 
     // Online but no active session - don't show idle, just don't show session info
@@ -720,42 +727,40 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 <p className="hint">Add friends by their Friend ID or right-click online users</p>
               </div>
             ) : (
-              <div className="friends-list">
-                {filteredFriends.map((friend) => {
-                  const onlineUser = activeOnlineUsers.find(u =>
-                    u.userId === friend.id
-                  );
-                  const friendPres = friendPresence[friend.id];
-                  const isOffline = !onlineUser && !friendPres;
+              filteredFriends.map((friend) => {
+                const onlineUser = activeOnlineUsers.find(u =>
+                  u.userId === friend.id
+                );
+                const friendPres = friendPresence[friend.id];
+                const isOffline = !onlineUser && !friendPres;
 
-                  const friendData = onlineUser
-                    ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id, isFriend: true }
-                    : friendPres
-                      ? { ...friend, ...friendPres, friendId: friend.friendId, userId: friend.id, isFriend: true }
-                      : { ...friend, status: 'offline', userId: friend.id, isFriend: true };
+                const friendData = onlineUser
+                  ? { ...onlineUser, friendId: friend.friendId, userId: onlineUser.userId || friend.id, isFriend: true }
+                  : friendPres
+                    ? { ...friend, ...friendPres, friendId: friend.friendId, userId: friend.id, isFriend: true }
+                    : { ...friend, status: 'offline', userId: friend.id, isFriend: true };
 
-                  return (
-                    <UserCard
-                      key={friend.id || friend.name}
-                      user={friendData}
-                      nameFormat="global"
-                      className="friend-card"
-                      showSessionInfo={!!(onlineUser || friendPres || isOffline)}
-                      sessionDisplay={getSessionDisplay(onlineUser || friendPres || (isOffline ? { status: 'offline' } : null))}
-                      showFriendId={true}
-                      onContextMenu={(e) => handleContextMenu(e, friendData)}
-                      additionalContent={
-                        friend.note && (
-                          <div className="friend-note-display">
-                            <i className="fas fa-sticky-note"></i>
-                            <span>{friend.note}</span>
-                          </div>
-                        )
-                      }
-                    />
-                  );
-                })}
-              </div>
+                return (
+                  <UserCard
+                    key={friend.id || friend.name}
+                    user={friendData}
+                    nameFormat="global"
+                    className="friend-card"
+                    showSessionInfo={!!(onlineUser || friendPres || isOffline)}
+                    sessionDisplay={getSessionDisplay(onlineUser || friendPres || (isOffline ? { status: 'offline' } : null))}
+                    showFriendId={true}
+                    onContextMenu={(e) => handleContextMenu(e, friendData)}
+                    additionalContent={
+                      friend.note && (
+                        <div className="friend-note-display">
+                          <i className="fas fa-sticky-note"></i>
+                          <span>{friend.note}</span>
+                        </div>
+                      )
+                    }
+                  />
+                );
+              })
             )}
           </div>
         )}
@@ -770,56 +775,54 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 <p className="hint">Right-click users to ignore them</p>
               </div>
             ) : (
-              <div className="ignored-list">
-                {ignored.map((ignoredUser) => {
-                  // Find the ignored user in online users to get current status
-                  const onlineUser = onlineUsers.find(u => u.userId === ignoredUser.id);
-                  const userData = {
-                    ...(onlineUser || ignoredUser),
-                    isIgnored: true
-                  };
+              ignored.map((ignoredUser) => {
+                // Find the ignored user in online users to get current status
+                const onlineUser = onlineUsers.find(u => u.userId === ignoredUser.id);
+                const userData = {
+                  ...(onlineUser || ignoredUser),
+                  isIgnored: true
+                };
 
-                  return (
-                    <UserCard
-                      key={ignoredUser.id}
-                      user={userData}
-                      nameFormat="global"
-                      className="ignored-card"
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        const menuWidth = 200;
-                        const menuHeight = 100;
-                        let x = e.clientX;
-                        let y = e.clientY;
-                        if (x + menuWidth > window.innerWidth) {
-                          x = window.innerWidth - menuWidth - 10;
-                        }
-                        if (y + menuHeight > window.innerHeight) {
-                          y = window.innerHeight - menuHeight - 10;
-                        }
-                        setContextMenu({
-                          x,
-                          y,
-                          user: {
-                            ...userData,
-                            id: ignoredUser.id, // Use the ignored user's ID for removal
-                            name: ignoredUser.name
-                          },
-                          isIgnored: true
-                        });
-                      }}
-                      additionalContent={
-                        ignoredUser.note && (
-                          <div className="ignored-note">
-                            <i className="fas fa-sticky-note"></i>
-                            <span>{ignoredUser.note}</span>
-                          </div>
-                        )
+                return (
+                  <UserCard
+                    key={ignoredUser.id}
+                    user={userData}
+                    nameFormat="global"
+                    className="ignored-card"
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      const menuWidth = 200;
+                      const menuHeight = 100;
+                      let x = e.clientX;
+                      let y = e.clientY;
+                      if (x + menuWidth > window.innerWidth) {
+                        x = window.innerWidth - menuWidth - 10;
                       }
-                    />
-                  );
-                })}
-              </div>
+                      if (y + menuHeight > window.innerHeight) {
+                        y = window.innerHeight - menuHeight - 10;
+                      }
+                      setContextMenu({
+                        x,
+                        y,
+                        user: {
+                          ...userData,
+                          id: ignoredUser.id, // Use the ignored user's ID for removal
+                          name: ignoredUser.name
+                        },
+                        isIgnored: true
+                      });
+                    }}
+                    additionalContent={
+                      ignoredUser.note && (
+                        <div className="ignored-note">
+                          <i className="fas fa-sticky-note"></i>
+                          <span>{ignoredUser.note}</span>
+                        </div>
+                      )
+                    }
+                  />
+                );
+              })
             )}
           </div>
         )}
@@ -873,85 +876,84 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       </div>
 
       {/* Add Friend by ID Popup */}
-      {
-        showAddFriendPopup && createPortal(
-          <div className="social-modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
-            <div
-              className="social-modal-content add-friend-modal"
-              onClick={(e) => e.stopPropagation()}
-              style={{ transform: `scale(${windowScale})` }}
-            >
-              <div className="modal-header">
-                <h3>Add Friend by ID</h3>
-                <button
-                  className="modal-close-btn"
-                  onClick={() => {
-                    setShowAddFriendPopup(false);
-                    setFriendIdInput('');
-                    setFriendIdError('');
-                  }}
-                >
-                  <i className="fas fa-times"></i>
-                </button>
-              </div>
+      {showAddFriendPopup && createPortal(
+        <div className="social-modal-overlay" onClick={() => setShowAddFriendPopup(false)}>
+          <div
+            className="social-modal-content add-friend-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{ transform: `scale(${windowScale})` }}
+          >
+            <div className="modal-header">
+              <h3>Add Friend by ID</h3>
+              <button
+                className="modal-close-btn"
+                onClick={() => {
+                  setShowAddFriendPopup(false);
+                  setFriendIdInput('');
+                  setFriendIdError('');
+                }}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
 
-              <div className="modal-body">
-                <p className="modal-description">
-                  Enter your friend's unique Friend ID to add them to your friends list.
-                </p>
+            <div className="modal-body">
+              <p className="modal-description">
+                Enter your friend's unique Friend ID to add them to your friends list.
+              </p>
 
-                <div className="friend-id-input-group">
-                  <label htmlFor="friendIdInput">Friend ID</label>
-                  <div className="friend-id-input-wrapper">
-                    <span className="friend-id-prefix">#</span>
-                    <input
-                      id="friendIdInput"
-                      type="text"
-                      value={friendIdInput}
-                      onChange={(e) => {
-                        setFriendIdInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
-                        setFriendIdError('');
-                      }}
-                      placeholder="e.g., WillburtTheGoat4"
-                      maxLength={20}
-                      className="friend-id-input"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleAddFriendById();
-                        }
-                      }}
-                    />
-                  </div>
-                  {friendIdError && (
-                    <span className="error-text">{friendIdError}</span>
-                  )}
+              <div className="friend-id-input-group">
+                <label htmlFor="friendIdInput">Friend ID</label>
+                <div className="friend-id-input-wrapper">
+                  <span className="friend-id-prefix">#</span>
+                  <input
+                    id="friendIdInput"
+                    type="text"
+                    value={friendIdInput}
+                    onChange={(e) => {
+                      setFriendIdInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
+                      setFriendIdError('');
+                    }}
+                    placeholder="e.g., WillburtTheGoat4"
+                    maxLength={20}
+                    className="friend-id-input"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleAddFriendById();
+                      }
+                    }}
+                  />
                 </div>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  className="modal-btn modal-btn-primary"
-                  onClick={handleAddFriendById}
-                  disabled={!friendIdInput.trim()}
-                >
-                  <i className="fas fa-user-plus"></i>
-                  Add Friend
-                </button>
-                <button
-                  className="modal-btn modal-btn-secondary"
-                  onClick={() => {
-                    setShowAddFriendPopup(false);
-                    setFriendIdInput('');
-                    setFriendIdError('');
-                  }}
-                >
-                  Cancel
-                </button>
+                {friendIdError && (
+                  <span className="error-text">{friendIdError}</span>
+                )}
               </div>
             </div>
-          </div>,
-          document.body
-        )
+
+            <div className="modal-footer">
+              <button
+                className="modal-btn modal-btn-primary"
+                onClick={handleAddFriendById}
+                disabled={!friendIdInput.trim()}
+              >
+                <i className="fas fa-user-plus"></i>
+                Add Friend
+              </button>
+              <button
+                className="modal-btn modal-btn-secondary"
+                onClick={() => {
+                  setShowAddFriendPopup(false);
+                  setFriendIdInput('');
+                  setFriendIdError('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )
       }
 
       {/* Party Creation Dialog */}
@@ -1144,6 +1146,28 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                       </button>
                     </div>
                   </div>
+
+                  {/* Party options for self — only shown when in a party */}
+                  {isInParty && (
+                    <div className="context-menu-section">
+                      {isLeader && (
+                        <button
+                          className="context-menu-item danger"
+                          onClick={handleDisbandParty}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                          Disband Party
+                        </button>
+                      )}
+                      <button
+                        className="context-menu-item danger"
+                        onClick={handleLeaveParty}
+                      >
+                        <i className="fas fa-sign-out-alt"></i>
+                        Leave Party
+                      </button>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -1204,6 +1228,8 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     <button
                       className="context-menu-item"
                       onClick={handleInviteToParty}
+                      disabled={targetUserInParty || !!contextMenu.user.partyId}
+                      title={targetUserInParty || !!contextMenu.user.partyId ? "User is already in a party" : "Invite to Party"}
                     >
                       <i className="fas fa-users"></i>
                       Invite to Party
@@ -1259,17 +1285,19 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         )
       }
 
-      {pendingRemoveFriend && createPortal(
-        <ConfirmationDialog
-          message={`Remove "${pendingRemoveFriend.name}" from your friends list?`}
-          onConfirm={() => {
-            removeFriend(pendingRemoveFriend.id);
-            setPendingRemoveFriend(null);
-          }}
-          onCancel={() => setPendingRemoveFriend(null)}
-        />,
-        document.body
-      )}
+      {
+        pendingRemoveFriend && createPortal(
+          <ConfirmationDialog
+            message={`Remove "${pendingRemoveFriend.name}" from your friends list?`}
+            onConfirm={() => {
+              removeFriend(pendingRemoveFriend.id);
+              setPendingRemoveFriend(null);
+            }}
+            onCancel={() => setPendingRemoveFriend(null)}
+          />,
+          document.body
+        )
+      }
     </div >
   );
 };

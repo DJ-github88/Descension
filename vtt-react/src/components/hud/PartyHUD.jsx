@@ -943,39 +943,77 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
             {/* Buffs, Debuffs, and Conditions - Only show for current player */}
             {isCurrentPlayer && (() => {
-                // Get buffs and debuffs for the current player
-                // Check both 'player' and 'current-player' to avoid duplicates, then deduplicate by ID
-                const playerBuffsAll = [
+                const gameStore = useGameStore.getState();
+                const currentPlayerId = gameStore.currentPlayer?.id;
+
+                // Get all relevant store buffs/debuffs
+                let rawBuffs = [
                     ...getBuffsForTarget('player'),
                     ...getBuffsForTarget('current-player')
                 ];
-                const playerDebuffsAll = [
+                let rawDebuffs = [
                     ...getDebuffsForTarget('player'),
                     ...getDebuffsForTarget('current-player')
                 ];
 
-                // Deduplicate by buff/debuff ID to prevent showing the same one twice
-                const seenBuffIds = new Set();
-                const playerBuffs = playerBuffsAll.filter(buff => {
-                    if (seenBuffIds.has(buff.id)) {
-                        return false;
-                    }
-                    seenBuffIds.add(buff.id);
-                    return true;
-                });
-
-                const seenDebuffIds = new Set();
-                const playerDebuffs = playerDebuffsAll.filter(debuff => {
-                    if (seenDebuffIds.has(debuff.id)) {
-                        return false;
-                    }
-                    seenDebuffIds.add(debuff.id);
-                    return true;
-                });
+                if (currentPlayerId) {
+                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
+                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+                }
 
                 // Get conditions from player's character token
                 const playerToken = characterTokens.find(t => t.isPlayerToken);
-                const playerConditions = playerToken?.state?.conditions || [];
+                const rawConditions = playerToken?.state?.conditions || [];
+
+                // CONSOLIDATION & DEDUPLICATION LOGIC (Same as TargetHUD)
+                const finalBuffs = [];
+                const finalDebuffs = [];
+                const seenNames = new Set();
+                const seenIds = new Set();
+
+                // 1. Process store buffs
+                rawBuffs.forEach(b => {
+                    if (seenIds.has(b.id) || seenNames.has(b.name.toLowerCase())) return;
+                    finalBuffs.push(b);
+                    seenIds.add(b.id);
+                    seenNames.add(b.name.toLowerCase());
+                });
+
+                // 2. Process store debuffs
+                rawDebuffs.forEach(d => {
+                    if (seenIds.has(d.id) || seenNames.has(d.name.toLowerCase())) return;
+                    finalDebuffs.push(d);
+                    seenIds.add(d.id);
+                    seenNames.add(d.name.toLowerCase());
+                });
+
+                // 3. Process token conditions
+                rawConditions.forEach(c => {
+                    const name = (c.name || c.id || '').toLowerCase();
+                    if (seenNames.has(name)) return;
+
+                    const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
+
+                    const mergedCondition = {
+                        ...c,
+                        id: c.id || `cond_${Date.now()}_${Math.random()}`,
+                        name: c.name || c.id,
+                        icon: c.icon || conditionData.icon,
+                        color: c.color || conditionData.color,
+                        description: c.description || conditionData.description,
+                        type: conditionData.type || 'debuff'
+                    };
+
+                    if (mergedCondition.type === 'buff') {
+                        finalBuffs.push(mergedCondition);
+                    } else {
+                        finalDebuffs.push(mergedCondition);
+                    }
+                    seenNames.add(name);
+                });
+
+                const playerBuffs = finalBuffs;
+                const playerDebuffs = finalDebuffs;
 
                 // Format time helper for conditions
                 const formatConditionTime = (condition) => {
@@ -1194,204 +1232,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             </div>
                         )}
 
-                        {/* Conditions Row */}
-                        {playerConditions.length > 0 && (
-                            <div className="character-conditions" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '4px' }}>
-                                {playerConditions.map((condition) => {
-                                    const conditionData = CONDITIONS[condition.id] || CONDITIONS[condition.name?.toLowerCase()] || {
-                                        name: condition.name || condition.id,
-                                        icon: condition.icon || '/assets/icons/Status/buff/star-emblem-power.png',
-                                        color: condition.color || '#FFD700',
-                                        description: condition.description || ''
-                                    };
-
-                                    return (
-                                        <div
-                                            key={condition.id || condition.name}
-                                            style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                alignItems: 'center',
-                                                pointerEvents: 'auto'
-                                            }}
-                                        >
-                                            <div
-                                                className="condition-icon"
-                                                style={{
-                                                    backgroundColor: conditionData.color,
-                                                    width: '32px',
-                                                    height: '32px',
-                                                    borderRadius: '4px',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    border: '2px solid rgba(255, 255, 255, 0.3)',
-                                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-                                                    transition: 'transform 0.2s ease',
-                                                    cursor: 'pointer'
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    // Clear any existing timeout
-                                                    if (tooltipTimeoutRef.current) {
-                                                        clearTimeout(tooltipTimeoutRef.current);
-                                                        tooltipTimeoutRef.current = null;
-                                                    }
-
-                                                    e.currentTarget.style.transform = 'scale(1.2)';
-                                                    setTooltipData({
-                                                        title: conditionData.name,
-                                                        description: conditionData.description,
-                                                        duration: formatConditionTime(condition)
-                                                    });
-
-                                                    // Calculate position to keep tooltip on screen
-                                                    const tooltipWidth = 350;
-                                                    const tooltipHeight = 400;
-                                                    const padding = 10;
-                                                    const offset = 15;
-
-                                                    const viewportWidth = window.innerWidth;
-                                                    const viewportHeight = window.innerHeight;
-
-                                                    // Start with preferred position: above and to the right of cursor
-                                                    let x = e.clientX + offset;
-                                                    let y = e.clientY - offset - tooltipHeight; // Position above cursor
-
-                                                    // Check if tooltip would go off right edge
-                                                    if (x + tooltipWidth > viewportWidth - padding) {
-                                                        // Try left side of cursor
-                                                        x = e.clientX - tooltipWidth - offset;
-                                                        // If still off screen, center it
-                                                        if (x < padding) {
-                                                            x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
-                                                        }
-                                                    }
-
-                                                    // Check if tooltip would go off left edge
-                                                    if (x < padding) {
-                                                        x = padding;
-                                                    }
-
-                                                    // Check if tooltip would go off top edge
-                                                    if (y < padding) {
-                                                        // Position below cursor instead
-                                                        y = e.clientY + offset;
-                                                        // If it would go off bottom, position it above but clamp to top
-                                                        if (y + tooltipHeight > viewportHeight - padding) {
-                                                            y = Math.max(padding, viewportHeight - tooltipHeight - padding);
-                                                        }
-                                                    }
-
-                                                    // Check if tooltip would go off bottom edge
-                                                    if (y + tooltipHeight > viewportHeight - padding) {
-                                                        y = viewportHeight - tooltipHeight - padding;
-                                                    }
-
-                                                    // Final clamping to ensure tooltip is always within viewport
-                                                    x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
-                                                    y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
-
-                                                    setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
-                                                    setShowTooltip(true);
-                                                }}
-                                                onMouseMove={(e) => {
-                                                    if (showTooltip) {
-                                                        // Calculate position to keep tooltip on screen
-                                                        const tooltipWidth = 350;
-                                                        const tooltipHeight = 400;
-                                                        const padding = 10;
-                                                        const offset = 15;
-
-                                                        const viewportWidth = window.innerWidth;
-                                                        const viewportHeight = window.innerHeight;
-
-                                                        // Start with preferred position: above and to the right of cursor
-                                                        let x = e.clientX + offset;
-                                                        let y = e.clientY - offset - tooltipHeight; // Position above cursor
-
-                                                        // Check if tooltip would go off right edge
-                                                        if (x + tooltipWidth > viewportWidth - padding) {
-                                                            // Try left side of cursor
-                                                            x = e.clientX - tooltipWidth - offset;
-                                                            // If still off screen, center it
-                                                            if (x < padding) {
-                                                                x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
-                                                            }
-                                                        }
-
-                                                        // Check if tooltip would go off left edge
-                                                        if (x < padding) {
-                                                            x = padding;
-                                                        }
-
-                                                        // Check if tooltip would go off top edge
-                                                        if (y < padding) {
-                                                            // Position below cursor instead
-                                                            y = e.clientY + offset;
-                                                            // If it would go off bottom, position it above but clamp to top
-                                                            if (y + tooltipHeight > viewportHeight - padding) {
-                                                                y = Math.max(padding, viewportHeight - tooltipHeight - padding);
-                                                            }
-                                                        }
-
-                                                        // Check if tooltip would go off bottom edge
-                                                        if (y + tooltipHeight > viewportHeight - padding) {
-                                                            y = viewportHeight - tooltipHeight - padding;
-                                                        }
-
-                                                        // Final clamping to ensure tooltip is always within viewport
-                                                        x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
-                                                        y = Math.max(padding, Math.min(y, viewportHeight - tooltipHeight - padding));
-
-                                                        setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
-                                                    }
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.transform = 'scale(1)';
-                                                    // Add a small delay to prevent flickering when moving between elements
-                                                    tooltipTimeoutRef.current = setTimeout(() => {
-                                                        setShowTooltip(false);
-                                                        setTooltipData(null);
-                                                        tooltipTimeoutRef.current = null;
-                                                    }, 100);
-                                                }}
-                                                onContextMenu={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    handleConditionRightClick(e, condition);
-                                                }}
-                                            >
-                                                {conditionData.icon && conditionData.icon.startsWith('/assets/') ? (
-                                                    <img
-                                                        src={conditionData.icon}
-                                                        alt={conditionData.name}
-                                                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                        onError={(e) => {
-                                                            e.target.style.display = 'none';
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <i className={conditionData.icon || 'fas fa-circle'} style={{ fontSize: '16px', color: '#fff' }}></i>
-                                                )}
-                                            </div>
-                                            <div
-                                                style={{
-                                                    fontSize: '10px',
-                                                    color: '#f0e6d2',
-                                                    fontWeight: 'bold',
-                                                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                                    marginTop: '2px',
-                                                    fontFamily: 'Cinzel, serif'
-                                                }}
-                                                className="condition-timer-text"
-                                            >
-                                                {formatConditionTime(condition)}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                        {/* Conditions Row merged into buffs/debuffs row above */}
                     </div>
                 );
             })()}
@@ -1658,7 +1499,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { removeBuff, updateBuffDuration, getRemainingTime } = useBuffStore();
     const { getRemainingTime: getDebuffRemainingTime, updateDebuffDuration, getDebuffsForTarget } = useDebuffStore();
     const { addNotification, addCombatNotification } = useChatStore();
-    const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer } = useGameStore();
+    const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer, multiplayerRoom } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const alignment = useCharacterStore(state => state.alignment);
     const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
@@ -3062,6 +2903,81 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             {showContextMenu && (() => {
                 const menuItems = [];
 
+                const isSelf = isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds);
+                const leaderId = usePartyStore.getState().leaderId;
+                const isLeader = contextMenuMember?.id === leaderId || contextMenuMember?.userId === leaderId;
+                const currentUserIsLeader = isSelfId(leaderId, undefined, myIds);
+                const leaderInSession = isLeader && isInMultiplayer && multiplayerRoom;
+                const currentUserInSession = isInMultiplayer && multiplayerRoom;
+
+                // Party Management Options (always visible, context-dependent)
+                if (isSelf && partyMembers.length > 1) {
+                    menuItems.push({
+                        icon: <i className="fas fa-sign-out-alt"></i>,
+                        label: 'Leave Party',
+                        onClick: () => {
+                            console.log('🚪 Leaving party');
+                            usePartyStore.getState().leaveParty();
+                            setShowContextMenu(false);
+                        },
+                        className: 'danger'
+                    });
+                    menuItems.push({ type: 'separator' });
+                } else if (!isSelf) {
+                    // Join Session option (when leader is in session)
+                    if (leaderInSession) {
+                        menuItems.push({
+                            icon: <i className="fas fa-door-open"></i>,
+                            label: 'Join Session',
+                            onClick: () => {
+                                console.log('🎯 Requesting to join session:', multiplayerRoom.id);
+                                usePresenceStore.getState().requestToJoinSession(
+                                    leaderId,
+                                    multiplayerRoom.id,
+                                    myId,
+                                    currentPlayerData?.name || 'Player'
+                                );
+                                setShowContextMenu(false);
+                            },
+                            className: 'heal'
+                        });
+                    }
+
+                    // Invite to Session option (when current user is leader in session)
+                    if (currentUserIsLeader && currentUserInSession && !isLeader) {
+                        menuItems.push({
+                            icon: <i className="fas fa-user-plus"></i>,
+                            label: 'Invite to Session',
+                            onClick: () => {
+                                console.log('📨 Inviting member to session:', contextMenuMember?.id);
+                                usePresenceStore.getState().sendSessionInvitation(
+                                    contextMenuMember?.userId || contextMenuMember?.id,
+                                    multiplayerRoom.id
+                                );
+                                setShowContextMenu(false);
+                            },
+                            className: 'heal'
+                        });
+                    }
+
+                    // Whisper option
+                    menuItems.push({
+                        icon: <i className="fas fa-comment"></i>,
+                        label: 'Whisper',
+                        onClick: () => {
+                            console.log('💬 Opening whisper for:', contextMenuMember?.name);
+                            usePresenceStore.getState().openWhisperTab({
+                                userId: contextMenuMember?.userId || contextMenuMember?.id,
+                                name: contextMenuMember?.name,
+                                characterName: contextMenuMember?.name
+                            });
+                            setShowContextMenu(false);
+                        }
+                    });
+
+                    menuItems.push({ type: 'separator' });
+                }
+
                 // GM/Player View Toggle - Add at the top
                 menuItems.push({
                     icon: <i className={`fas ${isGMMode ? 'fa-crown' : 'fa-user'}`}></i>,
@@ -3392,7 +3308,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const currentMember = partyMembers.find(m => isSelfId(m.id, m.userId, myIds));
 
                 const isActualGM = currentMember?.isGM;
-                const leaderId = usePartyStore.getState().leaderId;
+
 
                 if (isActualGM) {
                     menuItems.push({ type: 'separator' });

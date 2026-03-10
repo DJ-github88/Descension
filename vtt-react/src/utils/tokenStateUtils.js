@@ -29,16 +29,16 @@ export const getTokenResources = (target, targetType) => {
 
     return {
       health: {
-        current: state.currentHp || stats.currentHp || stats.maxHp || 0,
-        max: state.maxHp || stats.maxHp || 100
+        current: state.currentHp ?? stats.currentHp ?? stats.maxHp ?? 0,
+        max: state.maxHp ?? stats.maxHp ?? 100
       },
       mana: {
-        current: state.currentMana || stats.currentMana || stats.maxMana || 0,
-        max: state.maxMana || stats.maxMana || 50
+        current: state.currentMana ?? stats.currentMana ?? stats.maxMana ?? 0,
+        max: state.maxMana ?? stats.maxMana ?? 50
       },
       actionPoints: {
-        current: state.currentActionPoints || stats.currentActionPoints || stats.maxActionPoints || 0,
-        max: state.maxActionPoints || stats.maxActionPoints || 3
+        current: state.currentActionPoints ?? stats.currentActionPoints ?? stats.maxActionPoints ?? 0,
+        max: state.maxActionPoints ?? stats.maxActionPoints ?? 3
       },
       tempHealth: 0,
       tempMana: 0,
