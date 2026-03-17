@@ -234,7 +234,7 @@ const CombatTimeline = () => {
                     position={timelinePosition}
                     onStop={(e, data) => updateTimelinePosition({ x: data.x, y: data.y })}
                     nodeRef={nodeRef}
-                    scale={windowScale}
+                    scale={1}
                 >
                     <div
                         ref={nodeRef}
@@ -256,7 +256,7 @@ const CombatTimeline = () => {
                             minConstraints={[400, 150]}
                             maxConstraints={[1200, 1200]}
                             resizeHandles={['ne', 'nw', 'se', 'sw']}
-                            transformScale={windowScale}
+                            transformScale={1}
                         >
                             <div
                                 className={`combat-timeline-window-compact ${isResizing ? 'resizing' : ''}`}

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { calculateEquipmentBonuses, calculateDerivedStats } from '../utils/characterUtils';
+import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../data/classResources';
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
@@ -434,7 +434,9 @@ const useCharacterStore = create((set, get) => ({
                 race: state.race,
                 subrace: state.subrace,
                 userId: userId,
-                roomId: roomId
+                roomId: roomId,
+                socketConnected: gameStore.multiplayerSocket.connected,
+                socketId: gameStore.multiplayerSocket.id
             });
 
             gameStore.multiplayerSocket.emit('character_updated', {
@@ -524,6 +526,14 @@ const useCharacterStore = create((set, get) => ({
                     // CRITICAL: For classResource, send the full object to preserve stacks, charges, etc.
                     if (resourceType === 'classResource') {
                         eventData.classResource = state.classResource;
+                        console.log('📤 characterStore.syncResourcesWithMultiplayer - classResource:', {
+                            resourceType,
+                            classResource: state.classResource,
+                            eventData: {
+                                ...eventData,
+                                classResource: 'included above'
+                            }
+                        });
                     }
 
                     gameStore.multiplayerSocket.emit('character_resource_updated', eventData);
@@ -545,8 +555,12 @@ const useCharacterStore = create((set, get) => ({
             // Fetch buff/debuff effects for derived stats
             const buffStore = require('./buffStore').default;
             const debuffStore = require('./debuffStore').default;
-            const buffModifiers = buffStore.getState().getActiveEffects();
-            const debuffModifiers = debuffStore.getState().getActiveDebuffEffects();
+            const buffModifiersRaw = buffStore.getState().getActiveEffects();
+            const debuffModifiersRaw = debuffStore.getState().getActiveDebuffEffects();
+            
+            // Flatten effects from array format to simple numeric values
+            const buffModifiers = flattenEffects(buffModifiersRaw);
+            const debuffModifiers = flattenEffects(debuffModifiersRaw);
 
             // Merge modifiers (debuffs should already be negative)
             const combinedModifiers = { ...buffModifiers };
@@ -568,6 +582,13 @@ const useCharacterStore = create((set, get) => ({
             Object.entries(statMapping).forEach(([shortName, fullName]) => {
                 if (equipmentBonuses[shortName]) {
                     totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                }
+            });
+            
+            // Apply buff/debuff modifiers to base stats as well
+            ['strength', 'constitution', 'agility', 'intelligence', 'spirit', 'charisma'].forEach(stat => {
+                if (combinedModifiers[stat]) {
+                    totalStats[stat] = (totalStats[stat] || 0) + combinedModifiers[stat];
                 }
             });
 
@@ -639,8 +660,12 @@ const useCharacterStore = create((set, get) => ({
             // Fetch buff/debuff effects for derived stats
             const buffStore = require('./buffStore').default;
             const debuffStore = require('./debuffStore').default;
-            const buffModifiers = buffStore.getState().getActiveEffects();
-            const debuffModifiers = debuffStore.getState().getActiveDebuffEffects();
+            const buffModifiersRaw = buffStore.getState().getActiveEffects();
+            const debuffModifiersRaw = debuffStore.getState().getActiveDebuffEffects();
+            
+            // Flatten effects from array format to simple numeric values
+            const buffModifiers = flattenEffects(buffModifiersRaw);
+            const debuffModifiers = flattenEffects(debuffModifiersRaw);
 
             // Merge modifiers (debuffs should already be negative)
             const combinedModifiers = { ...buffModifiers };
@@ -666,6 +691,13 @@ const useCharacterStore = create((set, get) => ({
             Object.entries(statMapping).forEach(([shortName, fullName]) => {
                 if (equipmentBonuses[shortName]) {
                     totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                }
+            });
+            
+            // Apply buff/debuff modifiers to base stats as well
+            ['strength', 'constitution', 'agility', 'intelligence', 'spirit', 'charisma'].forEach(stat => {
+                if (combinedModifiers[stat]) {
+                    totalStats[stat] = (totalStats[stat] || 0) + combinedModifiers[stat];
                 }
             });
 
@@ -2256,7 +2288,8 @@ const useCharacterStore = create((set, get) => ({
             }
 
             // CRITICAL FIX: Ensure character isolation between guest, dev, and authenticated users
-            // Clear characters if switching between account types or users
+            // Clear characters ONLY IF we have a stable, different authenticated identity.
+            // If switching account types, or if userId truly changed between stable sessions.
             const isGuest = isGuestUser();
             const storageKey = getCharactersStorageKey();
 
@@ -2272,26 +2305,31 @@ const useCharacterStore = create((set, get) => ({
                 currentAccountType = 'authenticated';
             }
 
-            // If switching account types, clear the old storage
+            // CRITICAL FIX: Don't clear storage if the user identity is still stabilizing
+            // or if we're in a dev mode where we expect specific fallbacks.
             const lastAccountType = localStorage.getItem('mythrill-last-account-type');
             const lastUserId = localStorage.getItem('mythrill-last-user-id');
 
+            // Only clear storage if we have a CLEAR switch between stable account types
             if (lastAccountType && lastAccountType !== currentAccountType) {
-                if (lastAccountType === 'guest') {
-                    localStorage.removeItem('mythrill-guest-characters');
-                } else {
+                // If we're moving TO an authenticated account FROM a guest account, we keep the guest data
+                // but if we're moving BETWEEN different authenticated/dev accounts, we clean up.
+                if (lastAccountType === 'authenticated' || lastAccountType === 'dev') {
+                    console.log(`[CharacterStore] Account type change from ${lastAccountType} to ${currentAccountType}, clearing storage`);
                     localStorage.removeItem('mythrill-characters');
+                    localStorage.removeItem('mythrill-active-character');
                 }
             }
 
-            // CRITICAL FIX: Also check if userId changed (dev vs Google login)
-            // This ensures dev preview and Google login have separate character storage
-            if (lastUserId && lastUserId !== currentUserId) {
-                // Clear characters when switching between different users (dev vs Google login)
-                if (lastAccountType === 'guest') {
-                    localStorage.removeItem('mythrill-guest-characters');
-                } else {
-                    localStorage.removeItem('mythrill-characters');
+            // CRITICAL FIX: Only clear if the userId changed AND we are not in a temporary initialization state
+            if (lastUserId && currentUserId && lastUserId !== currentUserId) {
+                // Don't clear if it's just the dev fallback changing
+                const isTempUser = (id) => !id || id === 'dev-user-localhost' || id === 'dev-user-fallback';
+                
+                if (!isTempUser(currentUserId) && !isTempUser(lastUserId)) {
+                   console.log(`[CharacterStore] User ID change from ${lastUserId} to ${currentUserId}, clearing storage`);
+                   localStorage.removeItem('mythrill-characters');
+                   localStorage.removeItem('mythrill-active-character');
                 }
             }
 
@@ -2371,6 +2409,24 @@ const useCharacterStore = create((set, get) => ({
                 const storageKey = getCharactersStorageKey();
                 const savedCharacters = localStorage.getItem(storageKey);
                 characters = savedCharacters ? JSON.parse(savedCharacters) : [];
+                
+                // IMPROVED: If no characters found in expected key, check the other key as fallback
+                // This handles cases where account type detection might be wrong
+                if (!characters || characters.length === 0) {
+                    const alternateKey = storageKey === 'mythrill-characters' 
+                        ? 'mythrill-guest-characters' 
+                        : 'mythrill-characters';
+                    const alternateCharacters = localStorage.getItem(alternateKey);
+                    if (alternateCharacters) {
+                        const parsed = JSON.parse(alternateCharacters);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            console.log(`[CharacterStore] Found ${parsed.length} characters in alternate storage key: ${alternateKey}`);
+                            characters = parsed;
+                        }
+                    }
+                }
+                
+                console.log(`[CharacterStore] Loaded ${characters?.length || 0} characters from ${storageKey}`);
             } catch (localStorageError) {
                 console.error('Error loading from localStorage:', localStorageError);
                 characters = [];
@@ -3132,17 +3188,37 @@ const useCharacterStore = create((set, get) => ({
             // First ensure characters are loaded
             const characters = await get().loadCharacters();
 
+            console.log(`[CharacterStore] loadActiveCharacter: Found ${characters?.length || 0} characters`);
+
             // Then check for active character
-            const activeCharacterId = localStorage.getItem('mythrill-active-character');
+            let activeCharacterId = localStorage.getItem('mythrill-active-character');
+
+            // IMPROVED: If no active character is set but characters exist, auto-select the first one
+            if (!activeCharacterId && characters && characters.length > 0) {
+                activeCharacterId = characters[0].id;
+                console.log(`[CharacterStore] No active character set, auto-selecting first character: ${characters[0].name}`);
+                localStorage.setItem('mythrill-active-character', activeCharacterId);
+            }
 
             if (activeCharacterId) {
                 const character = await get().setActiveCharacter(activeCharacterId);
                 if (character) {
+                    console.log(`[CharacterStore] Successfully loaded active character: ${character.name}`);
                     return character;
                 } else {
                     // Character not found, clear the stored ID
                     localStorage.removeItem('mythrill-active-character');
                     console.warn('Stored active character not found, cleared selection');
+                    
+                    // IMPROVED: Try to select the first available character as fallback
+                    if (characters && characters.length > 0) {
+                        const fallbackCharacter = characters[0];
+                        const fallbackResult = await get().setActiveCharacter(fallbackCharacter.id);
+                        if (fallbackResult) {
+                            console.log(`[CharacterStore] Selected fallback character: ${fallbackResult.name}`);
+                            return fallbackResult;
+                        }
+                    }
                 }
             }
 

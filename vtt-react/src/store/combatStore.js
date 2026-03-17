@@ -1337,6 +1337,22 @@ const useCombatStore = create((set, get) => ({
             });
             return { turnOrder: updatedTurnOrder };
         });
+    },
+
+    // CRITICAL FIX: Synchronize AP updates to combat timeline
+    updateCombatantAP: (tokenId, newAP) => {
+        set(state => {
+            const updatedTurnOrder = state.turnOrder.map(combatant => {
+                if (combatant.tokenId === tokenId) {
+                    return {
+                        ...combatant,
+                        currentActionPoints: newAP
+                    };
+                }
+                return combatant;
+            });
+            return { turnOrder: updatedTurnOrder };
+        });
     }
 }));
 

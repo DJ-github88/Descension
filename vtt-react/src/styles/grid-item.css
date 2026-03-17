@@ -650,11 +650,32 @@
 .grid-item-orb[data-container="true"] {
   border-style: dashed !important;
   border-width: calc(var(--orb-size, 20px) * 0.04) !important;
+  border-color: rgba(122, 59, 46, 0.85) !important;
+
+  /* Keep containers readable: remove heavy orb tint/darkening layers */
+  filter: none !important;
+  animation: none !important;
+  box-shadow:
+    0 0 calc(var(--orb-size, 20px) * 0.35) rgba(122, 59, 46, 0.28),
+    0 calc(var(--orb-size, 20px) * 0.06) calc(var(--orb-size, 20px) * 0.12) rgba(0, 0, 0, 0.2) !important;
 }
 
-.grid-item-orb[data-container="true"]::before {
-  /* Add a subtle inner border for containers */
-  box-shadow: inset 0 0 0 calc(var(--orb-size, 20px) * 0.02) rgba(255, 255, 255, 0.3);
+.grid-item-orb[data-container="true"]::before,
+.grid-item-orb[data-container="true"]::after {
+  /* Disable pseudo-element overlays that can make container icons look dark/tinted */
+  content: none !important;
+  background: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+.grid-item-orb[data-container="true"]:hover {
+  filter: none !important;
+  animation: none !important;
+  transform: translate(-50%, -50%) scale(1.04) !important;
+  box-shadow:
+    0 0 calc(var(--orb-size, 20px) * 0.45) rgba(122, 59, 46, 0.35),
+    0 calc(var(--orb-size, 20px) * 0.08) calc(var(--orb-size, 20px) * 0.14) rgba(0, 0, 0, 0.24) !important;
 }
 
 /* Weapon items get a subtle metallic sheen */

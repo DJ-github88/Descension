@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react';
 import { createPortal } from 'react-dom';
+import { Grid as VirtualGrid } from 'react-window';
 import useItemStore, { BASE_CATEGORY } from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import WowWindow from '../windows/WowWindow';
@@ -21,6 +22,7 @@ import useAuthStore from '../../store/authStore';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
 import ExternalRecipePreview from '../crafting/ExternalRecipePreview';
+import SmartTabButton from '../common/SmartTabButton';
 import '../../styles/item-library.css';
 import '../../styles/quick-item-wizard.css';
 import '../../styles/enhanced-quick-item-wizard.css';
@@ -35,7 +37,7 @@ const getQualityColor = (quality) => {
     return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
-const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory, onDelete, onDrop }) => {
+const CategoryTree = memo(({ categories, selectedCategory, onSelect, onAddSubcategory, onDelete, onDrop }) => {
     const [contextMenu, setContextMenu] = useState(null);
     const [expandedCategories, setExpandedCategories] = useState(new Set());
 
@@ -45,28 +47,22 @@ const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory
     const handleContextMenu = (e, category) => {
         e.preventDefault();
 
-        // Calculate position to ensure context menu stays within viewport
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // Use clientX and clientY for fixed positioning (like creature token)
         const x = e.clientX;
         const y = e.clientY;
 
-        // Default menu dimensions
         const menuWidth = 200;
         const menuHeight = 150;
 
-        // Calculate position to ensure menu stays within viewport
         let posX = x;
         let posY = y;
 
-        // Adjust if menu would go off right edge
         if (posX + menuWidth > viewportWidth) {
             posX = Math.max(0, x - menuWidth);
         }
 
-        // Adjust if menu would go off bottom edge
         if (posY + menuHeight > viewportHeight) {
             posY = Math.max(0, y - menuHeight);
         }
@@ -140,7 +136,7 @@ const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory
                         )}
                         {category.icon && (
                             <img
-                                src={`getIconUrl('${category.icon}', 'items')`}
+                                src={getIconUrl(category.icon, 'items')}
                                 alt={category.name}
                                 className="category-icon"
                                 onError={(e) => {
@@ -211,9 +207,164 @@ const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory
             )}
         </div>
     );
-};
+});
 
-// Using the imported ItemCard component instead of defining it inline
+const ItemCell = memo(({ columnIndex, rowIndex, style, items, COLUMN_COUNT, selectedItem, isDraggingGlobal, onDragStartGlobal, onDragEndGlobal, onClick, onContextMenu, onDragOver, onDrop }) => {
+    const index = rowIndex * COLUMN_COUNT + columnIndex;
+    const item = items[index];
+    
+    if (!item) return <div style={style} />;
+
+    return (
+        <div style={{
+            ...style,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            paddingTop: '5px'
+        }}>
+            <ItemCard
+                item={item}
+                isSelected={selectedItem === item.id}
+                isDraggingGlobal={isDraggingGlobal}
+                onDragStartGlobal={onDragStartGlobal}
+                onDragEndGlobal={onDragEndGlobal}
+                onClick={onClick}
+                onContextMenu={onContextMenu}
+                onDragOver={onDragOver}
+                onDrop={onDrop}
+            />
+        </div>
+    );
+});
+
+const SimpleItemGrid = memo(({ 
+    items, 
+    selectedItem, 
+    isDraggingGlobal, 
+    onDragStartGlobal, 
+    onDragEndGlobal, 
+    onClick, 
+    onContextMenu, 
+    onDragOver, 
+    onDrop
+}) => {
+    if (items.length === 0) {
+        return (
+            <div className="item-library-empty">
+                <div className="item-library-empty-icon">
+                    <i className="fas fa-box-open"></i>
+                </div>
+                <div className="item-library-empty-text">No items in this category</div>
+                <div className="item-library-empty-subtext">
+                    Try selecting a different category or create new items using Quick Create
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="item-grid-inner">
+            {items.map((item) => (
+                <MemoizedItemCard
+                    key={item.id}
+                    item={item}
+                    isSelected={selectedItem === item.id}
+                    isDraggingGlobal={isDraggingGlobal}
+                    onDragStartGlobal={onDragStartGlobal}
+                    onDragEndGlobal={onDragEndGlobal}
+                    onClick={onClick}
+                    onContextMenu={onContextMenu}
+                    onDragOver={onDragOver}
+                    onDrop={onDrop}
+                />
+            ))}
+        </div>
+    );
+}, (prevProps, nextProps) => {
+    // Custom comparison - only re-render if items actually changed or drag state changed
+    return (
+        prevProps.items === nextProps.items &&
+        prevProps.selectedItem === nextProps.selectedItem &&
+        prevProps.isDraggingGlobal === nextProps.isDraggingGlobal &&
+        prevProps.onClick === nextProps.onClick &&
+        prevProps.onContextMenu === nextProps.onContextMenu
+    );
+});
+
+const MemoizedItemCard = memo(ItemCard, (prevProps, nextProps) => {
+    // Only re-render if this specific item's selection state or the item itself changed
+    if (prevProps.item !== nextProps.item) return false;
+    if (prevProps.isSelected !== nextProps.isSelected) return false;
+    if (prevProps.isDraggingGlobal !== nextProps.isDraggingGlobal) return false;
+    return true;
+});
+
+const VirtualizedItemGrid = memo(({ 
+    items, 
+    selectedItem, 
+    isDraggingGlobal, 
+    onDragStartGlobal, 
+    onDragEndGlobal, 
+    onClick, 
+    onContextMenu, 
+    onDragOver, 
+    onDrop,
+    containerWidth,
+    containerHeight 
+}) => {
+    const gridRef = useRef(null);
+    
+    const COLUMN_WIDTH = 100;
+    const ROW_HEIGHT = 100;
+    const COLUMN_COUNT = Math.max(1, Math.floor(containerWidth / COLUMN_WIDTH));
+    const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
+
+    const cellProps = useMemo(() => ({
+        items,
+        COLUMN_COUNT,
+        selectedItem,
+        isDraggingGlobal,
+        onDragStartGlobal,
+        onDragEndGlobal,
+        onClick,
+        onContextMenu,
+        onDragOver,
+        onDrop
+    }), [items, COLUMN_COUNT, selectedItem, isDraggingGlobal, onDragStartGlobal, onDragEndGlobal, onClick, onContextMenu, onDragOver, onDrop]);
+
+    if (items.length === 0) {
+        return (
+            <div className="item-library-empty">
+                <div className="item-library-empty-icon">
+                    <i className="fas fa-box-open"></i>
+                </div>
+                <div className="item-library-empty-text">No items in this category</div>
+                <div className="item-library-empty-subtext">
+                    Try selecting a different category or create new items using Quick Create
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div style={{ width: containerWidth, height: containerHeight }}>
+            <VirtualGrid
+                gridRef={gridRef}
+                columnCount={COLUMN_COUNT}
+                columnWidth={COLUMN_WIDTH}
+                rowCount={ROW_COUNT}
+                rowHeight={ROW_HEIGHT}
+                cellComponent={ItemCell}
+                cellProps={cellProps}
+                style={{ 
+                    width: containerWidth,
+                    height: containerHeight
+                }}
+            />
+        </div>
+    );
+});
 
 const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [activeTab, setActiveTab] = useState('library');
@@ -243,7 +394,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [unlockModalItem, setUnlockModalItem] = useState(null);
     const [shareDialog, setShareDialog] = useState(null);
 
-    // Auth store for community sharing
     const { user } = useAuthStore();
 
     const {
@@ -265,13 +415,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         toggleContainerOpen
     } = useItemStore();
 
-
-    useEffect(() => {
-        const handleClickOutside = () => setContextMenu(null);
-        document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, []);
-
     const [position] = useState(() => {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
@@ -283,8 +426,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         };
     });
     const containerRef = useRef(null);
-
-    // Drag handling is now managed by WowWindow
 
     const handleDeleteItem = (itemId) => {
         removeItem(itemId);
@@ -332,89 +473,21 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         }
     };
 
-    const handleItemContextMenu = (e, itemId) => {
-        e.preventDefault();
-
-        try {
-            // Verify the item exists before showing the context menu
-            const item = items.find(item => item.id === itemId);
-            if (!item) {
-                console.error('Item not found for context menu:', itemId);
-                return; // Don't show context menu if item doesn't exist
-            }
-
-            // Calculate position to ensure context menu stays within viewport
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-
-            // Use clientX and clientY for fixed positioning
-            // Note: No need to adjust for window scale since context menu is rendered at document level
-            const x = e.clientX;
-            const y = e.clientY;
-
-            // Default menu dimensions
-            const menuWidth = 200;
-            const menuHeight = 150;
-
-            // Calculate position to ensure menu stays within viewport
-            let posX = x;
-            let posY = y;
-
-            // Adjust if menu would go off right edge
-            if (posX + menuWidth > viewportWidth) {
-                posX = Math.max(0, x - menuWidth);
-            }
-
-            // Adjust if menu would go off bottom edge
-            if (posY + menuHeight > viewportHeight) {
-                posY = Math.max(0, y - menuHeight);
-            }
-
-            // Pre-validate the item to ensure it has all required properties
-            const validatedItem = {
-                ...item,
-                id: item.id || crypto.randomUUID(),
-                name: item.name || 'Unnamed Item',
-                type: item.type || 'miscellaneous',
-                quality: item.quality || 'common',
-                baseStats: item.baseStats || {},
-                combatStats: item.combatStats || {},
-                utilityStats: item.utilityStats || {}
-            };
-
-            setContextMenu({
-                type: 'item',
-                x: posX,
-                y: posY,
-                itemId,
-                categoryId: selectedCategory,
-                validatedItem // Store the validated item in the context menu state
-            });
-        } catch (error) {
-            console.error('Error showing context menu:', error);
-            // Don't show context menu if there's an error
-        }
-    };
-
     const handleEditItem = (itemId) => {
         const itemToEdit = items.find(item => item.id === itemId);
         if (itemToEdit) {
-            // Check if this is a recipe - if so, open RecipeWizard instead
             if (itemToEdit.type === 'recipe') {
                 setEditingRecipe(itemToEdit);
                 setShowRecipeWizard(true);
                 return;
             }
 
-            // Check if this is a container - if so, open ContainerWizard instead
             if (itemToEdit.type === 'container') {
-                // Format container data for editing in ContainerWizard
                 const containerData = {
                     name: itemToEdit.name,
                     quality: itemToEdit.quality,
                     description: itemToEdit.description,
                     iconId: itemToEdit.iconId,
-                    // Extract container properties
                     isLocked: itemToEdit.containerProperties?.isLocked || false,
                     lockType: itemToEdit.containerProperties?.lockType || 'none',
                     lockDC: itemToEdit.containerProperties?.lockDC || 15,
@@ -426,16 +499,13 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     failureActionDetails: itemToEdit.containerProperties?.failureActionDetails || {}
                 };
 
-                // Set editing state for ContainerWizard
                 setEditingContainer(containerData);
                 setEditingContainerId(itemToEdit.id);
                 setShowContainerWizard(true);
                 return;
             }
-            // Format weapon data for editing
             const formattedItem = {
                 ...itemToEdit,
-                // For weapons, determine slot type and hand
                 weaponSlot: itemToEdit.type === 'weapon' ? (
                     itemToEdit.slots?.includes('mainHand') && itemToEdit.slots?.includes('offHand')
                         ? 'TWO_HANDED'
@@ -452,16 +522,12 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                 ? null
                                 : 'ONE_HAND'
                 ) : null,
-                // Ensure slots array exists and contains all slots
                 slots: itemToEdit.slots || [],
-                // Ensure subtype is properly formatted
                 subtype: itemToEdit.type === 'weapon' ? (
-                    // Convert subtype to uppercase for matching with WEAPON_SUBTYPES
                     Object.keys(WEAPON_SUBTYPES).find(key =>
                         WEAPON_SUBTYPES[key].name.toLowerCase() === (itemToEdit.subtype || '').toLowerCase()
-                    ) || Object.keys(WEAPON_SUBTYPES)[0] // Default to first weapon type if not found
+                    ) || Object.keys(WEAPON_SUBTYPES)[0]
                 ) : itemToEdit.subtype,
-                // For weapons, ensure weaponStats are properly structured
                 weaponStats: itemToEdit.type === 'weapon' ? {
                     baseDamage: {
                         diceCount: parseInt(itemToEdit.weaponStats?.baseDamage?.diceCount) || 1,
@@ -471,7 +537,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                         bonusDamageType: itemToEdit.weaponStats?.baseDamage?.bonusDamageType || ''
                     }
                 } : undefined,
-                // Ensure all stats have proper structure
                 baseStats: {
                     constitution: { value: parseInt(itemToEdit.baseStats?.constitution?.value) || 0, isPercentage: itemToEdit.baseStats?.constitution?.isPercentage || false },
                     strength: { value: parseInt(itemToEdit.baseStats?.strength?.value) || 0, isPercentage: itemToEdit.baseStats?.strength?.isPercentage || false },
@@ -511,7 +576,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 }
             };
 
-            // For weapons, ensure the slots array matches the weapon type
             if (itemToEdit.type === 'weapon') {
                 if (formattedItem.weaponSlot === 'TWO_HANDED') {
                     formattedItem.slots = ['mainHand', 'offHand'];
@@ -540,7 +604,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     };
 
     const handleUnlockSuccess = (item) => {
-        // Open the container after successful unlock
         toggleContainerOpen(item.id);
         setShowUnlockModal(false);
         setUnlockModalItem(null);
@@ -548,7 +611,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
 
     const handleContainerWizardComplete = (containerData) => {
         if (editingContainer && editingContainerId) {
-            // Update the existing container with new data
             const updatedContainer = {
                 id: editingContainerId,
                 name: containerData.name,
@@ -574,7 +636,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             setEditingContainer(null);
             setEditingContainerId(null);
         } else {
-            // Create new container
             const containerItem = {
                 id: Date.now().toString(),
                 name: containerData.name || 'Unnamed Container',
@@ -599,7 +660,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 }
             };
 
-            // Add to library with appropriate categories
             const baseCategory = categories.find(c => c.isBaseCategory)?.id;
             addItem(containerItem, baseCategory ? [baseCategory] : []);
         }
@@ -616,10 +676,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             });
             setEditingItem(null);
         } else {
-            // For new items, find the base "All Items" category
             const baseCategory = categories.find(c => c.isBaseCategory)?.id;
 
-            // Add to both the base category and the selected category if one exists
             const targetCategories = selectedCategory ? [baseCategory, selectedCategory] : [baseCategory];
 
             addItem(newItemData, targetCategories);
@@ -627,10 +685,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         setShowItemWizard(false);
     };
 
-    const getCurrentItems = () => {
-
+    const currentItems = useMemo(() => {
         let filteredItems = items.filter(item => {
-            // Category filter
             if (selectedCategory) {
                 const itemCats = itemCategories[item.id];
                 if (!itemCats) {
@@ -642,7 +698,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 }
             }
 
-            // Search filter
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
                 const nameMatch = item.name.toLowerCase().includes(query);
@@ -650,7 +705,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 const typeMatch = item.type?.toLowerCase().includes(query);
                 const subtypeMatch = item.subtype?.toLowerCase().includes(query);
 
-                // Check stats for search
                 let statsMatch = false;
                 if (item.baseStats) {
                     statsMatch = Object.keys(item.baseStats).some(stat =>
@@ -663,12 +717,10 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 }
             }
 
-            // Quality filter
             if (qualityFilter && item.quality !== qualityFilter) {
                 return false;
             }
 
-            // Type filter
             if (typeFilter && item.type !== typeFilter) {
                 return false;
             }
@@ -676,47 +728,66 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             return true;
         });
 
-        // Remove duplicates based on item ID
-        const uniqueItems = filteredItems.filter((item, index, self) =>
+        return filteredItems.filter((item, index, self) =>
             index === self.findIndex(i => i.id === item.id)
         );
+    }, [items, selectedCategory, itemCategories, searchQuery, qualityFilter, typeFilter, categories]);
 
+    const handleItemContextMenu = useCallback((e, item) => {
+        if (!e) return;
+        e.preventDefault();
 
-        return uniqueItems;
-    };
+        try {
+            if (!item) {
+                console.error('Item not found for context menu');
+                return;
+            }
 
-    // Get unique item types and qualities for filter options
-    const getFilterOptions = () => {
-        const types = new Set();
-        const qualities = new Set();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-        items.forEach(item => {
-            if (item.type) types.add(item.type);
-            if (item.quality) qualities.add(item.quality);
-        });
+            const x = e.clientX;
+            const y = e.clientY;
 
-        return {
-            types: Array.from(types).sort(),
-            qualities: Array.from(qualities).sort()
-        };
-    };
+            const menuWidth = 200;
+            const menuHeight = 150;
 
-    const filterOptions = getFilterOptions();
+            let posX = x;
+            let posY = y;
 
-    const handleMoveToCategory = (itemId, targetCategoryId) => {
-        if (targetCategoryId) {
-            moveItem(itemId, targetCategoryId);
-            setContextMenu(null);
+            if (posX + menuWidth > viewportWidth) {
+                posX = Math.max(0, x - menuWidth);
+            }
+
+            if (posY + menuHeight > viewportHeight) {
+                posY = Math.max(0, y - menuHeight);
+            }
+
+            const validatedItem = {
+                ...item,
+                id: item.id || crypto.randomUUID(),
+                name: item.name || 'Unnamed Item',
+                type: item.type || 'miscellaneous',
+                quality: item.quality || 'common',
+                baseStats: item.baseStats || {},
+                combatStats: item.combatStats || {},
+                utilityStats: item.utilityStats || {}
+            };
+
+            setContextMenu({
+                type: 'item',
+                x: posX,
+                y: posY,
+                itemId: item.id,
+                categoryId: selectedCategory,
+                validatedItem
+            });
+        } catch (error) {
+            console.error('Error showing context menu:', error);
         }
-    };
+    }, [selectedCategory]);
 
-    const handleContainerCreate = () => {
-        setShowContainerWizard(true);
-    };
-
-    // Helper function to render category options with indentation
-    const renderCategoryOptions = (categories) => {
-        // Build a tree structure
+    const categoryOptions = useMemo(() => {
         const categoryMap = new Map();
         const rootCategories = [];
 
@@ -733,10 +804,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             }
         });
 
-        // Recursive function to render options with indentation
         const renderCategory = (category, depth = 0) => {
-            // Use non-breaking spaces and dashes for better visual hierarchy
-            const indent = '\u00A0\u00A0'.repeat(depth); // Non-breaking spaces
+            const indent = '\u00A0\u00A0'.repeat(depth);
             const prefix = depth > 0 ? '├─ ' : '';
             const option = (
                 <option key={category.id} value={category.id}>
@@ -751,16 +820,205 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             return [option, ...children];
         };
 
-        // Sort root categories and render
         const sortedRoots = rootCategories.sort((a, b) => {
-            // Put BASE_CATEGORY first
             if (a.isBaseCategory) return -1;
             if (b.isBaseCategory) return 1;
             return a.name.localeCompare(b.name);
         });
 
         return sortedRoots.flatMap(cat => renderCategory(cat));
-    };
+    }, [categories]);
+
+    const filterOptions = useMemo(() => {
+        const types = new Set();
+        const qualities = new Set();
+
+        items.forEach(item => {
+            if (item.type) types.add(item.type);
+            if (item.quality) qualities.add(item.quality);
+        });
+
+        return {
+            types: Array.from(types).sort(),
+            qualities: Array.from(qualities).sort()
+        };
+    }, [items]);
+
+    const handleMoveToCategory = useCallback((itemId, targetCategoryId) => {
+        if (targetCategoryId) {
+            moveItem(itemId, targetCategoryId);
+            setContextMenu(null);
+        }
+    }, [moveItem]);
+
+    const handleContainerCreate = useCallback(() => {
+        setShowContainerWizard(true);
+    }, []);
+
+    const handleDragStartGlobal = useCallback(() => {
+        setIsDraggingGlobal(true);
+    }, []);
+
+    const handleDragEndGlobal = useCallback(() => {
+        setIsDraggingGlobal(false);
+    }, []);
+
+    const handleItemClick = useCallback((e, item) => {
+        setSelectedItem(item.id);
+    }, []);
+
+    const handleItemDragOver = useCallback((e, containerItem) => {
+        if (containerItem.type !== 'container') return;
+        
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+
+        e.currentTarget.classList.add('container-drag-over');
+    }, []);
+
+    const handleItemDrop = useCallback((e, containerItem) => {
+        if (containerItem.type !== 'container') return;
+
+        e.preventDefault();
+        e.currentTarget.classList.remove('container-drag-over');
+
+        try {
+            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+
+            if (data.type === 'item') {
+
+                const draggedItem = items.find(item => item.id === data.id);
+
+                if (draggedItem && draggedItem.type !== 'container') {
+
+                    const containerProps = containerItem.containerProperties || {
+                        gridSize: { rows: 4, cols: 6 },
+                        items: [],
+                        isLocked: false
+                    };
+
+                    const isContainerLocked = containerProps.isLocked;
+                    if (!isContainerLocked && !openContainers.has(containerItem.id)) {
+                        toggleContainerOpen(containerItem.id);
+                    }
+
+                    const findValidPosition = (items, width, height, rotation, gridSize) => {
+                        const rows = gridSize.rows || 4;
+                        const cols = gridSize.cols || 6;
+
+                        const effectiveWidth = rotation === 1 ? height : width;
+                        const effectiveHeight = rotation === 1 ? width : height;
+
+                        for (let row = 0; row < rows; row++) {
+                            for (let col = 0; col < cols; col++) {
+                                if (row + effectiveHeight > rows || col + effectiveWidth > cols) {
+                                    continue;
+                                }
+
+                                let isValid = true;
+                                for (const item of items) {
+                                    const itemWidth = item.width || 1;
+                                    const itemHeight = item.height || 1;
+                                    const itemRotation = item.rotation || 0;
+
+                                    const itemEffectiveWidth = itemRotation === 1 ? itemHeight : itemWidth;
+                                    const itemEffectiveHeight = itemRotation === 1 ? itemWidth : itemHeight;
+
+                                    if (item.position &&
+                                        col < item.position.col + itemEffectiveWidth &&
+                                        col + effectiveWidth > item.position.col &&
+                                        row < item.position.row + itemEffectiveHeight &&
+                                        row + effectiveHeight > item.position.row) {
+                                        isValid = false;
+                                        break;
+                                    }
+                                }
+
+                                if (isValid) {
+                                    return { row, col };
+                                }
+                            }
+                        }
+
+                        return { row: 0, col: 0 };
+                    };
+
+                    let width = draggedItem.width || 1;
+                    let height = draggedItem.height || 1;
+                    const rotation = draggedItem.rotation || 0;
+
+                    if (!draggedItem.width || !draggedItem.height) {
+                        if (draggedItem.type === 'weapon') {
+                            if (draggedItem.subtype === 'GREATSWORD' || draggedItem.subtype === 'GREATAXE' ||
+                                draggedItem.subtype === 'MAUL' || draggedItem.subtype === 'POLEARM') {
+                                width = 2;
+                                height = 4;
+                            } else if (draggedItem.subtype === 'STAFF') {
+                                width = 1;
+                                height = 4;
+                            } else if (draggedItem.subtype === 'SWORD' || draggedItem.subtype === 'AXE' || draggedItem.subtype === 'MACE') {
+                                width = 1;
+                                height = 2;
+                            } else if (draggedItem.subtype === 'DAGGER') {
+                                width = 1;
+                                height = 1;
+                            } else if (draggedItem.subtype === 'BOW' || draggedItem.subtype === 'CROSSBOW') {
+                                width = 2;
+                                height = 3;
+                            }
+                        } else if (draggedItem.type === 'armor') {
+                            if (draggedItem.subtype === 'PLATE') {
+                                width = 2;
+                                height = 2;
+                            } else if (draggedItem.subtype === 'MAIL') {
+                                width = 2;
+                                height = 2;
+                            } else if (draggedItem.subtype === 'LEATHER') {
+                                width = 1;
+                                height = 2;
+                            } else if (draggedItem.subtype === 'CLOTH') {
+                                width = 1;
+                                height = 1;
+                            }
+                        }
+                    }
+
+                    const position = findValidPosition(
+                        containerProps.items || [],
+                        width,
+                        height,
+                        rotation,
+                        containerProps.gridSize || { rows: 4, cols: 6 }
+                    );
+
+                    const itemForContainer = {
+                        ...JSON.parse(JSON.stringify(draggedItem)),
+                        id: Date.now().toString(),
+                        position: position,
+                        width: width,
+                        height: height,
+                        rotation: rotation
+                    };
+
+                    const containerItems = JSON.parse(JSON.stringify(containerProps.items || []));
+
+                    containerItems.push(itemForContainer);
+
+                    const updatedContainerProps = {
+                        ...JSON.parse(JSON.stringify(containerProps)),
+                        items: containerItems,
+                        hasHadItems: true
+                    };
+
+                    updateItem(containerItem.id, {
+                        containerProperties: updatedContainerProps
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error handling drop onto container:', error);
+        }
+    }, [items, openContainers, toggleContainerOpen, updateItem]);
 
     const renderContent = () => (
         <div
@@ -768,24 +1026,20 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : activeTab === 'community' ? 'community-mode' : 'library-mode'}`}
         >
             <div className="item-library-content">
-                {/* Tab Content */}
                 {activeTab === 'library' ? (
-                    <div className="item-library-main-container">
                         <div className="item-library-main">
-                            {/* Compact Library Header */}
+
                             <div className="library-window-header">
                                 <div className="header-content">
-                                    {/* Category Dropdown */}
                                     <select
                                         value={selectedCategory || BASE_CATEGORY.id}
                                         onChange={(e) => setSelectedCategory(e.target.value || BASE_CATEGORY.id)}
                                         className="category-dropdown"
                                         title="Select category"
                                     >
-                                        {renderCategoryOptions(categories)}
+                                        {categoryOptions}
                                     </select>
 
-                                    {/* Compact Filters */}
                                     <div className="compact-filters">
                                         <input
                                             type="text"
@@ -833,7 +1087,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                         )}
                                     </div>
 
-                                    {/* Action Buttons */}
                                     <div className="header-actions">
                                         <button
                                             onClick={() => setShowQuickItemGenerator(true)}
@@ -863,219 +1116,19 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                 </div>
                             </div>
                             <div className={`item-grid ${activeView === 'list' ? 'list-view' : ''}`}>
-                                {getCurrentItems().length === 0 ? (
-                                    <div className="item-library-empty">
-                                        <div className="item-library-empty-icon">
-                                            <i className="fas fa-box-open"></i>
-                                        </div>
-                                        <div className="item-library-empty-text">No items in this category</div>
-                                        <div className="item-library-empty-subtext">
-                                            Try selecting a different category or create new items using Quick Create
-                                        </div>
-                                    </div>
-                                ) : (
-                                    getCurrentItems().map(item => (
-                                        <ItemCard
-                                            key={item.id}
-                                            item={item}
-                                            isSelected={selectedItem === item.id}
-                                            isDraggingGlobal={isDraggingGlobal}
-                                            onDragStartGlobal={() => setIsDraggingGlobal(true)}
-                                            onDragEndGlobal={() => setIsDraggingGlobal(false)}
-                                            onClick={() => setSelectedItem(item.id)}
-                                            onContextMenu={(e) => {
-                                                e.preventDefault();
-                                                handleItemContextMenu(e, item.id);
-                                            }}
-                                            onDragOver={(e, containerItem) => {
-                                                // Only handle drag over for container items
-                                                if (containerItem.type !== 'container') return;
-
-                                                // Add visual feedback for drag over
-                                                e.currentTarget.classList.add('container-drag-over');
-                                            }}
-                                            onDrop={(e, containerItem) => {
-                                                // Only handle drop for container items
-                                                if (containerItem.type !== 'container') return;
-
-                                                // Remove visual feedback
-                                                e.currentTarget.classList.remove('container-drag-over');
-
-                                                try {
-                                                    // Get the dragged item data
-                                                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-
-                                                    // Only handle drops of items from the library
-                                                    if (data.type === 'item') {
-
-                                                        // Get the dragged item
-                                                        const draggedItem = items.find(item => item.id === data.id);
-
-                                                        // Don't allow dropping a container into itself or another container
-                                                        if (draggedItem && draggedItem.type !== 'container') {
-
-                                                            // Only auto-open the container if it's not locked and not already open
-                                                            // For locked containers, we want to add items without opening them
-                                                            const isContainerLocked = containerProps.isLocked;
-                                                            if (!isContainerLocked && !openContainers.has(containerItem.id)) {
-                                                                toggleContainerOpen(containerItem.id);
-                                                            }
-
-                                                            // Get container properties or initialize with defaults
-                                                            const containerProps = containerItem.containerProperties || {
-                                                                gridSize: { rows: 4, cols: 6 },
-                                                                items: [],
-                                                                isLocked: false
-                                                            };
-
-                                                            // Find a valid position for the item in the container
-                                                            const findValidPosition = (items, width, height, rotation, gridSize) => {
-                                                                const rows = gridSize.rows || 4;
-                                                                const cols = gridSize.cols || 6;
-
-                                                                // Calculate effective dimensions based on rotation
-                                                                const effectiveWidth = rotation === 1 ? height : width;
-                                                                const effectiveHeight = rotation === 1 ? width : height;
-
-                                                                // Try each position in the grid
-                                                                for (let row = 0; row < rows; row++) {
-                                                                    for (let col = 0; col < cols; col++) {
-                                                                        // Check if the item fits within the grid
-                                                                        if (row + effectiveHeight > rows || col + effectiveWidth > cols) {
-                                                                            continue;
-                                                                        }
-
-                                                                        // Check if the position overlaps with any other item
-                                                                        let isValid = true;
-                                                                        for (const item of items) {
-                                                                            const itemWidth = item.width || 1;
-                                                                            const itemHeight = item.height || 1;
-                                                                            const itemRotation = item.rotation || 0;
-
-                                                                            // Calculate effective dimensions for the existing item
-                                                                            const itemEffectiveWidth = itemRotation === 1 ? itemHeight : itemWidth;
-                                                                            const itemEffectiveHeight = itemRotation === 1 ? itemWidth : itemHeight;
-
-                                                                            // Check for overlap
-                                                                            if (item.position &&
-                                                                                col < item.position.col + itemEffectiveWidth &&
-                                                                                col + effectiveWidth > item.position.col &&
-                                                                                row < item.position.row + itemEffectiveHeight &&
-                                                                                row + effectiveHeight > item.position.row) {
-                                                                                isValid = false;
-                                                                                break;
-                                                                            }
-                                                                        }
-
-                                                                        if (isValid) {
-                                                                            return { row, col };
-                                                                        }
-                                                                    }
-                                                                }
-
-                                                                // If no valid position found, return default position
-                                                                return { row: 0, col: 0 };
-                                                            };
-
-                                                            // Get item dimensions
-                                                            let width = draggedItem.width || 1;
-                                                            let height = draggedItem.height || 1;
-                                                            const rotation = draggedItem.rotation || 0;
-
-                                                            // If dimensions aren't explicitly set, determine them based on item type
-                                                            if (!draggedItem.width || !draggedItem.height) {
-                                                                if (draggedItem.type === 'weapon') {
-                                                                    if (draggedItem.subtype === 'GREATSWORD' || draggedItem.subtype === 'GREATAXE' ||
-                                                                        draggedItem.subtype === 'MAUL' || draggedItem.subtype === 'POLEARM') {
-                                                                        // Two-handed weapons are longer and wider
-                                                                        width = 2;
-                                                                        height = 4;
-                                                                    } else if (draggedItem.subtype === 'STAFF') {
-                                                                        // Staves are long but thin
-                                                                        width = 1;
-                                                                        height = 4;
-                                                                    } else if (draggedItem.subtype === 'SWORD' || draggedItem.subtype === 'AXE' || draggedItem.subtype === 'MACE') {
-                                                                        // One-handed weapons are medium length
-                                                                        width = 1;
-                                                                        height = 2;
-                                                                    } else if (draggedItem.subtype === 'DAGGER') {
-                                                                        // Daggers are small
-                                                                        width = 1;
-                                                                        height = 1;
-                                                                    } else if (draggedItem.subtype === 'BOW' || draggedItem.subtype === 'CROSSBOW') {
-                                                                        // Bows are wider
-                                                                        width = 2;
-                                                                        height = 3;
-                                                                    }
-                                                                } else if (draggedItem.type === 'armor') {
-                                                                    if (draggedItem.subtype === 'PLATE') {
-                                                                        // Plate armor takes more space
-                                                                        width = 2;
-                                                                        height = 2;
-                                                                    } else if (draggedItem.subtype === 'MAIL') {
-                                                                        // Mail armor is slightly smaller
-                                                                        width = 2;
-                                                                        height = 2;
-                                                                    } else if (draggedItem.subtype === 'LEATHER') {
-                                                                        // Leather armor is more compact
-                                                                        width = 1;
-                                                                        height = 2;
-                                                                    } else if (draggedItem.subtype === 'CLOTH') {
-                                                                        // Cloth armor is the most compact
-                                                                        width = 1;
-                                                                        height = 1;
-                                                                    }
-                                                                }
-                                                            }
-
-                                                            // Find a valid position for the item
-                                                            const position = findValidPosition(
-                                                                containerProps.items || [],
-                                                                width,
-                                                                height,
-                                                                rotation,
-                                                                containerProps.gridSize || { rows: 4, cols: 6 }
-                                                            );
-
-                                                            // Create a copy of the item for the container with a new ID
-                                                            const itemForContainer = {
-                                                                ...JSON.parse(JSON.stringify(draggedItem)),
-                                                                id: Date.now().toString(), // Generate a new ID
-                                                                position: position, // Use the found position
-                                                                width: width, // Set the width
-                                                                height: height, // Set the height
-                                                                rotation: rotation // Set the rotation
-                                                            };
-
-                                                            // Make a deep copy of the container's items
-                                                            const containerItems = JSON.parse(JSON.stringify(containerProps.items || []));
-
-                                                            // Add the item to the container
-                                                            containerItems.push(itemForContainer);
-
-                                                            // Create updated container properties
-                                                            const updatedContainerProps = {
-                                                                ...JSON.parse(JSON.stringify(containerProps)),
-                                                                items: containerItems,
-                                                                hasHadItems: true
-                                                            };
-
-                                                            // Update container in the store
-                                                            updateItem(containerItem.id, {
-                                                                containerProperties: updatedContainerProps
-                                                            });
-                                                        }
-                                                    }
-                                                } catch (error) {
-                                                    console.error('Error handling drop onto container:', error);
-                                                }
-                                            }}
-                                        />
-                                    ))
-                                )}
+                                <SimpleItemGrid
+                                    items={currentItems}
+                                    selectedItem={selectedItem}
+                                    isDraggingGlobal={isDraggingGlobal}
+                                    onDragStartGlobal={handleDragStartGlobal}
+                                    onDragEndGlobal={handleDragEndGlobal}
+                                    onClick={handleItemClick}
+                                    onContextMenu={handleItemContextMenu}
+                                    onDragOver={handleItemDragOver}
+                                    onDrop={handleItemDrop}
+                                />
                             </div>
                         </div>
-                    </div>
                 ) : activeTab === 'designer' ? (
                     <div className="item-designer-container">
                         <ItemGeneration onContainerCreate={handleContainerCreate} />
@@ -1117,172 +1170,77 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             onClose={onClose}
             defaultPosition={position}
             defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : activeTab === 'community' ? { width: 1100, height: 750 } : { width: 1000, height: 700 }}
-            title="Item Library"
             zIndex={1000}
             customHeader={
                 <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
+                    {tabs.map((tab) => (
+                        <SmartTabButton
                             key={tab.id}
-                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                            title={tab.label}
+                            active={activeTab === tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                        >
-                            <span>{tab.label}</span>
-                        </button>
+                        />
                     ))}
                 </div>
             }
         >
             {renderContent()}
+            {showItemWizard && (
+                <ItemWizard
+                    onComplete={handleItemWizardComplete}
+                    editingItem={editingItem}
+                    onClose={() => {
+                        setShowItemWizard(false);
+                        setEditingItem(null);
+                    }}
+                />
+            )}
 
             {showCategoryDialog && (
                 <CategoryDialog
+                    onSave={handleCreateCategory}
+                    onClose={() => setShowCategoryDialog(false)}
                     parentId={newCategoryParentId}
-                    onComplete={handleCreateCategory}
-                    onCancel={() => setShowCategoryDialog(false)}
                 />
-            )}
-
-            {showItemWizard && (
-                <ItemWizard
-                    onComplete={(item) => {
-                        handleItemWizardComplete(item);
-                        setShowItemWizard(false);
-                        setEditingItem(null);
-                    }}
-                    onCancel={() => {
-                        setShowItemWizard(false);
-                        setEditingItem(null);
-                    }}
-                    initialData={editingItem}
-                    isEditing={!!editingItem}
-                    initialStep={editingItem ? STEPS.BASIC_INFO : STEPS.ITEM_TYPE}
-                    stepOrder={editingItem ? getStepOrder(true, editingItem.type) : undefined}
-                />
-            )}
-
-            {showContainerWizard && createPortal(
-                <ContainerWizard
-                    initialData={editingContainer}
-                    isEditing={!!editingContainer}
-                    onComplete={handleContainerWizardComplete}
-                    onCancel={() => {
-                        setShowContainerWizard(false);
-                        setEditingContainer(null);
-                        setEditingContainerId(null);
-                    }}
-                />,
-                document.body
             )}
 
             {showQuickItemGenerator && (
                 <QuickItemGeneratorModal
-                    onComplete={(newItem) => {
-                        console.log('QuickItemGeneratorModal completed with item:', newItem);
-                        // Use the same logic as handleItemWizardComplete
-                        const baseCategory = categories.find(c => c.isBaseCategory)?.id;
-                        const targetCategories = selectedCategory ? [baseCategory, selectedCategory] : [baseCategory];
-                        console.log('Adding quick item with categories:', targetCategories);
-                        addItem(newItem, targetCategories);
+                    onClose={() => setShowQuickItemGenerator(false)}
+                    onItemCreated={(item) => {
+                        handleItemWizardComplete(item);
                         setShowQuickItemGenerator(false);
                     }}
-                    onCancel={() => setShowQuickItemGenerator(false)}
                 />
             )}
 
-            {contextMenu?.type === 'item' && createPortal(
-                <ItemContextMenu
-                    x={contextMenu.x}
-                    y={contextMenu.y}
-                    onClose={() => setContextMenu(null)}
-                    categories={categories}
-                    onMoveToCategory={(itemId, categoryId) => handleMoveToCategory(itemId, categoryId)}
-                    currentCategoryId={contextMenu.categoryId}
-                    itemId={contextMenu.itemId}
-                    item={contextMenu.validatedItem || items.find(item => item.id === contextMenu.itemId)}
-                    onEdit={handleEditItem}
-                    onShowCategorizeModal={handleShowCategorizeModal}
-                    onShowUnlockModal={handleShowUnlockModal}
-                    onShareToCommunity={(item) => setShareDialog(item)}
-                    user={user}
-                />,
-                document.body
-            )}
-
-            {/* Share to Community Dialog */}
-            <ShareItemToCommunityDialog
-                isOpen={!!shareDialog}
-                item={shareDialog}
-                onClose={() => setShareDialog(null)}
-                onShare={async (item) => {
-                    if (!user?.uid) {
-                        alert('Please log in to share items with the community.');
-                        return;
-                    }
-                    try {
-                        const { uploadItem } = await import('../../services/firebase/communityItemService');
-                        await uploadItem(item, user.uid);
-                        alert(`Successfully shared "${item.name}" with the community!`);
-                        setShareDialog(null);
-                    } catch (error) {
-                        console.error('Failed to share item:', error);
-                        throw error;
-                    }
-                }}
-            />
-
-            {/* Container Windows - Each ContainerWindow component uses its own React Portal */}
-            {Array.from(openContainers).map(containerId => {
-                const container = items.find(item => item.id === containerId);
-                if (!container) {
-                    return null;
-                }
-
-                return (
-                    <ContainerWindow
-                        key={containerId}
-                        container={container}
-                        onClose={() => toggleContainerOpen(containerId)}
-                    />
-                );
-            })}
-
-            {showRecipeWizard && createPortal(
-                <RecipeWizard
-                    isOpen={showRecipeWizard}
+            {showContainerWizard && (
+                <ContainerWizard
+                    onComplete={handleContainerWizardComplete}
+                    editingContainer={editingContainer}
                     onClose={() => {
-                        setShowRecipeWizard(false);
-                        setEditingRecipe(null);
-                        setRecipeData({});
+                        setShowContainerWizard(false);
+                        setEditingContainer(null);
+                        setEditingContainerId(null);
                     }}
-                    onSave={(recipeData) => {
-                        // Handle saving the recipe
-                        console.log('Saving recipe:', recipeData);
-                        // For now, just close the wizard
-                        setShowRecipeWizard(false);
-                        setEditingRecipe(null);
-                        setRecipeData({});
-                    }}
-                    onWindowPositionChange={setRecipeWizardPosition}
-                    onRecipeDataChange={setRecipeData}
-                    initialData={editingRecipe}
-                />,
-                document.body
+                />
             )}
 
-            {/* External Recipe Preview - renders outside the wizard window */}
-            {showRecipeWizard && createPortal(
-                <ExternalRecipePreview
-                    recipeData={recipeData}
-                    windowPosition={recipeWizardPosition}
-                    windowSize={recipeWizardSize}
-                    onWindowPositionChange={setRecipeWizardPosition}
-                    onWindowSizeChange={setRecipeWizardSize}
-                />,
-                document.body
+            {showCategorizeModal && categorizeModalData && (
+                <CategorizeModal
+                    x={categorizeModalData.x}
+                    y={categorizeModalData.y}
+                    itemId={categorizeModalData.itemId}
+                    categoryId={categorizeModalData.categoryId}
+                    categories={categories}
+                    onMove={handleMoveToCategory}
+                    onClose={() => {
+                        setShowCategorizeModal(false);
+                        setCategorizeModalData(null);
+                    }}
+                />
             )}
 
-            {/* Unlock Container Modal */}
             {showUnlockModal && unlockModalItem && (
                 <UnlockContainerModal
                     container={unlockModalItem}
@@ -1294,23 +1252,61 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 />
             )}
 
-            {/* Categorize Modal */}
-            {showCategorizeModal && categorizeModalData && (
-                <CategorizeModal
+            {contextMenu && createPortal(
+                <ItemContextMenu
+                    x={contextMenu.x}
+                    y={contextMenu.y}
+                    item={contextMenu.validatedItem}
+                    categoryId={contextMenu.categoryId}
                     categories={categories}
-                    currentCategoryId={categorizeModalData.categoryId}
-                    x={categorizeModalData.x}
-                    y={categorizeModalData.y}
-                    onMoveToCategory={(categoryId) => {
-                        handleMoveToCategory(categorizeModalData.itemId, categoryId);
-                        setShowCategorizeModal(false);
-                        setCategorizeModalData(null);
-                    }}
+                    onClose={() => setContextMenu(null)}
+                    onDelete={handleDeleteItem}
+                    onEdit={handleEditItem}
+                    onAddToInventory={handleAddToInventory}
+                    onCategorize={handleShowCategorizeModal}
+                    onUnlock={handleShowUnlockModal}
+                />,
+                document.body
+            )}
+
+            {shareDialog && createPortal(
+                <ShareItemToCommunityDialog
+                    item={shareDialog}
+                    onClose={() => setShareDialog(null)}
+                />,
+                document.body
+            )}
+
+            {showRecipeWizard && (
+                <WowWindow
+                    isOpen={true}
                     onClose={() => {
-                        setShowCategorizeModal(false);
-                        setCategorizeModalData(null);
+                        setShowRecipeWizard(false);
+                        setEditingRecipe(null);
                     }}
-                />
+                    defaultPosition={recipeWizardPosition}
+                    defaultSize={recipeWizardSize}
+                    title="Recipe Wizard"
+                    zIndex={1100}
+                >
+                    <RecipeWizard
+                        onComplete={(recipe) => {
+                            if (editingRecipe) {
+                                updateItem(editingRecipe.id, recipe);
+                            } else {
+                                const baseCategory = categories.find(c => c.isBaseCategory)?.id;
+                                addItem(recipe, baseCategory ? [baseCategory] : []);
+                            }
+                            setShowRecipeWizard(false);
+                            setEditingRecipe(null);
+                        }}
+                        editingRecipe={editingRecipe}
+                        onClose={() => {
+                            setShowRecipeWizard(false);
+                            setEditingRecipe(null);
+                        }}
+                    />
+                </WowWindow>
             )}
         </WowWindow>
     );

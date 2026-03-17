@@ -100,6 +100,8 @@ const CreatureLibrary = ({ onEdit }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
   const [shareDialog, setShareDialog] = useState(null);
+  const dragFromHandleRef = useRef(false);
+  const suppressCardClickUntilRef = useRef(0);
 
   // Auth store for community sharing
   const { user } = useAuthStore();
@@ -446,7 +448,20 @@ const CreatureLibrary = ({ onEdit }) => {
               <div className="creature-cards-container">
                 {filteredCreatures.map((creature, index) => {
                   // Create a memoized handler for each creature to prevent recreating functions on every render
+                  const handleCardMouseDown = (e) => {
+                    dragFromHandleRef.current = !!e.target.closest('.drag-handle-overlay');
+                  };
+
                   const handleDragStart = (e) => {
+                    // Only allow drag when user starts from the explicit drag handle.
+                    // This prevents accidental drags when the intent was to click/select.
+                    if (!dragFromHandleRef.current) {
+                      e.preventDefault();
+                      return;
+                    }
+
+                    suppressCardClickUntilRef.current = Date.now() + 250;
+
                     // Set the creature ID directly
                     e.dataTransfer.setData('creature/id', creature.id);
 
@@ -477,21 +492,32 @@ const CreatureLibrary = ({ onEdit }) => {
 
                     // Remove the drag image after a short delay
                     setTimeout(() => {
-                      document.body.removeChild(dragImage);
+                      if (document.body.contains(dragImage)) {
+                        document.body.removeChild(dragImage);
+                      }
                     }, 100);
 
+                  };
+
+                  const handleDragEnd = () => {
+                    dragFromHandleRef.current = false;
+                    suppressCardClickUntilRef.current = Date.now() + 250;
                   };
 
                   return (
                     <div
                       key={`${creature.id}-${index}`}
                       className={`creature-card-wrapper ${library.selectedCreature === creature.id ? 'selected' : ''}`}
+                      onMouseDownCapture={handleCardMouseDown}
                       onClick={(e) => {
-                        // Don't trigger if clicking the drag overlay
-                        if (!e.target.closest('.drag-handle-overlay')) {
-                          handleSelectCreature(creature.id);
-                          handleCreatureClick(creature, e);
-                        }
+                        // Don't trigger selection/tooltip if click immediately follows drag
+                        if (Date.now() < suppressCardClickUntilRef.current) return;
+
+                        // Drag handle clicks should not toggle selection/details
+                        if (e.target.closest('.drag-handle-overlay')) return;
+
+                        handleSelectCreature(creature.id);
+                        handleCreatureClick(creature, e);
                       }}
                       onContextMenu={(e) => handleContextMenu(e, creature.id)}
                       onMouseMove={handleMouseMove}
@@ -503,12 +529,16 @@ const CreatureLibrary = ({ onEdit }) => {
                       }}
                       draggable="true"
                       onDragStart={handleDragStart}
+                      onDragEnd={handleDragEnd}
                     >
                       <CompactCreatureCard creature={creature} />
-                      <div className="drag-handle-overlay">
+                      <div
+                        className="drag-handle-overlay"
+                        title="Drag creature to grid"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <i className="fas fa-grip-lines"></i>
                         <span>Drag to Grid</span>
-                        <span>Click to see details</span>
                       </div>
                     </div>
                   );

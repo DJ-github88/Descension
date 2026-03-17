@@ -5,7 +5,7 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WitchDoctorResourceBar.css';
 
-const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev controls
     const [localEssence, setLocalEssence] = useState(8);
     const [selectedSpec, setSelectedSpec] = useState('shadow-priest');
@@ -247,7 +247,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                     className={`witchdoctor-resource-bar ${size} stage-${stage} ${selectedSpec} ${loaFlash ? `loa-flash-${loaFlash}` : ''} ${selectedSpec === 'shadow-priest' && cursesActive ? 'shadow-flicker' : ''} ${selectedSpec === 'spirit-healer' && totemsActive ? 'spirit-pulse' : ''} ${selectedSpec === 'war-priest' && poisonsApplied > 0 ? 'war-core' : ''} clickable`}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => setShowControls(!showControls)}
+                    onClick={() => { if (isOwner) setShowControls(!showControls); }}
                     style={{
                         '--spec-base-color': currentSpec.baseColor,
                         '--spec-active-color': currentSpec.activeColor,

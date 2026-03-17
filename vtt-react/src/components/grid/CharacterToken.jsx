@@ -11,6 +11,7 @@ import useDebuffStore from '../../store/debuffStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
@@ -47,6 +48,8 @@ const CharacterToken = ({
     const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
     const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
     const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal'
     const contextMenuRef = useRef(null);
@@ -107,6 +110,9 @@ const CharacterToken = ({
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,
+        tempHealth: state.tempHealth,
+        tempMana: state.tempMana,
+        tempActionPoints: state.tempActionPoints,
         lore: state.lore,
         tokenSettings: state.tokenSettings
     }));
@@ -129,8 +135,14 @@ const CharacterToken = ({
 
     // In multiplayer, if this token belongs to another player, get their character data from party store
     const partyMembers = usePartyStore(state => state.partyMembers);
+    // FIX: Use multi-field matching to find party member by any ID type
     const partyMember = tokenPlayerId && isInMultiplayer
-        ? partyMembers.find(m => m.id === tokenPlayerId)
+        ? partyMembers.find(m => 
+            m.id === tokenPlayerId || 
+            m.socketId === tokenPlayerId || 
+            m.userId === tokenPlayerId ||
+            m.uid === tokenPlayerId
+          )
         : null;
 
     // Use party member's character data if available, otherwise use current player's data
@@ -143,6 +155,9 @@ const CharacterToken = ({
         health: partyMember.character.health || currentCharacterData.health,
         mana: partyMember.character.mana || currentCharacterData.mana,
         actionPoints: partyMember.character.actionPoints || currentCharacterData.actionPoints,
+        tempHealth: partyMember.character.tempHealth !== undefined ? partyMember.character.tempHealth : currentCharacterData.tempHealth,
+        tempMana: partyMember.character.tempMana !== undefined ? partyMember.character.tempMana : currentCharacterData.tempMana,
+        tempActionPoints: partyMember.character.tempActionPoints !== undefined ? partyMember.character.tempActionPoints : currentCharacterData.tempActionPoints,
         lore: partyMember.character.lore || currentCharacterData.lore,
         tokenSettings: partyMember.character.tokenSettings || currentCharacterData.tokenSettings
     } : currentCharacterData;
@@ -509,6 +524,14 @@ const CharacterToken = ({
     const myId = currentPlayer?.id || 'current-player';
     const isSelfTargeted = currentTarget?.id === 'current-player' || (myId && currentTarget?.id === myId);
     const isTargeted = isSelfTargeted && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
+
+    // Check if this token belongs to the current player (for context menu permissions)
+    const mySocketId = multiplayerSocket?.id;
+    // FIX: Include check for local player tokens (no playerId and not in multiplayer)
+    const isSelf = tokenPlayerId === 'current-player' || 
+                   (myId && tokenPlayerId === myId) || 
+                   (mySocketId && tokenPlayerId === mySocketId) ||
+                   (token?.isPlayerToken && !isInMultiplayer);
 
 
     // CRITICAL FIX: Use isTokensTurn function instead of direct comparison
@@ -1397,29 +1420,231 @@ const CharacterToken = ({
         setShowContextMenu(false);
     };
 
+    // Unified resource update handler with multiplayer sync
+    const handleResourceUpdate = (resourceType, newValue, adjustment, asTemporary = false) => {
+        const currentPlayer = useGameStore.getState().currentPlayer;
+        const myId = currentPlayer?.id || 'current-player';
+        // FIX: Also check socket ID since tokenPlayerId might be a socket ID
+        const mySocketId = multiplayerSocket?.id;
+        // FIX: Include check for local player tokens
+        const isSelf = tokenPlayerId === 'current-player' || 
+                       (myId && tokenPlayerId === myId) || 
+                       (mySocketId && tokenPlayerId === mySocketId) ||
+                       (token?.isPlayerToken && !isInMultiplayer);
+
+        if (isSelf) {
+            // Update characterStore for the current player
+            const charState = useCharacterStore.getState();
+            const tempField = `temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`;
+            const currentTemp = charState[tempField] || 0;
+            const maxValue = charState[resourceType]?.max || 0;
+
+            if (asTemporary && adjustment > 0) {
+                // Add as temporary resource (overheal)
+                const overhealAmount = adjustment - (maxValue - (charState[resourceType]?.current || 0));
+                charState.updateResource(resourceType, maxValue, undefined);
+                charState.updateTempResource(resourceType, currentTemp + overhealAmount);
+            } else if (adjustment < 0) {
+                // Taking damage/draining - reduce temporary resources first
+                const absAdjustment = Math.abs(adjustment);
+                let remainingAdjustment = absAdjustment;
+                let newTemp = currentTemp;
+                let newValue = charState[resourceType]?.current || 0;
+
+                // First, reduce temporary resources
+                if (currentTemp > 0) {
+                    if (absAdjustment <= currentTemp) {
+                        // All damage absorbed by temporary resources
+                        newTemp = currentTemp - absAdjustment;
+                        remainingAdjustment = 0;
+                    } else {
+                        // Temporary resources exhausted, remaining damage goes to actual resource
+                        remainingAdjustment = absAdjustment - currentTemp;
+                        newTemp = 0;
+                    }
+                }
+
+                // Apply remaining damage to actual resource
+                if (remainingAdjustment > 0) {
+                    newValue = Math.max(0, newValue - remainingAdjustment);
+                }
+
+                // Update both resource and temporary resource in character store
+                charState.updateResource(resourceType, newValue, undefined);
+                if (newTemp !== currentTemp) {
+                    charState.updateTempResource(resourceType, newTemp);
+                }
+            } else {
+                charState.updateResource(resourceType, newValue, undefined);
+            }
+            
+            // CRITICAL FIX: Also update partyStore so PartyHUD sees the change
+            const partyState = usePartyStore.getState();
+            const selfMember = partyState.partyMembers.find(m => 
+                m.id === 'current-player' || 
+                m.id === myId || 
+                m.socketId === mySocketId ||
+                m.userId === myId
+            );
+            if (selfMember && selfMember.character) {
+                const currentValue = selfMember.character[resourceType]?.current || 0;
+                let finalValue = newValue;
+                let finalTemp = selfMember.character[tempField] || 0;
+
+                if (asTemporary && adjustment > 0) {
+                    const overhealAmount = adjustment - (maxValue - currentValue);
+                    finalValue = maxValue;
+                    finalTemp += overhealAmount;
+                } else if (adjustment < 0) {
+                    const absAdjustment = Math.abs(adjustment);
+                    let remainingAdjustment = absAdjustment;
+                    
+                    if (finalTemp > 0) {
+                        if (absAdjustment <= finalTemp) {
+                            finalTemp -= absAdjustment;
+                            remainingAdjustment = 0;
+                        } else {
+                            remainingAdjustment = absAdjustment - finalTemp;
+                            finalTemp = 0;
+                        }
+                    }
+                    if (remainingAdjustment > 0) {
+                        finalValue = Math.max(0, currentValue - remainingAdjustment);
+                    }
+                }
+
+                usePartyStore.getState().updatePartyMember(selfMember.id, {
+                    character: {
+                        ...selfMember.character,
+                        [resourceType]: {
+                            ...selfMember.character[resourceType],
+                            current: finalValue
+                        },
+                        [tempField]: finalTemp
+                    }
+                });
+            }
+            
+            // Sync via socket if in multiplayer
+            if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                const gameStore = useGameStore.getState();
+                const roomId = gameStore.multiplayerRoom?.id;
+                
+                multiplayerSocket.emit('character_resource_updated', {
+                    roomId: roomId,
+                    playerId: selfMember?.id || myId,
+                    userId: selfMember?.userId,
+                    socketId: selfMember?.socketId || mySocketId,
+                    playerName: selfMember?.name || 'Player',
+                    resource: resourceType,
+                    current: newValue,
+                    max: selfMember?.character?.[resourceType]?.max || 0,
+                    temp: finalTemp,
+                    adjustment: adjustment,
+                    timestamp: Date.now()
+                });
+            }
+        } else if (isGMMode && (tokenPlayerId || token?.isPlayerToken)) {
+            // Update party store for GM adjustments on other players
+            // FIX: Removed isInMultiplayer requirement - partyStore should update regardless
+            const partyState = usePartyStore.getState();
+            // FIX: Use multi-field matching like updatePartyMember does
+            const member = partyState.partyMembers.find(m => 
+                (tokenPlayerId && (
+                    m.id === tokenPlayerId || 
+                    m.userId === tokenPlayerId || 
+                    m.socketId === tokenPlayerId ||
+                    m.uid === tokenPlayerId
+                )) || 
+                (token?.isPlayerToken && !tokenPlayerId && (m.id === 'current-player' || m.id === myId))
+            );
+            if (member && member.character) {
+                const max = member.character[resourceType]?.max || 0;
+                const tempField = `temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`;
+                const currentTemp = member.character[tempField] || 0;
+                const currentValue = member.character[resourceType]?.current || 0;
+                let finalValue = newValue;
+                let finalTemp = currentTemp;
+
+                if (asTemporary && adjustment > 0) {
+                    const overhealAmount = adjustment - (max - currentValue);
+                    finalValue = max;
+                    finalTemp = currentTemp + overhealAmount;
+                } else if (adjustment < 0) {
+                    const absAdjustment = Math.abs(adjustment);
+                    let remainingAdjustment = absAdjustment;
+
+                    if (currentTemp > 0) {
+                        if (absAdjustment <= currentTemp) {
+                            finalTemp = currentTemp - absAdjustment;
+                            remainingAdjustment = 0;
+                        } else {
+                            remainingAdjustment = absAdjustment - currentTemp;
+                            finalTemp = 0;
+                        }
+                    }
+                    if (remainingAdjustment > 0) {
+                        finalValue = Math.max(0, currentValue - remainingAdjustment);
+                    }
+                }
+
+                usePartyStore.getState().updatePartyMember(member.id, {
+                    character: {
+                        ...member.character,
+                        [resourceType]: {
+                            ...member.character[resourceType],
+                            current: finalValue
+                        },
+                        [tempField]: finalTemp
+                    }
+                });
+
+                // Sync via socket only if in multiplayer
+                if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                    const gameStore = useGameStore.getState();
+                    const roomId = gameStore.multiplayerRoom?.id;
+                    
+                    multiplayerSocket.emit('character_resource_updated', {
+                        roomId: roomId,
+                        playerId: member.id,
+                        userId: member.userId || member.uid,
+                        socketId: member.socketId,
+                        playerName: member.name,
+                        resource: resourceType,
+                        current: finalValue,
+                        max: max,
+                        temp: finalTemp,
+                        adjustment: adjustment,
+                        timestamp: Date.now()
+                    });
+                }
+            } else {
+                console.warn('handleResourceUpdate: Member not found for tokenPlayerId:', tokenPlayerId);
+            }
+        } else {
+            console.warn('handleResourceUpdate: Conditions not met', {
+                isGMMode, tokenPlayerId, isPlayerToken: token?.isPlayerToken, resourceType, newValue
+            });
+        }
+
+        // Sync to combat
+        if (isInCombat) {
+            const combatStore = useCombatStore.getState();
+            if (resourceType === 'health') combatStore.updateCombatantHP(tokenId, newValue);
+            if (resourceType === 'mana') combatStore.updateCombatantMana(tokenId, newValue);
+            if (resourceType === 'actionPoints') combatStore.updateCombatantAP(tokenId, newValue);
+        }
+    };
+
     // Handle damage token
     const handleDamageToken = (amount) => {
         const currentHp = characterData.health.current;
-        const newHp = Math.max(0, currentHp - amount);
+        const tempHp = characterData.tempHealth || 0;
+        const newHp = Math.max(0, (currentHp + tempHp) - amount);
 
-        // Update character health through character store - pass current value, keep max unchanged
-        useCharacterStore.getState().updateResource('health', newHp, undefined);
+        handleResourceUpdate('health', newHp, -amount);
 
-        // CRITICAL FIX: Sync HP to combat timeline if in combat
-        if (isInCombat) {
-            const { updateCombatantHP } = useCombatStore.getState();
-            updateCombatantHP(tokenId, newHp);
-        }
-
-        // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                amount.toString(),
-                'damage',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
-        }
-
+        // Floating combat text removed from context menu per user request
         setShowContextMenu(false);
     };
 
@@ -1427,37 +1652,24 @@ const CharacterToken = ({
     const handleHealToken = (amount) => {
         const currentHp = characterData.health.current;
         const maxHp = characterData.health.max;
+        
+        if (currentHp + amount > maxHp) {
+            setOverhealData({
+                resourceType: 'health',
+                adjustment: amount,
+                overhealAmount: (currentHp + amount) - maxHp,
+                currentValue: currentHp,
+                maxValue: maxHp
+            });
+            setShowOverhealModal(true);
+            setShowContextMenu(false); // Close context menu when showing modal
+            return;
+        }
+
         const newHp = Math.min(maxHp, currentHp + amount);
+        handleResourceUpdate('health', newHp, amount);
 
-        console.log('💚 HEAL CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            amount,
-            currentHp,
-            maxHp,
-            newHp,
-            timestamp: new Date().toLocaleTimeString()
-        });
-
-        // Update character health through character store - pass current value, keep max unchanged
-        useCharacterStore.getState().updateResource('health', newHp, undefined);
-
-        // CRITICAL FIX: Sync HP to combat timeline if in combat
-        if (isInCombat) {
-            const { updateCombatantHP } = useCombatStore.getState();
-            updateCombatantHP(tokenId, newHp);
-        }
-
-        // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                amount.toString(),
-                'heal',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
-        }
-
-        setShowContextMenu(false);
+        // Floating combat text removed from context menu per user request
     };
 
     // Handle custom amount damage/heal
@@ -1485,6 +1697,12 @@ const CharacterToken = ({
             case 'mana-heal':
                 handleManaHeal(numAmount);
                 break;
+            case 'ap-spend':
+                handleAPSpend(numAmount);
+                break;
+            case 'ap-restore':
+                handleAPRestore(numAmount);
+                break;
         }
         setShowCustomAmountModal(false);
         setCustomAmountType('');
@@ -1493,63 +1711,36 @@ const CharacterToken = ({
     // Handle mana damage
     const handleManaDamage = (amount) => {
         const currentMp = characterData.mana.current;
-        const newMp = Math.max(0, currentMp - amount);
+        const tempMp = characterData.tempMana || 0;
+        const newMp = Math.max(0, (currentMp + tempMp) - amount);
 
-        console.log('💙 MANA DAMAGE CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            amount,
-            currentMp,
-            newMp,
-            timestamp: new Date().toLocaleTimeString()
-        });
+        handleResourceUpdate('mana', newMp, -amount);
 
-        // Update character mana through character store
-        useCharacterStore.getState().updateResource('mana', newMp, undefined);
-
-        // CRITICAL FIX: Sync Mana to combat timeline if in combat
-        if (isInCombat) {
-            const { updateCombatantMana } = useCombatStore.getState();
-            updateCombatantMana(tokenId, newMp);
-        }
-
-        // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                amount.toString(),
-                'mana-damage',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
-        }
+        // Floating combat text removed from context menu per user request
     };
 
     // Handle mana heal
     const handleManaHeal = (amount) => {
         const currentMp = characterData.mana.current;
         const maxMp = characterData.mana.max;
-        const newMp = Math.min(maxMp, currentMp + amount);
 
-        console.log('💙 MANA HEAL CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            amount,
-            currentMp,
-            maxMp,
-            newMp,
-            timestamp: new Date().toLocaleTimeString()
-        });
-
-        // Update character mana through character store
-        useCharacterStore.getState().updateResource('mana', newMp, undefined);
-
-        // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                amount.toString(),
-                'mana-heal',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
+        if (currentMp + amount > maxMp) {
+            setOverhealData({
+                resourceType: 'mana',
+                adjustment: amount,
+                overhealAmount: (currentMp + amount) - maxMp,
+                currentValue: currentMp,
+                maxValue: maxMp
+            });
+            setShowOverhealModal(true);
+            setShowContextMenu(false);
+            return;
         }
+
+        const newMp = Math.min(maxMp, currentMp + amount);
+        handleResourceUpdate('mana', newMp, amount);
+
+        // Floating combat text removed from context menu per user request
     };
 
     // Handle full heal
@@ -1557,66 +1748,79 @@ const CharacterToken = ({
         const maxHp = characterData.health.max;
         const maxMp = characterData.mana.max;
 
-        console.log('💚 FULL HEAL CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            timestamp: new Date().toLocaleTimeString()
-        });
+        handleResourceUpdate('health', maxHp, maxHp - characterData.health.current);
+        handleResourceUpdate('mana', maxMp, maxMp - characterData.mana.current);
 
-        // Update both health and mana to max
-        useCharacterStore.getState().updateResource('health', maxHp, undefined);
-        useCharacterStore.getState().updateResource('mana', maxMp, undefined);
-
-        // Show floating combat text
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                'FULL HEAL',
-                'heal',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
-        }
-
+        // Floating combat text removed from context menu per user request
         setShowContextMenu(false);
     };
 
     // Handle kill (set health to 0)
     const handleKill = () => {
+        const currentHp = characterData.health.current;
+        const tempHp = characterData.tempHealth || 0;
+        handleResourceUpdate('health', 0, -(currentHp + tempHp));
 
-        // Set health to 0
-        useCharacterStore.getState().updateResource('health', 0, undefined);
-
-        // Show floating combat text
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                'KILLED',
-                'damage',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
-        }
-
+        // Floating combat text removed from context menu per user request
         setShowContextMenu(false);
     };
 
     // Handle drain mana (set mana to 0)
     const handleDrainMana = () => {
-        console.log('🔵 DRAIN MANA CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            timestamp: new Date().toLocaleTimeString()
-        });
+        const currentMp = characterData.mana.current;
+        const tempMp = characterData.tempMana || 0;
+        handleResourceUpdate('mana', 0, -(currentMp + tempMp));
 
-        // Set mana to 0
-        useCharacterStore.getState().updateResource('mana', 0, undefined);
+        // Floating combat text removed from context menu per user request
+        setShowContextMenu(false);
+    };
 
-        // Show floating combat text
-        if (window.showFloatingCombatText && screenPosition) {
-            window.showFloatingCombatText(
-                'DRAINED',
-                'mana-damage',
-                { x: screenPosition.x, y: screenPosition.y }
-            );
+    // Handle AP spend
+    const handleAPSpend = (amount) => {
+        const currentAP = characterData.actionPoints.current;
+        const tempAP = characterData.tempActionPoints || 0;
+        const newAP = Math.max(0, (currentAP + tempAP) - amount);
+        handleResourceUpdate('actionPoints', newAP, -amount);
+        
+        // Floating combat text removed from context menu per user request
+    };
+
+    // Handle AP restore
+    const handleAPRestore = (amount) => {
+        const currentAP = characterData.actionPoints.current;
+        const maxAP = characterData.actionPoints.max;
+
+        if (currentAP + amount > maxAP) {
+            setOverhealData({
+                resourceType: 'actionPoints',
+                adjustment: amount,
+                overhealAmount: (currentAP + amount) - maxAP,
+                currentValue: currentAP,
+                maxValue: maxAP
+            });
+            setShowOverhealModal(true);
+            setShowContextMenu(false);
+            return;
         }
 
+        const newAP = Math.min(maxAP, currentAP + amount);
+        handleResourceUpdate('actionPoints', newAP, amount);
+
+        // Floating combat text removed from context menu per user request
+    };
+
+    // Handle full AP restore
+    const handleFullAPRestore = () => {
+        const maxAP = characterData.actionPoints.max;
+        handleAPRestore(maxAP);
+        setShowContextMenu(false);
+    };
+
+    // Handle drain all AP
+    const handleDrainAllAP = () => {
+        const currentAP = characterData.actionPoints.current;
+        const tempAP = characterData.tempActionPoints || 0;
+        handleAPSpend(currentAP + tempAP);
         setShowContextMenu(false);
     };
 
@@ -2039,8 +2243,8 @@ const CharacterToken = ({
                     submenu: tokenActionsSubmenu
                 });
 
-                // Health, Mana, and Status submenus are GM-only to prevent player cheating/confusion
-                if (isGMMode) {
+                // Health, Mana, and Status submenus - GM can modify any token, players can modify their own
+                if (isGMMode || isSelf) {
                     // Health submenu
                     menuItems.push({
                         icon: <i className="fas fa-heart"></i>,
@@ -2208,6 +2412,98 @@ const CharacterToken = ({
                                     e.stopPropagation();
                                     setShowContextMenu(false);
                                     handleDrainMana();
+                                },
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Action Points submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-bolt"></i>,
+                        label: 'Action Points',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (1)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleAPSpend(1);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (2)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleAPSpend(2);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Spend',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('ap-spend');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (1)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleAPRestore(1);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (2)',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleAPRestore(2);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleCustomAmount('ap-restore');
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-bolt"></i>,
+                                label: 'Full Restore',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleFullAPRestore();
+                                },
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowContextMenu(false);
+                                    handleDrainAllAP();
                                 },
                                 className: 'danger'
                             }
@@ -2501,166 +2797,18 @@ const CharacterToken = ({
             )}
 
             {/* Character Tooltip */}
-            {showTooltip && createPortal(
-                <div
-                    className="pf-character-tooltip"
-                    style={{
-                        left: tooltipPosition.x,
-                        top: tooltipPosition.y,
-                        position: 'fixed',
-                        zIndex: 10000,
-                        backgroundColor: '#f0e6d2',
-                        border: '2px solid #a08c70',
-                        borderRadius: '8px',
-                        padding: '12px',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                        fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                        fontSize: '12px',
-                        color: '#7a3b2e',
-                        pointerEvents: 'none',
-                        maxWidth: '280px',
-                        minWidth: '200px',
-                        transform: tooltipPosition.x > window.innerWidth - 200 ? 'translateX(-100%)' : 'none'
-                    }}
-                >
-                    {/* Character Header */}
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        marginBottom: '8px',
-                        borderBottom: '1px solid #a08c70',
-                        paddingBottom: '6px'
-                    }}>
-                        <div
-                            style={{
-                                width: '24px',
-                                height: '24px',
-                                borderRadius: '50%',
-                                backgroundImage: getCharacterImage() ? `url(${getCharacterImage()})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                border: `2px solid ${characterData.tokenSettings?.borderColor || '#8b4513'}`
-                            }}
-                        />
-                        <div>
-                            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                                {characterData.name}
-                            </div>
-                            <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                                Level {characterData.level} {characterData.raceDisplayName || characterData.race} {characterData.class}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Health and Resources */}
-                    <div style={{ marginBottom: '8px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                            <span style={{ fontWeight: 'bold' }}>Health:</span>
-                            <span style={{ color: healthPercentage > 50 ? '#4CAF50' : healthPercentage > 25 ? '#FF9800' : '#F44336' }}>
-                                {characterData.health.current}/{characterData.health.max}
-                            </span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                            <span style={{ fontWeight: 'bold' }}>Mana:</span>
-                            <span style={{ color: '#2196F3' }}>
-                                {characterData.mana.current}/{characterData.mana.max}
-                            </span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <span style={{ fontWeight: 'bold' }}>Action Points:</span>
-                            <span style={{ color: '#9C27B0' }}>
-                                {characterData.actionPoints.current}/{characterData.actionPoints.max}
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Combat Status */}
-                    {isInCombat && (
-                        <div style={{
-                            borderTop: '1px solid #a08c70',
-                            paddingTop: '6px',
-                            fontSize: '10px',
-                            fontStyle: 'italic'
-                        }}>
-                            {isMyTurn ? (
-                                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Your Turn</span>
-                            ) : (
-                                <span style={{ color: '#666' }}>Waiting for turn</span>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Target Status */}
-                    {isTargeted && (
-                        <div style={{
-                            borderTop: '1px solid #a08c70',
-                            paddingTop: '6px',
-                            fontSize: '10px',
-                            fontStyle: 'italic',
-                            color: '#FF9800',
-                            fontWeight: 'bold'
-                        }}>
-                            Targeted
-                        </div>
-                    )}
-
-                    {/* Active Effects */}
-                    {(() => {
-                        const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
-                        const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
-                        const allEffects = [...tokenBuffs, ...tokenDebuffs];
-
-                        if (allEffects.length === 0) return null;
-
-                        return (
-                            <div style={{
-                                borderTop: '1px solid #a08c70',
-                                paddingTop: '6px',
-                                fontSize: '10px'
-                            }}>
-                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                    Active Effects:
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                    {allEffects.slice(0, 4).map((effect, index) => {
-                                        const isBuff = tokenBuffs.includes(effect);
-                                        const effectColor = effect.color || (isBuff ? '#32CD32' : '#DC143C');
-
-                                        return (
-                                            <div
-                                                key={index}
-                                                style={{
-                                                    color: '#333',
-                                                    fontWeight: 500,
-                                                    lineHeight: '1.3',
-                                                    borderLeft: `3px solid ${effectColor}`,
-                                                    paddingLeft: '6px'
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                    {effect.icon && <i className={effect.icon} style={{ color: effectColor, fontSize: '10px' }}></i>}
-                                                    <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
-                                                </div>
-                                                {effect.effectSummary && (
-                                                    <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
-                                                        {effect.effectSummary}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                    {allEffects.length > 4 && (
-                                        <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
-                                            +{allEffects.length - 4} more effects...
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        );
-                    })()}
-                </div>,
-                document.body
+            {showTooltip && (
+                <CharacterTooltip
+                    characterData={characterData}
+                    characterImage={getCharacterImage()}
+                    position={tooltipPosition}
+                    isInCombat={isInCombat}
+                    isMyTurn={isMyTurn}
+                    isTargeted={isTargeted}
+                    activeBuffs={activeBuffs}
+                    activeDebuffs={activeDebuffs}
+                    tokenId={tokenId}
+                />
             )}
 
             {/* Movement Confirmation Dialog */}
@@ -2704,6 +2852,113 @@ const CharacterToken = ({
                 }}
                 initialType={buffDebuffInitialType}
             />
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: 'black',
+                            minWidth: '350px',
+                            maxWidth: '450px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#8e2424' }}>
+                            <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px', lineHeight: '1.5' }}>
+                            {characterData.name} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum of <strong>{overhealData.maxValue}</strong>.
+                            <br /><br />
+                            Excess: <strong>{overhealData.overhealAmount}</strong> points.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <button
+                                style={{
+                                    padding: '10px',
+                                    border: '1px solid #7a3b2e',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#7a3b2e',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold'
+                                }}
+                                onClick={() => {
+                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add excess as Temporary {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+                            </button>
+                            <button
+                                style={{
+                                    padding: '10px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '14px'
+                                }}
+                                onClick={() => {
+                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Maximum {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px',
+                                    border: 'none',
+                                    backgroundColor: 'transparent',
+                                    color: '#7a3b2e',
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer',
+                                    fontSize: '12px',
+                                    marginTop: '5px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </>
     );
 };

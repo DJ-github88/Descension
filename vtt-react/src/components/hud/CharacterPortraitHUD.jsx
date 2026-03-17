@@ -274,6 +274,7 @@ const CharacterPortraitHUD = ({
                             characterClass={characterData.class}
                             classResource={characterData.classResource}
                             size="small"
+                            isOwner={isCurrentPlayer}
                             onClassResourceUpdate={isCurrentPlayer ? updateClassResource : null}
                         />
                     )}

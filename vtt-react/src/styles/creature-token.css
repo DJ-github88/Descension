@@ -136,6 +136,17 @@
   }
 }
 
+/* GM Hidden state for containers - similar to creature tokens but without the greyscale/opacity filter */
+.grid-container.container-gm-hidden {
+  border-style: dashed !important;
+  animation: gmHiddenPulse 3s infinite;
+  /* No filters here - containers stay vibrant */
+}
+
+.condition-ring-wrapper.condition-ring-static {
+  animation: none !important;
+}
+
 /* Character Token Styles - Same as creature tokens but with character-specific class */
 .character-token {
   position: absolute;
@@ -218,9 +229,7 @@
   background-position: center;
 }
 
-.token-health-bar {
-  /* position, size, and styling are handled by inline styles for dynamic scaling */
-}
+
 
 .health-fill {
   /* height and styling are handled by inline styles for dynamic scaling */
@@ -405,6 +414,25 @@
   fill: rgba(173, 216, 230, 0.8);
   stroke: rgba(0, 100, 150, 0.9);
   text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+/* Hidden - Ghostly red */
+.condition-text-hidden {
+  fill: #ff4444;
+  stroke: #4a0000;
+  text-shadow: 0 0 8px #ff0000, 0 0 12px #8b0000;
+  /* Animation for text crawling along the path */
+  animation: textPathScroll 15s linear infinite;
+}
+
+@keyframes textPathScroll {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes textPathScrollReverse {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 1000; }
 }
 
 /* Rage/Enraged - Intense red */

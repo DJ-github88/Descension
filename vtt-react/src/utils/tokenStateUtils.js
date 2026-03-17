@@ -40,9 +40,9 @@ export const getTokenResources = (target, targetType) => {
         current: state.currentActionPoints ?? stats.currentActionPoints ?? stats.maxActionPoints ?? 0,
         max: state.maxActionPoints ?? stats.maxActionPoints ?? 3
       },
-      tempHealth: 0,
-      tempMana: 0,
-      tempActionPoints: 0
+      tempHealth: state.tempHealth || 0,
+      tempMana: state.tempMana || 0,
+      tempActionPoints: state.tempActionPoints || 0
     };
   }
 
@@ -104,6 +104,9 @@ export const normalizeTokenData = (token, targetType) => {
         currentHp: token.stats?.currentHp || token.stats?.maxHp || 35,
         currentMana: token.stats?.currentMana || token.stats?.maxMana || 0,
         currentActionPoints: token.stats?.currentActionPoints || token.stats?.maxActionPoints || 2,
+        tempHealth: 0,
+        tempMana: 0,
+        tempActionPoints: 0,
         conditions: [],
         customIcon: null,
         iconScale: 100,

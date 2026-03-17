@@ -3,20 +3,6 @@ import Draggable from 'react-draggable';
 import useSettingsStore from '../../store/settingsStore';
 import '../../styles/draggable-window.css';
 
-// Simple throttle function for performance optimization
-const throttle = (func, limit) => {
-    let inThrottle;
-    return function () {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-};
-
 /**
  * DraggableWindow - A unified draggable window component for consistent window behavior
  *
@@ -286,7 +272,7 @@ const DraggableWindow = forwardRef(({
             onStart={disableDragging ? undefined : handleDragStart}
             onDrag={disableDragging ? undefined : handleDrag}
             onStop={disableDragging ? undefined : handleDragStop}
-            scale={windowScale} // CRITICAL FIX: Match dragging scale to visual scale
+            scale={1} // No scale compensation - CSS transform on inner div handles visual scaling only
             enableUserSelectHack={!disableDragging} // Enable user select hack to prevent text selection during drag
             disabled={disableDragging} // Disable dragging on mobile
         >

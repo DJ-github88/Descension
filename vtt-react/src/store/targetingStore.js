@@ -284,21 +284,25 @@ const useTargetingStore = create(
 
             targetPartyMember: (memberIndex) => {
                 // This would integrate with the party store to target a specific party member
+            },
+
+            resetStore: () => {
+                set({
+                    currentTarget: null,
+                    targetType: null,
+                    selectedTargets: [],
+                    targetingMode: TARGETING_MODES.NONE,
+                    targetHistory: []
+                });
             }
         }),
         {
             name: 'targeting-store',
-            storage: {
-                getItem: (name) => {
-                    const str = localStorage.getItem(name);
-                    if (!str) return null;
-                    return JSON.parse(str);
-                },
-                setItem: (name, value) => {
-                    localStorage.setItem(name, JSON.stringify(value));
-                },
-                removeItem: (name) => localStorage.removeItem(name)
-            }
+            partialize: (state) => ({
+                targetHUDPosition: state.targetHUDPosition,
+                targetingSettings: state.targetingSettings,
+                maxHistorySize: state.maxHistorySize
+            })
         }
     )
 );

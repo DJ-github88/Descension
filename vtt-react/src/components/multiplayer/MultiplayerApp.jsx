@@ -26,6 +26,7 @@ import useInventoryStore from '../../store/inventoryStore';
 import useQuestStore from '../../store/questStore';
 import useSettingsStore from '../../store/settingsStore';
 import useMapStore from '../../store/mapStore';
+import useTargetingStore from '../../store/targetingStore';
 import QuestShareDialog from '../quest-log/QuestShareDialog';
 import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
@@ -121,6 +122,18 @@ const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount, current
 
 
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
+  // CRITICAL FIX: Set enteringMultiplayer flag IMMEDIATELY on mount
+  // This must happen BEFORE any socket initialization to prevent the old
+  // social socket from being disconnected (which would disband the party)
+  useEffect(() => {
+    sessionStorage.setItem('enteringMultiplayer', 'true');
+    return () => {
+      // Clear flag and reset targeting when leaving multiplayer
+      sessionStorage.removeItem('enteringMultiplayer');
+      useTargetingStore.getState().resetStore?.();
+    };
+  }, []);
+
   // CRITICAL FIX: Get room code from URL params for room code routing
   const { roomCode } = useParams();
   const navigate = useNavigate();
@@ -460,6 +473,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const mapStore = useMapStore.getState();
       if (mapStore.resetStore) mapStore.resetStore();
     }
+
+    // Targeting Store - Always reset target HUD when joining/creating rooms
+    const targetingStore = useTargetingStore.getState();
+    if (targetingStore && targetingStore.resetStore) targetingStore.resetStore();
 
     console.log('✅ All stores cleared');
   }, []);
@@ -1845,7 +1862,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           isCurrentPlayer,
           resource,
           current,
-          max
+          max,
+          hasClassResource: !!data.classResource,
+          classResourceData: data.classResource
         });
 
         if (isCurrentPlayer) {
@@ -1936,6 +1955,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
 
           // Use the found member's ID for the update
+          console.log('🔄 Updating party member with classResource:', {
+            targetMemberId: targetMember.id,
+            targetMemberName: targetMember.name,
+            resource,
+            memberUpdate: JSON.stringify(memberUpdate)
+          });
           updatePartyMember(targetMember.id, memberUpdate);
 
           // Scrolling combat text removed per user request to eliminate wild animations
@@ -2189,11 +2214,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       console.log('✨ Received buff update:', type, buffData);
 
-      import('../../store/buffStore').then(({ default: useBuffStore }) => {
+      Promise.all([
+        import('../../store/buffStore'),
+        import('../../store/gameStore'),
+        import('../../store/authStore')
+      ]).then(([{ default: useBuffStore }, { default: useGameStore }, { default: useAuthStore }]) => {
         const buffStore = useBuffStore.getState();
+        const gameStore = useGameStore.getState();
+        const authStore = useAuthStore.getState();
+        
+        // Remap targetId if this buff is for us
+        const remappedBuffData = { ...buffData };
+        if (buffData.targetId) {
+          const myPlayerId = gameStore.currentPlayer?.id;
+          const myUserId = authStore.user?.uid;
+          
+          // If the buff targets our player ID or user ID, remap to 'current-player'
+          if (buffData.targetId === myPlayerId || buffData.targetId === myUserId) {
+            remappedBuffData.targetId = 'current-player';
+            console.log('🔄 Remapped buff targetId to current-player');
+          }
+        }
+        
         if (type === 'buff_added') {
           // Add buff silently (don't re-sync)
-          buffStore.addBuff(buffData, true);
+          buffStore.addBuff(remappedBuffData, true);
         } else if (type === 'buff_removed') {
           // Remove buff silently (don't re-sync)
           buffStore.removeBuff(data.buffId || buffData.id, true);
@@ -2211,11 +2256,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       console.log('🥀 Received debuff update:', type, debuffData);
 
-      import('../../store/debuffStore').then(({ default: useDebuffStore }) => {
+      Promise.all([
+        import('../../store/debuffStore'),
+        import('../../store/gameStore'),
+        import('../../store/authStore')
+      ]).then(([{ default: useDebuffStore }, { default: useGameStore }, { default: useAuthStore }]) => {
         const debuffStore = useDebuffStore.getState();
+        const gameStore = useGameStore.getState();
+        const authStore = useAuthStore.getState();
+        
+        // Remap targetId if this debuff is for us
+        const remappedDebuffData = { ...debuffData };
+        if (debuffData.targetId) {
+          const myPlayerId = gameStore.currentPlayer?.id;
+          const myUserId = authStore.user?.uid;
+          
+          // If the debuff targets our player ID or user ID, remap to 'current-player'
+          if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
+            remappedDebuffData.targetId = 'current-player';
+            console.log('🔄 Remapped debuff targetId to current-player');
+          }
+        }
+        
         if (type === 'debuff_added') {
           // Add debuff silently (don't re-sync)
-          debuffStore.addDebuff(debuffData, true);
+          debuffStore.addDebuff(remappedDebuffData, true);
         } else if (type === 'debuff_removed') {
           // Remove debuff silently (don't re-sync)
           debuffStore.removeDebuff(data.debuffId || debuffData.id, true);
@@ -3031,17 +3096,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+
     // Listen for buff updates from other players/GM
     socket.on('buff_update', (data) => {
       const { type, data: buffData, senderSocketId } = data;
       // Skip if we are the one who sent it (senderSocketId is usually the one who emitted)
       if (senderSocketId === socket?.id) return;
 
+      // Get stores for targetId remapping
+      const gameStore = require('../../store/gameStore').default.getState();
+      const authStore = require('../../store/authStore').default.getState();
       const buffStore = require('../../store/buffStore').default.getState();
+      
+      // Remap targetId if this buff is for us
+      const remappedBuffData = { ...buffData };
+      if (buffData && buffData.targetId) {
+        const myPlayerId = gameStore.currentPlayer?.id;
+        const myUserId = authStore.user?.uid;
+        
+        if (buffData.targetId === myPlayerId || buffData.targetId === myUserId) {
+          remappedBuffData.targetId = 'current-player';
+          console.log('🔄 Remapped buff targetId to current-player');
+        }
+      }
+      
       if (type === 'buff_added') {
-        buffStore.addBuff(buffData, true); // silent = true to avoid echo
+        buffStore.addBuff(remappedBuffData, true); // silent = true to avoid echo
       } else if (type === 'buff_removed') {
-        buffStore.removeBuff(buffData.buffId, true); // silent = true to avoid echo
+        buffStore.removeBuff(remappedBuffData.buffId, true); // silent = true to avoid echo
       }
       console.log('✨ Received buff_update:', { type, buffData });
     });
@@ -3052,11 +3134,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Skip if we are the one who sent it
       if (senderSocketId === socket?.id) return;
 
+      // Get stores for targetId remapping
+      const gameStore = require('../../store/gameStore').default.getState();
+      const authStore = require('../../store/authStore').default.getState();
       const debuffStore = require('../../store/debuffStore').default.getState();
+      
+      // Remap targetId if this debuff is for us
+      const remappedDebuffData = { ...debuffData };
+      if (debuffData && debuffData.targetId) {
+        const myPlayerId = gameStore.currentPlayer?.id;
+        const myUserId = authStore.user?.uid;
+        
+        if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
+          remappedDebuffData.targetId = 'current-player';
+          console.log('🔄 Remapped debuff targetId to current-player');
+        }
+      }
+      
       if (type === 'debuff_added') {
-        debuffStore.addDebuff(debuffData, true); // silent = true to avoid echo
+        debuffStore.addDebuff(remappedDebuffData, true); // silent = true to avoid echo
       } else if (type === 'debuff_removed') {
-        debuffStore.removeDebuff(debuffData.debuffId, true); // silent = true to avoid echo
+        debuffStore.removeDebuff(remappedDebuffData.debuffId, true); // silent = true to avoid echo
       }
       console.log('💀 Received debuff_update:', { type, debuffData });
     });
@@ -4133,23 +4231,41 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle buff updates
     socket.on('buff_update', (data) => {
       // Import buff store dynamically to avoid circular dependencies
-      import('../../store/buffStore').then(({ default: useBuffStore }) => {
+      Promise.all([
+        import('../../store/buffStore'),
+        import('../../store/gameStore'),
+        import('../../store/authStore')
+      ]).then(([{ default: useBuffStore }, { default: useGameStore }, { default: useAuthStore }]) => {
         const buffStore = useBuffStore.getState();
+        const gameStore = useGameStore.getState();
+        const authStore = useAuthStore.getState();
 
         // Only process updates from other players (not our own)
         if (data.playerId !== currentPlayerRef.current?.id) {
+          // Remap targetId if this buff is for us
+          const remapTargetId = (buffData) => {
+            if (!buffData || !buffData.targetId) return buffData;
+            const myPlayerId = gameStore.currentPlayer?.id;
+            const myUserId = authStore.user?.uid;
+            
+            if (buffData.targetId === myPlayerId || buffData.targetId === myUserId) {
+              return { ...buffData, targetId: 'current-player' };
+            }
+            return buffData;
+          };
+
           switch (data.type) {
             case 'buff_added':
-              // Add the new buff
+              // Add the new buff with remapped targetId
               if (data.data && data.data.id) {
-                buffStore.addBuff(data.data);
+                buffStore.addBuff(remapTargetId(data.data), true);
               }
               break;
 
             case 'buff_removed':
               // Remove the buff
               if (data.data && data.data.buffId) {
-                buffStore.removeBuff(data.data.buffId);
+                buffStore.removeBuff(data.data.buffId, true);
               }
               break;
           }
@@ -4160,23 +4276,41 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle debuff updates
     socket.on('debuff_update', (data) => {
       // Import debuff store dynamically to avoid circular dependencies
-      import('../../store/debuffStore').then(({ default: useDebuffStore }) => {
+      Promise.all([
+        import('../../store/debuffStore'),
+        import('../../store/gameStore'),
+        import('../../store/authStore')
+      ]).then(([{ default: useDebuffStore }, { default: useGameStore }, { default: useAuthStore }]) => {
         const debuffStore = useDebuffStore.getState();
+        const gameStore = useGameStore.getState();
+        const authStore = useAuthStore.getState();
 
         // Only process updates from other players (not our own)
         if (data.playerId !== currentPlayerRef.current?.id) {
+          // Remap targetId if this debuff is for us
+          const remapTargetId = (debuffData) => {
+            if (!debuffData || !debuffData.targetId) return debuffData;
+            const myPlayerId = gameStore.currentPlayer?.id;
+            const myUserId = authStore.user?.uid;
+            
+            if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
+              return { ...debuffData, targetId: 'current-player' };
+            }
+            return debuffData;
+          };
+
           switch (data.type) {
             case 'debuff_added':
-              // Add the new debuff
+              // Add the new debuff with remapped targetId
               if (data.data && data.data.id) {
-                debuffStore.addDebuff(data.data);
+                debuffStore.addDebuff(remapTargetId(data.data), true);
               }
               break;
 
             case 'debuff_removed':
               // Remove the debuff
               if (data.data && data.data.debuffId) {
-                debuffStore.removeDebuff(data.data.debuffId);
+                debuffStore.removeDebuff(data.data.debuffId, true);
               }
               break;
           }

@@ -6,7 +6,7 @@ import useCharacterStore from '../../../../store/characterStore';
 import '../styles/SpellguardResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 
-const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     const [localAEP, setLocalAEP] = useState(45);
     const [selectedSpec, setSelectedSpec] = useState('arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);
@@ -239,7 +239,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     context={context}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => setShowControls(!showControls)}
+                    onClick={() => { if (isOwner) setShowControls(!showControls); }}
                     style={{
                         '--spec-base-color': currentSpec.baseColor,
                         '--spec-active-color': currentSpec.activeColor,

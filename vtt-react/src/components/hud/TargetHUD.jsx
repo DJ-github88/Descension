@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Draggable from 'react-draggable';
+import { createPortal } from 'react-dom';
 import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import usePartyStore from '../../store/partyStore';
@@ -55,6 +56,72 @@ const getPathDisplayName = (pathId, pathDisplayName) => {
     return '';
 };
 
+const normalizeConditionKey = (value) => String(value || '').trim().toLowerCase();
+
+const getStableConditionId = (condition, scopeKey = 'target') => {
+    const normalizedName = normalizeConditionKey(condition?.name || condition?.id || 'condition');
+    const normalizedId = normalizeConditionKey(condition?.id);
+
+    // Keep store-generated IDs intact when available
+    if (normalizedId && (normalizedId.startsWith('buff_') || normalizedId.startsWith('debuff_'))) {
+        return condition.id;
+    }
+
+    const safeScope = normalizeConditionKey(scopeKey || 'target');
+    return `condition:${safeScope}:${normalizedName || normalizedId || 'unknown'}`;
+};
+
+const conditionMatches = (leftCondition, rightCondition) => {
+    if (!leftCondition || !rightCondition) return false;
+
+    const leftId = normalizeConditionKey(leftCondition.id);
+    const rightId = normalizeConditionKey(rightCondition.id);
+    const leftName = normalizeConditionKey(leftCondition.name || leftCondition.sourceConditionName || leftCondition.id);
+    const rightName = normalizeConditionKey(rightCondition.name || rightCondition.sourceConditionName || rightCondition.id);
+    const rightSourceId = normalizeConditionKey(rightCondition.sourceConditionId);
+
+    if (leftId && rightId && leftId === rightId) return true;
+    if (leftId && rightSourceId && leftId === rightSourceId) return true;
+    if (leftName && rightName && leftName === rightName) return true;
+    if (leftId && rightName && leftId === rightName) return true;
+    if (leftName && rightId && leftName === rightId) return true;
+
+    return false;
+};
+
+const toFiniteNumber = (value) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+};
+
+const getFallbackConditionRemainingSeconds = (condition, now = Date.now()) => {
+    if (!condition) return 0;
+
+    if (condition.durationType === 'rounds') {
+        const rounds = toFiniteNumber(condition.remainingRounds ?? condition.durationValue ?? condition.duration);
+        return rounds ? Math.max(0, Math.ceil(rounds)) * 6 : 0;
+    }
+
+    const endTime = toFiniteNumber(condition.endTime);
+    if (endTime && endTime > 0) {
+        return Math.max(0, Math.ceil((endTime - now) / 1000));
+    }
+
+    const appliedAt = toFiniteNumber(condition.appliedAt ?? condition.startTime);
+    const durationRaw = toFiniteNumber(condition.duration);
+
+    if (appliedAt && durationRaw && durationRaw > 0) {
+        const durationMs = durationRaw > 1000 ? durationRaw : durationRaw * 1000;
+        return Math.max(0, Math.ceil((appliedAt + durationMs - now) / 1000));
+    }
+
+    if (durationRaw && durationRaw > 0) {
+        return durationRaw > 1000 ? Math.ceil(durationRaw / 1000) : Math.ceil(durationRaw);
+    }
+
+    return 0;
+};
+
 const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const nodeRef = useRef(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
@@ -69,6 +136,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const [showCreatureInspect, setShowCreatureInspect] = useState(false);
     const [inspectCreatureData, setInspectCreatureData] = useState(null);
     const [inspectToken, setInspectToken] = useState(null);
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
 
     const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
     const { isGMMode } = useGameStore();
@@ -80,8 +149,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     // Get current player data for comparison
     const currentPlayerData = activeCharacter;
-    const { getBuffsForTarget, getRemainingTime, updateBuffTimers } = useBuffStore();
-    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
+    const { getBuffsForTarget, getRemainingTime, updateBuffTimers, getActiveEffects, activeBuffs } = useBuffStore();
+    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers, getActiveDebuffEffects, activeDebuffs } = useDebuffStore();
 
     // Real-time updates for condition timers - also cleans up expired conditions
     useEffect(() => {
@@ -141,6 +210,32 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const characterState = useCharacterStore(state => state);
     const tokens = useCreatureStore(state => state.tokens);
 
+    // Helper function to calculate modified stats for a creature including buff/debuff effects
+    const getModifiedCreatureStats = useCallback((token, baseStats = {}) => {
+        if (!token) return baseStats;
+
+        const targetId = token.id;
+        const buffEffects = getActiveEffects(targetId);
+        const debuffEffects = getActiveDebuffEffects(targetId);
+
+        // Start with base stats
+        const modifiedStats = { ...baseStats };
+
+        // Apply buff effects (positive modifiers)
+        Object.entries(buffEffects).forEach(([statKey, effects]) => {
+            const totalBonus = effects.reduce((sum, e) => sum + e.value, 0);
+            modifiedStats[statKey] = (modifiedStats[statKey] || 0) + totalBonus;
+        });
+
+        // Apply debuff effects (negative modifiers - already negated by getActiveDebuffEffects)
+        Object.entries(debuffEffects).forEach(([statKey, effects]) => {
+            const totalPenalty = effects.reduce((sum, e) => sum + e.value, 0);
+            modifiedStats[statKey] = (modifiedStats[statKey] || 0) + totalPenalty;
+        });
+
+        return modifiedStats;
+    }, [getActiveEffects, getActiveDebuffEffects]);
+
     // Get target data based on type - memoized to ensure reactivity
     const targetData = useMemo(() => {
         if (!currentTarget) return null;
@@ -160,13 +255,24 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     health: characterState.health,
                     mana: characterState.mana,
                     actionPoints: characterState.actionPoints,
+                    tempHealth: characterState.tempHealth || 0,
+                    tempMana: characterState.tempMana || 0,
+                    tempActionPoints: characterState.tempActionPoints || 0,
                     classResource: characterState.classResource,
                     level: characterState.level || 1,
                     isCreature: false
                 };
             } else {
                 // Get fresh data from party store for other party members
-                const member = partyMembers.find(m => m.id === currentTarget.id);
+                // FIX: Use multi-field matching like updatePartyMember does
+                const member = partyMembers.find(m => 
+                    m.id === currentTarget.id ||
+                    m.userId === currentTarget.id ||
+                    m.socketId === currentTarget.id ||
+                    m.uid === currentTarget.id ||
+                    (currentTarget.userId && (m.id === currentTarget.userId || m.userId === currentTarget.userId)) ||
+                    (currentTarget.socketId && (m.id === currentTarget.socketId || m.socketId === currentTarget.socketId))
+                );
                 if (member) {
                     return {
                         name: member.name,
@@ -179,6 +285,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         health: member.character?.health || { current: 100, max: 100 },
                         mana: member.character?.mana || { current: 0, max: 0 },
                         actionPoints: member.character?.actionPoints || { current: 2, max: 2 },
+                        tempHealth: member.character?.tempHealth || 0,
+                        tempMana: member.character?.tempMana || 0,
+                        tempActionPoints: member.character?.tempActionPoints || 0,
                         classResource: member.character?.classResource,
                         level: member.character?.level || 1,
                         isCreature: false
@@ -199,6 +308,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     health: characterData.health || { current: 100, max: 100 },
                     mana: characterData.mana || { current: 0, max: 0 },
                     actionPoints: characterData.actionPoints || { current: 2, max: 2 },
+                    tempHealth: characterData.tempHealth || 0,
+                    tempMana: characterData.tempMana || 0,
+                    tempActionPoints: characterData.tempActionPoints || 0,
                     level: characterData.level || 1,
                     isCreature: false
                 };
@@ -208,9 +320,34 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const token = tokens.find(t => t.id === currentTarget.id);
             const resources = getTokenResources(token || currentTarget, 'creature');
 
-            const health = resources.health;
-            const mana = resources.mana;
-            const actionPoints = resources.actionPoints;
+            // Get base stats from creature
+            const baseStats = currentTarget.stats || {};
+            
+            // Apply buff/debuff modifiers to stats
+            const modifiedStats = getModifiedCreatureStats(token, baseStats);
+
+            // Calculate max values with buff/debuff modifiers
+            const baseHealth = resources.health;
+            const baseMana = resources.mana;
+            const baseActionPoints = resources.actionPoints;
+
+            // Apply stat modifiers to max values
+            const maxHpMod = (modifiedStats.maxHp || 0) - (baseStats.maxHp || 0);
+            const maxManaMod = (modifiedStats.maxMana || 0) - (baseStats.maxMana || 0);
+            const maxApMod = (modifiedStats.maxActionPoints || 0) - (baseStats.maxActionPoints || 0);
+
+            const health = {
+                current: baseHealth.current,
+                max: baseHealth.max + maxHpMod
+            };
+            const mana = {
+                current: baseMana.current,
+                max: baseMana.max + maxManaMod
+            };
+            const actionPoints = {
+                current: baseActionPoints.current,
+                max: baseActionPoints.max + maxApMod
+            };
 
             return {
                 name: currentTarget.name,
@@ -222,11 +359,15 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 mana: mana,
                 actionPoints: actionPoints,
                 level: currentTarget.level || 1,
-                isCreature: true
+                isCreature: true,
+                tempHealth: resources.tempHealth || 0,
+                tempMana: resources.tempMana || 0,
+                tempActionPoints: resources.tempActionPoints || 0,
+                modifiedStats: modifiedStats // Include for reference
             };
         }
         return null;
-    }, [targetType, currentTarget, partyMembers, characterState, tokens]);
+    }, [targetType, currentTarget, partyMembers, characterState, tokens, getModifiedCreatureStats]);
 
     // Get target image/icon based on target type
     const getTargetImage = () => {
@@ -391,6 +532,25 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
             }
         }
+        
+        // For party members, also try looking up by various ID types
+        if ((targetType === 'party_member' || targetType === 'player') && targetId !== 'current-player') {
+            // Try looking up by userId, socketId if available
+            const altIds = [
+                currentTarget.userId,
+                currentTarget.socketId,
+                currentTarget.uid
+            ].filter(Boolean);
+            
+            for (const altId of altIds) {
+                const altBuffs = getBuffsForTarget(altId);
+                const altDebuffs = getDebuffsForTarget(altId);
+                if (altBuffs.length > 0 || altDebuffs.length > 0) {
+                    rawBuffs = [...rawBuffs, ...altBuffs];
+                    rawDebuffs = [...rawDebuffs, ...altDebuffs];
+                }
+            }
+        }
     }
 
     // Get conditions from token state
@@ -398,54 +558,118 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     if (targetType === 'creature' && currentTarget?.id) {
         const token = tokens.find(t => t.id === currentTarget.id);
         rawConditions = token?.state?.conditions || [];
+    } else if ((targetType === 'party_member' || targetType === 'player') && currentTarget?.id) {
+        // Also get conditions from character tokens for party members
+        const characterTokenStore = require('../../store/characterTokenStore').default;
+        if (currentTarget.id === 'current-player') {
+            const playerToken = characterTokenStore.getState().characterTokens.find(t => t.isPlayerToken);
+            rawConditions = playerToken?.state?.conditions || [];
+        } else {
+            // Find by playerId or token id for other party members
+            const memberToken = characterTokenStore.getState().characterTokens.find(t => 
+                t.playerId === currentTarget.id || 
+                t.id === currentTarget.id ||
+                t.playerId === currentTarget.userId ||
+                t.playerId === currentTarget.socketId
+            );
+            rawConditions = memberToken?.state?.conditions || [];
+        }
     }
 
     // CONSOLIDATION & DEDUPLICATION LOGIC
     const finalBuffs = [];
     const finalDebuffs = [];
-    const seenNames = new Set();
-    const seenIds = new Set();
+    const dedupeKeys = new Set();
+    const targetScopeKey = `${targetType || 'target'}:${currentTarget?.id || currentTarget?.name || 'unknown'}`;
 
-    // 1. Process store buffs first (they usually have more info/durations)
-    rawBuffs.forEach(b => {
-        if (seenIds.has(b.id) || seenNames.has(b.name.toLowerCase())) return;
-        finalBuffs.push(b);
-        seenIds.add(b.id);
-        seenNames.add(b.name.toLowerCase());
-    });
+    const registerCondition = (condition) => {
+        const stableId = normalizeConditionKey(getStableConditionId(condition, targetScopeKey));
+        const sourceId = normalizeConditionKey(condition?.sourceConditionId);
+        const id = normalizeConditionKey(condition?.id);
+        const name = normalizeConditionKey(condition?.name || condition?.sourceConditionName || condition?.id);
 
-    // 2. Process store debuffs
-    rawDebuffs.forEach(d => {
-        if (seenIds.has(d.id) || seenNames.has(d.name.toLowerCase())) return;
-        finalDebuffs.push(d);
-        seenIds.add(d.id);
-        seenNames.add(d.name.toLowerCase());
-    });
+        const keys = [
+            stableId ? `stable:${stableId}` : null,
+            sourceId ? `source:${sourceId}` : null,
+            id ? `id:${id}` : null,
+            name ? `name:${name}` : null
+        ].filter(Boolean);
 
-    // 3. Process token conditions and merge into buffs/debuffs based on type
-    rawConditions.forEach(c => {
-        const name = (c.name || c.id || '').toLowerCase();
-        if (seenNames.has(name)) return;
+        if (keys.some((key) => dedupeKeys.has(key))) {
+            return false;
+        }
 
-        // Look up metadata in CONDITIONS data
-        const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
+        keys.forEach((key) => dedupeKeys.add(key));
+        return true;
+    };
 
-        const mergedCondition = {
-            ...c,
-            id: c.id || `cond_${Date.now()}_${Math.random()}`,
-            name: c.name || c.id,
-            icon: c.icon || conditionData.icon,
-            color: c.color || conditionData.color,
-            description: c.description || conditionData.description,
-            type: conditionData.type || 'debuff'
+    // 1) Store buffs first (authoritative timers)
+    rawBuffs.forEach((buff) => {
+        const normalizedBuff = {
+            ...buff,
+            id: buff.id || getStableConditionId(buff, targetScopeKey),
+            type: 'buff',
+            sourceConditionId: buff.id,
+            sourceConditionName: buff.name,
+            __isTokenDerived: false,
+            __storeConditionId: buff.id || null
         };
 
-        if (mergedCondition.type === 'buff') {
+        if (!registerCondition(normalizedBuff)) return;
+        finalBuffs.push(normalizedBuff);
+    });
+
+    // 2) Store debuffs
+    rawDebuffs.forEach((debuff) => {
+        const normalizedDebuff = {
+            ...debuff,
+            id: debuff.id || getStableConditionId(debuff, targetScopeKey),
+            type: 'debuff',
+            sourceConditionId: debuff.id,
+            sourceConditionName: debuff.name,
+            __isTokenDerived: false,
+            __storeConditionId: debuff.id || null
+        };
+
+        if (!registerCondition(normalizedDebuff)) return;
+        finalDebuffs.push(normalizedDebuff);
+    });
+
+    // 3) Token conditions merged into buffs/debuffs (with stable IDs and store fallbacks)
+    rawConditions.forEach((condition) => {
+        const lookupById = normalizeConditionKey(condition?.id);
+        const lookupByName = normalizeConditionKey(condition?.name || condition?.id);
+        const conditionData = CONDITIONS[condition?.id] || CONDITIONS[lookupByName] || CONDITIONS[lookupById] || {};
+
+        const inferredType = normalizeConditionKey(condition?.type || conditionData.type) === 'buff' ? 'buff' : 'debuff';
+        const matchingStoreCondition = inferredType === 'buff'
+            ? rawBuffs.find((buff) => conditionMatches(buff, condition))
+            : rawDebuffs.find((debuff) => conditionMatches(debuff, condition));
+
+        const mergedCondition = {
+            ...conditionData,
+            ...matchingStoreCondition,
+            ...condition,
+            id: matchingStoreCondition?.id || getStableConditionId(condition, targetScopeKey),
+            sourceConditionId: condition.id || matchingStoreCondition?.id,
+            sourceConditionName: condition.name || matchingStoreCondition?.name,
+            name: condition.name || matchingStoreCondition?.name || conditionData.name || condition.id || 'Condition',
+            icon: condition.icon || matchingStoreCondition?.icon || conditionData.icon,
+            color: condition.color || matchingStoreCondition?.color || conditionData.color || (inferredType === 'buff' ? '#32CD32' : '#DC143C'),
+            description: condition.description || matchingStoreCondition?.description || conditionData.description,
+            effectSummary: condition.effectSummary || matchingStoreCondition?.effectSummary || conditionData.effectSummary || '',
+            type: inferredType,
+            __isTokenDerived: true,
+            __storeConditionId: matchingStoreCondition?.id || null
+        };
+
+        if (!registerCondition(mergedCondition)) return;
+
+        if (inferredType === 'buff') {
             finalBuffs.push(mergedCondition);
         } else {
             finalDebuffs.push(mergedCondition);
         }
-        seenNames.add(name);
     });
 
     // Use these consolidated lists for rendering
@@ -707,12 +931,36 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const handleResourceAdjust = (resourceType, adjustment, skipLogging = false) => {
         if (!currentTarget) return;
 
-        const tempFieldMap = {
-            'health': 'tempHealth',
-            'mana': 'tempMana',
-            'actionPoints': 'tempActionPoints'
-        };
-        const tempField = tempFieldMap[resourceType];
+        // Only handle positive adjustments (healing/restoring) for overheal detection
+        if (adjustment > 0) {
+            const resource = getTargetResource(resourceType);
+            const currentValue = resource.current;
+            const maxValue = resource.max;
+
+            // Check for overheal
+            if (currentValue + adjustment > maxValue) {
+                // Show confirmation modal for temporary resources
+                const overhealAmount = (currentValue + adjustment) - maxValue;
+                setOverhealData({
+                    resourceType,
+                    adjustment,
+                    overhealAmount,
+                    currentValue,
+                    maxValue
+                });
+                setShowOverhealModal(true);
+                return; // Don't apply yet, wait for user confirmation
+            }
+        }
+
+        // Apply the adjustment (no overheal or negative adjustment)
+        applyResourceAdjustment(resourceType, adjustment, false, skipLogging);
+    };
+
+    const applyResourceAdjustment = (resourceType, adjustment, asTemporary = false, skipLogging = false) => {
+        if (!currentTarget) return;
+
+        const tempField = getTempFieldName(resourceType);
 
         if (targetType === 'party_member' || targetType === 'player') {
             // Update party member or player - get fresh data from stores
@@ -728,7 +976,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const maxValue = currentResource.max || 0;
                 const currentTemp = characterState[tempField] || 0;
 
-                if (adjustment < 0) {
+                if (asTemporary && adjustment > 0) {
+                    // Add as temporary resource (overheal)
+                    const overhealAmount = (currentValue + adjustment) - maxValue;
+                    
+                    // Set resource to max and add overheal as temporary
+                    updateResource(resourceType, maxValue, maxValue);
+                    updateTempResource(resourceType, currentTemp + overhealAmount);
+                } else if (adjustment < 0) {
                     // Taking damage/draining - reduce temporary resources first
                     const damageAmount = Math.abs(adjustment);
                     let remainingDamage = damageAmount;
@@ -759,20 +1014,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         updateTempResource(resourceType, newTemp);
                     }
                 } else {
-                    // Positive adjustment (healing/restoring)
+                    // Positive adjustment (healing/restoring) - capped at max if not asTemporary
                     const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
                     updateResource(resourceType, newValue, maxValue);
                 }
-
-                // Scrolling combat text removed per user request to eliminate wild animations
 
                 // Log the resource change (unless logging is skipped)
                 if (adjustment !== 0 && !skipLogging) {
                     const characterName = getTargetName();
                     logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
                 }
-
-                // MULTIPLAYER SYNC: No longer needed here as characterStore.updateResource handles it
             } else {
                 // Update party member through party store
                 const partyState = usePartyStore.getState();
@@ -786,29 +1037,48 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     const maxValue = currentResource.max || 0;
                     const currentTemp = member.character[tempField] || 0;
 
-                    if (adjustment < 0) {
+                    let finalValue = currentValue;
+                    let finalTemp = currentTemp;
+
+                    if (asTemporary && adjustment > 0) {
+                        // Add as temporary resource (overheal)
+                        const overhealAmount = (currentValue + adjustment) - maxValue;
+                        finalValue = maxValue;
+                        finalTemp = currentTemp + overhealAmount;
+
+                        updatePartyMember(memberId, {
+                            character: {
+                                ...member.character,
+                                [resourceType]: {
+                                    ...member.character[resourceType],
+                                    current: finalValue
+                                },
+                                [tempField]: finalTemp
+                            }
+                        });
+                    } else if (adjustment < 0) {
                         // Taking damage/draining - reduce temporary resources first
                         const damageAmount = Math.abs(adjustment);
                         let remainingDamage = damageAmount;
-                        let newTemp = currentTemp;
-                        let newValue = currentValue;
+                        finalTemp = currentTemp;
+                        finalValue = currentValue;
 
                         // First, reduce temporary resources
                         if (currentTemp > 0) {
                             if (damageAmount <= currentTemp) {
                                 // All damage absorbed by temporary resources
-                                newTemp = currentTemp - damageAmount;
+                                finalTemp = currentTemp - damageAmount;
                                 remainingDamage = 0;
                             } else {
                                 // Temporary resources exhausted, remaining damage goes to actual resource
                                 remainingDamage = damageAmount - currentTemp;
-                                newTemp = 0;
+                                finalTemp = 0;
                             }
                         }
 
                         // Apply remaining damage to actual resource
                         if (remainingDamage > 0) {
-                            newValue = Math.max(0, currentValue - remainingDamage);
+                            finalValue = Math.max(0, currentValue - remainingDamage);
                         }
 
                         // Update both resource and temporary resource
@@ -817,89 +1087,46 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 ...member.character,
                                 [resourceType]: {
                                     ...member.character[resourceType],
-                                    current: newValue
+                                    current: finalValue
                                 },
-                                [tempField]: newTemp
+                                [tempField]: finalTemp
                             }
                         });
-
-                        // MULTIPLAYER SYNC: Emit calculated values directly (no setTimeout)
-                        const socket = window.multiplayerSocket;
-                        if (socket && socket.connected && adjustment !== 0) {
-                            const gameStore = useGameStore.getState();
-                            const roomId = gameStore.multiplayerRoom?.id;
-                            const capturedPlayerName = member.name;
-
-                            console.log('📤 TargetHUD emitting character_resource_updated (negative):', {
-                                playerId: memberId,
-                                playerName: capturedPlayerName,
-                                resource: resourceType,
-                                current: newValue,
-                                max: maxValue,
-                                temp: newTemp,
-                                roomId: roomId
-                            });
-
-                            socket.emit('character_resource_updated', {
-                                roomId: roomId,
-                                playerId: memberId,
-                                userId: member.userId || member.uid,
-                                socketId: member.socketId,
-                                playerName: capturedPlayerName,
-                                resource: resourceType,
-                                current: newValue,
-                                max: maxValue,
-                                temp: newTemp,
-                                adjustment: adjustment,
-                                timestamp: Date.now()
-                            });
-                        }
                     } else {
-                        // Positive adjustment (healing/restoring)
-                        const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                        // Positive adjustment (healing/restoring) - capped at max
+                        finalValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
                         updatePartyMember(memberId, {
                             character: {
                                 ...member.character,
                                 [resourceType]: {
                                     ...member.character[resourceType],
-                                    current: newValue
+                                    current: finalValue
                                 }
                             }
                         });
-
-                        // MULTIPLAYER SYNC: Emit calculated values directly (no setTimeout)
-                        const socket = window.multiplayerSocket;
-                        if (socket && socket.connected && adjustment !== 0) {
-                            const gameStore = useGameStore.getState();
-                            const roomId = gameStore.multiplayerRoom?.id;
-                            const capturedPlayerName = member.name;
-
-                            console.log('📤 TargetHUD emitting character_resource_updated (positive):', {
-                                playerId: memberId,
-                                playerName: capturedPlayerName,
-                                resource: resourceType,
-                                current: newValue,
-                                max: maxValue,
-                                roomId: roomId
-                            });
-
-                            socket.emit('character_resource_updated', {
-                                roomId: roomId,
-                                playerId: memberId,
-                                userId: member.userId || member.uid,
-                                socketId: member.socketId,
-                                playerName: capturedPlayerName,
-                                resource: resourceType,
-                                current: newValue,
-                                max: maxValue,
-                                temp: currentTemp,
-                                adjustment: adjustment,
-                                timestamp: Date.now()
-                            });
-                        }
                     }
 
-                    // Scrolling combat text removed per user request to eliminate wild animations
+                    // MULTIPLAYER SYNC: Emit calculated values directly
+                    const socket = window.multiplayerSocket;
+                    if (socket && socket.connected && adjustment !== 0) {
+                        const gameStore = useGameStore.getState();
+                        const roomId = gameStore.multiplayerRoom?.id;
+                        const capturedPlayerName = member.name;
+
+                        socket.emit('character_resource_updated', {
+                            roomId: roomId,
+                            playerId: memberId,
+                            userId: member.userId || member.uid,
+                            socketId: member.socketId,
+                            playerName: capturedPlayerName,
+                            resource: resourceType,
+                            current: finalValue,
+                            max: maxValue,
+                            temp: finalTemp,
+                            adjustment: adjustment,
+                            timestamp: Date.now()
+                        });
+                    }
 
                     // Log the resource change (unless logging is skipped)
                     if (adjustment !== 0 && !skipLogging) {
@@ -921,24 +1148,61 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     'actionPoints': resources.actionPoints
                 };
                 const safeResource = resourceMap[resourceType];
-                const currentValue = safeResource.current;
-                const maxValue = safeResource.max;
-                const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                if (safeResource) {
+                    const currentValue = safeResource.current;
+                    const maxValue = safeResource.max;
+                    const currentTemp = tempField ? (token.state?.[tempField] || 0) : 0;
 
-                // Use unified state key accessor
-                const stateKey = getStateKeyForResource(resourceType);
+                    let newValue = currentValue;
+                    let newTemp = currentTemp;
 
-                if (stateKey) {
-                    updateTokenState(token.id, {
-                        [stateKey]: newValue
-                    });
+                    if (asTemporary && adjustment > 0) {
+                        // Add overflow as temporary resource
+                        const overhealAmount = Math.max(0, (currentValue + adjustment) - maxValue);
+                        newValue = Math.min(maxValue, currentValue + adjustment);
+                        newTemp = currentTemp + overhealAmount;
+                    } else if (adjustment < 0) {
+                        // Drain temporary resources first
+                        const damageAmount = Math.abs(adjustment);
+                        let remainingDamage = damageAmount;
 
-                    // Scrolling combat text removed per user request to eliminate wild animations
+                        if (currentTemp > 0) {
+                            if (damageAmount <= currentTemp) {
+                                newTemp = currentTemp - damageAmount;
+                                remainingDamage = 0;
+                            } else {
+                                newTemp = 0;
+                                remainingDamage = damageAmount - currentTemp;
+                            }
+                        }
 
-                    // Log the resource change (unless logging is skipped)
-                    if (adjustment !== 0 && !skipLogging) {
-                        const characterName = getTargetName();
-                        logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                        if (remainingDamage > 0) {
+                            newValue = Math.max(0, currentValue - remainingDamage);
+                        }
+                    } else {
+                        // Standard positive adjustment capped at max
+                        newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    }
+
+                    // Use unified state key accessor
+                    const stateKey = getStateKeyForResource(resourceType);
+
+                    if (stateKey) {
+                        const stateUpdates = {
+                            [stateKey]: newValue
+                        };
+
+                        if (tempField && newTemp !== currentTemp) {
+                            stateUpdates[tempField] = newTemp;
+                        }
+
+                        updateTokenState(token.id, stateUpdates);
+
+                        // Log the resource change (unless logging is skipped)
+                        if (adjustment !== 0 && !skipLogging) {
+                            const characterName = getTargetName();
+                            logResourceChange(characterName, resourceType, adjustment, adjustment > 0);
+                        }
                     }
                 }
             } else {
@@ -988,12 +1252,17 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 'mana': resources.mana,
                 'actionPoints': resources.actionPoints
             };
+            const tempMap = {
+                'health': resources.tempHealth,
+                'mana': resources.tempMana,
+                'actionPoints': resources.tempActionPoints
+            };
             const safeResource = resourceMap[resourceType] || { current: 0, max: 0 };
 
             return {
                 current: safeResource.current || 0,
                 max: safeResource.max || 0,
-                temp: 0 // Creatures don't have temporary resources
+                temp: tempMap[resourceType] || 0
             };
         }
         return { current: 0, max: 0, temp: 0 };
@@ -1059,11 +1328,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const tokenId = currentTarget.id;
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
-                const maxHp = currentTarget.stats?.maxHp || 0;
+                // Use modified stats from targetData (includes buff/debuff effects)
+                const modifiedStats = targetData?.modifiedStats || currentTarget.stats || {};
+                const maxHp = modifiedStats.maxHp || 0;
                 const currentHp = token.state?.currentHp || 0;
-                const maxMp = currentTarget.stats?.maxMana || 0;
+                const maxMp = modifiedStats.maxMana || 0;
                 const currentMp = token.state?.currentMana || 0;
-                const maxAp = currentTarget.stats?.maxActionPoints || 0;
+                const maxAp = modifiedStats.maxActionPoints || 0;
                 const currentAp = token.state?.currentActionPoints || 0;
                 const healthAmount = maxHp - currentHp;
                 const manaAmount = maxMp - currentMp;
@@ -1145,13 +1416,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
                 const currentHp = token.state?.currentHp || 0;
+                const tempHp = token.state?.tempHealth || 0;
                 const currentMp = token.state?.currentMana || 0;
+                const tempMp = token.state?.tempMana || 0;
                 const currentAp = token.state?.currentActionPoints || 0;
-                const healthAmount = currentHp;
-                const manaAmount = currentMp;
-                const apAmount = currentAp;
+                const tempAp = token.state?.tempActionPoints || 0;
+                const healthAmount = currentHp + tempHp;
+                const manaAmount = currentMp + tempMp;
+                const apAmount = currentAp + tempAp;
 
-                // Drain all resources (creatures don't have temporary resources)
+                // Drain all resources including temporary
                 handleResourceAdjust('health', -healthAmount, true);
                 handleResourceAdjust('mana', -manaAmount, true);
                 handleResourceAdjust('actionPoints', -apAmount, true);
@@ -1196,7 +1470,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const tokenId = currentTarget.id;
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
-                const maxHp = currentTarget.stats?.maxHp || 0;
+                // Use modified stats from targetData (includes buff/debuff effects)
+                const modifiedStats = targetData?.modifiedStats || currentTarget.stats || {};
+                const maxHp = modifiedStats.maxHp || 0;
                 const currentHp = token.state?.currentHp || 0;
                 const healAmount = maxHp - currentHp;
                 handleResourceAdjust('health', healAmount);
@@ -1232,7 +1508,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
                 const currentHp = token.state?.currentHp || 0;
-                handleResourceAdjust('health', -currentHp);
+                const tempHp = token.state?.tempHealth || 0;
+                handleResourceAdjust('health', -(currentHp + tempHp));
             }
         }
         setShowContextMenu(false);
@@ -1270,7 +1547,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
                 const currentMp = token.state?.currentMana || 0;
-                handleResourceAdjust('mana', -currentMp);
+                const tempMp = token.state?.tempMana || 0;
+                handleResourceAdjust('mana', -(currentMp + tempMp));
                 // logResourceChange removed - handled by handleResourceAdjust
             }
         }
@@ -1308,7 +1586,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const tokenId = currentTarget.id;
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
-                const maxMp = currentTarget.stats?.maxMana || 0;
+                // Use modified stats from targetData (includes buff/debuff effects)
+                const modifiedStats = targetData?.modifiedStats || currentTarget.stats || {};
+                const maxMp = modifiedStats.maxMana || 0;
                 const currentMp = token.state?.currentMana || 0;
                 const restoreAmount = maxMp - currentMp;
                 handleResourceAdjust('mana', restoreAmount);
@@ -1350,7 +1630,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             const token = tokens.find(t => t.id === tokenId);
             if (token) {
                 const currentAp = token.state?.currentActionPoints || 0;
-                handleResourceAdjust('actionPoints', -currentAp);
+                const tempAp = token.state?.tempActionPoints || 0;
+                handleResourceAdjust('actionPoints', -(currentAp + tempAp));
                 // logResourceChange removed - handled by handleResourceAdjust
             }
         }
@@ -1397,6 +1678,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const handleConditionRightClick = (e, condition, type) => {
         e.preventDefault();
         e.stopPropagation();
+        
+        // Allow both GMs and players to interact with condition context menus
+        // (Removing the isGMMode check as requested by user)
+        
         setConditionContextMenu({
             show: true,
             condition: { ...condition, type },
@@ -1404,32 +1689,39 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         });
     };
 
-    const handleRemoveCondition = () => {
-        if (!conditionContextMenu.condition) return;
+    const handleRemoveCondition = (condition, type) => {
+        if (!condition) return;
 
-        const condition = conditionContextMenu.condition;
-        const type = condition.type;
+        console.log('🎯 TargetHUD: Removing condition:', condition.name || condition.id, 'of type:', type);
 
+        // 1. Remove from appropriate store if it exists there
         if (type === 'buff') {
             const buffStore = useBuffStore.getState();
             buffStore.removeBuff(condition.id);
         } else if (type === 'debuff') {
             const debuffStore = useDebuffStore.getState();
             debuffStore.removeDebuff(condition.id);
-        } else if (type === 'condition') {
-            // Handle actual conditions from token.state.conditions
-            // Find the target token and remove the condition
+        }
+
+        // 2. If it's token-derived (or type was override to 'condition'), also handle token state directly
+        if (condition.__isTokenDerived || type === 'condition') {
             let targetToken = null;
             let isCharacterToken = false;
 
             if (targetType === 'creature') {
                 targetToken = tokens.find(t => t.id === currentTarget.id);
             } else if (targetType === 'party_member' || targetType === 'player') {
+                const { characterTokens } = useCharacterTokenStore.getState();
+                
                 if (currentTarget.id === 'current-player') {
                     targetToken = characterTokens.find(t => t.isPlayerToken);
                     isCharacterToken = true;
                 } else {
-                    targetToken = characterTokens.find(t => t.playerId === currentTarget.id);
+                    targetToken = characterTokens.find(t => 
+                        t.playerId === currentTarget.id || 
+                        t.id === currentTarget.id ||
+                        t.playerId === currentTarget.userId
+                    );
                     isCharacterToken = true;
                 }
             }
@@ -1512,9 +1804,101 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (type === 'buff') {
             const buffStore = useBuffStore.getState();
             buffStore.updateBuffDuration(condition.id, duration, durationType);
-        } else {
+        } else if (type === 'debuff') {
             const debuffStore = useDebuffStore.getState();
             debuffStore.updateDebuffDuration(condition.id, duration, durationType);
+        } else {
+            // For plain conditions, update the token's condition directly
+            let targetToken = null;
+            let isCharacterToken = false;
+
+            if (targetType === 'creature') {
+                targetToken = tokens.find(t => t.id === currentTarget.id);
+            } else if (targetType === 'party_member' || targetType === 'player') {
+                const { characterTokens } = useCharacterTokenStore.getState();
+                
+                if (currentTarget.id === 'current-player') {
+                    targetToken = characterTokens.find(t => t.isPlayerToken);
+                    isCharacterToken = true;
+                } else {
+                    targetToken = characterTokens.find(t => 
+                        t.playerId === currentTarget.id || 
+                        t.id === currentTarget.id ||
+                        t.playerId === currentTarget.userId
+                    );
+                    isCharacterToken = true;
+                }
+            }
+
+            if (targetToken?.state?.conditions) {
+                const updatedConditions = targetToken.state.conditions.map(c => {
+                    if (c.id === condition.id || c.name === condition.name) {
+                        return {
+                            ...c,
+                            duration: durationData.durationType === 'rounds' ? durationData.durationValue * 6000 : durationData.duration,
+                            durationValue: duration,
+                            durationType: durationType,
+                            remainingRounds: durationType === 'rounds' ? duration : undefined,
+                            appliedAt: Date.now()
+                        };
+                    }
+                    return c;
+                });
+
+                if (isCharacterToken) {
+                    const { updateCharacterTokenState } = useCharacterTokenStore.getState();
+                    updateCharacterTokenState(targetToken.id, { conditions: updatedConditions });
+                } else {
+                    updateTokenState(targetToken.id, { conditions: updatedConditions });
+                }
+            }
+        }
+
+        // Also update token state if it's token-derived to ensure persistence
+        if (condition.__isTokenDerived) {
+             let targetToken = null;
+             let isCharacterToken = false;
+ 
+             if (targetType === 'creature') {
+                 targetToken = tokens.find(t => t.id === currentTarget.id);
+             } else if (targetType === 'party_member' || targetType === 'player') {
+                 const { characterTokens } = useCharacterTokenStore.getState();
+                 
+                 if (currentTarget.id === 'current-player') {
+                     targetToken = characterTokens.find(t => t.isPlayerToken);
+                     isCharacterToken = true;
+                 } else {
+                     targetToken = characterTokens.find(t => 
+                         t.playerId === currentTarget.id || 
+                         t.id === currentTarget.id ||
+                         t.playerId === currentTarget.userId
+                     );
+                     isCharacterToken = true;
+                 }
+             }
+ 
+             if (targetToken?.state?.conditions) {
+                 const updatedConditions = targetToken.state.conditions.map(c => {
+                     if (c.id === condition.id || c.name === condition.name) {
+                         return {
+                             ...c,
+                             durationValue: duration,
+                             durationType: durationType,
+                             remainingRounds: durationType === 'rounds' ? duration : undefined,
+                             // If it's time-based, the endpoint will be calculated by the store upon sync,
+                             // but we can update the core fields here.
+                         };
+                     }
+                     return c;
+                 });
+ 
+                 if (isCharacterToken) {
+                    const { updateCharacterTokenState } = useCharacterTokenStore.getState();
+                    updateCharacterTokenState(targetToken.id, { conditions: updatedConditions });
+                 } else {
+                     updateTokenState(targetToken.id, { conditions: updatedConditions });
+                 }
+             }
         }
 
         setShowDurationModal(false);
@@ -1634,42 +2018,111 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                 backgroundColor: getHealthColor(healthPercent)
                                             }}
                                         />
+                                        {targetData.tempHealth > 0 && safeHealth.max > 0 && (
+                                            <div
+                                                className="temp-resource-fill health-temp"
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: `${healthPercent}%`,
+                                                    height: '100%',
+                                                    width: `${Math.min(100 - healthPercent, (targetData.tempHealth / safeHealth.max) * 100)}%`,
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                                                    transition: 'width 0.3s ease, left 0.3s ease',
+                                                    zIndex: 1,
+                                                    pointerEvents: 'none'
+                                                }}
+                                            />
+                                        )}
                                         <div className="resource-text">
-                                            {Number(safeHealth.current) || 0}/{Number(safeHealth.max) || 1}
+                                            {(() => {
+                                                const current = safeHealth.current;
+                                                const max = safeHealth.max;
+                                                const temp = targetData.tempHealth || 0;
+                                                return temp > 0
+                                                    ? `${current}/${max} +${temp} Temporary HP`
+                                                    : `${current}/${max}`;
+                                            })()}
                                         </div>
                                     </div>
 
-                                    {/* Mana Bar - Always show for consistency */}
-                                    <div
-                                        className="resource-bar mana-bar"
-                                    >
-                                        <div
-                                            className="resource-fill"
-                                            style={{
-                                                width: `${manaPercent}%`,
-                                                backgroundColor: '#2196F3'
-                                            }}
-                                        />
-                                        <div className="resource-text">
-                                            {Number(safeMana.current) || 0}/{Number(safeMana.max) || 0}
+                                    {/* Mana Bar */}
+                                    {safeMana.max > 0 && (
+                                        <div className="resource-bar mana-bar">
+                                            <div
+                                                className="resource-fill"
+                                                style={{
+                                                    width: `${manaPercent}%`,
+                                                    backgroundColor: '#2196F3'
+                                                }}
+                                            />
+                                            {targetData.tempMana > 0 && safeMana.max > 0 && (
+                                                <div
+                                                    className="temp-resource-fill mana-temp"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        left: `${manaPercent}%`,
+                                                        height: '100%',
+                                                        width: `${Math.min(100 - manaPercent, (targetData.tempMana / safeMana.max) * 100)}%`,
+                                                        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                                                        transition: 'width 0.3s ease, left 0.3s ease',
+                                                        zIndex: 1,
+                                                        pointerEvents: 'none'
+                                                    }}
+                                                />
+                                            )}
+                                            <div className="resource-text">
+                                                {(() => {
+                                                    const current = safeMana.current;
+                                                    const max = safeMana.max;
+                                                    const temp = targetData.tempMana || 0;
+                                                    return temp > 0
+                                                        ? `${current}/${max} +${temp} Temporary Mana`
+                                                        : `${current}/${max}`;
+                                                })()}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
-                                    {/* Action Points Bar - Always show for consistency */}
-                                    <div
-                                        className="resource-bar ap-bar"
-                                    >
-                                        <div
-                                            className="resource-fill"
-                                            style={{
-                                                width: `${apPercent}%`,
-                                                backgroundColor: '#FF9800'
-                                            }}
-                                        />
-                                        <div className="resource-text">
-                                            {Number(safeActionPoints.current) || 0}/{Number(safeActionPoints.max) || 1} AP
+                                    {/* Action Points Bar */}
+                                    {safeActionPoints.max > 0 && (
+                                        <div className="resource-bar ap-bar">
+                                            <div
+                                                className="resource-fill"
+                                                style={{
+                                                    width: `${apPercent}%`,
+                                                    backgroundColor: '#FF9800'
+                                                }}
+                                            />
+                                            {targetData.tempActionPoints > 0 && safeActionPoints.max > 0 && (
+                                                <div
+                                                    className="temp-resource-fill ap-temp"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        left: `${apPercent}%`,
+                                                        height: '100%',
+                                                        width: `${Math.min(100 - apPercent, (targetData.tempActionPoints / safeActionPoints.max) * 100)}%`,
+                                                        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                                                        transition: 'width 0.3s ease, left 0.3s ease',
+                                                        zIndex: 1,
+                                                        pointerEvents: 'none'
+                                                    }}
+                                                />
+                                            )}
+                                            <div className="resource-text">
+                                                {(() => {
+                                                    const current = safeActionPoints.current;
+                                                    const max = safeActionPoints.max;
+                                                    const temp = targetData.tempActionPoints || 0;
+                                                    return temp > 0
+                                                        ? `${current}/${max} AP +${temp} Temporary AP`
+                                                        : `${current}/${max} AP`;
+                                                })()}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     {/* Class Resource Bar - Only show if character has a class and class resource */}
                                     {targetData?.class && targetData?.classResource && (
@@ -1677,7 +2130,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                             characterClass={targetData.class}
                                             classResource={targetData.classResource}
                                             isGMMode={isGMMode}
-                                            onClassResourceUpdate={handleClassResourceUpdate}
+                                            isOwner={false}
+                                            onClassResourceUpdate={null}
                                             size="small"
                                         />
                                     )}
@@ -1743,7 +2197,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     {targetBuffs.length > 0 && (
                                         <div className="target-buffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetBuffs.map((buff) => {
-                                                const remainingTime = getRemainingTime(buff.id);
+                                                const remainingTime = buff.__isTokenDerived ? getFallbackConditionRemainingSeconds(buff, currentTime) : getRemainingTime(buff.id);
                                                 const tooltipContent = {
                                                     title: buff.name,
                                                     effectSummary: buff.effectSummary,
@@ -1783,9 +2237,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                         </div>
                                                         <div style={{
                                                             fontSize: '10px',
-                                                            color: '#f0e6d2',
+                                                            color: '#ffffff !important',
                                                             fontWeight: 'bold',
-                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
                                                             marginTop: '2px',
                                                             fontFamily: 'Cinzel, serif'
                                                         }}>
@@ -1801,7 +2255,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     {targetDebuffs.length > 0 && (
                                         <div className="target-debuffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetDebuffs.map((debuff) => {
-                                                const remainingTime = getDebuffRemainingTime(debuff.id);
+                                                const remainingTime = debuff.__isTokenDerived ? getFallbackConditionRemainingSeconds(debuff, currentTime) : getDebuffRemainingTime(debuff.id);
                                                 const tooltipContent = {
                                                     title: debuff.name,
                                                     effectSummary: debuff.effectSummary,
@@ -1841,9 +2295,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                         </div>
                                                         <div style={{
                                                             fontSize: '10px',
-                                                            color: '#f0e6d2',
+                                                            color: '#ffffff !important',
                                                             fontWeight: 'bold',
-                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
                                                             marginTop: '2px',
                                                             fontFamily: 'Cinzel, serif'
                                                         }}>
@@ -2161,7 +2615,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                         const tokenId = currentTarget.id;
                                         const token = tokens.find(t => t.id === tokenId);
                                         if (token) {
-                                            const maxAp = currentTarget.stats?.maxActionPoints || 0;
+                                            // Use modified stats from targetData (includes buff/debuff effects)
+                                            const modifiedStats = targetData?.modifiedStats || currentTarget.stats || {};
+                                            const maxAp = modifiedStats.maxActionPoints || 0;
                                             const currentAp = token.state?.currentActionPoints || 0;
                                             handleResourceAdjust('actionPoints', maxAp - currentAp);
                                         }
@@ -2370,7 +2826,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     {tooltip.content.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#7a3b2e',
+                            color: '#ffffff !important',
                             fontWeight: '600',
                             marginTop: '4px',
                             padding: '4px 8px',
@@ -2389,7 +2845,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     <div style={{
                         marginTop: '8px',
                         fontSize: '12px',
-                        color: '#7a3b2e',
+                        color: '#ffffff !important',
                         fontWeight: 'bold'
                     }}>
                         Duration: {tooltip.content.duration}
@@ -2415,14 +2871,20 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         <div className="context-menu-main">
                             <div
                                 className="context-menu-item"
-                                onClick={handleAdjustConditionTime}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAdjustConditionTime();
+                                }}
                             >
                                 <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
                                 Adjust Duration
                             </div>
                             <div
                                 className="context-menu-item danger"
-                                onClick={handleRemoveCondition}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveCondition(conditionContextMenu.condition, conditionContextMenu.condition?.type);
+                                }}
                             >
                                 <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
                                 Remove Condition
@@ -2444,6 +2906,113 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         setInspectToken(null);
                     }}
                 />
+            )}
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '350px',
+                            maxWidth: '450px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#8e2424' }}>
+                            <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px', lineHeight: '1.5' }}>
+                            {getTargetName()} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum of <strong>{overhealData.maxValue}</strong>.
+                            <br /><br />
+                            Excess: <strong>{overhealData.overhealAmount}</strong> points.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <button
+                                style={{
+                                    padding: '10px',
+                                    border: '1px solid #7a3b2e',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#7a3b2e',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold'
+                                }}
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add excess as Temporary {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+                            </button>
+                            <button
+                                style={{
+                                    padding: '10px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '14px'
+                                }}
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Maximum {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px',
+                                    border: 'none',
+                                    backgroundColor: 'transparent',
+                                    color: '#7a3b2e',
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer',
+                                    fontSize: '12px',
+                                    marginTop: '5px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
             )}
         </>
     );

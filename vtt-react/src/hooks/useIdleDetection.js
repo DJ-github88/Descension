@@ -6,15 +6,19 @@
  */
 
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRoomContext } from '../contexts/RoomContext';
 import usePresenceStore from '../store/presenceStore';
 
 const IDLE_TIMEOUT = 2 * 60 * 1000; // 2 minutes in milliseconds
 
 const useIdleDetection = () => {
+  const location = useLocation();
+  const { isInRoom } = useRoomContext();
   const idleTimerRef = useRef(null);
   const previousStatusRef = useRef(null);
   const isIdleRef = useRef(false);
-  
+
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const updateStatus = usePresenceStore((state) => state.updateStatus);
 
@@ -22,6 +26,17 @@ const useIdleDetection = () => {
     // Clear existing timer
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
+    }
+
+    // CRITICAL: Bypass idle status updates if user is in a room OR not on the landing page
+    if (isInRoom || location.pathname !== '/') {
+      // If user was previously idle, restore their status immediately upon entering a room or navigating away
+      if (isIdleRef.current && previousStatusRef.current) {
+        updateStatus(previousStatusRef.current, null);
+        isIdleRef.current = false;
+        previousStatusRef.current = null;
+      }
+      return;
     }
 
     // Get current status to check if we should restore
@@ -99,11 +114,11 @@ const useIdleDetection = () => {
       events.forEach(event => {
         window.removeEventListener(event, handleActivity);
       });
-      
+
       if (idleTimerRef.current) {
         clearTimeout(idleTimerRef.current);
       }
-      
+
       if (mouseMoveTimeout) {
         clearTimeout(mouseMoveTimeout);
       }

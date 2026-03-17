@@ -28,6 +28,7 @@ import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import CreatureTooltip from '../tooltips/CreatureTooltip';
 
 // Helper function to calculate ability modifier (D&D style)
 const calculateModifier = (abilityScore) => {
@@ -125,6 +126,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Custom amount modal state
   const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
   const [customAmountType, setCustomAmountType] = useState('');
+  const [showOverhealModal, setShowOverhealModal] = useState(false);
+  const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
   const [isDragging, setIsDragging] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -1427,33 +1430,84 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   };
 
+  /**
+   * Centralized resource update handler for creature tokens
+   * Handles prioritized depletion and temporary resource calculation
+   */
+  const handleResourceUpdate = (resourceType, newValue, adjustment, addAsTemp = false) => {
+    if (!token || !creature) return;
+
+    const resources = {
+      health: { current: 'currentHp', max: 'maxHp', temp: 'tempHealth' },
+      mana: { current: 'currentMana', max: 'maxMana', temp: 'tempMana' },
+      actionPoints: { current: 'currentActionPoints', max: 'maxActionPoints', temp: 'tempActionPoints' }
+    };
+
+    const type = resources[resourceType];
+    if (!type) {
+      console.error('Invalid resource type:', resourceType);
+      return;
+    }
+
+    const currentBase = token.state[type.current] || 0;
+    const currentTemp = token.state[type.temp] || 0;
+    const max = creature.stats[type.max] || 100;
+
+    let finalValue = newValue;
+    let finalTemp = currentTemp;
+
+    if (adjustment > 0) {
+      // Healing or restoring
+      if (addAsTemp) {
+        // Add overheal as temporary HP/Mana/AP
+        const overheal = Math.max(0, (currentBase + adjustment) - max);
+        finalTemp = currentTemp + overheal;
+        finalValue = max;
+      } else {
+        // Regular heal, capped at max
+        finalValue = Math.min(max, currentBase + adjustment);
+      }
+    } else if (adjustment < 0) {
+      // Damage or spending (negative adjustment)
+      const absAdjustment = Math.abs(adjustment);
+      if (currentTemp >= absAdjustment) {
+        // Temp pool covers full amount
+        finalTemp = currentTemp - absAdjustment;
+        finalValue = currentBase;
+      } else {
+        // Temp pool depleted, remainder from base
+        const remainder = absAdjustment - currentTemp;
+        finalTemp = 0;
+        finalValue = Math.max(0, currentBase - remainder);
+      }
+    }
+
+    // Update token state
+    const update = {
+      [type.current]: finalValue,
+      [type.temp]: finalTemp
+    };
+
+    updateTokenState(tokenId, update);
+
+    // Sync to combat timeline if in combat
+    if (isInCombat) {
+      const combatStore = useCombatStore.getState();
+      if (resourceType === 'health') combatStore.updateCombatantHP(tokenId, finalValue);
+      if (resourceType === 'mana') combatStore.updateCombatantMana(tokenId, finalValue);
+      if (resourceType === 'actionPoints') combatStore.updateCombatantAP(tokenId, finalValue);
+    }
+  };
+
   // Handle damage token
   const handleDamageToken = (amount) => {
     if (!token) return;
 
-    const currentHp = token.state?.currentHp || 0;
-    const newHp = Math.max(0, currentHp - amount);
+    const currentBase = token.state?.currentHp || 0;
+    const currentTemp = token.state?.tempHealth || 0;
+    const newHp = Math.max(0, (currentBase + currentTemp) - amount);
 
-    updateTokenState(tokenId, {
-      currentHp: newHp
-    });
-
-    // CRITICAL FIX: Sync HP to combat timeline if in combat
-    if (isInCombat) {
-      const { updateCombatantHP } = useCombatStore.getState();
-      updateCombatantHP(tokenId, newHp);
-    }
-
-    // Show floating combat text at token's screen position
-    // Scrolling combat text removed per user request to eliminate wild animations
-    if (false && window.showFloatingCombatText) {
-      window.showFloatingCombatText(
-        amount.toString(),
-        'damage',
-        { x: screenPosition.x, y: screenPosition.y }
-      );
-    }
-
+    handleResourceUpdate('health', newHp, -amount);
     setShowContextMenu(false);
   };
 
@@ -1463,29 +1517,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     const currentHp = token.state?.currentHp || 0;
     const maxHp = creature.stats.maxHp;
+
+    if (currentHp + amount > maxHp) {
+      setOverhealData({
+        resourceType: 'health',
+        adjustment: amount,
+        overhealAmount: (currentHp + amount) - maxHp,
+        currentValue: currentHp,
+        maxValue: maxHp
+      });
+      setShowOverhealModal(true);
+      setShowContextMenu(false);
+      return;
+    }
+
     const newHp = Math.min(maxHp, currentHp + amount);
-
-
-    updateTokenState(tokenId, {
-      currentHp: newHp
-    });
-
-    // CRITICAL FIX: Sync HP to combat timeline if in combat
-    if (isInCombat) {
-      const { updateCombatantHP } = useCombatStore.getState();
-      updateCombatantHP(tokenId, newHp);
-    }
-
-    // Show floating combat text at token's screen position
-    // Scrolling combat text removed per user request to eliminate wild animations
-    if (false && window.showFloatingCombatText) {
-      window.showFloatingCombatText(
-        amount.toString(),
-        'heal',
-        { x: screenPosition.x, y: screenPosition.y }
-      );
-    }
-
+    handleResourceUpdate('health', newHp, amount);
     setShowContextMenu(false);
   };
 
@@ -1534,9 +1581,72 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Handle kill (set health to 0)
   const handleKill = () => {
     if (!token || !creature) return;
-    const damageAmount = token.state?.currentHp || 0;
+    const damageAmount = (token.state?.currentHp || 0) + (token.state?.tempHealth || 0);
     if (damageAmount > 0) {
       handleDamageToken(damageAmount);
+    }
+    setShowContextMenu(false);
+  };
+
+  // Handle Action Point spend
+  const handleAPSpend = (amount) => {
+    if (!token || !creature) return;
+    const currentAP = token.state.currentActionPoints || 0;
+    const tempAP = token.state.tempActionPoints || 0;
+    const newAP = Math.max(0, (currentAP + tempAP) - amount);
+
+    handleResourceUpdate('actionPoints', newAP, -amount);
+
+    // Sync to combat timeline if in combat
+    if (isInCombat) {
+      const { updateCombatantAP } = useCombatStore.getState();
+      updateCombatantAP(tokenId, newAP);
+    }
+  };
+
+  // Handle Action Point restore
+  const handleAPRestore = (amount) => {
+    if (!token || !creature) return;
+    const currentAP = token.state.currentActionPoints || 0;
+    const maxAP = creature.stats.maxActionPoints || 3;
+
+    if (currentAP + amount > maxAP) {
+      setOverhealData({
+        resourceType: 'actionPoints',
+        adjustment: amount,
+        overhealAmount: (currentAP + amount) - maxAP,
+        currentValue: currentAP,
+        maxValue: maxAP
+      });
+      setShowOverhealModal(true);
+      setShowContextMenu(false);
+      return;
+    }
+
+    const newAP = Math.min(maxAP, currentAP + amount);
+    handleResourceUpdate('actionPoints', newAP, amount);
+
+    // Sync to combat timeline if in combat
+    if (isInCombat) {
+      const { updateCombatantAP } = useCombatStore.getState();
+      updateCombatantAP(tokenId, newAP);
+    }
+  };
+
+  // Handle full AP restore
+  const handleFullAPRestore = () => {
+    if (!token || !creature) return;
+    const maxAP = creature.stats.maxActionPoints || 3;
+    handleAPRestore(maxAP);
+    setShowContextMenu(false);
+  };
+
+  // Handle drain all AP
+  const handleDrainAllAP = () => {
+    if (!token || !creature) return;
+    const currentAP = token.state.currentActionPoints || 0;
+    if (currentAP > 0) {
+      handleAPSpend(currentAP);
     }
     setShowContextMenu(false);
   };
@@ -1545,18 +1655,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleManaDamage = (amount) => {
     if (!token || !creature) return;
     const currentMana = token.state.currentMana || 0;
-    const newMana = Math.max(0, currentMana - amount);
+    const tempMana = token.state.tempMana || 0;
+    const newMana = Math.max(0, (currentMana + tempMana) - amount);
 
-
-    updateTokenState(tokenId, {
-      currentMana: newMana
-    });
-
-    // CRITICAL FIX: Sync Mana to combat timeline if in combat
-    if (isInCombat) {
-      const { updateCombatantMana } = useCombatStore.getState();
-      updateCombatantMana(tokenId, newMana);
-    }
+    handleResourceUpdate('mana', newMana, -amount);
   };
 
   // Handle mana heal
@@ -1564,12 +1666,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (!token || !creature) return;
     const currentMana = token.state.currentMana || 0;
     const maxMana = creature.stats.maxMana || 0;
+
+    if (currentMana + amount > maxMana) {
+      setOverhealData({
+        resourceType: 'mana',
+        adjustment: amount,
+        overhealAmount: (currentMana + amount) - maxMana,
+        currentValue: currentMana,
+        maxValue: maxMana
+      });
+      setShowOverhealModal(true);
+      setShowContextMenu(false);
+      return;
+    }
+
     const newMana = Math.min(maxMana, currentMana + amount);
-
-
-    updateTokenState(tokenId, {
-      currentMana: newMana
-    });
+    handleResourceUpdate('mana', newMana, amount);
   };
 
   // Handle full mana restore
@@ -2277,7 +2389,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                   label: 'Drain All',
                   onClick: (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     setShowContextMenu(false);
                     handleDrainAllMana();
                   },
@@ -2286,6 +2397,98 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               ]
             });
           }
+
+          // Action Points submenu
+          menuItems.push({
+            icon: <i className="fas fa-bolt"></i>,
+            label: 'Action Points',
+            submenu: [
+              {
+                icon: <i className="fas fa-minus-circle"></i>,
+                label: 'Spend (1)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPSpend(1);
+                }
+              },
+              {
+                icon: <i className="fas fa-minus-circle"></i>,
+                label: 'Spend (2)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPSpend(2);
+                }
+              },
+              {
+                icon: <i className="fas fa-minus-circle"></i>,
+                label: 'Spend (3)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPSpend(3);
+                }
+              },
+              { type: 'separator' },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Restore (1)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPRestore(1);
+                }
+              },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Restore (2)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPRestore(2);
+                }
+              },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Restore (3)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleAPRestore(3);
+                }
+              },
+              { type: 'separator' },
+              {
+                icon: <i className="fas fa-bolt"></i>,
+                label: 'Full Restore',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleFullAPRestore();
+                },
+                className: 'heal'
+              },
+              {
+                icon: <i className="fas fa-battery-empty"></i>,
+                label: 'Drain All',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleDrainAllAP();
+                },
+                className: 'danger'
+              }
+            ]
+          });
 
           // Status submenu
           menuItems.push({
@@ -2528,266 +2731,59 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         );
       })()}
 
-      {/* Character-style Tooltip */}
+      {/* Upgraded Creature Tooltip */}
       {showTooltip && (() => {
-        // Rendering tooltip
-        return createPortal(
-          <div
-            className="pf-character-tooltip"
-            style={{
-              left: tooltipPosition.x,
-              top: tooltipPosition.y,
-              position: 'fixed',
-              zIndex: 10000,
-              backgroundColor: '#f0e6d2',
-              border: '2px solid #a08c70',
-              borderRadius: '8px',
-              padding: '12px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-              fontFamily: "'Bookman Old Style', 'Garamond', serif",
-              fontSize: '12px',
-              color: '#7a3b2e',
-              pointerEvents: 'none',
-              maxWidth: '280px',
-              minWidth: '200px',
-              transform: tooltipPosition.x > window.innerWidth - 200 ? 'translateX(-100%)' : 'none'
+        // Combine all active effects from different sources
+        const tokenConditions = token.state.conditions || [];
+        const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
+        const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
+
+        // Build combined list, avoiding duplicates by name
+        const seenNames = new Set();
+        const allEffects = [];
+
+        // Add from buff/debuff stores first (they have more data)
+        [...tokenBuffs, ...tokenDebuffs].forEach(effect => {
+          if (!seenNames.has(effect.name)) {
+            seenNames.add(effect.name);
+            allEffects.push({
+              name: effect.name,
+              description: effect.description,
+              effectSummary: effect.effectSummary,
+              type: effect.type || (tokenBuffs.includes(effect) ? 'buff' : 'debuff'),
+              color: effect.color,
+              icon: effect.icon,
+              durationType: effect.durationType,
+              durationValue: effect.durationValue,
+              remainingRounds: effect.remainingRounds,
+              endTime: effect.endTime,
+              startTime: effect.startTime,
+              duration: effect.duration
+            });
+          }
+        });
+
+        // Add remaining conditions from token state
+        tokenConditions.forEach(condition => {
+          if (!seenNames.has(condition.name)) {
+            seenNames.add(condition.name);
+            allEffects.push(condition);
+          }
+        });
+
+        return (
+          <CreatureTooltip
+            creature={creature}
+            tokenState={token.state}
+            isGM={isGMMode}
+            position={tooltipPosition}
+            activeConditions={allEffects}
+            isInCombat={isInCombat}
+            combatInfo={{
+              isMyTurn: isMyTurn,
+              isTargeted: isTargeted
             }}
-          >
-            {/* Creature Header */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginBottom: '8px',
-              borderBottom: '1px solid #a08c70',
-              paddingBottom: '6px'
-            }}>
-              <div
-                style={{
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '50%',
-                  backgroundImage: token.state.customIcon
-                    ? `url(${token.state.customIcon})`
-                    : `url(${getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  border: `2px solid ${creature.tokenBorder}`
-                }}
-              />
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                  {token.state.customName || creature.name}
-                </div>
-                <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                  {creature.race && `${creature.race} `}
-                  {creature.size} {creature.type}
-                  {creature.class && ` • ${creature.class}`}
-                </div>
-              </div>
-            </div>
-
-            {/* Health and Resources */}
-            <div style={{ marginBottom: '8px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span style={{ fontWeight: 'bold' }}>Health:</span>
-                <span style={{ color: (token.state.currentHp / creature.stats.maxHp) > 0.5 ? '#4CAF50' : (token.state.currentHp / creature.stats.maxHp) > 0.25 ? '#FF9800' : '#F44336' }}>
-                  {token.state.currentHp}/{creature.stats.maxHp}
-                </span>
-              </div>
-              {creature.stats.maxMana > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                  <span style={{ fontWeight: 'bold' }}>Mana:</span>
-                  <span style={{ color: '#2196F3' }}>
-                    {token.state.currentMana || 0}/{creature.stats.maxMana}
-                  </span>
-                </div>
-              )}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 'bold' }}>Action Points:</span>
-                <span style={{ color: '#9C27B0' }}>
-                  {(() => {
-                    const combatState = useCombatStore.getState();
-                    const combatant = combatState.turnOrder.find(c => c.tokenId === tokenId);
-                    if (combatant && combatState.isInCombat) {
-                      return `${combatant.currentActionPoints}/${combatant.maxActionPoints}`;
-                    }
-                    // Fallback to token state or creature stats if not in combat
-                    const currentAP = token.state.currentActionPoints || creature.stats.currentActionPoints || creature.stats.maxActionPoints;
-                    const maxAP = creature.stats.maxActionPoints;
-                    return `${currentAP}/${maxAP}`;
-                  })()}
-                </span>
-              </div>
-              {/* Movement info during combat */}
-              {isInCombat && (() => {
-                const combatState = useCombatStore.getState();
-                const movementInfo = combatState.getMovementInfo ? combatState.getMovementInfo(tokenId, [creature]) : null;
-                if (!movementInfo) return null;
-
-                return (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
-                    <span style={{ fontWeight: 'bold' }}>Movement:</span>
-                    <span style={{ color: '#059669' }}>
-                      {Math.round(movementInfo.movementUsed)}/{movementInfo.unlockedMovement || movementInfo.creatureSpeed}ft
-                    </span>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Combat Status */}
-            {isInCombat && (
-              <div style={{
-                borderTop: '1px solid #a08c70',
-                paddingTop: '6px',
-                fontSize: '10px',
-                fontStyle: 'italic'
-              }}>
-                {isMyTurn ? (
-                  <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Current Turn</span>
-                ) : (
-                  <span style={{ color: '#666' }}>Waiting for turn</span>
-                )}
-              </div>
-            )}
-
-            {/* Target Status */}
-            {isTargeted && (
-              <div style={{
-                borderTop: '1px solid #a08c70',
-                paddingTop: '6px',
-                fontSize: '10px',
-                fontStyle: 'italic',
-                color: '#FF9800',
-                fontWeight: 'bold'
-              }}>
-                Targeted
-              </div>
-            )}
-
-            {/* Active Conditions - Combined from token state and buff/debuff stores */}
-            {(() => {
-              // Combine all active effects from different sources
-              const tokenConditions = token.state.conditions || [];
-              const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
-              const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
-
-              // Build combined list, avoiding duplicates by name
-              const seenNames = new Set();
-              const allEffects = [];
-
-              // Add from buff/debuff stores first (they have more data)
-              [...tokenBuffs, ...tokenDebuffs].forEach(effect => {
-                if (!seenNames.has(effect.name)) {
-                  seenNames.add(effect.name);
-                  allEffects.push({
-                    name: effect.name,
-                    description: effect.description,
-                    effectSummary: effect.effectSummary,
-                    type: effect.type || (tokenBuffs.includes(effect) ? 'buff' : 'debuff'),
-                    color: effect.color,
-                    icon: effect.icon,
-                    durationType: effect.durationType,
-                    durationValue: effect.durationValue,
-                    remainingRounds: effect.remainingRounds,
-                    endTime: effect.endTime,
-                    startTime: effect.startTime,
-                    duration: effect.duration
-                  });
-                }
-              });
-
-              // Add remaining conditions from token state
-              tokenConditions.forEach(condition => {
-                if (!seenNames.has(condition.name)) {
-                  seenNames.add(condition.name);
-                  allEffects.push(condition);
-                }
-              });
-
-              if (allEffects.length === 0) return null;
-
-              const conditionDescriptions = {
-                'Confused': 'Target must roll d10 each turn: 1-move random, 2-6-do nothing, 7-8-attack random, 9-10-act normal',
-                'Stunned': 'Target can\'t move, speak, or take actions/reactions',
-                'Paralyzed': 'Target can\'t move or speak, auto-fails STR/AGI saves, adv. attacks vs target, crit on hit within 5ft',
-                'Frightened': 'Disadv. on checks/attacks while source in sight, can\'t move closer to source',
-                'Charmed': 'Can\'t attack charmer, charmer has adv. on social checks, charmer chooses target\'s movement',
-                'Poisoned': 'Disadv. on attack rolls and ability checks',
-                'Blinded': 'Can\'t see, auto-fails sight checks, adv. attacks vs target, target\'s attacks disadv.',
-                'Deafened': 'Can\'t hear, auto-fails hearing checks',
-                'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on Agility saves, adv. attacks vs target',
-                'Grappled': 'Speed 0, ends if grappler incapacitated or effect removed from grappler\'s reach',
-                'Prone': 'Can only crawl, disadv. on attacks, adv. attacks vs target within 5ft (disadv. beyond 5ft)',
-                'Incapacitated': 'Can\'t take actions or reactions',
-                'Unconscious': 'Incapacitated, unaware, auto-fails STR/AGI saves, prone, adv. attacks vs target, crit within 5ft'
-              };
-
-              return (
-                <div style={{
-                  borderTop: '1px solid #a08c70',
-                  paddingTop: '6px',
-                  fontSize: '10px'
-                }}>
-                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                    Active Effects:
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    {allEffects.slice(0, 4).map((effect, index) => {
-                      const remaining = getConditionRemaining(effect).label;
-                      const detailedDesc = conditionDescriptions[effect.name] || effect.effectSummary || effect.description || 'Effect active';
-                      const effectColor = effect.type === 'buff' ? '#32CD32' : effect.type === 'debuff' ? '#DC143C' : '#666';
-
-                      return (
-                        <div
-                          key={index}
-                          style={{
-                            color: '#333',
-                            fontWeight: 500,
-                            lineHeight: '1.3',
-                            borderLeft: `3px solid ${effect.color || effectColor}`,
-                            paddingLeft: '6px'
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            {effect.icon && <i className={effect.icon} style={{ color: effect.color || effectColor, fontSize: '10px' }}></i>}
-                            <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
-                            {remaining && (
-                              <span style={{ color: '#666', fontSize: '9px' }}>
-                                ({remaining})
-                              </span>
-                            )}
-                          </div>
-                          {effect.effectSummary && (
-                            <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
-                              {effect.effectSummary}
-                            </div>
-                          )}
-                          {effect.description && effect.description !== effect.effectSummary && (
-                            <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
-                              {effect.description}
-                            </div>
-                          )}
-                          {!effect.effectSummary && !effect.description && conditionDescriptions[effect.name] && (
-                            <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
-                              {conditionDescriptions[effect.name]}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                    {allEffects.length > 4 && (
-                      <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
-                        +{allEffects.length - 4} more effects...
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
-          </div>,
-          document.body
+          />
         );
       })()}
 
@@ -3484,6 +3480,113 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 onClick={() => {
                   setShowCustomAmountModal(false);
                   setCustomAmountType('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+      {/* Overheal Confirmation Modal */}
+      {showOverhealModal && overhealData && createPortal(
+        <div
+          className="modal-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10001
+          }}
+          onClick={() => {
+            setShowOverhealModal(false);
+            setOverhealData(null);
+          }}
+        >
+          <div
+            className="overheal-modal"
+            style={{
+              backgroundColor: '#f0e6d2',
+              border: '2px solid #a08c70',
+              borderRadius: '8px',
+              padding: '20px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              fontFamily: "'Bookman Old Style', 'Garamond', serif",
+              color: 'black',
+              minWidth: '350px',
+              maxWidth: '450px',
+              textAlign: 'center'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#8e2424' }}>
+              <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+              Overheal Detected
+            </h3>
+            <p style={{ margin: '0 0 20px 0', fontSize: '14px', lineHeight: '1.5' }}>
+              {token.state.customName || creature.name} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum of <strong>{overhealData.maxValue}</strong>.
+              <br /><br />
+              Excess: <strong>{overhealData.overhealAmount}</strong> points.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <button
+                style={{
+                  padding: '10px',
+                  border: '1px solid #7a3b2e',
+                  borderRadius: '4px',
+                  backgroundColor: '#7a3b2e',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}
+                onClick={() => {
+                  handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
+                  setShowOverhealModal(false);
+                  setOverhealData(null);
+                }}
+              >
+                Add excess as Temporary {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+              </button>
+              <button
+                style={{
+                  padding: '10px',
+                  border: '1px solid #a08c70',
+                  borderRadius: '4px',
+                  backgroundColor: '#d4c4a8',
+                  color: '#7a3b2e',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+                onClick={() => {
+                  handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
+                  setShowOverhealModal(false);
+                  setOverhealData(null);
+                }}
+              >
+                Cap at Maximum {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
+              </button>
+              <button
+                style={{
+                  padding: '8px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: '#7a3b2e',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  marginTop: '5px'
+                }}
+                onClick={() => {
+                  setShowOverhealModal(false);
+                  setOverhealData(null);
                 }}
               >
                 Cancel

@@ -288,6 +288,10 @@ export default function CharacterStats() {
         updateStat
     } = dataSource || {};
 
+    // Subscribe to activeBuffs to trigger re-renders when buffs change
+    const activeBuffs = useBuffStore(state => state.activeBuffs);
+    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+    
     const { getActiveEffects } = useBuffStore();
     const { getActiveDebuffEffects } = useDebuffStore();
     const { isGMMode } = useGameStore();

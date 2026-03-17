@@ -1,5 +1,33 @@
 import { logger } from './logger';
 
+/**
+ * Flatten buff/debuff effects from array format to simple numeric values
+ * getActiveEffects returns: { strength: [{ value: 3, source: "potion" }] }
+ * This converts to: { strength: 3 }
+ */
+export const flattenEffects = (effects) => {
+    const flattened = {};
+    if (!effects || typeof effects !== 'object') return flattened;
+    
+    Object.entries(effects).forEach(([stat, value]) => {
+        if (Array.isArray(value)) {
+            // Sum all values from array of { value, source } objects
+            flattened[stat] = value.reduce((sum, effect) => {
+                const effectValue = typeof effect === 'object' ? (effect.value || 0) : (effect || 0);
+                return sum + effectValue;
+            }, 0);
+        } else if (typeof value === 'object' && value.value !== undefined) {
+            // Handle single { value, source } object
+            flattened[stat] = value.value || 0;
+        } else if (typeof value === 'number') {
+            // Already a simple number
+            flattened[stat] = value;
+        }
+    });
+    
+    return flattened;
+};
+
 // Helper functions for processing different data structures
 const processSimpleValue = (bonuses, key, val) => {
     if (typeof val === 'number') {

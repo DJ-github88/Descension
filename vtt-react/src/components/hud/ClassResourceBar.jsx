@@ -21,6 +21,7 @@ const ClassResourceBar = ({
     classResource,
     character = null,
     isGMMode = false,
+    isOwner = false, // CRITICAL FIX: Default to false for security - must explicitly pass true
     onResourceClick = null,
     onClassResourceUpdate = null, // Callback to update class resource in store
     size = 'normal', // 'small', 'normal', 'large'
@@ -89,14 +90,15 @@ const ClassResourceBar = ({
     const tooltipTimeoutRef = useRef(null);
     const resourceBarWrapperRef = useRef(null);
 
-    // Class-specific states consolidated
+    // Class-specific states consolidated - ONLY UI STATE, values read from props
     const [berserkerState, setBerserkerState] = useState({
-        localRage: classResource?.current || 0
+        showRageMenu: false
     });
+    // BERSERKER FIX: Read directly from classResource prop
+    const berserkerRage = classResource?.current ?? 0;
+    const berserkerRageMax = classResource?.max ?? 100;
 
     const [bladedancerState, setBladedancerState] = useState({
-        localMomentum: 0,
-        localFlourish: 3,
         currentStance: 'Flowing Water',
         showStanceMenu: false,
         showMomentumMenu: false,
@@ -106,21 +108,28 @@ const ClassResourceBar = ({
         showSpecPassiveMenu: false,
         selectedSpecialization: 'Flow Master' // 'Blade Dancer' | 'Duelist' | 'Shadow Dancer'
     });
+    // BLADEDANCER FIX: Read directly from classResource prop
+    const bladedancerMomentum = classResource?.momentum ?? 0;
+    const bladedancerFlourish = classResource?.flourish ?? 3;
 
     const [chronarchState, setChronarchState] = useState({
-        localTimeShards: 7, // Start with 7 for demo
-        localTemporalStrain: 6, // Start with 6 for demo
         showTimeShardsMenu: false,
         showTemporalStrainMenu: false,
         chronarchHoverSection: null // 'shards' | 'strain' | null
     });
+    // CHRONARCH FIX: Read directly from classResource prop instead of local state
+    const chronarchTimeShards = classResource?.timeShards?.current ?? 0;
+    const chronarchTimeShardsMax = classResource?.timeShards?.max ?? 10;
+    const chronarchTemporalStrain = classResource?.temporalStrain?.current ?? 0;
+    const chronarchTemporalStrainMax = classResource?.temporalStrain?.max ?? 10;
 
     const [covenbaneState, setCovenbaneState] = useState({
-        localHexbreakerCharges: 4, // Start with 4 for demo
-        localAttackCounter: 2, // 1, 2, or 3 (resets to 1 after 3)
         showChargesMenu: false,
         covenbaneHoverSection: null // 'charges' | 'counter' | null
     });
+    // COVENBANE FIX: Read directly from classResource prop
+    const covenbaneHexbreakerCharges = classResource?.hexbreakerCharges ?? 4;
+    const covenbaneAttackCounter = classResource?.attackCounter ?? 2;
     const chargesDisplayRef = useRef(null);
 
     const [deathcallerState, setDeathcallerState] = useState({
@@ -296,15 +305,14 @@ const ClassResourceBar = ({
     const tokensBarRef = useRef(null);
 
     // Destructure local variables from state objects for easier access
+    // BERSERKER FIX: Using prop-based berserkerRage instead of local state
     const {
-        localRage,
-        showRageMenu: berserkerShowRageMenu,
-        rageInputValue: berserkerRageInputValue
+        showRageMenu: berserkerShowRageMenu
     } = berserkerState;
+    // BERSERKER FIX: rageInputValue comes from uiState, not berserkerState
+    const berserkerRageInputValue = rageInputValue;
 
     const {
-        localMomentum,
-        localFlourish,
         currentStance,
         showStanceMenu,
         showMomentumMenu,
@@ -316,16 +324,12 @@ const ClassResourceBar = ({
     } = bladedancerState;
 
     const {
-        localTimeShards,
-        localTemporalStrain,
         showTimeShardsMenu,
         showTemporalStrainMenu,
         chronarchHoverSection
     } = chronarchState;
 
     const {
-        localHexbreakerCharges,
-        localAttackCounter,
         showChargesMenu,
         covenbaneHoverSection
     } = covenbaneState;
@@ -458,17 +462,14 @@ const ClassResourceBar = ({
     const setShowMomentumMenu = (value) => setBladedancerState(prev => ({ ...prev, showMomentumMenu: value }));
     const setShowFlourishMenu = (value) => setBladedancerState(prev => ({ ...prev, showFlourishMenu: value }));
     const setShowSpecPassiveMenu = (value) => setBladedancerState(prev => ({ ...prev, showSpecPassiveMenu: value }));
-    const setLocalMomentum = (value) => setBladedancerState(prev => ({ ...prev, localMomentum: value }));
-    const setLocalFlourish = (value) => setBladedancerState(prev => ({ ...prev, localFlourish: value }));
+
+
     const setCurrentStance = (value) => setBladedancerState(prev => ({ ...prev, currentStance: value }));
-    const setLocalRage = (value) => setBerserkerState(prev => ({ ...prev, localRage: value }));
+    // BERSERKER FIX: Removed setLocalRage - now reading from props. Using setShowRageMenu from uiState.
     const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
     const setShowTemporalStrainMenu = (value) => setChronarchState(prev => ({ ...prev, showTemporalStrainMenu: value }));
-    const setLocalTimeShards = (value) => setChronarchState(prev => ({ ...prev, localTimeShards: value }));
-    const setLocalTemporalStrain = (value) => setChronarchState(prev => ({ ...prev, localTemporalStrain: value }));
-    const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
-    const setLocalHexbreakerCharges = (value) => setCovenbaneState(prev => ({ ...prev, localHexbreakerCharges: value }));
-    const setLocalAttackCounter = (value) => setCovenbaneState(prev => ({ ...prev, localAttackCounter: value }));
+    // CHRONARCH FIX: Removed setLocalTimeShards and setLocalTemporalStrain - now reading from props
+
     const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
     const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
     const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({
@@ -877,7 +878,7 @@ const ClassResourceBar = ({
             clearTimeout(timeoutId);
             clearTimeout(timeoutId2);
         };
-    }, [showTooltip, localRage, localMomentum, localFlourish, bladedancerHoverSection, chaosWeaverHoverSection, chronarchHoverSection, localTimeShards, localTemporalStrain, covenbaneHoverSection, localHexbreakerCharges, localAttackCounter, dreadnaughtHoverSection, localDRP, selectedResistanceType, size, minstrelHoverSection, oracleHoverSection, gamblerHoverSection, huntressHoverSection, inscriptorHoverSection, lichborneHoverSection, lunarchHoverSection, fateWeaverHoverSection, formbenderHoverSection, falseProphetHoverSection, exorcistHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
+    }, [showTooltip, berserkerRage, bladedancerMomentum, bladedancerFlourish, bladedancerHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, covenbaneHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, dreadnaughtHoverSection, localDRP, selectedResistanceType, size, minstrelHoverSection, oracleHoverSection, gamblerHoverSection, huntressHoverSection, inscriptorHoverSection, lichborneHoverSection, lunarchHoverSection, fateWeaverHoverSection, formbenderHoverSection, falseProphetHoverSection, exorcistHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
 
     const handleRageBarLeave = () => setShowTooltip(false);
 
@@ -1185,8 +1186,9 @@ const ClassResourceBar = ({
         // Position is handled by useEffect relative to the bar, no need to update here
     };
 
-    // Handle click events for GM mode
+    // Handle click events for GM mode (only if owner)
     const handleClick = (e) => {
+        if (!isOwner) return; // Only owner can interact
         if (isGMMode && onResourceClick) {
             if (e) {
                 e.stopPropagation();
@@ -1272,21 +1274,21 @@ const ClassResourceBar = ({
             case 'prophetic-visions':
                 return renderPropheticVisions();
             case 'corruption-bar':
-                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'inferno-veil':
-                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'arcane-absorption':
-                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'celestial-devotion':
-                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'alchemical-arsenal':
-                return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'vengeance-points':
-                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'totemic-synergy':
                 return renderTotemicSynergy();
             case 'voodoo-essence':
-                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'progress-bar':
                 return renderProgressBar();
             default:
@@ -1407,11 +1409,12 @@ const ClassResourceBar = ({
     );
 
     // Time Shards & Temporal Strain display (Chronarch)
+    // CHRONARCH FIX: Read directly from classResource prop
     const renderTimeShardsStrain = () => {
-        const shardsMax = finalConfig.visual?.timeShards?.max || 10;
-        const strainMax = finalConfig.visual?.temporalStrain?.max || 10;
-        const shardsValue = localTimeShards;
-        const strainValue = localTemporalStrain;
+        const shardsMax = chronarchTimeShardsMax;
+        const strainMax = chronarchTemporalStrainMax;
+        const shardsValue = chronarchTimeShards;
+        const strainValue = chronarchTemporalStrain;
 
         // Get strain color based on level
         const getStrainColor = (strain) => {
@@ -1446,8 +1449,9 @@ const ClassResourceBar = ({
                     <div
                         ref={timeShardsBarRef}
                         className="time-shards-bar"
-                        onClick={(e) => {
+                            onClick={(e) => {
                             e.stopPropagation();
+                            if (!isOwner) return; // SECURITY: Only owner can open menu
                             setShowTimeShardsMenu(!showTimeShardsMenu);
                             setShowTemporalStrainMenu(false);
                         }}
@@ -1497,6 +1501,7 @@ const ClassResourceBar = ({
                         className={`temporal-strain-bar ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
                         onClick={(e) => {
                             e.stopPropagation();
+                            if (!isOwner) return; // SECURITY: Only owner can open menu
                             setShowTemporalStrainMenu(!showTemporalStrainMenu);
                             setShowTimeShardsMenu(false);
                         }}
@@ -1564,9 +1569,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn gain"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.min(shardsMax, shardsValue + 1);
                                                 const amount = newValue - shardsValue;
-                                                setLocalTimeShards(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Time Shard', amount, true, 'timeShards');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
@@ -1582,9 +1587,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn spend"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.max(0, shardsValue - 2);
                                                 const amount = shardsValue - newValue;
-                                                setLocalTimeShards(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Time Shard', amount, false, 'timeShards');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
@@ -1598,9 +1603,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn spend"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.max(0, shardsValue - 5);
                                                 const amount = shardsValue - newValue;
-                                                setLocalTimeShards(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Time Shard', amount, false, 'timeShards');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('timeShards', newValue);
@@ -1617,8 +1622,8 @@ const ClassResourceBar = ({
                                 <div className="chronarch-quick-actions">
                                     <button
                                         onClick={() => {
+                                            if (!isOwner) return; // SECURITY: Only owner can modify
                                             const resetAmount = shardsValue;
-                                            setLocalTimeShards(0);
                                             setShowTimeShardsMenu(false);
                                             if (resetAmount > 0) {
                                                 logClassResourceChange('Time Shard', resetAmount, false, 'timeShards');
@@ -1678,9 +1683,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn gain"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.min(strainMax, strainValue + 1);
                                                 const amount = newValue - strainValue;
-                                                setLocalTemporalStrain(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Temporal Strain', amount, true, 'temporalStrain');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
@@ -1694,9 +1699,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn gain"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.min(strainMax, strainValue + 3);
                                                 const amount = newValue - strainValue;
-                                                setLocalTemporalStrain(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Temporal Strain', amount, true, 'temporalStrain');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
@@ -1712,9 +1717,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn heal"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.max(0, strainValue - 1);
                                                 const amount = strainValue - newValue;
-                                                setLocalTemporalStrain(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Temporal Strain', amount, false, 'temporalStrain');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
@@ -1728,9 +1733,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="chronarch-action-btn danger"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = 10;
                                                 const amount = Math.abs(newValue - strainValue);
-                                                setLocalTemporalStrain(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Temporal Strain', amount, newValue > strainValue, 'temporalStrain');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('temporalStrain', newValue);
@@ -1747,8 +1752,8 @@ const ClassResourceBar = ({
                                 <div className="chronarch-quick-actions">
                                     <button
                                         onClick={() => {
+                                            if (!isOwner) return; // SECURITY: Only owner can modify
                                             const resetAmount = strainValue;
-                                            setLocalTemporalStrain(0);
                                             setShowTemporalStrainMenu(false);
                                             if (resetAmount > 0) {
                                                 logClassResourceChange('Temporal Strain', resetAmount, false, 'temporalStrain');
@@ -1780,8 +1785,8 @@ const ClassResourceBar = ({
     // Hexbreaker Charges display (Covenbane)
     const renderHexbreakerCharges = () => {
         const maxCharges = 6;
-        const chargesValue = localHexbreakerCharges;
-        const attackCounter = localAttackCounter; // 1, 2, or 3
+        const chargesValue = covenbaneHexbreakerCharges;
+        const attackCounter = covenbaneAttackCounter; // 1, 2, or 3
 
         // Get passive bonuses based on current charges
         const getPassiveBonuses = (charges) => {
@@ -1849,7 +1854,8 @@ const ClassResourceBar = ({
                         onClick={(e) => {
                             e.stopPropagation();
                             // Cycle through 1 -> 2 -> 3 -> 1
-                            setLocalAttackCounter(attackCounter === 3 ? 1 : attackCounter + 1);
+                            const newValue = attackCounter === 3 ? 1 : attackCounter + 1;
+                            if (onClassResourceUpdate) onClassResourceUpdate('attackCounter', newValue);
                         }}
                         onMouseEnter={(e) => {
                             setCovenbaneHoverSection('counter');
@@ -1923,7 +1929,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxCharges, chargesValue + 1);
                                                 const amount = newValue - chargesValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, true, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -1939,7 +1945,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.min(maxCharges, chargesValue + 1);
                                                 const amount = newValue - chargesValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, true, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -1962,7 +1968,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 1);
                                                 const amount = chargesValue - newValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -1978,7 +1984,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 2);
                                                 const amount = chargesValue - newValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -1994,7 +2000,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 3);
                                                 const amount = chargesValue - newValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -2010,7 +2016,7 @@ const ClassResourceBar = ({
                                                 e.stopPropagation();
                                                 const newValue = Math.max(0, chargesValue - 6);
                                                 const amount = chargesValue - newValue;
-                                                setLocalHexbreakerCharges(newValue);
+                                                // setLocalHexbreakerCharges(newValue);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Hexbreaker Charge', amount, false, 'hexbreakerCharges');
                                                     if (onClassResourceUpdate) onClassResourceUpdate('hexbreakerCharges', newValue);
@@ -2029,7 +2035,7 @@ const ClassResourceBar = ({
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             const resetAmount = chargesValue;
-                                            setLocalHexbreakerCharges(0);
+                                            // setLocalHexbreakerCharges(0);
                                             setShowChargesMenu(false);
                                             if (resetAmount > 0) {
                                                 logClassResourceChange('Hexbreaker Charge', resetAmount, false, 'hexbreakerCharges');
@@ -7541,6 +7547,7 @@ const ClassResourceBar = ({
             <div
                 className={`elemental-spheres-container ${size}`}
                 onContextMenu={(e) => {
+                    if (!isOwner) return; // Only owner can interact
                     e.preventDefault();
                     e.stopPropagation();
                     // Right-click on the bar removes one sphere (if any exist)
@@ -7555,12 +7562,13 @@ const ClassResourceBar = ({
                         <div className="specialization-selector">
                             <button
                                 className={`spec-button ${activeSpecialization === 'prism-mage' ? 'active' : ''}`}
-                                onClick={() => {
+                                onClick={isOwner ? () => {
                                     setActiveSpecialization('prism-mage');
                                     setRerollsUsed(0);
                                     setSelectedForSwap([]);
                                     setSwapMode(false);
-                                }}
+                                } : undefined}
+                                disabled={!isOwner}
                                 title="Prism Mage - Crystal focus and precise control"
                             >
                                 <i className="fas fa-gem"></i>
@@ -7569,12 +7577,13 @@ const ClassResourceBar = ({
 
                             <button
                                 className={`spec-button ${activeSpecialization === 'entropy-weaver' ? 'active' : ''}`}
-                                onClick={() => {
+                                onClick={isOwner ? () => {
                                     setActiveSpecialization('entropy-weaver');
                                     setRerollsUsed(0);
                                     setSelectedForSwap([]);
                                     setSwapMode(false);
-                                }}
+                                } : undefined}
+                                disabled={!isOwner}
                                 title="Entropy Weaver - Chaotic power and randomness"
                             >
                                 <i className="fas fa-dice"></i>
@@ -7583,12 +7592,13 @@ const ClassResourceBar = ({
 
                             <button
                                 className={`spec-button ${activeSpecialization === 'sphere-architect' ? 'active' : ''}`}
-                                onClick={() => {
+                                onClick={isOwner ? () => {
                                     setActiveSpecialization('sphere-architect');
                                     setRerollsUsed(0);
                                     setSelectedForSwap([]);
                                     setSwapMode(false);
-                                }}
+                                } : undefined}
+                                disabled={!isOwner}
                                 title="Sphere Architect - Strategic construction and manipulation"
                             >
                                 <i className="fas fa-cogs"></i>
@@ -7624,12 +7634,14 @@ const ClassResourceBar = ({
                                         className={`sphere-slot ${isActive ? 'active' : 'empty'} ${isChaos ? 'chaos' : ''} ${isRolling ? 'rolling' : ''} ${isSelectedForSwap ? 'selected-for-swap' : ''}`}
                                         title={tooltipText}
                                         onClick={(e) => {
+                                            if (!isOwner) return; // Only owner can interact
                                             e.stopPropagation();
                                             if (e.button === 0) { // Left click - add orb
                                                 setArcanoneerState(prev => ({ ...prev, localSpheres: [...localSpheres, element.id] }));
                                             }
                                         }}
                                         onContextMenu={(e) => {
+                                            if (!isOwner) return; // Only owner can interact
                                             e.preventDefault();
                                             e.stopPropagation();
                                             // Right click - remove orb (if active)
@@ -7663,8 +7675,9 @@ const ClassResourceBar = ({
                         <div className="sphere-side-controls">
                             <button
                                 className="sphere-icon-btn roll-btn"
-                                onClick={handleDiceButtonClick}
+                                onClick={isOwner ? handleDiceButtonClick : undefined}
                                 onContextMenu={(e) => {
+                                    if (!isOwner) return;
                                     e.preventDefault();
                                     e.stopPropagation();
                                     cycleDiceButtonMode();
@@ -7672,6 +7685,7 @@ const ClassResourceBar = ({
                                 onMouseEnter={() => setShowRollTooltip(true)}
                                 onMouseLeave={() => setShowRollTooltip(false)}
                                 disabled={
+                                    !isOwner ||
                                     (isRolling && diceButtonMode === 'roll') ||
                                     (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
                                     (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
@@ -7686,11 +7700,11 @@ const ClassResourceBar = ({
 
                             <button
                                 className="sphere-icon-btn clear-btn"
-                                onClick={(e) => {
+                                onClick={isOwner ? (e) => {
                                     e.stopPropagation();
                                     clearSpheres();
-                                }}
-                                disabled={activeSpheres.length === 0}
+                                } : undefined}
+                                disabled={!isOwner || activeSpheres.length === 0}
                                 title="Clear all spheres"
                             >
                                 <i className="fas fa-times"></i>
@@ -7703,8 +7717,9 @@ const ClassResourceBar = ({
                         <div className="sphere-side-controls">
                             <button
                                 className="sphere-icon-btn roll-btn"
-                                onClick={handleDiceButtonClick}
+                                onClick={isOwner ? handleDiceButtonClick : undefined}
                                 onContextMenu={(e) => {
+                                    if (!isOwner) return;
                                     e.preventDefault();
                                     e.stopPropagation();
                                     cycleDiceButtonMode();
@@ -7712,6 +7727,7 @@ const ClassResourceBar = ({
                                 onMouseEnter={() => setShowRollTooltip(true)}
                                 onMouseLeave={() => setShowRollTooltip(false)}
                                 disabled={
+                                    !isOwner ||
                                     (isRolling && diceButtonMode === 'roll') ||
                                     (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
                                     (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
@@ -7726,11 +7742,11 @@ const ClassResourceBar = ({
 
                             <button
                                 className="sphere-icon-btn clear-btn"
-                                onClick={(e) => {
+                                onClick={isOwner ? (e) => {
                                     e.stopPropagation();
                                     clearSpheres();
-                                }}
-                                disabled={activeSpheres.length === 0}
+                                } : undefined}
+                                disabled={!isOwner || activeSpheres.length === 0}
                                 title="Clear all spheres"
                             >
                                 <i className="fas fa-times"></i>
@@ -7816,7 +7832,7 @@ const ClassResourceBar = ({
 
     // Rage Bar display (Berserker)
     const renderRageBar = () => {
-        const rageValue = localRage;
+        const rageValue = berserkerRage;
         const isOverheated = rageValue > 100;
         const percentage = Math.min((rageValue / 100) * 100, 100);
         const overheatedAmount = Math.max(rageValue - 100, 0);
@@ -7897,9 +7913,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="berserker-action-btn gain"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.min(rageValue + 5, 150);
                                                 const amount = newValue - rageValue;
-                                                setLocalRage(newValue);
                                                 setShowRageMenu(false);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Rage', amount, true, 'rage');
@@ -7914,9 +7930,9 @@ const ClassResourceBar = ({
                                         <button
                                             className="berserker-action-btn spend"
                                             onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const newValue = Math.max(rageValue - 5, 0);
                                                 const amount = rageValue - newValue;
-                                                setLocalRage(newValue);
                                                 setShowRageMenu(false);
                                                 if (amount > 0) {
                                                     logClassResourceChange('Rage', amount, false, 'rage');
@@ -7932,7 +7948,16 @@ const ClassResourceBar = ({
                                     <div className="berserker-action-row">
                                         <button
                                             className="berserker-action-btn gain"
-                                            onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
+                                                const newValue = Math.min(rageValue + 10, 150);
+                                                const amount = newValue - rageValue;
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, true, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Gain 10 Rage"
                                         >
                                             <i className="fas fa-plus-circle"></i>
@@ -7940,7 +7965,16 @@ const ClassResourceBar = ({
                                         </button>
                                         <button
                                             className="berserker-action-btn spend"
-                                            onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
+                                                const newValue = Math.max(rageValue - 10, 0);
+                                                const amount = rageValue - newValue;
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, false, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 10 Rage"
                                         >
                                             <i className="fas fa-minus-circle"></i>
@@ -7950,7 +7984,16 @@ const ClassResourceBar = ({
                                     <div className="berserker-action-row">
                                         <button
                                             className="berserker-action-btn gain"
-                                            onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
+                                                const newValue = Math.min(rageValue + 20, 150);
+                                                const amount = newValue - rageValue;
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, true, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Gain 20 Rage"
                                         >
                                             <i className="fas fa-arrow-up"></i>
@@ -7958,7 +8001,16 @@ const ClassResourceBar = ({
                                         </button>
                                         <button
                                             className="berserker-action-btn spend"
-                                            onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}
+                                            onClick={() => {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
+                                                const newValue = Math.max(rageValue - 20, 0);
+                                                const amount = rageValue - newValue;
+                                                setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, false, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
+                                                }
+                                            }}
                                             title="Spend 20 Rage"
                                         >
                                             <i className="fas fa-arrow-down"></i>
@@ -7978,11 +8030,17 @@ const ClassResourceBar = ({
                                         onChange={(e) => setRageInputValue(e.target.value)}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
+                                                if (!isOwner) return; // SECURITY: Only owner can modify
                                                 const v = parseInt(rageInputValue);
                                                 if (!isNaN(v)) {
-                                                    setLocalRage(Math.max(0, Math.min(v, 150)));
+                                                    const clampedV = Math.max(0, Math.min(v, 150));
+                                                    const amount = Math.abs(clampedV - rageValue);
                                                     setRageInputValue('');
                                                     setShowRageMenu(false);
+                                                    if (amount > 0) {
+                                                        logClassResourceChange('Rage', amount, clampedV > rageValue, 'rage');
+                                                        if (onClassResourceUpdate) onClassResourceUpdate('current', clampedV);
+                                                    }
                                                 }
                                             }
                                         }}
@@ -7990,11 +8048,17 @@ const ClassResourceBar = ({
                                     <button
                                         className="berserker-set-btn"
                                         onClick={() => {
+                                            if (!isOwner) return; // SECURITY: Only owner can modify
                                             const v = parseInt(rageInputValue);
                                             if (!isNaN(v)) {
-                                                setLocalRage(Math.max(0, Math.min(v, 150)));
+                                                const clampedV = Math.max(0, Math.min(v, 150));
+                                                const amount = Math.abs(clampedV - rageValue);
                                                 setRageInputValue('');
                                                 setShowRageMenu(false);
+                                                if (amount > 0) {
+                                                    logClassResourceChange('Rage', amount, clampedV > rageValue, 'rage');
+                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', clampedV);
+                                                }
                                             }
                                         }}
                                         title="Set Rage Value"
@@ -8036,10 +8100,10 @@ const ClassResourceBar = ({
         // Use actual character resource values for account context, local state for HUD
         const momentumValue = context === 'account'
             ? (finalClassResource?.momentum?.current ?? finalClassResource?.current ?? 0)
-            : localMomentum;
+            : bladedancerMomentum;
         const flourishValue = context === 'account'
             ? (finalClassResource?.flourish?.current ?? 0)
-            : localFlourish;
+            : bladedancerFlourish;
         const momentumMax = finalConfig.mechanics?.momentum?.max || 20;
         const flourishMax = finalConfig.mechanics?.flourish?.max || 5;
         const momentumPercentage = (momentumValue / momentumMax) * 100;
@@ -8080,7 +8144,7 @@ const ClassResourceBar = ({
 
             const cost = getTransitionCost(stanceValue, targetStance);
             if (momentumValue >= cost) {
-                setLocalMomentum(momentumValue - cost);
+                if (onClassResourceUpdate) onClassResourceUpdate('momentum', momentumValue - cost);
                 setCurrentStance(targetStance);
                 setShowStanceMenu(false);
             }
@@ -8275,7 +8339,10 @@ const ClassResourceBar = ({
                                     <div className="bladedancer-action-row">
                                         <button
                                             className="bladedancer-action-btn gain"
-                                            onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 1))}
+                                            onClick={() => {
+                                                const newVal = Math.min(momentumMax, momentumValue + 1);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('momentum', newVal);
+                                            }}
                                             title="Gain 1 Momentum (Hit)"
                                         >
                                             <i className="fas fa-plus"></i>
@@ -8283,7 +8350,10 @@ const ClassResourceBar = ({
                                         </button>
                                         <button
                                             className="bladedancer-action-btn gain"
-                                            onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 2))}
+                                            onClick={() => {
+                                                const newVal = Math.min(momentumMax, momentumValue + 2);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('momentum', newVal);
+                                            }}
                                             title="Gain 2 Momentum (Crit)"
                                         >
                                             <i className="fas fa-plus-circle"></i>
@@ -8293,7 +8363,10 @@ const ClassResourceBar = ({
                                     <div className="bladedancer-action-row">
                                         <button
                                             className="bladedancer-action-btn spend"
-                                            onClick={() => setLocalMomentum(Math.max(0, momentumValue - 2))}
+                                            onClick={() => {
+                                                const newVal = Math.max(0, momentumValue - 2);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('momentum', newVal);
+                                            }}
                                             title="Spend 2 Momentum (Ability)"
                                         >
                                             <i className="fas fa-minus"></i>
@@ -8301,7 +8374,10 @@ const ClassResourceBar = ({
                                         </button>
                                         <button
                                             className="bladedancer-action-btn spend"
-                                            onClick={() => setLocalMomentum(Math.max(0, momentumValue - 4))}
+                                            onClick={() => {
+                                                const newVal = Math.max(0, momentumValue - 4);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('momentum', newVal);
+                                            }}
                                             title="Spend 4 Momentum (Ability)"
                                         >
                                             <i className="fas fa-minus-circle"></i>
@@ -8312,14 +8388,20 @@ const ClassResourceBar = ({
 
                                 <div className="bladedancer-quick-actions">
                                     <button
-                                        onClick={() => { setLocalMomentum(0); setShowMomentumMenu(false); }}
+                                        onClick={() => { 
+                                            if (onClassResourceUpdate) onClassResourceUpdate('momentum', 0);
+                                            setShowMomentumMenu(false); 
+                                        }}
                                         className="bladedancer-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
                                     <button
-                                        onClick={() => { setLocalMomentum(momentumMax); setShowMomentumMenu(false); }}
+                                        onClick={() => { 
+                                            if (onClassResourceUpdate) onClassResourceUpdate('momentum', momentumMax);
+                                            setShowMomentumMenu(false); 
+                                        }}
                                         className="bladedancer-quick-btn"
                                         title={`Set to Max (${momentumMax})`}
                                     >
@@ -8372,7 +8454,10 @@ const ClassResourceBar = ({
                                     <div className="bladedancer-action-row">
                                         <button
                                             className="bladedancer-action-btn gain"
-                                            onClick={() => setLocalFlourish(Math.min(flourishMax, flourishValue + 1))}
+                                            onClick={() => {
+                                                const newVal = Math.min(flourishMax, flourishValue + 1);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('flourish', newVal);
+                                            }}
                                             disabled={flourishValue >= flourishMax}
                                             title="Earn 1 Flourish"
                                         >
@@ -8381,7 +8466,10 @@ const ClassResourceBar = ({
                                         </button>
                                         <button
                                             className="bladedancer-action-btn spend"
-                                            onClick={() => setLocalFlourish(Math.max(0, flourishValue - 1))}
+                                            onClick={() => {
+                                                const newVal = Math.max(0, flourishValue - 1);
+                                                if (onClassResourceUpdate) onClassResourceUpdate('flourish', newVal);
+                                            }}
                                             disabled={flourishValue === 0}
                                             title="Spend 1 Flourish"
                                         >
@@ -8393,14 +8481,20 @@ const ClassResourceBar = ({
 
                                 <div className="bladedancer-quick-actions">
                                     <button
-                                        onClick={() => { setLocalFlourish(0); setShowFlourishMenu(false); }}
+                                        onClick={() => { 
+                                            if (onClassResourceUpdate) onClassResourceUpdate('flourish', 0);
+                                            setShowFlourishMenu(false); 
+                                        }}
                                         className="bladedancer-quick-btn"
                                         title="Reset to 0"
                                     >
                                         <i className="fas fa-undo"></i>
                                     </button>
                                     <button
-                                        onClick={() => { setLocalFlourish(flourishMax); setShowFlourishMenu(false); }}
+                                        onClick={() => { 
+                                            if (onClassResourceUpdate) onClassResourceUpdate('flourish', flourishMax);
+                                            setShowFlourishMenu(false); 
+                                        }}
                                         className="bladedancer-quick-btn"
                                         title={`Set to Max (${flourishMax})`}
                                     >
@@ -8730,7 +8824,7 @@ const ClassResourceBar = ({
                                     <div className="tooltip-header">Momentum</div>
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {localMomentum}/20
+                                            <strong>Current:</strong> {bladedancerMomentum}/20
                                         </div>
                                     </div>
                                     <div className="tooltip-divider"></div>
@@ -8753,7 +8847,7 @@ const ClassResourceBar = ({
                                     <div className="tooltip-header">Flourish</div>
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {localFlourish}/5
+                                            <strong>Current:</strong> {bladedancerFlourish}/5
                                         </div>
                                     </div>
                                     <div className="tooltip-divider"></div>
@@ -8880,7 +8974,7 @@ const ClassResourceBar = ({
 
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {localTimeShards}/10 shards
+                                            <strong>Current:</strong> {chronarchTimeShards}/10 shards
                                         </div>
                                         <div style={{ fontSize: '0.9rem' }}>
                                             <strong>Power resource:</strong> Accumulate to unleash time magic
@@ -8902,7 +8996,7 @@ const ClassResourceBar = ({
                             )}
 
                             {chronarchHoverSection === 'strain' && (() => {
-                                const strainValue = localTemporalStrain;
+                                const strainValue = chronarchTemporalStrain;
                                 const getStrainState = (strain) => {
                                     if (strain >= 10) return { name: 'BACKLASH!', color: '#B71C1C' };
                                     if (strain >= 9) return { name: 'Critical', color: '#C62828' };
@@ -8971,7 +9065,7 @@ const ClassResourceBar = ({
                     {finalConfig.visual?.type === 'hexbreaker-charges' && covenbaneHoverSection && (
                         <div>
                             {covenbaneHoverSection === 'charges' && (() => {
-                                const chargesValue = localHexbreakerCharges;
+                                const chargesValue = covenbaneHexbreakerCharges;
                                 const getPassiveBonuses = (charges) => {
                                     const bonuses = {
                                         0: { damage: '0', speed: '+0ft', crit: '20', trueDmg: '0%' },
@@ -9033,7 +9127,7 @@ const ClassResourceBar = ({
 
                                     <div className="tooltip-section">
                                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                            <strong>Current:</strong> {localAttackCounter}/3 attacks
+                                            <strong>Current:</strong> {covenbaneAttackCounter}/3 attacks
                                         </div>
                                         <div style={{ fontSize: '0.9rem' }}>
                                             <strong>Every 3rd attack:</strong> Deals bonus true damage
@@ -9050,7 +9144,7 @@ const ClassResourceBar = ({
                                         </div>
                                     </div>
 
-                                    {localAttackCounter === 3 && (
+                                    {covenbaneAttackCounter === 3 && (
                                         <>
                                             <div className="tooltip-divider"></div>
                                             <div className="tooltip-section">
@@ -10081,7 +10175,7 @@ const ClassResourceBar = ({
                     {finalConfig.type === 'rage' && finalConfig.rageStates && (
                         <div>
                             {(() => {
-                                const rageValue = localRage;
+                                const rageValue = berserkerRage;
                                 const currentState = finalConfig.rageStates.find(s => rageValue >= s.range[0] && rageValue <= s.range[1]);
                                 const isOverheated = rageValue > 100;
 

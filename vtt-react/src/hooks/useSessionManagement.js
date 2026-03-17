@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRoomContext } from '../contexts/RoomContext';
 import useAuthStore from '../store/authStore';
 import usePresenceStore from '../store/presenceStore';
@@ -38,6 +39,7 @@ const SESSION_CONFIG = {
 };
 
 export const useSessionManagement = () => {
+  const location = useLocation();
   const { user, isAuthenticated, signOut, refreshAuthState } = useAuthStore();
   const { updateStatus } = usePresenceStore();
   const { isInRoom } = useRoomContext();
@@ -82,31 +84,12 @@ export const useSessionManagement = () => {
   }, []);
 
   /**
-   * Show session warning modal
-   */
-
-  /**
-   * Show session warning modal
-   */
-
-  /**
    * Handle session timeout (auto-logout)
    */
-
-  /**
-   * Reset session timers on user activity
-   */
-
-  /**
-   * Handle user activity events
-   */
-  
-
   const handleSessionTimeout = useCallback(async () => {
     console.log('Session timeout - auto-logging out user');
 
     // CRITICAL: Clean up Firestore subscriptions BEFORE signOut to prevent permission errors
-    // The subscriptions will fail with "Missing or insufficient permissions" if auth is cleared first
     try {
       const { cleanup: socialCleanup } = useSocialStore.getState();
       if (socialCleanup) {
@@ -138,7 +121,6 @@ export const useSessionManagement = () => {
     }
 
     // CRITICAL FIX: Navigate to home page after logout
-    // Use window.location to ensure clean navigation regardless of React Router state
     setTimeout(() => {
       if (window.location.pathname !== '/') {
         window.location.href = '/';
@@ -146,6 +128,9 @@ export const useSessionManagement = () => {
     }, 100);
   }, [signOut, updateStatus, clearTimers]);
 
+  /**
+   * Show session warning modal
+   */
   const showSessionWarning = useCallback(() => {
     if (isWarningShownRef.current) return;
 
@@ -230,14 +215,15 @@ export const useSessionManagement = () => {
         </div>
       `;
 
-      // Re-attach handlers because we just overwrote innerHTML
       const extendButton = warningModal.querySelector('#extend-session');
       const logoutButton = warningModal.querySelector('#logout-now');
 
       if (extendButton) {
         extendButton.onclick = () => {
           clearInterval(countdownInterval);
-          document.body.removeChild(warningModal);
+          if (document.body.contains(warningModal)) {
+            document.body.removeChild(warningModal);
+          }
           isWarningShownRef.current = false;
           if (resetSessionTimersRef.current) resetSessionTimersRef.current();
         };
@@ -246,7 +232,9 @@ export const useSessionManagement = () => {
       if (logoutButton) {
         logoutButton.onclick = () => {
           clearInterval(countdownInterval);
-          document.body.removeChild(warningModal);
+          if (document.body.contains(warningModal)) {
+            document.body.removeChild(warningModal);
+          }
           handleSessionTimeout();
         };
       }
@@ -255,7 +243,6 @@ export const useSessionManagement = () => {
     updateModalContent();
     document.body.appendChild(warningModal);
 
-    // Dynamic countdown timer
     const countdownInterval = setInterval(() => {
       remainingSeconds -= 1;
       if (remainingSeconds <= 0) {
@@ -265,7 +252,6 @@ export const useSessionManagement = () => {
       }
     }, 1000);
 
-    // Auto-logout after warning period
     warningTimerRef.current = setTimeout(() => {
       clearInterval(countdownInterval);
       if (document.body.contains(warningModal)) {
@@ -275,12 +261,16 @@ export const useSessionManagement = () => {
     }, SESSION_CONFIG.WARNING_PERIOD);
   }, [handleSessionTimeout]);
 
+  /**
+   * Reset session timers on user activity
+   */
   const resetSessionTimers = useCallback(() => {
     if (!isAuthenticated || !user) return;
 
     // CRITICAL FIX: Don't start idle timers if user is in a room or game
-    if (isInRoom) {
-      console.log('Session timers bypassed - user is in a room/game');
+    // OR if the user is not on the landing page
+    if (isInRoom || location.pathname !== '/') {
+      console.log('Session timers bypassed - user is in a room/game or not on landing page');
       clearTimers();
       return;
     }
@@ -301,28 +291,30 @@ export const useSessionManagement = () => {
       updateStatus('online', null);
     }
 
-    // Set session timeout timer (8 hours)
+    // Set session timeout timer
     sessionTimerRef.current = setTimeout(() => {
       handleSessionTimeout();
     }, SESSION_CONFIG.SESSION_TIMEOUT);
 
-    // Set idle warning timer (30 minutes)
+    // Set idle warning timer
     idleTimerRef.current = setTimeout(() => {
       isIdleRef.current = true;
       updateStatus('away', 'User inactive');
       if (showSessionWarningRef.current) showSessionWarningRef.current();
     }, SESSION_CONFIG.IDLE_TIMEOUT);
 
-  }, [isAuthenticated, user, clearTimers, updateStatus, handleSessionTimeout]);
+  }, [isAuthenticated, user, clearTimers, updateStatus, handleSessionTimeout, isInRoom, location.pathname]);
 
-const handleActivity = useCallback((event) => {
-    // Throttle activity events to avoid excessive processing
+  /**
+   * Handle user activity events
+   */
+  const handleActivity = useCallback((event) => {
     if (activityThrottleRef.current) return;
 
     activityThrottleRef.current = setTimeout(() => {
       activityThrottleRef.current = null;
       resetSessionTimers();
-    }, 1000); // Process activity at most once per second
+    }, 1000);
   }, [resetSessionTimers]);
 
   /**
@@ -330,19 +322,13 @@ const handleActivity = useCallback((event) => {
    */
   const restoreSession = useCallback(async () => {
     try {
-      // Check if user was previously authenticated
       const storedUser = localStorage.getItem('auth-store');
-
       if (storedUser) {
         const authData = JSON.parse(storedUser);
         const rememberMe = authData.state?.rememberMe;
-
-        // Only restore session if "remember me" was enabled
         if (rememberMe) {
           console.log('Restoring previous session...');
           await refreshAuthState();
-
-          // Reset timers for restored session
           sessionStartRef.current = Date.now();
           resetSessionTimers();
         }
@@ -362,7 +348,7 @@ const handleActivity = useCallback((event) => {
       userId: user.uid,
       sessionStart: sessionStartRef.current,
       lastActivity: lastActivityRef.current,
-      rememberMe: true // Enable remember me for all authenticated sessions
+      rememberMe: true
     };
 
     try {
@@ -396,18 +382,16 @@ const handleActivity = useCallback((event) => {
     };
   }, [isAuthenticated]);
 
-  
   // Keep refs updated for circular calls
   useEffect(() => {
     showSessionWarningRef.current = showSessionWarning;
     resetSessionTimersRef.current = resetSessionTimers;
   }, [showSessionWarning, resetSessionTimers]);
-// Initialize session management
+
+  // Initialize session management
   useEffect(() => {
     if (!isAuthenticated || !user) {
       clearTimers();
-
-      // CRITICAL FIX: Remove any stale session warning modal when user is not authenticated
       const existingModal = document.getElementById('session-warning-modal');
       if (existingModal) {
         document.body.removeChild(existingModal);
@@ -416,21 +400,16 @@ const handleActivity = useCallback((event) => {
       return;
     }
 
-    // Restore session on mount (page refresh)
     restoreSession();
 
-    // Set up activity listeners
     SESSION_CONFIG.ACTIVITY_EVENTS.forEach(event => {
       window.addEventListener(event, handleActivity, { passive: true });
     });
 
-    // Start session timers
     resetSessionTimers();
 
-    // Save session state periodically
-    const saveInterval = setInterval(saveSessionState, 30000); // Save every 30 seconds
+    const saveInterval = setInterval(saveSessionState, 30000);
 
-    // Cleanup on unmount or auth change
     return () => {
       clearTimers();
       SESSION_CONFIG.ACTIVITY_EVENTS.forEach(event => {
@@ -438,13 +417,23 @@ const handleActivity = useCallback((event) => {
       });
       clearInterval(saveInterval);
 
-      // Remove any warning modals
       const warningModal = document.getElementById('session-warning-modal');
       if (warningModal) {
         document.body.removeChild(warningModal);
       }
     };
-  }, [isAuthenticated, user, handleActivity, resetSessionTimers, restoreSession, saveSessionState, clearTimers, isInRoom]);
+  }, [isAuthenticated, user, handleActivity, resetSessionTimers, restoreSession, saveSessionState, clearTimers]);
+
+  // Reset timers when location changes
+  useEffect(() => {
+    if (isAuthenticated && user && location.pathname === '/') {
+      console.log('User returned to landing page - restarting session timers');
+      resetSessionTimers();
+    } else if (location.pathname !== '/') {
+      console.log('User navigated away from landing page - clearing session timers');
+      clearTimers();
+    }
+  }, [location.pathname, isAuthenticated, user, resetSessionTimers, clearTimers]);
 
   // Save session state when user navigates away
   useEffect(() => {
@@ -457,14 +446,9 @@ const handleActivity = useCallback((event) => {
   }, [saveSessionState]);
 
   return {
-    // Session information
     getSessionInfo,
-
-    // Manual controls
     extendSession: resetSessionTimers,
     forceLogout: handleSessionTimeout,
-
-    // Session state
     isIdle: isIdleRef.current,
     isWarningShown: isWarningShownRef.current
   };

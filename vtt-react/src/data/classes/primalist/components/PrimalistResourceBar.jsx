@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/PrimalistResourceBar.css';
 
-const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
+const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     const [localSynergy, setLocalSynergy] = useState(45);
     const [activeTotems, setActiveTotems] = useState(5);
     const [selectedSpec, setSelectedSpec] = useState('earthwarden');
@@ -166,7 +166,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {/* Spec Selector Icon - Only show in HUD context */}
             {context !== 'account' && (
                 <>
-                    <div className="spec-selector-icon" onClick={() => setShowSpecSelector(!showSpecSelector)}>
+                    <div className="spec-selector-icon" onClick={() => { if (isOwner) setShowSpecSelector(!showSpecSelector); }}>
                         <i className={`fas ${currentSpec.icon}`} style={{ color: currentSpec.glow }}></i>
                     </div>
 
@@ -194,7 +194,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 className={`primalist-resource-bar ${size} clickable`}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
-                onClick={() => setShowControls(!showControls)}
+                onClick={() => { if (isOwner) setShowControls(!showControls); }}
             >
                 {renderSynergyBar()}
 

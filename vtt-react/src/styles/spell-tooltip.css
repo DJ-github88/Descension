@@ -300,7 +300,7 @@ div[class*="spell-tooltip"] .pf-spell-card {
 
 /* ===== COMPREHENSIVE TEXT COLOR FIXES FOR SPELL TOOLTIPS ===== */
 
-/* ULTRA-AGGRESSIVE overrides for all text in spell tooltips */
+/* ULTRA-AGGRESSIVE overrides for all text in spell tooltips
 .spell-tooltip-content *,
 .spell-tooltip-overlay *,
 .spell-tooltip-content div,
@@ -315,27 +315,16 @@ div[class*="spell-tooltip"] .pf-spell-card {
   color: var(--pf-text-primary, #2d1810) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
+*/
 
-/* ULTRA-SPECIFIC overrides for white text with all possible variations */
+/* ULTRA-SPECIFIC overrides for white text with all possible variations
 .spell-tooltip-content *[style*="color: #fff"],
-.spell-tooltip-content *[style*="color: #ffffff"],
-.spell-tooltip-content *[style*="color: white"],
-.spell-tooltip-content *[style*="color:#fff"],
-.spell-tooltip-content *[style*="color:#ffffff"],
-.spell-tooltip-content *[style*="color:white"],
-.spell-tooltip-content *[style*="color: rgb(255, 255, 255)"],
-.spell-tooltip-content *[style*="color:rgb(255,255,255)"],
-.spell-tooltip-overlay *[style*="color: #fff"],
-.spell-tooltip-overlay *[style*="color: #ffffff"],
-.spell-tooltip-overlay *[style*="color: white"],
-.spell-tooltip-overlay *[style*="color:#fff"],
-.spell-tooltip-overlay *[style*="color:#ffffff"],
-.spell-tooltip-overlay *[style*="color:white"],
-.spell-tooltip-overlay *[style*="color: rgb(255, 255, 255)"],
-.spell-tooltip-overlay *[style*="color:rgb(255,255,255)"] {
+...
+{
   color: var(--pf-text-primary, #2d1810) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
+*/
 
 /* ULTRA-SPECIFIC overrides for yellow/gold colors with all variations */
 .spell-tooltip-content *[style*="color: #ffd700"],
@@ -403,12 +392,13 @@ div[class*="spell-tooltip"] .pf-spell-card {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Force override for any inline styles that might still be white or yellow */
+/* Force override for any inline styles that might still be white or yellow
 .spell-tooltip-overlay [style*="color"],
 .spell-tooltip-content [style*="color"] {
   color: var(--pf-text-primary, #2d1810) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
+*/
 
 /* Special handling for icons and components that should stay their original colors */
 .spell-tooltip-overlay .fa,
@@ -429,7 +419,7 @@ div[class*="spell-tooltip"] .pf-spell-card {
   text-shadow: none !important;
 }
 
-/* NUCLEAR OPTION - Override ALL text in spell tooltips */
+/* NUCLEAR OPTION - Override ALL text in spell tooltips
 .spell-tooltip-overlay,
 .spell-tooltip-overlay *,
 .spell-tooltip-content,
@@ -437,6 +427,7 @@ div[class*="spell-tooltip"] .pf-spell-card {
   color: var(--pf-text-primary, #2d1810) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
+*/
 
 /* Override any remaining light/white text colors */
 .spell-tooltip-overlay *[style*="color: #e2e8f0"],
@@ -578,7 +569,7 @@ html .spell-tooltip-content .pf-spell-card {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
 
-/* ULTIMATE NUCLEAR OPTION - Override ALL text in spell tooltips regardless of color */
+/* ULTIMATE NUCLEAR OPTION - Override ALL text in spell tooltips regardless of color
 .spell-tooltip-overlay div,
 .spell-tooltip-overlay span,
 .spell-tooltip-overlay p,
@@ -588,6 +579,7 @@ html .spell-tooltip-content .pf-spell-card {
   color: var(--pf-text-primary, #2d1810) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
+*/
 
 /* Preserve specific colors for icons and special elements */
 .spell-tooltip-overlay .fa,

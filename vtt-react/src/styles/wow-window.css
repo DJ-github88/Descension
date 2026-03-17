@@ -204,8 +204,10 @@
 }
 
 .window-content {
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    overflow: auto;
+    overflow: hidden; /* Changed from auto to hidden to prevent outer scrolling */
     position: relative;
     padding: 0;
     width: 100%;

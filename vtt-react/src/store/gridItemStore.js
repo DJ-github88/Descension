@@ -285,6 +285,7 @@ const useGridItemStore = create((set, get) => ({
           row: finalGridPosition.row,
           col: finalGridPosition.col
         },
+        isHidden: item.isHidden || false,
         mapId: resolvedMapId, // Use the mapId captured outside the set callback
         lastModified: Date.now()
       };
@@ -916,6 +917,39 @@ const useGridItemStore = create((set, get) => ({
     });
   },
 
+  // Set grid item visibility hidden status
+  setGridItemHidden: (gridItemId, isHidden, sendToServer = true) => set((state) => {
+    const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
+    const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
+
+    if (itemIndex === -1) {
+      console.warn(`Item with id ${gridItemId} not found in grid`);
+      return state;
+    }
+
+    const updatedItems = [...currentItems];
+    const existingItem = updatedItems[itemIndex];
+
+    updatedItems[itemIndex] = {
+      ...existingItem,
+      isHidden: !!isHidden,
+      lastModified: Date.now()
+    };
+
+    if (sendToServer) {
+      get().syncGridItemUpdate('grid_item_hidden_updated', {
+        gridItemId,
+        isHidden: !!isHidden,
+        targetMapId: existingItem.mapId
+      });
+    }
+
+    return {
+      gridItems: updatedItems,
+      lastUpdate: Date.now()
+    };
+  }),
+
   // Multiplayer Synchronization
   syncGridItemUpdate: (updateType, data, targetMapId = null) => {
     const gameStore = useGameStore.getState();
@@ -964,6 +998,16 @@ const useGridItemStore = create((set, get) => ({
           updates: {
             position: data.position || data.newPosition,
             gridPosition: (data.position || data.newPosition)?.gridPosition
+          },
+          targetMapId: data.targetMapId || currentMapId
+        });
+      } else if (updateType === 'grid_item_hidden_updated') {
+        gameStore.multiplayerSocket.emit('grid_item_update', {
+          roomId,
+          action: 'update',
+          itemId: data.gridItemId || data.itemId,
+          updates: {
+            isHidden: data.isHidden
           },
           targetMapId: data.targetMapId || currentMapId
         });

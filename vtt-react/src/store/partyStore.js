@@ -729,6 +729,15 @@ const usePartyStore = create((set, get) => ({
    */
   updatePartyMember: (memberId, updates, silent = false) => {
     const isTargetSelf = isSelfMemberId(memberId, updates?.userId);
+    
+    // Debug logging for classResource updates
+    if (updates?.character?.classResource) {
+      console.log('🔄 partyStore.updatePartyMember - classResource update:', {
+        memberId,
+        isTargetSelf,
+        classResource: updates.character.classResource
+      });
+    }
 
     set(state => ({
       partyMembers: state.partyMembers.map(m => {
@@ -742,6 +751,16 @@ const usePartyStore = create((set, get) => ({
           (updates?.socketId && (m.id === updates.socketId || m.userId === updates.socketId || m.socketId === updates.socketId));
 
         if ((isTargetSelf && isMemberSelf) || matchesById) {
+          // Debug logging when match found
+          if (updates?.character?.classResource) {
+            console.log('✅ partyStore.updatePartyMember - Match found, updating:', {
+              memberId: m.id,
+              memberName: m.name,
+              oldClassResource: m.character?.classResource,
+              newClassResource: updates.character.classResource
+            });
+          }
+          
           // Deep merge character object if present in updates
           if (updates.character && m.character) {
             const mergedCharacter = {
@@ -753,8 +772,10 @@ const usePartyStore = create((set, get) => ({
               ...(updates.character.actionPoints ? { actionPoints: { ...m.character.actionPoints, ...updates.character.actionPoints } } : {}),
               // Preserve classResource if not explicitly updated
               ...(m.character.classResource && !updates.character.classResource ? { classResource: m.character.classResource } : {}),
-              // Deep merge classResource if both exist
-              ...(updates.character.classResource && m.character.classResource ? { classResource: { ...m.character.classResource, ...updates.character.classResource } } : {}),
+              // CRITICAL FIX: Replace classResource entirely when provided (not deep merge)
+              // Deep merge was causing ghost properties from old class to persist when class changes
+              // e.g., Berserker's rageStates persisting when changing to Chronarch
+              ...(updates.character.classResource ? { classResource: updates.character.classResource } : {}),
               // CRITICAL FIX: Preserve display names if not explicitly in update
               race: updates.character.race ?? m.character.race,
               raceDisplayName: updates.character.raceDisplayName ?? m.character.raceDisplayName,

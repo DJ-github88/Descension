@@ -349,6 +349,7 @@ const ActionBar = () => {
 
         // Apply buff effects if any exist
         if (hasBuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
             addBuff({
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
@@ -356,12 +357,15 @@ const ActionBar = () => {
                 effects: buffEffects,
                 duration: buffDuration,
                 source: 'consumable',
-                stackable: false
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
             });
         }
 
         // Apply debuff effects if any exist
         if (hasDebuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
             const { addDebuff } = useDebuffStore.getState();
             addDebuff({
                 name: inventoryItem.name,
@@ -370,7 +374,9 @@ const ActionBar = () => {
                 effects: debuffEffects,
                 duration: debuffDuration,
                 source: 'consumable',
-                stackable: false
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
             });
         }
     }, [addBuff]);
@@ -698,6 +704,7 @@ const ActionBar = () => {
 
         // Apply buff effects if any exist
         if (hasBuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
             addBuff({
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
@@ -705,12 +712,15 @@ const ActionBar = () => {
                 effects: buffEffects,
                 duration: buffDuration,
                 source: 'consumable',
-                stackable: false
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
             });
         }
 
         // Apply debuff effects if any exist
         if (hasDebuffEffects) {
+            const gameStore = require('../../store/gameStore').default.getState();
             const { addDebuff } = useDebuffStore.getState();
             addDebuff({
                 name: inventoryItem.name,
@@ -719,7 +729,9 @@ const ActionBar = () => {
                 effects: debuffEffects,
                 duration: debuffDuration,
                 source: 'consumable',
-                stackable: false
+                stackable: false,
+                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetType: 'player'
             });
         }
 
@@ -1923,7 +1935,7 @@ const ActionBar = () => {
                             padding: '20px',
                             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
                             fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
+                            color: 'black',
                             minWidth: '350px',
                             textAlign: 'center'
                         }}
@@ -2028,7 +2040,7 @@ const ActionBar = () => {
                                                                     border: '1px solid #a08c70',
                                                                     borderRadius: '4px',
                                                                     backgroundColor: '#d4c4a8',
-                                                                    color: '#7a3b2e',
+                                                                    color: 'black',
                                                                     cursor: 'pointer',
                                                                     fontSize: '11px'
                                                                 }}
@@ -2042,7 +2054,7 @@ const ActionBar = () => {
                                                                     border: '1px solid #a08c70',
                                                                     borderRadius: '4px',
                                                                     backgroundColor: '#d4c4a8',
-                                                                    color: '#7a3b2e',
+                                                                    color: 'black',
                                                                     cursor: 'pointer',
                                                                     fontSize: '11px'
                                                                 }}
@@ -2069,7 +2081,7 @@ const ActionBar = () => {
                                                         border: '1px solid #a08c70',
                                                         borderRadius: '4px',
                                                         backgroundColor: '#d4c4a8',
-                                                        color: '#7a3b2e',
+                                                        color: 'black',
                                                         cursor: 'pointer',
                                                         fontSize: '12px'
                                                     }}
@@ -2083,7 +2095,7 @@ const ActionBar = () => {
                                                         border: '1px solid #a08c70',
                                                         borderRadius: '4px',
                                                         backgroundColor: '#d4c4a8',
-                                                        color: '#7a3b2e',
+                                                        color: 'black',
                                                         cursor: 'pointer',
                                                         fontSize: '12px'
                                                     }}
@@ -2107,7 +2119,7 @@ const ActionBar = () => {
                                                         border: '1px solid #a08c70',
                                                         borderRadius: '4px',
                                                         backgroundColor: '#d4c4a8',
-                                                        color: '#7a3b2e',
+                                                        color: 'black',
                                                         cursor: 'pointer',
                                                         fontSize: '12px'
                                                     }}
@@ -2162,7 +2174,7 @@ const ActionBar = () => {
                                                         border: '1px solid #a08c70',
                                                         borderRadius: '4px',
                                                         backgroundColor: '#d4c4a8',
-                                                        color: '#7a3b2e',
+                                                        color: 'black',
                                                         cursor: 'pointer',
                                                         fontSize: '12px'
                                                     }}
@@ -2210,7 +2222,7 @@ const ActionBar = () => {
                                             border: '1px solid #a08c70',
                                             borderRadius: '4px',
                                             backgroundColor: '#e8dcc0',
-                                            color: '#7a3b2e',
+                                            color: 'black',
                                             cursor: 'pointer',
                                             fontSize: '12px'
                                         }}

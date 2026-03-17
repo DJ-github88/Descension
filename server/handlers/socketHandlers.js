@@ -310,7 +310,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         remainingMemberIds.forEach(memberId => {
           userToParty.delete(memberId);
           const memberSockets = getSocketsByUserId(memberId);
-          memberSockets.forEach(s => s.emit('party_disbanded', { partyId, reason: 'leader_left' }));
+          memberSockets.forEach(s => s.emit('party_disbanded', { partyId, partyName: party.name, reason: 'leader_left' }));
         });
         parties.delete(partyId);
       } else {
@@ -818,30 +818,44 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         });
       }
 
-      // 2. Get player info
-      const player = players.get(socket.id);
-      if (!player) {
-        logger.debug('[disconnect] Unknown room player disconnected', {
-          socketId: socket.id,
-          hadSocialPresence: !!socialPresence
-        });
-        return;
-      }
+      // 2. Resolve user identity for party cleanup
+      let userId = socket.data.userId;
+      let userName = 'Unknown';
 
-      // 3. Resolve user identity for party cleanup
-      let userId = socket.data.userId || player.id;
-      let userName = player.name;
-
-      // Also check socialPresence if available
+      // Check socialPresence first (for social-only users)
       if (socialPresence && socialPresence.userId) {
         userId = socialPresence.userId;
         userName = socialPresence.name || userName;
       }
 
-      // 4. Handle party leave (CRITICAL FIX - this was missing!)
+      // 3. Get player info
+      const player = players.get(socket.id);
+      if (player) {
+        if (!userId) {
+          userId = player.id;
+        }
+        userName = player.name || userName;
+      }
+
+      // 4. Early return for non-room players
+      // NOTE: We do NOT call handlePartyLeave for social-only users here because:
+      // - Page refreshes would incorrectly remove users from parties
+      // - The new socket might not be authenticated yet when we check for other connections
+      // - Stale party entries are handled by the safety check in invite_to_party
+      if (!player) {
+        logger.debug('[disconnect] Non-room player disconnected (party cleanup deferred)', {
+          socketId: socket.id,
+          hadSocialPresence: !!socialPresence,
+          userId
+        });
+        return;
+      }
+
+      // 5. Handle party leave for room players only
+      // Room players are leaving an active game session, so immediate cleanup is appropriate
       handlePartyLeave(userId, userName, socket.id);
 
-      // 5. Handle room cleanup
+      // 6. Handle room cleanup
       const room = rooms.get(player.roomId);
       if (room) {
         if (player.isGM) {
@@ -870,11 +884,11 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
       }
 
-      // 6. Remove from players map
+      // 7. Remove from players map
       players.delete(socket.id);
       logger.info('[disconnect] Player disconnected', { socketId: socket.id, playerId: player.id, userId });
 
-      // 7. Update room list
+      // 8. Update room list
       io.emit('room_list', getPublicRooms());
     });
 
@@ -1149,13 +1163,19 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         characterId: data.characterId,
         name: data.character?.name,
         race: data.character?.race,
-        class: data.character?.class
+        class: data.character?.class,
+        roomId: data.roomId,
+        hasCharacter: !!data.character
       });
       try {
         const validation = validateRoomMembership(socket, data.roomId);
-        if (!validation.valid) return;
+        if (!validation.valid) {
+          console.log(`❌ [Server] character_updated validation failed:`, validation.error);
+          return;
+        }
 
         const { room, player } = validation;
+        console.log(`✅ [Server] character_updated validated for player ${player.id} in room ${room.id}`);
 
         // Update player character data
         if (data.character) {
@@ -1167,16 +1187,34 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
           // Update in room's players map
           room.players.set(player.id, player);
+
+          // CRITICAL FIX: Also update room.gm if this is the GM
+          // This ensures new players joining receive up-to-date GM character data
+          if (player.isGM || room.gm?.socketId === socket.id || room.gm?.id === player.id) {
+            room.gm.character = player.character;
+            logger.debug('[character_updated] Updated room.gm.character for GM sync');
+          }
         }
 
         // Broadcast to room (including sender so they can verify sync)
-        io.to(data.roomId).emit('character_updated', {
+        // CRITICAL FIX: Use room.id instead of data.roomId (which may be undefined)
+        // validateRoomMembership resolves the room from player.roomId as fallback
+        const broadcastRoomId = room.id;
+        console.log(`📤 [Server] Broadcasting character_updated to room ${broadcastRoomId}:`, {
+          playerId: player.id,
+          playerName: player.character?.name,
+          playerClass: player.character?.class,
+          isGM: player.isGM || room.gm?.socketId === socket.id
+        });
+        
+        io.to(broadcastRoomId).emit('character_updated', {
           playerId: player.id,
           characterId: data.characterId,
           character: player.character,
           updatedBy: socket.id,
           senderSocketId: socket.id,
           senderUserId: socket.data.userId || data.userId,
+          isGM: player.isGM || room.gm?.socketId === socket.id,
           timestamp: Date.now()
         });
 
@@ -3710,12 +3748,22 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             logger.warn('📢 [invite_to_party] Cleaning stale userToParty entry for target', { toUserId, stalePartyId: targetUserPartyId });
             userToParty.delete(toUserId);
           } else {
-            logger.info('📢 [invite_to_party] Target user already in party', { toUserId, existingPartyId: targetUserPartyId });
-            socket.emit('party_invite_failed', {
-              error: 'User is already in a party',
-              toUserId: toUserId
-            });
-            return;
+            // Defense-in-depth: verify target user is actually online
+            // Stale entries can persist if disconnect cleanup was skipped
+            const targetOnlineUser = getOnlineUserById(toUserId);
+            if (!targetOnlineUser) {
+              // Target user is offline but has party entry - clean up stale entry
+              logger.warn('📢 [invite_to_party] Target user has party entry but is offline, cleaning up', { toUserId, stalePartyId: targetUserPartyId });
+              userToParty.delete(toUserId);
+            } else {
+              // Target user is online AND in a party - genuinely cannot invite
+              logger.info('📢 [invite_to_party] Target user already in party', { toUserId, existingPartyId: targetUserPartyId });
+              socket.emit('party_invite_failed', {
+                error: 'User is already in a party',
+                toUserId: toUserId
+              });
+              return;
+            }
           }
         }
 

@@ -217,8 +217,8 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                     // Add to DOM temporarily
                     document.body.appendChild(dragImage);
 
-                    // Use as drag image (centered)
-                    e.dataTransfer.setDragImage(dragImage, 30, 40);
+                    // Use as drag image (centered on the item icon at the top)
+                    e.dataTransfer.setDragImage(dragImage, 30, 25);
 
                     // Clean up after drag starts (slight delay to ensure it's used)
                     setTimeout(() => {
@@ -272,8 +272,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 ref={cardRef}
                 className={`item-card ${isSelected ? 'selected' : ''}`}
                 style={{ borderColor: getQualityColor(item.quality) }}
-                onClick={onClick}
-                onContextMenu={onContextMenu}
+                onClick={(e) => onClick?.(e, item)}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    onContextMenu?.(e, item);
+                }}
                 onMouseEnter={handleMouseEnter}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}

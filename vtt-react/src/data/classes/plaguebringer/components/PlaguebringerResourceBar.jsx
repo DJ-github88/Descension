@@ -5,7 +5,7 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PlaguebringerResourceBar.css';
 
-const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     const [localCorruption, setLocalCorruption] = useState(65);
     const [localAfflictions, setLocalAfflictions] = useState(4);
     const [selectedSpec, setSelectedSpec] = useState('virulentSpreader');
@@ -159,7 +159,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                     className={`corruption-bar ${size} clickable`}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => setShowControls(!showControls)}
+                    onClick={() => { if (isOwner) setShowControls(!showControls); }}
                 >
                     <div className="corruption-fill" style={{
                         width: `${(localCorruption / maxCorruption) * 100}%`,

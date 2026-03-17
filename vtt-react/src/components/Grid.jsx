@@ -2069,7 +2069,13 @@ function GridComponent({
                 const file = e.dataTransfer.files[0];
 
                 // Check if it's an image file
-                if (file.type.startsWith('image/')) {
+                // Ensure this is actually a file drag from OS, not an image from the page
+                // When dragging an image from the browser, it often includes text/uri-list or text/html
+                const hasUrl = e.dataTransfer.types.includes('text/uri-list');
+                const hasHtml = e.dataTransfer.types.includes('text/html');
+                const isExternalFile = !hasUrl && !hasHtml;
+
+                if (file.type.startsWith('image/') && isExternalFile) {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -3754,8 +3760,7 @@ function GridComponent({
                     onClose={() => setImageDropMenu({ isOpen: false, position: { x: 0, y: 0 }, imageData: null })}
                     onBackgroundSet={(backgroundId) => {
                         // Enter background manipulation mode
-                        gameStore.setBackgroundManipulationMode(true);
-                        gameStore.setActiveBackground(backgroundId);
+                        gameStore.setState({ isBackgroundManipulationMode: true, activeBackgroundId: backgroundId });
                     }}
                 />
 

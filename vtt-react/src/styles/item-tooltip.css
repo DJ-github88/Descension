@@ -32,20 +32,26 @@
 }
 
 /* Override all white text to Pathfinder brown-dark - more aggressive approach */
+/* Override all white text to Pathfinder brown-dark - more aggressive approach
 .item-tooltip div[style*="#ffffff"]:not(.item-name):not([class*="quality-"]),
 .item-tooltip div[style*="rgb(255, 255, 255)"]:not(.item-name):not([class*="quality-"]) {
     color: #5a1e12 !important;
 }
+*/
 
+/*
 .item-tooltip span[style*="#ffffff"]:not(.item-name):not([class*="quality-"]),
 .item-tooltip span[style*="rgb(255, 255, 255)"]:not(.item-name):not([class*="quality-"]) {
     color: #5a1e12 !important;
 }
+*/
 
 /* More specific: target divs with inline color styles that aren't item-name */
+/* More specific: target divs with inline color styles that aren't item-name
 .item-tooltip>div>div[style*="color"]:not(.item-name):not([class*="quality-"]) {
     color: #5a1e12 !important;
 }
+*/
 
 .review-tooltip .item-tooltip,
 .review-step .item-tooltip,

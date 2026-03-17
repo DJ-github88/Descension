@@ -45,6 +45,8 @@ const useBuffStore = create(
                     newBuff.endTime = buff.endTime || (Date.now() + (buff.duration || 60) * 1000);
                 }
 
+                console.log('[buffStore] Adding buff:', newBuff.name, 'targetId:', newBuff.targetId, 'effects:', newBuff.effects);
+
                 // Check if buff is stackable (now also considers target)
                 if (!newBuff.stackable) {
                     // Remove existing buff with same name and target
@@ -52,13 +54,84 @@ const useBuffStore = create(
                         !(b.name === newBuff.name && b.targetId === newBuff.targetId)
                     );
                     set({ activeBuffs: [...filteredBuffs, newBuff] });
+                    console.log('[buffStore] Buff added (non-stackable). Total buffs:', filteredBuffs.length + 1);
                 } else {
                     set({ activeBuffs: [...activeBuffs, newBuff] });
+                    console.log('[buffStore] Buff added (stackable). Total buffs:', activeBuffs.length + 1);
                 }
 
                 // Sync with multiplayer if not silent
                 if (!silent) {
                     get().syncBuffUpdate('buff_added', newBuff);
+                }
+
+                // Also sync to token.state.conditions for persistent display
+                try {
+                    const conditionForToken = {
+                        id: newBuff.id,
+                        name: newBuff.name,
+                        icon: newBuff.icon,
+                        color: newBuff.color,
+                        description: newBuff.description,
+                        type: 'buff',
+                        appliedAt: newBuff.startTime,
+                        duration: newBuff.durationType === 'rounds' 
+                            ? newBuff.durationValue * 6000 // rounds to ms
+                            : newBuff.duration * 1000, // seconds to ms
+                        durationType: newBuff.durationType,
+                        durationValue: newBuff.durationValue,
+                        remainingRounds: newBuff.remainingRounds,
+                        effects: newBuff.effects
+                    };
+
+                    if (newBuff.targetId === 'player' || newBuff.targetId === 'current-player') {
+                        // Add to player's character token
+                        const useCharacterTokenStore = require('./characterTokenStore').default;
+                        const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
+                        const playerToken = characterTokens.find(t => t.isPlayerToken);
+                        if (playerToken) {
+                            const existingConditions = playerToken.state?.conditions || [];
+                            // Avoid duplicates
+                            const existingIndex = existingConditions.findIndex(c => c.name === newBuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateCharacterTokenState(playerToken.id, { conditions: [...existingConditions] });
+                        }
+                    } else if (newBuff.targetId && newBuff.targetId !== 'player') {
+                        // Add to creature/character token
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === newBuff.targetId);
+                        if (token) {
+                            const existingConditions = token.state?.conditions || [];
+                            const existingIndex = existingConditions.findIndex(c => c.name === newBuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateTokenState(newBuff.targetId, { conditions: [...existingConditions] });
+                        }
+                        // Also check character tokens
+                        const useCharacterTokenStore = require('./characterTokenStore').default;
+                        const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
+                        const charToken = characterTokens.find(t => t.id === newBuff.targetId);
+                        if (charToken) {
+                            const existingConditions = charToken.state?.conditions || [];
+                            const existingIndex = existingConditions.findIndex(c => c.name === newBuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateCharacterTokenState(charToken.id, { conditions: [...existingConditions] });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Could not sync buff to token conditions:', e);
                 }
 
                 // Set up automatic removal timer (only for time-based buffs)
@@ -72,10 +145,12 @@ const useBuffStore = create(
                 // Force stat update in character store to sync stats/resources
                 try {
                     const characterStore = require('./characterStore').default;
-                    const { stats, updateStat } = characterStore.getState();
-                    if (stats && updateStat) {
-                        // Simply updating one stat to force recalculation of all derived stats and sync
-                        updateStat('strength', stats.strength);
+                    const charState = characterStore.getState();
+                    if (charState.stats) {
+                        // Use updateStat to force full recalculation of derived stats including buff effects
+                        // This will also sync to multiplayer and update the character sheet
+                        charState.updateStat('strength', charState.stats.strength);
+                        console.log('[buffStore] Triggered stat recalculation after adding buff:', newBuff.name);
                     }
                 } catch (e) {
                     console.warn('Could not trigger stat update after adding buff:', e);
@@ -266,8 +341,16 @@ const useBuffStore = create(
                 const { activeBuffs } = get();
                 const effects = {};
 
+                console.log('[buffStore] getActiveEffects called with targetId:', targetId);
+                console.log('[buffStore] activeBuffs:', activeBuffs.map(b => ({ name: b.name, targetId: b.targetId, effects: b.effects })));
+
+                // IMPROVED: When looking for 'player', also include 'current-player' buffs
+                const targetIds = targetId === 'player' 
+                    ? ['player', 'current-player'] 
+                    : [targetId];
+
                 activeBuffs
-                    .filter(buff => buff.targetId === targetId)
+                    .filter(buff => targetIds.includes(buff.targetId))
                     .forEach(buff => {
                         if (buff.effects) {
                             Object.keys(buff.effects).forEach(effectType => {
@@ -282,13 +365,16 @@ const useBuffStore = create(
                         }
                     });
 
+                console.log('[buffStore] Returning effects for', targetId, ':', effects);
                 return effects;
             },
 
             // Get buffs for a specific target
             getBuffsForTarget: (targetId) => {
-                const { activeBuffs } = get();
-                return activeBuffs.filter(buff => buff.targetId === targetId);
+                const { activeBuffs } = get()
+                const result = activeBuffs.filter(buff => buff.targetId === targetId)
+                console.log('[buffStore] getBuffsForTarget(' + targetId + '):', result.length, 'buffs found')
+                return result
             },
 
             // Remove buffs for a specific target
@@ -405,9 +491,24 @@ const useBuffStore = create(
                     gameStore.multiplayerSocket.emit('buff_update', {
                         type: updateType,
                         data: data,
+                        roomId: gameStore.multiplayerRoom?.id,
                         timestamp: Date.now()
                     });
                 }
+            },
+
+            // Remap targetId for local player perspective (used when receiving buffs from GM/other players)
+            remapTargetIdForLocalPlayer: (targetId) => {
+                const gameStore = useGameStore.getState();
+                const currentPlayerId = gameStore.currentPlayer?.id;
+                const authStore = require('./authStore').default;
+                const userId = authStore.getState().user?.uid;
+
+                // If this buff targets our player ID, remap to 'current-player' for consistency
+                if (targetId === currentPlayerId || targetId === userId) {
+                    return 'current-player';
+                }
+                return targetId;
             }
         }),
         {

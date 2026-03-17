@@ -6,7 +6,7 @@ import useCharacterStore from '../../../../store/characterStore';
 import '../styles/ToxicologistResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 
-const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
     const [localToxinVials, setLocalToxinVials] = useState(6);
     const [localContraptionParts, setLocalContraptionParts] = useState(3);
@@ -251,7 +251,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             {/* Spec Button - Positioned Absolutely to the Left */}
             <button
                 className="spec-button"
-                onClick={() => setShowSpecMenu(!showSpecMenu)}
+                onClick={() => { if (isOwner) setShowSpecMenu(!showSpecMenu); }}
                 title="Change Specialization"
             >
                 <i className="fas fa-cog"></i>
@@ -266,8 +266,10 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div
                                 className="bar-half toxin-half"
                                 onClick={() => {
-                                    setShowToxinMenu(!showToxinMenu);
-                                    setShowContraptionMenu(false);
+                                    if (isOwner) {
+                                        setShowToxinMenu(!showToxinMenu);
+                                        setShowContraptionMenu(false);
+                                    }
                                 }}
                                 onMouseEnter={() => {
                                     setShowTooltip(true);
@@ -317,8 +319,10 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div
                                 className="bar-half contraption-half"
                                 onClick={() => {
-                                    setShowContraptionMenu(!showContraptionMenu);
-                                    setShowToxinMenu(false);
+                                    if (isOwner) {
+                                        setShowContraptionMenu(!showContraptionMenu);
+                                        setShowToxinMenu(false);
+                                    }
                                 }}
                                 onMouseEnter={() => {
                                     setShowTooltip(true);

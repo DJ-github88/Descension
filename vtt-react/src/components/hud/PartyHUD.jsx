@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import Draggable from 'react-draggable';
 // Removed: Resizable - not used
@@ -27,19 +27,19 @@ import { getIconUrl } from '../../utils/assetManager';
 
 // Helper to check if an ID belongs to the current player
 // CRITICAL FIX: Check against userId (Firebase UID) FIRST, then server UUID, then socket.io ID
+// SECURITY FIX: Return false if myIds is not populated (aggressive security)
 function isSelfId(id, userId, myIds = {}) {
     if (!id) return false;
-    if (id === 'current-player') return true;
-
-    // Use passed-in reactive IDs if available - prioritize these as they are tab-specific
+    
+    // 1. Try checking against passed-in reactive IDs (tab-specific and most reliable)
     if (myIds.serverId && id === myIds.serverId) return true;
     if (myIds.socketId && id === myIds.socketId) return true;
+    if (myIds.userId && (id === myIds.userId || userId === myIds.userId)) return true;
 
-    // Only match userId if we DON'T have a more specific connection ID match available
-    const hasStrictIds = !!(myIds.serverId || myIds.socketId);
-    if (!hasStrictIds && myIds.userId && (id === myIds.userId || userId === myIds.userId)) return true;
+    // 2. Handle 'current-player' magic string
+    if (id === 'current-player') return true;
 
-    // Fallback to store state (non-reactive fallback)
+    // 3. Fallback to store state (global but non-reactive)
     try {
         const gameSate = useGameStore.getState();
         const serverId = gameSate.currentPlayer?.id;
@@ -47,14 +47,12 @@ function isSelfId(id, userId, myIds = {}) {
         const authUid = useAuthStore.getState().user?.uid;
 
         if (id === serverId || id === socketId) return true;
-
-        // Only fallback to userId if no serverId is known for the candidate
-        if (!hasStrictIds && authUid && (id === authUid || userId === authUid)) return true;
-
-        return id === 'current-player';
+        if (authUid && (id === authUid || userId === authUid)) return true;
     } catch (e) {
-        return id === 'current-player';
+        // Silent fail on store access errors
     }
+
+    return false;
 }
 
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
@@ -79,6 +77,11 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
     // Only use store data if this is the current player
     const currentPlayerData = isCurrentPlayer ? currentPlayerStoreData : null;
+    
+    // Subscribe to activeBuffs to trigger re-renders when buffs change
+    const activeBuffs = useBuffStore(state => state.activeBuffs);
+    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+    
     const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff, updateBuffDuration } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers, updateDebuffDuration } = useDebuffStore();
     const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore();
@@ -115,21 +118,21 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
     // Timer to update buff, debuff, and condition displays every second
     useEffect(() => {
-        // Get current buffs and debuffs for this member
-        const currentBuffs = getBuffsForTarget(member.id);
-        const currentDebuffs = getDebuffsForTarget(member.id);
+        // Get all relevant IDs for this member
+        const memberId = member.id;
+        const memberUserId = member.userId;
+        const memberSocketId = member.socketId;
 
-        // Get conditions from player's character token
-        const playerToken = characterTokens.find(t => t.isPlayerToken);
-        const playerConditions = (isCurrentPlayer && playerToken?.state?.conditions) || [];
+        // Get conditions from member's character token
+        const memberToken = characterTokens.find(t => 
+            t.playerId === memberId || 
+            t.playerId === memberUserId || 
+            t.playerId === memberSocketId ||
+            t.id === memberId
+        );
+        const memberConditions = memberToken?.state?.conditions || [];
 
         // Always return a cleanup function to ensure consistent hook count
-        if (!isCurrentPlayer || (currentBuffs.length === 0 && currentDebuffs.length === 0 && playerConditions.length === 0)) {
-            return () => {
-                // No cleanup needed if not current player or no conditions
-            };
-        }
-
         const interval = setInterval(() => {
             updateBuffTimers();
             updateDebuffTimers();
@@ -560,12 +563,17 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             debuffStore.removeDebuff(condition.id);
         } else {
             // Handle actual conditions from token.state.conditions
-            const playerToken = characterTokens.find(t => t.isPlayerToken);
-            if (playerToken?.state?.conditions) {
-                const updatedConditions = playerToken.state.conditions.filter(c =>
+            const memberToken = characterTokens.find(t => 
+                t.playerId === member.id || 
+                t.playerId === member.userId || 
+                t.playerId === member.socketId ||
+                t.id === member.id
+            );
+            if (memberToken?.state?.conditions) {
+                const updatedConditions = memberToken.state.conditions.filter(c =>
                     !(c.id === condition.id || c.name === condition.name)
                 );
-                updateCharacterTokenState(playerToken.id, { conditions: updatedConditions });
+                updateCharacterTokenState(memberToken.id, { conditions: updatedConditions });
             }
         }
 
@@ -648,9 +656,14 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             debuffStore.updateDebuffDuration(condition.id, duration, durationType);
         } else {
             // For conditions, update the token's condition
-            const playerToken = characterTokens.find(t => t.isPlayerToken);
-            if (playerToken?.state?.conditions) {
-                const updatedConditions = playerToken.state.conditions.map(c => {
+            const memberToken = characterTokens.find(t => 
+                t.playerId === member.id || 
+                t.playerId === member.userId || 
+                t.playerId === member.socketId ||
+                t.id === member.id
+            );
+            if (memberToken?.state?.conditions) {
+                const updatedConditions = memberToken.state.conditions.map(c => {
                     if (c.id === condition.id || c.name === condition.name) {
                         return {
                             ...c,
@@ -661,7 +674,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     }
                     return c;
                 });
-                updateCharacterTokenState(playerToken.id, { conditions: updatedConditions });
+                updateCharacterTokenState(memberToken.id, { conditions: updatedConditions });
             }
         }
 
@@ -923,11 +936,22 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         {/* Class Resource Bar - Only show if character has a class and class resource */}
                         {member.character?.class && member.character?.classResource && (
                             <ClassResourceBar
+                                key={`classResource-${member.id}-${member.character.classResource?.current}-${member.character.classResource?.lastUpdate || 0}`}
                                 characterClass={member.character.class}
                                 classResource={member.character.classResource}
                                 isGMMode={isGMMode}
-                                onResourceClick={(resourceType) => onResourceAdjust(member.id, resourceType)}
-                                onClassResourceUpdate={onClassResourceUpdate ? (field, value) => onClassResourceUpdate(member.id, field, value) : null}
+                                isOwner={isCurrentPlayer}
+                                onResourceClick={isCurrentPlayer ? ((resourceType) => onResourceAdjust(member.id, resourceType)) : null}
+                                onClassResourceUpdate={isCurrentPlayer && onClassResourceUpdate ? (field, value) => {
+                                    console.log('🎯 ClassResourceBar callback triggered:', {
+                                        memberId: member.id,
+                                        memberName: member.name,
+                                        field,
+                                        value,
+                                        isCurrentPlayer
+                                    });
+                                    onClassResourceUpdate(member.id, field, value);
+                                } : null}
                                 size="small"
                                 context="party"
                             />
@@ -940,30 +964,62 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     <div className={`status-dot ${member.status || 'online'}`}></div>
                 </div>
             </div>
-
-            {/* Buffs, Debuffs, and Conditions - Only show for current player */}
-            {isCurrentPlayer && (() => {
+            {/* Buffs, Debuffs, and Conditions - Now visible for all party members */}
+            {(() => {
                 const gameStore = useGameStore.getState();
                 const currentPlayerId = gameStore.currentPlayer?.id;
+                
+                const memberId = member.id;
+                const memberUserId = member.userId;
+                const memberSocketId = member.socketId;
 
-                // Get all relevant store buffs/debuffs
-                let rawBuffs = [
-                    ...getBuffsForTarget('player'),
-                    ...getBuffsForTarget('current-player')
-                ];
-                let rawDebuffs = [
-                    ...getDebuffsForTarget('player'),
-                    ...getDebuffsForTarget('current-player')
-                ];
+                // Get all relevant store buffs/debuffs for this member
+                let rawBuffs = [...getBuffsForTarget(memberId)];
+                let rawDebuffs = [...getDebuffsForTarget(memberId)];
 
-                if (currentPlayerId) {
-                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
-                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+                if (memberUserId) {
+                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(memberUserId)];
+                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(memberUserId)];
                 }
 
-                // Get conditions from player's character token
-                const playerToken = characterTokens.find(t => t.isPlayerToken);
-                const rawConditions = playerToken?.state?.conditions || [];
+                if (memberSocketId) {
+                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(memberSocketId)];
+                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(memberSocketId)];
+                }
+
+                // If this IS the current player, also include buffs on aliases
+                if (isCurrentPlayer) {
+                    rawBuffs = [
+                        ...rawBuffs,
+                        ...getBuffsForTarget('player'),
+                        ...getBuffsForTarget('current-player')
+                    ];
+                    rawDebuffs = [
+                        ...rawDebuffs,
+                        ...getDebuffsForTarget('player'),
+                        ...getDebuffsForTarget('current-player')
+                    ];
+                    
+                    if (currentPlayerId && memberId !== currentPlayerId) {
+                         rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
+                         rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+                    }
+                }
+                
+                // Debug logging for buff display
+                console.log('[PartyHUD] activeBuffs from store:', activeBuffs);
+                console.log('[PartyHUD] rawBuffs for display:', rawBuffs);
+                console.log('[PartyHUD] activeDebuffs from store:', activeDebuffs);
+                console.log('[PartyHUD] rawDebuffs for display:', rawDebuffs);
+
+                // Get conditions from member's character token
+                const memberToken = characterTokens.find(t => 
+                    t.playerId === memberId || 
+                    t.playerId === memberUserId || 
+                    t.playerId === memberSocketId ||
+                    t.id === memberId
+                );
+                const rawConditions = memberToken?.state?.conditions || [];
 
                 // CONSOLIDATION & DEDUPLICATION LOGIC (Same as TargetHUD)
                 const finalBuffs = [];
@@ -1129,9 +1185,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                             </div>
                                             <div style={{
                                                 fontSize: '10px',
-                                                color: '#f0e6d2',
+                                                color: '#ffffff !important',
                                                 fontWeight: 'bold',
-                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
                                                 marginTop: '2px',
                                                 fontFamily: 'Cinzel, serif'
                                             }}>
@@ -1218,9 +1274,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                             </div>
                                             <div style={{
                                                 fontSize: '10px',
-                                                color: '#f0e6d2',
+                                                color: '#ffffff !important',
                                                 fontWeight: 'bold',
-                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
                                                 marginTop: '2px',
                                                 fontFamily: 'Cinzel, serif'
                                             }}>
@@ -1254,7 +1310,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     {tooltipData.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#7a3b2e',
+                            color: '#ffffff !important',
                             fontWeight: '600',
                             marginTop: '4px',
                             padding: '4px 8px',
@@ -1268,7 +1324,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     {tooltipData.effects && !tooltipData.effectSummary && (
                         <div style={{
                             fontSize: '12px',
-                            color: '#7a3b2e',
+                            color: '#ffffff !important',
                             fontWeight: '600',
                             marginTop: '4px',
                             padding: '4px 8px',
@@ -1288,7 +1344,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         <div style={{
                             marginTop: '8px',
                             fontSize: '12px',
-                            color: '#7a3b2e',
+                            color: '#ffffff !important',
                             fontWeight: 'bold'
                         }}>
                             Duration: {tooltipData.duration}
@@ -1382,6 +1438,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const currentPlayer = useGameStore(state => state.currentPlayer);
     const myId = currentPlayer?.id || 'current-player';
 
+    // Reactive identity IDs for robust isSelfId matching - MUST be defined before useEffects
+    const myUserId = useAuthStore(state => state.user?.uid);
+    const myServerId = useGameStore(state => state.currentPlayer?.id);
+    const mySocketId = useGameStore(state => state.multiplayerSocket?.id);
+    const myIds = useMemo(() => ({
+        userId: myUserId,
+        serverId: myServerId,
+        socketId: mySocketId
+    }), [myUserId, myServerId, mySocketId]);
+
     // Removed: Redundant internal isSelfId definition - now moved to module level
 
 
@@ -1426,7 +1492,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 // Update the current player in the party store when character data changes
                 const partyState = usePartyStore.getState();
                 const currentMember = partyState.partyMembers.find(m =>
-                    isSelfId(m.userId, m.userId) || isSelfId(m.id, m.userId));
+                    isSelfId(m.userId, m.userId, myIds) || isSelfId(m.id, m.userId, myIds));
                 if (currentMember) {
                     usePartyStore.getState().updatePartyMember(currentMember.id, {
 
@@ -1462,7 +1528,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             unsubscribeParty();
             unsubscribeCharacter();
         };
-    }, []);
+    }, [myIds]);
 
     // Handle click outside to close context menu
     useEffect(() => {
@@ -1496,20 +1562,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource, updateClassResource } = useCharacterStore();
-    const { removeBuff, updateBuffDuration, getRemainingTime } = useBuffStore();
+    const { removeBuff, updateBuffDuration, getRemainingTime, activeBuffs, getBuffsForTarget: getBuffsForTargetFromStore } = useBuffStore();
     const { getRemainingTime: getDebuffRemainingTime, updateDebuffDuration, getDebuffsForTarget } = useDebuffStore();
     const { addNotification, addCombatNotification } = useChatStore();
     const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer, multiplayerRoom } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const alignment = useCharacterStore(state => state.alignment);
     const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
-
-    // Reactive identity IDs for robust isSelfId matching
-    const myIds = {
-        userId: useAuthStore(state => state.user?.uid),
-        serverId: useGameStore(state => state.currentPlayer?.id),
-        socketId: useGameStore(state => state.multiplayerSocket?.id)
-    };
 
     const currentPlayerData = useCharacterStore(state => ({
         // Use baseName or name from store, but we'll override this with lobby name if needed
@@ -1808,23 +1867,103 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     };
 
     // Handler for class resource updates (e.g., Inferno Veil)
+    // SMART FIX: Handles both simple resources (current/max) and nested resources (Chronarch's timeShards/temporalStrain)
     const handleClassResourceUpdate = (memberId, field, value) => {
-        if (isSelfId(memberId) || isSelfId(memberId, undefined)) {
+        const isSelf = isSelfId(memberId, undefined, myIds) || isSelfId(memberId, memberId, myIds);
+        
+        console.log('🔥 handleClassResourceUpdate:', {
+            memberId,
+            field,
+            value,
+            isSelf,
+            myIds
+        });
 
-            // Update current player's class resource in character store
-            updateClassResource(field, value);
+        if (isSelf) {
+            const characterState = useCharacterStore.getState();
+            const currentClassResource = characterState.classResource || {};
+            
+            // SMART FIX: Determine if this is a nested field update (Chronarch) or simple field update
+            const isNestedField = ['timeShards', 'temporalStrain'].includes(field);
+            
+            if (isNestedField) {
+                // For Chronarch: update the nested object's current value
+                const updatedClassResource = {
+                    ...currentClassResource,
+                    [field]: {
+                        ...(currentClassResource[field] || { current: 0, max: 10 }),
+                        current: value,
+                        lastUpdate: Date.now()
+                    }
+                };
+                
+                // Update the entire classResource object
+                useCharacterStore.getState().updateClassResource(field, {
+                    ...(currentClassResource[field] || { current: 0, max: 10 }),
+                    current: value
+                }, false, false);
+                
+                // Manually update state to ensure reactivity
+                useCharacterStore.setState({ classResource: updatedClassResource });
+            } else {
+                // For simple resources (Pyrofiend, etc.): direct field update
+                updateClassResource(field, value);
+            }
+            
+            // Also manually emit to ensure sync happens immediately
+            const socket = useGameStore.getState().multiplayerSocket;
+            const roomId = useGameStore.getState().multiplayerRoom?.id;
+            const updatedCharacterState = useCharacterStore.getState();
+            
+            if (socket && socket.connected && roomId) {
+                console.log('📤 Emitting character_resource_updated for classResource:', {
+                    field,
+                    value,
+                    fullClassResource: updatedCharacterState.classResource
+                });
+                
+                socket.emit('character_resource_updated', {
+                    roomId: roomId,
+                    playerId: useGameStore.getState().currentPlayer?.id,
+                    userId: useAuthStore.getState().user?.uid,
+                    socketId: socket.id,
+                    playerName: updatedCharacterState.name,
+                    resource: 'classResource',
+                    current: updatedCharacterState.classResource?.current || 0,
+                    max: updatedCharacterState.classResource?.max || 0,
+                    classResource: updatedCharacterState.classResource,
+                    timestamp: Date.now()
+                });
+            }
         } else {
             // Update party member's class resource in party store
             const member = findMemberById(memberId);
             if (member && member.character?.classResource) {
+                // SMART FIX: Handle nested fields for Chronarch
+                const isNestedField = ['timeShards', 'temporalStrain'].includes(field);
+                
+                let updatedClassResource;
+                if (isNestedField) {
+                    updatedClassResource = {
+                        ...member.character.classResource,
+                        [field]: {
+                            ...(member.character.classResource[field] || { current: 0, max: 10 }),
+                            current: value,
+                            lastUpdate: Date.now()
+                        }
+                    };
+                } else {
+                    updatedClassResource = {
+                        ...member.character.classResource,
+                        [field]: value,
+                        lastUpdate: Date.now()
+                    };
+                }
+                
                 updatePartyMember(memberId, {
                     character: {
                         ...member.character,
-                        classResource: {
-                            ...member.character.classResource,
-                            [field]: value,
-                            lastUpdate: Date.now()
-                        }
+                        classResource: updatedClassResource
                     }
                 });
             }
@@ -2371,7 +2510,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         // Log to combat tab - get level after change
         const actorName = getActorName();
-        const newLevel = isSelfId(memberId) ? useCharacterStore.getState().level :
+        const newLevel = isSelfId(memberId, undefined, myIds) ? useCharacterStore.getState().level :
 
             (findMemberById(memberId)?.character?.level || '?');
         const levelMessages = levelChange > 0 ? [
@@ -2885,7 +3024,29 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
                                     member={member}
-                                    isCurrentPlayer={isSelfId(member.userId, member.userId, myIds) || isSelfId(member.id, member.userId, myIds) || isSelfId(member.socketId, member.userId, myIds)}
+                                    isCurrentPlayer={(() => {
+                                        const check1 = isSelfId(member.userId, member.userId, myIds);
+                                        const check2 = isSelfId(member.id, member.userId, myIds);
+                                        const check3 = isSelfId(member.socketId, member.userId, myIds);
+                                        const result = check1 || check2 || check3;
+                                        
+                                        // Log for debugging
+                                        if (member.character?.classResource) {
+                                            console.log('🔍 isCurrentPlayer check:', {
+                                                memberName: member.name,
+                                                memberId: member.id,
+                                                memberUserId: member.userId,
+                                                memberSocketId: member.socketId,
+                                                myIds,
+                                                check1,
+                                                check2,
+                                                check3,
+                                                result
+                                            });
+                                        }
+                                        
+                                        return result;
+                                    })()}
                                     leaderId={leaderId}
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}

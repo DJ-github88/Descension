@@ -5,10 +5,21 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PyrofiendResourceBar.css';
 
-const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Read inferno level from classResource prop, default to 0 if not available
     const infernoLevel = classResource?.current ?? 0;
     const maxInfernoLevel = classResource?.max ?? 9;
+    
+    // Log when classResource prop changes
+    useEffect(() => {
+        console.log('🔥 PyrofiendResourceBar - classResource prop changed:', {
+            isOwner,
+            infernoLevel,
+            maxInfernoLevel,
+            fullClassResource: classResource,
+            context
+        });
+    }, [classResource, isOwner, context]);
     
     const [selectedSpec, setSelectedSpec] = useState('inferno');
     const [showTooltip, setShowTooltip] = useState(false);
@@ -340,8 +351,15 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
                 onClick={(e) => {
-                    e.stopPropagation(); // Prevent event from bubbling to document
-                    setShowControls(!showControls);
+                    e.stopPropagation();
+                    console.log('🔥 PyrofiendResourceBar clicked:', {
+                        isOwner,
+                        infernoLevel,
+                        showControls,
+                        willOpen: isOwner && !showControls,
+                        willClose: isOwner && showControls
+                    });
+                    if (isOwner) setShowControls(!showControls);
                 }}
             >
                 <div className="inferno-segments">

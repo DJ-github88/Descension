@@ -6,6 +6,8 @@ import useCharacterStore from '../../store/characterStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useCraftingStore from '../../store/craftingStore';
+import usePartyStore from '../../store/partyStore';
+import useGameStore from '../../store/gameStore';
 import '../../styles/inventory.css';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -20,6 +22,12 @@ import { getInventoryGridDimensions } from '../../utils/characterUtils';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
+import {
+    collectBuffEffects,
+    collectDebuffEffects,
+    extractConsumableDuration,
+    syncResourceToAll
+} from '../../utils/consumableUtils';
 import {
     convertLegacyItemToShape,
     getShapeBounds,
@@ -417,22 +425,30 @@ const InventoryWindow = memo(() => {
 
     // Apply resource adjustment with overheal detection
     const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item) => {
+        // Get FRESH values from store to avoid stale closure issues
+        const charState = useCharacterStore.getState();
         const resourceMap = {
-            'health': health,
-            'mana': mana,
-            'actionPoints': actionPoints
+            'health': charState.health,
+            'mana': charState.mana,
+            'actionPoints': charState.actionPoints
         };
         
         const currentResource = resourceMap[resourceType];
-        if (!currentResource) return false;
+        if (!currentResource) {
+            console.warn(`[Consumable] No resource found for type: ${resourceType}`);
+            return false;
+        }
         
         const currentValue = currentResource.current || 0;
         const maxValue = currentResource.max || 0;
         const newValue = currentValue + amount;
         
+        console.log(`[Consumable] ${resourceType}: current=${currentValue}, max=${maxValue}, restore=${amount}, new=${newValue}`);
+        
         // Check for overheal (positive adjustment that would exceed max)
-        if (amount > 0 && newValue > maxValue) {
+        if (amount > 0 && newValue > maxValue && maxValue > 0) {
             const overhealAmount = newValue - maxValue;
+            console.log(`[Consumable] Overheal detected: ${overhealAmount} excess`);
             setOverhealData({
                 resourceType,
                 amount,
@@ -447,9 +463,110 @@ const InventoryWindow = memo(() => {
         
         // Normal application (no overheal or negative adjustment)
         const finalValue = Math.max(0, Math.min(maxValue, newValue));
-        updateResource(resourceType, finalValue, maxValue);
+        console.log(`[Consumable] Applying: ${resourceType} = ${finalValue}`);
+        useCharacterStore.getState().updateResource(resourceType, finalValue, maxValue);
+        
+        // Sync to all relevant stores
+        syncResourceToAll({
+            resourceType,
+            characterStore: useCharacterStore,
+            partyStore: usePartyStore,
+            gameStore: useGameStore
+        });
+        
         return true;
-    }, [health, mana, actionPoints, updateResource]);
+    }, []);
+
+    // Apply remaining consumable effects (after overheal is handled)
+    // MUST be defined before applyResourceWithTemporary to avoid circular dependency
+    const applyRemainingConsumableEffects = useCallback((item, skipResourceType = null) => {
+        if (!item) {
+            console.warn('[Consumable] No item provided to applyRemainingConsumableEffects');
+            return;
+        }
+        
+        console.log('[Consumable] Applying remaining effects for:', item.name);
+        console.log('[Consumable] Item combatStats:', item.combatStats);
+        console.log('[Consumable] Item baseStats:', item.baseStats);
+        console.log('[Consumable] Item utilityStats:', item.utilityStats);
+        
+        const { effects: buffEffects, hasBuffs } = collectBuffEffects(item);
+        const { effects: debuffEffects, hasDebuffs } = collectDebuffEffects(item);
+        const duration = extractConsumableDuration(item);
+        
+        console.log('[Consumable] Buff effects:', buffEffects, 'hasBuffs:', hasBuffs);
+        console.log('[Consumable] Debuff effects:', debuffEffects, 'hasDebuffs:', hasDebuffs);
+        console.log('[Consumable] Duration:', duration);
+
+        const charState = useCharacterStore.getState();
+        const gameStore = useGameStore.getState();
+        const targetId = gameStore.currentPlayer?.id || charState.currentCharacterId || charState.id || 'player';
+
+        if (hasBuffs) {
+            console.log('[Consumable] Adding buff to store...');
+            addBuff({
+                name: item.name,
+                icon: getIconUrl(item.iconId, 'items'),
+                description: item.description || `Temporary enhancement from ${item.name}`,
+                effects: buffEffects,
+                duration: duration,
+                source: 'consumable',
+                stackable: false,
+                targetId: targetId,
+                targetType: 'character'
+            });
+            console.log('[Consumable] Buff added successfully');
+        }
+
+        if (hasDebuffs) {
+            console.log('[Consumable] Adding debuff to store...');
+            addDebuff({
+                name: item.name,
+                icon: getIconUrl(item.iconId, 'items'),
+                description: item.description || `Temporary negative effect from ${item.name}`,
+                effects: debuffEffects,
+                duration: duration,
+                source: 'consumable',
+                stackable: false,
+                targetId: targetId,
+                targetType: 'character'
+            });
+            console.log('[Consumable] Debuff added successfully');
+        }
+        
+        // Sync to multiplayer if connected
+        try {
+            const gameStore = useGameStore.getState();
+            const characterState = useCharacterStore.getState();
+            
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                const socketId = gameStore.multiplayerSocket.id;
+                const roomId = gameStore.multiplayerRoom?.id;
+                const characterId = characterState.currentCharacterId || characterState.id;
+                
+                if (roomId && characterId) {
+                    gameStore.multiplayerSocket.emit('character_updated', {
+                        roomId: roomId,
+                        characterId,
+                        character: {
+                            playerId: socketId,
+                            name: characterState.name,
+                            health: characterState.health,
+                            mana: characterState.mana,
+                            actionPoints: characterState.actionPoints,
+                            tempHealth: characterState.tempHealth || 0,
+                            tempMana: characterState.tempMana || 0,
+                            tempActionPoints: characterState.tempActionPoints || 0
+                        },
+                        senderSocketId: socketId,
+                        syncSource: 'consumable'
+                    });
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to sync consumable usage to multiplayer:', e);
+        }
+    }, [addBuff, addDebuff]);
 
     // Apply resource adjustment with temporary resource support
     const applyResourceWithTemporary = useCallback((asTemporary) => {
@@ -461,23 +578,37 @@ const InventoryWindow = memo(() => {
             'mana': 'tempMana',
             'actionPoints': 'tempActionPoints'
         };
+        
+        // Get FRESH values from store to avoid stale closure issues
+        const charState = useCharacterStore.getState();
         const tempField = tempFieldMap[resourceType];
-        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
-                           tempField === 'tempMana' ? tempMana : tempActionPoints;
+        const currentTemp = charState[tempField] || 0;
+        
+        console.log(`[Consumable] Processing overheal decision: ${asTemporary ? 'temporary' : 'cap'} for ${resourceType}`);
         
         if (asTemporary) {
             // Add as temporary resource
             const overhealAmount = (currentValue + amount) - maxValue;
+            console.log(`[Consumable] Adding ${overhealAmount} as temporary ${resourceType}`);
             
             // Set resource to max
-            updateResource(resourceType, maxValue, maxValue);
+            useCharacterStore.getState().updateResource(resourceType, maxValue, maxValue);
             
             // Update temporary resource
-            updateTempResource(resourceType, currentTemp + overhealAmount);
+            useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
         } else {
             // Just cap at max, don't add temporary
-            updateResource(resourceType, maxValue, maxValue);
+            console.log(`[Consumable] Capping ${resourceType} at max: ${maxValue}`);
+            useCharacterStore.getState().updateResource(resourceType, maxValue, maxValue);
         }
+        
+        // Sync to all relevant stores
+        syncResourceToAll({
+            resourceType,
+            characterStore: useCharacterStore,
+            partyStore: usePartyStore,
+            gameStore: useGameStore
+        });
         
         // Continue with the rest of consumable effects
         if (item) {
@@ -491,166 +622,7 @@ const InventoryWindow = memo(() => {
         
         setShowOverhealModal(false);
         setOverhealData(null);
-    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, removeItem]);
-
-    // Apply remaining consumable effects (after overheal is handled)
-    const applyRemainingConsumableEffects = useCallback((item, skipResourceType = null) => {
-        const combatStats = item.combatStats || {};
-        const effects = {};
-        let hasBuffEffects = false;
-        let hasDebuffEffects = false;
-
-        // Collect stat buff effects from combatStats
-        ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
-            if (combatStats[stat] && combatStats[stat].value > 0) {
-                effects[stat] = combatStats[stat].value;
-                hasBuffEffects = true;
-            }
-        });
-
-        // Collect other combat stat effects
-        ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
-            if (combatStats[stat] && combatStats[stat].value > 0) {
-                effects[stat] = combatStats[stat].value;
-                hasBuffEffects = true;
-            }
-        });
-
-        // Handle spell damage types
-        if (combatStats.spellDamage && combatStats.spellDamage.types) {
-            Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
-                const value = typeof spellData === 'object' ? spellData.value : spellData;
-                if (value > 0) {
-                    effects[`${spellType}SpellPower`] = value;
-                    hasBuffEffects = true;
-                }
-            });
-        }
-
-        // Handle individual spell damage types
-        const spellDamageTypes = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'acid', 'force', 'thunder', 'chaos', 'necrotic', 'radiant'];
-        spellDamageTypes.forEach(type => {
-            const typeKey = `${type}Damage`;
-            const spellPowerKey = `${type}SpellPower`;
-
-            if (combatStats[typeKey] && combatStats[typeKey].value > 0) {
-                effects[spellPowerKey] = combatStats[typeKey].value;
-                hasBuffEffects = true;
-            }
-
-            if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value > 0) {
-                effects[spellPowerKey] = combatStats[spellPowerKey].value;
-                hasBuffEffects = true;
-            }
-        });
-
-        // Handle resistances
-        if (combatStats.resistances) {
-            Object.entries(combatStats.resistances).forEach(([resistanceType, resData]) => {
-                const value = typeof resData === 'object' ? resData.value : resData;
-                if (value > 0) {
-                    effects[`${resistanceType}Resistance`] = value;
-                    hasBuffEffects = true;
-                }
-            });
-        }
-
-        // Check baseStats for buff/debuff effects
-        const baseStats = item.baseStats || {};
-        const buffEffects = { ...effects };
-        const debuffEffects = {};
-        let foundDuration = null;
-
-        Object.keys(baseStats).forEach(statName => {
-            const statData = baseStats[statName];
-            if (statData) {
-                const value = typeof statData === 'object' ? statData.value : statData;
-                if (value > 0) {
-                    buffEffects[statName] = value;
-                    hasBuffEffects = true;
-                } else if (value < 0) {
-                    debuffEffects[statName] = Math.abs(value);
-                    hasDebuffEffects = true;
-                }
-                // Extract duration from stat data if present
-                if (typeof statData === 'object' && statData.duration && !foundDuration) {
-                    foundDuration = statData.duration;
-                }
-            }
-        });
-
-        // Check utilityStats for additional effects
-        const utilityStats = item.utilityStats || {};
-        Object.keys(utilityStats).forEach(statName => {
-            const statData = utilityStats[statName];
-            if (statData) {
-                const value = typeof statData === 'object' ? statData.value : statData;
-                if (value > 0) {
-                    const statMap = {
-                        movementSpeed: 'moveSpeed',
-                        carryingCapacity: 'carryingCapacity'
-                    };
-                    const mappedStat = statMap[statName] || statName;
-                    buffEffects[mappedStat] = value;
-                    hasBuffEffects = true;
-                }
-                // Extract duration from utility stat data if present
-                if (typeof statData === 'object' && statData.duration && !foundDuration) {
-                    foundDuration = statData.duration;
-                }
-            }
-        });
-
-        // Check utilityStats.duration (the main duration field for consumables)
-        if (!foundDuration && utilityStats.duration) {
-            const durationValue = utilityStats.duration.value || 1;
-            const durationType = utilityStats.duration.type || 'MINUTES';
-            // Convert to seconds: ROUNDS = value * 6, MINUTES = value * 60
-            foundDuration = durationType === 'ROUNDS' ? durationValue * 6 : durationValue * 60;
-        }
-
-        // Check combatStats for duration (e.g., maxHealth.duration, spellDamage.types.arcane.duration)
-        if (!foundDuration && combatStats.maxHealth && combatStats.maxHealth.duration) {
-            foundDuration = combatStats.maxHealth.duration;
-        }
-        if (!foundDuration && combatStats.spellDamage && combatStats.spellDamage.types) {
-            Object.values(combatStats.spellDamage.types).forEach(spellData => {
-                if (spellData && typeof spellData === 'object' && spellData.duration && !foundDuration) {
-                    foundDuration = spellData.duration;
-                }
-            });
-        }
-
-        // Use found duration or default to 60 seconds (1 minute)
-        const buffDuration = foundDuration || 60;
-        const debuffDuration = foundDuration || 60;
-
-        // Apply buff effects if any exist
-        if (hasBuffEffects) {
-            addBuff({
-                name: item.name,
-                icon: getIconUrl(item.iconId, 'items'),
-                description: item.description || `Temporary enhancement from ${item.name}`,
-                effects: buffEffects,
-                duration: buffDuration,
-                source: 'consumable',
-                stackable: false
-            });
-        }
-
-        // Apply debuff effects if any exist
-        if (hasDebuffEffects) {
-            addDebuff({
-                name: item.name,
-                icon: getIconUrl(item.iconId, 'items'),
-                description: item.description || `Temporary negative effect from ${item.name}`,
-                effects: debuffEffects,
-                duration: debuffDuration,
-                source: 'consumable',
-                stackable: false
-            });
-        }
-    }, [addBuff, addDebuff]);
+    }, [overhealData, applyRemainingConsumableEffects, removeItem]);
 
     // Handle using a consumable item
     const handleUseConsumable = useCallback((item) => {
@@ -2277,7 +2249,7 @@ const InventoryWindow = memo(() => {
                             padding: '20px',
                             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
                             fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
+                            color: 'black',
                             minWidth: '350px',
                             textAlign: 'center'
                         }}

@@ -1,0 +1,598 @@
+/* ============================================
+   CREATURE TOOLTIP STYLES
+   Pathfinder Beige Theme
+   ============================================ */
+
+/* === MAIN CONTAINER === */
+.creature-tooltip {
+  position: fixed;
+  z-index: 2147483647;
+  min-width: 260px;
+  max-width: 340px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+}
+
+/* === DECORATIVE BORDERS === */
+.creature-tooltip .tooltip-border-top,
+.creature-tooltip .tooltip-border-bottom {
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #8B4513 10%,
+    #D2691E 50%,
+    #8B4513 90%,
+    transparent 100%
+  );
+}
+
+.creature-tooltip .tooltip-border-top {
+  border-radius: 8px 8px 0 0;
+}
+
+.creature-tooltip .tooltip-border-bottom {
+  border-radius: 0 0 8px 8px;
+}
+
+/* === VIEW MODE INDICATOR === */
+.tooltip-view-mode {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(212, 175, 55, 0.9);
+  color: #3d2a00;
+  font-weight: 700;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* === HEADER SECTION === */
+.creature-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: linear-gradient(145deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+  border-left: 2px solid #5D3A1A;
+  border-right: 2px solid #5D3A1A;
+  border-top: 2px solid #5D3A1A;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+
+.creature-tooltip-header .tooltip-icon-wrapper {
+  flex-shrink: 0;
+}
+
+.creature-tooltip-header .tooltip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 2px solid rgba(240, 230, 210, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.creature-tooltip-header .tooltip-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.creature-tooltip-header .tooltip-name {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0e6d2;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.creature-tooltip-header .tooltip-subtitle {
+  font-size: 11px;
+  color: rgba(240, 230, 210, 0.85);
+  margin-top: 2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.creature-tooltip-header .tooltip-cr {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+/* === BODY SECTION === */
+.creature-tooltip-body {
+  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  border-left: 2px solid #8B4513;
+  border-right: 2px solid #8B4513;
+  padding: 6px 10px;
+  position: relative;
+}
+
+/* Parchment texture overlay */
+.creature-tooltip-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(139, 69, 19, 0.015) 4px,
+    rgba(139, 69, 19, 0.015) 8px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.creature-tooltip-body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* === STATS SECTIONS === */
+.tooltip-section {
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.18);
+}
+
+.tooltip-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.tooltip-stat-row {
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+  gap: 8px;
+}
+
+.tooltip-horizontal-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.18);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+}
+
+.tooltip-horizontal-stats:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.horizontal-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.horizontal-stat .stat-label {
+  font-size: 10px;
+  color: #5a1e12;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.horizontal-stat .stat-value {
+  font-size: 11px;
+  color: #2d1810;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tooltip-stat-row.condensed {
+  padding: 3px 0;
+}
+
+.tooltip-stat-row .stat-icon {
+  font-size: 13px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.tooltip-stat-row .stat-label {
+  font-size: 11px;
+  color: #5a1e12;
+  font-weight: 600;
+  min-width: 75px;
+  flex-shrink: 0;
+}
+
+.tooltip-stat-row .stat-value {
+  font-size: 12px;
+  color: #2d1810;
+  font-weight: 700;
+  text-align: right;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tooltip-stat-row .stat-unit {
+  font-size: 10px;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-left: 1px;
+}
+
+/* Attack value specific styling */
+.attack-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.attack-value .attack-dice {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.attack-value .attack-type {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+/* Armor value specific styling */
+.armor-main {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.armor-detail {
+  font-size: 9px;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-left: 6px;
+}
+
+/* HP value specific styling */
+.hp-current {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hp-separator {
+  color: #5a1e12;
+  font-weight: 600;
+  margin: 0 1px;
+}
+
+.hp-max {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a1e12;
+}
+
+.hp-pct {
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 6px;
+  padding: 1px 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+}
+
+/* AP value specific styling */
+.ap-value {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.ap-current {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4A148C;
+}
+
+.ap-separator {
+  color: #5a1e12;
+  font-weight: 600;
+  margin: 0 1px;
+}
+
+.ap-max {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a1e12;
+}
+
+/* === HEALTH BAR === */
+.health-section {
+  background: rgba(139, 69, 19, 0.04);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 4px 0;
+}
+
+.health-bar-container {
+  position: relative;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 4px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.health-bar-fill {
+  height: 100%;
+  border-radius: 7px;
+  transition: width 0.2s ease;
+}
+
+.health-bar-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* === AP SECTION === */
+.ap-section {
+  background: rgba(156, 39, 176, 0.04);
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+
+/* === SPECIAL MOVEMENT === */
+.special-movement {
+  background: rgba(33, 150, 243, 0.04);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-top: 2px;
+}
+
+/* === CONDITIONS SECTION === */
+.tooltip-conditions {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.conditions-label {
+  font-size: 9px;
+  color: #5a1e12;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.conditions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.condition-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.06) 0%, rgba(139, 69, 19, 0.02) 100%);
+  border-radius: 4px;
+  font-size: 10px;
+  color: #3d1f0f;
+  font-weight: 500;
+  border: 1px solid rgba(139, 69, 19, 0.18);
+}
+
+.condition-tag.buff {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.04) 100%);
+  border-color: rgba(76, 175, 80, 0.3);
+  color: #1B5E20;
+}
+
+.condition-tag.debuff {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.04) 100%);
+  border-color: rgba(244, 67, 54, 0.25);
+  color: #8B0000;
+}
+
+.condition-duration {
+  font-size: 9px;
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.7;
+  padding: 1px 4px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+}
+
+.more-conditions {
+  font-size: 9px;
+  color: #8B4513;
+  font-weight: 500;
+  padding: 3px 6px;
+  background: rgba(139, 69, 19, 0.06);
+  border-radius: 4px;
+}
+
+/* === RESISTANCES/VULNERABILITIES === */
+.tooltip-resistances {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(76, 175, 80, 0.03) 100%);
+  border-radius: 4px;
+  border-left: 3px solid #4CAF50;
+}
+
+.tooltip-resistances.vulnerabilities {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.08) 0%, rgba(244, 67, 54, 0.03) 100%);
+  border-left-color: #F44336;
+}
+
+.tooltip-resistances.immunities {
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.08) 0%, rgba(156, 39, 176, 0.03) 100%);
+  border-left-color: #9C27B0;
+}
+
+.tooltip-resistances .resist-label {
+  font-size: 9px;
+  color: #2E7D32;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tooltip-resistances.vulnerabilities .resist-label {
+  color: #C62828;
+}
+
+.tooltip-resistances.immunities .resist-label {
+  color: #7B1FA2;
+}
+
+.tooltip-resistances .resist-icon {
+  font-size: 10px;
+}
+
+.tooltip-resistances .resist-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tooltip-resistances .resist-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.tooltip-resistances .resist-tag.resistant {
+  color: #2E7D32;
+}
+
+.tooltip-resistances .resist-tag.immune {
+  color: #4A148C;
+  background: rgba(156, 39, 176, 0.08);
+  border-color: rgba(156, 39, 176, 0.2);
+}
+
+.tooltip-resistances .resist-tag.vulnerable {
+  color: #8B0000;
+  border-color: rgba(244, 67, 54, 0.2);
+}
+
+/* === COMBAT STATUS (GM) === */
+.tooltip-combat-status {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(158, 158, 158, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(158, 158, 158, 0.2);
+}
+
+.tooltip-combat-status.my-turn {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.08) 100%);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.tooltip-combat-status .status-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+}
+
+.tooltip-combat-status.my-turn .status-text {
+  color: #8B6914;
+}
+
+/* === FOOTER === */
+.tooltip-footer {
+  background: linear-gradient(135deg, #e8dcc6 0%, #d5cbb0 100%);
+  border-left: 2px solid #8B4513;
+  border-right: 2px solid #8B4513;
+  border-bottom: 2px solid #5D3A1A;
+  border-radius: 0 0 8px 8px;
+  padding: 8px 14px;
+  font-size: 10px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}
+
+/* === GM STATS VIEW === */
+.gm-stats-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* === PLAYER STATS VIEW === */
+.player-stats-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .creature-tooltip {
+    min-width: 220px;
+    max-width: 300px;
+    font-size: 11px;
+  }
+  
+  .creature-tooltip-header .tooltip-name {
+    font-size: 14px;
+  }
+  
+  .creature-tooltip-header .tooltip-icon {
+    width: 32px;
+    height: 32px;
+  }
+}

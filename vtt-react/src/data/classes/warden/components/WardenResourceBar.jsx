@@ -5,7 +5,7 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WardenResourceBar.css';
 
-const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
     const [localVP, setLocalVP] = useState(7);
     const [selectedSpec, setSelectedSpec] = useState('shadowblade');
@@ -253,8 +253,10 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                 onMouseEnter={() => { if (!showControls) setShowTooltip(true); }}
                 onMouseLeave={() => setShowTooltip(false)}
                 onClick={() => {
-                    setShowControls(!showControls);
-                    if (showControls) setShowTooltip(false);
+                    if (isOwner) {
+                        setShowControls(!showControls);
+                        if (showControls) setShowTooltip(false);
+                    }
                 }}
                     style={{
                         '--spec-base-color': currentSpec.baseColor,

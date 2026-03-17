@@ -5,7 +5,7 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/TitanResourceBar.css';
 
-const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     const [localCharge, setLocalCharge] = useState(60);
     const [selectedDevotion, setSelectedDevotion] = useState('solara');
     const [selectedSpec, setSelectedSpec] = useState('celestialChampion');
@@ -288,7 +288,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                     className={`titan-resource-bar ${size} ${visualIntensity} ${isCharging ? 'charging' : ''} ${isSwitching ? 'switching' : ''} ${selectedSpec === 'celestialChampion' && localCharge >= 80 ? 'champion-flare' : ''} ${selectedSpec === 'divineConduit' && localCharge >= 60 ? 'conduit-dual' : ''} clickable`}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => setShowControls(!showControls)}
+                    onClick={() => { if (isOwner) setShowControls(!showControls); }}
                     style={{
                         '--devotion-base-color': currentDevotion.baseColor,
                         '--devotion-active-color': currentDevotion.activeColor,

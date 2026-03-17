@@ -12,6 +12,7 @@ import usePartyStore from "./store/partyStore";
 import useGameStore from "./store/gameStore";
 import useBuffStore from "./store/buffStore";
 import useDebuffStore from "./store/debuffStore";
+import useTargetingStore from "./store/targetingStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 import useSessionManagement from "./hooks/useSessionManagement";
 import { initializeOfflineSupport } from "./services/offlineService";
@@ -246,6 +247,11 @@ function GameScreen() {
     // Initialize local room
     const initializeLocalRoom = async (roomId) => {
         try {
+            // Explicitly reset targeting store when entering a new local room session
+            if (useTargetingStore && useTargetingStore.getState) {
+                useTargetingStore.getState().resetStore?.();
+            }
+
             // Disable auto-save during loading to prevent race conditions
             setLoading(true);
 
@@ -536,6 +542,8 @@ function GameScreen() {
         // Cleanup when component unmounts
         return () => {
             cleanupGameStyles();
+            // Reset targeting when leaving the game screen
+            useTargetingStore.getState().resetStore?.();
         };
     }, []);
 

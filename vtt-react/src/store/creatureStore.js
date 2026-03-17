@@ -64,6 +64,11 @@ const useCreatureStore = create((set, get) => ({
   // Library Management
   setCreatures: (creatures) => set({ creatures }),
 
+  getCreature: (creatureId) => {
+    const state = get();
+    return (state.creatures || []).find(c => c.id === creatureId);
+  },
+
   addCreature: (creature) => {
     if (!creature) {
       console.warn('⚠️ addCreature called with null or undefined creature data');

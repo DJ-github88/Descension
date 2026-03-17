@@ -2117,7 +2117,7 @@ function ItemTooltip({ item }) {
                         fontFamily: 'Bookman Old Style, Garamond, serif',
                         textAlign: 'left'
                     }}>
-                        For the duration of <span style={{ color: '#5a1e12', fontWeight: 'normal' }}>{getStatValue(item.utilityStats?.duration) || 1}</span> <span style={{ color: '#5a1e12', fontWeight: 'normal' }}>{
+                        For the duration of <span style={{ color: '#ffffff !important', textShadow: '1px 1px 2px rgba(0,0,0,0.8)', fontWeight: 'bold' }}>{getStatValue(item.utilityStats?.duration) || 1}</span> <span style={{ color: '#ffffff !important', textShadow: '1px 1px 2px rgba(0,0,0,0.8)', fontWeight: 'bold' }}>{
                             (item.utilityStats?.duration?.type === 'ROUNDS' ? 'rounds' : 'minutes')
                         }</span> you gain the following:
                     </div>

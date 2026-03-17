@@ -228,7 +228,7 @@
 .creature-card-wrapper {
   position: relative;
   transition: all 0.2s ease;
-  cursor: grab;
+  cursor: pointer;
   height: 100%;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -263,46 +263,56 @@
 
 .drag-handle-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(122, 59, 46, 0.7); /* Rustic red with opacity */
-  display: flex;
-  flex-direction: column;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(122, 59, 46, 0.88); /* Rustic red chip */
+  display: inline-flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none; /* Allow drag events to pass through to parent */
+  transform: translateY(-2px);
+  transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+  pointer-events: none;
   color: #f0e6d2; /* Parchment color */
-  font-size: 16px;
-  border-radius: 8px;
+  font-size: 12px;
+  border-radius: 999px;
   z-index: 20;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  white-space: nowrap;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  cursor: grab;
 }
 
 .creature-card-wrapper:active {
-  cursor: grabbing;
+  cursor: pointer;
 }
 
 .drag-handle-overlay i {
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  margin-bottom: 0;
   color: #f0e6d2; /* Parchment color */
 }
 
 .drag-handle-overlay span {
-  display: block;
-  margin-bottom: 5px;
+  display: inline;
+  margin-bottom: 0;
 }
 
-.drag-handle-overlay span:last-child {
-  margin-bottom: 0;
+.drag-handle-overlay:active {
+  cursor: grabbing;
 }
 
 .creature-card-wrapper:hover .drag-handle-overlay {
   opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.drag-handle-overlay:hover {
+  background-color: rgba(138, 75, 62, 0.95);
 }
 
 /* List view - D&D/Pathfinder Theme */

@@ -271,7 +271,7 @@ const WowWindow = forwardRef((props, ref) => {
                 onResize={handleResize}
                 onResizeStop={handleResizeStop}
                 resizeHandles={resizable ? ['se'] : []}
-                transformScale={windowScale}
+                transformScale={1}
             >
                 <div
                     className={`wow-window ${className}`}

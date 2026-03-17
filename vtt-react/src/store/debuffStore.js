@@ -41,9 +41,11 @@ const useDebuffStore = create(
                 };
 
                 // For round-based debuffs, don't set endTime (they don't expire automatically)
-                if (debuff.durationType !== 'rounds') {
+                if (newDebuff.durationType !== 'rounds') {
                     newDebuff.endTime = debuff.endTime || (Date.now() + (debuff.duration || 60) * 1000);
                 }
+
+                console.log('[debuffStore] Adding debuff:', newDebuff.name, 'targetId:', newDebuff.targetId, 'effects:', newDebuff.effects);
 
                 // Check if debuff is stackable (now also considers target)
                 if (!newDebuff.stackable) {
@@ -52,13 +54,84 @@ const useDebuffStore = create(
                         !(d.name === newDebuff.name && d.targetId === newDebuff.targetId)
                     );
                     set({ activeDebuffs: [...filteredDebuffs, newDebuff] });
+                    console.log('[debuffStore] Debuff added (non-stackable). Total debuffs:', filteredDebuffs.length + 1);
                 } else {
                     set({ activeDebuffs: [...activeDebuffs, newDebuff] });
+                    console.log('[debuffStore] Debuff added (stackable). Total debuffs:', activeDebuffs.length + 1);
                 }
 
                 // Sync with multiplayer if not silent
                 if (!silent) {
                     get().syncDebuffUpdate('debuff_added', newDebuff);
+                }
+
+                // Also sync to token.state.conditions for persistent display
+                try {
+                    const conditionForToken = {
+                        id: newDebuff.id,
+                        name: newDebuff.name,
+                        icon: newDebuff.icon,
+                        color: newDebuff.color,
+                        description: newDebuff.description,
+                        type: 'debuff',
+                        appliedAt: newDebuff.startTime,
+                        duration: newDebuff.durationType === 'rounds' 
+                            ? newDebuff.durationValue * 6000 // rounds to ms
+                            : newDebuff.duration * 1000, // seconds to ms
+                        durationType: newDebuff.durationType,
+                        durationValue: newDebuff.durationValue,
+                        remainingRounds: newDebuff.remainingRounds,
+                        effects: newDebuff.effects
+                    };
+
+                    if (newDebuff.targetId === 'player' || newDebuff.targetId === 'current-player') {
+                        // Add to player's character token
+                        const useCharacterTokenStore = require('./characterTokenStore').default;
+                        const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
+                        const playerToken = characterTokens.find(t => t.isPlayerToken);
+                        if (playerToken) {
+                            const existingConditions = playerToken.state?.conditions || [];
+                            // Avoid duplicates
+                            const existingIndex = existingConditions.findIndex(c => c.name === newDebuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateCharacterTokenState(playerToken.id, { conditions: [...existingConditions] });
+                        }
+                    } else if (newDebuff.targetId && newDebuff.targetId !== 'player') {
+                        // Add to creature/character token
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === newDebuff.targetId);
+                        if (token) {
+                            const existingConditions = token.state?.conditions || [];
+                            const existingIndex = existingConditions.findIndex(c => c.name === newDebuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateTokenState(newDebuff.targetId, { conditions: [...existingConditions] });
+                        }
+                        // Also check character tokens
+                        const useCharacterTokenStore = require('./characterTokenStore').default;
+                        const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
+                        const charToken = characterTokens.find(t => t.id === newDebuff.targetId);
+                        if (charToken) {
+                            const existingConditions = charToken.state?.conditions || [];
+                            const existingIndex = existingConditions.findIndex(c => c.name === newDebuff.name);
+                            if (existingIndex >= 0) {
+                                existingConditions[existingIndex] = conditionForToken;
+                            } else {
+                                existingConditions.push(conditionForToken);
+                            }
+                            updateCharacterTokenState(charToken.id, { conditions: [...existingConditions] });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Could not sync debuff to token conditions:', e);
                 }
 
                 // Set up automatic removal timer (only for time-based debuffs)
@@ -266,8 +339,13 @@ const useDebuffStore = create(
                 const { activeDebuffs } = get();
                 const effects = {};
 
+                // IMPROVED: When looking for 'player', also include 'current-player' debuffs
+                const targetIds = targetId === 'player' 
+                    ? ['player', 'current-player'] 
+                    : [targetId];
+
                 activeDebuffs
-                    .filter(debuff => debuff.targetId === targetId)
+                    .filter(debuff => targetIds.includes(debuff.targetId))
                     .forEach(debuff => {
                         if (debuff.effects) {
                             Object.keys(debuff.effects).forEach(effectType => {
@@ -291,7 +369,9 @@ const useDebuffStore = create(
             // Get debuffs for a specific target
             getDebuffsForTarget: (targetId) => {
                 const { activeDebuffs } = get();
-                return activeDebuffs.filter(debuff => debuff.targetId === targetId);
+                const result = activeDebuffs.filter(debuff => debuff.targetId === targetId);
+                console.log('[debuffStore] getDebuffsForTarget(' + targetId + '):', result.length, 'debuffs found');
+                return result;
             },
 
             // Remove debuffs for a specific target
@@ -408,9 +488,24 @@ const useDebuffStore = create(
                     gameStore.multiplayerSocket.emit('debuff_update', {
                         type: updateType,
                         data: data,
+                        roomId: gameStore.multiplayerRoom?.id,
                         timestamp: Date.now()
                     });
                 }
+            },
+
+            // Remap targetId for local player perspective (used when receiving debuffs from GM/other players)
+            remapTargetIdForLocalPlayer: (targetId) => {
+                const gameStore = useGameStore.getState();
+                const currentPlayerId = gameStore.currentPlayer?.id;
+                const authStore = require('./authStore').default;
+                const userId = authStore.getState().user?.uid;
+
+                // If this debuff targets our player ID, remap to 'current-player' for consistency
+                if (targetId === currentPlayerId || targetId === userId) {
+                    return 'current-player';
+                }
+                return targetId;
             }
         }),
         {
