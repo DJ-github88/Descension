@@ -1,0 +1,327 @@
+/* Local Room Indicator - Pathfinder Beige Style */
+.local-room-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  border: 1px solid #8b4513;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  font-family: 'Cinzel', serif;
+  color: #5a1e12;
+  min-width: 200px;
+  max-width: 90vw;
+  width: auto;
+  flex-wrap: wrap;
+}
+
+/* When inside settings window, remove fixed positioning */
+.local-room-indicator.in-settings {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.15);
+}
+
+/* Settings-specific styling */
+.local-room-settings {
+  width: 100%;
+}
+
+.local-room-settings .control-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3a3a3a;
+  margin-bottom: 12px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Removed leave room button styles - no longer needed */
+
+.local-room-indicator .room-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.local-room-indicator .room-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+}
+
+.local-room-indicator .room-type {
+  font-size: 11px;
+  opacity: 0.7;
+  font-weight: 400;
+  color: #8b4513;
+  font-style: italic;
+}
+
+.local-room-indicator .convert-room-btn {
+  background: linear-gradient(135deg, #8b4513 0%, #6d3410 100%);
+  color: #f5f1e8;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.local-room-indicator .convert-room-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #6d3410 0%, #5a2a0d 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+  border-color: rgba(139, 69, 19, 0.5);
+}
+
+.local-room-indicator .convert-room-btn:disabled {
+  background: rgba(158, 158, 158, 0.8);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  color: rgba(245, 241, 232, 0.6);
+}
+
+/* Conversion Modal */
+.conversion-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.conversion-modal {
+  background: linear-gradient(135deg, #f5f5dc 0%, #f0e68c 100%);
+  border: 2px solid #8b4513;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: 'Cinzel', serif;
+  color: #5a1e12;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.conversion-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.conversion-modal .modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #5a1e12;
+}
+
+.conversion-modal .close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #8b4513;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.conversion-modal .close-modal-btn:hover {
+  background: rgba(139, 69, 19, 0.1);
+  color: #5a1e12;
+}
+
+.conversion-modal .modal-content {
+  padding: 20px 24px;
+}
+
+.conversion-modal .modal-content p {
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+}
+
+.conversion-modal .conversion-details {
+  margin: 20px 0;
+}
+
+.conversion-modal .conversion-details h4 {
+  margin: 16px 0 8px 0;
+  font-size: 16px;
+  color: #5a1e12;
+}
+
+.conversion-modal .conversion-details ul {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+
+.conversion-modal .conversion-details li {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.conversion-modal .error-message {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  margin: 16px 0;
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conversion-modal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.conversion-modal .cancel-btn {
+  background: rgba(158, 158, 158, 0.8);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.conversion-modal .cancel-btn:hover:not(:disabled) {
+  background: rgba(158, 158, 158, 1);
+}
+
+.conversion-modal .confirm-btn {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.conversion-modal .confirm-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+.conversion-modal .confirm-btn:disabled {
+  background: rgba(158, 158, 158, 0.8);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .local-room-indicator {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 8px;
+    min-width: 180px;
+    max-width: calc(100vw - 16px);
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 6px 8px;
+  }
+
+  .local-room-indicator .room-info {
+    text-align: center;
+  }
+
+  .local-room-indicator .room-name {
+    font-size: 12px;
+  }
+
+  .local-room-indicator .room-type {
+    font-size: 10px;
+  }
+
+  .local-room-indicator .convert-room-btn {
+    font-size: 10px;
+    padding: 4px 8px;
+    align-self: center;
+  }
+
+  .conversion-modal {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .conversion-modal .modal-actions {
+    flex-direction: column;
+  }
+
+  .conversion-modal .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .local-room-indicator {
+    min-width: 160px;
+    padding: 4px 6px;
+    gap: 6px;
+  }
+
+  .local-room-indicator .room-name {
+    font-size: 11px;
+  }
+
+  .local-room-indicator .room-type {
+    font-size: 9px;
+  }
+
+  .local-room-indicator .convert-room-btn {
+    font-size: 9px;
+    padding: 3px 6px;
+    gap: 4px;
+  }
+}

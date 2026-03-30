@@ -1,0 +1,368 @@
+/* ===== ROLLABLE TABLE SUMMARY COMPONENT ===== */
+/* Pathfinder-themed compact display for rollable table information */
+
+.rollable-table-summary {
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+}
+
+/* ===== COMPACT VARIANT ===== */
+.rollable-table-summary.compact {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--pf-space-2);
+  margin: var(--pf-space-1) 0;
+}
+
+.rollable-table-summary.compact .rollable-table-summary-content {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+}
+
+.rollable-table-summary.compact .rollable-table-icon {
+  font-size: var(--pf-text-sm);
+  opacity: 0.8;
+}
+
+.rollable-table-summary.compact .rollable-table-name {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+}
+
+.rollable-table-summary.compact .rollable-table-method {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-xs);
+  font-style: italic;
+}
+
+.rollable-table-summary.compact .rollable-table-count {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  margin-left: auto;
+}
+
+.rollable-table-summary.compact .rollable-table-expand-btn {
+  background: none;
+  border: none;
+  color: var(--pf-brown-medium);
+  cursor: pointer;
+  padding: var(--pf-space-1);
+  border-radius: var(--pf-border-radius-sm);
+  transition: all var(--pf-transition-normal);
+  font-size: var(--pf-text-xs);
+  line-height: 1;
+}
+
+.rollable-table-summary.compact .rollable-table-expand-btn:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+}
+
+/* ===== INLINE VARIANT ===== */
+.rollable-table-summary.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+}
+
+.rollable-table-summary.inline .rollable-table-icon {
+  font-size: var(--pf-text-xs);
+  opacity: 0.8;
+}
+
+.rollable-table-summary.inline .rollable-table-inline-text {
+  color: var(--pf-text-secondary);
+  white-space: nowrap;
+}
+
+/* ===== DETAILED VARIANT ===== */
+.rollable-table-summary.detailed {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--pf-space-3);
+  margin: var(--pf-space-2) 0;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.rollable-table-summary.detailed .rollable-table-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-2);
+}
+
+.rollable-table-summary.detailed .rollable-table-title {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.rollable-table-summary.detailed .rollable-table-icon {
+  font-size: var(--pf-text-base);
+}
+
+.rollable-table-summary.detailed .rollable-table-name {
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+}
+
+.rollable-table-summary.detailed .rollable-table-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--pf-space-1);
+}
+
+.rollable-table-summary.detailed .rollable-table-method {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-summary.detailed .rollable-table-count {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+}
+
+.rollable-table-summary.detailed .rollable-table-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-style: italic;
+  margin-bottom: var(--pf-space-2);
+  line-height: 1.4;
+}
+
+.rollable-table-summary.detailed .rollable-table-expand-btn.detailed {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-1) var(--pf-space-3);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  transition: all var(--pf-transition-normal);
+  margin-top: var(--pf-space-2);
+}
+
+.rollable-table-summary.detailed .rollable-table-expand-btn.detailed:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+}
+
+/* ===== ENTRIES PREVIEW ===== */
+.rollable-table-entries-preview {
+  margin-top: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+}
+
+.rollable-table-entries-preview.detailed {
+  background: var(--pf-gradient-parchment-dark);
+  border-color: var(--pf-brown-medium);
+  padding: var(--pf-space-3);
+}
+
+.rollable-table-entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.rollable-table-entry-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  transition: all var(--pf-transition-normal);
+  margin-bottom: var(--pf-space-1);
+}
+
+.rollable-table-entry-preview:hover {
+  background: var(--pf-gradient-parchment-light);
+  border-color: var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.rollable-table-entry-preview.more-entries {
+  font-style: italic;
+  opacity: 0.7;
+  justify-content: center;
+}
+
+.rollable-table-entry-preview .entry-range {
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-brown-dark);
+  font-size: var(--pf-text-sm);
+  min-width: 35px;
+  max-width: 200px; /* Allow card patterns to display fully */
+  text-align: center;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-sm);
+  padding: 2px var(--pf-space-1);
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for very long patterns */
+  flex-shrink: 0; /* Don't shrink this element */
+}
+
+.rollable-table-entry-preview .entry-effect {
+  flex: 1;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-xs);
+  line-height: 1.3;
+}
+
+.rollable-table-entry-preview .entry-effect-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  min-width: 0; /* Allow text to wrap properly */
+}
+
+.rollable-table-entry-preview .entry-effect-name {
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-brown-dark);
+  font-size: var(--pf-text-sm);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rollable-table-entry-preview .entry-effect-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-xs);
+  line-height: 1.5;
+}
+
+.rollable-table-entry-preview .entry-effect-sentence {
+  padding: 2px 0;
+  margin: 0;
+}
+
+/* Highlighting classes for formatted text - subtle, matching parchment theme */
+.rollable-table-entry-preview .damage-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-bold);
+}
+
+.rollable-table-entry-preview .save-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .healing-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .armor-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .force-property {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-bold);
+}
+
+.rollable-table-entry-preview .special-property {
+  color: var(--pf-brown-dark);
+  font-style: italic;
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .status-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+  text-transform: capitalize;
+}
+
+.rollable-table-entry-preview .duration-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .area-highlight {
+  color: var(--pf-brown-dark);
+  font-weight: var(--pf-font-semibold);
+}
+
+.rollable-table-entry-preview .entry-spell-ref {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-xs);
+  font-style: italic;
+}
+
+.view-full-table-btn {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-sm);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  margin-left: var(--pf-space-2);
+}
+
+.view-full-table-btn:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.view-full-table-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .rollable-table-summary.compact .rollable-table-summary-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-1);
+  }
+
+  .rollable-table-summary.compact .rollable-table-count {
+    margin-left: 0;
+  }
+
+  .rollable-table-summary.detailed .rollable-table-summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+  }
+
+  .rollable-table-summary.detailed .rollable-table-meta {
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,575 @@
+/* Modern Dialogue System Styles */
+
+:root {
+  /* Enhanced 8-directional text stroke for better outline */
+  --enhanced-text-stroke:
+    -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
+    -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
+    0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
+    1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
+    2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000;
+}
+
+.dialogue-system-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  transition: background-color 0.8s ease-in-out, backdrop-filter 0.8s ease-in-out;
+}
+
+/* Backdrop effect variants */
+.dialogue-system-overlay.backdrop-dim {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.dialogue-system-overlay.backdrop-brighten {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px) brightness(1.2);
+}
+
+.dialogue-system-overlay.backdrop-reddish {
+  background: rgba(139, 0, 0, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(-15deg);
+}
+
+.dialogue-system-overlay.backdrop-blueish {
+  background: rgba(0, 0, 139, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(200deg);
+}
+
+.dialogue-system-overlay.backdrop-greenish {
+  background: rgba(0, 139, 0, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(90deg);
+}
+
+.dialogue-container {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 70%;
+  min-width: 400px;
+  max-height: 60vh;
+  pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+}
+
+/* Custom positioned dialogue (when dragged) */
+.dialogue-container.custom-position {
+  position: absolute !important;
+  transform: none !important;
+  cursor: grab;
+}
+
+.dialogue-container.custom-position:active {
+  cursor: grabbing;
+}
+
+
+/* Dragging visual feedback */
+.dialogue-container.dragging {
+  opacity: 0.8;
+  box-shadow:
+    0 8px 32px rgba(139, 115, 85, 0.4),
+    0 2px 8px rgba(139, 115, 85, 0.3),
+    0 0 0 2px rgba(255, 215, 0, 0.3);
+  transform: scale(1.02) !important;
+  transition: none;
+}
+
+/* Positioning variants */
+.dialogue-container.bottom {
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dialogue-container.top {
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dialogue-container.left {
+  left: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dialogue-container.right {
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dialogue-container.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Character Portrait */
+.dialogue-portrait {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.dialogue-portrait .portrait-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #3a3a3a;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #000,
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dialogue-portrait .portrait-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 3px solid;
+  border-radius: 50%;
+}
+
+.dialogue-portrait .portrait-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 32px;
+  border: 3px solid #3a3a3a;
+  border-radius: 50%;
+}
+
+/* Dialogue Box - Beige D&D/Pathfinder Aesthetic */
+.dialogue-box {
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-height: 80px;
+  max-height: 50vh;
+  position: relative;
+  box-shadow:
+    0 8px 32px rgba(139, 115, 85, 0.25),
+    0 2px 8px rgba(139, 115, 85, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* Allow animations to extend outside */
+}
+
+.dialogue-box::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 0;
+  border-color: transparent #8b7355 transparent transparent;
+}
+
+.dialogue-box::after {
+  content: '';
+  position: absolute;
+  left: -9px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 9px 9px 0;
+  border-color: transparent #e8dcc0 transparent transparent;
+}
+
+/* Character Name - 16-bit RPG Style */
+.dialogue-name {
+  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+  /* Enhanced 8-directional black text stroke for 16-bit look */
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
+/* Text Content Container - 16-bit RPG Style */
+.dialogue-content {
+  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
+  font-size: 16px;
+  line-height: 1.6; /* Increased for animation space */
+  color: #ffffff;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible; /* Allow horizontal overflow for animations */
+  max-height: calc(50vh - 80px);
+  padding: 8px 16px 8px 8px; /* Extra padding for animations */
+  position: relative;
+  font-weight: normal;
+  /* Enhanced 8-directional black text stroke for 16-bit look */
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
+/* Custom Scrollbar for Dialogue Content */
+.dialogue-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialogue-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.dialogue-content::-webkit-scrollbar-thumb {
+  background: rgba(74, 144, 226, 0.6);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.dialogue-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 144, 226, 0.8);
+}
+
+/* Text Effects */
+.dialogue-text.normal {
+  display: inline;
+}
+
+.dialogue-text.wave {
+  display: inline;
+  animation: textWave 2s ease-in-out infinite;
+}
+
+.dialogue-text.shake {
+  display: inline;
+  animation: textShake 0.5s ease-in-out infinite;
+}
+
+.dialogue-text.glow {
+  display: inline;
+  animation: textGlow 1.5s ease-in-out infinite alternate;
+}
+
+.dialogue-text.rainbow {
+  display: inline;
+  animation: textRainbow 3s linear infinite;
+}
+
+/* Word-Level Animations */
+.dialogue-word {
+  display: inline-block;
+  position: relative;
+  /* Ensure animations don't get clipped */
+  margin: 1px 2px;
+  /* Prevent text from being cut off during animations */
+  overflow: visible;
+  /* Improve animation performance */
+  will-change: transform;
+  /* Prevent subpixel rendering issues */
+  transform-origin: center center;
+}
+
+.word-bounce {
+  animation: wordBounce 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+.word-shake {
+  animation: wordShake 0.6s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.05s);
+}
+
+.word-glow {
+  animation: wordGlow 2s ease-in-out infinite alternate;
+  animation-delay: calc(var(--word-index, 0) * 0.2s);
+}
+
+.word-wave {
+  animation: wordWave 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+.word-float {
+  animation: wordFloat 3s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.15s);
+}
+
+.word-pulse {
+  animation: wordPulse 1s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.08s);
+}
+
+.rainbow-word {
+  animation: wordRainbow 2s linear infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+/* Typing Cursor - 16-bit Style */
+.typing-cursor {
+  color: #ffd700;
+  animation: cursorBlink 1s infinite;
+  font-weight: bold;
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Continue Indicator - 16-bit Style */
+.dialogue-continue {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  color: #ffd700;
+  font-size: 12px;
+  animation: continuePulse 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.continue-arrow {
+  font-family: 'Courier New', 'Monaco', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Animations */
+@keyframes textWave {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(-2px); }
+  75% { transform: translateY(2px); }
+}
+
+@keyframes textShake {
+  0%, 100% { transform: translateX(0px); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+
+@keyframes textGlow {
+  0% { 
+    text-shadow: 
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 5px currentColor;
+  }
+  100% { 
+    text-shadow: 
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 15px currentColor,
+      0 0 25px currentColor;
+  }
+}
+
+@keyframes textRainbow {
+  0% { color: #ff0000; }
+  16.66% { color: #ff8800; }
+  33.33% { color: #ffff00; }
+  50% { color: #00ff00; }
+  66.66% { color: #0088ff; }
+  83.33% { color: #8800ff; }
+  100% { color: #ff0000; }
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes continuePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Word-Level Animation Keyframes */
+@keyframes wordBounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes wordShake {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-1px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes wordGlow {
+  0% {
+    text-shadow: var(--enhanced-text-stroke), 0 0 5px currentColor;
+  }
+  100% {
+    text-shadow: var(--enhanced-text-stroke), 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes wordWave {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(1deg); }
+  50% { transform: translateY(0px) rotate(0deg); }
+  75% { transform: translateY(3px) rotate(-1deg); }
+}
+
+@keyframes wordFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes wordPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes wordRainbow {
+  0% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
+  14% { color: #ff8844; text-shadow: var(--enhanced-text-stroke); }
+  28% { color: #ffff00; text-shadow: var(--enhanced-text-stroke); }
+  42% { color: #44ff44; text-shadow: var(--enhanced-text-stroke); }
+  57% { color: #4488ff; text-shadow: var(--enhanced-text-stroke); }
+  71% { color: #ff44ff; text-shadow: var(--enhanced-text-stroke); }
+  85% { color: #ff4488; text-shadow: var(--enhanced-text-stroke); }
+  100% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dialogue-container {
+    max-width: 95%;
+    min-width: 320px;
+    gap: 12px;
+    max-height: 70vh;
+  }
+
+  .dialogue-portrait {
+    width: 64px;
+    height: 64px;
+  }
+
+  .dialogue-box {
+    padding: 12px 16px;
+    min-height: 64px;
+    max-height: 60vh;
+  }
+
+  .dialogue-name {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .dialogue-content {
+    font-size: 14px;
+    max-height: calc(60vh - 60px);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dialogue-box {
+    background: #ffffff;
+    border: 3px solid #000000;
+  }
+
+  .dialogue-name {
+    color: #000000;
+  }
+
+  .dialogue-content {
+    color: #000000;
+  }
+
+  .dialogue-portrait .portrait-frame {
+    border-color: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dialogue-text.wave,
+  .dialogue-text.shake,
+  .dialogue-text.glow,
+  .dialogue-text.rainbow {
+    animation: none;
+  }
+  
+  .typing-cursor {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .dialogue-continue {
+    animation: none;
+  }
+}

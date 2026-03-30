@@ -1,0 +1,429 @@
+/* Fog Tools Styles - Professional VTT */
+
+.fog-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Remove padding - parent .vtt-tool-settings handles it */
+    /* Remove height: 100% and overflow-y: auto - let parent handle scrolling */
+}
+
+.tool-section {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #a08c70;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.tool-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 6px;
+}
+
+/* Tool Grid */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.fog-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 60px;
+}
+
+.fog-tool-btn:hover {
+    background: linear-gradient(to bottom, #f8f5ec, #ece6d9);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.fog-tool-btn.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.fog-tool-btn .tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.fog-tool-btn .tool-name {
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* Brush Settings */
+.brush-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.brush-settings label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a2a;
+}
+
+.brush-size-controls {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.size-btn {
+    width: 40px;
+    height: 30px;
+    border: 2px solid #a08c70;
+    background: #f4f1e8;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.size-btn:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+}
+
+.size-btn.active {
+    background: #d4af37;
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+}
+
+/* Fog Categories */
+.fog-category {
+    margin-bottom: 16px;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 6px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 4px;
+}
+
+.category-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.category-name {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.fog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.fog-tile {
+    position: relative;
+    min-height: 50px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    background: #f4f1e8;
+    border: 2px solid #a08c70;
+}
+
+.fog-tile:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    border-color: #7a3b2e;
+}
+
+.fog-tile.active {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px #d4af37, 0 2px 4px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+}
+
+.fog-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    position: relative;
+    border-radius: 2px;
+}
+
+.fog-name {
+    font-size: 9px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 4px;
+}
+
+.fog-properties {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.fog-opacity {
+    font-size: 8px;
+    background: rgba(255,255,255,0.8);
+    color: black;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+.immune-light,
+.blocks-vision {
+    font-size: 10px;
+}
+
+/* Setting Groups */
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.setting-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a2a;
+    text-transform: uppercase;
+}
+
+/* Opacity Controls */
+.opacity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.opacity-slider {
+    flex: 1;
+    height: 6px;
+    background: #a08c70;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.opacity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #7a3b2e;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.opacity-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7a3b2e;
+    min-width: 40px;
+}
+
+/* Fog Info */
+.fog-info {
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.fog-details {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.fog-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 2px solid #a08c70;
+    flex-shrink: 0;
+}
+
+.fog-stats {
+    flex: 1;
+}
+
+.fog-stats .fog-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a3b2e;
+    margin-bottom: 2px;
+    text-shadow: none;
+}
+
+.fog-stats .fog-description {
+    font-size: 10px;
+    color: #5a3a2a;
+    margin-bottom: 4px;
+    font-style: italic;
+}
+
+.fog-properties .property {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.property-label {
+    font-size: 9px;
+    font-weight: bold;
+    color: #7a3b2e;
+}
+
+.property-value {
+    font-size: 9px;
+    color: #5a3a2a;
+}
+
+/* Vision Controls */
+.vision-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vision-controls label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #5a3a2a;
+    cursor: pointer;
+}
+
+.vision-controls input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #7a3b2e;
+}
+
+
+
+/* Scrollbar Styling */
+.fog-tools::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fog-tools::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 3px;
+}
+
+.fog-tools::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 3px;
+}
+
+.fog-tools::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
+}
+
+/* FOV Toggle */
+.fov-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.fov-button {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid #a08c70;
+    background: #f4f1e8;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    color: #7a3b2e;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.fov-button:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.fov-button.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.fov-description {
+    font-size: 10px;
+    color: #5a3a2a;
+    font-style: italic;
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fog-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fog-tile {
+        min-height: 40px;
+    }
+}

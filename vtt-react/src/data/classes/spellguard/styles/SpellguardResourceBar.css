@@ -1,0 +1,860 @@
+/* Spellguard Resource Bar Styles */
+
+.spellguard-resource-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Resource Bar Row - Spec Button + Bar */
+/* .resource-bar-row consolidated to global styles */
+
+/* Spec Cycle Button */
+.spec-cycle-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.5),
+        0 0 8px currentColor;
+}
+
+.spec-cycle-btn:hover {
+    transform: scale(1.05);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.5),
+        0 0 12px currentColor;
+}
+
+.spec-cycle-btn:active {
+    transform: scale(0.95);
+}
+
+/* Main Resource Bar */
+.spellguard-resource-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    height: 20px;
+    padding: 2px;
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%),
+        radial-gradient(circle at 30% 50%, var(--spec-base-color, #1E3A8A) 0%, transparent 70%);
+    border: 2px solid var(--spec-active-color, #4169E1);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 10px var(--spec-glow-color, #6495ED);
+}
+
+/* Party Context - Pathfinder Beige Theme */
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] {
+    background:
+        linear-gradient(180deg, rgba(240, 230, 210, 0.9) 0%, rgba(213, 203, 176, 0.95) 100%),
+        radial-gradient(circle at 30% 50%, rgba(160, 140, 112, 0.3) 0%, transparent 70%);
+    border: 2px solid #a08c70;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(160, 140, 112, 0.4);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"]:hover {
+    border-color: #8b7355;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 12px rgba(160, 140, 112, 0.6);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-fill {
+    background: linear-gradient(90deg,
+        rgba(122, 59, 46, 0.8) 0%,
+        rgba(139, 69, 19, 0.9) 50%,
+        rgba(122, 59, 46, 0.8) 100%
+    );
+    box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.2),
+        0 0 12px rgba(122, 59, 46, 0.6);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-display {
+    color: #5e2e23;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.6), 0 0 2px rgba(160, 140, 112, 0.4);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-current {
+    color: #7a3b2e;
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-separator,
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-max,
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-label {
+    color: rgba(122, 59, 46, 0.8);
+}
+
+.spellguard-resource-bar.clickable:hover {
+    border-color: var(--spec-glow-color, #6495ED);
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 14px var(--spec-glow-color, #6495ED);
+}
+
+/* Size Variants */
+.spellguard-resource-bar.small {
+    height: 18px;
+    padding: 1px;
+}
+
+.spellguard-resource-bar.large {
+    height: 24px;
+    padding: 3px;
+}
+
+/* Arcane background pattern */
+.arcane-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(90deg, transparent 0px, var(--spec-base-color, #1E3A8A) 1px, transparent 2px, transparent 20px),
+        repeating-linear-gradient(0deg, transparent 0px, var(--spec-base-color, #1E3A8A) 1px, transparent 2px, transparent 20px);
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* Flowing runes overlay */
+.runes-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.rune {
+    font-size: 1rem;
+    color: var(--spec-glow-color, #6495ED);
+    animation: runeFloat 3s ease-in-out infinite;
+}
+
+.rune:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.rune:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.rune:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+@keyframes runeFloat {
+    0%, 100% {
+        transform: translateY(0px);
+        opacity: 0.15;
+    }
+    50% {
+        transform: translateY(-3px);
+        opacity: 0.25;
+    }
+}
+
+/* AEP fill bar */
+.aep-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        var(--spec-active-color, #4169E1) 0%, 
+        var(--spec-glow-color, #6495ED) 50%,
+        var(--spec-active-color, #4169E1) 100%
+    );
+    transition: width 0.4s ease;
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.2),
+        0 0 15px var(--spec-glow-color, #6495ED);
+}
+
+/* Energy particles effect */
+.energy-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 3px),
+        radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 3px),
+        radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 3px),
+        radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.3) 0%, transparent 3px);
+    animation: particleFlow 4s linear infinite;
+    opacity: 0.4;
+}
+
+@keyframes particleFlow {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(20px);
+    }
+}
+
+/* Visual intensity states */
+.spellguard-resource-bar.empty .aep-fill {
+    opacity: 0.3;
+}
+
+.spellguard-resource-bar.low .aep-fill {
+    animation: lowPulse 2s ease-in-out infinite;
+}
+
+.spellguard-resource-bar.building .aep-fill {
+    animation: buildingPulse 1.5s ease-in-out infinite;
+}
+
+.spellguard-resource-bar.optimal .aep-fill {
+    animation: optimalPulse 1s ease-in-out infinite;
+}
+
+.spellguard-resource-bar.maximum .aep-fill {
+    animation: maximumPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes lowPulse {
+    0%, 100% {
+        filter: brightness(0.9);
+    }
+    50% {
+        filter: brightness(1.1);
+    }
+}
+
+@keyframes buildingPulse {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+    }
+    50% {
+        filter: brightness(1.15) saturate(1.1);
+    }
+}
+
+@keyframes optimalPulse {
+    0%, 100% {
+        filter: brightness(1.1) saturate(1.1);
+        box-shadow: 
+            inset 0 0 10px rgba(255, 255, 255, 0.2),
+            0 0 15px var(--spec-glow-color, #6495ED);
+    }
+    50% {
+        filter: brightness(1.25) saturate(1.2);
+        box-shadow: 
+            inset 0 0 15px rgba(255, 255, 255, 0.3),
+            0 0 20px var(--spec-glow-color, #6495ED);
+    }
+}
+
+@keyframes maximumPulse {
+    0%, 100% {
+        filter: brightness(1.2) saturate(1.2);
+        box-shadow: 
+            inset 0 0 15px rgba(255, 255, 255, 0.3),
+            0 0 20px var(--spec-glow-color, #6495ED);
+    }
+    50% {
+        filter: brightness(1.4) saturate(1.3);
+        box-shadow: 
+            inset 0 0 20px rgba(255, 255, 255, 0.4),
+            0 0 25px var(--spec-glow-color, #6495ED);
+    }
+}
+
+/* Absorbing state */
+.spellguard-resource-bar.absorbing {
+    animation: absorbPulse 0.8s ease-out;
+}
+
+@keyframes absorbPulse {
+    0% {
+        box-shadow: 
+            inset 0 2px 6px rgba(0, 0, 0, 0.5),
+            0 0 12px var(--spec-glow-color, #6495ED);
+    }
+    50% {
+        box-shadow: 
+            inset 0 2px 6px rgba(0, 0, 0, 0.5),
+            0 0 30px var(--spec-glow-color, #6495ED),
+            0 0 40px var(--spec-active-color, #4169E1);
+    }
+    100% {
+        box-shadow: 
+            inset 0 2px 6px rgba(0, 0, 0, 0.5),
+            0 0 12px var(--spec-glow-color, #6495ED);
+    }
+}
+
+/* Spending state */
+.spellguard-resource-bar.spending .aep-fill {
+    animation: spendFlash 0.6s ease-out;
+}
+
+@keyframes spendFlash {
+    0% {
+        filter: brightness(1.5);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
+/* Spec-specific overlay effects */
+.shield-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(65, 105, 225, 0.2) 0%, transparent 60%),
+        repeating-linear-gradient(45deg, transparent 0px, rgba(65, 105, 225, 0.1) 2px, transparent 4px, transparent 12px);
+    animation: shieldPulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shieldPulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+}
+
+.mirror-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(147, 112, 219, 0.3) 50%,
+        transparent 100%
+    );
+    animation: mirrorSweep 2s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes mirrorSweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.siphon-tendrils {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(139, 0, 139, 0.3) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(139, 0, 139, 0.3) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 50%, rgba(139, 0, 139, 0.3) 0%, transparent 40%);
+    animation: siphonPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes siphonPulse {
+    0%, 100% {
+        opacity: 0.5;
+        filter: blur(2px);
+    }
+    50% {
+        opacity: 0.8;
+        filter: blur(4px);
+    }
+}
+
+/* AEP Display */
+.aep-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 0 6px;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8), 0 0 3px var(--spec-glow-color, #6495ED);
+    z-index: 10;
+}
+
+.aep-current {
+    font-size: 0.95rem;
+    color: var(--spec-glow-color, #6495ED);
+}
+
+.aep-separator {
+    font-size: 0.8rem;
+    color: rgba(222, 184, 135, 0.6);
+}
+
+.aep-max {
+    font-size: 0.8rem;
+    color: rgba(222, 184, 135, 0.8);
+}
+
+.aep-label {
+    font-size: 0.7rem;
+    color: rgba(222, 184, 135, 0.7);
+    margin-left: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* AEP Display Size Adjustments */
+.spellguard-resource-bar.small .aep-display {
+    padding: 0 4px;
+}
+
+.spellguard-resource-bar.small .aep-current {
+    font-size: 0.75rem;
+}
+
+.spellguard-resource-bar.small .aep-separator,
+.spellguard-resource-bar.small .aep-max {
+    font-size: 0.65rem;
+}
+
+.spellguard-resource-bar.small .aep-label {
+    font-size: 0.6rem;
+    margin-left: 2px;
+}
+
+.spellguard-resource-bar.large .aep-current {
+    font-size: 1rem;
+}
+
+.spellguard-resource-bar.large .aep-separator,
+.spellguard-resource-bar.large .aep-max {
+    font-size: 0.85rem;
+}
+
+.spellguard-resource-bar.large .aep-label {
+    font-size: 0.75rem;
+}
+
+/* Tooltip Styles */
+.unified-resourcebar-tooltip {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 0;
+    padding: 10px 12px;
+    min-width: 240px;
+    max-width: 300px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #000000;
+    pointer-events: none;
+    font-size: 11px;
+}
+
+.unified-resourcebar-tooltip.top::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #a08c70;
+}
+
+.unified-resourcebar-tooltip.bottom::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #a08c70;
+}
+
+.tooltip-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.tooltip-compact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tooltip-compact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.tooltip-compact-label {
+    font-weight: 600;
+    color: #000000;
+    flex-shrink: 0;
+    min-width: 70px;
+}
+
+.tooltip-compact-value {
+    color: #000000;
+    flex: 1;
+    word-wrap: break-word;
+}
+
+.tooltip-compact-item.spec-compact {
+    margin-top: 5px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(160, 140, 112, 0.3);
+    padding-left: 2px;
+}
+
+/* Dev Controls */
+.spellguard-dev-controls {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    min-width: 220px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Party Context Dev Controls */
+.spellguard-dev-controls.party-context {
+    background: linear-gradient(135deg, rgba(250, 245, 235, 0.98) 0%, rgba(240, 230, 210, 0.98) 100%);
+    border: 2px solid #b8a085;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.controls-header span {
+    color: #000000 !important;
+}
+
+.controls-header button {
+    background: transparent;
+    border: none;
+    color: #7a3b2e;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.controls-header button:hover {
+    opacity: 1;
+    color: #5e2e23;
+}
+
+.control-group {
+    margin-bottom: 0;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #3a3a3a;
+}
+
+.spec-selector-group {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+}
+
+.spellguard-dev-controls .spec-cycle-btn {
+    width: 100%;
+    height: auto;
+    min-height: 32px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.spellguard-dev-controls .spec-cycle-btn span {
+    font-size: 10px;
+}
+
+.spellguard-dev-controls .spec-cycle-btn:hover {
+    background: rgba(213, 203, 176, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* New spec display button */
+.spec-display-btn {
+    width: 100%;
+    height: auto;
+    min-height: 28px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spec-display-btn:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spec-display-btn i {
+    font-size: 11px;
+}
+
+.aep-info {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    color: #5e2e23;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    font-style: italic;
+    text-align: center;
+    background: rgba(160, 140, 112, 0.1);
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.2);
+}
+
+/* Party Context AEP Info */
+.spellguard-dev-controls.party-context .aep-info {
+    background: rgba(184, 160, 133, 0.1);
+    border: 1px solid rgba(184, 160, 133, 0.3);
+    color: #6b4226;
+}
+
+.button-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.button-row:last-child {
+    margin-bottom: 0;
+}
+
+.button-row button {
+    flex: 1;
+    padding: 6px 8px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 0;
+}
+
+.button-row button:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-row button i {
+    margin-right: 4px;
+}
+
+/* New control sections layout */
+.control-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.section-label {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #5e2e23;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.preset-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+}
+
+.preset-buttons button {
+    padding: 4px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adjust-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+}
+
+.adjust-btn {
+    padding: 6px 4px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 0;
+    text-align: center;
+}
+
+.adjust-btn:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.adjust-btn.negative {
+    color: #d32f2f;
+}
+
+.adjust-btn.positive {
+    color: #2e7d32;
+}
+
+/* Party Context Button Styles */
+.spellguard-dev-controls.party-context .preset-buttons button,
+.spellguard-dev-controls.party-context .adjust-btn {
+    background: rgba(250, 245, 235, 0.7);
+    border: 1px solid rgba(184, 160, 133, 0.5);
+    color: #5e2e23;
+}
+
+.spellguard-dev-controls.party-context .preset-buttons button:hover,
+.spellguard-dev-controls.party-context .adjust-btn:hover {
+    background: rgba(240, 230, 210, 0.9);
+    border-color: #a08c70;
+}
+
+/* Force compact sizing in account context */
+.character-card .spellguard-resource-bar,
+.character-card-compact .spellguard-resource-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+    padding: 1px !important;
+}
+
+.character-card .spec-cycle-btn,
+.character-card-compact .spec-cycle-btn {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    font-size: 0.6rem !important;
+}
+
+.character-card .aep-number,
+.character-card-compact .aep-number {
+    font-size: 0.65rem !important;
+}

@@ -1,0 +1,91 @@
+--- a/vtt-react/src/components/multiplayer/RoomLobby.jsx
++++ b/vtt-react/src/components/multiplayer/RoomLobby.jsx
+@@ -85,15 +85,66 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => {
+   // CRITICAL FIX: Load characters when RoomLobby mounts to ensure they're available
+   useEffect(() => {
+     const loadCharactersOnMount = async () => {
+       try {
+         // Check if characters are already loaded
+         const charStore = useCharacterStore.getState();
+         if (charStore.characters && charStore.characters.length > 0) {
+           console.log('🎮 RoomLobby: Characters already loaded:', charStore.characters.length);
+           setCharactersLoaded(true);
+           return;
+         }
+
+-        // Try to load characters if they're not loaded
+-        console.log('🎮 RoomLobby: Loading characters...');
+-        const characters = await loadCharacters();
+-        console.log('🎮 RoomLobby: Characters loaded:', characters?.length || 0);
+-        setCharactersLoaded(true);
++        // Wait for auth to be initialized before loading characters
++        // This prevents race conditions where we try to load characters before auth is ready
++        try {
++          const authStore = require('../../store/authStore').default;
++          let authReady = authStore.getState().isAuthInitialized;
++          let waitAttempts = 0;
++          const maxWaitAttempts = 30; // Wait up to 3 seconds (30 * 100ms)
++          
++          console.log('🎮 RoomLobby: Waiting for auth initialization...');
++          while (!authReady && waitAttempts < maxWaitAttempts) {
++            await new Promise(resolve => setTimeout(resolve, 100));
++            authReady = authStore.getState().isAuthInitialized;
++            waitAttempts++;
++          }
++          
++          if (!authReady) {
++            console.warn('⚠️ RoomLobby: Auth not initialized after waiting, proceeding anyway');
++          } else {
++            console.log('🎮 RoomLobby: Auth is ready');
++          }
++        } catch (e) {
++          console.warn('⚠️ RoomLobby: Could not check auth state:', e);
++        }
++
++        // Try to load characters if they're not loaded
++        console.log('🎮 RoomLobby: Loading characters...');
++        let characters = await loadCharacters();
++        
++        // If still no characters, try loading directly from localStorage as fallback
++        if (!characters || characters.length === 0) {
++          console.log('🎮 RoomLobby: No characters from loadCharacters, trying localStorage fallback...');
++          
++          // Try both storage keys (guest and authenticated)
++          const storageKeys = ['mythrill-guest-characters', 'mythrill-characters'];
++          for (const key of storageKeys) {
++            try {
++              const stored = localStorage.getItem(key);
++              if (stored) {
++                characters = JSON.parse(stored);
++                if (characters && characters.length > 0) {
++                  console.log('🎮 RoomLobby: Found characters in localStorage:', characters.length);
++                  // Update the store with these characters
++                  useCharacterStore.setState({ characters });
++                  break;
++                }
++              }
++            } catch (e) {
++              console.warn('⚠️ RoomLobby: Error reading from localStorage:', e);
++            }
++          }
++        }
++
++        console.log('🎮 RoomLobby: Characters loaded:', characters?.length || 0);
++        
++        // Also check if there's an active character set
++        const activeCharId = localStorage.getItem('mythrill-active-character');
++        if (activeCharId && characters && characters.length > 0) {
++          const activeChar = characters.find(c => c.id === activeCharId);
++          if (activeChar) {
++            console.log('🎮 RoomLobby: Active character found:', activeChar.name);
++            // Load the active character into the store
++            useCharacterStore.getState().loadCharacter(activeCharId);
++          }
++        }
++        
++        setCharactersLoaded(true);
+       } catch (error) {
+         console.warn('⚠️ RoomLobby: Failed to load characters:', error);
+         setCharactersLoaded(true); // Still allow access even if loading fails
+       }
+     };

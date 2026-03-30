@@ -1,0 +1,235 @@
+/* Animated RPG Chat Bubble - 16-bit Style */
+.animated-chat-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 420px;
+  z-index: 1000;
+  font-family: 'Cinzel', serif;
+  animation: float 3s ease-in-out infinite;
+  pointer-events: none; /* Allow clicks through the bubble */
+}
+
+/* Custom positioned chat bubble (when dragged) */
+.animated-chat-bubble.custom-position {
+  position: fixed !important;
+  bottom: auto !important;
+  right: auto !important;
+  animation: none !important;
+}
+
+.chat-bubble-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chat-bubble {
+  position: relative;
+  background: linear-gradient(135deg, #f8f4e6 0%, #f0e6d6 50%, #e8dcc0 100%);
+  border: 3px solid #8b4513;
+  border-radius: 16px;
+  width: 320px;
+  min-height: 90px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 8px rgba(139, 69, 19, 0.3),
+    0 0 0 2px rgba(212, 175, 55, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  z-index: 10;
+  overflow: visible;
+  pointer-events: auto; /* Re-enable pointer events for the bubble itself */
+  cursor: grab;
+  user-select: none;
+}
+
+.chat-bubble:active {
+  cursor: grabbing;
+}
+
+/* Dragging visual feedback */
+.chat-bubble.dragging {
+  opacity: 0.8;
+  box-shadow:
+    0 8px 16px rgba(139, 69, 19, 0.4),
+    0 0 0 3px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.02) !important;
+}
+
+
+.chat-speaker-icon {
+  position: absolute;
+  bottom: -12px;
+  left: -8px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #d4af37;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #f8f4e6 0%, #e8dcc0 100%);
+  transform: rotate(-8deg);
+  z-index: 15;
+  animation: speakerBob 4s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.chat-speaker-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.chat-speaker-icon .icon-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+}
+
+.chat-speaker-icon .icon-fallback i {
+  font-size: 24px;
+  color: #f4f1e8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chat-speaker-icon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 50%;
+  animation: iconGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes speakerBob {
+  0%, 100% { transform: rotate(-8deg) translateY(0px); }
+  50% { transform: rotate(-8deg) translateY(-2px); }
+}
+
+@keyframes iconGlow {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.8; }
+}
+
+.chat-content {
+  color: #2d1810;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+  position: relative;
+}
+
+.chat-content span {
+  display: inline-block;
+  min-height: 1.2em;
+}
+
+.cursor {
+  animation: cursorBlink 1s infinite;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+
+@keyframes bubbleGlow {
+  0% { box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3), 0 0 0 2px rgba(212, 175, 55, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+  100% { box-shadow: 0 6px 12px rgba(139, 69, 19, 0.4), 0 0 0 3px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+}
+
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+
+/* Hover effects */
+.chat-bubble:hover:not(.dragging) {
+  animation: bubbleGlow 2s ease-in-out infinite alternate;
+  transform: scale(1.01);
+}
+
+/* Mobile: disable the tutorial bubble overlay */
+@media (max-width: 1000px), (hover: none) and (pointer: coarse) {
+  .animated-chat-bubble {
+    display: none !important;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .chat-bubble {
+    width: 280px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .chat-content {
+    font-size: 0.8rem;
+  }
+
+  .step-indicator {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-bubble {
+    width: 260px;
+    padding: 0.5rem 0.7rem;
+  }
+
+  .chat-content {
+    font-size: 0.75rem;
+  }
+}
+
+/* 16-bit pixel art feel */
+.chat-bubble {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Add some retro game feel with scanlines effect */
+.chat-bubble::before {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(139, 69, 19, 0.03) 1px,
+    rgba(139, 69, 19, 0.03) 2px
+  );
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border-radius: 13px;
+  opacity: 0.3;
+}

@@ -1,0 +1,73 @@
+/* ===== MINSTREL - MUSICAL STAFF ===== */
+
+/* Musical Staff (Minstrel) */
+.musical-staff {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.staff-container {
+    position: relative;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+.staff-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.staff-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.staff-line:nth-child(1) { top: 20%; }
+.staff-line:nth-child(2) { top: 35%; }
+.staff-line:nth-child(3) { top: 50%; }
+.staff-line:nth-child(4) { top: 65%; }
+.staff-line:nth-child(5) { top: 80%; }
+
+.notes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.note {
+    position: absolute;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.note.active {
+    animation: noteGlow 1.5s infinite;
+}
+
+@keyframes noteGlow {
+    0%, 100% { text-shadow: 0 0 4px currentColor; }
+    50% { text-shadow: 0 0 8px currentColor; }
+}
+
+/* Force compact sizing in account context */
+.character-card .musical-notes-combo,
+.character-card-compact .musical-notes-combo {
+    padding: 2px !important;
+}
+
+.character-card .staff-container,
+.character-card-compact .staff-container {
+    height: 14px !important;
+    min-height: 14px !important;
+}

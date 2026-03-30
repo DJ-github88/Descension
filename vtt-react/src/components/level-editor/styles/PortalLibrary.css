@@ -1,0 +1,283 @@
+/* Portal Library - D&D/Pathfinder Theme */
+.portal-library {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    color: #f0e6d2;
+}
+
+/* Library Header */
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+}
+
+.library-title {
+    color: #c9aa71;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.create-template-button {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
+    border: 2px solid #6b9775;
+    border-radius: 6px;
+    color: #f0e6d2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+
+.create-template-button:hover {
+    background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Library Content */
+.library-content {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 200px;
+}
+
+/* Empty State */
+.empty-library {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: #a08c70;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-library p {
+    margin: 4px 0;
+}
+
+.empty-hint {
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* Template Grid */
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    padding: 12px 8px;
+}
+
+/* Portal Template Cards */
+.portal-template-card {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.08) 0%, rgba(240, 230, 210, 0.04) 100%);
+    border: 2px solid rgba(160, 140, 112, 0.4);
+    border-radius: 10px;
+    padding: 14px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 140px;
+}
+
+.portal-template-card:hover {
+    border-color: #c9aa71;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.12) 0%, rgba(240, 230, 210, 0.06) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.portal-template-card.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    cursor: grabbing;
+}
+
+/* Template Header */
+.template-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.template-icon {
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.template-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.portal-template-card:hover .template-actions {
+    opacity: 1;
+}
+
+.template-action-button {
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.template-action-button.edit {
+    background: rgba(137, 220, 235, 0.2);
+    color: #89dceb;
+}
+
+.template-action-button.edit:hover {
+    background: rgba(137, 220, 235, 0.3);
+    transform: scale(1.1);
+}
+
+.template-action-button.delete {
+    background: rgba(244, 162, 97, 0.2);
+    color: #f4a261;
+}
+
+.template-action-button.delete:hover {
+    background: rgba(244, 162, 97, 0.3);
+    transform: scale(1.1);
+}
+
+/* Template Info */
+.template-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.template-name {
+    font-weight: bold;
+    color: #c9aa71;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.template-destination {
+    color: #89dceb;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.template-destination::before {
+    content: "→";
+    color: #a08c70;
+    font-weight: normal;
+}
+
+.template-description {
+    color: #f0e6d2;
+    font-size: 0.8rem;
+    font-style: italic;
+    line-height: 1.4;
+    margin-top: 2px;
+    opacity: 0.9;
+}
+
+.template-status {
+    font-size: 0.75rem;
+    color: #a08c70;
+    margin-top: auto;
+    padding-top: 4px;
+    border-top: 1px solid rgba(160, 140, 112, 0.2);
+}
+
+/* Drag Hint */
+.drag-hint {
+    font-size: 0.7rem;
+    color: #a08c70;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-align: center;
+    font-style: italic;
+    margin-top: 4px;
+    padding: 4px 8px;
+    background: rgba(160, 140, 112, 0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.2);
+}
+
+.portal-template-card:hover .drag-hint {
+    opacity: 1;
+}
+
+/* Library Instructions */
+.library-instructions {
+    background: rgba(240, 230, 210, 0.03);
+    border: 1px solid rgba(160, 140, 112, 0.3);
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: auto;
+}
+
+.library-instructions h5 {
+    color: #c9aa71;
+    margin: 0 0 8px 0;
+    font-size: 0.9rem;
+}
+
+.library-instructions ul {
+    margin: 0;
+    padding-left: 16px;
+    color: #a08c70;
+}
+
+.library-instructions li {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+/* Scrollbar Styling */
+.library-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.library-content::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.1);
+    border-radius: 3px;
+}
+
+.library-content::-webkit-scrollbar-thumb {
+    background: rgba(160, 140, 112, 0.3);
+    border-radius: 3px;
+}
+
+.library-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(160, 140, 112, 0.5);
+}

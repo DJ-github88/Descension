@@ -1,0 +1,117 @@
+/* ===== NUCLEAR OPTION: COMPLETE CHARACTER SHEET ISOLATION ===== */
+/* This file completely isolates the character sheet from ALL external CSS */
+/* SCOPED TO GAME MODE ONLY */
+
+/* Reset ALL possible CSS variables that could interfere */
+.game-mode .character-sheet-container,
+.game-mode .character-sheet,
+.game-mode .character-container,
+.game-mode .character-navigation {
+  /* RESET ALL PATHFINDER VARIABLES */
+  --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --pf-text-primary: #5a1e12 !important;
+  --pf-text-secondary: #5a1e12 !important;
+  --pf-text-muted: #5a1e12 !important;
+  --pf-text-light: #5a1e12 !important;
+  --pf-text-on-dark: #5a1e12 !important;
+  
+  /* RESET ALL BACKGROUND VARIABLES */
+  --pf-gradient-parchment: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%) !important;
+  --pf-parchment: #ede4d3 !important;
+  --pf-parchment-light: #f8f4e6 !important;
+  --pf-parchment-dark: #e8dcc6 !important;
+  --pf-parchment-darker: #d5cbb0 !important;
+  
+  /* FORCE CHARACTER SHEET STYLES */
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+  
+  /* COMPLETE ISOLATION */
+  isolation: isolate !important;
+  contain: layout style paint !important;
+}
+
+/* FORCE ALL CHILD ELEMENTS */
+.game-mode .character-sheet-container *,
+.game-mode .character-sheet *,
+.game-mode .character-container *,
+.game-mode .character-navigation * {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: inherit !important;
+}
+
+/* SPECIFIC OVERRIDES FOR COMMON ELEMENTS */
+.game-mode .character-container h1,
+.game-mode .character-container h2,
+.game-mode .character-container h3,
+.game-mode .character-container h4,
+.game-mode .character-container h5,
+.game-mode .character-container h6,
+.game-mode .character-container p,
+.game-mode .character-container span,
+.game-mode .character-container div,
+.game-mode .character-container button,
+.game-mode .character-container input,
+.game-mode .character-container label,
+.game-mode .character-container textarea,
+.game-mode .character-container select {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+}
+
+/* FORCE BACKGROUND COLORS */
+.game-mode .character-container {
+  background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%) !important;
+}
+
+.game-mode .character-navigation {
+  background: linear-gradient(135deg, rgba(213, 203, 176, 0.9) 0%, rgba(203, 193, 166, 0.8) 100%) !important;
+}
+
+.game-mode .character-sheet {
+  background-color: #f0e6d2 !important;
+  color: #3a3a3a !important;
+  font-family: 'Bookman Old Style', 'Garamond', serif !important;
+}
+
+/* OVERRIDE ANY POSSIBLE SPELLBOOK INTERFERENCE */
+.game-mode .character-sheet-container:not(.spellbook-layout),
+.game-mode .character-sheet:not(.spellbook-layout),
+.game-mode .character-container:not(.spellbook-layout),
+.game-mode .character-navigation:not(.spellbook-layout) {
+  /* Ensure these are NEVER affected by spellbook styles */
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+}
+
+/* NUCLEAR OPTION: Override any class that might interfere - SCOPED TO GAME MODE */
+body.game-mode .character-sheet-container,
+html body.game-mode .character-sheet-container,
+body.game-mode .character-container,
+html body.game-mode .character-container,
+body.game-mode .character-navigation,
+html body.game-mode .character-navigation {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+}
+
+/* PREVENT ANY EXTERNAL STYLING */
+.game-mode .character-sheet-container {
+  all: revert !important;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+  isolation: isolate !important;
+  contain: layout style paint !important;
+}
+
+/* FINAL SAFETY NET */
+.game-mode [class*="character-"] {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+}
+
+.game-mode [class*="character-"] * {
+  font-family: inherit !important;
+  color: inherit !important;
+}

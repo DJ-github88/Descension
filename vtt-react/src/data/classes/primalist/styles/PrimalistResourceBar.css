@@ -1,0 +1,520 @@
+/* Primalist Resource Bar Styles */
+
+.primalist-resource-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.primalist-resource-wrapper.small {
+    gap: 6px;
+}
+
+.primalist-resource-wrapper.large {
+    gap: 10px;
+}
+
+/* Spec Selector Icon */
+.spec-selector-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(139, 69, 19, 0.5);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.spec-selector-icon:hover {
+    background: rgba(0, 0, 0, 0.6);
+    border-color: rgba(139, 69, 19, 0.8);
+    transform: scale(1.05);
+}
+
+.spec-selector-icon i {
+    font-size: 14px;
+}
+
+.primalist-resource-wrapper.small .spec-selector-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.primalist-resource-wrapper.small .spec-selector-icon i {
+    font-size: 10px;
+}
+
+.primalist-resource-wrapper.large .spec-selector-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.primalist-resource-wrapper.large .spec-selector-icon i {
+    font-size: 16px;
+}
+
+/* Spec Selector Dropdown */
+.spec-selector-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    background: rgba(20, 15, 10, 0.95);
+    border: 2px solid #8B4513;
+    border-radius: 6px;
+    padding: 6px;
+    z-index: 10000;
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.primalist-resource-wrapper .spec-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.spec-option:hover {
+    background: rgba(139, 69, 19, 0.2);
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+.spec-option.selected {
+    background: rgba(139, 69, 19, 0.3);
+    border-color: rgba(139, 69, 19, 0.6);
+}
+
+.spec-option i {
+    font-size: 14px;
+}
+
+.spec-option span {
+    color: #D4C4A8;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Main Resource Bar */
+.primalist-resource-bar {
+    position: relative;
+    width: 280px;
+    height: 36px;
+    background: rgba(20, 15, 10, 0.8);
+    border: 2px solid #8B4513;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.primalist-resource-bar.clickable:hover {
+    border-color: #CD853F;
+    box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+}
+
+.primalist-resource-bar.small {
+    width: 100%;
+    height: 24px;
+    border-width: 1px;
+}
+
+.primalist-resource-bar.large {
+    width: 340px;
+    height: 44px;
+}
+
+/* Synergy Bar */
+.synergy-bar-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.synergy-bar-background {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(30, 20, 10, 0.6) 0%, rgba(20, 15, 10, 0.8) 100%);
+    position: relative;
+}
+
+.synergy-bar-fill {
+    height: 100%;
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.synergy-bar-fill.synergy-ready {
+    animation: synergyPulse 2s ease-in-out infinite;
+}
+
+@keyframes synergyPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+/* Synergy Threshold Marker */
+.synergy-threshold-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: currentColor;
+    opacity: 0.6;
+    z-index: 1;
+}
+
+.synergy-threshold-marker::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -3px;
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.primalist-resource-bar.small .synergy-threshold-marker {
+    width: 1px;
+}
+
+.primalist-resource-bar.small .synergy-threshold-marker::before {
+    top: -2px;
+    left: -2px;
+    width: 5px;
+    height: 5px;
+}
+
+/* Overlay */
+.primalist-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.primalist-resource-bar.small .primalist-overlay {
+    padding: 0 8px;
+}
+
+.synergy-number {
+    font-size: 14px;
+    font-weight: bold;
+    color: #D4C4A8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.totems-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: #D4C4A8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.synergy-ready-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 0 0 4px currentColor, 1px 1px 2px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: synergyReadyPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes synergyReadyPulse {
+    0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.primalist-resource-bar.small .synergy-number {
+    font-size: 12px;
+}
+
+.primalist-resource-bar.small .totems-count {
+    font-size: 11px;
+}
+
+.primalist-resource-bar.small .synergy-ready-indicator {
+    font-size: 9px;
+}
+
+.primalist-resource-bar.large .synergy-number {
+    font-size: 16px;
+}
+
+.primalist-resource-bar.large .totems-count {
+    font-size: 15px;
+}
+
+.primalist-resource-bar.large .synergy-ready-indicator {
+    font-size: 13px;
+}
+
+/* Tooltip Styles */
+.unified-resourcebar-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
+    padding: 12px;
+    min-width: 300px;
+    max-width: 350px;
+    z-index: 100000;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.unified-resourcebar-tooltip.below {
+    /* Additional styling when tooltip is below the bar */
+}
+
+.unified-resourcebar-tooltip .tooltip-header {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2C2416;
+    margin-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #8B7355;
+    padding-bottom: 6px;
+}
+
+.unified-resourcebar-tooltip .tooltip-section {
+    margin: 8px 0;
+    color: #3a2a1a;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.unified-resourcebar-tooltip .tooltip-label {
+    font-weight: 600;
+    color: #2C2416;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.unified-resourcebar-tooltip .tooltip-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
+    margin: 8px 0;
+}
+
+.unified-resourcebar-tooltip .synergy-status,
+.unified-resourcebar-tooltip .synergy-gen {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.unified-resourcebar-tooltip .synergy-gen {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 8px;
+    align-items: start;
+}
+
+.unified-resourcebar-tooltip .synergy-gen strong {
+    color: #CD853F;
+}
+
+.unified-resourcebar-tooltip .synergy-gen span {
+    color: #D4C4A8;
+}
+
+.unified-resourcebar-tooltip .passive-desc {
+    color: #D4C4A8;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* Controls Overlay */
+.primalist-controls-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100001;
+}
+
+.primalist-controls {
+    background: rgba(20, 15, 10, 0.98);
+    border: 3px solid #8B4513;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+}
+
+.primalist-controls .controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(139, 69, 19, 0.4);
+}
+
+.primalist-controls .controls-header h4 {
+    margin: 0;
+    color: #CD853F;
+    font-size: 18px;
+}
+
+.primalist-controls .close-btn {
+    background: rgba(139, 69, 19, 0.3);
+    border: 1px solid #8B4513;
+    color: #D4C4A8;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.primalist-controls .close-btn:hover {
+    background: rgba(139, 69, 19, 0.5);
+    border-color: #CD853F;
+}
+
+.primalist-controls .control-group {
+    margin-bottom: 20px;
+}
+
+.primalist-controls .control-group label {
+    display: block;
+    color: #CD853F;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.primalist-controls .control-group input[type="range"] {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.primalist-controls .control-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.primalist-controls .control-buttons button {
+    background: rgba(139, 69, 19, 0.3);
+    border: 1px solid #8B4513;
+    color: #D4C4A8;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.primalist-controls .control-buttons button:hover {
+    background: rgba(139, 69, 19, 0.5);
+    border-color: #CD853F;
+}
+
+.primalist-controls .totem-info {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: #D4C4A8;
+}
+
+.primalist-controls .spec-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.primalist-controls .spec-buttons button {
+    background: rgba(139, 69, 19, 0.2);
+    border: 2px solid transparent;
+    color: #D4C4A8;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.primalist-controls .spec-buttons button:hover {
+    background: rgba(139, 69, 19, 0.3);
+}
+
+.primalist-controls .spec-buttons button.active {
+    background: rgba(139, 69, 19, 0.4);
+}
+
+.primalist-controls .spec-buttons button i {
+    font-size: 16px;
+}
+
+.primalist-controls .spec-buttons button span {
+    flex: 1;
+    text-align: left;
+    font-weight: 600;
+}
+
+.primalist-controls .spec-buttons button small {
+    color: #A89968;
+    font-size: 11px;
+}
+
+/* Force compact sizing in account context */
+.character-card .primalist-resource-bar,
+.character-card-compact .primalist-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+}
+
+.character-card .spec-selector-btn,
+.character-card-compact .spec-selector-btn {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    font-size: 0.6rem !important;
+}
+
+.character-card .totem-count,
+.character-card-compact .totem-count {
+    font-size: 0.65rem !important;
+}

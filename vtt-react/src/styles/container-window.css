@@ -1,0 +1,424 @@
+.container-window {
+    position: fixed;
+    background-color: rgb(23, 24, 27);
+    border: 2px solid rgb(40, 40, 40);
+    border-radius: 6px;
+    width: fit-content;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    min-width: 300px;
+    user-select: none;
+    /* z-index managed by windowManagerStore via inline styles */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-window.dragging {
+    /* z-index managed by windowManagerStore via inline styles */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+}
+
+.container-window-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: linear-gradient(to bottom, #444, #333);
+    border-bottom: 1px solid rgb(60, 60, 60);
+    cursor: move;
+    min-height: 44px;
+    box-sizing: border-box;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.container-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.container-name {
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.container-lock-icon {
+    color: #ffaa00;
+    margin-left: 4px;
+    font-size: 14px;
+}
+
+.container-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.container-window-header .close-button {
+    background: #d32f2f;
+    border: none;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.container-window-header .close-button:hover {
+    background: #b71c1c;
+    transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.container-window-header .close-button:active {
+    transform: scale(0.95);
+}
+
+.container-window-content {
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #222;
+    min-height: 200px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* Optimize scrolling performance */
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto !important;
+    contain: layout style paint;
+}
+
+.container-grid {
+    display: grid;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Ensure grid cells are positioned relative for absolute positioning of items */
+    position: relative;
+}
+
+.container-cell {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(40, 40, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    overflow: visible; /* Allow items to overflow for multi-cell items */
+    box-sizing: border-box;
+    pointer-events: auto; /* Ensure cells can receive drop events */
+}
+
+.container-cell:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(50, 50, 50, 0.6);
+}
+
+.container-cell.occupied {
+    background-color: rgba(60, 60, 60, 0.6);
+}
+
+.container-cell.drag-over {
+    background-color: rgba(0, 255, 0, 0.3);
+    border: 1px dashed rgba(0, 255, 0, 0.8);
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.5);
+    transition: all 0.1s ease;
+}
+
+.container-cell.drag-invalid {
+    background-color: rgba(255, 0, 0, 0.3);
+    border: 1px dashed rgba(255, 0, 0, 0.8);
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.5);
+    transition: all 0.1s ease;
+}
+
+/* Container item wrapper - transparent container that fills the grid space */
+.container-window-content .container-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: visible;
+    position: relative;
+    z-index: 10;
+    background: transparent; /* No background - border comes from .item-border */
+    border: none; /* No border - border comes from .item-border */
+}
+
+.container-window-content .container-item.multi-cell {
+    z-index: 20;
+    align-items: stretch; /* Fill entire space for multi-cell items */
+    justify-content: stretch;
+}
+
+.container-window-content .container-item:hover {
+    transform: translateY(-1px);
+}
+
+/* Removed - using .item-icon class instead for consistency with inventory */
+
+/* Container-specific item wrapper - uses CSS Grid positioning */
+.container-window-content .item-wrapper {
+    /* grid-column, grid-row, and z-index are set via inline styles in ContainerWindow.jsx */
+    display: flex;
+    align-items: stretch; /* Changed from center to stretch to fill grid area */
+    justify-content: stretch; /* Changed from center to stretch to fill grid area */
+    overflow: visible;
+    pointer-events: auto;
+    /* Grid items automatically size to fill their grid area, so we don't need explicit width/height */
+}
+
+/* Container-specific non-rotating border */
+.container-window-content .item-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 15;
+    transition: box-shadow 0.2s ease;
+}
+
+/* Item quality borders - matching RARITY_COLORS constant */
+.item-border.poor {
+    border-color: #9d9d9d;
+    box-shadow: 0 0 5px rgba(157, 157, 157, 0.3);
+}
+
+.item-border.common {
+    border-color: #ffffff;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.item-border.uncommon {
+    border-color: #1eff00;
+    box-shadow: 0 0 5px rgba(30, 255, 0, 0.3);
+}
+
+.item-border.rare {
+    border-color: #0070dd;
+    box-shadow: 0 0 5px rgba(0, 112, 221, 0.3);
+}
+
+.item-border.epic {
+    border-color: #a335ee;
+    box-shadow: 0 0 5px rgba(163, 53, 238, 0.3);
+}
+
+.item-border.legendary {
+    border-color: #ff8000;
+    box-shadow: 0 0 5px rgba(255, 128, 0, 0.3);
+}
+
+.item-border.artifact {
+    border-color: #e6cc80;
+    box-shadow: 0 0 5px rgba(230, 204, 128, 0.3);
+}
+
+/* Container-specific blue indicator that doesn't rotate */
+.container-window-content .blue-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(0, 100, 255, 0.5);
+    z-index: 30;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: white;
+    border-radius: 0 0 2px 0;
+}
+
+/* Container-specific item content wrapper */
+.container-window-content .item-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: visible;
+    z-index: 25;
+    cursor: pointer;
+}
+
+/* Adjust content for multi-cell items - fill entire space */
+.container-window-content .multi-cell .item-content {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-direction: row; /* Change to row for multi-cell to allow image to fill */
+}
+
+/* Container-specific item icon - fills the entire space */
+.container-window-content .item-icon {
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    object-fit: cover;
+    object-position: center;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    display: block;
+}
+
+/* Currency coin icon coloring in container window - matching currency display colors */
+.container-window-content .item-icon.coin-platinum {
+    filter: brightness(1.8) saturate(0.2) contrast(1.4) sepia(0) hue-rotate(200deg);
+}
+
+.container-window-content .item-icon.coin-gold {
+    filter: brightness(1.1) saturate(1.5) contrast(1.2) hue-rotate(0deg);
+}
+
+.container-window-content .item-icon.coin-silver {
+    filter: brightness(1.2) saturate(0) contrast(1.2) sepia(0) grayscale(0.8);
+}
+
+.container-window-content .item-icon.coin-copper {
+    filter: brightness(0.9) saturate(2.0) hue-rotate(15deg) contrast(1.4);
+}
+
+.container-window-content .multi-cell .item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the entire multi-cell space */
+    display: block;
+    flex: 1; /* Allow icon to grow and fill the entire multi-cell area */
+}
+
+/* Container-specific stack size indicator */
+.container-window-content .item-stack-size {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.item-size-indicator {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: rgba(0, 100, 255, 0.7);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.context-menu {
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
+    overflow: hidden;
+    min-width: 180px;
+    z-index: 99999;
+    position: fixed;
+    backdrop-filter: blur(4px);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    transform: translateZ(0);
+}
+
+.context-menu-item {
+    padding: 0.6rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #3a2f1a;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.context-menu-item:hover {
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    color: #3a2f1a;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
+}
+
+.context-menu-item i {
+    width: 16px;
+    text-align: center;
+    color: #8b7355;
+}
+
+/* .context-menu-item:last-child consolidated to global styles */
+
+/* Delete item styling */
+.delete-item {
+    color: #7a3b2e;
+}
+
+.delete-item:hover {
+    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 100%);
+}
+
+.delete-item:hover {
+    background-color: rgba(255, 74, 74, 0.1);
+}
+
+.delete-item i {
+    color: #ff4a4a;
+}
+
+.delete-item:hover i {
+    color: #ff6b6b;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

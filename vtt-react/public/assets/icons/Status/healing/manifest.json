@@ -1,0 +1,176 @@
+{
+  "category": "healing",
+  "count": 34,
+  "icons": [
+    {
+      "filename": "circular-emblem-cross-healing.png",
+      "name": "Circular Emblem Cross Healing",
+      "path": "healing/circular-emblem-cross-healing.png"
+    },
+    {
+      "filename": "cross-corner-glows-healing.png",
+      "name": "Cross Corner Glows Healing",
+      "path": "healing/cross-corner-glows-healing.png"
+    },
+    {
+      "filename": "cross-glow-healing.png",
+      "name": "Cross Glow Healing",
+      "path": "healing/cross-glow-healing.png"
+    },
+    {
+      "filename": "cross-glow-healing-symbol.png",
+      "name": "Cross Glow Healing Symbol",
+      "path": "healing/cross-glow-healing-symbol.png"
+    },
+    {
+      "filename": "cross-glow-positive.png",
+      "name": "Cross Glow Positive",
+      "path": "healing/cross-glow-positive.png"
+    },
+    {
+      "filename": "cross-glowing-squares-healing.png",
+      "name": "Cross Glowing Squares Healing",
+      "path": "healing/cross-glowing-squares-healing.png"
+    },
+    {
+      "filename": "cross-healing.png",
+      "name": "Cross Healing",
+      "path": "healing/cross-healing.png"
+    },
+    {
+      "filename": "cross-healing-symbol.png",
+      "name": "Cross Healing Symbol",
+      "path": "healing/cross-healing-symbol.png"
+    },
+    {
+      "filename": "cross-pattern-healing.png",
+      "name": "Cross Pattern Healing",
+      "path": "healing/cross-pattern-healing.png"
+    },
+    {
+      "filename": "cross-pattern-healing-symbol.png",
+      "name": "Cross Pattern Healing Symbol",
+      "path": "healing/cross-pattern-healing-symbol.png"
+    },
+    {
+      "filename": "cross-pattern-healing_1.png",
+      "name": "Cross Pattern Healing_1",
+      "path": "healing/cross-pattern-healing_1.png"
+    },
+    {
+      "filename": "cross-pattern-healing_2.png",
+      "name": "Cross Pattern Healing_2",
+      "path": "healing/cross-pattern-healing_2.png"
+    },
+    {
+      "filename": "cross-pattern-positive.png",
+      "name": "Cross Pattern Positive",
+      "path": "healing/cross-pattern-positive.png"
+    },
+    {
+      "filename": "cross-rounded-arms-healing.png",
+      "name": "Cross Rounded Arms Healing",
+      "path": "healing/cross-rounded-arms-healing.png"
+    },
+    {
+      "filename": "crosses-stars-healing.png",
+      "name": "Crosses Stars Healing",
+      "path": "healing/crosses-stars-healing.png"
+    },
+    {
+      "filename": "fiery-healing-cross.png",
+      "name": "Fiery Healing Cross",
+      "path": "healing/fiery-healing-cross.png"
+    },
+    {
+      "filename": "first-aid-bag-cross-healing.png",
+      "name": "First Aid Bag Cross Healing",
+      "path": "healing/first-aid-bag-cross-healing.png"
+    },
+    {
+      "filename": "glowing-healing-cross.png",
+      "name": "Glowing Healing Cross",
+      "path": "healing/glowing-healing-cross.png"
+    },
+    {
+      "filename": "gradient-healing-cross.png",
+      "name": "Gradient Healing Cross",
+      "path": "healing/gradient-healing-cross.png"
+    },
+    {
+      "filename": "healing-cross.png",
+      "name": "Healing Cross",
+      "path": "healing/healing-cross.png"
+    },
+    {
+      "filename": "healing-cross-corners.png",
+      "name": "Healing Cross Corners",
+      "path": "healing/healing-cross-corners.png"
+    },
+    {
+      "filename": "healing-cross-corners_1.png",
+      "name": "Healing Cross Corners_1",
+      "path": "healing/healing-cross-corners_1.png"
+    },
+    {
+      "filename": "healing-cross-stars.png",
+      "name": "Healing Cross Stars",
+      "path": "healing/healing-cross-stars.png"
+    },
+    {
+      "filename": "heart-cross-healing.png",
+      "name": "Heart Cross Healing",
+      "path": "healing/heart-cross-healing.png"
+    },
+    {
+      "filename": "heart-gradient-healing.png",
+      "name": "Heart Gradient Healing",
+      "path": "healing/heart-gradient-healing.png"
+    },
+    {
+      "filename": "heart-gradient-vitality.png",
+      "name": "Heart Gradient Vitality",
+      "path": "healing/heart-gradient-vitality.png"
+    },
+    {
+      "filename": "heart-outline-healing.png",
+      "name": "Heart Outline Healing",
+      "path": "healing/heart-outline-healing.png"
+    },
+    {
+      "filename": "heart-plus-one-healing.png",
+      "name": "Heart Plus One Healing",
+      "path": "healing/heart-plus-one-healing.png"
+    },
+    {
+      "filename": "heart-vitality.png",
+      "name": "Heart Vitality",
+      "path": "healing/heart-vitality.png"
+    },
+    {
+      "filename": "medical-healing-cross.png",
+      "name": "Medical Healing Cross",
+      "path": "healing/medical-healing-cross.png"
+    },
+    {
+      "filename": "shield-cross-healing.png",
+      "name": "Shield Cross Healing",
+      "path": "healing/shield-cross-healing.png"
+    },
+    {
+      "filename": "teardrop-cross-healing.png",
+      "name": "Teardrop Cross Healing",
+      "path": "healing/teardrop-cross-healing.png"
+    },
+    {
+      "filename": "vitality-heart.png",
+      "name": "Vitality Heart",
+      "path": "healing/vitality-heart.png"
+    },
+    {
+      "filename": "warm-healing-cross.png",
+      "name": "Warm Healing Cross",
+      "path": "healing/warm-healing-cross.png"
+    }
+  ]
+}

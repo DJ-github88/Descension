@@ -1,0 +1,411 @@
+/* Ability Selection Window Styles */
+.ability-selection-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  isolation: isolate; /* Creates a new stacking context */
+  overflow: hidden;
+}
+
+/* Ensure the WowWindow inside the ability selection is properly isolated */
+.ability-selection-backdrop .wow-window {
+  position: relative;
+  z-index: 100000; /* Higher than the backdrop */
+}
+
+.ability-selection-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
+  background-repeat: repeat;
+  box-shadow:
+    0 8px 32px rgba(45, 24, 16, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ===== PATHFINDER HEADER STYLES ===== */
+.ability-selection-header {
+  padding: 15px;
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-bottom: 2px solid #a08c70;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow:
+    0 4px 8px rgba(45, 24, 16, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.ability-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.ability-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7a3b2e;
+  font-size: 14px;
+}
+
+.ability-search-input {
+  width: 100%;
+  padding: 10px 40px 10px 35px;
+  background: #f0e6d2;
+  border: 2px solid #a08c70;
+  border-radius: 6px;
+  color: #3a3a3a;
+  font-size: 14px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(45, 24, 16, 0.1);
+}
+
+.ability-search-input:focus {
+  outline: none;
+  border-color: #7a3b2e;
+  box-shadow:
+    inset 0 2px 4px rgba(45, 24, 16, 0.1),
+    0 0 8px rgba(122, 59, 46, 0.3);
+}
+
+.ability-search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #7a3b2e;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.ability-search-clear:hover {
+  color: #3a3a3a;
+  background-color: rgba(122, 59, 46, 0.1);
+}
+
+/* ===== PATHFINDER TYPE FILTERS ===== */
+.ability-type-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ability-type-filter {
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  border: 2px solid #a08c70;
+  border-radius: 6px;
+  color: #3a3a3a;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+}
+
+.ability-type-filter:hover {
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
+}
+
+.ability-type-filter.active {
+  background: linear-gradient(135deg, #7a3b2e 0%, #5d2e23 100%);
+  border-color: #3a3a3a;
+  color: #f0e6d2;
+  box-shadow:
+    0 4px 8px rgba(45, 24, 16, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ability-type-filter i {
+  font-size: 12px;
+}
+
+/* ===== PATHFINDER CONTENT AREA ===== */
+.ability-selection-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  width: 100%; /* Take up full width since we removed the preview panel */
+  min-height: 400px; /* Ensure minimum height */
+  /* Enhanced scroll responsiveness */
+  scroll-behavior: auto !important;
+  overscroll-behavior: contain;
+  scroll-padding: 0;
+  will-change: scroll-position;
+  transform: translateZ(0);
+}
+
+/* ===== PATHFINDER SCROLLBAR STYLES ===== */
+.ability-selection-content::-webkit-scrollbar {
+  width: 8px;
+  background: #e6dcc6;
+}
+
+.ability-selection-content::-webkit-scrollbar-thumb {
+  background: #a08c70;
+  border-radius: 4px;
+  border: 1px solid #d5cbb0;
+}
+
+.ability-selection-content::-webkit-scrollbar-thumb:hover {
+  background: #7a3b2e;
+}
+
+/* ===== PATHFINDER FOOTER ===== */
+.ability-selection-footer {
+  padding: 15px;
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-top: 2px solid #a08c70;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  box-shadow:
+    0 -4px 8px rgba(45, 24, 16, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.ability-cancel-button {
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  border: 2px solid #a08c70;
+  border-radius: 6px;
+  color: #3a3a3a;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+}
+
+.ability-cancel-button:hover {
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
+}
+
+/* Loading states */
+.loading-window,
+.loading-library,
+.loading-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Ability preview panel */
+.ability-preview-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 1px solid #444;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s ease;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Preview panel content */
+.ability-preview-content {
+  padding: 15px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.ability-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid #444;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.ability-preview-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #555;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.ability-preview-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ability-icon-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 24px;
+}
+
+.ability-preview-title {
+  flex: 1;
+}
+
+.ability-preview-title h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.ability-preview-type {
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.ability-preview-content {
+  padding: 20px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ability-preview-description {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #bbb;
+}
+
+.ability-preview-effects {
+  margin-bottom: 20px;
+}
+
+.ability-preview-effects h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #ddd;
+  font-weight: 500;
+}
+
+.ability-preview-effects ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ability-preview-effects li {
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border-left: 3px solid #555;
+}
+
+.ability-preview-effects li.effect-type-damage {
+  border-left-color: #c62828;
+}
+
+.ability-preview-effects li.effect-type-healing {
+  border-left-color: #2e7d32;
+}
+
+.ability-preview-effects li.effect-type-condition {
+  border-left-color: #6a1b9a;
+}
+
+.effect-label {
+  font-weight: 500;
+  color: #ddd;
+  margin-right: 8px;
+}
+
+.ability-preview-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+}
+
+.ability-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #000000;
+}
+
+.stat-value {
+  font-size: 14px;
+  color: #ddd;
+  font-weight: 500;
+}

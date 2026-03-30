@@ -1,0 +1,351 @@
+/* Drawing Tools Styles - Professional VTT */
+
+.drawing-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.tool-section {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #a08c70;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.tool-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 6px;
+}
+
+/* Tool Grid */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.drawing-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 60px;
+}
+
+.drawing-tool-btn:hover {
+    background: linear-gradient(to bottom, #f8f5ec, #ece6d9);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.drawing-tool-btn.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.drawing-tool-btn .tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.drawing-tool-btn .tool-name {
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* Setting Groups */
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.setting-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a2a;
+    text-transform: uppercase;
+}
+
+/* Color Picker */
+.color-picker-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.color-input {
+    width: 40px;
+    height: 30px;
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Text styling options */
+.theme-select,
+.font-family-select,
+.font-size-select,
+.background-style-select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    background: #fff;
+    color: #3a3a3a;
+    font-size: 12px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.theme-select:focus,
+.font-family-select:focus,
+.font-size-select:focus,
+.background-style-select:focus {
+    outline: none;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 0 2px rgba(122, 59, 46, 0.2);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #3a3a3a;
+    cursor: pointer;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #7a3b2e;
+    cursor: pointer;
+}
+
+.checkbox-label:hover {
+    color: #7a3b2e;
+}
+
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #a08c70;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.color-swatch.active {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px #d4af37;
+}
+
+/* Stroke Controls */
+.stroke-width-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stroke-slider {
+    flex: 1;
+    height: 6px;
+    background: #a08c70;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.stroke-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #7a3b2e;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.stroke-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7a3b2e;
+    min-width: 30px;
+}
+
+.stroke-preview {
+    margin-top: 8px;
+    padding: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.stroke-line {
+    width: 100%;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+}
+
+/* Fill Controls */
+.fill-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fill-option {
+    padding: 6px 12px;
+    background: #f4f1e8;
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+.fill-option:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+}
+
+.fill-option.active {
+    background: #d4af37;
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+}
+
+/* Opacity Controls */
+.opacity-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.opacity-slider {
+    flex: 1;
+    height: 6px;
+    background: #a08c70;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.opacity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #7a3b2e;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.opacity-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7a3b2e;
+    min-width: 30px;
+}
+
+.opacity-preview {
+    margin-top: 8px;
+    padding: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.opacity-sample {
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+/* Font Controls */
+.font-size-select {
+    padding: 6px;
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    background: #f4f1e8;
+    color: #5a3a2a;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* Scrollbar Styling */
+.drawing-tools::-webkit-scrollbar {
+    width: 6px;
+}
+
+.drawing-tools::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 3px;
+}
+
+.drawing-tools::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 3px;
+}
+
+.drawing-tools::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .color-palette {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

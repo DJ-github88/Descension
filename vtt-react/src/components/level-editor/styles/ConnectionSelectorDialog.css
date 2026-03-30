@@ -1,0 +1,119 @@
+.connection-selector-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: #e6d7ff;
+    font-family: 'Cinzel', serif;
+}
+
+.connection-selector-description {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #c9b037;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.connection-list {
+    flex: 1;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-bottom: 20px;
+}
+
+/* Custom Scrollbar for Connection List */
+.connection-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.connection-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.connection-list::-webkit-scrollbar-thumb {
+    background: rgba(74, 144, 226, 0.4);
+    border-radius: 3px;
+}
+
+.connection-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(74, 144, 226, 0.6);
+}
+
+.connection-item-card {
+    padding: 14px;
+    margin-bottom: 10px;
+    background: rgba(74, 144, 226, 0.05);
+    border: 1px solid rgba(74, 144, 226, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.connection-item-card:hover {
+    background: rgba(74, 144, 226, 0.1);
+    border-color: rgba(74, 144, 226, 0.4);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.connection-item-card.selected {
+    background: rgba(74, 144, 226, 0.15);
+    border: 2px solid #4a90e2;
+    box-shadow:
+        0 0 15px rgba(74, 144, 226, 0.3),
+        inset 0 0 10px rgba(74, 144, 226, 0.1);
+}
+
+.connection-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.connection-item-icon {
+    font-size: 18px;
+    color: #4a90e2;
+    text-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.connection-item-name {
+    font-weight: bold;
+    font-size: 15px;
+    color: #87ceeb;
+}
+
+.connection-item-meta {
+    font-size: 11px;
+    color: #a08c70;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.connection-item-description {
+    font-size: 11px;
+    color: rgba(230, 215, 255, 0.7);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.connection-selector-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.empty-connections-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-style: italic;
+}

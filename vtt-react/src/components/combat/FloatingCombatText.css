@@ -1,0 +1,156 @@
+/* Floating Combat Text Styles */
+
+.floating-combat-text {
+    position: fixed;
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    user-select: none;
+    pointer-events: none;
+    z-index: 10000;
+    transition: all 0.3s ease-out;
+}
+
+/* Animation phases */
+.floating-combat-text.enter {
+    animation: floatUp 2s ease-out forwards;
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.floating-combat-text.exit {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+/* Damage text - red */
+.floating-combat-text.damage {
+    color: #ff4444;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+/* Healing text - green */
+.floating-combat-text.heal {
+    color: #44ff44;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(68, 255, 68, 0.6);
+}
+
+/* Mana text - blue */
+.floating-combat-text.mana {
+    color: #4444ff;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(68, 68, 255, 0.6);
+}
+
+/* Mana loss text - red */
+.floating-combat-text.mana-loss {
+    color: #ff4444;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+/* Action Points text - orange */
+.floating-combat-text.ap {
+    color: #ff8800;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(255, 136, 0, 0.6);
+}
+
+/* Action Points loss text - red */
+.floating-combat-text.ap-loss {
+    color: #ff4444;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 8px rgba(255, 68, 68, 0.6);
+}
+
+/* Animations */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1.2);
+        opacity: 1;
+    }
+    20% {
+        transform: translateY(-20px) scale(1.1);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(-60px) scale(1.0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) scale(0.9);
+        opacity: 0.3;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(0.8);
+    }
+}
+
+/* Critical hit styling */
+.floating-combat-text.critical {
+    font-size: 24px;
+    animation: criticalFloat 2.5s ease-out forwards;
+}
+
+@keyframes criticalFloat {
+    0% {
+        transform: translateY(0) scale(1.5);
+        opacity: 1;
+    }
+    10% {
+        transform: translateY(-10px) scale(1.4);
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(-40px) scale(1.2);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(-80px) scale(1.0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-120px) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* Ineffective text styling */
+.floating-combat-text.ineffective {
+    color: #888888;
+    font-style: italic;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Pathfinder-themed enhancements */
+.floating-combat-text.damage.critical {
+    color: #ff0000;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 12px rgba(255, 0, 0, 0.8),
+        0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.floating-combat-text.heal.critical {
+    color: #00ff00;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 12px rgba(0, 255, 0, 0.8),
+        0 0 20px rgba(0, 255, 0, 0.4);
+}

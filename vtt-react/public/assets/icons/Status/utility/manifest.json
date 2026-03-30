@@ -1,0 +1,481 @@
+{
+  "category": "utility",
+  "count": 95,
+  "icons": [
+    {
+      "filename": "active-effect.png",
+      "name": "Active Effect",
+      "path": "utility/active-effect.png"
+    },
+    {
+      "filename": "active-mechanical.png",
+      "name": "Active Mechanical",
+      "path": "utility/active-mechanical.png"
+    },
+    {
+      "filename": "alert-bell.png",
+      "name": "Alert Bell",
+      "path": "utility/alert-bell.png"
+    },
+    {
+      "filename": "alert-warning.png",
+      "name": "Alert Warning",
+      "path": "utility/alert-warning.png"
+    },
+    {
+      "filename": "backpack-storage.png",
+      "name": "Backpack Storage",
+      "path": "utility/backpack-storage.png"
+    },
+    {
+      "filename": "bottle-flask-potion.png",
+      "name": "Bottle Flask Potion",
+      "path": "utility/bottle-flask-potion.png"
+    },
+    {
+      "filename": "bottle-flask-potion_1.png",
+      "name": "Bottle Flask Potion_1",
+      "path": "utility/bottle-flask-potion_1.png"
+    },
+    {
+      "filename": "bottle-liquid-potion.png",
+      "name": "Bottle Liquid Potion",
+      "path": "utility/bottle-liquid-potion.png"
+    },
+    {
+      "filename": "branching-redirect.png",
+      "name": "Branching Redirect",
+      "path": "utility/branching-redirect.png"
+    },
+    {
+      "filename": "capsule-pill-potion.png",
+      "name": "Capsule Pill Potion",
+      "path": "utility/capsule-pill-potion.png"
+    },
+    {
+      "filename": "chicken-drumstick-food.png",
+      "name": "Chicken Drumstick Food",
+      "path": "utility/chicken-drumstick-food.png"
+    },
+    {
+      "filename": "chicken-drumstick-red-food.png",
+      "name": "Chicken Drumstick Red Food",
+      "path": "utility/chicken-drumstick-red-food.png"
+    },
+    {
+      "filename": "clock-timer-time.png",
+      "name": "Clock Timer Time",
+      "path": "utility/clock-timer-time.png"
+    },
+    {
+      "filename": "clock-timer-time_1.png",
+      "name": "Clock Timer Time_1",
+      "path": "utility/clock-timer-time_1.png"
+    },
+    {
+      "filename": "compass-rose-octagonal-pattern.png",
+      "name": "Compass Rose Octagonal Pattern",
+      "path": "utility/compass-rose-octagonal-pattern.png"
+    },
+    {
+      "filename": "cycle-refresh.png",
+      "name": "Cycle Refresh",
+      "path": "utility/cycle-refresh.png"
+    },
+    {
+      "filename": "diamond-pattern-tile.png",
+      "name": "Diamond Pattern Tile",
+      "path": "utility/diamond-pattern-tile.png"
+    },
+    {
+      "filename": "disguise-mask.png",
+      "name": "Disguise Mask",
+      "path": "utility/disguise-mask.png"
+    },
+    {
+      "filename": "diverging-choice.png",
+      "name": "Diverging Choice",
+      "path": "utility/diverging-choice.png"
+    },
+    {
+      "filename": "division-split.png",
+      "name": "Division Split",
+      "path": "utility/division-split.png"
+    },
+    {
+      "filename": "double-s-exchange-transfer.png",
+      "name": "Double S Exchange Transfer",
+      "path": "utility/double-s-exchange-transfer.png"
+    },
+    {
+      "filename": "empty-frame.png",
+      "name": "Empty Frame",
+      "path": "utility/empty-frame.png"
+    },
+    {
+      "filename": "empty-slot-container.png",
+      "name": "Empty Slot Container",
+      "path": "utility/empty-slot-container.png"
+    },
+    {
+      "filename": "empty-slot-vertical.png",
+      "name": "Empty Slot Vertical",
+      "path": "utility/empty-slot-vertical.png"
+    },
+    {
+      "filename": "envelope-pouch-item.png",
+      "name": "Envelope Pouch Item",
+      "path": "utility/envelope-pouch-item.png"
+    },
+    {
+      "filename": "exclamation-mark-alert.png",
+      "name": "Exclamation Mark Alert",
+      "path": "utility/exclamation-mark-alert.png"
+    },
+    {
+      "filename": "eye-watch-detection.png",
+      "name": "Eye Watch Detection",
+      "path": "utility/eye-watch-detection.png"
+    },
+    {
+      "filename": "flask-glowing-liquid.png",
+      "name": "Flask Glowing Liquid",
+      "path": "utility/flask-glowing-liquid.png"
+    },
+    {
+      "filename": "forking-path.png",
+      "name": "Forking Path",
+      "path": "utility/forking-path.png"
+    },
+    {
+      "filename": "four-pizza-slices-food.png",
+      "name": "Four Pizza Slices Food",
+      "path": "utility/four-pizza-slices-food.png"
+    },
+    {
+      "filename": "gear-cog-turns.png",
+      "name": "Gear Cog Turns",
+      "path": "utility/gear-cog-turns.png"
+    },
+    {
+      "filename": "gift-box-reward.png",
+      "name": "Gift Box Reward",
+      "path": "utility/gift-box-reward.png"
+    },
+    {
+      "filename": "glasses-goggles-vision.png",
+      "name": "Glasses Goggles Vision",
+      "path": "utility/glasses-goggles-vision.png"
+    },
+    {
+      "filename": "glowing-diamond-focus.png",
+      "name": "Glowing Diamond Focus",
+      "path": "utility/glowing-diamond-focus.png"
+    },
+    {
+      "filename": "glowing-eye-detection.png",
+      "name": "Glowing Eye Detection",
+      "path": "utility/glowing-eye-detection.png"
+    },
+    {
+      "filename": "glowing-eye-orb.png",
+      "name": "Glowing Eye Orb",
+      "path": "utility/glowing-eye-orb.png"
+    },
+    {
+      "filename": "glowing-key-unlock.png",
+      "name": "Glowing Key Unlock",
+      "path": "utility/glowing-key-unlock.png"
+    },
+    {
+      "filename": "glowing-t-shirt-clothing.png",
+      "name": "Glowing T Shirt Clothing",
+      "path": "utility/glowing-t-shirt-clothing.png"
+    },
+    {
+      "filename": "grid-lattice-structure.png",
+      "name": "Grid Lattice Structure",
+      "path": "utility/grid-lattice-structure.png"
+    },
+    {
+      "filename": "hamburger-food.png",
+      "name": "Hamburger Food",
+      "path": "utility/hamburger-food.png"
+    },
+    {
+      "filename": "hand-reaching-grasping.png",
+      "name": "Hand Reaching Grasping",
+      "path": "utility/hand-reaching-grasping.png"
+    },
+    {
+      "filename": "hashtag-cross-symbol-utility.png",
+      "name": "Hashtag Cross Symbol Utility",
+      "path": "utility/hashtag-cross-symbol-utility.png"
+    },
+    {
+      "filename": "hashtag-symbol-utility.png",
+      "name": "Hashtag Symbol Utility",
+      "path": "utility/hashtag-symbol-utility.png"
+    },
+    {
+      "filename": "heart-locket-potion-glow.png",
+      "name": "Heart Locket Potion Glow",
+      "path": "utility/heart-locket-potion-glow.png"
+    },
+    {
+      "filename": "hooded-cloak-stealth.png",
+      "name": "Hooded Cloak Stealth",
+      "path": "utility/hooded-cloak-stealth.png"
+    },
+    {
+      "filename": "hooded-figure-cloak.png",
+      "name": "Hooded Figure Cloak",
+      "path": "utility/hooded-figure-cloak.png"
+    },
+    {
+      "filename": "hourglass-contained-time.png",
+      "name": "Hourglass Contained Time",
+      "path": "utility/hourglass-contained-time.png"
+    },
+    {
+      "filename": "hourglass-flowing-sand.png",
+      "name": "Hourglass Flowing Sand",
+      "path": "utility/hourglass-flowing-sand.png"
+    },
+    {
+      "filename": "hourglass-time-duration.png",
+      "name": "Hourglass Time Duration",
+      "path": "utility/hourglass-time-duration.png"
+    },
+    {
+      "filename": "hourglass-time-duration_1.png",
+      "name": "Hourglass Time Duration_1",
+      "path": "utility/hourglass-time-duration_1.png"
+    },
+    {
+      "filename": "hourglass-timer.png",
+      "name": "Hourglass Timer",
+      "path": "utility/hourglass-timer.png"
+    },
+    {
+      "filename": "infinity-endless.png",
+      "name": "Infinity Endless",
+      "path": "utility/infinity-endless.png"
+    },
+    {
+      "filename": "infinity-persistent.png",
+      "name": "Infinity Persistent",
+      "path": "utility/infinity-persistent.png"
+    },
+    {
+      "filename": "key-jagged-bit-unlock.png",
+      "name": "Key Jagged Bit Unlock",
+      "path": "utility/key-jagged-bit-unlock.png"
+    },
+    {
+      "filename": "key-maze-border-unlock.png",
+      "name": "Key Maze Border Unlock",
+      "path": "utility/key-maze-border-unlock.png"
+    },
+    {
+      "filename": "key-sword-utility.png",
+      "name": "Key Sword Utility",
+      "path": "utility/key-sword-utility.png"
+    },
+    {
+      "filename": "letter-a-attribute.png",
+      "name": "Letter A Attribute",
+      "path": "utility/letter-a-attribute.png"
+    },
+    {
+      "filename": "letter-c-currency.png",
+      "name": "Letter C Currency",
+      "path": "utility/letter-c-currency.png"
+    },
+    {
+      "filename": "letter-c-currency_1.png",
+      "name": "Letter C Currency_1",
+      "path": "utility/letter-c-currency_1.png"
+    },
+    {
+      "filename": "letter-g-glow-utility.png",
+      "name": "Letter G Glow Utility",
+      "path": "utility/letter-g-glow-utility.png"
+    },
+    {
+      "filename": "letter-g-z-inside.png",
+      "name": "Letter G Z Inside",
+      "path": "utility/letter-g-z-inside.png"
+    },
+    {
+      "filename": "letter-l-utility.png",
+      "name": "Letter L Utility",
+      "path": "utility/letter-l-utility.png"
+    },
+    {
+      "filename": "letter-m-suspenders-shape.png",
+      "name": "Letter M Suspenders Shape",
+      "path": "utility/letter-m-suspenders-shape.png"
+    },
+    {
+      "filename": "letter-q-glow-utility.png",
+      "name": "Letter Q Glow Utility",
+      "path": "utility/letter-q-glow-utility.png"
+    },
+    {
+      "filename": "loot-pouch.png",
+      "name": "Loot Pouch",
+      "path": "utility/loot-pouch.png"
+    },
+    {
+      "filename": "masked-face.png",
+      "name": "Masked Face",
+      "path": "utility/masked-face.png"
+    },
+    {
+      "filename": "money-bag-currency.png",
+      "name": "Money Bag Currency",
+      "path": "utility/money-bag-currency.png"
+    },
+    {
+      "filename": "mug-cup-drink.png",
+      "name": "Mug Cup Drink",
+      "path": "utility/mug-cup-drink.png"
+    },
+    {
+      "filename": "mug-glow-potion.png",
+      "name": "Mug Glow Potion",
+      "path": "utility/mug-glow-potion.png"
+    },
+    {
+      "filename": "mug-tankard-potion.png",
+      "name": "Mug Tankard Potion",
+      "path": "utility/mug-tankard-potion.png"
+    },
+    {
+      "filename": "multiple-eyes-detection.png",
+      "name": "Multiple Eyes Detection",
+      "path": "utility/multiple-eyes-detection.png"
+    },
+    {
+      "filename": "multiple-shapes-grid-utility.png",
+      "name": "Multiple Shapes Grid Utility",
+      "path": "utility/multiple-shapes-grid-utility.png"
+    },
+    {
+      "filename": "number-eight-countdown.png",
+      "name": "Number Eight Countdown",
+      "path": "utility/number-eight-countdown.png"
+    },
+    {
+      "filename": "paperclip-utility.png",
+      "name": "Paperclip Utility",
+      "path": "utility/paperclip-utility.png"
+    },
+    {
+      "filename": "parchment-scroll-fiery.png",
+      "name": "Parchment Scroll Fiery",
+      "path": "utility/parchment-scroll-fiery.png"
+    },
+    {
+      "filename": "partial-cycle.png",
+      "name": "Partial Cycle",
+      "path": "utility/partial-cycle.png"
+    },
+    {
+      "filename": "paw-print-animal.png",
+      "name": "Paw Print Animal",
+      "path": "utility/paw-print-animal.png"
+    },
+    {
+      "filename": "paw-print-glowing.png",
+      "name": "Paw Print Glowing",
+      "path": "utility/paw-print-glowing.png"
+    },
+    {
+      "filename": "pickaxe-mining-utility.png",
+      "name": "Pickaxe Mining Utility",
+      "path": "utility/pickaxe-mining-utility.png"
+    },
+    {
+      "filename": "potion-bottle-glowing.png",
+      "name": "Potion Bottle Glowing",
+      "path": "utility/potion-bottle-glowing.png"
+    },
+    {
+      "filename": "potion-bottle-red-liquid.png",
+      "name": "Potion Bottle Red Liquid",
+      "path": "utility/potion-bottle-red-liquid.png"
+    },
+    {
+      "filename": "power-symbol-on-off.png",
+      "name": "Power Symbol On Off",
+      "path": "utility/power-symbol-on-off.png"
+    },
+    {
+      "filename": "random-dice.png",
+      "name": "Random Dice",
+      "path": "utility/random-dice.png"
+    },
+    {
+      "filename": "recharge-cycle.png",
+      "name": "Recharge Cycle",
+      "path": "utility/recharge-cycle.png"
+    },
+    {
+      "filename": "sequence-delay.png",
+      "name": "Sequence Delay",
+      "path": "utility/sequence-delay.png"
+    },
+    {
+      "filename": "sound-waves.png",
+      "name": "Sound Waves",
+      "path": "utility/sound-waves.png"
+    },
+    {
+      "filename": "speaker-volume-sound.png",
+      "name": "Speaker Volume Sound",
+      "path": "utility/speaker-volume-sound.png"
+    },
+    {
+      "filename": "stylized-letter-g-utility.png",
+      "name": "Stylized Letter G Utility",
+      "path": "utility/stylized-letter-g-utility.png"
+    },
+    {
+      "filename": "swap-exchange.png",
+      "name": "Swap Exchange",
+      "path": "utility/swap-exchange.png"
+    },
+    {
+      "filename": "t-shirt-clothing.png",
+      "name": "T Shirt Clothing",
+      "path": "utility/t-shirt-clothing.png"
+    },
+    {
+      "filename": "t-shirt-framed-clothing.png",
+      "name": "T Shirt Framed Clothing",
+      "path": "utility/t-shirt-framed-clothing.png"
+    },
+    {
+      "filename": "t-shirt-vertical-seam.png",
+      "name": "T Shirt Vertical Seam",
+      "path": "utility/t-shirt-vertical-seam.png"
+    },
+    {
+      "filename": "three-octagons-group.png",
+      "name": "Three Octagons Group",
+      "path": "utility/three-octagons-group.png"
+    },
+    {
+      "filename": "wavy-line-m-shape-utility.png",
+      "name": "Wavy Line M Shape Utility",
+      "path": "utility/wavy-line-m-shape-utility.png"
+    },
+    {
+      "filename": "wrench-tools-utility.png",
+      "name": "Wrench Tools Utility",
+      "path": "utility/wrench-tools-utility.png"
+    }
+  ]
+}

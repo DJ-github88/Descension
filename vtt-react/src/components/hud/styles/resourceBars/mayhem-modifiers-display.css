@@ -1,0 +1,1445 @@
+/* ===== MAYHEM MODIFIERS DISPLAY (CHAOS WEAVER) ===== */
+.mayhem-modifiers-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 8px;
+    min-height: 140px;
+}
+
+.mayhem-modifiers-display.small {
+    min-height: auto;
+    padding: 4px;
+}
+
+/* Party member frame specific styling - ensure it fits in resource-bars-container */
+.party-member-frame .mayhem-modifiers-display {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 2px !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.party-member-frame .mayhem-modifiers-display.small {
+    padding: 2px !important;
+}
+
+.party-member-frame .mayhem-bar-wrapper {
+    width: 100% !important;
+    gap: 4px !important;
+}
+
+.party-member-frame .mayhem-bar-container-hud {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.party-member-frame .mayhem-bar-background {
+    height: 10px !important;
+}
+
+.party-member-frame .mayhem-bar-text {
+    font-size: 9px !important;
+}
+
+.party-member-frame .mayhem-controls-hud {
+    gap: 2px !important;
+}
+
+.party-member-frame .mayhem-btn {
+    min-width: 18px !important;
+    height: 18px !important;
+    font-size: 8px !important;
+    padding: 1px 3px !important;
+}
+
+.mayhem-modifiers-display.normal {
+    min-height: auto;
+    padding: 8px;
+    height: auto;
+}
+
+.mayhem-modifiers-display.normal .mayhem-bar-background {
+    height: 40px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.mayhem-modifiers-display.large {
+    min-height: auto;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HUD version - matches HP/Mana/AP bar styling */
+.mayhem-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: row; /* Controls on the left */
+}
+
+.mayhem-bar-container-hud {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mayhem-bar-background {
+    position: relative;
+    width: 100%;
+    height: 20px; /* Thinner to fit HUD properly */
+    background: linear-gradient(180deg, rgba(30, 15, 30, 0.8), rgba(20, 10, 25, 0.9));
+    border: 1px solid rgba(147, 51, 234, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.mayhem-bar-fill-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(147, 51, 234, 0.7) 0%,
+        rgba(217, 70, 239, 0.8) 50%,
+        rgba(147, 51, 234, 0.7) 100%
+    );
+    background-size: 200% 100%;
+    transition: width 0.3s ease;
+    animation: chaosShiftHUD 3s linear infinite;
+}
+
+@keyframes chaosShiftHUD {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.mayhem-bar-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Cinzel', serif;
+    color: #f8f4e6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.mayhem-modifiers-display.normal .mayhem-bar-text {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Mayhem Controls (HUD) */
+.mayhem-controls-hud {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.mayhem-btn {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid rgba(147, 51, 234, 0.5);
+    border-radius: 3px;
+    color: #D946EF;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 9px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.mayhem-btn:hover {
+    background: rgba(147, 51, 234, 0.4);
+    border-color: rgba(147, 51, 234, 0.7);
+}
+
+.mayhem-btn:active {
+    transform: scale(0.92);
+}
+
+.mayhem-btn.mayhem-menu-btn {
+    color: #D946EF;
+}
+
+
+/* Full display - clean bar container */
+.mayhem-bar-container {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mayhem-modifiers-display.large .mayhem-bar-container {
+    height: 60px;
+}
+
+/* Main modifier bar - chaotic design */
+.mayhem-modifier-bar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(135deg, rgba(74, 14, 78, 0.4) 0%, rgba(88, 28, 135, 0.3) 50%, rgba(74, 14, 78, 0.4) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(147, 51, 234, 0.05) 10px, rgba(147, 51, 234, 0.05) 20px);
+    border: 2px solid rgba(147, 51, 234, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow:
+        0 0 10px rgba(147, 51, 234, 0.3),
+        inset 0 0 20px rgba(74, 14, 78, 0.5);
+    animation: barPulse 3s ease-in-out infinite;
+}
+
+.mayhem-modifier-bar:hover {
+    background:
+        linear-gradient(135deg, rgba(74, 14, 78, 0.5) 0%, rgba(88, 28, 135, 0.4) 50%, rgba(74, 14, 78, 0.5) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(147, 51, 234, 0.08) 10px, rgba(147, 51, 234, 0.08) 20px);
+    border-color: rgba(147, 51, 234, 0.8);
+    box-shadow:
+        0 0 15px rgba(147, 51, 234, 0.5),
+        inset 0 0 20px rgba(74, 14, 78, 0.5);
+}
+
+@keyframes barPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 10px rgba(147, 51, 234, 0.3),
+            inset 0 0 20px rgba(74, 14, 78, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 15px rgba(147, 51, 234, 0.5),
+            inset 0 0 25px rgba(74, 14, 78, 0.6);
+    }
+}
+
+/* Filled portion of the bar - chaotic animated gradient */
+.mayhem-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(147, 51, 234, 0.7) 0%,
+        rgba(217, 70, 239, 0.8) 25%,
+        rgba(168, 85, 247, 0.7) 50%,
+        rgba(217, 70, 239, 0.8) 75%,
+        rgba(147, 51, 234, 0.7) 100%
+    );
+    background-size: 200% 100%;
+    transition: width 0.3s ease;
+    border-radius: 10px 0 0 10px;
+    animation: chaosShift 4s linear infinite;
+}
+
+@keyframes chaosShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* Chaotic energy particles */
+.mayhem-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.mayhem-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #D946EF;
+    box-shadow: 0 0 8px rgba(217, 70, 239, 0.8);
+    animation: particleFloat 3s ease-in-out infinite;
+    opacity: 0;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+}
+
+/* Individual modifier segments overlay with jagged effect */
+.mayhem-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    pointer-events: none;
+}
+
+.mayhem-segment {
+    flex: 1;
+    border-right: 2px solid rgba(147, 51, 234, 0.2);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.mayhem-segment:last-child {
+    border-right: none;
+}
+
+.mayhem-segment.active {
+    border-color: rgba(217, 70, 239, 0.6);
+    animation: segmentFlicker 2s ease-in-out infinite;
+}
+
+@keyframes segmentFlicker {
+    0%, 100% {
+        border-color: rgba(217, 70, 239, 0.6);
+    }
+    50% {
+        border-color: rgba(217, 70, 239, 0.3);
+    }
+}
+
+/* Chaotic glitch overlay */
+.mayhem-glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(217, 70, 239, 0.1) 50%,
+        transparent 100%
+    );
+    background-size: 50% 100%;
+    animation: glitchSweep 5s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+@keyframes glitchSweep {
+    0% {
+        background-position: -100% 0;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 200% 0;
+        opacity: 0;
+    }
+}
+
+/* Count display in center - chaotic styling */
+.mayhem-count-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #FFF;
+    text-shadow:
+        0 0 6px rgba(217, 70, 239, 1),
+        0 0 12px rgba(147, 51, 234, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.9);
+    z-index: 2;
+    pointer-events: none;
+    animation: textGlitch 4s ease-in-out infinite;
+}
+
+@keyframes textGlitch {
+    0%, 90%, 100% {
+        text-shadow:
+            0 0 6px rgba(217, 70, 239, 1),
+            0 0 12px rgba(147, 51, 234, 0.8),
+            0 2px 4px rgba(0, 0, 0, 0.9);
+    }
+    92%, 94%, 96% {
+        text-shadow:
+            -2px 0 6px rgba(217, 70, 239, 1),
+            2px 0 12px rgba(147, 51, 234, 0.8),
+            0 2px 4px rgba(0, 0, 0, 0.9);
+    }
+}
+
+.mayhem-icon {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(217, 70, 239, 0.8));
+    animation: iconSpin 8s linear infinite;
+}
+
+@keyframes iconSpin {
+    0%, 95% {
+        transform: rotate(0deg);
+    }
+    96%, 98% {
+        transform: rotate(15deg);
+    }
+    97%, 99% {
+        transform: rotate(-15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.mayhem-modifiers-display.large .mayhem-icon {
+    font-size: 24px;
+}
+
+.mayhem-count {
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.mayhem-modifiers-display.large .mayhem-count {
+    font-size: 18px;
+}
+
+/* Old container styles - keeping for backwards compatibility */
+.mayhem-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 10px 10px;
+}
+
+/* Background dice pattern */
+.dice-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.background-die {
+    position: absolute;
+    font-size: 14px;
+    color: #9333EA;
+    font-weight: 700;
+    animation: diceFloat 4s ease-in-out infinite;
+}
+
+@keyframes diceFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.1;
+    }
+    50% {
+        transform: translateY(-10px) rotate(180deg);
+        opacity: 0.2;
+    }
+}
+
+/* Central vortex container */
+.vortex-center-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.mayhem-modifiers-display.large .vortex-center-container {
+    width: 100px;
+    height: 100px;
+}
+
+/* Main chaos vortex */
+.chaos-vortex-main {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%,
+        rgba(217, 70, 239, 0.8) 0%,
+        rgba(147, 51, 234, 0.6) 40%,
+        rgba(124, 58, 237, 0.4) 70%,
+        rgba(74, 14, 78, 0.8) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: vortexSpin 3s linear infinite;
+    transition: all 0.5s ease;
+    border: 2px solid rgba(217, 70, 239, 0.6);
+}
+
+.mayhem-modifiers-display.large .chaos-vortex-main {
+    width: 80px;
+    height: 80px;
+}
+
+@keyframes vortexSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes vortexPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 4px rgba(217, 70, 239, 0.4));
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.8));
+    }
+}
+
+/* Vortex inner content */
+.vortex-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.vortex-icon {
+    font-size: 24px;
+    animation: vortexPulse 2s ease-in-out infinite;
+}
+
+.mayhem-modifiers-display.large .vortex-icon {
+    font-size: 32px;
+}
+
+.vortex-count {
+    position: absolute;
+    bottom: -8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFF;
+    text-shadow:
+        0 0 4px rgba(217, 70, 239, 0.8),
+        0 0 8px rgba(147, 51, 234, 0.6),
+        0 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'Cinzel', serif;
+}
+
+.mayhem-modifiers-display.large .vortex-count {
+    font-size: 18px;
+    bottom: -12px;
+}
+
+/* Chaos particles orbiting the vortex */
+.chaos-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.chaos-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #D946EF;
+    box-shadow: 0 0 6px rgba(217, 70, 239, 0.8);
+    animation: particleOrbit 3s linear infinite;
+}
+
+.chaos-particle:nth-child(1) { animation-delay: 0s; }
+.chaos-particle:nth-child(2) { animation-delay: 0.5s; }
+.chaos-particle:nth-child(3) { animation-delay: 1s; }
+.chaos-particle:nth-child(4) { animation-delay: 1.5s; }
+.chaos-particle:nth-child(5) { animation-delay: 2s; }
+.chaos-particle:nth-child(6) { animation-delay: 2.5s; }
+
+@keyframes particleOrbit {
+    0% {
+        transform: rotate(0deg) translateX(35px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) translateX(35px) rotate(-360deg);
+        opacity: 0;
+    }
+}
+
+/* Modifier tokens - horizontal row display */
+.modifier-tokens-container {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.modifier-tokens-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 400px;
+    justify-content: center;
+}
+
+.modifier-token {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(147, 51, 234, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: help;
+    position: relative;
+}
+
+.mayhem-modifiers-display.large .modifier-token {
+    width: 18px;
+    height: 18px;
+}
+
+.modifier-token.active {
+    animation: tokenPulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(124, 58, 237, 0.6));
+    border-color: rgba(217, 70, 239, 0.6);
+}
+
+.modifier-token.inactive {
+    background: rgba(74, 14, 78, 0.2);
+    border-color: rgba(147, 51, 234, 0.2);
+}
+
+.modifier-token:hover {
+    transform: scale(1.15);
+    z-index: 10;
+}
+
+@keyframes tokenPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.token-rune {
+    font-size: 10px;
+    color: #FFF;
+    text-shadow: 0 0 4px rgba(217, 70, 239, 0.8);
+    animation: runeGlow 1.5s ease-in-out infinite;
+}
+
+.mayhem-modifiers-display.large .token-rune {
+    font-size: 12px;
+}
+
+@keyframes runeGlow {
+    0%, 100% {
+        opacity: 0.8;
+        text-shadow: 0 0 4px rgba(217, 70, 239, 0.6);
+    }
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(217, 70, 239, 1);
+    }
+}
+
+/* Mayhem label */
+.mayhem-label {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: #9333EA;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 0 4px rgba(147, 51, 234, 0.4);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.mayhem-modifiers-display.large .mayhem-label {
+    font-size: 13px;
+}
+
+/* Specialization color variations */
+.mayhem-modifiers-display[data-spec="reality-bending"] .chaos-vortex-main {
+    background: radial-gradient(circle at 30% 30%,
+        rgba(155, 89, 182, 0.8) 0%,
+        rgba(142, 68, 173, 0.6) 40%,
+        rgba(125, 60, 152, 0.4) 70%,
+        rgba(74, 14, 78, 0.8) 100%
+    );
+    border-color: rgba(155, 89, 182, 0.6);
+}
+
+.mayhem-modifiers-display[data-spec="entropy-weaver"] .chaos-vortex-main {
+    background: radial-gradient(circle at 30% 30%,
+        rgba(233, 30, 99, 0.8) 0%,
+        rgba(216, 27, 96, 0.6) 40%,
+        rgba(194, 24, 91, 0.4) 70%,
+        rgba(74, 14, 78, 0.8) 100%
+    );
+    border-color: rgba(233, 30, 99, 0.6);
+}
+
+.mayhem-modifiers-display[data-spec="pandemonium"] .chaos-vortex-main {
+    background: radial-gradient(circle at 30% 30%,
+        rgba(194, 24, 91, 0.8) 0%,
+        rgba(173, 20, 87, 0.6) 40%,
+        rgba(136, 14, 79, 0.4) 70%,
+        rgba(74, 14, 78, 0.8) 100%
+    );
+    border-color: rgba(194, 24, 91, 0.6);
+}
+
+/* Mayhem Modifier Controls */
+.mayhem-controls {
+    position: absolute;
+    top: 50%;
+    right: -50px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.mayhem-control-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.9), rgba(124, 58, 237, 0.9));
+    border: 2px solid rgba(217, 70, 239, 0.6);
+    color: #FFF;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.4);
+}
+
+.mayhem-control-btn:hover {
+    background: linear-gradient(135deg, rgba(217, 70, 239, 0.9), rgba(147, 51, 234, 0.9));
+    box-shadow: 0 4px 12px rgba(217, 70, 239, 0.6);
+    transform: scale(1.05);
+}
+
+.mayhem-control-btn:active {
+    transform: scale(0.95);
+}
+
+
+/* Card Deck Display (Fate Weaver) */
+.card-deck {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.deck-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.deck-stack {
+    position: relative;
+    width: 20px;
+    height: 16px;
+    background: rgba(47, 79, 79, 0.8);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck-icon {
+    font-size: 10px;
+}
+
+.deck-count {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 7px;
+    padding: 1px 2px;
+    border-radius: 2px;
+}
+
+.hand-display {
+    display: flex;
+    gap: 1px;
+}
+
+.card-in-hand {
+    font-size: 8px;
+    opacity: 0.9;
+}
+
+/* Casino Display (Gambler) */
+.casino-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.casino-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.luck-meter, .risk-meter {
+    position: relative;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.luck-meter .meter-fill, .risk-meter .meter-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 3px;
+}
+
+.luck-meter .meter-label, .risk-meter .meter-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.casino-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+/* Stigmata Display (Martyr) */
+.stigmata-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.stigmata-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.holy-symbol {
+    font-size: 14px;
+    color: #FFD700;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+}
+
+.pain-charges {
+    display: flex;
+    gap: 2px;
+}
+
+.pain-charge {
+    font-size: 10px;
+    animation: holyGlow 2s infinite;
+}
+
+@keyframes holyGlow {
+    0%, 100% { text-shadow: 0 0 2px currentColor; }
+    50% { text-shadow: 0 0 6px currentColor; }
+}
+
+/* Resource Labels */
+.resource-label {
+    font-size: 8px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    line-height: 1;
+}
+
+/* Tooltip Styles */
+.class-resource-tooltip {
+    background: linear-gradient(135deg, rgba(245, 238, 220, 0.98), rgba(235, 228, 210, 0.96));
+    border: 2px solid #9B8365;
+    border-radius: 6px;
+    padding: 10px 12px;
+    max-width: 250px;
+    font-family: 'Crimson Text', serif;
+    color: #000000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.class-resource-tooltip .tooltip-header {
+    display: inline;
+    font-weight: 600;
+    font-size: 11px;
+    color: #000000;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    border-bottom: none !important;
+    text-align: left !important;
+}
+
+.class-resource-tooltip .tooltip-icon {
+    font-size: 11px;
+    margin-right: 4px;
+}
+
+.class-resource-tooltip .tooltip-title {
+    color: #000000;
+    font-weight: 600;
+}
+
+.class-resource-tooltip .tooltip-description {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #000000;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    font-style: normal !important;
+}
+
+.tooltip-stage-info {
+    margin-top: 8px;
+}
+
+.stage-name {
+    font-weight: 600;
+    color: #7a3b2e;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.stage-bonuses, .stage-drawbacks {
+    font-size: 10px;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.stage-bonuses strong, .stage-drawbacks strong {
+    font-weight: 600;
+}
+
+.stage-bonuses ul, .stage-drawbacks ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.stage-bonuses li {
+    color: #2d5a2d;
+    margin-bottom: 1px;
+}
+
+.stage-bonuses li:before {
+    content: "• ";
+    margin-right: 4px;
+}
+
+.stage-drawbacks li {
+    color: #8b2635;
+    margin-bottom: 1px;
+}
+
+.stage-drawbacks li:before {
+    content: "• ";
+    margin-right: 4px;
+}
+
+.tooltip-thresholds {
+    font-size: 10px;
+    line-height: 1.4;
+    margin-top: 6px;
+}
+
+.tooltip-thresholds strong {
+    font-weight: 600;
+}
+
+.threshold-info {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1px;
+}
+
+.threshold-info.achieved {
+    color: #2d5a2d;
+    font-weight: 600;
+}
+
+/* Arcanoneer Tooltip Specific Styles */
+.arcanoneer-tooltip {
+    max-width: 260px;
+}
+
+.tooltip-sphere-count {
+    font-size: 11px;
+    color: #4a3020;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139, 115, 85, 0.2);
+    font-style: italic;
+}
+
+.tooltip-sphere-count strong {
+    color: #5a3825;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.threshold-info.pending {
+    color: #666;
+}
+
+.threshold-value {
+    font-weight: bold;
+    min-width: 20px;
+}
+
+/* Size Variations */
+.class-resource-bar.small .resource-label {
+    font-size: 7px;
+}
+
+.class-resource-bar.large .resource-label {
+    font-size: 9px;
+}
+
+.class-resource-bar.small .orb {
+    width: 10px;
+    height: 10px;
+    font-size: 7px;
+}
+
+.class-resource-bar.large .orb {
+    width: 14px;
+    height: 14px;
+    font-size: 9px;
+}
+
+/* Corrupted Halo Display (False Prophet) */
+.corrupted-halo {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.halo-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.corrupted-symbol {
+    font-size: 14px;
+    animation: corruptPulse 3s infinite;
+}
+
+.heresy-points {
+    display: flex;
+    gap: 2px;
+}
+
+.heresy-point {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: darkGlow 2s infinite;
+}
+
+@keyframes corruptPulse {
+    0%, 100% { transform: scale(1); filter: hue-rotate(0deg); }
+    50% { transform: scale(1.1); filter: hue-rotate(180deg); }
+}
+
+@keyframes darkGlow {
+    0%, 100% { box-shadow: 0 0 2px currentColor; }
+    50% { box-shadow: 0 0 6px currentColor; }
+}
+
+/* Medallion Display (Exorcist) */
+.medallion-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.medallion-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.holy-medallion {
+    font-size: 14px;
+    color: #FFD700;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+    animation: divineGlow 2.5s infinite;
+}
+
+.spirit-gems {
+    display: flex;
+    gap: 2px;
+}
+
+.spirit-gem {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.spirit-gem.charged {
+    animation: gemPulse 1.5s infinite;
+}
+
+@keyframes divineGlow {
+    0%, 100% { text-shadow: 0 0 6px rgba(255, 215, 0, 0.8); }
+    50% { text-shadow: 0 0 12px rgba(255, 215, 0, 1); }
+}
+
+@keyframes gemPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Vials Display (Plaguebringer, Toxicologist) */
+.vials-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.vials-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+}
+
+.vial {
+    width: 10px;
+    height: 14px;
+    border-radius: 2px 2px 4px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    transition: all 0.3s ease;
+}
+
+.vial.filled {
+    animation: bubbleEffect 2s infinite;
+}
+
+@keyframes bubbleEffect {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.05); }
+    75% { transform: scale(0.95); }
+}
+
+/* Phylactery Display (Lichborne) */
+.phylactery-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.phylactery-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.phylactery-core {
+    font-size: 16px;
+    color: #9370DB;
+    text-shadow: 0 0 8px rgba(147, 112, 219, 0.8);
+    animation: necroticPulse 3s infinite;
+}
+
+.soul-wisps {
+    display: flex;
+    gap: 3px;
+}
+
+.soul-wisp {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: wispFloat 2s ease-in-out infinite;
+}
+
+@keyframes necroticPulse {
+    0%, 100% { text-shadow: 0 0 8px rgba(147, 112, 219, 0.8); }
+    50% { text-shadow: 0 0 16px rgba(147, 112, 219, 1); }
+}
+
+@keyframes wispFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-3px) scale(1.1); opacity: 1; }
+}
+
+/* Scythe Display (Deathcaller) */
+.scythe-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.scythe-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.death-scythe {
+    font-size: 16px;
+    color: #8A2BE2;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.8);
+    animation: scytheGlow 2.5s infinite;
+}
+
+.soul-orbs {
+    display: flex;
+    gap: 2px;
+}
+
+.soul-orb {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: soulPulse 1.8s infinite;
+}
+
+@keyframes scytheGlow {
+    0%, 100% { text-shadow: 0 0 8px rgba(138, 43, 226, 0.8); }
+    50% { text-shadow: 0 0 16px rgba(138, 43, 226, 1); }
+}
+
+@keyframes soulPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Additional Resource Types */
+.shield-display, .runic-circle, .cannon-chamber, .voodoo-mask, .shapeshifter, .totem,
+.rage-meter, .fortress-shield, .gravity-meter, .bandolier, .witch-hunter, .elegant-blade,
+.moon-dial, .crosshair, .barrier-generator {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+/* Generic container styles for complex displays */
+.resource-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.resource-icon {
+    font-size: 14px;
+    text-shadow: 0 0 6px currentColor;
+}
+
+.resource-elements {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.resource-element {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.resource-element.active {
+    animation: elementPulse 1.5s infinite;
+}
+
+@keyframes elementPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Chaotic Wave Animation for Chaos Weaver */
+@keyframes chaoticWave {
+    0% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+    25% {
+        background-position: 100% 30%;
+        filter: hue-rotate(15deg);
+    }
+    50% {
+        background-position: 200% 70%;
+        filter: hue-rotate(-10deg);
+    }
+    75% {
+        background-position: 300% 20%;
+        filter: hue-rotate(25deg);
+    }
+    100% {
+        background-position: 400% 50%;
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* Apply chaotic wave effect to Chaos Weaver bars - Maximum specificity */
+.class-resource-bar.progress-bar .bar-fill[data-effect="chaotic-wave"],
+.class-resource-bar.progress-bar .bar-fill.chaotic-wave-bar,
+.progress-bar .bar-fill[data-effect="chaotic-wave"],
+.progress-bar .bar-fill.chaotic-wave-bar,
+.character-card-compact .class-resource-bar .bar-fill[data-effect="chaotic-wave"],
+.character-card-compact .class-resource-bar .bar-fill.chaotic-wave-bar {
+    background: linear-gradient(45deg,
+        #1E3A8A 0%,
+        #3B82F6 25%,
+        #1E40AF 50%,
+        #2563EB 75%,
+        #1E3A8A 100%) !important;
+    background-size: 400% 400% !important;
+    animation: chaoticWave 3s ease-in-out infinite !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+    border: none !important;
+}
+
+/* Nuclear option - override ALL bar-fill elements with blue if they have chaotic-wave */
+div[data-effect="chaotic-wave"],
+.chaotic-wave-bar,
+*[data-effect="chaotic-wave"] {
+    background: #1E3A8A !important;
+    background-image: linear-gradient(45deg,
+        #1E3A8A 0%,
+        #3B82F6 25%,
+        #1E40AF 50%,
+        #2563EB 75%,
+        #1E3A8A 100%) !important;
+    background-size: 400% 400% !important;
+    animation: chaoticWave 3s ease-in-out infinite !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+}

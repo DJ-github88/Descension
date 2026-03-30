@@ -1,0 +1,187 @@
+.class-resource-bar.stance-flow {
+    background: transparent;
+    border: none;
+    height: auto;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.stance-flow-compact {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 24px;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.35);
+    border-radius: 25px;
+    overflow: visible;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Momentum Bar (Left Side) */
+.momentum-bar-left {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(26, 77, 109, 0.15) 0%, rgba(26, 77, 109, 0.08) 50%, transparent 100%);
+    border: 1px solid rgba(79, 195, 247, 0.3);
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.momentum-bar-left:hover {
+    background: linear-gradient(90deg, rgba(26, 77, 109, 0.25) 0%, rgba(26, 77, 109, 0.15) 50%, transparent 100%);
+    border-color: rgba(79, 195, 247, 0.5);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(79, 195, 247, 0.3);
+}
+
+.momentum-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 20px 0 0 20px;
+}
+
+.resource-value-left {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+/* Flourish Bar (Right Side) */
+.flourish-bar-right {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.08) 50%, rgba(66, 66, 66, 0.15) 100%);
+    border: 1px solid rgba(46, 125, 50, 0.3);
+    border-radius: 0 20px 20px 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.flourish-bar-right:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.15) 50%, rgba(66, 66, 66, 0.25) 100%);
+    border-color: rgba(46, 125, 50, 0.5);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(46, 125, 50, 0.3);
+}
+
+.flourish-fill {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 0 20px 20px 0;
+}
+
+.resource-value-right {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+/* Stance Icon (Center) */
+.stance-icon-center {
+    flex-shrink: 0;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+    margin: 0 -2px; /* Slight overlap for better integration */
+}
+
+.stance-icon-center:hover {
+    transform: scale(1.05);
+}
+
+.stance-center-ornament {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stance-center-circle {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #d4c5a9 0%, #b8a085 50%, #8b6f3d 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(212, 197, 169, 0.6);
+    position: relative;
+    z-index: 2;
+}
+
+.stance-center-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stance-line {
+    position: absolute;
+    background: linear-gradient(to right, transparent 0%, #d4c5a9 50%, transparent 100%);
+    opacity: 0.4;
+}
+
+.stance-line-1 { transform: rotate(0deg); width: 16px; height: 1px; }
+.stance-line-2 { transform: rotate(45deg); width: 16px; height: 1px; }
+.stance-line-3 { transform: rotate(90deg); width: 16px; height: 1px; }
+.stance-line-4 { transform: rotate(135deg); width: 16px; height: 1px; }
+
+.stance-icon-center i {
+    font-size: 12px;
+    position: absolute;
+    z-index: 3;
+    color: #2d1810;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+}
+
+/* All menus now use unified-context-menu.css system */
+
+/* All menu styles - OBSOLETE: Now uses unified-context-menu.css */
+/* All menu styles removed - now using unified-context-menu.css system */
+
+/* Primalist Energy Flow */

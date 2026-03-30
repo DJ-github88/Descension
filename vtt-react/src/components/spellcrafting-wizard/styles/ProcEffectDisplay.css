@@ -1,0 +1,226 @@
+/* ProcEffectDisplay.css */
+/* Pathfinder-themed styling for proc effect display component */
+
+.proc-effect-display {
+  background: linear-gradient(135deg, #2c1810 0%, #3d2317 100%);
+  border: 2px solid #8B4513;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+/* Position variants */
+.proc-effect-display.right {
+  margin-left: 16px;
+}
+
+.proc-effect-display.left {
+  margin-right: 16px;
+}
+
+.proc-effect-display.below {
+  margin-top: 16px;
+  max-width: 100%;
+}
+
+/* Header styling */
+.proc-effect-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #8B4513;
+}
+
+.proc-icon {
+  color: #FFD700;
+  font-size: 16px;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+}
+
+.proc-title {
+  color: #F5E6D3;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-family: 'Cinzel', serif;
+}
+
+/* Effects list */
+.proc-effects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual proc effect item */
+.proc-effect-item {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #654321;
+  border-radius: 6px;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+
+.proc-effect-item:hover {
+  border-color: #8B4513;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Proc trigger information */
+.proc-trigger-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.proc-chance {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid #FFD700;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.chance-icon {
+  color: #FFD700;
+  font-size: 12px;
+}
+
+.chance-value {
+  color: #FFD700;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.proc-type {
+  background: rgba(139, 69, 19, 0.2);
+  border: 1px solid #8B4513;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.trigger-text {
+  color: #F5E6D3;
+  font-size: 11px;
+  text-transform: capitalize;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.proc-limit {
+  background: rgba(255, 69, 0, 0.1);
+  border: 1px solid #FF4500;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.limit-text {
+  color: #FF6347;
+  font-size: 10px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Linked spell card container */
+.proc-spell-card {
+  margin-top: 8px;
+}
+
+.proc-spell-card .proc-linked-spell {
+  transform: scale(0.9);
+  transform-origin: top left;
+  margin-bottom: -10px;
+}
+
+/* Compact spell card adjustments for proc display */
+.proc-spell-card .pf-spell-card {
+  max-width: 100%;
+  margin: 0;
+}
+
+.proc-spell-card .pf-spell-header {
+  padding: 8px 10px;
+}
+
+.proc-spell-card .pf-spell-title {
+  font-size: 13px;
+}
+
+.proc-spell-card .pf-spell-description {
+  font-size: 11px;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.proc-spell-card .pf-spell-stats {
+  padding: 6px 10px;
+}
+
+.proc-spell-card .pf-stat-item {
+  font-size: 10px;
+}
+
+/* Missing spell styling */
+.proc-effect-missing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid #8B0000;
+  border-radius: 4px;
+}
+
+.missing-icon {
+  color: #FF6B6B;
+  font-size: 14px;
+}
+
+.missing-text {
+  color: #FF6B6B;
+  font-size: 12px;
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .proc-effect-display {
+    min-width: 240px;
+    max-width: 280px;
+  }
+  
+  .proc-effect-display.below {
+    max-width: 100%;
+  }
+  
+  .proc-trigger-info {
+    gap: 8px;
+  }
+  
+  .proc-spell-card .proc-linked-spell {
+    transform: scale(0.85);
+  }
+}
+
+/* Animation for proc effects */
+@keyframes procGlow {
+  0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+}
+
+.proc-effect-item:hover .proc-chance {
+  animation: procGlow 2s ease-in-out infinite;
+}

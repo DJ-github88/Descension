@@ -1,0 +1,514 @@
+/* ========== SelectionCard.css ==========
+ * Enhanced styling for the SelectionCard component
+ * Used in the spell crafting wizard for effect selection
+ */
+
+ .selection-card {
+    position: relative;
+    background: linear-gradient(to bottom, var(--wizard-surface-light) 0%, var(--wizard-surface) 100%);
+    border: 2px solid var(--wizard-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    font-family: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .selection-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .selection-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--wizard-primary-light);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(52, 152, 219, 0.1);
+  }
+
+  .selection-card:hover::before {
+    opacity: 1;
+  }
+
+  .selection-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .selection-card-icon {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: white;
+    background-color: var(--wizard-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .selection-card-icon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+    z-index: 1;
+  }
+
+  .selection-card:hover .selection-card-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .selection-card.selected .selection-card-icon {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255, 255, 255, 0.1);
+  }
+
+  .selection-card-title-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .selection-card-title {
+    font-family: var(--wizard-font-display);
+    font-size: 1.35rem;
+    margin: 0;
+    padding: 0;
+    color: var(--wizard-text-bright);
+    font-weight: 700;
+    line-height: 1.3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .selection-card:hover .selection-card-title {
+    color: var(--wizard-primary-light);
+  }
+
+  .selection-card-selected-indicator {
+    color: var(--wizard-success);
+    font-size: 1.25rem;
+    margin-left: 0.75rem;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .selection-card.selected .selection-card-selected-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .selection-card-checkbox {
+    position: relative;
+    margin-left: 0.75rem;
+  }
+
+  .selection-card-checkbox input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--wizard-border);
+    border-radius: 6px;
+    background-color: var(--wizard-surface);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .selection-card-checkbox input[type="checkbox"]:checked {
+    background-color: var(--wizard-primary);
+    border-color: var(--wizard-primary-light);
+  }
+
+  .selection-card-checkbox input[type="checkbox"]:hover {
+    border-color: var(--wizard-primary);
+  }
+
+  .selection-card-checkbox input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .selection-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selection-card-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--wizard-text-muted);
+    margin: 0 0 1.25rem 0;
+    transition: color 0.3s ease;
+  }
+
+  .selection-card:hover .selection-card-description {
+    color: var(--wizard-text);
+  }
+
+  .selection-card-details {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+  }
+
+  .selection-card-details-toggle {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--wizard-primary-light);
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+
+  .selection-card-details-toggle:hover {
+    color: var(--wizard-primary);
+    transform: translateX(3px);
+  }
+
+  .selection-card-additional-info {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-left: 3px solid var(--wizard-primary);
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .selection-card-info-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .selection-card-info-property {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .selection-card-info-property:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .selection-card-info-key {
+    color: var(--wizard-text-muted);
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .selection-card-info-value {
+    color: var(--wizard-text-bright);
+    font-weight: 600;
+  }
+
+  .selection-card.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    transform: none;
+    box-shadow: none;
+  }
+
+  .selection-card.disabled:hover {
+    transform: none;
+    border-color: var(--wizard-border);
+    box-shadow: none;
+  }
+
+  .selection-card-disabled-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .selection-card-disabled-message {
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--wizard-text-bright);
+    padding: 0.75rem 1.25rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .selection-card.highlighted {
+    animation: highlight-pulse 2s infinite;
+  }
+
+  @keyframes highlight-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    }
+  }
+
+  /* Selected state with improved visual indicators */
+  .selection-card.selected {
+    border-color: var(--wizard-primary);
+    background: linear-gradient(to bottom,
+      var(--wizard-primary-dark) 0%,
+      var(--wizard-primary) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--wizard-primary-glow);
+    color: white;
+  }
+
+  .selection-card.selected::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--wizard-primary), var(--wizard-primary-light), var(--wizard-primary));
+    opacity: 1;
+  }
+
+  .selection-card.selected::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: var(--wizard-primary);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    opacity: 0.6;
+  }
+
+  .selection-card.selected .selection-card-title {
+    color: white;
+  }
+
+  .selection-card.selected .selection-card-description {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Effect-specific styling for icons */
+  .selection-card[data-effect-type="damage"] .selection-card-icon {
+    background-color: var(--wizard-damage);
+    box-shadow: 0 4px 12px rgba(214, 40, 57, 0.25);
+  }
+
+  .selection-card[data-effect-type="healing"] .selection-card-icon {
+    background-color: var(--wizard-healing);
+    box-shadow: 0 4px 12px rgba(66, 169, 66, 0.25);
+  }
+
+  .selection-card[data-effect-type="buff"] .selection-card-icon {
+    background-color: var(--wizard-buff);
+    box-shadow: 0 4px 12px rgba(56, 132, 184, 0.25);
+  }
+
+  .selection-card[data-effect-type="debuff"] .selection-card-icon {
+    background-color: var(--wizard-debuff);
+    box-shadow: 0 4px 12px rgba(128, 70, 165, 0.25);
+  }
+
+  .selection-card[data-effect-type="utility"] .selection-card-icon {
+    background-color: var(--wizard-utility);
+    box-shadow: 0 4px 12px rgba(233, 166, 57, 0.25);
+  }
+
+  /* Effect-specific styling for selected cards */
+  .selection-card[data-effect-type="damage"].selected {
+    border-color: var(--wizard-damage);
+    background: linear-gradient(145deg,
+      rgba(214, 40, 57, 0.15) 0%,
+      rgba(214, 40, 57, 0.05) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(214, 40, 57, 0.2);
+  }
+
+  .selection-card[data-effect-type="damage"].selected::before {
+    background: linear-gradient(90deg, var(--wizard-damage), #f44336, var(--wizard-damage));
+  }
+
+  .selection-card[data-effect-type="damage"].selected::after {
+    background: var(--wizard-damage);
+  }
+
+  .selection-card[data-effect-type="healing"].selected {
+    border-color: var(--wizard-healing);
+    background: linear-gradient(145deg,
+      rgba(66, 169, 66, 0.15) 0%,
+      rgba(66, 169, 66, 0.05) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(66, 169, 66, 0.2);
+  }
+
+  .selection-card[data-effect-type="healing"].selected::before {
+    background: linear-gradient(90deg, var(--wizard-healing), #66bb6a, var(--wizard-healing));
+  }
+
+  .selection-card[data-effect-type="healing"].selected::after {
+    background: var(--wizard-healing);
+  }
+
+  .selection-card[data-effect-type="buff"].selected {
+    border-color: var(--wizard-buff);
+    background: linear-gradient(145deg,
+      rgba(56, 132, 184, 0.15) 0%,
+      rgba(56, 132, 184, 0.05) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(56, 132, 184, 0.2);
+  }
+
+  .selection-card[data-effect-type="buff"].selected::before {
+    background: linear-gradient(90deg, var(--wizard-buff), #42a5f5, var(--wizard-buff));
+  }
+
+  .selection-card[data-effect-type="buff"].selected::after {
+    background: var(--wizard-buff);
+  }
+
+  .selection-card[data-effect-type="debuff"].selected {
+    border-color: var(--wizard-debuff);
+    background: linear-gradient(145deg,
+      rgba(128, 70, 165, 0.15) 0%,
+      rgba(128, 70, 165, 0.05) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(128, 70, 165, 0.2);
+  }
+
+  .selection-card[data-effect-type="debuff"].selected::before {
+    background: linear-gradient(90deg, var(--wizard-debuff), #9c27b0, var(--wizard-debuff));
+  }
+
+  .selection-card[data-effect-type="debuff"].selected::after {
+    background: var(--wizard-debuff);
+  }
+
+  .selection-card[data-effect-type="utility"].selected {
+    border-color: var(--wizard-utility);
+    background: linear-gradient(145deg,
+      rgba(233, 166, 57, 0.15) 0%,
+      rgba(233, 166, 57, 0.05) 100%
+    );
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(233, 166, 57, 0.2);
+  }
+
+  .selection-card[data-effect-type="utility"].selected::before {
+    background: linear-gradient(90deg, var(--wizard-utility), #ffb74d, var(--wizard-utility));
+  }
+
+  .selection-card[data-effect-type="utility"].selected::after {
+    background: var(--wizard-utility);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .selection-card {
+      padding: 1.25rem;
+    }
+
+    .selection-card-header {
+      gap: 1rem;
+    }
+
+    .selection-card-icon {
+      width: 45px;
+      height: 45px;
+      min-width: 45px;
+      font-size: 1.5rem;
+    }
+
+    .selection-card-title {
+      font-size: 1.2rem;
+    }
+
+    .selection-card-description {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .selection-card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .selection-card-icon {
+      margin-bottom: 0.75rem;
+    }
+
+    .selection-card-title-container {
+      width: 100%;
+    }
+  }

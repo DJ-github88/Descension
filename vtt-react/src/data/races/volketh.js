@@ -1,0 +1,16 @@
+export const volketh = {
+
+        id: 'volketh',
+        name: 'Volketh',
+        description: 'Folk with skin scarred by lightning, the marks glowing faintly during storms. Hair often stands on end from static. Eyes sometimes flash with electrical light. Their presence makes air smell of ozone. Many have twitches and spasms from damaged nerves. They move with erratic energy, muscles responding to phantom electrical signals.',
+        icon: 'fas fa-bolt',
+        overview: 'The Volketh are people whose ancestors survived terrible storms. Those struck by lightning and lived. Or born during tempests that killed their families. Through generations of living in storm-prone regions, their bloodlines have been marked by electrical damage. Scarred skin that glows faintly during storms. Nervous systems permanently damaged by electrical burns passed down through bloodlines. They are organized into nomadic bands that follow storm patterns. Settlements built in the wake of thunderstorms. The Volketh do not choose to attract storms. It is their heritage, passed down through bloodlines that carry the storm damage.',
+        culturalBackground: `Volketh society is built on nomadic bands that follow storm patterns. Communities organized around surviving the tempests that shaped their ancestors. Each band traces its lineage to survivors of legendary disasters. Farmers whose homes were struck. Sailors pulled from shipwrecks. Children who watched their families die in floods. Their camps huddle in the wake of thunderstorms. Tents pitched in muddy fields where lightning still crackles in the air. Band elders pass down the old ways. How to read storm signs. How to survive lightning strikes. How to find shelter when the sky turns deadly. Their skin scars glow during storms. Making them targets for superstitious folk who blame them for the weather. They do not control storms. They attract them. Their damaged bodies acting like lightning rods. Band disputes settle through storm-trials and the testimony of those who have survived the most strikes. They are a people bound by storm and survival. Their knowledge of weather unmatched but their bodies forever marked by the forces that shaped them.`,
+        variantDiversity: 'The Volketh are divided into three major band bloodlines: The Lightning-Struck bear scars from direct strikes and act as living lightning rods, the Nerve-Wracked have nervous systems damaged by continuous electrical exposure, and the Wind-Broken survived hurricanes that scarred their lungs and minds.',
+        integrationNotes: {
+            actionPointSystem: 'Volketh abilities focus on lightning damage, mobility, and area control. Their electrical nature provides powerful offensive options but can be unpredictable.',
+            backgroundSynergy: 'Volketh excel in backgrounds emphasizing survival, trauma, and disaster recovery. Their storm-scarred nature complements aggressive and mobile playstyles.',
+            classCompatibility: 'Volketh make excellent elemental casters, mobile strikers, and warriors who channel their trauma. Their lightning abilities enhance classes that deal burst damage.',
+};
+
+export default volketh;

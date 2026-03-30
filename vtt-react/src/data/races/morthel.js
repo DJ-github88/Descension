@@ -1,0 +1,16 @@
+export const morthel = {
+
+        id: 'morthel',
+        name: 'Morthel',
+        description: 'Undead folk with flesh that refuses to fully decay. Skin pale and withered but not rotting. Eyes glow faintly with the light of unbroken oaths. Bodies show signs of age but never deteriorate further. They move slowly, their joints creaking like old doors. They smell of dust and old bones. Their touch is cold, like touching stone in winter.',
+        icon: 'fas fa-skull',
+        overview: 'The Neth are people whose ancestors swore impossible oaths. To guard treasures until mountains crumble. To protect secrets until stars fall. Through generations of these death-bound promises, their bloodlines have been marked by undeath. Bodies that refuse to decay. Minds that outlast centuries. Souls bound by vows that transcend death. They are organized into tomb-communities built around the graves they guard. Settlements clustered in mausoleums and necropolises. The Neth do not choose to be undead. It is their heritage, passed down through bloodlines that carry the weight of ancient oaths.',
+        culturalBackground: `Neth society is built on tomb-communities organized around the graves and treasures they guard. Settlements clustered in mausoleums and necropolises. Each community traces its founding to ancestors who swore impossible vows. To guard treasures until the mountains crumble. To protect secrets until the stars fall from the sky. Their tombs are silent libraries of the dead. Walls inscribed with oaths that bind souls long after bodies have failed. Community elders pass down the old ways. How to maintain undead bodies. How to fulfill oaths that span centuries. How to guard what was sworn to protect. Death was supposed to release them. But their promises held tighter than any grave. Now they shuffle through eternal night. Flesh rotting but never failing. Minds sharp as the day they died. Community disputes settle through oath-readings and the testimony of those who have guarded longest. They speak of the living with distant pity. Remembering warmth and emotion like half-forgotten dreams. Some Neth embrace their immortality. Becoming patient strategists who outlast any enemy. Others claw at their own tombs. Desperate to complete their duties and finally rest. They are a people bound by oath and undeath. Their guardianship unmatched but their souls forever trapped by promises that cannot be broken.`,
+        variantDiversity: 'The Neth are divided into two major tomb bloodlines: The Vault-Keepers are bound by oaths to guard treasures and hoards, while the Dust-Scribes are bound by oaths to preserve knowledge and secrets.',
+        integrationNotes: {
+            actionPointSystem: 'Neth abilities focus on durability, undead resilience, and obsessive dedication. Their immortal nature provides unique advantages but comes with compulsions.',
+            backgroundSynergy: 'Neth excel in backgrounds emphasizing knowledge, dedication, and endurance. Their undead nature creates unique roleplay challenges and opportunities.',
+            classCompatibility: 'Neth make excellent tanks, knowledge specialists, and undead-themed casters. Their immunities and resilience enhance classes that benefit from durability.',
+};
+
+export default morthel;

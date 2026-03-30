@@ -1,0 +1,41 @@
+/* Atmospheric Effects Manager - Professional VTT Styling */
+.atmospheric-effects-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.5s ease;
+}
+
+/* Performance optimizations */
+.atmospheric-effects-canvas {
+    will-change: auto;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .atmospheric-effects-canvas {
+        display: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .atmospheric-effects-canvas {
+        opacity: 0.7 !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .atmospheric-effects-canvas {
+        display: none;
+    }
+}

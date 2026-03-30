@@ -1,0 +1,16 @@
+{
+  "category": "hot",
+  "count": 2,
+  "icons": [
+    {
+      "filename": "flame-cross-healing.png",
+      "name": "Flame Cross Healing",
+      "path": "hot/flame-cross-healing.png"
+    },
+    {
+      "filename": "heart-chain-regeneration.png",
+      "name": "Heart Chain Regeneration",
+      "path": "hot/heart-chain-regeneration.png"
+    }
+  ]
+}

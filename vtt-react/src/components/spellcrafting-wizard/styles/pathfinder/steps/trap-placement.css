@@ -1,0 +1,343 @@
+/* ===== PATHFINDER TRAP PLACEMENT STEP STYLING ===== */
+/* Trap Placement configuration with Pathfinder theme */
+
+.trap-placement-container {
+  width: 100%;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  padding: var(--pf-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-6);
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+/* Trap Type Selection */
+.trap-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-6);
+}
+
+.trap-type-card {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  overflow: hidden;
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.trap-type-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-gold);
+}
+
+.trap-type-card.selected {
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold), var(--pf-shadow-md);
+}
+
+.trap-type-card.selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at top right,
+    rgba(212, 175, 55, 0.1),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.trap-type-header {
+  background: var(--pf-gradient-parchment-dark);
+  padding: var(--pf-space-4);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.trap-type-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--pf-gold);
+}
+
+.trap-type-title {
+  font-size: var(--pf-text-lg);
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin: 0;
+}
+
+.trap-type-body {
+  padding: var(--pf-space-4);
+}
+
+.trap-type-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.5;
+  margin-bottom: var(--pf-space-3);
+}
+
+/* Trap Configuration */
+.trap-config {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-6);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.trap-config-header {
+  margin-bottom: var(--pf-space-4);
+}
+
+.trap-config-title {
+  font-size: var(--pf-text-xl);
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-2) 0;
+}
+
+.trap-config-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.5;
+}
+
+/* Trap Placement Settings */
+.trap-placement-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+}
+
+.trap-placement-setting {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+}
+
+.trap-placement-setting-label {
+  display: block;
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+}
+
+.trap-placement-setting-input {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.trap-placement-setting-input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
+}
+
+.trap-placement-setting-select {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.trap-placement-setting-select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
+}
+
+/* Trap Trigger Conditions */
+.trap-trigger-conditions {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+}
+
+.trap-trigger-conditions-title {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-3);
+  font-size: var(--pf-text-base);
+}
+
+.trap-trigger-condition {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  margin-bottom: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+.trap-trigger-condition-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--pf-gold);
+}
+
+.trap-trigger-condition-text {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.4;
+}
+
+/* Trap Detection */
+.trap-detection {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+}
+
+.trap-detection-title {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-base);
+}
+
+.trap-detection-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--pf-space-3);
+}
+
+.trap-detection-setting {
+  text-align: center;
+}
+
+.trap-detection-setting-label {
+  display: block;
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trap-detection-setting-value {
+  font-size: var(--pf-text-lg);
+  font-weight: bold;
+  color: var(--pf-gold);
+}
+
+/* Trap Preview */
+.trap-preview {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+}
+
+.trap-preview-title {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-base);
+}
+
+.trap-preview-text {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.5;
+}
+
+/* Trap Visualization */
+.trap-visualization {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+  text-align: center;
+}
+
+.trap-visualization-title {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-3);
+  font-size: var(--pf-text-base);
+}
+
+.trap-visualization-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 30px);
+  grid-template-rows: repeat(5, 30px);
+  gap: 2px;
+  background: var(--pf-brown-light);
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+}
+
+.trap-visualization-cell {
+  background: var(--pf-gradient-parchment);
+  border-radius: 2px;
+  transition: all var(--pf-transition-normal);
+}
+
+.trap-visualization-cell.trap {
+  background: var(--pf-gradient-danger);
+  box-shadow: 0 0 4px var(--pf-error);
+}
+
+.trap-visualization-cell.trigger {
+  background: var(--pf-gradient-warning);
+  box-shadow: 0 0 4px var(--pf-warning);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trap-types {
+    grid-template-columns: 1fr;
+  }
+  
+  .trap-placement-settings {
+    grid-template-columns: 1fr;
+  }
+  
+  .trap-detection-settings {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .trap-placement-container {
+    padding: var(--pf-space-4);
+    gap: var(--pf-space-4);
+  }
+}

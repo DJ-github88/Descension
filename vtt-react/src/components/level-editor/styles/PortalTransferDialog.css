@@ -1,0 +1,205 @@
+/* Portal Transfer Dialog - Pathfinder / Parchment Theme */
+.portal-transfer-dialog {
+    padding: 20px;
+    background: #f0e6d2;
+    /* Parchment background */
+    color: #4a3a2a;
+    /* Dark brown text */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    position: relative;
+    overflow-y: auto;
+    /* Allow scrolling if content is too tall */
+    box-sizing: border-box;
+}
+
+/* Subtle parchment texture effect */
+.portal-transfer-dialog::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/parchment.png");
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.portal-transfer-dialog>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Portal Header Section */
+.portal-header {
+    text-align: center;
+    padding: 12px;
+    background: rgba(160, 140, 112, 0.15);
+    border-radius: 8px;
+    border: 2px solid #a08c70;
+    margin-bottom: 4px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.portal-title {
+    margin: 0 0 4px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #7a3b2e;
+    /* Rustic red/brown */
+    font-family: 'Cinzel', serif;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.portal-description {
+    margin: 0;
+    font-size: 14px;
+    color: #5e4b3c;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Transfer Question Section */
+.transfer-question {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    border: 1px dashed #a08c70;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.transfer-question p {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #4a3a2a;
+}
+
+.destination-info {
+    margin: 12px 0;
+    padding: 16px;
+    background: linear-gradient(135deg, #eaddca 0%, #d2b48c 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.destination-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: #7a3b2e;
+    font-family: 'Cinzel', serif;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
+}
+
+.transfer-prompt {
+    font-weight: bold;
+    color: #4a3a2a;
+    margin-top: 12px !important;
+    font-size: 18px;
+}
+
+.no-destination {
+    padding: 18px;
+    background: rgba(220, 20, 60, 0.05);
+    border: 2px solid #a08c70;
+    border-radius: 10px;
+}
+
+.no-destination p {
+    color: #7a3b2e;
+    font-weight: bold;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding: 12px 0 0 0;
+    border-top: 1px solid rgba(160, 140, 112, 0.3);
+    margin-top: auto;
+}
+
+.wow-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #eaddca, #d2b48c);
+    color: #4a3a2a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    min-width: 130px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.wow-button:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #f5f5dc, #eaddca);
+    border-color: #8b7355;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.wow-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wow-button.primary {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+    border-color: #4a1c14;
+    color: #f0e6d2;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.wow-button.primary:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+    border-color: #5e2e23;
+    box-shadow: 0 4px 12px rgba(122, 59, 46, 0.4);
+}
+
+.wow-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #ccc;
+    border-color: #999;
+    color: #666;
+}
+
+/* Window styling overrides */
+.portal-transfer-dialog-window {
+    z-index: 1000;
+}
+
+.portal-transfer-dialog-window .wow-window-header {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23) !important;
+}
+
+/* Animations (Removed magical ones, kept simple ones if needed) */
+@keyframes portalShimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}

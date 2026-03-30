@@ -1,0 +1,847 @@
+{
+  "resources": [
+    {
+      "original_path": "Icon1.png",
+      "filename": "claw-cluster-grey-pointed-talons.png",
+      "category": "Claws",
+      "name": "claw-cluster-grey-pointed-talons",
+      "description": "Cluster of grey pointed objects arranged in a fan-like pattern, resembling sharp claws or talons with metallic sheen",
+      "new_path": "Claws/claw-cluster-grey-pointed-talons.png",
+      "processed_at": "2025-12-28T15:28:51.050465"
+    },
+    {
+      "original_path": "Icon2.png",
+      "filename": "scale-circular-orange-center-spiky.png",
+      "category": "Scales",
+      "name": "scale-circular-orange-center-spiky",
+      "description": "Circular or oval hardened scale with reddish-brown spiky edges and prominent central orange feature",
+      "new_path": "Scales/scale-circular-orange-center-spiky.png",
+      "processed_at": "2025-12-28T15:28:51.051469"
+    },
+    {
+      "original_path": "Icon3.png",
+      "filename": "monster-part-spiked-worm-lime-green-red-eye.png",
+      "category": "More parts",
+      "name": "spiked-worm-lime-green-red-eye",
+      "description": "Lime-green elongated worm-like creature with numerous sharp triangular spikes and prominent red eye feature",
+      "new_path": "More parts/monster-part-spiked-worm-lime-green-red-eye.png",
+      "processed_at": "2025-12-28T15:28:51.056467"
+    },
+    {
+      "original_path": "Icon4.png",
+      "filename": "tail-coiled-snake-orange-brown.png",
+      "category": "Tails",
+      "name": "tail-coiled-snake-orange-brown",
+      "description": "Coiled serpentine tail in orange and brown tones with segmented texture and small dark eye feature",
+      "new_path": "Tails/tail-coiled-snake-orange-brown.png",
+      "processed_at": "2025-12-28T15:28:51.058466"
+    },
+    {
+      "original_path": "Icon5.png",
+      "filename": "monster-part-tentacle-blue-bulbous-brown-end.png",
+      "category": "More parts",
+      "name": "tentacle-blue-bulbous-brown-end",
+      "description": "Blue glossy tentacle segment with dark wing-like protrusions and reddish-brown bulbous end with yellowish center",
+      "new_path": "More parts/monster-part-tentacle-blue-bulbous-brown-end.png",
+      "processed_at": "2025-12-28T15:28:51.058466"
+    },
+    {
+      "original_path": "Icon6.png",
+      "filename": "wing-fragment-pink-membrane.png",
+      "category": "Wings",
+      "name": "wing-fragment-pink-membrane",
+      "description": "Pink or magenta membrane fragment with light border, resembling a piece of bat-like or insectoid wing",
+      "new_path": "Wings/wing-fragment-pink-membrane.png",
+      "processed_at": "2025-12-28T15:28:51.059467"
+    },
+    {
+      "original_path": "Icon7.png",
+      "filename": "organ-coiled-green-brown-disc.png",
+      "category": "Organs",
+      "name": "organ-coiled-green-brown-disc",
+      "description": "Coiled green and beige worm-like organ with mottled texture and prominent dark brown circular disc at one end",
+      "new_path": "Organs/organ-coiled-green-brown-disc.png",
+      "processed_at": "2025-12-28T15:28:51.060467"
+    },
+    {
+      "original_path": "Icon8.png",
+      "filename": "bone-bird-skull-red-gem.png",
+      "category": "Bones",
+      "name": "bone-bird-skull-red-gem",
+      "description": "Light beige bird or raptor skull with prominent beak, empty eye sockets, and bright red gem-like marking on forehead",
+      "new_path": "Bones/bone-bird-skull-red-gem.png",
+      "processed_at": "2025-12-28T15:28:51.061468"
+    },
+    {
+      "original_path": "Icon9.png",
+      "filename": "monster-part-charm-blue-tassel-golden-bead.png",
+      "category": "More parts",
+      "name": "charm-blue-tassel-golden-bead",
+      "description": "Blue tassel with golden-yellow spherical bead and braided blue chain loop, appears decorative rather than biological",
+      "new_path": "More parts/monster-part-charm-blue-tassel-golden-bead.png",
+      "processed_at": "2025-12-28T15:28:51.061468"
+    },
+    {
+      "original_path": "Icon10.png",
+      "filename": "scale-lime-green-segmented.png",
+      "category": "Scales",
+      "name": "scale-lime-green-segmented",
+      "description": "Vibrant lime-green scale with glossy highlights and segmented overlapping texture",
+      "new_path": "Scales/scale-lime-green-segmented.png",
+      "processed_at": "2025-12-28T15:28:51.062467"
+    },
+    {
+      "original_path": "Icon11.png",
+      "filename": "organ-purple-coiled-serpentine.png",
+      "category": "Organs",
+      "name": "organ-purple-coiled-serpentine",
+      "description": "Deep purple coiled serpentine organ with glossy highlights, ridged texture, and slimy appearance",
+      "new_path": "Organs/organ-purple-coiled-serpentine.png",
+      "processed_at": "2025-12-28T15:28:51.062467"
+    },
+    {
+      "original_path": "Icon12.png",
+      "filename": "organ-flesh-chunk-brown-lumpy.png",
+      "category": "Organs",
+      "name": "organ-flesh-chunk-brown-lumpy",
+      "description": "Light brown lumpy mass of organic material, possibly a chunk of monster flesh or small organ",
+      "new_path": "Organs/organ-flesh-chunk-brown-lumpy.png",
+      "processed_at": "2025-12-28T15:28:51.063468"
+    },
+    {
+      "original_path": "Icon13.png",
+      "filename": "organ-eye-monster-green-yellow.png",
+      "category": "Organs",
+      "name": "organ-eye-monster-green-yellow",
+      "description": "Large round monster eye with black pupil, yellowish-green iris, encased in dark green textured organic mass",
+      "new_path": "Organs/organ-eye-monster-green-yellow.png",
+      "processed_at": "2025-12-28T15:28:51.063468"
+    },
+    {
+      "original_path": "Icon14.png",
+      "filename": "organ-green-lumpy-dark-eye-marking.png",
+      "category": "Organs",
+      "name": "organ-green-lumpy-dark-eye-marking",
+      "description": "Green lumpy organic object with elongated dark eye-like marking on surface, resting on brown root-like base",
+      "new_path": "Organs/organ-green-lumpy-dark-eye-marking.png",
+      "processed_at": "2025-12-28T15:28:51.064467"
+    },
+    {
+      "original_path": "Icon15.png",
+      "filename": "organ-eyes-pair-yellow-black-pupils.png",
+      "category": "Organs",
+      "name": "organ-eyes-pair-yellow-black-pupils",
+      "description": "Pair of identical circular yellow eyes with solid black pupils, textured surface with dark speckles",
+      "new_path": "Organs/organ-eyes-pair-yellow-black-pupils.png",
+      "processed_at": "2025-12-28T15:28:51.064467"
+    },
+    {
+      "original_path": "Icon16.png",
+      "filename": "claw-green-two-pronged-talons.png",
+      "category": "Claws",
+      "name": "claw-green-two-pronged-talons",
+      "description": "Gnarled green claw with thick base splitting into two sharp pale beige talons, predatory appearance",
+      "new_path": "Claws/claw-green-two-pronged-talons.png",
+      "processed_at": "2025-12-28T15:28:51.065467"
+    },
+    {
+      "original_path": "Icon17.png",
+      "filename": "horn-light-brown-wrapped-cord.png",
+      "category": "Horns",
+      "name": "horn-light-brown-wrapped-cord",
+      "description": "Light brown curved horn or tusk with darker brown wrapping at base and twisted cord extending upward",
+      "new_path": "Horns/horn-light-brown-wrapped-cord.png",
+      "processed_at": "2025-12-28T15:28:51.066468"
+    },
+    {
+      "original_path": "Icon18.png",
+      "filename": "monster-part-egg-golden-green-patches-scaly.png",
+      "category": "More parts",
+      "name": "egg-golden-green-patches-scaly",
+      "description": "Golden yellow egg with large irregular light green patches creating scaly bumpy texture, reptilian appearance",
+      "new_path": "More parts/monster-part-egg-golden-green-patches-scaly.png",
+      "processed_at": "2025-12-28T15:28:51.066468"
+    },
+    {
+      "original_path": "Icon19.png",
+      "filename": "monster-part-eggshell-broken-golden-green-patterns.png",
+      "category": "More parts",
+      "name": "eggshell-broken-golden-green-patterns",
+      "description": "Broken golden eggshell with circular light green patterns, jagged top edge with scattered fragments",
+      "new_path": "More parts/monster-part-eggshell-broken-golden-green-patterns.png",
+      "processed_at": "2025-12-28T15:28:51.069469"
+    },
+    {
+      "original_path": "Icon22.png",
+      "filename": "monster-part-flesh-chunk-brown-purplish-base.png",
+      "category": "More parts",
+      "name": "flesh-chunk-brown-purplish-base",
+      "description": "Brown lumpy oval-shaped chunk of flesh or hide with darker purplish-brown base, rough textured surface",
+      "new_path": "More parts/monster-part-flesh-chunk-brown-purplish-base.png",
+      "processed_at": "2025-12-28T15:28:51.070467"
+    },
+    {
+      "original_path": "Icon23.png",
+      "filename": "monster-part-glands-brown-teal-container.png",
+      "category": "More parts",
+      "name": "glands-brown-teal-container",
+      "description": "Cluster of light brown lumpy objects resembling glands or nodules partially contained in dark teal pouch-like container",
+      "new_path": "More parts/monster-part-glands-brown-teal-container.png",
+      "processed_at": "2025-12-28T15:31:44.700465"
+    },
+    {
+      "original_path": "Icon24.png",
+      "filename": "hide-piece-dark-brown-textured.png",
+      "category": "Hide",
+      "name": "hide-piece-dark-brown-textured",
+      "description": "Irregular oval-shaped piece of dark reddish-brown hide with textured lumpy surface and yellowish-orange highlights",
+      "new_path": "Hide/hide-piece-dark-brown-textured.png",
+      "processed_at": "2025-12-28T15:31:44.700465"
+    },
+    {
+      "original_path": "Icon25.png",
+      "filename": "monster-part-droppings-brown-golden-flecks.png",
+      "category": "More parts",
+      "name": "droppings-brown-golden-flecks",
+      "description": "Brown coiled lumpy mass resembling animal droppings with numerous bright yellow or golden flecks scattered across surface",
+      "new_path": "More parts/monster-part-droppings-brown-golden-flecks.png",
+      "processed_at": "2025-12-28T15:31:44.701467"
+    },
+    {
+      "original_path": "Icon26.png",
+      "filename": "organ-eye-pink-iris-bloodshot.png",
+      "category": "Organs",
+      "name": "organ-eye-pink-iris-bloodshot",
+      "description": "Disembodied eyeball with pale beige sclera, vibrant pink or magenta iris, jagged black pupil, and dark red bloodshot veins",
+      "new_path": "Organs/organ-eye-pink-iris-bloodshot.png",
+      "processed_at": "2025-12-28T15:31:44.702466"
+    },
+    {
+      "original_path": "Icon27.png",
+      "filename": "organ-worm-pink-segmented-grub.png",
+      "category": "Organs",
+      "name": "organ-worm-pink-segmented-grub",
+      "description": "Thick pink segmented worm-like creature coiled in C-shape with darker pink segments and prominent dark ridges along back",
+      "new_path": "Organs/organ-worm-pink-segmented-grub.png",
+      "processed_at": "2025-12-28T15:31:44.702466"
+    },
+    {
+      "original_path": "Icon28.png",
+      "filename": "scale-fragment-light-blue-green-spiky.png",
+      "category": "Scales",
+      "name": "scale-fragment-light-blue-green-spiky",
+      "description": "Light blue-green elongated curved object with rough texture and sharp pointed protrusions, crystalline or bony appearance",
+      "new_path": "Scales/scale-fragment-light-blue-green-spiky.png",
+      "processed_at": "2025-12-28T15:31:44.703466"
+    },
+    {
+      "original_path": "Icon29.png",
+      "filename": "claw-segmented-fiery-black-orange.png",
+      "category": "Claws",
+      "name": "claw-segmented-fiery-black-orange",
+      "description": "Black segmented claw-like part with multiple sharp pointed protrusions and bright orange-yellow glowing segments giving fiery appearance",
+      "new_path": "Claws/claw-segmented-fiery-black-orange.png",
+      "processed_at": "2025-12-28T15:31:44.703466"
+    },
+    {
+      "original_path": "Icon30.png",
+      "filename": "monster-part-feathers-pair-blue-iridescent.png",
+      "category": "Feathers",
+      "name": "feathers-pair-blue-iridescent",
+      "description": "Pair of stylized blue feathers with lighter cyan highlights creating iridescent glowing effect, overlapping at bases",
+      "new_path": "Feathers/monster-part-feathers-pair-blue-iridescent.png",
+      "processed_at": "2025-12-28T15:31:44.704467"
+    },
+    {
+      "original_path": "Icon31.png",
+      "filename": "bone-skull-purple-gem-red-cross.png",
+      "category": "Bones",
+      "name": "bone-skull-purple-gem-red-cross",
+      "description": "Light-colored avian or reptilian skull with elongated snout, large eye sockets, prominent glossy purple gem on forehead, and small red cross mark",
+      "new_path": "Bones/bone-skull-purple-gem-red-cross.png",
+      "processed_at": "2025-12-28T15:31:44.705470"
+    },
+    {
+      "original_path": "Icon32.png",
+      "filename": "hide-fragment-teal-textured-severed.png",
+      "category": "Hide",
+      "name": "hide-fragment-teal-textured-severed",
+      "description": "Vibrant teal or light blue-green elongated curved fragment with textured surface suggesting scales or ridges, darker rough top edge",
+      "new_path": "Hide/hide-fragment-teal-textured-severed.png",
+      "processed_at": "2025-12-28T15:31:44.706467"
+    },
+    {
+      "original_path": "Icon33.png",
+      "filename": "monster-part-seed-pod-brown-acorn-like.png",
+      "category": "More parts",
+      "name": "seed-pod-brown-acorn-like",
+      "description": "Brown organic object resembling stylized acorn or hardened seed pod with darker brown ridged cap and stem-like protrusion",
+      "new_path": "More parts/monster-part-seed-pod-brown-acorn-like.png",
+      "processed_at": "2025-12-28T15:31:44.707467"
+    },
+    {
+      "original_path": "Icon34.png",
+      "filename": "horn-curved-purple-pink-point.png",
+      "category": "Horns",
+      "name": "horn-curved-purple-pink-point",
+      "description": "Elongated curved object in light purple with darker purple shading, tapering to sharp bright pink point, with horizontal ridges",
+      "new_path": "Horns/horn-curved-purple-pink-point.png",
+      "processed_at": "2025-12-28T15:31:44.707467"
+    },
+    {
+      "original_path": "Icon35.png",
+      "filename": "horn-crescent-beige-segmented.png",
+      "category": "Horns",
+      "name": "horn-crescent-beige-segmented",
+      "description": "Light beige or pale yellow curved crescent-shaped horn tapering to point with segmented ridged surface and fractured base",
+      "new_path": "Horns/horn-crescent-beige-segmented.png",
+      "processed_at": "2025-12-28T15:31:44.708468"
+    },
+    {
+      "original_path": "Icon36.png",
+      "filename": "organ-worm-green-segmented-bulbous.png",
+      "category": "Organs",
+      "name": "organ-worm-green-segmented-bulbous",
+      "description": "Vibrant lime-green segmented bulbous worm-like organ with rounded segments creating lumpy coiled appearance",
+      "new_path": "Organs/organ-worm-green-segmented-bulbous.png",
+      "processed_at": "2025-12-28T15:31:44.708468"
+    },
+    {
+      "original_path": "Icon37.png",
+      "filename": "organ-eye-golden-scaled-iris.png",
+      "category": "Organs",
+      "name": "organ-eye-golden-scaled-iris",
+      "description": "Detached eye with creamy white sclera, prominent golden-yellow textured scaled iris, large black oval pupil, and reddish-brown base with red dots",
+      "new_path": "Organs/organ-eye-golden-scaled-iris.png",
+      "processed_at": "2025-12-28T15:31:44.709467"
+    },
+    {
+      "original_path": "Icon38.png",
+      "filename": "organ-eyes-pair-teal-black-pupils.png",
+      "category": "Organs",
+      "name": "organ-eyes-pair-teal-black-pupils",
+      "description": "Pair of stylized teal or light blue eyes with large glossy black pupils, irregular jagged edges suggesting torn membrane texture",
+      "new_path": "Organs/organ-eyes-pair-teal-black-pupils.png",
+      "processed_at": "2025-12-28T15:31:44.709467"
+    },
+    {
+      "original_path": "Icon39.png",
+      "filename": "monster-part-tentacles-bundle-reddish-brown-speckled.png",
+      "category": "More parts",
+      "name": "tentacles-bundle-reddish-brown-speckled",
+      "description": "Cluster of four to five elongated reddish-brown cylindrical forms bundled together with numerous bright red speckles across surface",
+      "new_path": "More parts/monster-part-tentacles-bundle-reddish-brown-speckled.png",
+      "processed_at": "2025-12-28T15:31:44.709467"
+    },
+    {
+      "original_path": "Icon40.png",
+      "filename": "horn-drill-conical-blue-grey-wrapped.png",
+      "category": "Horns",
+      "name": "horn-drill-conical-blue-grey-wrapped",
+      "description": "Conical drill-like object in bluish-grey tapering to sharp light beige point, wrapped with dark olive-green rope-like material",
+      "new_path": "Horns/horn-drill-conical-blue-grey-wrapped.png",
+      "processed_at": "2025-12-28T15:31:44.710466"
+    },
+    {
+      "original_path": "Icon41.png",
+      "filename": "monster-part-egg-purple-magenta-ridged.png",
+      "category": "More parts",
+      "name": "egg-purple-magenta-ridged",
+      "description": "Oval or egg-shaped object in rich deep purple with lighter purple and magenta highlights, ridged segmented texture with glossy sheen",
+      "new_path": "More parts/monster-part-egg-purple-magenta-ridged.png",
+      "processed_at": "2025-12-28T15:31:44.710466"
+    },
+    {
+      "original_path": "Icon42.png",
+      "filename": "monster-part-glands-golden-cluster-brown-base.png",
+      "category": "More parts",
+      "name": "glands-golden-cluster-brown-base",
+      "description": "Cluster of five to six golden spherical objects with dark circular indentations, irregularly stacked on reddish-brown textured base",
+      "new_path": "More parts/monster-part-glands-golden-cluster-brown-base.png",
+      "processed_at": "2025-12-28T15:31:44.711467"
+    },
+    {
+      "original_path": "Icon43.png",
+      "filename": "horn-brown-segmented-spiral.png",
+      "category": "Horns",
+      "name": "horn-brown-segmented-spiral",
+      "description": "Rich brown segmented coiled object with conical shape, visible ridges or rings along curved length, tapering to point",
+      "new_path": "Horns/horn-brown-segmented-spiral.png",
+      "processed_at": "2025-12-28T15:31:44.711467"
+    },
+    {
+      "original_path": "Icon44.png",
+      "filename": "monster-part-essence-bowl-green-glowing.png",
+      "category": "More parts",
+      "name": "essence-bowl-green-glowing",
+      "description": "Brown rustic bowl or pot filled with vibrant luminous green wavy leaf-like or mossy substance with magical glowing quality",
+      "new_path": "More parts/monster-part-essence-bowl-green-glowing.png",
+      "processed_at": "2025-12-28T15:31:44.712466"
+    },
+    {
+      "original_path": "Icon45.png",
+      "filename": "scale-oval-speckled-brown.png",
+      "category": "Scales",
+      "name": "scale-oval-speckled-brown",
+      "description": "Single oval-shaped scale in light sandy brown with darker brown and reddish-brown speckles, textured organic appearance with darker grey base",
+      "new_path": "Scales/scale-oval-speckled-brown.png",
+      "processed_at": "2025-12-28T15:31:44.713580"
+    },
+    {
+      "original_path": "Icon46.png",
+      "filename": "monster-part-meat-cooked-chunk-bone-protruding.png",
+      "category": "More parts",
+      "name": "meat-cooked-chunk-bone-protruding",
+      "description": "Reddish-brown cooked meat chunk with darker charred spots and lighter highlights, with lighter-colored bone protruding from one end",
+      "new_path": "More parts/monster-part-meat-cooked-chunk-bone-protruding.png",
+      "processed_at": "2025-12-28T15:31:44.713580"
+    },
+    {
+      "original_path": "Icon47.png",
+      "filename": "monster-part-flesh-chunk-brown-orange-veined.png",
+      "category": "More parts",
+      "name": "flesh-chunk-brown-orange-veined",
+      "description": "Brown and orange irregular elongated chunk of raw flesh with distinct reddish-orange streaks or veins suggesting marbling or blood",
+      "new_path": "More parts/monster-part-flesh-chunk-brown-orange-veined.png",
+      "processed_at": "2025-12-28T15:31:44.714466"
+    },
+    {
+      "original_path": "Icon48.png",
+      "filename": "monster-part-flesh-raw-chunk-orange-brown.png",
+      "category": "More parts",
+      "name": "flesh-raw-chunk-orange-brown",
+      "description": "Organic mass of brown and orange raw meat or flesh with reddish-orange streaks, irregular lumpy texture",
+      "new_path": "More parts/monster-part-flesh-raw-chunk-orange-brown.png",
+      "processed_at": "2025-12-28T15:31:44.714466"
+    },
+    {
+      "original_path": "More parts/Icon1.png",
+      "filename": "monster-part-flesh-chunk-dried-brown-orange.png",
+      "category": "More parts",
+      "name": "flesh-chunk-dried-brown-orange",
+      "description": "Irregular elongated flattened mass in warm dark reddish-browns to bright oranges with highly textured lumpy granular surface",
+      "new_path": "More parts/monster-part-flesh-chunk-dried-brown-orange.png",
+      "processed_at": "2025-12-28T15:33:46.262148"
+    },
+    {
+      "original_path": "More parts/Icon2.png",
+      "filename": "hide-rolled-dark-teal-scaly.png",
+      "category": "Hide",
+      "name": "hide-rolled-dark-teal-scaly",
+      "description": "Dark teal or deep blue-green rolled-up piece with spiral pattern on left, rough spiky scaly texture on right unrolled end",
+      "new_path": "Hide/hide-rolled-dark-teal-scaly.png",
+      "processed_at": "2025-12-28T15:33:46.262148"
+    },
+    {
+      "original_path": "More parts/Icon3.png",
+      "filename": "monster-part-chrysalis-golden-segmented-cob.png",
+      "category": "More parts",
+      "name": "chrysalis-golden-segmented-cob",
+      "description": "Elongated slightly curved golden-yellow object with rough texture of numerous small irregular overlapping segments resembling corn cob or chrysalis",
+      "new_path": "More parts/monster-part-chrysalis-golden-segmented-cob.png",
+      "processed_at": "2025-12-28T15:33:46.263147"
+    },
+    {
+      "original_path": "More parts/Icon10.png",
+      "filename": "monster-part-necklace-teeth-golden-dark-strap.png",
+      "category": "Teeth",
+      "name": "necklace-teeth-golden-dark-strap",
+      "description": "Dark olive green or brown strap strung with multiple golden pointed tooth-like or claw-like objects forming primitive adornment",
+      "new_path": "Teeth/monster-part-necklace-teeth-golden-dark-strap.png",
+      "processed_at": "2025-12-28T15:33:46.264146"
+    },
+    {
+      "original_path": "More parts/Icon11.png",
+      "filename": "horn-golden-curved-polished.png",
+      "category": "Horns",
+      "name": "horn-golden-curved-polished",
+      "description": "Elongated slightly curved golden or yellowish-brown object tapering to point with textured ridged surface and metallic polished appearance",
+      "new_path": "Horns/horn-golden-curved-polished.png",
+      "processed_at": "2025-12-28T15:33:46.264146"
+    },
+    {
+      "original_path": "More parts/Icon12.png",
+      "filename": "monster-part-horns-cluster-golden-brown-conical.png",
+      "category": "Horns",
+      "name": "horns-cluster-golden-brown-conical",
+      "description": "Three golden-brown elongated conical objects in overlapping cluster, each with pointed tip and wider rounded base, hard polished texture",
+      "new_path": "Horns/monster-part-horns-cluster-golden-brown-conical.png",
+      "processed_at": "2025-12-28T15:33:46.265147"
+    },
+    {
+      "original_path": "More parts/Icon13.png",
+      "filename": "monster-part-larva-green-segmented-grub.png",
+      "category": "More parts",
+      "name": "larva-green-segmented-grub",
+      "description": "Vibrant lime green or yellowish-green elongated segmented creature with darker green shading, ribbed ringed structure, resting on brown surface",
+      "new_path": "More parts/monster-part-larva-green-segmented-grub.png",
+      "processed_at": "2025-12-28T15:33:46.265147"
+    },
+    {
+      "original_path": "More parts/Icon14.png",
+      "filename": "monster-part-scales-cluster-teal-translucent.png",
+      "category": "Scales",
+      "name": "scales-cluster-teal-translucent",
+      "description": "Cluster of interconnected rounded irregular shapes in light translucent teal or seafoam green arranged in diamond formation with blue and yellow pixel dots",
+      "new_path": "Scales/monster-part-scales-cluster-teal-translucent.png",
+      "processed_at": "2025-12-28T15:33:46.266148"
+    },
+    {
+      "original_path": "More parts/Icon15.png",
+      "filename": "organ-lumpy-green-orange-spots.png",
+      "category": "Organs",
+      "name": "organ-lumpy-green-orange-spots",
+      "description": "Oval elongated flattened green object with darker green outline, numerous raised circular orange or yellowish-orange spots creating bumpy textured appearance",
+      "new_path": "Organs/organ-lumpy-green-orange-spots.png",
+      "processed_at": "2025-12-28T15:33:46.266148"
+    },
+    {
+      "original_path": "More parts/Icon16.png",
+      "filename": "feather-single-blue-iridescent.png",
+      "category": "Feathers",
+      "name": "feather-single-blue-iridescent",
+      "description": "Single stylized feather in vibrant deep blue with lighter blue and cyan highlights creating iridescent metallic sheen, visible central quill with barbs",
+      "new_path": "Feathers/feather-single-blue-iridescent.png",
+      "processed_at": "2025-12-28T15:33:46.267150"
+    },
+    {
+      "original_path": "More parts/Icon17.png",
+      "filename": "monster-part-leaves-cluster-purple-magenta.png",
+      "category": "More parts",
+      "name": "leaves-cluster-purple-magenta",
+      "description": "Cluster of several small oval or teardrop-shaped leaves in varying shades of purple from deep violet to brighter magenta, overlapping arrangement",
+      "new_path": "More parts/monster-part-leaves-cluster-purple-magenta.png",
+      "processed_at": "2025-12-28T15:33:46.267150"
+    },
+    {
+      "original_path": "More parts/Icon18.png",
+      "filename": "monster-part-plant-spiky-yellow-green-brown.png",
+      "category": "More parts",
+      "name": "plant-spiky-yellow-green-brown",
+      "description": "Cluster of thin spiky yellowish-green growths emerging from dark reddish-brown base, resembling reeds or spiky fungal formation",
+      "new_path": "More parts/monster-part-plant-spiky-yellow-green-brown.png",
+      "processed_at": "2025-12-28T15:33:46.267150"
+    },
+    {
+      "original_path": "More parts/Icon23.png",
+      "filename": "horn-curved-golden-hollow.png",
+      "category": "Horns",
+      "name": "horn-curved-golden-hollow",
+      "description": "Elongated curved golden or light yellowish-brown object wider and hollow at bottom-left, tapering to sharp point at top-right with subtle ridges",
+      "new_path": "Horns/horn-curved-golden-hollow.png",
+      "processed_at": "2025-12-28T15:33:46.268151"
+    },
+    {
+      "original_path": "More parts/Icon24.png",
+      "filename": "monster-part-bones-pile-light-beige-crossed.png",
+      "category": "Bones",
+      "name": "bones-pile-light-beige-crossed",
+      "description": "Several light beige or yellowish bones arranged in chaotic overlapping pile with two bones crossing in center forming X shape, small animal bones",
+      "new_path": "Bones/monster-part-bones-pile-light-beige-crossed.png",
+      "processed_at": "2025-12-28T15:33:46.269147"
+    },
+    {
+      "original_path": "More parts/Icon25.png",
+      "filename": "hide-piece-dark-brown-jagged.png",
+      "category": "Hide",
+      "name": "hide-piece-dark-brown-jagged",
+      "description": "Irregular roughly oval-shaped piece of deep reddish-brown or dark brown material with lighter yellowish-orange highlights and jagged uneven edges",
+      "new_path": "Hide/hide-piece-dark-brown-jagged.png",
+      "processed_at": "2025-12-28T15:33:46.269147"
+    },
+    {
+      "original_path": "More parts/Icon26.png",
+      "filename": "monster-part-droppings-brown-golden-flecks-lumpy.png",
+      "category": "More parts",
+      "name": "droppings-brown-golden-flecks-lumpy",
+      "description": "Irregular coiled piled mass of dark brown material resembling animal droppings with numerous bright yellow or golden flecks scattered across lumpy surface",
+      "new_path": "More parts/monster-part-droppings-brown-golden-flecks-lumpy.png",
+      "processed_at": "2025-12-28T15:33:46.270150"
+    },
+    {
+      "original_path": "More parts/Icon27.png",
+      "filename": "monster-part-crystals-cluster-golden-spiky.png",
+      "category": "More parts",
+      "name": "crystals-cluster-golden-spiky",
+      "description": "Irregular cluster of golden spiky or crystalline objects in bright reflective gold with darker brown or orange undertones, jagged pointed appearance",
+      "new_path": "More parts/monster-part-crystals-cluster-golden-spiky.png",
+      "processed_at": "2025-12-28T15:33:46.270150"
+    },
+    {
+      "original_path": "More parts/Icon28.png",
+      "filename": "monster-part-crystal-star-orange-yellow-fiery.png",
+      "category": "More parts",
+      "name": "crystal-star-orange-yellow-fiery",
+      "description": "Spiky star-like or asterisk-like shape in orange and yellow with darker reddish-orange edges and lighter golden-yellow center, glowing fiery effect",
+      "new_path": "More parts/monster-part-crystal-star-orange-yellow-fiery.png",
+      "processed_at": "2025-12-28T15:33:46.270150"
+    },
+    {
+      "original_path": "More parts/Icon29.png",
+      "filename": "organ-diseased-green-black-spots.png",
+      "category": "Organs",
+      "name": "organ-diseased-green-black-spots",
+      "description": "Irregular lumpy organic object in light olive green or yellowish-green with several dark almost black circular or oval spots giving porous diseased appearance",
+      "new_path": "Organs/organ-diseased-green-black-spots.png",
+      "processed_at": "2025-12-28T15:33:46.271147"
+    },
+    {
+      "original_path": "More parts/Icon30.png",
+      "filename": "monster-part-growth-spiked-dark-base-red-orange.png",
+      "category": "More parts",
+      "name": "growth-spiked-dark-base-red-orange",
+      "description": "Dark irregular lumpy base with three prominent bright reddish-orange flame-like or crystal-like spikes emerging upward in fanned arrangement",
+      "new_path": "More parts/monster-part-growth-spiked-dark-base-red-orange.png",
+      "processed_at": "2025-12-28T15:33:46.272150"
+    },
+    {
+      "original_path": "More parts/Icon4.png",
+      "filename": "monster-part-crystal-star-five-pointed-orange-brown.png",
+      "category": "More parts",
+      "name": "crystal-star-five-pointed-orange-brown",
+      "description": "Five-pointed star-shaped object in shades of orange and brown with rough textured granular crystalline surface, starfish-like appearance",
+      "new_path": "More parts/monster-part-crystal-star-five-pointed-orange-brown.png",
+      "processed_at": "2025-12-28T15:35:50.268609"
+    },
+    {
+      "original_path": "More parts/Icon5.png",
+      "filename": "scale-fragment-teal-blue-bumps.png",
+      "category": "Scales",
+      "name": "scale-fragment-teal-blue-bumps",
+      "description": "Elongated flattened object in dark teal and blue-green with scaly segmented texture and small round bright blue protrusions along edge",
+      "new_path": "Scales/scale-fragment-teal-blue-bumps.png",
+      "processed_at": "2025-12-28T15:35:50.269610"
+    },
+    {
+      "original_path": "More parts/Icon6.png",
+      "filename": "monster-part-shell-fragment-grey-segmented.png",
+      "category": "More parts",
+      "name": "shell-fragment-grey-segmented",
+      "description": "Elongated slightly curved object in light grey and off-white with darker outlines, distinct segmented layered overlapping sections",
+      "new_path": "More parts/monster-part-shell-fragment-grey-segmented.png",
+      "processed_at": "2025-12-28T15:35:50.269610"
+    },
+    {
+      "original_path": "More parts/Icon9.png",
+      "filename": "horn-golden-curved-segmented.png",
+      "category": "Horns",
+      "name": "horn-golden-curved-segmented",
+      "description": "Golden or light yellow curved C-shaped object with clear horizontal ridges and bands, segmented layered structure with metallic polished sheen",
+      "new_path": "Horns/horn-golden-curved-segmented.png",
+      "processed_at": "2025-12-28T15:35:50.270609"
+    },
+    {
+      "original_path": "More parts/Icon33.png",
+      "filename": "horn-golden-brown-curved-striated.png",
+      "category": "Horns",
+      "name": "horn-golden-brown-curved-striated",
+      "description": "Curved elongated golden-brown object with smooth reflective surface, tapering to sharp point with subtle horizontal striations",
+      "new_path": "Horns/horn-golden-brown-curved-striated.png",
+      "processed_at": "2025-12-28T15:35:50.271610"
+    },
+    {
+      "original_path": "More parts/Icon34.png",
+      "filename": "monster-part-necklace-claws-five-olive-cord.png",
+      "category": "Claws",
+      "name": "necklace-claws-five-olive-cord",
+      "description": "Five distinct elongated pointed objects in off-white or light grey with reddish-brown tips, strung on dark olive-green twisted cord forming necklace",
+      "new_path": "Claws/monster-part-necklace-claws-five-olive-cord.png",
+      "processed_at": "2025-12-28T15:35:50.272612"
+    },
+    {
+      "original_path": "More parts/Icon35.png",
+      "filename": "monster-part-gland-tear-drop-yellow-orange.png",
+      "category": "Organs",
+      "name": "gland-tear-drop-yellow-orange",
+      "description": "Elongated tear-drop or flame-shaped object with vertical gradient from pale translucent yellow at bottom to rich orange and reddish-brown at pointed top",
+      "new_path": "Organs/monster-part-gland-tear-drop-yellow-orange.png",
+      "processed_at": "2025-12-28T15:35:50.275611"
+    },
+    {
+      "original_path": "More parts/Icon36.png",
+      "filename": "monster-part-teeth-cluster-sharp-yellowish-orange.png",
+      "category": "Teeth",
+      "name": "teeth-cluster-sharp-yellowish-orange",
+      "description": "Irregular fan-like cluster of multiple sharp pointed triangular or conical elements in yellowish-orange and light brown with bright white highlights on tips",
+      "new_path": "Teeth/monster-part-teeth-cluster-sharp-yellowish-orange.png",
+      "processed_at": "2025-12-28T15:35:50.277609"
+    },
+    {
+      "original_path": "More parts/Icon37.png",
+      "filename": "scale-golden-ridged-bean-shaped.png",
+      "category": "Scales",
+      "name": "scale-golden-ridged-bean-shaped",
+      "description": "Irregular flattened bean-shaped object with golden yellow upper surface transitioning to darker brown edges, highly textured with numerous small irregular overlapping segments",
+      "new_path": "Scales/scale-golden-ridged-bean-shaped.png",
+      "processed_at": "2025-12-28T15:35:50.278611"
+    },
+    {
+      "original_path": "More parts/Icon38.png",
+      "filename": "monster-part-larvae-cluster-lime-green-segmented.png",
+      "category": "More parts",
+      "name": "larvae-cluster-lime-green-segmented",
+      "description": "Cluster of elongated segmented lime-green cylindrical or pod-like objects with visible divisions and ridges, arranged in haphazard overlapping cluster",
+      "new_path": "More parts/monster-part-larvae-cluster-lime-green-segmented.png",
+      "processed_at": "2025-12-28T15:35:50.279610"
+    },
+    {
+      "original_path": "More parts/Icon39.png",
+      "filename": "hide-golden-yellow-rectangular-bumpy.png",
+      "category": "Hide",
+      "name": "hide-golden-yellow-rectangular-bumpy",
+      "description": "Golden-yellow somewhat rectangular object with irregular jagged edges, textured surface with numerous raised oval-shaped bumps or scales in rows",
+      "new_path": "Hide/hide-golden-yellow-rectangular-bumpy.png",
+      "processed_at": "2025-12-28T15:35:50.280611"
+    },
+    {
+      "original_path": "More parts/Icon40.png",
+      "filename": "feather-single-reddish-brown-shaft.png",
+      "category": "Feathers",
+      "name": "feather-single-reddish-brown-shaft",
+      "description": "Single elongated feather oriented diagonally in rich reddish-brown with subtle shade variations, clearly defined lighter central shaft with soft barbs",
+      "new_path": "Feathers/feather-single-reddish-brown-shaft.png",
+      "processed_at": "2025-12-28T15:35:50.281611"
+    },
+    {
+      "original_path": "More parts/Icon41.png",
+      "filename": "feather-fiery-orange-red-yellow.png",
+      "category": "Feathers",
+      "name": "feather-fiery-orange-red-yellow",
+      "description": "Stylized pixel art feather-like object transitioning from dark red at base through vibrant orange to bright yellow and white-hot at top, flame-colored",
+      "new_path": "Feathers/feather-fiery-orange-red-yellow.png",
+      "processed_at": "2025-12-28T15:35:50.281611"
+    },
+    {
+      "original_path": "More parts/Icon42.png",
+      "filename": "monster-part-growth-spiky-cluster-reddish-brown.png",
+      "category": "More parts",
+      "name": "growth-spiky-cluster-reddish-brown",
+      "description": "Cluster of reddish-brown spiky growths emerging from greyish-brown base, organic woody or bony appearance with dense bristly thorny impression",
+      "new_path": "More parts/monster-part-growth-spiky-cluster-reddish-brown.png",
+      "processed_at": "2025-12-28T15:35:50.282612"
+    },
+    {
+      "original_path": "More parts/Icon43.png",
+      "filename": "horn-curved-brown-orange-segmented.png",
+      "category": "Horns",
+      "name": "horn-curved-brown-orange-segmented",
+      "description": "Elongated curved C-shaped object in brown and orange with darker brown recesses and golden-orange highlights, highly textured segmented ridged surface",
+      "new_path": "Horns/horn-curved-brown-orange-segmented.png",
+      "processed_at": "2025-12-28T15:35:50.282612"
+    },
+    {
+      "original_path": "More parts/Icon47.png",
+      "filename": "horn-golden-brassy-curved.png",
+      "category": "Horns",
+      "name": "horn-golden-brassy-curved",
+      "description": "Elongated curved object in golden or brassy yellow with smooth curve tapering to point, textured slightly ridged segmented appearance with darker brown and orange shading",
+      "new_path": "Horns/horn-golden-brassy-curved.png",
+      "processed_at": "2025-12-28T15:35:50.283611"
+    },
+    {
+      "original_path": "More parts/Icon48.png",
+      "filename": "hide-fragment-yellowish-brown-dried.png",
+      "category": "Hide",
+      "name": "hide-fragment-yellowish-brown-dried",
+      "description": "Irregular elongated curved yellowish-brown organic object with lumpy textured surface, uneven rough edges suggesting torn or detached piece",
+      "new_path": "Hide/hide-fragment-yellowish-brown-dried.png",
+      "processed_at": "2025-12-28T15:35:50.283611"
+    },
+    {
+      "original_path": "Bones/Icon19.png",
+      "filename": "bone-fragment-grey-white-jagged.png",
+      "category": "Bones",
+      "name": "bone-fragment-grey-white-jagged",
+      "description": "Light grey and white bone fragment with darker grey and yellowish-brown shading, irregular curved shape with rough splintered wider end and jagged narrow point",
+      "new_path": "Bones/bone-fragment-grey-white-jagged.png",
+      "processed_at": "2025-12-28T15:35:50.284611"
+    },
+    {
+      "original_path": "Bones/Icon20.png",
+      "filename": "monster-part-bones-fragments-pile-off-white.png",
+      "category": "Bones",
+      "name": "bones-fragments-pile-off-white",
+      "description": "Collection of fragmented bones in off-white light grey and beige, irregularly shaped with jagged edges and rough porous texture, clustered overlapping pile",
+      "new_path": "Bones/monster-part-bones-fragments-pile-off-white.png",
+      "processed_at": "2025-12-28T15:35:50.284611"
+    },
+    {
+      "original_path": "Bones/Icon7.png",
+      "filename": "tooth-molar-golden-white-roots.png",
+      "category": "Teeth",
+      "name": "tooth-molar-golden-white-roots",
+      "description": "White or off-white molar or large multi-rooted tooth with two distinct pointed root structures at bottom, golden markings along central groove and root tips",
+      "new_path": "Teeth/tooth-molar-golden-white-roots.png",
+      "processed_at": "2025-12-28T15:36:36.096589"
+    },
+    {
+      "original_path": "Bones/Icon8.png",
+      "filename": "monster-part-bones-shards-three-white-fragments.png",
+      "category": "Bones",
+      "name": "bones-shards-three-white-fragments",
+      "description": "Cluster of three irregular elongated white or very light grey bone fragments with jagged rough outlines and pointed ends, porous organic texture",
+      "new_path": "Bones/monster-part-bones-shards-three-white-fragments.png",
+      "processed_at": "2025-12-28T15:36:36.097591"
+    },
+    {
+      "original_path": "Bones/Icon21.png",
+      "filename": "bone-horn-curved-beige-striated.png",
+      "category": "Bones",
+      "name": "bone-horn-curved-beige-striated",
+      "description": "Curved horn-like elongated bone or tusk in light brown or beige with darker brown shading, tapering to point with subtle striations or ridges along length",
+      "new_path": "Bones/bone-horn-curved-beige-striated.png",
+      "processed_at": "2025-12-28T15:36:36.097591"
+    },
+    {
+      "original_path": "Bones/Icon22.png",
+      "filename": "bone-claw-curved-grey-pointed.png",
+      "category": "Bones",
+      "name": "bone-claw-curved-grey-pointed",
+      "description": "Single curved pointed object in light grey or off-white with darker grey shading, broad base tapering to sharp point, smooth hard bone-like surface",
+      "new_path": "Bones/bone-claw-curved-grey-pointed.png",
+      "processed_at": "2025-12-28T15:36:36.097591"
+    },
+    {
+      "original_path": "Bones/Icon31.png",
+      "filename": "bone-crescent-silver-red-orange-eye.png",
+      "category": "Bones",
+      "name": "bone-crescent-silver-red-orange-eye",
+      "description": "Crescent or C-shaped object in metallic silver-grey with horizontal striations, prominent circular reddish-orange feature in center resembling eye or joint",
+      "new_path": "Bones/bone-crescent-silver-red-orange-eye.png",
+      "processed_at": "2025-12-28T15:36:36.098589"
+    },
+    {
+      "original_path": "Bones/Icon32.png",
+      "filename": "bone-spiral-white-conical-ridged.png",
+      "category": "Bones",
+      "name": "bone-spiral-white-conical-ridged",
+      "description": "White or very light grey spiral-shaped conical object widening at base and tapering to point, distinct ridges following spiral path",
+      "new_path": "Bones/bone-spiral-white-conical-ridged.png",
+      "processed_at": "2025-12-28T15:36:36.098589"
+    },
+    {
+      "original_path": "Bones/Icon45.png",
+      "filename": "bone-fragment-curved-jagged-grey.png",
+      "category": "Bones",
+      "name": "bone-fragment-curved-jagged-grey",
+      "description": "Elongated curved bone fragment in off-white or light grey with darker grey shading, irregular jagged appearance particularly at ends, resembling rib or splintered piece",
+      "new_path": "Bones/bone-fragment-curved-jagged-grey.png",
+      "processed_at": "2025-12-28T15:36:36.099588"
+    },
+    {
+      "original_path": "Bones/Icon46.png",
+      "filename": "bone-fragment-gnarled-branched-antler.png",
+      "category": "Bones",
+      "name": "bone-fragment-gnarled-branched-antler",
+      "description": "Stylized irregular bone fragment in light grey to off-white with darker outlines, elongated curved main body with several smaller gnarled protrusions giving antler-like branched appearance",
+      "new_path": "Bones/bone-fragment-gnarled-branched-antler.png",
+      "processed_at": "2025-12-28T15:36:36.099588"
+    }
+  ],
+  "metadata": {
+    "created": "2025-12-28T15:28:51.048503",
+    "base_directory": "D:\\DnD2\\vtt-react\\public\\assets\\icons\\items\\Misc\\Monster Parts",
+    "last_updated": "2025-12-28T15:36:36.099588",
+    "total_icons": 93
+  }
+}

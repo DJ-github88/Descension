@@ -1,0 +1,161 @@
+.category-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.category-dialog {
+    background: rgb(23, 24, 27);
+    border: 1px solid rgb(35, 36, 40);
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.category-dialog-header {
+    padding: 16px;
+    border-bottom: 1px solid rgb(35, 36, 40);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-dialog-header h2 {
+    margin: 0;
+    color: rgb(255, 168, 0);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.category-dialog-close {
+    background: none;
+    border: none;
+    color: #6f7082;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.category-dialog-close:hover {
+    color: #fff;
+}
+
+.category-dialog-content {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+/* Removed duplicate .form-group label - using consolidated styles */
+
+.form-group input {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgb(35, 36, 40);
+    border: 1px solid rgb(45, 46, 50);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgb(255, 168, 0);
+}
+
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 8px;
+    background: rgb(35, 36, 40);
+    border-radius: 4px;
+}
+
+.icon-option {
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-option:hover {
+    border-color: rgba(255, 168, 0, 0.5);
+}
+
+.icon-option.selected {
+    border-color: rgb(255, 168, 0);
+}
+
+.icon-option img {
+    width: 32px;
+    height: 32px;
+    border-radius: 2px;
+}
+
+.category-dialog-footer {
+    padding: 16px;
+    border-top: 1px solid rgb(35, 36, 40);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.category-dialog-footer button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-dialog-footer button[type="button"] {
+    background: rgb(35, 36, 40);
+    color: #fff;
+}
+
+.category-dialog-footer button[type="button"]:hover {
+    background: rgb(45, 46, 50);
+}
+
+.category-dialog-footer button[type="submit"] {
+    background: rgb(255, 168, 0);
+    color: #000;
+}
+
+.category-dialog-footer button[type="submit"]:hover {
+    background: rgb(255, 188, 20);
+}
+
+.category-dialog-footer button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

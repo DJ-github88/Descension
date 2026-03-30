@@ -1,0 +1,358 @@
+.spell-cast-confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 15000;
+    backdrop-filter: blur(2px);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.spell-cast-confirmation-dialog {
+    background: linear-gradient(145deg, #2a1f15 0%, #1a0f0b 50%, #0f0805 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(139, 115, 85, 0.3);
+    font-family: 'Cinzel', serif;
+    color: #f0e6d2;
+    box-sizing: border-box;
+}
+
+.spell-cast-confirmation-header {
+    margin-bottom: 16px;
+    text-align: center;
+    border-bottom: 1px solid #8b7355;
+    padding-bottom: 12px;
+}
+
+.spell-cast-confirmation-header h3 {
+    margin: 0;
+    color: #f0e6d2;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.spell-cast-confirmation-content {
+    margin-bottom: 20px;
+}
+
+.spell-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.2) 0%, rgba(139, 115, 85, 0.1) 100%);
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    border-radius: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.resource-cost-inferno {
+    border-color: rgba(255, 69, 0, 0.6);
+    background: linear-gradient(135deg, rgba(255, 69, 0, 0.15) 0%, rgba(139, 0, 0, 0.08) 100%);
+}
+
+.resource-cost-inferno.insufficient {
+    border-color: rgba(220, 53, 69, 0.7);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+}
+
+.resource-costs-section,
+.resource-changes-section {
+    margin-bottom: 16px;
+}
+
+.section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #c9aa71;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resource-costs,
+.resource-changes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.resource-cost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    border-radius: 6px;
+    min-width: 80px;
+    transition: all 0.2s ease;
+}
+
+.resource-cost:hover {
+    transform: translateY(-1px);
+}
+
+.resource-cost.insufficient {
+    border-color: rgba(220, 53, 69, 0.7);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+    animation: pulse-error 2s ease-in-out infinite;
+}
+
+@keyframes pulse-error {
+    0%, 100% { border-color: rgba(220, 53, 69, 0.7); }
+    50% { border-color: rgba(220, 53, 69, 0.9); }
+}
+
+.resource-cost-mana {
+    border-color: rgba(33, 150, 243, 0.6);
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(25, 118, 210, 0.08) 100%);
+}
+
+.resource-cost-mana.insufficient {
+    border-color: rgba(220, 53, 69, 0.7);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+}
+
+.resource-cost-ap {
+    border-color: rgba(255, 152, 0, 0.6);
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.15) 0%, rgba(255, 111, 0, 0.08) 100%);
+}
+
+.resource-cost-ap.insufficient {
+    border-color: rgba(220, 53, 69, 0.7);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(139, 0, 0, 0.15) 100%);
+}
+
+.resource-cost-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.resource-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f0e6d2;
+    margin-bottom: 2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.resource-cost.insufficient .resource-amount {
+    color: #ff6b6b;
+}
+
+.resource-label {
+    font-size: 10px;
+    color: #c9aa71;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.resource-availability {
+    font-size: 10px;
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.sufficient-text {
+    color: #90ee90;
+    font-weight: 600;
+}
+
+.insufficient-text {
+    color: #ff6b6b;
+    font-weight: 700;
+}
+
+.insufficient-badge {
+    font-size: 9px;
+    color: #ff6b6b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    border-radius: 3px;
+    margin-top: 2px;
+}
+
+.resource-change {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
+    border: 1px solid;
+    border-radius: 6px;
+    min-width: 80px;
+    transition: all 0.2s ease;
+}
+
+.resource-change.resource-gain {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.resource-change:hover {
+    transform: translateY(-1px);
+}
+
+.resource-change .resource-amount {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.resource-change .resource-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.no-costs-message {
+    text-align: center;
+    color: #c9aa71;
+    font-style: italic;
+    padding: 12px;
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    font-size: 12px;
+}
+
+.spell-cast-confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.spell-cast-confirmation-buttons button {
+    padding: 10px 24px;
+    border: 2px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Cinzel', serif;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 90px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-button {
+    background: linear-gradient(to bottom, #8b7355, #6b5d4f);
+    border-color: #8b7355;
+    color: #f0e6d2;
+}
+
+.confirm-button:hover:not(.disabled) {
+    background: linear-gradient(to bottom, #a68b6b, #8b7355);
+    border-color: #a68b6b;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4);
+    transform: translateY(-1px);
+}
+
+.confirm-button.disabled {
+    background: linear-gradient(to bottom, #4a4a4a, #3a3a3a);
+    border-color: #4a4a4a;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.cancel-button {
+    background: linear-gradient(to bottom, #6b6b6b, #4a4a4a);
+    border-color: #4a4a4a;
+    color: #f0e6d2;
+}
+
+.cancel-button:hover {
+    background: linear-gradient(to bottom, #7b7b7b, #6b6b6b);
+    border-color: #6b6b6b;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(107, 107, 107, 0.4);
+    transform: translateY(-1px);
+}
+
+.cooldown-section {
+    margin-bottom: 16px;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(139, 115, 85, 0.08) 100%);
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    border-radius: 6px;
+}
+
+.cooldown-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+.cooldown-icon {
+    font-size: 16px;
+    color: #c9aa71;
+}
+
+.cooldown-text {
+    font-size: 13px;
+    color: #f0e6d2;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar styling */
+.spell-cast-confirmation-dialog::-webkit-scrollbar {
+    width: 8px;
+}
+
+.spell-cast-confirmation-dialog::-webkit-scrollbar-track {
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 4px;
+}
+
+.spell-cast-confirmation-dialog::-webkit-scrollbar-thumb {
+    background: rgba(139, 115, 85, 0.5);
+    border-radius: 4px;
+}
+
+.spell-cast-confirmation-dialog::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 115, 85, 0.7);
+}

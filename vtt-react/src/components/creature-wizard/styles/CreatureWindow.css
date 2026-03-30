@@ -1,0 +1,146 @@
+/* D&D/Pathfinder Themed Creature Window */
+.creature-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #f0e6d2;
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  overflow: hidden;
+}
+
+/* ─── Tab Header ─────────────────────────────────────────────── */
+.creature-window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+  border-bottom: 2px solid #a08c70;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.creature-window-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.creature-window-tab {
+  background: transparent;
+  border: 1px solid rgba(240, 230, 210, 0.25);
+  border-radius: 5px;
+  color: rgba(240, 230, 210, 0.75);
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  white-space: nowrap;
+}
+
+.creature-window-tab:hover:not(.disabled) {
+  background-color: rgba(240, 230, 210, 0.15);
+  border-color: rgba(240, 230, 210, 0.5);
+  color: #f0e6d2;
+}
+
+.creature-window-tab.active {
+  background: linear-gradient(to bottom, rgba(240, 230, 210, 0.2), rgba(240, 230, 210, 0.1));
+  color: #f0e6d2;
+  border-color: rgba(240, 230, 210, 0.6);
+  font-weight: bold;
+}
+
+.creature-window-tab.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.creature-window-tab i {
+  font-size: 13px;
+}
+
+/* ─── Back Button ────────────────────────────────────────────── */
+.back-to-library-button {
+  background-color: transparent;
+  border: 1px solid rgba(240, 230, 210, 0.3);
+  border-radius: 4px;
+  color: #f0e6d2;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.back-to-library-button:hover {
+  background-color: rgba(240, 230, 210, 0.15);
+  border-color: rgba(240, 230, 210, 0.6);
+}
+
+/* ─── Content Area ───────────────────────────────────────────── */
+.creature-window-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  background-color: #f0e6d2;
+  min-height: 0; /* critical for flex children to respect parent height */
+}
+
+/* ─── Loading / Auth Required ────────────────────────────────── */
+.loading-wizard,
+.creature-auth-required {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 200px;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #7a3b2e;
+  background-color: #f0e6d2;
+}
+
+.loading-wizard {
+  font-size: 18px;
+  animation: pulse 1.5s infinite;
+}
+
+.creature-auth-required i {
+  font-size: 48px;
+  opacity: 0.4;
+  margin-bottom: 8px;
+}
+
+.creature-auth-required h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #5a1e12;
+}
+
+.creature-auth-required p {
+  margin: 0;
+  font-size: 14px;
+  color: #7a5c3e;
+  max-width: 300px;
+}
+
+@keyframes pulse {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.6; }
+}

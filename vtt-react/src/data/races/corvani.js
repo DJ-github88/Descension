@@ -1,0 +1,16 @@
+export const corvani = {
+    id: 'corvani',
+    name: 'Corvani',
+    description: 'Mountain folk marked by raven-black patterns that shift like shadows on their skin. Pale from fog and mist, eyes that see through what others can\'t. Hair dark as feathers, sometimes streaked with premature gray. They live in fog-choked peaks where the veil between worlds thins, their settlements clinging to cliffs where maps mean nothing.',
+    icon: 'fas fa-crow',
+    overview: 'The Corvani are mountain folk whose ancestors made pacts with things that dwell in the mists. Their raven-black markings aren\'t tattoos. They\'re inherited patterns that shift with each generation, darkening with each prophecy spoken, each glimpse through the veil. The markings mark those chosen by the old powers. They live in isolated tribal communities scattered across fog-choked peaks, villages built where the veil between worlds grows thin. The Corvani don\'t choose to see things others miss. It\'s in their blood, passed down through tribal lineages. They serve as guides, messengers, mediators between the mundane world and whatever lies beyond the mist.',
+    culturalBackground: `Corvani society runs on tribal bloodlines and old traditions. Their settlements cling to mist-shrouded peaks, cut off from the lowlands by paths that shouldn't exist and fog that never lifts. Each tribe traces its lineage to ancestors who made bargains with entities that wear raven shapes. Pacts that granted survival in exchange for service. The markings on their skin are inherited. They darken with each generation, each prophecy spoken, each glimpse of the other side. Tribal elders pass down the old ways. How to read omens in the mist. How to navigate paths that shouldn't exist. How to speak with things that don't belong in this world. Corvani children are raised knowing they'll inherit the sight. The burden. The duty to serve as bridges between realms. Tribal disputes settle through divination and mediation, seers reading futures in fog patterns. They trade in secrets and warnings. Their services are valuable but costly. Those who seek Corvani counsel pay in coin, blood, or pieces of their own fate.`,
+    variantDiversity: 'The Corvani are divided into two major bloodlines: The Raven-Seers dedicate themselves to prophecy and fate-reading, serving as seers and advisors, while the Mist-Runners train as messengers and scouts, navigating the treacherous highland paths.',
+    integrationNotes: {
+        actionPointSystem: 'Corvani abilities often involve perception, divination, and mobility, offering unique tactical advantages in information gathering and positioning.',
+        backgroundSynergy: 'Corvani excel in backgrounds that emphasize wisdom, perception, and supernatural connections. Their prophetic abilities complement mystical and spiritual paths.',
+        classCompatibility: 'Corvani make excellent spellcasters, scouts, and support characters. Their perception bonuses and divination abilities enhance classes that rely on information and foresight.'
+    }
+};
+
+export default corvani;

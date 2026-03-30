@@ -1,0 +1,65 @@
+/* Game screen specific styles */
+
+/* Hide edit buttons in the game screen */
+.game-screen .edit-button-container,
+.game-screen .spell-card-action-btn.edit-btn,
+.game-screen button[aria-label="Edit spell"],
+.game-screen button[aria-label="Edit Spell"],
+.game-screen .edit-btn,
+.game-screen .spell-card-wrapper::after,
+.game-screen .spell-card-wrapper::before,
+.game-screen .spell-card-wrapper button {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+
+/* Ensure spell cards in the game screen have proper styling */
+.game-screen .wow-spell-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+/* Add a subtle glow effect on hover */
+.game-screen .wow-spell-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Ensure spell cards in the game screen have proper resource display */
+.game-screen .wow-spell-card .resource-cost {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Special styling for coin-based spells */
+.game-screen .coin-based-spell .coin-formula {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Special styling for card-based spells */
+.game-screen .card-based-spell .card-formula {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(147, 51, 234, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+}

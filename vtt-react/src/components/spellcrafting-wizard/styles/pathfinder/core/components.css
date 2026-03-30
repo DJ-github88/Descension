@@ -1,0 +1,412 @@
+/* ===== PATHFINDER SPELLBOOK - CORE COMPONENTS ===== */
+/* Reusable component styles with Pathfinder theming */
+
+/* ===== PARCHMENT CONTAINER ===== */
+
+.pf-parchment-container {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--pf-space-6);
+  position: relative;
+  overflow: hidden;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+.pf-parchment-container.with-texture {
+  position: relative;
+}
+
+.pf-parchment-container.with-texture::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(139, 69, 19, 0.02) 4px,
+      rgba(139, 69, 19, 0.02) 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 69, 19, 0.01) 6px,
+      rgba(139, 69, 19, 0.01) 12px
+    );
+  pointer-events: none;
+  border-radius: var(--pf-border-radius);
+  z-index: 1;
+}
+
+.pf-parchment-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== SECTION DIVIDERS ===== */
+
+.pf-section-divider {
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-brown-medium) 20%,
+    var(--pf-brown-medium) 80%,
+    transparent
+  );
+  margin: var(--pf-space-6) 0;
+  position: relative;
+}
+
+.pf-section-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--pf-brown-medium);
+  border-radius: 50%;
+  border: 2px solid var(--pf-parchment);
+}
+
+/* ===== ORNAMENTAL BORDERS ===== */
+
+.pf-ornamental-border {
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  position: relative;
+  background: var(--pf-gradient-parchment);
+}
+
+.pf-ornamental-border::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  z-index: -1;
+}
+
+.pf-ornamental-border::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: var(--pf-border-radius);
+  pointer-events: none;
+}
+
+/* ===== SCROLL CONTAINER ===== */
+
+.pf-scroll-container {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--pf-space-4);
+}
+
+.pf-scroll-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.pf-scroll-container::-webkit-scrollbar-track {
+  background: var(--pf-parchment-dark);
+  border-radius: var(--pf-border-radius);
+}
+
+.pf-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  border: 2px solid var(--pf-parchment-dark);
+}
+
+.pf-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-brown-dark);
+}
+
+/* ===== LOADING STATES ===== */
+
+.pf-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-8);
+  color: var(--pf-text-muted);
+  font-family: var(--pf-font-display);
+}
+
+.pf-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--pf-parchment-dark);
+  border-top: 3px solid var(--pf-brown-medium);
+  border-radius: 50%;
+  animation: pf-spin 1s linear infinite;
+  margin-bottom: var(--pf-space-4);
+}
+
+@keyframes pf-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pf-loading-text {
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-semibold);
+}
+
+/* ===== ERROR STATES ===== */
+
+.pf-error {
+  background: linear-gradient(145deg, #f8e6e6, #f0d0d0);
+  border: var(--pf-border-width) solid var(--pf-error);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  color: var(--pf-error);
+  font-family: var(--pf-font-body);
+}
+
+.pf-error-title {
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-lg);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-error-message {
+  font-size: var(--pf-text-base);
+  line-height: var(--pf-leading-normal);
+}
+
+/* ===== SUCCESS STATES ===== */
+
+.pf-success {
+  background: linear-gradient(145deg, #e6f8e6, #d0f0d0);
+  border: var(--pf-border-width) solid var(--pf-success);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  color: var(--pf-success);
+  font-family: var(--pf-font-body);
+}
+
+.pf-success-title {
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-lg);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-success-message {
+  font-size: var(--pf-text-base);
+  line-height: var(--pf-leading-normal);
+}
+
+/* ===== WARNING STATES ===== */
+
+.pf-warning {
+  background: linear-gradient(145deg, #f8f4e6, #f0ead6);
+  border: var(--pf-border-width) solid var(--pf-warning);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  color: var(--pf-warning);
+  font-family: var(--pf-font-body);
+}
+
+.pf-warning-title {
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-lg);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-warning-message {
+  font-size: var(--pf-text-base);
+  line-height: var(--pf-leading-normal);
+}
+
+/* ===== INFO STATES ===== */
+
+.pf-info {
+  background: linear-gradient(145deg, #e6f0f8, #d0e6f0);
+  border: var(--pf-border-width) solid var(--pf-info);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  color: var(--pf-info);
+  font-family: var(--pf-font-body);
+}
+
+.pf-info-title {
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-lg);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-info-message {
+  font-size: var(--pf-text-base);
+  line-height: var(--pf-leading-normal);
+}
+
+/* ===== BADGES & TAGS ===== */
+
+.pf-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--pf-space-1) var(--pf-space-3);
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pf-badge.primary {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-brown-dark);
+}
+
+.pf-badge.success {
+  background: var(--pf-success);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-success-light);
+}
+
+.pf-badge.warning {
+  background: var(--pf-warning);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-warning-light);
+}
+
+.pf-badge.error {
+  background: var(--pf-error);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-error-light);
+}
+
+.pf-badge.gold {
+  background: var(--pf-gold);
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+}
+
+/* ===== PROGRESS INDICATORS ===== */
+
+.pf-progress {
+  background: var(--pf-parchment-dark);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pf-progress-bar {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--pf-brown-medium),
+    var(--pf-brown-light)
+  );
+  border-radius: var(--pf-border-radius);
+  transition: width var(--pf-transition-normal);
+  position: relative;
+}
+
+.pf-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+}
+
+.pf-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-secondary);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* ===== SEPARATOR ===== */
+
+.pf-separator {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-brown-light) 20%,
+    var(--pf-brown-light) 80%,
+    transparent
+  );
+  margin: var(--pf-space-4) 0;
+}
+
+.pf-separator.thick {
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-brown-medium) 20%,
+    var(--pf-brown-medium) 80%,
+    transparent
+  );
+}
+
+/* ===== HIGHLIGHT BOX ===== */
+
+.pf-highlight {
+  background: linear-gradient(145deg, #fff8dc, #f5f5dc);
+  border: 1px solid var(--pf-gold);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  position: relative;
+}
+
+.pf-highlight::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--pf-gold), var(--pf-gold-light));
+  border-radius: var(--pf-border-radius);
+  z-index: -1;
+  opacity: 0.3;
+}

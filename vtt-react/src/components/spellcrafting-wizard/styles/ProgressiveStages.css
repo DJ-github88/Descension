@@ -1,0 +1,259 @@
+/* Progressive stages styling - Enhanced for Pathfinder theme */
+.progressive-stages {
+  margin-top: 15px;
+  padding: 10px;
+  background: var(--pf-gradient-parchment, rgba(0, 0, 0, 0.1));
+  border-radius: var(--pf-border-radius, 4px);
+  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stage-description {
+  font-size: var(--pf-text-sm, 12px);
+  color: var(--pf-text-secondary, #aaa);
+  margin-bottom: var(--pf-space-2, 10px);
+  font-family: var(--pf-font-body);
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3, 10px);
+}
+
+.stage-item {
+  background: var(--pf-gradient-button, rgba(0, 0, 0, 0.2));
+  border-radius: var(--pf-border-radius, 4px);
+  padding: var(--pf-space-3, 10px);
+  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.stage-item:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-2, 10px);
+  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--pf-brown-light);
+}
+
+.stage-title {
+  font-weight: var(--pf-font-bold, bold);
+  color: var(--pf-text-primary, #ddd);
+  font-family: var(--pf-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.stage-action {
+  background: var(--pf-gradient-button, none);
+  border: var(--pf-border-width, none) solid var(--pf-brown-medium, transparent);
+  border-radius: var(--pf-border-radius-sm);
+  color: var(--pf-text-primary, #aaa);
+  cursor: pointer;
+  font-size: var(--pf-text-sm, 16px);
+  padding: var(--pf-space-1, 0) var(--pf-space-2, 5px);
+  transition: all var(--pf-transition-normal);
+  font-family: var(--pf-font-ui);
+}
+
+.stage-action:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  color: var(--pf-text-primary, #fff);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.stage-action.delete:hover {
+  background: #e8dcc6;
+  border-color: #8b7355;
+  color: #5e2e23;
+}
+
+.stage-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2, 10px);
+}
+
+.stage-timing, .stage-effect, .stage-type, .stage-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1, 5px);
+}
+
+.stage-timing-inputs {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2, 5px);
+  flex-wrap: wrap;
+}
+
+.unit-label {
+  color: var(--pf-text-secondary, #aaa);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-style: italic;
+}
+
+.no-stages {
+  color: var(--pf-text-muted, #aaa);
+  font-style: italic;
+  text-align: center;
+  padding: var(--pf-space-4, 10px);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+}
+
+.add-stage-button {
+  margin-top: var(--pf-space-3, 10px);
+  background: var(--pf-gradient-gold, rgba(59, 130, 246, 0.2));
+  color: var(--pf-brown-darkest, #60a5fa);
+  border: var(--pf-border-width, 1px) solid var(--pf-gold-dark, rgba(59, 130, 246, 0.3));
+  border-radius: var(--pf-border-radius, 4px);
+  padding: var(--pf-space-3, 8px) var(--pf-space-4, 12px);
+  cursor: pointer;
+  width: 100%;
+  transition: all var(--pf-transition-normal, 0.2s ease);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.add-stage-button:hover {
+  background: var(--pf-gold-light, rgba(59, 130, 246, 0.3));
+  border-color: var(--pf-gold, rgba(59, 130, 246, 0.4));
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-glow);
+}
+
+/* Stage stats styling - Enhanced for Pathfinder theme */
+.stage-stats-selector {
+  max-height: 180px;
+  overflow-y: auto;
+  background: var(--pf-gradient-input, rgba(0, 0, 0, 0.2));
+  border-radius: var(--pf-border-radius, 4px);
+  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
+  margin-top: var(--pf-space-2);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stage-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1, 5px);
+  padding: var(--pf-space-2, 5px);
+}
+
+.stage-stat-item {
+  display: flex;
+  align-items: center;
+  padding: var(--pf-space-2, 5px);
+  border-radius: var(--pf-border-radius-sm, 4px);
+  background: var(--pf-gradient-button, rgba(0, 0, 0, 0.2));
+  border: var(--pf-border-width, 1px) solid var(--pf-brown-light, transparent);
+  transition: all var(--pf-transition-normal, 0.2s ease);
+  gap: var(--pf-space-2);
+}
+
+.stage-stat-item:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.stage-stat-item.included {
+  background: var(--pf-gradient-gold, rgba(59, 130, 246, 0.1));
+  border-color: var(--pf-gold-dark, rgba(59, 130, 246, 0.2));
+  color: var(--pf-brown-darkest);
+  box-shadow: var(--pf-shadow-glow);
+}
+
+.stage-stat-checkbox {
+  margin: 0;
+  transform: scale(1.2);
+  accent-color: var(--pf-gold);
+}
+
+.stage-stat-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--pf-border-radius-sm, 4px);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--pf-brown-light);
+}
+
+.stage-stat-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stage-stat-name {
+  flex: 1;
+  font-size: var(--pf-text-sm, 12px);
+  color: var(--pf-text-primary, #ddd);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-medium);
+}
+
+.stage-stat-item.included .stage-stat-name {
+  color: var(--pf-brown-darkest);
+  font-weight: var(--pf-font-semibold);
+}
+
+.stage-stat-value {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1, 5px);
+  flex-shrink: 0;
+}
+
+.stage-stat-value input,
+.stage-stat-value select {
+  width: 60px;
+  background: var(--pf-gradient-input, rgba(0, 0, 0, 0.3));
+  border: var(--pf-border-width, 1px) solid var(--pf-brown-light, rgba(255, 255, 255, 0.1));
+  border-radius: var(--pf-border-radius-sm, 3px);
+  color: var(--pf-text-primary, #ddd);
+  padding: var(--pf-space-1, 3px) var(--pf-space-2, 5px);
+  font-size: var(--pf-text-sm, 12px);
+  font-family: var(--pf-font-ui);
+  transition: all var(--pf-transition-normal);
+}
+
+.stage-stat-value input:focus,
+.stage-stat-value select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.stage-stat-item.included .stage-stat-value input,
+.stage-stat-item.included .stage-stat-value select {
+  background: var(--pf-parchment);
+  border-color: var(--pf-brown-medium);
+  color: var(--pf-brown-darkest);
+}
+
+.no-stats-message {
+  padding: var(--pf-space-4, 10px);
+  color: var(--pf-text-muted, #aaa);
+  font-style: italic;
+  text-align: center;
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+}

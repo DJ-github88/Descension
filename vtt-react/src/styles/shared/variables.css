@@ -1,0 +1,44 @@
+:root {
+  --pf-brown-dark: #5a1e12;
+  --pf-brown-medium: #7a3b2e;
+  --pf-brown-light: #c9aa71;
+  --pf-gold: #ffd700;
+  --pf-gold-dark: #daa520;
+  --pf-space-1: 4px;
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-mobile-2: 6px;
+  --pf-space-mobile-3: 10px;
+  --pf-space-mobile-4: 14px;
+  --pf-text-xs: 0.75rem;
+  --pf-text-sm: 0.875rem;
+  --pf-text-base: 1rem;
+  --pf-text-lg: 1.125rem;
+  --pf-text-xl: 1.25rem;
+  --pf-font-size-mobile-xs: 11px;
+  --pf-font-size-mobile-sm: 13px;
+  --pf-font-normal: 400;
+  --pf-font-medium: 500;
+  --pf-font-semibold: 600;
+  --pf-font-bold: 700;
+  --pf-border-radius: 6px;
+  --pf-border-radius-sm: 4px;
+  --pf-border-radius-lg: 8px;
+  --pf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --pf-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --pf-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+--pf-transition-fast: 150ms ease;
+--pf-transition-normal: 250ms ease;
+--pf-transition-slow: 350ms ease;
+
+/* Font families */
+--pf-font-serif: 'Bookman Old Style', 'Garamond', serif;
+--pf-font-cinzel: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+
+/* Common backgrounds */
+--pf-bg-overlay-light: rgba(0, 0, 0, 0.2);
+--pf-bg-overlay-medium: rgba(0, 0, 0, 0.3);
+--pf-bg-overlay-heavy: rgba(0, 0, 0, 0.5);
+--pf-bg-overlay-dark: rgba(0, 0, 0, 0.8);
+}

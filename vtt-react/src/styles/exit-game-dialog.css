@@ -1,0 +1,127 @@
+.exit-game-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Cloudy backdrop effect */
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(200, 220, 240, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(180, 200, 220, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(160, 180, 200, 0.3) 0%, transparent 60%),
+        radial-gradient(circle at 10% 80%, rgba(190, 210, 230, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(170, 190, 210, 0.35) 0%, transparent 45%),
+        linear-gradient(135deg, rgba(100, 120, 140, 0.6) 0%, rgba(80, 100, 120, 0.7) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 15000; /* Higher than WowWindow (10000-14000) to appear above all windows */
+    animation: exitDialogFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes exitDialogFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.exit-game-dialog {
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%); /* Parchment gradient */
+    border: 3px solid #8B4513; /* Brown border to match D&D theme */
+    border-radius: 12px;
+    padding: 32px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        0 0 0 2px rgba(139, 69, 19, 0.2);
+    font-family: 'Cinzel', serif;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.exit-game-message {
+    color: #5a1e12; /* Dark brown text for good contrast on light background */
+    margin-bottom: 32px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+.exit-game-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.exit-game-buttons button {
+    padding: 14px 32px;
+    border: 2px solid;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: 'Cinzel', serif;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+}
+
+.exit-game-confirm-button {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+    border-color: #5e2e23;
+    color: #f0e6d2; /* Parchment text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.exit-game-confirm-button:hover {
+    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+    border-color: #7a3b2e;
+    color: #ffffff;
+    box-shadow: 0 6px 12px rgba(122, 59, 46, 0.5);
+    transform: translateY(-2px);
+}
+
+.exit-game-confirm-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(122, 59, 46, 0.4);
+}
+
+.exit-game-cancel-button {
+    background: linear-gradient(to bottom, #a08c70, #8b7355); /* Neutral brown gradient */
+    border-color: #8b7355;
+    color: #f0e6d2; /* Parchment text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.exit-game-cancel-button:hover {
+    background: linear-gradient(to bottom, #b09c80, #a08c70);
+    border-color: #a08c70;
+    color: #ffffff;
+    box-shadow: 0 6px 12px rgba(160, 140, 112, 0.4);
+    transform: translateY(-2px);
+}
+
+.exit-game-cancel-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(160, 140, 112, 0.3);
+}
+

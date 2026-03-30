@@ -1,0 +1,16 @@
+export const emberth = {
+
+        id: 'emberth',
+        name: 'Emberth',
+        description: 'Folk with skin like cooled slag, dark and rough. Eyes glow with inner fire, pupils like banked coals. Hair often streaked with ash and soot. Body temperature runs hot, their touch can warm or burn. Many have scars from forge accidents and lava burns. They smell of smoke and hot metal. Their presence makes air shimmer with heat.',
+        icon: 'fas fa-fire',
+        overview: 'The Emberth are people whose ancestors settled in volcanic wastelands. Their bloodlines marked by fire through generations of living among lava flows and forges. They are organized into forge-clans bound to volcanic calderas. Settlements built around ancient forges that have burned for centuries. The Emberth do not choose to burn. It is their heritage, passed down through bloodlines that carry the earth inner fire.',
+        culturalBackground: `Emberth society is built on forge-clans bound to volcanic calderas. Communities organized around ancient forges that have burned for generations. Each clan traces its founding to legendary smiths who first learned to work with volcanic fire. Traditions passed down through apprenticeships that begin in childhood. Emberth settlements are built around forges that burn day and night. Flames fed by the volcanic vents that power their craft. Children are tempered in lava baths from birth. The weak burning away while the strong emerge with skin like cooled slag and eyes that glow with inner fire. Clan elders pass down the old ways. How to work metal with bare hands. How to channel the Fire Within. How to craft weapons that remember their forging. Their society is a meritocracy of flame. Those who burn brightest rise highest. The dim become fuel for the forges. Clan disputes settle through forge-trials and the testimony of weapons crafted. But the cold is their great enemy. Sapping their inner flames and leaving them brittle and weak. They are a people bound by fire and forge. Their mastery of flame unmatched but their bodies forever marked by the heat that powers them.`,
+        variantDiversity: 'The Emberth are divided into three major forge-clan bloodlines: The Forge-Hearth dedicate themselves to master smithing and craft, the Ash-Runners serve as scouts and messengers across volcanic wastes, and the War-Forged are warriors tempered by battle and fire.',
+        integrationNotes: {
+            actionPointSystem: 'Emberth abilities focus on fire damage, crafting, and aggressive combat. Their inner flames provide offensive options but create environmental hazards.',
+            backgroundSynergy: 'Emberth excel in backgrounds emphasizing strength, crafting, and combat prowess. Their fire nature complements aggressive and creative paths.',
+            classCompatibility: 'Emberth make excellent warriors, smiths, and fire-based casters. Their fire immunity and physical bonuses enhance classes that engage in direct combat.',
+};
+
+export default emberth;

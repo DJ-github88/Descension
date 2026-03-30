@@ -1,0 +1,363 @@
+/* Quest Reward Delivery Dialog - GM Confirmation Style */
+
+/* Overlay */
+.quest-reward-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: rewardOverlayFadeIn 0.3s ease-out;
+}
+
+.quest-reward-overlay.closing {
+    animation: rewardOverlayFadeOut 0.3s ease-out forwards;
+}
+
+@keyframes rewardOverlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes rewardOverlayFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Main Dialog */
+.quest-reward-dialog {
+    position: relative;
+    max-width: 480px;
+    width: 90%;
+    background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
+    border-radius: 12px;
+    box-shadow:
+        0 0 0 2px #4a4a6a,
+        0 0 0 4px rgba(212, 165, 48, 0.3),
+        0 8px 32px rgba(0, 0, 0, 0.6);
+    animation: rewardDialogSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+.quest-reward-dialog.closing {
+    animation: rewardDialogSlideOut 0.3s ease-in forwards;
+}
+
+.quest-reward-dialog.delivering {
+    animation: rewardDeliveryPulse 0.4s ease-out;
+}
+
+@keyframes rewardDialogSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes rewardDialogSlideOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+}
+
+@keyframes rewardDeliveryPulse {
+    0% {
+        box-shadow: 0 0 0 2px #4a4a6a, 0 0 0 4px rgba(212, 165, 48, 0.3), 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    50% {
+        box-shadow: 0 0 0 2px #4a4a6a, 0 0 30px 10px rgba(212, 165, 48, 0.5), 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px #4a4a6a, 0 0 0 4px rgba(212, 165, 48, 0.3), 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Header */
+.quest-reward-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(212, 165, 48, 0.2) 0%, rgba(180, 140, 40, 0.1) 100%);
+    border-bottom: 1px solid rgba(212, 165, 48, 0.3);
+}
+
+.quest-reward-header-icon {
+    font-size: 1.5rem;
+    color: #d4a530;
+}
+
+.quest-reward-title {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Content */
+.quest-reward-content {
+    padding: 24px;
+}
+
+/* Player info */
+.quest-reward-player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    color: #aaa;
+    font-size: 0.95rem;
+}
+
+.quest-reward-player-info .player-icon {
+    color: #4a90e2;
+}
+
+.quest-reward-player-info .player-name {
+    color: #4a90e2;
+    font-weight: 600;
+}
+
+/* Quest name */
+.quest-reward-quest-name {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 1.2rem;
+    color: #d4a530;
+    text-align: center;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    background: rgba(212, 165, 48, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 165, 48, 0.2);
+}
+
+/* Rewards section */
+.quest-reward-delivery-section {
+    margin-bottom: 20px;
+}
+
+.quest-reward-section-title {
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quest-reward-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quest-reward-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quest-reward-item .reward-icon {
+    font-size: 1.1rem;
+    margin-top: 2px;
+}
+
+.quest-reward-item.experience .reward-icon {
+    color: #9932cc;
+}
+
+.quest-reward-item.currency .reward-icon {
+    color: #d4a530;
+}
+
+.quest-reward-item.items .reward-icon {
+    color: #8b7355;
+}
+
+.quest-reward-item .reward-label {
+    color: #888;
+    min-width: 80px;
+}
+
+.quest-reward-item .reward-value {
+    color: #fff;
+    font-weight: 500;
+}
+
+.quest-reward-item .reward-value .gold {
+    color: #ffd700;
+}
+
+.quest-reward-item .reward-value .silver {
+    color: #c0c0c0;
+}
+
+.quest-reward-item .reward-value .copper {
+    color: #b87333;
+}
+
+.quest-reward-item .reward-items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.quest-reward-item .reward-item-name {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* Item quality colors - dark theme version */
+.quest-reward-item .reward-item-name.quality-common {
+    background: rgba(157, 157, 157, 0.2);
+    color: #9d9d9d;
+}
+
+.quest-reward-item .reward-item-name.quality-uncommon {
+    background: rgba(30, 255, 0, 0.15);
+    color: #1eff00;
+}
+
+.quest-reward-item .reward-item-name.quality-rare {
+    background: rgba(0, 112, 221, 0.2);
+    color: #0070dd;
+}
+
+.quest-reward-item .reward-item-name.quality-epic {
+    background: rgba(163, 53, 238, 0.2);
+    color: #a335ee;
+}
+
+.quest-reward-item .reward-item-name.quality-legendary {
+    background: rgba(255, 128, 0, 0.2);
+    color: #ff8000;
+}
+
+/* Note */
+.quest-reward-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    color: #bbb;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.quest-reward-note .note-icon {
+    color: #ffc107;
+    font-size: 1rem;
+}
+
+/* Action buttons */
+.quest-reward-actions {
+    display: flex;
+    gap: 12px;
+    padding: 20px 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quest-reward-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quest-reward-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.quest-reward-button.deliver {
+    background: linear-gradient(135deg, #d4a530 0%, #b8860b 100%);
+    color: #1a1a2a;
+    box-shadow: 0 2px 8px rgba(212, 165, 48, 0.4);
+}
+
+.quest-reward-button.deliver:hover:not(:disabled) {
+    background: linear-gradient(135deg, #e4b540 0%, #c8960b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 165, 48, 0.5);
+}
+
+.quest-reward-button.deny {
+    background: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quest-reward-button.deny:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.quest-reward-button .button-icon {
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .quest-reward-dialog {
+        width: 95%;
+    }
+
+    .quest-reward-content {
+        padding: 16px;
+    }
+
+    .quest-reward-actions {
+        flex-direction: column;
+        padding: 16px;
+    }
+}

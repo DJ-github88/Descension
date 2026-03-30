@@ -1,0 +1,220 @@
+/* ===== COMPACT SPELL VIEW STYLES ===== */
+/* Pathfinder-themed compact spell display with hover tooltips */
+
+/* ===== COMPACT SPELL ITEM ===== */
+
+.compact-spell-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--pf-space-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  position: relative;
+  min-height: 90px;
+  width: 80px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.compact-spell-item:hover {
+  transform: scale(1.05);
+}
+
+.compact-spell-item:active {
+  cursor: grabbing;
+  transform: scale(0.95);
+}
+
+.compact-spell-item.selected {
+  transform: scale(1.1);
+}
+
+/* ===== RARITY VARIANTS ===== */
+
+.compact-spell-item.rarity-common .compact-spell-icon {
+  border-color: var(--pf-common, #9d9d9d);
+}
+
+.compact-spell-item.rarity-uncommon .compact-spell-icon {
+  border-color: var(--pf-uncommon, #1eff00);
+}
+
+.compact-spell-item.rarity-rare .compact-spell-icon {
+  border-color: var(--pf-rare, #0070dd);
+}
+
+.compact-spell-item.rarity-epic .compact-spell-icon {
+  border-color: var(--pf-epic, #a335ee);
+}
+
+.compact-spell-item.rarity-legendary .compact-spell-icon {
+  border-color: var(--pf-legendary, #ff8000);
+}
+
+/* ===== SPELL ICON ===== */
+
+.compact-spell-icon {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--pf-space-2);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--pf-brown-medium);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.compact-spell-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all var(--pf-transition-normal);
+}
+
+.compact-spell-item:hover .compact-spell-icon img {
+  filter: brightness(1.1);
+}
+
+/* ===== SPELL NAME ===== */
+
+.compact-spell-name {
+  font-family: var(--pf-font-display);
+  font-size: 11px;
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
+  line-height: 1.2;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 22px;
+}
+
+
+
+/* ===== COMPACT GRID LAYOUT ===== */
+
+.spell-library-spells.compact-view .spell-cards-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  gap: var(--pf-space-2) !important;
+  padding: var(--pf-space-3) !important;
+  justify-items: center !important;
+  align-items: start !important;
+}
+
+/* Override any conflicting layout styles */
+.library-content .spell-library-spells.compact-view .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  gap: var(--pf-space-2) !important;
+  justify-items: center !important;
+}
+
+/* ===== TOOLTIP STYLES ===== */
+
+.spell-tooltip-overlay {
+  animation: tooltipFadeIn 0.15s ease-out;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  z-index: 99999 !important;
+  position: fixed !important;
+  pointer-events: auto !important;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.spell-tooltip-container {
+  background: transparent;
+  border-radius: 0; /* Remove border radius to avoid interfering with spell card */
+  overflow: visible; /* Allow spell card to show properly */
+}
+
+.spell-tooltip-content {
+  /* Remove background and borders - let spell card handle its own styling */
+  background: transparent;
+  border: none;
+  position: relative;
+  overflow: visible; /* Allow spell card to show properly */
+}
+
+/* Remove decorative background pattern to avoid interfering with spell card styling */
+.spell-tooltip-content::before {
+  display: none;
+}
+
+.spell-tooltip-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .compact-spell-item {
+    width: 100px;
+    min-height: 120px;
+    padding: var(--pf-space-2);
+  }
+  
+  .compact-spell-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .compact-spell-name {
+    font-size: 11px;
+  }
+  
+  .compact-spell-resource {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+  
+  .compact-spell-type {
+    font-size: 9px;
+  }
+  
+  .spell-level-indicator {
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+  }
+  
+  .spell-library-spells.compact-view .spell-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--pf-space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .compact-spell-item {
+    width: 90px;
+    min-height: 110px;
+  }
+  
+  .compact-spell-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .spell-library-spells.compact-view .spell-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+}

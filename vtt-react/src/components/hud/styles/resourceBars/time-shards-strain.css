@@ -1,0 +1,405 @@
+.class-resource-bar.time-shards-strain {
+    background: transparent;
+    border: none;
+    height: auto;
+    width: 100%; /* Ensure container takes full width */
+    display: block; /* Ensure it displays */
+    min-height: 0; /* Allow shrinking */
+}
+
+/* Party member frame specific styling */
+.party-member-frame .class-resource-bar.time-shards-strain {
+    width: 100% !important;
+    min-width: 0; /* Allow flex shrinking */
+    flex: 0 1 auto; /* Don't force flex growth, allow natural sizing */
+    max-width: 100%; /* Prevent overflow */
+    box-sizing: border-box;
+    display: block !important; /* Ensure it displays */
+    min-height: 20px; /* Ensure minimum height for single bar */
+    /* Don't clip here - let the frame handle overflow */
+}
+
+.chronarch-single-bar {
+    position: relative;
+    display: flex !important;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2px;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.35);
+    border-radius: 25px;
+    padding: 3px 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 24px;
+}
+
+/* Remove frame in party member context */
+.party-member-frame .chronarch-single-bar {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 2px 4px;
+    gap: 4px;
+    width: 100% !important; /* Ensure container stretches */
+    min-width: 0; /* Allow flex shrinking */
+    max-width: 100% !important; /* Prevent overflow */
+    box-sizing: border-box;
+    display: flex !important; /* Ensure it displays */
+    min-height: 18px !important; /* Ensure minimum height for single bar */
+    /* Don't clip here - bars need to be fully visible */
+}
+
+.party-member-frame .time-shards-bar,
+.party-member-frame .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 4px;
+    flex: 1 1 auto !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    overflow: visible;
+    min-height: 16px !important;
+}
+
+.party-member-frame .fluid-bar-container {
+    height: 6px !important;
+}
+
+.party-member-frame .chronarch-center {
+    width: 16px !important;
+}
+
+.party-member-frame .center-circle {
+    width: 4px !important;
+    height: 4px !important;
+}
+
+.party-member-frame .line {
+    width: 12px !important;
+    height: 1px !important;
+}
+
+.party-member-frame .time-shards-bar .bar-value,
+.party-member-frame .temporal-strain-bar .bar-value {
+    font-size: 8px;
+    min-width: auto;
+    color: #ffffff !important;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 1),
+        0 1px 2px rgba(0, 0, 0, 1),
+        1px 1px 2px rgba(0, 0, 0, 1) !important;
+    text-align: center !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    box-sizing: border-box;
+}
+
+/* Time Shards Bar (Left) - Fluid */
+.time-shards-bar {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 6px;
+    background: linear-gradient(90deg, rgba(26, 77, 109, 0.15) 0%, rgba(26, 77, 109, 0.08) 50%, transparent 100%);
+    border: 1px solid rgba(79, 195, 247, 0.3);
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    overflow: hidden;
+}
+
+.time-shards-bar:hover {
+    background: linear-gradient(90deg, rgba(26, 77, 109, 0.25) 0%, rgba(26, 77, 109, 0.15) 50%, transparent 100%);
+    border-color: rgba(79, 195, 247, 0.5);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(79, 195, 247, 0.3);
+}
+
+/* Chronarch Center Ornament */
+.chronarch-center {
+    flex-shrink: 0;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.center-ornament {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-circle {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #d4c5a9 0%, #b8a085 50%, #8b6f3d 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(212, 197, 169, 0.6);
+    position: relative;
+    z-index: 2;
+}
+
+.center-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.line {
+    position: absolute;
+    background: linear-gradient(to right, transparent 0%, #d4c5a9 50%, transparent 100%);
+    opacity: 0.4;
+}
+
+.line-1 { transform: rotate(0deg); width: 16px; height: 1px; }
+.line-2 { transform: rotate(45deg); width: 16px; height: 1px; }
+.line-3 { transform: rotate(90deg); width: 16px; height: 1px; }
+.line-4 { transform: rotate(135deg); width: 16px; height: 1px; }
+
+/* Temporal Strain Bar (Right) - Fluid */
+.temporal-strain-bar {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 6px;
+    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.08) 50%, rgba(66, 66, 66, 0.15) 100%);
+    border: 1px solid rgba(46, 125, 50, 0.3);
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    overflow: hidden;
+}
+
+.temporal-strain-bar:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(66, 66, 66, 0.15) 50%, rgba(66, 66, 66, 0.25) 100%);
+    border-color: rgba(46, 125, 50, 0.5);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(46, 125, 50, 0.3);
+}
+
+/* Fluid Bar Container and Fill */
+.fluid-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fluid-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease, background 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Temporal Strain bar fills from right to left */
+.temporal-strain-bar .fluid-bar-fill {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.fluid-bar-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+    animation: fluidShimmer 2s ease-in-out infinite;
+}
+
+@keyframes fluidShimmer {
+    0%, 100% { opacity: 0; transform: translateX(-100%); }
+    50% { opacity: 1; transform: translateX(0%); }
+}
+
+/* Pulse animation for high strain */
+.temporal-strain-bar.pulse {
+    animation: strainPulse 1.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.pulse .fluid-bar-fill {
+    animation: strainPulseFill 1.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.flash {
+    animation: strainFlash 0.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.flash .fluid-bar-fill {
+    animation: strainFlashFill 0.5s ease-in-out infinite;
+}
+
+@keyframes strainPulse {
+    0%, 100% {
+        border-color: rgba(251, 140, 0, 0.3);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 6px rgba(251, 140, 0, 0.2);
+    }
+    50% {
+        border-color: rgba(251, 140, 0, 0.6);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 12px rgba(251, 140, 0, 0.4);
+    }
+}
+
+@keyframes strainPulseFill {
+    0%, 100% {
+        box-shadow: 0 0 8px currentColor;
+    }
+    50% {
+        box-shadow: 0 0 16px currentColor, 0 0 24px currentColor;
+    }
+}
+
+@keyframes strainFlash {
+    0%, 100% {
+        border-color: rgba(198, 40, 40, 0.5);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 6px rgba(198, 40, 40, 0.3);
+    }
+    50% {
+        border-color: rgba(198, 40, 40, 0.9);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 16px rgba(198, 40, 40, 0.6);
+    }
+}
+
+@keyframes strainFlashFill {
+    0%, 100% {
+        box-shadow: 0 0 12px currentColor;
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, 0 0 32px currentColor;
+    }
+}
+
+/* Bar Values */
+.time-shards-bar .bar-value {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #81D4FA;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    min-width: 30px;
+    text-align: left;
+    position: relative;
+    margin-left: auto;
+}
+
+.temporal-strain-bar .bar-value {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    min-width: 30px;
+    text-align: right;
+    position: relative;
+    margin-right: auto;
+}
+
+/* Adjustment Menus */
+/* Chronarch menus now use unified-context-menu.css system */
+
+/* Size Variations */
+.class-resource-bar.time-shards-strain.small .chronarch-single-bar {
+    padding: 3px 5px;
+    gap: 2px;
+    min-height: 20px;
+}
+
+.class-resource-bar.time-shards-strain.small .chronarch-center {
+    width: 16px;
+}
+
+.class-resource-bar.time-shards-strain.small .center-circle {
+    width: 4px;
+    height: 4px;
+}
+
+.class-resource-bar.time-shards-strain.small .line {
+    width: 12px !important;
+    height: 1px !important;
+}
+
+.class-resource-bar.time-shards-strain.small .time-shards-bar,
+.class-resource-bar.time-shards-strain.small .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 4px;
+}
+
+.class-resource-bar.time-shards-strain.small .fluid-bar-container {
+    height: 6px;
+}
+
+.class-resource-bar.time-shards-strain.small .bar-value {
+    font-size: 9px;
+    min-width: 26px;
+}
+
+.class-resource-bar.time-shards-strain.large .chronarch-single-bar {
+    padding: 5px 8px;
+    gap: 4px;
+    min-height: 32px;
+}
+
+.class-resource-bar.time-shards-strain.large .chronarch-center {
+    width: 24px;
+}
+
+.class-resource-bar.time-shards-strain.large .center-circle {
+    width: 8px;
+    height: 8px;
+}
+
+.class-resource-bar.time-shards-strain.large .line {
+    width: 20px !important;
+    height: 1px !important;
+}
+
+.class-resource-bar.time-shards-strain.large .time-shards-bar,
+.class-resource-bar.time-shards-strain.large .temporal-strain-bar {
+    padding: 3px 8px;
+    gap: 8px;
+}
+
+.class-resource-bar.time-shards-strain.large .fluid-bar-container {
+    height: 12px;
+}
+
+.class-resource-bar.time-shards-strain.large .bar-value {
+    font-size: 12px;
+    min-width: 36px;
+}
+
+/* ========================================
+   COVENBANE - HEXBREAKER CHARGES
+   ======================================== */

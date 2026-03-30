@@ -1,0 +1,252 @@
+/* ===== BASE RESOURCE BAR STYLES ===== */
+/* Shared styles for all class resource bars */
+
+.class-resource-wrapper {
+    position: relative;
+    margin-bottom: 4px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Party member frame specific constraints */
+.party-member-frame .class-resource-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    /* Don't clip here - let the frame handle overflow */
+}
+
+.class-resource-wrapper.clickable {
+    cursor: pointer;
+}
+
+.class-resource-wrapper.clickable:hover {
+    opacity: 0.9;
+}
+
+/* Base Resource Bar */
+.class-resource-bar {
+    position: relative;
+    height: 16px;
+    border-radius: 8px;
+    overflow: visible; /* Allow content to be visible */
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(160, 140, 112, 0.6);
+    margin-bottom: 2px; /* Add spacing between resource bars */
+}
+
+.class-resource-bar.small {
+    height: 12px;
+}
+
+.class-resource-bar.large {
+    height: 20px;
+}
+
+/* Large size for custom resource bars (like Arcanoneer) - allow auto height */
+.class-resource-bar.large.elemental-spheres-display,
+.class-resource-bar.large.mayhem-modifiers-display,
+.class-resource-bar.large.rage-bar,
+.class-resource-bar.large.stance-flow,
+.class-resource-bar.large.totemic-synergy {
+    height: auto;
+    min-height: 60px;
+}
+
+/* Progress Bar (Default) */
+.progress-bar .bar-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.progress-bar .bar-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Orbs Display (Pyrofiend) */
+.orbs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.orbs-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.orb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.orb.active {
+    animation: pulse 2s infinite;
+}
+
+.orb.inactive {
+    opacity: 0.4;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Gauge Display (Generic) */
+.gauge-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.gauge-container {
+    position: relative;
+    height: 16px;
+    margin-bottom: 2px;
+}
+
+.gauge-background {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+}
+
+.gauge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.threshold-marker {
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: 16px;
+    border-radius: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.gauge-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+/* Vortex Display (Old Chaos Weaver - kept for compatibility) */
+.vortex-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.vortex-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.chaos-vortex {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 0, 128, 0.8), rgba(255, 0, 255, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 3s linear infinite;
+}
+
+.vortex-center {
+    font-size: 12px;
+}
+
+.entropy-counter {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 8px;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.dice-display {
+    display: flex;
+    gap: 2px;
+}
+
+.chaos-die {
+    font-size: 8px;
+    opacity: 0.7;
+    animation: float 2s ease-in-out infinite;
+}
+
+.chaos-die:nth-child(odd) {
+    animation-delay: 0.5s;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+

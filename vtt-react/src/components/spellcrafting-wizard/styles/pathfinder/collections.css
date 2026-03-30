@@ -1,0 +1,645 @@
+/* ===== PATHFINDER COLLECTIONS STYLING ===== */
+
+/* Collections Container */
+.pf-collections-container {
+  width: 100%;
+  height: 100%;
+  padding: var(--pf-space-5);
+  overflow: auto;
+  background: var(--pf-gradient-parchment);
+}
+
+/* Collections Header */
+.pf-collections-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-5);
+  padding-bottom: var(--pf-space-3);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.pf-collections-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-2xl);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.3);
+}
+
+.pf-collections-create-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+}
+
+/* Collections Grid */
+.pf-collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--pf-space-5);
+  padding: var(--pf-space-2) 0;
+}
+
+/* Collection Card - Using existing styles from library-layout.css */
+.collection-card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Collection Icon */
+.collection-icon-wrapper {
+  position: relative;
+  margin-right: var(--pf-space-3);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--pf-border-radius);
+  overflow: hidden;
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.collection-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Collection Info */
+.collection-info {
+  flex: 1;
+}
+
+.collection-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-1);
+}
+
+.collection-spell-label {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  font-weight: var(--pf-font-medium);
+}
+
+/* Collection Card Count Badge */
+.collection-card-count {
+  padding: 2px var(--pf-space-2);
+  color: var(--pf-text-on-dark);
+  font-size: var(--pf-text-xs);
+  border-radius: var(--pf-border-radius-full);
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-ui);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .pf-collections-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--pf-space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .pf-collections-container {
+    padding: var(--pf-space-4);
+  }
+  
+  .pf-collections-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--pf-space-3);
+  }
+  
+  .pf-collections-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-3);
+  }
+  
+  .pf-collections-title {
+    font-size: var(--pf-text-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-collections-grid {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-3);
+  }
+  
+  .collection-icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .pf-collections-title {
+    font-size: var(--pf-text-lg);
+  }
+}
+
+/* ===== COLLECTION VIEW WINDOW ===== */
+
+.pf-collection-view-window {
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  width: 50%;
+  max-width: 650px;
+  max-height: 65vh;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  overflow: hidden;
+}
+
+.pf-collection-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-5);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--pf-gradient-header);
+}
+
+.pf-collection-view-title {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-4);
+}
+
+.pf-collection-view-name {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-xl);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure header text is always readable */
+.pf-collection-view-header * {
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-collection-view-content {
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+  background: var(--pf-gradient-parchment-light);
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-collection-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-10) var(--pf-space-5);
+  text-align: center;
+  color: var(--pf-text-primary) !important;
+  height: 100%;
+  min-height: 300px;
+}
+
+.pf-collection-empty i {
+  font-size: 48px;
+  margin-bottom: var(--pf-space-5);
+  opacity: 0.7;
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-collection-empty p {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-lg);
+  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-collection-empty-hint {
+  font-size: var(--pf-text-sm) !important;
+  opacity: 0.8 !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-collection-spell-actions {
+  position: absolute;
+  top: var(--pf-space-2);
+  right: var(--pf-space-2);
+  display: flex;
+  gap: var(--pf-space-1);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.spell-card-wrapper:hover .pf-collection-spell-actions {
+  opacity: 1;
+}
+
+.spell-card-wrapper {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spell-card-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== COMPREHENSIVE TEXT COLOR FIXES FOR COLLECTION VIEW ===== */
+
+/* Force all text in collection view to use readable Pathfinder colors */
+.pf-collection-view-window * {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Spell card text overrides */
+.pf-collection-view-window .wow-spell-card,
+.pf-collection-view-window .wow-spell-card * {
+  color: var(--pf-text-primary) !important;
+}
+
+/* ===== ENSURE COLLECTIONS MATCH LIBRARY STYLING EXACTLY ===== */
+
+/* Force collections spellcards to match library styling */
+.pf-collection-view-window .wow-spell-card {
+  background: var(--pf-gradient-parchment) !important;
+  border: 2px solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius-lg) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+  box-shadow: var(--pf-shadow-parchment) !important;
+  transition: all var(--pf-transition-normal) !important;
+}
+
+.pf-collection-view-window .wow-spell-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--pf-shadow-lg) !important;
+}
+
+/* Collections spell card headers */
+.pf-collection-view-window .wow-spell-card-header {
+  background: var(--pf-gradient-header) !important;
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  color: var(--pf-text-primary) !important;
+  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  min-height: 45px !important;
+}
+
+/* Collections spell icons */
+.pf-collection-view-window .spell-icon {
+  border: 2px solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  background: var(--pf-parchment) !important;
+}
+
+/* ===== COLLECTION SPELL CARD SPECIFIC STYLING ===== */
+
+/* Spell card action buttons */
+.pf-collection-view-window .spell-card-actions {
+  display: flex;
+  gap: var(--pf-space-1);
+}
+
+.pf-collection-view-window .spell-action-button {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all var(--pf-transition-normal);
+}
+
+.pf-collection-view-window .spell-action-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+}
+
+.pf-collection-view-window .duplicate-button:hover {
+  background: var(--pf-gradient-parchment-light);
+  border-color: var(--pf-brown-medium);
+}
+
+.pf-collection-view-window .delete-button:hover {
+  background: linear-gradient(to bottom, #dc2626, #b91c1c);
+  border-color: #dc2626;
+  color: white;
+}
+
+/* Spell tags */
+.pf-collection-view-window .spell-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-semibold);
+}
+
+.pf-collection-view-window .spell-tag.effect-damage {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.pf-collection-view-window .spell-tag.effect-healing {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.pf-collection-view-window .spell-tag.effect-buff {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.pf-collection-view-window .spell-tag.effect-debuff {
+  border-color: #9333ea;
+  color: #9333ea;
+}
+
+.pf-collection-view-window .spell-tag.effect-utility {
+  border-color: #0891b2;
+  color: #0891b2;
+}
+
+.pf-collection-view-window .spell-tag.resolution-dice {
+  border-color: #ca8a04;
+  color: #ca8a04;
+}
+
+.pf-collection-view-window .spell-tag.resolution-cards {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.pf-collection-view-window .spell-tag.resolution-coins {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Spell card headers */
+.pf-collection-view-window .wow-spell-card .spell-card-header,
+.pf-collection-view-window .wow-spell-card .spell-card-header * {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Spell names and titles */
+.pf-collection-view-window .wow-spell-card .spell-name,
+.pf-collection-view-window .wow-spell-card .spell-title,
+.pf-collection-view-window .wow-spell-card h1,
+.pf-collection-view-window .wow-spell-card h2,
+.pf-collection-view-window .wow-spell-card h3,
+.pf-collection-view-window .wow-spell-card h4 {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Spell descriptions and body text */
+.pf-collection-view-window .wow-spell-card .spell-description,
+.pf-collection-view-window .wow-spell-card .spell-body,
+.pf-collection-view-window .wow-spell-card .spell-content,
+.pf-collection-view-window .wow-spell-card p,
+.pf-collection-view-window .wow-spell-card div {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Spell stats and values */
+.pf-collection-view-window .wow-spell-card .spell-stat-value,
+.pf-collection-view-window .wow-spell-card .spell-rank,
+.pf-collection-view-window .wow-spell-card .spell-type-badge,
+.pf-collection-view-window .wow-spell-card .spell-cast-time,
+.pf-collection-view-window .wow-spell-card .spell-range,
+.pf-collection-view-window .wow-spell-card .spell-stat-name {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Effect sections */
+.pf-collection-view-window .wow-spell-card .damage-effects,
+.pf-collection-view-window .wow-spell-card .healing-effects,
+.pf-collection-view-window .wow-spell-card .buff-effects,
+.pf-collection-view-window .wow-spell-card .debuff-effects,
+.pf-collection-view-window .wow-spell-card .control-effects,
+.pf-collection-view-window .wow-spell-card .proc-effects,
+.pf-collection-view-window .wow-spell-card .critical-effects {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Effect section headers */
+.pf-collection-view-window .wow-spell-card .effect-section-header,
+.pf-collection-view-window .wow-spell-card .effect-header {
+  color: var(--pf-text-primary) !important;
+  font-weight: var(--pf-font-bold) !important;
+}
+
+/* Override any remaining blue/bright colors */
+.pf-collection-view-window .wow-spell-card div[style*="color: #3b82f6"],
+.pf-collection-view-window .wow-spell-card div[style*="color: #60a5fa"],
+.pf-collection-view-window .wow-spell-card div[style*="color: #93c5fd"],
+.pf-collection-view-window .wow-spell-card div[style*="color: #dbeafe"],
+.pf-collection-view-window .wow-spell-card .mana-cost span,
+.pf-collection-view-window .wow-spell-card .spell-stat-value.buff {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Override spell tags and badges */
+.pf-collection-view-window .wow-spell-card .spell-tag,
+.pf-collection-view-window .wow-spell-card .spell-badge,
+.pf-collection-view-window .wow-spell-card .spell-tag.buff,
+.pf-collection-view-window .wow-spell-card .spell-tag.frost,
+.pf-collection-view-window .wow-spell-card .spell-tag.cold,
+.pf-collection-view-window .wow-spell-card .spell-tag.arcane,
+.pf-collection-view-window .wow-spell-card .spell-tag.force {
+  color: var(--pf-text-primary) !important;
+  border-color: var(--pf-brown-medium) !important;
+}
+
+/* Override any white or light text that's hard to read */
+.pf-collection-view-window .wow-spell-card *[style*="color: #fff"],
+.pf-collection-view-window .wow-spell-card *[style*="color: #ffffff"],
+.pf-collection-view-window .wow-spell-card *[style*="color: white"],
+.pf-collection-view-window .wow-spell-card *[style*="color: #e2e8f0"],
+.pf-collection-view-window .wow-spell-card *[style*="color: #f8fafc"] {
+  color: var(--pf-text-primary) !important;
+}
+
+/* ===== FINAL NUCLEAR OPTION - FORCE ALL TEXT TO BE READABLE ===== */
+
+/* Override ANY remaining text that might be hard to read in collection view */
+.pf-collection-view-window span,
+.pf-collection-view-window p,
+.pf-collection-view-window div,
+.pf-collection-view-window h1,
+.pf-collection-view-window h2,
+.pf-collection-view-window h3,
+.pf-collection-view-window h4,
+.pf-collection-view-window h5,
+.pf-collection-view-window h6,
+.pf-collection-view-window label,
+.pf-collection-view-window strong,
+.pf-collection-view-window em,
+.pf-collection-view-window i:not(.fas):not(.far):not(.fab) {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Ensure buttons and interactive elements are readable */
+.pf-collection-view-window button,
+.pf-collection-view-window .pf-button {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Spell cards at full size in collection view for better readability */
+.pf-collection-view-window .wow-spell-card {
+  transform: none;
+  margin: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.pf-collection-view-window .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: var(--pf-space-3) !important;
+  padding: var(--pf-space-3) !important;
+  overflow-y: auto;
+  max-height: calc(65vh - 100px);
+}
+
+.pf-collection-view-window .spell-library-spells {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== COLLECTION VIEW MODE CONTROLS ===== */
+
+.collection-view-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.view-mode-toggle {
+  display: flex;
+  gap: var(--pf-space-1);
+  background: var(--pf-brown-dark);
+  border-radius: var(--pf-border-radius);
+  padding: 2px;
+  border: 1px solid var(--pf-brown-medium);
+}
+
+.view-mode-toggle .pf-button {
+  min-width: 36px;
+  height: 32px;
+  padding: var(--pf-space-1);
+  border-radius: calc(var(--pf-border-radius) - 2px);
+  transition: all var(--pf-transition-normal);
+}
+
+.view-mode-toggle .pf-button-primary {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.view-mode-toggle .pf-button-secondary {
+  background: transparent;
+  color: var(--pf-text-secondary);
+  border: none;
+}
+
+.view-mode-toggle .pf-button-secondary:hover {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+}
+
+/* ===== COMPACT VIEW SUPPORT FOR COLLECTIONS ===== */
+
+.pf-collection-view-window .spell-library-spells.compact-view .spell-cards-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  gap: var(--pf-space-2) !important;
+  padding: var(--pf-space-3) !important;
+  justify-items: center !important;
+  align-items: start !important;
+}
+
+.pf-collection-view-window .collection-compact-item {
+  /* Inherit compact spell item styles */
+}
+
+/* Grid view maintains existing styling */
+.pf-collection-view-window .spell-library-spells.grid-view .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: var(--pf-space-3) !important;
+  padding: var(--pf-space-3) !important;
+}
+
+.pf-collection-view-window .spell-grid {
+  gap: var(--pf-space-4);
+  padding: var(--pf-space-5);
+}
+
+/* Responsive Design for Collection View */
+@media (max-width: 1200px) {
+  .pf-collection-view-window .spell-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .pf-collection-view-window {
+    width: 70%;
+    max-height: 75vh;
+  }
+
+  .pf-collection-view-window .spell-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: var(--pf-space-3) !important;
+    padding: var(--pf-space-3) !important;
+  }
+
+  .pf-collection-view-header {
+    padding: var(--pf-space-2) var(--pf-space-3);
+  }
+
+  .pf-collection-view-name {
+    font-size: var(--pf-text-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-collection-view-window {
+    width: 90%;
+    max-height: 85vh;
+  }
+
+  .pf-collection-view-window .spell-cards-container {
+    grid-template-columns: 1fr !important;
+    gap: var(--pf-space-2) !important;
+    padding: var(--pf-space-2) !important;
+  }
+
+  .pf-collection-view-header {
+    padding: var(--pf-space-2);
+  }
+
+  .pf-collection-view-name {
+    font-size: var(--pf-text-base);
+  }
+}

@@ -1,0 +1,1257 @@
+/* =====================================================
+   Standardized Social Notifications - Fantasy Premium Theme
+   =====================================================*/
+
+/* ---- Notification Layer (toast stack – bottom-right) ---- */
+.social-notification-layer {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+    align-items: flex-end;
+}
+
+.social-notification-layer>* {
+    pointer-events: auto;
+}
+
+/* ---- Centered Invite Overlay (party / room / GM session invites) ---- */
+.invite-overlay-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10500;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    pointer-events: none;
+}
+
+.invite-overlay-center>* {
+    pointer-events: auto;
+}
+
+/* =====================================================
+   PREMIUM PARTY INVITE NOTIFICATION
+   =====================================================*/
+
+.party-invite-premium {
+    width: 360px;
+    padding: 0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Cinzel', serif;
+    color: #3a2e24;
+
+    /* Pathfinder Beige Paper Look */
+    background-color: #f2e9d9;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #c4a484;
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        inset 0 0 40px rgba(139, 69, 19, 0.1);
+    
+    /* Rough edge simulation */
+    outline: 1px solid #dcd0b8;
+    outline-offset: -4px;
+
+    /* Entry animation */
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+    transform-origin: center center;
+}
+
+.party-invite-premium.entering {
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.party-invite-premium.leaving {
+    animation: inviteScaleOut 0.4s ease-in forwards;
+}
+
+.party-invite-premium.expiring {
+    border-color: rgba(165, 42, 42, 0.4);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(165, 42, 42, 0.15);
+}
+
+.party-invite-premium.expiring .invite-accent-line {
+    background: linear-gradient(90deg, transparent, #a52a2a, transparent) !important;
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+/* ---- Corner Flourishes ---- */
+.invite-corner {
+    position: absolute;
+    font-size: 0.55rem;
+    color: rgba(212, 175, 55, 0.3);
+    z-index: 2;
+    line-height: 1;
+}
+
+.invite-corner-tl {
+    top: 6px;
+    left: 8px;
+}
+
+.invite-corner-tr {
+    top: 6px;
+    right: 8px;
+}
+
+.invite-corner-bl {
+    bottom: 6px;
+    left: 8px;
+}
+
+.invite-corner-br {
+    bottom: 6px;
+    right: 8px;
+}
+
+.room-name-display {
+    margin: 4px 25px 12px;
+    padding: 8px 12px;
+    background: rgba(139, 69, 19, 0.05);
+    border: 1px solid rgba(139, 69, 19, 0.15);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.room-name-display i {
+    display: none; /* Hide scroll icon to keep it cleaner */
+}
+
+.room-name-display span {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #5a1e12;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: block;
+}
+
+.room-name-label {
+    font-size: 0.65rem;
+    color: #8b4513;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 2px;
+}
+
+.room-name-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #5a1e12;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: block;
+    line-height: 1.2;
+}
+
+/* ---- Session Specific Enhancements ---- */
+.invite-room-desc {
+    margin: 8px 30px 16px;
+    font-size: 0.95rem;
+    color: #4a2c20;
+    text-align: center;
+    line-height: 1.5;
+    font-style: italic;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    display: block;
+    position: relative;
+}
+
+.invite-room-desc::before,
+.invite-room-desc::after {
+    content: '"';
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #8b4513;
+    opacity: 0.3;
+    position: absolute;
+}
+
+.invite-room-desc::before { left: -10px; top: -5px; }
+.invite-room-desc::after { right: -10px; bottom: -15px; }
+
+
+.invite-players-list {
+    margin: 0 20px 16px;
+    padding: 10px;
+    background: rgba(139, 69, 19, 0.04);
+    border: 1px solid rgba(139, 69, 19, 0.15);
+    border-radius: 6px;
+}
+
+.invite-players-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: #8b4513;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+    padding-bottom: 2px;
+}
+
+.invite-player-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f2e9d9;
+    border: 1px solid #d4c8b0;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px;
+    font-size: 0.75rem;
+    color: #5a1e12;
+    font-weight: 600;
+    box-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+}
+
+.invite-player-pill i {
+    font-size: 0.65rem;
+    color: #8b4513;
+}
+
+.invite-player-pill .player-class {
+    font-size: 0.65rem;
+    opacity: 0.7;
+    font-style: italic;
+    font-weight: 400;
+}
+
+
+/* ---- Header ---- */
+.invite-premium-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px 10px;
+}
+
+/* Seal / Icon - Stylized as an ink stamp or wax seal */
+.invite-seal {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #8b0000; /* Deep red for wax seal */
+    border: 2px solid #5a0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.2);
+}
+
+.invite-seal i {
+    font-size: 1.1rem;
+    color: #ffd700;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
+    z-index: 1;
+}
+
+.seal-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 0, 0, 0.3), transparent 70%);
+    opacity: 0.6;
+}
+
+/* Title Block */
+.invite-title-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.invite-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.invite-subtitle {
+    font-size: 0.75rem;
+    color: #8b4513;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.room-type-tag {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #e8dcc0;
+    border: 1px solid #8b4513;
+    color: #5a1e12;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    box-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+}
+
+
+/* Close Button */
+.invite-close-btn {
+    background: none;
+    border: none;
+    color: rgba(224, 216, 200, 0.35);
+    cursor: pointer;
+    padding: 4px;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+    border-radius: 4px;
+}
+
+.invite-close-btn:hover {
+    color: #a52a2a;
+    background: rgba(165, 42, 42, 0.1);
+    transform: rotate(90deg);
+}
+
+/* ---- Divider ---- */
+.invite-divider {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    margin: 2px 0 8px;
+}
+
+.invite-divider::before,
+.invite-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 69, 19, 0.3), transparent);
+}
+
+.divider-ornament {
+    font-size: 0.8rem;
+    color: #8b4513;
+    padding: 0 12px;
+}
+
+/* ---- Sender Card ---- */
+.invite-sender-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 16px;
+    padding: 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.sender-avatar-premium {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #4a2c20;
+    border: 2px solid #8b4513;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f2e9d9;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    margin-bottom: 4px;
+}
+
+.sender-details-premium {
+    text-align: center;
+}
+
+.sender-name-premium {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.sender-class-premium {
+    font-size: 0.85rem;
+    color: #8b4513;
+    font-weight: 700;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Timer Ring - Float slightly top-right of character area */
+.invite-timer-ring {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-track {
+    stroke: rgba(139, 69, 19, 0.1);
+}
+
+.timer-progress {
+    transition: stroke-dashoffset 1s linear, stroke 0.5s ease;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 3px currentColor);
+}
+
+.timer-text {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #5a1e12;
+}
+
+.timer-text.expiring {
+    color: #a52a2a;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.invite-timer-ring.expiring .timer-progress {
+    filter: drop-shadow(0 0 5px #a52a2a);
+}
+
+/* ---- Message ---- */
+.invite-message {
+    padding: 12px 20px 8px;
+    font-size: 0.9rem;
+    color: #4a2c20;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0;
+}
+
+.invite-message strong {
+    color: #5a1e12;
+    font-weight: 800;
+}
+
+/* ---- Action Buttons ---- */
+.invite-actions-premium {
+    display: flex;
+    gap: 10px;
+    padding: 10px 14px 14px;
+}
+
+.invite-btn {
+    flex: 1;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.invite-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.invite-btn:hover::before {
+    opacity: 1;
+}
+
+/* Accept Button - Non-glossy, wooden/leather feel */
+.invite-accept-btn {
+    background-color: #5a1e12;
+    background-image: linear-gradient(to bottom, #7a3b2e, #5a1e12);
+    color: #f2e9d9;
+    border: 1px solid #3a140d;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.invite-accept-btn:hover {
+    background-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* Decline Button - Flat etched look */
+.invite-decline-btn {
+    background: transparent;
+    color: #8b4513;
+    border: 1px solid #c4a484;
+}
+
+.invite-decline-btn:hover {
+    background: rgba(139, 69, 19, 0.08);
+    color: #5a1e12;
+    border-color: #8b4513;
+    transform: translateY(-1px);
+}
+
+.invite-decline-btn i {
+    font-size: 0.8rem;
+}
+
+/* =====================================================
+   ANIMATIONS
+   =====================================================*/
+
+@keyframes inviteScaleIn {
+    0% {
+        transform: scale(0.78);
+        opacity: 0;
+    }
+
+    65% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes inviteScaleOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.78);
+        opacity: 0;
+    }
+}
+
+/* Keep legacy slide animations for any remaining consumers */
+@keyframes inviteSlideIn {
+    0% {
+        transform: translateX(120%) scale(0.8);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateX(-5%) scale(1.02);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes inviteSlideOut {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(120%) scale(0.85);
+        opacity: 0;
+    }
+}
+
+@keyframes sealPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(212, 175, 55, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
+    }
+}
+
+@keyframes sealGlow {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.15);
+    }
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+/* =====================================================
+   PREMIUM ROOM INVITE NOTIFICATION
+   =====================================================*/
+
+.room-invite-premium {
+    width: 360px;
+    padding: 0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Cinzel', serif;
+    color: #3a2e24;
+
+    background-color: #f2e9d9;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #c4a484;
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        inset 0 0 40px rgba(139, 69, 19, 0.1);
+
+    outline: 1px solid #dcd0b8;
+    outline-offset: -4px;
+
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+    transform-origin: center center;
+}
+
+.room-invite-premium.entering {
+    animation: inviteSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.room-invite-premium.leaving {
+    animation: inviteSlideOut 0.4s ease-in forwards;
+}
+
+.room-invite-premium.expiring {
+    border-color: rgba(165, 42, 42, 0.4);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(165, 42, 42, 0.15);
+}
+
+.room-invite-premium.expiring .invite-accent-line {
+    background: linear-gradient(90deg, transparent, #a52a2a, transparent) !important;
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+/* Room Name Display */
+.room-name-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 16px 0;
+    padding: 10px 14px;
+    background: rgba(139, 69, 19, 0.08);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 0;
+}
+
+.room-name-display i {
+    color: #8b4513;
+    font-size: 1rem;
+}
+
+.room-name-display span {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #5a1e12;
+    letter-spacing: 0.5px;
+}
+
+
+/* =====================================================
+   LEGACY ROOM INVITATION (keep backward-compatible)
+   =====================================================*/
+
+.room-invitation-notification,
+.gm-session-invitation-container {
+    background-color: #f0e6d2;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #8b4513;
+    border-radius: 4px;
+    padding: 14px;
+    width: 290px;
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.35),
+        inset 0 0 30px rgba(139, 69, 19, 0.08);
+    color: #3a3a3a;
+    position: relative;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.room-invitation-notification.expiring,
+.gm-session-invitation-container.expiring {
+    border-color: #7a3b2e;
+    box-shadow:
+        0 0 15px rgba(122, 59, 46, 0.3),
+        inset 0 0 50px rgba(255, 100, 100, 0.05);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Header */
+.invitation-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px double rgba(139, 69, 19, 0.2);
+}
+
+.invitation-header i {
+    color: #7a3b2e;
+    font-size: 1.3rem;
+    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+}
+
+.invitation-header span {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-grow: 1;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.close-notification,
+.close-invitation-btn {
+    background: none;
+    border: none;
+    color: #8b4513;
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 2px;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.close-notification:hover,
+.close-invitation-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* Content */
+.invitation-content {
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.invitation-from {
+    color: #5d4037;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.invitation-from strong {
+    color: #7a3b2e;
+    font-weight: 700;
+}
+
+.invitation-room {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4a2c20;
+    margin: 6px 0;
+    padding: 6px 10px;
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 4px;
+    border: 1px dashed rgba(139, 69, 19, 0.2);
+}
+
+.invitation-room i {
+    color: #d4af37;
+}
+
+/* Sender Preview (legacy) */
+.sender-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(139, 69, 19, 0.08);
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.sender-avatar {
+    width: 38px;
+    height: 38px;
+    background: #7a3b2e;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f0e6d2;
+    font-size: 1.1rem;
+    border: 2px solid #d4af37;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sender-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sender-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #4a2c20;
+}
+
+.sender-details {
+    font-size: 0.8rem;
+    color: #5d4037;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Timer (legacy) */
+.invitation-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #5d4037;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.invitation-timer i {
+    font-size: 0.85rem;
+    color: #7a3b2e;
+}
+
+.expiring .invitation-timer {
+    color: #7a3b2e;
+    animation: blink 1s ease-in-out infinite;
+}
+
+.timer-bar-container {
+    height: 6px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 12px;
+    border: 1px solid rgba(139, 69, 19, 0.05);
+}
+
+.timer-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #f0c850);
+    transition: width 1s linear;
+}
+
+.expiring .timer-bar {
+    background: linear-gradient(90deg, #7a3b2e, #a52a2a);
+}
+
+/* Actions (legacy) */
+.invitation-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.invitation-actions button {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.accept-button {
+    background: #7a3b2e;
+    color: #f0e6d2;
+    border: 1px solid #5d4037;
+}
+
+.accept-button:hover {
+    background: #8b4513;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.decline-button {
+    background: #e8dcc0;
+    color: #5d4037;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.decline-button:hover {
+    background: #dcc8a0;
+    color: #3a3a3a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.invitation-actions button i {
+    font-size: 1rem;
+}
+
+/* =====================================================
+   GM SESSION INVITE – GOLD COLOR OVERRIDE
+   =====================================================*/
+.gm-session-premium {
+    border-color: rgba(201, 168, 63, 0.35);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(201, 168, 63, 0.12),
+        0 0 30px rgba(201, 168, 63, 0.06);
+}
+
+/* =====================================================
+   ROOM INVITE – use centered scale animation too
+   =====================================================*/
+.room-invite-premium.entering {
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.room-invite-premium.leaving {
+    animation: inviteScaleOut 0.4s ease-in forwards;
+}
+
+.room-invite-premium {
+    animation: inviteScaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center center;
+}
+
+/* ---- room name display override (ensure column for session invites) ---- */
+.room-invite-premium .room-name-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 8px 25px 12px;
+    padding: 10px 14px;
+    background: rgba(139, 69, 19, 0.08);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+}
+
+.room-invite-premium .room-name-display i {
+    display: none;
+}
+
+/* =====================================================
+   PARTY INVITE SENT TOAST (sender feedback)
+   =====================================================*/
+.party-invite-sent-toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    width: 320px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    color: #3e2e24;
+
+    /* Pathfinder Beige Paper Look */
+    background-color: #f2e9d9;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #c4a484;
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        inset 0 0 15px rgba(139, 69, 19, 0.05);
+    
+    /* Rough edge simulation */
+    outline: 1px solid #dcd0b8;
+    outline-offset: -4px;
+    animation: toastSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+.party-invite-sent-toast.entering {
+    animation: toastSlideIn 0.35s ease-out forwards;
+}
+
+.party-invite-sent-toast.leaving {
+    animation: toastSlideOut 0.35s ease-in forwards;
+}
+
+.party-invite-sent-toast.outcome-accepted {
+    border-color: rgba(76, 175, 80, 0.3);
+}
+
+.party-invite-sent-toast.outcome-declined {
+    border-color: rgba(192, 64, 64, 0.3);
+}
+
+.invite-sent-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.invite-sent-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+}
+
+.invite-sent-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.invite-sent-sub {
+    font-size: 0.72rem;
+    color: #8b4513;
+    font-weight: 600;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.invite-sent-timer {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invite-sent-timer-text {
+    position: absolute;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #c9a83f;
+}
+
+.invite-sent-timer.expiring .invite-sent-timer-text {
+    color: #a52a2a;
+}
+
+.invite-sent-close {
+    background: none;
+    border: none;
+    color: rgba(224, 216, 200, 0.35);
+    cursor: pointer;
+    font-size: 0.65rem;
+    padding: 2px 4px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.invite-sent-close:hover {
+    color: rgba(224, 216, 200, 0.8);
+}
+
+/* =====================================================
+   PARTY EVENT TOAST (join / leave / accepted / declined)
+   =====================================================*/
+.party-event-toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    width: 300px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    color: #3e2e24;
+
+    /* Pathfinder Beige Paper Look */
+    background-color: #f2e9d9;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    border: 1px solid #c4a484;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(139, 69, 19, 0.05);
+
+    /* Rough edge simulation */
+    outline: 1px solid #dcd0b8;
+    outline-offset: -4px;
+    animation: toastSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+.party-event-toast.entering {
+    animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+.party-event-toast.leaving {
+    animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+.party-event-text {
+    flex: 1;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.party-event-text strong {
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+}
+
+.party-event-close {
+    background: none;
+    border: none;
+    color: #8b4513;
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px;
+    transition: all 0.2s;
+}
+
+.party-event-close:hover {
+    color: #a52a2a;
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* Toast slide animations */
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+}

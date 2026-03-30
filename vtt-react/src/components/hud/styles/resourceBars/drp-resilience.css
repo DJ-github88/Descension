@@ -1,0 +1,212 @@
+.class-resource-bar.drp-resilience {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.drp-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.drp-bar-container {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.drp-bar-container .bar-background {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(180deg, rgba(26, 0, 51, 0.8), rgba(20, 0, 40, 0.9));
+    border: 1px solid rgba(139, 0, 255, 0.4);
+    border-radius: 4px;
+    overflow: visible;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drp-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+.drp-section {
+    position: relative;
+    flex: 1;
+    display: flex;
+    gap: 1px;
+}
+
+.drp-segment {
+    flex: 1;
+    height: 100%;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.drp-segment.filled {
+    animation: drpPulse 2s ease-in-out infinite;
+}
+
+@keyframes drpPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+.drp-threshold-marker {
+    position: absolute;
+    right: -1px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(139, 0, 255, 0.6);
+    box-shadow: 0 0 4px rgba(139, 0, 255, 0.8);
+}
+
+.drp-bar-container .bar-background .bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(139, 0, 255, 0.6);
+    pointer-events: none;
+    z-index: 10;
+}
+
+
+/* DRP Menu */
+.drp-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    padding: 8px;
+    min-width: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+}
+
+.drp-menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drp-menu-section .menu-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #8b7355;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.drp-menu-row {
+    display: flex;
+    gap: 4px;
+}
+
+.drp-menu-row.set-row {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid #8b7355;
+}
+
+.drp-menu-item {
+    flex: 1;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
+    border-radius: 3px;
+    color: #5a1e12;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.drp-menu-item:hover {
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
+}
+
+.drp-menu-item:active {
+    transform: scale(0.95);
+}
+
+.drp-resistance-select {
+    width: 100%;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
+    border-radius: 3px;
+    color: #5a1e12;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.drp-resistance-select:focus {
+    outline: none;
+    border-color: #daa520;
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
+}
+
+/* Size variations */
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background {
+    height: 18px;
+}
+
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background .bar-text {
+    font-size: 9px;
+}
+
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background {
+    height: 32px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background .bar-text {
+    font-size: 13px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+/* ===================================
+   EXORCIST - DOMINANCE DIE DISPLAY
+   =================================== */

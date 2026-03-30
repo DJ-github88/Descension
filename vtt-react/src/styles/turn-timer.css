@@ -1,0 +1,189 @@
+/* ===== TURN TIMER - PATHFINDER STYLING ===== */
+
+.turn-timer {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    pointer-events: none;
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+}
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    border: 2px solid #8B4513;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    min-width: 60px;
+    justify-content: center;
+}
+
+.timer-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.timer-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.timer-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+.timer-total {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a1e12;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.timer-current {
+    font-size: 9px;
+    font-weight: normal;
+    color: #3a3a3a;
+    margin-top: 1px;
+}
+
+/* Timer state styles */
+.turn-timer.active {
+    animation: activeTimerPulse 2s infinite;
+}
+
+.turn-timer.active .timer-display {
+    border-color: #FFD700;
+    background: linear-gradient(145deg, #fff8dc 0%, #f0e68c 30%, #daa520 70%, #ffd700 100%);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.turn-timer.active .timer-total {
+    color: #8B4513;
+}
+
+.turn-timer.active .timer-current {
+    color: #5a1e12;
+    font-weight: bold;
+}
+
+@keyframes activeTimerPulse {
+    0%, 100% { 
+        transform: translateX(-50%) scale(1);
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+/* Speed-based color coding */
+.turn-timer.fast .timer-display {
+    border-color: #28a745;
+    background: linear-gradient(145deg, #f8fff8 0%, #e8f5e8 30%, #d4edda 70%, #c3e6cb 100%);
+}
+
+.turn-timer.fast .timer-total {
+    color: #155724;
+}
+
+.turn-timer.moderate .timer-display {
+    border-color: #ffc107;
+    background: linear-gradient(145deg, #fffdf8 0%, #fff3cd 30%, #ffeaa7 70%, #ffd93d 100%);
+}
+
+.turn-timer.moderate .timer-total {
+    color: #856404;
+}
+
+.turn-timer.slow .timer-display {
+    border-color: #dc3545;
+    background: linear-gradient(145deg, #fff8f8 0%, #f8d7da 30%, #f5c6cb 70%, #f1b0b7 100%);
+}
+
+.turn-timer.slow .timer-total {
+    color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .turn-timer {
+        bottom: -30px;
+    }
+    
+    .timer-display {
+        padding: 3px 6px;
+        min-width: 50px;
+    }
+    
+    .timer-icon {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .timer-total {
+        font-size: 10px;
+    }
+    
+    .timer-current {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .turn-timer {
+        bottom: -25px;
+    }
+    
+    .timer-display {
+        padding: 2px 4px;
+        min-width: 45px;
+        gap: 2px;
+    }
+    
+    .timer-icon {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .timer-total {
+        font-size: 9px;
+    }
+    
+    .timer-current {
+        font-size: 7px;
+    }
+}
+
+/* ===== COMPACT TIMER ===== */
+
+.turn-timer-compact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 16px;
+}
+
+.timer-compact-text {
+    font-size: 8px;
+    color: #5a1e12;
+    font-weight: bold;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+    padding: 1px 3px;
+    border-radius: 3px;
+    border: 1px solid #8B4513;
+    text-shadow: none;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}

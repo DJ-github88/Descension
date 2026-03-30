@@ -1,0 +1,247 @@
+.class-resource-bar.quarry-marks-companion {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+}
+
+.huntress-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    position: relative;
+}
+
+/* Companion Portrait (Left Side) */
+.companion-portrait {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    background: radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.companion-portrait:hover {
+    border-color: rgba(160, 140, 112, 0.8);
+    transform: scale(1.05);
+}
+
+.companion-icon {
+    font-size: 20px;
+    color: #f8f4e6;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+    z-index: 2;
+}
+
+/* Companion HP Bar (bottom of portrait) */
+.companion-hp-bar {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.companion-hp-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 2px;
+}
+
+.companion-hp-fill.high {
+    background: linear-gradient(90deg, #2E7D32, #4CAF50);
+}
+
+.companion-hp-fill.medium {
+    background: linear-gradient(90deg, #F57C00, #FFA726);
+}
+
+.companion-hp-fill.low {
+    background: linear-gradient(90deg, #C62828, #EF5350);
+}
+
+/* Quarry Marks Bar (Center) */
+.qm-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+.qm-segments {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    justify-content: space-around;
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+}
+
+.qm-segment {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+    background: rgba(245, 222, 179, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.qm-segment.filled {
+    border-color: rgba(255, 255, 255, 0.6);
+    animation: qmPulse 2s ease-in-out infinite;
+}
+
+.qm-segment.filled:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Bladestorm specialization (crimson red) */
+.qm-segment.filled.bladestorm {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.8), rgba(139, 0, 0, 0.9));
+    box-shadow: 0 0 12px rgba(220, 20, 60, 0.6), inset 0 0 8px rgba(255, 107, 107, 0.3);
+}
+
+/* Beastmaster specialization (nature green) */
+.qm-segment.filled.beastmaster {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.8), rgba(27, 94, 32, 0.9));
+    box-shadow: 0 0 12px rgba(46, 125, 50, 0.6), inset 0 0 8px rgba(102, 187, 106, 0.3);
+}
+
+/* Shadowdancer specialization (shadow purple) */
+.qm-segment.filled.shadowdancer {
+    background: linear-gradient(135deg, rgba(106, 27, 154, 0.8), rgba(74, 20, 140, 0.9));
+    box-shadow: 0 0 12px rgba(106, 27, 154, 0.6), inset 0 0 8px rgba(186, 104, 200, 0.3);
+}
+
+.qm-segment-icon {
+    font-size: 14px;
+    color: #f8f4e6;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.qm-segment.filled .qm-segment-icon {
+    opacity: 1;
+}
+
+/* QM Value Display */
+.qm-value {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    margin-top: 2px;
+}
+
+/* Quarry marks menu now uses unified-context-menu.css system */
+
+/* Animations */
+@keyframes qmPulse {
+    0%, 100% {
+        box-shadow: 0 0 12px currentColor, inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, inset 0 0 12px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Small Size Adjustments */
+.class-resource-bar.quarry-marks-companion.small .companion-portrait {
+    width: 32px;
+    height: 32px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .companion-icon {
+    font-size: 16px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .companion-hp-bar {
+    width: 28px;
+    height: 3px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-segment {
+    width: 16px;
+    height: 16px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-segment-icon {
+    font-size: 9px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-value {
+    font-size: 8px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .spec-selector {
+    width: 22px;
+    height: 22px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .spec-icon {
+    font-size: 11px;
+}
+
+/* Large Size Adjustments */
+.class-resource-bar.quarry-marks-companion.large .companion-portrait {
+    width: 48px;
+    height: 48px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .companion-icon {
+    font-size: 24px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .companion-hp-bar {
+    width: 44px;
+    height: 5px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-segment {
+    width: 34px;
+    height: 34px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-segment-icon {
+    font-size: 17px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-value {
+    font-size: 12px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .spec-selector {
+    width: 34px;
+    height: 34px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .spec-icon {
+    font-size: 17px;
+}
+
+/* ===== INSCRIPTOR RUNES & INSCRIPTIONS ===== */

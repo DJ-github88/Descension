@@ -1,0 +1,627 @@
+/* Warden Vengeance Points Resource Bar */
+
+.warden-resource-container {
+    position: relative;
+    width: 100%;
+}
+
+.warden-resource-container .resource-bar-row {
+    position: relative;
+}
+
+/* Resource Bar Row - Spec Button + Bar */
+/* .resource-bar-row consolidated to global styles */
+
+/* Spec cycle button removed - now in menu */
+
+/* Main Warden Resource Bar */
+.warden-resource-bar {
+    position: relative;
+    flex: 1;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(15, 10, 20, 0.95), rgba(25, 15, 30, 0.95));
+    border: 2px solid var(--spec-glow-color);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 12px var(--spec-glow-color);
+}
+
+.warden-resource-bar.small {
+    height: 24px;
+}
+
+/* Force compact sizing in account context */
+.character-card .warden-resource-bar,
+.character-card-compact .warden-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+}
+
+/* Spec cycle button removed - now in menu */
+
+.warden-resource-bar.clickable:hover {
+    border-color: var(--spec-active-color);
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 16px var(--spec-glow-color);
+}
+
+/* Spectral Background Pattern */
+.spectral-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 10px,
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.02) 11px
+        );
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Vengeance Energy Overlay */
+.vengeance-energy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.energy-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--spec-glow-color);
+    border-radius: 50%;
+    opacity: 0;
+    animation: energyFloat 3s infinite ease-in-out;
+}
+
+.energy-particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.energy-particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 1s;
+}
+
+.energy-particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 2s;
+}
+
+@keyframes energyFloat {
+    0%, 100% { 
+        bottom: 0; 
+        opacity: 0; 
+    }
+    50% { 
+        bottom: 100%; 
+        opacity: 0.6; 
+    }
+}
+
+/* VP Segments Container */
+.vp-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+/* Individual VP Segment */
+.vp-segment {
+    flex: 1;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.vp-segment .segment-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.vp-segment.filled .segment-fill {
+    animation: vpPulse 2s infinite ease-in-out;
+}
+
+@keyframes vpPulse {
+    0%, 100% { 
+        opacity: 0.9; 
+    }
+    50% { 
+        opacity: 1; 
+    }
+}
+
+/* Segment Energy Effect */
+.segment-energy {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: energyPulse 2s infinite ease-in-out;
+}
+
+@keyframes energyPulse {
+    0%, 100% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% { 
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Max VP Flare Effect */
+.vp-segment.max-flare {
+    animation: maxFlare 1s infinite ease-in-out;
+}
+
+@keyframes maxFlare {
+    0%, 100% { 
+        filter: brightness(1);
+    }
+    50% { 
+        filter: brightness(1.5);
+    }
+}
+
+/* VP Counter Overlay */
+.vp-counter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    text-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.9),
+        0 0 4px var(--spec-glow-color);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.vp-number {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.warden-resource-bar.small .vp-number {
+    font-size: 14px;
+}
+
+.vp-max {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.warden-resource-bar.small .vp-max {
+    font-size: 10px;
+}
+
+/* Spec-Specific Visual States */
+
+/* Shadowblade - Stealth State */
+.warden-resource-bar.state-stealth {
+    opacity: 0.6;
+    animation: stealthFlicker 1.5s infinite ease-in-out;
+}
+
+@keyframes stealthFlicker {
+    0%, 100% { 
+        opacity: 0.5;
+    }
+    50% { 
+        opacity: 0.7;
+    }
+}
+
+.shadow-veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 30%, rgba(46, 8, 84, 0.4) 100%);
+    pointer-events: none;
+    animation: veilPulse 2s infinite ease-in-out;
+}
+
+@keyframes veilPulse {
+    0%, 100% { 
+        opacity: 0.3;
+    }
+    50% { 
+        opacity: 0.6;
+    }
+}
+
+/* Jailer - Caged State */
+.spectral-chains {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.chain-rune {
+    font-size: 16px;
+    color: var(--spec-glow-color);
+    text-shadow: 0 0 8px var(--spec-glow-color);
+    animation: chainFloat 2s infinite ease-in-out;
+}
+
+@keyframes chainFloat {
+    0%, 100% { 
+        transform: translateY(0);
+    }
+    50% { 
+        transform: translateY(-4px);
+    }
+}
+
+/* Vengeance Seeker - Avatar State */
+.warden-resource-bar.state-avatar {
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 20px var(--spec-glow-color),
+        0 0 30px var(--spec-active-color);
+}
+
+.avatar-aura {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--spec-glow-color);
+    border-radius: 4px;
+    pointer-events: none;
+    animation: auraFlare 1.5s infinite ease-in-out;
+}
+
+@keyframes auraFlare {
+    0%, 100% { 
+        opacity: 0.5;
+        box-shadow: 0 0 10px var(--spec-glow-color);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 20px var(--spec-glow-color);
+    }
+}
+
+/* Max VP State */
+.warden-resource-bar.state-max {
+    animation: maxReadyPulse 1s infinite ease-in-out;
+}
+
+@keyframes maxReadyPulse {
+    0%, 100% {
+        box-shadow:
+            inset 0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 12px var(--spec-glow-color);
+    }
+    50% {
+        box-shadow:
+            inset 0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 24px var(--spec-glow-color),
+            0 0 36px var(--spec-active-color);
+    }
+}
+
+/* Warden Menu - Pathfinder Beige Style */
+.warden-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 240px;
+    max-width: 280px;
+    z-index: 3050;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+}
+
+.warden-menu .menu-header {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.6);
+    width: 100%;
+    order: 1;
+}
+
+.warden-menu .menu-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: none;
+    text-align: center;
+}
+
+.warden-menu .menu-divider {
+    height: 1px;
+    background: rgba(139, 115, 85, 0.6);
+    margin: 12px 0 10px 0;
+    width: 100%;
+    flex-shrink: 0;
+    order: 3;
+}
+
+.warden-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    order: 2;
+}
+
+.warden-menu .button-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.warden-menu .menu-buttons button {
+    background: rgba(139, 115, 85, 0.2);
+    border: 1px solid rgba(139, 115, 85, 0.6);
+    border-radius: 4px;
+    color: #000000;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.warden-menu .button-desc {
+    font-size: 8px;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.warden-menu .menu-buttons button:hover {
+    background: rgba(139, 115, 85, 0.4);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
+}
+
+.warden-menu .menu-buttons button:active {
+    transform: scale(0.98);
+}
+
+.warden-menu .menu-reset {
+    background: rgba(139, 69, 19, 0.4);
+    border: 1px solid rgba(139, 115, 85, 0.6);
+    border-radius: 4px;
+    color: #000000;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.warden-menu .menu-reset:hover {
+    background: rgba(139, 69, 19, 0.6);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
+}
+
+.warden-menu .spec-buttons {
+    display: flex !important;
+    gap: 6px;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 4px;
+    width: 100%;
+    justify-content: center;
+    padding-top: 0;
+    position: relative !important;
+    z-index: 1;
+    order: 4;
+}
+
+.warden-menu .spec-button {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.6) 0%, rgba(213, 203, 176, 0.6) 100%) !important;
+    border: 1px solid rgba(139, 115, 85, 0.8) !important;
+    border-radius: 4px;
+    color: #000000 !important;
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 80px;
+    justify-content: center;
+    position: relative !important;
+    transform: none !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.warden-menu .spec-button:hover {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.8) 0%, rgba(213, 203, 176, 0.8) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: none !important;
+}
+
+.warden-menu .spec-button.active {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.7) 0%, rgba(160, 140, 112, 0.7) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.3);
+    font-weight: 700;
+    transform: none !important;
+}
+
+.warden-menu .spec-button.active:hover {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.85) 0%, rgba(160, 140, 112, 0.85) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    box-shadow: 0 3px 6px rgba(139, 115, 85, 0.4);
+    transform: none !important;
+}
+
+.warden-menu .spec-button i {
+    font-size: 12px;
+    display: inline-block;
+}
+
+.warden-menu .menu-section {
+    margin-bottom: 8px;
+    padding: 6px 0;
+}
+
+.warden-menu .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.warden-menu .menu-section .button-row button.active {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.7) 0%, rgba(160, 140, 112, 0.7) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
+/* Simplified Tooltip - Beige Pathfinder Style */
+.unified-resourcebar-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
+    padding: 10px 12px;
+    min-width: 280px;
+    max-width: 360px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: #2C2416;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 999999999;
+    pointer-events: none;
+    line-height: 1.5;
+}
+
+.tooltip-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1a0a00;
+    margin-bottom: 6px;
+}
+
+.tooltip-spec {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a1a;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
+    margin: 8px 0;
+}
+
+.tooltip-section {
+    margin-bottom: 6px;
+    color: #3a2a1a;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* .tooltip-section:last-child consolidated to global styles */
+
+.tooltip-section strong {
+    color: #1a0a00;
+    font-weight: bold;
+    display: inline;
+    margin-right: 4px;
+}
+
+/* Dev Controls removed - now using Pathfinder beige menu */
+

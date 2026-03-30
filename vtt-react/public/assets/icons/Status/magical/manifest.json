@@ -1,0 +1,256 @@
+{
+  "category": "magical",
+  "count": 50,
+  "icons": [
+    {
+      "filename": "abstract-geometric-frame-magical.png",
+      "name": "Abstract Geometric Frame Magical",
+      "path": "magical/abstract-geometric-frame-magical.png"
+    },
+    {
+      "filename": "archway-curtains-portal.png",
+      "name": "Archway Curtains Portal",
+      "path": "magical/archway-curtains-portal.png"
+    },
+    {
+      "filename": "concentric-glowing-squares-magical.png",
+      "name": "Concentric Glowing Squares Magical",
+      "path": "magical/concentric-glowing-squares-magical.png"
+    },
+    {
+      "filename": "cross-corner-arrows-magical.png",
+      "name": "Cross Corner Arrows Magical",
+      "path": "magical/cross-corner-arrows-magical.png"
+    },
+    {
+      "filename": "cross-cyan-glow-magical.png",
+      "name": "Cross Cyan Glow Magical",
+      "path": "magical/cross-cyan-glow-magical.png"
+    },
+    {
+      "filename": "cross-diagonal-arms-magical.png",
+      "name": "Cross Diagonal Arms Magical",
+      "path": "magical/cross-diagonal-arms-magical.png"
+    },
+    {
+      "filename": "cross-glow-magical.png",
+      "name": "Cross Glow Magical",
+      "path": "magical/cross-glow-magical.png"
+    },
+    {
+      "filename": "cross-pattern-corner-squares.png",
+      "name": "Cross Pattern Corner Squares",
+      "path": "magical/cross-pattern-corner-squares.png"
+    },
+    {
+      "filename": "cross-pattern-magical.png",
+      "name": "Cross Pattern Magical",
+      "path": "magical/cross-pattern-magical.png"
+    },
+    {
+      "filename": "cross-star-glow-magical.png",
+      "name": "Cross Star Glow Magical",
+      "path": "magical/cross-star-glow-magical.png"
+    },
+    {
+      "filename": "cross-star-magical.png",
+      "name": "Cross Star Magical",
+      "path": "magical/cross-star-magical.png"
+    },
+    {
+      "filename": "diamond-cross-pattern-magical.png",
+      "name": "Diamond Cross Pattern Magical",
+      "path": "magical/diamond-cross-pattern-magical.png"
+    },
+    {
+      "filename": "doorway-archway-portal.png",
+      "name": "Doorway Archway Portal",
+      "path": "magical/doorway-archway-portal.png"
+    },
+    {
+      "filename": "energy-conduit.png",
+      "name": "Energy Conduit",
+      "path": "magical/energy-conduit.png"
+    },
+    {
+      "filename": "ethereal-blob.png",
+      "name": "Ethereal Blob",
+      "path": "magical/ethereal-blob.png"
+    },
+    {
+      "filename": "five-pointed-star-metallic.png",
+      "name": "Five Pointed Star Metallic",
+      "path": "magical/five-pointed-star-metallic.png"
+    },
+    {
+      "filename": "flask-torso-magical.png",
+      "name": "Flask Torso Magical",
+      "path": "magical/flask-torso-magical.png"
+    },
+    {
+      "filename": "focused-hexagon.png",
+      "name": "Focused Hexagon",
+      "path": "magical/focused-hexagon.png"
+    },
+    {
+      "filename": "four-pointed-star-magical.png",
+      "name": "Four Pointed Star Magical",
+      "path": "magical/four-pointed-star-magical.png"
+    },
+    {
+      "filename": "framed-square-cross-magical.png",
+      "name": "Framed Square Cross Magical",
+      "path": "magical/framed-square-cross-magical.png"
+    },
+    {
+      "filename": "glowing-oval-portal.png",
+      "name": "Glowing Oval Portal",
+      "path": "magical/glowing-oval-portal.png"
+    },
+    {
+      "filename": "glowing-square-pattern-magical.png",
+      "name": "Glowing Square Pattern Magical",
+      "path": "magical/glowing-square-pattern-magical.png"
+    },
+    {
+      "filename": "humanoid-keyhole-magical.png",
+      "name": "Humanoid Keyhole Magical",
+      "path": "magical/humanoid-keyhole-magical.png"
+    },
+    {
+      "filename": "inverted-cross-magical.png",
+      "name": "Inverted Cross Magical",
+      "path": "magical/inverted-cross-magical.png"
+    },
+    {
+      "filename": "inverted-t-magical.png",
+      "name": "Inverted T Magical",
+      "path": "magical/inverted-t-magical.png"
+    },
+    {
+      "filename": "inverted-u-flame-arch.png",
+      "name": "Inverted U Flame Arch",
+      "path": "magical/inverted-u-flame-arch.png"
+    },
+    {
+      "filename": "keyhole-emblem-magical.png",
+      "name": "Keyhole Emblem Magical",
+      "path": "magical/keyhole-emblem-magical.png"
+    },
+    {
+      "filename": "keyhole-flask-magical.png",
+      "name": "Keyhole Flask Magical",
+      "path": "magical/keyhole-flask-magical.png"
+    },
+    {
+      "filename": "magical-ward.png",
+      "name": "Magical Ward",
+      "path": "magical/magical-ward.png"
+    },
+    {
+      "filename": "network-circuit-magical.png",
+      "name": "Network Circuit Magical",
+      "path": "magical/network-circuit-magical.png"
+    },
+    {
+      "filename": "octagonal-magical-core.png",
+      "name": "Octagonal Magical Core",
+      "path": "magical/octagonal-magical-core.png"
+    },
+    {
+      "filename": "omega-symbol-ultimate.png",
+      "name": "Omega Symbol Ultimate",
+      "path": "magical/omega-symbol-ultimate.png"
+    },
+    {
+      "filename": "pot-flask-magical.png",
+      "name": "Pot Flask Magical",
+      "path": "magical/pot-flask-magical.png"
+    },
+    {
+      "filename": "ring-gem-magical.png",
+      "name": "Ring Gem Magical",
+      "path": "magical/ring-gem-magical.png"
+    },
+    {
+      "filename": "s-symbol-red-dots-magical.png",
+      "name": "S Symbol Red Dots Magical",
+      "path": "magical/s-symbol-red-dots-magical.png"
+    },
+    {
+      "filename": "snowflake-star-magical.png",
+      "name": "Snowflake Star Magical",
+      "path": "magical/snowflake-star-magical.png"
+    },
+    {
+      "filename": "spiral-clockwise-vortex.png",
+      "name": "Spiral Clockwise Vortex",
+      "path": "magical/spiral-clockwise-vortex.png"
+    },
+    {
+      "filename": "spiral-counter-clockwise-magical.png",
+      "name": "Spiral Counter Clockwise Magical",
+      "path": "magical/spiral-counter-clockwise-magical.png"
+    },
+    {
+      "filename": "spiral-counter-clockwise-vortex.png",
+      "name": "Spiral Counter Clockwise Vortex",
+      "path": "magical/spiral-counter-clockwise-vortex.png"
+    },
+    {
+      "filename": "spiral-counter-clockwise-vortex_1.png",
+      "name": "Spiral Counter Clockwise Vortex_1",
+      "path": "magical/spiral-counter-clockwise-vortex_1.png"
+    },
+    {
+      "filename": "spiral-maze-magical.png",
+      "name": "Spiral Maze Magical",
+      "path": "magical/spiral-maze-magical.png"
+    },
+    {
+      "filename": "staff-crook-magical.png",
+      "name": "Staff Crook Magical",
+      "path": "magical/staff-crook-magical.png"
+    },
+    {
+      "filename": "star-cross-magical.png",
+      "name": "Star Cross Magical",
+      "path": "magical/star-cross-magical.png"
+    },
+    {
+      "filename": "star-cross-pattern-magical.png",
+      "name": "Star Cross Pattern Magical",
+      "path": "magical/star-cross-pattern-magical.png"
+    },
+    {
+      "filename": "stars-cosmic-magical.png",
+      "name": "Stars Cosmic Magical",
+      "path": "magical/stars-cosmic-magical.png"
+    },
+    {
+      "filename": "stylized-h-gate-magical.png",
+      "name": "Stylized H Gate Magical",
+      "path": "magical/stylized-h-gate-magical.png"
+    },
+    {
+      "filename": "sword-feather-quill-magical.png",
+      "name": "Sword Feather Quill Magical",
+      "path": "magical/sword-feather-quill-magical.png"
+    },
+    {
+      "filename": "three-stars-circuit-magical.png",
+      "name": "Three Stars Circuit Magical",
+      "path": "magical/three-stars-circuit-magical.png"
+    },
+    {
+      "filename": "wizard-hat-magical.png",
+      "name": "Wizard Hat Magical",
+      "path": "magical/wizard-hat-magical.png"
+    },
+    {
+      "filename": "wizard-hat-spellcasting.png",
+      "name": "Wizard Hat Spellcasting",
+      "path": "magical/wizard-hat-spellcasting.png"
+    }
+  ]
+}

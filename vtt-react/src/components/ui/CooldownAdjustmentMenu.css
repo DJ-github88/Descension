@@ -1,0 +1,153 @@
+/* Cooldown Adjustment Menu - Simple Beige Pathfinder Style */
+
+.cooldown-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    z-index: 14000;
+    pointer-events: none;
+}
+
+.cooldown-menu {
+    position: fixed;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 180px;
+    max-width: 200px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #3a3a3a;
+    pointer-events: auto;
+    animation: cooldownMenuFadeIn 0.15s ease-out;
+}
+
+@keyframes cooldownMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cooldown-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.cooldown-value-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.cooldown-value-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: #8b4513;
+    line-height: 1;
+}
+
+.cooldown-value-unit {
+    font-size: 11px;
+    color: #6b5d4f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cooldown-adjust-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cooldown-btn {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(to bottom, #d4c5a9, #c4b599);
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.cooldown-btn:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #e4d5b9, #d4c5a9);
+    border-color: #8b7355;
+    transform: translateY(-1px);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.cooldown-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cooldown-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: linear-gradient(to bottom, #c4b599, #b4a589);
+}
+
+.cooldown-quick-values {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.quick-btn {
+    padding: 4px 8px;
+    background: linear-gradient(to bottom, #d4c5a9, #c4b599);
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.quick-btn:hover {
+    background: linear-gradient(to bottom, #e4d5b9, #d4c5a9);
+    border-color: #8b7355;
+    transform: translateY(-1px);
+    box-shadow: 
+        0 2px 3px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.quick-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 1px 1px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,41 @@
+/* Shadow Overlay - Professional VTT Styling */
+.shadow-overlay-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 160;
+    transition: opacity 0.3s ease;
+}
+
+/* Performance optimizations */
+.shadow-overlay-canvas {
+    will-change: auto;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .shadow-overlay-canvas {
+        animation: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .shadow-overlay-canvas {
+        opacity: 0.9 !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .shadow-overlay-canvas {
+        display: none;
+    }
+}

@@ -1,0 +1,61 @@
+/* ===== PATHFINDER SPELLBOOK - RESOURCES STEP ===== */
+/* Step 5: Resource costs and requirements styling */
+
+/* ===== RESOURCE COST GRID ===== */
+
+.resource-cost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--pf-space-4);
+  padding: var(--pf-space-4);
+}
+
+.resource-cost-card {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-md);
+  padding: var(--pf-space-4);
+  text-align: center;
+}
+
+/* ===== RESOURCE SLIDERS ===== */
+
+.resource-slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-4);
+}
+
+.resource-slider-label {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resource-slider {
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  background: var(--pf-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  outline: none;
+  cursor: pointer;
+}
+
+.resource-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* Placeholder for additional resource-specific styling */

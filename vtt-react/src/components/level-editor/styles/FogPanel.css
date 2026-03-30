@@ -1,0 +1,312 @@
+/* Fog Panel Styles - Pathfinder Theme */
+.fog-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 16px;
+    gap: 20px;
+    color: #f4f1e8;
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+}
+
+/* Fog Tools */
+.fog-tools {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.fog-tools h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+/* Fog Types */
+.fog-types {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.fog-types h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.fog-type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.fog-type-button {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.2), rgba(139, 105, 20, 0.1));
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #f4f1e8;
+    font-family: 'Cinzel', serif;
+    position: relative;
+}
+
+.fog-type-button:hover {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.4), rgba(139, 105, 20, 0.2));
+    border-color: #8b6914;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fog-type-button.active {
+    background: linear-gradient(to bottom, #8b6914, #6b5010);
+    border-color: #d4af37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(139, 105, 20, 0.6);
+}
+
+.fog-icon {
+    font-size: 18px;
+}
+
+.fog-name {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.fog-preview {
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+    border: 1px solid rgba(139, 105, 20, 0.6);
+}
+
+/* Vision System */
+.vision-system {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.vision-system h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.vision-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    color: #f4f1e8;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group input[type="checkbox"] {
+    accent-color: #d4af37;
+    transform: scale(1.2);
+}
+
+/* Fog Statistics */
+.fog-statistics {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.fog-statistics h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 105, 20, 0.4);
+}
+
+.stat-label {
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stat-value {
+    color: #d4af37;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stat-value.enabled {
+    color: #4caf50;
+}
+
+.stat-value.disabled {
+    color: #f44336;
+}
+
+/* Fog Controls */
+.fog-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-btn {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.3), rgba(139, 105, 20, 0.2));
+    border: 2px solid rgba(139, 105, 20, 0.6);
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    color: #f4f1e8;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover:not(:disabled) {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.5), rgba(139, 105, 20, 0.3));
+    border-color: #8b6914;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn.primary {
+    background: linear-gradient(to bottom, #4caf50, #45a049);
+    border-color: #66bb6a;
+}
+
+.control-btn.primary:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #66bb6a, #4caf50);
+    border-color: #81c784;
+}
+
+.control-btn.secondary {
+    background: linear-gradient(to bottom, #2196f3, #1976d2);
+    border-color: #42a5f5;
+}
+
+.control-btn.secondary:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #42a5f5, #2196f3);
+    border-color: #64b5f6;
+}
+
+.control-btn.danger {
+    background: linear-gradient(to bottom, #f44336, #d32f2f);
+    border-color: #ef5350;
+}
+
+.control-btn.danger:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #ef5350, #f44336);
+    border-color: #e57373;
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Instructions */
+.fog-instructions {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.fog-instructions h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.instructions-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #f4f1e8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.instructions-list li {
+    margin-bottom: 6px;
+}
+
+.instructions-list strong {
+    color: #d4af37;
+}
+
+/* Scrollbar Styling */
+.fog-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fog-panel::-webkit-scrollbar-track {
+    background: rgba(139, 105, 20, 0.1);
+    border-radius: 3px;
+}
+
+.fog-panel::-webkit-scrollbar-thumb {
+    background: rgba(139, 105, 20, 0.4);
+    border-radius: 3px;
+}
+
+.fog-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 105, 20, 0.6);
+}

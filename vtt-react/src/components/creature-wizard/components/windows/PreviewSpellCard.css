@@ -1,0 +1,17 @@
+/* Preview Spell Card Styles */
+/* This component now uses UnifiedSpellCard, so minimal styling needed */
+
+.preview-spell-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--pf-space-4);
+  background: transparent;
+}
+
+/* Ensure the unified spell card displays properly in preview context */
+.preview-spell-card-container .unified-spell-card {
+  max-width: 420px;
+  min-width: 380px;
+  box-shadow: var(--pf-shadow-parchment);
+}

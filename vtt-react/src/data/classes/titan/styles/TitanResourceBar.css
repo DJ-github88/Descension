@@ -1,0 +1,716 @@
+/* Titan Celestial Devotion Resource Bar */
+
+.titan-resource-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Resource Bar Row */
+.resource-bar-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Devotion Cycle Button */
+.devotion-cycle-btn {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+}
+
+/* Smaller button for HUD/small size */
+.titan-resource-container.small .devotion-cycle-btn {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+}
+
+.devotion-cycle-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+/* Main Resource Bar */
+.titan-resource-bar {
+    position: relative;
+    flex: 1;
+    height: 20px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
+}
+
+/* Smaller height for HUD/small size */
+.titan-resource-bar.small {
+    height: 16px;
+}
+
+.titan-resource-bar.clickable:hover {
+    border-color: #8B4513;
+    box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+}
+
+/* Celestial Background Pattern */
+.celestial-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Divine Aura Overlay */
+.divine-aura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.aura-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--devotion-glow-color);
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatParticle 3s infinite ease-in-out;
+}
+
+.aura-particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.aura-particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 1s;
+}
+
+.aura-particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 2s;
+}
+
+@keyframes floatParticle {
+    0%, 100% { 
+        bottom: 0; 
+        opacity: 0; 
+        transform: scale(0.5);
+    }
+    50% { 
+        bottom: 100%; 
+        opacity: 0.6; 
+        transform: scale(1);
+    }
+}
+
+/* Charge Fill Bar */
+.charge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #d5cbb0 0%, 
+        #c4a373 50%, 
+        #a08c70 100%
+    );
+    transition: width 0.4s ease;
+    box-shadow: inset 0 0 4px rgba(139, 69, 19, 0.3);
+    border-radius: 3px 0 0 3px;
+}
+
+/* Divine Energy Effect */
+.divine-energy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        transparent 100%
+    );
+    animation: divineFlow 2s infinite linear;
+}
+
+@keyframes divineFlow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Charge Display */
+.charge-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.charge-current {
+    font-size: 11px;
+    color: #5a1e12;
+}
+
+.charge-separator {
+    font-size: 10px;
+    color: #8B4513;
+}
+
+.charge-max {
+    font-size: 10px;
+    color: #8B4513;
+}
+
+/* Smaller font sizes for HUD/small size */
+.titan-resource-bar.small .charge-current {
+    font-size: 9px;
+}
+
+.titan-resource-bar.small .charge-separator,
+.titan-resource-bar.small .charge-max {
+    font-size: 8px;
+}
+
+/* Visual Intensity States */
+.titan-resource-bar.dormant .charge-fill {
+    opacity: 0.3;
+    filter: grayscale(0.8);
+}
+
+.titan-resource-bar.faint .charge-fill {
+    opacity: 0.5;
+    animation: faintPulse 3s infinite ease-in-out;
+}
+
+.titan-resource-bar.awakening .charge-fill {
+    opacity: 0.7;
+    animation: awakeningPulse 2.5s infinite ease-in-out;
+}
+
+.titan-resource-bar.channeling .charge-fill {
+    opacity: 0.85;
+    animation: channelingPulse 2s infinite ease-in-out;
+}
+
+.titan-resource-bar.empowered .charge-fill {
+    opacity: 0.95;
+    animation: empoweredPulse 1.5s infinite ease-in-out;
+}
+
+.titan-resource-bar.divine .charge-fill {
+    opacity: 1;
+    animation: divinePulse 1s infinite ease-in-out;
+}
+
+@keyframes faintPulse {
+    0%, 100% { filter: brightness(0.8); }
+    50% { filter: brightness(1); }
+}
+
+@keyframes awakeningPulse {
+    0%, 100% { filter: brightness(0.9); }
+    50% { filter: brightness(1.1); }
+}
+
+@keyframes channelingPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+@keyframes empoweredPulse {
+    0%, 100% { filter: brightness(1.1); }
+    50% { filter: brightness(1.3); }
+}
+
+@keyframes divinePulse {
+    0%, 100% { 
+        filter: brightness(1.2); 
+        box-shadow: inset 0 0 10px var(--devotion-glow-color);
+    }
+    50% { 
+        filter: brightness(1.5); 
+        box-shadow: inset 0 0 20px var(--devotion-glow-color);
+    }
+}
+
+/* Charging Animation State */
+.titan-resource-bar.charging .charge-fill {
+    animation: chargingSurge 0.8s ease-out;
+}
+
+@keyframes chargingSurge {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2) saturate(1.5); }
+    100% { filter: brightness(1); }
+}
+
+/* Devotion Switching Animation State */
+.titan-resource-bar.switching {
+    animation: devotionSwitch 0.8s ease-out;
+}
+
+@keyframes devotionSwitch {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; transform: scale(0.98); }
+}
+
+/* Celestial Champion - Double Flare Effect (80+ charge) */
+.titan-resource-bar.champion-flare .charge-fill {
+    animation: championFlare 1.2s infinite ease-in-out;
+}
+
+@keyframes championFlare {
+    0%, 100% { 
+        filter: brightness(1.3);
+        box-shadow: 
+            inset 0 0 15px var(--devotion-glow-color),
+            0 0 10px var(--devotion-glow-color);
+    }
+    25% { 
+        filter: brightness(1.8);
+        box-shadow: 
+            inset 0 0 25px var(--devotion-glow-color),
+            0 0 20px var(--devotion-glow-color);
+    }
+    50% { 
+        filter: brightness(1.3);
+        box-shadow: 
+            inset 0 0 15px var(--devotion-glow-color),
+            0 0 10px var(--devotion-glow-color);
+    }
+    75% { 
+        filter: brightness(1.8);
+        box-shadow: 
+            inset 0 0 25px var(--devotion-glow-color),
+            0 0 20px var(--devotion-glow-color);
+    }
+}
+
+/* Divine Conduit - Dual Glow Effect (60+ charge) */
+.titan-resource-bar.conduit-dual .charge-fill {
+    box-shadow: 
+        inset 0 0 10px var(--devotion-glow-color),
+        inset 0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 8px var(--devotion-glow-color),
+        0 0 16px rgba(255, 255, 255, 0.2);
+    animation: conduitDualGlow 2s infinite ease-in-out;
+}
+
+@keyframes conduitDualGlow {
+    0%, 100% { filter: brightness(1.2) hue-rotate(0deg); }
+    50% { filter: brightness(1.4) hue-rotate(15deg); }
+}
+
+/* Devotion-Specific Overlay Effects */
+
+/* Solara - Radiant Rays */
+.radiant-rays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 215, 0, 0.1) 10px,
+        rgba(255, 215, 0, 0.1) 12px
+    );
+    animation: radiateRays 2s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes radiateRays {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(20px); }
+}
+
+/* Lunara - Lunar Glow */
+.lunar-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(135, 206, 235, 0.3) 0%, transparent 70%);
+    animation: lunarPulse 3s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes lunarPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Astraeus - Starlit Shimmer */
+.starlit-shimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(186, 85, 211, 0.4) 0%, transparent 10%),
+        radial-gradient(circle at 45% 30%, rgba(186, 85, 211, 0.4) 0%, transparent 10%),
+        radial-gradient(circle at 75% 70%, rgba(186, 85, 211, 0.4) 0%, transparent 10%);
+    animation: starShimmer 2s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes starShimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Terranox - Earthen Pulse */
+.earthen-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 69, 19, 0.3) 50%, 
+        transparent 100%
+    );
+    animation: earthPulse 2.5s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes earthPulse {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+/* Zephyra - Wind Swirl */
+.wind-swirl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(0, 206, 209, 0.2) 25%, 
+        transparent 50%,
+        rgba(0, 206, 209, 0.2) 75%,
+        transparent 100%
+    );
+    background-size: 200% 200%;
+    animation: windSwirl 1.5s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes windSwirl {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* Tooltip Styling */
+.unified-resourcebar-tooltip {
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 0;
+    padding: 6px 8px;
+    min-width: 240px;
+    max-width: 300px;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3), 0 1px 3px rgba(139, 69, 19, 0.2);
+    pointer-events: none;
+}
+
+.unified-resourcebar-tooltip.top::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #8B4513;
+}
+
+.unified-resourcebar-tooltip.bottom::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #8B4513;
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tooltip-devotion {
+    font-size: 12px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.tooltip-stage {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8B4513;
+    text-align: center;
+}
+
+.tooltip-benefit {
+    font-size: 9px;
+    color: #a08c70;
+    text-align: center;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+/* Dev Controls */
+.titan-dev-controls {
+    position: absolute;
+    top: 100%;
+    left: -30px;
+    right: -30px;
+    margin-top: 8px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'Cinzel', serif;
+    z-index: 10000;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3), 0 1px 3px rgba(139, 69, 19, 0.2);
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+}
+
+.controls-header span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #5a1e12;
+}
+
+.controls-header button {
+    background: none;
+    border: none;
+    color: #8B4513;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px;
+    transition: color 0.2s ease;
+}
+
+.controls-header button:hover {
+    color: #5a1e12;
+}
+
+.control-group {
+    margin-bottom: 8px;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Charge Controls */
+.charge-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.preset-buttons-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.adjust-buttons-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+}
+
+.preset-buttons-row button,
+.adjust-buttons-row button {
+    padding: 5px 8px;
+    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 3px;
+    color: #5a1e12;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.preset-buttons-row button:hover,
+.adjust-buttons-row button:hover {
+    background: linear-gradient(145deg, #d5cbb0 0%, #c4a373 100%);
+    border-color: #5a1e12;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+.preset-buttons-row button:active,
+.adjust-buttons-row button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Devotion Selector */
+.devotion-selector {
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    border-radius: 4px;
+    padding: 8px;
+    background: rgba(248, 244, 230, 0.5);
+}
+
+.devotion-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.devotion-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    color: #5a1e12;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+    flex-shrink: 0;
+}
+
+.devotion-btn:hover {
+    background: linear-gradient(145deg, #d5cbb0 0%, #c4a373 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+.devotion-btn.active {
+    background: linear-gradient(145deg, #a08c70 0%, #8B4513 100%);
+    border-color: #5a1e12;
+    color: #f8f4e6;
+}
+
+/* Specialization Selector - inside devotion-selector */
+.devotion-selector .spec-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.devotion-selector .spec-btn {
+    padding: 5px 8px;
+    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
+    border: 1px solid #8B4513;
+    border-radius: 3px;
+    color: #5a1e12;
+    font-size: 9px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+    width: 100%;
+}
+
+.devotion-selector .spec-btn:hover {
+    background: linear-gradient(145deg, #d5cbb0 0%, #c4a373 100%);
+    border-color: #5a1e12;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+.devotion-selector .spec-btn.active {
+    background: linear-gradient(145deg, #a08c70 0%, #8B4513 100%);
+    border-color: #5a1e12;
+    color: #f8f4e6;
+}
+
+/* Force compact sizing in account context */
+.character-card .titan-resource-bar,
+.character-card-compact .titan-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+}
+
+.character-card .devotion-cycle-btn,
+.character-card-compact .devotion-cycle-btn {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    font-size: 0.6rem !important;
+}
+
+.character-card .charge-current,
+.character-card-compact .charge-current {
+    font-size: 0.65rem !important;
+}

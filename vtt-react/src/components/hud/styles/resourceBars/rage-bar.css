@@ -1,0 +1,287 @@
+/* ===== RAGE BAR DISPLAY (BERSERKER) ===== */
+.class-resource-bar.rage-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.rage-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.rage-bar-container {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rage-bar-container .bar-background {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(180deg, rgba(30, 20, 15, 0.8), rgba(20, 10, 5, 0.9));
+    border: 1px solid rgba(139, 115, 85, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.class-resource-bar.rage-bar.small .rage-bar-container .bar-background {
+    height: 14px;
+}
+
+.class-resource-bar.rage-bar.large .rage-bar-container .bar-background {
+    height: 28px;
+}
+
+.rage-bar-container .bar-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    background: linear-gradient(90deg, rgba(139, 0, 0, 0.9), rgba(220, 20, 60, 1));
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 0 10px rgba(220, 20, 60, 0.6);
+}
+
+.rage-bar-container .bar-overheat {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0.3));
+    animation: overheatPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes overheatPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.rage-bar-container .bar-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 2;
+    letter-spacing: 0.5px;
+}
+
+.class-resource-bar.rage-bar.small .rage-bar-container .bar-text {
+    font-size: 10px;
+}
+
+.class-resource-bar.rage-bar.large .rage-bar-container .bar-text {
+    font-size: 14px;
+}
+
+.rage-state-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.class-resource-bar.rage-bar.small .rage-state-label {
+    font-size: 9px;
+}
+
+.class-resource-bar.rage-bar.large .rage-state-label {
+    font-size: 13px;
+}
+
+/* Rage Controls */
+.rage-controls {
+    display: flex;
+    gap: 3px;
+    flex-shrink: 0;
+    align-items: center;
+    height: 100%;
+}
+
+.rage-btn {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid rgba(139, 115, 85, 0.5);
+    border-radius: 3px;
+    color: #4a3020;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 11px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.rage-btn:hover {
+    background: rgba(139, 115, 85, 0.5);
+    border-color: rgba(139, 115, 85, 0.7);
+}
+
+.rage-btn:active {
+    transform: scale(0.92);
+}
+
+.rage-btn.rage-add {
+    color: #228B22;
+}
+
+.rage-btn.rage-add:hover {
+    background: rgba(34, 139, 34, 0.3);
+    border-color: rgba(34, 139, 34, 0.7);
+}
+
+.rage-btn.rage-subtract {
+    color: #DC143C;
+}
+
+.rage-btn.rage-subtract:hover {
+    background: rgba(220, 20, 60, 0.3);
+    border-color: rgba(220, 20, 60, 0.7);
+}
+
+.rage-btn.rage-reset {
+    color: #8B6914;
+}
+
+.rage-btn.rage-reset:hover {
+    background: rgba(139, 105, 20, 0.3);
+    border-color: rgba(139, 105, 20, 0.7);
+}
+
+.class-resource-bar.rage-bar.small .rage-controls {
+    gap: 2px;
+}
+
+.class-resource-bar.rage-bar.small .rage-btn {
+    padding: 2px 4px;
+    font-size: 9px;
+    min-width: 22px;
+    height: 18px;
+}
+/* Rage pop menu for berserker */
+
+/* Place the Adjust Rage pop menu to the right of the HUD */
+.rage-menu {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 0;
+    right: auto;
+    bottom: auto;
+    background: #ede4d3;
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    min-width: 200px;
+    z-index: 3200;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2), 0 0 0 1px rgba(139, 69, 19, 0.3), 0 0 20px rgba(139, 69, 19, 0.15);
+}
+.rage-menu-row {
+    display: contents;
+}
+.rage-menu-row.set-row {
+    display: contents;
+}
+.rage-menu-item {
+    padding: 8px 12px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 2px solid #a08c70;
+    color: #2d1810;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+.rage-menu-item:hover { background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%); }
+.rage-menu-item.apply {
+    background: linear-gradient(145deg, #4a7c59 0%, #2d5016 50%, #228b22 100%);
+    border-color: #228b22;
+    color: #f8f4e6;
+    grid-column: 1 / -1;
+}
+.rage-menu-item.apply:hover { background: linear-gradient(145deg, #2d5016 0%, #228b22 50%, #006400 100%); }
+.rage-menu-input {
+    grid-column: 1 / -1;
+    height: 34px;
+    padding: 6px 10px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+    color: #2d1810;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+}
+.rage-menu-input::placeholder { color: #8b7355; opacity: 0.8; }
+
+/* Overheat full-bar animation */
+.class-resource-bar.rage-bar.overheated .rage-bar-container .bar-background {
+    animation: overheatGlow 1s ease-in-out infinite, rageShake 0.5s linear infinite;
+}
+@keyframes overheatGlow {
+    0%, 100% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 6px rgba(255,0,0,0.4); }
+    50% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 16px rgba(255,0,0,0.8); }
+}
+@keyframes rageShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(0.5px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(-0.5px); }
+    100% { transform: translateX(0); }
+}
+
+.class-resource-bar.rage-bar.large .rage-controls { gap: 4px; }
+
+/* Centered Rage Dialog (modal) */
+.rage-dialog-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index: 3000; }
+.rage-dialog { background:#2a2420; border:2px solid rgba(139,115,85,0.8); border-radius:8px; min-width: 320px; box-shadow: 0 6px 20px rgba(0,0,0,0.7); }
+.rage-dialog-header { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-bottom:1px solid rgba(139,115,85,0.5); color:#f8f4e6; }
+.rage-dialog-content { padding:12px; display:flex; flex-direction:column; gap:10px; }
+.rage-dialog-close { background:none; border:none; color:#f8f4e6; font-size:20px; cursor:pointer; }
+
+.class-resource-bar.rage-bar.large .rage-btn {
+    padding: 6px 8px;
+    font-size: 13px;
+    min-width: 36px;
+    height: 32px;
+}
+
+/* ===== BERSERKER TOOLTIP STYLES ===== */
+.tooltip-rage-bar {
+    font-size: 12px;
+    color: #000000;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Note: Obsolete tooltip classes removed - all tooltips now use Pathfinder style */
+
+/* ========================================
+   BLADEDANCER STANCE FLOW RESOURCE BAR - COMPACT
+   ======================================== */

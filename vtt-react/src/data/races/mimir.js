@@ -1,0 +1,16 @@
+export const mimir = {
+
+        id: 'mimir',
+        name: 'Mimir',
+        description: 'People whose features never stay the same. Skin shifts subtly, faces blur when you look away. Eyes change color, sometimes reflecting whoever they last saw. Flesh feels like clay, malleable and unstable. Many avoid mirrors, unable to bear seeing their formless reflection. When they transform, their bones creak and shift audibly. They smell faintly of glass and polish.',
+        icon: 'fas fa-mask',
+        overview: 'The Mimir are people whose ancestors suffered a curse that stripped them of their original forms. Through generations of adapting to survive, their bloodlines have mastered shapeshifting. But at the cost of ever truly knowing who they are. They are organized into communities that hide in plain sight. Settlements built in places where reflections multiply. Beneath cities, in abandoned factories, anywhere mirrors and glass create endless copies. The Mimir don\'t choose to change. It\'s their nature, passed down through bloodlines that remember the loss of form.',
+        culturalBackground: `Mimir communities are hidden enclaves built in places where reflections multiply endlessly. Beneath cities, in abandoned mirror factories, anywhere glass and polished surfaces create copies of reality. Each community traces its lineage to ancestors who lost their true forms. Traditions focused on survival through adaptation. Mimir children are taught from birth to avoid mirrors. Prolonged reflection can shatter their fragile sense of self. Community elders pass down the old ways. How to copy forms perfectly. How to maintain a facade. How to trade in identities and secrets. They practice ancient techniques passed down through generations. How to read faces to copy them. How to adopt mannerisms. How to become anyone except themselves. But every transformation erodes another piece of their soul. Memories fade. Habits change. Until they wonder if any face is truly theirs. Community disputes settle through deception competitions and the testimony of those who remember the most faces. They are a people bound by the need to adapt and haunted by the question of who they once were. Their mastery of deception unmatched but their own identity forever lost.`,
+        variantDiversity: 'The Mimir are divided into two major bloodlines: The Face-Thieves perfect the art of impersonation and embrace their shapeshifting nature, while the Shattered struggle with fragmented identities and the pieces of who they once were.',
+        integrationNotes: {
+            actionPointSystem: 'Mimir abilities focus on deception, adaptation, and identity manipulation. Their shapeshifting provides unique infiltration and social options.',
+            backgroundSynergy: 'Mimir excel in backgrounds emphasizing deception, adaptability, and social manipulation. Their identity crisis can create compelling roleplay opportunities.',
+            classCompatibility: 'Mimir make excellent rogues, spies, and social characters. Their shapeshifting abilities enhance classes that rely on deception and infiltration.',
+};
+
+export default mimir;

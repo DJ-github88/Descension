@@ -1,0 +1,16 @@
+export const grimheart = {
+
+        id: 'grimheart',
+        name: 'Grimheart',
+        description: 'Stout folk with flesh hardened like stone from generations in the deep. Skin grayish and rough, bones dense and heavy. Hands calloused and scarred from working metal and stone. Eyes adapted to darkness, pupils too wide for surface light. They move slow but steady, their weight settling like stone. Hair often dusted with mineral powder, clothes stained with earth and soot.',
+        icon: 'fas fa-hammer',
+        overview: 'The Grimheart are stout folk whose ancestors founded the mining guilds that carved wealth from the deep earth. Through generations of working beneath the mountains, their bloodlines have been marked by the stone. Their flesh hardening. Their bones growing dense. Their very nature shaped by the deep places. They are organized into powerful guilds, each with its own traditions, techniques, ancestral secrets. The Grimheart don\'t just mine. They serve the earth, their craft a calling passed down through bloodlines. But the deep earth whispers to those who work it too long. Many Grimheart find themselves drawn back to the mines, unable to resist the call of what lies beneath.',
+        culturalBackground: `Grimheart society runs on guild loyalty and ancestral craft traditions. Each guild traces its founding to legendary miners and smiths who first learned to shape stone and metal. Their techniques passed down through generations like sacred texts. Guild halls are carved deep into mountainsides, stone architecture reflecting the unyielding nature of those who built them. Grimheart children are apprenticed young. Learning their family's craft from masters who are often their own ancestors. The transformation comes slowly. Through generations of working in the deep, their bloodlines have adapted. Flesh hardening like the stone they work. But this adaptation is also a curse. The deep earth whispers to those with stone in their blood. Calling them back to dig ever deeper. Guild disputes settle through craft competitions and the testimony of elder masters. They are a people bound by tradition and haunted by the depths. Their mastery of earth and metal unmatched. But their souls forever marked by what they awakened below.`,
+        variantDiversity: 'The Grimheart are divided into three major bloodlines: The Deep-Delvers embrace deep mining and answer the earth\'s call, the Stone-Smiths channel their connection to stone into master crafting, and the Earth-Wardens resist the whispers to serve as guardians and protectors.',
+        integrationNotes: {
+            actionPointSystem: 'Grimheart abilities focus on durability, crafting, and earth manipulation. Their stone-like nature provides defensive options but limits mobility.',
+            backgroundSynergy: 'Grimheart work well with backgrounds emphasizing crafting, endurance, and physical prowess. Their obsessive nature can complement dedicated specialist paths.',
+            classCompatibility: 'Grimheart excel as tanks, crafters, and earth-based casters. Their high constitution and defensive abilities make them natural frontliners, though their reduced speed requires tactical positioning.',
+};
+
+export default grimheart;
