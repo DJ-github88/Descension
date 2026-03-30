@@ -473,7 +473,7 @@ const usePartyStore = create((set, get) => ({
       });
       
       if (presenceStore.currentUserPresence?.userId) {
-        const presenceService = require('../services/presenceService').default;
+        const presenceService = require('../services/firebase/presenceService').default;
         presenceService.updateSession(presenceStore.currentUserPresence.userId, {
           partyId: null,
           partyName: null
