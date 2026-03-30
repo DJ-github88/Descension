@@ -377,11 +377,14 @@ const useCreatureStore = create((set, get) => ({
       } : token
     );
 
+<<<<<<< HEAD
     // CRITICAL: Log if this update changes ownership
     if (stateUpdates && (stateUpdates.ownerId || stateUpdates.playerId)) {
       console.log(`🎁 [creatureStore] updateCreatureState: Token ${tokenId} owner updated to:`, stateUpdates.ownerId || stateUpdates.playerId);
     }
 
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     // Import game store dynamically to broadcast to other players
     if (sendToServer) {
       try {
@@ -417,6 +420,7 @@ const useCreatureStore = create((set, get) => ({
     };
   }),
 
+<<<<<<< HEAD
   // Update creature data in BOTH the library and any placed grid tokens
   updateCreature: (creatureId, updates) => set(state => {
     // Update library creatures array
@@ -435,6 +439,15 @@ const useCreatureStore = create((set, get) => ({
 
     console.log(`🔄 [creatureStore] updateCreature: Updated library + ${updatedTokens.filter(t => t.creatureId === creatureId || t.id === creatureId).length} grid token(s) for creature ${creatureId}`);
 
+=======
+  // Update creature data (general purpose, used by shop etc.)
+  updateCreature: (creatureId, updates) => set(state => {
+    // Find the token to update
+    const updatedTokens = (state.creatureTokens || []).map(token =>
+      (token.id === creatureId || token.creatureId === creatureId) ? { ...token, ...updates } : token
+    );
+
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     // Broadcast update if in multiplayer
     try {
       const gameStore = useGameStore.getState();
@@ -442,6 +455,10 @@ const useCreatureStore = create((set, get) => ({
         const mapStore = require('./mapStore');
         const currentMapId = mapStore.default.getState().currentMapId || 'default';
 
+<<<<<<< HEAD
+=======
+        // Send a general update event
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         gameStore.multiplayerSocket.emit('token_updated', {
           tokenId: creatureId,
           updates: updates,
@@ -461,12 +478,16 @@ const useCreatureStore = create((set, get) => ({
     }
 
     return {
+<<<<<<< HEAD
       creatures: updatedLibrary,
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       creatureTokens: updatedTokens,
       tokens: updatedTokens
     };
   }),
 
+<<<<<<< HEAD
   // Delete a creature from the library (does NOT remove placed grid tokens)
   deleteCreature: (creatureId) => set(state => {
     const updatedLibrary = (state.creatures || []).filter(c => c.id !== creatureId);
@@ -474,6 +495,8 @@ const useCreatureStore = create((set, get) => ({
     return { creatures: updatedLibrary };
   }),
 
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   // Process loot item (creature death rewards)
   processCreatureLoot: (tokenId, lootData) => set(state => {
     const lootItems = processCreatureLoot(lootData);

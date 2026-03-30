@@ -85,6 +85,13 @@ const AchievementNotificationOverlay = () => {
         <div
           key={notification.id}
           className={`player-notification achievement ${notification.visible ? 'show' : ''} ${!notification.visible ? 'fade-out' : ''}`}
+<<<<<<< HEAD
+=======
+          style={{
+            top: '20%',
+            right: '20px'
+          }}
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         >
           <div className="player-notification-content">
             <div className="player-info" style={{ marginLeft: '0' }}>

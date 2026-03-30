@@ -1007,6 +1007,13 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 }
                 
                 // Debug logging for buff display
+<<<<<<< HEAD
+=======
+                console.log('[PartyHUD] activeBuffs from store:', activeBuffs);
+                console.log('[PartyHUD] rawBuffs for display:', rawBuffs);
+                console.log('[PartyHUD] activeDebuffs from store:', activeDebuffs);
+                console.log('[PartyHUD] rawDebuffs for display:', rawDebuffs);
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
                 // Get conditions from member's character token
                 const memberToken = characterTokens.find(t => 
@@ -1549,7 +1556,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     const {
         partyMembers,
+<<<<<<< HEAD
         isInParty,
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         removePartyMember,
         updatePartyMember,
         getMemberPosition,
@@ -1583,9 +1593,15 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         exhaustionLevel: state.exhaustionLevel,
         // CRITICAL: Always ensure valid resource values for HUD display
         // Use fallbacks if store values are missing or invalid
+<<<<<<< HEAD
         health: (state.health?.max > 0) ? state.health : null,
         mana: (state.mana?.max > 0) ? state.mana : null,
         actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 0, max: 0 },
+=======
+        health: (state.health?.max > 0) ? state.health : { current: 45, max: 50 },
+        mana: (state.mana?.max > 0) ? state.mana : { current: 45, max: 50 },
+        actionPoints: (state.actionPoints?.max > 0) ? state.actionPoints : { current: 1, max: 3 },
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         tempHealth: state.tempHealth || 0,
         tempMana: state.tempMana || 0,
         tempActionPoints: state.tempActionPoints || 0,
@@ -2921,6 +2937,18 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 isSelfId(member.socketId, member.userId, myIds);
             if (isSelf) {
 
+<<<<<<< HEAD
+=======
+                // Debug logging for party HUD resource display
+                if (currentPlayerData.name === 'YAD') {
+                    console.log('🔍 PartyHUD current player data:', {
+                        characterName: currentPlayerData.name,
+                        health: currentPlayerData.health,
+                        mana: currentPlayerData.mana,
+                        derivedStats: currentPlayerData.derivedStats
+                    });
+                }
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
                 return {
                     ...member, // Preserve all existing member data including isGM
@@ -2948,8 +2976,21 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     }
                 };
             }
+<<<<<<< HEAD
             // Return member data as-is — bars only render when max > 0 (see ClassResourceBar condition)
             return { ...member };
+=======
+            // CRITICAL: Ensure non-current players also have valid resource fallbacks
+            return {
+                ...member,
+                character: {
+                    ...member.character,
+                    health: (member.character?.health?.max > 0) ? member.character.health : { current: 45, max: 50 },
+                    mana: (member.character?.mana?.max > 0) ? member.character.mana : { current: 45, max: 50 },
+                    actionPoints: (member.character?.actionPoints?.max > 0) ? member.character.actionPoints : { current: 1, max: 3 }
+                }
+            };
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         });
 
     return (
@@ -3004,11 +3045,37 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
                                     member={member}
+<<<<<<< HEAD
                                     isCurrentPlayer={
                                         isSelfId(member.userId, member.userId, myIds) ||
                                         isSelfId(member.id, member.userId, myIds) ||
                                         isSelfId(member.socketId, member.userId, myIds)
                                     }
+=======
+                                    isCurrentPlayer={(() => {
+                                        const check1 = isSelfId(member.userId, member.userId, myIds);
+                                        const check2 = isSelfId(member.id, member.userId, myIds);
+                                        const check3 = isSelfId(member.socketId, member.userId, myIds);
+                                        const result = check1 || check2 || check3;
+                                        
+                                        // Log for debugging
+                                        if (member.character?.classResource) {
+                                            console.log('🔍 isCurrentPlayer check:', {
+                                                memberName: member.name,
+                                                memberId: member.id,
+                                                memberUserId: member.userId,
+                                                memberSocketId: member.socketId,
+                                                myIds,
+                                                check1,
+                                                check2,
+                                                check3,
+                                                result
+                                            });
+                                        }
+                                        
+                                        return result;
+                                    })()}
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                                     leaderId={leaderId}
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}
@@ -3034,7 +3101,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const currentUserInSession = isInMultiplayer && multiplayerRoom;
 
                 // Party Management Options (always visible, context-dependent)
+<<<<<<< HEAD
                 if (isSelf && isInParty) {
+=======
+                if (isSelf && partyMembers.length > 1) {
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                     menuItems.push({
                         icon: <i className="fas fa-sign-out-alt"></i>,
                         label: 'Leave Party',

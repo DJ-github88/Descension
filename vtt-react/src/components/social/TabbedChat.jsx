@@ -58,7 +58,11 @@ const TabbedChat = () => {
       const clean = sanitizeDisplayName(candidate);
       if (clean) return clean;
     }
+<<<<<<< HEAD
     return 'Unknown Adventurer';
+=======
+    return 'Unknown';
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   };
 
   // Get current messages based on active tab
@@ -275,7 +279,11 @@ const TabbedChat = () => {
       const userId = activeTab.replace('whisper_', '');
       const tab = whisperTabs.get(userId);
       if (tab && tab.user) {
+<<<<<<< HEAD
         const targetName = tab.user.characterName || tab.user.name || 'Unknown Adventurer';
+=======
+        const targetName = tab.user.characterName || tab.user.name || 'Unknown';
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         const displayName = getBestDisplayName(
           currentUserPresence?.accountName,
           currentUserPresence?.characterName,
@@ -316,7 +324,11 @@ const TabbedChat = () => {
       const userId = activeTab.replace('whisper_', '');
       const tab = whisperTabs.get(userId);
       if (tab && tab.user) {
+<<<<<<< HEAD
         const targetName = tab.user.characterName || tab.user.name || tab.user.displayName || 'Unknown Adventurer';
+=======
+        const targetName = tab.user.characterName || tab.user.name || tab.user.displayName || 'Unknown';
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         return `Whisper to ${targetName} - ${displayName}`;
       }
       return `Whisper to... - ${displayName}`;
@@ -348,10 +360,14 @@ const TabbedChat = () => {
           <div className="achievement-content">
             <div className="achievement-header">
               <img
+<<<<<<< HEAD
                 src={getIconUrl(
                   message.achievementData?.icon || 'achievement_icon',
                   message.achievementData?.icon ? 'abilities' : 'ui'
                 )}
+=======
+                src={message.achievementData?.icon || getIconUrl('achievement_bg_winwsg', 'ui')}
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 alt="Achievement"
                 className="achievement-icon"
               />

@@ -104,7 +104,11 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
           <div className="whisper-header">
             <i className="fas fa-comment"></i>
             {message.isOutgoing ? (
+<<<<<<< HEAD
               <span>To {message.targetName || 'Unknown Adventurer'}:</span>
+=======
+              <span>To {message.targetName || 'Unknown'}:</span>
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             ) : (
               <span>From {message.senderName}:</span>
             )}

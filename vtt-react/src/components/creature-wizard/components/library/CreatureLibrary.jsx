@@ -83,7 +83,11 @@ const sortCreatures = (creatures, sortOrder) => {
   });
 };
 
+<<<<<<< HEAD
 const CreatureLibrary = ({ onEdit, onCreateNew }) => {
+=======
+const CreatureLibrary = ({ onEdit }) => {
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const library = useCreatureLibrary();
   const dispatch = useCreatureLibraryDispatch();
   const creatureStore = useCreatureStore();
@@ -197,6 +201,7 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
   };
 
   // Confirm creature deletion
+<<<<<<< HEAD
   const confirmDeleteCreature = async () => {
     if (creatureToDelete) {
       // Update local store and library context
@@ -212,6 +217,15 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       } catch (err) {
         console.warn('⚠️ Could not delete creature from Firebase:', err);
       }
+=======
+  const confirmDeleteCreature = () => {
+    if (creatureToDelete) {
+      // First update the store
+      creatureStore.deleteCreature(creatureToDelete.id);
+
+      // Then update the library
+      dispatch(libraryActionCreators.deleteCreature(creatureToDelete.id));
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     }
     setShowDeleteConfirmation(false);
     setCreatureToDelete(null);
@@ -392,7 +406,11 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       {/* Header with controls */}
       <div className="creature-library-header">
         <div className="creature-library-title-row">
+<<<<<<< HEAD
           <h1>My Creatures</h1>
+=======
+          <h1>Creature Library</h1>
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           <div className="creature-library-filters-center">
             <CreatureFilters
               filteredCount={filteredCreatures.length}
@@ -416,6 +434,7 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
                 <i className="fas fa-list"></i>
               </button>
             </div>
+<<<<<<< HEAD
             {onCreateNew && (
               <button
                 className="create-creature-btn"
@@ -426,6 +445,8 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
                 <span>Create Creature</span>
               </button>
             )}
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           </div>
         </div>
 
@@ -612,8 +633,13 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
         creature={shareDialog}
         onClose={() => setShareDialog(null)}
         onShare={async (creature) => {
+<<<<<<< HEAD
           if (!user?.uid || user?.isGuest) {
             alert('Please log in with a full account to share creatures with the community.');
+=======
+          if (!user?.uid) {
+            alert('Please log in to share creatures with the community.');
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             return;
           }
           try {
@@ -621,8 +647,11 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
             await uploadCreature(creature, user.uid);
             alert(`Successfully shared "${creature.name}" with the community!`);
             setShareDialog(null);
+<<<<<<< HEAD
             // Signal community tab to refresh so the new creature appears immediately
             window.dispatchEvent(new CustomEvent('creatureShared', { detail: { creatureName: creature.name } }));
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           } catch (error) {
             console.error('Failed to share creature:', error);
             throw error;

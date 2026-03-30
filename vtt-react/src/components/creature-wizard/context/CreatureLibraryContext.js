@@ -266,6 +266,7 @@ export function CreatureLibraryProvider({ children }) {
     initialState
   );
 
+<<<<<<< HEAD
   // Load creatures from Firebase when user is authenticated
   useEffect(() => {
     let cancelled = false;
@@ -301,6 +302,9 @@ export function CreatureLibraryProvider({ children }) {
   }, []); // Run once on mount
 
   // Sync library context from store whenever the store's creatures change
+=======
+  // Then load creatures from store using useEffect to avoid render-time issues
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   useEffect(() => {
     // Always sync with store, even if it's empty initially
     dispatch(libraryActionCreators.loadLibrary({

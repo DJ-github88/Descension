@@ -365,7 +365,11 @@ const useBuffStore = create(
                         }
                     });
 
+<<<<<<< HEAD
 
+=======
+                console.log('[buffStore] Returning effects for', targetId, ':', effects);
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 return effects;
             },
 
@@ -373,6 +377,10 @@ const useBuffStore = create(
             getBuffsForTarget: (targetId) => {
                 const { activeBuffs } = get()
                 const result = activeBuffs.filter(buff => buff.targetId === targetId)
+<<<<<<< HEAD
+=======
+                console.log('[buffStore] getBuffsForTarget(' + targetId + '):', result.length, 'buffs found')
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 return result
             },
 

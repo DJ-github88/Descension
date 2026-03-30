@@ -57,6 +57,7 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - ((timeLeft / 60) * circumference);
 
+<<<<<<< HEAD
     const outcomeColor = invite.outcome === 'accepted' ? '#4caf50'
         : invite.outcome === 'declined' || invite.outcome === 'failed' ? '#a52a2a'
             : '#8b4513';
@@ -118,11 +119,41 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
                 </span>
                 {!invite.outcome && (
                     <span style={{ fontSize: '10px', color: '#9a6040', fontStyle: 'italic' }}>Awaiting response…</span>
+=======
+    const outcomeClass = invite.outcome === 'accepted' ? 'outcome-accepted'
+        : invite.outcome === 'declined' || invite.outcome === 'failed' ? 'outcome-declined'
+            : '';
+
+    return (
+        <div className={`party-invite-sent-toast ${isEntering ? 'entering' : ''} ${isLeaving ? 'leaving' : ''} ${outcomeClass}`}>
+            <div className="invite-sent-icon">
+                {invite.outcome === 'accepted'
+                    ? <i className="fas fa-check-circle" style={{ color: '#4caf50' }}></i>
+                    : (invite.outcome === 'declined' || invite.outcome === 'failed')
+                        ? <i className="fas fa-times-circle" style={{ color: '#c04040' }}></i>
+                        : <i className="fas fa-paper-plane" style={{ color: '#c9a83f' }}></i>
+                }
+            </div>
+            <div className="invite-sent-body">
+                <span className="invite-sent-title">
+                    {invite.outcome === 'accepted'
+                        ? `${invite.targetName} joined the party!`
+                        : invite.outcome === 'declined'
+                            ? `${invite.targetName} declined.`
+                            : invite.outcome === 'failed'
+                                ? `Failed: ${invite.error || 'User already in party'}`
+                                : `Invite sent to ${invite.targetName}`
+                    }
+                </span>
+                {!invite.outcome && (
+                    <span className="invite-sent-sub">Awaiting response…</span>
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 )}
             </div>
 
             {/* Mini timer ring (only while pending) */}
             {!invite.outcome && (
+<<<<<<< HEAD
                 <div style={{ position: 'relative', width: '34px', height: '34px', flexShrink: 0 }}>
                     <svg viewBox="0 0 40 40" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
                         <circle cx="20" cy="20" r={radius} fill="none" stroke="#d4b896" strokeWidth="2.5" opacity="0.3" />
@@ -148,11 +179,35 @@ const PartyInviteSentNotification = ({ invite, onDismiss }) => {
                 onMouseEnter={e => e.currentTarget.style.opacity = '1'}
                 onMouseLeave={e => e.currentTarget.style.opacity = '0.6'}
             >
+=======
+                <div className={`invite-sent-timer ${isExpiring ? 'expiring' : ''}`}>
+                    <svg viewBox="0 0 40 40" width="34" height="34" style={{ transform: 'rotate(-90deg)' }}>
+                        <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(212,175,55,0.15)" strokeWidth="3" />
+                        <circle
+                            cx="20" cy="20" r={radius}
+                            fill="none"
+                            stroke={isExpiring ? '#a52a2a' : '#c9a83f'}
+                            strokeWidth="3"
+                            strokeDasharray={circumference}
+                            strokeDashoffset={strokeDashoffset}
+                            strokeLinecap="round"
+                            style={{ transition: 'stroke-dashoffset 1s linear' }}
+                        />
+                    </svg>
+                    <span className="invite-sent-timer-text">{timeLeft}</span>
+                </div>
+            )}
+
+            <button className="invite-sent-close" onClick={dismiss} title="Dismiss">
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 <i className="fas fa-times"></i>
             </button>
         </div>
     );
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 export default PartyInviteSentNotification;

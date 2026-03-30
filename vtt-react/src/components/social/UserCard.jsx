@@ -30,10 +30,17 @@ const UserCard = ({
 }) => {
   // Determine if user has a character selected
   const charName = user.characterName || (user.character?.name) || '';
+<<<<<<< HEAD
   const hasCharacter = charName && charName !== 'Guest' && charName !== 'Unknown' && charName !== 'none' && charName !== '' && charName !== 'Adventurer' && charName !== 'Unknown Adventurer';
 
   // Account/display name (always available)
   const accountName = user.accountName || user.displayName || user.name || (user.isGuest ? 'Guest' : 'Adventurer');
+=======
+  const hasCharacter = charName && charName !== 'Guest' && charName !== 'Unknown' && charName !== 'none' && charName !== '';
+
+  // Account/display name (always available)
+  const accountName = user.accountName || user.displayName || user.name || (user.isGuest ? 'Guest' : 'Unknown');
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
   // Get race display name only when character exists
   const getRaceDisplayName = (userData) => {

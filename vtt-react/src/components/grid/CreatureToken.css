@@ -197,6 +197,7 @@
     transform: translateY(0);
   }
 }
+<<<<<<< HEAD
 
 /* Give Control Modal Styles */
 .give-control-container {
@@ -315,3 +316,5 @@
 .window-ready {
   visibility: visible !important;
 }
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f

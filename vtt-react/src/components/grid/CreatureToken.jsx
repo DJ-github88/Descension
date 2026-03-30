@@ -10,7 +10,10 @@ import useDebuffStore from '../../store/debuffStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCharacterStore from '../../store/characterStore';
+<<<<<<< HEAD
 import usePartyStore from '../../store/partyStore';
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
@@ -131,9 +134,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
   const [isDragging, setIsDragging] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
+<<<<<<< HEAD
   const [showGiveControlModal, setShowGiveControlModal] = useState(false);
   const [isWindowReady, setIsWindowReady] = useState(false);
   const [pendingControlOffer, setPendingControlOffer] = useState(null); // { tokenId, tokenName, offeredBy }
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState(null);
   const [mouseDownPosition, setMouseDownPosition] = useState(null);
@@ -159,8 +165,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
   const multiplayerSocket = useGameStore(state => state.multiplayerSocket);
+<<<<<<< HEAD
   const isGMMode = useGameStore(state => state.isGMMode);
   const partyMembers = usePartyStore(state => state.partyMembers);
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
   const currentTarget = useTargetingStore(state => state.currentTarget);
   const setTarget = useTargetingStore(state => state.setTarget);
@@ -372,6 +381,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
   }, [token]);
 
+<<<<<<< HEAD
   // Listen for incoming control-offer events dispatched by MultiplayerApp
   useEffect(() => {
     const handleControlOffer = (e) => {
@@ -386,6 +396,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return () => window.removeEventListener('creature-control-offer', handleControlOffer);
   }, [tokenId]);
 
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   // Force re-render when token state changes for real-time updates
   const [forceUpdate, setForceUpdate] = useState(0);
 
@@ -393,8 +405,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Camera position is handled via imperative updates in useEffect subscription - DON'T subscribe here!
   const zoomLevel = useGameStore(state => state.zoomLevel);
   const playerZoom = useGameStore(state => state.playerZoom);
+<<<<<<< HEAD
   const feetPerTile = useGameStore(state => state.feetPerTile);
   const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
+=======
+  const gridSize = useGameStore(state => state.gridSize);
+  const feetPerTile = useGameStore(state => state.feetPerTile);
+  const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
+  const isGMMode = useGameStore(state => state.isGMMode);
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const effectiveZoom = zoomLevel * playerZoom;
 
   // Check if this token is being viewed from and get visibility data
@@ -413,7 +432,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [isHovering, setIsHovering] = useState(false);
   const gridOffsetX = useGameStore(state => state.gridOffsetX);
   const gridOffsetY = useGameStore(state => state.gridOffsetY);
+<<<<<<< HEAD
   const gridSize = useGameStore(state => state.gridSize);
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const tokenGridSize = gridSize;
   const isViewingFrom = viewingFromToken && (
     (viewingFromToken.type === 'creature' && (viewingFromToken.creatureId === token.creatureId || viewingFromToken.id === token.id)) ||
@@ -1233,6 +1255,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowContextMenu(false);
   };
 
+<<<<<<< HEAD
   // Handle opening give control modal
   const handleOpenGiveControl = () => {
     setIsWindowReady(false);
@@ -1292,6 +1315,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowGiveControlModal(false);
   };
 
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   // Handle view creature details (Inspect)
   const [showDetailsWindow, setShowDetailsWindow] = useState(false);
   const [activeTab, setActiveTab] = useState('stats');
@@ -2279,6 +2304,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 setShowContextMenu(false);
               },
               className: token.state.hiddenFromPlayers ? 'active' : ''
+<<<<<<< HEAD
             },
             {
               icon: <i className="fas fa-user-friends"></i>,
@@ -2288,6 +2314,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 e.stopPropagation();
                 handleOpenGiveControl();
               }
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             }
           );
         }
@@ -3683,6 +3711,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         </div>,
         document.body
       )}
+<<<<<<< HEAD
 
       {/* Give Control Modal */}
       {showGiveControlModal && (
@@ -3998,6 +4027,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         </div>,
         document.body
       )}
+=======
+>>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     </>
   );
 };
