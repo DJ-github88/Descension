@@ -9,7 +9,6 @@
 import React, { useState, useEffect } from 'react';
 
 const ICONS = {
-<<<<<<< HEAD
     joined: { icon: 'fas fa-user-plus', color: '#386641', label: 'joined the party' },
     left: { icon: 'fas fa-sign-out-alt', color: '#a52a2a', label: 'left the party' },
     accepted: { icon: 'fas fa-check-circle', color: '#2d7a2d', label: 'accepted your invite' },
@@ -19,17 +18,6 @@ const ICONS = {
     you_declined: { icon: 'fas fa-times-circle', color: '#a52a2a', label: '' },
     invite_failed: { icon: 'fas fa-exclamation-circle', color: '#a52a2a', label: 'Invite failed' },
     invitation_sent: { icon: 'fas fa-paper-plane', color: '#8b7355', label: 'Invitation sent' },
-=======
-    joined: { icon: 'fas fa-user-plus', color: '#4caf50', label: 'joined the party' },
-    left: { icon: 'fas fa-sign-out-alt', color: '#e57373', label: 'left the party' },
-    accepted: { icon: 'fas fa-check-circle', color: '#4caf50', label: 'accepted your invite' },
-    declined: { icon: 'fas fa-times-circle', color: '#e57373', label: 'declined your invite' },
-    disbanded: { icon: 'fas fa-skull', color: '#c9a83f', label: 'The party was disbanded' },
-    you_joined: { icon: 'fas fa-door-open', color: '#4caf50', label: '' },
-    you_declined: { icon: 'fas fa-times-circle', color: '#e57373', label: '' },
-    invite_failed: { icon: 'fas fa-exclamation-circle', color: '#e57373', label: 'Invite failed' },
-    invitation_sent: { icon: 'fas fa-paper-plane', color: '#c9a83f', label: 'Invitation sent' },
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 };
 
 const PartyEventToast = ({ event, onDismiss }) => {

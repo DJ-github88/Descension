@@ -14,7 +14,4 @@ export { default as SkillsTab } from './SkillsTab';
 export { default as PassivesTab } from './PassivesTab';
 export { default as AbilitiesTab } from './AbilitiesTab';
 export { default as DamageTypesTab } from './DamageTypesTab';
-<<<<<<< HEAD
 export { default as ClassGuideTab } from './ClassGuideTab';
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f

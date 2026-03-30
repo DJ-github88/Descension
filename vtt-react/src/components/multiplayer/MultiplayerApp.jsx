@@ -147,10 +147,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [error, setError] = useState(null);
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
   const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
-<<<<<<< HEAD
   const [pendingControlOffer, setPendingControlOffer] = useState(null); // { tokenId, tokenName, offeredBy, targetPlayerName }
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
   const [isJoiningRoom, setIsJoiningRoom] = useState(() => {
     // If we have auto-join data in localStorage or sessionStorage, start in joining state to prevent lobby flicker
@@ -302,7 +299,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (!isRoomReady || !isJoiningRoom || isFadingOut) return;
 
     const startTime = joinStartTimeRef.current || joinStartTime;
-<<<<<<< HEAD
     if (!startTime) {
       console.log('⏳ [MultiplayerApp] Progress Effect: Waiting for startTime...');
       return;
@@ -332,36 +328,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     if (!readyToContinue) return;
 
-=======
-    if (!startTime) return;
-
-    const elapsed = Date.now() - startTime;
-    const remainingTime = Math.max(0, MIN_LOADING_DURATION - elapsed);
-    console.log('⏱️ [MultiplayerApp] Progress Effect:', {
-      isRoomReady,
-      isJoiningRoom,
-      showContinue,
-      elapsed,
-      remainingTime,
-      pendingRoomData: !!pendingRoomData,
-      isInvitationJoin: pendingRoomData?.isInvitationJoin
-    });
-
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     // Ensure progress completes to 100%
     setLoadingProgress(100);
 
     // AUTOMATION: If this was an invitation or auto-join flow, skip the button
     // Also skip for GMs who just created the room (they're in a hurry!)
-<<<<<<< HEAD
     if (isInvitation || isGMCreating) {
       console.log('✨ [MultiplayerApp] Auto-continue triggered:', { isInvitation, isGMCreating });
-=======
-    const isInvitation = pendingRoomData?.isInvitationJoin;
-    const isGMCreating = isGM && !currentRoom; // Joining for the first time as GM
-
-    if (isInvitation || isGMCreating) {
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       const timer = setTimeout(() => {
         if (isJoiningRoom && !isFadingOut) {
           handleLoadingContinue();
@@ -371,10 +344,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
 
     // Otherwise, show continue button after minimum duration
-<<<<<<< HEAD
     console.log('👋 [MultiplayerApp] Auto-continue not triggered, showing Continue button in:', remainingTime);
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     const timer = setTimeout(() => {
       if (isJoiningRoom && !isFadingOut) {
         setShowContinue(true);
@@ -382,11 +352,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }, remainingTime);
 
     return () => clearTimeout(timer);
-<<<<<<< HEAD
   }, [isRoomReady, isJoiningRoom, isFadingOut, joinStartTime, isGM, !!currentRoom, !!pendingRoomData?.isInvitationJoin, pendingRoomData]);
-=======
-  }, [isRoomReady, isJoiningRoom, isFadingOut, joinStartTime, isGM, !!currentRoom, !!pendingRoomData?.isInvitationJoin]);
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
   // Manual map transition requests from UI flows (e.g. MapLibraryWindow / MapSwitcher)
   useEffect(() => {
@@ -1284,7 +1250,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-<<<<<<< HEAD
     // NEW: Handle specific room errors from server
     socket.on('room_error', (data) => {
       console.error('❌ Room error received:', data);
@@ -1310,8 +1275,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     socket.on('disconnect', (reason) => {
       setConnectionStatus(reason === 'io client disconnect' ? 'disconnected' : 'error');
       setConnectionQuality({ latency: 0, quality: 'disconnected' });
@@ -1375,12 +1338,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Use explicit isGM flag from server
       const isGameMaster = data.isGM || data.isGMReconnect || false;
-<<<<<<< HEAD
       
       // CRITICAL FIX: Sync isGM state immediately so condition checks in Effects are accurate
       setIsGM(isGameMaster);
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
       // Get password from localStorage (auto-join flow stores it there)
       const usedPassword = localStorage.getItem('selectedRoomPassword') || '';
@@ -3136,20 +3096,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-<<<<<<< HEAD
-=======
-    // Listen for token state updates (HP, Mana, AP) from other players
-    socket.on('token_updated', (data) => {
-      const { tokenId, stateUpdates, updatedBy } = data;
-
-      // Skip if we are the one who sent it
-      if (updatedBy === socket?.id) return;
-
-      const { updateTokenState } = require('../../store/creatureStore').default.getState();
-      // Apply update locally, but don't re-emit to server
-      updateTokenState(tokenId, stateUpdates, false);
-    });
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
     // Listen for creature state updates (HP, status, buffs) from GM
     socket.on('creature_updated', (data) => {
@@ -3164,33 +3110,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log('🐉 Received creature_updated:', { tokenId, stateUpdates, mapId });
     });
 
-<<<<<<< HEAD
     // Listen for generic token updates (HP, Mana, conditions, ownership)
     socket.on('token_updated', (data) => {
       const { tokenId, updates, stateUpdates, updatedBy, mapId } = data;
-=======
-    // Listen for generic token updates (HP, Mana, conditions)
-    socket.on('token_updated', (data) => {
-      const { tokenId, updates, updatedBy, mapId } = data;
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
       // Skip if we are the one who sent it
       if (updatedBy === socket?.id) return;
 
-<<<<<<< HEAD
       // Use either updates or stateUpdates (compatibility)
       const finalUpdates = updates || stateUpdates;
       if (!finalUpdates) return;
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       const creatureStore = require('../../store/creatureStore').default.getState();
 
       // Check if this token is a creature in our store
       const token = creatureStore.creatureTokens.find(t => t.id === tokenId);
       if (token) {
         // Apply creature state update locally without re-emitting
-<<<<<<< HEAD
         creatureStore.updateTokenState(tokenId, finalUpdates, false);
         console.log('🐉 Received token_updated for creature:', { tokenId, finalUpdates, mapId });
 
@@ -3219,10 +3155,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             timestamp: new Date().toISOString()
           });
         }
-=======
-        creatureStore.updateTokenState(tokenId, updates, false);
-        console.log('🐉 Received token_updated for creature:', { tokenId, updates, mapId });
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       }
     });
 
@@ -3874,7 +3806,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
 
-<<<<<<< HEAD
     // ── TOKEN CONTROL TRANSFER ──────────────────────────────────────────────
     // GM → server → all players: check if this client is the target, dispatch modal
     socket.on('token_control_granted', (data) => {
@@ -3947,8 +3878,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // ───────────────────────────────────────────────────────────────────────
 
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     // Listen for character updates from other players
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
@@ -4047,39 +3976,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const shouldUpdateName = !isDefaultName;
       const memberName = shouldUpdateName ? incomingName : partyMember.name;
 
-<<<<<<< HEAD
       // CRITICAL FIX: Use actual character data; fall back to existing member data, not fake placeholders
-=======
-      // CRITICAL FIX: Use actual character data with proper fallbacks
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       // Include ALL display fields for proper sync
       const baseCharacterData = {
         ...data.character,
         socketId: senderSocketId, // Store socketId for future lookups
-<<<<<<< HEAD
         // Use real data; fall back to existing member character data (not hardcoded numbers)
         health: (data.character.health?.max > 0 ? data.character.health : null) || partyMember.character?.health || undefined,
         mana: (data.character.mana?.max > 0 ? data.character.mana : null) || partyMember.character?.mana || undefined,
         actionPoints: (data.character.actionPoints?.max > 0 ? data.character.actionPoints : null) || partyMember.character?.actionPoints || undefined,
         // Only include classResource if it has a valid max value (prevents 0/0 or phantom bars)
         classResource: data.character.classResource?.max > 0 ? data.character.classResource : (partyMember.character?.classResource?.max > 0 ? partyMember.character.classResource : undefined),
-=======
-        // Ensure we don't have nulls for critical stats
-        health: data.character.health || { current: 45, max: 50 },
-        mana: data.character.mana || { current: 45, max: 50 },
-        actionPoints: data.character.actionPoints || { current: 1, max: 3 },
-        // CRITICAL FIX: Always include classResource, even if empty
-        classResource: data.character.classResource || { current: 0, max: 0 },
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         // CRITICAL FIX: Include display names for race/class/background/path
         race: data.character.race || partyMember.character?.race || 'Unknown',
         subrace: data.character.subrace || partyMember.character?.subrace || '',
         raceDisplayName: data.character.raceDisplayName || partyMember.character?.raceDisplayName || 'Unknown',
-<<<<<<< HEAD
         class: data.character.class || partyMember.character?.class || undefined,
-=======
-        class: data.character.class || partyMember.character?.class || 'Unknown',
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         background: data.character.background || partyMember.character?.background || '',
         backgroundDisplayName: data.character.backgroundDisplayName || partyMember.character?.backgroundDisplayName || '',
         path: data.character.path || partyMember.character?.path || '',
@@ -7632,11 +7544,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               mapTransition={mapTransition}
               setMapTransition={setMapTransition}
               playerCurrentMapId={playerCurrentMapId}
-<<<<<<< HEAD
               pendingControlOffer={pendingControlOffer}
               setPendingControlOffer={setPendingControlOffer}
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             />
           </RoomProvider>
         )}
@@ -7709,11 +7618,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         mapTransition={mapTransition}
         setMapTransition={setMapTransition}
         playerCurrentMapId={playerCurrentMapId}
-<<<<<<< HEAD
         pendingControlOffer={pendingControlOffer}
         setPendingControlOffer={setPendingControlOffer}
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       />
     </RoomProvider>
   );
@@ -7739,13 +7645,9 @@ const MultiplayerGameContent = ({
   actualPlayerCount,
   mapTransition,
   setMapTransition,
-<<<<<<< HEAD
   playerCurrentMapId,
   pendingControlOffer,
   setPendingControlOffer
-=======
-  playerCurrentMapId
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 }) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
   const { maps, currentMapId } = useMapStore();
@@ -7938,7 +7840,6 @@ const MultiplayerGameContent = ({
         transferredByGM={mapTransition.transferredByGM}
         onTransitionComplete={handleTransitionComplete}
       />
-<<<<<<< HEAD
 
       {/* ── Token Control Offer Modal ── shown to receiving player */}
       {pendingControlOffer && (
@@ -8052,8 +7953,6 @@ const MultiplayerGameContent = ({
         @keyframes fadeInOverlay { from { opacity:0 } to { opacity:1 } }
         @keyframes slideInModal { from { opacity:0; transform:scale(0.85) translateY(-20px) } to { opacity:1; transform:scale(1) translateY(0) } }
       `}</style>
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     </div>
   );
 };

@@ -14,7 +14,6 @@ const initializeFirebase = () => {
   }
 
   try {
-<<<<<<< HEAD
     // Check if we have Firebase credentials or if we should use emulators
     const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
     const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
@@ -22,12 +21,6 @@ const initializeFirebase = () => {
     
     // Check for emulator environment variables
     const isEmulator = process.env.FIRESTORE_EMULATOR_HOST || process.env.FIREBASE_AUTH_EMULATOR_HOST;
-=======
-    // Check if we have Firebase credentials
-    const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
-    const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
-    const projectId = process.env.FIREBASE_PROJECT_ID || 'mythrill-ff7c6';
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
     let serviceAccount = null;
 
@@ -37,7 +30,6 @@ const initializeFirebase = () => {
     } else if (serviceAccountPath) {
       // Initialize with service account key from JSON file (production/development)
       const fs = require('fs');
-<<<<<<< HEAD
       try {
         if (fs.existsSync(serviceAccountPath)) {
           const serviceAccountData = fs.readFileSync(serviceAccountPath, 'utf8');
@@ -46,10 +38,6 @@ const initializeFirebase = () => {
       } catch (e) {
         logger.warn('Could not read service account file, falling back to default/emulator', { path: serviceAccountPath });
       }
-=======
-      const serviceAccountData = fs.readFileSync(serviceAccountPath, 'utf8');
-      serviceAccount = JSON.parse(serviceAccountData);
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     }
 
     if (serviceAccount) {
@@ -57,7 +45,6 @@ const initializeFirebase = () => {
         credential: admin.credential.cert(serviceAccount),
         projectId: projectId
       });
-<<<<<<< HEAD
       logger.info('Firebase Admin initialized with service account', { projectId, isEmulator: !!isEmulator });
     } else if (isEmulator || process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
       // Initialize without credentials when using emulator or in development
@@ -75,17 +62,6 @@ const initializeFirebase = () => {
       } else {
         logger.info('Firebase Admin initialized with default credentials/ADC', { projectId });
       }
-=======
-      logger.info('Firebase Admin initialized with service account');
-    } else if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-      // Initialize with default credentials (development)
-      // This requires GOOGLE_APPLICATION_CREDENTIALS environment variable
-      // or running on a machine with default credentials
-      admin.initializeApp({
-        projectId: projectId
-      });
-      logger.info('Firebase Admin initialized with default credentials');
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     } else {
       logger.warn('Firebase Admin not initialized - no credentials provided');
       return null;
@@ -95,11 +71,7 @@ const initializeFirebase = () => {
     isInitialized = true;
     return db;
   } catch (error) {
-<<<<<<< HEAD
     logger.error('Firebase Admin initialization failed', { error: error.message, stack: error.stack });
-=======
-    logger.error('Firebase Admin initialization failed', { error: error.message });
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     return null;
   }
 };
@@ -119,13 +91,8 @@ db = initializeFirebase();
  */
 const getRoomData = async (roomId) => {
   if (!db) {
-<<<<<<< HEAD
     logger.warn('⚠️ getRoomData called but Firebase is not initialized. Permanent rooms cannot be retrieved.');
     throw new Error('Database connection error: Firebase Admin SDK not correctly initialized. Please check server logs for service account configuration.');
-=======
-    logger.debug('Firebase not initialized, using in-memory rooms only');
-    return null;
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   }
 
   try {

@@ -396,17 +396,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
                   id: uuidv4(),
                   partyId,
                   roomId,
-<<<<<<< HEAD
                   partyName: room.name || party.name,
                   roomName: room.name,
-=======
-                  partyName: party.name,
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                   gmName: gmData.name,
                   gmCharacterName: gmData.characterName,
                   gmClass: gmData.characterClass,
                   gmLevel: gmData.characterLevel,
-<<<<<<< HEAD
                   isPermanent: room.isPermanent || false,
                   roomDescription: room.settings?.description || gmData.description || room.description || '',
                   description: room.settings?.description || gmData.description || room.description || '',
@@ -415,8 +410,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
                     name: p.name,
                     class: p.character?.class || 'Unknown'
                   })),
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                   status: 'pending',
                   createdAt: Date.now(),
                   expiresAt: Date.now() + (5 * 60 * 1000)
@@ -570,15 +563,11 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             }
 
             const firestoreRoomId = data.persistentRoomId;
-<<<<<<< HEAD
             logger.info('[create_room] Attempting to resume permanent room from Firestore', {
               firestoreRoomId,
               gmName: data.gmName,
               gmId: socket.data.userId
             });
-=======
-            logger.info('[SyncRoom] Resuming from Firestore:', { firestoreRoomId });
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
             room = await createRoom(
               persistedRoomData.roomName || data.roomName || 'Campaign Room',
@@ -594,33 +583,22 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             );
 
             if (!room) {
-<<<<<<< HEAD
               logger.error('[create_room] Failed to create room object from Firestore data', { firestoreRoomId });
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
               throw new Error('Failed to create room from Firestore data');
             }
 
             logger.info('[create_room] Permanent room created from Firestore data', {
               roomId: room.id,
-<<<<<<< HEAD
               roomName: room.name,
               isPermanent: room.isPermanent
-=======
-              roomName: room.name
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             });
 
             if (data.gameState && typeof data.gameState === 'object') {
               room.gameState = mergeRoomGameStateForResume(room.gameState, data.gameState);
-<<<<<<< HEAD
               logger.info('[create_room] Merged game state from resume data', {
                 hasGameState: !!room.gameState,
                 keys: Object.keys(data.gameState)
               });
-=======
-              logger.info('[create_room] Merged game state from resume data');
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             }
           }
         } else {
@@ -641,15 +619,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             socket.data.userId ? [socket.data.userId] : []
           );
 
-<<<<<<< HEAD
           if (room && data.description) {
             if (!room.settings) room.settings = {};
             room.settings.description = data.description;
             logger.info('[create_room] Added description to temporary room', { description: data.description });
           }
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           if (!room) {
             throw new Error('Failed to create temporary room');
           }
@@ -729,12 +704,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             name: data.gmName,
             characterName: data.character?.name || data.gmName,
             characterClass: data.character?.class,
-<<<<<<< HEAD
             characterLevel: data.character?.level,
             description: data.description || room.settings?.description
-=======
-            characterLevel: data.character?.level
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           });
         } else {
           logger.warn('[create_room] No GM userId found, cannot notify party members', {
@@ -3763,7 +3734,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           roomId,
           partyName: room.name || 'Game Session',
           gmName: player.name,
-<<<<<<< HEAD
           gmLevel: player.character?.level,
           isPermanent: room.isPermanent || false,
           roomDescription: room.settings?.description || '',
@@ -3772,11 +3742,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             name: p.name,
             class: p.character?.class || 'Unknown'
           })),
-=======
-          gmCharacterName: player.character?.name || player.name,
-          gmClass: player.character?.class,
-          gmLevel: player.character?.level,
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           status: 'pending',
           createdAt: Date.now(),
           expiresAt: Date.now() + 300000

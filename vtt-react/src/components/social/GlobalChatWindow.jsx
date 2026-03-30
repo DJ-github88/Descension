@@ -71,11 +71,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
       // Use user.uid if logged in, otherwise use a dev mode ID
       const userId = user?.uid || `dev_user_${characterId || 'guest'}`;
-<<<<<<< HEAD
       const accountName = user?.displayName || user?.name || user?.email?.split('@')[0] || (user?.isGuest ? 'Guest' : 'Adventurer');
-=======
-      const accountName = user?.displayName || 'Unknown';
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       const isGuest = user?.isGuest || false;
 
       console.log('🎭 GlobalChatWindow: Initializing presence (fallback) with character:', characterData);
@@ -119,11 +115,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
       // Use user.uid if logged in, otherwise use a dev mode ID
       const userId = user?.uid || `dev_user_${characterId}`;
-<<<<<<< HEAD
       const accountName = user?.displayName || user?.name || user?.email?.split('@')[0] || (user?.isGuest ? 'Guest' : 'Adventurer');
-=======
-      const accountName = user?.displayName || 'Unknown';
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       const isGuest = user?.isGuest || false;
       const friendId = userData?.friendId || user?.friendId || null;
 

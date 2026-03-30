@@ -263,20 +263,12 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
       // If not in party, create one first and wait for it
       if (!isInParty) {
-<<<<<<< HEAD
         const currentPlayerName = currentUserPresence?.characterName || currentUserPresence?.accountName || 'Unknown Adventurer';
-=======
-        const currentPlayerName = currentUserPresence?.characterName || currentUserPresence?.accountName || 'Unknown';
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 
         await createParty(`${currentPlayerName}'s Party`, false, {
           name: currentPlayerName,
           characterName: currentPlayerName,
-<<<<<<< HEAD
           characterClass: currentUserPresence?.class || 'Unknown Class',
-=======
-          characterClass: currentUserPresence?.class || 'Unknown',
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
           characterLevel: currentUserPresence?.level || 1
         });
 
@@ -1080,7 +1072,6 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               ) : isContextMenuUserSelf ? (
                 <>
                   {/* Status Change Options for Current User */}
-<<<<<<< HEAD
                   <div className="context-menu-section status-section">
                     <div className="context-menu-section-header">Change Status</div>
                     <div className="status-options-grid">
@@ -1125,50 +1116,6 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                         Appear Offline
                       </button>
                     </div>
-=======
-                  <div className="context-menu-section">
-                    <div className="context-menu-section-header">Change Status</div>
-                    <button
-                      className="context-menu-item"
-                      onClick={() => {
-                        handleStatusChange('online');
-                        closeContextMenu();
-                      }}
-                    >
-                      <span className="status-icon">🟢</span>
-                      Online
-                    </button>
-                    <button
-                      className="context-menu-item"
-                      onClick={() => {
-                        handleStatusChange('away');
-                        closeContextMenu();
-                      }}
-                    >
-                      <span className="status-icon">🟡</span>
-                      Away
-                    </button>
-                    <button
-                      className="context-menu-item"
-                      onClick={() => {
-                        handleStatusChange('busy');
-                        closeContextMenu();
-                      }}
-                    >
-                      <span className="status-icon">🔴</span>
-                      Busy
-                    </button>
-                    <button
-                      className="context-menu-item"
-                      onClick={() => {
-                        handleStatusChange('offline');
-                        closeContextMenu();
-                      }}
-                    >
-                      <span className="status-icon">⚪</span>
-                      Appear Offline
-                    </button>
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                   </div>
 
                   {/* Status Comment Section */}

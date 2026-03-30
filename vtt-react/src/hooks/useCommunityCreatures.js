@@ -235,15 +235,12 @@ export function useCommunityCreatures() {
     }
   }, [loadCategories, loadFeaturedCreatures]);
 
-<<<<<<< HEAD
   const refreshAll = useCallback(() => {
     loadCategories();
     loadFeaturedCreatures();
     loadAllCreatures();
   }, [loadCategories, loadFeaturedCreatures, loadAllCreatures]);
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   return {
     // Data
     categories,
@@ -269,10 +266,7 @@ export function useCommunityCreatures() {
     rateCommunityCreature,
     
     // Refresh functions
-<<<<<<< HEAD
     refreshAll,
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     refreshCategories: loadCategories,
     refreshFeatured: loadFeaturedCreatures
   };

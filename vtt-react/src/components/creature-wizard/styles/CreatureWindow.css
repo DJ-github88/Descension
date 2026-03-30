@@ -4,7 +4,6 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-<<<<<<< HEAD
   background-color: #f0e6d2;
   color: #3a3a3a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -12,43 +11,25 @@
 }
 
 /* ─── Tab Header ─────────────────────────────────────────────── */
-=======
-  background-color: #f0e6d2; /* Parchment background */
-  color: #3a3a3a;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 .creature-window-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-<<<<<<< HEAD
   padding: 8px 14px;
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
   border-bottom: 2px solid #a08c70;
   flex-shrink: 0;
   gap: 8px;
-=======
-  padding: 10px 20px;
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
-  border-bottom: 1px solid #a08c70;
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 }
 
 .creature-window-tabs {
   display: flex;
-<<<<<<< HEAD
   gap: 4px;
   flex: 1;
-=======
-  gap: 10px;
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 }
 
 .creature-window-tab {
   background: transparent;
-<<<<<<< HEAD
   border: 1px solid rgba(240, 230, 210, 0.25);
   border-radius: 5px;
   color: rgba(240, 230, 210, 0.75);
@@ -86,42 +67,10 @@
 }
 
 /* ─── Back Button ────────────────────────────────────────────── */
-=======
-  border: 1px solid rgba(240, 230, 210, 0.3);
-  border-radius: 4px;
-  color: #f0e6d2; /* Parchment color */
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
-.creature-window-tab:hover {
-  background-color: rgba(240, 230, 210, 0.2);
-  border-color: #f0e6d2;
-}
-
-.creature-window-tab.active {
-  background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-  color: #f0e6d2;
-  border-color: #f0e6d2;
-  font-weight: bold;
-}
-
-.creature-window-tab i {
-  font-size: 16px;
-}
-
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
 .back-to-library-button {
   background-color: transparent;
   border: 1px solid rgba(240, 230, 210, 0.3);
   border-radius: 4px;
-<<<<<<< HEAD
   color: #f0e6d2;
   padding: 6px 12px;
   font-size: 13px;
@@ -193,51 +142,5 @@
 @keyframes pulse {
   0%   { opacity: 0.6; }
   50%  { opacity: 1; }
-=======
-  color: #f0e6d2; /* Parchment color */
-  padding: 6px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
-.back-to-library-button:hover {
-  background-color: rgba(240, 230, 210, 0.2);
-  color: #f0e6d2;
-  border-color: #f0e6d2;
-}
-
-.back-to-library-button i {
-  font-size: 14px;
-}
-
-.creature-window-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0;
-  padding-bottom: 120px !important;
-  background-color: #f0e6d2; /* Parchment background */
-}
-
-.loading-wizard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 18px;
-  color: #7a3b2e; /* Rustic red */
-  background-color: #f0e6d2; /* Parchment background */
-  padding: 20px;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   100% { opacity: 0.6; }
 }

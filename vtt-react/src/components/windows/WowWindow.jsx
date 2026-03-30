@@ -79,7 +79,6 @@ const WowWindow = forwardRef((props, ref) => {
         }
     }));
 
-<<<<<<< HEAD
     const hasBeenCentered = useRef(false);
     const prevCentered = useRef(centered);
 
@@ -93,20 +92,10 @@ const WowWindow = forwardRef((props, ref) => {
                     draggableRef.current.centerWindow();
                     hasBeenCentered.current = true;
                 }
-=======
-    // Effect to handle window resize for centered windows
-    useEffect(() => {
-        // Center the window on mount if centered is true
-        if (centered && draggableRef.current) {
-            // Use a timeout to ensure the window has rendered with its actual size
-            const timer = setTimeout(() => {
-                draggableRef.current.centerWindow();
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             }, 100);
 
             return () => clearTimeout(timer);
         }
-<<<<<<< HEAD
     }, [centered]);
 
     // Reset centering flag if centered prop changes or window re-opens
@@ -119,10 +108,6 @@ const WowWindow = forwardRef((props, ref) => {
 
     // Effect to handle window resize for centered windows
     useEffect(() => {
-=======
-
-        // Handle window resize for centered windows
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         if (centered) {
             const handleResize = () => {
                 if (draggableRef.current) {
@@ -130,18 +115,8 @@ const WowWindow = forwardRef((props, ref) => {
                 }
             };
 
-<<<<<<< HEAD
             window.addEventListener('resize', handleResize);
             return () => window.removeEventListener('resize', handleResize);
-=======
-            // Add event listener
-            window.addEventListener('resize', handleResize);
-
-            // Clean up
-            return () => {
-                window.removeEventListener('resize', handleResize);
-            };
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         }
     }, [centered]);
 

@@ -102,7 +102,6 @@ const DraggableWindow = forwardRef(({
     // Track dragging state to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
 
-<<<<<<< HEAD
     // Track if the window has been initially centered to avoid re-centering on every re-render
     const hasBeenCentered = useRef(false);
     const initialCenteredValue = useRef(centered);
@@ -110,25 +109,16 @@ const DraggableWindow = forwardRef(({
     // Update position after initial render to ensure proper centering with actual window size
     useEffect(() => {
         if (centered && windowRef.current && !hasBeenCentered.current) {
-=======
-    // Update position after initial render to ensure proper centering with actual window size
-    useEffect(() => {
-        if (centered && windowRef.current) {
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             // Short delay to ensure the window has rendered with its actual size
             const timer = setTimeout(() => {
                 const newPosition = getInitialPosition();
                 setPosition(newPosition);
-<<<<<<< HEAD
                 hasBeenCentered.current = true;
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
             }, 100);
             return () => clearTimeout(timer);
         }
     }, [centered, getInitialPosition]);
 
-<<<<<<< HEAD
     // Reset centering flag if centered prop changes from false to true
     useEffect(() => {
         if (centered && !initialCenteredValue.current) {
@@ -137,8 +127,6 @@ const DraggableWindow = forwardRef(({
         initialCenteredValue.current = centered;
     }, [centered]);
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     // Listen for window scale changes and force re-render (throttled)
     const scaleChangeTimeoutRef = useRef(null);
     useEffect(() => {

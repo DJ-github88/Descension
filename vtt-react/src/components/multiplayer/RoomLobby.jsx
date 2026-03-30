@@ -654,10 +654,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       // Create socket server room for immediate multiplayer
       const roomData = {
         roomName: roomName.trim(),
-<<<<<<< HEAD
         description: roomDescription.trim(),
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         gmName: finalPlayerName,
         password: roomPasswordRef.current.trim(),
         playerColor: playerColor,
@@ -751,10 +748,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       const roomData = {
         roomName: room.name,
         gmName: finalPlayerName,
-<<<<<<< HEAD
         description: room.description || '',
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         password: room.password || '',
         playerColor: playerColor || '#d4af37',
         persistentRoomId: room.id,
@@ -849,10 +843,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
     const roomData = {
       roomName: roomName.trim(),
-<<<<<<< HEAD
       description: roomDescription.trim(),
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
       gmName: finalPlayerName,
       password: roomPasswordRef.current.trim(),
       playerColor: playerColor,

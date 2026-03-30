@@ -70,11 +70,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
   };
 
   // Handle save button click
-<<<<<<< HEAD
   const handleSave = async () => {
-=======
-  const handleSave = () => {
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
     setIsSubmitting(true);
 
     try {
@@ -96,7 +92,6 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
       };
 
       if (editMode) {
-<<<<<<< HEAD
         const targetId = wizardState.originalCreatureId;
 
         // 1. Update library context
@@ -121,23 +116,6 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         console.log('Updated creature:', targetId);
       } else {
         // Generate a unique ID for the new creature
-=======
-        // Update existing creature in library
-        libraryDispatch(libraryActionCreators.updateCreature(wizardState.originalCreatureId, creatureData));
-
-        // Update in creature store as well
-        setTimeout(() => {
-          const updatedCreature = library.creatures.find(c => c.id === wizardState.originalCreatureId);
-          if (updatedCreature) {
-            console.log('🔄 Updating creature in store:', updatedCreature.name, updatedCreature.id);
-            creatureStore.updateCreature(wizardState.originalCreatureId, updatedCreature);
-          }
-        }, 100);
-
-        console.log('Updated creature:', wizardState.originalCreatureId);
-      } else {
-        // Generate a unique ID for the new creature to ensure consistency between library and store
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         const newCreatureId = generateUniqueId();
         const creatureWithId = {
           ...creatureData,
@@ -146,7 +124,6 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           lastModified: new Date().toISOString()
         };
 
-<<<<<<< HEAD
         // 1. Add to library context
         libraryDispatch(libraryActionCreators.addCreature(creatureWithId));
 
@@ -167,15 +144,6 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           console.warn('⚠️ Could not persist new creature to Firebase (local save succeeded):', fbErr);
         }
 
-=======
-        // Add new creature to library with the generated ID
-        libraryDispatch(libraryActionCreators.addCreature(creatureWithId));
-
-        // Add the same creature directly to the store to ensure immediate availability for token placement
-        console.log('🔄 Adding new creature to store:', creatureWithId.name, creatureWithId.id);
-        creatureStore.addCreature(creatureWithId);
-
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         console.log('Added new creature to library:', creatureData.name);
       }
 
@@ -191,10 +159,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
     }
   };
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   // Handle cancel button click
   const handleCancel = () => {
     wizardDispatch(wizardActionCreators.resetWizard());

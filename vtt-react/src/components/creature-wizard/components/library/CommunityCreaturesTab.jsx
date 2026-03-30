@@ -15,11 +15,7 @@ import SimpleCreatureTooltip from '../common/SimpleCreatureTooltip';
 import '../../../../styles/community-tabs-shared.css';
 import './CommunityCreaturesTab.css';
 
-<<<<<<< HEAD
 const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
-=======
-const CommunityCreaturesTab = () => {
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const {
     categories,
     creatures,
@@ -35,12 +31,8 @@ const CommunityCreaturesTab = () => {
     clearSelection,
     changeSortBy,
     loadMoreCreatures,
-<<<<<<< HEAD
     downloadCommunityCreature,
     refreshAll
-=======
-    downloadCommunityCreature
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   } = useCommunityCreatures();
 
   const libraryDispatch = useCreatureLibraryDispatch();
@@ -53,7 +45,6 @@ const CommunityCreaturesTab = () => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
 
-<<<<<<< HEAD
   // Refresh when refreshKey changes (triggered by parent after share)
   useEffect(() => {
     if (refreshKey > 0 && refreshAll) {
@@ -74,8 +65,6 @@ const CommunityCreaturesTab = () => {
   }, [refreshAll]);
 
 
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {

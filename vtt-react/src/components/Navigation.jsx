@@ -93,7 +93,6 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
     const tabs = [
         {
             id: 'library',
-<<<<<<< HEAD
             label: 'Library',
             icon: 'fas fa-book-open'
         },
@@ -106,17 +105,6 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             id: 'community',
             label: 'Community',
             icon: 'fas fa-globe'
-=======
-            label: 'Library'
-        },
-        {
-            id: 'wizard',
-            label: 'Create New'
-        },
-        {
-            id: 'community',
-            label: 'Community'
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
         }
     ];
 
@@ -182,10 +170,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab-button ${activeView === tab.id ? 'active' : ''}`}
                             onClick={() => tab.id === 'wizard' ? handleCreateNewCreature() : setActiveView(tab.id)}
                         >
-<<<<<<< HEAD
                             <i className={tab.icon} style={{ marginRight: '8px', fontSize: '13px' }}></i>
-=======
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                             <span>{tab.label}</span>
                         </button>
                     ))}

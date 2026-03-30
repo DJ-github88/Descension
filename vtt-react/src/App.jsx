@@ -1261,11 +1261,7 @@ const AppContent = ({
                     </div>
                 } />
 
-<<<<<<< HEAD
                 <Route path="/multiplayer/:roomCode?" element={
-=======
-                <Route path="/multiplayer" element={
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                     <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
                         <ErrorBoundary name="MultiplayerApp">
                             <MultiplayerApp
@@ -1279,24 +1275,6 @@ const AppContent = ({
                     </Suspense>
                 } />
 
-<<<<<<< HEAD
-=======
-                {/* CRITICAL FIX: Room code routing - allows /multiplayer/room-code */}
-                <Route path="/multiplayer/:roomCode" element={
-                    <Suspense fallback={<LoadingFallback message="Loading multiplayer room..." />}>
-                        <ErrorBoundary name="MultiplayerRoom">
-                            <MultiplayerApp
-                                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                                onShowLogin={handleShowLogin}
-                                onShowUserProfile={handleShowUserProfile}
-                                isAuthenticated={isAuthenticated}
-                                user={user}
-                            />
-                        </ErrorBoundary>
-                    </Suspense>
-                } />
-
->>>>>>> bd5273a9fb2fcf21d8c4c7a173e770f43d9ff19f
                 {/* Test routes */}
                 <Route path="/test/triggers" element={
                     <Suspense fallback={<LoadingFallback message="Loading test..." />}>
