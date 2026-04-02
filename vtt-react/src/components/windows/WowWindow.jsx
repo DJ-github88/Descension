@@ -152,7 +152,11 @@ const WowWindow = forwardRef((props, ref) => {
 
     // Handle window click to bring to front
     const handleWindowClick = useCallback((e) => {
-        // Don't bring to front if clicking on interactive elements (buttons, inputs, etc.)
+        e.stopPropagation();
+
+        if (!windowElementRef.current) return;
+        if (!windowElementRef.current.contains(e.target)) return;
+
         const target = e.target;
         if (target.tagName === 'BUTTON' ||
             target.tagName === 'INPUT' ||
@@ -165,11 +169,29 @@ const WowWindow = forwardRef((props, ref) => {
             return;
         }
 
-        // Only bring to front if clicking on the window itself, not dragging
         if (!isDragging) {
             const newZIndex = bringToFront(windowId);
             if (newZIndex) {
                 setZIndex(newZIndex);
+            }
+        }
+    }, [isDragging, windowId, bringToFront]);
+
+    const handleWindowMouseDown = useCallback((e) => {
+        if (!isDragging && windowElementRef.current && windowElementRef.current.contains(e.target)) {
+            const target = e.target;
+            if (target.tagName !== 'BUTTON' &&
+                target.tagName !== 'INPUT' &&
+                target.tagName !== 'SELECT' &&
+                target.tagName !== 'TEXTAREA' &&
+                !target.closest('button') &&
+                !target.closest('input') &&
+                !target.closest('select') &&
+                !target.closest('textarea')) {
+                const newZIndex = bringToFront(windowId);
+                if (newZIndex) {
+                    setZIndex(newZIndex);
+                }
             }
         }
     }, [isDragging, windowId, bringToFront]);
@@ -292,6 +314,7 @@ const WowWindow = forwardRef((props, ref) => {
                     }}
                     ref={windowElementRef}
                     onClick={handleWindowClick}
+                    onMouseDown={handleWindowMouseDown}
                 >
                     <div className="window-header draggable-window-handle dnd-theme-header">
                         <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>

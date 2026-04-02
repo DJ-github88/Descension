@@ -207,12 +207,18 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   return (
     <>
       <WowWindow
-        title="Community"
-        icon="fas fa-users"
         isOpen={isOpen}
         onClose={onClose}
         defaultSize={{ width: 1200, height: 800 }}
         className="global-chat-window"
+        customHeader={
+          <div className="spellbook-tab-container">
+            <button className="spellbook-tab-button active">
+              <i className="fas fa-users" style={{ marginRight: '8px' }}></i>
+              <span>COMMUNITY</span>
+            </button>
+          </div>
+        }
       >
         <div
           className={`global-chat-container ${isDragging ? 'dragging' : ''} ${isUsersPaneHidden ? 'users-pane-hidden' : ''}`}

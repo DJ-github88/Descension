@@ -236,17 +236,33 @@ function GridComponent({
     // ANIMATION FUNCTIONS - DEFINED AFTER VIEWPORT SIZE STATE
 
     // Instant zoom function for true mouse-centered zooming
-    // PERFORMANCE FIX: Read values from store directly to avoid stale closures
     const instantZoom = useCallback((targetZoom, mouseX, mouseY) => {
-        // Cancel any ongoing zoom animation
         if (zoomAnimationRef.current) {
             cancelAnimationFrame(zoomAnimationRef.current);
             zoomAnimationRef.current = null;
         }
 
-        // Simply set the zoom - keep camera centered for simplicity
+        const state = gameStore.getState ? gameStore.getState() : gameStore;
+        const currentCameraX = state.cameraX ?? cameraX;
+        const currentCameraY = state.cameraY ?? cameraY;
+        const currentZoomLevel = state.zoomLevel ?? zoomLevel;
+        const currentPlayerZoom = state.playerZoom ?? playerZoom;
+
+        const oldEffective = Math.max(0.001, currentZoomLevel * currentPlayerZoom);
+        const newEffective = Math.max(0.001, currentZoomLevel * targetZoom);
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const newCameraX = currentCameraX + (mouseX - width / 2) * (1 / oldEffective - 1 / newEffective);
+        const newCameraY = currentCameraY + (mouseY - height / 2) * (1 / oldEffective - 1 / newEffective);
+
+        gameStore.setCameraPosition
+            ? gameStore.setCameraPosition(newCameraX, newCameraY)
+            : useGameStore.getState().setCameraPosition(newCameraX, newCameraY);
+
         setPlayerZoom(targetZoom);
-    }, [setPlayerZoom]);
+    }, [setPlayerZoom, cameraX, cameraY, zoomLevel, playerZoom, gameStore]);
 
     // Calculate token size for character token preview (same as CreatureToken)
     const tokenSize = useMemo(() => {
@@ -1393,6 +1409,7 @@ function GridComponent({
                     current.classList.contains('shop-window') ||
                     current.classList.contains('item-wizard-modal') ||
                     current.classList.contains('quick-item-generator-modal') ||
+                    current.classList.contains('qig-modal') ||
                     current.classList.contains('categorize-modal') ||
                     current.classList.contains('professional-vtt-editor') ||
                     current.classList.contains('vtt-editor-content') ||

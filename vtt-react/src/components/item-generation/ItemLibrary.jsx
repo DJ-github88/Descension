@@ -309,15 +309,31 @@ const VirtualizedItemGrid = memo(({
     onClick, 
     onContextMenu, 
     onDragOver, 
-    onDrop,
-    containerWidth,
-    containerHeight 
+    onDrop
 }) => {
     const gridRef = useRef(null);
-    
-    const COLUMN_WIDTH = 100;
-    const ROW_HEIGHT = 100;
-    const COLUMN_COUNT = Math.max(1, Math.floor(containerWidth / COLUMN_WIDTH));
+    const containerRef = useRef(null);
+    const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const observer = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                const { width, height } = entry.contentRect;
+                if (width > 0 && height > 0) {
+                    setDimensions({ width: Math.floor(width), height: Math.floor(height) });
+                }
+            }
+        });
+        observer.observe(container);
+        return () => observer.disconnect();
+    }, []);
+
+    const COLUMN_WIDTH = 92;
+    const ROW_HEIGHT = 115;
+    const COLUMN_COUNT = Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH));
     const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
 
     const cellProps = useMemo(() => ({
@@ -348,7 +364,7 @@ const VirtualizedItemGrid = memo(({
     }
 
     return (
-        <div style={{ width: containerWidth, height: containerHeight }}>
+        <div ref={containerRef} className="item-grid" style={{ position: 'relative' }}>
             <VirtualGrid
                 gridRef={gridRef}
                 columnCount={COLUMN_COUNT}
@@ -358,8 +374,10 @@ const VirtualizedItemGrid = memo(({
                 cellComponent={ItemCell}
                 cellProps={cellProps}
                 style={{ 
-                    width: containerWidth,
-                    height: containerHeight
+                    width: dimensions.width,
+                    height: dimensions.height,
+                    overflowY: 'auto',
+                    overflowX: 'hidden'
                 }}
             />
         </div>
@@ -1115,19 +1133,17 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={`item-grid ${activeView === 'list' ? 'list-view' : ''}`}>
-                                <SimpleItemGrid
-                                    items={currentItems}
-                                    selectedItem={selectedItem}
-                                    isDraggingGlobal={isDraggingGlobal}
-                                    onDragStartGlobal={handleDragStartGlobal}
-                                    onDragEndGlobal={handleDragEndGlobal}
-                                    onClick={handleItemClick}
-                                    onContextMenu={handleItemContextMenu}
-                                    onDragOver={handleItemDragOver}
-                                    onDrop={handleItemDrop}
-                                />
-                            </div>
+                            <VirtualizedItemGrid
+                                items={currentItems}
+                                selectedItem={selectedItem}
+                                isDraggingGlobal={isDraggingGlobal}
+                                onDragStartGlobal={handleDragStartGlobal}
+                                onDragEndGlobal={handleDragEndGlobal}
+                                onClick={handleItemClick}
+                                onContextMenu={handleItemContextMenu}
+                                onDragOver={handleItemDragOver}
+                                onDrop={handleItemDrop}
+                            />
                         </div>
                 ) : activeTab === 'designer' ? (
                     <div className="item-designer-container">
@@ -1206,8 +1222,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
 
             {showQuickItemGenerator && (
                 <QuickItemGeneratorModal
-                    onClose={() => setShowQuickItemGenerator(false)}
-                    onItemCreated={(item) => {
+                    onCancel={() => setShowQuickItemGenerator(false)}
+                    onComplete={(item) => {
                         handleItemWizardComplete(item);
                         setShowQuickItemGenerator(false);
                     }}
@@ -1277,36 +1293,28 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 document.body
             )}
 
-            {showRecipeWizard && (
-                <WowWindow
+            {showRecipeWizard && createPortal(
+                <RecipeWizard
                     isOpen={true}
                     onClose={() => {
                         setShowRecipeWizard(false);
                         setEditingRecipe(null);
                     }}
-                    defaultPosition={recipeWizardPosition}
-                    defaultSize={recipeWizardSize}
-                    title="Recipe Wizard"
-                    zIndex={1100}
-                >
-                    <RecipeWizard
-                        onComplete={(recipe) => {
-                            if (editingRecipe) {
-                                updateItem(editingRecipe.id, recipe);
-                            } else {
-                                const baseCategory = categories.find(c => c.isBaseCategory)?.id;
-                                addItem(recipe, baseCategory ? [baseCategory] : []);
-                            }
-                            setShowRecipeWizard(false);
-                            setEditingRecipe(null);
-                        }}
-                        editingRecipe={editingRecipe}
-                        onClose={() => {
-                            setShowRecipeWizard(false);
-                            setEditingRecipe(null);
-                        }}
-                    />
-                </WowWindow>
+                    onSave={(recipe) => {
+                        if (editingRecipe) {
+                            updateItem(editingRecipe.id, recipe);
+                        } else {
+                            const baseCategory = categories.find(c => c.isBaseCategory)?.id;
+                            addItem(recipe, baseCategory ? [baseCategory] : []);
+                        }
+                        setShowRecipeWizard(false);
+                        setEditingRecipe(null);
+                    }}
+                    initialData={editingRecipe}
+                    onWindowPositionChange={setRecipeWizardPosition}
+                    onRecipeDataChange={setRecipeData}
+                />,
+                document.body
             )}
         </WowWindow>
     );

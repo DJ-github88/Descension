@@ -846,6 +846,7 @@ const useInventoryStore = create(persist((set, get) => ({
                 width: width,
                 height: height,
                 rotation: libraryItem.rotation || 0,
+                shape: libraryItem.shape || undefined,
                 position: libraryItem.position, // Use provided position if available
 
                 // Preserve important item stats

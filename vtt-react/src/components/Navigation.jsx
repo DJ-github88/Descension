@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
+import ReactDOM from 'react-dom';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
@@ -493,39 +494,41 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
 
 // Inventory Header Button Component
 const InventoryHeaderButton = () => {
-    const [showClearConfirmModal, setShowClearConfirmModal] = useState(false);
-    const { clearInventory } = useInventoryStore(state => ({
-        clearInventory: state.clearInventory
-    }));
+    const [showConfirm, setShowConfirm] = useState(false);
+    const { clearInventory } = useInventoryStore();
 
-    const handleClearInventory = (e) => {
-        e.stopPropagation(); // Prevent window dragging
-        setShowClearConfirmModal(true);
+    const handleClearClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowConfirm(true);
     };
 
-    const confirmClearInventory = () => {
+    const confirmClear = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         clearInventory();
-        setShowClearConfirmModal(false);
-        console.log('✅ Inventory cleared successfully');
-    };
-
-    const cancelClearInventory = () => {
-        setShowClearConfirmModal(false);
+        setShowConfirm(false);
     };
 
     return (
-        <>
+        <div className="inventory-header-actions" style={{ display: 'flex', alignItems: 'center' }}>
             <button
-                className="inventory-header-clear-btn"
-                onClick={handleClearInventory}
-                title="Clear all items from inventory (irreversible)"
+                className="wow-button small danger"
+                onClick={handleClearClick}
+                title="Clear all items from inventory"
                 style={{
-                    padding: '4px 8px',
+                    padding: '4px 12px',
+                    fontSize: '12px',
+                    height: '28px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
                     background: 'linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%)',
                     color: 'white',
                     border: '1px solid #654321',
                     borderRadius: '3px',
-                    fontSize: '11px',
                     fontWeight: 'bold',
                     cursor: 'pointer',
                     fontFamily: "'Bookman Old Style', 'Garamond', serif",
@@ -534,95 +537,102 @@ const InventoryHeaderButton = () => {
                     transition: 'all 0.2s ease',
                     marginRight: '8px'
                 }}
-                onMouseEnter={(e) => {
-                    e.target.style.background = 'linear-gradient(135deg, #a52a2a 0%, #dc143c 50%, #a52a2a 100%)';
-                    e.target.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.background = 'linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%)';
-                    e.target.style.transform = 'translateY(0)';
-                }}
             >
-                Clear
+                <i className="fas fa-trash-alt"></i>
+                <span>Clear</span>
             </button>
 
-            {/* Clear Inventory Confirmation Modal */}
-            {showClearConfirmModal && (
+            {showConfirm && ReactDOM.createPortal(
                 <div
-                    className="modal-overlay"
+                    className="wow-modal-overlay"
                     style={{
                         position: 'fixed',
                         top: 0,
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        zIndex: 100000
+                        zIndex: 1000000,
+                        backdropFilter: 'blur(3px)'
                     }}
-                    onClick={cancelClearInventory}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowConfirm(false);
+                    }}
                 >
                     <div
-                        className="clear-confirm-modal"
+                        className="wow-confirm-dialog"
                         style={{
-                            backgroundColor: '#f0e6d2',
-                            border: '3px solid #8b7355',
+                            background: 'linear-gradient(135deg, #2c1810 0%, #1a1008 100%)',
+                            border: '2px solid #8b6f47',
                             borderRadius: '8px',
-                            padding: '20px',
+                            padding: '24px',
                             maxWidth: '400px',
-                            textAlign: 'center',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#3a2f1a',
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+                            width: '90%',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.8)',
+                            color: '#f0e6d2',
+                            fontFamily: 'Bookman Old Style, Garamond, serif',
+                            textAlign: 'center'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', color: '#8b0000' }}>Clear Inventory</h3>
-                        <p style={{ margin: '0 0 20px 0', lineHeight: '1.4' }}>
-                            Are you sure you want to clear ALL items from your inventory?
-                            <br />
-                            <strong style={{ color: '#8b0000' }}>This action is IRREVERSIBLE!</strong>
-                            <br />
-                            All items will be permanently lost.
+                        <h3 style={{
+                            color: '#cc2a1d',
+                            marginBottom: '16px',
+                            fontSize: '20px',
+                            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
+                            Empty All Bags?
+                        </h3>
+                        <p style={{
+                            marginBottom: '24px',
+                            lineHeight: '1.5',
+                            fontSize: '15px'
+                        }}>
+                            Are you sure you want to clear your entire inventory? This action cannot be undone.
                         </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: '16px'
+                        }}>
                             <button
-                                onClick={cancelClearInventory}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#4a5d23',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
+                                className="wow-button secondary"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowConfirm(false);
                                 }}
+                                style={{ minWidth: '100px' }}
                             >
                                 Cancel
                             </button>
                             <button
-                                onClick={confirmClearInventory}
+                                className="wow-button primary danger"
+                                onClick={confirmClear}
                                 style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#8b0000',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
+                                    minWidth: '100px',
+                                    backgroundColor: '#cc1a1d',
+                                    borderColor: '#ff4d4d'
                                 }}
                             >
-                                Clear All Items
+                                Clear Bags
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
-        </>
+        </div>
     );
 };
+
 
 export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
@@ -938,11 +948,13 @@ export default function Navigation({ onReturnToLanding }) {
                         defaultSize={{ width: 900, height: 550 }}
                         defaultPosition={{ x: 150, y: 150 }}
                         customHeader={
-                            // NOTE: WowWindow renders its own close (X) button when using customHeader.
-                            // On mobile that close button is large and absolute-positioned; reserve space so it doesn't overlap "Clear".
-                            <div style={{ display: 'flex', alignItems: 'center', width: '100%', paddingRight: '64px' }}>
-                                <div className="window-title" style={{ flex: 1 }}>{safeTitle}</div>
-                                <div style={{ marginRight: '56px' }}>
+                            <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                                <button className="spellbook-tab-button active">
+                                    <i className="fas fa-backpack" style={{ marginRight: '8px' }}></i>
+                                    <span>INVENTORY</span>
+                                </button>
+                                <div style={{ flex: 1 }}></div>
+                                <div style={{ marginRight: '48px' }}>
                                     <InventoryHeaderButton />
                                 </div>
                             </div>

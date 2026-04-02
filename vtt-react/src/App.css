@@ -225,7 +225,6 @@ textarea,
   .draggable-window,
   .shop-window,
   .item-wizard-modal,
-  .quick-item-generator-modal,
   .categorize-modal {
     max-width: 95vw;
     max-height: 80vh;

@@ -168,7 +168,6 @@ body {
 .draggable-window,
 .shop-window,
 .item-wizard-modal,
-.quick-item-generator-modal,
 .categorize-modal {
   position: fixed !important;
   z-index: 9999 !important;

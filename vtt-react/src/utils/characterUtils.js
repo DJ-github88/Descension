@@ -129,6 +129,8 @@ export function calculateEquipmentBonuses(equipment = {}) {
                             return type;
                         };
                         const normalizedResType = normalizeDamageType(resType);
+                        const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
+                        const targetTypes = normalizedResType === 'physical' ? physicalTypes : [normalizedResType];
 
                         // Check if this is a flat damage reduction (isPercentage is false or undefined, and value is a number)
                         const isFlatReduction = resData && typeof resData === 'object' &&
@@ -137,49 +139,41 @@ export function calculateEquipmentBonuses(equipment = {}) {
                             resData.isPercentage !== true;
 
                         if (isFlatReduction) {
-                            // Track flat damage reduction separately
-                            bonuses.flatDamageReductions[normalizedResType] = (bonuses.flatDamageReductions[normalizedResType] || 0) + resData.value;
+                            targetTypes.forEach(type => {
+                                bonuses.flatDamageReductions[type] = (bonuses.flatDamageReductions[type] || 0) + resData.value;
+                            });
                             return;
                         }
 
                         // Handle new resistance level system
                         if (resData && typeof resData === 'object' && resData.level !== undefined) {
-                            // New system: store the full resistance data
-                            // If multiple items have resistances, we need to combine them intelligently
-                            if (!bonuses.resistances[normalizedResType]) {
-                                bonuses.resistances[normalizedResType] = { level: 100, multiplier: 1.0 };
-                            }
-                            // For multiple resistances, we'll use the most beneficial one (lowest multiplier for damage taken)
-                            // If current is normal (100) or worse, use the new one if it's better
-                            const currentLevel = bonuses.resistances[normalizedResType].level || 100;
-                            const currentMultiplier = bonuses.resistances[normalizedResType].multiplier || 1.0;
-                            const newLevel = resData.level || 100;
-                            const newMultiplier = resData.multiplier || 1.0;
+                            targetTypes.forEach(targetType => {
+                                if (!bonuses.resistances[targetType]) {
+                                    bonuses.resistances[targetType] = { level: 100, multiplier: 1.0 };
+                                }
+                                const currentMultiplier = bonuses.resistances[targetType].multiplier || 1.0;
+                                const newMultiplier = resData.multiplier || 1.0;
 
-                            // Lower multiplier is better (takes less damage), except for negative (healing)
-                            // For healing (negative multiplier), higher absolute value is better
-                            if (newMultiplier < 0 && currentMultiplier >= 0) {
-                                // New is healing, current is not - use new
-                                bonuses.resistances[normalizedResType] = resData;
-                            } else if (newMultiplier < 0 && currentMultiplier < 0) {
-                                // Both are healing - use the one with higher absolute value (more healing)
-                                if (Math.abs(newMultiplier) > Math.abs(currentMultiplier)) {
-                                    bonuses.resistances[normalizedResType] = resData;
+                                if (newMultiplier < 0 && currentMultiplier >= 0) {
+                                    bonuses.resistances[targetType] = resData;
+                                } else if (newMultiplier < 0 && currentMultiplier < 0) {
+                                    if (Math.abs(newMultiplier) > Math.abs(currentMultiplier)) {
+                                        bonuses.resistances[targetType] = resData;
+                                    }
+                                } else if (newMultiplier >= 0 && currentMultiplier >= 0) {
+                                    if (newMultiplier < currentMultiplier) {
+                                        bonuses.resistances[targetType] = resData;
+                                    }
                                 }
-                            } else if (newMultiplier >= 0 && currentMultiplier >= 0) {
-                                // Both are normal or resistance - use the one with lower multiplier (better resistance)
-                                if (newMultiplier < currentMultiplier) {
-                                    bonuses.resistances[normalizedResType] = resData;
-                                }
-                            }
+                            });
                         } else {
-                            // Legacy system: simple value (percentage-based)
                             const value = typeof resData === 'object' ? resData.value : resData;
                             if (typeof value === 'number') {
-                                // Convert legacy value to new system format
-                                if (!bonuses.resistances[normalizedResType] || typeof bonuses.resistances[normalizedResType] === 'number') {
-                                    bonuses.resistances[normalizedResType] = (bonuses.resistances[normalizedResType] || 0) + value;
-                                }
+                                targetTypes.forEach(targetType => {
+                                    if (!bonuses.resistances[targetType] || typeof bonuses.resistances[targetType] === 'number') {
+                                        bonuses.resistances[targetType] = (bonuses.resistances[targetType] || 0) + value;
+                                    }
+                                });
                             }
                         }
                     });

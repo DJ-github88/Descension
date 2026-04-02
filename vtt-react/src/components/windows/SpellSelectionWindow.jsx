@@ -243,9 +243,16 @@ const SpellSelectionWindow = ({
       ref={windowRef}
       isOpen={isOpen}
       onClose={onClose}
-      title={title}
       defaultSize={{ width: 1000, height: 700 }}
       centered={true}
+      customHeader={
+        <div className="spellbook-tab-container">
+          <button className="spellbook-tab-button active">
+            <i className="fas fa-magic" style={{ marginRight: '8px' }}></i>
+            <span>{title.toUpperCase()}</span>
+          </button>
+        </div>
+      }
     >
       <div className="spellbook-layout" style={{
         width: '100%',

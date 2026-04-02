@@ -19,11 +19,13 @@ const EquipmentTab = ({
     const tooltipRef = useRef(null);
 
     const getFullItemObjects = (itemNames) => {
-        return itemNames.map(itemName => {
+        if (!itemNames || !Array.isArray(itemNames)) return [];
+        return itemNames.filter(name => typeof name === 'string' && name.trim() !== '').map(itemName => {
             return STARTING_EQUIPMENT_LIBRARY.find(item =>
+                item && item.name && (
                 item.name.toLowerCase() === itemName.toLowerCase() ||
                 item.name.toLowerCase().includes(itemName.toLowerCase().split(' ')[0])
-            );
+            ));
         }).filter(item => item != null);
     };
 

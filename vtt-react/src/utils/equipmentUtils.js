@@ -61,13 +61,15 @@ export function getCompatibleSlots(item) {
 
     // First, check if the item has an explicit slots array - this takes highest priority
     if (item.slots && Array.isArray(item.slots) && item.slots.length > 0) {
-        // Convert snake_case to camelCase for consistency
-        return item.slots.map(slot => {
-            if (slot === 'off_hand') return 'offHand';
-            if (slot === 'main_hand') return 'mainHand';
-            if (slot === 'ring1' || slot === 'ring2') return slot; // Keep ring1/ring2 as-is
-            if (slot === 'trinket1' || slot === 'trinket2') return slot; // Keep trinket1/trinket2 as-is
-            return slot;
+        return item.slots.flatMap(slot => {
+            if (slot === 'off_hand') return ['offHand'];
+            if (slot === 'main_hand') return ['mainHand'];
+            if (slot === 'ring1' || slot === 'ring2') return [slot];
+            if (slot === 'trinket1' || slot === 'trinket2') return [slot];
+            if (slot === 'trinket') return ['trinket1', 'trinket2'];
+            if (slot === 'ring') return ['ring1', 'ring2'];
+            if (slot === 'hands' || slot === 'hand') return ['gloves'];
+            return [slot];
         });
     }
 
@@ -268,6 +270,7 @@ export function getSlotDisplayName(slotName) {
         shirt: 'Shirt',
         tabard: 'Tabard',
         wrists: 'Wrists',
+        gloves: 'Hands',
         hands: 'Hands',
         waist: 'Waist',
         legs: 'Legs',

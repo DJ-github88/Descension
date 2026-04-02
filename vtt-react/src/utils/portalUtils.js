@@ -86,6 +86,7 @@ export const initializePortalSystem = () => {
             .shop-window,
             .item-wizard-modal,
             .quick-item-generator-modal,
+            .qig-modal,
             .categorize-modal {
                 position: fixed !important;
                 pointer-events: auto !important;

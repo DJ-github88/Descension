@@ -144,9 +144,9 @@ const Step1BasicInfo = () => {
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
-                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
-                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${encodeURIComponent(characterData.iconBackgroundImage)})` : 'none',
+                                        backgroundSize: characterData.iconBackgroundImage ? `${(characterData.iconBackgroundScale || 2.5) * 100}%` : 'cover',
+                                        backgroundPosition: characterData.iconBackgroundImage ? `calc(50% + ${characterData.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.iconBackgroundOffsetY || 0}px)` : 'center',
                                         backgroundRepeat: 'no-repeat'
                                     }}
                                 >
@@ -169,9 +169,9 @@ const Step1BasicInfo = () => {
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
-                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
-                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${encodeURIComponent(characterData.iconBackgroundImage)})` : 'none',
+                                        backgroundSize: characterData.iconBackgroundImage ? `${(characterData.iconBackgroundScale || 2.5) * 100}%` : 'cover',
+                                        backgroundPosition: characterData.iconBackgroundImage ? `calc(50% + ${characterData.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.iconBackgroundOffsetY || 0}px)` : 'center',
                                         backgroundRepeat: 'no-repeat'
                                     }}
                                 >
@@ -200,9 +200,9 @@ const Step1BasicInfo = () => {
                                     style={{
                                         backgroundColor: characterData.iconBackgroundColor,
                                         borderColor: characterData.iconBorderColor,
-                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${characterData.iconBackgroundImage})` : 'none',
-                                        backgroundSize: characterData.iconBackgroundScale ? `${characterData.iconBackgroundScale * 100}%` : 'cover',
-                                        backgroundPosition: `${characterData.iconBackgroundOffsetX || 0}px ${characterData.iconBackgroundOffsetY || 0}px`,
+                                        backgroundImage: characterData.iconBackgroundImage ? `url(/assets/backgrounds/${encodeURIComponent(characterData.iconBackgroundImage)})` : 'none',
+                                        backgroundSize: characterData.iconBackgroundImage ? `${(characterData.iconBackgroundScale || 2.5) * 100}%` : 'cover',
+                                        backgroundPosition: characterData.iconBackgroundImage ? `calc(50% + ${characterData.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.iconBackgroundOffsetY || 0}px)` : 'center',
                                         backgroundRepeat: 'no-repeat',
                                         cursor: 'pointer'
                                     }}

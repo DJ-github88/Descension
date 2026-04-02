@@ -1549,8 +1549,9 @@ const InventoryWindow = memo(() => {
                            isShapeCellOccupied(shape, relativeRow, relativeCol);
                 });
 
-                // Check if this is the top-left cell of the item (for rendering)
-                const isItemOrigin = item && item.position.row === row && item.position.col === col;
+                // Find item whose bounding box origin is at this cell (for rendering the full item)
+                const itemAtOrigin = items.find(i => i.position && i.position.row === row && i.position.col === col);
+                const isItemOrigin = !!itemAtOrigin;
 
                 gridRow.push(
                     <div
@@ -1564,112 +1565,121 @@ const InventoryWindow = memo(() => {
                         onClick={() => setSelectedItemId(null)}
                     >
 
-                        {item && isItemOrigin && (() => {
-                            // Get the item's shape and bounds
-                            let shape = item.shape;
+                        {isItemOrigin && itemAtOrigin && (() => {
+                            const renderitem = itemAtOrigin;
+                            let shape = renderitem.shape;
                             if (!shape) {
-                                // Legacy item - convert to shape
-                                const width = item.width || 1;
-                                const height = item.height || 1;
+                                const width = renderitem.width || 1;
+                                const height = renderitem.height || 1;
                                 shape = createRectangularShape(width, height);
                             }
 
-                            // Apply rotation if needed
-                            if (item.rotation === 1) {
+                            if (renderitem.rotation === 1) {
                                 shape = rotateShape(shape);
                             }
 
                             const bounds = getShapeBounds(shape);
                             const isMultiCell = bounds.width > 1 || bounds.height > 1;
 
+                            const qualityColor = getQualityColor(renderitem.quality, renderitem.rarity);
+                            const qualityLower = (renderitem.quality || renderitem.rarity || 'common').toLowerCase();
 
-
-                            // Determine if this is a simple rectangular shape or a complex custom shape
-                            let isSimpleRectangle = false;
-                            let iconCellRow = 0, iconCellCol = 0;
-
-                            if (shape.type === 'rectangular') {
-                                isSimpleRectangle = true;
-                            } else if (shape.type === 'custom') {
-                                // Check if the custom shape is actually a filled rectangle
-                                let totalCells = bounds.width * bounds.height;
-                                let occupiedCells = 0;
-                                let firstOccupiedRow = -1, firstOccupiedCol = -1;
-
-                                shape.cells.forEach((shapeRow, rowIndex) => {
-                                    shapeRow.forEach((isOccupied, colIndex) => {
-                                        if (isOccupied) {
-                                            occupiedCells++;
-                                            if (firstOccupiedRow === -1) {
-                                                firstOccupiedRow = rowIndex;
-                                                firstOccupiedCol = colIndex;
-                                            }
-                                        }
-                                    });
+                            let isComplexCustom = false;
+                            const occupiedCellsList = getOccupiedCells(shape);
+                            if (shape.type === 'custom') {
+                                const total = bounds.width * bounds.height;
+                                let occupied = 0;
+                                shape.cells.forEach(row => row.forEach(cell => { if (cell) occupied++; }));
+                                isComplexCustom = occupied < total;
+                            }
+                            
+                            // Heuristic for icon placement on custom shapes (closest to shape centroid)
+                            let bestCellForIcon = { row: 0, col: 0 };
+                            if (isComplexCustom && shape.cells && occupiedCellsList.length > 0) {
+                                const avgR = occupiedCellsList.reduce((sum, c) => sum + c.row, 0) / occupiedCellsList.length;
+                                const avgC = occupiedCellsList.reduce((sum, c) => sum + c.col, 0) / occupiedCellsList.length;
+                                let minD = Infinity;
+                                occupiedCellsList.forEach(c => {
+                                    const d = Math.pow(c.row - avgR, 2) + Math.pow(c.col - avgC, 2);
+                                    if (d < minD) { minD = d; bestCellForIcon = c; }
                                 });
-
-                                // If all cells in the bounds are occupied, it's a simple rectangle
-                                isSimpleRectangle = (occupiedCells === totalCells);
-
-                                // For complex shapes, use the first occupied cell for icon placement
-                                if (!isSimpleRectangle) {
-                                    iconCellRow = firstOccupiedRow;
-                                    iconCellCol = firstOccupiedCol;
-                                }
                             }
 
-                            return (
-                                <div className="item-wrapper" style={{
-                                    width: bounds.width > 1 ? `calc(${bounds.width * 100}% + ${(bounds.width - 1) * 1}px)` : `${bounds.width * 100}%`,
-                                    height: bounds.height > 1 ? `calc(${bounds.height * 100}% + ${(bounds.height - 1) * 1}px)` : `${bounds.height * 100}%`,
+                            const hasNeighbor = (r, c) => {
+                                if (r < 0 || r >= shape.cells.length || c < 0 || c >= shape.cells[0].length) return false;
+                                return shape.cells[r][c];
+                            };
+
+                             const rarityCfg = RARITY_COLORS[qualityLower] || RARITY_COLORS.common;
+                             const strokeColor = '#333'; // Dark border like standard item-border
+                             const glowColor = qualityColor;
+                             const itemTop = 1;
+                             const itemLeft = 1;
+
+                             return (
+                                <div className={`item-wrapper ${selectedItemId === renderitem.id ? 'selected' : ''} ${isComplexCustom ? 'complex-shape' : ''}`} style={{
+                                    width: bounds.width > 1 ? `calc(${bounds.width * 100}% + ${(bounds.width - 1) * 1}px - 2px)` : `calc(${bounds.width * 100}% - 2px)`,
+                                    height: bounds.height > 1 ? `calc(${bounds.height * 100}% + ${(bounds.height - 1) * 1}px - 2px)` : `calc(${bounds.height * 100}% - 2px)`,
                                     position: 'absolute',
-                                    top: 0,
-                                    left: 0,
+                                    top: `${itemTop}px`,
+                                    left: `${itemLeft}px`,
                                     overflow: 'visible',
-                                    pointerEvents: 'none' // Allow events to pass through to cells below
+                                    pointerEvents: 'none',
+                                    filter: isComplexCustom ? 
+                                        `drop-shadow(1px 0 0 ${strokeColor}) drop-shadow(-1px 0 0 ${strokeColor}) drop-shadow(0 1px 0 ${strokeColor}) drop-shadow(0 -1px 0 ${strokeColor})${selectedItemId === renderitem.id ? ' drop-shadow(0 0 6px cyan) drop-shadow(0 0 10px cyan)' : ' drop-shadow(0 0 4px ' + glowColor + '70)'}` : 
+                                        'none',
+                                    zIndex: isMultiCell ? 20 : 10
                                 }}>
-                                    {/* Render custom shape cells */}
-                                    {shape.type === 'custom' ? (
+                                    {/* Render custom shape cells with outline-only borders on exposed edges */}
+                                    {isComplexCustom ? (
                                         shape.cells.map((shapeRow, shapeRowIndex) =>
                                             shapeRow.map((isOccupied, shapeColIndex) => {
                                                 if (!isOccupied) return null;
 
+                                                const noTop = !hasNeighbor(shapeRowIndex - 1, shapeColIndex);
+                                                const noBottom = !hasNeighbor(shapeRowIndex + 1, shapeColIndex);
+                                                const noLeft = !hasNeighbor(shapeRowIndex, shapeColIndex - 1);
+                                                const noRight = !hasNeighbor(shapeRowIndex, shapeColIndex + 1);
+
                                                 return (
                                                     <div
                                                         key={`${shapeRowIndex}-${shapeColIndex}`}
-                                                        className={`item-shape-cell ${selectedItemId === item.id ? 'selected' : ''}`}
+                                                        className={`item-shape-cell ${selectedItemId === renderitem.id ? 'selected' : ''}`}
+                                                        data-quality={qualityLower}
                                                         style={{
-                                                            position: 'absolute',
                                                             left: `${(shapeColIndex / bounds.width) * 100}%`,
                                                             top: `${(shapeRowIndex / bounds.height) * 100}%`,
                                                             width: `${(1 / bounds.width) * 100}%`,
                                                             height: `${(1 / bounds.height) * 100}%`,
-                                                            borderColor: getQualityColor(item.quality, item.rarity),
-                                                            border: `1px solid ${getQualityColor(item.quality, item.rarity)}`,
-                                                            boxShadow: `0 0 6px ${getQualityColor(item.quality, item.rarity)}50`,
-                                                            backgroundColor: 'transparent', // Remove dark overlay
-                                                            borderRadius: '4px',
+                                                            borderTop: noTop ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
+                                                            borderBottom: noBottom ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
+                                                            borderLeft: noLeft ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
+                                                            borderRight: noRight ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
+                                                            outline: noTop || noBottom || noLeft || noRight ? `1px solid ${strokeColor}40` : 'none',
+                                                            background: rarityCfg.orbColor,
+                                                            backgroundSize: `${bounds.width * 100}% ${bounds.height * 100}%`,
+                                                            backgroundPosition: `${-shapeColIndex * 100}% ${-shapeRowIndex * 100}%`,
+                                                            backgroundImage: `linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, ${rarityCfg.glow.replace('0.3', '0.6')} 100%)`,
+                                                            boxShadow: 'inset 0 0 8px rgba(0, 0, 0, 0.2)',
+                                                            borderRadius: (noTop && noLeft) || (noTop && noRight) || (noBottom && noLeft) || (noBottom && noRight) ? '3px' : '0',
                                                             cursor: 'move',
-                                                            pointerEvents: 'auto' // Re-enable pointer events for occupied cells
+                                                            pointerEvents: 'auto'
                                                         }}
                                                         draggable
-                                                        onDragStart={(e) => handleDragStart(e, item)}
+                                                        onDragStart={(e) => handleDragStart(e, renderitem)}
                                                         onDragEnd={handleDragEnd}
                                                         onContextMenu={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
-                                                            handleItemContextMenu(e, item.id);
+                                                            handleItemContextMenu(e, renderitem.id);
                                                         }}
-                                                        onMouseEnter={(e) => handleItemMouseEnter(e, item.id)}
-                                                        onMouseMove={(e) => handleItemMouseMove(e, item.id)}
+                                                        onMouseEnter={(e) => handleItemMouseEnter(e, renderitem.id)}
+                                                        onMouseMove={(e) => handleItemMouseMove(e, renderitem.id)}
                                                         onMouseLeave={handleItemMouseLeave}
                                                         onClick={(e) => {
-                                                            // Single click to select
-                                                            setSelectedItemId(item.id);
-
-                                                            // Double click to rotate
+                                                            setSelectedItemId(renderitem.id);
                                                             if (e.detail === 2) {
-                                                                rotateItem(item.id);
+                                                                rotateItem(renderitem.id);
                                                             }
                                                         }}
                                                     />
@@ -1677,121 +1687,152 @@ const InventoryWindow = memo(() => {
                                             })
                                         )
                                     ) : (
-                                        /* Rectangular shape - use traditional border */
                                         <div
-                                            className={`item-border ${selectedItemId === item.id ? 'selected' : ''}`}
+                                            className={`item-border ${selectedItemId === renderitem.id ? 'selected' : ''}`}
                                             style={{
-                                                borderColor: getQualityColor(item.quality, item.rarity),
+                                                borderColor: qualityColor,
                                                 borderWidth: '1px',
-                                                boxShadow: `0 0 6px ${getQualityColor(item.quality, item.rarity)}50`
+                                                boxShadow: `0 0 6px ${qualityColor}50`
                                             }}
                                             onContextMenu={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                handleItemContextMenu(e, item.id);
+                                                handleItemContextMenu(e, renderitem.id);
                                             }}
                                             onClick={(e) => {
-                                                // Single click to select
-                                                setSelectedItemId(item.id);
-
-                                                // Double click to rotate
+                                                setSelectedItemId(renderitem.id);
                                                 if (e.detail === 2) {
-                                                    rotateItem(item.id);
+                                                    rotateItem(renderitem.id);
                                                 }
                                             }}
                                         />
                                     )}
 
-                                    {/* Invisible overlay for context menu and interactions - covers entire item bounds */}
-                                    {/* For custom shapes, use pointer-events: none to allow holes to be interactive */}
-                                    <div
-                                        className="item-interaction-overlay"
-                                        style={{
+                                    {!isComplexCustom && (
+                                        <div
+                                            className="item-interaction-overlay"
+                                            style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
+                                                zIndex: 5,
+                                                backgroundColor: 'transparent',
+                                                cursor: 'move',
+                                                pointerEvents: 'auto'
+                                            }}
+                                            draggable
+                                            onDragStart={(e) => handleDragStart(e, renderitem)}
+                                            onDragEnd={handleDragEnd}
+                                            onContextMenu={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleItemContextMenu(e, renderitem.id);
+                                            }}
+                                            onMouseEnter={(e) => handleItemMouseEnter(e, renderitem.id)}
+                                            onMouseMove={(e) => handleItemMouseMove(e, renderitem.id)}
+                                            onMouseLeave={handleItemMouseLeave}
+                                            onClick={(e) => {
+                                                setSelectedItemId(renderitem.id);
+                                                if (e.detail === 2) {
+                                                    rotateItem(renderitem.id);
+                                                }
+                                            }}
+                                        />
+                                    )}
+
+                                    {isComplexCustom ? (
+                                        <div style={{
                                             position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                            zIndex: 5,
-                                            backgroundColor: 'transparent',
-                                            cursor: 'move',
-                                            pointerEvents: shape.type === 'custom' ? 'none' : 'auto' // Disable for custom shapes
-                                        }}
-                                        draggable
-                                        onDragStart={(e) => handleDragStart(e, item)}
-                                        onDragEnd={handleDragEnd}
-                                        onContextMenu={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            handleItemContextMenu(e, item.id);
-                                        }}
-                                        onMouseEnter={(e) => handleItemMouseEnter(e, item.id)}
-                                        onMouseMove={(e) => handleItemMouseMove(e, item.id)}
-                                        onMouseLeave={handleItemMouseLeave}
-                                        onClick={(e) => {
-                                            // Single click to select
-                                            setSelectedItemId(item.id);
-
-                                            // Double click to rotate
-                                            if (e.detail === 2) {
-                                                rotateItem(item.id);
-                                            }
-                                        }}
-                                    />
-
-                                    {/* Container for item - no visual rotation */}
+                                            top: `${((bestCellForIcon.row + 0.5) / bounds.height) * 100}%`,
+                                            left: `${((bestCellForIcon.col + 0.5) / bounds.width) * 100}%`,
+                                            width: `${(1 / bounds.width) * 100}%`,
+                                            height: `${(1 / bounds.height) * 100}%`,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            pointerEvents: 'none',
+                                            zIndex: 25,
+                                            transform: 'translate(-50%, -50%)'
+                                        }}>
+                                            {renderitem.iconId || renderitem.type === 'currency' ? (
+                                                <img
+                                                    src={getIconUrl(
+                                                        renderitem.type === 'currency'
+                                                            ? 'Container/Coins/golden-coin-single-isometric'
+                                                            : renderitem.iconId,
+                                                        'items'
+                                                    )}
+                                                    alt={getDisplayName(renderitem)}
+                                                    className={`item-icon ${renderitem.type === 'currency' ? `coin-${renderitem.currencyType || 'gold'}` : ''}`}
+                                                    style={{
+                                                        boxShadow: 'none',
+                                                        border: 'none',
+                                                        background: 'transparent',
+                                                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
+                                                        margin: 0,
+                                                        width: '80%',
+                                                        height: '80%',
+                                                        objectFit: 'contain'
+                                                    }}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span className="item-name" style={{ color: qualityColor }}>{getDisplayName(renderitem)}</span>
+                                            )}
+                                            {renderitem.quantity > 1 && (
+                                                <span className="item-quantity">{renderitem.quantity}</span>
+                                            )}
+                                        </div>
+                                    ) : (
                                     <div
                                         className={`inventory-item ${isMultiCell ? 'multi-cell' : ''}`}
                                         style={{
                                             width: '100%',
                                             height: '100%',
-                                            pointerEvents: 'none' // Let the overlay handle interactions
+                                            pointerEvents: 'none'
                                         }}
                                     >
-                                    {/* Item content */}
-                                    <div
-                                        className="item-content"
-                                        data-quality={(item.quality || item.rarity || 'common').toLowerCase()}
-                                        style={isSimpleRectangle ? {
-                                            // Simple rectangle - use full bounds like normal
-                                            width: '100%',
-                                            height: '100%'
-                                        } : {
-                                            // Complex custom shape - position icon in a single cell
-                                            position: 'absolute',
-                                            left: `${(iconCellCol / bounds.width) * 100}%`,
-                                            top: `${(iconCellRow / bounds.height) * 100}%`,
-                                            width: `${(1 / bounds.width) * 100}%`,
-                                            height: `${(1 / bounds.height) * 100}%`,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}
-                                    >
-                                        {item.iconId || item.type === 'currency' ? (
-                                            <img
-                                                src={getIconUrl(
-                                                    item.type === 'currency' 
-                                                        ? 'Container/Coins/golden-coin-single-isometric'
-                                                        : item.iconId, 
-                                                    'items'
-                                                )}
-                                                alt={getDisplayName(item)}
-                                                className={`item-icon ${item.type === 'currency' ? `coin-${item.currencyType || 'gold'}` : ''}`}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                                                }}
-                                            />
-                                        ) : (
-                                            <span className="item-name" style={{ color: getQualityColor(item.quality, item.rarity) }}>{getDisplayName(item)}</span>
-                                        )}
-                                        {item.quantity > 1 && (
-                                            <span className="item-quantity">{item.quantity}</span>
-                                        )}
+                                        <div
+                                            className="item-content"
+                                            data-quality={qualityLower}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                        >
+                                            {renderitem.iconId || renderitem.type === 'currency' ? (
+                                                <img
+                                                    src={getIconUrl(
+                                                        renderitem.type === 'currency'
+                                                            ? 'Container/Coins/golden-coin-single-isometric'
+                                                            : renderitem.iconId,
+                                                        'items'
+                                                    )}
+                                                    alt={getDisplayName(renderitem)}
+                                                    className={`item-icon ${renderitem.type === 'currency' ? `coin-${renderitem.currencyType || 'gold'}` : ''}`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span className="item-name" style={{ color: qualityColor }}>{getDisplayName(renderitem)}</span>
+                                            )}
+                                            {renderitem.quantity > 1 && (
+                                                <span className="item-quantity">{renderitem.quantity}</span>
+                                            )}
+                                        </div>
                                     </div>
+                                    )}
                                 </div>
-                            </div>
                         );
                         })()}
                     </div>

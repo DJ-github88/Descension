@@ -873,6 +873,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Convert world coordinates to screen coordinates for proper positioning
   // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe
   // This prevents token re-render on every camera movement during drag
+  const tokenOwnerId = token?.state?.ownerId || token?.state?.playerId || token?.playerId;
+  const canControlCreature = isGMMode || (() => {
+    if (!tokenOwnerId) return false;
+    const { currentPlayer } = useGameStore.getState();
+    try {
+      const myUserId = require('../../store/authStore').default.getState().user?.uid;
+      return tokenOwnerId === currentPlayer?.id || tokenOwnerId === myUserId || tokenOwnerId === currentPlayer?.name;
+    } catch {
+      return tokenOwnerId === currentPlayer?.id || tokenOwnerId === currentPlayer?.name;
+    }
+  })();
+
   const currentPos = isDragging ? localPosition : position;
 
   // PERFORMANCE FIX: Calculate initial position without depending on camera state
@@ -1251,21 +1263,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     const playerName = player.characterName || player.name || 'Unknown Player';
     const playerId = player.id || player.userId;
-    const playerSocketId = player.socketId; // actual socket.io connection ID
-    const playerUserId = player.userId;     // Firebase UID
+    const playerSocketId = player.socketId;
+    const playerUserId = player.userId;
     const creatureName = token.state?.customName || creature.name;
 
-    // Update token state with new owner
-    updateTokenState(tokenId, {
-      ownerId: playerId,
-      playerId: playerId,
-      controlledBy: playerName
-    });
-
-    // Emit socket event so the target player receives a popup
-    // Send ALL identifiers so the receiver can match regardless of which ID they have
     if (isInMultiplayer && multiplayerSocket?.connected) {
       multiplayerSocket.emit('token_control_granted', {
+        roomId: useGameStore.getState().multiplayerRoom?.id,
         tokenId,
         tokenName: creatureName,
         targetPlayerId: playerId,
@@ -1274,13 +1278,23 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         targetPlayerName: playerName,
         grantedByName: useGameStore.getState().currentPlayer?.name || 'GM'
       });
+
+      updateTokenState(tokenId, {
+        ownerId: playerId,
+        playerId: playerId,
+        controlledBy: playerName
+      });
     } else {
       console.warn('⚠️ [Control] Cannot emit token_control_granted – socket not connected:', {
         isInMultiplayer, connected: multiplayerSocket?.connected
       });
+      updateTokenState(tokenId, {
+        ownerId: playerId,
+        playerId: playerId,
+        controlledBy: playerName
+      });
     }
 
-    // Notify GM in combat log
     if (addCombatNotification) {
       addCombatNotification({
         type: 'system',
@@ -1867,40 +1881,46 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // CRITICAL FIX: Players (non-GM) cannot move creature tokens - only GM can move them
     // Players can only move their own character tokens
     if (!isGMMode) {
-      // In player mode, check if this is a creature token (not a character token)
-      // Creature tokens don't have playerId or isPlayerToken flag
-      const isCreatureToken = !token.playerId && !token.isPlayerToken;
-
-      if (isCreatureToken) {
-        // Players cannot move creature tokens - only GM can
-        setShowTooltip(false);
-        return;
-      }
-
-      // For character tokens in multiplayer, check ownership
-      if (isInMultiplayer && token) {
+      const tokenOwnerId = token.state?.ownerId || token.state?.playerId || token.playerId;
+      const isPlayerToken = !!token.playerId || !!token.isPlayerToken;
+      const isControlledByMe = (() => {
         const { currentPlayer } = useGameStore.getState();
-        const tokenPlayerId = token.playerId;
-
-        // Allow movement if:
-        // 1. Token's playerId matches current player's ID
-        // 2. Token's playerId is 'current-player'
-        // Block movement if token has a playerId that doesn't match
-        if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
-          // Cannot move - not your token
-          setShowTooltip(false);
-          return;
+        try {
+          const myUserId = require('../../store/authStore').default.getState().user?.uid;
+          return tokenOwnerId === currentPlayer?.id ||
+            tokenOwnerId === myUserId ||
+            tokenOwnerId === currentPlayer?.name;
+        } catch {
+          return tokenOwnerId === currentPlayer?.id ||
+            tokenOwnerId === currentPlayer?.name;
         }
+      })();
 
-        // Also check if this is a character token by checking creatureId
-        if (token.creatureId) {
-          const { currentCharacterId } = useCharacterStore.getState();
-          if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
-            // Cannot move - creature does not belong to you
+      if (isControlledByMe) {
+        // Player has been granted control of this creature - allow dragging
+      } else if (isPlayerToken) {
+        // For character tokens in multiplayer, check ownership
+        if (isInMultiplayer && token) {
+          const { currentPlayer } = useGameStore.getState();
+          const tokenPlayerId = token.playerId;
+
+          if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
             setShowTooltip(false);
             return;
           }
+
+          if (token.creatureId) {
+            const { currentCharacterId } = useCharacterStore.getState();
+            if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
+              setShowTooltip(false);
+              return;
+            }
+          }
         }
+      } else {
+        // Creature token not controlled by this player - block dragging
+        setShowTooltip(false);
+        return;
       }
     }
 
@@ -1996,7 +2016,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
           transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
-          cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
+          cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn && !canControlCreature) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           position: 'absolute',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
@@ -2133,8 +2153,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         const menuItems = [];
 
         // Token Actions submenu
-        const tokenActionsSubmenu = [
-          {
+        const tokenActionsSubmenu = [];
+
+        if (isGMMode) {
+          tokenActionsSubmenu.push({
             icon: <i className="fas fa-search"></i>,
             label: 'Inspect',
             onClick: (e) => {
@@ -2143,19 +2165,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               setShowContextMenu(false);
               handleViewDetails();
             }
+          });
+        }
+
+        tokenActionsSubmenu.push({
+          icon: <i className="fas fa-crosshairs"></i>,
+          label: isTargeted ? 'Clear Target' : 'Target',
+          onClick: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowContextMenu(false);
+            handleTargetCreature();
           },
-          {
-            icon: <i className="fas fa-crosshairs"></i>,
-            label: isTargeted ? 'Clear Target' : 'Target',
-            onClick: (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setShowContextMenu(false);
-              handleTargetCreature();
-            },
-            className: isTargeted ? 'active' : ''
-          }
-        ];
+          className: isTargeted ? 'active' : ''
+        });
 
         // Players only get Inspect and Target. GMs and Shopkeepers get more.
         if (creature.isShopkeeper) {

@@ -77,13 +77,15 @@ const Step3ClassSelection = () => {
         const fullClassData = ALL_CLASSES_DATA[viewingClass.name];
         const theme = viewingClass.theme || 'default';
 
+        const classEquipment = getEquipmentPreview('class', viewingClass.name);
+
         return [
             {
                 id: 'overview',
                 label: 'Overview',
                 content: (
                     <OverviewTab
-                        flavorText={fullClassData?.overview?.description || viewingClass.description}
+                        description={fullClassData?.overview?.description || viewingClass.description}
                         metaBadges={[
                             { label: 'Theme', value: theme },
                             { label: 'Role', value: fullClassData?.role || 'Versatile' },
@@ -106,10 +108,10 @@ const Step3ClassSelection = () => {
             {
                 id: 'equipment',
                 label: 'Equipment',
-                badge: '4',
+                badge: classEquipment.count > 0 ? classEquipment.count.toString() : null,
                 content: (
                     <EquipmentTab 
-                        equipmentNames={getEquipmentPreview(viewingClass.name)}
+                        equipmentNames={classEquipment.examples}
                         note="These items are added to your starting equipment pool. You can purchase additional items in Step 10."
                     />
                 )

@@ -1022,12 +1022,18 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     return (
         <>
             <WowWindow
-                title="Map Library"
                 isOpen={isOpen}
                 onClose={onClose}
                 defaultSize={{ width: 900, height: 700 }}
                 defaultPosition={{ x: 100, y: 100 }}
-                centerTitle={true}
+                customHeader={
+                    <div className="spellbook-tab-container">
+                        <button className="spellbook-tab-button active">
+                            <i className="fas fa-map" style={{ marginRight: '8px' }}></i>
+                            <span>MAP LIBRARY</span>
+                        </button>
+                    </div>
+                }
             >
                 <div className="map-library-window">
                     {/* Map Grid with Create Button */}

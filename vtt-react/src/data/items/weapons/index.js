@@ -114,9 +114,20 @@ export const WEAPONS = [
     iconId: 'Weapons/Swords/sword-basic-straight-beige-blade-brown-hilt',
     value: { gold: 0, silver: 3, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 3,
+    width: 2,
+    height: 4,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 4,
+      cells: [
+        [true, false],
+        [true, false],
+        [true, false],
+        [true, true]
+      ]
+    },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',
     hand: 'TWO_HAND',
@@ -146,8 +157,18 @@ export const WEAPONS = [
     value: { gold: 0, silver: 4, copper: 0 },
     stackable: false,
     width: 2,
-    height: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, false],
+        [true, false]
+      ]
+    },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',
     hand: 'TWO_HAND',
@@ -177,8 +198,18 @@ export const WEAPONS = [
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
     width: 2,
-    height: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, true],
+        [false, true]
+      ]
+    },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',
     hand: 'TWO_HAND',
@@ -207,9 +238,19 @@ export const WEAPONS = [
     iconId: 'Weapons/Axe/double-bladed-axe-asymmetric-bronze',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
-    width: 2,
-    height: 2,
+    width: 3,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 3,
+      height: 3,
+      cells: [
+        [true, true, true],
+        [false, true, false],
+        [false, true, false]
+      ]
+    },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',
     hand: 'TWO_HAND',
@@ -240,9 +281,19 @@ export const WEAPONS = [
     iconId: 'Weapons/Mace/mace-spiked-club-brown-tan-rustic',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 2,
+    width: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [false, true],
+        [false, true]
+      ]
+    },
     slots: ['mainHand', 'offHand'],
     weaponSlot: 'ONE_HANDED',
     hand: 'MAIN_HAND',
@@ -304,8 +355,19 @@ export const WEAPONS = [
     value: { gold: 0, silver: 3, copper: 0 },
     stackable: false,
     width: 2,
-    height: 1,
+    height: 4,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 4,
+      cells: [
+        [true, false],
+        [true, true],
+        [true, true],
+        [true, false]
+      ]
+    },
     slots: ['ranged'],
     weaponSlot: 'RANGED',
     weaponStats: {
@@ -334,8 +396,20 @@ export const WEAPONS = [
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 2,
-    height: 1,
+    height: 5,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 5,
+      cells: [
+        [false, true],
+        [true, false],
+        [true, true],
+        [true, false],
+        [false, true]
+      ]
+    },
     slots: ['ranged'],
     weaponSlot: 'RANGED',
     weaponStats: {
@@ -364,9 +438,20 @@ export const WEAPONS = [
     iconId: 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 3,
+    width: 2,
+    height: 4,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 4,
+      cells: [
+        [true, true],
+        [false, true],
+        [false, true],
+        [false, true]
+      ]
+    },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',
     hand: 'TWO_HAND',
@@ -1549,9 +1634,18 @@ export const WEAPONS = [
     iconId: 'Weapons/Crossbow/crossbow-reddish-brown-loaded',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
-    width: 2,
-    height: 1,
+    width: 3,
+    height: 2,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 3,
+      height: 2,
+      cells: [
+        [true, true, true],
+        [false, true, false]
+      ]
+    },
     slots: ['ranged'],
     weaponSlot: 'RANGED',
     weaponStats: {

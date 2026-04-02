@@ -1119,7 +1119,7 @@ export default function CharacterPanel() {
                 {/* Right Equipment Column */}
                 <div className="right-equipment">
                     {Object.entries(slots).filter(([slotName]) =>
-                        ['hands', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
+                        ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
                     ).map(([slotName, config]) => renderSlot(slotName, config))}
                 </div>
             </div>
@@ -1635,7 +1635,7 @@ export default function CharacterPanel() {
             icon: getIconUrl('Armor/Wrist/worn-leather-bracer', 'items'),
             info: 'Wrists'
         },
-        hands: {
+        gloves: {
             position: { top: 0, right: -50 },
             icon: getIconUrl('Armor/Hands/hands-orange-cream-banded-glove', 'items'),
             info: 'Hands'
@@ -1785,7 +1785,7 @@ export default function CharacterPanel() {
             shirt: "Primarily decorative, but some magical shirts can provide comfort in harsh environments.",
             tabard: "Displays your allegiance or achievements. Some magical tabards grant special abilities.",
             wrists: "Bracers that protect your forearms and can enhance spellcasting or physical abilities.",
-            hands: "Gauntlets and gloves that protect your hands and can enhance agility or attack power.",
+            gloves: "Gauntlets and gloves that protect your hands and can enhance agility or attack power.",
             waist: "Belts and girdles that can hold items and sometimes enhance strength or constitution.",
             legs: "Greaves and leggings that protect your lower body and can enhance mobility or endurance.",
             feet: "Boots that protect your feet and can enhance speed, stealth, or provide stability.",

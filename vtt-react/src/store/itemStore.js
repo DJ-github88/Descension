@@ -35,7 +35,7 @@ export const ITEM_RARITIES = {
 };
 
 // Version for comprehensive items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 4;
+const COMPREHENSIVE_ITEMS_VERSION = 5;
 
 // Define comprehensive categories for organizing items
 const COMPREHENSIVE_CATEGORIES = [

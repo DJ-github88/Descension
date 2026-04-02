@@ -37,6 +37,7 @@ const Step9CharacterSummary = () => {
 
     // Helper functions for extended equipment preview
     const getFullItemObjects = (itemNames) => {
+        if (!Array.isArray(itemNames)) return [];
         return itemNames.map(itemName => {
             // First try to find the item by its full original name
             let foundItem = STARTING_EQUIPMENT_LIBRARY.find(item =>

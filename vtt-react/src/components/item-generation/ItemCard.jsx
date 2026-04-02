@@ -1,11 +1,12 @@
-import React, { useState, useRef, useEffect, memo } from 'react';
+import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
-import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
 import '../../styles/item-card.css';
+
+const LazyItemTooltip = lazy(() => import('./ItemTooltip'));
 
 const getQualityColor = (quality) => {
     const qualityLower = quality?.toLowerCase() || 'common';
@@ -45,7 +46,7 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                     x: e.clientX + 15,
                     y: e.clientY - 10
                 });
-            }, 150); // 150ms delay
+            }, 300); // 300ms delay
         }
     };
 
@@ -331,7 +332,9 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                             zIndex: 999999999
                         }}
                     >
-                        <ItemTooltip item={item} />
+                        <Suspense fallback={null}>
+                            <LazyItemTooltip item={item} />
+                        </Suspense>
                     </div>
                 </TooltipPortal>
             )}

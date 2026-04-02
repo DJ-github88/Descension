@@ -38,10 +38,7 @@ label.upload-btn,
 
 /* Icon before labels */
 .form-group label::before {
-  content: '◆';
-  color: #8b7355;
-  font-size: 12px;
-  margin-right: 6px;
+  content: none;
 }
 
 /* Required field indicator */

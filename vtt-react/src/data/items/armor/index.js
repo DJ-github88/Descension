@@ -42,8 +42,18 @@ export const ARMOR = [
     value: { gold: 0, silver: 4, copper: 0 },
     stackable: false,
     width: 2,
-    height: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, true],
+        [true, false]
+      ]
+    },
     slots: ['chest'],
     armorClass: 3,
     baseStats: {
@@ -63,9 +73,19 @@ export const ARMOR = [
     iconId: 'Armor/Chest/chest-segmented-brown-cuirass',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
-    width: 2,
-    height: 2,
+    width: 3,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 3,
+      height: 3,
+      cells: [
+        [true, true, true],
+        [false, true, false],
+        [false, true, false]
+      ]
+    },
     slots: ['chest'],
     armorClass: 5,
     baseStats: {
@@ -109,8 +129,18 @@ export const ARMOR = [
     value: { gold: 0, silver: 3, copper: 0 },
     stackable: false,
     width: 2,
-    height: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, false],
+        [false, true]
+      ]
+    },
     slots: ['legs'],
     armorClass: 2,
     baseStats: {
@@ -130,8 +160,19 @@ export const ARMOR = [
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
     width: 2,
-    height: 2,
+    height: 4,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 4,
+      cells: [
+        [true, true],
+        [true, true],
+        [true, false],
+        [false, true]
+      ]
+    },
     slots: ['legs'],
     armorClass: 4,
     baseStats: {
@@ -732,9 +773,19 @@ export const ARMOR = [
     iconId: 'Weapons/Shields/shield-wooden-round-brown-beige-boss',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 2,
+    width: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, true],
+        [false, true]
+      ]
+    },
     slots: ['offHand'],
     armorClass: 1,
     baseStats: {
@@ -753,9 +804,19 @@ export const ARMOR = [
     iconId: 'Weapons/Shields/shield-wooden-heater-cross-beige-straps',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 2,
+    width: 2,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 3,
+      cells: [
+        [true, true],
+        [true, true],
+        [true, false]
+      ]
+    },
     slots: ['offHand'],
     armorClass: 3,
     baseStats: {
@@ -775,9 +836,20 @@ export const ARMOR = [
     iconId: 'Weapons/Shields/shield-heater-brown-beige-red-cross-silver-boss-center',
     value: { gold: 0, silver: 8, copper: 0 },
     stackable: false,
-    width: 1,
-    height: 2,
+    width: 2,
+    height: 4,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 2,
+      height: 4,
+      cells: [
+        [true, true],
+        [true, true],
+        [true, true],
+        [false, true]
+      ]
+    },
     slots: ['offHand'],
     armorClass: 5,
     baseStats: {
@@ -800,9 +872,19 @@ export const ARMOR = [
     iconId: 'Armor/Chest/chest-bronze-breastplate',
     value: { gold: 1, silver: 0, copper: 0 },
     stackable: false,
-    width: 2,
-    height: 2,
+    width: 3,
+    height: 3,
     rotation: 0,
+    shape: {
+      type: 'custom',
+      width: 3,
+      height: 3,
+      cells: [
+        [true, true, true],
+        [true, true, true],
+        [false, true, false]
+      ]
+    },
     slots: ['chest'],
     armorClass: 8,
     baseStats: {

@@ -1098,6 +1098,16 @@ const usePresenceStore = create((set, get) => ({
     const boundSocketId = get()._boundSocketId;
     if (socket && socket.id && boundSocketId === socket.id) {
       console.log('⏭️ [setSocket] Socket already bound, skipping listener setup');
+      // Still re-register presence in case server restarted or lost the entry
+      const { currentUserPresence } = get();
+      if (currentUserPresence && socket.connected) {
+        socket.emit('register_presence', {
+          userId: currentUserPresence.userId,
+          name: currentUserPresence.name || currentUserPresence.characterName,
+          characterClass: currentUserPresence.class || currentUserPresence.characterClass,
+          characterLevel: currentUserPresence.level || currentUserPresence.characterLevel
+        });
+      }
       return;
     }
 

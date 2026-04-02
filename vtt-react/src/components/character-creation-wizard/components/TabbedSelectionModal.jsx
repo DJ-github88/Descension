@@ -45,15 +45,15 @@ const TabbedSelectionModal = ({
 
     useEffect(() => {
         if (isOpen) {
+            setActiveTab(defaultTab || (tabs.length > 0 ? tabs[0].id : null));
             document.addEventListener('keydown', handleKeyDown);
             document.body.style.overflow = 'hidden';
-            setActiveTab(defaultTab || (tabs.length > 0 ? tabs[0].id : null));
         }
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
         };
-    }, [isOpen, handleKeyDown, defaultTab, tabs]);
+    }, [isOpen, handleKeyDown]);
 
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) {
@@ -67,6 +67,12 @@ const TabbedSelectionModal = ({
         }
         onClose();
     };
+
+    useEffect(() => {
+        if (tabs.length > 0 && !tabs.find(tab => tab.id === activeTab)) {
+            setActiveTab(defaultTab || tabs[0].id);
+        }
+    }, [tabs, activeTab, defaultTab]);
 
     const currentTab = useMemo(() => {
         return tabs.find(tab => tab.id === activeTab);

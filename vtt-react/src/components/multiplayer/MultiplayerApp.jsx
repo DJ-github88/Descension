@@ -2541,12 +2541,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('gm_disconnected', (data) => {
-      // For players, we should notify and return to landing page
       if (!isGMRef.current) {
-        // Show specialized GM disconnect notification
         showGMDisconnectedNotification(data.gmName || 'Unknown');
 
-        // Add to chat notification system as well
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `Game Master ${data.gmName || 'Unknown'} has disconnected. Returning to landing page...`,
@@ -2554,13 +2551,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           timestamp: new Date().toISOString()
         });
 
-        // Use handleLeaveRoom to clean up state
         handleLeaveRoom();
 
-        // Navigate back to starter page (landing page) after a short delay to allow reading the notification
         setTimeout(() => {
           navigate('/', { replace: true });
         }, 1500);
+      }
+    });
+
+    socket.on('gm_reconnected', (data) => {
+      if (!isGMRef.current) {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Game Master ${data.gmName || 'Unknown'} has reconnected.`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
       }
     });
 
@@ -3132,9 +3138,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // NEW: Check if control was granted to the current player
         const myPlayerId = useGameStore.getState().currentPlayer?.id;
+        const myUserId = useAuthStore.getState().user?.uid;
         const wasGrantedControl = (
-          (finalUpdates.ownerId && finalUpdates.ownerId === myPlayerId) || 
-          (finalUpdates.playerId && finalUpdates.playerId === myPlayerId)
+          (finalUpdates.ownerId && (finalUpdates.ownerId === myPlayerId || finalUpdates.ownerId === myUserId)) ||
+          (finalUpdates.playerId && (finalUpdates.playerId === myPlayerId || finalUpdates.playerId === myUserId))
         );
 
         if (wasGrantedControl) {
@@ -3147,12 +3154,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             timestamp: new Date().toISOString()
           });
           
-          // Also show a combat notification so it is visible in both tabs
           addNotification('combat', {
             type: 'system',
             content: `You have been granted control of ${tokenName}.`,
             sender: { name: 'System', class: 'system' },
             timestamp: new Date().toISOString()
+          });
+
+          const grantedBy = finalUpdates.controlledBy
+            ? usePartyStore.getState().partyMembers.find(m => m.isGM)?.name || 'GM'
+            : 'GM';
+          setPendingControlOffer({
+            tokenId,
+            tokenName,
+            offeredBy: grantedBy,
+            targetPlayerName: useGameStore.getState().currentPlayer?.name || 'Adventurer'
           });
         }
       }
@@ -3918,10 +3934,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // CRITICAL FIX: Find party member by multiple strategies, userId FIRST
       const partyStore = usePartyStore.getState();
       let partyMember = partyStore.partyMembers.find(m =>
-        m.userId === senderUserId // 1. Match by Firebase UID (MOST RELIABLE)
+        m.userId === senderUserId
       );
 
-      // 2. If not found by userId, try other methods
       if (!partyMember) {
         partyMember = partyStore.partyMembers.find(m =>
           (senderSocketId && (m.socketId === senderSocketId || m.id === senderSocketId)) ||
@@ -3931,12 +3946,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         );
       }
 
-      // 3. Last resort: match by name, but ONLY if name is NOT "Character Name"
       if (!partyMember && characterName && characterName !== 'Character Name') {
         partyMember = partyStore.partyMembers.find(m => m.name === characterName);
       }
 
-      // FALLBACK: If not found and this is from GM, find the GM party member
       if (!partyMember) {
         const gmMember = partyStore.partyMembers.find(m => m.isGM && m.id !== 'current-player');
         if (gmMember) {
@@ -6217,6 +6230,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       timestamp: new Date().toISOString()
     });
 
+    // Track whether initial level editor state was applied from explicit parameter
+    let initialLevelEditorApplied = !!(levelEditorState || gridSettings);
+
     // ===== APPLY INITIAL LEVEL EDITOR STATE FOR NON-GM PLAYERS =====
     // This ensures players joining a room see terrain, hex grid, walls, etc.
     if (!isGameMaster && (levelEditorState || gridSettings)) {
@@ -6781,6 +6797,86 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       console.log('📍 Initializing player on map:', startMapId);
 
+      // ===== FALLBACK: Load level editor state from gameState for non-GM players =====
+      // The server sends gameState with per-map terrain/fog/walls, but levelEditorState
+      // is only populated from GM broadcasts. For permanent rooms where the GM may not
+      // be online, we extract it directly from the persisted gameState.
+      if (!isGameMaster && !initialLevelEditorApplied) {
+        const mapData = room.gameState.maps?.[startMapId];
+        if (mapData) {
+          window._isReceivingMapUpdate = true;
+          try {
+            const levelEditorStore = useLevelEditorStore.getState();
+
+            if (mapData.terrainData !== undefined && Object.keys(mapData.terrainData).length > 0) {
+              levelEditorStore.setTerrainData(mapData.terrainData);
+            }
+            if (mapData.wallData !== undefined && Object.keys(mapData.wallData).length > 0) {
+              levelEditorStore.setWallData(mapData.wallData);
+            }
+            if (mapData.windowOverlays !== undefined) {
+              levelEditorStore.setWindowOverlays(mapData.windowOverlays);
+            }
+            if (mapData.environmentalObjects !== undefined && mapData.environmentalObjects.length > 0) {
+              levelEditorStore.setEnvironmentalObjects(mapData.environmentalObjects);
+            }
+            if (mapData.drawingPaths !== undefined && mapData.drawingPaths.length > 0) {
+              levelEditorStore.setDrawingPaths(mapData.drawingPaths);
+            }
+            if (mapData.drawingLayers !== undefined) {
+              levelEditorStore.setDrawingLayers(mapData.drawingLayers);
+            }
+            if (mapData.fogOfWarData !== undefined && Object.keys(mapData.fogOfWarData).length > 0) {
+              levelEditorStore.setFogOfWarData(mapData.fogOfWarData);
+            }
+            if (mapData.exploredAreas !== undefined && mapData.exploredAreas.length > 0) {
+              levelEditorStore.setExploredAreas(mapData.exploredAreas);
+            }
+            if (mapData.lightSources !== undefined && Object.keys(mapData.lightSources).length > 0) {
+              levelEditorStore.setLightSources(mapData.lightSources);
+            }
+            if (mapData.fogOfWarPaths !== undefined) {
+              levelEditorStore.setFogOfWarPaths?.(mapData.fogOfWarPaths);
+            }
+            if (mapData.fogErasePaths !== undefined) {
+              levelEditorStore.setFogErasePaths?.(mapData.fogErasePaths);
+            }
+            if (mapData.dynamicFogEnabled !== undefined) {
+              levelEditorStore.setDynamicFogEnabled(mapData.dynamicFogEnabled);
+            }
+            if (mapData.respectLineOfSight !== undefined) {
+              levelEditorStore.setRespectLineOfSight(mapData.respectLineOfSight);
+            }
+            if (mapData.dndElements !== undefined) {
+              levelEditorStore.setDndElements(mapData.dndElements);
+            }
+
+            // Also apply grid settings from gameState if not already set
+            const gs = room.gameState.gridSettings;
+            if (gs) {
+              const gameStore = useGameStore.getState();
+              if (gs.gridType !== undefined) gameStore.setGridType(gs.gridType);
+              if (gs.gridSize !== undefined) gameStore.setGridSize(gs.gridSize);
+              if (gs.gridOffsetX !== undefined && gs.gridOffsetY !== undefined) {
+                gameStore.setGridOffset(gs.gridOffsetX, gs.gridOffsetY);
+              }
+              if (gs.gridLineColor !== undefined) gameStore.setGridLineColor(gs.gridLineColor);
+              if (gs.gridLineThickness !== undefined) gameStore.setGridLineThickness(gs.gridLineThickness);
+              if (gs.gridLineOpacity !== undefined) gameStore.setGridLineOpacity(gs.gridLineOpacity);
+              if (gs.gridBackgroundColor !== undefined) gameStore.setGridBackgroundColor(gs.gridBackgroundColor);
+            }
+
+            console.log('✅ [handleJoinRoom] Level editor state loaded from persisted gameState for map:', startMapId);
+          } catch (error) {
+            console.error('❌ [handleJoinRoom] Failed to load level editor state from gameState:', error);
+          } finally {
+            window._isReceivingMapUpdate = false;
+          }
+        } else {
+          console.warn('⚠️ [handleJoinRoom] No map data found for startMapId:', startMapId, 'in gameState maps:', Object.keys(room.gameState.maps || {}));
+        }
+      }
+
       console.log('🔍 [handleJoinRoom] Room structure received from server:', {
         roomId: room.id,
         hasGameState: !!room.gameState,
@@ -7315,17 +7411,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           hasSavedState: isPermanentRoom
         });
 
-        // CRITICAL FIX: Re-enable gameStateManager for permanent rooms
-        // This will:
-        // 1. Load saved state from Firebase if room has been played before (resuming rooms)
-        // 2. Skip loading for fresh rooms (no saved state yet)
-        // 3. Auto-save changes for GMs only
-        // 4. Set up store listeners to track changes for auto-save
-        gameStateManager.initialize(roomId, isGameMaster).then(() => {
-          console.log('✅ Game state manager initialized successfully');
-        }).catch((error) => {
-          console.error('❌ Failed to initialize game state manager:', error);
-        });
+        if (isPermanentRoom) {
+          gameStateManager.initialize(roomId, isGameMaster).then(() => {
+            console.log('✅ Game state manager initialized successfully');
+          }).catch((error) => {
+            console.error('❌ Failed to initialize game state manager:', error);
+          });
+        } else {
+          console.log('🎮 Skipping Firebase game state load for non-permanent room');
+        }
       }
 
       // Set current room after all initialization is complete
@@ -7394,6 +7488,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setIsGM(false);
     setConnectedPlayers([]);
 
+    // Clear party members so HUD doesn't persist stale player entries
+    usePartyStore.getState().clearPartyMembers();
+
     // Clear multiplayer players from chat system immediately
     connectedPlayers.forEach(player => {
       removeUser(player.id);
@@ -7405,6 +7502,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Reset to single player GM mode immediately
     setGMMode(true);
     setMultiplayerState(false, null, null);
+    sessionStorage.removeItem('enteringMultiplayer');
 
     // Perform cleanup operations in background (non-blocking)
     try {
@@ -7426,10 +7524,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         console.error('❌ Error cleaning up game state manager:', error);
       });
 
-      // Disconnect socket immediately
+      // Disconnect socket after server processes leave_room
       if (socket) {
-        socket.emit('leave_room');
-        socket.disconnect();
+        socket.emit('leave_room', () => {
+          socket.disconnect();
+        });
         // Set socket to null immediately for instant UI response
         setSocket(null);
       }
@@ -7893,6 +7992,14 @@ const MultiplayerGameContent = ({
                       accepted: true,
                       playerName: pendingControlOffer.targetPlayerName
                     });
+                  }
+                  const creatureStore = require('../../store/creatureStore').default.getState();
+                  if (creatureStore.creatureTokens.find(t => t.id === pendingControlOffer.tokenId)) {
+                    creatureStore.updateTokenState(pendingControlOffer.tokenId, {
+                      ownerId: useGameStore.getState().currentPlayer?.id || useAuthStore.getState().user?.uid,
+                      playerId: useGameStore.getState().currentPlayer?.id || useAuthStore.getState().user?.uid,
+                      controlledBy: pendingControlOffer.targetPlayerName
+                    }, false);
                   }
                   const { addCombatNotification } = useChatStore.getState();
                   if (addCombatNotification) {

@@ -7,6 +7,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
@@ -22,6 +23,7 @@ import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import '../../styles/social-window.css';
 
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
+  const navigate = useNavigate();
   const windowScale = useSettingsStore(state => state.windowScale);
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
@@ -178,6 +180,19 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const handleInvite = () => {
     if (contextMenu?.user) {
       onInviteToRoom(contextMenu.user);
+    }
+    closeContextMenu();
+  };
+
+  const handleJoinRoom = () => {
+    const roomId = contextMenu?.user?.roomId;
+    const roomName = contextMenu?.user?.roomName;
+    if (roomId) {
+      console.log('🎮 Joining room:', roomId, roomName);
+      localStorage.setItem('selectedRoomId', roomId);
+      localStorage.setItem('isGMResume', 'false');
+      localStorage.removeItem('selectedRoomPassword');
+      navigate('/multiplayer', { replace: true });
     }
     closeContextMenu();
   };
@@ -1022,206 +1037,153 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="context-menu-header">
-              {contextMenu.user.characterName || contextMenu.user.name}
+              {contextMenu.user?.characterName || contextMenu.user?.displayName || 'User'}
             </div>
-
-            {/* Show Unignore option for ignored users, otherwise show normal options */}
+            {/* Content for current user vs others */}
             {(() => {
               const targetUserId = contextMenu.user.userId || contextMenu.user.uid || contextMenu.user.id;
-              const isContextMenuUserSelf = currentUserPresence?.userId === targetUserId;
-              // Check if the TARGET user is in the party (not just if current user is in a party)
-              const targetUserInParty = partyMembers.some(m =>
-                m.id === targetUserId ||
-                m.userId === targetUserId
-              );
+              const isContextMenuUserSelf = currentUserPresence?.userId === targetUserId ||
+                targetUserId === 'current-player' ||
+                contextMenu.user.isSelf === true;
 
-              return contextMenu.isIgnored ? (
-                <>
-                  <button
-                    className="context-menu-item"
-                    onClick={handleAddNote}
-                  >
-                    <i className="fas fa-sticky-note"></i>
-                    Add/Edit Note
-                  </button>
-                  <button
-                    className="context-menu-item"
-                    onClick={() => {
-                      console.log('🔍 Attempting to unignore:', contextMenu.user);
-                      console.log('📋 Current ignored list:', ignored);
-
-                      if (contextMenu.user.id) {
-                        removeIgnored(contextMenu.user.id);
-                        console.log(`✅ Unignored ${contextMenu.user.name} (ID: ${contextMenu.user.id})`);
-
-                        // Verify removal
-                        setTimeout(() => {
-                          const updatedIgnored = useSocialStore.getState().ignored;
-                          console.log('📋 Updated ignored list:', updatedIgnored);
-                        }, 100);
-                      } else {
-                        console.error('❌ No ID found for user:', contextMenu.user);
-                      }
-                      closeContextMenu();
-                    }}
-                  >
-                    <i className="fas fa-user-check"></i>
-                    Unignore
-                  </button>
-                </>
-              ) : isContextMenuUserSelf ? (
-                <>
-                  {/* Status Change Options for Current User */}
-                  <div className="context-menu-section status-section">
-                    <div className="context-menu-section-header">Change Status</div>
-                    <div className="status-options-grid">
-                      <button
-                        className="context-menu-item"
-                        onClick={() => {
-                          handleStatusChange('online');
-                          closeContextMenu();
-                        }}
-                      >
-                        <span className="status-dot online"></span>
-                        Online
-                      </button>
-                      <button
-                        className="context-menu-item"
-                        onClick={() => {
-                          handleStatusChange('away');
-                          closeContextMenu();
-                        }}
-                      >
-                        <span className="status-dot away"></span>
-                        Away
-                      </button>
-                      <button
-                        className="context-menu-item"
-                        onClick={() => {
-                          handleStatusChange('busy');
-                          closeContextMenu();
-                        }}
-                      >
-                        <span className="status-dot busy"></span>
-                        Busy
-                      </button>
-                      <button
-                        className="context-menu-item"
-                        onClick={() => {
-                          handleStatusChange('offline');
-                          closeContextMenu();
-                        }}
-                      >
-                        <span className="status-dot offline"></span>
-                        Appear Offline
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Status Comment Section */}
-                  <div className="context-menu-section">
-                    <div className="context-menu-section-header">Status Comment</div>
-                    <input
-                      type="text"
-                      className="context-menu-input"
-                      placeholder="Looking For Campaign"
-                      value={statusCommentDraft}
-                      onChange={(e) => setStatusCommentDraft(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleSaveStatusComment();
-                          closeContextMenu();
+              if (contextMenu.isIgnored) {
+                return (
+                  <>
+                    <button className="context-menu-item" onClick={handleAddNote}>
+                      <i className="fas fa-sticky-note"></i>
+                      Add/Edit Note
+                    </button>
+                    <button
+                      className="context-menu-item danger"
+                      onClick={() => {
+                        if (contextMenu.user.id) {
+                          removeIgnored(contextMenu.user.id);
                         }
+                        closeContextMenu();
                       }}
-                      maxLength={100}
-                    />
-                    <div className="status-comment-footer">
-                      <small>{statusCommentDraft.length}/100</small>
-                      <button
-                        className="save-comment-btn"
-                        onClick={() => {
-                          handleSaveStatusComment();
-                          closeContextMenu();
-                        }}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
+                    >
+                      <i className="fas fa-user-check"></i>
+                      Unignore
+                    </button>
+                    <div className="context-menu-divider"></div>
+                    <button className="context-menu-item" onClick={closeContextMenu}>
+                      <i className="fas fa-times"></i>
+                      Cancel
+                    </button>
+                  </>
+                );
+              }
 
-                  {/* Party options for self — only shown when in a party */}
-                  {isInParty && (
-                    <div className="context-menu-section">
-                      {isLeader && (
+              if (isContextMenuUserSelf) {
+                return (
+                  <>
+                    {/* Status Comment Section */}
+                    <div className="user-menu-body">
+                      <div className="user-menu-section">
+                        <label className="user-menu-label">
+                          <i className="fas fa-feather-alt"></i>
+                          Current Status Comment
+                        </label>
+                        <div className="user-menu-input-row">
+                          <input
+                            type="text"
+                            className="user-menu-input"
+                            placeholder="Looking For Campaign"
+                            value={statusCommentDraft}
+                            onChange={(e) => setStatusCommentDraft(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                handleSaveStatusComment();
+                                closeContextMenu();
+                              }
+                            }}
+                            maxLength={100}
+                          />
+                          <button className="user-menu-save-btn" onClick={handleSaveStatusComment}>
+                            <i className="fas fa-check"></i>
+                          </button>
+                        </div>
+                        <div className="char-count-display">{statusCommentDraft.length}/100</div>
+                      </div>
+
+                      <div className="user-menu-divider"></div>
+
+                      {/* Presence/Status Bar */}
+                      <div className="user-menu-section">
+                        <label className="user-menu-label">
+                          <i className="fas fa-sun"></i>
+                          Set Presence
+                        </label>
+                        <div className="presence-buttons-row">
+                          <button
+                            className={`presence-toggle online ${currentUserPresence?.status === 'online' ? 'active' : ''}`}
+                            onClick={() => { handleStatusChange('online'); closeContextMenu(); }}
+                          >
+                            <span className="dot"></span> Online
+                          </button>
+                          <button
+                            className={`presence-toggle away ${currentUserPresence?.status === 'away' ? 'active' : ''}`}
+                            onClick={() => { handleStatusChange('away'); closeContextMenu(); }}
+                          >
+                            <span className="dot"></span> Away
+                          </button>
+                          <button
+                            className={`presence-toggle busy ${currentUserPresence?.status === 'busy' ? 'active' : ''}`}
+                            onClick={() => { handleStatusChange('busy'); closeContextMenu(); }}
+                          >
+                            <span className="dot"></span> Busy
+                          </button>
+                          <button
+                            className={`presence-toggle offline ${currentUserPresence?.status === 'offline' ? 'active' : ''}`}
+                            onClick={() => { handleStatusChange('offline'); closeContextMenu(); }}
+                          >
+                            <span className="dot"></span> Invisible
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="user-menu-footer">
+                      {isInParty && (
                         <button
-                          className="context-menu-item danger"
-                          onClick={handleDisbandParty}
+                          className="user-footer-action danger"
+                          onClick={() => {
+                            if (isLeader) handleDisbandParty();
+                            else handleLeaveParty();
+                          }}
                         >
-                          <i className="fas fa-trash-alt"></i>
-                          Disband Party
+                          <i className={`fas fa-${isLeader ? 'trash-alt' : 'sign-out-alt'}`}></i>
+                          {isLeader ? 'Disband' : 'Leave Party'}
                         </button>
                       )}
-                      <button
-                        className="context-menu-item danger"
-                        onClick={handleLeaveParty}
-                      >
-                        <i className="fas fa-sign-out-alt"></i>
-                        Leave Party
+                      <button className="user-footer-action" onClick={closeContextMenu}>
+                        <i className="fas fa-times"></i>
+                        Dismiss
                       </button>
                     </div>
-                  )}
-                </>
-              ) : (
+                  </>
+                );
+              }
+
+              // Other users menu
+              return (
                 <>
-                  <button
-                    className="context-menu-item"
-                    onClick={handleWhisper}
-                  >
+                  <button className="context-menu-item" onClick={handleWhisper}>
                     <i className="fas fa-comment"></i>
                     Whisper
                   </button>
 
-                  {/* Show different party options based on whether user is in party */}
-                  {targetUserInParty ? (
+                  {partyMembers.some(m => m.id === targetUserId || m.userId === targetUserId) ? (
                     <>
-                      {/* Only show leader options if current user is leader and target is NOT self */}
                       {isLeader && !isContextMenuUserSelf && (
                         <>
-                          <button
-                            className="context-menu-item"
-                            onClick={handlePromoteMember}
-                          >
+                          <button className="context-menu-item" onClick={handlePromoteMember}>
                             <i className="fas fa-crown"></i>
-                            Promote to Leader
+                            Promote
                           </button>
-                          <button
-                            className="context-menu-item danger"
-                            onClick={handleRemovePartyMember}
-                          >
+                          <button className="context-menu-item danger" onClick={handleRemovePartyMember}>
                             <i className="fas fa-user-times"></i>
-                            Remove from Party
-                          </button>
-                        </>
-                      )}
-
-                      {/* Show Disband and Leave if target is self */}
-                      {isContextMenuUserSelf && (
-                        <>
-                          {isLeader && (
-                            <button
-                              className="context-menu-item danger"
-                              onClick={handleDisbandParty}
-                            >
-                              <i className="fas fa-trash-alt"></i>
-                              Disband Party
-                            </button>
-                          )}
-                          <button
-                            className="context-menu-item danger"
-                            onClick={handleLeaveParty}
-                          >
-                            <i className="fas fa-sign-out-alt"></i>
-                            Leave Party
+                            Kicked
                           </button>
                         </>
                       )}
@@ -1230,58 +1192,41 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     <button
                       className="context-menu-item"
                       onClick={handleInviteToParty}
-                      disabled={targetUserInParty || !!contextMenu.user.partyId}
-                      title={targetUserInParty || !!contextMenu.user.partyId ? "User is already in a party" : "Invite to Party"}
+                      disabled={!!contextMenu.user.partyId}
                     >
                       <i className="fas fa-users"></i>
                       Invite to Party
                     </button>
                   )}
 
-                  {/* Show different options based on whether user is a friend */}
-                  {activeTab === 'friends' ? (
-                    <>
-                      <button
-                        className="context-menu-item"
-                        onClick={handleAddNote}
-                      >
-                        <i className="fas fa-sticky-note"></i>
-                        Add/Edit Note
-                      </button>
-                      <button
-                        className="context-menu-item danger"
-                        onClick={handleRemoveFriend}
-                      >
-                        <i className="fas fa-user-minus"></i>
-                        Remove Friend
-                      </button>
-                    </>
-                  ) : (
+                  {contextMenu.user.sessionType === 'multiplayer' && contextMenu.user.roomId && (
                     <button
                       className="context-menu-item"
-                      onClick={handleAddFriend}
+                      onClick={handleJoinRoom}
                     >
-                      <i className="fas fa-user-plus"></i>
-                      Add Friend
+                      <i className="fas fa-door-open"></i>
+                      Join Room
                     </button>
                   )}
 
-                  <button
-                    className="context-menu-item danger"
-                    onClick={handleIgnoreUser}
-                  >
+                  <button className="context-menu-item" onClick={handleAddFriend}>
+                    <i className="fas fa-user-plus"></i>
+                    Add Friend
+                  </button>
+
+                  <button className="context-menu-item danger" onClick={handleIgnoreUser}>
                     <i className="fas fa-ban"></i>
                     Ignore
+                  </button>
+                  
+                  <div className="context-menu-divider"></div>
+                  <button className="context-menu-item" onClick={closeContextMenu}>
+                    <i className="fas fa-times"></i>
+                    Cancel
                   </button>
                 </>
               );
             })()}
-            <div className="context-menu-divider"></div>
-
-            <button className="context-menu-item" onClick={closeContextMenu}>
-              <i className="fas fa-times"></i>
-              Cancel
-            </button>
           </div>,
           document.body
         )

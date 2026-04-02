@@ -15,8 +15,6 @@
     margin: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    /* Optimize for drag performance */
-    will-change: transform, box-shadow, border-color;
 }
 
 .item-card:hover {
@@ -116,7 +114,6 @@
 .item-card[draggable="true"]:active,
 body.dragging .item-card {
     transition: none !important;
-    will-change: auto !important;
 }
 
 /* Quality colors - maintain WoW style for item quality */

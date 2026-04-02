@@ -417,11 +417,14 @@
   border-radius: var(--pf-border-radius, 8px) !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--pf-text-primary, #5a1e12) !important;
   position: relative !important;
   overflow: hidden !important;
-  min-height: 120px !important;
+  height: auto !important;
   width: 100% !important;
+  min-height: 120px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .recipe-wizard .item-card::before {

@@ -586,7 +586,100 @@
     width: 100%;
     padding: 4px;
     justify-content: center;
-    contain: layout style;
+}
+
+.item-grid-inner .item-card,
+.item-grid .item-card {
+    width: 84px;
+    height: auto;
+    margin: 0;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: grab;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    z-index: 1;
+    -webkit-user-drag: element;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.item-grid-inner .item-card:hover,
+.item-grid .item-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(122, 59, 46, 0.15);
+}
+
+.item-grid-inner .item-card.selected,
+.item-grid .item-card.selected {
+    transform: none;
+    box-shadow: 0 0 10px 2px rgba(122, 59, 46, 0.5);
+}
+
+.item-grid-inner .item-card .item-icon,
+.item-grid .item-card .item-icon {
+    width: 72px;
+    height: 72px;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 4px 0;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid rgba(160, 140, 112, 0.3);
+    background: transparent;
+    flex-shrink: 0;
+}
+
+.item-grid-inner .item-card .item-icon img,
+.item-grid .item-card .item-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    background: transparent;
+}
+
+.item-grid-inner .item-card .item-name,
+.item-grid .item-card .item-name {
+    font-size: 10px;
+    font-weight: 600;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-align: center;
+    width: 100%;
+    line-height: 1.2;
+    flex-shrink: 0;
+    color: #3a3a3a !important;
+    word-wrap: break-word;
+    max-height: 2.4em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding: 2px 0;
+    box-sizing: border-box;
+    border: none !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+    visibility: visible;
 }
 
 .item-grid::-webkit-scrollbar {
@@ -607,130 +700,7 @@
     background: #7a3b2e;
 }
 
-.item-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 2px solid #a08c70;
-    border-radius: 6px;
-    padding: 4px;
-    width: 76px;
-    height: auto;
-    cursor: grab;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
-    transition: all 0.2s ease;
-    position: relative;
-    animation: fadeIn 0.3s ease-out;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    z-index: 1;
-    -webkit-user-drag: element;
-    -khtml-user-drag: element;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    contain: layout style;
-}
 
-.item-card:active {
-    cursor: grabbing;
-    cursor: -webkit-grabbing; /* Safari fallback */
-    cursor: -moz-grabbing; /* Firefox fallback */
-}
-
-.item-card:hover {
-    transform: translateY(-1px);
-    /* z-index removed - not needed for hover state */
-    box-shadow: 0 2px 8px rgba(122, 59, 46, 0.15);
-}
-
-.item-card:hover .item-icon {
-    border-color: rgba(122, 59, 46, 0.5);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.item-card.selected {
-    transform: none;
-    /* z-index removed - not needed for selected state */
-}
-
-.item-card.container-drag-over {
-    transform: none;
-    z-index: 2;
-}
-
-
-
-.item-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 4px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 0 2px 0;
-    position: relative;
-    box-sizing: border-box;
-    border: 1px solid rgba(160, 140, 112, 0.3);
-    background: transparent; /* Remove white background */
-    flex-shrink: 0;
-}
-
-.item-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    position: relative;
-    background: transparent; /* Remove white background from images */
-}
-
-/* Quality colors are now applied directly to item names via inline styles */
-
-.item-info {
-    text-align: center;
-    width: 100%;
-}
-
-.item-name {
-    font-size: 11px;
-    font-weight: 600;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    text-align: center;
-    width: 100%;
-    line-height: 1.2;
-    flex-shrink: 0;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
-    word-wrap: break-word;
-    max-height: 2.4em; /* Allow for 2 lines with proper spacing */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    padding: 2px 0; /* Add padding to prevent overlap */
-    box-sizing: border-box;
-    /* Remove any underlines/borders that might be inherited */
-    border: none !important;
-    border-bottom: none !important;
-    text-decoration: none !important;
-}
-
-.item-type {
-    font-size: 10px;
-    color: #5a5a5a;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-}
 
 .item-library-empty {
     display: flex;

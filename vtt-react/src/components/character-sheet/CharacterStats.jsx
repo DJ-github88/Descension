@@ -1826,8 +1826,10 @@ export default function CharacterStats() {
                         if (flatReduction > 0) {
                             // Find which items provide this flat reduction
                             // Check both normalized and original damage type (e.g., necrotic and shadow)
+                            const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
                             const checkDamageTypes = damageType === 'necrotic' ? ['necrotic', 'shadow'] : 
                                                    damageType === 'radiant' ? ['radiant', 'holy'] : 
+                                                   physicalTypes.includes(damageType) ? [damageType, 'physical'] : 
                                                    [damageType];
                             
                             Object.values(equipment).filter(Boolean).forEach(item => {

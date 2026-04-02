@@ -104,7 +104,7 @@ const initialState = {
         iconScale: 1,
         iconOffsetX: 0,
         iconOffsetY: 0,
-        iconBackgroundScale: 1,
+        iconBackgroundScale: 2.5,
         iconBackgroundOffsetX: 0,
         iconBackgroundOffsetY: 0,
 
