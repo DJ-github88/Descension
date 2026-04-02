@@ -669,7 +669,7 @@ const loadPersistentRooms = async () => {
       .get();
 
     const rooms = [];
-    roomsSnapshot.forEach(doc => {
+    for (const doc of roomsSnapshot.docs) {
       const roomData = { id: doc.id, ...doc.data() };
       // Convert players object back to Map
       if (roomData.players && typeof roomData.players === 'object') {
@@ -683,6 +683,46 @@ const loadPersistentRooms = async () => {
       // Ensure passwordHash exists (or null for no password)
       if (!roomData.hasOwnProperty('passwordHash')) {
         roomData.passwordHash = null;
+      }
+
+      // CRITICAL FIX: For split-storage rooms, load gameState from subcollections.
+      // The main document's gameState field is incomplete (maps are stored separately
+      // in subcollection docs). Without this, players joining after a server restart
+      // would get empty map data (no terrain, fog, walls, tokens, etc.)
+      if (roomData.isSplitStorage) {
+        try {
+          const [gameStateCurrentSnap, mapsSnapshot] = await Promise.all([
+            db.collection('rooms').doc(roomData.id).collection('gameState').doc('current').get(),
+            db.collection('rooms').doc(roomData.id).collection('gameState').get()
+          ]);
+
+          // Build gameState from subcollections
+          let gameState = {};
+          if (gameStateCurrentSnap.exists) {
+            const currentFrag = gameStateCurrentSnap.data();
+            delete currentFrag.lastUpdated;
+            gameState = { ...currentFrag };
+          } else if (roomData.gameState) {
+            gameState = { ...roomData.gameState };
+            delete gameState.maps;
+          }
+
+          if (!mapsSnapshot.empty) {
+            gameState.maps = gameState.maps || {};
+            mapsSnapshot.docs.forEach(mapDoc => {
+              if (mapDoc.id === 'current') return;
+              gameState.maps[mapDoc.id] = mapDoc.data();
+            });
+          }
+
+          roomData.gameState = gameState;
+          logger.info(`[loadPersistentRooms] Hydrated split-storage gameState for room ${roomData.id}`, {
+            mapsCount: Object.keys(gameState.maps || {}).length,
+            mapIds: Object.keys(gameState.maps || {})
+          });
+        } catch (subErr) {
+          logger.error(`[loadPersistentRooms] Failed to load subcollections for room ${roomData.id}`, { error: subErr.message });
+        }
       }
 
       // MIGRATION: Migrate nested characters to top-level collection if they exist
@@ -709,7 +749,7 @@ const loadPersistentRooms = async () => {
       }
 
       rooms.push(roomData);
-    });
+    }
 
     logger.info(`Loaded ${rooms.length} persistent rooms from Firestore`);
     return rooms;

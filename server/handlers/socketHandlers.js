@@ -110,6 +110,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       if (directUserId) return directUserId;
 
       const socialUser = onlineSocialUsers.get(targetSocket.id);
+      if (socialUser?.originalUserId) return socialUser.originalUserId;
       if (socialUser?.userId) return socialUser.userId;
 
       const roomPlayer = players.get(targetSocket.id);
@@ -122,7 +123,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       if (!userId) return null;
 
       for (const socialUser of onlineSocialUsers.values()) {
-        if (socialUser?.userId === userId) {
+        if (socialUser?.userId === userId || socialUser?.originalUserId === userId) {
           return socialUser;
         }
       }
@@ -740,20 +741,40 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           return;
         }
 
+        const joiningUserId = socket.data?.userId || data.userId || null;
+        const isGMReclaim = room.gmId && joiningUserId && room.gmId === joiningUserId;
+
         const playerId = uuidv4();
         const player = {
           id: playerId,
           name: sanitizePlayerName(playerName) || 'Player',
           socketId: socket.id,
           roomId: roomId,
-          isGM: false,
-          color: playerColor || '#4a90e2',
+          isGM: isGMReclaim,
+          color: playerColor || (isGMReclaim ? '#d4af37' : '#4a90e2'),
           character: character || null,
           currentMapId: room.gameState.defaultMapId || 'default',
-          userId: socket.data?.userId || data.userId || null
+          userId: joiningUserId
         };
 
-        room.players.set(playerId, player);
+        if (isGMReclaim) {
+          room.gm = {
+            id: playerId,
+            name: sanitizePlayerName(playerName) || 'GM',
+            socketId: socket.id,
+            isGM: true,
+            color: playerColor || '#d4af37',
+            character: character || null,
+            userId: joiningUserId
+          };
+          room.isActive = true;
+          room.gmDisconnectedAt = null;
+
+          logger.info('[join_room] GM reclaimed room', { roomId, gmId: playerId, userId: joiningUserId });
+        } else {
+          room.players.set(playerId, player);
+        }
+
         players.set(socket.id, player);
 
         // Track player's map assignment
@@ -775,25 +796,37 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           persistentRoomId: room.persistentRoomId
         };
 
-        socket.emit('room_joined', { room: roomForEmission, player: player });
-
-        // Notify other players
-        socket.to(roomId).emit('player_joined', {
-          player: {
-            id: player.id,
-            name: player.name,
-            socketId: socket.id,
-            character: player.character,
-            currentMapId: player.currentMapId,
-            userId: player.userId || null // ADD THIS LINE
-          },
-          playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
+        socket.emit('room_joined', {
+          room: roomForEmission,
+          player: player,
+          isGM: isGMReclaim,
+          isGMReconnect: isGMReclaim
         });
+
+        if (isGMReclaim) {
+          socket.to(roomId).emit('gm_reconnected', {
+            gmName: player.name,
+            gmId: playerId,
+            roomId
+          });
+        } else {
+          socket.to(roomId).emit('player_joined', {
+            player: {
+              id: player.id,
+              name: player.name,
+              socketId: socket.id,
+              character: player.character,
+              currentMapId: player.currentMapId,
+              userId: player.userId || null
+            },
+            playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
+          });
+        }
 
         // Update room list
         io.emit('room_list', getPublicRooms());
 
-        logger.info('[join_room] Player joined room', { playerId, playerName, roomId });
+        logger.info('[join_room] Player joined room', { playerId, playerName, roomId, isGM: isGMReclaim });
 
       } catch (error) {
         logger.error('[join_room] Error joining room:', { error: error.message });
@@ -801,12 +834,17 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     });
 
-    socket.on('leave_room', () => {
+    socket.on('leave_room', (ackCallback) => {
       const player = players.get(socket.id);
-      if (!player) return;
+      if (!player) {
+        if (typeof ackCallback === 'function') ackCallback();
+        return;
+      }
 
       const room = rooms.get(player.roomId);
       if (!room) return;
+
+      const roomId = player.roomId;
 
       // Remove player from room
       room.players.delete(player.id);
@@ -817,19 +855,33 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         delete room.gameState.playerMapAssignments[player.id];
       }
 
-      socket.leave(player.roomId);
+      socket.leave(roomId);
 
-      // Notify other players
-      socket.to(player.roomId).emit('player_left', {
-        playerId: player.id,
-        playerName: player.name,
-        playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
-      });
+      if (player.isGM) {
+        room.isActive = false;
+        room.gmDisconnectedAt = new Date();
+
+        socket.to(roomId).emit('gm_disconnected', {
+          gmName: player.name,
+          gmId: player.id,
+          roomId
+        });
+
+        logger.info('[leave_room] GM left room, room marked inactive', { roomId, gmId: player.id });
+      } else {
+        socket.to(roomId).emit('player_left', {
+          playerId: player.id,
+          playerName: player.name,
+          playerCount: room.players.size + (room.gm && room.players.has(room.gm.id) ? 0 : 1)
+        });
+      }
 
       // Update room list
       io.emit('room_list', getPublicRooms());
 
-      logger.info('[leave_room] Player left room', { playerId: player.id, roomId: player.roomId });
+      logger.info('[leave_room] Player left room', { playerId: player.id, roomId, isGM: player.isGM });
+
+      if (typeof ackCallback === 'function') ackCallback();
     });
 
     socket.on('disconnect', () => {
@@ -1020,6 +1072,84 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
       } catch (error) {
         logger.error('[token_updated] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('token_control_granted', async (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId);
+        if (!validation.valid) {
+          logger.warn('[token_control_granted] Validation failed', {
+            roomId: data.roomId,
+            socketId: socket.id,
+            error: validation.error
+          });
+          return;
+        }
+
+        const { room } = validation;
+        const { targetPlayerId, targetPlayerSocketId, targetPlayerUserId } = data;
+
+        let targetSocketId = targetPlayerSocketId;
+
+        if (!targetSocketId) {
+          for (const [pid, p] of room.players) {
+            if (
+              (targetPlayerId && pid === targetPlayerId) ||
+              (targetPlayerUserId && p.userId === targetPlayerUserId)
+            ) {
+              targetSocketId = p.socketId;
+              break;
+            }
+          }
+        }
+
+        if (targetSocketId) {
+          io.to(targetSocketId).emit('token_control_granted', {
+            ...data,
+            grantedBySocketId: socket.id,
+            sequence: getNextEventSequence()
+          });
+          logger.info('[token_control_granted] Forwarded to player', {
+            tokenId: data.tokenId,
+            targetSocketId,
+            from: socket.id
+          });
+        } else {
+          logger.warn('[token_control_granted] Target player not found', {
+            targetPlayerId,
+            targetPlayerUserId,
+            targetPlayerSocketId,
+            roomPlayers: Array.from(room.players.entries()).map(([pid, p]) => ({ id: pid, userId: p.userId, socketId: p.socketId }))
+          });
+        }
+      } catch (error) {
+        logger.error('[token_control_granted] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('token_control_response', async (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId);
+        if (!validation.valid) return;
+
+        const { room } = validation;
+
+        if (room.gm && room.gm.socketId) {
+          io.to(room.gm.socketId).emit('token_control_response', {
+            ...data,
+            respondedBySocketId: socket.id,
+            sequence: getNextEventSequence()
+          });
+          logger.info('[token_control_response] Forwarded to GM', {
+            tokenId: data.tokenId,
+            accepted: data.accepted,
+            from: socket.id,
+            to: room.gm.socketId
+          });
+        }
+      } catch (error) {
+        logger.error('[token_control_response] Error:', { error: error.message });
       }
     });
 
@@ -3181,10 +3311,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     socket.on('register_presence', (data) => {
       try {
         let userId = socket.data.userId || data.userId;
+        let originalUserId = userId;
         let name = data.name || 'Unknown';
 
         const player = players.get(socket.id);
         if (player) {
+          originalUserId = userId;
           userId = player.id;
           name = player.name;
         }
@@ -3200,6 +3332,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         onlineSocialUsers.set(socket.id, {
           userId: userId,
+          originalUserId: originalUserId !== userId ? originalUserId : null,
           name: name,
           characterClass: data.characterClass,
           characterLevel: data.characterLevel,
@@ -3293,6 +3426,16 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
 
         if (!userId) return;
+
+        const existingPartyId = userToParty.get(userId);
+        if (existingPartyId && existingPartyId !== invitation.partyId) {
+          logger.info('[accept_party_invite] Auto-leaving old party before joining new one', {
+            userId,
+            oldPartyId: existingPartyId,
+            newPartyId: invitation.partyId
+          });
+          handlePartyLeave(userId, userName, socket.id);
+        }
 
         const memberData = buildPartyMemberData(userId, { isGM: false });
         party.members[userId] = memberData;
@@ -3547,7 +3690,11 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!userId) return;
 
         const party = parties.get(partyId);
-        if (!party) return;
+        if (!party) {
+          socket.emit('party_disbanded', { partyId });
+          logger.warn('[disband_party] Party not found, sent cleanup to client', { partyId, userId });
+          return;
+        }
 
         // Only leader can disband
         if (party.leaderId !== userId) {
@@ -3769,30 +3916,30 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
 
         const targetUserPartyId = userToParty.get(toUserId);
+        let targetAlreadyInParty = false;
+        let targetExistingPartyId = null;
         if (targetUserPartyId) {
-          // Validate the party actually still exists — userToParty can hold stale
-          // entries if a party was disbanded without cleanly removing all members.
           const targetUserParty = parties.get(targetUserPartyId);
           if (!targetUserParty) {
-            // Stale entry — clean it up and allow the invite to proceed
             logger.warn('📢 [invite_to_party] Cleaning stale userToParty entry for target', { toUserId, stalePartyId: targetUserPartyId });
             userToParty.delete(toUserId);
           } else {
-            // Defense-in-depth: verify target user is actually online
-            // Stale entries can persist if disconnect cleanup was skipped
             const targetOnlineUser = getOnlineUserById(toUserId);
             if (!targetOnlineUser) {
-              // Target user is offline but has party entry - clean up stale entry
               logger.warn('📢 [invite_to_party] Target user has party entry but is offline, cleaning up', { toUserId, stalePartyId: targetUserPartyId });
               userToParty.delete(toUserId);
             } else {
-              // Target user is online AND in a party - genuinely cannot invite
-              logger.info('📢 [invite_to_party] Target user already in party', { toUserId, existingPartyId: targetUserPartyId });
-              socket.emit('party_invite_failed', {
-                error: 'User is already in a party',
-                toUserId: toUserId
-              });
-              return;
+              if (targetUserPartyId === partyId) {
+                logger.info('📢 [invite_to_party] Target already in same party', { toUserId, partyId });
+                socket.emit('party_invite_failed', {
+                  error: 'User is already in your party',
+                  toUserId: toUserId
+                });
+                return;
+              }
+              logger.info('📢 [invite_to_party] Target user already in a different party, delivering invite with auto-leave flag', { toUserId, existingPartyId: targetUserPartyId });
+              targetAlreadyInParty = true;
+              targetExistingPartyId = targetUserPartyId;
             }
           }
         }
@@ -3824,7 +3971,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         partyInvitations.set(invitationId, invitation);
 
         const targetSocketId = Array.from(onlineSocialUsers.entries())
-          .find(([_, user]) => user.userId === toUserId)?.[0];
+          .find(([_, user]) => user.userId === toUserId || user.originalUserId === toUserId)?.[0];
 
         if (targetSocketId) {
           const inviterData = onlineSocialUsers.get(socket.id) || {};
@@ -3835,7 +3982,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             senderName: inviterData.name || 'Unknown',
             senderLevel: inviterData.characterLevel || 1,
             senderClass: inviterData.characterClass || 'Unknown',
-            fromUserId
+            fromUserId,
+            targetAlreadyInParty,
+            targetExistingPartyId
           });
           logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, targetSocketId });
         } else {
@@ -3844,6 +3993,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             onlineUsersCount: onlineSocialUsers.size,
             onlineUserIds: Array.from(onlineSocialUsers.values()).map(u => u.userId).slice(0, 10)
           });
+          socket.emit('party_invite_failed', {
+            error: 'User is not reachable — their social socket may not be connected',
+            toUserId
+          });
+          partyInvitations.delete(invitationId);
+          return;
         }
 
         socket.emit('invitation_sent', { invitationId, toUserId });
