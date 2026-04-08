@@ -160,11 +160,16 @@
 }
 
 .grid-info {
-    color: #7a6a5a;
-    font-size: 12px;
-    margin-top: 4px;
-    font-weight: 500;
-    opacity: 0.8;
+    color: #8c7a6a;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(139, 115, 85, 0.1);
+    padding: 2px 10px;
+    border-radius: 10px;
+    display: inline-block;
 }
 
 .controls {
@@ -214,40 +219,52 @@
 
 /* Tool button styles for item designer */
 .tool-button {
-    padding: 12px 20px;
-    background: rgba(160, 140, 112, 0.8);
-    border: 2px solid rgba(139, 115, 85, 0.6);
-    border-radius: 6px;
+    padding: 10px 24px;
+    background: #a08c70;
+    background-image: linear-gradient(to bottom, #b4a084 0%, #8b7355 100%);
+    border: 1px solid #655241;
+    border-radius: 4px;
     color: #2c1810;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 700;
     font-size: 14px;
-    min-width: 100px;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+    min-width: 120px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
-.tool-button:hover {
-    background: rgba(180, 160, 132, 0.9);
-    border-color: rgba(139, 115, 85, 0.8);
+.tool-button:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, #c2ae92 0%, #9c8466 100%);
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .tool-button.active {
-    background: rgba(139, 115, 85, 0.9);
-    border-color: rgba(101, 82, 65, 0.8);
-    color: #f0e6d2;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: #655241;
+    background-image: linear-gradient(to bottom, #504030 0%, #7a6550 100%);
+    border-color: #2c1810;
+    color: #fcebd0;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(1px);
 }
 
 .tool-button:disabled {
-    background: rgba(120, 100, 82, 0.4);
-    border-color: rgba(100, 80, 62, 0.4);
-    color: rgba(44, 24, 16, 0.5);
+    background: #b8ac9a;
+    background-image: none;
+    border-color: #a09080;
+    color: rgba(44, 24, 16, 0.3);
     cursor: not-allowed;
-    transform: none;
+    opacity: 0.6;
     box-shadow: none;
 }
 
@@ -256,32 +273,37 @@
     flex-direction: column;
     gap: var(--tile-gap);
     align-self: center;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(20, 20, 30, 0.3) 100%);
-    padding: 10px;
-    border-radius: 12px;
-    border: 2px solid rgba(160, 140, 112, 0.3);
+    background: #2a2a2a;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(40, 40, 50, 0.8) 0%, rgba(20, 20, 25, 0.9) 100%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+    padding: 12px;
+    border-radius: 8px;
+    border: 3px solid #1a1a1a;
     box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 15px 35px rgba(0, 0, 0, 0.6),
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(160, 140, 112, 0.2);
     position: relative;
     overflow: visible;
     width: fit-content;
     flex-shrink: 0;
     min-width: fit-content;
     box-sizing: content-box;
-    margin: 0 auto;
+    margin: 20px auto;
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.preview-grid::before {
+.preview-grid::after {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, rgba(160, 140, 112, 0.2), rgba(139, 115, 85, 0.2));
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border: 1px solid rgba(160, 140, 112, 0.15);
     border-radius: 12px;
-    z-index: -1;
+    pointer-events: none;
 }
 
 .grid-instructions {
@@ -311,28 +333,38 @@
 .preview-tile {
     width: var(--tile-size);
     height: var(--tile-size);
-    background:
-        radial-gradient(circle at 30% 30%, rgba(70, 70, 90, 0.8) 0%, rgba(49, 50, 68, 0.7) 100%);
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: #3a3a45;
+    background-image: linear-gradient(145deg, #404050 0%, #313244 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
     position: relative;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
     flex-shrink: 0;
 }
 
 .preview-tile:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(59, 60, 78, 0.8);
-    transform: scale(1.05);
+    border-color: rgba(160, 140, 112, 0.5);
+    background: #4a4a5a;
+    transform: scale(1.02) translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 2;
 }
 
 .preview-tile.selected {
-    background: rgba(74, 158, 255, 0.4);
-    border-color: #4a9eff;
-    box-shadow: 0 0 8px rgba(74, 158, 255, 0.5);
-    transform: scale(1.05);
+    background: #4a9eff;
+    background-image: linear-gradient(145deg, #5ba4ff 0%, #3a85ea 100%);
+    border-color: #ffffff;
+    box-shadow: 
+        0 0 15px rgba(74, 158, 255, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    transform: scale(1.02) translateY(-1px);
+    z-index: 3;
 }
 
 .item-form {

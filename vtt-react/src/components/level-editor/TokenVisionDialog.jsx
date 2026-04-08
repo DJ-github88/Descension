@@ -24,8 +24,8 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
             const existingVision = tokenVisionRanges[token.creatureId];
 
             if (existingVision) {
-                // Convert tiles back to feet for display
-                const rangeInFeet = existingVision.range * feetPerTile;
+                // Convert tiles back to feet for display (diameter = radius * 2 * feetPerTile)
+                const rangeInFeet = existingVision.range * feetPerTile * 2;
                 setVisionRange(rangeInFeet);
                 setVisionType(existingVision.type);
 

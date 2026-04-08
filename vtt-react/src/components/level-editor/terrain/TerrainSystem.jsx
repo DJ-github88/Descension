@@ -24,6 +24,12 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Grass',
         category: 'natural',
         color: '#4a7c59',
+        tileVariations: [
+            '/assets/tiles/Grass1.png',
+            '/assets/tiles/Grass2.png',
+            '/assets/tiles/Grass3.png',
+            '/assets/tiles/Grass4.png'
+        ],
         movementCost: 1,
         description: 'Natural grassland'
     },
@@ -32,6 +38,12 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Dirt',
         category: 'natural',
         color: '#8b6914',
+        tileVariations: [
+            '/assets/tiles/Dirt1.png',
+            '/assets/tiles/Dirt2.png',
+            '/assets/tiles/Dirt3.png',
+            '/assets/tiles/Dirt4.png'
+        ],
         movementCost: 1,
         description: 'Bare earth and soil'
     },
@@ -48,22 +60,78 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Sand',
         category: 'natural',
         color: '#c2b280',
+        tileVariations: [
+            '/assets/tiles/Sand1.png', '/assets/tiles/Sand2.png', '/assets/tiles/Sand3.png', '/assets/tiles/Sand4.png',
+            '/assets/tiles/Sand5.png', '/assets/tiles/Sand6.png', '/assets/tiles/Sand7.png', '/assets/tiles/Sand8.png',
+            '/assets/tiles/Sand9.png', '/assets/tiles/Sand10.png', '/assets/tiles/Sand11.png', '/assets/tiles/Sand12.png',
+            '/assets/tiles/Sand13.png', '/assets/tiles/Sand14.png', '/assets/tiles/Sand15.png', '/assets/tiles/Sand16.png',
+            '/assets/tiles/Sand17.png', '/assets/tiles/Sand18.png', '/assets/tiles/Sand19.png', '/assets/tiles/Sand20.png',
+            '/assets/tiles/Sand21.png', '/assets/tiles/Sand22.png', '/assets/tiles/Sand23.png', '/assets/tiles/Sand24.png',
+            '/assets/tiles/Sand25.png', '/assets/tiles/Sand26.png', '/assets/tiles/Sand27.png', '/assets/tiles/Sand28.png',
+            '/assets/tiles/Sand29.png', '/assets/tiles/Sand30.png', '/assets/tiles/Sand31.png', '/assets/tiles/Sand32.png'
+        ],
         movementCost: 2,
         description: 'Sandy terrain'
     },
-    water: {
-        id: 'water',
-        name: 'Water',
+    water_calm: {
+        id: 'water_calm',
+        name: 'Water - Calm',
         category: 'natural',
         color: '#4682b4',
+        tileVariations: ['/assets/tiles/Water2.png', '/assets/tiles/Water6.png'],
         movementCost: 4,
-        description: 'Water terrain'
+        description: 'Peaceful, still water'
+    },
+    water_ripples: {
+        id: 'water_ripples',
+        name: 'Water - Ripples',
+        category: 'natural',
+        color: '#4682b4',
+        tileVariations: ['/assets/tiles/Water4.png', '/assets/tiles/Water8.png'],
+        movementCost: 4,
+        description: 'Gently rippling water'
+    },
+    water_caustic: {
+        id: 'water_caustic',
+        name: 'Water - Caustic',
+        category: 'natural',
+        color: '#4682b4',
+        tileVariations: ['/assets/tiles/Water3.png', '/assets/tiles/Water7.png'],
+        movementCost: 4,
+        description: 'Sunlit net patterns on water'
+    },
+    water_rough: {
+        id: 'water_rough',
+        name: 'Water - Rough',
+        category: 'natural',
+        color: '#4682b4',
+        tileVariations: ['/assets/tiles/Water1.png', '/assets/tiles/Water5.png'],
+        movementCost: 4,
+        description: 'Stormy, crashing waves'
+    },
+    water: {
+        id: 'water',
+        name: 'Water (legacy)',
+        category: 'natural',
+        color: '#4682b4',
+        tileVariations: [
+            '/assets/tiles/Water2.png',
+            '/assets/tiles/Water6.png'
+        ],
+        movementCost: 4,
+        description: 'Legacy water terrain'
     },
     cobblestone: {
         id: 'cobblestone',
         name: 'Cobblestone',
         category: 'natural',
         color: '#8a8a8a',
+        tileVariations: [
+            '/assets/tiles/Cobble1.png',
+            '/assets/tiles/Cobble2.png',
+            '/assets/tiles/Cobble3.png',
+            '/assets/tiles/Cobble4.png'
+        ],
         movementCost: 1,
         description: 'Cobblestone path or road'
     },
@@ -494,10 +562,17 @@ const TerrainSystem = () => {
                     let terrainType, variationIndex;
                     if (typeof terrainData_tile === 'string') {
                         terrainType = terrainData_tile;
-                        variationIndex = 0;
+                        const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                        // Deterministic shuffle based on coordinates
+                        variationIndex = terrain?.tileVariations?.length > 0 
+                            ? Math.abs(Math.floor(q / 3) ^ Math.floor(r / 3)) % terrain.tileVariations.length 
+                            : 0;
                     } else {
                         terrainType = terrainData_tile.type;
-                        variationIndex = terrainData_tile.variation || 0;
+                        const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                        variationIndex = terrainData_tile.variation !== undefined 
+                            ? terrainData_tile.variation 
+                            : (terrain?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length : 0);
                     }
 
                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
@@ -527,6 +602,13 @@ const TerrainSystem = () => {
                     targetCtx.closePath();
                     targetCtx.clip();
 
+                    const hexBounds = {
+                        minX: Math.min(...corners.map(c => c.x)),
+                        maxX: Math.max(...corners.map(c => c.x)),
+                        minY: Math.min(...corners.map(c => c.y)),
+                        maxY: Math.max(...corners.map(c => c.y))
+                    };
+
                     if (terrain.tileVariations && terrain.tileVariations.length > 0) {
                         const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
                         if (!imageCache[tileVariationPath]) {
@@ -537,21 +619,17 @@ const TerrainSystem = () => {
                         }
                         const img = imageCache[tileVariationPath];
                         if (img.complete && img.naturalWidth > 0) {
-                            const hexBounds = {
-                                minX: Math.min(...corners.map(c => c.x)),
-                                maxX: Math.max(...corners.map(c => c.x)),
-                                minY: Math.min(...corners.map(c => c.y)),
-                                maxY: Math.max(...corners.map(c => c.y))
-                            };
-                            targetCtx.drawImage(img, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
+                            targetCtx.save();
+                            const centerX = hexBounds.minX + (hexBounds.maxX - hexBounds.minX) / 2;
+                            const centerY = hexBounds.minY + (hexBounds.maxY - hexBounds.minY) / 2;
+                            targetCtx.translate(centerX, centerY);
+                            
+                            // Deterministic rotation/flip disabled as per user request
+                            
+                            targetCtx.drawImage(img, -(hexBounds.maxX - hexBounds.minX) / 2, -(hexBounds.maxY - hexBounds.minY) / 2, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
+                            targetCtx.restore();
                         }
                     } else {
-                        const hexBounds = {
-                            minX: Math.min(...corners.map(c => c.x)),
-                            maxX: Math.max(...corners.map(c => c.x)),
-                            minY: Math.min(...corners.map(c => c.y)),
-                            maxY: Math.max(...corners.map(c => c.y))
-                        };
                         drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
                     }
                     targetCtx.restore();
@@ -568,10 +646,17 @@ const TerrainSystem = () => {
                     let terrainType, variationIndex;
                     if (typeof terrainData_tile === 'string') {
                         terrainType = terrainData_tile;
-                        variationIndex = 0;
+                        const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                        // Deterministic shuffle based on coordinates
+                        variationIndex = terrain?.tileVariations?.length > 0 
+                            ? Math.abs(Math.floor(gridX / 4) ^ Math.floor(gridY / 4)) % terrain.tileVariations.length 
+                            : 0;
                     } else {
                         terrainType = terrainData_tile.type;
-                        variationIndex = terrainData_tile.variation || 0;
+                        const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+                        variationIndex = terrainData_tile.variation !== undefined 
+                            ? terrainData_tile.variation 
+                            : (terrain?.tileVariations?.length > 0 ? Math.abs(Math.floor(gridX / 4) ^ Math.floor(gridY / 4)) % terrain.tileVariations.length : 0);
                     }
 
                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
@@ -602,7 +687,13 @@ const TerrainSystem = () => {
                         }
                         const img = imageCache[tileVariationPath];
                         if (img.complete && img.naturalWidth > 0) {
-                            targetCtx.drawImage(img, tileX, tileY, tileSize, tileSize);
+                            targetCtx.save();
+                            targetCtx.translate(tileX + tileSize / 2, tileY + tileSize / 2);
+                            
+                            // Deterministic rotation/flip disabled as per user request
+                            
+                            targetCtx.drawImage(img, -tileSize / 2, -tileSize / 2, tileSize, tileSize);
+                            targetCtx.restore();
                         }
                     } else {
                         drawTerrainTexture(targetCtx, terrain, tileX, tileY, tileSize, tileSize, gridX, gridY);
@@ -636,6 +727,7 @@ const TerrainSystem = () => {
             bufferCanvas.height = bufferHeight;
         }
 
+        const terrainLayerVisible = drawingLayers.find(l => l.id === 'terrain')?.visible ?? true;
         lastBufferResetRef.current = {
             cameraX,
             cameraY,
@@ -645,6 +737,7 @@ const TerrainSystem = () => {
             gridOffsetX,
             gridOffsetY,
             dataVersion: terrainDataVersion,
+            terrainLayerVisible,
             viewportWidth: width,
             viewportHeight: height
         };
@@ -674,6 +767,7 @@ const TerrainSystem = () => {
         ctx.clearRect(0, 0, width, height);
 
         const lastReset = lastBufferResetRef.current;
+        const terrainLayerVisible = drawingLayers.find(l => l.id === 'terrain')?.visible ?? true;
         const needsRefresh =
             !bufferCanvasRef.current ||
             lastReset.zoom !== effectiveZoom ||
@@ -684,6 +778,7 @@ const TerrainSystem = () => {
             lastReset.dataVersion !== terrainDataVersion ||
             lastReset.viewportWidth !== width ||
             lastReset.viewportHeight !== height ||
+            lastReset.terrainLayerVisible !== terrainLayerVisible ||
             Math.abs(cameraX - lastReset.cameraX) * effectiveZoom > bufferPadding ||
             Math.abs(cameraY - lastReset.cameraY) * effectiveZoom > bufferPadding;
 
@@ -697,7 +792,7 @@ const TerrainSystem = () => {
             const offsetY = (lastReset.cameraY - cameraY) * effectiveZoom - bufferPadding;
             ctx.drawImage(bufferCanvas, offsetX, offsetY);
         }
-    }, [cameraX, cameraY, effectiveZoom, gridSize, gridType, gridOffsetX, gridOffsetY, terrainDataVersion, renderToBuffer]);
+    }, [cameraX, cameraY, effectiveZoom, gridSize, gridType, gridOffsetX, gridOffsetY, terrainDataVersion, drawingLayers, renderToBuffer]);
 
     // Seeded random number generator for deterministic textures
     const seededRandom = (seed) => {
@@ -706,24 +801,21 @@ const TerrainSystem = () => {
     };
 
     // Get or create cached texture for a tile
-    const getCachedTexture = (terrainId, gridX, gridY, tileSize) => {
-        // Create cache key
-        const cacheKey = `${terrainId}_${gridX}_${gridY}_${Math.round(tileSize)}`;
+    // Textures are always rendered at native gridSize resolution and scaled during draw
+    const getCachedTexture = (terrainId, gridX, gridY) => {
+        const nativeSize = gridSize || 64;
+        const cacheKey = `${terrainId}_${gridX}_${gridY}_${nativeSize}`;
 
-        // Return cached texture if available
         if (textureCache[cacheKey]) {
             return textureCache[cacheKey];
         }
 
-        // Clean cache if it's too large (FIFO - remove oldest entries)
         const cacheKeys = Object.keys(textureCache);
         if (cacheKeys.length >= MAX_TEXTURE_CACHE_SIZE) {
-            // Remove oldest 20% of cache
             const toRemove = cacheKeys.slice(0, Math.floor(cacheKeys.length * 0.2));
             toRemove.forEach(key => delete textureCache[key]);
         }
 
-        // Generate new texture on offscreen canvas
         const terrainData = PROFESSIONAL_TERRAIN_TYPES[terrainId];
         if (!terrainData) return null;
 
@@ -731,81 +823,77 @@ const TerrainSystem = () => {
         const baseColor = hexToRgb(color);
         const seedBase = (gridX * 73856093) ^ (gridY * 19349663);
 
-        // Create offscreen canvas for texture
         const textureCanvas = document.createElement('canvas');
-        textureCanvas.width = tileSize;
-        textureCanvas.height = tileSize;
+        textureCanvas.width = nativeSize;
+        textureCanvas.height = nativeSize;
         const textureCtx = textureCanvas.getContext('2d');
 
-        // Generate texture based on terrain type
         switch (terrainId) {
             case 'stone':
-                drawStoneTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawStoneTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'grass':
-                drawGrassTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawGrassTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'dirt':
-                drawDirtTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawDirtTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'sand':
-                drawSandTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
+                drawSandTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase, gridX, gridY);
                 break;
             case 'water':
-                drawWaterTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
+                drawWaterTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase, gridX, gridY);
                 break;
             case 'cobblestone':
-                drawCobblestoneTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase, gridX, gridY);
+                drawCobblestoneTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase, gridX, gridY);
                 break;
             case 'dungeon_floor':
-                drawDungeonFloorTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawDungeonFloorTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'marble_floor':
-                drawMarbleTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawMarbleTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'wooden_floor':
-                drawWoodTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawWoodTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'mud':
-                drawMudTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawMudTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'swamp':
-                drawSwampTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawSwampTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'ice':
-                drawIceTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawIceTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'lava':
-                drawLavaTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawLavaTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'acid':
-                drawAcidTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawAcidTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'pit':
-                drawPitTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawPitTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'snow':
-                drawSnowTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawSnowTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'crystal_floor':
-                drawCrystalTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawCrystalTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'abyss':
-                drawAbyssTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawAbyssTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'fungal_growth':
-                drawFungalTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawFungalTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             case 'gold_floor':
-                drawGoldTexture(textureCtx, baseColor, 0, 0, tileSize, tileSize, seedBase);
+                drawGoldTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase);
                 break;
             default:
-                // Fallback to simple fill
                 textureCtx.fillStyle = color;
-                textureCtx.fillRect(0, 0, tileSize, tileSize);
+                textureCtx.fillRect(0, 0, nativeSize, nativeSize);
         }
 
-        // Cache and return
         textureCache[cacheKey] = textureCanvas;
         return textureCanvas;
     };
@@ -816,11 +904,10 @@ const TerrainSystem = () => {
         const terrainData = typeof terrain === 'string' ? PROFESSIONAL_TERRAIN_TYPES[terrain] : terrain;
         if (!terrainData) return;
 
-        // If we have grid coordinates, use cached texture (much faster)
         if (gridX !== null && gridY !== null) {
-            const cachedTexture = getCachedTexture(terrainId, gridX, gridY, width);
+            const cachedTexture = getCachedTexture(terrainId, gridX, gridY);
             if (cachedTexture) {
-                ctx.drawImage(cachedTexture, x, y, width, height);
+                ctx.drawImage(cachedTexture, 0, 0, cachedTexture.width, cachedTexture.height, x, y, width, height);
                 return;
             }
         }
@@ -2062,7 +2149,6 @@ const TerrainSystem = () => {
     // FIXED: Use RAF for smooth terrain rendering with debounce to prevent excessive redraws
     const scheduledRenderRef = useRef(null);
     const terrainDebounceRef = useRef(null);
-    const lastZoomRef = useRef(effectiveZoom);
 
     // Separate effect for terrain data changes - debounced to prevent redraws during active drawing
     useEffect(() => {
@@ -2114,25 +2200,11 @@ const TerrainSystem = () => {
         };
     }, [cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY, renderTerrain]);
 
-    // Clear texture cache when zoom changes significantly (to regenerate at new size)
-    useEffect(() => {
-        const zoomChange = Math.abs(effectiveZoom - lastZoomRef.current) / lastZoomRef.current;
-        // If zoom changed by more than 20%, clear texture cache
-        if (zoomChange > 0.2) {
-            Object.keys(textureCache).forEach(key => delete textureCache[key]);
-            lastZoomRef.current = effectiveZoom;
-        }
-    }, [effectiveZoom]);
-
     // Handle window resize
     useEffect(() => {
         // Debounced resize handler - only executes 200ms after resize stops
         const handleResize = debounce(() => {
-            // Clear texture cache - tiles need to re-render at new viewport dimensions
-            Object.keys(textureCache).forEach(key => delete textureCache[key]);
-
             // Force buffer refresh by clearing buffer reference
-            // This ensures terrain is re-rendered with correct viewport dimensions
             bufferCanvasRef.current = null;
 
             // Force full terrain re-render

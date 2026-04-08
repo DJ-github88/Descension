@@ -432,19 +432,22 @@ const usePresenceStore = create((set, get) => ({
 
     set((state) => {
       const incomingIds = [message?.id, message?.messageId].filter(Boolean);
-      // Prevent duplicate messages (e.g. optimistic local add + socket echo)
-      const alreadyExists = state.globalChatMessages.some(msg => {
+      // Use definitive ID check if available, otherwise fallback to signature
+      const hasId = incomingIds.length > 0;
+      const alreadyExistsById = hasId && state.globalChatMessages.some(msg => {
         const existingIds = [msg?.id, msg?.messageId].filter(Boolean);
         return incomingIds.some(inId => existingIds.includes(inId));
       });
 
-      const hasDuplicateBySignature = state.globalChatMessages.some(msg =>
+      // Signature check only if no ID or as additional safeguard for fast identical messages
+      // Reduce signature usage if we have IDs
+      const hasDuplicateBySignature = !hasId && state.globalChatMessages.some(msg =>
         msg.senderId === message.senderId &&
         msg.content === message.content &&
-        msg.timestamp === message.timestamp
+        Math.abs((new Date(msg.timestamp).getTime() || 0) - (new Date(message.timestamp).getTime() || 0)) < 1000
       );
 
-      if (alreadyExists || hasDuplicateBySignature) {
+      if (alreadyExistsById || hasDuplicateBySignature) {
         return state;
       }
 
@@ -481,14 +484,10 @@ const usePresenceStore = create((set, get) => ({
   sendGlobalMessage: (content) => {
     const { currentUserPresence, socket } = get();
 
-    // Block guest users from sending global messages
-    // Note: Party chat and whispers to party members are handled separately in TabbedChat
-    if (!currentUserPresence || currentUserPresence?.isGuest) {
+    // Allow guest users to send global chat messages (essential for trial interaction)
+    if (!currentUserPresence) {
       console.warn('Authentication required to send global chat messages');
-      chatDebug('🌐 [sendGlobalMessage] blocked', {
-        hasPresence: !!currentUserPresence,
-        isGuest: !!currentUserPresence?.isGuest
-      });
+      chatDebug('🌐 [sendGlobalMessage] blocked - no presence');
       return false;
     }
 
@@ -524,6 +523,7 @@ const usePresenceStore = create((set, get) => ({
       playerName: senderName,
       senderClass: senderData.class,
       senderLevel: senderData.level,
+      isGuest: !!senderData.isGuest,
       content: content.trim(),
       timestamp: new Date().toISOString(),
       type: 'message'
@@ -573,20 +573,8 @@ const usePresenceStore = create((set, get) => ({
   sendWhisper: (targetUserId, content) => {
     const { currentUserPresence, onlineUsers, socket } = get();
 
-    // Check if target is a party member
-    let allowWithoutAuth = false;
-    try {
-      const partyStore = require('./partyStore').default;
-      const partyState = partyStore.getState();
-      const isTargetInParty = partyState.partyMembers.some(m => m.id === targetUserId);
-      const isCurrentUserInParty = partyState.isInParty;
-      allowWithoutAuth = isTargetInParty && isCurrentUserInParty;
-    } catch (e) {
-      // Party store not available
-    }
-
-    // Only block if not whispering to party member
-    if (!allowWithoutAuth && (!currentUserPresence || currentUserPresence?.isGuest)) {
+    // Allow guests to send whispers (essential for trial interaction)
+    if (!currentUserPresence) {
       console.warn('Authentication required to send whispers');
       return false;
     }
@@ -663,6 +651,8 @@ const usePresenceStore = create((set, get) => ({
     }
 
     const normalizedRecipientId =
+      targetUser?.userId ||
+      recipientPartyMember?.userId || // Prefer social ID if member has it
       recipientPartyMember?.id ||
       recipientPartyMember?.socketId ||
       targetUser?.playerId ||
@@ -683,6 +673,7 @@ const usePresenceStore = create((set, get) => ({
       senderLevel: senderLevel,
       recipientId: normalizedRecipientId,
       recipientName: recipientName,
+      isGuest: !!currentUserPresence?.isGuest,
       content: content.trim(),
       timestamp: new Date().toISOString(),
       type: 'whisper_sent'
@@ -1786,35 +1777,61 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party chat message received from server
-      socket.on('party_chat_message', ({ partyId, fromId, message, timestamp, senderName }) => {
-        // Skip messages from self — already optimistically appended by TabbedChat
-        const { currentUserPresence } = get();
-        // Resolve self ID: check multiple common identity fields 
-        const isSelf = fromId === currentUserPresence?.userId ||
-          fromId === currentUserPresence?.id ||
-          fromId === socket.id;
+      socket.on('global_chat_message', (message) => {
+        chatDebug('🌐 [global_chat_message] received', {
+          senderId: message.senderId,
+          messageId: message.id,
+          contentLength: message.content?.length
+        });
+        get().addGlobalMessage(message);
+      });
 
-        if (isSelf) {
-          console.log('💬 Skipping self-echo for party message');
+      socket.on('party_chat_message', (message) => {
+        const { partyId, fromId, message: content, timestamp, senderName, fromSocketId } = message;
+        
+        chatDebug('💬 [party_chat_message] received', {
+          partyId,
+          fromId,
+          fromSocketId,
+          senderName,
+          contentLength: content?.length
+        });
+
+        // Skip messages from self — already optimistically appended by TabbedChat
+        // CRITICAL: Use fromSocketId if available to allow cross-tab syncing for the same user
+        const { currentUserPresence, socket: activeSocket } = get();
+
+        let currentPlayerId = null;
+        try {
+          const gameStore = require('./gameStore').default;
+          currentPlayerId = gameStore.getState().currentPlayer?.id;
+        } catch (e) {}
+
+        const isFromOurSocket = fromSocketId && activeSocket?.id === fromSocketId;
+        const isFromOurIdNoSocket = !fromSocketId && (
+          fromId === currentUserPresence?.userId || 
+          fromId === activeSocket?.id ||
+          fromId === currentPlayerId ||
+          fromId === 'current-player'
+        );
+
+        if (isFromOurSocket || isFromOurIdNoSocket) {
+          chatDebug('💬 Skipping self-echo for party message');
           return;
         }
 
-        console.log('💬 Party chat message:', senderName, message.substring(0, 30));
-
-        // Store with schema that matches TabbedChat.renderMessage expectations
-        set(state => ({
-          partyChatMessages: [
-            ...state.partyChatMessages,
-            {
-              id: `party_${Date.now()}_${fromId}`,
-              type: 'party',
-              senderId: fromId,
-              senderName,
-              content: message,
-              timestamp: timestamp || Date.now()
-            }
-          ].slice(-100) // Keep last 100 messages
-        }));
+        // Use centralized helper for deduplication and unread count logic
+        get().addPartyChatMessage({
+          id: message.id || `party_${Date.now()}_${fromId}`,
+          messageId: message.messageId || message.id,
+          type: 'party',
+          senderId: fromId,
+          senderName: senderName || 'Unknown',
+          senderClass: message.senderClass || 'Unknown',
+          senderLevel: message.senderLevel || 1,
+          content: content,
+          timestamp: timestamp || Date.now()
+        });
       });
 
       // Party error received
@@ -2424,6 +2441,19 @@ const usePresenceStore = create((set, get) => ({
 
     set({ whisperTabs: newTabs });
 
+    // CRITICAL: When a new whisper is received from someone, automatically open the tab 
+    // so the user sees it without having to click their name first.
+    if (message.type === 'whisper_received' || message.type === 'whisper_sent') {
+      const currentActive = get().activeTab;
+      const isNewFirstMessage = tab.messages.length === 1;
+      
+      // Only auto-switch if we aren't currently focused on a GLOBAL or PARTY chat
+      // or if it's the very first message in this tab.
+      if (!currentActive || currentActive === 'global' || isNewFirstMessage) {
+        get().setActiveTab(`whisper_${resolvedUserId}`);
+      }
+    }
+
     // Return resolved tab key so callers can switch to the correct whisper tab
     // even when sender/recipient identity was reconciled.
     return resolvedUserId;
@@ -2461,19 +2491,32 @@ const usePresenceStore = create((set, get) => ({
    * Add party chat message
    */
   addPartyChatMessage: (message) => {
-    set(state => {
-      const incomingIds = [message?.id, message?.messageId].filter(Boolean);
-      const hasDuplicateById = incomingIds.length > 0
-        ? state.partyChatMessages.some(msg => {
-          const existingIds = [msg?.id, msg?.messageId].filter(Boolean);
-          return incomingIds.some(inId => existingIds.includes(inId));
-        })
-        : false;
+    // Resolve sender info if missing or generic
+    const onlineUsers = get().getOnlineUsersArray();
+    const sender = onlineUsers.find(u => u.userId === message.senderId);
+    
+    const resolvedMessage = {
+      ...message,
+      senderName: (message.senderName && message.senderName !== 'PLAYER' && message.senderName !== 'Unknown') 
+        ? message.senderName 
+        : (sender?.characterName || sender?.accountName || message.playerName || message.senderName || 'Unknown'),
+      senderClass: sender?.class || message.senderClass || 'Unknown',
+      senderLevel: sender?.level || message.senderLevel || 1
+    };
 
-      const hasDuplicateBySignature = state.partyChatMessages.some(msg =>
-        msg.senderId === message.senderId &&
-        msg.content === message.content &&
-        msg.timestamp === message.timestamp
+    set(state => {
+      const incomingIds = [resolvedMessage?.id, resolvedMessage?.messageId].filter(Boolean);
+      const hasId = incomingIds.length > 0;
+      const hasDuplicateById = hasId && state.partyChatMessages.some(msg => {
+        const existingIds = [msg?.id, msg?.messageId].filter(Boolean);
+        return incomingIds.some(inId => existingIds.includes(inId));
+      });
+
+      // Signature matching ONLY if no reliable ID is found
+      const hasDuplicateBySignature = !hasId && state.partyChatMessages.some(msg =>
+        msg.senderId === resolvedMessage.senderId &&
+        msg.content === resolvedMessage.content &&
+        Math.abs((new Date(msg.timestamp).getTime() || 0) - (new Date(resolvedMessage.timestamp).getTime() || 0)) < 1000
       );
 
       if (hasDuplicateById || hasDuplicateBySignature) {
@@ -2484,7 +2527,7 @@ const usePresenceStore = create((set, get) => ({
       const shouldIncrementUnread = !state.isCommunityWindowOpen || state.activeTab !== 'party';
 
       return {
-        partyChatMessages: [...state.partyChatMessages, message].slice(-100),
+        partyChatMessages: [...state.partyChatMessages, resolvedMessage].slice(-100),
         partyChatUnreadCount: shouldIncrementUnread
           ? (state.partyChatUnreadCount || 0) + 1
           : state.partyChatUnreadCount

@@ -236,9 +236,24 @@ const saveRoomDataSplit = async (roomId, roomData) => {
       lastUpdated: admin.firestore.FieldValue.serverTimestamp()
     });
 
-    // 3. Save individual maps
-    const mapPromises = Object.entries(maps).map(([mapId, mapData]) => {
-      return db.collection('rooms').doc(roomId).collection('gameState').doc(mapId).set(mapData);
+    // 3. Save individual maps and clean up orphaned map subcollection docs
+    const gameStateRef = db.collection('rooms').doc(roomId).collection('gameState');
+    const currentMapIds = Object.keys(maps);
+
+    // Delete orphaned map docs that no longer exist in gameState.maps
+    try {
+      const existingMapDocs = await gameStateRef.listDocuments();
+      for (const doc of existingMapDocs) {
+        if (doc.id !== 'current' && !currentMapIds.includes(doc.id)) {
+          await doc.delete();
+        }
+      }
+    } catch (cleanupError) {
+      logger.warn('Failed to clean up orphaned map docs', { error: cleanupError.message, roomId });
+    }
+
+    const mapPromises = currentMapIds.map(mapId => {
+      return gameStateRef.doc(mapId).set(maps[mapId]);
     });
 
     // 4. Save recent chat history
@@ -441,8 +456,16 @@ const addChatMessage = async (roomId, message) => {
       timestamp: admin.firestore.FieldValue.serverTimestamp()
     };
 
+    const msgId = message.id || uuidv4();
+
+    // Write to chat subcollection (authoritative location for split-storage rooms)
+    await db.collection('rooms').doc(roomId).collection('chat').doc(msgId).set({
+      ...messageWithTimestamp,
+      id: msgId
+    });
+
+    // Also update lastActivity on main document
     await db.collection('rooms').doc(roomId).update({
-      chatHistory: admin.firestore.FieldValue.arrayUnion(messageWithTimestamp),
       lastActivity: admin.firestore.FieldValue.serverTimestamp()
     });
     return true;

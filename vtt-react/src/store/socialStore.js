@@ -284,9 +284,13 @@ export const useSocialStore = create((set, get) => ({
   },
 
   addFriend: (friend) => {
-    set(state => ({
-      friends: [...state.friends, { ...friend, addedAt: Date.now() }]
-    }));
+    set(state => {
+      const targetId = friend.id || friend.userId || friend.uid;
+      const exists = state.friends.some(f => f.id === targetId || f.userId === targetId || f.uid === targetId || (f.friendId && friend.friendId && f.friendId === friend.friendId));
+      if (exists) return state;
+
+      return { friends: [...state.friends, { ...friend, addedAt: Date.now() }] };
+    });
   },
 
   acceptFriendRequest: async (requestId) => {
@@ -352,7 +356,8 @@ export const useSocialStore = create((set, get) => ({
   addIgnored: (ignoredUser) => {
     set(state => {
       // Prevent duplicate ignores
-      const exists = state.ignored.some(i => i.id === ignoredUser.id || (i.friendId && i.friendId === ignoredUser.friendId));
+      const targetId = ignoredUser.id || ignoredUser.userId || ignoredUser.uid;
+      const exists = state.ignored.some(i => i.id === targetId || i.userId === targetId || i.uid === targetId || (i.friendId && ignoredUser.friendId && i.friendId === ignoredUser.friendId));
       if (exists) return state;
 
       const newIgnored = [...state.ignored, { ...ignoredUser, id: ignoredUser.id || uuidv4(), addedAt: Date.now() }];

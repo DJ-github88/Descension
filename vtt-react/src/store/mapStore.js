@@ -664,11 +664,11 @@ const useMapStore = create(
                     if (levelEditorState.setWindowOverlays && mapState.windowOverlays !== undefined) {
                         levelEditorState.setWindowOverlays(mapState.windowOverlays || {});
                     }
-                    if (levelEditorState.setFogOfWarPaths) {
-                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                    if (levelEditorState.setFogOfWarPaths && mapState.fogOfWarPaths !== undefined) {
+                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths);
                     }
-                    if (levelEditorState.setFogErasePaths) {
-                        levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                    if (levelEditorState.setFogErasePaths && mapState.fogErasePaths !== undefined) {
+                        levelEditorState.setFogErasePaths(mapState.fogErasePaths);
                     }
                     if (levelEditorState.setWallData) {
                         levelEditorState.setWallData(mapState.wallData || {});

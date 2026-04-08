@@ -168,7 +168,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
     };
 
     return ReactDOM.createPortal(
-        <div className="pf-modal-backdrop" style={{ zIndex: 9999999999 }}>
+        <div className="pf-modal-backdrop modal-backdrop" style={{ zIndex: 9999999999, top: 0, left: 0 }}>
             <div ref={modalRef} className="pf-currency-withdraw-modal" style={{ zIndex: 9999999999 }}>
                 <div className="pf-modal-header">
                     <h3>Generate Coins</h3>

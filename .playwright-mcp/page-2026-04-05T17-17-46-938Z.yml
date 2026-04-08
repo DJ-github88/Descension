@@ -1,0 +1,112 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: 
+          - generic [ref=e8]: Mythrill
+        - navigation [ref=e9]:
+          - button " Home" [ref=e10] [cursor=pointer]:
+            - generic [ref=e11]: 
+            - text: Home
+          - button " Rules" [ref=e12] [cursor=pointer]:
+            - generic [ref=e13]: 
+            - text: Rules
+          - button " Membership" [ref=e14] [cursor=pointer]:
+            - generic [ref=e15]: 
+            - text: Membership
+        - generic [ref=e16]:
+          - button " Community" [active] [ref=e17] [cursor=pointer]:
+            - generic [ref=e18]: 
+            - text: Community
+          - button " Account" [ref=e48] [cursor=pointer]:
+            - generic [ref=e20]: 
+            - text: Account
+          - button " Logout" [ref=e49] [cursor=pointer]:
+            - generic [ref=e22]: 
+            - text: Logout
+    - main [ref=e23]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - heading "Mythrill" [level=1] [ref=e28]
+          - generic [ref=e29]:
+            - generic [ref=e30]: 
+            - generic [ref=e32]: 
+            - generic [ref=e34]: 
+        - paragraph [ref=e35]: The Ultimate Fantasy TTRPG Experience
+        - paragraph [ref=e36]: Embark on epic adventures in a world of magic, mystery, and endless possibilities.
+        - generic [ref=e37]:
+          - button " Play Online Adventure with friends" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]: 
+            - generic [ref=e40]:
+              - generic [ref=e41]: Play Online
+              - generic [ref=e42]: Adventure with friends
+          - button " Sandbox Mode Test tools & experiment" [ref=e43] [cursor=pointer]:
+            - generic [ref=e44]: 
+            - generic [ref=e45]:
+              - generic [ref=e46]: Sandbox Mode
+              - generic [ref=e47]: Test tools & experiment
+  - generic [ref=e51]:
+    - generic [ref=e54]:
+      - button " COMMUNITY" [ref=e56] [cursor=pointer]:
+        - generic [ref=e57]: 
+        - generic [ref=e58]: COMMUNITY
+      - button "×" [ref=e59] [cursor=pointer]
+    - generic [ref=e61]:
+      - generic [ref=e63]:
+        - generic [ref=e65]:
+          - button " 2" [ref=e66] [cursor=pointer]:
+            - generic [ref=e67]: 
+            - generic [ref=e68]: "2"
+          - button "" [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: 
+          - button "" [ref=e71] [cursor=pointer]:
+            - generic [ref=e72]: 
+          - button "" [ref=e73] [cursor=pointer]:
+            - generic [ref=e74]: 
+        - generic [ref=e75]:
+          - generic [ref=e76]: 
+          - textbox "Search users..." [ref=e77]
+        - generic [ref=e79]:
+          - generic [ref=e80] [cursor=pointer]:
+            - generic [ref=e81]:
+              - generic "online" [ref=e83]
+              - generic "Jeebus" [ref=e86]
+            - generic [ref=e88]:
+              - generic [ref=e89]: Lv. 1
+              - generic [ref=e90]: Adventurer
+          - generic [ref=e91] [cursor=pointer]:
+            - generic [ref=e92]:
+              - generic "online" [ref=e94]
+              - generic [ref=e95]:
+                - generic [ref=e96]:
+                  - generic "Unknown" [ref=e97]
+                  - generic [ref=e98]: YOU
+                - generic [ref=e99]: Character Name
+            - generic [ref=e101]:
+              - generic [ref=e102]: Lv. 1
+              - generic [ref=e103]: Adventurer
+      - generic [ref=e104]:
+        - generic:
+          - generic: 
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - button "" [ref=e107] [cursor=pointer]:
+            - generic [ref=e108]: 
+          - generic [ref=e109] [cursor=pointer]:
+            - generic [ref=e110]: 
+            - generic [ref=e111]: Global
+          - generic [ref=e112] [cursor=pointer]:
+            - generic [ref=e113]: 
+            - generic [ref=e114]: Loot
+            - generic [ref=e115]: "3"
+          - generic [ref=e116] [cursor=pointer]:
+            - generic [ref=e117]: Combat
+            - generic [ref=e118]: "3"
+        - generic [ref=e119]:
+          - paragraph [ref=e122]: Welcome to the global chat! Say hello to the community.
+          - generic [ref=e124]:
+            - textbox "Unknown Adventurer" [ref=e125]
+            - generic: 0/500
+            - button "" [disabled] [ref=e126]:
+              - generic [ref=e127]: 

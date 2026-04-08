@@ -58,6 +58,7 @@ export const DEFAULT_USER_SETTINGS = {
   showGMArea: true,
   gmOverlayOpacity: 0.8,
   viewUpdateOnPlacement: true, // When true: fog/view only updates on token drop, not during drag
+  playerTooltipMode: 'vague', // 'vague' | 'partial' | 'full' – what info players see on creature tooltips
 
   // Audio Settings
   masterVolume: 0.8,
@@ -100,6 +101,12 @@ export const DEFAULT_USER_SETTINGS = {
   renderDistance: 1000,
   textureQuality: 'high',
   effectsQuality: 'medium',
+
+  // Vision Settings
+  visionRangeMode: 'diameter',
+  visionOutlineColor: '#FFFFFF',
+  controlledCreatureOutlineColor: '#00FFFF',
+  showVisionOutlines: true,
 
   // Privacy Settings
   showOnlineStatus: true,

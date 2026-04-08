@@ -29,19 +29,33 @@
 
 /* ===== SECTION HEADERS ===== */
 .grid-tools .tool-section h4 {
-    margin: 0 0 12px 0;
-    font-size: 12px;
+    margin: 0 0 16px 0;
+    font-size: 13px;
     color: #7a3b2e;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #a08c70;
-    padding-bottom: 6px;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #a08c70;
+    padding-bottom: 8px;
+    position: relative;
+    font-weight: 700;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 
     /* Ensure crisp text rendering */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* Decorative parchment underline for section headers */
+.grid-tools .tool-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #d4af37;
+    border-radius: 2px;
 }
 
 /* ===== TOOL GRID LAYOUT ===== */
@@ -233,6 +247,7 @@
 }
 
 .compact-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
     width: 16px;
     height: 16px;

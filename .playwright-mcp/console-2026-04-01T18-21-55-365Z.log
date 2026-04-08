@@ -1,0 +1,60 @@
+[    1281ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203678
+[    1333ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313440
+[    1687ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502424
+[    1688ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502470
+[    1688ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502515
+[    1690ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534020
+[    1690ms] [LOG] 📦 Library version changed: null -> 2.0.0 @ http://localhost:3000/static/js/bundle.js:534022
+[    1691ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534037
+[    1691ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247476
+[    1707ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[    1764ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[    1766ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[    1767ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[    1767ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248310
+[    3697ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504587
+[    3704ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    3705ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    3705ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[   19503ms] [LOG] [Batcher] Preparing emit. TargetMapId: default Captured: default @ http://localhost:3000/static/js/bundle.js:517409
+[   19504ms] [LOG] 🧹 World Builder Sandbox: Cleared all tokens, items, walls, terrain, fog, objects, and reset camera/zoom @ http://localhost:3000/static/js/bundle.js:503481
+[   19505ms] [LOG] [Batcher] ⏸️ Skipped emit - not multiplayer/connected/GM {isInMultiplayer: false, connected: undefined, isGMMode: true} @ http://localhost:3000/static/js/bundle.js:517493
+[   19532ms] [LOG] 🔄 Loading active character... @ http://localhost:3000/static/js/bundle.js:247041
+[   19533ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[   19533ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[   19536ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[   19536ms] [LOG] No active character found @ http://localhost:3000/static/js/bundle.js:247092
+[   19537ms] [ERROR] ❌ Cannot leave party: No socket connection @ http://localhost:3000/static/js/bundle.js:522454
+[   19538ms] [LOG] 📱 Creating local party (no socket connection available) @ http://localhost:3000/static/js/bundle.js:522279
+[   19538ms] [LOG] ✅ Local party created successfully: Single Player Party @ http://localhost:3000/static/js/bundle.js:522296
+[   19614ms] [LOG] [Batcher] Preparing emit. TargetMapId: default Captured: default @ http://localhost:3000/static/js/bundle.js:517409
+[   19614ms] [LOG] [Batcher] ⏸️ Skipped emit - not multiplayer/connected/GM {isInMultiplayer: false, connected: undefined, isGMMode: true} @ http://localhost:3000/static/js/bundle.js:517493
+[   19896ms] [LOG] 🧹 [TileOverlay] Cleared tooltips for map change to: default @ http://localhost:3000/static/js/src_components_Grid_jsx.chunk.js:38893
+[   19929ms] [LOG] 🧹 [MemorySnapshotManager] Map changed, clearing tracking refs: default @ http://localhost:3000/static/js/src_components_level-editor_MemorySnapshotManager_jsx.chunk.js:719
+[   46937ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203678
+[   46948ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313440
+[   47283ms] [LOG] 🔄 Loading active character... @ http://localhost:3000/static/js/bundle.js:247041
+[   47284ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[   47284ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[   47285ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[   47286ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502424
+[   47286ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502470
+[   47287ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502515
+[   47289ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534020
+[   47290ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534037
+[   47290ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247476
+[   47293ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[   47293ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[   47293ms] [LOG] No active character found @ http://localhost:3000/static/js/bundle.js:247092
+[   47293ms] [ERROR] ❌ Cannot leave party: No socket connection @ http://localhost:3000/static/js/bundle.js:522454
+[   47295ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[   47295ms] [LOG] 📱 Creating local party (no socket connection available) @ http://localhost:3000/static/js/bundle.js:522279
+[   47295ms] [LOG] ✅ Local party created successfully: Single Player Party @ http://localhost:3000/static/js/bundle.js:522296
+[   47297ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248310
+[   47320ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[   47677ms] [LOG] 🧹 [TileOverlay] Cleared tooltips for map change to: default @ http://localhost:3000/static/js/src_components_Grid_jsx.chunk.js:38893
+[   47685ms] [LOG] 🧹 [MemorySnapshotManager] Map changed, clearing tracking refs: default @ http://localhost:3000/static/js/src_components_level-editor_MemorySnapshotManager_jsx.chunk.js:719
+[   49300ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504587
+[   49307ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[   49307ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[   49307ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127

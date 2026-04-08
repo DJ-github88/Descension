@@ -1,0 +1,52 @@
+[       3ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497259
+[       6ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497444
+[       8ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[      19ms] [LOG] 📊 Event tracked: page_hidden {timestamp: 2026-04-05T17:18:33.588Z} @ http://localhost:3000/static/js/bundle.js:491936
+[      19ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497259
+[    1150ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203728
+[    1189ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313490
+[    1578ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507835
+[    1580ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502481
+[    1580ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502527
+[    1580ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502572
+[    1582ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534300
+[    1583ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534317
+[    1583ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247526
+[    1585ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507835
+[    1585ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508631
+[    1585ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248360
+[    1610ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[    1873ms] [LOG] 🔄 Authenticated but no socket. Initializing global socket... @ http://localhost:3000/static/js/bundle.js:289661
+[    1874ms] [LOG] 🟢 Initializing presence on authentication for: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:289704
+[    1875ms] [LOG] 🟢 Setting user online: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:497222
+[    1877ms] [LOG] User returned to landing page - restarting session timers @ http://localhost:3000/static/js/bundle.js:490238
+[    1878ms] [LOG] Offline support initialized @ http://localhost:3000/static/js/bundle.js:502100
+[    1878ms] [LOG] Analytics tracking initialized @ http://localhost:3000/static/js/bundle.js:491912
+[    1879ms] [LOG] 📊 Event tracked: session_start {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, timestamp: 2026-04-05T17:18:35.447Z, userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36, screenResolution: 1920x1080, timezone: Europe/Copenhagen} @ http://localhost:3000/static/js/bundle.js:491938
+[    1879ms] [LOG] 💾 Authenticated user - character data will persist to Firebase @ http://localhost:3000/static/js/bundle.js:279291
+[    1881ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279498
+[    1883ms] [LOG] 🔌 Initializing global socket at: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:524042
+[    1900ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279498
+[    1914ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497446
+[    1920ms] [LOG] 🔌 Socket connected: HEVUuV5IlWQsY_yqAAAh url: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:523973
+[    2083ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497446
+[    2085ms] [LOG] 📂 Journal loaded for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488772
+[    2088ms] [LOG] 💾 Authenticated user - full data persistence enabled @ http://localhost:3000/static/js/bundle.js:279492
+[    2088ms] [LOG] 📊 Storage usage: 0.00MB used @ http://localhost:3000/static/js/bundle.js:279495
+[    2186ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497446
+[    3587ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504650
+[    3594ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    3594ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    3594ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[    4470ms] [LOG] 💾 Journal saved for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488729
+[    5738ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[    5756ms] [LOG] 🔍 OnlineUsersList - currentUserPresence changed: {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, status: online, statusComment: undefined, lastUpdated: 1775409515751} @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:4507
+[    5770ms] [LOG] 👥 Friends list updated: [] @ http://localhost:3000/static/js/bundle.js:527735
+[    5865ms] [LOG] 📩 Incoming friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527711
+[    5866ms] [LOG] 📤 Sent friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527723
+[    8376ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497446
+[    8378ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   32188ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497446
+[   32189ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   32295ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497446
+[   32297ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412

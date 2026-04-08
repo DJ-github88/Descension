@@ -628,13 +628,11 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                     levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
                 }
                 // Always clear and load fog paths for the new map (critical: fog should not persist)
-                if (levelEditorState.setFogOfWarPaths) {
-                    // Clear existing fog paths first, then load new map's fog paths
-                    levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                if (levelEditorState.setFogOfWarPaths && mapState.fogOfWarPaths !== undefined) {
+                    levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths ?? []);
                 }
-                if (levelEditorState.setFogErasePaths) {
-                    // Clear existing fog erase paths first, then load new map's fog erase paths
-                    levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                if (levelEditorState.setFogErasePaths && mapState.fogErasePaths !== undefined) {
+                    levelEditorState.setFogErasePaths(mapState.fogErasePaths ?? []);
                 }
                 if (levelEditorState.setWallData) {
                     levelEditorState.setWallData(mapState.wallData || {});

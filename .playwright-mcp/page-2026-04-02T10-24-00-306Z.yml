@@ -1,0 +1,85 @@
+- generic [ref=e77]:
+  - generic [ref=e78]:
+    - generic [ref=e79]: 
+    - text: Guest Mode - Your progress won't be saved after logout
+  - generic [ref=e80]:
+    - banner [ref=e81]:
+      - generic "Edit Profile" [ref=e82] [cursor=pointer]:
+        - generic [ref=e83]:
+          - generic [ref=e84]: 
+          - generic [ref=e86]: 
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - paragraph [ref=e89]: Guest6284
+            - generic [ref=e90]: "#MistPath1272"
+          - generic [ref=e91]: Edit Profile
+      - navigation [ref=e92]:
+        - generic [ref=e93]:
+          - button "Rooms" [ref=e94] [cursor=pointer]:
+            - generic [ref=e95]: Rooms
+          - button "Characters" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]: Characters
+          - button "Campaigns" [ref=e98] [cursor=pointer]:
+            - generic [ref=e99]: Campaigns
+          - button "Journal" [ref=e100] [cursor=pointer]:
+            - generic [ref=e101]: Journal
+          - button "Social" [ref=e102] [cursor=pointer]:
+            - generic [ref=e103]: Social
+      - generic [ref=e104]:
+        - button "" [ref=e106] [cursor=pointer]:
+          - generic [ref=e107]: 
+        - button " Home" [ref=e108] [cursor=pointer]:
+          - generic [ref=e109]: 
+          - generic [ref=e110]: Home
+        - button " Sign Out" [ref=e111] [cursor=pointer]:
+          - generic [ref=e112]: 
+          - generic [ref=e113]: Sign Out
+    - main [ref=e114]:
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - heading " My Campaign Rooms" [level=2] [ref=e118]:
+            - generic [ref=e119]: 
+            - text: My Campaign Rooms
+          - generic [ref=e120]:
+            - button " Refresh Rooms" [ref=e121] [cursor=pointer]:
+              - generic [ref=e122]: 
+              - text: Refresh Rooms
+            - button " Check Status" [ref=e123] [cursor=pointer]:
+              - generic [ref=e124]: 
+              - text: Check Status
+          - generic [ref=e127]: 0 / 1 rooms used
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - heading " Local Rooms" [level=3] [ref=e131]:
+              - generic [ref=e132]: 
+              - text: Local Rooms
+            - button "+ New Local Room" [ref=e133] [cursor=pointer]:
+              - generic [ref=e134]: +
+              - text: New Local Room
+          - generic [ref=e136]:
+            - generic [ref=e137]: 
+            - heading "No Local Rooms Yet" [level=3] [ref=e138]
+            - paragraph [ref=e139]: Create one for offline play!
+        - generic [ref=e140]:
+          - heading " Friends are Playing" [level=3] [ref=e142]:
+            - generic [ref=e143]: 
+            - text: Friends are Playing
+          - generic [ref=e145]:
+            - generic [ref=e146]: 
+            - heading "No Friends Online" [level=3] [ref=e147]
+            - paragraph [ref=e148]: Your friends will appear here when they're in active multiplayer sessions.
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - heading " Multiplayer Rooms" [level=3] [ref=e151]:
+              - generic [ref=e152]: 
+              - text: Multiplayer Rooms
+            - button "+ Sign Up Required" [ref=e153] [cursor=pointer]:
+              - generic [ref=e154]: +
+              - text: Sign Up Required
+          - generic [ref=e156]:
+            - generic [ref=e157]: 
+            - heading "No Multiplayer Rooms Yet" [level=3] [ref=e158]
+            - paragraph [ref=e159]: Create your first permanent room to start a campaign that saves your progress.
+            - button "+ Create Your First Room" [ref=e161] [cursor=pointer]:
+              - generic [ref=e162]: +
+              - text: Create Your First Room

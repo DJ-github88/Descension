@@ -152,7 +152,7 @@ const validationSchemas = {
   // Room invitations
   send_room_invite: Joi.object({
     targetUserId: Joi.string().required(),
-    roomId: Joi.string().uuid().required(),
+    roomId: Joi.string().min(1).max(100).required(),
     roomName: Joi.string().required(),
     gmName: Joi.string().required()
   }),
@@ -160,7 +160,7 @@ const validationSchemas = {
   respond_to_invite: Joi.object({
     inviteId: Joi.string().uuid().required(),
     accepted: Joi.boolean().required(),
-    roomId: Joi.string().uuid().optional(),
+    roomId: Joi.string().min(1).max(100).optional(),
     password: Joi.string().optional()
   })
 };

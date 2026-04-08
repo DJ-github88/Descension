@@ -1,0 +1,75 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - button "" [ref=e8] [cursor=pointer]:
+          - generic [ref=e9]: 
+        - generic [ref=e11]:
+          - generic [ref=e14] [cursor=pointer]: "1"
+          - generic [ref=e17] [cursor=pointer]: "2"
+          - generic [ref=e20] [cursor=pointer]: "3"
+          - generic [ref=e23] [cursor=pointer]: "4"
+          - generic [ref=e26] [cursor=pointer]: "5"
+          - generic [ref=e29] [cursor=pointer]: "6"
+          - generic [ref=e32] [cursor=pointer]: "7"
+          - generic [ref=e35] [cursor=pointer]: "8"
+          - generic [ref=e38] [cursor=pointer]: "9"
+          - generic [ref=e41] [cursor=pointer]: "10"
+          - generic [ref=e44] [cursor=pointer]: "11"
+      - generic [ref=e50]:
+        - generic [ref=e52] [cursor=pointer]:
+          - generic [ref=e53]: 
+          - generic [ref=e54]: Click to customize
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: "Name:"
+            - generic [ref=e58]:
+              - textbox "Character name" [ref=e59]
+              - button "" [ref=e60] [cursor=pointer]:
+                - generic [ref=e61]: 
+          - generic [ref=e62]:
+            - generic [ref=e63]: 
+            - text: Character name is required
+          - generic [ref=e64]:
+            - generic [ref=e65]: "Gender:"
+            - generic [ref=e66]:
+              - button "" [ref=e67] [cursor=pointer]:
+                - generic [ref=e68]: 
+              - button "" [ref=e69] [cursor=pointer]:
+                - generic [ref=e70]: 
+              - button "" [ref=e71] [cursor=pointer]:
+                - generic [ref=e72]: 
+      - generic [ref=e74]:
+        - button "Cancel" [ref=e75] [cursor=pointer]
+        - button "Next " [ref=e77] [cursor=pointer]:
+          - text: Next
+          - generic [ref=e78]: 
+      - text: 
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - heading "Character Appearance" [level=3] [ref=e82]
+      - button "×" [ref=e83] [cursor=pointer]
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - generic [ref=e86]: Preview
+        - generic [ref=e88]:
+          - generic [ref=e89]: 
+          - generic [ref=e90]: No image
+      - generic [ref=e91]:
+        - button " Select Icon" [ref=e92] [cursor=pointer]:
+          - generic [ref=e93]: 
+          - text: Select Icon
+        - button " Upload Image" [ref=e94] [cursor=pointer]:
+          - generic [ref=e95]: 
+          - text: Upload Image
+        - button " Customize" [ref=e96] [cursor=pointer]:
+          - generic [ref=e97]: 
+          - text: Customize
+      - generic [ref=e99]:
+        - paragraph [ref=e100]: Select a pre-made icon to represent your character
+        - button " Browse Icons" [ref=e101] [cursor=pointer]:
+          - generic [ref=e102]: 
+          - text: Browse Icons
+    - button " Done" [ref=e104] [cursor=pointer]:
+      - generic [ref=e105]: 
+      - text: Done

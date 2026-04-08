@@ -99,6 +99,7 @@ const AccountDashboard = ({ user }) => {
       })));
     }
   }, [characters]);
+  const isGuest = user?.isGuest || false;
   const [activeTab, setActiveTab] = useState('rooms');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
@@ -387,26 +388,33 @@ const AccountDashboard = ({ user }) => {
               >
                 <span>Characters</span>
               </button>
-              {/* Campaign Manager Tab - Always shown for now, access control ready for future */}
-              <button
-                className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
-                onClick={() => setActiveTab('campaigns')}
-              >
-                <span>Campaigns</span>
-              </button>
-              {/* Journal Tab - Player's knowledge organization */}
-              <button
-                className={`fan-tab ${activeTab === 'journal' ? 'active' : ''}`}
-                onClick={() => setActiveTab('journal')}
-              >
-                <span>Journal</span>
-              </button>
-              <button
-                className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
-                onClick={() => setActiveTab('social')}
-              >
-                <span>Social</span>
-              </button>
+              {/* Campaign Manager Tab - Hidden for guests */}
+              {!isGuest && (
+                <button
+                  className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('campaigns')}
+                >
+                  <span>Campaigns</span>
+                </button>
+              )}
+              {/* Journal Tab - Hidden for guests */}
+              {!isGuest && (
+                <button
+                  className={`fan-tab ${activeTab === 'journal' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('journal')}
+                >
+                  <span>Journal</span>
+                </button>
+              )}
+              {/* Social Tab - Hidden for guests; interact via Community window instead */}
+              {!isGuest && (
+                <button
+                  className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('social')}
+                >
+                  <span>Social</span>
+                </button>
+              )}
             </div>
           </nav>
 
@@ -481,6 +489,23 @@ const AccountDashboard = ({ user }) => {
             </button>
           </div>
         </header>
+
+        {/* Guest Info Banner */}
+        {isGuest && (
+          <div className="guest-info-banner">
+            <div className="guest-banner-icon">
+              <i className="fas fa-user-secret"></i>
+            </div>
+            <div className="guest-banner-content">
+              <h4>Playing as Guest</h4>
+              <p>
+                You can create rooms, build characters, and chat with other players via the{' '}
+                <strong>Community</strong> window (the globe icon). To access Campaigns, Journal,
+                and Social features — <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>create a free account</button>.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Main Content */}
         <main className="account-main">

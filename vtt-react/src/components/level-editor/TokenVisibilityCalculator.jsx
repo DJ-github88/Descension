@@ -5,7 +5,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { calculateVisibleTiles, calculateVisibilityPolygon } from '../../utils/VisibilityCalculations';
+import { calculateVisibleTiles, calculateVisibilityPolygon, feetToTiles } from '../../utils/VisibilityCalculations';
 
 // PERFORMANCE: Minimum time between visibility recalculations (ms)
 const MIN_RECALCULATION_INTERVAL = 50;
@@ -28,6 +28,7 @@ const TokenVisibilityCalculator = () => {
         positionKey: null,
         wallDataKey: null,
         visionKey: null,
+        controlledCreaturePositionKey: null,
         lastCalcTime: 0,
         lastPosition: null
     });
@@ -56,6 +57,7 @@ const TokenVisibilityCalculator = () => {
     const addExploredPolygon = useLevelEditorStore(state => state.addExploredPolygon);
     const addPlayerExploredPolygon = useLevelEditorStore(state => state.addPlayerExploredPolygon);
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
+    const setControlledVisibleData = useLevelEditorStore(state => state.setControlledVisibleData);
 
     // Vision update timing setting
     const viewUpdateOnPlacement = useSettingsStore(state => state.viewUpdateOnPlacement ?? true);
@@ -120,6 +122,34 @@ const TokenVisibilityCalculator = () => {
         return `${visionSettings.range}_${visionSettings.type}_${fovAngle}_${facingAngle}_${respectLineOfSight}_${windowCount}`;
     }, [visionSettings, fovAngle, facingAngle, respectLineOfSight, windowOverlays]);
 
+    // Track controlled creature positions to trigger recalculation when they move
+    const controlledCreaturePositionKey = useMemo(() => {
+        if (isGMMode || !currentPlayerId || !creatureTokens) return '';
+        try {
+            const gs = require('../../store/gameStore').default.getState();
+            const myUserId = require('../../store/authStore').default.getState().user?.uid;
+            const myId = gs.currentPlayer?.id;
+            const myName = gs.currentPlayer?.name;
+            const controlled = creatureTokens.filter(t => {
+                if (!t.position || t.state?.hiddenFromPlayers) return false;
+                const oid = t.state?.ownerId || t.state?.playerId;
+                if (!oid) return false;
+                return oid === myId || oid === myUserId || oid === myName;
+            });
+            if (controlled.length === 0) return '';
+            return controlled
+                .map(t => `${t.id}:${Math.round(t.position.x)},${Math.round(t.position.y)}`)
+                .sort()
+                .join('|');
+        } catch {
+            return '';
+        }
+    }, [creatureTokens, isGMMode, currentPlayerId]);
+
+    // PERFORMANCE: Separate throttle for controlled creature vision (less critical, ~200ms)
+    const lastCreatureCalcRef = useRef({ key: null, time: 0 });
+    const CREATURE_RECALC_INTERVAL = 200;
+
     // Main visibility calculation function
     const calculateVisibility = useCallback(() => {
         // Skip if not in player mode or dynamic fog is disabled
@@ -141,12 +171,6 @@ const TokenVisibilityCalculator = () => {
         if (!dynamicFogEnabled) {
             setVisibleArea(null);
             setVisibilityPolygon(null);
-            return;
-        }
-
-        // PERFORMANCE: Skip recalculation while token is being dragged (placement-only mode)
-        // The fog will update correctly on mouseup when the token is dropped
-        if (viewUpdateOnPlacement && window._isDraggingToken) {
             return;
         }
 
@@ -188,9 +212,100 @@ const TokenVisibilityCalculator = () => {
             respectLineOfSight ? windowOverlays : {}
         );
 
-        // Update store
+        // Update store - PRIMARY vision only (stable for afterimage system)
         setVisibleArea(visibleTiles);
         setVisibilityPolygon(visibilityPolygon);
+
+        // PERFORMANCE: Throttle controlled creature vision to ~200ms
+        // Primary vision is always immediate; creature vision is less critical
+        const creatureCalcKey = controlledCreaturePositionKey || '';
+        const now = Date.now();
+        const lastCreature = lastCreatureCalcRef.current;
+        const creatureShouldCalc = (now - lastCreature.time >= CREATURE_RECALC_INTERVAL) ||
+            lastCreature.key !== creatureCalcKey;
+
+        // ADDITIVE VISION: Compute secondary vision for controlled creatures
+        // Secondary tiles go into controlledVisibleTiles (NOT merged into visibleArea)
+        // to keep visibleArea stable for the afterimage system
+        if (!isGMMode && currentPlayerId && creatureTokens) {
+            if (creatureShouldCalc) {
+                lastCreatureCalcRef.current = { key: creatureCalcKey, time: now };
+
+                const gs = require('../../store/gameStore').default.getState();
+                let myUserId = null;
+                try { myUserId = require('../../store/authStore').default.getState().user?.uid; } catch {}
+                const myId = gs.currentPlayer?.id;
+                const myName = gs.currentPlayer?.name;
+
+                const controlledCreatures = creatureTokens.filter(t => {
+                    if (!t.position || t.state?.hiddenFromPlayers) return false;
+                    const oid = t.state?.ownerId || t.state?.playerId;
+                    if (!oid) return false;
+                    return oid === myId || oid === myUserId || oid === myName;
+                });
+
+                if (controlledCreatures.length > 0) {
+                    const allSecondaryTiles = new Set();
+                    const allSecondaryPolygons = [];
+                    const allSecondaryDetails = [];
+                    const creatures = require('../../store/creatureStore').default.getState().creatures || [];
+                    const feetPerTile = require('../../store/gameStore').default.getState().feetPerTile || 5;
+                    const tvr = require('../../store/levelEditorStore').default.getState().tokenVisionRanges || {};
+                    const tfdd = require('../../store/levelEditorStore').default.getState().tokenFacingDirections || {};
+
+                    controlledCreatures.forEach(ct => {
+                        const tokenId = ct.creatureId || ct.id;
+                        const creature = creatures.find(c => c.id === ct.creatureId);
+                        const vd = tvr[tokenId] || {};
+                        let range = feetToTiles(30, feetPerTile, 'diameter');
+                        let type = 'normal';
+                        if (vd.manuallySet) {
+                            range = vd.range || range;
+                            type = vd.type || 'normal';
+                        } else if (creature) {
+                            if (creature.stats?.darkvision) {
+                                range = feetToTiles(creature.stats.darkvision, feetPerTile, 'diameter');
+                                type = 'darkvision';
+                            } else if (creature.stats?.sightRange) {
+                                range = feetToTiles(creature.stats.sightRange, feetPerTile, 'diameter');
+                            }
+                        }
+                        const fa = tfdd[tokenId] || null;
+                        const gc = gridSystem.worldToGrid(ct.position.x, ct.position.y);
+                        const tiles = calculateVisibleTiles(gc.x, gc.y, range, type,
+                            respectLineOfSight ? wallData : {}, {}, fovAngle, fa, gridType, gridSystem,
+                            respectLineOfSight ? windowOverlays : {});
+                        tiles.forEach(t => allSecondaryTiles.add(t));
+
+                        const poly = calculateVisibilityPolygon(ct.position.x, ct.position.y, range,
+                            respectLineOfSight ? wallData : {}, gridSize, gridOffsetX, gridOffsetY,
+                            fovAngle, fa, respectLineOfSight ? windowOverlays : {});
+                        
+                        if (poly && poly.length >= 3) {
+                            allSecondaryPolygons.push(poly);
+                            // Store detailed metadata for each creature's vision
+                            allSecondaryDetails.push({
+                                tokenId,
+                                position: { x: ct.position.x, y: ct.position.y },
+                                visionRange: range,
+                                polygon: poly
+                            });
+                        }
+
+                        if (poly && poly.length >= 3 && currentPlayerId && addPlayerExploredPolygon) {
+                            addPlayerExploredPolygon(poly);
+                        }
+                    });
+
+                    setControlledVisibleData(allSecondaryTiles, allSecondaryPolygons, allSecondaryDetails);
+                } else {
+                    setControlledVisibleData(null, []);
+                }
+            }
+            // else: skip controlled creature recalc this cycle, keep previous data
+        } else {
+            setControlledVisibleData(null, []);
+        }
 
         // Also add to explored areas (for memory system)
         // CRITICAL FIX: Use per-player explored polygon when currentPlayerId is set
@@ -198,7 +313,6 @@ const TokenVisibilityCalculator = () => {
             if (currentPlayerId && addPlayerExploredPolygon) {
                 addPlayerExploredPolygon(visibilityPolygon);
             } else if (addExploredPolygon) {
-                // Fallback to global for backward compatibility
                 addExploredPolygon(visibilityPolygon);
             }
         }
@@ -223,7 +337,10 @@ const TokenVisibilityCalculator = () => {
         addExploredPolygon,
         addPlayerExploredPolygon,
         currentPlayerId,
-        viewUpdateOnPlacement
+        viewUpdateOnPlacement,
+        creatureTokens,
+        setControlledVisibleData,
+        controlledCreaturePositionKey
     ]);
 
     // Recalculate visibility when dependencies change - WITH THROTTLING
@@ -233,8 +350,9 @@ const TokenVisibilityCalculator = () => {
         const positionChanged = lastCalc.positionKey !== positionKey;
         const wallDataChanged = lastCalc.wallDataKey !== wallDataKey;
         const visionChanged = lastCalc.visionKey !== visionKey;
+        const creaturePositionChanged = lastCalc.controlledCreaturePositionKey !== controlledCreaturePositionKey;
 
-        if (!positionChanged && !wallDataChanged && !visionChanged) {
+        if (!positionChanged && !wallDataChanged && !visionChanged && !creaturePositionChanged) {
             return;
         }
 
@@ -269,6 +387,7 @@ const TokenVisibilityCalculator = () => {
                         positionKey,
                         wallDataKey,
                         visionKey,
+                        controlledCreaturePositionKey,
                         lastCalcTime: currentTime,
                         lastPosition: currentViewingToken?.position
                             ? { ...currentViewingToken.position }
@@ -287,6 +406,7 @@ const TokenVisibilityCalculator = () => {
             positionKey,
             wallDataKey,
             visionKey,
+            controlledCreaturePositionKey,
             lastCalcTime: now,
             lastPosition: currentViewingToken?.position
                 ? { ...currentViewingToken.position }
@@ -304,7 +424,7 @@ const TokenVisibilityCalculator = () => {
                 cancelAnimationFrame(pendingCalculationRef.current);
             }
         };
-    }, [positionKey, wallDataKey, visionKey, calculateVisibility, currentViewingToken?.position]);
+    }, [positionKey, wallDataKey, visionKey, controlledCreaturePositionKey, calculateVisibility, currentViewingToken?.position]);
 
     // Also recalculate when viewingFromToken changes (new token selected)
     useEffect(() => {
@@ -314,6 +434,7 @@ const TokenVisibilityCalculator = () => {
                 positionKey: null,
                 wallDataKey: null,
                 visionKey: null,
+                controlledCreaturePositionKey: null,
                 lastCalcTime: 0,
                 lastPosition: null
             };
@@ -322,8 +443,9 @@ const TokenVisibilityCalculator = () => {
             // Clear visibility when no viewing token
             setVisibleArea(null);
             setVisibilityPolygon(null);
+            setControlledVisibleData(null, []);
         }
-    }, [viewingFromToken, calculateVisibility, setVisibleArea, setVisibilityPolygon]);
+    }, [viewingFromToken, calculateVisibility, setVisibleArea, setVisibilityPolygon, setControlledVisibleData]);
 
     // This component renders nothing
     return null;

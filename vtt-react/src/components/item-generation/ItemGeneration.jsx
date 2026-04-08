@@ -28,8 +28,7 @@ export default function ItemGeneration({ onContainerCreate }) {
     const [editMode, setEditMode] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
     const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
-    const [gridSize, setGridSize] = useState(BASE_GRID_SIZE);
-    const [gridWidth, setGridWidth] = useState(null);
+    const [gridSize, setGridSize] = useState(null);
     const containerRef = useRef(null);
     const controlsRef = useRef(null);
 
@@ -65,7 +64,7 @@ export default function ItemGeneration({ onContainerCreate }) {
             // Fixed to 5 rows as requested
             const rows = 5;
             // Add one more column to fill the empty space
-            const cols = Math.max(maxCols + 1, 7); // Add 1 to fill space, minimum 7 columns
+            const cols = Math.max(maxCols, 8); // At least 8 columns for a good default look
 
             console.log('Grid calculation:', {
                 controlsWidth: controlsRect.width,
@@ -75,9 +74,11 @@ export default function ItemGeneration({ onContainerCreate }) {
                 calculatedGrid: { cols, rows }
             });
 
-            // Always update to ensure grid expands
-            setGridSize({ ROWS: rows, COLS: cols });
-            setGridWidth(controlsRect.width);
+            // Only update if grid size actually changed
+            setGridSize(prev => {
+                if (prev && prev.ROWS === rows && prev.COLS === cols) return prev;
+                return { ROWS: rows, COLS: cols };
+            });
         };
 
         // Use ResizeObserver for better detection of size changes
@@ -215,6 +216,7 @@ export default function ItemGeneration({ onContainerCreate }) {
     };
 
     const renderGrid = () => {
+        if (!gridSize) return null;
         const grid = [];
         for (let row = 0; row < gridSize.ROWS; row++) {
             const gridRow = [];
@@ -252,7 +254,7 @@ export default function ItemGeneration({ onContainerCreate }) {
                 <h2>Item Designer</h2>
                 <p>Draw shapes to create custom items, then edit their properties</p>
                 <div className="grid-info">
-                    Grid: {gridSize.COLS} × {gridSize.ROWS}
+                    Grid: {gridSize ? `${gridSize.COLS} × ${gridSize.ROWS}` : '...'}
                 </div>
             </div>
 
@@ -298,10 +300,8 @@ export default function ItemGeneration({ onContainerCreate }) {
                 </button>
             </div>
 
-            <div 
-                className="preview-grid"
-                style={gridWidth ? { width: `${gridWidth}px` } : {}}
-            >
+            {gridSize && (
+            <div className="preview-grid">
                 {selectedTiles.length === 0 && !drawMode && !editMode && (
                     <div className="grid-instructions">
                         <span>Click "Draw" and drag to create item shapes</span>
@@ -309,6 +309,7 @@ export default function ItemGeneration({ onContainerCreate }) {
                 )}
                 {renderGrid()}
             </div>
+            )}
 
             {isCoinModalOpen && (
                 <ManualCoinGenerationModal

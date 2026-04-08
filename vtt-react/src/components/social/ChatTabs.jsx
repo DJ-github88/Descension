@@ -11,7 +11,7 @@ import usePartyStore from '../../store/partyStore';
 import useGameStore from '../../store/gameStore';
 import useChatStore from '../../store/chatStore';
 
-const ChatTabs = () => {
+const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
   const activeTab = usePresenceStore((state) => state.activeTab);
   const setActiveTab = usePresenceStore((state) => state.setActiveTab);
   const whisperTabs = usePresenceStore((state) => state.whisperTabs);
@@ -120,6 +120,15 @@ const ChatTabs = () => {
 
   return (
     <div className="chat-tabs">
+      {/* Toggle Users Pane Button */}
+      <button
+        className="toggle-users-pane-btn"
+        onClick={onToggleUsersPane}
+        title={isUsersPaneHidden ? 'Show Users List' : 'Hide Users List'}
+      >
+        <i className={isUsersPaneHidden ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
+      </button>
+
       {/* Global Tab */}
       <div
         className={`chat-tab ${activeTab === 'global' ? 'active' : ''} ${pulseTabs.has('global') ? 'pulse' : ''}`}
@@ -187,8 +196,8 @@ const ChatTabs = () => {
         );
       })}
 
-      {/* Party Tab (only if in party) */}
-      {isInParty && (
+      {/* Party Tab (visible in party or multiplayer room) */}
+      {(isInParty || isInMultiplayer) && (
         <div
           className={`chat-tab party-tab ${activeTab === 'party' ? 'active' : ''} ${pulseTabs.has('party') ? 'pulse' : ''}`}
           onClick={() => handleTabClick('party')}

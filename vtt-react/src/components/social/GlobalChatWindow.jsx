@@ -252,15 +252,10 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
             className="chat-pane"
             style={{ width: isUsersPaneHidden ? '100%' : `${100 - splitPosition}%` }}
           >
-            {/* Toggle button for users pane - positioned on left side */}
-            <button
-              className="toggle-users-pane-btn"
-              onClick={toggleUsersPane}
-              title={isUsersPaneHidden ? 'Show Users List' : 'Hide Users List'}
-            >
-              <i className={isUsersPaneHidden ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
-            </button>
-            <ChatTabs />
+            <ChatTabs
+              isUsersPaneHidden={isUsersPaneHidden}
+              onToggleUsersPane={toggleUsersPane}
+            />
             <TabbedChat />
           </div>
         </div>

@@ -22,7 +22,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         natural: {
             name: 'Natural Terrain',
             icon: 'Nature/Nature Natural',
-            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone']
+            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water_calm', 'water_ripples', 'water_caustic', 'water_rough', 'water', 'cobblestone']
         },
         dungeon: {
             name: 'Dungeon Floors',

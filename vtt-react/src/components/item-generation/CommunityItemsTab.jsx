@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { useCommunityItems } from '../../hooks/useCommunityItems';
 import useItemStore from '../../store/itemStore';
+import useAuthStore from '../../store/authStore';
 import ItemCard from './ItemCard';
 import { getIconUrl } from '../../utils/assetManager';
 import '../../styles/community-tabs-shared.css';
@@ -27,12 +28,20 @@ const CommunityItemsTab = () => {
     search,
     clearSelection,
     loadMoreItems,
-    downloadCommunityItem
+    downloadCommunityItem,
+    voteCommunityItem,
+    fetchUserVote,
+    addCommunityComment,
+    fetchComments
   } = useCommunityItems();
 
   const { addItem } = useItemStore();
+  const { user } = useAuthStore();
   const [searchInput, setSearchInput] = useState('');
   const [downloadingItems, setDownloadingItems] = useState(new Set());
+  const [expandedComments, setExpandedComments] = useState({});
+  const [commentTexts, setCommentTexts] = useState({});
+  const [userVotes, setUserVotes] = useState({});
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -76,6 +85,56 @@ const CommunityItemsTab = () => {
     }
   };
 
+  const handleVote = async (item, direction) => {
+    if (!user?.uid) return;
+    try {
+      await voteCommunityItem(item.id, user.uid, direction);
+      setUserVotes(prev => {
+        const current = prev[item.id];
+        if (current === direction) return { ...prev, [item.id]: null };
+        return { ...prev, [item.id]: direction };
+      });
+    } catch (err) {
+      console.error('Vote failed:', err);
+    }
+  };
+
+  const toggleComments = async (itemId) => {
+    if (expandedComments[itemId]) {
+      setExpandedComments(prev => ({ ...prev, [itemId]: null }));
+      return;
+    }
+    let comments = [];
+    const existing = items.find(i => i.id === itemId)?._comments || featuredItems.find(i => i.id === itemId)?._comments;
+    if (!existing) {
+      comments = await fetchComments(itemId);
+    } else {
+      comments = existing;
+    }
+    setExpandedComments(prev => ({ ...prev, [itemId]: comments }));
+  };
+
+  const handleAddComment = async (itemId) => {
+    if (!user?.uid || !commentTexts[itemId]?.trim()) return;
+    const displayName = user.displayName || user.email || 'Anonymous';
+    try {
+      const comment = await addCommunityComment(itemId, user.uid, displayName, commentTexts[itemId].trim());
+      setExpandedComments(prev => ({
+        ...prev,
+        [itemId]: [comment, ...(prev[itemId] || [])]
+      }));
+      setCommentTexts(prev => ({ ...prev, [itemId]: '' }));
+    } catch (err) {
+      console.error('Comment failed:', err);
+    }
+  };
+
+  const loadUserVote = async (itemId) => {
+    if (!user?.uid) return;
+    const vote = await fetchUserVote(itemId, user.uid);
+    setUserVotes(prev => ({ ...prev, [itemId]: vote }));
+  };
+
   const renderItemCard = (item) => {
     // Ensure complete item data structure for proper tooltip display
     const completeItem = {
@@ -107,22 +166,48 @@ const CommunityItemsTab = () => {
       source: 'community'
     };
 
+    const userVote = userVotes[item.id] || item._userVote || null;
+
     return (
       <div key={item.id} className="community-item-card-wrapper">
         <ItemCard
           item={completeItem}
-          onClick={() => {}} // No selection in community view
-          onContextMenu={() => {}} // No context menu in community view
+          onClick={() => {}}
+          onContextMenu={() => {}}
           isSelected={false}
         />
         <div className="community-item-actions">
           <div className="item-stats">
+            <div className="vote-controls">
+              <button
+                className={`vote-btn upvote ${userVote === 'up' ? 'active' : ''}`}
+                onClick={() => handleVote(item, 'up')}
+                onMouseEnter={() => loadUserVote(item.id)}
+                disabled={!user?.uid}
+                title={user?.uid ? 'Upvote' : 'Log in to vote'}
+              >
+                <i className="fas fa-arrow-up"></i>
+              </button>
+              <span className="vote-count">{(item.upvotes || 0) - (item.downvotes || 0)}</span>
+              <button
+                className={`vote-btn downvote ${userVote === 'down' ? 'active' : ''}`}
+                onClick={() => handleVote(item, 'down')}
+                disabled={!user?.uid}
+                title={user?.uid ? 'Downvote' : 'Log in to vote'}
+              >
+                <i className="fas fa-arrow-down"></i>
+              </button>
+            </div>
             <span className="download-count">
               <i className="fas fa-download"></i> {item.downloadCount || 0}
             </span>
-            <span className="rating">
-              <i className="fas fa-star"></i> {item.rating || 0} ({item.ratingCount || 0})
-            </span>
+            <button
+              className="comment-toggle-btn"
+              onClick={() => toggleComments(item.id)}
+              title="Comments"
+            >
+              <i className="fas fa-comment"></i> {item.commentCount || 0}
+            </button>
           </div>
           <button
             className="download-item-btn"
@@ -140,6 +225,39 @@ const CommunityItemsTab = () => {
             )}
           </button>
         </div>
+        {expandedComments[item.id] && (
+          <div className="comments-section">
+            <div className="comments-list">
+              {(expandedComments[item.id] || []).length === 0 ? (
+                <p className="no-comments">No comments yet</p>
+              ) : (
+                expandedComments[item.id].map(c => (
+                  <div key={c.id} className="comment-item">
+                    <span className="comment-author">{c.displayName}</span>
+                    <span className="comment-text">{c.text}</span>
+                  </div>
+                ))
+              )}
+            </div>
+            {user?.uid ? (
+              <div className="comment-input-row">
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  value={commentTexts[item.id] || ''}
+                  onChange={(e) => setCommentTexts(prev => ({ ...prev, [item.id]: e.target.value }))}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddComment(item.id)}
+                  className="comment-input"
+                />
+                <button onClick={() => handleAddComment(item.id)} className="comment-submit-btn">
+                  <i className="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            ) : (
+              <p className="login-prompt">Log in to comment</p>
+            )}
+          </div>
+        )}
       </div>
     );
   };
@@ -221,7 +339,7 @@ const CommunityItemsTab = () => {
               >
                 <div className="category-icon">
                   <img
-                    src={`getIconUrl('${category.icon}', 'items')`}
+                    src={getIconUrl(category.icon, 'items')}
                     alt={category.name}
                     onError={(e) => {
                       e.target.onerror = null; // Prevent infinite loop

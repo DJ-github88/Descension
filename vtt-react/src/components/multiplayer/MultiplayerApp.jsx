@@ -2465,11 +2465,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('player_left', (data) => {
-      if (!data || !data.player) return;
+      const playerId = data?.player?.id || data?.playerId;
+      const playerName = data?.player?.name || data?.playerName;
+      if (!data || !playerId) return;
 
-      // CRITICAL FIX: Check if the leaving player is the current player
-      // If so, navigate to landing page (they were disconnected)
-      if (data.player.id === currentPlayerRef.current?.id) {
+      if (playerId === currentPlayerRef.current?.id) {
         handleLeaveRoom();
         setTimeout(() => {
           navigate('/', { replace: true });
@@ -2477,54 +2477,45 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
-      // Server sends total count (players + GM), use it directly
       setActualPlayerCount(data.playerCount || 1);
 
       setConnectedPlayers(prev => {
-        const updated = prev.filter(player => player.id !== data.player.id);
+        const updated = prev.filter(player => player.id !== playerId);
 
-        // CRITICAL FIX: Also remove from pendingRoomData if we're on the loading screen
         if (pendingRoomDataRef.current && pendingRoomDataRef.current.room) {
           const room = pendingRoomDataRef.current.room;
           if (room.players) {
             if (Array.isArray(room.players)) {
-              pendingRoomDataRef.current.room.players = room.players.filter(p => p.id !== data.player.id);
+              pendingRoomDataRef.current.room.players = room.players.filter(p => p.id !== playerId);
             } else if (room.players instanceof Map) {
-              room.players.delete(data.player.id);
+              room.players.delete(playerId);
             } else {
-              delete room.players[data.player.id];
+              delete room.players[playerId];
             }
-            console.log('📦 Removed player from buffered pendingRoomData:', data.player.name);
+            console.log('📦 Removed player from buffered pendingRoomData:', playerName);
           }
         }
 
         return updated;
       });
 
-      // Show player leave notification
-      showPlayerLeaveNotification(data.player.name, currentRoomRef.current?.name || 'Room');
+      showPlayerLeaveNotification(playerName, currentRoomRef.current?.name || 'Room');
 
-      // Remove from party system (ensure it's removed)
       try {
-        removePartyMember(data.player.id);
-        // Also remove from party store directly if needed
+        removePartyMember(playerId);
         import('../../store/partyStore').then(({ default: usePartyStore }) => {
           const { removePartyMember: removeFromStore } = usePartyStore.getState();
-          removeFromStore(data.player.id);
-        }).catch(() => {
-          // Ignore if party store not available
-        });
+          removeFromStore(playerId);
+        }).catch(() => {});
       } catch (error) {
         console.error('Error removing party member:', error);
       }
 
-      // Remove from chat system
-      removeUser(data.player.id);
+      removeUser(playerId);
 
-      // Add chat notification about player leaving
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
-        content: `${data.player.name} left the room`,
+        content: `${playerName} left the room`,
         type: 'system',
         timestamp: new Date().toISOString()
       });
@@ -2644,6 +2635,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('chat_message', (message) => {
       if (!message) return;
 
+      // CRITICAL: Skip self-echo since we append optimistically in TabbedChat
+      const senderIdFromMsg = message.sender?.id || message.playerId || message.senderId;
+      const isFromUs = senderIdFromMsg === socket.id || (currentPlayerRef.current && senderIdFromMsg === currentPlayerRef.current.id);
+
+      if (isFromUs) {
+        chatDebug('💬 Skipping self-echo for party chat message in MultiplayerApp');
+        return;
+      }
+
       chatDebug('💬 [socket:chat_message] inbound', {
         id: message?.id,
         messageId: message?.messageId,
@@ -2653,8 +2653,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         hasContent: !!(message?.content || message?.message)
       });
 
-      const resolvedSenderId = message.playerId || message.senderId || message.userId || message.socketId || null;
-      const resolvedSenderName = message.playerName || message.senderName || message.characterName || 'Unknown';
+      const resolvedSenderId = message.sender?.id || message.playerId || message.senderId || message.userId || message.socketId || null;
+      const resolvedSenderName = message.sender?.name || message.playerName || message.senderName || message.characterName || 'Unknown';
       const resolvedTimestamp = message.timestamp || message.serverTimestamp || new Date().toISOString();
       const resolvedContent = message.content || message.message || '';
       const matchedPartyMember = usePartyStore.getState().partyMembers.find((member) =>
@@ -2723,9 +2723,38 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // Whisper received in room combat/state
+    socket.on('whisper_received', (message) => {
+      chatDebug('💬 [socket:whisper_received] in room', message);
+      const presenceStore = usePresenceStore.getState();
+      presenceStore.addWhisperMessage(message.senderId, {
+        ...message,
+        type: 'whisper_received'
+      });
+    });
+
+    // Whisper sent confirmation in room combat/state
+    socket.on('whisper_sent', (message) => {
+      chatDebug('💬 [socket:whisper_sent] in room', message);
+      const presenceStore = usePresenceStore.getState();
+      presenceStore.addWhisperMessage(message.recipientId, {
+        ...message,
+        type: 'whisper_sent'
+      });
+    });
+
     // Listen for global chat messages to sync with presence store
     socket.on('global_chat_message', (message) => {
       if (!message) return;
+
+      // Skip self-echo for global chat (already appended optimistically)
+      const senderIdFromMsg = message.sender?.id || message.playerId || message.senderId || message.userId;
+      const isFromUs = senderIdFromMsg === socket.id || (currentPlayerRef.current && senderIdFromMsg === currentPlayerRef.current.id);
+
+      if (isFromUs) {
+        chatDebug('🌐 Skipping self-echo for global chat message in MultiplayerApp');
+        return;
+      }
 
       chatDebug('🌐 [socket:global_chat_message] inbound', {
         id: message?.id,
@@ -2844,6 +2873,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (data.levelEditor.dndElements !== undefined) {
             levelEditorStore.setDndElements(data.levelEditor.dndElements);
+          }
+          if (data.levelEditor.fogOfWarPaths !== undefined) {
+            levelEditorStore.setFogOfWarPaths(data.levelEditor.fogOfWarPaths);
+          }
+          if (data.levelEditor.fogErasePaths !== undefined) {
+            levelEditorStore.setFogErasePaths(data.levelEditor.fogErasePaths);
           }
           if (data.levelEditor.gridItems !== undefined) {
             import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
@@ -3847,22 +3882,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log('🎯 [token_control_granted] isTarget:', isTarget);
 
       if (isTarget) {
-        // Set state directly in MultiplayerApp for reliable rendering
         setPendingControlOffer({
           tokenId,
           tokenName,
           offeredBy: grantedByName || 'GM',
           targetPlayerName: targetPlayerName || 'Adventurer'
         });
-        // Also dispatch window event as fallback for CreatureToken listeners
-        window.dispatchEvent(new CustomEvent('creature-control-offer', {
-          detail: {
-            tokenId,
-            tokenName,
-            offeredBy: grantedByName || 'GM',
-            targetPlayerName: targetPlayerName || 'Adventurer'
-          }
-        }));
       }
     });
 
@@ -4951,8 +4976,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
           if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
-          if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
-          if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
+          if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths ?? []);
+          if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths ?? []);
           if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
 
           // CRITICAL FIX: Synchronize backgrounds and grid settings
@@ -5219,8 +5244,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             if (nextTerrain !== undefined && les.setTerrainData) les.setTerrainData(nextTerrain || {});
             if (nextWall !== undefined && les.setWallData) les.setWallData(nextWall || {});
             if (nextWindowOverlays !== undefined && les.setWindowOverlays) les.setWindowOverlays(nextWindowOverlays || {});
-            if (nextFogPaths !== undefined && les.setFogOfWarPaths) les.setFogOfWarPaths(nextFogPaths || []);
-            if (nextFogErase !== undefined && les.setFogErasePaths) les.setFogErasePaths(nextFogErase || []);
+            if (nextFogPaths !== undefined && les.setFogOfWarPaths) les.setFogOfWarPaths(nextFogPaths ?? []);
+            if (nextFogErase !== undefined && les.setFogErasePaths) les.setFogErasePaths(nextFogErase ?? []);
             if (nextDraw !== undefined && les.setDrawingPaths) les.setDrawingPaths(nextDraw || []);
             if (nextLayers !== undefined && les.setDrawingLayers) les.setDrawingLayers(nextLayers || []);
             if (nextDnd !== undefined && les.setDndElements) les.setDndElements(nextDnd || []);
@@ -5433,8 +5458,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
           if (nextDrawingPaths !== undefined) levelEditorStore.setDrawingPaths(nextDrawingPaths || []);
           if (nextDrawingLayers !== undefined) levelEditorStore.setDrawingLayers(nextDrawingLayers || []);
-          if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths || []);
-          if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths || []);
+          if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths ?? []);
+          if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths ?? []);
           if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
 
           setTimeout(() => {

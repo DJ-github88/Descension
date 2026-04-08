@@ -11,6 +11,7 @@ import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
+import useSettingsStore from '../../store/settingsStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
@@ -28,7 +29,8 @@ import ShopWindow from '../shop/ShopWindow';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
-import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
+import { feetToTiles } from '../../utils/VisibilityCalculations';
 import CreatureTooltip from '../tooltips/CreatureTooltip';
 
 // Helper function to calculate ability modifier (D&D style)
@@ -161,6 +163,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const multiplayerSocket = useGameStore(state => state.multiplayerSocket);
   const isGMMode = useGameStore(state => state.isGMMode);
   const partyMembers = usePartyStore(state => state.partyMembers);
+  const playerTooltipMode = useSettingsStore(state => state.playerTooltipMode || 'vague');
 
   const currentTarget = useTargetingStore(state => state.currentTarget);
   const setTarget = useTargetingStore(state => state.setTarget);
@@ -405,6 +408,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
   const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
+  const additionalVisibilityPolygons = useLevelEditorStore(state => state.additionalVisibilityPolygons) || [];
+  const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
   const getExploredArea = useLevelEditorStore(state => state.getExploredArea);
   const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
   // Fog content: used to hide tokens for players with no viewing token when the map is fogged
@@ -423,8 +428,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Convert visibleArea array back to Set for efficient lookup (if it's an array)
   const visibleAreaSet = React.useMemo(() => {
     if (!visibleArea) return null;
-    return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-  }, [visibleArea]);
+    const combined = new Set(visibleArea instanceof Set ? visibleArea : visibleArea);
+    if (controlledVisibleTiles) controlledVisibleTiles.forEach(t => combined.add(t));
+    return combined;
+  }, [visibleArea, controlledVisibleTiles]);
 
   // Track viewing token movement to invalidate visibility cache
   const viewingTokenMovementRef = React.useRef({ count: 0, lastPos: null });
@@ -444,7 +451,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Determine ownership for visibility safety fallback
   const mySocketId = useGameStore(state => state.multiplayerSocket?.id);
   const myCharName = useCharacterStore(state => state.name);
-  const ownerId = token?.ownerId || token?.playerId;
+  const ownerId = token?.state?.ownerId || token?.state?.playerId || token?.ownerId || token?.playerId;
   const isOwnToken = ownerId === mySocketId ||
     ownerId === myCharName ||
     ownerId === 'current-player';
@@ -510,15 +517,56 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // This prevents a token behind a wall from being considered visible just because
         // one of its adjacent tiles (on the player's side) is in the visibleArea set.
         if (visibilityPolygon && visibilityPolygon.length >= 3) {
-          const isInVisibilityPolygon = isPointInPolygon(
-            position.x,
-            position.y,
-            visibilityPolygon
-          );
+          // PERFORMANCE: Bbox pre-filter to skip expensive polygon check for far-away tokens
+          const bbox = getPolygonBBox(visibilityPolygon);
+          const inPrimaryBbox = bbox && position.x >= bbox.minX && position.x <= bbox.maxX && position.y >= bbox.minY && position.y <= bbox.maxY;
 
-          // Cache the result
-          lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: isInVisibilityPolygon };
-          return isInVisibilityPolygon;
+          if (inPrimaryBbox) {
+            let isInVisionPolygon = isPointInPolygon(
+              position.x,
+              position.y,
+              visibilityPolygon
+            );
+
+            if (!isInVisionPolygon && additionalVisibilityPolygons.length > 0) {
+              for (const poly of additionalVisibilityPolygons) {
+                if (poly && poly.length >= 3) {
+                  const sb = getPolygonBBox(poly);
+                  if (sb && position.x >= sb.minX && position.x <= sb.maxX && position.y >= sb.minY && position.y <= sb.maxY) {
+                    if (isPointInPolygon(position.x, position.y, poly)) {
+                      isInVisionPolygon = true;
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+
+            lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: isInVisionPolygon };
+            return isInVisionPolygon;
+          }
+
+          // Outside primary bbox — check secondary polygons
+          let inSecondary = false;
+          if (additionalVisibilityPolygons.length > 0) {
+            for (const poly of additionalVisibilityPolygons) {
+              if (poly && poly.length >= 3) {
+                const sb = getPolygonBBox(poly);
+                if (sb && position.x >= sb.minX && position.x <= sb.maxX && position.y >= sb.minY && position.y <= sb.maxY) {
+                  if (isPointInPolygon(position.x, position.y, poly)) {
+                    inSecondary = true;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          if (!inSecondary) {
+            lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: false };
+            return false;
+          }
+          lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: true };
+          return true;
         }
 
         // No polygon available: fall back to adjacent-tile expansion
@@ -571,7 +619,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Default: visible (GM mode or no fog system active)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, gridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, isOwnToken, visibilityPolygon, fogOfWarPaths, fogOfWarData]);
+  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, gridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet, isOwnToken, visibilityPolygon, additionalVisibilityPolygons, fogOfWarPaths, fogOfWarData]);
 
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {
@@ -632,9 +680,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         const now = Date.now();
 
-        // FIXED: Update local store during drag to prevent reversion
-        // This DOES NOT send to server (that happens only on drop)
-        if (now - lastNetworkUpdate > 50) { // 20fps for store updates
+        // UPDATE: Higher frequency for store updates during drag (16ms = ~60fps)
+        // This ensures TokenVisibilityCalculator sees the movement in real-time
+        if (now - lastNetworkUpdate > 16) { 
           const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
@@ -646,7 +694,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             });
           }
 
-          // Standardized tracking for echo prevention
+          // Update global tracking for echo prevention
           if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
           window.recentTokenMovements.set(`token_${tokenId}`, {
             position: { x: snappedPos.x, y: snappedPos.y },
@@ -2155,7 +2203,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // Token Actions submenu
         const tokenActionsSubmenu = [];
 
-        if (isGMMode) {
+        if (isGMMode || canControlCreature) {
           tokenActionsSubmenu.push({
             icon: <i className="fas fa-search"></i>,
             label: 'Inspect',
@@ -2202,8 +2250,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }
         }
 
-        // Add GM actions to Token Actions
-        if (isGMMode) {
+        // Add GM and Shared Control actions to Token Actions
+        if (isGMMode || canControlCreature) {
           tokenActionsSubmenu.push(
             {
               icon: <i className="fas fa-copy"></i>,
@@ -2321,8 +2369,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           submenu: tokenActionsSubmenu
         });
 
-        // Health, Mana, and Status submenus are GM-ONLY
-        if (isGMMode) {
+        // Health, Mana, and Status submenus - available to GM and controllers
+        if (isGMMode || canControlCreature) {
           // Health submenu
           menuItems.push({
             icon: <i className="fas fa-heart"></i>,
@@ -2889,6 +2937,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             position={tooltipPosition}
             activeConditions={allEffects}
             isInCombat={isInCombat}
+            playerTooltipMode={playerTooltipMode}
             combatInfo={{
               isMyTurn: isMyTurn,
               isTargeted: isTargeted

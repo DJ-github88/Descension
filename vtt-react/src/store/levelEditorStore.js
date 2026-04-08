@@ -880,6 +880,12 @@ const initialState = {
     visibleArea: null, // Array of visible tile keys for FOV-based visibility (stored as array for React reactivity)
     visibilityPolygon: null, // Array of {x, y} points forming the raycast visibility polygon for accurate point-in-polygon checks
 
+    // Additive vision for controlled creature tokens
+    controlledCreatureVisions: {}, // { tokenId: { visibleTiles: Set<string>, visibilityPolygon: [{x,y}] } }
+    additionalVisibilityPolygons: [], // Array of visibility polygons for fog carving
+    controlledVisibleTiles: null, // Flat array of all secondary visible tile keys (reactive, for token visibility)
+    controlledCreatureVisionDetails: [], // [{ tokenId, position:{x,y}, visionRange, polygon:[{x,y}] }]
+
     // Memory/Afterimage system for previously explored areas
     exploredAreas: {}, // { "x,y": boolean } - Legacy tile-based explored areas (kept for backward compatibility)
     exploredCircles: [], // [{ x, y, radius, timestamp }] - Circle-based explored areas (position in world coords, radius in world units)
@@ -1153,15 +1159,23 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     setFogOfWarPaths: (paths) => {
-        set({ fogOfWarPaths: paths || [] });
+        const resolvedPaths = paths ?? [];
+        const currentPaths = get().fogOfWarPaths;
+        if (currentPaths && currentPaths.length > 0 && resolvedPaths.length === 0) {
+            console.warn('🚨 [FOG DEBUG] setFogOfWarPaths clearing non-empty paths!', {
+                previousCount: currentPaths.length,
+                newCount: resolvedPaths.length,
+                stack: new Error().stack
+            });
+        }
+        set({ fogOfWarPaths: resolvedPaths });
 
-        // CRITICAL: IMMEDIATELY update current map's fog paths in mapStore
         try {
             const mapStore = require('./mapStore').default;
             const state = mapStore.getState();
             const currentMap = state.getCurrentMap();
             if (currentMap) {
-                state.updateMap(currentMap.id, { fogOfWarPaths: paths || [] });
+                state.updateMap(currentMap.id, { fogOfWarPaths: resolvedPaths });
             }
         } catch (error) {
             console.error('Failed to update mapStore with fog paths:', error);
@@ -1169,7 +1183,8 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     setFogErasePaths: (paths) => {
-        set({ fogErasePaths: paths || [] });
+        const resolvedPaths = paths ?? [];
+        set({ fogErasePaths: resolvedPaths });
 
         // CRITICAL: IMMEDIATELY update current map's fog erase paths in mapStore
         try {
@@ -1449,10 +1464,14 @@ const useLevelEditorStore = create((set, get) => ({
         const revealedAreas = state.revealedAreas || {};
         const exploredAreas = state.exploredAreas || {};
 
-        // Convert visibleArea array back to Set if needed
-        const visibleAreaSet = state.visibleArea ?
-            (state.visibleArea instanceof Set ? state.visibleArea : new Set(state.visibleArea)) :
-            null;
+        // Convert visibleArea and controlled creature tiles into a single Set
+        const visibleAreaSet = new Set();
+        if (state.visibleArea) {
+            state.visibleArea.forEach(t => visibleAreaSet.add(t));
+        }
+        if (state.controlledVisibleTiles) {
+            state.controlledVisibleTiles.forEach(t => visibleAreaSet.add(t));
+        }
 
         // Get GM mode from game store
         const gameStore = require('./gameStore').default.getState();
@@ -1942,31 +1961,167 @@ const useLevelEditorStore = create((set, get) => ({
             // Just updating position of the same token - DON'T clear afterimages
             // Afterimages should persist as the player moves around
             set({ viewingFromToken: token });
-        } else {
-            // Switching to a different token or disabling view (token = null)
-            // Clear afterimages since we're changing perspective entirely
-            // Track if player explicitly disabled view from token (token is null and we had a token before)
-            const wasExplicitlyDisabled = !token && currentToken !== null;
+        } else if (!token && currentToken !== null) {
+            set({
+                viewingFromToken: null,
+                tokenAfterimages: {},
+                playerViewFromTokenDisabled: true,
+                controlledCreatureVisions: {},
+                additionalVisibilityPolygons: [],
+                controlledVisibleTiles: null,
+                controlledCreatureVisionDetails: []
+            });
+        } else if (token) {
             set({
                 viewingFromToken: token,
-                tokenAfterimages: {},
-                // If player explicitly disabled it, mark it so we don't auto-enable again
-                playerViewFromTokenDisabled: wasExplicitlyDisabled
+                playerViewFromTokenDisabled: false,
+                controlledCreatureVisions: {},
+                additionalVisibilityPolygons: [],
+                controlledVisibleTiles: null,
+                controlledCreatureVisionDetails: []
             });
+        } else if (token) {
+            set({
+                viewingFromToken: token,
+                playerViewFromTokenDisabled: false,
+                controlledCreatureVisions: {},
+                additionalVisibilityPolygons: [],
+                controlledVisibleTiles: null,
+                controlledCreatureVisionDetails: []
+            });
+        } else {
+            set({ viewingFromToken: null });
         }
     },
 
-    // Update visible area for FOV-based visibility
+    // Update visible area for FOV-based visibility (primary token only)
+    // NOTE: Secondary (controlled creature) visions are NOT merged here to keep
+    // visibleArea stable. Merging would cause afterimage flickering because the
+    // combined set oscillates as secondary visions recalculate on a different throttle.
+    // Secondary visions are used separately for fog carving and memory capture.
     setVisibleArea: (visibleArea) => {
-        // Convert Set to Array for better React reactivity (Zustand works better with arrays)
-        // We'll convert it back to Set when needed for performance
-        const visibleAreaArray = visibleArea ? Array.from(visibleArea) : null;
-        set({ visibleArea: visibleAreaArray });
+        const newArea = visibleArea ? Array.from(visibleArea) : null;
+        const oldArea = get().visibleArea;
+
+        if (newArea === null && oldArea === null) return;
+        if (newArea === null || oldArea === null) {
+            set({ visibleArea: newArea });
+            return;
+        }
+        if (newArea.length !== oldArea.length) {
+            set({ visibleArea: newArea });
+            return;
+        }
+        const oldSet = new Set(oldArea);
+        if (newArea.every(t => oldSet.has(t))) return;
+
+        set({ visibleArea: newArea });
     },
 
     // Update visibility polygon for accurate point-in-polygon checks
     setVisibilityPolygon: (polygon) => {
         set({ visibilityPolygon: polygon });
+    },
+
+    // Set secondary vision data from controlled creatures (called by TokenVisibilityCalculator)
+    // This is the SINGLE write path for additive vision - replaces ControlledCreatureVisionCalculator
+    setControlledVisibleData: (secondaryTiles, additionalPolygons, creatureDetails) => {
+        const state = get();
+        const newTilesArray = secondaryTiles ? Array.from(secondaryTiles) : null;
+        const newPolygons = additionalPolygons || [];
+        const newDetails = creatureDetails || [];
+
+        const oldTiles = state.controlledVisibleTiles;
+        const oldPolygons = state.additionalVisibilityPolygons;
+
+        let tilesChanged = false;
+        if (newTilesArray === null && oldTiles === null) {
+            tilesChanged = false;
+        } else if (newTilesArray === null || oldTiles === null) {
+            tilesChanged = true;
+        } else if (newTilesArray.length !== oldTiles.length) {
+            tilesChanged = true;
+        } else {
+            const oldSet = new Set(oldTiles);
+            tilesChanged = !newTilesArray.every(t => oldSet.has(t));
+        }
+
+        let polygonsChanged = newPolygons.length !== oldPolygons.length;
+
+        if (!tilesChanged && !polygonsChanged) return;
+
+        set({
+            controlledVisibleTiles: tilesChanged ? newTilesArray : oldTiles,
+            additionalVisibilityPolygons: polygonsChanged ? newPolygons : oldPolygons,
+            controlledCreatureVisionDetails: newDetails
+        });
+    },
+
+    // Set additional visibility polygons for fog carving (secondary creature vision)
+    setAdditionalVisibilityPolygons: (polygons) => {
+        set({ additionalVisibilityPolygons: polygons || [] });
+    },
+
+    // Controlled creature vision management (additive vision for fog carving only)
+    // These do NOT merge into visibleArea to keep it stable for afterimage system.
+    setControlledCreatureVision: (tokenId, visibleTiles, visibilityPolygon) => {
+        const state = get();
+        const ccv = { ...state.controlledCreatureVisions };
+
+        if (visibleTiles === null) {
+            delete ccv[tokenId];
+        } else {
+            ccv[tokenId] = { visibleTiles, visibilityPolygon };
+        }
+
+        const secondaryPolygons = [];
+        const allSecondaryTiles = new Set();
+        Object.values(ccv).forEach(v => {
+            if (v?.visibilityPolygon && v.visibilityPolygon.length >= 3) {
+                secondaryPolygons.push(v.visibilityPolygon);
+            }
+            if (v?.visibleTiles) v.visibleTiles.forEach(t => allSecondaryTiles.add(t));
+        });
+
+        set({
+            controlledCreatureVisions: ccv,
+            additionalVisibilityPolygons: secondaryPolygons,
+            controlledVisibleTiles: Array.from(allSecondaryTiles)
+        });
+    },
+
+    removeControlledCreatureVision: (tokenId) => {
+        const state = get();
+        const ccv = { ...state.controlledCreatureVisions };
+        delete ccv[tokenId];
+
+        const secondaryPolygons = [];
+        const allSecondaryTiles = new Set();
+        Object.values(ccv).forEach(v => {
+            if (v?.visibilityPolygon && v.visibilityPolygon.length >= 3) {
+                secondaryPolygons.push(v.visibilityPolygon);
+            }
+            if (v?.visibleTiles) v.visibleTiles.forEach(t => allSecondaryTiles.add(t));
+        });
+
+        set({
+            controlledCreatureVisions: ccv,
+            additionalVisibilityPolygons: secondaryPolygons,
+            controlledVisibleTiles: Array.from(allSecondaryTiles)
+        });
+    },
+
+    // Get all visibility polygons (primary + controlled creatures) for fog carving
+    getAllVisibilityPolygons: () => {
+        const state = get();
+        const polygons = [];
+        if (state.visibilityPolygon && state.visibilityPolygon.length >= 3) {
+            polygons.push(state.visibilityPolygon);
+        }
+        if (state.additionalVisibilityPolygons) {
+            polygons.push(...state.additionalVisibilityPolygons);
+        }
+        return polygons;
     },
 
     // FOV cone settings
@@ -2379,24 +2534,48 @@ const useLevelEditorStore = create((set, get) => ({
         return mapName;
     },
 
-    loadMapState: (mapData) => {
+    loadMapState: (mapData, preserveFogPaths = false) => {
+        const currentState = get();
+        const currentFogPaths = currentState.fogOfWarPaths || [];
+        if (currentFogPaths.length > 0 && (!mapData.fogOfWarPaths || mapData.fogOfWarPaths.length === 0) && !preserveFogPaths) {
+            console.warn('🚨 [FOG DEBUG] loadMapState clearing existing fog paths!', {
+                currentCount: currentFogPaths.length,
+                incomingPaths: mapData.fogOfWarPaths,
+                preserveFogPaths,
+                stack: new Error().stack
+            });
+        }
+        const fogPaths = preserveFogPaths && (!mapData.fogOfWarPaths || mapData.fogOfWarPaths.length === 0)
+            ? currentState.fogOfWarPaths || []
+            : (mapData.fogOfWarPaths ?? []);
+        const fogErasePaths = preserveFogPaths && (!mapData.fogErasePaths || mapData.fogErasePaths.length === 0)
+            ? currentState.fogErasePaths || []
+            : (mapData.fogErasePaths ?? []);
+
         set({
-            terrainData: mapData.terrainData || {},
-            environmentalObjects: mapData.environmentalObjects || [],
-            wallData: mapData.wallData || {},
-            dndElements: mapData.dndElements || [],
-            fogOfWarData: mapData.fogOfWarData || {},
-            fogOfWarPaths: mapData.fogOfWarPaths || [], // CRITICAL FIX: Load fog paths (including "cover entire map")
-            fogErasePaths: mapData.fogErasePaths || [], // CRITICAL FIX: Load erase paths
-            exploredAreas: mapData.exploredAreas || {},
-            drawingPaths: mapData.drawingPaths || [],
-            drawingLayers: mapData.drawingLayers || initialState.drawingLayers,
-            lightSources: mapData.lightSources || {}
+            terrainData: mapData.terrainData ?? {},
+            environmentalObjects: mapData.environmentalObjects ?? [],
+            wallData: mapData.wallData ?? {},
+            dndElements: mapData.dndElements ?? [],
+            fogOfWarData: mapData.fogOfWarData ?? {},
+            fogOfWarPaths: fogPaths,
+            fogErasePaths: fogErasePaths,
+            exploredAreas: mapData.exploredAreas ?? {},
+            drawingPaths: mapData.drawingPaths ?? [],
+            drawingLayers: mapData.drawingLayers ?? initialState.drawingLayers,
+            lightSources: mapData.lightSources ?? {}
         });
     },
 
     // Enhanced clear all with layer support
     clearAllProfessionalData: () => {
+        const state = get();
+        if ((state.fogOfWarPaths || []).length > 0) {
+            console.warn('🚨 [FOG DEBUG] clearAllProfessionalData clearing fog paths!', {
+                fogPathCount: state.fogOfWarPaths.length,
+                stack: new Error().stack
+            });
+        }
         set({
             terrainData: {},
             environmentalObjects: [],
@@ -2542,7 +2721,86 @@ const useLevelEditorStore = create((set, get) => ({
         });
     },
 
+    addFogAtPosition: (worldX, worldY, brushRadius, gridSize = 50) => {
+        set((state) => {
+            const fogOfWarPaths = [...state.fogOfWarPaths];
 
+            const validBrushRadius = Number.isFinite(brushRadius) ? Math.max(0.5, brushRadius) : 1;
+            const actualRadius = validBrushRadius * (gridSize || 50) * 0.7;
+
+            if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
+                return {};
+            }
+
+            let currentPathIndex = fogOfWarPaths.findIndex(path =>
+                path.isDrawing && !path.isFullCoverage && path.id && path.id.startsWith('fog_draw_')
+            );
+
+            if (currentPathIndex !== -1) {
+                const currentPath = fogOfWarPaths[currentPathIndex];
+                const lastPoint = currentPath.points[currentPath.points.length - 1];
+
+                const dx = worldX - lastPoint.worldX;
+                const dy = worldY - lastPoint.worldY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                const interpolationStep = actualRadius * 0.5;
+                const maxContinuationDist = actualRadius * 3.0;
+
+                if (distance <= maxContinuationDist) {
+                    const updatedPoints = [...currentPath.points];
+
+                    if (distance > interpolationStep) {
+                        const steps = Math.floor(distance / interpolationStep);
+                        for (let i = 1; i < steps; i++) {
+                            const t = i / steps;
+                            updatedPoints.push({
+                                worldX: lastPoint.worldX + dx * t,
+                                worldY: lastPoint.worldY + dy * t,
+                                brushRadius: actualRadius
+                            });
+                        }
+                    }
+
+                    updatedPoints.push({ worldX, worldY, brushRadius: actualRadius });
+
+                    fogOfWarPaths[currentPathIndex] = {
+                        ...currentPath,
+                        points: updatedPoints,
+                        timestamp: Date.now()
+                    };
+
+                    return { fogOfWarPaths: fogOfWarPaths };
+                } else {
+                    fogOfWarPaths[currentPathIndex] = { ...currentPath, isDrawing: false };
+                }
+            }
+
+            const newFogPath = {
+                id: `fog_draw_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                points: [{ worldX, worldY, brushRadius: actualRadius }],
+                timestamp: Date.now(),
+                isDrawing: true,
+                isFullCoverage: false
+            };
+
+            return { fogOfWarPaths: [...fogOfWarPaths, newFogPath] };
+        });
+    },
+
+    finishFogDrawPath: (mapId = null) => {
+        const state = get();
+        const fogOfWarPaths = state.fogOfWarPaths.map(path =>
+            path.isDrawing && path.id && path.id.startsWith('fog_draw_')
+                ? { ...path, isDrawing: false }
+                : path
+        );
+        set({ fogOfWarPaths: fogOfWarPaths });
+
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('fogOfWarPaths', fogOfWarPaths, mapId);
+        }
+    },
 
     finishFogErasePath: (mapId = null) => {
         const state = get();
@@ -2558,8 +2816,12 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     clearAllFog: (mapId = null) => {
-        const state = get();
-        set({ fogOfWarPaths: [], fogErasePaths: [], fogOfWarData: {} });
+        set({
+            fogOfWarData: {},
+            fogOfWarPaths: [],
+            fogErasePaths: [],
+            exploredAreas: {}
+        });
 
         // Emit clear all fog update via batcher
         if (!window._isReceivingMapUpdate) {
@@ -2568,14 +2830,18 @@ const useLevelEditorStore = create((set, get) => ({
             mapUpdateBatcher.addUpdate('fogOfWarData', {}, mapId);
 
             // Also emit GM action for multiplayer synchronization
-            const useGameStore = require('./gameStore').default;
-            const gameStore = useGameStore.getState();
-            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                gameStore.multiplayerSocket.emit('gm_action', {
-                    type: 'clear_fog',
-                    action: 'clear_fog',
-                    timestamp: Date.now()
-                });
+            try {
+                const useGameStore = require('./gameStore').default;
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    gameStore.multiplayerSocket.emit('gm_action', {
+                        type: 'clear_fog',
+                        action: 'clear_fog',
+                        timestamp: Date.now()
+                    });
+                }
+            } catch (err) {
+                console.warn('Could not emit clear_fog gm_action:', err);
             }
         }
     },

@@ -66,9 +66,36 @@ const AfterimageOverlay = () => {
     }, [currentPlayerId, playerMemories]);
 
     // Get current player's token afterimages (with fallback to legacy)
+    // Filter out afterimages for tokens the player controls (they render as real tokens)
     const currentTokenAfterimages = useMemo(() => {
-        return currentPlayerMemories?.tokenAfterimages || tokenAfterimages || {};
-    }, [currentPlayerMemories, tokenAfterimages]);
+        const raw = currentPlayerMemories?.tokenAfterimages || tokenAfterimages || {};
+        let currentPlayerId = null;
+        let currentPlayerName = null;
+        let myUserId = null;
+        try {
+            const gs = require('../../store/gameStore').default.getState();
+            currentPlayerId = gs.currentPlayer?.id;
+            currentPlayerName = gs.currentPlayer?.name;
+            myUserId = require('../../store/authStore').default.getState().user?.uid;
+        } catch {}
+
+        if (!currentPlayerId && !myUserId) return raw;
+
+        const allTokens = [...(creatureTokens || []), ...(characterTokens || [])];
+        const controlledIds = new Set();
+        allTokens.forEach(t => {
+            const ownerId = t?.state?.ownerId || t?.state?.playerId || t?.playerId;
+            if (ownerId && (ownerId === currentPlayerId || ownerId === myUserId || ownerId === currentPlayerName)) {
+                controlledIds.add(t.id);
+            }
+        });
+
+        const filtered = {};
+        Object.entries(raw).forEach(([id, afterimage]) => {
+            if (!controlledIds.has(id)) filtered[id] = afterimage;
+        });
+        return filtered;
+    }, [currentPlayerMemories, tokenAfterimages, creatureTokens, characterTokens]);
 
     // Get current player's memory snapshots (with fallback to legacy)
     const currentMemorySnapshots = useMemo(() => {

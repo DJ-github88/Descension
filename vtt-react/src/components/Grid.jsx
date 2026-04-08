@@ -3762,7 +3762,7 @@ function GridComponent({
                 {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
                 <TextInteractionOverlay gridRef={gridRef} />
 
-                {/* Token Visibility Calculator - Calculates visibleArea and visibilityPolygon for fog system */}
+                {/* Token Visibility Calculator - Calculates visibleArea, visibilityPolygon, and additive creature vision */}
                 <TokenVisibilityCalculator />
 
                 {/* Fog Systems - Available for both GM and Player modes */}

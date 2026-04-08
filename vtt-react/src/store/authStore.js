@@ -215,11 +215,18 @@ const useAuthStore = create(
           // Clear any previously joined multiplayer rooms
           localStorage.removeItem('mythrill-guest-joined-room');
 
-          // Create a temporary guest user
+          // Sign in to Firebase Anonymously to get a real UID for proper presence tracking
+          const authResult = await authService.signInAsAnonymous();
+          if (!authResult.success) throw new Error(authResult.error);
+
+          const firebaseUser = authResult.user;
+          const guestDisplayName = `Guest${Math.floor(Math.random() * 10000)}`;
+
+          // Create a temporary guest user with the Firebase UID
           const guestUser = {
-            uid: `guest-${Date.now()}`,
-            email: `guest-${Date.now()}@mythrill.local`,
-            displayName: `Guest${Math.floor(Math.random() * 10000)}`,
+            uid: firebaseUser.uid,
+            email: `guest-${firebaseUser.uid}@mythrill.local`,
+            displayName: guestDisplayName,
             photoURL: null,
             emailVerified: false,
             isGuest: true,

@@ -1,0 +1,95 @@
+- generic [ref=e2]:
+  - generic:
+    - generic:
+      - generic [ref=e51] [cursor=pointer]:
+        - generic [ref=e52]:
+          - generic [ref=e54]: 
+          - generic [ref=e56]: 
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: Player (Level 1)
+            - generic [ref=e60]:
+              - generic [ref=e61]: Unknown Race
+              - generic [ref=e62]: Unknown Class
+              - generic [ref=e64]: Neutral Good
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - generic: 45/50
+            - generic [ref=e68]:
+              - generic: 45/50
+            - generic [ref=e70]:
+              - generic: 1/3 AP
+      - generic [ref=e75]:
+        - generic [ref=e77] [cursor=pointer]: "1"
+        - generic [ref=e79] [cursor=pointer]: "2"
+        - generic [ref=e81] [cursor=pointer]: "3"
+        - generic [ref=e83] [cursor=pointer]: "4"
+        - generic [ref=e85] [cursor=pointer]: "5"
+        - generic [ref=e87] [cursor=pointer]: "6"
+        - generic [ref=e89] [cursor=pointer]: "7"
+        - generic [ref=e91] [cursor=pointer]: "8"
+        - generic [ref=e93] [cursor=pointer]: "9"
+        - generic [ref=e95] [cursor=pointer]: "10"
+      - generic [ref=e97]:
+        - generic:
+          - generic: "0"
+          - generic: /
+          - generic: "300"
+          - generic: XP
+      - button " Dialogue" [ref=e99] [cursor=pointer]:
+        - generic [ref=e100]: 
+        - generic [ref=e101]: Dialogue
+      - button "" [ref=e103] [cursor=pointer]:
+        - generic [ref=e104]: 
+    - generic [ref=e106]:
+      - button "C" [ref=e107] [cursor=pointer]:
+        - img [ref=e108]
+        - generic [ref=e110]: C
+      - button "B" [ref=e111] [cursor=pointer]:
+        - img [ref=e112]
+        - generic [ref=e114]: B
+      - button "R" [ref=e115] [cursor=pointer]:
+        - img [ref=e116]
+        - generic [ref=e118]: R
+      - button "S" [ref=e119] [cursor=pointer]:
+        - img [ref=e120]
+        - generic [ref=e122]: S
+      - button "T" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+        - generic [ref=e131]: T
+      - button "I" [ref=e132] [cursor=pointer]:
+        - img [ref=e133]
+        - generic [ref=e135]: I
+      - button "Q" [ref=e136] [cursor=pointer]:
+        - img [ref=e137]
+        - generic [ref=e139]: Q
+      - button "P" [ref=e140] [cursor=pointer]:
+        - img [ref=e141]
+        - generic [ref=e145]: P
+      - button "H" [ref=e146] [cursor=pointer]:
+        - img [ref=e147]
+        - generic [ref=e149]: H
+      - button "X" [ref=e150] [cursor=pointer]:
+        - img [ref=e151]
+        - generic [ref=e154]: X
+      - button "L" [ref=e155] [cursor=pointer]:
+        - img [ref=e156]
+        - generic [ref=e159]: L
+      - button "G" [ref=e160] [cursor=pointer]:
+        - img [ref=e161]
+        - generic [ref=e164]: G
+      - button "E" [ref=e165] [cursor=pointer]:
+        - img [ref=e166]
+        - generic [ref=e169]: E
+      - button "M" [ref=e170] [cursor=pointer]:
+        - img [ref=e171]
+        - generic [ref=e174]: M
+      - button "ESC" [ref=e175] [cursor=pointer]:
+        - img [ref=e176]
+        - generic [ref=e178]: ESC
+    - generic "Click to center on origin (0, 0)" [ref=e180] [cursor=pointer]:
+      - generic [ref=e181]: 
+      - generic [ref=e182]: "X: 0.0"
+      - generic [ref=e183]: "|"
+      - generic [ref=e184]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=e185]: 

@@ -14,32 +14,35 @@
 /* .tool-section consolidated to global styles */
 
 .tool-section h4 {
-    margin: 0 0 10px 0;
-    font-size: 11px;
-    font-weight: bold;
-    color: #5a3a2a;
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    color: #7a3b2e;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 6px 8px;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
-    border: 1px solid #8b7355;
-    border-bottom: 2px solid #8b7355;
-    border-radius: 4px 4px 0 0;
-    box-shadow: 0 1px 2px rgba(58, 47, 26, 0.15);
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    text-align: center;
-    /* Ensure crisp text rendering */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #a08c70;
+    padding-bottom: 8px;
+    position: relative;
+    font-weight: 700;
+}
+
+/* Decorative parchment underline for section headers */
+.tool-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #d4af37;
+    border-radius: 2px;
 }
 
 /* Tool Grid */
+/* Tool Grid - Responsive columns using auto-fit */
 .tool-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
 }
 
 .terrain-tool-btn {
@@ -168,8 +171,8 @@
 
 .terrain-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
 }
 
 .terrain-tile {

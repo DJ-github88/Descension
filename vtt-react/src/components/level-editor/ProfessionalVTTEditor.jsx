@@ -110,7 +110,9 @@ const ProfessionalVTTEditor = () => {
         removeTerrainLine,
         getTerrainAtPosition,
         removeFogAtPosition,
+        addFogAtPosition,
         finishFogErasePath,
+        finishFogDrawPath,
         clearAllFog,
         coverEntireMapWithFog,
         addEnvironmentalObject,
@@ -224,6 +226,7 @@ const ProfessionalVTTEditor = () => {
             name: 'Fog',
             icon: 'Shadow/Shadow Darkness',
             tools: [
+                { id: 'fog_draw', name: 'Draw Fog', icon: 'Shadow/Shadow Invisibility', cursor: 'crosshair' },
                 { id: 'fog_erase', name: 'Erase Fog', icon: 'Utility/Broken', cursor: 'crosshair' },
                 { id: 'fog_clear_all', name: 'Clear All Fog', icon: 'Radiant/Radiant Sunburst', cursor: 'crosshair' }
             ]
@@ -1556,6 +1559,21 @@ const ProfessionalVTTEditor = () => {
                 return;
         }
 
+        // Handle fog drawing - paint immediately on click
+        if (selectedTool === 'fog_draw') {
+            const fogCoords = screenToGrid(e.clientX, e.clientY);
+            if (fogCoords) {
+                addFogAtPosition(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
+            }
+            setIsDrawing(true);
+            setIsCurrentlyDrawing(true);
+            setCurrentDrawingTool(selectedTool);
+            if (typeof window !== 'undefined') {
+                window._isDrawingFog = true;
+            }
+            return;
+        }
+
         // Handle fog erasing - paint immediately on click (not waiting for mouse release)
         if (selectedTool === 'fog_erase') {
             const fogCoords = screenToGrid(e.clientX, e.clientY);
@@ -1737,7 +1755,7 @@ const ProfessionalVTTEditor = () => {
         }
 
         // Update hover preview for brush tools and eraser (throttled via RAF)
-        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase')) {
+        if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw')) {
             const coords = screenToGrid(e.clientX, e.clientY);
             const rect = overlayRef.current?.getBoundingClientRect();
             if (coords && rect) {
@@ -1752,8 +1770,8 @@ const ProfessionalVTTEditor = () => {
                     gridX: coords.gridX,
                     gridY: coords.gridY,
                     brushSize: brushSize,
-                    screenX: (selectedTool === 'fog_erase') ? screenX : undefined,
-                    screenY: (selectedTool === 'fog_erase') ? screenY : undefined
+                    screenX: (selectedTool === 'fog_erase' || selectedTool === 'fog_draw') ? screenX : undefined,
+                    screenY: (selectedTool === 'fog_erase' || selectedTool === 'fog_draw') ? screenY : undefined
                 };
 
                 // Throttle React state update via RAF to avoid lag
@@ -1875,41 +1893,47 @@ const ProfessionalVTTEditor = () => {
                 break;
 
             case 'fog_erase':
-                // Continue fog erasing - smooth brush-based erasing
-                // PERFORMANCE: Use RAF-only throttling for maximum smoothness
-                const fogEraseCoords = screenToGrid(e.clientX, e.clientY);
-                if (fogEraseCoords) {
-                    // Update drawing state for real-time effects
-                    if (!isCurrentlyDrawing) {
-                        setIsCurrentlyDrawing(true);
-                        setCurrentDrawingTool('fog_erase');
-                    }
+            case 'fog_draw':
+                {
+                    const isFogErase = selectedTool === 'fog_erase';
+                    const fogPaintCoords = screenToGrid(e.clientX, e.clientY);
+                    if (fogPaintCoords) {
+                        if (!isCurrentlyDrawing) {
+                            setIsCurrentlyDrawing(true);
+                            setCurrentDrawingTool(selectedTool);
+                        }
 
-                    // Store the latest erase call
-                    pendingFogPaintRef.current = {
-                        worldX: fogEraseCoords.worldX,
-                        worldY: fogEraseCoords.worldY,
-                        brushSize: toolSettings.brushSize || 1,
-                        isErase: true
-                    };
+                        pendingFogPaintRef.current = {
+                            worldX: fogPaintCoords.worldX,
+                            worldY: fogPaintCoords.worldY,
+                            brushSize: toolSettings.brushSize || 1,
+                            isErase: isFogErase
+                        };
 
-                    // Schedule erase using RAF for smooth 60fps+ erasing
-                    if (fogPaintThrottleRef.current === null) {
-                        fogPaintThrottleRef.current = requestAnimationFrame(() => {
-                            if (pendingFogPaintRef.current) {
-                                if (pendingFogPaintRef.current.isErase) {
-                                    removeFogAtPosition(
-                                        pendingFogPaintRef.current.worldX,
-                                        pendingFogPaintRef.current.worldY,
-                                        pendingFogPaintRef.current.brushSize,
-                                        gridSize,
-                                        activeMapIdRef.current
-                                    );
+                        if (fogPaintThrottleRef.current === null) {
+                            fogPaintThrottleRef.current = requestAnimationFrame(() => {
+                                if (pendingFogPaintRef.current) {
+                                    if (pendingFogPaintRef.current.isErase) {
+                                        removeFogAtPosition(
+                                            pendingFogPaintRef.current.worldX,
+                                            pendingFogPaintRef.current.worldY,
+                                            pendingFogPaintRef.current.brushSize,
+                                            gridSize,
+                                            activeMapIdRef.current
+                                        );
+                                    } else {
+                                        addFogAtPosition(
+                                            pendingFogPaintRef.current.worldX,
+                                            pendingFogPaintRef.current.worldY,
+                                            pendingFogPaintRef.current.brushSize,
+                                            gridSize
+                                        );
+                                    }
+                                    pendingFogPaintRef.current = null;
                                 }
-                                pendingFogPaintRef.current = null;
-                            }
-                            fogPaintThrottleRef.current = null;
-                        });
+                                fogPaintThrottleRef.current = null;
+                            });
+                        }
                     }
                 }
                 break;
@@ -2464,6 +2488,8 @@ const ProfessionalVTTEditor = () => {
         // Finish fog paths if we were drawing fog
         if (selectedTool === 'fog_erase') {
             finishFogErasePath(activeMapIdRef.current);
+        } else if (selectedTool === 'fog_draw') {
+            finishFogDrawPath(activeMapIdRef.current);
         }
 
         if (typeof window !== 'undefined') {
@@ -2836,7 +2862,7 @@ const ProfessionalVTTEditor = () => {
                     setIsOpen(false);
                     setEditorMode(false);
                 }}
-                defaultSize={{ width: 500, height: 550 }}
+                defaultSize={{ width: 940, height: 750 }}
                 defaultPosition={{ x: 50, y: 50 }}
                 customHeader={
                     <div className="spellbook-tab-container">
@@ -2996,29 +3022,6 @@ const ProfessionalVTTEditor = () => {
                                     );
                                 })}
                             </div>
-
-                            {isInRoom && (
-                                <div className="layer-actions">
-                                    <button
-                                        className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
-                                        onClick={saveLevelEditorState}
-                                        title={`Save to Room: ${currentRoomId}`}
-                                    >
-                                        {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
-                                    </button>
-                                    <button
-                                        className="action-btn secondary"
-                                        onClick={loadLevelEditorState}
-                                        title={`Load from Room: ${currentRoomId}`}
-                                    >
-                                        📋 Load
-                                    </button>
-                                    <div className="room-status">
-                                        <small>Room: {currentRoomId}</small>
-                                        {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
-                                    </div>
-                                </div>
-                            )}
                         </>
                     </div>
                 )}
@@ -3052,13 +3055,13 @@ const ProfessionalVTTEditor = () => {
             )}
 
             {/* Hover Preview for Brush Tools */}
-            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase') && (
+            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw') && (
                 <TerrainHoverPreview
                     gridX={hoverPreview.gridX}
                     gridY={hoverPreview.gridY}
                     brushSize={hoverPreview.brushSize}
                     isEraser={selectedTool === 'terrain_erase' || selectedTool === 'fog_erase'}
-                    isFog={selectedTool === 'fog_erase'}
+                    isFog={selectedTool === 'fog_erase' || selectedTool === 'fog_draw'}
                     screenX={hoverPreview.screenX}
                     screenY={hoverPreview.screenY}
                 />

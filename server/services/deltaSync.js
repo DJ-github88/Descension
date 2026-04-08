@@ -119,54 +119,6 @@ class DeltaSyncEngine {
   }
 
   /**
-   * Apply delta to a state
-   */
-  applyDelta(state, delta) {
-    if (!delta) {return state;}
-
-    if (delta.__type === 'primitive') {
-      return delta.__value;
-    }
-
-    if (delta.__type === 'array') {
-      let result = Array.isArray(state) ? [...state] : [];
-      
-      // Apply operations first
-      if (delta.__operations) {
-        result = this.applyArrayOperations(result, delta.__operations);
-      }
-
-      // Apply direct changes
-      if (delta.__changes) {
-        for (const [index, change] of Object.entries(delta.__changes)) {
-          const idx = parseInt(index);
-          result[idx] = this.applyDelta(result[idx], change);
-        }
-      }
-
-      // Adjust length
-      if (delta.__length !== undefined) {
-        result.length = delta.__length;
-      }
-
-      return result;
-    }
-
-    // Object delta
-    const result = state && typeof state === 'object' ? { ...state } : {};
-
-    for (const [key, change] of Object.entries(delta)) {
-      if (change.__deleted) {
-        delete result[key];
-      } else {
-        result[key] = this.applyDelta(result[key], change);
-      }
-    }
-
-    return result;
-  }
-
-  /**
    * Create a state update for a room
    */
   async createStateUpdate(roomId, newState, metadata = {}) {

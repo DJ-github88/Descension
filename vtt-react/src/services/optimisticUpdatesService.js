@@ -84,7 +84,7 @@ class OptimisticUpdatesService {
       if (timeSincePending > timeSinceConfirmed) {
         console.log(`í Stale optimistic update, ignoring: ${actionId}`, {
           pendingTime: pending.timestamp,
-          confirmedTime: confirmed.time,
+          confirmedTime: confirmed.timestamp,
           ageDiff: timeSincePending - timeSinceConfirmed
         });
         // Stale update - server's confirmation is newer

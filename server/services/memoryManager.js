@@ -385,7 +385,7 @@ class MemoryManager {
    */
   estimateObjectSize(obj) {
     const jsonString = JSON.stringify(obj);
-    return new Blob([jsonString]).size;
+    return Buffer.byteLength(jsonString, 'utf8');
   }
 
   /**

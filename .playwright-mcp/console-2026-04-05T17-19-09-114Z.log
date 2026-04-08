@@ -1,0 +1,595 @@
+[       5ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497261
+[       8ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497446
+[       9ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[      22ms] [LOG] 📊 Event tracked: page_hidden {timestamp: 2026-04-05T17:19:09.136Z} @ http://localhost:3000/static/js/bundle.js:491938
+[      23ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497261
+[    1219ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203729
+[    1258ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313491
+[    1636ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507836
+[    1638ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502482
+[    1638ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502528
+[    1638ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502573
+[    1640ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534301
+[    1640ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534318
+[    1640ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247527
+[    1643ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507836
+[    1643ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508632
+[    1643ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248361
+[    1655ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[    1852ms] [LOG] 🔄 Authenticated but no socket. Initializing global socket... @ http://localhost:3000/static/js/bundle.js:289662
+[    1852ms] [LOG] 🟢 Initializing presence on authentication for: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:289705
+[    1853ms] [LOG] 🟢 Setting user online: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:497223
+[    1854ms] [LOG] User returned to landing page - restarting session timers @ http://localhost:3000/static/js/bundle.js:490239
+[    1855ms] [LOG] Offline support initialized @ http://localhost:3000/static/js/bundle.js:502101
+[    1855ms] [LOG] Analytics tracking initialized @ http://localhost:3000/static/js/bundle.js:491913
+[    1856ms] [LOG] 📊 Event tracked: session_start {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, timestamp: 2026-04-05T17:19:10.968Z, userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36, screenResolution: 1920x1080, timezone: Europe/Copenhagen} @ http://localhost:3000/static/js/bundle.js:491939
+[    1856ms] [LOG] 💾 Authenticated user - character data will persist to Firebase @ http://localhost:3000/static/js/bundle.js:279292
+[    1857ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279499
+[    1860ms] [LOG] 🔌 Initializing global socket at: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:524043
+[    1881ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279499
+[    1892ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497447
+[    1899ms] [LOG] 🔌 Socket connected: VG9TndF0PoTiNJZUAAAj url: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:523974
+[    2095ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[    2099ms] [LOG] 📂 Journal loaded for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488773
+[    2105ms] [LOG] 💾 Authenticated user - full data persistence enabled @ http://localhost:3000/static/js/bundle.js:279493
+[    2105ms] [LOG] 📊 Storage usage: 0.00MB used @ http://localhost:3000/static/js/bundle.js:279496
+[    2209ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[    2820ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[    3644ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504651
+[    3651ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    3651ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    3651ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[    4603ms] [LOG] 💾 Journal saved for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488730
+[    6123ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[    6129ms] [LOG] 🔍 OnlineUsersList - currentUserPresence changed: {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, status: online, statusComment: undefined, lastUpdated: 1775409551318} @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:4507
+[    6142ms] [LOG] 👥 Friends list updated: [] @ http://localhost:3000/static/js/bundle.js:527736
+[    6253ms] [LOG] 📩 Incoming friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527712
+[    6254ms] [LOG] 📤 Sent friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527724
+[   32216ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[   32218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   32344ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   32345ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   32792ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   32794ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   62209ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[   62210ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   62411ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   62412ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   62815ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   62816ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   92210ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[   92211ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   92319ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   92320ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[   92857ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[   92858ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  122218ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  122220ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  122389ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  122390ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  122837ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  122838ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  127205ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  127207ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  127318ms] [LOG] 🔄 Updated status for user: i5cl9LusaKPvMlJTwHzdBP8KjZg1 away @ http://localhost:3000/static/js/bundle.js:497355
+[  127319ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  127321ms] [LOG] 🔍 OnlineUsersList - currentUserPresence changed: {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, status: away, statusComment: undefined, lastUpdated: 1775409676431} @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:4507
+[  127322ms] [LOG] 📩 Incoming friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527712
+[  127323ms] [LOG] 📤 Sent friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527724
+[  127325ms] [LOG] 👥 Friends list updated: [] @ http://localhost:3000/static/js/bundle.js:527736
+[  127326ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  127326ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  152209ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  152210ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  152363ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  152364ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  152871ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  152872ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  182214ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  182215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  182381ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  182384ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  182830ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  182831ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  212224ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  212225ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  212356ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  212358ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  212852ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  212853ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  242214ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  242215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  242380ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  242381ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  242827ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  242828ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  264281ms] [LOG] 🔄 User status changed: {userId: d0dSfsg8Vmfe3ub9AoffKtNdNP82, status: away} @ http://localhost:3000/static/js/bundle.js:525248
+[  264282ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  264303ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  264304ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  265152ms] [LOG] 🔄 User status changed: {userId: d0dSfsg8Vmfe3ub9AoffKtNdNP82, status: online} @ http://localhost:3000/static/js/bundle.js:525248
+[  265154ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  265181ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  265182ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  265196ms] [LOG] 🔄 User status changed: {userId: d0dSfsg8Vmfe3ub9AoffKtNdNP82, status: online} @ http://localhost:3000/static/js/bundle.js:525248
+[  265197ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  265200ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  265202ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  272210ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  272211ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  272344ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  272345ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  272837ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  272838ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  302215ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  302216ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  302337ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  302339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  302825ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  302826ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  332225ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  332226ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  332342ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  332343ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  332855ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  332856ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  362220ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  362221ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  362383ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  362384ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  362831ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  362832ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  392221ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  392222ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  392327ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  392328ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  392804ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  392805ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  422215ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  422216ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  422366ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  422367ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  422849ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  422850ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  452221ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  452223ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  452340ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  452341ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  452836ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  452837ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  482222ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  482223ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  482374ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  482375ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  482852ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  482853ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  512210ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  512211ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  512330ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  512331ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  512826ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  512827ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  542212ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  542213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  542380ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  542381ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  542845ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  542846ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  566211ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/socket.io/?EIO=4&transport=polling&t=PrUi6dR:0
+[  566211ms] [ERROR] ❌ Socket connection error: TransportError: xhr poll error
+    at Polling.onError (http://localhost:3000/static/js/bundle.js:162932:33)
+    at Request.<anonymous> (http://localhost:3000/static/js/bundle.js:163291:12)
+    at Emitter.emit (http://localhost:3000/static/js/bundle.js:58690:20)
+    at Request.onError (http://localhost:3000/static/js/bundle.js:163387:10)
+    at http://localhost:3000/static/js/bundle.js:163362:18 @ http://localhost:3000/static/js/bundle.js:524013
+[  566212ms] [WARNING] ⚠️ Primary social socket unavailable (http://localhost:3001). Retrying with fallback: https://descension-mythrill.up.railway.app @ http://localhost:3000/static/js/bundle.js:524020
+[  566212ms] [LOG] 🔌 Initializing global socket at: https://descension-mythrill.up.railway.app @ http://localhost:3000/static/js/bundle.js:524043
+[  566215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  566444ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/static/js/bundle.js:243003
+[  566463ms] [LOG] 🔌 Socket connected: Bd_F8ovM1JVhFCujAAAR url: https://descension-mythrill.up.railway.app @ http://localhost:3000/static/js/bundle.js:523974
+[  566463ms] [LOG] 📝 Re-registering presence on connect for: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:523982
+[  566464ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  570862ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/static/js/bundle.js:243003
+[  572211ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  572213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  572342ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  572344ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  573732ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  573733ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  580092ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  580093ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  602212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  602213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  602374ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  602375ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  602838ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  602840ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  610874ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  610875ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  632214ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  632215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  632327ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  632328ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  632884ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  632885ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  640942ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  640943ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  662211ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  662213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  662376ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  662377ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  662826ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  662827ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  670862ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  670863ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  692214ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  692215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  692319ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  692320ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  692831ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  692832ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  700847ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  700848ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  700924ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  700926ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  709540ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  709542ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  709680ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  709681ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  710698ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[  710700ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  711428ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  711429ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  712967ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  712969ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  715572ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  715572ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  716870ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  716871ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  722215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  722215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  722330ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  722331ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  741513ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  741514ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  743061ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  743062ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  752215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  752216ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  752336ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  752337ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  771501ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  771502ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  773046ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  773047ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  782215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  782216ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  782349ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  782350ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  801517ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  801518ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  803088ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  803089ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  812212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  812214ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  812315ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  812316ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  831555ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  831556ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  833062ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  833064ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  842215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  842216ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  842335ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  842337ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  861572ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  861574ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  863085ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  863086ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  872217ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  872218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  872313ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  872314ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  891563ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  891564ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  893073ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  893074ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  902217ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  902218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  902326ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  902327ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  921904ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  921905ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  923061ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  923064ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  928826ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  928828ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  932216ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  932217ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  932338ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  932339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  951965ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  951967ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  953072ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  953074ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  962212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  962214ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  962328ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  962330ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  983183ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  983185ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  992220ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[  992222ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[  992326ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[  992327ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1013055ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1013056ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1022219ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1022220ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1022338ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1022339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1043092ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1043093ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1046306ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1046308ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1052218ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1052220ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1052337ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1052338ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1052341ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1052342ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1052400ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1052402ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1052430ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1052431ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1053189ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1053190ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1071583ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1071584ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1073088ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1073089ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1080073ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/static/js/bundle.js:243003
+[ 1082220ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1082221ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1082327ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1082328ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1084491ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/static/js/bundle.js:243003
+[ 1094772ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1094773ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1101855ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1101857ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1103057ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1103058ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1112221ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1112222ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1112375ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1112376ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1125920ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1125921ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1131840ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1131842ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1133063ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1133064ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1142221ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1142222ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1142327ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1142328ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1155883ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1155884ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1163069ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1163071ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1167711ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1167712ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1169151ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1169152ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1169689ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1169690ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1171174ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1171175ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1171604ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1171605ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1172221ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1172222ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1172327ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1172327ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1174623ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1174624ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1176031ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1176033ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1201262ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1201263ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1201711ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1201712ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1202212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1202213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1202334ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1202336ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1231309ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1231310ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1231708ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1231709ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1232222ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1232223ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1232328ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1232328ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1261438ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1261439ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1261702ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1261703ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1262216ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1262218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1262332ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1262334ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1291258ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1291259ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1291726ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1291727ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1292212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1292213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1292316ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1292317ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1321237ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1321238ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1321703ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1321704ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1322219ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1322219ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1322338ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1322339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1351365ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1351366ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1351705ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1351706ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1352219ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1352220ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1352338ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1352339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1381277ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1381278ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1381723ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1381724ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1382220ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1382221ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1382322ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1382323ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1411292ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1411293ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1411709ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1411710ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1412224ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1412225ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1412340ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1412341ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1441243ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1441244ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1441705ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1441706ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1442217ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1442218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1442313ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1442314ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1464340ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1464342ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1471258ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1471260ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1471724ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1471726ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1472221ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1472223ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1472338ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1472340ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1501270ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1501272ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1501703ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1501705ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1502217ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1502218ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1502335ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1502337ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1518564ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1518565ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1531240ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1531242ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1531707ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1531708ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1532212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1532213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1532337ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1532339ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1561241ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1561242ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1561934ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1561935ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1562212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1562213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1562320ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1562322ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1591314ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1591315ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1591869ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1591870ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1592211ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1592213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1592347ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1592348ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1621267ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1621268ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1622212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1622213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1622320ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1622321ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1636083ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1636084ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1636085ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1636086ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1636204ms] [LOG] 🔄 Updated status for user: i5cl9LusaKPvMlJTwHzdBP8KjZg1 online @ http://localhost:3000/static/js/bundle.js:497355
+[ 1636206ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1636210ms] [LOG] 🔍 OnlineUsersList - currentUserPresence changed: {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, status: online, statusComment: undefined, lastUpdated: 1775411185318} @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:4507
+[ 1636214ms] [LOG] 📩 Incoming friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527712
+[ 1636215ms] [LOG] 📤 Sent friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527724
+[ 1636216ms] [LOG] 👥 Friends list updated: [] @ http://localhost:3000/static/js/bundle.js:527736
+[ 1636232ms] [LOG] 🔄 Updated status for user: i5cl9LusaKPvMlJTwHzdBP8KjZg1 online @ http://localhost:3000/static/js/bundle.js:497355
+[ 1636233ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1636235ms] [LOG] 🔍 OnlineUsersList - currentUserPresence changed: {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, status: online, statusComment: undefined, lastUpdated: 1775411185346} @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:4507
+[ 1636237ms] [LOG] 📩 Incoming friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527712
+[ 1636238ms] [LOG] 📤 Sent friend requests updated: [] @ http://localhost:3000/static/js/bundle.js:527724
+[ 1636240ms] [LOG] 👥 Friends list updated: [] @ http://localhost:3000/static/js/bundle.js:527736
+[ 1636242ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1636243ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1651313ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1651314ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1652211ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1652212ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1652335ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1652336ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1658070ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1658071ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1678872ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1678873ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1681225ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1681227ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1682212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1682213ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1682317ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1682318ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1695717ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1695718ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1695732ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1695733ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1696009ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1696010ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1696195ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1696196ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1712212ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1712212ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1712359ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1712359ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1725880ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1725881ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1726999ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1727000ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1742213ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1742215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1742312ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1742313ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1755871ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1755872ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1756870ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1756871ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1772215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1772215ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1772380ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1772381ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1785851ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1785852ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1786854ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1786855ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1802216ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1802217ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1802326ms] [LOG] 👥 Online users updated: 3 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1802327ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1811290ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497262
+[ 1811294ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497447
+[ 1811295ms] [LOG] 🎭 GlobalChatWindow rendering, isOpen: true @ http://localhost:3000/static/js/src_components_social_GlobalChatWindow_jsx-node_modules_react-resizable_css_styles_css.chunk.js:3412
+[ 1811308ms] [LOG] 📊 Event tracked: page_hidden {timestamp: 2026-04-05T17:49:20.421Z} @ http://localhost:3000/static/js/bundle.js:491939
+[ 1811309ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497262

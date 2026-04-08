@@ -1,0 +1,11 @@
+const fs = require('fs');
+const buf = Buffer.alloc(8);
+const fd = fs.openSync('D:\\VTT\\Images\\Editor\\Tiles\\WaterTiles.png', 'r');
+fs.readSync(fd, buf, 0, 8, 16);
+const width = buf.readInt32BE(0);
+const height = buf.readInt32BE(4);
+console.log(`Original Dimensions: ${width}x${height}`);
+fs.closeSync(fd);
+const tileW = width / 4;
+const tileH = height / 2;
+console.log(`Each Tile: ${tileW}x${tileH}`);

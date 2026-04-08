@@ -51,6 +51,7 @@ const GridContainer = ({ gridItem }) => {
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
+  const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
   const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
@@ -340,8 +341,10 @@ const GridContainer = ({ gridItem }) => {
   // Compute visibleAreaSet for O(1) lookups
   const visibleAreaSet = useMemo(() => {
     if (!visibleArea) return new Set();
-    return new Set(visibleArea);
-  }, [visibleArea]);
+    const combined = new Set(visibleArea);
+    if (controlledVisibleTiles) controlledVisibleTiles.forEach(t => combined.add(t));
+    return combined;
+  }, [visibleArea, controlledVisibleTiles]);
 
   // Calculate world position for visibility checks
   const itemWorldPosition = useMemo(() => {

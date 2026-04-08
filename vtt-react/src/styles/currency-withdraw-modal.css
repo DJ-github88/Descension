@@ -6,20 +6,21 @@
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(45, 24, 16, 0.8);
-    backdrop-filter: blur(4px);
-    z-index: 9999999999 !important; /* Highest possible z-index to ensure it's above everything */
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 10, 5, 0.85); /* Slightly darker for better focus */
+    backdrop-filter: blur(5px);
+    z-index: 9999999999 !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem;
+    margin: 0;
     opacity: 0;
-    animation: fadeIn 0.25s ease forwards;
+    animation: pfFadeIn 0.3s ease forwards;
 }
 
-@keyframes fadeIn {
+@keyframes pfFadeIn {
     to {
         opacity: 1;
     }

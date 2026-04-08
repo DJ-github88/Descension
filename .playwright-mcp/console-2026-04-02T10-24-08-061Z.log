@@ -1,0 +1,19 @@
+[     359ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203678
+[     375ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313440
+[     687ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[     687ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[     688ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502424
+[     688ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502470
+[     689ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502515
+[     691ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534025
+[     691ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534042
+[     691ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247476
+[     692ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[     692ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[     693ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248310
+[     697ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[     707ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[    2700ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504587
+[    2703ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    2703ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    2703ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127

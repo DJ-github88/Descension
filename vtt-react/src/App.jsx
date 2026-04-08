@@ -234,6 +234,45 @@ function GameScreen() {
     const { forceSave, setLoading } = useLocalRoomAutoSave();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
+    const initializePartyForCharacter = async (character, isGM = true) => {
+        localStorage.removeItem('party-store');
+        await leaveParty();
+
+        await createParty('Single Player Party', true, {
+            id: 'current-player',
+            userId: 'current-player',
+            isGM,
+            name: character.name || 'Player',
+            characterName: character.name || 'Player',
+            characterClass: character.class || 'Unknown',
+            characterLevel: character.level || 1
+        });
+
+        const { updatePartyMember } = usePartyStore.getState();
+        const characterStore = useCharacterStore.getState();
+        updatePartyMember('current-player', {
+            id: 'current-player',
+            name: character.name || 'Player',
+            isGM,
+            character: {
+                class: character.class || characterStore.class || 'Unknown',
+                level: character.level || characterStore.level || 1,
+                health: character.health || characterStore.health || { current: 45, max: 50 },
+                mana: character.mana || characterStore.mana || { current: 45, max: 50 },
+                actionPoints: character.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
+                race: character.race || characterStore.race || 'Unknown',
+                raceDisplayName: character.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
+                background: character.background || characterStore.background || '',
+                backgroundDisplayName: character.backgroundDisplayName || characterStore.backgroundDisplayName || '',
+                path: character.path || characterStore.path || '',
+                pathDisplayName: character.pathDisplayName || characterStore.pathDisplayName || '',
+                classResource: character.classResource || characterStore.classResource,
+                tokenSettings: character.tokenSettings || characterStore.tokenSettings || {},
+                lore: character.lore || characterStore.lore || {}
+            }
+        }, true);
+    };
+
     // Save when component unmounts (navigating away from game)
     useEffect(() => {
         return () => {
@@ -322,40 +361,7 @@ function GameScreen() {
                     }
 
                     // CRITICAL FIX: Create party with full character data for HUD display
-                    // Without this, the HUD shows empty bars because partyMembers has no character data
-                    await leaveParty();
-                    await createParty('Single Player Party', true, {
-                        isGM: true,
-                        name: character.name,
-                        characterName: character.name,
-                        characterClass: character.class || 'Unknown',
-                        characterLevel: character.level || 1
-                    });
-
-                    // Update party member with full character data including resources
-                    const { updatePartyMember } = usePartyStore.getState();
-                    const characterStore = useCharacterStore.getState();
-                    updatePartyMember('current-player', {
-                        id: 'current-player',
-                        name: character.name,
-                        isGM: true,
-                        character: {
-                            class: character.class || characterStore.class || 'Unknown',
-                            level: character.level || characterStore.level || 1,
-                            health: character.health || characterStore.health || { current: 45, max: 50 },
-                            mana: character.mana || characterStore.mana || { current: 45, max: 50 },
-                            actionPoints: character.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
-                            race: character.race || characterStore.race || 'Unknown',
-                            raceDisplayName: character.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
-                            background: character.background || characterStore.background || '',
-                            backgroundDisplayName: character.backgroundDisplayName || characterStore.backgroundDisplayName || '',
-                            path: character.path || characterStore.path || '',
-                            pathDisplayName: character.pathDisplayName || characterStore.pathDisplayName || '',
-                            classResource: character.classResource || characterStore.classResource,
-                            tokenSettings: character.tokenSettings || characterStore.tokenSettings || {},
-                            lore: character.lore || characterStore.lore || {}
-                        }
-                    }, true);
+                    await initializePartyForCharacter(character, true);
                     console.log('✅ Party created with character data for local room');
                 }
             } else {
@@ -465,6 +471,14 @@ function GameScreen() {
                     levelEditorStore.setFogOfWarData(gameState.levelEditor.fogOfWarData);
                     hasLevelEditorData = true;
                 }
+                if (gameState.levelEditor.fogOfWarPaths !== undefined) {
+                    levelEditorStore.setFogOfWarPaths(gameState.levelEditor.fogOfWarPaths);
+                    hasLevelEditorData = true;
+                }
+                if (gameState.levelEditor.fogErasePaths !== undefined) {
+                    levelEditorStore.setFogErasePaths(gameState.levelEditor.fogErasePaths);
+                    hasLevelEditorData = true;
+                }
                 if (gameState.levelEditor.drawingPaths) {
                     levelEditorStore.setDrawingPaths(gameState.levelEditor.drawingPaths);
                     hasLevelEditorData = true;
@@ -510,6 +524,12 @@ function GameScreen() {
                             }
                             if (levelEditorData.fogOfWarData) {
                                 levelEditorStore.setFogOfWarData(levelEditorData.fogOfWarData);
+                            }
+                            if (levelEditorData.fogOfWarPaths !== undefined) {
+                                levelEditorStore.setFogOfWarPaths(levelEditorData.fogOfWarPaths);
+                            }
+                            if (levelEditorData.fogErasePaths !== undefined) {
+                                levelEditorStore.setFogErasePaths(levelEditorData.fogErasePaths);
                             }
                             if (levelEditorData.drawingPaths) {
                                 levelEditorStore.setDrawingPaths(levelEditorData.drawingPaths);
@@ -598,25 +618,7 @@ function GameScreen() {
                         });
 
                         // CRITICAL FIX: Update party member with full character data for HUD
-                        const { updatePartyMember } = usePartyStore.getState();
-                        const characterStore = useCharacterStore.getState();
-                        updatePartyMember('current-player', {
-                            id: 'current-player',
-                            name: character.name,
-                            isGM: isGMMode,
-                            character: {
-                                class: character.class || characterStore.class || 'Unknown',
-                                level: character.level || characterStore.level || 1,
-                                health: character.health || characterStore.health || { current: 45, max: 50 },
-                                mana: character.mana || characterStore.mana || { current: 45, max: 50 },
-                                actionPoints: character.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
-                                race: character.race || characterStore.race || 'Unknown',
-                                raceDisplayName: character.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
-                                classResource: character.classResource || characterStore.classResource,
-                                tokenSettings: character.tokenSettings || characterStore.tokenSettings || {},
-                                lore: character.lore || characterStore.lore || {}
-                            }
-                        }, true);
+                        await initializePartyForCharacter(character, isGMMode);
                     } else {
                         console.error(`❌ Failed to load character: ${characterId}`);
                         // Fall back to loading any active character
@@ -644,25 +646,7 @@ function GameScreen() {
                         });
 
                         // CRITICAL FIX: Update party member with full character data for HUD
-                        const { updatePartyMember } = usePartyStore.getState();
-                        const characterStore = useCharacterStore.getState();
-                        updatePartyMember('current-player', {
-                            id: 'current-player',
-                            name: activeCharacter.name,
-                            isGM: isGMMode,
-                            character: {
-                                class: activeCharacter.class || characterStore.class || 'Unknown',
-                                level: activeCharacter.level || characterStore.level || 1,
-                                health: activeCharacter.health || characterStore.health || { current: 45, max: 50 },
-                                mana: activeCharacter.mana || characterStore.mana || { current: 45, max: 50 },
-                                actionPoints: activeCharacter.actionPoints || characterStore.actionPoints || { current: 1, max: 3 },
-                                race: activeCharacter.race || characterStore.race || 'Unknown',
-                                raceDisplayName: activeCharacter.raceDisplayName || characterStore.raceDisplayName || 'Unknown',
-                                classResource: activeCharacter.classResource || characterStore.classResource,
-                                tokenSettings: activeCharacter.tokenSettings || characterStore.tokenSettings || {},
-                                lore: activeCharacter.lore || characterStore.lore || {}
-                            }
-                        }, true);
+                        await initializePartyForCharacter(activeCharacter, isGMMode);
                     } else {
                         console.log('No active character found');
                         // Create a basic single-player party even without a character
@@ -799,7 +783,6 @@ function LevelUpChoiceModalWrapper() {
 }
 
 export default function App() {
-    const [gameMode] = useState('landing'); // 'landing', 'single', or 'multiplayer'
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [showPerformanceDashboard, setShowPerformanceDashboard] = useState(false);
@@ -979,47 +962,6 @@ export default function App() {
             }
         };
     }, []);
-
-    // Control body overflow based on game mode
-    useEffect(() => {
-        if (gameMode === 'single' || gameMode === 'multiplayer') {
-            // Reset scroll to top first to avoid positioning issues
-            window.scrollTo(0, 0);
-
-            // Small delay to ensure scroll has completed
-            setTimeout(() => {
-                // Prevent page scrolling in game modes.
-                // IMPORTANT: Avoid `position: fixed` on body (mobile Safari keyboard + dynamic viewport issues).
-                document.documentElement.style.overflow = 'hidden';
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'static';
-                document.body.style.top = 'auto';
-                document.body.style.left = 'auto';
-                document.body.style.width = '100%';
-                document.body.style.height = '100%';
-            }, 10);
-        } else {
-            // Allow scrolling on landing page
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'static';
-            document.body.style.top = 'auto';
-            document.body.style.left = 'auto';
-            document.body.style.width = 'auto';
-            document.body.style.height = 'auto';
-        }
-
-        // Cleanup function to reset on unmount
-        return () => {
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'static';
-            document.body.style.top = 'auto';
-            document.body.style.left = 'auto';
-            document.body.style.width = 'auto';
-            document.body.style.height = 'auto';
-        };
-    }, [gameMode]);
 
 
 

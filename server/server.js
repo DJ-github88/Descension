@@ -124,7 +124,7 @@ const io = socketIo(server, {
 // Add sanitization middleware
 io.use(createSanitizationMiddleware({
   logSanitization: process.env.NODE_ENV === 'development',
-  fieldsToSkip: ['password', 'passwordHash', 'token', 'id', 'roomId', 'socketId', 'playerId', 'characterId', 'tokenId']
+  fieldsToSkip: ['password', 'passwordHash', 'token', 'id', 'roomId', 'socketId', 'playerId', 'characterId', 'tokenId', 'description', 'notes', 'lore', 'backstory', 'gmNotes', 'content', 'text', 'gridItems', 'terrainData', 'drawnLines', 'wallData']
 }));
 
 // Add validation middleware
@@ -188,6 +188,7 @@ const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFi
 
 const rooms = new Map(); // roomId -> room object
 const players = new Map(); // socketId -> player object
+global.players = players;
 
 // Party system (social)
 const parties = new Map(); // partyId -> Party object

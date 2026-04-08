@@ -231,6 +231,13 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
+.badge-guest {
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+    color: #fff;
+    border: 1px solid #a04000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
 .badge-leader {
     color: #8B4513;
     font-size: 14px;

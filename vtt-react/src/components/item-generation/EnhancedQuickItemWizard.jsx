@@ -470,10 +470,10 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // State for preview item
     const [previewItem, setPreviewItem] = useState(null);
-
-    // State for icon selection
-    const [selectedIcon, setSelectedIcon] = useState('');
-    const [showIconSelector, setShowIconSelector] = useState(false);
+    const [stableName, setStableName] = useState('');
+    const [stableDescription, setStableDescription] = useState('');
+    const [lastType, setLastType] = useState(type);
+    const [lastSubtype, setLastSubtype] = useState(subtype);
 
     // Generate items for container filling
     const generateContainerItems = useCallback((containerOpts) => {
@@ -1097,12 +1097,35 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
     };
 
     // Generate a preview item whenever settings change
-    const generatePreviewItem = useCallback(() => {
-        const quality = RARITY_LEVELS[rarityLevel];
-        const itemSubtype = subtype || (ITEM_SUBTYPES[type] ? Object.keys(ITEM_SUBTYPES[type])[0] : '');
+    // Function to generate the preview item
+    const generatePreviewItem = useCallback((forceNewName = false) => {
+        // Determine if we need to regenerate the name/description
+        const typeChanged = type !== lastType;
+        const subtypeChanged = subtype !== lastSubtype;
+        const needsNewName = forceNewName || typeChanged || subtypeChanged || !stableName;
 
-        // Generate item name and description
-        let name = generateItemName(type, itemSubtype, quality, weaponSlot, weaponHand, null, armorSlot);
+        let namePrefix = '';
+        let nameSuffix = '';
+        let currentDescription = stableDescription;
+
+        if (needsNewName) {
+            // Generate new stable parts
+            namePrefix = getRandomElement(PREFIXES[type] || PREFIXES.miscellaneous);
+            nameSuffix = getRandomElement(SUFFIXES[type] || SUFFIXES.miscellaneous);
+            currentDescription = generateItemDescription(type, subtype, RARITY_LEVELS[rarityLevel]);
+            
+            // Generate full name using the new parts
+            const newName = generateItemName(type, subtype, RARITY_LEVELS[rarityLevel], weaponSlot, weaponHand, '', armorSlot, namePrefix, nameSuffix);
+            
+            setStableName(newName);
+            setStableDescription(currentDescription);
+            setLastType(type);
+            setLastSubtype(subtype);
+        }
+
+        const nameToUse = needsNewName ? stableName : (stableName || generateItemName(type, itemSubtype, RARITY_LEVELS[rarityLevel], weaponSlot, weaponHand, null, armorSlot));
+        let finalName = nameToUse || '';
+        const quality = RARITY_LEVELS[rarityLevel];
 
         // Special name handling for currency
         if (type === 'currency') {
@@ -1122,10 +1145,10 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             if (gold > 0) displayName += `${gold}g `;
             if (silver > 0) displayName += `${silver}s `;
             if (copper > 0) displayName += `${copper}c`;
-            name = displayName.trim() || '1c';
+            finalName = displayName.trim() || '1c';
         }
 
-        const description = generateItemDescription(type, itemSubtype, quality);
+        const finalDescription = needsNewName ? currentDescription : (stableDescription || generateItemDescription(type, itemSubtype, quality));
 
         // Generate item icon based on type and subtype, or use selected icon
         const iconId = selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_questionmark';
@@ -1515,9 +1538,9 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         // Create the preview item
         const item = {
             id: 'preview',
-            name,
+            name: finalName,
             quality,
-            description,
+            description: finalDescription,
             type,
             subtype: itemSubtype,
             iconId,
@@ -1877,12 +1900,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         }
     }, [type, subtype, generatePreviewItem]);
 
-    // Generate initial preview on mount
-    useEffect(() => {
-        generatePreviewItem();
-    }, [generatePreviewItem]);
-
-    // Update preview when settings change - removed generatePreviewItem from deps for immediate updates
+    // Update preview when settings change
     useEffect(() => {
         generatePreviewItem();
     }, [
@@ -1899,7 +1917,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         includeHealthMana,
         includeRegen,
         includeHealingPower,
-
         weaponSlot,
         weaponHand,
         armorSlot,
@@ -1910,8 +1927,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         miscOptions,
         containerOptions,
         currencyOptions,
-        selectedIcon
-        // Removed generatePreviewItem from deps - useCallback ensures it's stable and updates when deps change
+        selectedIcon,
+        generatePreviewItem
     ]);
 
     // Handle shield special case

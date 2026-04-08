@@ -195,6 +195,11 @@ const useSettingsStore = create(
         get().updateSettings({ gmOverlayOpacity: clampedOpacity });
       },
 
+      setPlayerTooltipMode: (mode) => {
+        // mode: 'vague' | 'partial' | 'full'
+        get().updateSettings({ playerTooltipMode: mode });
+      },
+
       // Vision & Fog Settings
       setViewUpdateOnPlacement: (enabled) => {
         get().updateSettings({ viewUpdateOnPlacement: enabled });
@@ -343,6 +348,22 @@ const useSettingsStore = create(
 
       setShareGameStats: (enabled) => {
         get().updateSettings({ shareGameStats: enabled });
+      },
+
+      setVisionRangeMode: (mode) => {
+        get().updateSettings({ visionRangeMode: mode });
+      },
+
+      setVisionOutlineColor: (color) => {
+        get().updateSettings({ visionOutlineColor: color });
+      },
+
+      setControlledCreatureOutlineColor: (color) => {
+        get().updateSettings({ controlledCreatureOutlineColor: color });
+      },
+
+      setShowVisionOutlines: (enabled) => {
+        get().updateSettings({ showVisionOutlines: enabled });
       }
     }),
     {
@@ -373,6 +394,7 @@ const useSettingsStore = create(
         showGMArea: state.showGMArea,
         gmOverlayOpacity: state.gmOverlayOpacity,
         viewUpdateOnPlacement: state.viewUpdateOnPlacement,
+        playerTooltipMode: state.playerTooltipMode,
 
         // Audio
         masterVolume: state.masterVolume,
@@ -418,7 +440,12 @@ const useSettingsStore = create(
         // Privacy
         showOnlineStatus: state.showOnlineStatus,
         allowDirectMessages: state.allowDirectMessages,
-        shareGameStats: state.shareGameStats
+        shareGameStats: state.shareGameStats,
+
+        visionRangeMode: state.visionRangeMode,
+        visionOutlineColor: state.visionOutlineColor,
+        controlledCreatureOutlineColor: state.controlledCreatureOutlineColor,
+        showVisionOutlines: state.showVisionOutlines
       })
     }
   )

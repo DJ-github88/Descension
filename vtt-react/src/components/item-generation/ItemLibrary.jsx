@@ -19,6 +19,7 @@ import CommunityItemsTab from './CommunityItemsTab';
 import ContainerWindow from './ContainerWindow';
 import ShareItemToCommunityDialog from './ShareItemToCommunityDialog';
 import useAuthStore from '../../store/authStore';
+import { shareItemToCommunity } from '../../services/firebase/userItemsService';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
 import ExternalRecipePreview from '../crafting/ExternalRecipePreview';
@@ -313,7 +314,7 @@ const VirtualizedItemGrid = memo(({
 }) => {
     const gridRef = useRef(null);
     const containerRef = useRef(null);
-    const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+    const [dimensions, setDimensions] = useState(null);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -333,8 +334,8 @@ const VirtualizedItemGrid = memo(({
 
     const COLUMN_WIDTH = 92;
     const ROW_HEIGHT = 115;
-    const COLUMN_COUNT = Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH));
-    const ROW_COUNT = Math.ceil(items.length / COLUMN_COUNT);
+    const COLUMN_COUNT = dimensions ? Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH)) : 1;
+    const ROW_COUNT = dimensions ? Math.ceil(items.length / COLUMN_COUNT) : 1;
 
     const cellProps = useMemo(() => ({
         items,
@@ -365,21 +366,23 @@ const VirtualizedItemGrid = memo(({
 
     return (
         <div ref={containerRef} className="item-grid" style={{ position: 'relative' }}>
-            <VirtualGrid
-                gridRef={gridRef}
-                columnCount={COLUMN_COUNT}
-                columnWidth={COLUMN_WIDTH}
-                rowCount={ROW_COUNT}
-                rowHeight={ROW_HEIGHT}
-                cellComponent={ItemCell}
-                cellProps={cellProps}
-                style={{ 
-                    width: dimensions.width,
-                    height: dimensions.height,
-                    overflowY: 'auto',
-                    overflowX: 'hidden'
-                }}
-            />
+            {dimensions && (
+                <VirtualGrid
+                    gridRef={gridRef}
+                    columnCount={COLUMN_COUNT}
+                    columnWidth={COLUMN_WIDTH}
+                    rowCount={ROW_COUNT}
+                    rowHeight={ROW_HEIGHT}
+                    cellComponent={ItemCell}
+                    cellProps={cellProps}
+                    style={{ 
+                        width: dimensions.width,
+                        height: dimensions.height,
+                        overflowY: 'auto',
+                        overflowX: 'hidden'
+                    }}
+                />
+            )}
         </div>
     );
 });
@@ -411,6 +414,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [unlockModalItem, setUnlockModalItem] = useState(null);
     const [shareDialog, setShareDialog] = useState(null);
+    const [ownFilter, setOwnFilter] = useState(false);
 
     const { user } = useAuthStore();
 
@@ -743,13 +747,17 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 return false;
             }
 
+            if (ownFilter && item.createdBy !== user?.uid) {
+                return false;
+            }
+
             return true;
         });
 
         return filteredItems.filter((item, index, self) =>
             index === self.findIndex(i => i.id === item.id)
         );
-    }, [items, selectedCategory, itemCategories, searchQuery, qualityFilter, typeFilter, categories]);
+    }, [items, selectedCategory, itemCategories, searchQuery, qualityFilter, typeFilter, categories, ownFilter, user]);
 
     const handleItemContextMenu = useCallback((e, item) => {
         if (!e) return;
@@ -868,6 +876,17 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             setContextMenu(null);
         }
     }, [moveItem]);
+
+    const handleShareToCommunity = useCallback(async (item) => {
+        if (!user?.uid || !item?.id) return;
+        try {
+            await shareItemToCommunity(user.uid, item.id);
+            updateItem(item.id, { isShared: true, sharedAt: new Date().toISOString() });
+        } catch (error) {
+            console.error('Failed to share item to community:', error);
+            throw error;
+        }
+    }, [user, updateItem]);
 
     const handleContainerCreate = useCallback(() => {
         setShowContainerWizard(true);
@@ -1090,12 +1109,23 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                                 </option>
                                             ))}
                                         </select>
-                                        {(searchQuery || qualityFilter || typeFilter) && (
+                                        {user && !user.isGuest && (
+                                            <label className="compact-own-filter" title="Show only my items">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={ownFilter}
+                                                    onChange={(e) => setOwnFilter(e.target.checked)}
+                                                />
+                                                <span>Own</span>
+                                            </label>
+                                        )}
+                                        {(searchQuery || qualityFilter || typeFilter || ownFilter) && (
                                             <button
                                                 onClick={() => {
                                                     setSearchQuery('');
                                                     setQualityFilter('');
                                                     setTypeFilter('');
+                                                    setOwnFilter(false);
                                                 }}
                                                 className="compact-clear"
                                                 title="Clear filters"
@@ -1204,7 +1234,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             {showItemWizard && (
                 <ItemWizard
                     onComplete={handleItemWizardComplete}
-                    editingItem={editingItem}
+                    initialData={editingItem || {}}
+                    isEditing={!!editingItem}
                     onClose={() => {
                         setShowItemWizard(false);
                         setEditingItem(null);
@@ -1273,22 +1304,28 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     x={contextMenu.x}
                     y={contextMenu.y}
                     item={contextMenu.validatedItem}
-                    categoryId={contextMenu.categoryId}
+                    itemId={contextMenu.validatedItem?.id || contextMenu.itemId}
+                    currentCategoryId={contextMenu.categoryId}
                     categories={categories}
                     onClose={() => setContextMenu(null)}
                     onDelete={handleDeleteItem}
                     onEdit={handleEditItem}
                     onAddToInventory={handleAddToInventory}
-                    onCategorize={handleShowCategorizeModal}
-                    onUnlock={handleShowUnlockModal}
+                    onShowCategorizeModal={handleShowCategorizeModal}
+                    onShowUnlockModal={handleShowUnlockModal}
+                    onMoveToCategory={handleMoveToCategory}
+                    user={user}
+                    onShareToCommunity={(item) => setShareDialog(item)}
                 />,
                 document.body
             )}
 
             {shareDialog && createPortal(
                 <ShareItemToCommunityDialog
+                    isOpen={true}
                     item={shareDialog}
                     onClose={() => setShareDialog(null)}
+                    onShare={handleShareToCommunity}
                 />,
                 document.body
             )}

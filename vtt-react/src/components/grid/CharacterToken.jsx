@@ -18,7 +18,7 @@ import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
-import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import { isPointInPolygon, feetToTiles } from '../../utils/VisibilityCalculations';
 
 const CharacterToken = ({
     tokenId,
@@ -166,6 +166,7 @@ const CharacterToken = ({
     // PERFORMANCE FIX: Only subscribe to what we actually need to prevent re-renders
     const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
+    const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const fovAngle = useLevelEditorStore(state => state.fovAngle);
@@ -188,6 +189,13 @@ const CharacterToken = ({
 
     // Convert visibleArea array back to Set for efficient lookup (if it's an array)
     const visibleAreaSet = useMemo(() => {
+        if (!visibleArea) return null;
+        const combined = new Set(visibleArea instanceof Set ? visibleArea : visibleArea);
+        if (controlledVisibleTiles) controlledVisibleTiles.forEach(t => combined.add(t));
+        return combined;
+    }, [visibleArea, controlledVisibleTiles]);
+
+    const primaryVisibleAreaSet = useMemo(() => {
         if (!visibleArea) return null;
         return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
     }, [visibleArea]);
@@ -223,7 +231,7 @@ const CharacterToken = ({
         const derivedVisionFeet = charState.derivedStats?.visionRange;
 
         if (derivedVisionFeet && derivedVisionFeet > 0 && feetPerTile > 0) {
-            const visionRangeTiles = Math.round(derivedVisionFeet / feetPerTile);
+            const visionRangeTiles = feetToTiles(derivedVisionFeet, feetPerTile);
             if (visionRangeTiles > 0) {
                 // Determine vision type from darkvision stat
                 const darkvisionFeet = charState.derivedStats?.darkvision || 0;
@@ -233,7 +241,7 @@ const CharacterToken = ({
             }
         } else {
             // Character stats not yet loaded - use sensible default (30ft = 6 tiles)
-            const defaultRange = Math.round(30 / Math.max(feetPerTile, 1));
+            const defaultRange = feetToTiles(30, Math.max(feetPerTile, 1));
             setTokenVision(tokenId, defaultRange, 'normal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -265,7 +273,10 @@ const CharacterToken = ({
             const viewingPosKey = viewingFromToken?.position
                 ? `${Math.floor(viewingFromToken.position.x)},${Math.floor(viewingFromToken.position.y)}`
                 : 'none';
-            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${viewingPosKey}`;
+            const secondaryKey = controlledVisibleTiles && controlledVisibleTiles.length > 0
+                ? `${controlledVisibleTiles[0]}_${controlledVisibleTiles[controlledVisibleTiles.length - 1]}_${controlledVisibleTiles.length}`
+                : '0';
+            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}_${secondaryKey}_${viewingPosKey}`;
             if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
                 return lastVisibilityCheckRef.current.result;
             }
@@ -336,21 +347,6 @@ const CharacterToken = ({
                 // If token is within vision range, show it (only as fallback when no proper visibility data)
                 if (distance <= visionRangeInWorld) {
                     visible = true;
-                }
-            }
-
-            // ADDITIONAL check: Also verify using visibility polygon for wall occlusion
-            // This ensures tokens behind blocking walls are properly hidden
-            // Use the existing visibilityPolygon from line 206 instead of redeclaring
-            if (visibilityPolygon && visibilityPolygon.length >= 3) {
-                const isInVisibilityPolygon = isPointInPolygon(
-                    position.x,
-                    position.y,
-                    visibilityPolygon
-                );
-
-                if (!isInVisibilityPolygon) {
-                    visible = false;
                 }
             }
 

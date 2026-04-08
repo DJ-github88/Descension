@@ -137,7 +137,8 @@ service cloud.firestore {
     // Community spells - allow public read access
     match /community_spells/{spellId} {
       allow read: if resource.data.isPublic == true;
-      allow write: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Spell categories - allow public read access
@@ -155,7 +156,8 @@ service cloud.firestore {
     // Community items - allow public read access
     match /community_items/{itemId} {
       allow read: if resource.data.isPublic == true;
-      allow write: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Item categories - allow public read access
@@ -173,7 +175,8 @@ service cloud.firestore {
     // Community creatures - allow public read access
     match /community_creatures/{creatureId} {
       allow read: if resource.data.isPublic == true;
-      allow write: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Creature categories - allow public read access
@@ -191,7 +194,8 @@ service cloud.firestore {
     // Community packs - allow public read access
     match /community_packs/{packId} {
       allow read: if resource.data.isPublic == true;
-      allow write: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Pack ratings - allow users to manage their own ratings

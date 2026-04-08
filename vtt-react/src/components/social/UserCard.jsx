@@ -103,6 +103,7 @@ const UserCard = ({
           <div className="user-name-row">
             <span className="user-name" title={getPrimaryName()}>{getPrimaryName()}</span>
             {isYou && <span className="badge badge-you">YOU</span>}
+            {user.isGuest && <span className="badge badge-guest" title="Guest Account">GUEST</span>}
             {isLeaderBadge && <span className="badge badge-leader"><i className="fas fa-crown"></i></span>}
           </div>
           {showCharNameSubtitle && (

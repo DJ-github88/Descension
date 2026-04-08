@@ -563,10 +563,11 @@ const ObjectSystem = () => {
                 // Select the object
                 selectEnvironmentalObject(clickedObject.id);
 
-                // Only allow dragging/resizing in editor mode
-                if (isEditorMode) {
-                    // Check if clicking on a resize handle
-                    const handle = getResizeHandle(screenX, screenY, clickedObject);
+                // Only allow dragging/resizing in editor mode (or dragging GM notes in GM mode)
+                const canDrag = isEditorMode || (isGMMode && clickedObject.type === 'gmNotes');
+                if (canDrag) {
+                    // Check if clicking on a resize handle (editor mode only)
+                    const handle = isEditorMode ? getResizeHandle(screenX, screenY, clickedObject) : null;
                     console.log(`🖱️ Mouse down on object: ${clickedObject.id}, handle: ${handle}`);
 
                     if (handle) {
@@ -794,8 +795,8 @@ const ObjectSystem = () => {
                 }
             }
 
-            if (!isEditorMode) {
-                return; // Don't continue with editor-specific logic
+            if (!isEditorMode && !isDragging) {
+                return; // Don't continue with editor-specific logic (but allow dragging in GM mode)
             }
         }
 

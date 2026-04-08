@@ -8,7 +8,7 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
-import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import '../../styles/grid-container.css'; // Re-use grid-container styles for now or basic styles
 
 const GridItem = ({ gridItem }) => {
@@ -32,6 +32,7 @@ const GridItem = ({ gridItem }) => {
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
+  const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
   const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
   // Used to determine if fog is covering the map (needs to hide items for no-token players)
   const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
@@ -40,8 +41,10 @@ const GridItem = ({ gridItem }) => {
   // Compute visibleAreaSet for O(1) lookups
   const visibleAreaSet = useMemo(() => {
     if (!visibleArea) return new Set();
-    return new Set(visibleArea);
-  }, [visibleArea]);
+    const combined = new Set(visibleArea);
+    if (controlledVisibleTiles) controlledVisibleTiles.forEach(t => combined.add(t));
+    return combined;
+  }, [visibleArea, controlledVisibleTiles]);
 
   // Get stores actions
   const lootItem = useGridItemStore(state => state.lootItem);
@@ -112,6 +115,11 @@ const GridItem = ({ gridItem }) => {
         // This prevents an item behind a wall from being considered visible just because
         // its tile is partially in the visibleArea set.
         if (visibilityPolygon && visibilityPolygon.length >= 3) {
+          // PERFORMANCE: Bbox pre-filter to skip expensive polygon check for far-away items
+          const bbox = getPolygonBBox(visibilityPolygon);
+          if (bbox && (itemPosition.x < bbox.minX || itemPosition.x > bbox.maxX || itemPosition.y < bbox.minY || itemPosition.y > bbox.maxY)) {
+            return false;
+          }
           const isInVisibilityPolygon = isPointInPolygon(
             itemPosition.x,
             itemPosition.y,

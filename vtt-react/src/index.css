@@ -178,6 +178,7 @@ body {
 
 /* Ensure modal overlays work in production */
 .modal-backdrop,
+.pf-modal-backdrop,
 .shop-window-overlay,
 .quick-item-generator-overlay,
 .categorize-overlay {

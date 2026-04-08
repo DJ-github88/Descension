@@ -7,8 +7,13 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
     const [brushSize, setBrushSize] = useState(settings.brushSize || 1);
     const { fovAngle, setFovAngle } = useLevelEditorStore();
 
-    // Simplified fog tool configurations - just paint and erase
     const fogTools = [
+        {
+            id: 'fog_draw',
+            name: 'Draw Fog',
+            icon: 'Shadow/Shadow Invisibility',
+            description: 'Paint fog onto areas'
+        },
         {
             id: 'fog_erase',
             name: 'Erase Fog',
@@ -72,7 +77,7 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
             </div>
 
             {/* Brush Settings */}
-            {(selectedTool === 'fog_erase') && (
+            {(selectedTool === 'fog_erase' || selectedTool === 'fog_draw') && (
                 <div className="tool-section">
                     <h4>Brush Settings</h4>
                     <div className="brush-settings">

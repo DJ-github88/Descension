@@ -127,7 +127,10 @@ const useLocalRoomAutoSave = () => {
 
       if (state.terrainData !== prevState.terrainData ||
         state.environmentalObjects !== prevState.environmentalObjects ||
-        state.lightSources !== prevState.lightSources) {
+        state.lightSources !== prevState.lightSources ||
+        state.fogOfWarPaths !== prevState.fogOfWarPaths ||
+        state.fogErasePaths !== prevState.fogErasePaths ||
+        state.fogOfWarData !== prevState.fogOfWarData) {
         debouncedSave();
       }
     });

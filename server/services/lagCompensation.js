@@ -567,7 +567,7 @@ class LagCompensationSystem {
     const serverHistory = this.serverStates.get(roomId);
     if (!serverHistory || serverHistory.length < 2) {return null;}
 
-    const totalCorrections = 0;
+    let totalCorrections = 0;
     let totalClients = 0;
 
     // Count clients in room

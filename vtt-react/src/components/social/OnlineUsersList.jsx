@@ -150,10 +150,16 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       y = window.innerHeight - menuHeight - 10;
     }
 
+    const targetUserId = targetUser.userId || targetUser.id || targetUser.uid;
+    const isIgnored = (ignored || []).some(i => i.id === targetUserId || (i.friendId && i.friendId === targetUser.friendId) || i.userId === targetUserId);
+    const isFriend = (friends || []).some(f => f.id === targetUserId || (f.friendId && f.friendId === targetUser.friendId) || f.userId === targetUserId);
+
     setContextMenu({
       x,
       y,
-      user: targetUser
+      user: targetUser,
+      isIgnored,
+      isFriend
     });
   };
 
@@ -622,22 +628,26 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             <i className="fas fa-globe"></i>
             {onlineUsers.length > 0 && <span className="tab-count">{onlineUsers.length}</span>}
           </button>
-          <button
-            className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
-            onClick={() => setActiveTab('friends')}
-            title="Friends"
-          >
-            <i className="fas fa-user-friends"></i>
-            {filteredFriends.length > 0 && <span className="tab-count">{filteredFriends.length}</span>}
-          </button>
-          <button
-            className={`users-tab ${activeTab === 'ignored' ? 'active' : ''}`}
-            onClick={() => setActiveTab('ignored')}
-            title="Ignored Users"
-          >
-            <i className="fas fa-user-slash"></i>
-            {ignored.length > 0 && <span className="tab-count">{ignored.length}</span>}
-          </button>
+          {!user?.isGuest && (
+            <button
+              className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
+              onClick={() => setActiveTab('friends')}
+              title="Friends"
+            >
+              <i className="fas fa-user-friends"></i>
+              {filteredFriends.length > 0 && <span className="tab-count">{filteredFriends.length}</span>}
+            </button>
+          )}
+          {!user?.isGuest && (
+            <button
+              className={`users-tab ${activeTab === 'ignored' ? 'active' : ''}`}
+              onClick={() => setActiveTab('ignored')}
+              title="Ignored Users"
+            >
+              <i className="fas fa-user-slash"></i>
+              {ignored.length > 0 && <span className="tab-count">{ignored.length}</span>}
+            </button>
+          )}
           <button
             className={`users-tab ${activeTab === 'party' ? 'active' : ''}`}
             onClick={() => setActiveTab('party')}
@@ -1209,15 +1219,37 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     </button>
                   )}
 
-                  <button className="context-menu-item" onClick={handleAddFriend}>
-                    <i className="fas fa-user-plus"></i>
-                    Add Friend
-                  </button>
+                  {!user?.isGuest && !contextMenu.user.isGuest && (
+                    contextMenu.isFriend ? (
+                      <button className="context-menu-item" onClick={handleRemoveFriend}>
+                        <i className="fas fa-user-minus"></i>
+                        Remove Friend
+                      </button>
+                    ) : (
+                      <button className="context-menu-item" onClick={handleAddFriend}>
+                        <i className="fas fa-user-plus"></i>
+                        Add Friend
+                      </button>
+                    )
+                  )}
 
-                  <button className="context-menu-item danger" onClick={handleIgnoreUser}>
-                    <i className="fas fa-ban"></i>
-                    Ignore
-                  </button>
+                  {!user?.isGuest && !contextMenu.user.isGuest && (
+                    contextMenu.isIgnored ? (
+                      <button className="context-menu-item" onClick={() => {
+                        const targetId = contextMenu.user.id || contextMenu.user.userId || contextMenu.user.uid;
+                        if (targetId) removeIgnored(targetId);
+                        closeContextMenu();
+                      }}>
+                        <i className="fas fa-user-check"></i>
+                        Unignore
+                      </button>
+                    ) : (
+                      <button className="context-menu-item danger" onClick={handleIgnoreUser}>
+                        <i className="fas fa-ban"></i>
+                        Ignore
+                      </button>
+                    )
+                  )}
                   
                   <div className="context-menu-divider"></div>
                   <button className="context-menu-item" onClick={closeContextMenu}>

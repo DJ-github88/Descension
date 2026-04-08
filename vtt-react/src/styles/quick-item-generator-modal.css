@@ -29,6 +29,7 @@
     font-family: 'Segoe UI', 'Bookman Old Style', serif;
     color: #3a2a1a;
     user-select: none;
+    position: relative;
 }
 
 /* Thin header */
@@ -228,6 +229,18 @@
     display: block !important;
 }
 
+/* Remove decorative icons/diamonds from labels and headers */
+.qig-modal .form-group label::before,
+.qig-modal .form-group label::after,
+.qig-modal .form-section h4::before,
+.qig-modal .form-section h4::after,
+.qig-modal h1::before, .qig-modal h1::after,
+.qig-modal h2::before, .qig-modal h2::after,
+.qig-modal h3::before, .qig-modal h3::after {
+    content: none !important;
+    display: none !important;
+}
+
 .qig-modal .form-group select,
 .qig-modal .enhanced-quick-item-wizard input,
 .qig-modal .enhanced-quick-item-wizard select,
@@ -285,22 +298,29 @@
 
 .qig-modal .advanced-options-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-    gap: 3px !important;
-    padding: 4px !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
+    grid-template-columns: 1fr 1fr !important; /* Stable 2-column grid */
+    gap: 12px 10px !important;
+    padding: 8px 4px !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(200, 184, 152, 0.3) !important;
 }
 
-.qig-modal .advanced-option-item { display: flex !important; flex-direction: column !important; gap: 1px !important; }
+.qig-modal .advanced-option-item { 
+    display: flex !important; 
+    flex-direction: column !important; 
+    gap: 4px !important; 
+    min-width: 0 !important;
+}
 
 .qig-modal .checkbox-label-compact {
     display: flex !important;
     align-items: center !important;
-    gap: 3px !important;
-    font-size: 10px !important;
-    color: #5e2e23 !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    color: #3a2a1a !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
 }
 
 .qig-modal .checkbox-label-compact input[type="checkbox"] {

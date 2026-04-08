@@ -100,8 +100,8 @@ const TabbedChat = () => {
     if (!content) return;
 
     if (activeTab === 'global') {
-      // Global chat: Check authentication
-      if (!currentUserPresence || currentUserPresence?.isGuest) {
+      // Global chat: Allow guests to send messages for trial interaction
+      if (!currentUserPresence) {
         console.warn('Authentication required for global chat');
         return;
       }
@@ -189,14 +189,53 @@ const TabbedChat = () => {
         const currentParty = usePartyStore.getState().currentParty || usePresenceStore.getState().currentParty;
         const currentPartyId = currentParty?.id;
 
-        if (currentPartyId) {
+        // CRITICAL FIX: Only route to room chat if this is the mock party for the current room session.
+        // This ensures social party chat still goes through the social channel even when in a room.
+        const isMockRoomParty = isInMultiplayer && gameState.multiplayerRoom?.id === currentPartyId;
+
+        if (CHAT_DEBUG) {
+          console.log('💬 [TabbedChat:party] pre-send-checks', {
+            currentPartyId,
+            isInMultiplayer,
+            isMockRoomParty,
+            socketSource,
+            gameSocketConnected: !!gameSocket?.connected,
+            socketId: resolvedSocket?.id
+          });
+        }
+
+        if (currentPartyId && !isMockRoomParty) {
           // Send via party_message event (matches server handler)
           resolvedSocket.emit('party_message', {
             partyId: currentPartyId,
-            message: message.content
+            message: message.content,
+            messageId: generatedMessageId
           });
+          chatDebug('💬 [TabbedChat:party] sent via social party_message');
+        } else if (isInMultiplayer || (isMockRoomParty !== false) || socketSource === 'gameStore.multiplayerSocket') {
+          // Fallback: use room-level chat_message when in multiplayer or if we are using the game socket
+          const fallbackSenderId = senderId || 'current-player';
+          const payload = {
+            message: message.content,
+            content: message.content,
+            type: 'party',
+            playerId: fallbackSenderId,
+            senderId: fallbackSenderId,
+            playerName: senderName,
+            senderName: senderName,
+            messageId: message.messageId,
+            id: message.messageId
+          };
+          
+          resolvedSocket.emit('chat_message', payload);
+          chatDebug('💬 [TabbedChat:party] sent via room chat_message fallback', payload);
         } else {
-          console.warn('⚠️ No party ID found, cannot send party message');
+          console.warn('⚠️ No party ID found, cannot send party message', {
+            currentPartyId,
+            isInMultiplayer,
+            isMockRoomParty,
+            socketSource
+          });
         }
 
         chatDebug('💬 [TabbedChat:party] socket emit', {
@@ -245,8 +284,8 @@ const TabbedChat = () => {
 
       if (isPartyMember && isInParty) {
         sendWhisper(userId, content);
-      } else if (!currentUserPresence || currentUserPresence?.isGuest) {
-        console.warn('Authentication required for whispers to non-party members');
+      } else if (!currentUserPresence) {
+        console.warn('Authentication required for whispers');
       } else {
         sendWhisper(userId, content);
       }
@@ -287,8 +326,8 @@ const TabbedChat = () => {
       }
     }
 
-    // Global chat: Require authentication (keep existing restriction)
-    if (activeTab === 'global' && (!currentUserPresence || currentUserPresence?.isGuest)) {
+    // Global chat: Now allowed for guests
+    if (activeTab === 'global' && !currentUserPresence) {
       return "Please log in to chat...";
     }
 
@@ -411,6 +450,7 @@ const TabbedChat = () => {
       <div key={message.id} className={`chat-message ${isOwnMessage ? 'own-message' : ''} ${message.type === 'party' ? 'party-message' : ''}`}>
         <div className="message-header">
           <span className="sender-name">{message.senderName}</span>
+          {message.isGuest && <span className="badge badge-guest" style={{ fontSize: '7px', marginLeft: '4px' }}>GUEST</span>}
           {message.type === 'party' && <span className="party-badge">Party</span>}
           <span className="timestamp">{new Date(message.timestamp).toLocaleTimeString()}</span>
         </div>
@@ -464,16 +504,16 @@ const TabbedChat = () => {
               autoFocus={activeTab.startsWith('whisper_')}
             />
             <span className="character-counter">
-              {messageInput.length} / 500
+              {messageInput.length}/500
             </span>
+            <button
+              type="submit"
+              className="send-button"
+              disabled={!messageInput.trim()}
+            >
+              <i className="fas fa-paper-plane"></i>
+            </button>
           </div>
-          <button
-            type="submit"
-            className="send-button"
-            disabled={!messageInput.trim()}
-          >
-            <i className="fas fa-paper-plane"></i>
-          </button>
         </form>
       </>
     );

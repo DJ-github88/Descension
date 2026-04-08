@@ -1,14 +1,16 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import useGameStore from './gameStore';
+import useAuthStore from './authStore';
 import { COMPREHENSIVE_ITEMS } from '../data/items/index.js';
+import { saveUserItem, loadUserItems, updateUserItem as firebaseUpdateUserItem, deleteUserItem as firebaseDeleteUserItem } from '../services/firebase/userItemsService';
 
 // Constants
 export const BASE_CATEGORY = {
     id: 'all-items',
     name: 'All Items',
     parentId: null,
-    icon: 'inv_misc_bag_10',
+    icon: 'Container/Bag/adventurer-backpack-gear',
     isBaseCategory: true
 };
 
@@ -35,7 +37,48 @@ export const ITEM_RARITIES = {
 };
 
 // Version for comprehensive items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 5;
+const COMPREHENSIVE_ITEMS_VERSION = 6;
+
+const CATEGORY_ICON_MIGRATION = {
+  'inv_sword_04': 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
+  'inv_axe_09': 'Weapons/Axe/axe-brown-handle-beige-blade',
+  'inv_mace_01': 'Weapons/Mace/mace-fire-key-red-orange-yellow-flame-head',
+  'inv_weapon_shortblade_01': 'Weapons/Throwing Knife/throwing-knife-beige-blade-brown-handle-pommel',
+  'inv_weapon_bow_08': 'Weapons/Bows/bow-brown-limb-tips-recurve',
+  'inv_staff_01': 'Weapons/Staff/staff-magical-fire-sun-burst-eight-pointed-star',
+  'inv_spear_01': 'Weapons/Polearm/polearm-halberd-axe-blade-spike-tan-metallic-guard',
+  'inv_misc_lute_01': 'Instruments/Lute/lute-orange-golden-octagonal',
+  'inv_misc_orb_01': 'Weapons/Wand/wand-basic-bow-curved-light-beige-simple',
+  'inv_weapon_crossbow_01': 'Weapons/Crossbow/crossbow-bow-arrow-fire-gradient-red-orange-yellow',
+  'inv_chest_plate06': 'Armor/Chest/chest-bronze-breastplate',
+  'inv_chest_cloth_07': 'Armor/Chest/chest-belted-brown-robe',
+  'inv_chest_leather_01': 'Armor/Chest/chest-reinforced-leather-cuirass',
+  'inv_chest_chain_15': 'Armor/Chest/chest-bone-plated-vest',
+  'inv_jewelry_ring_03': 'Armor/Finger/finger-ancient-bronze-ring',
+  'inv_jewelry_necklace_03': 'Armor/Neck/archery-pendant',
+  'inv_misc_cape_02': 'Armor/Cloak/beige-brown-collared-cloak',
+  'inv_potion_51': 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
+  'inv_misc_food_15': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
+  'inv_scroll_03': 'Misc/Books/book-scroll-rolled-red-wax-seal',
+  'inv_potion_17': 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-vial-elongated-cylindrical-label-parchment',
+  'inv_misc_bag_10': 'Container/Bag/adventurer-backpack-gear',
+  'inv_misc_rope_01': 'Container/Bag/adventurer-backpack-gear',
+  'inv_misc_food_08': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
+  'inv_stone_grindingstone_01': 'Misc/Profession Resources/Mining/resource-ore-rock-blue-teal-brown-beige',
+  'inv_ore_copper_01': 'Misc/Profession Resources/Mining/resource-ore-cluster-orange-red-veins',
+  'inv_misc_gem_emerald_02': 'Misc/Profession Resources/Gems/resource-teal-gem-rhombus-diamond-faceted',
+  'inv_fabric_linen_01': 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
+  'inv_misc_herb_01': 'Misc/Profession Resources/Gems/resource-crystal-shards-teal-beige-faceted',
+  'trade_blacksmithing': 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-brick-brown-orange',
+  'trade_alchemy': 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
+  'trade_tailoring': 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
+  'trade_leatherworking': 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
+  'trade_engraving': 'Misc/Profession Resources/Gems/resource-purple-gem-crystal-shiny',
+  'trade_engineering': 'Weapons/Shovel/shovel-beige-blade-brown-handle-simple',
+  'inv_misc_gem_01': 'Misc/Profession Resources/Gems/Ruby',
+  'inv_box_01': 'Container/Chest/house-chest',
+  'trade_mining': 'Misc/Profession Resources/Mining/resource-ore-rock-blue-teal-brown-beige'
+};
 
 // Define comprehensive categories for organizing items
 const COMPREHENSIVE_CATEGORIES = [
@@ -45,161 +88,161 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'weapons',
     name: 'Weapons',
-    icon: 'inv_sword_04',
+    icon: 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'weapons-swords',
     name: 'Swords',
-    icon: 'inv_sword_04',
+    icon: 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-axes',
     name: 'Axes',
-    icon: 'inv_axe_09',
+    icon: 'Weapons/Axe/axe-brown-handle-beige-blade',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-maces',
     name: 'Maces & Hammers',
-    icon: 'inv_mace_01',
+    icon: 'Weapons/Mace/mace-fire-key-red-orange-yellow-flame-head',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-daggers',
     name: 'Daggers',
-    icon: 'inv_weapon_shortblade_01',
+    icon: 'Weapons/Throwing Knife/throwing-knife-beige-blade-brown-handle-pommel',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-bows',
     name: 'Bows & Crossbows',
-    icon: 'inv_weapon_bow_08',
+    icon: 'Weapons/Bows/bow-brown-limb-tips-recurve',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-staves',
     name: 'Staves & Wands',
-    icon: 'inv_staff_01',
+    icon: 'Weapons/Staff/staff-magical-fire-sun-burst-eight-pointed-star',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-polearms',
     name: 'Polearms',
-    icon: 'inv_spear_01',
+    icon: 'Weapons/Polearm/polearm-halberd-axe-blade-spike-tan-metallic-guard',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-instruments',
     name: 'Instruments',
-    icon: 'inv_misc_lute_01',
+    icon: 'Instruments/Lute/lute-orange-golden-octagonal',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-focus-items',
     name: 'Focus Items',
-    icon: 'inv_misc_orb_01',
+    icon: 'Weapons/Wand/wand-basic-bow-curved-light-beige-simple',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-rapiers',
     name: 'Rapiers',
-    icon: 'inv_sword_04',
+    icon: 'Weapons/Rapier/rapier-curved-blade-tan-beige-brown-hilt-classic',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-katanas',
     name: 'Katanas',
-    icon: 'inv_sword_04',
+    icon: 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-sabers',
     name: 'Sabers',
-    icon: 'inv_sword_04',
+    icon: 'Weapons/Saber/saber-curved-blade-light-beige-brown-d-guard-naval',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-sickles',
     name: 'Sickles',
-    icon: 'inv_axe_09',
+    icon: 'Weapons/Sickles/sickle-bow-fire-red-orange-jagged-spiky-green-brown-grip-gems',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-flails',
     name: 'Flails',
-    icon: 'inv_mace_01',
+    icon: 'Weapons/Flail/flail-brown-handle-chain-spiked-balls',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-fist-weapons',
     name: 'Fist Weapons',
-    icon: 'inv_weapon_shortblade_01',
+    icon: 'Weapons/Fist Weapon/fist-weapon-claw-brown-green-red-blades',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-crossbows',
     name: 'Crossbows',
-    icon: 'inv_weapon_crossbow_01',
+    icon: 'Weapons/Crossbow/crossbow-bow-arrow-fire-gradient-red-orange-yellow',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-thrown',
     name: 'Thrown Weapons',
-    icon: 'inv_weapon_shortblade_01',
+    icon: 'Weapons/Throwing Knife/throwing-knife-beige-blade-brown-handle-pommel',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-blowguns',
     name: 'Blowguns',
-    icon: 'inv_weapon_bow_08',
+    icon: 'Weapons/Blowgun/blowgun-fiery-enchanted-staff',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-slings',
     name: 'Slings',
-    icon: 'inv_weapon_bow_08',
+    icon: 'Weapons/Sling/sling-ampersand-symbol-fire-orange-red-striped',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-halberds',
     name: 'Halberds',
-    icon: 'inv_spear_01',
+    icon: 'Weapons/Halberd/halberd-axe-blade-spike-hammer-rear',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-scythes',
     name: 'Scythes',
-    icon: 'inv_spear_01',
+    icon: 'Weapons/Scythe/scythe-curved-blade-dark-brown-handle-textured',
     isBaseCategory: false,
     parentId: 'weapons'
   },
   {
     id: 'weapons-warhammers',
     name: 'Warhammers',
-    icon: 'inv_mace_01',
+    icon: 'Weapons/Warhammer/warhammer-bronze-brown-tan-outline-circular-detail',
     isBaseCategory: false,
     parentId: 'weapons'
   },
@@ -208,35 +251,35 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'armor',
     name: 'Armor',
-    icon: 'inv_chest_plate06',
+    icon: 'Armor/Chest/chest-bronze-breastplate',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'armor-cloth',
     name: 'Cloth Armor',
-    icon: 'inv_chest_cloth_07',
+    icon: 'Armor/Chest/chest-belted-brown-robe',
     isBaseCategory: false,
     parentId: 'armor'
   },
   {
     id: 'armor-leather',
     name: 'Leather Armor',
-    icon: 'inv_chest_leather_01',
+    icon: 'Armor/Chest/chest-reinforced-leather-cuirass',
     isBaseCategory: false,
     parentId: 'armor'
   },
   {
     id: 'armor-mail',
     name: 'Mail Armor',
-    icon: 'inv_chest_chain_15',
+    icon: 'Armor/Chest/chest-bone-plated-vest',
     isBaseCategory: false,
     parentId: 'armor'
   },
   {
     id: 'armor-plate',
     name: 'Plate Armor',
-    icon: 'inv_chest_plate06',
+    icon: 'Armor/Chest/chest-bronze-breastplate',
     isBaseCategory: false,
     parentId: 'armor'
   },
@@ -245,35 +288,35 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'accessories',
     name: 'Accessories',
-    icon: 'inv_jewelry_ring_03',
+    icon: 'Armor/Finger/finger-ancient-bronze-ring',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'accessories-rings',
     name: 'Rings',
-    icon: 'inv_jewelry_ring_03',
+    icon: 'Armor/Finger/finger-ancient-bronze-ring',
     isBaseCategory: false,
     parentId: 'accessories'
   },
   {
     id: 'accessories-amulets',
     name: 'Amulets & Necklaces',
-    icon: 'inv_jewelry_necklace_03',
+    icon: 'Armor/Neck/archery-pendant',
     isBaseCategory: false,
     parentId: 'accessories'
   },
   {
     id: 'accessories-trinkets',
     name: 'Trinkets',
-    icon: 'inv_misc_orb_01',
+    icon: 'Misc/Profession Resources/Gems/Oval Gem',
     isBaseCategory: false,
     parentId: 'accessories'
   },
   {
     id: 'accessories-cloaks',
     name: 'Cloaks',
-    icon: 'inv_misc_cape_02',
+    icon: 'Armor/Cloak/beige-brown-collared-cloak',
     isBaseCategory: false,
     parentId: 'accessories'
   },
@@ -282,35 +325,35 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'consumables',
     name: 'Consumables',
-    icon: 'inv_potion_51',
+    icon: 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'consumables-potions',
     name: 'Potions',
-    icon: 'inv_potion_51',
+    icon: 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
     isBaseCategory: false,
     parentId: 'consumables'
   },
   {
     id: 'consumables-food',
     name: 'Food & Drink',
-    icon: 'inv_misc_food_15',
+    icon: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
     isBaseCategory: false,
     parentId: 'consumables'
   },
   {
     id: 'consumables-scrolls',
     name: 'Scrolls',
-    icon: 'inv_scroll_03',
+    icon: 'Misc/Books/book-scroll-rolled-red-wax-seal',
     isBaseCategory: false,
     parentId: 'consumables'
   },
   {
     id: 'consumables-poisons',
     name: 'Poisons',
-    icon: 'inv_potion_17',
+    icon: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-vial-elongated-cylindrical-label-parchment',
     isBaseCategory: false,
     parentId: 'consumables'
   },
@@ -319,21 +362,21 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'tools',
     name: 'Tools & Equipment',
-    icon: 'inv_misc_bag_10',
+    icon: 'Container/Bag/adventurer-backpack-gear',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'tools-crafting',
     name: 'Crafting Tools',
-    icon: 'inv_misc_bag_10',
+    icon: 'Weapons/Pickaxe/pickaxe-brown-handle-tan-head-two-pronged-basic',
     isBaseCategory: false,
     parentId: 'tools'
   },
   {
     id: 'tools-adventuring',
     name: 'Adventuring Gear',
-    icon: 'inv_misc_rope_01',
+    icon: 'Container/Bag/adventurer-backpack-gear',
     isBaseCategory: false,
     parentId: 'tools'
   },
@@ -342,70 +385,70 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'recipes',
     name: 'Recipes',
-    icon: 'inv_scroll_03',
+    icon: 'Misc/Books/book-scroll-rolled-red-wax-seal',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'recipes-blacksmithing',
     name: 'Blacksmithing',
-    icon: 'trade_blacksmithing',
+    icon: 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-brick-brown-orange',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-alchemy',
     name: 'Alchemy',
-    icon: 'trade_alchemy',
+    icon: 'Misc/Profession Resources/Alchemy/Red/red-potion-classic-shape',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-tailoring',
     name: 'Tailoring',
-    icon: 'trade_tailoring',
+    icon: 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-leatherworking',
     name: 'Leatherworking',
-    icon: 'trade_leatherworking',
+    icon: 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-cooking',
     name: 'Cooking',
-    icon: 'inv_misc_food_08',
+    icon: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-enchanting',
     name: 'Enchanting',
-    icon: 'trade_engraving',
+    icon: 'Misc/Profession Resources/Gems/resource-purple-gem-crystal-shiny',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-engineering',
     name: 'Engineering',
-    icon: 'trade_engineering',
+    icon: 'Weapons/Shovel/shovel-beige-blade-brown-handle-simple',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-jewelcrafting',
     name: 'Jewelcrafting',
-    icon: 'inv_misc_gem_01',
+    icon: 'Misc/Profession Resources/Gems/Ruby',
     isBaseCategory: false,
     parentId: 'recipes'
   },
   {
     id: 'recipes-masonry',
     name: 'Masonry',
-    icon: 'inv_stone_grindingstone_01',
+    icon: 'Misc/Profession Resources/Mining/resource-ore-rock-blue-teal-brown-beige',
     isBaseCategory: false,
     parentId: 'recipes'
   },
@@ -414,123 +457,105 @@ const COMPREHENSIVE_CATEGORIES = [
   {
     id: 'trade-goods',
     name: 'Trade Goods',
-    icon: 'inv_ore_copper_01',
+    icon: 'Misc/Profession Resources/Mining/resource-ore-cluster-orange-red-veins',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'trade-goods-ores',
     name: 'Ores & Metals',
-    icon: 'inv_ore_copper_01',
+    icon: 'Misc/Profession Resources/Mining/resource-ore-cluster-orange-red-veins',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'trade-goods-gems',
     name: 'Gems & Stones',
-    icon: 'inv_misc_gem_emerald_02',
+    icon: 'Misc/Profession Resources/Gems/resource-teal-gem-rhombus-diamond-faceted',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'trade-goods-cloth',
     name: 'Cloth & Leather',
-    icon: 'inv_fabric_linen_01',
+    icon: 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'trade-goods-reagents',
     name: 'Reagents & Herbs',
-    icon: 'inv_misc_herb_01',
+    icon: 'Misc/Profession Resources/Gems/resource-crystal-shards-teal-beige-faceted',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
-
-  // Profession Materials Categories
   {
     id: 'materials-enchanting',
     name: 'Enchanting Materials',
-    icon: 'trade_engraving',
-    isBaseCategory: false,
-    parentId: 'trade-goods'
-  },
-  {
-    id: 'materials-alchemy',
-    name: 'Alchemy Materials',
-    icon: 'trade_alchemy',
-    isBaseCategory: false,
-    parentId: 'trade-goods'
-  },
-  {
-    id: 'materials-blacksmithing',
-    name: 'Blacksmithing Materials',
-    icon: 'trade_blacksmithing',
+    icon: 'Misc/Profession Resources/Gems/resource-purple-gem-crystal-shiny',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-tailoring',
     name: 'Tailoring Materials',
-    icon: 'trade_tailoring',
+    icon: 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-leatherworking',
     name: 'Leatherworking Materials',
-    icon: 'trade_leatherworking',
+    icon: 'Misc/Profession Resources/Tailoring/resource-spotted-fabric-leather-blue-dots',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-cooking',
     name: 'Cooking Materials',
-    icon: 'inv_misc_food_08',
+    icon: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-engineering',
     name: 'Engineering Materials',
-    icon: 'trade_engineering',
+    icon: 'Misc/Profession Resources/Mining/resource-ore-chunk-teal-brown-patches',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-jewelcrafting',
     name: 'Jewelcrafting Materials',
-    icon: 'inv_misc_gem_01',
+    icon: 'Misc/Profession Resources/Gems/Ruby',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
   {
     id: 'materials-mining',
     name: 'Mining Materials',
-    icon: 'trade_mining',
+    icon: 'Misc/Profession Resources/Mining/resource-ore-rock-blue-teal-brown-beige',
     isBaseCategory: false,
     parentId: 'trade-goods'
   },
-
-  // Containers Category
   {
     id: 'containers',
     name: 'Containers',
-    icon: 'inv_box_01',
+    icon: 'Container/Chest/house-chest',
     isBaseCategory: false,
     parentId: null
   },
   {
     id: 'containers-bags',
     name: 'Bags & Pouches',
-    icon: 'inv_misc_bag_10',
+    icon: 'Container/Bag/adventurer-backpack-gear',
     isBaseCategory: false,
     parentId: 'containers'
   },
   {
     id: 'containers-chests',
     name: 'Chests & Boxes',
-    icon: 'inv_box_01',
+    icon: 'Container/Chest/house-chest',
     isBaseCategory: false,
     parentId: 'containers'
   }
@@ -962,9 +987,12 @@ const useItemStore = create(
 
             // Item actions
             addItem: (item, categories = null) => set(state => {
+                const currentUser = useAuthStore.getState().user;
                 const newItem = {
                     id: item.id || Date.now().toString(),
-                    ...item
+                    ...item,
+                    ...(currentUser && !currentUser.isGuest ? { createdBy: currentUser.uid } : {}),
+                    ...(item.source !== 'built-in' && !item.isCustom ? { isCustom: true } : {})
                 };
 
                 // Always ensure BASE_CATEGORY.id is included
@@ -994,6 +1022,11 @@ const useItemStore = create(
 
                 // Sync with multiplayer
                 get().syncItemUpdate('item_added', { item: newItem, categories: Array.from(categorySet) });
+
+                // Save to Firebase for authenticated users
+                if (newItem.createdBy) {
+                    get().saveItemToFirebase(newItem);
+                }
             }),
 
             updateItem: (itemId, updates) => set(state => {
@@ -1013,14 +1046,10 @@ const useItemStore = create(
             }),
 
             removeItem: (itemId) => set(state => {
-                // Remove the item from items array
                 const newItems = state.items.filter(item => item.id !== itemId);
-
-                // Remove the item from itemCategories
                 const newItemCategories = { ...state.itemCategories };
                 delete newItemCategories[itemId];
 
-                // If this was the selected item, clear the selection
                 const newSelectedItem = state.selectedItem?.id === itemId ? null : state.selectedItem;
 
                 return {
@@ -1029,11 +1058,6 @@ const useItemStore = create(
                     selectedItem: newSelectedItem
                 };
 
-                // Sync with multiplayer
-                const itemToRemove = state.items.find(item => item.id === itemId);
-                if (itemToRemove) {
-                    get().syncItemUpdate('item_removed', { itemId, itemData: itemToRemove });
-                }
             }),
 
             moveItem: (itemId, categoryId) => {
@@ -1113,6 +1137,46 @@ const useItemStore = create(
                 };
             }),
 
+            loadUserItemsFromFirebase: async () => {
+                const currentUser = useAuthStore.getState().user;
+                if (!currentUser || currentUser.isGuest) return;
+
+                try {
+                    const firebaseItems = await loadUserItems(currentUser.uid);
+                    if (!firebaseItems || firebaseItems.length === 0) return;
+
+                    const state = get();
+                    const existingIds = new Set(state.items.map(i => i.id));
+                    const newItems = firebaseItems.filter(fi => !existingIds.has(fi.id));
+                    const newCategories = { ...state.itemCategories };
+
+                    newItems.forEach(item => {
+                        const cats = item.itemCategories || [BASE_CATEGORY.id];
+                        newCategories[item.id] = Array.isArray(cats) ? cats : [cats];
+                    });
+
+                    if (newItems.length > 0) {
+                        set({
+                            items: [...state.items, ...newItems],
+                            itemCategories: newCategories
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading user items from Firebase:', error);
+                }
+            },
+
+            saveItemToFirebase: async (item) => {
+                const currentUser = useAuthStore.getState().user;
+                if (!currentUser || currentUser.isGuest) return;
+
+                try {
+                    await saveUserItem(currentUser.uid, item);
+                } catch (error) {
+                    console.error('Error saving item to Firebase:', error);
+                }
+            },
+
             // Multiplayer Synchronization
             syncItemUpdate: (updateType, data) => {
                 const gameStore = useGameStore.getState();
@@ -1147,6 +1211,16 @@ const useItemStore = create(
                     if (parsed.state && parsed.state.openContainers) {
                         // Ensure openContainers is a Set
                         parsed.state.openContainers = new Set(parsed.state.openContainers);
+                    }
+
+                    // Migrate category icons from old WoW IDs to local paths
+                    if (parsed.state && parsed.state.categories) {
+                        parsed.state.categories = parsed.state.categories.map(cat => {
+                            if (cat.icon && CATEGORY_ICON_MIGRATION[cat.icon]) {
+                                return { ...cat, icon: CATEGORY_ICON_MIGRATION[cat.icon] };
+                            }
+                            return cat;
+                        });
                     }
 
                     return parsed;

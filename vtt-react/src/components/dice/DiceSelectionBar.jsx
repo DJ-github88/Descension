@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import useDiceStore, { DICE_TYPES } from '../../store/diceStore';
+import useDiceStore, { DICE_TYPES, DICE_PRESETS } from '../../store/diceStore';
 import CardDrawSystem from './CardDrawSystem';
 import CoinFlipSystem from './CoinFlipSystem';
 import './DiceSelectionBar.css';
@@ -19,7 +19,9 @@ const DiceSelectionBar = () => {
     setDiceQuantity,
     getTotalDiceCount,
     getFormattedRollString,
-    startRoll
+    startRoll,
+    activePreset,
+    setDicePreset
   } = useDiceStore();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -169,6 +171,22 @@ const DiceSelectionBar = () => {
                   {diceType.name}
                 </button>
               ))}
+              <button
+                className="quick-roll-button"
+                onClick={() => handleQuickRoll('dpercent')}
+                disabled={isRolling}
+                title="Quick roll percentile (00-90)"
+              >
+                D%
+              </button>
+              <button
+                className="quick-roll-button"
+                onClick={() => handleQuickRoll('d100')}
+                disabled={isRolling}
+                title="Quick roll D100 (percentile + d10)"
+              >
+                D100
+              </button>
             </div>
           </div>
 
@@ -219,6 +237,30 @@ const DiceSelectionBar = () => {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          {/* Dice Theme Presets */}
+          <div className="preset-section">
+            <div className="preset-label">Theme:</div>
+            <div className="preset-grid">
+              {Object.values(DICE_PRESETS).map(preset => (
+                <button
+                  key={preset.id}
+                  className={`preset-button ${activePreset === preset.id ? 'active' : ''}`}
+                  onClick={() => setDicePreset(preset.id)}
+                  title={preset.name}
+                >
+                  <span
+                    className="preset-swatch"
+                    style={{
+                      background: `linear-gradient(135deg, ${preset.bodyColor}, ${preset.edgeColor})`,
+                      border: `2px solid ${preset.edgeColor}`
+                    }}
+                  />
+                  <span className="preset-name">{preset.name}</span>
+                </button>
+              ))}
             </div>
           </div>
 

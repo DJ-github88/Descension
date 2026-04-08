@@ -58,6 +58,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const setShowMapTransitions = useSettingsStore(state => state.setShowMapTransitions);
     const viewUpdateOnPlacement = useSettingsStore(state => state.viewUpdateOnPlacement ?? true);
     const setViewUpdateOnPlacement = useSettingsStore(state => state.setViewUpdateOnPlacement);
+    const playerTooltipMode = useSettingsStore(state => state.playerTooltipMode || 'vague');
+    const setPlayerTooltipMode = useSettingsStore(state => state.setPlayerTooltipMode);
 
     // Speech bubble settings
     const showSpeechBubbles = useSettingsStore(state => state.showSpeechBubbles);
@@ -519,8 +521,58 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 </p>
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </div>
+
+                {/* GM-only: Player Tooltip Mode */}
+                {isGMMode && (
+                    <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.03))', border: '1px solid rgba(212,175,55,0.25)', borderRadius: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                            <i className="fas fa-eye-slash" style={{ fontSize: '20px', color: '#d4af37' }}></i>
+                            <div>
+                                <h3 style={{ margin: '0 0 4px 0', color: '#d4af37', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Player Tooltip Info</h3>
+                                <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>How much creature information players see when hovering over tokens</p>
+                            </div>
+                        </div>
+                        <div className="settings-group">
+                            <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+                                {[
+                                    { value: 'vague', label: '🌫 Vague', desc: 'Players see health status (e.g. "Bloodied") and color-coded speed/armor labels. No numbers.' },
+                                    { value: 'partial', label: '📊 Partial', desc: 'Players see a health bar + descriptive labels (e.g. "Fast", "Well-Armored"). No exact values.' },
+                                    { value: 'full', label: '📋 Full', desc: 'Players see exact HP, AC, Speed and all stats — same as GM.' }
+                                ].map(opt => (
+                                    <label
+                                        key={opt.value}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            gap: '10px',
+                                            padding: '10px 14px',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            background: playerTooltipMode === opt.value ? 'rgba(212,175,55,0.12)' : 'rgba(255,255,255,0.4)',
+                                            border: `1px solid ${playerTooltipMode === opt.value ? 'rgba(212,175,55,0.45)' : 'rgba(160,140,112,0.2)'}`,
+                                            transition: 'all 0.15s ease'
+                                        }}
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="playerTooltipMode"
+                                            value={opt.value}
+                                            checked={playerTooltipMode === opt.value}
+                                            onChange={() => setPlayerTooltipMode(opt.value)}
+                                            style={{ marginTop: '3px', accentColor: '#d4af37' }}
+                                        />
+                                        <div>
+                                            <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>{opt.label}</div>
+                                            <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>{opt.desc}</div>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

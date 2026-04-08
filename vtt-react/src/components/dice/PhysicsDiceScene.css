@@ -1,0 +1,191 @@
+.dice-3d-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 12, 0.75);
+  backdrop-filter: blur(3px);
+}
+
+.dice-3d-overlay.visible {
+  display: flex;
+}
+
+.dice-3d-canvas-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.dice-3d-canvas-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dice-3d-result-area {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  pointer-events: auto;
+  background: radial-gradient(circle, rgba(10, 10, 20, 0.9) 0%, rgba(10, 10, 20, 0.5) 40%, transparent 70%);
+  padding: 30px 50px;
+  border-radius: 16px;
+  animation: resultFadeIn 0.5s ease forwards;
+}
+
+@keyframes resultFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dice-3d-result-label {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(232, 213, 163, 0.8);
+  margin-bottom: 8px;
+}
+
+.dice-3d-result-number {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  color: #f0c060;
+  text-shadow:
+    0 0 20px #ffdd80,
+    0 0 60px rgba(201, 168, 76, 0.8),
+    0 0 120px rgba(201, 168, 76, 0.4);
+}
+
+.dice-3d-result-number.nat20 {
+  color: #44ff88;
+  text-shadow:
+    0 0 30px #44ff88,
+    0 0 80px rgba(68, 255, 136, 0.6);
+  animation: nat20pulse 0.6s ease-in-out infinite alternate;
+}
+
+.dice-3d-result-number.nat1 {
+  color: #ff4444;
+  text-shadow:
+    0 0 30px #ff4444,
+    0 0 80px rgba(255, 68, 68, 0.6);
+}
+
+@keyframes nat20pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+.dice-3d-result-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dice-3d-breakdown-item {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 0.9rem;
+  color: rgba(232, 213, 163, 0.8);
+  background: rgba(201, 168, 76, 0.15);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.dice-3d-result-flavor {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  letter-spacing: 0.2em;
+  margin-top: 10px;
+  font-weight: 700;
+  color: rgba(232, 213, 163, 0.9);
+}
+
+.dice-3d-result-flavor.nat20 {
+  color: #44ff88;
+}
+
+.dice-3d-result-flavor.nat1 {
+  color: #ff4444;
+}
+
+.dice-3d-result-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.dice-3d-reroll-btn,
+.dice-3d-close-btn {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  pointer-events: auto;
+}
+
+.dice-3d-reroll-btn {
+  color: #0a0a14;
+  background: linear-gradient(135deg, #c9a84c 0%, #f0c060 50%, #c9a84c 100%);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dice-3d-reroll-btn:hover {
+  background: linear-gradient(135deg, #f0c060 0%, #ffe090 50%, #f0c060 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(201, 168, 76, 0.6), 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.dice-3d-reroll-btn:active {
+  transform: translateY(0);
+}
+
+.dice-3d-close-btn {
+  color: rgba(232, 213, 163, 0.8);
+  background: rgba(10, 10, 20, 0.6);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.dice-3d-close-btn:hover {
+  background: rgba(10, 10, 20, 0.8);
+  border-color: rgba(201, 168, 76, 0.5);
+  color: #f0c060;
+}
+
+.dice-3d-rolling-text {
+  position: relative;
+  z-index: 10;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(232, 213, 163, 0.6);
+  animation: rollingPulse 1s ease-in-out infinite;
+}
+
+@keyframes rollingPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}

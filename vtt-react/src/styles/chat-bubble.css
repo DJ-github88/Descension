@@ -31,16 +31,45 @@
   animation: bubbleVisibility var(--bubble-duration) linear forwards;
 }
 
-/* Whisper bubble variant - distinct styling */
+/* Whisper bubble variant - distinctive 'secret' styling */
 .chat-bubble.whisper-bubble {
-  border-color: #7a3b2e;  /* Darker brown for whispers */
+  border-color: #6a1b9a; /* Vibrant Purple */
   background: linear-gradient(135deg,
-    rgba(245, 240, 225, 0.98) 0%,
-    rgba(235, 225, 205, 0.95) 100%
+    rgba(35, 15, 55, 0.98) 0%,   /* Deep Midnight Purple */
+    rgba(55, 25, 85, 0.95) 50%,
+    rgba(40, 15, 65, 0.98) 100%
   );
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(171, 71, 188, 0.3), /* Outer purple glow for 'magic' feel */
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Message content */
+.chat-bubble.whisper-bubble .chat-bubble-content {
+  color: #f3e5f5; /* Light Lavender Text for readability */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  font-style: italic; /* Whispers are always italicized */
+  letter-spacing: 0.3px;
+}
+
+/* Party bubble variant - thematic group styling */
+.chat-bubble.party-bubble {
+  border-color: #2e7d32; /* Forest Green */
+  background: linear-gradient(135deg,
+    rgba(240, 248, 240, 0.98) 0%,
+    rgba(220, 240, 220, 0.96) 50%,
+    rgba(210, 235, 210, 0.98) 100%
+  );
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.chat-bubble.party-bubble .chat-bubble-content {
+  color: #1b5e20; /* Dark Green Text */
+}
+
+/* Message content (base) */
 .chat-bubble-content {
   font-size: 14px;
   color: #3e2723;

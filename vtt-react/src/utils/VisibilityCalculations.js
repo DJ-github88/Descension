@@ -6,6 +6,48 @@
 // Import WALL_TYPES to check wall properties
 import { WALL_TYPES } from '../store/levelEditorStore';
 
+// PERFORMANCE: Wall edge index cache — maps edge keys to wall entries for O(1) lookup
+// Edge key format: "h,{minX},{y},{maxX}" for horizontal edges, "v,{x},{minY},{maxY}" for vertical edges
+// Indexed by the exact edge between two adjacent tiles: "v,{wallX},{tileY}" or "h,{tileX},{wallY}"
+let _wallEdgeIndex = null;
+let _wallEdgeIndexKey = null;
+
+function getWallEdgeIndex(wallData, windowOverlays) {
+    const dataKey = wallData === _wallEdgeIndex?.__src ? _wallEdgeIndexKey : null;
+    if (dataKey && _wallEdgeIndex) return _wallEdgeIndex;
+
+    const index = { __src: wallData };
+    const verticalEdges = index._v = new Map(); // "x,y" -> [{wall, wallKey}]
+    const horizontalEdges = index._h = new Map(); // "x,y" -> [{wall, wallKey}]
+
+    for (const [wallKey, wall] of Object.entries(wallData)) {
+        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+        if (wx1 === wx2) {
+            // Vertical wall at x=wx1, spans wy1..wy2
+            const minY = Math.min(wy1, wy2);
+            const maxY = Math.max(wy1, wy2);
+            for (let y = minY; y < maxY; y++) {
+                const key = `${wx1},${y}`;
+                if (!verticalEdges.has(key)) verticalEdges.set(key, []);
+                verticalEdges.get(key).push({ wall, wallKey });
+            }
+        } else if (wy1 === wy2) {
+            // Horizontal wall at y=wy1, spans wx1..wx2
+            const minX = Math.min(wx1, wx2);
+            const maxX = Math.max(wx1, wx2);
+            for (let x = minX; x < maxX; x++) {
+                const key = `${x},${wy1}`;
+                if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
+                horizontalEdges.get(key).push({ wall, wallKey });
+            }
+        }
+    }
+
+    _wallEdgeIndex = index;
+    _wallEdgeIndexKey = wallData;
+    return index;
+}
+
 /**
  * Calculate line of sight between two points using Bresenham's line algorithm
  * @param {number} x0 - Starting x coordinate
@@ -57,119 +99,74 @@ export function getLineOfSight(x0, y0, x1, y1) {
 export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
     if (!wallData || Object.keys(wallData).length === 0) return false;
 
-    // Ensure we're working with integers (grid coordinates)
     const gx1 = Math.floor(x1);
     const gy1 = Math.floor(y1);
     const gx2 = Math.floor(x2);
     const gy2 = Math.floor(y2);
 
-    // Check if moving between adjacent tiles (only adjacent tiles can have a wall between them)
     const dx = Math.abs(gx2 - gx1);
     const dy = Math.abs(gy2 - gy1);
 
-    // Only check for walls if tiles are adjacent (horizontally, vertically, or diagonally)
     if (dx > 1 || dy > 1 || (dx === 0 && dy === 0)) {
-        return false; // Not adjacent tiles, no wall can block
+        return false;
     }
 
-    // Check all walls to see if any cross the edge between these two tiles
-    // Walls are stored as edge segments: "x1,y1,x2,y2" where coordinates are grid corner positions
-    // Based on Grid.jsx logic:
-    // - Vertical wall at x=x1 separates tiles (x1-1, y) (left) and (x1, y) (right)
-    // - Horizontal wall at y=y1 separates tiles (x, y1-1) (top) and (x, y1) (bottom)
+    // PERFORMANCE: Use edge index for O(1) lookup instead of iterating all walls
+    const index = getWallEdgeIndex(wallData, windowOverlays);
 
-    for (const [wallKey, wall] of Object.entries(wallData)) {
-        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-        const isVertical = wx1 === wx2;
-        const isHorizontal = wy1 === wy2;
-
-        // Check if this wall blocks movement between the two tiles
-        if (isVertical) {
-            // Vertical wall at x=wx1: separates tiles at x=wx1-1 (left) and x=wx1 (right)
-            // Wall spans from min(wy1,wy2) to max(wy1,wy2)
-            const wallMinY = Math.min(wy1, wy2);
-            const wallMaxY = Math.max(wy1, wy2);
-            const wallX = wx1;
-            const leftTileX = wallX - 1;
-            const rightTileX = wallX;
-
-            // Moving horizontally between tiles
-            if (gx1 !== gx2 && gy1 === gy2) {
-                // Check if these tiles are the ones separated by this wall
-                const tileY = gy1;
-                if (tileY >= wallMinY && tileY <= wallMaxY) {
-                    // Wall blocks if these tiles are separated by it
-                    if ((gx1 === leftTileX && gx2 === rightTileX) || (gx1 === rightTileX && gx2 === leftTileX)) {
-                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                            // Wall blocking detected (logging removed for performance)
-                            return true;
-                        }
-                    }
+    // Check vertical edge between tiles (horizontal movement)
+    if (gx1 !== gx2) {
+        const wallX = Math.max(gx1, gx2); // Vertical wall at this x
+        const edgeKey = `${wallX},${gy1}`;
+        const walls = index._v.get(edgeKey);
+        if (walls) {
+            for (const { wall, wallKey } of walls) {
+                if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+                    return true;
                 }
             }
-        } else if (isHorizontal) {
-            // Horizontal wall at y=wy1: separates tiles at y=wy1-1 (top) and y=wy1 (bottom)
-            // Wall spans from min(wx1,wx2) to max(wx1,wx2)
-            const wallMinX = Math.min(wx1, wx2);
-            const wallMaxX = Math.max(wx1, wx2);
-            const wallY = wy1;
-            const topTileY = wallY - 1;
-            const bottomTileY = wallY;
+        }
+    }
 
-            // Moving vertically between tiles
-            if (gx1 === gx2 && gy1 !== gy2) {
-                // Check if these tiles are the ones separated by this wall
-                const tileX = gx1;
-                if (tileX >= wallMinX && tileX <= wallMaxX) {
-                    // Wall blocks if these tiles are separated by it
-                    if ((gy1 === topTileY && gy2 === bottomTileY) || (gy1 === bottomTileY && gy2 === topTileY)) {
-                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                            // Wall blocking detected (logging removed for performance)
-                            return true;
-                        }
+    // Check horizontal edge between tiles (vertical movement)
+    if (gy1 !== gy2) {
+        const wallY = Math.max(gy1, gy2); // Horizontal wall at this y
+        const edgeKey = `${gx1},${wallY}`;
+        const walls = index._h.get(edgeKey);
+        if (walls) {
+            for (const { wall, wallKey } of walls) {
+                if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    // For diagonal movement, check both edges
+    if (dx === 1 && dy === 1) {
+        // Check vertical edge for diagonal
+        const wallX = Math.max(gx1, gx2);
+        for (const checkY of [gy1, gy2]) {
+            const edgeKey = `${wallX},${checkY}`;
+            const walls = index._v.get(edgeKey);
+            if (walls) {
+                for (const { wall, wallKey } of walls) {
+                    if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+                        return true;
                     }
                 }
             }
         }
 
-        // For diagonal movement, check if either a horizontal or vertical wall blocks
-        if (dx === 1 && dy === 1) {
-            if (isVertical) {
-                const wallMinY = Math.min(wy1, wy2);
-                const wallMaxY = Math.max(wy1, wy2);
-                const wallX = wx1;
-                const leftTileX = wallX - 1;
-                const rightTileX = wallX;
-
-                // Check if wall blocks horizontal component of diagonal movement
-                // Check both Y coordinates in case diagonal crosses the wall
-                const tileY1 = gy1;
-                const tileY2 = gy2;
-                if ((tileY1 >= wallMinY && tileY1 <= wallMaxY) || (tileY2 >= wallMinY && tileY2 <= wallMaxY)) {
-                    if ((gx1 === leftTileX && gx2 === rightTileX) || (gx1 === rightTileX && gx2 === leftTileX)) {
-                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                            // Wall blocking diagonal detected (logging removed for performance)
-                            return true;
-                        }
-                    }
-                }
-            } else if (isHorizontal) {
-                const wallMinX = Math.min(wx1, wx2);
-                const wallMaxX = Math.max(wx1, wx2);
-                const wallY = wy1;
-                const topTileY = wallY - 1;
-                const bottomTileY = wallY;
-
-                // Check if wall blocks vertical component of diagonal movement
-                // Check both X coordinates in case diagonal crosses the wall
-                const tileX1 = gx1;
-                const tileX2 = gx2;
-                if ((tileX1 >= wallMinX && tileX1 <= wallMaxX) || (tileX2 >= wallMinX && tileX2 <= wallMaxX)) {
-                    if ((gy1 === topTileY && gy2 === bottomTileY) || (gy1 === bottomTileY && gy2 === topTileY)) {
-                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                            // Wall blocking diagonal detected (logging removed for performance)
-                            return true;
-                        }
+        // Check horizontal edge for diagonal
+        const wallY = Math.max(gy1, gy2);
+        for (const checkX of [gx1, gx2]) {
+            const edgeKey = `${checkX},${wallY}`;
+            const walls = index._h.get(edgeKey);
+            if (walls) {
+                for (const { wall, wallKey } of walls) {
+                    if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+                        return true;
                     }
                 }
             }
@@ -628,7 +625,27 @@ export function isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode, light
 }
 
 /**
+ * Get bounding box of a polygon for fast rejection tests
+ * @param {Array} polygon - Array of {x, y} points
+ * @returns {{ minX, maxX, minY, maxY }} Bounding box
+ */
+export function getPolygonBBox(polygon) {
+    if (!polygon || polygon.length < 3) return null;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let i = 0; i < polygon.length; i++) {
+        const px = polygon[i].x;
+        const py = polygon[i].y;
+        if (px < minX) minX = px;
+        if (px > maxX) maxX = px;
+        if (py < minY) minY = py;
+        if (py > maxY) maxY = py;
+    }
+    return { minX, maxX, minY, maxY };
+}
+
+/**
  * Check if a point is inside a polygon using ray casting algorithm
+ * Includes bounding box pre-filter for performance
  * @param {number} x - Point x coordinate
  * @param {number} y - Point y coordinate
  * @param {Array} polygon - Array of {x, y} points forming the polygon
@@ -637,6 +654,19 @@ export function isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode, light
 export function isPointInPolygon(x, y, polygon) {
     if (!polygon || polygon.length < 3) return false;
 
+    // PERFORMANCE: Bounding box pre-filter — reject points clearly outside
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let i = 0; i < polygon.length; i++) {
+        const px = polygon[i].x;
+        const py = polygon[i].y;
+        if (px < minX) minX = px;
+        if (px > maxX) maxX = px;
+        if (py < minY) minY = py;
+        if (py > maxY) maxY = py;
+    }
+    if (x < minX || x > maxX || y < minY || y > maxY) return false;
+
+    // Ray casting algorithm
     let inside = false;
     for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
         const xi = polygon[i].x, yi = polygon[i].y;
@@ -686,10 +716,12 @@ export function isPositionVisible(worldX, worldY, visibleArea, gridSize, gridOff
  * Get vision range in tiles based on feet and grid settings
  * @param {number} feetRange - Vision range in feet
  * @param {number} feetPerTile - Feet per tile (from grid settings)
- * @returns {number} Vision range in tiles
+ * @param {string} mode - 'diameter' (range = full circle width) or 'radius' (range = distance from token)
+ * @returns {number} Vision range in tiles (as radius)
  */
-export function feetToTiles(feetRange, feetPerTile = 5) {
-    return Math.ceil(feetRange / feetPerTile);
+export function feetToTiles(feetRange, feetPerTile = 5, mode = 'diameter') {
+    const divisor = mode === 'diameter' ? 2 * feetPerTile : feetPerTile;
+    return Math.max(1, Math.ceil(feetRange / divisor));
 }
 
 /**
@@ -720,7 +752,7 @@ export const VISION_TYPES = {
         name: 'Darkvision',
         ignoresWalls: false,
         ignoresLighting: true,
-        description: 'Can see in darkness but blocked by walls'
+        description: 'Can see in darkness regardless of lighting'
     },
     blindsight: {
         name: 'Blindsight',
@@ -729,3 +761,7 @@ export const VISION_TYPES = {
         description: 'Can sense surroundings regardless of walls or lighting'
     }
 };
+
+export function getDefaultVisionRange(mode = 'diameter') {
+    return mode === 'diameter' ? 3 : 6;
+}

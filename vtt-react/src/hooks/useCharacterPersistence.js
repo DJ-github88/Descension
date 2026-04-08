@@ -139,7 +139,7 @@ export const useCharacterPersistence = () => {
 
       if (result.success) {
         lastSavedStateRef.current = JSON.stringify(dataToSave);
-        realtimeSync.markLocalSave(new Date(result.data?.lastUpdated));
+        realtimeSyncRef.current?.markLocalSave(new Date(result.data?.lastUpdated));
         console.log(`💾 Character state saved for ${currentCharacterId}`);
       }
 
@@ -348,21 +348,23 @@ export const useCharacterPersistence = () => {
     }
   }, []);
 
+  const realtimeSyncRef = useRef(null);
+
   const realtimeSync = useRealtimeSync(
     'characterStates',
     currentCharacterId,
     handleRemoteCharacterChange,
     {
       enabled: !!user && !user.isGuest && !!currentCharacterId,
-      conflictResolution: 'ask-user', // Let user decide in conflicts
+      conflictResolution: 'ask-user',
       onConflict: (conflictInfo) => {
-        // Show conflict resolution UI (could be implemented in a modal)
         console.warn('⚠️ Character data conflict detected!', conflictInfo);
-        // For now, just accept remote changes
         conflictInfo.resolveWithRemote();
       }
     }
   );
+
+  realtimeSyncRef.current = realtimeSync;
 
   // Mark local changes for conflict detection
   useEffect(() => {

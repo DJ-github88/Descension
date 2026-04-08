@@ -18,6 +18,8 @@ const ChatBubbleManager = () => {
   
   // Get current user's ID from presence store
   const currentGamePlayerId = useGameStore(state => state.currentPlayer?.id);
+  const multiplayerRoomId = useGameStore(state => state.multiplayerRoom?.id);
+  const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
   const currentUserId = usePresenceStore(state => 
     state.currentUserPresence?.userId || currentGamePlayerId || 'current-player'
   );
@@ -27,6 +29,17 @@ const ChatBubbleManager = () => {
   const senderQueuesRef = useRef(new Map());
   const senderTimersRef = useRef(new Map());
   const activeSenderKeysRef = useRef(new Set());
+  
+  // CRITICAL: Reset all queues when switching rooms or multiplayer status
+  useEffect(() => {
+    // Stop all current animations and clear queues
+    setActiveBubbles([]);
+    clearAllBubbleTimers();
+    senderQueuesRef.current.clear();
+    activeSenderKeysRef.current.clear();
+    // Note: We don't clear processedMessageIds here as it would cause 
+    // the main effect to re-play all recent history from the store.
+  }, [multiplayerRoomId, isInMultiplayer]);
 
   const clearAllBubbleTimers = () => {
     senderTimersRef.current.forEach((timerId) => {
@@ -198,7 +211,8 @@ const ChatBubbleManager = () => {
       return;
     }
     
-    // Process global chat messages
+    /* 
+    // Process global chat messages - DISABLED as per user request (only whisper/party)
     const newGlobalMessages = globalMessages.filter(msg => 
       msg.type === 'message' && !processedMessageIds.current.has(msg.id)
     );
@@ -218,6 +232,7 @@ const ChatBubbleManager = () => {
       }
       processedMessageIds.current.add(msg.id);
     });
+    */
     
     // Process party chat messages
     const newPartyMessages = partyMessages.filter(msg => 
@@ -226,6 +241,10 @@ const ChatBubbleManager = () => {
     
     newPartyMessages.forEach(msg => {
       if (shouldShowBubbleForUser(msg)) {
+        // Signature-based deduplication (prevent double bubbles from Social + Room sockets)
+        const signature = `party:${msg.senderId}:${msg.content.substring(0, 20)}:${Math.floor(new Date(msg.timestamp).getTime() / 1000)}`;
+        if (processedMessageIds.current.has(signature)) return;
+
         const position = getSenderPosition(msg.senderName, msg.senderId);
         enqueueBubbleForSender({
           id: msg.id,
@@ -234,8 +253,11 @@ const ChatBubbleManager = () => {
           content: msg.content,
           position,
           anchorElement: position.element,
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          isParty: true
         });
+        
+        processedMessageIds.current.add(signature);
       }
       processedMessageIds.current.add(msg.id);
     });
@@ -248,6 +270,10 @@ const ChatBubbleManager = () => {
       
       newWhisperMessages.forEach(msg => {
         if (shouldShowBubbleForUser(msg)) {
+          // Signature-based deduplication for whispers
+          const signature = `whisper:${msg.senderId}:${msg.content.substring(0, 20)}:${Math.floor(new Date(msg.timestamp).getTime() / 1000)}`;
+          if (processedMessageIds.current.has(signature)) return;
+
           // For whispers, bubble shows from SENDER (person who whispered to you)
           const position = getSenderPosition(msg.senderName, msg.senderId);
           enqueueBubbleForSender({
@@ -260,6 +286,8 @@ const ChatBubbleManager = () => {
             timestamp: Date.now(),
             isWhisper: true  // For visual styling distinction
           });
+
+          processedMessageIds.current.add(signature);
         }
         processedMessageIds.current.add(msg.id);
       });
@@ -304,7 +332,7 @@ const ChatBubbleManager = () => {
       {activeBubbles.map(bubble => (
         <div
           key={bubble.id}
-          className={`chat-bubble ${bubble.isWhisper ? 'whisper-bubble' : ''}`}
+          className={`chat-bubble ${bubble.isWhisper ? 'whisper-bubble' : ''} ${bubble.isParty ? 'party-bubble' : ''}`}
           style={{
             position: 'fixed',
             left: bubble.position.x,

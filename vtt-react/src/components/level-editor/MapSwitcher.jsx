@@ -170,6 +170,12 @@ const MapSwitcher = () => {
                 if (levelEditorStore.setFogOfWarData) {
                     levelEditorStore.setFogOfWarData(mapState.fogOfWarData || {});
                 }
+                if (levelEditorStore.setFogOfWarPaths && mapState.fogOfWarPaths !== undefined) {
+                    levelEditorStore.setFogOfWarPaths(mapState.fogOfWarPaths);
+                }
+                if (levelEditorStore.setFogErasePaths && mapState.fogErasePaths !== undefined) {
+                    levelEditorStore.setFogErasePaths(mapState.fogErasePaths);
+                }
                 if (levelEditorStore.setWallData) {
                     levelEditorStore.setWallData(mapState.wallData || {});
                 }

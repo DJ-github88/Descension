@@ -10,6 +10,7 @@
 
 const admin = require('firebase-admin');
 const { v4: uuidv4 } = require('uuid');
+const firebaseService = require('./firebaseService');
 
 class OptimizedFirebaseService {
   constructor() {
@@ -115,6 +116,10 @@ class OptimizedFirebaseService {
       ...operation
     });
 
+    // Invalidate cache for this room to prevent stale reads
+    const cacheKey = `room:${roomId}`;
+    this.cache.delete(cacheKey);
+
     // CRITICAL FIX: Only set timer if not already set to prevent lost updates
     // When timer is reset, previously queued writes are lost
     if (!this.writeTimers.has(roomId)) {
@@ -145,7 +150,7 @@ class OptimizedFirebaseService {
     // Clear timer
     const timerData = this.writeTimers.get(roomId);
     if (timerData) {
-      clearTimeout(timerData.timerId);
+      clearTimeout(timerData);
       this.writeTimers.delete(roomId);
     }
 
@@ -238,38 +243,23 @@ class OptimizedFirebaseService {
 
       if (!this.isInitialized) {
         console.warn('Firebase not initialized');
-        if (global.performanceMonitor) {
-          global.performanceMonitor.trackDatabaseQuery('getRoomData_not_init', Date.now() - startTime, false);
-        }
         return null;
       }
 
-      const doc = await this.retryOperation(() =>
-        this.db.collection('rooms').doc(roomId).get()
-      );
-
-      if (doc.exists) {
-        const data = { id: doc.id, ...doc.data() };
-
-        // Cache the result
+      // Delegate to firebaseService which handles split-storage subcollections
+      const data = await firebaseService.getRoomData(roomId);
+      if (data) {
         this.setCache(cacheKey, data, this.cacheDefaultTTL);
-
-        console.log(`🔥 Firebase hit for room ${roomId}`);
-        if (global.performanceMonitor) {
-          global.performanceMonitor.trackDatabaseQuery('getRoomData_firebase', Date.now() - startTime, true);
-        }
-        return data;
       }
 
       if (global.performanceMonitor) {
-        global.performanceMonitor.trackDatabaseQuery('getRoomData_not_found', Date.now() - startTime, true);
+        global.performanceMonitor.trackDatabaseQuery('getRoomData_firebase', Date.now() - startTime, !!data);
       }
-      return null;
+      return data;
 
     } catch (error) {
       console.error(`❌ Failed to get room data for ${roomId}:`, error);
 
-      // Handle error through centralized system if available
       if (global.errorHandler) {
         await global.errorHandler.handleError(error, {
           operation: 'getRoomData',
@@ -337,7 +327,7 @@ class OptimizedFirebaseService {
     // Queue write
     return this.queueWrite(roomId, {
       type: 'set',
-      path: `rooms/${roomId}/messages/${messageId}`,
+      path: `rooms/${roomId}/chat/${messageId}`,
       data: message
     });
   }

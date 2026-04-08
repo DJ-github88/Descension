@@ -292,7 +292,7 @@ class LocalRoomService {
       const gameState = useGameStore.getState();
       const creatureState = useCreatureStore.getState();
       const gridItemState = useGridItemStore.getState();
-      const levelEditorStore = useLevelEditorStore.getState();
+      const levelEditorState = useLevelEditorStore.getState();
 
       return {
         // Background system - ensure all background data is captured
@@ -302,7 +302,6 @@ class LocalRoomService {
         backgroundImageUrl: gameState.backgroundImageUrl || '',
 
         // FIXED: Save tokens (placed creatures) instead of global creature library
-        // The creature library should remain global and not be saved per room
         tokens: creatureState.tokens || [], // Room-specific placed creature tokens
 
         // Grid items (dropped items on the map)
@@ -315,7 +314,7 @@ class LocalRoomService {
           }, {}) || {}
         },
 
-        // Map data - include background data here too for compatibility
+        // Map data
         mapData: {
           cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
           zoomLevel: gameState.zoomLevel || 1.0,
@@ -327,18 +326,16 @@ class LocalRoomService {
         levelEditor: {
           terrainData: levelEditorState.terrainData || {},
           environmentalObjects: levelEditorState.environmentalObjects || [],
-          lightSources: levelEditorState.lightSources || {},
           wallData: levelEditorState.wallData || {},
           dndElements: levelEditorState.dndElements || [],
           fogOfWarData: levelEditorState.fogOfWarData || {},
+          fogOfWarPaths: levelEditorState.fogOfWarPaths || [],
+          fogErasePaths: levelEditorState.fogErasePaths || [],
           drawingPaths: levelEditorState.drawingPaths || [],
-          drawingLayers: levelEditorState.drawingLayers || []
+          drawingLayers: levelEditorState.drawingLayers || [],
+          lightSources: levelEditorState.lightSources || {}
         },
-
-        // Combat state
-        combat: {
-          isActive: false // Local rooms don't persist combat state
-        }
+        combat: { isActive: false }
       };
     } catch (error) {
       console.error('Error collecting game state:', error);

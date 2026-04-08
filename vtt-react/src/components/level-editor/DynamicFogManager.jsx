@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
 import useGameStore from '../../store/gameStore';
-import { updateRevealedAreas } from '../../utils/VisibilityCalculations';
+import { updateRevealedAreas, feetToTiles } from '../../utils/VisibilityCalculations';
 
 /**
  * DynamicFogManager - Handles real-time fog of war updates based on token movement
@@ -38,20 +38,20 @@ const DynamicFogManager = ({ disabled = false }) => {
             const visionData = tokenVisionRanges[token.creatureId] || {};
             
             // Default vision settings
-            let visionRange = 6; // 30ft in tiles (assuming 5ft per tile)
+            let visionRange = feetToTiles(30, feetPerTile, 'diameter');
             let visionType = 'normal';
 
             // Get vision from creature data if available
             if (creature) {
                 // Check for darkvision or other special vision
                 if (creature.senses?.darkvision) {
-                    visionRange = Math.ceil(creature.senses.darkvision / feetPerTile);
+                    visionRange = feetToTiles(creature.senses.darkvision, feetPerTile, 'diameter');
                     visionType = 'darkvision';
                 } else if (creature.senses?.blindsight) {
-                    visionRange = Math.ceil(creature.senses.blindsight / feetPerTile);
+                    visionRange = feetToTiles(creature.senses.blindsight, feetPerTile, 'diameter');
                     visionType = 'blindsight';
                 } else if (creature.senses?.normalVision) {
-                    visionRange = Math.ceil(creature.senses.normalVision / feetPerTile);
+                    visionRange = feetToTiles(creature.senses.normalVision, feetPerTile, 'diameter');
                 }
             }
 

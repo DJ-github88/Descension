@@ -363,13 +363,20 @@ class EventBatcher {
    * Simplify batch for player clients to reduce processing overhead
    */
   simplifyBatchForPlayer(batchPacket) {
-    // For players: Remove unnecessary metadata and keep only essential events
+    // For players: Remove unnecessary metadata and keep all game-relevant events
     const simplifiedEvents = batchPacket.events.filter(event => {
-      // Keep only essential events for players
       return event.priority === 'critical' ||
+             event.priority === 'high' ||
              event.type === 'token_moved' ||
              event.type === 'character_moved' ||
-             event.type === 'chat_message';
+             event.type === 'chat_message' ||
+             event.type.startsWith('token_') ||
+             event.type.startsWith('character_') ||
+             event.type.startsWith('combat_') ||
+             event.type.startsWith('map_') ||
+             event.type.startsWith('fog_') ||
+             event.type.startsWith('wall_') ||
+             event.type.startsWith('light_');
     });
 
     return {

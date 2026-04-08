@@ -79,7 +79,7 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
                                 >
                                     {category.icon ? (
                                         <img
-                                            src={`getIconUrl('${category.icon}', 'items')`}
+                                            src={getIconUrl(category.icon, 'items')}
                                             alt={category.name}
                                             className="category-icon-img"
                                             onError={(e) => {

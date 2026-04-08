@@ -163,9 +163,23 @@
     font-size: 14px;
     color: #7a3b2e;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #a08c70;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #a08c70;
     padding-bottom: 8px;
+    position: relative;
+    font-weight: 700;
+}
+
+/* Decorative parchment underline for section headers */
+.vtt-tool-settings h4::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #d4af37;
+    border-radius: 2px;
 }
 
 /* Terrain Tools - Full Space Usage */
@@ -233,10 +247,12 @@
     border-radius: 3px;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 .setting-group input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 18px;
     height: 18px;
     background: #7a3b2e;

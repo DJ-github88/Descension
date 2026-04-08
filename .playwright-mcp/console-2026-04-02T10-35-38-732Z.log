@@ -1,0 +1,213 @@
+[       4ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497211
+[       9ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[      31ms] [LOG] 📊 Event tracked: page_hidden {timestamp: 2026-04-02T10:35:38.762Z} @ http://localhost:3000/static/js/bundle.js:491888
+[      31ms] [LOG] 🔴 Setting user offline: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:497211
+[    1050ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:203678
+[    1114ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:313440
+[    1482ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[    1483ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[    1484ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502424
+[    1484ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502470
+[    1484ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502515
+[    1486ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:534025
+[    1487ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:534042
+[    1487ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:247476
+[    1489ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:507772
+[    1489ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:508568
+[    1489ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:248310
+[    1499ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[    1880ms] [LOG] 🔄 Authenticated but no socket. Initializing global socket... @ http://localhost:3000/static/js/bundle.js:289611
+[    1881ms] [LOG] 🟢 Initializing presence on authentication for: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:289654
+[    1882ms] [LOG] 🟢 Setting user online: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:497172
+[    1884ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[    1884ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[    1884ms] [LOG] Offline support initialized @ http://localhost:3000/static/js/bundle.js:502043
+[    1884ms] [LOG] Analytics tracking initialized @ http://localhost:3000/static/js/bundle.js:491862
+[    1885ms] [LOG] 📊 Event tracked: session_start {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, timestamp: 2026-04-02T10:35:40.616Z, userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36, screenResolution: 1920x1080, timezone: Europe/Copenhagen} @ http://localhost:3000/static/js/bundle.js:491888
+[    1886ms] [LOG] 💾 Authenticated user - character data will persist to Firebase @ http://localhost:3000/static/js/bundle.js:279241
+[    1888ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279448
+[    1892ms] [LOG] 🔌 Initializing global socket at: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:523839
+[    1908ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:279448
+[    1918ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[    1921ms] [LOG] 🔌 Socket connected: l8lZP5yLzC8aVlghAAAP url: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:523770
+[    2131ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[    2133ms] [LOG] 📂 Journal loaded for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488722
+[    2136ms] [LOG] 💾 Authenticated user - full data persistence enabled @ http://localhost:3000/static/js/bundle.js:279442
+[    2136ms] [LOG] 📊 Storage usage: 0.00MB used @ http://localhost:3000/static/js/bundle.js:279445
+[    2332ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[    3489ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504587
+[    3494ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    3495ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    3495ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[    4647ms] [LOG] 💾 Journal saved for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:488679
+[   32214ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[   32382ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[   43134ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[   43179ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[   54112ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[   62215ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[   62430ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[   88136ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[   92212ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[   92335ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[   96877ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  102975ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  118258ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  122204ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  122465ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  147931ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  148007ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  148054ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  148222ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  148284ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  152211ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  152335ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  162889ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  182207ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  182390ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  212220ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  212337ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  214149ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  215359ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  216627ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  217644ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  218661ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  219894ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  220960ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  221980ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  222995ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  224011ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  225034ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  226064ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  227082ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  228093ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  229114ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  230364ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  231367ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  232377ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  233395ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  234410ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  235428ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  236450ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  237502ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  238560ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  239577ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  240627ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  241844ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  242204ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  242387ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  242877ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  243920ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  244938ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  245944ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  246993ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  248033ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  249045ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  250061ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  251079ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  252095ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  253111ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  254127ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  255145ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  256167ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  272217ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  272367ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  302209ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  302375ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  332217ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  332321ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  362211ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  362376ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  382841ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  392208ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  392421ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  422215ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  422367ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  452209ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  452313ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  482209ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  482389ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  512214ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  512365ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  542218ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  542384ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  569110ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  569343ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  570735ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  570780ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  570827ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  570874ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  570890ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  572217ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:497396
+[  572335ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  572968ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  579278ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  582559ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  582606ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  582652ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  582840ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  597606ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  602206ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  602302ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  609775ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  613011ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  616295ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  632217ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  632324ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  642970ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  659565ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  662215ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  662363ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  673879ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  692213ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  692361ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  703886ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  721511ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  722204ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  722382ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  723141ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  733893ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  748263ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  752216ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  752350ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  763888ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  782214ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  782410ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  812211ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  812375ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  822908ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  837211ms] [LOG] [EffectProcessing] Stopping real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:508
+[  837212ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:490041
+[  837212ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:490191
+[  837212ms] [LOG] Offline support initialized @ http://localhost:3000/static/js/bundle.js:502043
+[  837212ms] [LOG] Analytics tracking initialized @ http://localhost:3000/static/js/bundle.js:491862
+[  837213ms] [LOG] 📊 Event tracked: session_start {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, timestamp: 2026-04-02T10:49:35.944Z, userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36, screenResolution: 1920x1080, timezone: Europe/Copenhagen} @ http://localhost:3000/static/js/bundle.js:491888
+[  837214ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:502424
+[  837214ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:502470
+[  837214ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:502515
+[  837217ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/main.12e5e259810d4a739623.hot-update.js:1204
+[  837217ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:495
+[  839232ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[  839232ms] [LOG] [Icon Migration] Complete: {migrated: 0, skipped: 18, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[  839232ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:504587
+[  842217ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  842353ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  852945ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  872215ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  872351ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  882960ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  902209ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  902390ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  912961ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  932214ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  932332ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  943215ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  962219ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  962399ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  972970ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[  992210ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[  992344ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[ 1002966ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[ 1022218ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:497396
+[ 1022385ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396
+[ 1032965ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:497396

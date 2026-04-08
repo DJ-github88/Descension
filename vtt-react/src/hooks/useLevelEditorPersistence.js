@@ -280,6 +280,8 @@ export const useLevelEditorPersistence = () => {
     levelEditorState.environmentalObjects,
     levelEditorState.dndElements,
     levelEditorState.fogOfWarData,
+    levelEditorState.fogOfWarPaths,
+    levelEditorState.fogErasePaths,
     levelEditorState.exploredAreas,
     levelEditorState.drawingPaths,
     levelEditorState.lightSources,

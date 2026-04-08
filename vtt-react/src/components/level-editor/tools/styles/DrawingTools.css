@@ -16,20 +16,35 @@
 }
 
 .tool-section h4 {
-    margin: 0 0 12px 0;
-    font-size: 12px;
+    margin: 0 0 16px 0;
+    font-size: 13px;
     color: #7a3b2e;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #a08c70;
-    padding-bottom: 6px;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #a08c70;
+    padding-bottom: 8px;
+    position: relative;
+    font-weight: 700;
+}
+
+/* Decorative parchment underline for section headers */
+.tool-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #d4af37;
+    border-radius: 2px;
 }
 
 /* Tool Grid */
+/* Tool Grid - Responsive columns using auto-fit */
 .tool-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
 }
 
 .drawing-tool-btn {
@@ -196,10 +211,12 @@
     border-radius: 3px;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 .stroke-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 18px;
     height: 18px;
     background: #7a3b2e;
@@ -273,10 +290,12 @@
     border-radius: 3px;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 .opacity-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 18px;
     height: 18px;
     background: #7a3b2e;
@@ -339,8 +358,8 @@
     background: #7a3b2e;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
+/* Responsive Adjustments - optimized for new window size */
+@media (max-width: 600px) {
     .tool-grid {
         grid-template-columns: 1fr;
     }

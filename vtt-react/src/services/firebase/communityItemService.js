@@ -23,7 +23,8 @@ import {
   limit,
   startAfter,
   getDoc,
-  setDoc
+  setDoc,
+  increment
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { getIconUrl } from '../../utils/assetManager';
@@ -34,7 +35,8 @@ const COLLECTIONS = {
   ITEMS: 'community_items',
   CATEGORIES: 'item_categories',
   USERS: 'users',
-  RATINGS: 'item_ratings'
+  RATINGS: 'item_ratings',
+  COMMENTS: 'item_comments'
 };
 
 // Check if Firebase is available
@@ -435,55 +437,6 @@ async function recalculateItemRating(itemId) {
   }
 }
 
-// Default categories for initial setup
-export const DEFAULT_ITEM_CATEGORIES = [
-  {
-    id: 'weapons',
-    name: 'Weapons',
-    description: 'Swords, axes, bows, and other combat equipment',
-    icon: 'inv_sword_04',
-    color: '#8B4513'
-  },
-  {
-    id: 'armor',
-    name: 'Armor',
-    description: 'Protective gear and clothing',
-    icon: 'inv_chest_plate02',
-    color: '#2d5016'
-  },
-  {
-    id: 'consumables',
-    name: 'Consumables',
-    description: 'Potions, food, and other consumable items',
-    icon: 'inv_potion_54',
-    color: '#5a1e12'
-  },
-  {
-    id: 'tools',
-    name: 'Tools',
-    description: 'Utility items and equipment',
-    icon: 'inv_misc_tool_01',
-    color: '#a08c70'
-  },
-  {
-    id: 'accessories',
-    name: 'Accessories',
-    description: 'Rings, amulets, and other accessories',
-    icon: 'inv_jewelry_ring_01',
-    color: '#b8860b'
-  },
-  {
-    id: 'materials',
-    name: 'Materials',
-    description: 'Crafting materials and components',
-    icon: 'inv_misc_gem_01',
-    color: '#8b7355'
-  }
-];
-
-/**
- * Initialize default item categories in Firebase
- */
 export async function initializeItemCategories() {
   if (!checkFirebaseAvailable()) {
     return [];
@@ -548,3 +501,113 @@ export async function initializeItemCategories() {
 
   return results;
 }
+
+/**
+ * Vote on a community item (upvote or downvote)
+ */
+export async function voteItem(itemId, userId, direction) {
+  try {
+    if (!checkFirebaseAvailable()) {
+      throw new Error('Firebase not available');
+    }
+
+    const voteRef = doc(db, COLLECTIONS.RATINGS, `${itemId}_${userId}`);
+    const voteDoc = await getDoc(voteRef);
+
+    const itemRef = doc(db, COLLECTIONS.ITEMS, itemId);
+    const itemDoc = await getDoc(itemRef);
+
+    if (!itemDoc.exists()) {
+      throw new Error('Item not found');
+    }
+
+    const currentData = itemDoc.data();
+    const upvotes = currentData.upvotes || 0;
+    const downvotes = currentData.downvotes || 0;
+
+    if (voteDoc.exists()) {
+      const previousVote = voteDoc.data().direction;
+      if (previousVote === direction) {
+        await deleteDoc(voteRef);
+        if (direction === 'up') {
+          await updateDoc(itemRef, { upvotes: upvotes - 1 });
+        } else {
+          await updateDoc(itemRef, { downvotes: downvotes - 1 });
+        }
+      } else {
+        await setDoc(voteRef, { itemId, userId, direction, updatedAt: new Date() });
+        if (previousVote === 'up' && direction === 'down') {
+          await updateDoc(itemRef, { upvotes: upvotes - 1, downvotes: downvotes + 1 });
+        } else if (previousVote === 'down' && direction === 'up') {
+          await updateDoc(itemRef, { upvotes: upvotes + 1, downvotes: downvotes - 1 });
+        }
+      }
+    } else {
+      await setDoc(voteRef, { itemId, userId, direction, createdAt: new Date(), updatedAt: new Date() });
+      if (direction === 'up') {
+        await updateDoc(itemRef, { upvotes: upvotes + 1 });
+      } else {
+        await updateDoc(itemRef, { downvotes: downvotes + 1 });
+      }
+    }
+
+  } catch (error) {
+    console.error('Error voting on item:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get a user's vote for an item
+ */
+export async function getUserVote(itemId, userId) {
+  try {
+    if (!checkFirebaseAvailable()) return null;
+    const voteRef = doc(db, COLLECTIONS.RATINGS, `${itemId}_${userId}`);
+    const voteDoc = await getDoc(voteRef);
+    if (!voteDoc.exists()) return null;
+    return voteDoc.data().direction;
+  } catch (error) {
+    console.error('Error getting user vote:', error);
+    return null;
+  }
+}
+/**
+ * Add a comment to a community item
+ */
+export async function addComment(itemId, userId, displayName, text) {
+  try {
+    if (!checkFirebaseAvailable()) throw new Error('Firebase not available');
+    const commentsRef = collection(db, COLLECTIONS.COMMENTS);
+    const commentDoc = await addDoc(commentsRef, {
+      communityItemId: itemId,
+      userId,
+      displayName: displayName || 'Anonymous',
+      text,
+      createdAt: new Date()
+    });
+    const itemRef = doc(db, COLLECTIONS.ITEMS, itemId);
+    await updateDoc(itemRef, { commentCount: increment(1) });
+    return { id: commentDoc.id, userId, displayName, text, createdAt: new Date() };
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    throw error;
+  }
+}
+/**
+ * Get comments for a community item
+ */
+export async function getComments(itemId) {
+  try {
+    if (!checkFirebaseAvailable()) return [];
+    const commentsRef = collection(db, COLLECTIONS.COMMENTS);
+    const q = query(commentsRef, where('communityItemId', '==', itemId), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error('Error getting comments:', error);
+    return [];
+  }
+}
+
+

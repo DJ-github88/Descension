@@ -131,12 +131,19 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       return null;
     };
 
-    const getSocketsByUserId = (userId) => {
+        const getSocketsByUserId = (userId) => {
       if (!userId) return [];
 
       return Array.from(io.sockets.sockets.values()).filter((s) => {
-        const socketUserId = getSocialUserIdFromSocket(s);
-        return socketUserId === userId;
+        const socialUser = onlineSocialUsers.get(s.id);
+        if (socialUser && (socialUser.userId === userId || socialUser.originalUserId === userId)) return true;
+
+        const player = players.get(s.id);
+        if (player && (player.id === userId || player.userId === userId)) return true;
+
+        if (s.data && s.data.userId === userId) return true;
+
+        return false;
       });
     };
 
@@ -909,7 +916,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       const player = players.get(socket.id);
       if (player) {
         if (!userId) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
         }
         userName = player.name || userName;
       }
@@ -2318,7 +2325,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         room.gameState.combat = {
           isActive: false,
-          currentTurn: null,
+          currentTurnIndex: null,
           turnOrder: [],
           round: 0
         };
@@ -2396,7 +2403,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!sanitizedMessage) return;
 
         const chatMessage = {
-          id: uuidv4(),
+          id: data.id || data.messageId || uuidv4(),
+          messageId: data.messageId || data.id || uuidv4(),
           sender: {
             id: player.id,
             name: player.name,
@@ -2426,19 +2434,33 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     socket.on('global_chat_message', (data) => {
       try {
         const player = players.get(socket.id);
-        if (!player) return;
+        const socialUser = onlineSocialUsers.get(socket.id);
 
-        const sanitizedMessage = sanitizeChatMessage(data.message);
+        if (!player && !socialUser) return;
+
+        const rawContent = data.content || data.message || '';
+        const sanitizedMessage = sanitizeChatMessage(rawContent);
         if (!sanitizedMessage) return;
 
+        let senderId, senderName;
+        if (player) {
+          senderId = player.id;
+          senderName = player.name;
+        } else {
+          senderId = socialUser.userId;
+          senderName = socialUser.name;
+        }
+
         const chatMessage = {
-          id: uuidv4(),
-          sender: {
-            id: player.id,
-            name: player.name
-          },
+          id: data.id || uuidv4(),
+          messageId: data.messageId || data.id || uuidv4(),
+          senderId,
+          senderName,
+          senderClass: data.senderClass,
+          senderLevel: data.senderLevel,
+          isGuest: data.isGuest || false,
           content: sanitizedMessage,
-          type: 'global',
+          type: 'message',
           timestamp: new Date().toISOString()
         };
 
@@ -2461,7 +2483,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           return;
         }
 
-        const sanitizedMessage = sanitizeChatMessage(data.message);
         let userId = socket.data?.userId;
         let userName = 'Unknown';
 
@@ -2499,6 +2520,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           id: uuidv4(),
           senderId: userId,
           senderName: userName,
+          senderSocketId: socket.id,
           recipientId,
           recipientName: data.recipientName || 'Unknown',
           content: sanitizedContent,
@@ -2508,17 +2530,20 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         logger.info('[whisper_message] Sending whisper', {
           from: userId,
-          to: recipientId,
-          targetSocketId: targetSocket.id
+          to: recipientId
         });
 
-        // Emit to recipient - use socket.id, not the socket object
-        io.to(targetSocket.id).emit('whisper_received', whisperMessage);
+        // Emit to REDIRECT recipient - broadcast to all their active sockets
+        emitToUserId(recipientId, 'whisper_received', {
+          ...whisperMessage,
+          type: 'whisper_received'
+        });
 
-        // Emit confirmation to sender
-        socket.emit('whisper_sent', {
+        // Emit confirmation to SENDER - broadcast to all their active sockets for sync
+        emitToUserId(userId, 'whisper_sent', {
           ...whisperMessage,
           isSent: true,
+          type: 'whisper_sent',
           targetName: data.recipientName || 'Unknown'
         });
 
@@ -3172,7 +3197,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           userName = player.name;
         } else if (socialUser) {
           userId = socialUser.userId;
@@ -3227,7 +3252,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           userName = player.name;
         } else if (socialUser) {
           userId = socialUser.userId;
@@ -3283,7 +3308,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           userName = player.name;
         } else if (socialUser) {
           userId = socialUser.userId;
@@ -3317,7 +3342,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const player = players.get(socket.id);
         if (player) {
           originalUserId = userId;
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           name = player.name;
         }
 
@@ -3330,8 +3355,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           }
         }
 
+        socket.data.userId = userId;
+        socket.data.userName = name;
+
         onlineSocialUsers.set(socket.id, {
           userId: userId,
+          socketId: socket.id,
           originalUserId: originalUserId !== userId ? originalUserId : null,
           name: name,
           characterClass: data.characterClass,
@@ -3418,7 +3447,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           userName = player.name;
         } else if (socialUser) {
           userId = socialUser.userId;
@@ -3523,7 +3552,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     });
 
-    socket.on('party_message', ({ partyId, message }) => {
+    socket.on('party_message', ({ partyId, message, messageId }) => {
       try {
         // Resolve User ID
         let userId = socket.data.userId;
@@ -3533,7 +3562,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
           userName = player.name;
         } else if (socialUser) {
           userId = socialUser.userId;
@@ -3545,9 +3574,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const party = parties.get(partyId);
         if (!party) return;
 
-        // Check membership
-        const isMember = party.members.some(m => m.id === userId);
-        if (!isMember) return;
+        // Check membership - party.members is an object keyed by userId
+        const isMember = !!party.members[userId];
+        if (!isMember) {
+          logger.warn(`[party_message] User ${userId} is not a member of party ${partyId}`);
+          return;
+        }
 
         const sanitizedMessage = sanitizeChatMessage(message);
         if (!sanitizedMessage) return;
@@ -3558,7 +3590,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           memberSockets.forEach(s => {
             s.emit('party_chat_message', {
               partyId,
+              id: messageId || `party_${Date.now()}_${userId}`, // Use client-provided ID or generate one
               fromId: userId,
+              fromSocketId: socket.id,
               senderName: userName,
               message: sanitizedMessage,
               timestamp: Date.now()
@@ -3580,7 +3614,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
         } else if (socialUser) {
           userId = socialUser.userId;
         }
@@ -3635,7 +3669,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
         } else if (socialUser) {
           userId = socialUser.userId;
         }
@@ -3682,7 +3716,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const socialUser = onlineSocialUsers.get(socket.id);
 
         if (player) {
-          userId = player.id;
+          userId = player.userId || userId || player.id;
         } else if (socialUser) {
           userId = socialUser.userId;
         }
