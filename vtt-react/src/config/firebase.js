@@ -21,10 +21,22 @@ const firebaseConfig = {
 const requiredConfigKeys = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
 const missingKeys = requiredConfigKeys.filter(key => !firebaseConfig[key]);
 
+// Map property names to environment variable names for the error message
+const envVarNames = {
+  apiKey: 'REACT_APP_FIREBASE_API_KEY',
+  authDomain: 'REACT_APP_FIREBASE_AUTH_DOMAIN',
+  projectId: 'REACT_APP_FIREBASE_PROJECT_ID',
+  storageBucket: 'REACT_APP_FIREBASE_STORAGE_BUCKET',
+  messagingSenderId: 'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
+  appId: 'REACT_APP_FIREBASE_APP_ID'
+};
+
 if (missingKeys.length > 0 && process.env.NODE_ENV === 'production') {
-  throw new Error(
-    `Missing required Firebase configuration: ${missingKeys.join(', ')}. ` +
-    `Please set REACT_APP_FIREBASE_${missingKeys.map(k => k.toUpperCase()).join(', REACT_APP_FIREBASE_')} environment variables.`
+  const suggestedVars = missingKeys.map(key => envVarNames[key]);
+  console.error(
+    `❌ Missing required Firebase configuration: ${missingKeys.join(', ')}. ` +
+    `The application will run in Demo Mode. To use real Firebase services, ` +
+    `please set the following environment variables: ${suggestedVars.join(', ')}`
   );
 }
 

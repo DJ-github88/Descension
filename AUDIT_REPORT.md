@@ -367,13 +367,75 @@ The batch flush iterates all pending writes and calls `firebaseService.updateRoo
 ### S-12: Fog of War and Map Data Size on Large Maps
 
 **Severity:** POTENTIAL  
-**Files:** `server/services/firebaseService.js:227-270`, `vtt-react/src/components/level-editor/StaticFogOverlay.jsx`
+**Files:** `server/services/firebaseService.js:227-270`, `vtt-react/src/components/level-editor/StaticFogOverlay.jsx`, `vtt-react/src/store/levelEditorStore.js:872-899`
 
-Firebase documents have a 1MB size limit. Fog of war data (`fogOfWarData`, `fogOfWarPaths`, `exploredAreas`) is stored as part of the map document. For very large maps with complex fog patterns, this could exceed the document size limit and cause write failures.
+Firebase documents have a 1MB size limit. The fog system is a **hybrid design**: the primary modern system stores **path-based brush strokes** (compact: arrays of `{worldX, worldY, brushRadius}` points in `fogOfWarPaths`). A legacy tile-based dictionary (`fogOfWarData: { "x,y": boolean }`) is retained for backward compatibility. Exploration state uses a mix of tile-based (`revealedAreas`, `exploredAreas`) and compact structures (`exploredCircles`, `exploredPolygons`).
 
-The split storage path (`saveRoomDataSplit`) activates when the total room state exceeds 900KB, splitting into per-map subcollections. However, a single very large map's fog data could still exceed limits.
+The split storage path (`saveRoomDataSplit`) activates when total room state exceeds **900KB** (line 407). The incremental path (`updateRoomGameState`) uses a **100KB** threshold (line 346) — always triggering split storage. However, a single very large map's fog data could still exceed limits within its subcollection document.
 
 **Impact:** Very large maps with extensive fog of war may fail to save. No explicit size checking occurs before writes.
+
+---
+
+### S-13: DeltaSyncEngine and RealtimeSyncEngine Not Integrated Into Primary Write Path
+
+**Severity:** HIGH  
+**Files:** `server/services/deltaSync.js:1-573`, `server/services/realtimeSync.js:1-670`, `server/services/syncService.js:16-82`
+
+`DeltaSyncEngine` implements proper conflict resolution: `createStateUpdateWithConflictResolution()` (line 443) detects concurrent updates within a 100ms window, merges deltas, and maintains version history. `RealtimeSyncEngine` provides category-based sync with priority queues, selective viewport-based filtering, and delta compression.
+
+**Neither is wired into the actual socket handler write path.** The primary write path goes directly to `firebaseBatchWriter.queueWrite()` → `firebaseService.updateRoomGameState()`, which is last-write-wins per room per 500ms flush cycle. Two GMs editing the same room simultaneously will silently lose one GM's changes. The advanced engines exist as standalone modules but are not called by `socketHandlers.js`.
+
+**Impact:** Significant engineering investment in conflict resolution exists but is dead code. All room writes follow a simple last-write-wins model. Two GMs editing fog, walls, or tokens simultaneously overwrite each other's work.
+
+---
+
+### S-14: Fog of War Edits Have No Merge Logic — Last Connection Wins
+
+**Severity:** MEDIUM  
+**Files:** `server/handlers/socketHandlers.js` (fog_update handler), `server/services/syncService.js:30-40`
+
+Fog updates (`fog_update` socket event) arrive at the server and trigger `firebaseBatchWriter.queueWrite()`. Since `queueWrite()` uses `Map.set(roomId, data)` (line 31), only the last queued state survives the 500ms flush. The path-based fog structure (`fogOfWarPaths`: arrays of brush strokes) could theoretically support merge (union of reveal paths, intersection of hide paths), but no merge logic exists at any layer.
+
+**Impact:** Two GMs editing fog simultaneously on the same map lose one GM's fog changes every 500ms. The last GM to submit wins entirely.
+
+---
+
+### S-15: Offline Service Covers Only Characters — All Room State Lost on Disconnect
+
+**Severity:** MEDIUM  
+**Files:** `vtt-react/src/services/offlineService.js:1-400`
+
+`offlineService.js` queues only two action types: `update_character` and `create_room` (line 275-289). On reconnection, `syncOfflineData()` syncs character documents to Firebase. The following operations are **not queued or recovered**:
+
+| Operation | Queued? | Lost on Disconnect? |
+|---|---|---|
+| Character updates | Yes | No |
+| Room creation | Partially (no handler body) | Yes |
+| Map edits (terrain, walls) | No | Yes |
+| Fog of war changes | No | Yes |
+| Token movements | No | Yes |
+| Inventory changes | No | Yes |
+| Combat state | No | Yes |
+| Chat messages | No | Yes |
+
+**Impact:** Going offline during a session preserves character sheet data only. All map, fog, token, and combat edits made offline are permanently lost.
+
+---
+
+### S-16: Optimistic Updates Have No Rollback on Failure
+
+**Severity:** MEDIUM  
+**Files:** `vtt-react/src/services/optimisticUpdatesService.js:1-192`
+
+The `OptimisticUpdatesService` provides a register/resolve pattern for token movements and other state changes. However:
+
+- **No rollback on server rejection.** If a pending update is never confirmed, `cleanup()` (line 149) silently drops it after 30 seconds with no state reversion.
+- **No failure callback.** `resolveUpdate()` returns `false` for stale/missing updates but does not trigger any undo.
+- **`applyOptimisticUpdate()`** (line 119) just dispatches a DOM `CustomEvent` — actual state mutation is left to whatever component listens. The code comment says "Future: Add timestamp comparison and merge logic here."
+- **No server echo protection.** The file header says "CRITICAL: Prevents server echo from causing token jumps" but echo filtering relies entirely on `useRealtimeSync`'s timestamp comparison, not this service.
+
+**Impact:** Failed optimistic updates (server rejection, timeout, disconnect) leave the UI showing an incorrect state. Token positions, inventory operations, or other optimistic changes appear to succeed but silently fail without reverting.
 
 ---
 
@@ -422,7 +484,7 @@ Each individual resource update (HP, Mana, AP) triggers its own `syncResourcesWi
 
 Spell cooldowns are tracked in the ActionBar component's local state (`actionSlots`), not in a persistent Zustand store or Firebase. Refreshing the page clears all active cooldowns.
 
-`actionBarPersistenceService.js` and `useActionBarPersistence.js` exist but need verification that they persist cooldown state (not just slot layout).
+`actionBarPersistenceService.js` and `useActionBarPersistence.js` exist and correctly save slot layout to localStorage, but confirm they persist **cooldown state** (not just slot layout) — they do not. Cooldowns are always reset to zero on load.
 
 **Impact:** Players can bypass spell cooldowns by refreshing the page. In combat, this allows casting powerful spells more frequently than intended.
 
@@ -457,6 +519,28 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 
 ---
 
+### V-07: ConflictResolutionModal Exists but Is Not Wired Into Any Component
+
+**Severity:** LOW  
+**Files:** `vtt-react/src/components/common/ConflictResolutionModal.jsx:1-133`, `vtt-react/src/hooks/useRealtimeSync.js:1-194`
+
+`ConflictResolutionModal` is a well-structured component with local/remote timestamp display and resolution buttons. `useRealtimeSync` supports an `'ask-user'` conflict resolution mode that returns `conflictData` with `resolveWithRemote`/`resolveWithLocal` callbacks. However, the modal needs a parent component to render it and pass the hook's `conflictData` as props. No such wiring was found — the hook returns data but nothing renders the modal. The `'remote-wins'` default mode means conflicts are silently resolved without user input.
+
+**Impact:** The conflict resolution UI investment is dead code. Users never see the modal. All real-time sync conflicts are silently resolved as remote-wins with no user notification.
+
+---
+
+### V-08: Auto-Save Falls Back to localStorage Silently on Disconnect
+
+**Severity:** LOW  
+**Files:** `vtt-react/src/store/settingsStore.js:52-79`, `vtt-react/src/services/actionBarPersistenceService.js:32-86`
+
+`settingsStore.js`'s `createFirebaseStorage.setItem()` has a try/catch that falls back to `localStorage.setItem()` on Firebase errors (line 77). No user notification occurs. `actionBarPersistenceService` is already localStorage-only, so disconnect has no effect on it. The user has no indication their settings are local-only until they switch devices and find their preferences missing.
+
+**Impact:** Settings silently degrade to local-only during disconnect. No UI indication that persistence layer has degraded.
+
+---
+
 ## 4. Severity Summary
 
 ### CRITICAL (3)
@@ -466,39 +550,55 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 | S-02 | Character deletion soft-delete only, no cascade | Orphan state, tokens, sessions, party entries |
 | S-08 | Grid item loot race condition | Item/currency duplication by two players |
 
-### HIGH (7)
+### HIGH (11)
 | ID | Issue | Impact |
 |---|---|---|
 | M-01 | Debuff double-negation | Debuffs become buffs through one code path |
+| M-03 | Rest doesn't reset cooldowns/class resources | Rest cycle broken |
 | M-07 | All TTRPG rules client-side only | Zero protection against cheating |
+| M-09 | Crafting system produces no items | Crafting is a cosmetic ghost |
+| M-10 | Quest rewards never delivered | Quest completion is cosmetic |
+| M-11 | Talent tree selections lost on refresh | Talents are ephemeral useState |
 | S-03 | Account deletion misses critical data | Orphan characters, rooms, community content |
 | S-04 | Map deletion leaves dead portals | Broken portal links, stale player assignments |
 | S-07 | No server inventory handler | Inventories never validated server-side |
 | S-10 | Currency withdrawal duplication | Players can duplicate currency |
-| M-03 | Rest doesn't reset cooldowns/class resources | Rest cycle broken |
+| S-13 | DeltaSync/RealtimeSync engines dead code | Conflict resolution not in write path |
 
-### MEDIUM (10)
+### MEDIUM (14)
 | ID | Issue | Impact |
 |---|---|---|
 | M-02 | Level-up not atomic | Lost HP/Mana bonuses on crash |
 | M-04 | Consumable buffs applied twice | Double buff effects |
 | M-05 | Spell resources deducted before effects | Mana lost on crash |
 | M-06 | Rest not atomic | Partial rest state visible to others |
+| M-12 | Spellbook/custom spells not in Firebase | localStorage-only, lost on cache clear |
 | S-05 | Token movements not directly persisted | Positions lost on server restart |
 | S-06 | Batch writer last-write-wins per room | Simultaneous edits can lose data |
 | S-09 | Shop purchase currency loss | Gold consumed, no item if inventory full |
+| S-14 | Fog edits have no merge logic | Last GM connection wins every 500ms |
+| S-15 | Offline service only covers characters | Map/fog/token/combat edits lost on disconnect |
+| S-16 | Optimistic updates have no rollback | Failed updates show incorrect UI state |
 | V-01 | Combat turn external mutations not atomic | Inconsistent AP across HUDs |
 | V-02 | Multiplayer sync amplifies partial failures | Others see intermediate states |
 | V-03 | Spell cooldowns lost on refresh | Cooldown bypass |
 
-### LOW (4)
+### LOW (7)
 | ID | Issue | Impact |
 |---|---|---|
 | M-08 | Function() code injection in formulas | Community spells could execute JS |
+| M-13 | Action bar layout not synced to Firebase | Different layouts per device |
 | S-11 | Batch flush partial failures silent | Failed writes not retried |
 | V-04 | No undo/confirmation for GM resource edits | Misclick kills characters |
 | V-05 | Map switch doesn't check unsaved changes | Last 500ms of edits could be lost |
 | V-06 | Double grid item removal for currency | Logic error, second call is no-op |
+| V-07 | ConflictResolutionModal not wired | Dead code, conflicts silently resolved |
+| V-08 | Auto-save falls back to localStorage silently | No UI indication of degraded persistence |
+
+### POTENTIAL (1)
+| ID | Issue | Impact |
+|---|---|---|
+| S-12 | Fog/map data size on large maps | Very large maps may fail to save |
 
 ---
 
@@ -514,6 +614,14 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 - `vtt-react/src/store/gridItemStore.js` — Grid items, loot, pickup
 - `vtt-react/src/store/partyStore.js` — Party HUD sync
 - `vtt-react/src/store/gameStore.js` — Rest mechanics, game state
+- `vtt-react/src/store/craftingStore.js` — Crafting professions, recipes, queue (Phase 1)
+- `vtt-react/src/store/questStore.js` — Quest library, objectives, rewards (Phase 1)
+- `vtt-react/src/store/dialogueStore.js` — Dialogue display, multiplayer broadcast (Phase 1)
+- `vtt-react/src/store/targetingStore.js` — Target selection, history, validation (Phase 1)
+- `vtt-react/src/store/diceStore.js` — Dice rolling, themes, history, multiplayer sync (Phase 1)
+- `vtt-react/src/store/spellbookStore.js` — Custom spells, collections, favorites (Phase 1)
+- `vtt-react/src/store/settingsStore.js` — User preferences with Firebase sync (Phase 1)
+- `vtt-react/src/store/levelEditorStore.js` — Level editor, fog of war paths, exploration state (Phase 2)
 
 ### Frontend Services
 - `vtt-react/src/services/effectProcessingService.js` — Spell effect processing, DOT/HOT
@@ -525,10 +633,18 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 - `vtt-react/src/services/firebase/persistenceService.js` — User data management
 - `vtt-react/src/services/firebase/presenceService.js` — Online presence
 - `vtt-react/src/services/firebase/roomService.js` — Room CRUD
-- `vtt-react/src/services/firebase/communitySpellService.js` — Community spells
-- `vtt-react/src/services/firebase/communityItemService.js` — Community items
-- `vtt-react/src/services/firebase/communityCreatureService.js` — Community creatures
-- `vtt-react/src/services/firebase/communityMapService.js` — Community maps
+- `vtt-react/src/services/firebase/communitySpellService.js` — Community spells (paginated)
+- `vtt-react/src/services/firebase/communityItemService.js` — Community items (paginated)
+- `vtt-react/src/services/firebase/communityCreatureService.js` — Community creatures (paginated)
+- `vtt-react/src/services/firebase/communityMapService.js` — Community maps (paginated)
+- `vtt-react/src/services/firebase/userSettingsService.js` — User settings persistence (Phase 1)
+- `vtt-react/src/services/actionBarPersistenceService.js` — Action bar localStorage persistence (Phase 1)
+- `vtt-react/src/services/offlineService.js` — Offline queue and sync (Phase 4)
+- `vtt-react/src/services/optimisticUpdatesService.js` — Optimistic update register/resolve (Phase 4)
+
+### Frontend Hooks
+- `vtt-react/src/hooks/useActionBarPersistence.js` — Action bar auto-save hook (Phase 1)
+- `vtt-react/src/hooks/useRealtimeSync.js` — Firebase realtime listener with conflict resolution (Phase 4)
 
 ### Frontend Utils
 - `vtt-react/src/utils/characterUtils.js` — Derived stat calculations
@@ -538,18 +654,22 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 - `vtt-react/src/utils/consumableUtils.js` — Consumable item usage
 - `vtt-react/src/utils/equipmentUtils.js` — Equipment calculations
 - `vtt-react/src/utils/firebaseUtils.js` — Firestore sanitization
+- `vtt-react/src/utils/raceDisciplineSpellUtils.js` — Race/discipline spell extraction (Phase 1)
 
 ### Frontend Components
 - `vtt-react/src/components/ui/ActionBar.jsx` — Spell casting flow
 - `vtt-react/src/components/shop/ShopWindow.jsx` — Purchase/sell flow
 - `vtt-react/src/components/windows/CurrencyWithdrawModal.jsx` — Currency withdrawal
+- `vtt-react/src/components/windows/TalentTreeWindow.jsx` — Talent tree UI (Phase 1)
 - `vtt-react/src/components/rest/RestOverlay.jsx` — Rest UI
 - `vtt-react/src/components/combat/CombatTimeline.jsx` — Combat tracker
 - `vtt-react/src/components/modals/LevelUpChoiceModal.jsx` — Level-up UI
 - `vtt-react/src/components/character-creation-wizard/CharacterCreationWizard.jsx` — Character creation
 - `vtt-react/src/components/level-editor/TileOverlay.jsx` — Portal connections
+- `vtt-react/src/components/level-editor/StaticFogOverlay.jsx` — Fog path rendering (Phase 2)
 - `vtt-react/src/components/hud/PartyHUD.jsx` — Party HUD
 - `vtt-react/src/components/account/RoomManager.jsx` — Room deletion UI
+- `vtt-react/src/components/common/ConflictResolutionModal.jsx` — Conflict resolution UI (Phase 4)
 
 ### Frontend Config
 - `vtt-react/src/config/firebase.js` — Firebase client initialization
@@ -561,101 +681,100 @@ Currency items call `removeItemFromGrid(gridItemId)` twice in the same loot func
 - `server/services/firebaseService.js` — Firebase Admin operations
 - `server/services/validationService.js` — Input validation schemas
 - `server/services/optimizedFirebase.js` — Advanced Firebase service
-- `server/services/deltaSync.js` — Delta sync engine
-- `server/services/realtimeSync.js` — Realtime sync engine
+- `server/services/deltaSync.js` — Delta sync engine (Phase 3)
+- `server/services/realtimeSync.js` — Realtime sync engine (Phase 3)
 - `server/scripts/deleteAllRooms.js` — Admin cleanup script
 
 ### Config
 - `config/firestore.rules` — Firestore security rules (310 lines)
 - `config/firebase.json` — Firebase project configuration
-- `config/firestore.indexes.json` — Firestore composite indexes
+- `config/firestore.indexes.json` — Firestore composite indexes (19 indexes, Phase 2)
 
 ---
 
-## Appendix B: Unaudited Areas & Continuation Plan
+## Appendix B: Phase 1-4 Completion Summary
 
-### Phase 1: Ghost Mechanics Sweep
-Check these stores for real Firebase persistence vs UI-only decoration:
-- `vtt-react/src/store/craftingStore.js` — Does crafting produce saved items?
-- `vtt-react/src/store/questStore.js` — Does quest completion deliver rewards to Firebase?
-- `vtt-react/src/store/dialogueStore.js` — Is dialogue state persisted?
-- `vtt-react/src/store/targetingStore.js` — Is targeting synced?
-- `vtt-react/src/store/diceStore.js` — Are dice rolls logged?
-- `vtt-react/src/store/spellbookStore.js` — Are known spells saved?
-- `vtt-react/src/store/settingsStore.js` — Are settings persisted?
-- `vtt-react/src/components/windows/TalentTreeWindow.jsx` — Do talent selections modify characterStore and save?
-- `vtt-react/src/services/actionBarPersistenceService.js` — Is action bar saved to Firebase?
-- `vtt-react/src/hooks/useActionBarPersistence.js` — Does it actually call the persistence service?
-- `vtt-react/src/utils/raceDisciplineSpellUtils.js` — Do race/class spells get added to spellbook?
+All four audit phases are complete. Below are the results per phase.
 
-**Method:** For each, read the store's save/persist/sync functions. If they call a Firebase service in `vtt-react/src/services/firebase/`, mark **PERSISTED**. If they only use Zustand `set()` with no Firebase write, mark **GHOST**.
+### Phase 1: Ghost Mechanics Sweep — COMPLETE
 
-### Phase 2: Firebase Loading & Size Audit
-- Read `server/services/firebaseService.js` `getRoomData()` and `saveRoomDataSplit()` — verify the 900KB split threshold
-- Check if community services use pagination or load all: `communitySpellService.js`, `communityItemService.js`, `communityCreatureService.js`, `communityMapService.js`
-- Check fog-of-war data structure in level editor — is it per-tile pixel data (huge) or path-based (compact)?
-- Verify `config/firestore.indexes.json` for query coverage
+| Store/Module | Persistence | Finding |
+|---|---|---|
+| `craftingStore.js` | **GHOST** — localStorage only | M-09: Crafting produces no items |
+| `questStore.js` | **GHOST** — localStorage only | M-10: Quest rewards never delivered |
+| `dialogueStore.js` | **GHOST (by design)** — not persisted | Ephemeral multiplayer broadcast, correct design |
+| `targetingStore.js` | **GHOST (by design)** — localStorage only | Local targeting state, appropriate for VTT |
+| `diceStore.js` | **GHOST** — localStorage + Socket.io | Roll history local-only, multiplayer broadcast exists |
+| `spellbookStore.js` | **GHOST** — localStorage only | M-12: Custom spells lost on cache clear |
+| `settingsStore.js` | **PERSISTED** — Firebase for auth users, localStorage for guests | Working correctly |
+| `TalentTreeWindow.jsx` | **GHOST** — `useState` only | M-11: Talents lost on refresh |
+| `actionBarPersistenceService.js` | **GHOST** — localStorage only | M-13: Not synced to Firebase |
+| `useActionBarPersistence.js` | **GHOST** — calls localStorage service | Confirms M-13 |
+| `raceDisciplineSpellUtils.js` | **GHOST** — React Context only | Spells added to in-memory context, not spellbookStore |
 
-### Phase 3: Simultaneous GM Edit Conflicts
-- Read `server/services/syncService.js` `FirebaseBatchWriter` — confirm it keeps only LATEST state per room
-- Read `server/services/deltaSync.js` — does it mitigate the last-write-wins issue?
-- Read `server/services/realtimeSync.js` — does it have conflict resolution?
-- What happens if two GMs edit the same map's fog of war simultaneously?
+Only `settingsStore.js` has real Firebase persistence. All others are UI decoration.
 
-### Phase 4: Offline & Reconnection Audit
-- Read `vtt-react/src/services/offlineService.js` — what does it queue?
-- Read `vtt-react/src/services/optimisticUpdatesService.js` — are updates rolled back on failure?
-- Read `vtt-react/src/hooks/useRealtimeSync.js` — does the conflict resolution actually work?
-- Read `vtt-react/src/components/common/ConflictResolutionModal.jsx` — is it connected?
-- What happens to the debounced auto-save queue when connection drops?
+### Phase 2: Firebase Loading & Size — COMPLETE
+
+- **Split threshold:** 900KB for full saves, 100KB for incremental updates (always triggers split)
+- **Community services:** All 4 use cursor-based pagination (`limit()` + `startAfter()`)
+- **Fog of war:** Hybrid — primary is path-based (compact brush strokes), legacy is tile-based dict
+- **Firestore indexes:** 19 composite indexes covering all paginated queries. Good coverage.
+- **No new findings** — existing S-12 adequately covers fog size risk
+
+### Phase 3: Simultaneous GM Edit Conflicts — COMPLETE
+
+- **FirebaseBatchWriter:** Confirmed last-write-wins per room per 500ms (`Map.set(roomId, data)`)
+- **DeltaSyncEngine:** Has conflict resolution (100ms concurrent window, delta merge) but **not integrated** into primary write path (S-13)
+- **RealtimeSyncEngine:** Category-based priorities, selective sync, but **not integrated** into socket handlers (S-13)
+- **Dual GM fog editing:** Last GM's state wins every 500ms, no merge logic exists (S-14)
+
+### Phase 4: Offline & Reconnection — COMPLETE
+
+- **offlineService.js:** Only queues `update_character` and `create_room`. All room state lost on disconnect (S-15)
+- **optimisticUpdatesService.js:** No rollback on failure. Stale updates silently dropped after 30s (S-16)
+- **useRealtimeSync.js:** Conflict resolution works for single-document Firebase listeners. 3 modes (remote-wins, local-wins, ask-user). Simplistic timestamp-based detection.
+- **ConflictResolutionModal.jsx:** Not wired into any parent component. Dead code (V-07)
+- **Auto-save on disconnect:** Settings fall back to localStorage silently (V-08). ActionBar already localStorage-only.
 
 ---
 
 ## Continuation Prompt
 
-Copy the following into a new conversation to resume the audit:
+Copy the following into a new conversation to begin remediation:
 
 ```
-Context: You are continuing a VTT/TTRPG Integrity Audit for the Mythrill VTT codebase at D:\VTT.
-An existing AUDIT_REPORT.md file exists in the repo root with ~70% of the audit complete.
-Read that file first to understand what has been found.
+Context: You are beginning remediation work on the Mythrill VTT codebase at D:\VTT.
+Read AUDIT_REPORT.md in the repo root — it contains a complete integrity audit with 35 findings (M-01 through M-13, S-01 through S-16, V-01 through V-08).
 
-Your job is to complete the remaining 30% by executing Phases 1-4 described in Appendix B.
+Your job is to fix the issues identified in the audit, prioritized by severity:
 
-PHASE 1 (Ghost Mechanics Sweep):
-Check these stores for real Firebase persistence vs UI-only decoration:
-- vtt-react/src/store/craftingStore.js → does crafting produce saved items?
-- vtt-react/src/store/questStore.js → does quest completion deliver rewards to Firebase?
-- vtt-react/src/store/dialogueStore.js → is dialogue state persisted?
-- vtt-react/src/store/targetingStore.js → is targeting synced?
-- vtt-react/src/store/diceStore.js → are dice rolls logged?
-- vtt-react/src/store/spellbookStore.js → are known spells saved?
-- vtt-react/src/store/settingsStore.js → are settings persisted?
-- vtt-react/src/components/windows/TalentTreeWindow.jsx → do talent selections modify characterStore and save?
-- vtt-react/src/services/actionBarPersistenceService.js → is action bar saved to Firebase?
-- vtt-react/src/hooks/useActionBarPersistence.js → does it actually call the persistence service?
-- vtt-react/src/utils/raceDisciplineSpellUtils.js → do race/class spells get added to spellbook?
+CRITICAL (fix first):
+- S-01: Room deletion doesn't cascade to subcollections
+- S-02: Character deletion is soft-delete only with no cascade cleanup
+- S-08: Grid item loot race condition (item duplication)
 
-For each: Read the store's save/persist/sync functions. If they call a Firebase service in vtt-react/src/services/firebase/, mark PERSISTED. If they only use Zustand set() with no Firebase write, mark GHOST.
+HIGH (fix next):
+- M-09: Crafting system produces no items (ghost store)
+- M-10: Quest rewards never delivered (ghost store)
+- M-11: Talent tree selections lost on refresh (useState ghost)
+- M-01: Debuff double-negation (buffs apply as debuffs)
+- M-03: Rest doesn't reset cooldowns/class resources
+- S-13: DeltaSync/RealtimeSync engines not integrated
+- S-03: Account deletion misses critical data
+- S-04: Map deletion leaves dead portal connections
+- S-07: No server inventory handler
+- S-10: Currency withdrawal duplication
 
-PHASE 2 (Firebase Loading & Size):
-- Read server/services/firebaseService.js getRoomData() and saveRoomDataSplit() — verify the 900KB split threshold
-- Check if community services use pagination or load all: communitySpellService.js, communityItemService.js, communityCreatureService.js, communityMapService.js
-- Check fog-of-war data structure in level editor — is it per-tile pixel data (huge) or path-based (compact)?
-- Verify config/firestore.indexes.json for query coverage
+For each fix:
+1. Read the files referenced in the finding
+2. Implement the minimal fix that resolves the issue
+3. Verify the fix doesn't break existing functionality by checking related code paths
+4. Run npm run lint and npm run build (or equivalent) to verify
 
-PHASE 3 (Simultaneous GM Edit Conflicts):
-- Read server/services/syncService.js FirebaseBatchWriter — confirm it keeps only LATEST state per room
-- Read server/services/deltaSync.js — does it mitigate the last-write-wins issue?
-- Read server/services/realtimeSync.js — does it have conflict resolution?
-- What happens if two GMs edit the same map's fog of war simultaneously?
-
-PHASE 4 (Offline & Reconnection):
-- Read vtt-react/src/services/offlineService.js — what does it queue?
-- Read vtt-react/src/services/optimisticUpdatesService.js — are updates rolled back on failure?
-- Read vtt-react/src/hooks/useRealtimeSync.js — does the conflict resolution actually work?
-- Read vtt-react/src/components/common/ConflictResolutionModal.jsx — is it connected?
-- What happens to the debounced auto-save queue when connection drops?
-
-After completing all phases, UPDATE AUDIT_REPORT.md by adding findings to the appropriate categories (Mechanical Breaks, Sync & Database Failures, VTT Friction) and marking the unaudited sections as complete. Keep the same ID numbering scheme (M-XX, S-XX, V-XX) starting from the next available number.
+Key patterns to follow:
+- Firebase writes should go through services in vtt-react/src/services/firebase/
+- Zustand persist middleware with localStorage is acceptable for user-local state (settings, preferences)
+- Game-affecting state (items, rewards, talents, spells) MUST be persisted to Firebase
+- Socket.io events should be used for real-time sync, Firebase for persistence
 ```
