@@ -13,11 +13,18 @@ import persistenceService from '../services/firebase/persistenceService';
 export const useJournalPersistence = () => {
   const { user } = useAuthStore();
 
-  // Auto-save timer refs
+  const playerKnowledge = useShareableStore(state => state.playerKnowledge);
+  const playerNotes = useShareableStore(state => state.playerNotes);
+  const journalFolders = useShareableStore(state => state.journalFolders);
+  const knowledgeBoards = useShareableStore(state => state.knowledgeBoards);
+  const knowledgeOrbs = useShareableStore(state => state.knowledgeOrbs);
+  const knowledgeConnections = useShareableStore(state => state.knowledgeConnections);
+  const currentFolderId = useShareableStore(state => state.currentFolderId);
+  const currentBoardId = useShareableStore(state => state.currentBoardId);
+
   const journalTimerRef = useRef(null);
   const lastSavedStateRef = useRef(null);
 
-  // Debounced auto-save delay (2 seconds)
   const AUTO_SAVE_DELAY = 2000;
 
   /**
@@ -187,15 +194,14 @@ export const useJournalPersistence = () => {
       }
     };
   }, [
-    // Watch for changes in journal state
-    useShareableStore(state => state.playerKnowledge),
-    useShareableStore(state => state.playerNotes),
-    useShareableStore(state => state.journalFolders),
-    useShareableStore(state => state.knowledgeBoards),
-    useShareableStore(state => state.knowledgeOrbs),
-    useShareableStore(state => state.knowledgeConnections),
-    useShareableStore(state => state.currentFolderId),
-    useShareableStore(state => state.currentBoardId),
+    playerKnowledge,
+    playerNotes,
+    journalFolders,
+    knowledgeBoards,
+    knowledgeOrbs,
+    knowledgeConnections,
+    currentFolderId,
+    currentBoardId,
     scheduleAutoSave,
     user
   ]);

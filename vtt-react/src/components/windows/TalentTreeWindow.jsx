@@ -231,12 +231,16 @@ const GRID_ROWS = 8;     // Number of rows in the grid (reduced for more compact
 const TALENT_SIZE = 56;  // Size of talent icon (optimized for perfect fit)
 
 const TalentTreeWindow = ({ isOpen, onClose }) => {
-    const { class: characterClass, level } = useCharacterStore();
+    const { class: characterClass, level, currentCharacterId } = useCharacterStore();
     const [selectedTree, setSelectedTree] = useState(0);
     const [talents, setTalents] = useState({});
     const [unlearnError, setUnlearnError] = useState(null);
     const hoverTimeoutRef = useRef(null);
     const gridContainerRef = useRef(null);
+
+    useEffect(() => {
+        setTalents(useCharacterStore.getState().talents || {});
+    }, [currentCharacterId]);
 
     // Use unified tooltip system
     const { tooltipState, showTooltip, hideTooltip, updateTooltipPosition, updateTooltipContent } = useUnifiedTooltip();
@@ -316,13 +320,11 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     const handleTalentClick = (talentId, talent) => {
         if (!canLearnTalent(talent)) return;
 
-        setTalents(prev => {
-            const currentRanks = prev[talentId] || 0;
-            if (currentRanks < talent.maxRanks) {
-                return { ...prev, [talentId]: currentRanks + 1 };
-            }
-            return prev;
-        });
+        const currentRanks = talents[talentId] || 0;
+        if (currentRanks >= talent.maxRanks) return;
+        const newTalents = { ...talents, [talentId]: currentRanks + 1 };
+        setTalents(newTalents);
+        useCharacterStore.getState().setTalents(newTalents);
     };
 
     const canUnlearnTalent = (talentId, currentTalents) => {
@@ -397,28 +399,23 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     const handleTalentRightClick = (e, talentId, talent) => {
         e.preventDefault();
         if (!canUnlearnTalent(talentId, talents)) {
-            // Show error message
             setUnlearnError({
                 message: "Cannot unlearn this talent - other talents depend on it",
                 position: { x: e.clientX, y: e.clientY }
             });
-            // Clear error after 2 seconds
             setTimeout(() => setUnlearnError(null), 2000);
             return;
         }
 
-        setTalents(prev => {
-            const currentRanks = prev[talentId] || 0;
-            if (currentRanks > 0) {
-                const newTalents = { ...prev };
-                newTalents[talentId] = currentRanks - 1;
-                if (newTalents[talentId] === 0) {
-                    delete newTalents[talentId];
-                }
-                return newTalents;
-            }
-            return prev;
-        });
+        const currentRanks = talents[talentId] || 0;
+        if (currentRanks <= 0) return;
+        const newTalents = { ...talents };
+        newTalents[talentId] = currentRanks - 1;
+        if (newTalents[talentId] === 0) {
+            delete newTalents[talentId];
+        }
+        setTalents(newTalents);
+        useCharacterStore.getState().setTalents(newTalents);
     };
 
     const canLearnTalent = (talent) => {
@@ -497,6 +494,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
 
     const resetTalents = () => {
         setTalents({});
+        useCharacterStore.getState().setTalents({});
     };
 
     if (!trees || trees.length === 0) {

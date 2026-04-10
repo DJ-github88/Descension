@@ -443,7 +443,7 @@ export const evaluateFormula = (formula, variables = {}) => {
     });
     
     // Safety check - only allow basic math operations
-    if (!/^[0-9\s\+\-\*\/\(\)\.\?\:\>\<\=\&\|]+$/.test(processedFormula)) {
+    if (!/^[0-9\s\+\-\*\/\(\)\.]+$/.test(processedFormula)) {
       throw new Error("Invalid characters in formula");
     }
     

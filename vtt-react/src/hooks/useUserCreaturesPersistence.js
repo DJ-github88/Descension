@@ -9,6 +9,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import useAuthStore from '../store/authStore';
 import useCreatureStore from '../store/creatureStore';
 import { saveUserCreature, loadUserCreatures, updateUserCreature, deleteUserCreature } from '../services/firebase/userCreaturesService';
+import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 
@@ -18,8 +19,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 export const useUserCreaturesPersistence = () => {
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const creatures = useCreatureStore(useShallow(state => state.creatures));
 
-  // Track which creatures are user-created vs built-in
   const isUserCreatedCreature = useCallback((creature) => {
     return creature.isCustom === true || (creature.source && creature.source !== 'built-in');
   }, []);
@@ -194,7 +195,7 @@ export const useUserCreaturesPersistence = () => {
         clearTimeout(saveTimerRef.current);
       }
     };
-  }, [getUserCreatures(), user, syncNewCreatures]); // Depend on user creatures changing
+  }, [creatures, user, syncNewCreatures]);
 
   return {
     // State

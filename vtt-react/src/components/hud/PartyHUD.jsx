@@ -2199,7 +2199,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 const overhealAmount = (currentValue + adjustment) - maxValue;
 
                 // Set resource to max and add overheal as temporary
-                updateResource(resourceType, maxValue, maxValue);
+                updateResource(resourceType, maxValue, maxValue, undefined, true);
                 useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
             } else if (adjustment < 0) {
                 // Taking damage/draining - reduce temporary resources first
@@ -2227,8 +2227,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
 
                 // Update both resource and temporary resource
-                updateResource(resourceType, newValue, maxValue);
-                if (newTemp !== currentTemp) {
+                updateResource(resourceType, newValue, maxValue, undefined, true);
+                    if (newTemp !== currentTemp) {
                     useCharacterStore.getState().updateTempResource(resourceType, newTemp);
                 }
             } else {

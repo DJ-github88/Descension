@@ -4,30 +4,20 @@
 
 class OptimisticUpdatesService {
   constructor() {
-    // Store pending updates that haven't been confirmed by server yet
-    this.pendingUpdates = new Map(); // actionId -> { type, data, timestamp }
+    this.pendingUpdates = new Map();
 
-    // Store confirmed updates for conflict detection
-    this.confirmedUpdates = new Map(); // actionId -> { type, data, timestamp }
+    this.confirmedUpdates = new Map();
 
-    // Track recent server timestamps to detect duplicates
-    this.serverTimestamps = new Map(); // actionId -> last server timestamp
+    this.serverTimestamps = new Map();
 
-    // Cleanup interval
-    this.CLEANUP_INTERVAL = 60000; // Clean up every 60 seconds
+    this.CLEANUP_INTERVAL = 60000;
 
     this.cleanupInterval = setInterval(() => {
       this.cleanup();
     }, this.CLEANUP_INTERVAL);
   }
 
-  /**
-   * Register an optimistic update (before sending to server)
-   * @param {string} type - Type of update ('token_move', 'token_state', etc.)
-   * @param {object} data - The update data
-   * @returns {string} actionId - Unique ID for tracking this update
-   */
-  registerUpdate(type, data) {
+  registerUpdate(type, data, rollbackFn) {
     const actionId = `${type}_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     const now = Date.now();
 
@@ -35,24 +25,17 @@ class OptimisticUpdatesService {
       type,
       data,
       timestamp: now,
-      resolved: false
+      resolved: false,
+      rollbackFn: typeof rollbackFn === 'function' ? rollbackFn : null
     });
 
     console.log(`🚀 Registered optimistic update: ${actionId}`);
     return actionId;
   }
 
-  /**
-   * High-level helper for token movement
-   * @param {string} tokenId - ID of the token
-   * @param {object} position - New position {x, y}
-   * @param {function} sendCallback - Callback to send the data to server
-   * @returns {string} actionId
-   */
-  optimisticTokenMove(tokenId, position, sendCallback) {
-    const actionId = this.registerUpdate('token_move', { tokenId, position });
+  optimisticTokenMove(tokenId, position, sendCallback, rollbackFn) {
+    const actionId = this.registerUpdate('token_move', { tokenId, position }, rollbackFn);
 
-    // Call the sending logic immediately (it's "optimistic" but we still need to send it)
     if (typeof sendCallback === 'function') {
       sendCallback(actionId);
     }
@@ -60,22 +43,16 @@ class OptimisticUpdatesService {
     return actionId;
   }
 
-  /**
-   * Resolve an optimistic update (when server confirms it)
-   * @param {string} actionId - The ID returned from registerUpdate
-   * @param {object} confirmationData - Server's confirmation data
-   */
   resolveUpdate(actionId, confirmationData) {
     const pending = this.pendingUpdates.get(actionId);
 
     if (!pending) {
-      console.warn(`  No pending update found for actionId: ${actionId}`);
+      console.warn(` No pending update found for actionId: ${actionId}`);
       return false;
     }
 
     const timeSincePending = Date.now() - pending.timestamp;
 
-    // Check if this update is stale (older than what we have)
     const confirmed = this.confirmedUpdates.get(actionId);
     if (confirmed) {
       const confirmedTime = confirmed.timestamp;
@@ -87,42 +64,31 @@ class OptimisticUpdatesService {
           confirmedTime: confirmed.timestamp,
           ageDiff: timeSincePending - timeSinceConfirmed
         });
-        // Stale update - server's confirmation is newer
+        if (pending.rollbackFn) {
+          pending.rollbackFn();
+        }
         this.pendingUpdates.delete(actionId);
         return false;
       }
     }
 
-    // Apply the update
     this.applyOptimisticUpdate(pending.type, pending.data, confirmationData);
 
-    // Mark as confirmed
     this.confirmedUpdates.set(actionId, {
       type: pending.type,
       data: confirmationData || pending.data,
       timestamp: Date.now()
     });
 
-    // Clean up pending
     this.pendingUpdates.delete(actionId);
 
-    console.log(` Resolved optimistic update: ${actionId}`);
+    console.log(` Resolved optimistic update: ${actionId}`);
     return true;
   }
 
-  /**
-   * Apply an optimistic update with conflict resolution
-   * @param {string} type - Type of update
-   * @param {object} updateData - The update data to apply
-   * @param {object} confirmationData - Server's confirmation data
-   */
   applyOptimisticUpdate(type, updateData, confirmationData) {
-    // For now, simply apply the update without conflict resolution
-    // Future: Add timestamp comparison and merge logic here
+    console.log(`= Applying optimistic update: ${type}`, updateData);
 
-    console.log(`= Applying optimistic update: ${type}`, updateData);
-
-    // Broadcast an event so components can listen for the resolution
     const event = new CustomEvent('optimistic_update_resolved', {
       detail: {
         type,
@@ -134,30 +100,55 @@ class OptimisticUpdatesService {
     window.dispatchEvent(event);
   }
 
-  /**
-   * Get status of an optimistic update
-   * @param {string} actionId - The ID to check
-   * @returns {boolean} true if pending, false if resolved or not found
-   */
+  rollbackUpdate(actionId) {
+    const pending = this.pendingUpdates.get(actionId);
+
+    if (!pending) {
+      console.warn(`No pending update found to rollback: ${actionId}`);
+      return false;
+    }
+
+    if (pending.rollbackFn) {
+      console.log(`↩ Rolling back optimistic update: ${actionId}`);
+      pending.rollbackFn();
+    } else {
+      console.warn(`No rollbackFn provided for update: ${actionId}`);
+    }
+
+    this.pendingUpdates.delete(actionId);
+
+    const event = new CustomEvent('optimistic_update_rolled_back', {
+      detail: {
+        actionId,
+        type: pending.type,
+        data: pending.data
+      }
+    });
+
+    window.dispatchEvent(event);
+
+    return true;
+  }
+
   isUpdatePending(actionId) {
     return this.pendingUpdates.has(actionId) && !this.pendingUpdates.get(actionId)?.resolved;
   }
 
-  /**
-   * Clean up old pending updates
-   */
   cleanup() {
     const now = Date.now();
-    const STALE_THRESHOLD = 30000; // 30 seconds
+    const STALE_THRESHOLD = 30000;
 
     for (const [actionId, update] of this.pendingUpdates.entries()) {
       const age = now - update.timestamp;
 
       if (age > STALE_THRESHOLD) {
-        console.warn(`=Ñ Cleaning up stale optimistic update: ${actionId} (${age}ms old)`);
+        console.warn(`=Ñ Cleaning up stale optimistic update: ${actionId} (${age}ms old)`);
+        if (update.rollbackFn) {
+          console.log(`↩ Rolling back stale optimistic update: ${actionId}`);
+          update.rollbackFn();
+        }
         this.pendingUpdates.delete(actionId);
 
-        // Clean up confirmed updates too
         const confirmed = this.confirmedUpdates.get(actionId);
         if (confirmed && (now - confirmed.timestamp) > STALE_THRESHOLD) {
           this.confirmedUpdates.delete(actionId);
@@ -165,7 +156,6 @@ class OptimisticUpdatesService {
       }
     }
 
-    // Also clean up server timestamps
     for (const [actionId, timestamp] of this.serverTimestamps.entries()) {
       if (now - timestamp > STALE_THRESHOLD) {
         this.serverTimestamps.delete(actionId);
@@ -173,9 +163,6 @@ class OptimisticUpdatesService {
     }
   }
 
-  /**
-   * Get all pending updates (for debugging)
-   */
   getPendingUpdates() {
     return Array.from(this.pendingUpdates.entries()).map(([actionId, update]) => ({
       actionId,
@@ -186,7 +173,6 @@ class OptimisticUpdatesService {
   }
 }
 
-// Create singleton instance
 const optimisticUpdatesService = new OptimisticUpdatesService();
 
 export default optimisticUpdatesService;

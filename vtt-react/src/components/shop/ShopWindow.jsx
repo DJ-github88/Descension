@@ -354,15 +354,32 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       return;
     }
 
+    // Add items to inventory FIRST, then deduct currency — prevents currency loss if inventory is full
+    let allItemsAdded = true;
+    for (let i = 0; i < quantity; i++) {
+      const newItemId = addItemFromLibrary(item, {
+        preserveProperties: true,
+        quantity: 1
+      });
+      if (!newItemId) {
+        allItemsAdded = false;
+        showNotification('Inventory full! Could not add all items.', 'error');
+        break;
+      }
+    }
+
+    // Only deduct currency if at least one item was added
+    if (!allItemsAdded) {
+      return;
+    }
+
     // Deduct currency
     let remainingCost = totalCost;
     let newCurrency = { ...currency };
 
-    // Convert player currency to copper, deduct cost, then convert back
     let totalPlayerCopper = calculateTotalCopper(newCurrency);
     totalPlayerCopper -= remainingCost;
 
-    // Convert back to platinum/gold/silver/copper
     newCurrency.platinum = Math.floor(totalPlayerCopper / 1000000);
     totalPlayerCopper %= 1000000;
     newCurrency.gold = Math.floor(totalPlayerCopper / 10000);
@@ -372,15 +389,6 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
     updateCurrency(newCurrency);
 
-    // Add item to inventory - restore original library value
-    for (let i = 0; i < quantity; i++) {
-      // Pass the original item directly to preserve all properties
-      addItemFromLibrary(item, {
-        preserveProperties: true,
-        quantity: 1
-      });
-    }
-
     // Remove purchased items from merchant's inventory
     const updatedShopItems = [...(creature.shopInventory?.items || [])];
     const shopItemIndex = updatedShopItems.findIndex(item => item.itemId === shopItem.itemId);
@@ -388,17 +396,14 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     if (shopItemIndex !== -1) {
       const currentShopItem = updatedShopItems[shopItemIndex];
       if (currentShopItem.quantity > quantity) {
-        // Reduce quantity if more than purchased amount
         updatedShopItems[shopItemIndex] = {
           ...currentShopItem,
           quantity: currentShopItem.quantity - quantity
         };
       } else {
-        // Remove item completely if quantity is equal or less than purchased amount
         updatedShopItems.splice(shopItemIndex, 1);
       }
 
-      // Update the creature's shop inventory
       const updatedShopInventory = {
         ...creature.shopInventory,
         items: updatedShopItems

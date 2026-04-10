@@ -92,6 +92,9 @@ const initialState = {
     transferCameraLockUntil: 0,
     transferCameraSource: null,
     transferCameraTarget: null,
+
+    // Active spell cooldowns: { [slotIndex]: { expiresAt, maxCooldown, cooldownType, spellId } }
+    activeCooldowns: {},
 };
 
 // Handle storage quota exceeded for game store
@@ -599,22 +602,25 @@ const useGameStore = create((set, get) => ({
                 // Reset action points to max
                 const newActionPoints = actionPoints.max;
 
-                // Update character store
-                useCharacterStore.getState().updateResource('health', newHealth, health.max);
-                useCharacterStore.getState().updateResource('mana', newMana, mana.max);
-                useCharacterStore.getState().updateResource('actionPoints', newActionPoints, actionPoints.max);
+                // Batch all resource updates with sync suppressed, then emit a single sync
+                useCharacterStore.getState().updateResource('health', newHealth, health.max, undefined, true, true);
+                useCharacterStore.getState().updateResource('mana', newMana, mana.max, undefined, true, true);
+                useCharacterStore.getState().updateResource('actionPoints', newActionPoints, actionPoints.max, undefined, true, true);
+                useCharacterStore.getState().updateTempResource('health', 0, true, true);
+                useCharacterStore.getState().updateTempResource('mana', 0, true, true);
+                useCharacterStore.getState().updateTempResource('actionPoints', 0, true, true);
 
-                // Reset temporary resources
-                useCharacterStore.getState().updateTempResource('health', 0);
-                useCharacterStore.getState().updateTempResource('mana', 0);
-                useCharacterStore.getState().updateTempResource('actionPoints', 0);
+                useCharacterStore.getState().syncResourcesWithMultiplayer({
+                    health: newHealth - health.current,
+                    mana: newMana - mana.current,
+                    actionPoints: newActionPoints - actionPoints.current
+                });
             } else {
                 // Update party member
                 const memberChar = member.character || {};
                 const stats = memberChar.stats || {};
                 const spirit = stats.spirit || 10;
 
-                // Calculate Spirit modifier
                 const spiritModifier = Math.max(0, Math.floor((spirit - 10) / 2));
                 const recoveryPercent = Math.min(0.75, 0.25 + (spiritModifier * 0.05));
 
@@ -629,7 +635,6 @@ const useGameStore = create((set, get) => ({
                 const newMana = Math.min(mana.max, mana.current + manaRecovery);
                 const newActionPoints = actionPoints.max;
 
-                // Update party member
                 partyStore.updatePartyMember(member.id, {
                     character: {
                         ...memberChar,
@@ -644,7 +649,6 @@ const useGameStore = create((set, get) => ({
             }
         });
 
-        // Also update creatures (for backwards compatibility)
         set(state => ({
             creatures: state.creatures.map(creature => {
                 const healthRecovery = Math.floor(creature.maxHealth / 4);
@@ -659,6 +663,35 @@ const useGameStore = create((set, get) => ({
                 };
             })
         }));
+
+        // Reset short-rest cooldowns
+        try {
+            const { handleRest } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
+            handleRest('short');
+        } catch (e) {
+            console.warn('Could not reset short rest cooldowns:', e);
+        }
+
+        try {
+            const saved = localStorage.getItem('gameStore-activeCooldowns');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                const filtered = {};
+                Object.entries(parsed).forEach(([k, v]) => {
+                    if (v.cooldownType === 'turn_based') filtered[k] = v;
+                });
+                localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(filtered));
+                set({ activeCooldowns: filtered });
+            }
+        } catch (e) {}
+
+        // Clear debuffs on short rest
+        try {
+            const useDebuffStore = require('./debuffStore').default;
+            useDebuffStore.getState().clearAllDebuffs();
+        } catch (e) {
+            console.warn('Could not clear debuffs on short rest:', e);
+        }
     },
 
     // Long Rest - Fully recover all resources
@@ -683,15 +716,19 @@ const useGameStore = create((set, get) => ({
                 const mana = charStore.mana || { current: 0, max: 0 };
                 const actionPoints = charStore.actionPoints || { current: 0, max: 0 };
 
-                // Fully restore to max
-                useCharacterStore.getState().updateResource('health', health.max, health.max);
-                useCharacterStore.getState().updateResource('mana', mana.max, mana.max);
-                useCharacterStore.getState().updateResource('actionPoints', actionPoints.max, actionPoints.max);
+                // Batch all resource updates with sync suppressed, then emit a single sync
+                useCharacterStore.getState().updateResource('health', health.max, health.max, undefined, true, true);
+                useCharacterStore.getState().updateResource('mana', mana.max, mana.max, undefined, true, true);
+                useCharacterStore.getState().updateResource('actionPoints', actionPoints.max, actionPoints.max, undefined, true, true);
+                useCharacterStore.getState().updateTempResource('health', 0, true, true);
+                useCharacterStore.getState().updateTempResource('mana', 0, true, true);
+                useCharacterStore.getState().updateTempResource('actionPoints', 0, true, true);
 
-                // Reset temporary resources
-                useCharacterStore.getState().updateTempResource('health', 0);
-                useCharacterStore.getState().updateTempResource('mana', 0);
-                useCharacterStore.getState().updateTempResource('actionPoints', 0);
+                useCharacterStore.getState().syncResourcesWithMultiplayer({
+                    health: health.max - health.current,
+                    mana: mana.max - mana.current,
+                    actionPoints: actionPoints.max - actionPoints.current
+                });
             } else {
                 // Update party member
                 const memberChar = member.character || {};
@@ -726,6 +763,45 @@ const useGameStore = create((set, get) => ({
                 };
             })
         }));
+
+        // Reset all cooldowns on long rest
+        try {
+            const { handleRest } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
+            handleRest('long');
+        } catch (e) {
+            console.warn('Could not reset long rest cooldowns:', e);
+        }
+
+        try { localStorage.removeItem('gameStore-activeCooldowns'); } catch (e) {}
+        set({ activeCooldowns: {} });
+
+        // Clear all buffs on long rest
+        try {
+            const useBuffStore = require('./buffStore').default;
+            useBuffStore.getState().clearAllBuffs();
+        } catch (e) {
+            console.warn('Could not clear buffs on long rest:', e);
+        }
+
+        // Clear all debuffs on long rest
+        try {
+            const useDebuffStore = require('./debuffStore').default;
+            useDebuffStore.getState().clearAllDebuffs();
+        } catch (e) {
+            console.warn('Could not clear debuffs on long rest:', e);
+        }
+
+        // Reset class resources on long rest
+        try {
+            const useCharacterStore = require('./characterStore').default;
+            const charStore = useCharacterStore.getState();
+            if (charStore.classResource) {
+                useCharacterStore.getState().updateClassResource('current', charStore.classResource.max, true, true);
+                useCharacterStore.getState().syncResourcesWithMultiplayer({ classResource: 0 });
+            }
+        } catch (e) {
+            console.warn('Could not reset class resources on long rest:', e);
+        }
     },
 
     // Rest overlay management
@@ -859,6 +935,46 @@ const useGameStore = create((set, get) => ({
     updateTokenPositionMultiplayer: (creatureId, position) => {
         // This method is deprecated to avoid dual store conflicts
         console.warn('gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
+    },
+
+    setCooldown: (slotIndex, cooldownData) => {
+        set(state => {
+            const updated = { ...state.activeCooldowns, [slotIndex]: cooldownData };
+            try { localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(updated)); } catch (e) {}
+            return { activeCooldowns: updated };
+        });
+    },
+
+    clearCooldown: (slotIndex) => {
+        set(state => {
+            const { [slotIndex]: _, ...rest } = state.activeCooldowns;
+            try { localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(rest)); } catch (e) {}
+            return { activeCooldowns: rest };
+        });
+    },
+
+    clearAllCooldowns: () => {
+        try { localStorage.removeItem('gameStore-activeCooldowns'); } catch (e) {}
+        set({ activeCooldowns: {} });
+    },
+
+    restoreCooldowns: () => {
+        try {
+            const saved = localStorage.getItem('gameStore-activeCooldowns');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                const now = Date.now();
+                const valid = {};
+                Object.entries(parsed).forEach(([slotIndex, data]) => {
+                    if (data.cooldownType === 'turn_based' || (data.expiresAt && data.expiresAt > now)) {
+                        valid[slotIndex] = data;
+                    }
+                });
+                set({ activeCooldowns: valid });
+                return valid;
+            }
+        } catch (e) {}
+        return {};
     }
 }));
 

@@ -9,6 +9,30 @@
 const logger = require('../services/logger');
 const firebaseService = require('../services/firebaseService');
 
+const FOG_ARRAY_KEYS = new Set([
+  'fogOfWarPaths',
+  'fogErasePaths',
+  'fogOfWarData'
+]);
+
+function deepMerge(target, source) {
+  const result = { ...target };
+  for (const key of Object.keys(source)) {
+    if (
+      Array.isArray(source[key]) &&
+      Array.isArray(target[key]) &&
+      FOG_ARRAY_KEYS.has(key)
+    ) {
+      result[key] = [...target[key], ...source[key]];
+    } else if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) && target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])) {
+      result[key] = deepMerge(target[key], source[key]);
+    } else {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+
 /**
  * Firebase Write Batching Service
  * Prevents quota exhaustion by batching writes
@@ -28,8 +52,10 @@ class FirebaseBatchWriter {
    * @param {Object} gameState - Game state to write
    */
   queueWrite(roomId, gameState) {
+    const existing = this.pendingWrites.get(roomId);
+    const mergedGameState = existing ? deepMerge(existing.gameState, gameState) : { ...gameState };
     this.pendingWrites.set(roomId, {
-      gameState: { ...gameState },
+      gameState: mergedGameState,
       timestamp: Date.now()
     });
 
@@ -48,16 +74,37 @@ class FirebaseBatchWriter {
     const writesToProcess = Array.from(this.pendingWrites.entries());
     this.pendingWrites.clear();
 
-    const writePromises = writesToProcess.map(async ([roomId, data]) => {
-      try {
-        await firebaseService.updateRoomGameState(roomId, data.gameState);
-        logger.debug(`Batched write completed for room ${roomId}`);
-      } catch (error) {
-        logger.error(`Batched write failed for room ${roomId}:`, error);
-      }
-    });
+    let failedWrites = writesToProcess;
 
-    await Promise.allSettled(writePromises);
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const writePromises = failedWrites.map(async ([roomId, data]) => {
+        try {
+          await firebaseService.updateRoomGameState(roomId, data.gameState);
+          logger.debug(`Batched write completed for room ${roomId}`);
+          return { roomId, success: true };
+        } catch (error) {
+          logger.error(`Batched write failed for room ${roomId} (attempt ${attempt}/3):`, error);
+          return { roomId, success: false, data };
+        }
+      });
+
+      const results = await Promise.allSettled(writePromises);
+      failedWrites = results
+        .filter(r => r.status === 'fulfilled' && r.value && !r.value.success)
+        .map(r => [r.value.roomId, r.value.data]);
+
+      if (failedWrites.length === 0) return;
+
+      if (attempt < 3) {
+        const delay = 500 * Math.pow(2, attempt - 1);
+        logger.warn(`Retrying ${failedWrites.length} failed write(s) in ${delay}ms (attempt ${attempt + 1}/3)`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+
+    if (failedWrites.length > 0) {
+      logger.error(`All retry attempts exhausted for ${failedWrites.length} room write(s):`, failedWrites.map(([id]) => id));
+    }
   }
 
   /**
@@ -86,11 +133,12 @@ class FirebaseBatchWriter {
  * Reduces network spam during token drags
  */
 class MovementDebouncer {
-  constructor(debounceMs = 50) {
+  constructor(debounceMs = 50, firebaseBatchWriter = null) {
     this.pendingMoves = new Map(); // roomId_tokenId -> {position, velocity, timestamp, playerId}
     this.debounceMs = debounceMs;
     this.flushInterval = null;
     this.flushCallback = null;
+    this.firebaseBatchWriter = firebaseBatchWriter;
     this.startDebouncer();
   }
 
@@ -121,6 +169,8 @@ class MovementDebouncer {
 
     const movesToProcess = Array.from(this.pendingMoves.values());
     this.pendingMoves.clear();
+
+    const affectedRooms = new Set();
 
     movesToProcess.forEach(move => {
       const room = rooms.get(move.roomId);
@@ -166,8 +216,19 @@ class MovementDebouncer {
             timestamp: Date.now()
           });
         }
+
+        affectedRooms.add(move.roomId);
       }
     });
+
+    if (this.firebaseBatchWriter) {
+      affectedRooms.forEach(roomId => {
+        const room = rooms.get(roomId);
+        if (room) {
+          this.firebaseBatchWriter.queueWrite(roomId, room.gameState);
+        }
+      });
+    }
   }
 
   /**
@@ -193,20 +254,6 @@ class MovementDebouncer {
 }
 
 /**
- * Event Sequence Tracker
- * Ensures event ordering across socket broadcasts
- */
-let eventSequenceNumber = 0;
-
-function getNextEventSequence() {
-  return ++eventSequenceNumber;
-}
-
-function resetEventSequence() {
-  eventSequenceNumber = 0;
-}
-
-/**
  * Create service instances
  * @param {Object} io - Socket.io server instance
  * @param {Map} rooms - Rooms map
@@ -215,7 +262,7 @@ function resetEventSequence() {
  */
 function createSyncServices(io, rooms, players) {
   const firebaseBatchWriter = new FirebaseBatchWriter(500, 50);
-  const movementDebouncer = new MovementDebouncer(50);
+  const movementDebouncer = new MovementDebouncer(50, firebaseBatchWriter);
 
   // Set up movement debouncer flush callback
   movementDebouncer.flushCallback = () => {
@@ -255,8 +302,6 @@ function setupShutdownHandlers(services) {
 module.exports = {
   FirebaseBatchWriter,
   MovementDebouncer,
-  getNextEventSequence,
-  resetEventSequence,
   createSyncServices,
   setupShutdownHandlers
 };

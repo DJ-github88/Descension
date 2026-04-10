@@ -3,25 +3,27 @@ import { FaSkull, FaBoxOpen, FaMapMarkerAlt, FaScroll, FaCheck } from 'react-ico
 import useQuestStore from '../../store/questStore';
 
 const QuestObjective = ({ questId, objective }) => {
-  const { updateObjectiveProgress, completeObjective } = useQuestStore(state => ({
+  const { updateObjectiveProgress, completeObjective, uncompleteObjective } = useQuestStore(state => ({
     updateObjectiveProgress: state.updateObjectiveProgress,
-    completeObjective: state.completeObjective
+    completeObjective: state.completeObjective,
+    uncompleteObjective: state.uncompleteObjective
   }));
 
-  // Determine if objective is complete
   const isComplete = objective.type === 'visit' || objective.type === 'talk'
     ? objective.completed
     : objective.progress >= objective.count;
 
-  // Handle progress update
   const handleProgressUpdate = (e) => {
     const newProgress = parseInt(e.target.value) || 0;
     updateObjectiveProgress(questId, objective.id, newProgress);
   };
 
-  // Handle objective completion
-  const handleComplete = () => {
-    completeObjective(questId, objective.id);
+  const handleToggleComplete = () => {
+    if (isComplete) {
+      uncompleteObjective(questId, objective.id);
+    } else {
+      completeObjective(questId, objective.id);
+    }
   };
 
   // Render objective icon based on type
@@ -47,8 +49,7 @@ const QuestObjective = ({ questId, objective }) => {
         <div className="quest-objective-progress-container">
           <button
             className={`quest-objective-complete-btn ${isComplete ? 'completed' : ''}`}
-            onClick={handleComplete}
-            disabled={isComplete}
+            onClick={handleToggleComplete}
           >
             {isComplete ? <FaCheck /> : 'Complete'}
           </button>

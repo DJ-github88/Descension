@@ -9,6 +9,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import useAuthStore from '../store/authStore';
 import useMapStore from '../store/mapStore';
 import { saveUserMap, loadUserMaps, updateUserMap, deleteUserMap } from '../services/firebase/userMapsService';
+import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 
@@ -18,8 +19,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 export const useUserMapsPersistence = () => {
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const maps = useMapStore(useShallow(state => state.maps));
 
-  // Track which maps are user-created vs built-in
   const isUserCreatedMap = useCallback((map) => {
     return map.isCustom === true || (map.source && map.source !== 'built-in');
   }, []);
@@ -195,7 +196,7 @@ export const useUserMapsPersistence = () => {
         clearTimeout(saveTimerRef.current);
       }
     };
-  }, [getUserMaps(), user, syncNewMaps]); // Depend on user maps changing
+  }, [maps, user, syncNewMaps]);
 
   return {
     // State

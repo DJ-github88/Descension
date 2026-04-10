@@ -192,6 +192,32 @@
     color: #fff;
 }
 
+.unsaved-warning-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px 14px;
+    background: rgba(180, 120, 40, 0.12);
+    border: 1px solid rgba(180, 120, 40, 0.3);
+    border-radius: 6px;
+}
+
+.unsaved-warning-icon {
+    color: var(--pf-gold-dark);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.unsaved-warning-text {
+    font-size: 0.78rem;
+    color: var(--pf-brown-dark);
+    font-style: italic;
+    line-height: 1.4;
+}
+
 /* Responsive */
 @media (max-width: 400px) {
     .dialog-footer-section {

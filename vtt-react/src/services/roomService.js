@@ -432,6 +432,16 @@ export const deleteRoom = async (roomId, userId) => {
       throw new Error('Only the GM can delete the room');
     }
 
+    const gameStateSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'gameState'));
+    for (const subDoc of gameStateSnapshot.docs) {
+      await deleteDoc(subDoc.ref);
+    }
+
+    const chatSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'chat'));
+    for (const subDoc of chatSnapshot.docs) {
+      await deleteDoc(subDoc.ref);
+    }
+
     await deleteDoc(doc(db, ROOMS_COLLECTION, roomId));
   } catch (error) {
     console.error('❌ Error deleting room:', error);

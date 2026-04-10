@@ -5,15 +5,34 @@
  * Should be included high in the component tree to ensure persistence works.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useCharacterPersistence } from '../../hooks/useCharacterPersistence';
+import ConflictResolutionModal from '../common/ConflictResolutionModal';
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
 
 const CharacterPersistenceProvider = ({ children }) => {
   const { user } = useAuthStore();
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
-  const { isAuthenticated, forceSave } = useCharacterPersistence();
+  const {
+    isAuthenticated,
+    forceSave,
+    conflictDetected,
+    conflictData,
+    resolveConflict
+  } = useCharacterPersistence();
+
+  const handleResolveWithLocal = useCallback(() => {
+    resolveConflict('local');
+  }, [resolveConflict]);
+
+  const handleResolveWithRemote = useCallback(() => {
+    resolveConflict('remote');
+  }, [resolveConflict]);
+
+  const handleConflictCancel = useCallback(() => {
+    resolveConflict('remote');
+  }, [resolveConflict]);
 
   // Force save on page unload for authenticated users
   useEffect(() => {
@@ -50,7 +69,20 @@ const CharacterPersistenceProvider = ({ children }) => {
     }
   }, [user]);
 
-  return children;
+  return (
+    <>
+      {children}
+      <ConflictResolutionModal
+        isOpen={conflictDetected}
+        conflictType="character"
+        localTimestamp={conflictData?.localTimestamp}
+        remoteTimestamp={conflictData?.remoteTimestamp}
+        onResolveWithLocal={handleResolveWithLocal}
+        onResolveWithRemote={handleResolveWithRemote}
+        onCancel={handleConflictCancel}
+      />
+    </>
+  );
 };
 
 export default CharacterPersistenceProvider;

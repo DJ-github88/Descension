@@ -1,37 +1,130 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { generateSpellId } from '../data/spellUtils';
+import { db, isFirebaseConfigured } from '../config/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-// Initial collections
 const DEFAULT_COLLECTIONS = [
   { id: 'favorites', name: 'Favorites', icon: 'star', spells: [] },
   { id: 'custom', name: 'My Spells', icon: 'book', spells: [] }
 ];
 
-// Initial state
 const initialState = {
   spells: [],
   collections: DEFAULT_COLLECTIONS,
   selectedSpell: null,
   selectedCollection: null,
-  activeTab: 'wizard', // Default tab - changed from 'spells' to 'wizard'
+  activeTab: 'wizard',
   filters: {
     searchText: '',
     categories: [],
     levels: { min: 0, max: 9 }
   },
-  // Window position persistence
-  windowPosition: null, // Will be set when user moves the window
-  windowSize: { width: 1000, height: 700 } // Default size
+  windowPosition: null,
+  windowSize: { width: 1000, height: 700 }
 };
 
-// Create the store
+const PERSIST_KEYS = ['spells', 'collections', 'favorites'];
+
+async function loadSpellbookFromFirebase(userId) {
+  if (!isFirebaseConfigured || !db) return null;
+  try {
+    const docRef = doc(db, 'users', userId, 'spellbook', 'data');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
+  } catch (error) {
+    console.error('Error loading spellbook from Firebase:', error);
+    window.dispatchEvent(new CustomEvent('spellbook_persistence_degraded', {
+      detail: { operation: 'read', error: error.message }
+    }));
+  }
+  return null;
+}
+
+async function saveSpellbookToFirebase(userId, state) {
+  if (!isFirebaseConfigured || !db) return;
+  try {
+    const docRef = doc(db, 'users', userId, 'spellbook', 'data');
+    const data = {};
+    PERSIST_KEYS.forEach(key => {
+      if (state[key] !== undefined) {
+        data[key] = state[key];
+      }
+    });
+    data.collections = state.collections || [];
+    data.spells = state.spells || [];
+    data.updatedAt = new Date().toISOString();
+    await setDoc(docRef, data, { merge: true });
+  } catch (error) {
+    console.error('Error saving spellbook to Firebase:', error);
+    window.dispatchEvent(new CustomEvent('spellbook_persistence_degraded', {
+      detail: { operation: 'write', error: error.message }
+    }));
+  }
+}
+
+function getAuthUser() {
+  try {
+    const authData = localStorage.getItem('auth-storage');
+    if (authData) {
+      const parsed = JSON.parse(authData);
+      return parsed.state?.user || null;
+    }
+  } catch (e) {
+    // Ignore parsing errors
+  }
+  return null;
+}
+
+const createFirebaseStorage = () => ({
+  getItem: async (name) => {
+    try {
+      const user = getAuthUser();
+      if (user && !user.isGuest) {
+        const firebaseData = await loadSpellbookFromFirebase(user.uid);
+        if (firebaseData) {
+          return {
+            state: {
+              spells: firebaseData.spells || [],
+              collections: firebaseData.collections || DEFAULT_COLLECTIONS
+            },
+            version: 1
+          };
+        }
+      }
+      const item = localStorage.getItem(name);
+      return item ? JSON.parse(item) : null;
+    } catch (error) {
+      console.error('Error loading spellbook from Firebase:', error);
+      return localStorage.getItem(name);
+    }
+  },
+
+  setItem: async (name, data) => {
+    try {
+      const user = getAuthUser();
+      if (user && !user.isGuest) {
+        await saveSpellbookToFirebase(user.uid, data.state);
+      }
+      localStorage.setItem(name, JSON.stringify(data));
+    } catch (error) {
+      console.error('Error saving spellbook to Firebase:', error);
+      localStorage.setItem(name, JSON.stringify(data));
+    }
+  },
+
+  removeItem: async (name) => {
+    localStorage.removeItem(name);
+  }
+});
+
 const useSpellbookStore = create(
   persist(
     (set, get) => ({
       ...initialState,
 
-      // Spell management
       addSpell: (spellData) => {
         const spell = {
           ...spellData,
@@ -67,7 +160,6 @@ const useSpellbookStore = create(
         }));
       },
 
-      // Collection management
       addCollection: (name, icon = 'book') => {
         const collection = {
           id: `collection-${Date.now()}`,
@@ -101,19 +193,14 @@ const useSpellbookStore = create(
         }));
       },
 
-      // Selection management
       selectSpell: (id) => set({ selectedSpell: id }),
       selectCollection: (id) => set({ selectedCollection: id }),
-
-      // Tab management
       setActiveTab: (tab) => set({ activeTab: tab }),
 
-      // Filter management
       updateFilters: (updates) => set(state => ({
         filters: { ...state.filters, ...updates }
       })),
 
-      // Window position management
       setWindowPosition: (position) => {
         set({ windowPosition: position });
       },
@@ -122,17 +209,16 @@ const useSpellbookStore = create(
         set({ windowSize: size });
       },
 
-      // Reset store
       resetStore: () => set(initialState)
     }),
     {
       name: 'spellbook-storage',
       version: 1,
-      storage: {
-        getItem: (name) => localStorage.getItem(name),
-        setItem: (name, value) => localStorage.setItem(name, value),
-        removeItem: (name) => localStorage.removeItem(name)
-      }
+      storage: createFirebaseStorage(),
+      partialize: (state) => ({
+        spells: state.spells,
+        collections: state.collections
+      })
     }
   )
 );

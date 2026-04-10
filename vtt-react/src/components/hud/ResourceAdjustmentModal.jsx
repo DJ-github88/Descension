@@ -63,24 +63,47 @@ const ResourceAdjustmentModal = ({
         }
     };
 
+    const getNewValue = (adjustment, mode) => {
+        if (mode === 'absolute') {
+            return adjustment;
+        }
+        return currentValue + adjustment;
+    };
+
+    const isDestructiveHpChange = (newValue) => {
+        if (resourceType !== 'health') return false;
+        if (newValue >= currentValue) return false;
+        const threshold = Math.floor(maxValue * 0.25);
+        return newValue <= threshold;
+    };
+
+    const applyAdjustment = (adjustment, mode) => {
+        const newValue = getNewValue(adjustment, mode);
+        if (isDestructiveHpChange(newValue)) {
+            const clampedValue = Math.max(0, Math.min(newValue, maxValue));
+            if (!window.confirm(`This will reduce Health to ${clampedValue}. Continue?`)) {
+                return false;
+            }
+        }
+        onAdjust(adjustment);
+        return true;
+    };
+
     const handleSubmit = () => {
         const value = parseInt(inputValue);
         if (!isNaN(value)) {
-            if (adjustmentMode === 'relative') {
-                onAdjust(value);
-            } else {
-                // For absolute mode, calculate the difference
-                const adjustment = value - currentValue;
-                onAdjust(adjustment);
+            const adjustment = adjustmentMode === 'relative' ? value : value - currentValue;
+            if (applyAdjustment(adjustment, adjustmentMode)) {
+                setInputValue('');
+                onClose();
             }
         }
-        setInputValue('');
-        onClose();
     };
 
     const handleQuickAdjust = (amount) => {
-        onAdjust(amount);
-        onClose();
+        if (applyAdjustment(amount, 'relative')) {
+            onClose();
+        }
     };
 
     const handleKeyPress = (e) => {

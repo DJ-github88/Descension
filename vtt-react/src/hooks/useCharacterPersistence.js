@@ -385,6 +385,11 @@ export const useCharacterPersistence = () => {
     updateResources,
 
     // Utilities
-    collectCharacterState
+    collectCharacterState,
+
+    // Conflict resolution
+    conflictDetected: realtimeSync.conflictDetected,
+    conflictData: realtimeSync.conflictData,
+    resolveConflict: realtimeSync.resolveConflict
   };
 };

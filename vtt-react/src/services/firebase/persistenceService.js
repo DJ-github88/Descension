@@ -6,7 +6,7 @@
  */
 
 import { db } from '../../config/firebase';
-import { doc, getDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, deleteDoc, serverTimestamp, collection, getDocs, query, where } from 'firebase/firestore';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Import individual persistence services
@@ -14,30 +14,9 @@ import characterStateService from './characterStateService';
 import roomStateService from './roomStateService';
 import journalService from './journalService';
 import campaignService from './campaignService';
-import storageLimitService from './storageLimitService';
+import storageLimitService, { STORAGE_LIMITS } from './storageLimitService';
 
-// Storage limits by subscription tier (in bytes)
-export const STORAGE_LIMITS = {
-  GUEST: { total: 0 }, // No persistence
-  FREE: {
-    total: 50 * 1024 * 1024, // 50MB
-    characters: 50,
-    campaigns: 1,
-    rooms: 1
-  },
-  SUBSCRIBER: {
-    total: 500 * 1024 * 1024, // 500MB
-    characters: 6,
-    campaigns: 5,
-    rooms: 5
-  },
-  PREMIUM: {
-    total: 2 * 1024 * 1024 * 1024, // 2GB
-    characters: 24,
-    campaigns: 20,
-    rooms: 20
-  }
-};
+export { STORAGE_LIMITS };
 
 /**
  * Master Persistence Service Class
@@ -453,10 +432,13 @@ class PersistenceService {
         this.services.characterState.deleteAllCharacterData(userId),
         this.services.roomState.deleteAllRoomData(userId),
         this.services.journal.deleteJournal(userId),
-        this.services.campaign.deleteAllCampaigns(userId)
+        this.services.campaign.deleteAllCampaigns(userId),
+        this._deleteCharacterDocuments(userId),
+        this._deleteGmRooms(userId),
+        this._deletePresence(userId),
+        this._deleteFriendData(userId)
       ]);
 
-      // Reset storage usage - use setDoc with merge to handle missing documents
       const userRef = doc(db, 'users', userId);
       await setDoc(userRef, {
         storageUsage: {
@@ -472,6 +454,47 @@ class PersistenceService {
     } catch (error) {
       console.error('Error deleting all user data:', error);
       throw error;
+    }
+  }
+
+  async _deleteCharacterDocuments(userId) {
+    try {
+      const q = query(collection(db, 'characters'), where('metadata.userId', '==', userId));
+      const snapshot = await getDocs(q);
+      await Promise.all(snapshot.docs.map(d => deleteDoc(d.ref)));
+    } catch (error) {
+      console.error('Error deleting character documents:', error);
+    }
+  }
+
+  async _deleteGmRooms(userId) {
+    try {
+      const q = query(collection(db, 'rooms'), where('gmId', '==', userId));
+      const snapshot = await getDocs(q);
+      await Promise.all(snapshot.docs.map(d => deleteDoc(d.ref)));
+    } catch (error) {
+      console.error('Error deleting GM rooms:', error);
+    }
+  }
+
+  async _deletePresence(userId) {
+    try {
+      const presenceRef = doc(db, 'presence', userId);
+      await deleteDoc(presenceRef);
+    } catch (error) {
+      console.error('Error deleting presence:', error);
+    }
+  }
+
+  async _deleteFriendData(userId) {
+    try {
+      const friendListRef = doc(db, 'friendLists', userId);
+      await deleteDoc(friendListRef);
+
+      const pendingRef = doc(db, 'friendRequests', userId);
+      await deleteDoc(pendingRef);
+    } catch (error) {
+      console.error('Error deleting friend data:', error);
     }
   }
 

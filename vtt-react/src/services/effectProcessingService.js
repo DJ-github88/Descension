@@ -365,15 +365,14 @@ export const getStatModifiersForTarget = (targetId) => {
             }
         });
     
-    // Collect debuff effects (these should already be negative in the effects object)
+    // Collect debuff effects — use raw values; debuffs should already be stored as negative values
+    // (getActiveDebuffEffects in debuffStore handles negation separately)
     debuffStore.activeDebuffs
         .filter(debuff => debuff.targetId === targetId)
         .forEach(debuff => {
             if (debuff.effects) {
                 Object.entries(debuff.effects).forEach(([stat, value]) => {
-                    // Ensure debuff values are negative
-                    const effectiveValue = value > 0 ? -value : value;
-                    modifiers[stat] = (modifiers[stat] || 0) + effectiveValue;
+                    modifiers[stat] = (modifiers[stat] || 0) + value;
                 });
             }
         });

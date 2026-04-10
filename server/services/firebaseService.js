@@ -509,7 +509,17 @@ const deleteRoom = async (roomId) => {
   }
 
   try {
-    await db.collection('rooms').doc(roomId).delete();
+    const roomRef = db.collection('rooms').doc(roomId);
+
+    const gameStateSnapshot = await roomRef.collection('gameState').get();
+    const chatSnapshot = await roomRef.collection('chat').get();
+
+    const batch = db.batch();
+    gameStateSnapshot.forEach(subDoc => batch.delete(subDoc.ref));
+    chatSnapshot.forEach(subDoc => batch.delete(subDoc.ref));
+    batch.delete(roomRef);
+
+    await batch.commit();
     return true;
   } catch (error) {
     logger.error('Error deleting room', { error: error.message, roomId });

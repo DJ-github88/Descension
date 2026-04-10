@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaMapMarkedAlt } from 'react-icons/fa';
+import { FaMapMarkedAlt, FaExclamationTriangle } from 'react-icons/fa';
 import WowWindow from '../windows/WowWindow';
 import './MapSwitchConfirmDialog.css';
 
@@ -59,6 +59,10 @@ const MapSwitchConfirmDialog = ({
                             <div className="ornament-line"></div>
                         </div>
                         <p className="save-warning">Your current progress on the active map will be preserved.</p>
+                    </div>
+                    <div className="unsaved-warning-banner">
+                        <FaExclamationTriangle className="unsaved-warning-icon" />
+                        <span className="unsaved-warning-text">Changes made in the last few seconds may not be saved yet.</span>
                     </div>
                 </div>
 

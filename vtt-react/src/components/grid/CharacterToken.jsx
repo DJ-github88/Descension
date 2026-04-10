@@ -1438,7 +1438,7 @@ const CharacterToken = ({
             if (asTemporary && adjustment > 0) {
                 // Add as temporary resource (overheal)
                 const overhealAmount = adjustment - (maxValue - (charState[resourceType]?.current || 0));
-                charState.updateResource(resourceType, maxValue, undefined);
+                charState.updateResource(resourceType, maxValue, undefined, undefined, true);
                 charState.updateTempResource(resourceType, currentTemp + overhealAmount);
             } else if (adjustment < 0) {
                 // Taking damage/draining - reduce temporary resources first
@@ -1466,7 +1466,7 @@ const CharacterToken = ({
                 }
 
                 // Update both resource and temporary resource in character store
-                charState.updateResource(resourceType, newValue, undefined);
+                charState.updateResource(resourceType, newValue, undefined, undefined, true);
                 if (newTemp !== currentTemp) {
                     charState.updateTempResource(resourceType, newTemp);
                 }

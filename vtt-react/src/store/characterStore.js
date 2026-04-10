@@ -130,6 +130,9 @@ const useCharacterStore = create((set, get) => ({
     pendingLevelUpInfo: null, // { newLevel, oldLevel }
     levelUpHistory: {}, // { level: { statChoice, spellId?, attribute?, timestamp } }
 
+    // Talent tree selections { talentId: rank }
+    talents: {},
+
     // Class-specific spell tracking (for Arcanoneer and other spell-learning classes)
     class_spells: {
         known_spells: [] // Array of spell IDs the character knows
@@ -474,7 +477,8 @@ const useCharacterStore = create((set, get) => ({
                     path: state.path,
                     pathDisplayName: state.pathDisplayName,
                     background: state.background,
-                    backgroundDisplayName: state.backgroundDisplayName
+                    backgroundDisplayName: state.backgroundDisplayName,
+                    talents: state.talents
                 },
                 senderSocketId: socketId,
                 userId: userId, // Also at top level for convenience
@@ -1723,6 +1727,35 @@ const useCharacterStore = create((set, get) => ({
         get().syncWithMultiplayer();
     },
 
+    setTalents: (newTalents) => {
+        set({ talents: newTalents });
+
+        if (get().currentCharacterId) {
+            const userId = getCurrentUserId();
+            if (userId) {
+                updateCharacterData(get().currentCharacterId, { talents: newTalents }, userId).catch(error => {
+                    console.error('Failed to store talent update offline:', error);
+                });
+            }
+        }
+
+        if (characterAutoSaveTimer) {
+            clearTimeout(characterAutoSaveTimer);
+        }
+
+        if (get().currentCharacterId) {
+            characterAutoSaveTimer = setTimeout(() => {
+                try {
+                    get().saveCurrentCharacter();
+                } catch (error) {
+                    console.warn('Failed to auto-save character after setTalents:', error);
+                }
+            }, CHARACTER_AUTO_SAVE_DELAY);
+        }
+
+        get().syncWithMultiplayer();
+    },
+
     // Update just the base name without room formatting (for character sheet input)
     updateBaseName: (newBaseName) => {
         set(state => {
@@ -2783,8 +2816,9 @@ const useCharacterStore = create((set, get) => ({
                 lore: character.lore || get().lore,
                 tokenSettings: character.tokenSettings || get().tokenSettings,
                 skillRanks: character.skillRanks || {},
-                class_spells: character.class_spells || { known_spells: [] },
+                    class_spells: character.class_spells || { known_spells: [] },
                 levelUpHistory: character.levelUpHistory || {},
+                talents: character.talents || {},
                 // Ensure inventory is preserved in character state
                 inventory: character.inventory || {
                     items: [],
@@ -3326,6 +3360,7 @@ const useCharacterStore = create((set, get) => ({
             skillRanks: state.skillRanks,
             class_spells: state.class_spells, // Include class spells
             levelUpHistory: state.levelUpHistory, // Include level-up history
+            talents: state.talents, // Include talent tree selections
             inventory: inventoryData, // Include inventory data
             updatedAt: new Date().toISOString()
         };
@@ -4250,25 +4285,21 @@ const useCharacterStore = create((set, get) => ({
             timestamp: new Date().toISOString()
         };
 
-        // Handle spell learning (all spell-casting classes)
+        const atomicUpdate = {};
+
         if (choice.spellId) {
             const currentSpells = state.class_spells?.known_spells || [];
-            // Check if spell is already known (shouldn't happen, but be safe)
             if (!currentSpells.includes(choice.spellId)) {
-                const updatedSpells = [...currentSpells, choice.spellId];
-                set({
-                    class_spells: {
-                        ...state.class_spells,
-                        known_spells: updatedSpells
-                    }
-                });
+                atomicUpdate.class_spells = {
+                    ...state.class_spells,
+                    known_spells: [...currentSpells, choice.spellId]
+                };
             } else {
                 console.warn(`⚠️ Attempted to learn spell ${choice.spellId} that is already known`);
             }
             historyEntry.spellId = choice.spellId;
         }
 
-        // Handle attribute increases first (before health/mana)
         if (choice.attributes && choice.attributes.length > 0) {
             const newStats = { ...state.stats };
             choice.attributes.forEach(attr => {
@@ -4276,17 +4307,15 @@ const useCharacterStore = create((set, get) => ({
                     newStats[attr] = (newStats[attr] || 0) + 1;
                 }
             });
-
-            set({ stats: newStats });
+            atomicUpdate.stats = newStats;
         }
 
-        // Record the level-up choice in history BEFORE recalculating
-        set({
-            levelUpHistory: {
-                ...state.levelUpHistory,
-                [newLevel]: historyEntry
-            }
-        });
+        atomicUpdate.levelUpHistory = {
+            ...state.levelUpHistory,
+            [newLevel]: historyEntry
+        };
+
+        set(atomicUpdate);
 
         // Recalculate derived stats (this will now include level-up bonuses from history)
         get().initializeCharacter();

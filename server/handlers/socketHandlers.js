@@ -474,11 +474,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== UTILITY HANDLERS ====================
 
-    // Minimal handler for testing
-    socket.on('ping', (data, callback) => {
-      if (callback) callback('pong');
-    });
-
     socket.on('ping', () => {
       socket.emit('pong', { timestamp: Date.now() });
     });
@@ -1651,13 +1646,40 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             createdBy: socket.id
           });
         } else if (data.action === 'delete' && data.mapId) {
-          if (room.gameState.maps && room.gameState.maps[data.mapId]) {
-            delete room.gameState.maps[data.mapId];
+          const deletedMapId = data.mapId;
+          if (room.gameState.maps && room.gameState.maps[deletedMapId]) {
+            delete room.gameState.maps[deletedMapId];
           }
+
+          const fallbackMapId = room.gameState.defaultMapId || 'default';
+
+          Object.values(room.gameState.maps || {}).forEach(map => {
+            if (Array.isArray(map.dndElements)) {
+              map.dndElements = map.dndElements.filter(el =>
+                !(el.type === 'portal' || el.type === 'connection') ||
+                el.properties?.destinationMapId !== deletedMapId
+              );
+            }
+          });
+
+          if (room.gameState.playerMapAssignments) {
+            Object.keys(room.gameState.playerMapAssignments).forEach(pid => {
+              if (room.gameState.playerMapAssignments[pid] === deletedMapId) {
+                room.gameState.playerMapAssignments[pid] = fallbackMapId;
+              }
+            });
+          }
+
+          room.players.forEach(p => {
+            if (p.currentMapId === deletedMapId) {
+              p.currentMapId = fallbackMapId;
+            }
+          });
 
           io.to(room.id).emit('map_update', {
             action: 'delete',
-            mapId: data.mapId,
+            mapId: deletedMapId,
+            reassignedTo: fallbackMapId,
             deletedBy: socket.id
           });
         } else if (data.mapUpdates && data.targetMapId) {
@@ -2371,6 +2393,20 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const { room, player } = validation;
+        const mapId = data.mapId || player.currentMapId || 'default';
+        const map = room.gameState.maps && room.gameState.maps[mapId];
+
+        if (!map || !map.gridItems || !map.gridItems[data.gridItemId]) {
+          socket.emit('item_loot_rejected', {
+            gridItemId: data.gridItemId,
+            reason: 'item_not_found',
+            mapId,
+            timestamp: new Date().toISOString()
+          });
+          return;
+        }
+
+        delete map.gridItems[data.gridItemId];
 
         io.to(room.id).emit('item_looted', {
           gridItemId: data.gridItemId,
@@ -2380,12 +2416,33 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           looter: data.looter,
           playerId: player.id,
           itemRemoved: true,
-          mapId: data.mapId || player.currentMapId || 'default',
+          mapId,
           timestamp: new Date().toISOString()
         });
 
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
       } catch (error) {
         logger.error('[item_looted] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('inventory_update', async (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId);
+        if (!validation.valid) return;
+
+        const { room, player } = validation;
+
+        socket.to(room.id).emit('inventory_update', {
+          playerId: data.playerId,
+          inventoryData: data.inventoryData,
+          changeType: data.changeType,
+          timestamp: data.timestamp || new Date().toISOString()
+        });
+
+      } catch (error) {
+        logger.error('[inventory_update] Error:', { error: error.message });
       }
     });
 
@@ -2789,7 +2846,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
 
         if (data.fogPaths) {
-          map.fogOfWarPaths = data.fogPaths;
+          map.fogOfWarPaths = [
+            ...(map.fogOfWarPaths || []),
+            ...data.fogPaths
+          ];
         }
 
         socket.to(data.roomId).emit('fog_update', {

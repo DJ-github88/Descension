@@ -1,15 +1,35 @@
-/**
- * Action Bar Persistence Service
- * Manages saving and loading action bar configurations per character per room
- */
+import { db } from '../config/firebase.js';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 
 const ACTION_BAR_STORAGE_PREFIX = 'mythrill-actionbar-';
 const HOTKEY_STORAGE_PREFIX = 'mythrill-hotkeys-';
 
+function getAuthUser() {
+  try {
+    const authData = localStorage.getItem('auth-storage');
+    if (authData) {
+      const parsed = JSON.parse(authData);
+      const user = parsed.state?.user;
+      if (user && !user.isGuest) {
+        return user;
+      }
+    }
+  } catch (e) {
+    // Ignore parsing errors
+  }
+  return null;
+}
+
+function getFirebaseDocRef(characterId, roomId) {
+  const user = getAuthUser();
+  if (!user || !db) return null;
+  return doc(db, 'users', user.uid, 'actionBar', `${characterId}_${roomId}`);
+}
+
 class ActionBarPersistenceService {
   constructor() {
-    this.cache = new Map(); // In-memory cache for performance
-    this.hotkeyCache = new Map(); // Cache for hotkey bindings
+    this.cache = new Map();
+    this.hotkeyCache = new Map();
   }
 
   /**
@@ -73,10 +93,15 @@ class ActionBarPersistenceService {
       };
 
       localStorage.setItem(storageKey, JSON.stringify(configData));
-      
-      // Update cache
       this.cache.set(storageKey, configData);
-      
+
+      const firebaseRef = getFirebaseDocRef(characterId, roomId);
+      if (firebaseRef) {
+        setDoc(firebaseRef, configData, { merge: true }).catch((err) => {
+          console.error('Error saving action bar to Firebase:', err);
+        });
+      }
+
       console.log(`💾 Action bar saved for character ${characterId} in room ${roomId}`);
       return true;
     } catch (error) {
@@ -91,7 +116,7 @@ class ActionBarPersistenceService {
    * @param {string} roomId - Room ID
    * @returns {Array|null} Action slots array or null if not found
    */
-  loadActionBarConfig(characterId, roomId) {
+  async loadActionBarConfig(characterId, roomId) {
     if (!characterId) {
       console.warn('Invalid character ID for loading action bar config');
       return null;
@@ -99,36 +124,49 @@ class ActionBarPersistenceService {
 
     try {
       const storageKey = this.getStorageKey(characterId, roomId);
-      
-      // Check cache first
+
       if (this.cache.has(storageKey)) {
         const cached = this.cache.get(storageKey);
         console.log(`📋 Action bar loaded from cache for character ${characterId} in room ${roomId}`);
         return cached.actionSlots;
       }
 
-      // Load from localStorage
+      const firebaseRef = getFirebaseDocRef(characterId, roomId);
+      if (firebaseRef) {
+        try {
+          const firebaseDoc = await getDoc(firebaseRef);
+          if (firebaseDoc.exists()) {
+            const configData = firebaseDoc.data();
+            if (configData.actionSlots && Array.isArray(configData.actionSlots)) {
+              localStorage.setItem(storageKey, JSON.stringify(configData));
+              this.cache.set(storageKey, configData);
+              console.log(`📋 Action bar loaded from Firebase for character ${characterId} in room ${roomId}`);
+              return configData.actionSlots;
+            }
+          }
+        } catch (err) {
+          console.error('Error loading action bar from Firebase, falling back to localStorage:', err);
+        }
+      }
+
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
-        // Try to load global config as fallback
         if (roomId !== 'global') {
           console.log(`🔄 No room-specific config found, trying global config for character ${characterId}`);
-          return this.loadActionBarConfig(characterId, 'global');
+          return await this.loadActionBarConfig(characterId, 'global');
         }
         return null;
       }
 
       const configData = JSON.parse(stored);
-      
-      // Validate data structure
+
       if (!configData.actionSlots || !Array.isArray(configData.actionSlots)) {
         console.warn('Invalid action bar config data structure');
         return null;
       }
 
-      // Update cache
       this.cache.set(storageKey, configData);
-      
+
       console.log(`📋 Action bar loaded for character ${characterId} in room ${roomId}`);
       return configData.actionSlots;
     } catch (error) {
@@ -144,8 +182,8 @@ class ActionBarPersistenceService {
    * @param {string} targetRoomId - Target room ID
    * @returns {boolean} Success status
    */
-  copyActionBarConfig(characterId, sourceRoomId, targetRoomId) {
-    const sourceConfig = this.loadActionBarConfig(characterId, sourceRoomId);
+  async copyActionBarConfig(characterId, sourceRoomId, targetRoomId) {
+    const sourceConfig = await this.loadActionBarConfig(characterId, sourceRoomId);
     if (!sourceConfig) {
       console.warn(`No action bar config found for character ${characterId} in room ${sourceRoomId}`);
       return false;
@@ -165,7 +203,14 @@ class ActionBarPersistenceService {
       const storageKey = this.getStorageKey(characterId, roomId);
       localStorage.removeItem(storageKey);
       this.cache.delete(storageKey);
-      
+
+      const firebaseRef = getFirebaseDocRef(characterId, roomId);
+      if (firebaseRef) {
+        deleteDoc(firebaseRef).catch((err) => {
+          console.error('Error deleting action bar from Firebase:', err);
+        });
+      }
+
       console.log(`🗑️ Action bar config deleted for character ${characterId} in room ${roomId}`);
       return true;
     } catch (error) {

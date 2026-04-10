@@ -191,6 +191,26 @@ const useQuestStore = create(
         )
       })),
 
+      uncompleteObjective: (questId, objectiveId) => set(state => ({
+        quests: (state.quests || []).map(quest =>
+          quest.id === questId
+            ? {
+              ...quest,
+              objectives: (quest.objectives || []).map(obj =>
+                obj.id === objectiveId
+                  ? {
+                    ...obj,
+                    progress: obj.type === 'visit' || obj.type === 'talk' ? false : 0,
+                    completed: false
+                  }
+                  : obj
+              ),
+              lastModified: new Date().toISOString()
+            }
+            : quest
+        )
+      })),
+
       completeObjective: (questId, objectiveId) => set(state => ({
         quests: (state.quests || []).map(quest =>
           quest.id === questId
@@ -369,6 +389,42 @@ const useQuestStore = create(
 
       // Confirm reward delivery (GM approved)
       confirmRewardDelivery: (questId, playerId) => set(state => {
+        const delivery = state.pendingRewardDeliveries.find(
+          d => d.quest.id === questId && d.playerId === playerId
+        );
+
+        if (delivery && delivery.quest.rewards) {
+          const rewards = delivery.quest.rewards;
+
+          try {
+            if (rewards.experience) {
+              const characterStore = require('./characterStore').default;
+              characterStore.getState().awardExperience(rewards.experience);
+            }
+
+            if (rewards.currency) {
+              const inventoryStore = require('./inventoryStore').default;
+              const currentCurrency = inventoryStore.getState().currency || {};
+              const updatedCurrency = {
+                platinum: (currentCurrency.platinum || 0) + (rewards.currency.platinum || 0),
+                gold: (currentCurrency.gold || 0) + (rewards.currency.gold || 0),
+                silver: (currentCurrency.silver || 0) + (rewards.currency.silver || 0),
+                copper: (currentCurrency.copper || 0) + (rewards.currency.copper || 0)
+              };
+              inventoryStore.getState().updateCurrency(updatedCurrency);
+            }
+
+            if (rewards.items && rewards.items.length > 0) {
+              const inventoryStore = require('./inventoryStore').default;
+              rewards.items.forEach(item => {
+                inventoryStore.getState().addItemFromLibrary(item);
+              });
+            }
+          } catch (error) {
+            console.error('Failed to deliver quest rewards:', error);
+          }
+        }
+
         const remainingDeliveries = state.pendingRewardDeliveries.filter(
           d => !(d.quest.id === questId && d.playerId === playerId)
         );

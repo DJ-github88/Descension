@@ -1271,7 +1271,7 @@ export default function CharacterPanel() {
             }
 
             // Set resource to max
-            updateResource(resourceType, maxValue, maxValue);
+            updateResource(resourceType, maxValue, maxValue, undefined, true);
 
             // Update temporary resource
             if (inspectionData) {

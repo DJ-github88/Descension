@@ -522,8 +522,32 @@ const useCraftingStore = create(
       
       // Complete crafting item
       completeCraftingItem: (craftingId) => {
-        set(state => ({
-          craftingQueue: state.craftingQueue.map(item =>
+        const state = get();
+        const queueItem = state.craftingQueue.find(item => item.id === craftingId);
+
+        if (queueItem) {
+          const recipe = state.availableRecipes.find(r => r.id === queueItem.recipeId);
+          if (recipe && recipe.resultItemId) {
+            try {
+              const itemStore = require('./itemStore').default;
+              const itemState = itemStore.getState();
+              const libraryItem = itemState.items.find(item => item.id === recipe.resultItemId);
+
+              if (libraryItem) {
+                const inventoryStore = require('./inventoryStore').default;
+                const quantity = recipe.resultQuantity || 1;
+                for (let i = 0; i < quantity; i++) {
+                  inventoryStore.addItemFromLibrary({ ...libraryItem });
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to add crafted item to inventory:', e);
+            }
+          }
+        }
+
+        set(s => ({
+          craftingQueue: s.craftingQueue.map(item =>
             item.id === craftingId ? { ...item, status: 'completed' } : item
           )
         }));

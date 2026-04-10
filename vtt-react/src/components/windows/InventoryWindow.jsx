@@ -592,7 +592,7 @@ const InventoryWindow = memo(() => {
             console.log(`[Consumable] Adding ${overhealAmount} as temporary ${resourceType}`);
             
             // Set resource to max
-            useCharacterStore.getState().updateResource(resourceType, maxValue, maxValue);
+            useCharacterStore.getState().updateResource(resourceType, maxValue, maxValue, undefined, true);
             
             // Update temporary resource
             useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);

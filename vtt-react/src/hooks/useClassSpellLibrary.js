@@ -25,11 +25,6 @@ export const useClassSpellLibrary = () => {
   const activeCharacter = characters.find(char => char.id === currentCharacterId);
   const characterClass = activeCharacter?.class || currentClass;
 
-  // Debug logging (when character or class changes)
-  useEffect(() => {
-    // Effect for potential future use
-  }, [currentCharacterId, activeCharacter?.id, activeCharacter?.class, currentClass, characterClass, knownSpells]);
-
   /**
    * Load spells for a specific class
    */
@@ -246,16 +241,6 @@ export const useClassSpellLibrary = () => {
     // Note: Using activeCharacter?.id instead of activeCharacter to prevent infinite loop
     // as activeCharacter object reference changes on every render from .find()
   }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter?.id, knownSpells.length]);
-
-  // Force re-render when known spells change (for reactive updates)
-  useEffect(() => {
-    // Debug logging disabled for production
-    // console.log('📖 Known spells updated:', {
-    //   count: knownSpells.length,
-    //   spellIds: knownSpells,
-    //   characterClass
-    // });
-  }, [knownSpells, characterClass]);
 
   // Load custom spells from localStorage on mount
   useEffect(() => {

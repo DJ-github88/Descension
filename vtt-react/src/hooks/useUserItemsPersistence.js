@@ -9,6 +9,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import useAuthStore from '../store/authStore';
 import useItemStore from '../store/itemStore';
 import { saveUserItem, loadUserItems, updateUserItem, deleteUserItem } from '../services/firebase/userItemsService';
+import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 
@@ -18,8 +19,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
 export const useUserItemsPersistence = () => {
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const items = useItemStore(useShallow(state => state.items));
 
-  // Track which items are user-created vs built-in
   const isUserCreatedItem = useCallback((item) => {
     return item.isCustom === true || (item.source && item.source !== 'built-in');
   }, []);
@@ -194,7 +195,7 @@ export const useUserItemsPersistence = () => {
         clearTimeout(saveTimerRef.current);
       }
     };
-  }, [getUserItems(), user, syncNewItems]); // Depend on user items changing
+  }, [items, user, syncNewItems]);
 
   return {
     // State

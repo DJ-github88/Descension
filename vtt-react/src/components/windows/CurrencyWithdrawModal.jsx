@@ -72,16 +72,16 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
             return;
         }
 
+        // Deduct currency FIRST, then create item — prevents duplication
+        updateCurrency({
+            [currencyType]: currency[currencyType] - amount
+        });
+
         // Create a currency item
         const currencyItem = createCurrencyItem(currencyType, amount);
 
         // Add the item to inventory
         addItemFromLibrary(currencyItem);
-
-        // Deduct the currency
-        updateCurrency({
-            [currencyType]: currency[currencyType] - amount
-        });
 
         // Close the modal
         onClose();

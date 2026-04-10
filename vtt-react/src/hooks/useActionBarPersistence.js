@@ -38,7 +38,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
     setIsLoading(true);
 
     try {
-      const savedConfig = actionBarPersistenceService.loadActionBarConfig(currentCharacterId, roomId);
+      const savedConfig = await actionBarPersistenceService.loadActionBarConfig(currentCharacterId, roomId);
 
       if (savedConfig && Array.isArray(savedConfig)) {
         // Ensure the config has exactly 10 slots

@@ -44,7 +44,9 @@ const createFirebaseStorage = () => ({
       }
     } catch (error) {
       console.error('Error loading settings from Firebase:', error);
-      // Fallback to localStorage
+      window.dispatchEvent(new CustomEvent('settings_persistence_degraded', {
+        detail: { operation: 'read', key: name, error: error.message }
+      }));
       return localStorage.getItem(name);
     }
   },
@@ -74,7 +76,9 @@ const createFirebaseStorage = () => ({
       }
     } catch (error) {
       console.error('Error saving settings to Firebase:', error);
-      // Fallback to localStorage
+      window.dispatchEvent(new CustomEvent('settings_persistence_degraded', {
+        detail: { operation: 'write', key: name, error: error.message }
+      }));
       localStorage.setItem(name, JSON.stringify(data));
     }
   },

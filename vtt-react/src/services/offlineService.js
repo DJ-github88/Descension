@@ -7,6 +7,20 @@
 
 import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import usePresenceStore from '../store/presenceStore';
+
+const getSocket = () => {
+  return usePresenceStore.getState()?.socket;
+};
+
+const SUPPORTED_ACTION_TYPES = new Set([
+  'update_character',
+  'create_room',
+  'token_moved',
+  'fog_update',
+  'chat_message',
+  'combat_action'
+]);
 
 // Offline storage keys
 const OFFLINE_STORAGE = {
@@ -205,6 +219,11 @@ export async function updateCharacterData(characterId, updates, userId) {
  */
 export async function queueAction(actionType, actionData, userId) {
   const actionQueue = getOfflineData(OFFLINE_STORAGE.ACTION_QUEUE) || [];
+  if (!SUPPORTED_ACTION_TYPES.has(actionType)) {
+    console.warn(`Unsupported offline action type: ${actionType}`);
+    return;
+  }
+
   const action = {
     id: `${actionType}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     type: actionType,
@@ -273,6 +292,8 @@ async function processActionQueue(userId) {
  * Process a single queued action
  */
 async function processQueuedAction(action) {
+  const socket = getSocket();
+
   switch (action.type) {
     case 'update_character':
       await setDoc(doc(db, 'characters', action.data.characterId), {
@@ -282,7 +303,30 @@ async function processQueuedAction(action) {
       break;
 
     case 'create_room':
-      // Handle room creation
+      break;
+
+    case 'token_moved':
+      if (socket && socket.connected) {
+        socket.emit('token_moved', action.data);
+      }
+      break;
+
+    case 'fog_update':
+      if (socket && socket.connected) {
+        socket.emit('fog_update', action.data);
+      }
+      break;
+
+    case 'chat_message':
+      if (socket && socket.connected) {
+        socket.emit('chat_message', action.data);
+      }
+      break;
+
+    case 'combat_action':
+      if (socket && socket.connected) {
+        socket.emit(action.data.event, action.data.payload);
+      }
       break;
 
     default:

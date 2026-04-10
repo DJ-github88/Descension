@@ -323,10 +323,10 @@ export const applyResourceChange = ({ resourceType, amount, asTemporary, stores 
     
     if (asTemporary && newValue > maxValue) {
         const overhealAmount = newValue - maxValue;
-        characterStore.getState().updateResource(resourceType, maxValue, maxValue, currentTemp + overhealAmount);
+        characterStore.getState().updateResource(resourceType, maxValue, maxValue, currentTemp + overhealAmount, true, true);
     } else {
         const finalValue = Math.min(maxValue, Math.max(0, newValue));
-        characterStore.getState().updateResource(resourceType, finalValue, maxValue);
+        characterStore.getState().updateResource(resourceType, finalValue, maxValue, undefined, true, true);
     }
 
     syncResourceToAll({ resourceType, characterStore, partyStore, gameStore });
@@ -609,9 +609,8 @@ export const completeConsumableUsage = ({ overheals, item, stores, asTemporary, 
         });
     });
 
-    // Also apply buff/debuff effects if this is the completion of usage
+    // Apply buff/debuff effects once
     const charState = characterStore.getState();
-    // Use serverPlayerId for proper multiplayer buff sync
     const gameState = gameStore.getState();
     const targetId = gameState.currentPlayer?.id || charState.currentCharacterId || charState.id || 'player';
     const targetType = 'player';
@@ -632,17 +631,6 @@ export const completeConsumableUsage = ({ overheals, item, stores, asTemporary, 
         : [];
 
     if (remainingOverheals.length === 0) {
-        const { effects: buffEffects, hasBuffs } = collectBuffEffects(item);
-        const { effects: debuffEffects, hasDebuffs } = collectDebuffEffects(item);
-
-        if (hasBuffs) {
-            applyBuffEffects({ item, buffStore, effects: { effects: buffEffects, hasBuffs }, targetId, targetType });
-        }
-
-        if (hasDebuffs) {
-            applyDebuffEffects({ item, debuffStore, effects: { effects: debuffEffects, hasDebuffs }, targetId, targetType });
-        }
-
         if (inventoryStore) {
             inventoryStore.getState().removeItem(item.id, 1);
         }

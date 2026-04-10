@@ -299,7 +299,7 @@ class CharacterSyncService {
   /**
    * Force sync all pending changes
    */
-  async forcSync() {
+  async forceSync() {
     if (!this.isOnline) {
       throw new Error('Cannot sync while offline');
     }

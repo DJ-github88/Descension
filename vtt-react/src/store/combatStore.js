@@ -297,48 +297,16 @@ const useCombatStore = create((set, get) => ({
         const newRound = nextIndex === 0 ? state.round + 1 : state.round;
         const config = state.combatConfig;
 
-        // Clear movement tracking for the ending turn
         const newTurnMovementUsed = new Map(state.turnMovementUsed);
         const newMovementUnlocked = new Set(state.movementUnlocked);
         const newTurnStartPositions = new Map(state.turnStartPositions);
 
         if (currentCombatant) {
-            // Clear all movement data for the ending turn
             newTurnMovementUsed.delete(currentCombatant.tokenId);
             newMovementUnlocked.delete(currentCombatant.tokenId);
             newTurnStartPositions.delete(currentCombatant.tokenId);
-
-            // Process over-time effects (DOT/HOT) at turn end
-            try {
-                const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
-                processOverTimeEffectsForTarget(currentCombatant.tokenId, 'turn_end');
-            } catch (error) {
-                console.warn('Failed to process turn-end over-time effects:', error);
-            }
-
-            // Decrement round-based conditions for the ending turn
-            try {
-                const { decrementRoundBasedBuffs } = require('./buffStore').default.getState();
-                const { decrementRoundBasedDebuffs } = require('./debuffStore').default.getState();
-                decrementRoundBasedBuffs(currentCombatant.tokenId);
-                decrementRoundBasedDebuffs(currentCombatant.tokenId);
-                // Turn end - decremented round-based conditions
-            } catch (error) {
-                // Failed to decrement round-based conditions
-            }
-
-            // Process turn-based cooldowns
-            try {
-                const { processTurnBasedCooldowns } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
-                processTurnBasedCooldowns();
-            } catch (error) {
-                console.warn('Failed to process turn-based cooldowns:', error);
-            }
-
-            // Turn end - cleared movement data
         }
 
-        // Update timer for current combatant (end their turn)
         const updatedTimers = new Map(state.turnTimers);
         if (currentCombatant && state.currentTurnStartTime) {
             const currentTimer = updatedTimers.get(currentCombatant.tokenId) || { totalTime: 0, isActive: false, startTime: null };
@@ -350,7 +318,6 @@ const useCombatStore = create((set, get) => ({
             });
         }
 
-        // Start timer for next combatant
         const nextCombatant = state.turnOrder[nextIndex];
         if (nextCombatant) {
             updatedTimers.set(nextCombatant.tokenId, {
@@ -360,26 +327,20 @@ const useCombatStore = create((set, get) => ({
             });
         }
 
-        // Roll new initiative for next combatant and calculate AP
         const updatedTurnOrder = state.turnOrder.map((combatant, index) => {
             if (index === nextIndex) {
-                // Roll new initiative (d20 + initiative modifier)
                 const d20Roll = Math.floor(Math.random() * 20) + 1;
                 const initiativeMod = combatant.initiativeMod || combatant.agilityMod || 0;
                 const newInitiative = d20Roll + initiativeMod;
 
-                // Calculate AP based on config
                 let currentActionPoints = 0;
                 const maxActionPoints = combatant.maxActionPoints;
 
                 if (config.apRestorationMode === 'max') {
-                    // Restore to max AP
                     currentActionPoints = maxActionPoints;
                 } else if (config.apRestorationMode === 'set') {
-                    // Restore to set amount (capped at max)
                     currentActionPoints = Math.min(config.apRestorationAmount, maxActionPoints);
                 } else if (config.apRestorationMode === 'initiative') {
-                    // Calculate AP based on initiative roll (default behavior)
                     if (newInitiative >= 1 && newInitiative <= 5) currentActionPoints = 0;
                     else if (newInitiative >= 6 && newInitiative <= 10) currentActionPoints = 1;
                     else if (newInitiative >= 11 && newInitiative <= 15) currentActionPoints = 2;
@@ -398,126 +359,6 @@ const useCombatStore = create((set, get) => ({
             return combatant;
         });
 
-        // CRITICAL FIX: Sync AP to character store AND party store when character's turn starts
-        const nextCombatantData = updatedTurnOrder[nextIndex];
-        if (nextCombatantData?.isCharacterToken) {
-            try {
-                // Sync to character store
-                const useCharacterStore = require('./characterStore').default;
-                useCharacterStore.getState().updateResource(
-                    'actionPoints',
-                    nextCombatantData.currentActionPoints,
-                    nextCombatantData.maxActionPoints
-                );
-
-                // Sync to party store
-                const usePartyStore = require('./partyStore').default;
-                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
-                if (currentMember) {
-                    usePartyStore.getState().updatePartyMember('current-player', {
-                        character: {
-                            ...currentMember.character,
-                            actionPoints: {
-                                current: nextCombatantData.currentActionPoints,
-                                max: nextCombatantData.maxActionPoints
-                            }
-                        }
-                    });
-                }
-
-            } catch (error) {
-                console.error('❌ Failed to sync character AP on turn start:', error);
-            }
-        }
-
-        // Apply health/mana regen based on config
-        if (nextCombatant && (config.healthRegenEnabled || config.manaRegenEnabled)) {
-            try {
-                const useCreatureStore = require('./creatureStore').default;
-                const creatures = useCreatureStore.getState().creatures;
-                const creature = creatures.find(c => c.id === nextCombatant.creatureId);
-
-                // Handle character tokens
-                if (nextCombatant.isCharacterToken) {
-                    const useCharacterStore = require('./characterStore').default;
-                    const charState = useCharacterStore.getState();
-                    const totalStats = charState.getTotalStatsWithEffects?.() || {};
-
-                    if (config.healthRegenEnabled && totalStats.healthRegen) {
-                        const healthRegen = Math.round(totalStats.healthRegen || 0);
-                        if (healthRegen > 0) {
-                            charState.updateResource('health', healthRegen, null, false);
-                        }
-                    }
-
-                    if (config.manaRegenEnabled && totalStats.manaRegen) {
-                        const manaRegen = Math.round(totalStats.manaRegen || 0);
-                        if (manaRegen > 0) {
-                            charState.updateResource('mana', manaRegen, null, false);
-                        }
-                    }
-                } else if (creature) {
-                    // Handle creature tokens - calculate regen from stats
-                    const tokens = useCreatureStore.getState().tokens;
-                    const token = tokens.find(t => t.id === nextCombatant.tokenId);
-
-                    if (token) {
-                        if (config.healthRegenEnabled) {
-                            const constitution = creature.stats?.constitution || 10;
-                            const healthRegen = Math.floor(constitution / 2);
-                            if (healthRegen > 0) {
-                                const currentHp = token.state?.currentHp || 0;
-                                const maxHp = creature.stats?.maxHp || 100;
-                                const newHp = Math.min(maxHp, currentHp + healthRegen);
-                                useCreatureStore.getState().updateTokenState(nextCombatant.tokenId, { currentHp: newHp });
-                                // Sync to combat timeline
-                                get().updateCombatantHP(nextCombatant.tokenId, newHp);
-                            }
-                        }
-
-                        if (config.manaRegenEnabled) {
-                            const intelligence = creature.stats?.intelligence || 10;
-                            const spirit = creature.stats?.spirit || 10;
-                            const manaRegen = Math.floor((intelligence + spirit) / 4);
-                            if (manaRegen > 0) {
-                                const currentMana = token.state?.currentMana || 0;
-                                const maxMana = creature.stats?.maxMana || 0;
-                                const newMana = Math.min(maxMana, currentMana + manaRegen);
-                                useCreatureStore.getState().updateTokenState(nextCombatant.tokenId, { currentMana: newMana });
-                                // Sync to combat timeline
-                                get().updateCombatantMana(nextCombatant.tokenId, newMana);
-                            }
-                        }
-                    }
-                }
-            } catch (error) {
-                console.warn('Failed to apply health/mana regen:', error);
-            }
-        }
-
-        // Process over-time effects (DOT/HOT) at turn start for the next combatant
-        if (nextCombatant) {
-            try {
-                const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
-                processOverTimeEffectsForTarget(nextCombatant.tokenId, 'turn');
-            } catch (error) {
-                console.warn('Failed to process turn-start over-time effects:', error);
-            }
-        }
-
-        // Process round-start effects when a new round begins
-        if (newRound > state.round) {
-            try {
-                const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
-                // Process round-based effects for all combatants
-                state.turnOrder.forEach(combatant => {
-                    processOverTimeEffectsForTarget(combatant.tokenId, 'round');
-                });
-            } catch (error) {
-                console.warn('Failed to process round-start over-time effects:', error);
-            }
-        }
-
         const newState = {
             currentTurnIndex: nextIndex,
             round: newRound,
@@ -527,25 +368,169 @@ const useCombatStore = create((set, get) => ({
             turnMovementUsed: newTurnMovementUsed,
             movementUnlocked: newMovementUnlocked,
             turnStartPositions: newTurnStartPositions,
-            // Clear any pending movement confirmations
             pendingMovementConfirmation: null,
             activeMovement: null,
             tempMovementDistance: new Map(state.tempMovementDistance)
         };
 
-        // MULTIPLAYER SYNC: Emit turn change to other players
-        // Use setTimeout to ensure this runs after state update
+        const failedMutations = [];
+
         setTimeout(() => {
+            const nextCombatantData = updatedTurnOrder[nextIndex];
+
+            try {
+                if (currentCombatant) {
+                    const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                    processOverTimeEffectsForTarget(currentCombatant.tokenId, 'turn_end');
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'turn-end-overtime-effects', target: currentCombatant?.tokenId, error });
+                console.warn('[nextTurn] turn-end over-time effects failed:', error);
+            }
+
+            try {
+                if (currentCombatant) {
+                    const { decrementRoundBasedBuffs } = require('./buffStore').default.getState();
+                    const { decrementRoundBasedDebuffs } = require('./debuffStore').default.getState();
+                    decrementRoundBasedBuffs(currentCombatant.tokenId);
+                    decrementRoundBasedDebuffs(currentCombatant.tokenId);
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'decrement-round-conditions', target: currentCombatant?.tokenId, error });
+                console.warn('[nextTurn] decrement round-based conditions failed:', error);
+            }
+
+            try {
+                if (currentCombatant) {
+                    const { processTurnBasedCooldowns } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
+                    processTurnBasedCooldowns();
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'turn-based-cooldowns', error });
+                console.warn('[nextTurn] turn-based cooldowns failed:', error);
+            }
+
+            try {
+                if (nextCombatantData?.isCharacterToken) {
+                    const useCharacterStore = require('./characterStore').default;
+                    useCharacterStore.getState().updateResource(
+                        'actionPoints',
+                        nextCombatantData.currentActionPoints,
+                        nextCombatantData.maxActionPoints
+                    );
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'ap-sync-to-characterStore', target: nextCombatantData?.tokenId, error });
+                console.warn('[nextTurn] AP sync to characterStore failed:', error);
+            }
+
+            try {
+                if (nextCombatantData?.isCharacterToken) {
+                    const usePartyStore = require('./partyStore').default;
+                    const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                    if (currentMember) {
+                        usePartyStore.getState().updatePartyMember('current-player', {
+                            character: {
+                                ...currentMember.character,
+                                actionPoints: {
+                                    current: nextCombatantData.currentActionPoints,
+                                    max: nextCombatantData.maxActionPoints
+                                }
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'ap-sync-to-partyStore', target: nextCombatantData?.tokenId, error });
+                console.warn('[nextTurn] AP sync to partyStore failed:', error);
+            }
+
+            try {
+                if (nextCombatant && (config.healthRegenEnabled || config.manaRegenEnabled)) {
+                    const useCreatureStore = require('./creatureStore').default;
+                    const creatures = useCreatureStore.getState().creatures;
+                    const creature = creatures.find(c => c.id === nextCombatant.creatureId);
+
+                    if (nextCombatant.isCharacterToken) {
+                        const useCharacterStore = require('./characterStore').default;
+                        const charState = useCharacterStore.getState();
+                        const totalStats = charState.getTotalStatsWithEffects?.() || {};
+
+                        if (config.healthRegenEnabled && totalStats.healthRegen) {
+                            const healthRegen = Math.round(totalStats.healthRegen || 0);
+                            if (healthRegen > 0) {
+                                charState.updateResource('health', healthRegen, null, false);
+                            }
+                        }
+
+                        if (config.manaRegenEnabled && totalStats.manaRegen) {
+                            const manaRegen = Math.round(totalStats.manaRegen || 0);
+                            if (manaRegen > 0) {
+                                charState.updateResource('mana', manaRegen, null, false);
+                            }
+                        }
+                    } else if (creature) {
+                        const tokens = useCreatureStore.getState().tokens;
+                        const token = tokens.find(t => t.id === nextCombatant.tokenId);
+
+                        if (token) {
+                            if (config.healthRegenEnabled) {
+                                const constitution = creature.stats?.constitution || 10;
+                                const healthRegen = Math.floor(constitution / 2);
+                                if (healthRegen > 0) {
+                                    const currentHp = token.state?.currentHp || 0;
+                                    const maxHp = creature.stats?.maxHp || 100;
+                                    const newHp = Math.min(maxHp, currentHp + healthRegen);
+                                    useCreatureStore.getState().updateTokenState(nextCombatant.tokenId, { currentHp: newHp });
+                                    get().updateCombatantHP(nextCombatant.tokenId, newHp);
+                                }
+                            }
+
+                            if (config.manaRegenEnabled) {
+                                const intelligence = creature.stats?.intelligence || 10;
+                                const spirit = creature.stats?.spirit || 10;
+                                const manaRegen = Math.floor((intelligence + spirit) / 4);
+                                if (manaRegen > 0) {
+                                    const currentMana = token.state?.currentMana || 0;
+                                    const maxMana = creature.stats?.maxMana || 0;
+                                    const newMana = Math.min(maxMana, currentMana + manaRegen);
+                                    useCreatureStore.getState().updateTokenState(nextCombatant.tokenId, { currentMana: newMana });
+                                    get().updateCombatantMana(nextCombatant.tokenId, newMana);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'health-mana-regen', target: nextCombatant?.tokenId, error });
+                console.warn('[nextTurn] health/mana regen failed:', error);
+            }
+
+            try {
+                if (nextCombatant) {
+                    const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                    processOverTimeEffectsForTarget(nextCombatant.tokenId, 'turn');
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'turn-start-overtime-effects', target: nextCombatant?.tokenId, error });
+                console.warn('[nextTurn] turn-start over-time effects failed:', error);
+            }
+
+            try {
+                if (newRound > state.round) {
+                    const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                    state.turnOrder.forEach(combatant => {
+                        processOverTimeEffectsForTarget(combatant.tokenId, 'round');
+                    });
+                }
+            } catch (error) {
+                failedMutations.push({ mutation: 'round-start-overtime-effects', error });
+                console.warn('[nextTurn] round-start over-time effects failed:', error);
+            }
+
             try {
                 const useGameStore = require('./gameStore').default;
                 const gameState = useGameStore.getState();
-                console.log('⚔️ Combat turn sync check:', {
-                    isInMultiplayer: gameState.isInMultiplayer,
-                    hasSocket: !!gameState.multiplayerSocket,
-                    socketConnected: gameState.multiplayerSocket?.connected,
-                    nextIndex,
-                    newRound
-                });
                 if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                     gameState.multiplayerSocket.emit('combat_turn_changed', {
                         currentTurnIndex: nextIndex,
@@ -553,12 +538,44 @@ const useCombatStore = create((set, get) => ({
                         turnOrder: updatedTurnOrder,
                         timestamp: Date.now()
                     });
-                    console.log('⚔️ Emitted combat_turn_changed to server');
-                } else {
-                    console.log('⚔️ NOT syncing - not in multiplayer or socket not connected');
                 }
-            } catch (e) {
-                console.warn('Failed to sync combat turn:', e);
+            } catch (error) {
+                failedMutations.push({ mutation: 'multiplayer-sync', error });
+                console.warn('[nextTurn] multiplayer sync failed:', error);
+            }
+
+            if (failedMutations.length > 0) {
+                console.warn('[nextTurn] consistency check - partial failures:', failedMutations.map(f => f.mutation));
+
+                if (nextCombatantData?.isCharacterToken) {
+                    const apMutations = failedMutations.filter(f =>
+                        f.mutation === 'ap-sync-to-characterStore' || f.mutation === 'ap-sync-to-partyStore'
+                    );
+                    if (apMutations.length === 1) {
+                        const failedStore = apMutations[0].mutation === 'ap-sync-to-characterStore' ? 'partyStore' : 'characterStore';
+                        try {
+                            if (failedStore === 'characterStore') {
+                                require('./characterStore').default.getState().updateResource(
+                                    'actionPoints', nextCombatantData.currentActionPoints, nextCombatantData.maxActionPoints
+                                );
+                            } else {
+                                const usePartyStore = require('./partyStore').default;
+                                const member = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                                if (member) {
+                                    usePartyStore.getState().updatePartyMember('current-player', {
+                                        character: {
+                                            ...member.character,
+                                            actionPoints: { current: nextCombatantData.currentActionPoints, max: nextCombatantData.maxActionPoints }
+                                        }
+                                    });
+                                }
+                            }
+                            console.warn('[nextTurn] consistency check - repaired AP sync to', failedStore, 'from combat store source-of-truth');
+                        } catch (repairError) {
+                            console.error('[nextTurn] consistency check - AP repair also failed:', repairError);
+                        }
+                    }
+                }
             }
         }, 0);
 

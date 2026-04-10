@@ -30,6 +30,24 @@ const getBackupService = async () => {
   return characterBackupService;
 };
 
+let characterStateService = null;
+const getCharacterStateService = async () => {
+  if (!characterStateService) {
+    const module = await import('./characterStateService');
+    characterStateService = module.default;
+  }
+  return characterStateService;
+};
+
+let characterSessionService = null;
+const getCharacterSessionService = async () => {
+  if (!characterSessionService) {
+    const module = await import('./characterSessionService');
+    characterSessionService = module.default;
+  }
+  return characterSessionService;
+};
+
 // Collection names
 const COLLECTIONS = {
   USERS: 'users',
@@ -523,7 +541,13 @@ class CharacterPersistenceService {
         return true;
       });
 
-      console.log(`✅ Character deleted: ${characterId}`);
+      const stateService = await getCharacterStateService();
+      await stateService.deleteCharacterState(userId, characterId);
+
+      const sessionService = await getCharacterSessionService();
+      await sessionService.forceEndAllSessions(characterId, userId);
+
+      console.log(`✅ Character deleted with cascade cleanup: ${characterId}`);
       return result;
 
     } catch (error) {
