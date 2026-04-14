@@ -167,7 +167,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                                 {/* Show tile image if available, otherwise show color */}
                                                 {tileImage ? (
                                                     <img
-                                                        src={tileImage}
+                                                        src={`${tileImage}?v=26`}
                                                         alt={terrain.name}
                                                         className="terrain-tile-image"
                                                         onError={(e) => {

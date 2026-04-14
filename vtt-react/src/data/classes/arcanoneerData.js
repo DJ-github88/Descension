@@ -388,7 +388,7 @@ MANA COSTS:
       {
         id: 'prism_mage',
         name: 'Prism Mage',
-        icon: 'spell_fire_flamebolt',
+        icon: 'Fire/Fiery Bolt',
         color: '#FF4500',
         theme: 'Pure Element Mastery',
 
@@ -433,7 +433,7 @@ MANA COSTS:
       {
         id: 'entropy_weaver',
         name: 'Entropy Weaver',
-        icon: 'spell_shadow_charm',
+        icon: 'Void/Corrupted Eye',
         color: '#9400D3',
         theme: 'Embrace Randomness',
 
@@ -478,7 +478,7 @@ MANA COSTS:
       {
         id: 'sphere_architect',
         name: 'Sphere Architect',
-        icon: 'inv_misc_rune_01',
+        icon: 'Arcane/Angular Rune',
         color: '#4169E1',
         theme: 'Precise Control & Manipulation',
 
@@ -558,34 +558,34 @@ MANA COSTS:
       'arc_chaos_bolt'
     ],
     6: [
-      // Level 6 spells
+      // Level 6 spells (3-sphere combinations)
       'arc_glacial_blessing',
-      'arc_thermal_surge',
-      'arc_void_ray'
+      'arc_prismatic_ward',
+      'arc_verdant_rejuvenation'
     ],
     7: [
-      // Level 7 spells
-      'arc_primal_arcane_tempest',
-      'arc_elemental_fury',
+      // Level 7 spells (3-4 sphere combinations)
+      'arc_phase_shift',
+      'arc_elemental_barrage',
       'arc_celestial_storm'
     ],
     8: [
-      // Level 8 spells
-      'arc_divine_cataclysm',
-      'arc_void_inferno',
+      // Level 8 spells (4-sphere ultimates)
+      'arc_harmonic_convergence',
+      'arc_elemental_maelstrom',
       'arc_chaos_storm'
     ],
     9: [
-      // Level 9 spells
+      // Level 9 spells (powerful with tradeoffs)
       'arc_primal_cataclysm',
       'arc_chaos_vortex',
-      'arc_elemental_synthesis'
+      'arc_arcane_synthesis'
     ],
     10: [
-      // Level 10 spells
+      // Level 10 spells (capstones)
       'arc_elemental_convergence',
       'arc_dimensional_rift',
-      'arc_sphere_mastery'
+      'arc_elemental_apotheosis'
     ]
   },
 
@@ -601,11 +601,11 @@ MANA COSTS:
       description: 'You channel raw arcane energy through your fingertips, condensing it into a crackling bolt of pure magical force. The spell manifests as a brilliant purple-white spark that streaks through the air with a distinctive hum, leaving a brief trail of shimmering energy in its wake. Upon impact, the bolt releases its stored arcane power in a small but precise burst, disrupting the target\'s magical defenses and dealing direct force damage. This is the foundation of arcane combat—simple, reliable, and endlessly versatile.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcanepotency',
+      icon: 'Arcane/Ebon Blaze',
       
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcanepotency',
+        icon: 'Arcane/Ebon Blaze',
         tags: ['arcane', 'damage', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -628,19 +628,18 @@ MANA COSTS:
         somaticText: 'Extend index finger, arcane energy crackling and coalescing at the tip before launching forward'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d4 + intelligence/4',
-        elementType: 'arcane',
-        damageType: 'direct',
+        damageTypes: ['arcane'],
+        resolution: 'DICE',
         description: 'The bolt strikes with precise arcane force, disrupting the target\'s magical essence and dealing direct damage to their life force. The impact leaves a brief shimmering mark where the energy was absorbed.'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['arcane', 'damage', 'starter']
@@ -652,11 +651,11 @@ MANA COSTS:
       description: 'You channel the essence of winter through your palm, causing your hand to glow with an ethereal blue-white light as rime frost spreads across your skin. When you make contact with your target, the freezing energy transfers instantly, causing their flesh to flash-freeze at the point of contact. Ice crystals spread outward from the touch point, numbing muscles and slowing their movements. The cold seeps deep into their bones, making every motion feel sluggish and heavy. Steam rises from where your frozen hand meets their warm skin, and they can feel the chill spreading through their limbs like a creeping numbness.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
+      icon: 'Frost/Frost Touch',
       
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostbolt',
+        icon: 'Frost/Frost Touch',
         tags: ['cold', 'damage', 'debuff', 'touch', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -678,13 +677,12 @@ MANA COSTS:
         somaticText: 'Palm glows with blue-white frost energy, rime spreading across your hand as you reach out to touch the target'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '1d4 + intelligence/4',
-        elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['frost'],
+        resolution: 'DICE',
         description: 'The freezing touch causes instant tissue damage as cells rupture from rapid temperature change. Ice crystals form beneath the skin, and the target feels a deep, penetrating cold that makes their muscles ache.'
       },
 
@@ -706,8 +704,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['ice', 'damage', 'debuff', 'touch', 'starter']
@@ -719,11 +717,11 @@ MANA COSTS:
       description: 'You channel the restorative power of life itself, causing your hands to glow with a warm, golden-white radiance that pulses with gentle energy. A beam of pure healing light extends from your fingertips, finding its way to your target like a homing beacon of warmth and comfort. As the light touches them, wounds begin to close, bruises fade, and the target feels a wave of soothing energy wash through their body. The light seems to seek out injuries, mending torn flesh, knitting broken skin, and easing pain with its gentle touch. The healing is accompanied by a feeling of warmth and vitality, as if the target is being bathed in the first rays of morning sunlight.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
       
       typeConfig: {
         school: 'healing',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         tags: ['healing', 'support', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -746,19 +744,18 @@ MANA COSTS:
         somaticText: 'Hands glow with golden-white radiance, extending a beam of warm healing light toward the target'
       },
 
-      resolution: 'DICE',
       effectTypes: ['healing'],
 
       healingConfig: {
         formula: '1d6 + spirit/3',
         healingType: 'direct',
-        hasHotEffect: false,
+        resolution: 'DICE',
         description: 'The healing light mends wounds, closes cuts, and restores vitality. The target feels their pain fade as torn flesh knits together, and a warm, revitalizing energy flows through their body, restoring lost health and easing their suffering.'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['healing', 'support', 'starter']
@@ -770,11 +767,11 @@ MANA COSTS:
       description: 'With a quick incantation, you weave together arcane and holy energies to create a small but unerring bolt of pure magical force. The missile manifests as a glowing orb of violet-white energy that hovers briefly before your hand, then streaks toward your target with impossible accuracy. Unlike other projectiles, this missile cannot be dodged or blocked by conventional means—it bends around obstacles and adjusts its trajectory mid-flight, guided by your will. The missile strikes with a sharp crack of released energy, delivering its payload of pure force directly to the target. The combination of arcane precision and holy guidance makes this spell both reliable and devastating.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcanetorrent',
+      icon: 'Arcane/Missile',
       
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcanetorrent',
+        icon: 'Arcane/Missile',
         tags: ['arcane', 'damage', 'starter'],
         castTime: 0,
         castTimeType: 'IMMEDIATE'
@@ -796,19 +793,18 @@ MANA COSTS:
         verbalText: 'Missile Arcanum!'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d3 + intelligence/4',
-        elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['force'],
+        resolution: 'DICE',
         description: 'The unerring missile strikes with pinpoint accuracy, delivering a concentrated burst of pure force energy. The impact feels like being struck by an invisible hammer, causing internal trauma as the force energy disrupts the target\'s body from within.'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['arcane', 'damage', 'starter']
@@ -820,11 +816,11 @@ MANA COSTS:
       description: 'You channel the raw power of nature, causing the very earth beneath your target to come alive. The ground cracks and splits as thick, thorny vines erupt from the soil with explosive force, their green-brown tendrils reaching upward like grasping hands. The vines immediately wrap around your target\'s legs and torso, their thorns digging into flesh and clothing alike. As they constrict, the vines pulse with verdant energy, dealing nature damage while simultaneously binding the target in place. The thorns inject a mild toxin that causes the target\'s muscles to stiffen, making escape even more difficult. The vines continue to grow and tighten, their grip becoming more secure with each passing moment.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_nature_stranglevines',
+      icon: 'Nature/Vines',
       
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_stranglevines',
+        icon: 'Nature/Vines',
         tags: ['nature', 'damage', 'control', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -848,13 +844,12 @@ MANA COSTS:
         spheres: ['Nature', 'Nature']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
         formula: '1d4 + intelligence/4',
-        elementType: 'nature',
-        damageType: 'direct',
+        damageTypes: ['nature'],
+        resolution: 'DICE',
         description: 'The thorny vines dig deep into the target\'s flesh, their barbs tearing at skin and muscle. Nature energy flows through the thorns, causing the wounds to burn with an unnatural green fire as the vines continue to constrict.'
       },
 
@@ -877,8 +872,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['nature', 'damage', 'control', 'starter']
@@ -893,12 +888,12 @@ MANA COSTS:
       description: 'You masterfully combine the opposing forces of fire and ice, holding a sphere of flame in one hand and a shard of ice in the other. As you bring them together, the conflicting energies react violently, creating a massive cloud of superheated steam that erupts forward in a wide cone. The steam is scalding hot, causing immediate burns to exposed skin, while the rapid temperature change creates painful blisters. The thick, opaque cloud completely obscures vision, leaving targets blind and disoriented as they struggle to breathe in the suffocating mist. The steam continues to expand outward, carrying with it the dual nature of its creation—both the burning heat of fire and the numbing cold of ice.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
+      icon: 'Frost/Frost Touch',
       
       typeConfig: {
         school: 'frost',
         secondaryElement: 'fire',
-        icon: 'spell_frost_frostbolt',
+        icon: 'Frost/Frost Touch',
         tags: ['fire', 'ice', 'damage', 'debuff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -924,15 +919,12 @@ MANA COSTS:
         spheres: ['Fire', 'Ice']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '1d6 + intelligence/3',
-        elementType: 'frost',
-        damageType: 'direct',
-        secondaryElementType: 'fire',
-        description: 'The scalding steam causes immediate burns as it contacts exposed skin. The rapid temperature change from the fire-ice reaction creates painful blisters and causes tissue damage. Targets feel both the burning heat and the numbing cold simultaneously, creating a uniquely painful experience.'
+        damageTypes: ['frost', 'fire'],
+        resolution: 'DICE'
       },
 
       debuffConfig: {
@@ -953,8 +945,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'ice', 'damage', 'debuff']
@@ -966,11 +958,11 @@ MANA COSTS:
       description: 'You draw upon the void itself, pulling shadow and darkness into your palm where it coalesces into a writhing sphere of pure negative energy. The bolt appears to absorb light from its surroundings, creating a visible distortion in the air around it. When you hurl it forward, it leaves a trail of absolute darkness in its wake, as if it\'s tearing a hole through reality itself. Upon impact, the shadow energy doesn\'t just damage—it actively drains life force from the target, causing them to feel a deep, soul-chilling cold as their vitality is siphoned away. The bolt seems to feed on their life energy, growing darker and more potent as it consumes their essence.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowbolt',
+      icon: 'Void/Red Energy Burst',
       
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_shadowbolt',
+        icon: 'Void/Red Energy Burst',
         tags: ['shadow', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -994,19 +986,18 @@ MANA COSTS:
         spheres: ['Shadow', 'Shadow']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d8 + intelligence/3',
-        elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['necrotic'],
+        resolution: 'DICE',
         description: 'The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['shadow', 'damage']
@@ -1018,11 +1009,11 @@ MANA COSTS:
       description: 'You weave together arcane precision and holy power, creating a brilliant beam of pure celestial light that extends in a straight line before you. The ray is intelligent, somehow able to distinguish friend from foe—it burns enemies with searing radiant energy while simultaneously healing allies with its warm, restorative glow. The light is so bright it leaves afterimages in the eyes of those who witness it, and it seems to pulse with divine purpose. Enemies caught in the beam feel their flesh burn as if exposed to pure sunlight, while allies experience a wave of healing energy that mends wounds and restores vitality. The ray creates a visible path of light that lingers for a moment, marking the path of divine judgment and mercy.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         tags: ['holy', 'arcane', 'damage', 'healing'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1067,26 +1058,25 @@ MANA COSTS:
         spheres: ['Arcane', 'Holy']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
         formula: '1d8 + intelligence/3',
-        elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['radiant'],
+        resolution: 'DICE',
         description: 'The celestial ray burns enemies with searing radiant energy, as if they\'ve been exposed to concentrated sunlight. Their flesh smokes and chars where the light touches, and they feel an intense burning sensation that seems to come from within their very soul.'
       },
 
       healingConfig: {
         formula: '1d6 + spirit/3',
         healingType: 'direct',
-        hasHotEffect: false,
+        resolution: 'DICE',
         description: 'The same celestial light that burns enemies heals allies, its warm radiance mending wounds, closing cuts, and restoring vitality. Allies feel a wave of comfort and strength wash through them as the light touches their skin.'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['holy', 'arcane', 'damage', 'healing']
@@ -1101,11 +1091,11 @@ MANA COSTS:
       description: 'A concentrated bolt of fire that explodes on impact, dealing fire damage.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_fire_flamebolt',
+      icon: 'Fire/Fiery Bolt',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_flamebolt',
+        icon: 'Fire/Fiery Bolt',
         tags: ['fire', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1137,18 +1127,16 @@ MANA COSTS:
         spheres: ['Fire', 'Fire']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d6 + intelligence/2',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire']
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage']
@@ -1160,11 +1148,11 @@ MANA COSTS:
       description: 'A sharp shard of ice that pierces your target, dealing cold damage and slowing them.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
+      icon: 'Frost/Frost Touch',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_frost_frostbolt',
+        icon: 'Frost/Frost Touch',
         tags: ['ice', 'damage', 'debuff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1188,13 +1176,11 @@ MANA COSTS:
         spheres: ['Ice', 'Ice']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '2d6 + intelligence/2',
-        elementType: 'frost',
-        damageType: 'direct'
+        damageTypes: ['frost']
       },
 
       debuffConfig: {
@@ -1215,8 +1201,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['ice', 'damage', 'debuff']
@@ -1228,11 +1214,11 @@ MANA COSTS:
       description: 'You compress pure arcane energy between your palms, feeling it build and intensify until it becomes unstable. When you release it, the energy explodes outward in a massive burst of violet-white force that ripples through the air like a shockwave. The detonation creates a visible distortion in reality itself, as if space is being torn apart by the raw magical power. The force wave strikes everything in the area simultaneously, dealing devastating damage and leaving targets disoriented as their senses are overwhelmed by the chaotic arcane energy. The explosion leaves behind a lingering field of unstable magic that continues to disrupt concentration and balance.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Spiral Vortex',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Spiral Vortex',
         tags: ['arcane', 'damage', 'debuff', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1258,13 +1244,12 @@ MANA COSTS:
         spheres: ['Arcane', 'Arcane']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '2d6 + intelligence/2',
-        elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['force'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1294,8 +1279,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['arcane', 'damage', 'debuff', 'aoe']
@@ -1310,11 +1295,11 @@ MANA COSTS:
       description: 'You channel immense fire energy, causing the air around you to shimmer with heat distortion. As you raise your hands, flames begin to spiral outward, building into a massive vortex of fire that descends upon the target area like a meteor strike. The firestorm doesn\'t just explode—it creates a sustained inferno that continues to burn for several seconds, igniting everything in its path. The ground itself catches fire, creating a dangerous zone of burning terrain that continues to damage anyone who remains within it. The heat is so intense that the air itself seems to catch fire, and targets feel their skin blister and char even as they try to escape the conflagration.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_fire_flameshock',
+      icon: 'Fire/Fire Storm',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_flameshock',
+        icon: 'Fire/Fire Storm',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1340,20 +1325,20 @@ MANA COSTS:
         spheres: ['Fire', 'Fire']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 2,
+          enabled: true,
+          damagePerTick: '1d4',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '1d4',
-          isProgressiveDot: false,
-          description: 'The ground continues to burn with magical fire, and any remaining flames continue to lick at your skin, causing ongoing burn damage as the firestorm\'s effects persist.'
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
         },
         savingThrowConfig: {
           enabled: true,
@@ -1362,13 +1347,12 @@ MANA COSTS:
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
-        },
-        description: 'The firestorm strikes with devastating force, creating an explosion of flame that engulfs everything in the area. The initial blast causes severe burns, and those who fail to dive for cover are caught in the full force of the inferno. The ground itself ignites, creating a dangerous burning zone.'
+        }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1380,11 +1364,11 @@ MANA COSTS:
       description: 'You draw upon the deepest cold of the frozen wastes, causing your body to radiate an aura of absolute zero. As you spread your arms wide, a wave of freezing energy explodes outward in all directions, creating a visible shockwave of ice crystals and frozen air. The nova doesn\'t just damage—it flash-freezes everything in its path, causing water to instantly turn to ice, breath to crystallize, and movement to become sluggish as muscles stiffen from the cold. The ground becomes slick with ice, and a layer of frost coats every surface. Those caught in the blast feel their very blood begin to freeze, their movements becoming slow and laborious as their bodies struggle against the magical cold.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_frost_frozenorb',
+      icon: 'Frost/Ice Orb',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_frost_frozenorb',
+        icon: 'Frost/Ice Orb',
         tags: ['ice', 'damage', 'debuff', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1409,13 +1393,12 @@ MANA COSTS:
         spheres: ['Ice', 'Ice']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
-        elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['frost'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1445,8 +1428,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['ice', 'damage', 'debuff', 'aoe']
@@ -1458,11 +1441,11 @@ MANA COSTS:
       description: 'Dark tendrils of shadow wrap around your target, dealing necrotic damage and weakening them.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowembrace',
+      icon: 'Void/Maw Gripping Fear',
       
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_shadowembrace',
+        icon: 'Void/Maw Gripping Fear',
         tags: ['shadow', 'damage', 'debuff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1486,24 +1469,25 @@ MANA COSTS:
         spheres: ['Shadow', 'Shadow']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
-        elementType: 'necrotic',
-        damageType: 'direct',
-        hasDotEffect: true,
+        damageTypes: ['necrotic'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 2,
+          enabled: true,
+          damagePerTick: '1d4',
+          damageType: 'necrotic',
           tickFrequency: 'round',
-          dotFormula: '1d4',
-          isProgressiveDot: false
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       debuffConfig: {
-        debuffType: 'statReduction',
+        debuffType: 'statPenalty',
         effects: [{
           id: 'weakened',
           name: 'Weakened',
@@ -1522,8 +1506,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['shadow', 'damage', 'debuff']
@@ -1538,12 +1522,12 @@ MANA COSTS:
       description: 'Combine Fire and Ice to create a devastating blast of mixed elemental energy.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball',
+      icon: 'Fire/Swirling Fireball',
       
       typeConfig: {
         school: 'fire',
         secondaryElement: 'frost',
-        icon: 'spell_fire_fireball',
+        icon: 'Fire/Swirling Fireball',
         tags: ['fire', 'ice', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1569,14 +1553,12 @@ MANA COSTS:
         spheres: ['Fire', 'Ice']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d8 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
-        secondaryElementType: 'frost',
+        damageTypes: ['fire', 'frost'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1588,8 +1570,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'ice', 'damage', 'aoe']
@@ -1601,11 +1583,11 @@ MANA COSTS:
       description: 'A powerful burst of divine energy that restores significant health to your target.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_holy_greaterheal',
+      icon: 'Healing/Golden Heart',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_greaterheal',
+        icon: 'Healing/Golden Heart',
         tags: ['holy', 'healing', 'support'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1629,18 +1611,17 @@ MANA COSTS:
         spheres: ['Holy', 'Healing']
       },
 
-      resolution: 'DICE',
       effectTypes: ['healing'],
 
       healingConfig: {
         formula: '3d8 + spirit',
         healingType: 'direct',
-        hasHotEffect: false
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['holy', 'healing', 'support']
@@ -1652,11 +1633,11 @@ MANA COSTS:
       description: 'A bolt of unpredictable chaos energy that deals random elemental damage.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Void/Corrupted Eye',
       
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_charm',
+        icon: 'Void/Corrupted Eye',
         tags: ['chaos', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1680,18 +1661,16 @@ MANA COSTS:
         spheres: ['Chaos', 'Chaos']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d10 + intelligence',
-        elementType: 'chaos',
-        damageType: 'direct'
+        damageTypes: ['chaos']
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['chaos', 'damage']
@@ -1703,14 +1682,14 @@ MANA COSTS:
     {
       id: 'arc_glacial_blessing',
       name: 'Glacial Blessing',
-      description: 'Combine Ice, Healing, and Holy to create a protective blessing that heals and grants frost armor.',
+      description: 'You weave ice, healing, and holy spheres into a shimmering lattice of protective frost and divine light. The blessing settles over your target like a coat of crystalline armor, its facets refracting golden radiance. Wounds close beneath the icy shell as restorative energy pulses through their body, leaving them both healed and shielded by a layer of enchanted frost.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_frost_frozenarmor',
+      icon: 'Frost/Frozen in Ice',
       
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_frost_frozenarmor',
+        icon: 'Frost/Frozen in Ice',
         tags: ['ice', 'healing', 'holy', 'buff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1730,17 +1709,16 @@ MANA COSTS:
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Glacies Benedicere!',
-        somaticText: 'Bestow glacial blessing',
+        somaticText: 'Weave the three spheres into a crystalline lattice and press it gently onto the target',
         spheres: ['Ice', 'Healing', 'Holy']
       },
 
-      resolution: 'DICE',
       effectTypes: ['healing', 'buff'],
 
       healingConfig: {
         formula: '2d8 + spirit',
         healingType: 'direct',
-        hasHotEffect: false
+        resolution: 'DICE'
       },
 
       buffConfig: {
@@ -1748,20 +1726,12 @@ MANA COSTS:
         effects: [{
           id: 'frost_armor',
           name: 'Frost Armor',
-          description: 'Gain +2 armor class for the duration. A layer of protective ice forms around you, deflecting incoming attacks.',
+          description: 'Gain +2 armor and 50% cold resistance for 3 rounds. A layer of protective enchanted ice forms around you, deflecting blows and absorbing frost.',
+          mechanicsText: '',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
             magnitudeType: 'flat'
-          }
-        }, {
-          id: 'cold_resistance',
-          name: 'Cold Resistance',
-          description: 'Cold damage reduced by 50% for the duration. Your body adapts to freezing temperatures, making you highly resistant to ice and frost attacks.',
-          statModifier: {
-            stat: 'cold_resistance',
-            magnitude: 50,
-            magnitudeType: 'percentage'
           }
         }],
         durationValue: 3,
@@ -1772,155 +1742,97 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['ice', 'healing', 'holy', 'buff']
     },
 
     {
-      id: 'arc_thermal_surge',
-      name: 'Thermal Surge',
-      description: 'Combine Fire, Ice, and Nature to create a devastating surge of thermal energy.',
+      id: 'arc_prismatic_ward',
+      name: 'Prismatic Ward',
+      description: 'You fuse arcane force, holy radiance, and nature energy into a shimmering dome of multicolored protective energy. The ward expands outward from your position, washing over allies in a wave of cleansing light that strips away harmful effects and leaves behind a faint prismatic shimmer—a shield that absorbs incoming damage for a short time.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Radiant/Radiant Divinity',
       
       typeConfig: {
-        school: 'fire',
-        secondaryElement: 'frost',
-        icon: 'spell_fire_fireball02',
-        tags: ['fire', 'ice', 'nature', 'damage', 'aoe'],
+        school: 'abjuration',
+        icon: 'Radiant/Radiant Divinity',
+        tags: ['arcane', 'holy', 'nature', 'buff', 'purification'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
+        rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 20 },
-        targetRestrictions: []
+        targetRestrictions: ['ally', 'self']
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere'],
-        resourceValues: { mana: 10, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1 },
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'nature_sphere'],
+        resourceValues: { mana: 10, arcane_sphere: 1, holy_sphere: 1, nature_sphere: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Thermal Eruptio!',
-        somaticText: 'Unleash thermal surge',
-        spheres: ['Fire', 'Ice', 'Nature']
+        verbalText: 'Prisma Custodia!',
+        somaticText: 'Hold the three spheres above your head, letting them merge into a prismatic dome that expands outward',
+        spheres: ['Arcane', 'Holy', 'Nature']
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      effectTypes: ['buff', 'purification'],
 
-      damageConfig: {
-        formula: '4d8 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
-        secondaryElementType: 'frost',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 15,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
-        }
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'prismatic_shield',
+          name: 'Prismatic Shield',
+          description: 'Absorbs up to 15 damage over 3 rounds. The shimmering ward deflects incoming attacks with flashes of multicolored light.',
+          mechanicsText: ''
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      purificationConfig: {
+        purificationType: 'cleanse',
+        effects: [{
+          id: 'prismatic_cleanse',
+          name: 'Prismatic Cleanse',
+          description: 'Removes one debuff or negative status effect from each ally in the area.',
+          mechanicsText: ''
+        }],
+        strength: 'moderate',
+        targetEffects: ['debuff', 'statusEffect']
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
-      tags: ['fire', 'ice', 'nature', 'damage', 'aoe']
+      tags: ['arcane', 'holy', 'nature', 'buff', 'purification']
     },
 
     {
-      id: 'arc_void_ray',
-      name: 'Void Ray',
-      description: 'Combine Arcane and Shadow to create a beam of void energy that tears through reality.',
+      id: 'arc_verdant_rejuvenation',
+      name: 'Verdant Rejuvenation',
+      description: 'You combine nature, healing, and holy spheres into a swirling orb of emerald and gold energy. When released, it blooms into a field of luminous wildflowers and soft golden light that settles over the area. Allies within the field feel their wounds slowly close as nature energy knits flesh and bone back together over several rounds.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowbolt',
+      icon: 'Nature/Growth',
       
       typeConfig: {
-        school: 'force',
-        secondaryElement: 'necrotic',
-        icon: 'spell_shadow_shadowbolt',
-        tags: ['arcane', 'shadow', 'damage'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 90,
-        aoeShape: 'line',
-        aoeParameters: { length: 90 },
-        targetRestrictions: []
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'shadow_sphere'],
-        resourceValues: { mana: 10, arcane_sphere: 1, shadow_sphere: 2 },
-        useFormulas: {},
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Voidus Radius!',
-        somaticText: 'Project void beam',
-        spheres: ['Arcane', 'Shadow', 'Shadow']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage'],
-
-      damageConfig: {
-        formula: '4d10 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
-        secondaryElementType: 'necrotic',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 16,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
-        }
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-
-      tags: ['arcane', 'shadow', 'damage']
-    },
-
-    // ========================================
-    // LEVEL 7 SPELLS
-    // ========================================
-    {
-      id: 'arc_primal_arcane_tempest',
-      name: 'Primal Arcane Tempest',
-      description: 'Combine Arcane, Nature, and Chaos to unleash a tempest of primal magical energy.',
-      level: 7,
-      spellType: 'ACTION',
-      icon: 'spell_arcane_arcanetorrent',
-      
-      typeConfig: {
-        school: 'force',
-        secondaryElement: 'chaos',
-        icon: 'spell_arcane_arcanetorrent',
-        tags: ['arcane', 'nature', 'chaos', 'damage', 'aoe'],
+        school: 'restoration',
+        icon: 'Nature/Growth',
+        tags: ['nature', 'healing', 'holy', 'aoe', 'hot'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1930,74 +1842,128 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
-        targetRestrictions: []
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['ally', 'self']
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'arcane_sphere', 'nature_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 10, arcane_sphere: 1, nature_sphere: 1, chaos_sphere: 1 },
+        resourceTypes: ['mana', 'nature_sphere', 'healing_sphere', 'holy_sphere'],
+        resourceValues: { mana: 10, nature_sphere: 1, healing_sphere: 1, holy_sphere: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Tempestas Primalis!',
-        somaticText: 'Unleash primal tempest',
-        spheres: ['Arcane', 'Nature', 'Chaos']
+        verbalText: 'Floreo Sanitas!',
+        somaticText: 'Release the merged spheres into the ground, causing healing wildflowers to bloom across the area',
+        spheres: ['Nature', 'Healing', 'Holy']
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      effectTypes: ['healing'],
 
-      damageConfig: {
-        formula: '5d10 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
-        secondaryElementType: 'nature',
-        criticalConfig: {
+      healingConfig: {
+        formula: '1d8 + spirit/2',
+        healingType: 'direct',
+        resolution: 'DICE',
+        hotConfig: {
           enabled: true,
-          critType: 'dice',
-          critMultiplier: 2,
-          critDiceOnly: false,
-          extraDice: '3d10',
-          critEffects: ['stun'],
-          stunConfig: {
-            duration: 1,
-            durationUnit: 'round',
-            saveDC: 16,
-            saveType: 'constitution'
-          }
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 16,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
+          healPerTick: '1d6 + spirit/3',
+          tickFrequency: 'round',
+          duration: 3,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
-      tags: ['arcane', 'nature', 'chaos', 'damage', 'aoe']
+      tags: ['nature', 'healing', 'holy', 'aoe', 'hot']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS (3-4 Sphere Combinations)
+    // ========================================
+    {
+      id: 'arc_phase_shift',
+      name: 'Phase Shift',
+      description: 'You weave arcane, shadow, and chaos spheres into a swirling vortex of dimensional energy around yourself. Reality shudders as you step sideways through the fabric of space, vanishing in a flash of violet-black light and reappearing up to 40 feet away. At your departure point, an afterimage of crackling void energy persists for a moment, discharging into any enemies caught nearby.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'Arcane/Quick Step',
+      
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'Arcane/Quick Step',
+        tags: ['arcane', 'shadow', 'chaos', 'utility', 'teleport', 'damage'],
+        castTime: 0,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 10, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Transitum Umbrae!',
+        somaticText: 'Press the three spheres together and step through the dimensional tear they create',
+        spheres: ['Arcane', 'Shadow', 'Chaos']
+      },
+
+      effectTypes: ['utility', 'damage'],
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'phase_shift_teleport',
+          name: 'Phase Shift',
+          description: 'Teleport up to 40 feet to an unoccupied space you can see.',
+          mechanicsText: '',
+          distance: 40,
+          needsLineOfSight: true
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      damageConfig: {
+        formula: '2d6 + intelligence/2',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        triggerCondition: 'area_entry',
+        triggerDescription: 'Enemies within 10 feet of your departure point take force damage from the void afterimage',
+        areaShape: 'circle',
+        areaParameters: { radius: 10 }
+      },
+
+      cooldownConfig: {
+        cooldownType: 'turn_based',
+        cooldownValue: 2
+      },
+
+      tags: ['arcane', 'shadow', 'chaos', 'utility', 'teleport', 'damage']
     },
 
     {
-      id: 'arc_elemental_fury',
-      name: 'Elemental Fury',
-      description: 'Combine Fire, Ice, Nature, and Holy to unleash a devastating storm of all four primal elements.',
+      id: 'arc_elemental_barrage',
+      name: 'Elemental Barrage',
+      description: 'You hold fire, ice, nature, and holy spheres aloft, each orbiting your hand in a tight spiral. With a sharp command word, they launch simultaneously—a bolt of flame, a shard of ice, a crackling nature lance, and a beam of holy light—all converging on the target area in a devastating cross-pattern impact. Each element reinforces the others, creating a prismatic explosion that overwhelms elemental resistances.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Fire/Rapid Fire Projectiles',
       
       typeConfig: {
-        school: 'fire',
-        secondaryElement: 'frost',
-        icon: 'spell_fire_fireball02',
-        tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe', 'ultimate'],
+        school: 'evocation',
+        icon: 'Fire/Rapid Fire Projectiles',
+        tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2007,7 +1973,7 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
+        aoeParameters: { radius: 15 },
         targetRestrictions: []
       },
 
@@ -2017,45 +1983,21 @@ MANA COSTS:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'ELEMENTUM FURIA!',
-        somaticText: 'Unleash all four primal elements',
+        verbalText: 'Elementum Procella!',
+        somaticText: 'Launch all four elemental spheres simultaneously at the target area',
         spheres: ['Fire', 'Ice', 'Nature', 'Holy']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
-        secondaryElementType: 'frost',
-        criticalConfig: {
-          enabled: true,
-          critType: 'dice',
-          critMultiplier: 2.5,
-          critDiceOnly: false,
-          extraDice: '4d10',
-          critEffects: ['burning', 'freeze'],
-          burningConfig: {
-            damagePerRound: '2d6',
-            duration: 3,
-            durationUnit: 'rounds',
-            saveDC: 17,
-            saveType: 'constitution'
-          },
-          freezeConfig: {
-            speedReduction: 50,
-            duration: 2,
-            durationUnit: 'rounds',
-            saveDC: 17,
-            saveType: 'constitution'
-          }
-        },
+        formula: '4d6 + intelligence',
+        damageTypes: ['fire', 'frost', 'lightning', 'radiant'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
-          difficultyClass: 17,
+          difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
@@ -2063,29 +2005,30 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 1
+        cooldownType: 'turn_based',
+        cooldownValue: 1
       },
 
-      tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe', 'ultimate']
+      tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe']
     },
 
     {
       id: 'arc_celestial_storm',
       name: 'Celestial Storm',
-      description: 'Combine Holy, Healing, and Arcane to create a storm of celestial energy that heals allies and damages enemies.',
+      description: 'You combine holy, healing, and arcane spheres into a radiant tempest that splits into two distinct energies—searing golden light that scorches enemies, and gentle restorative warmth that mends allied wounds. The storm is intelligent, its tendrils of light curving around allies to strike at foes while leaving a healing glow in their wake.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineintervention',
+      icon: 'Radiant/Radiant Divinity',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_divineintervention',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['holy', 'healing', 'arcane', 'damage', 'healing', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
@@ -2093,6 +2036,24 @@ MANA COSTS:
         aoeShape: 'circle',
         aoeParameters: { radius: 20 },
         targetRestrictions: []
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['ally']
+        }
       },
 
       resourceCost: {
@@ -2102,17 +2063,16 @@ MANA COSTS:
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempestas Caelestis!',
-        somaticText: 'Summon celestial storm',
+        somaticText: 'Raise all three spheres skyward, causing a radiant storm to descend upon the area',
         spheres: ['Holy', 'Healing', 'Arcane']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '4d8 + intelligence',
-        elementType: 'radiant',
-        damageType: 'direct',
+        formula: '3d8 + intelligence/2',
+        damageTypes: ['radiant'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2124,112 +2084,34 @@ MANA COSTS:
       },
 
       healingConfig: {
-        formula: '3d8 + spirit',
+        formula: '2d8 + spirit',
         healingType: 'direct',
-        hasHotEffect: false
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 1
       },
 
-      tags: ['holy', 'healing', 'arcane', 'damage', 'healing', 'aoe']
+      tags: ['holy', 'healing', 'arcane', 'damage', 'aoe']
     },
 
     // ========================================
-    // LEVEL 8 SPELLS
+    // LEVEL 8 SPELLS (4-Sphere Ultimates)
     // ========================================
     {
-      id: 'arc_divine_cataclysm',
-      name: 'Divine Cataclysm',
-      description: 'Combine Holy, Shadow, Healing, and Chaos to create a cataclysmic explosion of divine and chaotic energy.',
+      id: 'arc_harmonic_convergence',
+      name: 'Harmonic Convergence',
+      description: 'You weave holy, shadow, healing, and chaos spheres into an impossible harmony—light and dark, order and entropy, all singing together in a single sustained chord of elemental resonance. The convergence radiates outward as a warm pulse of prismatic energy that fills allies with renewed vigor, mending deep wounds and temporarily attuning their bodies to resist incoming harm.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineintervention',
+      icon: 'Healing/Golden Heart',
       
       typeConfig: {
-        school: 'radiant',
-        secondaryElement: 'chaos',
-        icon: 'spell_holy_divineintervention',
-        tags: ['holy', 'shadow', 'healing', 'chaos', 'damage', 'aoe', 'ultimate'],
-        castTime: 2,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 90,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 40 },
-        targetRestrictions: []
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'holy_sphere', 'shadow_sphere', 'healing_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 15, holy_sphere: 1, shadow_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
-        useFormulas: {},
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'CATACLYSMUS DIVINUS!',
-        somaticText: 'Unleash divine cataclysm',
-        spheres: ['Holy', 'Shadow', 'Healing', 'Chaos']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage'],
-
-      damageConfig: {
-        formula: '8d12 + intelligence',
-        elementType: 'radiant',
-        damageType: 'direct',
-        secondaryElementType: 'necrotic',
-        criticalConfig: {
-          enabled: true,
-          critType: 'dice',
-          critMultiplier: 3,
-          critDiceOnly: false,
-          extraDice: '6d12',
-          critEffects: ['stun'],
-          stunConfig: {
-            duration: 2,
-            durationUnit: 'rounds',
-            saveDC: 18,
-            saveType: 'constitution'
-          }
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 18,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
-        }
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
-
-      tags: ['holy', 'shadow', 'healing', 'chaos', 'damage', 'aoe', 'ultimate']
-    },
-
-    {
-      id: 'arc_void_inferno',
-      name: 'Void Inferno',
-      description: 'Combine Arcane, Shadow, Fire, and Chaos to tear open reality and unleash void flames that consume all matter.',
-      level: 8,
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowflame',
-      
-      typeConfig: {
-        school: 'force',
-        secondaryElement: 'chaos',
-        icon: 'spell_shadow_shadowflame',
-        tags: ['arcane', 'shadow', 'fire', 'chaos', 'damage', 'aoe', 'ultimate'],
+        school: 'restoration',
+        icon: 'Healing/Golden Heart',
+        tags: ['holy', 'shadow', 'healing', 'chaos', 'healing', 'buff', 'aoe'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2239,40 +2121,98 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 40 },
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally', 'self']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'holy_sphere', 'shadow_sphere', 'healing_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 15, holy_sphere: 1, shadow_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Harmonia Convergentia!',
+        somaticText: 'Hold all four spheres at arm\'s length, letting them orbit and merge into a single chord of resonant energy',
+        spheres: ['Holy', 'Shadow', 'Healing', 'Chaos']
+      },
+
+      effectTypes: ['healing', 'buff'],
+
+      healingConfig: {
+        formula: '4d8 + spirit',
+        healingType: 'direct',
+        resolution: 'DICE'
+      },
+
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'harmonic_attunement',
+          name: 'Harmonic Attunement',
+          description: 'All allies gain +2 to saving throws and resistance to all damage types (half damage) for 2 rounds. The harmonic resonance continues to vibrate through their bodies, deflecting harmful energy.',
+          mechanicsText: ''
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        cooldownType: 'turn_based',
+        cooldownValue: 4
+      },
+
+      tags: ['holy', 'shadow', 'healing', 'chaos', 'healing', 'buff', 'aoe']
+    },
+
+    {
+      id: 'arc_elemental_maelstrom',
+      name: 'Elemental Maelstrom',
+      description: 'You force arcane, fire, ice, and nature spheres into a volatile fusion, launching the unstable mass at a target area where it detonates into a raging maelstrom of conflicting elements. Fire and frost spiral together, lightning crackles through the flames, and arcane force binds it all into a localized storm that batters everything within. The rapid temperature shifts and elemental chaos leave survivors disoriented and sluggish.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'Fire/Rapid Fire Projectiles',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'Fire/Rapid Fire Projectiles',
+        tags: ['arcane', 'fire', 'ice', 'nature', 'damage', 'control', 'aoe'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
         targetRestrictions: []
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'fire_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 15, arcane_sphere: 1, shadow_sphere: 1, fire_sphere: 1, chaos_sphere: 1 },
+        resourceTypes: ['mana', 'arcane_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere'],
+        resourceValues: { mana: 15, arcane_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'INFERNO VACUI!',
-        somaticText: 'Tear open reality to unleash void flames',
-        spheres: ['Arcane', 'Shadow', 'Fire', 'Chaos']
+        verbalText: 'Maelstrom Elementum!',
+        somaticText: 'Compress the four conflicting spheres into one unstable mass and hurl it at the target area',
+        spheres: ['Arcane', 'Fire', 'Ice', 'Nature']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '8d12 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
-        secondaryElementType: 'necrotic',
-        hasDotEffect: true,
-        dotConfig: {
-          duration: 3,
-          tickFrequency: 'round',
-          dotFormula: '2d6',
-          isProgressiveDot: false
-        },
+        formula: '4d8 + intelligence',
+        damageTypes: ['fire', 'frost', 'lightning', 'force'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
-          difficultyClass: 18,
+          difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
@@ -2282,41 +2222,41 @@ MANA COSTS:
       controlConfig: {
         controlType: 'incapacitation',
         strength: 'moderate',
-        duration: 2,
+        duration: 1,
         durationUnit: 'rounds',
-        saveDC: 18,
+        saveDC: 16,
         saveType: 'constitution',
         savingThrow: true,
         effects: [{
-          id: 'blinded',
-          name: 'Blinded',
-          description: 'Blinded by void flames, cannot see and automatically fails sight-based checks',
+          id: 'elemental_disorientation',
+          name: 'Elemental Disorientation',
+          description: 'The chaotic elemental barrage has overwhelmed your senses. Movement speed halved, -2 to attack rolls for 1 round.',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 1
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
-      tags: ['arcane', 'shadow', 'fire', 'chaos', 'damage', 'aoe', 'ultimate']
+      tags: ['arcane', 'fire', 'ice', 'nature', 'damage', 'control', 'aoe']
     },
 
     {
       id: 'arc_chaos_storm',
       name: 'Chaos Storm',
-      description: 'Combine multiple Chaos spheres to create a storm of pure unpredictable energy.',
+      description: 'You concentrate three chaos spheres into a single point of impossible instability. When released, the concentrated chaos tears reality apart in the target area, unleashing a whirlwind of random elemental forces. No two Chaos Storms are ever the same—the damage type shifts unpredictably between fire, frost, lightning, necrotic, and radiant with each heartbeat, making it impossible for enemies to prepare defenses.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Void/Corrupted Eye',
       
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_charm',
+        icon: 'Void/Corrupted Eye',
         tags: ['chaos', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2327,32 +2267,31 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
+        aoeParameters: { radius: 20 },
         targetRestrictions: []
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere'],
+        resourceTypes: ['mana', 'chaos_sphere'],
         resourceValues: { mana: 10, chaos_sphere: 3 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempestas Chaos!',
-        somaticText: 'Unleash chaos storm',
+        somaticText: 'Compress three chaos spheres into a single unstable point and release it',
         spheres: ['Chaos', 'Chaos', 'Chaos']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d12 + intelligence',
-        elementType: 'chaos',
-        damageType: 'direct',
+        formula: '4d8 + intelligence',
+        damageTypes: ['chaos'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
-          difficultyClass: 17,
+          difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
@@ -2360,27 +2299,27 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 1
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
       tags: ['chaos', 'damage', 'aoe']
     },
 
     // ========================================
-    // LEVEL 9 SPELLS
+    // LEVEL 9 SPELLS (Powerful w/ real tradeoffs)
     // ========================================
     {
       id: 'arc_primal_cataclysm',
       name: 'Primal Cataclysm',
-      description: 'Channel all eight elemental spheres into a volatile prismatic detonation. The unstable fusion of opposing elements causes significant backlash to the caster.',
+      description: 'You channel all eight elemental spheres simultaneously—a feat of concentration that pushes the limits of mortal spellcasting. The spheres fight each other, opposing elements grinding together in a volatile chain reaction. When you release the fusion, it detonates in a prismatic shockwave that carries every element at once, tearing through defenses designed to resist any single type. The strain of controlling so many conflicting forces causes painful elemental backlash to the caster.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Arcane/Ebon Blaze',
       
       typeConfig: {
-        school: 'chaos',
-        icon: 'spell_fire_fireball02',
+        school: 'evocation',
+        icon: 'Arcane/Ebon Blaze',
         tags: ['ultimate', 'damage', 'aoe', 'all-elements'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2389,34 +2328,33 @@ MANA COSTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
-        rangeDistance: 90,
+        rangeDistance: 80,
         aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
+        aoeParameters: { radius: 20 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 30, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
+        resourceValues: { mana: 25, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Elementum Cataclysmos!',
-        somaticText: 'Force all eight spheres into unstable fusion',
+        somaticText: 'Force all eight spheres into a single volatile point of prismatic energy',
         spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing', 'Chaos']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d10 + intelligence',
-        elementType: 'chaos',
-        damageType: 'direct',
+        formula: '5d8 + intelligence',
+        damageTypes: ['fire', 'frost', 'lightning', 'radiant', 'necrotic', 'force', 'chaos'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
-          difficultyClass: 18,
+          difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
@@ -2430,8 +2368,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'combat',
-        value: 1,
+        cooldownType: 'encounter',
+        cooldownValue: 1,
         description: 'Once per combat'
       },
 
@@ -2441,83 +2379,15 @@ MANA COSTS:
     {
       id: 'arc_chaos_vortex',
       name: 'Chaos Vortex',
-      description: 'Concentrate pure chaotic energy into a swirling vortex of unpredictable destruction. The volatile nature of concentrated chaos may affect the caster as well.',
+      description: 'You concentrate pure chaotic energy from four chaos spheres into a swirling vortex of unpredictable destruction. The vortex tears at the fabric of reality, pulling in light, sound, and matter as it spins. Its effects are impossible to predict—the damage shifts between elements, and the vortex occasionally spits out random bursts of wild magic. The chaotic feedback lashes back at you, but the sheer destructive power makes it worth the risk.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Void/Corrupted Eye',
       
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_charm',
+        icon: 'Void/Corrupted Eye',
         tags: ['chaos', 'damage', 'aoe', 'ultimate'],
-        castTime: 2,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
-        targetRestrictions: []
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 25, chaos_sphere: 4 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Chaos Vorticem!',
-        somaticText: 'Spiral hands to concentrate chaos energy',
-        spheres: ['Chaos', 'Chaos', 'Chaos', 'Chaos']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage'],
-
-      damageConfig: {
-        formula: '5d10 + intelligence',
-        elementType: 'chaos',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 17,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
-        }
-      },
-
-      selfDamageConfig: {
-        formula: '1d8',
-        damageType: 'chaos',
-        description: 'Chaotic energy feedback'
-      },
-
-      cooldownConfig: {
-        type: 'combat',
-        value: 1,
-        description: 'Once per combat'
-      },
-
-      tags: ['chaos', 'damage', 'aoe', 'ultimate', 'self-damage']
-    },
-
-    {
-      id: 'arc_elemental_synthesis',
-      name: 'Elemental Synthesis',
-      description: 'Harmonize four opposing elements into a focused beam of synthesized energy. The careful balance required leaves the caster temporarily drained.',
-      level: 9,
-      spellType: 'ACTION',
-      icon: 'spell_arcane_arcanepotency',
-      
-      typeConfig: {
-        school: 'evocation',
-        icon: 'spell_arcane_arcanepotency',
-        tags: ['ultimate', 'damage', 'aoe', 'synthesis'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2532,23 +2402,22 @@ MANA COSTS:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere'],
-        resourceValues: { mana: 25, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1 },
+        resourceTypes: ['mana', 'chaos_sphere'],
+        resourceValues: { mana: 20, chaos_sphere: 4 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'Synthesis Elementum!',
-        somaticText: 'Weave opposing elements into harmony',
-        spheres: ['Arcane', 'Holy', 'Shadow', 'Fire']
+        verbalText: 'Chaos Vorticem!',
+        somaticText: 'Spiral hands to concentrate chaos energy into an unstable vortex',
+        spheres: ['Chaos', 'Chaos', 'Chaos', 'Chaos']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '5d8 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['chaos'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2559,12 +2428,86 @@ MANA COSTS:
         }
       },
 
+      selfDamageConfig: {
+        formula: '1d8',
+        damageType: 'chaos',
+        description: 'Chaotic energy feedback from concentrated entropy'
+      },
+
+      cooldownConfig: {
+        cooldownType: 'encounter',
+        cooldownValue: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['chaos', 'damage', 'aoe', 'ultimate', 'self-damage']
+    },
+
+    {
+      id: 'arc_arcane_synthesis',
+      name: 'Arcane Synthesis',
+      description: 'You carefully harmonize four opposing elements into a state of perfect equilibrium, creating a field of synthesized energy that enhances your allies\' combat capabilities. The balanced fusion empowers allied spellcasting and physical attacks while granting a regenerative aura. The precise control required leaves you briefly drained, but the tactical advantage for your party is substantial.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'Arcane/Missile',
+      
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'Arcane/Missile',
+        tags: ['arcane', 'holy', 'shadow', 'fire', 'buff', 'healing', 'aoe'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally', 'self']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere'],
+        resourceValues: { mana: 20, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Synthesis Elementum!',
+        somaticText: 'Weave four opposing elements into a state of perfect harmony, releasing the balanced energy outward',
+        spheres: ['Arcane', 'Holy', 'Shadow', 'Fire']
+      },
+
+      effectTypes: ['buff', 'healing'],
+
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'elemental_synthesis',
+          name: 'Elemental Synthesis',
+          description: 'All allies gain +3 to attack rolls, +2 to spell damage, and regenerate 1d4 HP at the start of each turn for 3 rounds.',
+          mechanicsText: ''
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      healingConfig: {
+        formula: '2d6 + spirit/2',
+        healingType: 'direct',
+        resolution: 'DICE'
+      },
+
       debuffConfig: {
         debuffType: 'self',
         effects: [{
           id: 'synthesis_drain',
           name: 'Synthesis Drain',
-          description: 'The caster has -2 to spell attack rolls until end of next turn',
+          description: 'The caster has -2 to spell attack rolls for 1 round from the strain of balancing opposing elements.',
+          mechanicsText: '',
           isSelfDebuff: true
         }],
         durationValue: 1,
@@ -2573,27 +2516,27 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'synthesis']
+      tags: ['arcane', 'holy', 'shadow', 'fire', 'buff', 'healing', 'aoe']
     },
 
     // ========================================
-    // LEVEL 10 SPELLS
+    // LEVEL 10 SPELLS (Capstones)
     // ========================================
     {
       id: 'arc_elemental_convergence',
       name: 'Elemental Convergence',
-      description: 'Force seven elemental spheres into a devastating convergence point. The immense strain of controlling this much raw elemental power causes severe backlash and leaves the caster exhausted.',
+      description: 'The apex of elemental combination mastery. You force seven distinct elemental spheres into a single convergence point—a feat that visibly strains reality around you. The air cracks, light bends, and the ground trembles as the elements are compressed beyond their natural limits. When you release them, the convergence detonates in a cascading explosion of pure elemental destruction. The immense strain leaves you physically and magically exhausted.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcanepotency',
+      icon: 'Arcane/Ebon Blaze',
       
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_arcanepotency',
+        icon: 'Arcane/Ebon Blaze',
         tags: ['ultimate', 'damage', 'aoe', 'mastery'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2604,28 +2547,27 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 90,
         aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
+        aoeParameters: { radius: 25 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere'],
-        resourceValues: { mana: 40, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1 },
+        resourceValues: { mana: 35, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Convergentia Elementum!',
-        somaticText: 'Force all spheres into a single convergence point',
+        somaticText: 'Force all seven spheres into a single convergence point above your head, then release the cascading detonation',
         spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
+        formula: '5d8 + intelligence * 1.5',
+        damageTypes: ['fire', 'frost', 'lightning', 'radiant', 'necrotic', 'force'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2647,7 +2589,8 @@ MANA COSTS:
         effects: [{
           id: 'convergence_exhaustion',
           name: 'Convergence Exhaustion',
-          description: 'The caster cannot cast spells requiring 3+ spheres until end of next turn',
+          description: 'The caster cannot cast spells requiring 3+ spheres until end of next turn. The immense strain of convergence leaves your body trembling.',
+          mechanicsText: '',
           isSelfDebuff: true
         }],
         durationValue: 1,
@@ -2656,8 +2599,8 @@ MANA COSTS:
       },
 
       cooldownConfig: {
-        type: 'combat',
-        value: 1,
+        cooldownType: 'encounter',
+        cooldownValue: 1,
         description: 'Once per combat'
       },
 
@@ -2667,17 +2610,16 @@ MANA COSTS:
     {
       id: 'arc_dimensional_rift',
       name: 'Dimensional Rift',
-      description: 'Tear open a temporary rift between dimensions, unleashing unstable void energy. The rift is difficult to control and may pull the caster partially into the void.',
+      description: 'You tear open a temporary rift between dimensions using arcane precision, shadow manipulation, and concentrated chaos. The rift manifests as a swirling portal of violet-black energy that pulls at everything nearby. Enemies near the rift are bombarded by unstable void energy and experience dimensional disorientation—their sense of space warping as the rift distorts reality around them. The rift is difficult to control, and void energy lashes back at the caster.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowflame',
+      icon: 'Void/Shadowy Blaze',
       
       typeConfig: {
-        school: 'force',
-        secondaryElement: 'chaos',
-        icon: 'spell_shadow_shadowflame',
-        tags: ['ultimate', 'damage', 'aoe', 'void'],
-        castTime: 3,
+        school: 'conjuration',
+        icon: 'Void/Shadowy Blaze',
+        tags: ['ultimate', 'damage', 'control', 'aoe', 'void'],
+        castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
@@ -2686,29 +2628,27 @@ MANA COSTS:
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
+        aoeParameters: { radius: 20 },
         targetRestrictions: []
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'chaos_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 35, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 2 },
+        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 30, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 2 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Rima Dimensio!',
-        somaticText: 'Tear open a rift between dimensions',
+        somaticText: 'Tear reality apart with a sharp pulling motion, opening a swirling void portal',
         spheres: ['Arcane', 'Shadow', 'Chaos', 'Chaos']
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '7d10 + intelligence',
-        elementType: 'force',
-        damageType: 'direct',
-        secondaryElementType: 'necrotic',
+        formula: '4d8 + intelligence',
+        damageTypes: ['force', 'necrotic'],
+        resolution: 'DICE',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2721,7 +2661,7 @@ MANA COSTS:
 
       controlConfig: {
         controlType: 'incapacitation',
-        strength: 'moderate',
+        strength: 'strong',
         duration: 1,
         durationUnit: 'rounds',
         saveDC: 18,
@@ -2730,262 +2670,86 @@ MANA COSTS:
         effects: [{
           id: 'void_disorientation',
           name: 'Void Disorientation',
-          description: 'Targets are disoriented by void energy - disadvantage on attacks and cannot take reactions',
+          description: 'Reality warps around you. Disadvantage on attacks, cannot take reactions, movement speed halved for 1 round.',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
       },
 
       selfDamageConfig: {
-        formula: '2d8',
+        formula: '2d6',
         damageType: 'necrotic',
         description: 'Void energy feedback from unstable rift'
       },
 
       cooldownConfig: {
-        type: 'combat',
-        value: 1,
+        cooldownType: 'encounter',
+        cooldownValue: 1,
         description: 'Once per combat'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'void', 'self-damage']
+      tags: ['ultimate', 'damage', 'control', 'aoe', 'void', 'self-damage']
     },
 
     {
-      id: 'arc_sphere_mastery',
-      name: 'Sphere Mastery',
-      description: 'Demonstrate true mastery of elemental combination by weaving six different elements into a precise, focused detonation. Requires intense concentration that leaves the caster vulnerable afterward.',
+      id: 'arc_elemental_apotheosis',
+      name: 'Elemental Apotheosis',
+      description: 'The ultimate expression of sphere mastery. You absorb six elemental spheres directly into your body, each one fusing with your flesh and spirit in a blinding prismatic transformation. Your eyes blaze with multicolored light, elemental energy crackles across your skin, and the air around you hums with barely contained power. For a brief time, you become a living conduit of pure elemental force—your spells hit harder, your body is armored in crystallized elements, and raw power radiates from your every movement.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Fire/Volcanic Erupt',
       
       typeConfig: {
-        school: 'fire',
-        secondaryElement: 'frost',
-        icon: 'spell_fire_fireball02',
-        tags: ['ultimate', 'damage', 'aoe', 'mastery'],
-        castTime: 3,
+        school: 'transmutation',
+        icon: 'Fire/Volcanic Erupt',
+        tags: ['ultimate', 'buff', 'transformation', 'mastery'],
+        castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 90,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
-        targetRestrictions: []
+        targetingType: 'self',
+        rangeType: 'self_centered'
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'holy_sphere', 'shadow_sphere', 'arcane_sphere'],
-        resourceValues: { mana: 40, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1, shadow_sphere: 1, arcane_sphere: 1 },
+        resourceValues: { mana: 30, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1, shadow_sphere: 1, arcane_sphere: 1 },
         useFormulas: {},
-        actionPoints: 3,
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Dominatio Spherae!',
-        somaticText: 'Weave six elements into perfect harmony',
+        verbalText: 'Apotheosis Elementum!',
+        somaticText: 'Press all six spheres against your chest, absorbing them into your body in a prismatic flash',
         spheres: ['Fire', 'Ice', 'Nature', 'Holy', 'Shadow', 'Arcane']
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      effectTypes: ['buff'],
 
-      damageConfig: {
-        formula: '8d10 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
-        secondaryElementType: 'frost',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
-          difficultyClass: 18,
-          partialEffect: true,
-          partialEffectFormula: 'damage/2',
-          saveOutcome: 'halves'
-        }
-      },
-
-      selfDamageConfig: {
-        formula: '2d6',
-        damageType: 'force',
-        description: 'Elemental strain from controlling six opposing elements'
-      },
-
-      debuffConfig: {
-        debuffType: 'self',
+      buffConfig: {
+        buffType: 'custom',
         effects: [{
-          id: 'mastery_strain',
-          name: 'Mastery Strain',
-          description: 'The caster has -2 to AC and saving throws until end of next turn',
-          isSelfDebuff: true
+          id: 'elemental_apotheosis',
+          name: 'Elemental Apotheosis',
+          description: 'For 4 rounds: +4 spell damage, +3 armor, resistance to fire/frost/lightning damage, and 2-sphere spells cost 0 mana. Your body radiates prismatic elemental energy, making you a living conduit of elemental force.',
+          mechanicsText: ''
         }],
-        durationValue: 1,
+        durationValue: 4,
         durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
       },
 
       cooldownConfig: {
-        type: 'combat',
-        value: 1,
+        cooldownType: 'encounter',
+        cooldownValue: 1,
         description: 'Once per combat'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'mastery', 'self-damage']
-    },
-
-    {
-      targetingConfig: {
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant explosion with lingering fire'
-      },
-
-      resourceCost: {
-        mana: 5,
-        spheres: ['Fire', 'Fire'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Ignis Tempestas!',
-        somaticText: 'Raise both hands and unleash flames'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '3d8',
-        damageType: 'fire',
-        scalingType: 'none',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '1d6',
-          duration: 10,
-          tickFrequency: 'round'
-        }
-      },
-
-      effectTypes: ['damage'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Fire', 'Fire'],
-          comboType: 'pure',
-          prismMageBonus: '+50% damage (4d8+4 instead of 3d8)'
-        }
-      },
-
-      tags: ['2-sphere', 'fire', 'aoe', 'damage-over-time', 'pure-element', 'prism-mage'],
-      flavorText: 'A raging inferno engulfs the battlefield, leaving nothing but ash and embers.'
-    },
-
-    // Mixed Element Combos
-
-
-    {
-      id: 'arc_pandemonium',
-      name: 'Pandemonium',
-      description: 'Chaos + Chaos: Ultimate chaos spell with completely unpredictable devastating effects.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
-      school: 'Evocation',
-      level: 4,
-      sphereCost: ['Chaos', 'Chaos'],
-
-      typeConfig: {
-        school: 'chaos',
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 40
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant chaos'
-      },
-
-      resourceCost: {
-        mana: 5,
-        spheres: ['Chaos', 'Chaos'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'PANDEMONIUM!',
-        somaticText: 'Wild gestures releasing chaotic energy'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: 'Pandemonium Effect',
-        description: 'Roll 1d8 to determine the chaotic effect',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd8'
-        },
-        entries: [
-          { roll: 1, name: 'Force Explosion', effect: '4d6 force damage to all targets in 40ft radius area.' },
-          { roll: 2, name: 'Holy Nova', effect: '3d8 radiant damage to all enemies in area. All allies in area are healed for 3d8 HP. Enemies must make Dexterity save DC 15 for half damage.' },
-          { roll: 3, name: 'Shadow Burst', effect: '3d8 necrotic damage to all enemies in area. Enemies must make Constitution save DC 15 or be cursed (disadvantage on attack rolls and ability checks) for 2 rounds.' },
-          { roll: 4, name: 'Inferno', effect: '4d6 fire damage to all targets in area. Targets must make Dexterity save DC 15 for half damage. Targets that fail the save are ignited, taking 1d6 fire damage at the start of each of their turns for 3 rounds (Constitution save DC 15 ends early).' },
-          { roll: 5, name: 'Blizzard', effect: '4d6 cold damage to all targets in area. Targets must make Constitution save DC 15 for half damage. Targets that fail the save are frozen (paralyzed) for 1 round - cannot move or take actions, attacks against them have advantage.' },
-          { roll: 6, name: 'Nature\'s Wrath', effect: '4d6 poison damage to all enemies in area. Enemies must make Constitution save DC 15 for half damage. The area becomes difficult terrain for 3 rounds - movement costs double movement speed, creatures moving through it take 1d4 piercing damage from thorns.' },
-          { roll: 7, name: 'Mass Healing', effect: 'All allies within 40ft radius are healed for 4d8 HP. This healing cannot exceed maximum HP. Allies also gain temporary HP equal to half the healing received (2d8 temp HP).' },
-          { roll: 8, name: 'Reality Tear', effect: 'All allies within 40ft radius gain +4 armor and resistance to all damage types for 1 minute (10 rounds). Resistance means they take half damage from all sources. This effect cannot be dispelled.' }
-        ]
-      },
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Chaos', 'Chaos'],
-          comboType: 'chaos',
-          entropyWeaverBonus: 'Double damage on all effects, roll twice on table and apply both'
-        }
-      },
-
-      tags: ['2-sphere', 'chaos', 'random', 'unpredictable', 'entropy-weaver'],
-      flavorText: 'Reality itself fractures as pure chaos is unleashed upon the world.',
-      
-      // Explicitly no utility - spell only uses rollable table
-      effectTypes: []
-    },
-
-    // ========================================
-    // 3-SPHERE SPECIAL RECIPES
-    // Powerful combinations requiring specific elements
-    // ========================================
-
-    
-    
-    
-    // ========================================
-    // 4-SPHERE ULTIMATE RECIPES
-    // The most powerful combinations
-    // ========================================
+      tags: ['ultimate', 'buff', 'transformation', 'mastery']
+    }
   ]
 };
+

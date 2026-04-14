@@ -32,6 +32,7 @@ import useCombatStore from '../store/combatStore';
 import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './ErrorBoundary';
+import SocialEncounterGenerator from './gm-tools/SocialEncounterGenerator';
 // REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
@@ -72,12 +73,40 @@ const GlobalChatWindowWrapper = lazy(() =>
 const CraftingWindow = lazy(() =>
     import('./windows/CraftingWindow').catch(err => {
         console.error('Failed to load CraftingWindow:', err);
-        // Return a more user-friendly error component
         return {
             default: () => (
                 <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
                     <h3>🔨 Crafting Window Unavailable</h3>
                     <p>The crafting system is temporarily unavailable.</p>
+                    <p>Please try refreshing the page.</p>
+                </div>
+            )
+        };
+    })
+);
+const TravelTrackerWindow = lazy(() =>
+    import('./windows/TravelTrackerWindow').catch(err => {
+        console.error('Failed to load TravelTrackerWindow:', err);
+        return {
+            default: () => (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
+                    <h3>Travel Tracker Unavailable</h3>
+                    <p>The travel system is temporarily unavailable.</p>
+                    <p>Please try refreshing the page.</p>
+                </div>
+            )
+        };
+    })
+);
+
+const PlayerTravelDashboard = lazy(() =>
+    import('./windows/PlayerTravelDashboard').catch(err => {
+        console.error('Failed to load PlayerTravelDashboard:', err);
+        return {
+            default: () => (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
+                    <h3>Travel Dashboard Unavailable</h3>
+                    <p>The travel system is temporarily unavailable.</p>
                     <p>Please try refreshing the page.</p>
                 </div>
             )
@@ -392,6 +421,16 @@ const NAVIGATION_BUTTONS = [
 
 
     {
+        id: 'travel',
+        title: 'Travel Tracker',
+        shortcut: 'W',
+        svg: <>
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
+            <path d="M12 11.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
+        </>
+    },
+
+    {
         id: 'leveleditor',
         title: 'Level Editor',
         shortcut: 'E',
@@ -413,10 +452,19 @@ const NAVIGATION_BUTTONS = [
         id: 'journal',
         title: 'Player Journal',
         shortcut: 'J',
-        playerOnly: true, // Only visible to players, not GMs
+        playerOnly: true,
         svg: <>
             <path d="M4 4a2 2 0 012-2h8.586A2 2 0 0116 2.586L19.414 6A2 2 0 0120 7.414V20a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
             <path d="M14 2v4a2 2 0 002 2h4M8 12h8M8 16h8M8 8h2" />
+        </>
+    },
+    {
+        id: 'encounters',
+        title: 'Social Encounter',
+        shortcut: 'N',
+        gmOnly: true,
+        svg: <>
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </>
     },
 ];
@@ -695,14 +743,14 @@ export default function Navigation({ onReturnToLanding }) {
     // Player restricted buttons set - cached outside component to avoid recreation
     // Fixed: Moved from this.playerRestrictedButtonsSet to proper const declaration
     const playerRestrictedButtonsSet = new Set([
-        'leveleditor',    // Level Editor
-        'creatures',      // Creature Library
-        'maplibrary',     // Map Library
-        'campaign',       // Campaign Manager (Premium GM Feature)
-        'itemgen',        // Item Library
-        'combat'          // Combat Initiator
-        // Note: settings is now allowed in player mode
-        // Players can access: character, inventory, crafting, spellbook, quests, chat, social, settings
+        'leveleditor',
+        'creatures',
+        'maplibrary',
+        'campaign',
+        'travel',
+        'itemgen',
+        'combat',
+        'encounters'
     ]);
 
     // Filter buttons based on GM/Player mode
@@ -721,9 +769,9 @@ export default function Navigation({ onReturnToLanding }) {
             // GM sees all buttons except player-only buttons
             return validButtons.filter(button => !button.playerOnly);
         } else {
-            // Player mode - filter out restricted buttons
+            // Player mode - filter out restricted buttons and GM-only buttons
             return validButtons.filter(button =>
-                !playerRestrictedButtonsSet.has(button.id)
+                !playerRestrictedButtonsSet.has(button.id) && !button.gmOnly
             );
         }
     };
@@ -1054,6 +1102,24 @@ export default function Navigation({ onReturnToLanding }) {
                 // Level editor is handled directly in the Grid component, not as a window
                 return null;
 
+            case 'travel':
+                return shouldRender && (
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <TravelTrackerWindow
+                                key={`${button.id}-gm`}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                            <PlayerTravelDashboard
+                                key={`${button.id}-player`}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
+                );
+
             case 'maplibrary':
                 return shouldRender && (
                     <MapLibraryWindow
@@ -1070,6 +1136,19 @@ export default function Navigation({ onReturnToLanding }) {
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
                     />
+                );
+            case 'encounters':
+                return shouldRender && (
+                    <WowWindow
+                        key={button.id}
+                        title={safeTitle || 'Social Encounter'}
+                        isOpen={true}
+                        onClose={() => handleButtonClick(button.id)}
+                        defaultSize={{ width: 560, height: 860 }}
+                        defaultPosition={{ x: 200, y: 30 }}
+                    >
+                        <SocialEncounterGenerator />
+                    </WowWindow>
                 );
             case 'settings':
                 return shouldRender && (

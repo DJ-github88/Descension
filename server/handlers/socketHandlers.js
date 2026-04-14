@@ -2310,6 +2310,41 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     });
 
+    // ==================== TRAVEL HANDLERS ====================
+
+    socket.on('travel_sync', (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId, true);
+        if (!validation.valid) return;
+
+        socket.to(data.roomId).emit('travel_sync', data);
+      } catch (error) {
+        logger.error('[travel_sync] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('travel_update', (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId, true);
+        if (!validation.valid) return;
+
+        socket.to(data.roomId).emit('travel_update', data);
+      } catch (error) {
+        logger.error('[travel_update] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('travel_broadcast', (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId, true);
+        if (!validation.valid) return;
+
+        socket.to(data.roomId).emit('travel_broadcast', data);
+      } catch (error) {
+        logger.error('[travel_broadcast] Error:', { error: error.message });
+      }
+    });
+
     // ==================== COMBAT HANDLERS ====================
 
     socket.on('combat_started', (data) => {

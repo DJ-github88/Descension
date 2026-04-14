@@ -233,7 +233,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       {
         id: 'stasis',
         name: 'Arc of Stasis',
-        icon: 'spell_frost_frostshock',
+        icon: 'Frost/Inflicted Ice Shard',
         color: '#4169E1',
         theme: 'Control and Battlefield Manipulation',
 
@@ -263,7 +263,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       {
         id: 'displacement',
         name: 'Arc of Displacement',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         color: '#6495ED',
         theme: 'Mobility and Tactical Repositioning',
 
@@ -293,7 +293,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       {
         id: 'rewinding',
         name: 'Arc of Rewinding',
-        icon: 'spell_holy_borrowedtime',
+        icon: 'Arcane/Rewind Time',
         color: '#87CEEB',
         theme: 'Support and Damage Mitigation',
 
@@ -353,12 +353,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chrono Bolt',
       description: 'A bolt of temporal energy that ages the target on impact, causing them to move through time at an accelerated rate.',
       level: 1,
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Magical Sword',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Magical Sword',
         tags: ['force', 'damage', 'debuff', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -423,12 +423,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Mend',
       description: 'Weave temporal threads to mend wounds, healing an ally.',
       level: 1,
-      icon: 'spell_holy_flashheal',
+      icon: 'Healing/Golden Heart',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_flashheal',
+        icon: 'Healing/Golden Heart',
         tags: ['healing', 'support', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -474,12 +474,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Step',
       description: 'Briefly phase through time, stepping into a moment that was and emerging elsewhere.',
       level: 1,
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         tags: ['teleport', 'movement', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -538,19 +538,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Stasis Field',
       description: 'Create a field of temporal stasis that freezes enemies in time, trapping them in a moment of suspended animation.',
       level: 2,
-      icon: 'spell_frost_frostnova',
+      icon: 'Frost/Frozen AoE',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_frost_frostnova',
+        icon: 'Frost/Frozen AoE',
         tags: ['control', 'stasis', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -583,7 +583,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
           name: 'Temporal Stasis',
           description: 'Freezes targets in time for 1 round, preventing all actions and movement',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -605,12 +605,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Rewind',
       description: 'Rewind time slightly, undoing some of the damage you took. The temporal energy flows backward through your wounds, partially reversing the injuries and healing additional damage. Time itself bends to your will, mending what was broken.',
       level: 2,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'REACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['healing', 'support', 'reaction', 'rewinding'],
         castTime: 1,
         castTimeType: 'REACTION'
@@ -664,19 +664,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chrono Echo',
       description: 'Create temporal echoes of yourself that ripple through time, confusing enemies and providing tactical advantage.',
       level: 2,
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'Arcane/Ebon Blaze',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_arcane_prismaticcloak',
+        icon: 'Arcane/Ebon Blaze',
         tags: ['illusion', 'control', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 20,
         aoeShape: 'circle',
@@ -733,19 +733,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Dilation',
       description: 'Create a field where time flows differently, accelerating allies while slowing enemies in the affected area.',
       level: 3,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['control', 'time', 'area', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -817,19 +817,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Time Crystal',
       description: 'Create a temporal crystal that you can activate by spending 1 AP to either accelerate allies or decelerate enemies in the zone.',
       level: 3,
-      icon: 'inv_misc_gem_crystal_01',
+      icon: 'Utility/Glowing Shard',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'inv_misc_gem_crystal_01',
+        icon: 'Utility/Glowing Shard',
         tags: ['control', 'zone', 'time', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -897,12 +897,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Foresight',
       description: 'Briefly glimpse fragments of future timelines, granting you unparalleled tactical awareness and the ability to act before your enemies.',
       level: 3,
-      icon: 'spell_arcane_mindmastery',
+      icon: 'Psychic/Focused Mind',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_arcane_mindmastery',
+        icon: 'Psychic/Focused Mind',
         tags: ['buff', 'tactical', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -965,19 +965,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Flux: Rewind',
       description: 'Channel temporal flux to rewind time across an area, undoing recent wounds and removing harmful effects from allies.',
       level: 4,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['healing', 'purification', 'aoe', 'flux', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1036,19 +1036,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Paradox',
       description: 'Create a temporal paradox that forces enemies to experience multiple conflicting timelines simultaneously.',
       level: 4,
-      icon: 'spell_arcane_portalshattrath',
+      icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_arcane_portalshattrath',
+        icon: 'Arcane/Portal Archway',
         tags: ['control', 'confusion', 'aoe', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1203,19 +1203,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Vortex',
       description: 'Create a swirling vortex of temporal energy that damages enemies and accelerates allies within its area.',
       level: 4,
-      icon: 'spell_arcane_portaldarkmoon',
+      icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_portaldarkmoon',
+        icon: 'Arcane/Portal Archway',
         tags: ['summon', 'damage', 'healing', 'aoe', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -1234,7 +1234,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       },
 
       resolution: 'NONE',
-      effectTypes: ['summon'],
+      effectTypes: ['summoning'],
 
       summonConfig: {
         creatures: [{
@@ -1321,19 +1321,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Anchor',
       description: 'Create a temporal anchor that slows time around enemies, causing them to age rapidly while speeding up nearby allies.',
       level: 5,
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['control', 'debuff', 'aoe', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1407,12 +1407,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Barrier',
       description: 'Weave a barrier of temporal energy that slows incoming attacks, causing them to age and weaken before reaching the target.',
       level: 5,
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         tags: ['protection', 'shield', 'support', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1473,12 +1473,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Flux: Shield',
       description: 'Channel temporal flux to weave protective temporal threads around an ally, healing their wounds and shielding them from future harm.',
       level: 5,
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         tags: ['healing', 'protection', 'flux', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1544,19 +1544,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Flux: Speed',
       description: 'Channel temporal flux to accelerate time for multiple allies, allowing them to move and act with incredible speed.',
       level: 5,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['buff', 'aoe', 'flux', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1614,19 +1614,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Fracture',
       description: 'Tear fractures in the temporal fabric around enemies, causing them to rapidly age and decay as time accelerates unnaturally around them.',
       level: 6,
-      icon: 'spell_shadow_unstableaffliction',
+      icon: 'Poison/Poison Contagion',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_shadow_unstableaffliction',
+        icon: 'Poison/Poison Contagion',
         tags: ['damage', 'debuff', 'aoe', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -1691,12 +1691,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Echoes',
       description: 'Surround the target with temporal echoes that repeat their actions, creating multiple versions of their attacks and movements.',
       level: 6,
-      icon: 'spell_arcane_echoofdamned',
+      icon: 'Arcane/Desperate Channelling',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_arcane_echoofdamned',
+        icon: 'Arcane/Desperate Channelling',
         tags: ['damage', 'control', 'echoes', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1761,19 +1761,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Loop',
       description: 'Trap enemies in a time loop where they endlessly repeat their previous actions, unable to break free from the cycle.',
       level: 6,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['control', 'time', 'aoe', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1833,19 +1833,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chronal Disruption',
       description: 'Disrupt the flow of time in an area, causing random temporal effects that accelerate some creatures while aging others.',
       level: 7,
-      icon: 'spell_arcane_arcanestorm',
+      icon: 'Arcane/Spiral Vortex',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanestorm',
+        icon: 'Arcane/Spiral Vortex',
         tags: ['damage', 'control', 'aoe', 'time', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -1926,12 +1926,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chronal Reversal',
       description: 'Completely reverse time for a creature, pulling them back through moments to a state before they were harmed.',
       level: 7,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['healing', 'support', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1978,19 +1978,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Echo Chamber',
       description: 'Create a chamber where every action creates damaging temporal echoes that repeat and amplify throughout the area.',
       level: 7,
-      icon: 'spell_arcane_echoofdamned',
+      icon: 'Arcane/Desperate Channelling',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_echoofdamned',
+        icon: 'Arcane/Desperate Channelling',
         tags: ['damage', 'control', 'aoe', 'echoes', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2055,19 +2055,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Flux: Dominion',
       description: 'Channel ultimate temporal flux to take complete dominion over time itself, bending the flow of moments to your will.',
       level: 8,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['control', 'aoe', 'flux', 'ultimate', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2123,12 +2123,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Flux: Resurrection',
       description: 'Channel ultimate temporal flux to pull a fallen ally back from death, rewinding time to restore their life.',
       level: 8,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['resurrection', 'flux', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2153,7 +2153,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       },
 
       resolution: 'DICE',
-      effectTypes: ['resurrection'],
+      effectTypes: ['restoration'],
 
       restorationConfig: {
         resourceType: 'life',
@@ -2177,19 +2177,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Fate Manipulation',
       description: 'Peer into possible futures and manipulate the threads of fate, granting allies critical successes while cursing enemies with failures.',
       level: 8,
-      icon: 'spell_arcane_farsight',
+      icon: 'Arcane/Revealing Steps',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_arcane_farsight',
+        icon: 'Arcane/Revealing Steps',
         tags: ['buff', 'debuff', 'fate', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2266,19 +2266,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Shockwave',
       description: 'Release a devastating wave of temporal energy that freezes and damages all caught within.',
       level: 9,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['damage', 'control', 'aoe', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2321,7 +2321,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
           name: 'Temporal Freeze',
           description: 'Enemies are frozen in time for 2 rounds, preventing all actions and movement (save ends early)',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'save_ends'
           }
         }]
@@ -2343,19 +2343,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Reality Fracture',
       description: 'Tear fractures in the fabric of reality, causing damage and creating unstable temporal anomalies that persist in the area.',
       level: 9,
-      icon: 'spell_arcane_portaldarkmoon',
+      icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_portaldarkmoon',
+        icon: 'Arcane/Portal Archway',
         tags: ['damage', 'control', 'aoe', 'reality', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2416,19 +2416,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Paradox',
       description: 'Create a temporal paradox that forces enemies to relive their actions in an endless loop, preventing them from taking new actions.',
       level: 9,
-      icon: 'spell_arcane_portalshattrath',
+      icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_portalshattrath',
+        icon: 'Arcane/Portal Archway',
         tags: ['control', 'debuff', 'aoe', 'flux', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2464,7 +2464,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
           description: 'Enemies are trapped in a time loop, forced to repeat their last action each turn instead of taking new ones',
           config: {
             loopType: 'action_repetition',
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'save_ends'
           }
         }]
@@ -2507,12 +2507,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Temporal Mastery',
       description: 'Achieve supreme command of temporal forces, freezing and manipulating time around you.',
       level: 10,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['buff', 'control', 'ultimate', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2566,19 +2566,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chronal Restoration',
       description: 'Channel the power of time to restore your allies to their peak condition.',
       level: 10,
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
+        icon: 'Arcane/Rewind Time',
         tags: ['buff', 'healing', 'ultimate', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2633,19 +2633,19 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       name: 'Chronal Vortex',
       description: 'Create a swirling vortex of temporal energy that pulls creatures through different moments in time, aging some while rejuvenating others.',
       level: 10,
-      icon: 'spell_arcane_portalshattrath',
+      icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_portalshattrath',
+        icon: 'Arcane/Portal Archway',
         tags: ['damage', 'control', 'healing', 'ultimate', 'time', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         aoeShape: 'circle',

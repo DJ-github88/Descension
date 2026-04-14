@@ -282,7 +282,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       id: 'shadowbane',
       name: 'Shadowbane - Stealth & Assassination',
       description: 'Masters of darkness and surprise, striking from the shadows to eliminate evil magic users.',
-      icon: 'ability_stealth',
+      icon: 'Utility/Hide',
       color: '#2F2F4F',
       talents: []
     },
@@ -290,7 +290,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       id: 'spellbreaker',
       name: 'Spellbreaker - Anti-Magic Mastery',
       description: 'Specialists in disrupting and destroying magical effects and spellcasters.',
-      icon: 'spell_holy_dispelmagic',
+      icon: 'Arcane/Magical Cross Emblem 2',
       color: '#4F2F2F',
       talents: []
     },
@@ -298,30 +298,47 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       id: 'demonhunter',
       name: 'Demonhunter - Relentless Pursuit',
       description: 'Fanatical hunters who mark and relentlessly pursue evil creatures across any distance.',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       color: '#4F4F2F',
       talents: []
     }
   ],
 
-  // Covenbane Spells by Level - Complete spell list for the class
+  // ═══════════════════════════════════════════════════════════════════
+  // COVENBANE SPELLS BY LEVEL
+  // ═════════════════════════════════════════════════════════════════
   exampleSpells: [
-    // ===== LEVEL 1 SPELLS =====
+
+    // ===== LEVEL 1 SPELLS — Fundamentals (0 charges) =====
+
     {
       id: 'cov_shadow_hunt',
       name: 'Shadow Hunt',
-      description: 'Mark an evil magic user for relentless pursuit. You gain advantage on attacks against the marked target and can track them through walls.',
+      description: 'A spectral wolf\'s eye opens on your palm, then flies unerringly toward your prey and sinks into their flesh like a brand. From this moment, you can feel the marked creature\'s presence — a faint pull in your chest that grows warmer the closer you get. Your weapons hunger for the mark, each strike dealing an additional 1d4 radiant damage, and your instincts sharpen to supernatural precision against the branded target.',
       level: 1,
-      effectTypes: ['utility'],
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      school: 'shadow',
+      icon: 'Piercing/Targeted Strike',
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_hunter_markedfordeath',
+        castTime: '1 bonus action',
+        castTimeType: 'bonus',
+        range: '60 feet',
+        rangeType: 'ranged',
         tags: ['tracking', 'marking', 'utility']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 60,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 10,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -333,36 +350,59 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         type: 'turn_based',
         value: 0
       },
-      utilityConfig: {
-        utilityType: 'information',
-        selectedEffects: [{
-          id: 'mark_target',
-          name: 'Mark Target',
-          description: 'Mark evil magic user for tracking',
-      level: 1,
-          distance: 60,
-          duration: 10,
-          durationUnit: 'minutes'
-        }],
-        power: 'minor'
+      buffConfig: {
+        buffType: 'combatAdvantage',
+        effects: [
+          {
+            id: 'hunter_mark',
+            name: 'Hunter\'s Mark',
+            description: 'Advantage on attack rolls against marked target. Sense direction and distance within 10 miles.',
+            mechanicsText: '',
+            statModifier: { stat: 'attack', magnitude: 'advantage', magnitudeType: 'special' }
+          },
+          {
+            id: 'mark_radiant_bonus',
+            name: 'Mark Weakness',
+            description: '+1d4 radiant damage on weapon attacks against the marked target',
+            mechanicsText: '1d4 radiant'
+          }
+        ],
+        durationType: 'minutes',
+        durationValue: 10,
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
-      tags: ['tracking', 'marking', 'utility']
+      tags: ['tracking', 'marking', 'utility', 'shadowbane']
     },
 
     {
       id: 'cov_hex_strike',
       name: 'Hex Strike',
-      description: 'Imbue your weapon with anti-magic energy. Your next attack deals bonus necrotic damage and generates Hexbreaker charges.',
+      description: 'Your weapon screams as black lightning crawls along the blade, drawn from the latent hex energy that clings to every evil spellcaster like rot on spoiled fruit. The air around your weapon crackles and hums with suppressed malice. Your next strike doesn\'t just cut flesh — it tears through the magical essence itself, dealing an additional 1d6 necrotic damage and devouring a fragment of the target\'s arcane power.',
       level: 1,
-      effectTypes: ['damage', 'utility'],
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      school: 'necrotic',
+      icon: 'Necrotic/Necrotic Skull',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_curse',
+        castTime: '1 bonus action',
+        castTimeType: 'bonus',
+        range: 'self',
+        rangeType: 'self',
         tags: ['damage', 'weapon', 'charge-generation']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -374,26 +414,22 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         type: 'turn_based',
         value: 0
       },
-      damageConfig: {
-        formula: '1d6',
-        elementType: 'necrotic',
-        damageType: 'direct',
-        canCrit: false,
-        critMultiplier: 2,
-        critDiceOnly: false
-      },
-      resolution: 'DICE',
-      utilityConfig: {
-        utilityType: 'enhancement',
-        selectedEffects: [{
-          id: 'weapon_enchantment',
-          name: 'Weapon Enchantment',
-          description: 'Imbue weapon with anti-magic energy',
-      level: 1,
-          duration: 1,
-          durationUnit: 'attacks'
-        }],
-        power: 'minor'
+      buffConfig: {
+        buffType: 'damageIncrease',
+        effects: [
+          {
+            id: 'weapon_hex_imbue',
+            name: 'Hex-Imbued Weapon',
+            description: 'Next melee attack deals +1d6 necrotic damage. Generates 1 Hexbreaker Charge on hit against evil magic users.',
+            mechanicsText: '1d6 necrotic'
+          }
+        ],
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
       tags: ['damage', 'weapon', 'charge-generation']
     },
@@ -401,17 +437,29 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_silver_blade',
       name: 'Silver Blade',
-      description: 'Coat your weapon in blessed silver that bypasses magical defenses and resistances.',
+      description: 'You draw a line of molten silver across your palm with your thumbnail and the metal flows upward, coating your weapon in a thin sheen of holy metal that glows with the soft warmth of a chapel candle. Where other weapons glance off magical wards and enchanted hides, yours bites deep — blessed silver recognizes no mortal enchantment as its master. Against the wicked, the blade burns with quiet fury.',
       level: 1,
-      effectTypes: ['utility'],
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      school: 'radiant',
+      icon: 'Radiant/Radiant Beam',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_righteousfury',
+        castTime: '1 bonus action',
+        castTimeType: 'bonus',
+        range: 'self',
+        rangeType: 'self',
         tags: ['weapon', 'anti-magic', 'resistance-piercing']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -423,36 +471,54 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         type: 'turn_based',
         value: 0
       },
-      utilityConfig: {
-        utilityType: 'enhancement',
-        selectedEffects: [{
-          id: 'silver_coating',
-          name: 'Silver Coating',
-          description: 'Coat weapon in blessed silver',
-          duration: 1,
-          durationUnit: 'minutes',
-          concentration: true
-        }],
-        power: 'minor'
+      buffConfig: {
+        buffType: 'damageIncrease',
+        effects: [
+          {
+            id: 'silver_coating',
+            name: 'Blessed Silver Coating',
+            description: 'Weapon attacks bypass magical resistance and immunity. +1d4 radiant damage against evil creatures.',
+            mechanicsText: '1d4 radiant vs evil'
+          }
+        ],
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
-      tags: ['weapon', 'anti-magic', 'resistance-piercing']
+      tags: ['weapon', 'anti-magic', 'resistance-piercing', 'demonhunter']
     },
 
-    // ===== LEVEL 2 SPELLS =====
+    // ===== LEVEL 2 SPELLS — Basic Anti-Magic (1 charge) =====
+
     {
       id: 'cov_dark_pursuit',
       name: 'Dark Pursuit',
-      description: 'Surge forward with supernatural speed, gaining advantage on your next attack and increased movement.',
+      description: 'The shadows beneath your feet come alive — not as allies, but as hungry things that propel you forward on a wave of darkness. You streak across the battlefield like a dark comet, leaving a trail of dissolving shadow in your wake. Opportunity attacks slide through your afterimage. When you emerge from the dash, your next strike carries the momentum of the void itself.',
       level: 2,
-      effectTypes: ['utility'],
+      spellType: 'ACTION',
+      effectTypes: ['utility', 'buff'],
+      school: 'shadow',
+      icon: 'Utility/Speed Boot',
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_rogue_sprint',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['mobility', 'speed', 'utility']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -466,34 +532,65 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       utilityConfig: {
         utilityType: 'movement',
-        selectedEffects: [{
-          id: 'speed_burst',
-          name: 'Speed Burst',
-          description: 'Supernatural burst of speed',
-      level: 2,
-          duration: 1,
-          durationUnit: 'rounds'
-        }],
+        utilitySubtype: 'speed',
+        selectedEffects: [
+          {
+            id: 'shadow_dash',
+            name: 'Shadow Dash',
+            description: 'Dash 30 feet without provoking opportunity attacks. Ignore difficult terrain until end of turn.',
+            mechanicsText: '30 feet'
+          }
+        ],
         power: 'moderate'
       },
-      tags: ['mobility', 'speed', 'utility']
+      buffConfig: {
+        buffType: 'combatAdvantage',
+        effects: [
+          {
+            id: 'pursuit_advantage',
+            name: 'Relentless Strike',
+            description: 'Advantage on next melee attack this turn',
+            mechanicsText: ''
+          }
+        ],
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        stackingRule: 'replace',
+        maxStacks: 1
+      },
+      tags: ['mobility', 'speed', 'utility', 'shadowbane']
     },
 
     {
       id: 'cov_hex_weakness',
       name: 'Hex of Weakness',
-      description: 'Curse an evil magic user, reducing their magical power and making them vulnerable to your attacks.',
+      description: 'You trace a sigil of unraveling in the air — three jagged lines that pulse with sickly violet light before embedding themselves into the target\'s magical core like burrowing parasites. The hex gnaws at the victim\'s connection to the arcane from within: their spells lose accuracy, their magical defenses crumble, and radiant light burns them twice as fiercely. Against evil magic users, the sigil goes deeper still — every wound threatens to shatter their concentration entirely.',
       level: 2,
+      spellType: 'ACTION',
       effectTypes: ['debuff'],
+      school: 'necrotic',
+      icon: 'Necrotic/Necrotic Decay 1',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_curseofmannoroth',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '30 feet',
+        rangeType: 'ranged',
         tags: ['debuff', 'curse', 'anti-magic']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 30,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -506,43 +603,70 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 0
       },
       debuffConfig: {
-        debuffType: 'statReduction',
-        effects: [{
-          id: 'weakened_magic',
-          name: 'Weakened Magic',
-          description: 'Spell attack rolls reduced by 2 for 1 minute. The target\'s magical power is diminished, making their spells less accurate and easier to resist.',
-          statModifier: {
-            stat: 'spellAttack',
-            magnitude: 2,
-            magnitudeType: 'flat'
+        debuffType: 'statPenalty',
+        effects: [
+          {
+            id: 'weakened_magic',
+            name: 'Weakened Magic',
+            description: 'Spell attack rolls reduced by 2, spell save DC reduced by 1',
+            mechanicsText: '-2 Spell Attack, -1 Spell DC'
+          },
+          {
+            id: 'radiant_vulnerability',
+            name: 'Radiant Vulnerability',
+            description: 'Vulnerable to radiant damage from all sources — radiant damage taken is doubled',
+            mechanicsText: 'Radiant damage doubled'
+          },
+          {
+            id: 'concentration_disruption',
+            name: 'Concentration Disruption',
+            description: 'Evil magic users must Con save when taking damage or lose concentration on maintained spells',
+            mechanicsText: 'Con save on damage or lose concentration'
           }
-        }],
-        durationValue: 1,
+        ],
         durationType: 'minutes',
+        durationValue: 1,
         durationUnit: 'minutes',
         concentrationRequired: true,
-        savingThrowType: 'spirit',
-        saveDC: 13,
-        saveOutcome: 'negates'
+        canBeDispelled: true,
+        dispelDifficulty: 'hard',
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 13,
+          saveOutcome: 'negates'
+        }
       },
-      tags: ['debuff', 'curse', 'anti-magic']
+      tags: ['debuff', 'curse', 'anti-magic', 'spellbreaker']
     },
 
     {
       id: 'cov_silver_bolt',
       name: 'Silver Bolt',
-      description: 'Fire a bolt of blessed silver energy that pierces magical defenses and tracks evil magic users.',
+      description: 'A bolt of hardened light streaks from your outstretched hand, trailing silver sparks like a falling star aimed at the heart of darkness itself. The bolt bends reality to reach its target — curving around cover, slipping past guards, seeking the evil within like a compass needle finding north. Against the truly wicked, the light burns white-hot, searing flesh and spirit alike.',
       level: 2,
+      spellType: 'ACTION',
       effectTypes: ['damage'],
+      school: 'radiant',
+      icon: 'Radiant/Radiant Bolt',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_holybolt',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
         tags: ['damage', 'ranged', 'anti-magic']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 60,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'instant',
+        durationValue: 0,
+        durationUnit: 'instant',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -563,59 +687,92 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         critDiceOnly: false
       },
       resolution: 'DICE',
-      resolution: 'DICE',
-      tags: ['damage', 'ranged', 'anti-magic']
+      tags: ['damage', 'ranged', 'anti-magic', 'demonhunter']
     },
 
-    // ===== LEVEL 3 SPELLS =====
+    // ===== LEVEL 3 SPELLS — Mid-Tier Tools (1-2 charges) =====
+
     {
       id: 'cov_curse_eater',
       name: 'Curse Eater',
-      description: 'Consume and neutralize a curse or magical effect, converting it into Hexbreaker power.',
+      description: 'You plunge your hand into the shimmering magical aura that clings to the afflicted and rip outward, tearing the curse free like a splinter from infected flesh. Dark energy writhes between your fingers before dissolving into harmless wisps. As the curse dies, its remnants flood into you — a rush of stolen vitality that knits your wounds and fills your Hexbreaker Charges with borrowed power. Against stronger enchantments, the target at least feels the grip loosen.',
       level: 3,
-      effectTypes: ['purification'],
+      spellType: 'ACTION',
+      effectTypes: ['purification', 'healing'],
+      school: 'necrotic',
+      icon: 'Necrotic/Devour',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_devouraura',
-        tags: ['dispel', 'anti-magic', 'utility']
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'touch',
+        rangeType: 'touch',
+        tags: ['dispel', 'anti-magic', 'healing']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'touch',
-        rangeDistance: 5
+        rangeDistance: 5,
+        targetRestrictions: ['allies']
+      },
+      durationConfig: {
+        durationType: 'instant',
+        durationValue: 0,
+        durationUnit: 'instant',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 2 },
+        resourceValues: { hexbreakerCharges: 1 },
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'short_rest',
+        value: 1
       },
       purificationConfig: {
-        purificationType: 'dispel',
-        targetType: 'single',
-        power: 'moderate'
+        purificationType: 'remove_curse',
+        targetEffects: ['curse', 'hex', 'magical_affliction'],
+        strength: 'full',
+        checkRequired: false,
+        healAmount: '2d8'
       },
-      tags: ['dispel', 'anti-magic', 'utility']
+      healingConfig: {
+        formula: '2d8',
+        healingType: 'direct',
+        hasHotEffect: false,
+        hasShieldEffect: false
+      },
+      tags: ['dispel', 'anti-magic', 'healing', 'spellbreaker']
     },
 
     {
       id: 'cov_shadow_ambush',
       name: 'Shadow Ambush',
-      description: 'Enter stealth even in combat and prepare a devastating ambush attack.',
+      description: 'The shadows stop being shadows and start being you. Your body dissolves into living darkness, your heartbeat becomes the silence between moments. When you strike from this void, the necrotic energy doesn\'t just wound — it announces your presence like a predator\'s cry, freezing the target with primal terror. For a few precious seconds after the ambush, the enemy knows exactly what is hunting them.',
       level: 3,
-      effectTypes: ['utility'],
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      school: 'shadow',
+      icon: 'Utility/Hide',
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_stealth',
+        castTime: '1 bonus action',
+        castTimeType: 'bonus',
+        range: 'self',
+        rangeType: 'self',
         tags: ['stealth', 'utility', 'shadowbane']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -627,17 +784,23 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         type: 'turn_based',
         value: 0
       },
-      utilityConfig: {
-        utilityType: 'enhancement',
-        selectedEffects: [{
-          id: 'combat_stealth',
-          name: 'Combat Stealth',
-          description: 'Enter stealth even in combat',
-      level: 3,
-          duration: 1,
-          durationUnit: 'minutes'
-        }],
-        power: 'moderate'
+      buffConfig: {
+        buffType: 'statusEffectBuff',
+        effects: [
+          {
+            id: 'shadow_veil',
+            name: 'Shadow Veil',
+            description: 'Invisible to all creatures. Next melee attack deals +2d6 necrotic with advantage. Frightens evil magic users on hit.',
+            mechanicsText: '2d6 necrotic'
+          }
+        ],
+        statusEffects: [{ id: 'invisible', level: 1 }],
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
       tags: ['stealth', 'utility', 'shadowbane']
     },
@@ -645,19 +808,32 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_anti_magic_barrier',
       name: 'Anti-Magic Barrier',
-      description: 'Create a protective barrier that disrupts spells cast against you and your allies.',
+      description: 'You slam your heel into the ground and a dome of fractured light erupts around you — not solid, but present, like heat shimmer made visible. Within this sphere, magic itself becomes uncertain: incantations falter on the tongue, gestures lose their meaning, and spells die stillborn in the caster\'s hands. Your allies stand in the eye of the storm, their saving throws bolstered by the barrier\'s protective resonance. It lasts only moments, but in those moments, you are untouchable.',
       level: 3,
-      effectTypes: ['utility'],
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+      school: 'necrotic',
+      icon: 'Arcane/Magical Cross Emblem 2',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antimagic',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['protection', 'anti-magic', 'spellbreaker']
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
-        aoeParameters: { radius: 10 }
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['allies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -667,84 +843,133 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 2
       },
       utilityConfig: {
-        utilityType: 'enhancement',
-        selectedEffects: [{
-          id: 'spell_barrier',
-          name: 'Spell Barrier',
-          description: 'Protective barrier against spells',
-          duration: 1,
-          durationUnit: 'rounds'
-        }],
+        utilityType: 'environment',
+        selectedEffects: [
+          {
+            id: 'spell_disruption_zone',
+            name: 'Spell Disruption Zone',
+            description: 'Enemy spellcasters in zone must Con save DC 14 or spell fails. Allies gain +2 to saves vs magic.',
+            mechanicsText: '10ft radius, 3 rounds'
+          }
+        ],
         power: 'moderate'
+      },
+      buffConfig: {
+        buffType: 'damageMitigation',
+        effects: [
+          {
+            id: 'magic_resistance_aura',
+            name: 'Magic Resistance Aura',
+            description: '+2 to all saving throws against spells and magical effects while inside the barrier',
+            mechanicsText: '+2 save vs magic'
+          }
+        ],
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
       tags: ['protection', 'anti-magic', 'spellbreaker']
     },
 
-    // ===== LEVEL 4 SPELLS =====
+    // ===== LEVEL 4 SPELLS — Strong Effects (2-3 charges) =====
+
     {
       id: 'cov_spirit_shackle',
       name: 'Spirit Shackle',
-      description: 'Bind an enemy\'s spirit to the ground with dark tendrils, immobilizing them completely.',
+      description: 'You drive your fist through the target\'s shadow and anchor it to the earth with chains of compressed anti-magic. The shadow writhes and screams silently as the bonds take hold — the target\'s feet lock to the ground, their voice dies in their throat as the chains seal their lips against incantation. Every word of power they try to speak dissolves on their tongue. Only the strongest spirits can wrench themselves free.',
       level: 4,
+      spellType: 'ACTION',
       effectTypes: ['control'],
+      school: 'shadow',
+      icon: 'Necrotic/Corruption',
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_blackplague',
-        tags: ['crowd-control', 'root', 'control']
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '30 feet',
+        rangeType: 'ranged',
+        tags: ['crowd-control', 'root', 'silence', 'control']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 30,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 3 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 2 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 1
       },
       controlConfig: {
-        controlType: 'restraint',
+        controlType: 'restrained',
         strength: 'strong',
         duration: 1,
+        durationType: 'minutes',
         durationUnit: 'minutes',
-        saveDC: 15,
-        saveType: 'spirit',
-        savingThrow: true,
-        effects: [{
-          id: 'spirit_bind',
-          name: 'Spirit Bind',
-          description: 'Dark tendrils immobilize the target',
-          config: {
-            restraintType: 'immobilize'
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 15,
+          saveOutcome: 'negates'
+        },
+        effects: [
+          {
+            id: 'spirit_bind',
+            name: 'Spirit Bind',
+            description: 'Restrained and silenced. Speed reduced to 0. Attacks against target have advantage. Spirit save at end of each turn to break free.',
+            mechanicsText: 'Speed 0, no verbal spells'
           }
-        }]
+        ],
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-      tags: ['crowd-control', 'root', 'control']
+      tags: ['crowd-control', 'root', 'silence', 'control', 'shadowbane']
     },
 
     {
       id: 'cov_hexbreaker_precision',
       name: 'Hexbreaker Precision',
-      description: 'Focus your Hexbreaker charges into unparalleled accuracy and power against evil magic users.',
+      description: 'Your eyes ignite with cold silver fire as you perceive the invisible architecture of magic itself — the shimmering threads of enchantment, the dark knots of cursework, the telltale glow of a spell about to be cast. In this heightened state, you see every gap in every defense, every weakness in every ward. Your blade knows exactly where to fall, and against those who wield evil magic, your critical strikes come with terrifying regularity.',
       level: 4,
+      spellType: 'ACTION',
       effectTypes: ['buff'],
+      school: 'necrotic',
+      icon: 'Piercing/Focused Arrow Shot',
       typeConfig: {
         school: 'necrotic',
-        icon: 'ability_hunter_aimedshot',
+        castTime: '1 bonus action',
+        castTimeType: 'bonus',
+        range: 'self',
+        rangeType: 'self',
         tags: ['buff', 'accuracy', 'anti-magic']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
+      },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
         resourceValues: { hexbreakerCharges: 2 },
@@ -753,128 +978,205 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 1
       },
       buffConfig: {
         buffType: 'statEnhancement',
-        effects: [{
-          id: 'precision_focus',
-          name: 'Precision Focus',
-          description: 'Enhanced accuracy against evil magic users',
-          statModifier: {
-            stat: 'attack',
-            magnitude: 2,
-            magnitudeType: 'flat'
+        effects: [
+          {
+            id: 'precision_focus',
+            name: 'Hexbreaker Precision',
+            description: '+3 to attack rolls, +1d6 radiant damage on weapon attacks. Expanded crit range vs evil magic users (19-20).',
+            mechanicsText: '+3 Attack Rolls',
+            statModifier: [
+              { stat: 'attack', magnitude: 3, magnitudeType: 'flat' }
+            ]
+          },
+          {
+            id: 'precision_damage',
+            name: 'Radiant Strikes',
+            description: '+1d6 radiant damage on all weapon attacks',
+            mechanicsText: '1d6 radiant'
+          },
+          {
+            id: 'precision_crit',
+            name: 'Weakness Sight',
+            description: 'Critical hit range expanded by 1 against evil magic users',
+            mechanicsText: ''
           }
-        }],
-        durationValue: 1,
+        ],
         durationType: 'minutes',
+        durationValue: 1,
         durationUnit: 'minutes',
         concentrationRequired: true,
-        canBeDispelled: false
+        canBeDispelled: false,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
-      tags: ['buff', 'accuracy', 'anti-magic']
+      tags: ['buff', 'accuracy', 'anti-magic', 'demonhunter']
     },
 
     {
       id: 'cov_silver_storm',
       name: 'Silver Storm',
-      description: 'Unleash a barrage of blessed silver projectiles that seek out evil magic users.',
+      description: 'You hurl your arm skyward and blessed silver shards erupt from thin air, spinning into a horizontal tornado of holy metal that fills the battlefield with the sound of a thousand crystal bells. The shards seek the wicked with grim precision, embedding themselves in flesh and marking the survivors with a silver glow that calls your blade homeward. The air smells of ozone and old churches.',
       level: 4,
-      effectTypes: ['damage'],
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      school: 'radiant',
+      icon: 'Radiant/Bright Explosion',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_holynova',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
         tags: ['damage', 'aoe', 'radiant']
       },
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self_centered',
+        rangeType: 'ranged',
+        rangeDistance: 60,
         aoeShape: 'sphere',
-        aoeParameters: { radius: 20 }
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
         resourceValues: { hexbreakerCharges: 3 },
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 1
       },
       damageConfig: {
-        formula: '3d6',
+        formula: '4d6',
         elementType: 'radiant',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        canCrit: false
       },
-      resolution: 'DICE',
+      resolution: 'SAVING_THROW',
       savingThrow: {
         enabled: true,
         savingThrowType: 'agility',
         difficultyClass: 15,
         saveOutcome: 'halves'
       },
-      resolution: 'SAVING_THROW',
-      tags: ['damage', 'aoe', 'radiant']
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [
+          {
+            id: 'storm_mark',
+            name: 'Silver Mark',
+            description: 'Attacks against this creature have advantage until end of caster\'s next turn',
+            mechanicsText: ''
+          }
+        ],
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        canBeDispelled: true
+      },
+      tags: ['damage', 'aoe', 'radiant', 'demonhunter']
     },
 
-    // ===== LEVEL 5 SPELLS =====
+    // ===== LEVEL 5 SPELLS — Powerful (3-4 charges) =====
+
     {
       id: 'cov_hexbreaker_execution',
       name: 'Hexbreaker Execution',
-      description: 'Attempt to instantly execute a wounded evil magic user, ending their threat permanently.',
+      description: 'Every Hexbreaker Charge you\'ve gathered converges into a single point on your blade — a pinprick of absolute light that hurts to look at. You swing not at the body, but at the thread of magic that keeps the target alive. If the blow lands, radiant and necrotic energy detonate simultaneously in a blinding flash. The weak are simply... erased, their connection to magic severed so completely that their body doesn\'t understand how to keep existing.',
       level: 5,
-      effectTypes: ['control'],
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      school: 'shadow',
+      icon: 'Slashing/Execution',
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_warrior_execute',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'melee',
+        rangeType: 'melee',
         tags: ['execute', 'control', 'melee']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
+        rangeDistance: 5,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'instant',
+        durationValue: 0,
+        durationUnit: 'instant',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 4 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 3 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 2
       },
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'radiant',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      resolution: 'DICE',
       controlConfig: {
-        controlType: 'incapacitation',
+        controlType: 'incapacitated',
         strength: 'severe',
         duration: 0,
+        durationType: 'instant',
         durationUnit: 'instant',
-        saveType: 'constitution',
-        saveDC: 16,
-        savingThrow: true,
-        effects: [{
-          id: 'instant_death',
-          name: 'Instant Death',
-          description: 'Attempt to instantly kill wounded evil magic users'
-        }]
+        savingThrow: {
+          ability: 'constitution',
+          difficultyClass: 16,
+          saveOutcome: 'negates'
+        },
+        effects: [
+          {
+            id: 'divine_execution',
+            name: 'Divine Execution',
+            description: 'Instantly kill evil magic users at 25 HP or lower. On kill: gain 2 Hexbreaker Charges.',
+            mechanicsText: 'DC 16 Con save or die'
+          }
+        ],
+        canBeDispelled: false
       },
-      tags: ['execute', 'control', 'melee']
+      tags: ['execute', 'control', 'melee', 'shadowbane']
     },
 
     {
       id: 'cov_anti_magic_field',
       name: 'Anti-Magic Field',
-      description: 'Create a zone where magic fails and evil creatures are weakened.',
+      description: 'You speak a single word that was old when the gods were young, and reality listens. A sphere of absolute silence descends around you — not quiet, but absence, as though magic itself has been forbidden to exist. Within the field, spells unravel mid-incantation, summoned creatures flicker and vanish like dying candles, and enchanted weapons become ordinary steel. The air tastes of nothing. You stand at the still center of a world without wonder.',
       level: 5,
+      spellType: 'ACTION',
       effectTypes: ['utility'],
+      school: 'necrotic',
+      icon: 'Necrotic/Protective Aura',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antimagic',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['aoe', 'anti-magic', 'suppression', 'spellbreaker']
       },
       targetingConfig: {
@@ -883,27 +1185,32 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         aoeShape: 'sphere',
         aoeParameters: { radius: 15 }
       },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
+      },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
         resourceValues: { hexbreakerCharges: 4 },
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       utilityConfig: {
         utilityType: 'environment',
-        selectedEffects: [{
-          id: 'anti_magic_zone',
-          name: 'Anti-Magic Zone',
-          description: 'Zone where magic fails and evil creatures are weakened',
-      level: 5,
-          duration: 1,
-          durationUnit: 'minutes',
-          concentration: true
-        }],
+        selectedEffects: [
+          {
+            id: 'anti_magic_zone',
+            name: 'Anti-Magic Zone',
+            description: '15ft sphere. No spells cast, summoned creatures vanish, magic items suppressed, concentration ends on entry. Moves with caster. Caster unaffected.',
+            mechanicsText: '15ft radius, 1 minute, concentration'
+          }
+        ],
         power: 'major'
       },
       tags: ['aoe', 'anti-magic', 'suppression', 'spellbreaker']
@@ -912,152 +1219,235 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hunters_net',
       name: 'Hunter\'s Net',
-      description: 'Cast a net of silver chains that restrains multiple evil creatures and prevents spellcasting.',
-      effectTypes: ['control'],
+      description: 'A hurl a net of interlocking silver chains that explodes outward in mid-flight, expanding into a glittering cage of holy metal. The chains don\'t just restrain — they burn, each link radiating blessed heat that sears the flesh of the wicked. Those caught within find their voices stolen and their feet bound, able only to thrash against chains that tighten with every struggle. The chains hum with a deep, resonant tone like a cathedral organ.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['control', 'damage'],
+      school: 'radiant',
+      icon: 'Necrotic/Crossed Bones',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_righteousfury',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '30 feet',
+        rangeType: 'ranged',
         tags: ['aoe', 'crowd-control', 'anti-magic', 'demonhunter']
       },
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self_centered',
+        rangeType: 'ranged',
+        rangeDistance: 30,
         aoeShape: 'sphere',
-        aoeParameters: { radius: 20 }
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 4 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 3 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 2
+      },
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'radiant',
+        damageType: 'area',
+        canCrit: false
+      },
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'strength',
+        difficultyClass: 16,
+        saveOutcome: 'negates'
       },
       controlConfig: {
-        controlType: 'restraint',
+        controlType: 'restrained',
         strength: 'strong',
         duration: 1,
+        durationType: 'minutes',
         durationUnit: 'minutes',
-        saveType: 'strength',
-        saveDC: 16,
-        savingThrow: true,
-        effects: [{
-          id: 'silver_net',
-          name: 'Silver Net',
-          description: 'Silver chains restrain evil creatures and prevent spellcasting'
-        }]
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 16,
+          saveOutcome: 'negates'
+        },
+        effects: [
+          {
+            id: 'silver_net',
+            name: 'Silver Chains',
+            description: 'Restrained, silenced, speed reduced to 5ft. Takes 2d6 radiant damage at start of each turn. Str save at end of each turn to break free.',
+            mechanicsText: '2d6 radiant/turn'
+          }
+        ],
+        concentrationRequired: true,
+        canBeDispelled: true
       },
       tags: ['aoe', 'crowd-control', 'anti-magic', 'demonhunter']
     },
 
-    // ===== LEVEL 6 SPELLS =====
+    // ===== LEVEL 6 SPELLS — Devastating (4-5 charges) =====
+
     {
       id: 'cov_hexbreaker_fury',
       name: 'Hexbreaker Fury',
-      description: 'Unleash all accumulated Hexbreaker charges in a cataclysmic burst of anti-magic energy.',
+      description: 'You release every charge you\'ve gathered in a single catastrophic instant. Twin explosions of shadow and light spiral outward from your body — necrotic darkness that devours magical defenses, and radiant fury that sears the soul. The shockwave staggers even the strongest mages, leaving them dazed and reeling as the backlash of anti-magic energy overwhelms their senses. When the light fades, only the silence remains.',
       level: 6,
+      spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
+      school: 'necrotic',
+      icon: 'Poison/Poison Plague',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_plaguecloud',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['aoe', 'damage', 'stun', 'ultimate']
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
-        aoeParameters: { radius: 25 }
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 5 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       damageConfig: {
-        formula: '4d6',
+        formula: '6d6',
         elementType: 'necrotic',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
-      },
-      resolution: 'DICE',
-      controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'severe',
-        duration: 1,
-        durationUnit: 'rounds',
-        saveType: 'constitution',
-        saveDC: 17,
-        savingThrow: true,
-        effects: [{
-          id: 'anti_magic_burst',
-          name: 'Anti-Magic Burst',
-          description: 'Stuns evil creatures with cataclysmic anti-magic energy'
-        }]
+        canCrit: false
       },
       resolution: 'SAVING_THROW',
-      tags: ['aoe', 'damage', 'stun', 'ultimate']
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'constitution',
+        difficultyClass: 17,
+        saveOutcome: 'halves'
+      },
+      controlConfig: {
+        controlType: 'stunned',
+        strength: 'severe',
+        duration: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        savingThrow: {
+          ability: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        },
+        effects: [
+          {
+            id: 'anti_magic_burst',
+            name: 'Anti-Magic Burst',
+            description: 'Stunned for 1 round. Takes 6d6 necrotic + 6d6 radiant damage (half on successful save).',
+            mechanicsText: '6d6 necrotic + 6d6 radiant'
+          }
+        ],
+        canBeDispelled: true
+      },
+      tags: ['aoe', 'damage', 'stun', 'ultimate', 'spellbreaker']
     },
 
     {
       id: 'cov_shadow_eruption',
       name: 'Shadow Eruption',
-      description: 'Cause shadows to erupt from the ground, damaging and disorienting evil magic users. Enemies within 15 feet take damage and must save or be blinded for 2 rounds.',
+      description: 'You slam both fists into the earth and the ground answers — shadows erupt upward like geysers of liquid night, reaching for every enemy within reach. The darkness clings to eyes and skin, blinding and disorienting as shadow tendrils pull at the victims\' feet. Those caught in the eruption stumble in random directions, their senses overwhelmed by a world that has suddenly gone utterly, impossibly dark.',
       level: 6,
+      spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
+      school: 'shadow',
+      icon: 'Void/Consumed by Void',
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_shadesofdarkness',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['aoe', 'damage', 'debuff', 'vision', 'shadowbane']
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: { radius: 15 }
+        aoeShape: 'cone',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 2,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 5 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 4 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 2
       },
       damageConfig: {
-        formula: '4d8',
+        formula: '5d8',
         elementType: 'necrotic',
         damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        canCrit: false
       },
-      resolution: 'SAVE',
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'agility',
+        difficultyClass: 17,
+        saveOutcome: 'halves'
+      },
       debuffConfig: {
         debuffType: 'statusEffect',
-        effects: [{
-          id: 'shadow_blindness',
-          name: 'Shadow Blindness',
-          description: 'Blinded for 2 rounds - cannot see, automatically fails sight-based checks, disadvantage on attack rolls',
-          statusType: 'blinded',
-          level: 'moderate'
-        }],
-        durationValue: 2,
+        effects: [
+          {
+            id: 'shadow_blindness',
+            name: 'Shadow Blindness',
+            description: 'Blinded for 2 rounds. Cannot see, automatically fails sight-based checks, disadvantage on attack rolls. Moves in a random direction at start of each turn.',
+            mechanicsText: '',
+            statusType: 'blinded',
+            level: 'moderate'
+          }
+        ],
         durationType: 'rounds',
+        durationValue: 2,
         durationUnit: 'rounds',
-        saveType: 'dexterity',
-        saveDC: 17,
-        saveOutcome: 'negates'
+        canBeDispelled: true,
+        savingThrow: {
+          ability: 'agility',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        }
       },
       tags: ['aoe', 'damage', 'debuff', 'vision', 'shadowbane']
     },
@@ -1065,69 +1455,122 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_spell_nullification',
       name: 'Spell Nullification',
-      description: 'Permanently prevent a spellcaster from casting a specific spell they know.',
-      effectTypes: ['control'],
+      description: 'You reach across the magical spectrum and find the spell — feel its shape in the target\'s mind like a key in a lock. With a twist of your will, you snap it shut. The sealed spell becomes a locked door in the caster\'s thoughts, a knot of unreachable knowledge that they can feel but never touch. The severance sends a spike of psychic agony through any evil magic user — the sensation of a limb they didn\'t know they had being amputated.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['control', 'damage'],
+      school: 'necrotic',
+      icon: 'Radiant/Golden Ring',
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_sealofkings',
-        tags: ['reaction', 'anti-magic', 'permanent', 'spellbreaker']
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
+        tags: ['reaction', 'anti-magic', 'seal', 'spellbreaker']
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 60,
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'hours',
+        durationValue: 1,
+        durationUnit: 'hours',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 5 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 4 },
+        actionPoints: 2,
         components: ['verbal']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
+      },
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'psychic',
+        damageType: 'direct',
+        canCrit: false
+      },
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'spirit',
+        difficultyClass: 17,
+        saveOutcome: 'negates'
       },
       controlConfig: {
-        controlType: 'restriction',
+        controlType: 'silenced',
         strength: 'severe',
-        duration: 24,
+        duration: 1,
+        durationType: 'hours',
         durationUnit: 'hours',
-        effects: [{
-          id: 'spell_seal',
-          name: 'Spell Seal',
-          description: 'Permanently prevents casting of a specific spell'
-        }]
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        },
+        effects: [
+          {
+            id: 'spell_seal',
+            name: 'Spell Seal',
+            description: 'One known spell becomes completely inaccessible for 1 hour. The sealed spell cannot be cast, prepared, or recalled. 3d8 psychic damage to evil magic users.',
+            mechanicsText: 'DC 17 Spirit save'
+          }
+        ],
+        canBeDispelled: true,
+        dispelDifficulty: 'very_hard'
       },
-      tags: ['reaction', 'anti-magic', 'permanent', 'spellbreaker']
+      tags: ['anti-magic', 'seal', 'spellbreaker']
     },
 
-    // ===== LEVEL 7 SPELLS =====
+    // ===== LEVEL 7 SPELLS — Near-Ultimate (5-6 charges) =====
+
     {
       id: 'cov_hexbreaker_storm',
       name: 'Hexbreaker Storm',
-      description: 'Summon a raging storm of anti-magic energy that tears through evil magic users. The storm creates a zone of pure anti-magic that disrupts spellcasting and weakens those who rely on magic. The energy burns with radiant fury, consuming magical power.',
+      description: 'The sky tears open and a storm descends — not of rain or wind, but of anti-magic fury that screams across the battlefield with the sound of shattering glass. Silver lightning arcs between enemies as the storm strips mana from the air itself. Those caught within find their most powerful spells reduced to parlor tricks, their magical reserves draining away like water through cracked stone.',
       level: 7,
+      spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
+      school: 'radiant',
+      icon: 'Void/Black Hole',
       typeConfig: {
-        school: 'necrotic',
-        icon: 'spell_shadow_shadowbolt',
+        school: 'radiant',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
         tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
       },
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self_centered',
+        rangeType: 'ranged',
+        rangeDistance: 60,
         aoeShape: 'sphere',
-        aoeParameters: { radius: 30 }
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'minutes',
+        durationValue: 1,
+        durationUnit: 'minutes',
+        requiresConcentration: true
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 5 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       damageConfig: {
         formula: '3d8',
@@ -1136,390 +1579,69 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '3d8',
-          duration: 1,
+          duration: 3,
           tickFrequency: 'round',
           isProgressiveDot: false
         },
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
+        canCrit: false
       },
-      resolution: 'NONE',
+      resolution: 'DICE',
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'anti_magic_weakening',
-          name: 'Anti-Magic Weakening',
-          description: 'Spells have disadvantage and mana cannot be regained for 1 minute (requires concentration) - damage output and spell effectiveness reduced',
-          statusType: 'weakened',
-          level: 'major'
-        }],
-        durationValue: 1,
+        debuffType: 'abilityDisable',
+        effects: [
+          {
+            id: 'anti_magic_weakening',
+            name: 'Anti-Magic Weakening',
+            description: 'Spellcasting at disadvantage. Cannot regain mana or spell slots. 3d8 radiant damage per round.',
+            mechanicsText: '3d8 radiant/round'
+          }
+        ],
         durationType: 'minutes',
+        durationValue: 1,
         durationUnit: 'minutes',
-        concentrationRequired: true
+        concentrationRequired: true,
+        canBeDispelled: true,
+        dispelDifficulty: 'very_hard'
       },
-      tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+      tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration', 'spellbreaker']
     },
 
     {
       id: 'cov_apex_predator',
       name: 'Apex Predator',
-      description: 'Transform into a perfect hunter for 10 minutes, becoming invisible to evil creatures and gaining supernatural hunting abilities. Detect evil within 60ft, see in magical darkness, and gain +15ft movement speed.',
+      description: 'The transformation is not gentle. Your bones crack and lengthen, your skin darkens to the color of a starless sky, and your eyes become twin pools of liquid silver. You are no longer hunting — you ARE the hunt. Every shadow is a doorway, every patch of darkness a hiding place. Evil creatures look right through you as though you don\'t exist, but they feel you watching. They feel the weight of your gaze like a hand on their shoulder.',
       level: 7,
+      spellType: 'ACTION',
       effectTypes: ['transformation'],
+      school: 'shadow',
+      icon: 'Void/Shadowy Potion',
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_hunter_beastmastery',
-        tags: ['transformation', 'stealth', 'buff', 'shadowbane']
-      },
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      transformationConfig: {
-        transformationType: 'physical',
-        targetType: 'self',
-        duration: 10,
-        durationUnit: 'minutes',
-        power: 'major',
-        newForm: 'Apex Predator',
-        description: 'Become a perfect supernatural hunter for 10 minutes.',
-        grantedAbilities: [
-          { id: 'invisibility_evil', name: 'Invisible to Evil', description: 'Evil creatures cannot perceive you' },
-          { id: 'supernatural_senses', name: 'Supernatural Senses', description: 'Detect evil within 60ft, see in magical darkness' },
-          { id: 'enhanced_speed', name: 'Enhanced Speed', description: '+15ft movement speed' }
-        ]
-      },
-      tags: ['transformation', 'stealth', 'buff', 'shadowbane']
-    },
-
-    {
-      id: 'cov_final_hour',
-      name: 'Final Hour',
-      description: 'Enter a state of ultimate focus for 1 minute where every attack triggers Witch Hunter\'s Precision. Your senses sharpen, your movements become fluid, and your strikes find their mark with unerring precision against demonic foes.',
-      effectTypes: ['buff'],
-      typeConfig: {
-        school: 'radiant',
-        icon: 'ability_hunter_snipershot',
-        tags: ['transformation', 'damage', 'mobility', 'demonhunter']
-      },
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [
-          {
-            id: 'ultimate_focus_attack',
-            name: 'Perfect Precision',
-            description: 'Gain +4 to attack rolls for 1 minute. Your focus is so intense that every strike is perfectly aimed, making it nearly impossible to miss your target.',
-            statModifier: {
-              stat: 'attack',
-              magnitude: 4,
-              magnitudeType: 'flat'
-            }
-          },
-          {
-            id: 'ultimate_focus_damage',
-            name: 'Devastating Strikes',
-            description: 'Your attacks strike with overwhelming force, tearing through demonic defenses and leaving devastating wounds. Every strike carries the weight of your ultimate focus, making each blow more devastating than the last.',
-            statModifier: {
-              stat: 'damage',
-              magnitude: '2d6',
-              magnitudeType: 'flat'
-            }
-          },
-          {
-            id: 'ultimate_focus_speed',
-            name: 'Flowing Movement',
-            description: 'Your movements become fluid and effortless, allowing you to reposition with deadly efficiency. You flow through combat like a shadow, your enhanced speed making you nearly untouchable.',
-            statModifier: {
-              stat: 'speed',
-              magnitude: 15,
-              magnitudeType: 'flat'
-            }
-          },
-          {
-            id: 'ultimate_focus_crit',
-            name: 'Critical Mastery',
-            description: 'Your enhanced focus allows you to find and exploit weak points with devastating precision. Your critical strikes become more frequent as you learn to read your enemies\' defenses and strike where they are most vulnerable.',
-            statModifier: {
-              stat: 'crit_range',
-              magnitude: 1,
-              magnitudeType: 'flat'
-            }
-          }
-        ],
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-      tags: ['transformation', 'damage', 'mobility', 'demonhunter']
-    },
-
-    // ===== LEVEL 8 SPELLS =====
-    {
-      id: 'cov_judgment_day',
-      name: 'Judgment Day',
-      description: 'Call down divine judgment on all evil magic users within range, dealing massive radiant damage.',
-      level: 8,
-      effectTypes: ['damage', 'healing'],
-      typeConfig: {
-        school: 'radiant',
-        icon: 'spell_holy_divineintervention',
-        tags: ['aoe', 'damage', 'healing', 'radiant']
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: { radius: 40 }
-      },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      damageConfig: {
-        formula: '6d8',
-        elementType: 'radiant',
-        damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
-      },
-      resolution: 'DICE',
-      healingConfig: {
-        formula: '6d8',
-        healingType: 'direct',
-        hasHotEffect: false,
-        hasShieldEffect: false
-      },
-      savingThrow: {
-        enabled: true,
-        savingThrowType: 'spirit',
-        difficultyClass: 18,
-        saveOutcome: 'halves'
-      },
-      resolution: 'SAVING_THROW',
-      tags: ['aoe', 'damage', 'healing', 'radiant']
-    },
-
-    {
-      id: 'cov_shadow_ascendant',
-      name: 'Shadow Ascendant',
-      description: 'Ascend into shadow form, becoming an entity of pure anti-magic power.',
-      level: 8,
-      effectTypes: ['transformation'],
-      typeConfig: {
-        school: 'shadow',
-        icon: 'spell_shadow_shadesofdarkness',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['transformation', 'mobility', 'damage', 'shadowbane']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      transformationConfig: {
-        transformationType: 'shadow',
-        targetType: 'self',
-        duration: 1,
-        durationUnit: 'minutes',
-        power: 'major',
-        newForm: 'Shadow Ascendant',
-        description: 'Become an entity of pure shadow and anti-magic.',
-        grantedAbilities: [
-          { id: 'shadow_entity', name: 'Shadow Entity', description: 'Physical damage reduced by 50%' },
-          { id: 'shadow_teleport', name: 'Shadow Step', description: 'Teleport 30ft using action points' },
-          { id: 'wall_phasing', name: 'Wall Phasing', description: 'Pass through non-magical barriers' }
-        ]
-      },
-      tags: ['transformation', 'mobility', 'damage', 'shadowbane']
-    },
-
-    {
-      id: 'cov_anti_magic_storm',
-      name: 'Anti-Magic Storm',
-      description: 'Create a massive storm that completely nullifies magic in a wide area.',
-      level: 8,
-      effectTypes: ['damage', 'utility'],
-      typeConfig: {
-        school: 'necrotic',
-        tags: ['aoe', 'anti-magic', 'suppression', 'concentration', 'spellbreaker']
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: { radius: 40 }
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 5,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
         resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      damageConfig: {
-        formula: '4d10',
-        elementType: 'force',
-        damageType: 'direct',
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
-      },
-      resolution: 'DICE',
-      utilityConfig: {
-        utilityType: 'environment',
-        selectedEffects: [{
-          id: 'total_magic_nullification',
-          name: 'Total Magic Nullification',
-          description: 'All magic fails, effects are dispelled, mana cannot be used',
-          duration: 1,
-          durationUnit: 'minutes',
-          concentration: true
-        }],
-        power: 'major'
-      },
-      resolution: 'AUTOMATIC',
-      tags: ['aoe', 'anti-magic', 'suppression', 'concentration', 'spellbreaker']
-    },
-
-    // ===== LEVEL 9 SPELLS =====
-    {
-      id: 'cov_hexbreaker_apocalypse',
-      name: 'Hexbreaker Apocalypse',
-      description: 'Unleash apocalyptic levels of anti-magic energy that reshape reality itself.',
-      level: 9,
-      effectTypes: ['damage', 'debuff'],
-      typeConfig: {
-        school: 'necrotic',
-        tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: { radius: 50 }
-      },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      damageConfig: {
-        formula: '8d8',
-        elementType: 'necrotic',
-        damageType: 'area',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '4d8',
-          duration: 1,
-          tickFrequency: 'round',
-          isProgressiveDot: false
-        },
-        canCrit: true,
-        critMultiplier: 2,
-        critDiceOnly: false
-      },
-      resolution: 'DICE',
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'apocalyptic_weakening',
-          name: 'Apocalyptic Weakening',
-          description: 'Evil creatures cannot cast spells, teleport, or regain mana - damage output and abilities severely reduced',
-          statusType: 'weakened',
-          level: 'extreme'
-        }],
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
-        saveType: 'constitution',
-        saveDC: 19,
-        saveOutcome: 'negates'
-      },
-      savingThrow: {
-        enabled: true,
-        savingThrowType: 'constitution',
-        difficultyClass: 19,
-        saveOutcome: 'halves'
-      },
-      resolution: 'SAVING_THROW',
-      tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
-    },
-
-    {
-      id: 'cov_void_hunter',
-      name: 'Void Hunter',
-      description: 'Step into the void between worlds, becoming a perfect hunter that can strike from anywhere.',
-      level: 9,
-      effectTypes: ['transformation'],
-      typeConfig: {
-        school: 'shadow',
-        icon: 'spell_shadow_nethercloak',
-        tags: ['transformation', 'mobility', 'damage', 'shadowbane']
-      },
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'spectral',
@@ -1528,40 +1650,433 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         durationUnit: 'rounds',
         power: 'major',
         newForm: 'Void Hunter',
-        description: 'Exist partially in the void, striking from impossible angles.',
+        description: 'Exist partially in the void, striking from impossible angles for 5 rounds.',
         grantedAbilities: [
-          { id: 'void_existence', name: 'Void Existence', description: 'Immune to non-magical damage' },
-          { id: 'teleport_strike', name: 'Teleport Strike', description: 'Teleport to any visible target as part of an attack' },
-          { id: 'ignore_defenses', name: 'Ignore Defenses', description: 'Attacks ignore armor and magical shields' }
+          { id: 'void_existence', name: 'Void Existence', description: 'Immune to all non-magical damage' },
+          { id: 'teleport_strike', name: 'Teleport Strike', description: 'Teleport to any visible creature as part of a melee attack (no action cost)' },
+          { id: 'ignore_defenses', name: 'Ignore Defenses', description: 'Attacks ignore AC bonuses from physical armor and magical shields' }
         ]
       },
       tags: ['transformation', 'mobility', 'damage', 'shadowbane']
     },
 
     {
-      id: 'cov_divine_executioner',
-      name: 'Divine Executioner',
-      description: 'Become an instrument of divine justice, executing evil with righteous fury.',
-      level: 9,
-      effectTypes: ['transformation'],
+      id: 'cov_final_hour',
+      name: 'Final Hour',
+      description: 'When death comes for you, it finds you waiting with a blade in your hand and fire in your eyes. Your wounds knit shut as righteous fury floods your veins — every injury you\'ve suffered transforms into fuel for one last, glorious crusade. Your weapon blazes with holy light that burns the very air, and every enemy within reach feels the weight of a dying hunter\'s final prayer: that none of them leave this place alive.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'damage'],
+      school: 'radiant',
+      icon: 'Radiant/Divine Beam',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_righteousfury',
-        tags: ['transformation', 'damage', 'mobility', 'demonhunter']
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['buff', 'damage', 'last-stand', 'demonhunter']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      buffConfig: {
+        buffType: 'statusEffectBuff',
+        effects: [
+          {
+            id: 'dying_fury',
+            name: 'Dying Fury',
+            description: 'Regain 50% of max HP. Attacks deal +3d8 radiant damage. Immune to fear and charm. Cannot be reduced below 1 HP by damage.',
+            mechanicsText: '+3d8 radiant'
+          }
+        ],
+        statusEffects: [{ id: 'fear_immune', level: 1 }, { id: 'charm_immune', level: 1 }],
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        stackingRule: 'replace',
+        maxStacks: 1
+      },
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'radiant',
+        damageType: 'area',
+        canCrit: false
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'damage', 'last-stand', 'demonhunter']
+    },
+
+    // ===== LEVEL 8 SPELLS — Ultimate-Tier (6 charges) =====
+
+    {
+      id: 'cov_judgment_day',
+      name: 'Judgment Day',
+      description: 'You raise your weapon to the sky and divine light pours down like molten gold, pooling on the ground before erupting upward in pillars of righteous fire. The light doesn\'t discriminate — it finds every creature with evil in its heart and burns them from the inside out. The screams are brief but terrible. When the pillars fade, the ground is scorched clean and the air smells of lightning and burnt offering. Evil remembers this day.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      school: 'radiant',
+      icon: 'Radiant/Divine Blessing',
+      typeConfig: {
+        school: 'radiant',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
+        tags: ['aoe', 'damage', 'judgment', 'demonhunter']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'instant',
+        durationValue: 0,
+        durationUnit: 'instant',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'radiant',
+        damageType: 'area',
+        canCrit: false,
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['holy_ignition', 'fear_aura']
+        }
+      },
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'charisma',
+        difficultyClass: 19,
+        saveOutcome: 'halves'
+      },
+      tags: ['aoe', 'damage', 'judgment', 'demonhunter']
+    },
+
+    {
+      id: 'cov_shadow_ascendant',
+      name: 'Shadow Ascendant',
+      description: 'You step into your own shadow and come out something else. The darkness doesn\'t just cover you — it becomes you, a living cloak of liquid night that moves with predatory intelligence. Your attacks now come from every direction at once, shadows striking before your blade even moves. Enemies see you flicker between positions like a film skipping frames, never quite sure where you are until the cold steel is already between their ribs.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+      school: 'shadow',
+      icon: 'Void/Consumed by Void',
+      typeConfig: {
+        school: 'shadow',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['transformation', 'stealth', 'damage', 'shadowbane']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 4,
+        durationUnit: 'rounds',
+        requiresConcentration: false
+      },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
         resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
+      },
+      transformationConfig: {
+        transformationType: 'shadow',
+        targetType: 'self',
+        duration: 4,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Shadow Ascendant',
+        description: 'Ascend to pure shadow form for 4 rounds.',
+        grantedAbilities: [
+          { id: 'shadow_reach', name: 'Shadow Reach', description: 'Melee attack range extends to 30ft' },
+          { id: 'shadow_echo', name: 'Shadow Echo', description: 'After each attack, make a second attack dealing 2d6 necrotic damage against a different target within 15ft', damageFormula: '2d6' },
+          { id: 'shadow_step', name: 'Shadow Step', description: 'Swap positions with any creature within 60ft as a bonus action, becoming invisible until start of next turn' }
+        ]
+      },
+      tags: ['transformation', 'stealth', 'damage', 'shadowbane']
+    },
+
+    {
+      id: 'cov_anti_magic_storm',
+      name: 'Anti-Magic Storm',
+      description: 'The sky bruises purple and black as anti-magic lightning tears through the clouds — not natural lightning, but the death-throes of every spell caught in the storm\'s path. Bolts of pure negation crash down in a relentless barrage, each strike obliterating magical effects and shields on contact. The air itself becomes hostile to magic, shimmering with disruptive energy that makes incantations taste like ash on the tongue.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      school: 'necrotic',
+      icon: 'Void/Black Hole',
+      typeConfig: {
+        school: 'necrotic',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: '60 feet',
+        rangeType: 'ranged',
+        tags: ['aoe', 'damage', 'dispel', 'spellbreaker']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 35 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: true
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      damageConfig: {
+        formula: '6d8',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: false
+      },
+      resolution: 'DICE',
+      debuffConfig: {
+        debuffType: 'abilityDisable',
+        effects: [
+          {
+            id: 'magic_suppression_field',
+            name: 'Magic Suppression',
+            description: 'All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses. 6d8 necrotic damage per round.',
+            mechanicsText: '6d8 necrotic/round'
+          }
+        ],
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true,
+        dispelDifficulty: 'very_hard'
+      },
+      tags: ['aoe', 'damage', 'dispel', 'spellbreaker']
+    },
+
+    // ===== LEVEL 9 SPELLS — Near-Pinnacle (6 charges) =====
+
+    {
+      id: 'cov_hexbreaker_apocalypse',
+      name: 'Hexbreaker Apocalypse',
+      description: 'You don\'t fight magic anymore — you erase it. A sphere of absolute negation expands from your body, growing larger and larger as it consumes every spell, enchantment, and magical effect it touches. The ground turns to grey ash beneath it, and the sky above cracks like old porcelain. Creatures of magic shriek as their essence unravels — summoned beings dissolve into smoke, enchanted weapons rust to nothing, and wards shatter like glass. What remains when the light fades is simply... empty.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      school: 'necrotic',
+      icon: 'Necrotic/Necrotic Death',
+      typeConfig: {
+        school: 'necrotic',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['aoe', 'damage', 'permanent', 'spellbreaker']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['enemies']
+      },
+      durationConfig: {
+        durationType: 'instant',
+        durationValue: 0,
+        durationUnit: 'instant',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      damageConfig: {
+        formula: '12d10',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: false,
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['magic_annihilation', 'silence_aura']
+        }
+      },
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'charisma',
+        difficultyClass: 20,
+        saveOutcome: 'halves'
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [
+          {
+            id: 'apocalypse_field',
+            name: 'Apocalypse Field',
+            description: '60ft sphere. All magical effects, enchantments, and summons destroyed. Magic items rendered inert for 1 hour. Spellcasters silenced for 1d4 rounds. The area counts as difficult terrain for 10 minutes.',
+            mechanicsText: '60ft radius, all magic destroyed'
+          }
+        ],
+        power: 'major'
+      },
+      tags: ['aoe', 'damage', 'permanent', 'spellbreaker']
+    },
+
+    {
+      id: 'cov_void_hunter',
+      name: 'Void Hunter',
+      description: 'You stop existing in the material world and begin existing in the spaces between things — the gaps between heartbeats, the silence between words, the darkness behind closed eyes. In this state you are untouchable, moving through the world like a thought through a dream. Your strikes don\'t come from a direction — they come from nowhere, materializing inside the target\'s guard with surgical precision. The void has claimed you, and it does not share.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+      school: 'shadow',
+      icon: 'Psychic/Psionic Boom',
+      typeConfig: {
+        school: 'shadow',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['transformation', 'stealth', 'assassination', 'shadowbane']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      transformationConfig: {
+        transformationType: 'shadow',
+        targetType: 'self',
+        duration: 3,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Void Hunter',
+        description: 'Phase into the void between worlds for 3 rounds.',
+        grantedAbilities: [
+          { id: 'void_phase', name: 'Void Phase', description: 'Intangible — immune to all damage and effects. Cannot be detected by any means.' },
+          { id: 'void_strike', name: 'Void Strike', description: 'Melee attacks from the void deal 4d10 necrotic damage and bypass all armor and resistances', damageFormula: '4d10' },
+          { id: 'void_teleport', name: 'Void Teleport', description: 'Teleport to any unoccupied space within 120ft as a free action' }
+        ]
+      },
+      tags: ['transformation', 'stealth', 'assassination', 'shadowbane']
+    },
+
+    {
+      id: 'cov_divine_executioner',
+      name: 'Divine Executioner',
+      description: 'Become an instrument of divine justice for 5 rounds. Your eyes burn with white fire and your weapon crackles with holy energy. You instantly know the true alignment of every creature you can see. Your weapon attacks deal an additional 4d10 radiant damage against evil creatures. You are completely immune to all damage and effects from evil-aligned creatures and sources.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+      school: 'radiant',
+      icon: 'Radiant/Radiant Warrior',
+      typeConfig: {
+        school: 'radiant',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['transformation', 'damage', 'demonhunter']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 5,
+        durationUnit: 'rounds',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 6 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'divine',
@@ -1570,25 +2085,33 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         durationUnit: 'rounds',
         power: 'major',
         newForm: 'Divine Executioner',
-        description: 'Become an instrument of divine justice.',
+        description: 'Become an instrument of divine justice for 5 rounds.',
         grantedAbilities: [
-          { id: 'divine_judge', name: 'Divine Judge', description: 'Instantly know the alignment of any creature' },
-          { id: 'execution_strike', name: 'Execution Strike', description: 'Deal extra radiant damage to evil creatures', damageFormula: '4d10' },
-          { id: 'evil_immunity', name: 'Evil Immunity', description: 'Immune to damage from evil-aligned creatures' }
+          { id: 'divine_judge', name: 'Divine Judge', description: 'Instantly know the true alignment of every creature you can see' },
+          { id: 'execution_strike', name: 'Execution Strike', description: 'Weapon attacks deal +4d10 radiant damage against evil creatures', damageFormula: '4d10' },
+          { id: 'evil_immunity', name: 'Evil Immunity', description: 'Immune to all damage and effects from evil-aligned creatures and sources' }
         ]
       },
-      tags: ['transformation', 'damage', 'mobility', 'demonhunter']
+      tags: ['transformation', 'damage', 'demonhunter']
     },
 
-    // ===== LEVEL 10 SPELLS =====
+    // ===== LEVEL 10 SPELLS — Ultimate (8 charges, beyond normal maximum) =====
+
     {
       id: 'cov_hexbreaker_armageddon',
       name: 'Hexbreaker Armageddon',
-      description: 'End the age of magic itself, unleashing total anti-magic annihilation.',
+      description: 'You don\'t cast this spell — you surrender to it. The anti-magic energy you\'ve gathered your entire career erupts outward in a wave of absolute annihilation that rewrites reality. The ground cracks. The sky darkens. Every thread of magic in the area unravels simultaneously, and the damage is permanent — magic will never function here again. The world remembers what you did, and it is afraid.',
       level: 10,
+      spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
+      school: 'necrotic',
+      icon: 'Necrotic/Ritual',
       typeConfig: {
         school: 'necrotic',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['aoe', 'damage', 'permanent', 'anti-magic']
       },
       targetingConfig: {
@@ -1597,59 +2120,11 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         aoeShape: 'sphere',
         aoeParameters: { radius: 100 }
       },
-      resourceCost: {
-        resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-      damageConfig: {
-        formula: '10d10',
-        elementType: 'necrotic',
-        damageType: 'area',
-        criticalConfig: {
-          critType: 'effect',
-          critEffects: ['magic_annihilation', 'reality_break']
-        }
-      },
-      resolution: 'DICE',
-      utilityConfig: {
-        utilityType: 'environment',
-        selectedEffects: [{
-          id: 'permanent_magic_ending',
-          name: 'Permanent Magic Ending',
-          description: 'All magic permanently ends in the area, reality rejects magic forever'
-        }],
-        power: 'major'
-      },
-      savingThrow: {
-        enabled: true,
-        savingThrowType: 'charisma',
-        difficultyClass: 20,
-        saveOutcome: 'negates'
-      },
-      resolution: 'SAVING_THROW',
-      tags: ['aoe', 'damage', 'permanent', 'anti-magic']
-    },
-
-    {
-      id: 'cov_shadow_god',
-      name: 'Shadow God',
-      description: 'Become a master of shadows for 3 rounds, wielding ultimate power over darkness and anti-magic. Gain immunity to non-radiant damage, instant teleportation, and auto-crit against evil. When transformation ends, gain 2 levels of exhaustion.',
-      level: 10,
-      effectTypes: ['transformation'],
-      typeConfig: {
-        school: 'shadow',
-        icon: 'spell_shadow_nethercloak',
-        tags: ['transformation', 'ultimate', 'shadowbane']
-      },
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+      durationConfig: {
+        durationType: 'permanent',
+        durationValue: 0,
+        durationUnit: 'permanent',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -1658,7 +2133,77 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'long_rest'
+        type: 'long_rest',
+        value: 1
+      },
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: false,
+        criticalConfig: {
+          critType: 'effect',
+          critEffects: ['magic_annihilation', 'reality_break']
+        }
+      },
+      resolution: 'SAVING_THROW',
+      savingThrow: {
+        enabled: true,
+        savingThrowType: 'charisma',
+        difficultyClass: 20,
+        saveOutcome: 'negates'
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [
+          {
+            id: 'permanent_magic_ending',
+            name: 'Permanent Magic Death',
+            description: '100ft sphere. All magic permanently destroyed. Spells fail, enchantments end, magic items become inert. Magic cannot function in this area ever again. Charisma save or permanently lose spellcasting ability.',
+            mechanicsText: '100ft radius, permanent'
+          }
+        ],
+        power: 'major'
+      },
+      tags: ['aoe', 'damage', 'permanent', 'anti-magic', 'spellbreaker']
+    },
+
+    {
+      id: 'cov_shadow_god',
+      name: 'Shadow God',
+      description: 'You become something that should not exist — a god carved from shadow, wearing darkness like a second skin. In this form, only the purest light can touch you, and you move through the world like a thought through a sleeping mind, appearing and vanishing without effort or action. Every strike you land against evil is a killing blow — the shadows themselves ensure it. When you return to mortality, the cost is steep. Three rounds of divinity. A lifetime of exhaustion.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+      school: 'shadow',
+      icon: 'Utility/Summon Minion',
+      typeConfig: {
+        school: 'shadow',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
+        tags: ['transformation', 'ultimate', 'shadowbane']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: false
+      },
+      resourceCost: {
+        resourceTypes: ['hexbreakerCharges'],
+        resourceValues: { hexbreakerCharges: 8 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'shadow',
@@ -1669,10 +2214,10 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         newForm: 'Shadow God',
         description: 'Ascend to the pinnacle of shadow mastery for 3 rounds.',
         grantedAbilities: [
-          { id: 'shadow_immunity', name: 'Shadow Immunity', description: 'Immune to all non-radiant damage' },
-          { id: 'instant_teleport', name: 'Instant Teleport', description: 'Teleport anywhere within 120ft (no action points)' },
-          { id: 'auto_crit_evil', name: 'Auto-Crit Evil', description: 'All attacks against evil creatures automatically crit' },
-          { id: 'shadow_exhaustion', name: 'Shadow Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+          { id: 'shadow_immunity', name: 'Shadow Immunity', description: 'Immune to all damage except radiant' },
+          { id: 'instant_teleport', name: 'Instant Teleport', description: 'Teleport anywhere within 120ft as a free action (no action points)' },
+          { id: 'auto_crit_evil', name: 'Auto-Crit Evil', description: 'All attacks against evil creatures automatically critical hit' },
+          { id: 'shadow_exhaustion', name: 'Shadow Exhaustion', description: 'Gain 2 levels of exhaustion when transformation ends' }
         ]
       },
       tags: ['transformation', 'ultimate', 'shadowbane']
@@ -1681,17 +2226,29 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_divine_incarnation',
       name: 'Divine Incarnation',
-      description: 'Channel the full power of divine justice for 3 rounds, becoming an avatar of righteous wrath. Evil creatures within 30ft take radiant damage per round, you are immune to all damage from evil creatures, and can instantly kill evil creatures below 50 HP once per round. When transformation ends, gain 2 levels of exhaustion.',
+      description: 'Divine fire pours down from above and fills you until your skin glows like forged steel. You are no longer human — you are a verdict made flesh. Evil creatures within your presence burn simply for existing near you, their eyes wide with the understanding that judgment has arrived. Once per round, you may extend your hand and speak a single word: an evil creature before you simply ceases, as though it never existed at all. Three rounds of this power costs a heavy toll.',
       level: 10,
+      spellType: 'ACTION',
       effectTypes: ['transformation'],
+      school: 'radiant',
+      icon: 'Radiant/Winged Angel',
       typeConfig: {
         school: 'radiant',
-        icon: 'spell_holy_divineintervention',
+        castTime: '1 action',
+        castTimeType: 'action',
+        range: 'self',
+        rangeType: 'self',
         tags: ['transformation', 'ultimate', 'demonhunter']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds',
+        requiresConcentration: false
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
@@ -1700,7 +2257,8 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'long_rest'
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'divine',
@@ -1711,17 +2269,19 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         newForm: 'Divine Incarnation',
         description: 'Become an avatar of divine justice for 3 rounds.',
         grantedAbilities: [
-          { id: 'divine_aura', name: 'Divine Aura', description: 'Evil creatures within 30ft take radiant damage per round', damageFormula: '3d8' },
-          { id: 'evil_immunity_full', name: 'Complete Evil Immunity', description: 'Immune to all damage and effects from evil creatures' },
-          { id: 'execution_blow', name: 'Execution Blow', description: 'Once per round, instantly kill an evil creature below 50 HP' },
-          { id: 'divine_exhaustion', name: 'Divine Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+          { id: 'divine_aura', name: 'Divine Aura', description: 'Evil creatures within 30ft take 3d8 radiant damage per round and are frightened', damageFormula: '3d8' },
+          { id: 'evil_immunity_full', name: 'Complete Evil Immunity', description: 'Immune to all damage and effects from evil creatures and sources' },
+          { id: 'execution_blow', name: 'Execution Blow', description: 'Once per round, instantly kill any evil creature within 30ft that has 50 HP or fewer' },
+          { id: 'divine_exhaustion', name: 'Divine Exhaustion', description: 'Gain 2 levels of exhaustion when transformation ends' }
         ]
       },
       tags: ['transformation', 'ultimate', 'demonhunter']
     }
   ],
 
-  // Spell Pools by Level
+  // ═════════════════════════════════════════════════════════════════
+  // SPELL POOLS BY LEVEL
+  // ═════════════════════════════════════════════════════════════════
   spellPools: {
     1: [
       'cov_shadow_hunt',
@@ -1750,26 +2310,28 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     ],
     6: [
       'cov_hexbreaker_fury',
-      'cov_shadow_eruption'
-    ],
-    7: [
+      'cov_shadow_eruption',
       'cov_spell_nullification'
     ],
-    8: [
+    7: [
       'cov_hexbreaker_storm',
       'cov_apex_predator',
       'cov_final_hour'
     ],
-    9: [
+    8: [
       'cov_judgment_day',
       'cov_shadow_ascendant',
       'cov_anti_magic_storm'
     ],
-    10: [
+    9: [
       'cov_hexbreaker_apocalypse',
       'cov_void_hunter',
-      'cov_divine_executioner',
-      'cov_hexbreaker_armageddon'
+      'cov_divine_executioner'
+    ],
+    10: [
+      'cov_hexbreaker_armageddon',
+      'cov_shadow_god',
+      'cov_divine_incarnation'
     ]
   }
 };

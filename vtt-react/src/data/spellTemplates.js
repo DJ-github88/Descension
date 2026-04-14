@@ -9,7 +9,7 @@ const BASE_TEMPLATE = {
     description: '',
     source: 'class',
     class: '',
-    spellType: 'active',
+    spellType: 'ACTION',
     flavorText: '',
     targetingMode: 'single',
     rangeType: 'ranged',
@@ -265,7 +265,7 @@ const BASE_TEMPLATE = {
       description: 'Creates an aura around the caster that enhances allies.',
       category: 'buff',
       subtype: 'utility',
-      spellType: 'aura',
+      spellType: 'PASSIVE',
       auraEffects: [
         {
           name: 'Empowering Presence',

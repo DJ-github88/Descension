@@ -976,7 +976,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Venom Strike',
       description: 'Strike with a poisoned weapon, injecting deadly toxin that deals immediate and ongoing damage.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_deadlybrew',
+      icon: 'Poison/Poison Concoction',
       school: 'Physical',
       level: 2,
       specialization: 'venomancer',
@@ -993,7 +993,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 4,
         durationUnit: 'rounds'
       },
@@ -1058,7 +1058,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Toxic Cloud',
       description: 'Hurl a vial that shatters into a poisonous cloud, damaging and debuffing all enemies in the area.',
       spellType: 'ACTION',
-      icon: 'spell_nature_corrosivebreath',
+      icon: 'Poison/Acid Spray',
       school: 'Alchemy',
       level: 4,
       specialization: 'venomancer',
@@ -1069,7 +1069,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1077,7 +1077,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 4,
         durationUnit: 'rounds'
       },
@@ -1163,7 +1163,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Poison Gas Trap',
       description: 'Deploy a contraption that releases poison gas when enemies approach, damaging and slowing them.',
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_27',
+      icon: 'Utility/Utility Tool',
       school: 'Engineering',
       level: 2,
       specialization: 'gadgeteer',
@@ -1174,7 +1174,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1182,7 +1182,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 10,
         durationUnit: 'minutes'
       },
@@ -1236,7 +1236,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Contraption Network',
       description: 'Link all your active contraptions. When one triggers, all activate simultaneously for devastating combos.',
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_30',
+      icon: 'Utility/Utility Tool',
       school: 'Engineering',
       level: 5,
       specialization: 'gadgeteer',
@@ -1253,7 +1253,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 5,
         durationUnit: 'minutes'
       },
@@ -1298,7 +1298,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Overcharged Trap',
       description: 'Deploy a supercharged contraption that explodes with devastating force. The device is overcharged with volatile chemicals, creating a massive fireball that engulfs everything in the area. The explosion leaves enemies burned and crippled, their defenses shattered by the blast.',
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_32',
+      icon: 'Utility/Utility Tool',
       school: 'Engineering',
       level: 6,
       specialization: 'gadgeteer',
@@ -1309,7 +1309,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1317,7 +1317,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 10,
         durationUnit: 'minutes'
       },
@@ -1400,7 +1400,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Crippling Toxin',
       description: 'Apply a debilitating poison that severely weakens the target, reducing their combat effectiveness.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_envelopingshadows',
+      icon: 'Utility/Hide',
       school: 'Alchemy',
       level: 3,
       specialization: 'saboteur',
@@ -1417,7 +1417,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 5,
         durationUnit: 'rounds'
       },
@@ -1485,7 +1485,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Chaos Grenade',
       description: 'Throw a grenade combining poison and explosives, dealing damage and causing confusion.',
       spellType: 'ACTION',
-      icon: 'inv_misc_bomb_08',
+      icon: 'Utility/Orange Bomb',
       school: 'Alchemy',
       level: 5,
       specialization: 'saboteur',
@@ -1496,7 +1496,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1504,7 +1504,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 2,
         durationUnit: 'rounds'
       },
@@ -1582,7 +1582,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Total Shutdown',
       description: 'Completely debilitate a target, rendering them helpless for a short duration.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindsteal',
+      icon: 'Psychic/Mind Control',
       school: 'Alchemy',
       level: 7,
       specialization: 'saboteur',
@@ -1599,7 +1599,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 2,
         durationUnit: 'rounds'
       },
@@ -1660,7 +1660,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Apply Weapon Poison',
       description: 'Apply a poison to your weapon for 1 AP. The poison lasts for 3 attacks or until end of combat.',
       spellType: 'ACTION',
-      icon: 'inv_potion_24',
+      icon: 'Utility/Strange Brew',
       school: 'Alchemy',
       level: 1,
       specialization: 'universal',
@@ -1677,7 +1677,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'special',
+        durationType: 'rounds',
         duration: 3,
         durationUnit: 'attacks'
       },
@@ -1722,7 +1722,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Antidote',
       description: 'Quickly craft and administer an antidote to cure poison or disease.',
       spellType: 'ACTION',
-      icon: 'inv_potion_54',
+      icon: 'Poison/Poison Flask',
       school: 'Alchemy',
       level: 1,
       specialization: 'universal',
@@ -1794,7 +1794,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Explosive Concoction',
       description: 'Throw an explosive concoction that deals fire damage in an area.',
       spellType: 'ACTION',
-      icon: 'inv_misc_bomb_05',
+      icon: 'Utility/Bomb',
       school: 'Alchemy',
       level: 3,
       specialization: 'universal',
@@ -1805,7 +1805,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1865,7 +1865,7 @@ Many players enhance the Toxicologist experience with:
       name: 'Smoke Bomb',
       description: 'Deploy a smoke bomb that obscures vision and provides cover.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_smoke',
+      icon: 'Utility/Hide',
       school: 'Alchemy',
       level: 2,
       specialization: 'universal',
@@ -1876,7 +1876,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 20,
         aoeType: 'sphere',
@@ -1884,7 +1884,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       durationConfig: {
-        durationType: 'duration',
+        durationType: 'rounds',
         duration: 3,
         durationUnit: 'rounds'
       },
@@ -1936,12 +1936,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Release a devastating plague that spreads between enemies, dealing damage and applying debilitating effects.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_plaguecloud',
+      icon: 'Poison/Poison Plague',
       specialization: 'venomancer',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_plaguecloud',
+        icon: 'Poison/Poison Plague',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2005,18 +2005,18 @@ Many players enhance the Toxicologist experience with:
       description: 'Deploy a massive mechanical construct that fights alongside you.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_30',
+      icon: 'Utility/Utility Tool',
       specialization: 'gadgeteer',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_misc_enggizmos_30',
+        icon: 'Utility/Utility Tool',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -2072,12 +2072,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Apply devastating sabotage to multiple enemies, reducing their effectiveness dramatically.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'ability_rogue_dismantle',
+      icon: 'Piercing/Dagger Whirl',
       specialization: 'saboteur',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'ability_rogue_dismantle',
+        icon: 'Piercing/Dagger Whirl',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2134,12 +2134,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Deploy the ultimate poison that can kill even the most resilient creatures.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_shadow_deathcoil',
+      icon: 'Necrotic/Death Mark',
       specialization: 'venomancer',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_deathcoil',
+        icon: 'Necrotic/Death Mark',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2193,18 +2193,18 @@ Many players enhance the Toxicologist experience with:
       description: 'Deploy a devastating war machine that dominates the battlefield.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_27',
+      icon: 'Utility/Utility Tool',
       specialization: 'gadgeteer',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_misc_enggizmos_27',
+        icon: 'Utility/Utility Tool',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -2260,12 +2260,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Cause catastrophic failure in all enemy defenses and abilities.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'ability_rogue_wrongfullyaccused',
+      icon: 'Social/Careful Blunder',
       specialization: 'saboteur',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'ability_rogue_wrongfullyaccused',
+        icon: 'Social/Careful Blunder',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2322,12 +2322,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Unleash a plague of biblical proportions that devastates everything it touches.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_shadow_plaguecloud',
+      icon: 'Poison/Poison Plague',
       specialization: 'universal',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_plaguecloud',
+        icon: 'Poison/Poison Plague',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2393,12 +2393,12 @@ Many players enhance the Toxicologist experience with:
       description: 'Deploy an entire army of mechanical constructs to overwhelm the battlefield.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'inv_misc_enggizmos_25',
+      icon: 'Utility/Strange Brew',
       specialization: 'gadgeteer',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_misc_enggizmos_25',
+        icon: 'Utility/Strange Brew',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2462,18 +2462,18 @@ Many players enhance the Toxicologist experience with:
       description: 'Deploy the ultimate sabotage device - a bomb that disrupts the fabric of reality itself.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_shadow_unstableaffliction_3',
+      icon: 'Poison/Poison Contagion',
       specialization: 'saboteur',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_shadow_unstableaffliction_3',
+        icon: 'Poison/Poison Contagion',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 120,
         aoeShape: 'circle',
@@ -2530,7 +2530,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_throwingknife_04',
+        icon: 'Piercing/Thrown Dagger',
         tags: ['damage', 'poison', 'dart', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2577,14 +2577,14 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_shadow_plaguecloud',
+        icon: 'Poison/Poison Plague',
         tags: ['damage', 'poison', 'zone', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -2625,7 +2625,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'restoration',
-        icon: 'inv_potion_53',
+        icon: 'Healing/Cure Within',
         tags: ['purification', 'healing', 'antidote', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2674,7 +2674,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'ability_creature_poison_06',
+        icon: 'Poison/Deadly Poison',
         tags: ['damage', 'poison', 'venom', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2722,7 +2722,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_deathscream',
+        icon: 'Necrotic/Screaming Skull',
         tags: ['damage', 'poison', 'control', 'stun', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2788,14 +2788,14 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_misc_orb_05',
+        icon: 'Arcane/Orb Manipulation',
         tags: ['damage', 'poison', 'aoe', 'bomb', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2846,7 +2846,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'ability_creature_poison_05',
+        icon: 'Poison/Poison Venom',
         tags: ['damage', 'poison', 'dot', 'deadly', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2902,7 +2902,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_acid_01',
+        icon: 'Poison/Acid Splash',
         tags: ['damage', 'poison', 'line', 'wave', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2956,7 +2956,7 @@ Many players enhance the Toxicologist experience with:
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_contagion',
+        icon: 'Poison/Poison Contagion',
         tags: ['damage', 'poison', 'spreading', 'plague', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

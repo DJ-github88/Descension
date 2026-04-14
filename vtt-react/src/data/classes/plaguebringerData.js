@@ -718,7 +718,7 @@ Many players enhance the Plaguebringer experience with:
 
     sharedPassive: {
       name: 'Plague Mastery',
-      icon: 'spell_shadow_plaguecloud',
+      icon: 'Poison/Poison Plague',
       description: 'Your afflictions last 1d4 additional rounds and resist dispel attempts (roll 1d6, on 5-6 resist). Additionally, whenever an afflicted target dies, you gain 1d4 mana.'
     },
 
@@ -726,7 +726,7 @@ Many players enhance the Plaguebringer experience with:
       {
         id: 'virulent-spreader',
         name: 'Virulent Spreader',
-        icon: 'ability_creature_disease_05',
+        icon: 'Poison/Poison Contagion',
         color: '#556B2F',
         description: 'Masters of contagion who excel at spreading afflictions across multiple targets.',
 
@@ -785,7 +785,7 @@ Many players enhance the Plaguebringer experience with:
       {
         id: 'torment-weaver',
         name: 'Torment Weaver',
-        icon: 'spell_shadow_mindtwisting',
+        icon: 'Psychic/Mind Roar',
         color: '#4B0082',
         description: 'Specialists in psychic afflictions who break minds as easily as bodies.',
 
@@ -844,7 +844,7 @@ Many players enhance the Plaguebringer experience with:
       {
         id: 'decay-harbinger',
         name: 'Decay Harbinger',
-        icon: 'spell_shadow_deathanddecay',
+        icon: 'Necrotic/Necrotic Death',
         color: '#2F4F2F',
         description: 'Masters of necrotic decay who accelerate decomposition and prevent healing.',
 
@@ -909,7 +909,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Curse of Agony',
             description: 'Plant a seed of suffering in your target. Deals 1d6 + intelligence psychic damage per turn for 4 rounds. Can be evolved through Weaken → Torment → Amplify Pain into Curse of True Agony.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_curseofsargeras',
+            icon: 'Necrotic/Necrotic Skull',
             school: 'Necromancy',
             level: 1,
 
@@ -925,7 +925,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 4,
               durationUnit: 'rounds'
             },
@@ -986,7 +986,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Venomous Touch',
             description: 'Infect your target with virulent poison. Deals poison damage initially. Can be evolved through Infect → Weaken → Amplify Pain into Deadly Caress.',
             spellType: 'ACTION',
-            icon: 'ability_creature_poison_06',
+            icon: 'Poison/Deadly Poison',
             school: 'Necromancy',
             level: 1,
 
@@ -1062,7 +1062,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Enfeebling Fog',
             description: 'Conjures a fog over a 20 ft radius. Characters within the fog have their armor reduced by 5 and have disadvantage on ranged attacks. Advances Weaken-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_blackplague',
+            icon: 'Necrotic/Corruption',
             school: 'Necromancy',
             level: 2,
 
@@ -1080,7 +1080,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 1,
               durationUnit: 'minutes'
             },
@@ -1134,7 +1134,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Drain Vitality',
             description: 'Drains the life from a melee target, reducing their maximum HP and damage dealt. You gain the health drained as temporary HP. Advances Weaken-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_lifedrain02',
+            icon: 'Necrotic/Drain Soul',
             school: 'Necromancy',
             level: 2,
 
@@ -1150,7 +1150,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 1,
               durationUnit: 'minutes'
             },
@@ -1219,7 +1219,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Hallucinogenic Spores',
             description: 'Releases hallucinogenic spores targeting a single enemy in melee range. The affected target hallucinates, seeing allies as foes, and must make an attack against an ally on their next turn. Advances Torment-path afflictions.',
             spellType: 'ACTION',
-            icon: 'inv_misc_herb_felblossom',
+            icon: 'Nature/Single Leaf',
             school: 'Enchantment',
             level: 2,
 
@@ -1235,7 +1235,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 2,
               durationUnit: 'rounds'
             },
@@ -1295,7 +1295,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Agonizing Wail',
             description: 'An excruciating wail targets a single enemy within 25 ft, dealing psychic damage and paralyzing with fear, causing them to lose their next action. Advances Torment-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_deathscream',
+            icon: 'Necrotic/Screaming Skull',
             school: 'Necromancy',
             level: 3,
 
@@ -1379,7 +1379,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Infectious Sores',
             description: 'Infects a single target in melee range with open sores that burst if they move, spreading the infection to anyone within 5 ft, dealing necrotic damage. Advances Fester-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_contagion',
+            icon: 'Poison/Poison Contagion',
             school: 'Necromancy',
             level: 2,
 
@@ -1395,7 +1395,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'until_cured'
+              durationType: 'concentration'
             },
 
             resourceCost: {
@@ -1460,7 +1460,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Plague of Flies',
             description: 'Summons a swarm of flies around a single target, causing distraction and poison damage per turn, and reducing their sight range. Advances Fester-path afflictions.',
             spellType: 'ACTION',
-            icon: 'inv_misc_monsterspidercarapace_01',
+            icon: 'Nature/Web',
             school: 'Conjuration',
             level: 2,
 
@@ -1476,7 +1476,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 5,
               durationUnit: 'rounds'
             },
@@ -1538,7 +1538,7 @@ Many players enhance the Plaguebringer experience with:
             name: "Suffering's Echo",
             description: 'Intensifies the pain of a single afflicted target within 30 ft, doubling the damage of existing conditions and forcing a scream of agony that disorients them for 1 turn. Advances Amplify Pain-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_painspike',
+            icon: 'Psychic/Psionic Strike',
             school: 'Necromancy',
             level: 3,
 
@@ -1621,7 +1621,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Pain Magnification',
             description: 'Focuses pain on a single enemy, tripling the damage of any pain-related effects for their next turn. Advances Amplify Pain-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_shadowwordpain',
+            icon: 'Psychic/Mind Strike',
             school: 'Necromancy',
             level: 4,
 
@@ -1638,7 +1638,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 1,
               durationUnit: 'rounds'
             },
@@ -1705,7 +1705,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Necrotic Burst',
             description: 'A burst of necrotic energy on a single target within 10 ft causes necrotic damage and permanently reduces their max HP. Advances Decay-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_deathanddecay',
+            icon: 'Necrotic/Necrotic Death',
             school: 'Necromancy',
             level: 3,
 
@@ -1798,7 +1798,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Wither Touch',
             description: 'A touch attack that withers a single enemy, dealing 4d4 necrotic damage and reducing their healing received by 1d8 per heal for 5 turns. Advances Decay-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_soulleech',
+            icon: 'Necrotic/Drain Soul',
             school: 'Necromancy',
             level: 3,
 
@@ -1874,7 +1874,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Dark Rejuvenation',
             description: 'Converts any healing on a single target within 20 ft into necrotic damage equal to the amount healed. Advances Nurture-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_darkritual',
+            icon: 'Necrotic/Ritual',
             school: 'Necromancy',
             level: 3,
 
@@ -1890,7 +1890,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 3,
               durationUnit: 'rounds'
             },
@@ -1946,7 +1946,7 @@ Many players enhance the Plaguebringer experience with:
             name: "Plague's Embrace",
             description: 'Grants a single ally within 10 ft an aura that reflects 1d10 necrotic damage back to attackers. Advances Nurture-path afflictions on enemies who attack the ally.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_plaguecloud',
+            icon: 'Poison/Poison Plague',
             school: 'Necromancy',
             level: 2,
 
@@ -1963,7 +1963,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 3,
               durationUnit: 'rounds'
             },
@@ -2008,7 +2008,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Essence Corruption',
             description: 'Corrupts a single target within 15 ft, causing them to emit a 1d10 necrotic damage aura to their allies at the start of their turn. Advances Corrupt-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_shadow_shadesofdarkness',
+            icon: 'Void/Consumed by Void',
             school: 'Necromancy',
             level: 3,
 
@@ -2024,7 +2024,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 3,
               durationUnit: 'rounds'
             },
@@ -2083,7 +2083,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Perverse Infusion',
             description: "Converts an enemy's highest ability score bonus into a penalty of the same value. Advances Corrupt-path afflictions.",
             spellType: 'ACTION',
-            icon: 'spell_shadow_twistedfaith',
+            icon: 'Psychic/Mental Chaos',
             school: 'Necromancy',
             level: 4,
 
@@ -2099,7 +2099,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             durationConfig: {
-              durationType: 'timed',
+              durationType: 'rounds',
               duration: 1,
               durationUnit: 'minutes'
             },
@@ -2154,7 +2154,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Virulent Touch',
             description: 'Causes a virulent reaction in a single target in melee range. Your touch spreads a terrible plague that infects the target and those nearby. The disease spreads rapidly, causing ongoing suffering and advancing existing infections to more severe stages.',
             spellType: 'ACTION',
-            icon: 'ability_creature_disease_01',
+            icon: 'Poison/Poison Contagion',
             school: 'Necromancy',
             level: 4,
 
@@ -2237,7 +2237,7 @@ Many players enhance the Plaguebringer experience with:
             name: 'Contagion Burst',
             description: 'Creates a burst on a single target in melee range, initially dealing 2d6 poison damage and increasing by 1d6 for each subsequent Contagion Burst. Advances Infect-path afflictions.',
             spellType: 'ACTION',
-            icon: 'spell_nature_corrosivebreath',
+            icon: 'Poison/Acid Spray',
             school: 'Necromancy',
             level: 3,
 
@@ -2326,7 +2326,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_chilltouch',
+              icon: 'Frost/Frost Touch',
               tags: ['debuff', 'mark', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2389,7 +2389,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_plaguecloud',
+              icon: 'Poison/Poison Plague',
               tags: ['damage', 'poison', 'dot', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2437,7 +2437,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_curseofachimonde',
+              icon: 'Necrotic/Necrotic Skull',
               tags: ['debuff', 'weaken', 'necrotic', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2507,7 +2507,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_plaguecloud',
+              icon: 'Poison/Poison Plague',
               tags: ['damage', 'poison', 'burst', 'virulent-spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2563,7 +2563,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_contagion',
+              icon: 'Poison/Poison Contagion',
               tags: ['damage', 'poison', 'aoe', 'affliction', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2628,7 +2628,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_painspike',
+              icon: 'Psychic/Psionic Strike',
               tags: ['damage', 'psychic', 'chain', 'torment-weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2678,7 +2678,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_plaguecloud',
+              icon: 'Poison/Poison Plague',
               tags: ['damage', 'poison', 'aoe', 'storm', 'virulent-spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2735,7 +2735,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_shadowwordpain',
+              icon: 'Psychic/Mind Strike',
               tags: ['damage', 'psychic', 'control', 'stun', 'torment-weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2795,19 +2795,19 @@ Many players enhance the Plaguebringer experience with:
             name: 'Decay Field',
             description: 'Create a field of decay that persists for 4 rounds, dealing 3d8 necrotic damage per round to all enemies within.',
             level: 6,
-            spellType: 'ZONE',
+            spellType: 'STATE',
             effectTypes: ['damage'],
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_deathanddecay',
+              icon: 'Necrotic/Necrotic Death',
               tags: ['damage', 'necrotic', 'zone', 'decay-harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
 
             targetingConfig: {
-              targetingType: 'ground',
+              targetingType: 'area',
               rangeType: 'ranged',
               rangeDistance: 40,
               aoeShape: 'circle',
@@ -2856,7 +2856,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_contagion',
+              icon: 'Poison/Poison Contagion',
               tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent-spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2913,7 +2913,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_mindsteal',
+              icon: 'Psychic/Mind Control',
               tags: ['damage', 'psychic', 'control', 'confusion', 'torment-weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -2979,7 +2979,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_lifedrain',
+              icon: 'Necrotic/Drain Soul',
               tags: ['damage', 'healing', 'necrotic', 'drain', 'decay-harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3032,7 +3032,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_plaguecloud',
+              icon: 'Poison/Poison Plague',
               tags: ['transformation', 'buff', 'ultimate', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3087,7 +3087,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_contagion',
+              icon: 'Poison/Poison Contagion',
               tags: ['damage', 'poison', 'spreading', 'virulent-spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3136,7 +3136,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_painspike',
+              icon: 'Psychic/Psionic Strike',
               tags: ['damage', 'psychic', 'control', 'fear', 'torment-weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3203,7 +3203,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_deathanddecay',
+              icon: 'Necrotic/Necrotic Death',
               tags: ['damage', 'poison', 'execute', 'ultimate', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3260,7 +3260,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_mindsteal',
+              icon: 'Psychic/Mind Control',
               tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment-weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3330,7 +3330,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_deathanddecay',
+              icon: 'Necrotic/Necrotic Death',
               tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay-harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3380,7 +3380,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_contagion',
+              icon: 'Poison/Poison Contagion',
               tags: ['transformation', 'ultimate', 'god-form', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3436,7 +3436,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_deathanddecay',
+              icon: 'Necrotic/Necrotic Death',
               tags: ['damage', 'ultimate', 'death', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
@@ -3493,7 +3493,7 @@ Many players enhance the Plaguebringer experience with:
 
             typeConfig: {
               school: 'necromancy',
-              icon: 'spell_shadow_plaguecloud',
+              icon: 'Poison/Poison Plague',
               tags: ['damage', 'debuff', 'ultimate', 'affliction', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'

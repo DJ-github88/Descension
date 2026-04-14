@@ -6,7 +6,7 @@ export const REAVER_PATH = {
     overview: 'Reavers are savage warriors who embrace the chaos of battle. They fight with reckless abandon, drawing strength from their wounds and the blood of their enemies.',
 
     mechanicalBenefits: [
-        { name: 'Bloodlust', description: 'Gain 5 temporary HP on kill', type: 'passive' }
+        { name: 'Blood Frenzy', description: 'Deal +2 damage while below half health', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -33,16 +33,16 @@ export const REAVER_PATH = {
             id: 'bloodlust',
             name: 'Bloodlust',
             description: '"The blood of my enemies sustains me." When you reduce an enemy to 0 HP, you gain temporary hit points and resistance to all damage for a brief moment.',
-            icon: 'ability_warrior_bloodfrenzy',
+            icon: 'Utility/Muscular Red Figure',
             level: 1,
             spellType: 'PASSIVE',
-            tags: ['passive', 'combat', 'lifesteal', 'temporary-hp'],
+            tags: ['passive', 'combat', 'resistance', 'physical'],
             effectTypes: ['buff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_bloodfrenzy',
+                icon: 'Utility/Muscular Red Figure',
                 tags: ['passive', 'combat', 'lifesteal', 'temporary-hp']
             },
 
@@ -50,19 +50,9 @@ export const REAVER_PATH = {
                 buffType: 'statEnhancement',
                 effects: [
                     {
-                        id: 'blood_feast',
-                        name: 'Blood Feast',
-                        description: 'When you reduce an enemy to 0 HP, gain 5 temporary hit points. These temporary HP stack up to a maximum of 20.',
-                        statModifier: {
-                            stat: 'temporary_hp',
-                            magnitude: 5,
-                            magnitudeType: 'flat'
-                        }
-                    },
-                    {
                         id: 'battle_hardened',
                         name: 'Battle Hardened',
-                        description: 'You have resistance to bludgeoning, piercing, and slashing damage while you have temporary HP from Blood Feast.',
+                        description: 'You have resistance to bludgeoning, piercing, and slashing damage. Your battle-hardened body shrugs off mundane attacks.',
                         statModifier: {
                             stat: 'physical_resistance',
                             magnitude: 25,
@@ -91,7 +81,7 @@ export const REAVER_PATH = {
             id: 'vengeful_strike',
             name: 'Vengeful Strike',
             description: '"You\'ll pay for that!" When an enemy damages you, immediately counterattack with a devastating strike fueled by your rage.',
-            icon: 'ability_warrior_revenge',
+            icon: 'Utility/Strike',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'damage', 'counter', 'melee'],
@@ -100,7 +90,7 @@ export const REAVER_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_revenge',
+                icon: 'Utility/Strike',
                 tags: ['reaction', 'damage', 'counter', 'melee']
             },
 
@@ -168,7 +158,7 @@ export const REAVER_PATH = {
             id: 'blood_rage',
             name: 'Blood Rage',
             description: '"RAGE!" Enter a berserker frenzy, gaining +8 damage on all attacks but reducing your armor by 2. The fury of battle consumes you.',
-            icon: 'ability_warrior_intensifyrage',
+            icon: 'Utility/Craze',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'buff', 'rage', 'damage', 'risk-reward'],
@@ -177,7 +167,7 @@ export const REAVER_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_intensifyrage',
+                icon: 'Utility/Craze',
                 tags: ['action', 'buff', 'rage', 'damage', 'risk-reward']
             },
 
@@ -224,7 +214,7 @@ export const REAVER_PATH = {
             id: 'whirlwind',
             name: 'Whirlwind',
             description: '"None escape!" Spin in a deadly whirlwind, striking all nearby enemies.',
-            icon: 'ability_whirlwind',
+            icon: 'Utility/Counter Spiral',
             level: 1,
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'aoe', 'physical'],
@@ -289,7 +279,7 @@ export const REAVER_PATH = {
             id: 'execute',
             name: 'Execute',
             description: '"Finish them!" Deal massive damage to a wounded enemy.',
-            icon: 'ability_warrior_savageblow',
+            icon: 'Utility/Bloody Weapon',
             level: 2,
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'finisher', 'physical'],
@@ -372,7 +362,7 @@ export const REAVER_PATH = {
                     id: 'blood_rage',
                     name: 'Blood Rage',
                     description: '"RAGE!" Enter a berserker rage, dealing massive damage but taking more damage.',
-                    icon: 'ability_warrior_intensifyrage',
+                    icon: 'Utility/Craze',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'rage', 'damage', 'risk-reward'],
@@ -461,7 +451,7 @@ export const REAVER_PATH = {
                     id: 'reckless_strike',
                     name: 'Reckless Strike',
                     description: '"All or nothing!" A devastating attack that leaves you vulnerable.',
-                    icon: 'ability_warrior_decisivestrike',
+                    icon: 'Utility/Dynamic Lunge',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['damage', 'physical', 'reckless', 'high-risk'],
@@ -539,7 +529,7 @@ export const REAVER_PATH = {
                     id: 'blood_siphon',
                     name: 'Blood Siphon',
                     description: '"Your blood is mine!" Drain life from an enemy with each strike.',
-                    icon: 'spell_shadow_lifedrain',
+                    icon: 'Necrotic/Drain Soul',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['damage', 'healing', 'lifesteal', 'blood'],
@@ -616,7 +606,7 @@ export const REAVER_PATH = {
                     id: 'blood_frenzy',
                     name: 'Blood Frenzy',
                     description: '"The scent of blood drives me!" Gain stacking attack speed for each bleeding enemy.',
-                    icon: 'ability_warrior_bloodfrenzy',
+                    icon: 'Utility/Muscle Flex',
                     level: 2,
                     spellType: 'PASSIVE',
                     tags: ['buff', 'passive', 'blood', 'attack-speed'],
@@ -702,7 +692,7 @@ export const REAVER_PATH = {
                     id: 'battle_cry',
                     name: 'Battle Cry',
                     description: '"For glory!" Rally nearby allies with an inspiring war cry.',
-                    icon: 'ability_warrior_battleshout',
+                    icon: 'Utility/Overlords Command',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'aoe', 'leadership', 'morale'],
@@ -793,7 +783,7 @@ export const REAVER_PATH = {
                     id: 'commanding_shout',
                     name: 'Commanding Shout',
                     description: '"Stand strong!" Bolster allies with a commanding presence.',
-                    icon: 'ability_warrior_commandingshout',
+                    icon: 'Utility/Powerful Warrior',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['buff', 'aoe', 'health', 'morale'],

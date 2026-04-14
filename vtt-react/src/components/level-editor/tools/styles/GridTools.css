@@ -762,7 +762,7 @@
     margin-top: 8px;
 }
 
-.background-card {
+.grid-tools .background-card {
     background: rgba(255, 255, 255, 0.9);
     border: 2px solid rgba(160, 140, 112, 0.4);
     border-radius: 8px;
@@ -772,18 +772,18 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.background-card.active {
+.grid-tools .background-card.active {
     background: rgba(255, 255, 255, 0.95);
     border-color: #d4af37;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
 }
 
-.background-card.invisible {
+.grid-tools .background-card.invisible {
     opacity: 0.5;
     border-color: rgba(160, 140, 112, 0.3);
 }
 
-.background-card.invisible .background-name {
+.grid-tools .background-card.invisible .background-name {
     text-decoration: line-through;
     color: #999;
 }

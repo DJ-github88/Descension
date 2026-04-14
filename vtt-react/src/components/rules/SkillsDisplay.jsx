@@ -4,7 +4,7 @@ import { SKILL_QUESTS } from '../../constants/skillQuests';
 import { WEAPON_TYPE_QUEST_DATA } from '../../constants/weaponTypeQuests';
 import { WEAPON_TYPE_META } from '../../constants/weaponTypeMeta';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import './BackgroundSelector.css';
 
 const SkillsDisplay = () => {
@@ -981,7 +981,7 @@ const SkillsDisplay = () => {
                             <div className="quest-preview-list">
                                 {startingQuests.map(quest => (
                                     <div key={quest.id} className="quest-preview-item">
-                                        <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                        <img src={getAbilityIconUrl(quest.icon)} alt={quest.name} className="quest-preview-icon" />
                                         <div className="quest-preview-info">
                                             <strong>{quest.name}</strong>
                                             <p>{quest.description}</p>

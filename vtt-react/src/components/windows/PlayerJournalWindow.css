@@ -1460,7 +1460,7 @@
   margin-bottom: 12px;
 }
 
-.background-grid {
+.player-journal-content .background-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 12px;
@@ -1536,21 +1536,21 @@
 }
 
 /* Custom scrollbar for background grid */
-.background-grid::-webkit-scrollbar {
+.player-journal-content .background-grid::-webkit-scrollbar {
   width: 8px;
 }
 
-.background-grid::-webkit-scrollbar-track {
+.player-journal-content .background-grid::-webkit-scrollbar-track {
   background: rgba(139, 69, 19, 0.1);
   border-radius: 4px;
 }
 
-.background-grid::-webkit-scrollbar-thumb {
+.player-journal-content .background-grid::-webkit-scrollbar-thumb {
   background: rgba(139, 69, 19, 0.3);
   border-radius: 4px;
 }
 
-.background-grid::-webkit-scrollbar-thumb:hover {
+.player-journal-content .background-grid::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 69, 19, 0.5);
 }
 

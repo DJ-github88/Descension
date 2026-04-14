@@ -692,7 +692,7 @@ Before combat, decide which cadences you want to prioritize:
       {
         id: 'battlechoir',
         name: 'Battlechoir',
-        icon: 'spell_holy_crusaderstrike',
+        icon: 'Radiant/Divine Downward Sword',
         color: '#DC143C',
         theme: 'War Songs & Aggressive Support',
 
@@ -735,7 +735,7 @@ Before combat, decide which cadences you want to prioritize:
       {
         id: 'soulsinger',
         name: 'Soulsinger',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         color: '#4169E1',
         theme: 'Healing Melodies & Emotional Magic',
 
@@ -778,7 +778,7 @@ Before combat, decide which cadences you want to prioritize:
       {
         id: 'dissonance',
         name: 'Dissonance',
-        icon: 'spell_shadow_psychicscream',
+        icon: 'Psychic/Agonizing Scream',
         color: '#8B008B',
         theme: 'Chaotic Sounds & Reality Warping',
 
@@ -861,11 +861,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Strike a resonant chord that generates foundational notes and deals minor sonic damage.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_divinepurpose',
+      icon: 'Radiant/Divine Halo',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_divinepurpose',
+        icon: 'Radiant/Divine Halo',
         tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -919,11 +919,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Strike your foe with a resonant blow, dealing damage and generating mediant notes.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'ability_warrior_savageblow',
+      icon: 'Bludgeoning/Mortal Strike',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'ability_warrior_savageblow',
+        icon: 'Bludgeoning/Mortal Strike',
         tags: ['builder', 'melee', 'basic', 'mediant-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -976,11 +976,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Play an inspiring rhythm that boosts morale and generates dominant notes.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_greaterblessingofkings',
+      icon: 'Radiant/Golden Ring',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_greaterblessingofkings',
+        icon: 'Radiant/Golden Ring',
         tags: ['builder', 'support', 'dominant-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1041,11 +1041,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Play a simple cadence that heals nearby allies and generates subdominant notes.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         tags: ['resolver', 'healing', 'subdominant-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1100,11 +1100,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Play a calming melody that removes minor debuffs and generates leading tone notes.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_divinespirit',
+      icon: 'Radiant/Radiant Divinity',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_divinespirit',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['resolver', 'utility', 'leading-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1164,7 +1164,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Inspiring Rhythm',
       description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
       spellType: 'ACTION',
-      icon: 'spell_holy_blessingofstrength',
+      icon: 'Radiant/Radiant Warrior',
       school: 'Enchantment',
       level: 1,
 
@@ -1180,7 +1180,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 2,
         durationUnit: 'turns'
       },
@@ -1243,7 +1243,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Minor Cadence',
       description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_siphonmana',
+      icon: 'Arcane/Orb Manipulation',
       school: 'Evocation',
       level: 1,
 
@@ -1272,7 +1272,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'thunder',
+        damageType: 'force',
         scalingType: 'none'
       },
 
@@ -1304,7 +1304,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Soothing Melody',
       description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
       spellType: 'ACTION',
-      icon: 'spell_holy_layonhands',
+      icon: 'Healing/Reaching Hand',
       school: 'Abjuration',
       level: 1,
 
@@ -1338,7 +1338,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       damageConfig: {
-        damageType: 'Radiant'
+        damageType: 'radiant'
       },
 
       effects: {
@@ -1379,7 +1379,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Healing Hymn',
       description: 'Sing a soothing melody that heals an ally.',
       spellType: 'ACTION',
-      icon: 'spell_holy_heal',
+      icon: 'Healing/Golden Heart',
       school: 'Abjuration',
       level: 2,
 
@@ -1413,7 +1413,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       damageConfig: {
-        damageType: 'Radiant'
+        damageType: 'radiant'
       },
 
       effects: {
@@ -1447,7 +1447,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'War Drum Beat',
       description: 'Beat a powerful rhythm that damages enemies in an area.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_warcry',
+      icon: 'Utility/Overlords Command',
       school: 'Evocation',
       level: 2,
 
@@ -1457,7 +1457,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'sphere',
@@ -1478,7 +1478,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '2d4',
-        damageType: 'thunder',
+        damageType: 'force',
         scalingType: 'none'
       },
 
@@ -1511,7 +1511,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Dissonant Shriek',
       description: 'Unleash a discordant scream that generates tension notes and frightens enemies.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_psychicscream',
+      icon: 'Psychic/Agonizing Scream',
       school: 'Enchantment',
       level: 3,
 
@@ -1521,7 +1521,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'sphere',
         aoeSize: 20
@@ -1579,7 +1579,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Perfect Cadence',
       description: 'Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally\'s next attack will critically strike.',
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
       school: 'Divination',
       level: 4,
 
@@ -1595,7 +1595,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'turns'
       },
@@ -1636,7 +1636,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Circle of Fifths',
       description: 'Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.',
       spellType: 'ACTION',
-      icon: 'spell_fire_twilightflamebreath',
+      icon: 'Fire/Dragon Breath',
       school: 'Evocation',
       level: 5,
 
@@ -1646,7 +1646,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeType: 'sphere',
@@ -1654,7 +1654,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 3,
         durationUnit: 'turns'
       },
@@ -1669,7 +1669,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '2d4',
-        damageType: 'thunder',
+        damageType: 'force',
         scalingType: 'none'
       },
 
@@ -1704,7 +1704,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Authentic Cadence',
       description: 'Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.',
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing02',
+      icon: 'Healing/Prayer',
       school: 'Abjuration',
       level: 5,
 
@@ -1714,14 +1714,14 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'sphere',
         aoeSize: 20
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'turns'
       },
@@ -1735,7 +1735,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'Radiant'
+        damageType: 'radiant'
       },
 
       effects: {
@@ -1777,7 +1777,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Tritone Substitution',
       description: 'Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
+      icon: 'Psychic/Mind Strike',
       school: 'Enchantment',
       level: 6,
 
@@ -1793,7 +1793,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'turns'
       },
@@ -1836,7 +1836,7 @@ Before combat, decide which cadences you want to prioritize:
       name: 'Picardy Third',
       description: 'Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.',
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
       school: 'Abjuration',
       level: 6,
 
@@ -1846,7 +1846,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'sphere',
         aoeSize: 20
@@ -1865,7 +1865,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'Radiant'
+        damageType: 'radiant'
       },
 
       effects: {
@@ -1904,8 +1904,8 @@ Before combat, decide which cadences you want to prioritize:
       id: 'minstrel_song_of_rest',
       name: 'Song of Rest',
       description: 'Perform a calming melody that allows allies to recover during a short rest.',
-      spellType: 'RITUAL',
-      icon: 'spell_holy_silence',
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Control',
       school: 'Abjuration',
       level: 3,
 
@@ -1915,14 +1915,14 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'sphere',
         aoeSize: 30
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'hours'
       },
@@ -1936,7 +1936,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'Radiant'
+        damageType: 'radiant'
       },
 
       effects: {
@@ -1971,11 +1971,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive thunder damage to all enemies in a large area.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_nature_earthquake',
+      icon: 'Nature/Earth Shatter',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_earthquake',
+        icon: 'Nature/Earth Shatter',
         tags: ['damage', 'aoe', 'thunder', 'resolver', 'level-7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2056,11 +2056,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['buff', 'aoe', 'support', 'builder', 'level-7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2127,11 +2127,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Unleash a piercing shriek that disrupts enemy spellcasting and causes psychic damage to all who hear it.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_shadow_psychicscream',
+      icon: 'Psychic/Agonizing Scream',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_psychicscream',
+        icon: 'Psychic/Agonizing Scream',
         tags: ['damage', 'control', 'psychic', 'level-7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2175,7 +2175,7 @@ Before combat, decide which cadences you want to prioritize:
           name: 'Disrupted',
           description: 'Enemies cannot cast spells until the end of their next turn',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -2198,11 +2198,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
+      icon: 'Radiant/Divine Blessing',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         tags: ['damage', 'healing', 'aoe', 'resolver', 'level-8'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2270,11 +2270,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'A haunting melody that causes enemies to become entranced and vulnerable, reducing their defenses and causing fear.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_possession',
+      icon: 'Psychic/Mind Control',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         tags: ['debuff', 'control', 'aoe', 'level-8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2348,11 +2348,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_renew',
+      icon: 'Healing/Renewal',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_renew',
+        icon: 'Healing/Renewal',
         tags: ['healing', 'purification', 'aoe', 'level-8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2411,11 +2411,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Build to an overwhelming crescendo that empowers all your subsequent spells for the rest of combat.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         tags: ['buff', 'self', 'empowerment', 'level-9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2451,7 +2451,7 @@ Before combat, decide which cadences you want to prioritize:
           }
         }],
         durationValue: 0,
-        durationType: 'combat',
+        durationType: 'rounds',
         durationUnit: 'combat',
         concentrationRequired: false,
         canBeDispelled: false
@@ -2471,11 +2471,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'A mournful yet powerful requiem that damages enemies while granting allies the spirits of fallen heroes.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_shadow_soulleech',
+      icon: 'Necrotic/Drain Soul',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_shadow_soulleech',
+        icon: 'Necrotic/Drain Soul',
         tags: ['damage', 'buff', 'aoe', 'resolver', 'level-9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2551,11 +2551,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Gain complete control over the tempo of battle, granting allies extra actions while slowing enemies.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['buff', 'debuff', 'control', 'level-9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2627,11 +2627,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         tags: ['damage', 'buff', 'aoe', 'ultimate', 'level-10'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2708,18 +2708,18 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Magical Sword',
         tags: ['summoning', 'buff', 'ultimate', 'level-10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: []
@@ -2796,11 +2796,11 @@ Before combat, decide which cadences you want to prioritize:
       description: 'The ultimate cadence that consumes all accumulated musical energy to deliver a finishing blow that can end any battle.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_burnout',
+      icon: 'Fire/Rising Inferno',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_burnout',
+        icon: 'Fire/Rising Inferno',
         tags: ['damage', 'single-target', 'ultimate', 'resolver', 'level-10'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2866,7 +2866,7 @@ Before combat, decide which cadences you want to prioritize:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_silence',
+        icon: 'Psychic/Mind Control',
         tags: ['damage', 'force', 'note-generation', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

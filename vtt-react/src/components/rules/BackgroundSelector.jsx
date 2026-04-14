@@ -36,9 +36,14 @@ const getPassiveSummary = (benefit = {}) => {
 
     const formatStatMod = (mod = {}) => {
         const stat = (mod.stat || 'stat').replace(/_/g, ' ');
-        const mag = mod.magnitudeType === 'percentage'
-            ? `${mod.magnitude}%`
-            : `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        let mag;
+        if (mod.magnitudeType === 'dice' && mod.formula) {
+            mag = mod.formula;
+        } else if (mod.magnitudeType === 'percentage') {
+            mag = `${mod.magnitude}%`;
+        } else {
+            mag = `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        }
         return `${stat} ${mag}`;
     };
 

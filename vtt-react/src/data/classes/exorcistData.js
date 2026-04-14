@@ -785,7 +785,7 @@ RESTORATION AVAILABLE: Yes
       {
         id: 'demonologist',
         name: 'Demonologist',
-        icon: 'spell_shadow_demonicempathy',
+        icon: 'Necrotic/Demonic Empowerment',
         color: '#8B0000',
         theme: 'Multiple Demon Control',
 
@@ -828,7 +828,7 @@ RESTORATION AVAILABLE: Yes
       {
         id: 'demon_lord',
         name: 'Demon Lord',
-        icon: 'spell_shadow_demonicfortitude',
+        icon: 'Utility/Resistance',
         color: '#4B0082',
         theme: 'Single Powerful Demon',
 
@@ -871,7 +871,7 @@ RESTORATION AVAILABLE: Yes
       {
         id: 'possessed',
         name: 'Possessed',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         color: '#9400D3',
         theme: 'Internal Demon Channeling',
 
@@ -920,8 +920,8 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_bind_imp',
       name: 'Bind Imp',
       description: 'Perform a ritual to bind an Imp to your service. Requires purified lava, ash, and flame-touched gemstone. Must be cast at midnight under a new moon.',
-      spellType: 'RITUAL',
-      icon: 'spell_fire_flamebolt',
+      spellType: 'ACTION',
+      icon: 'Fire/Flame Burst',
       school: 'Summoning',
       level: 2,
 
@@ -932,7 +932,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'circle',
         aoeSize: 5
@@ -996,8 +996,8 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_bind_shadow_hound',
       name: 'Bind Shadow Hound',
       description: 'Capture a Shadow Hound using darkness and stealth. Requires nightshade essence, shadowy cloak, and silver mirror. Must be cast in complete darkness.',
-      spellType: 'RITUAL',
-      icon: 'spell_shadow_shadowfiend',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Ghostly Menace',
       school: 'Summoning',
       level: 4,
 
@@ -1008,7 +1008,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'circle',
         aoeSize: 5
@@ -1072,8 +1072,8 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_bind_abyssal_brute',
       name: 'Bind Abyssal Brute',
       description: 'Bind an Abyssal Brute through raw strength and endurance. Requires giant\'s blood, iron chains, and deep earth stone. Must be cast during a thunderstorm in mountainous terrain.',
-      spellType: 'RITUAL',
-      icon: 'spell_shadow_demonicpact',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Spectral Summoning',
       school: 'Summoning',
       level: 6,
 
@@ -1084,7 +1084,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'circle',
         aoeSize: 10
@@ -1153,8 +1153,8 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_bind_banshee',
       name: 'Bind Banshee',
       description: 'Bind a Banshee through shared grief and sorrow. Requires locket with loved one\'s picture, sorrowful tears, and white rose. Must be cast in a graveyard at dusk.',
-      spellType: 'RITUAL',
-      icon: 'spell_shadow_soulleech_3',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Drain Soul',
       school: 'Summoning',
       level: 5,
 
@@ -1165,7 +1165,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'circle',
         aoeSize: 5
@@ -1229,8 +1229,8 @@ RESTORATION AVAILABLE: Yes
       id: 'exo_bind_wraith',
       name: 'Bind Wraith',
       description: 'Capture a Wraith from the ethereal plane. Requires ectoplasm, moonstone shard, and spider silk veil. Must be cast at forest edge during full moon.',
-      spellType: 'RITUAL',
-      icon: 'spell_shadow_twilight',
+      spellType: 'ACTION',
+      icon: 'Void/Consumed by Void',
       school: 'Summoning',
       level: 5,
 
@@ -1241,7 +1241,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'circle',
         aoeSize: 5
@@ -1307,7 +1307,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Reassert Dominance',
       description: 'Channel divine power to reinforce your control over a bound demon, restoring its Dominance Die to maximum.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       school: 'Control',
       level: 2,
 
@@ -1359,7 +1359,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Chain of Command',
       description: 'Strengthen your grip over a bound demon, increasing its Dominance Die for the next 3 actions.',
       spellType: 'ACTION',
-      icon: 'spell_holy_divinepurpose',
+      icon: 'Radiant/Divine Halo',
       school: 'Control',
       level: 2,
 
@@ -1376,7 +1376,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       durationConfig: {
-        durationType: 'actions',
+        durationType: 'rounds',
         durationAmount: 3
       },
 
@@ -1413,7 +1413,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Divine Bond',
       description: 'Bolster the bond between you and a bound demon, restoring 2 steps of its Dominance Die.',
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
       school: 'Control',
       level: 3,
 
@@ -1467,7 +1467,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Command: Attack',
       description: 'Command a bound demon to attack a target with enhanced ferocity.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_commandingshout',
+      icon: 'Utility/Overlords Command',
       school: 'Command',
       level: 1,
 
@@ -1519,7 +1519,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Dismiss Demon',
       description: 'Safely dismiss a bound demon, sending it back to its binding circle. Prevents hostile escape.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_demonicpact',
+      icon: 'Necrotic/Spectral Summoning',
       school: 'Control',
       level: 1,
 
@@ -1572,7 +1572,7 @@ RESTORATION AVAILABLE: Yes
       name: 'Banish Demon',
       description: 'Banish a hostile demon or enemy summoned creature, sending it back to its plane of origin.',
       spellType: 'ACTION',
-      icon: 'spell_holy_excorcism',
+      icon: 'Radiant/Divine Beam',
       school: 'Banishment',
       level: 4,
 
@@ -1634,7 +1634,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         tags: ['damage', 'holy', 'radiant', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1693,7 +1693,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_unholystrength',
+        icon: 'General/Increase Strength',
         tags: ['buff', 'demon-enhancement', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1761,7 +1761,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         tags: ['buff', 'possession', 'self', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1827,7 +1827,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         tags: ['buff', 'possession', 'self', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1885,7 +1885,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_prayerofhealing02',
+        icon: 'Healing/Prayer',
         tags: ['damage', 'healing', 'holy', 'aoe', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1960,7 +1960,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         tags: ['debuff', 'holy', 'mark', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2025,7 +2025,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_sealofsacrifice',
+        icon: 'Radiant/Redemption',
         tags: ['utility', 'detection', 'demons', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2079,14 +2079,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         tags: ['control', 'zone', 'holy', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -2141,14 +2141,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_summoninfernal',
+        icon: 'Utility/Summon Minion',
         tags: ['summoning', 'binding', 'demon', 'pit-fiend', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: ['ground']
@@ -2196,7 +2196,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['utility', 'demon-control', 'dominance', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2250,7 +2250,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_excorcism',
+        icon: 'Radiant/Divine Beam',
         tags: ['damage', 'holy', 'aoe', 'anti-demon', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2315,14 +2315,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_summoninfernal',
+        icon: 'Utility/Summon Minion',
         tags: ['summoning', 'binding', 'demon', 'balor', 'demon-lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: ['ground']
@@ -2370,7 +2370,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_demonicempathy',
+        icon: 'Necrotic/Demonic Empowerment',
         tags: ['buff', 'demon-enhancement', 'mass', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2428,7 +2428,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         tags: ['buff', 'possession', 'transformation', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2487,14 +2487,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_summonvoidwalker',
+        icon: 'Utility/Summon Minion',
         tags: ['summoning', 'mass', 'demons', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: ['ground']
@@ -2542,7 +2542,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_divinepurpose',
+        icon: 'Radiant/Divine Halo',
         tags: ['damage', 'holy', 'aoe', 'ultimate', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2606,7 +2606,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_metamorphosis',
+        icon: 'Necrotic/Transform Demon',
         tags: ['transformation', 'demon', 'ultimate', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2663,14 +2663,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_summoninfernal',
+        icon: 'Utility/Summon Minion',
         tags: ['summoning', 'mass', 'ultimate', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         targetRestrictions: ['ground']
@@ -2718,7 +2718,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['damage', 'holy', 'ultimate', 'mass', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2782,7 +2782,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['buff', 'dominance', 'demon-enhancement', 'ultimate', 'demon-lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2841,14 +2841,14 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_summoninfernal',
+        icon: 'Utility/Summon Minion',
         tags: ['summoning', 'ultimate', 'demon-prince', 'demon-lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: ['ground']
@@ -2896,7 +2896,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'holy',
-        icon: 'spell_holy_divinepurpose',
+        icon: 'Radiant/Divine Halo',
         tags: ['damage', 'holy', 'ultimate', 'annihilation', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2960,7 +2960,7 @@ RESTORATION AVAILABLE: Yes
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_metamorphosis',
+        icon: 'Necrotic/Transform Demon',
         tags: ['transformation', 'ultimate', 'god-form', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

@@ -553,7 +553,7 @@ Many players enhance the titan experience with:
       {
         id: 'celestial-champion',
         name: 'Celestial Champion',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         color: '#FFD700',
         theme: 'Enhanced Devotion Benefits',
         
@@ -589,7 +589,7 @@ Many players enhance the titan experience with:
       {
         id: 'divine-conduit',
         name: 'Divine Conduit',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         color: '#87CEEB',
         theme: 'Reduced Restrictions',
         
@@ -625,7 +625,7 @@ Many players enhance the titan experience with:
       {
         id: 'astral-warrior',
         name: 'Astral Warrior',
-        icon: 'spell_arcane_starfire',
+        icon: 'Arcane/Missile',
         color: '#9370DB',
         theme: 'Combat Flexibility',
         
@@ -669,7 +669,7 @@ Many players enhance the titan experience with:
       name: 'Radiant Strike',
       description: 'Your melee attacks are infused with the radiant power of the sun, dealing additional radiant damage.',
       spellType: 'PASSIVE',
-      icon: 'spell_holy_searinglight',
+      icon: 'Radiant/Radiant Beam',
       school: 'Evocation',
       level: 1,
       specialization: 'solara',
@@ -720,7 +720,7 @@ Many players enhance the titan experience with:
       name: 'Solar Flare',
       description: 'Unleash a burst of solar energy, dealing radiant damage to all enemies within 10 feet and blinding them.',
       spellType: 'ACTION',
-      icon: 'spell_fire_twilightflamebreath',
+      icon: 'Fire/Dragon Breath',
       school: 'Evocation',
       level: 3,
       specialization: 'solara',
@@ -731,7 +731,7 @@ Many players enhance the titan experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         areaOfEffect: {
           type: 'RADIUS',
@@ -793,7 +793,7 @@ Many players enhance the titan experience with:
       name: 'Moonlit Resilience',
       description: 'The moon\'s protective power grants you enhanced armor and regeneration.',
       spellType: 'PASSIVE',
-      icon: 'spell_holy_elunesgrace',
+      icon: 'Nature/Ethereal Bird',
       school: 'Abjuration',
       level: 1,
       specialization: 'lunara',
@@ -873,7 +873,7 @@ Many players enhance the titan experience with:
       name: 'Lunar Shield',
       description: 'Create a barrier of moonlight that absorbs damage for all allies within 15 feet.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       school: 'Abjuration',
       level: 3,
       specialization: 'lunara',
@@ -884,7 +884,7 @@ Many players enhance the titan experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         areaOfEffect: {
           type: 'RADIUS',
@@ -894,7 +894,7 @@ Many players enhance the titan experience with:
       },
 
       durationConfig: {
-        durationType: 'until_depleted'
+        durationType: 'concentration'
       },
 
       resourceCost: {
@@ -946,7 +946,7 @@ Many players enhance the titan experience with:
       name: 'Celestial Speed',
       description: 'The swiftness of the stars enhances your movement and reflexes.',
       spellType: 'PASSIVE',
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       school: 'Transmutation',
       level: 1,
       specialization: 'astraeus',
@@ -1014,7 +1014,7 @@ Many players enhance the titan experience with:
       name: 'Starfall',
       description: 'Call down a star to strike a target, dealing massive force damage and stunning them.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_starfire',
+      icon: 'Arcane/Missile',
       school: 'Evocation',
       level: 3,
       specialization: 'astraeus',
@@ -1096,7 +1096,7 @@ Many players enhance the titan experience with:
       name: 'Grounded Might',
       description: 'The strength of the earth flows through you, granting immense durability and resistance.',
       spellType: 'PASSIVE',
-      icon: 'spell_nature_stoneskintotem',
+      icon: 'Nature/Earth Shield',
       school: 'Abjuration',
       level: 1,
       specialization: 'terranox',
@@ -1163,7 +1163,7 @@ Many players enhance the titan experience with:
       name: 'Earthquake',
       description: 'Cause the ground to tremble with earth-shaking force, damaging and knocking down all nearby enemies.',
       spellType: 'ACTION',
-      icon: 'spell_nature_earthquake',
+      icon: 'Nature/Earth Shatter',
       school: 'Evocation',
       level: 3,
       specialization: 'terranox',
@@ -1174,7 +1174,7 @@ Many players enhance the titan experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         areaOfEffect: {
           type: 'RADIUS',
@@ -1252,7 +1252,7 @@ Many players enhance the titan experience with:
       name: 'Tempest Fury',
       description: 'The fury of the wind enhances your attack speed and infuses your strikes with lightning.',
       spellType: 'PASSIVE',
-      icon: 'spell_nature_cyclone',
+      icon: 'Nature/Tornado Vortex',
       school: 'Evocation',
       level: 1,
       specialization: 'zephyra',
@@ -1332,7 +1332,7 @@ Many players enhance the titan experience with:
       name: 'Wind Dash',
       description: 'Become one with the wind, teleporting across the battlefield and striking with lightning.',
       spellType: 'ACTION',
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Wild 1',
       school: 'Conjuration',
       level: 3,
       specialization: 'zephyra',
@@ -1343,7 +1343,7 @@ Many players enhance the titan experience with:
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'teleport',
         rangeDistance: 30,
         areaOfEffect: {
@@ -1414,7 +1414,7 @@ Many players enhance the titan experience with:
       name: 'Combat Attunement',
       description: 'Switch your celestial devotion mid-combat for 1 AP. Only available to Astral Warriors.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'Arcane/Ebon Blaze',
       school: 'Transmutation',
       level: 2,
       specialization: 'astral-warrior',
@@ -1487,11 +1487,11 @@ Many players enhance the titan experience with:
       description: 'Channel celestial energy into a devastating melee strike that deals damage based on your devotion.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_crusaderstrike',
+      icon: 'Radiant/Divine Downward Sword',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_crusaderstrike',
+        icon: 'Radiant/Divine Downward Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1544,11 +1544,11 @@ Many players enhance the titan experience with:
       description: 'Summon celestial armor around yourself, gaining significant damage reduction and resistances.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1597,11 +1597,11 @@ Many players enhance the titan experience with:
       description: 'Issue a divine challenge to an enemy. They must attack you or suffer radiant damage.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_sealofblood',
+      icon: 'Necrotic/Blood Scroll',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_sealofblood',
+        icon: 'Necrotic/Blood Scroll',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1622,7 +1622,7 @@ Many players enhance the titan experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['debuff', 'taunt'],
+      effectTypes: ['debuff', 'control'],
 
       debuffConfig: {
         debuffType: 'taunt',
@@ -1657,11 +1657,11 @@ Many players enhance the titan experience with:
       description: 'Release a burst of solar energy, dealing fire and radiant damage to all nearby enemies.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_sealoffire',
+        icon: 'Fire/Fiery Symbol',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1711,11 +1711,11 @@ Many players enhance the titan experience with:
       description: 'Create a shield of moonlight that protects allies and heals them over time.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1777,17 +1777,17 @@ Many players enhance the titan experience with:
       description: 'Call down a meteor of starlight on an area, dealing massive force damage.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_arcane04',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 90,
         aoeShape: 'circle',
@@ -1835,17 +1835,17 @@ Many players enhance the titan experience with:
       description: 'Cause the ground to shake violently, knocking enemies prone and creating difficult terrain.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_nature_earthquake',
+      icon: 'Nature/Earth Shatter',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_earthquake',
+        icon: 'Nature/Earth Shatter',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1912,11 +1912,11 @@ Many players enhance the titan experience with:
       description: 'Summon a storm of lightning that strikes multiple enemies and increases your attack speed.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_nature_lightning',
+      icon: 'Lightning/Lightning Bolt',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_lightning',
+        icon: 'Lightning/Lightning Bolt',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1979,11 +1979,11 @@ Many players enhance the titan experience with:
       description: 'Combine the power of two devotions temporarily, gaining benefits from both.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'Arcane/Ebon Blaze',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_prismaticcloak',
+        icon: 'Arcane/Ebon Blaze',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -2035,11 +2035,11 @@ Many players enhance the titan experience with:
       description: 'Transform into an avatar of the radiant sun, gaining immense fire and radiant powers.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_immolation',
+      icon: 'Fire/Enveloping Fire',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_fire_immolation',
+        icon: 'Fire/Enveloping Fire',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2096,11 +2096,11 @@ Many players enhance the titan experience with:
       description: 'Receive the full blessing of the moon, gaining massive regeneration and protective powers.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_renew',
+      icon: 'Healing/Renewal',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_renew',
+        icon: 'Healing/Renewal',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2160,17 +2160,17 @@ Many players enhance the titan experience with:
       description: 'Call down a barrage of meteors from the stars, devastating a massive area.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_meteorstorm',
+      icon: 'Fire/Fiery Comet',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_meteorstorm',
+        icon: 'Fire/Fiery Comet',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'multi_ground',
+        targetingType: 'multi',
         rangeType: 'ranged',
         rangeDistance: 120,
         maxTargets: 4,
@@ -2229,11 +2229,11 @@ Many players enhance the titan experience with:
       description: 'Transform into an immovable mountain fortress, becoming nearly invulnerable.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneclawtotem',
+      icon: 'Nature/Roots',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_stoneclawtotem',
+        icon: 'Nature/Roots',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2292,11 +2292,11 @@ Many players enhance the titan experience with:
       description: 'Become the lord of storms, commanding lightning and wind to devastate enemies.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_nature_stormreach',
+      icon: 'Lightning/Thunder',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_stormreach',
+        icon: 'Lightning/Thunder',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2356,11 +2356,11 @@ Many players enhance the titan experience with:
       description: 'Call upon all celestials to pass judgment on an enemy, dealing massive damage.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_reckoning',
+      icon: 'Radiant/Radiant Warrior',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_reckoning',
+        icon: 'Radiant/Radiant Warrior',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2422,11 +2422,11 @@ Many players enhance the titan experience with:
       description: 'Transform into a full celestial avatar, gaining the ultimate power of your devotion.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2483,11 +2483,11 @@ Many players enhance the titan experience with:
       description: 'Call down a devastating bombardment from all celestials simultaneously.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2548,11 +2548,11 @@ Many players enhance the titan experience with:
       description: 'Grant divine protection to all allies, making them immune to damage for a brief time.',
       level: 9,
       spellType: 'REACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2605,11 +2605,11 @@ Many players enhance the titan experience with:
       description: 'Fuse with ALL celestials at once, becoming an avatar of cosmic power beyond comprehension.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2669,11 +2669,11 @@ Many players enhance the titan experience with:
       description: 'Unleash the full destructive power of the celestials, devastating everything in a massive area.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_burnout',
+      icon: 'Fire/Rising Inferno',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_burnout',
+        icon: 'Fire/Rising Inferno',
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -2740,11 +2740,11 @@ Many players enhance the titan experience with:
       description: 'Call upon the celestials to revive all fallen allies and fully restore the party.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_resurrection',
+      icon: 'Healing/Ressusitate',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_holy_resurrection',
+        icon: 'Healing/Ressusitate',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2767,7 +2767,7 @@ Many players enhance the titan experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['healing', 'resurrection'],
+      effectTypes: ['healing', 'restoration'],
 
       healingConfig: {
         formula: 'max_hp',

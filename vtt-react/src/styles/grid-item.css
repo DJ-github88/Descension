@@ -40,9 +40,6 @@
               transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* When background image is present, add overlay for 3D effect */
-  position: relative;
 }
 
 /* Add a subtle overlay for 3D effect when using background images */
@@ -84,7 +81,8 @@
     0 calc(var(--orb-size, 20px) * 0.15) calc(var(--orb-size, 20px) * 0.3) rgba(0, 0, 0, 0.4);
 
   /* Hover animation */
-  animation: orbPulse 1.2s ease-in-out infinite, orbFloat 4s ease-in-out infinite;
+  animation: orbPulse 1.2s ease-in-out infinite;
+  transition: none;
 }
 
 .grid-item-orb::after {
@@ -110,6 +108,12 @@
   50% {
     transform: translate(-50%, -50%) translateY(-3px);
   }
+}
+
+/* Disable float animation during drag - browser sets pointer-events:none on drag ghost */
+.grid-item-orb:active {
+  animation: none;
+  transition: none;
 }
 
 /* Hover pulse animation */

@@ -854,7 +854,7 @@ Many players enhance the Oracle experience with:
       {
         id: 'seer',
         name: 'Seer',
-        icon: 'spell_holy_farsight',
+        icon: 'Utility/Watchful Eye',
         color: '#9370DB',
         theme: 'Future Sight & Prediction Mastery',
         
@@ -893,7 +893,7 @@ Many players enhance the Oracle experience with:
       {
         id: 'truthseeker',
         name: 'Truthseeker',
-        icon: 'spell_holy_searinglightpriest',
+        icon: 'Radiant/Radiant Beam',
         color: '#FFD700',
         theme: 'Past Sight & Hidden Knowledge',
 
@@ -932,7 +932,7 @@ Many players enhance the Oracle experience with:
       {
         id: 'fateweaver',
         name: 'Fateweaver',
-        icon: 'spell_arcane_prismaticcloak',
+        icon: 'Arcane/Ebon Blaze',
         color: '#FF1493',
         theme: 'Destiny Manipulation & Fate Alteration',
 
@@ -978,7 +978,7 @@ Many players enhance the Oracle experience with:
       name: 'Foresight',
       description: 'Peer 6 seconds into the future to see the outcome of your next action, granting you perfect clarity.',
       spellType: 'ACTION',
-      icon: 'spell_holy_farsight',
+      icon: 'Utility/Watchful Eye',
       school: 'Divination',
       level: 2,
       specialization: 'seer',
@@ -1022,7 +1022,7 @@ Many players enhance the Oracle experience with:
       name: 'Shared Vision',
       description: 'Show an ally a glimpse of the future, guiding their actions toward success.',
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
       school: 'Divination',
       level: 1,
       specialization: 'seer',
@@ -1069,7 +1069,7 @@ Many players enhance the Oracle experience with:
       name: 'Prophecy of Doom',
       description: 'Declare a dire prophecy about an enemy\'s fate. Your words weave a web of destiny around them, and if your prediction comes true, they suffer the prophesied doom. The weight of fate itself presses down upon them, filling them with dread.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofachimonde',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Divination',
       level: 4,
       specialization: 'seer',
@@ -1187,7 +1187,7 @@ Many players enhance the Oracle experience with:
       name: 'Reveal Truth',
       description: 'Compel a creature to speak only truth. The power of truth itself forces them to answer honestly, unable to lie or deceive. Your question cuts through all falsehoods, revealing what they desperately try to hide.',
       spellType: 'ACTION',
-      icon: 'spell_holy_searinglightpriest',
+      icon: 'Radiant/Radiant Beam',
       school: 'Divination',
       level: 3,
       specialization: 'truthseeker',
@@ -1240,8 +1240,8 @@ Many players enhance the Oracle experience with:
       id: 'oracle_past_sight',
       name: 'Past Sight',
       description: 'Touch an object or location to witness its history, seeing events that transpired here.',
-      spellType: 'RITUAL',
-      icon: 'spell_arcane_mindvision',
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Read',
       school: 'Divination',
       level: 2,
       specialization: 'truthseeker',
@@ -1289,7 +1289,7 @@ Many players enhance the Oracle experience with:
       name: 'Piercing Gaze',
       description: 'Your eyes glow with supernatural light, seeing through all deceptions and illusions.',
       spellType: 'ACTION',
-      icon: 'spell_holy_holyguidance',
+      icon: 'Radiant/Enlightened Vision',
       school: 'Divination',
       level: 3,
       specialization: 'truthseeker',
@@ -1335,7 +1335,7 @@ Many players enhance the Oracle experience with:
       name: 'Twist Fate',
       description: 'Reach out and twist the threads of destiny, altering the outcome of an event.',
       spellType: 'REACTION',
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'Arcane/Ebon Blaze',
       school: 'Divination',
       level: 2,
       specialization: 'fateweaver',
@@ -1384,7 +1384,7 @@ Many players enhance the Oracle experience with:
       name: 'Sever Thread',
       description: 'Cut the thread of fate at a critical moment, preventing or ensuring a critical outcome.',
       spellType: 'REACTION',
-      icon: 'spell_shadow_soulleech_3',
+      icon: 'Necrotic/Drain Soul',
       school: 'Divination',
       level: 4,
       specialization: 'fateweaver',
@@ -1433,7 +1433,7 @@ Many players enhance the Oracle experience with:
       name: 'Destiny Lock',
       description: 'Lock a creature\'s fate, ensuring their next action results in a specific outcome.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       school: 'Divination',
       level: 5,
       specialization: 'fateweaver',
@@ -1489,7 +1489,7 @@ Many players enhance the Oracle experience with:
       name: 'Detect Fate',
       description: 'Sense the weight of destiny on creatures and objects, seeing who is important to the future.',
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing',
+      icon: 'Healing/Prayer',
       school: 'Divination',
       level: 1,
       specialization: 'universal',
@@ -1533,8 +1533,8 @@ Many players enhance the Oracle experience with:
       id: 'oracle_omen_reading',
       name: 'Omen Reading',
       description: 'Read the omens in your surroundings to gain insight into the immediate future.',
-      spellType: 'RITUAL',
-      icon: 'inv_misc_bone_skull_02',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Skull 2',
       school: 'Divination',
       level: 2,
       specialization: 'universal',
@@ -1586,12 +1586,12 @@ Many players enhance the Oracle experience with:
       description: 'See into the future to strike an enemy before they can react. This attack cannot be dodged or blocked.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
+      icon: 'Radiant/Divine Blessing',
       specialization: 'seer',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1635,12 +1635,12 @@ Many players enhance the Oracle experience with:
       description: 'Peer into a target\'s timeline to discover their greatest weakness. Your vision pierces through time itself, revealing every flaw and vulnerability. Once exposed, they become vulnerable to all damage, their defenses crumbling before your sight.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_shadow_detectinvisibility',
+      icon: 'Utility/All Seeing Eye',
       specialization: 'truthseeker',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_shadow_detectinvisibility',
+        icon: 'Utility/All Seeing Eye',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1692,12 +1692,12 @@ Many players enhance the Oracle experience with:
       description: 'Alter the threads of fate to change the outcome of a recent action.',
       level: 6,
       spellType: 'REACTION',
-      icon: 'spell_holy_reverseentropy',
+      icon: 'Arcane/Rewind Time',
       specialization: 'fateweaver',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_reverseentropy',
+        icon: 'Arcane/Rewind Time',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1744,12 +1744,12 @@ Many players enhance the Oracle experience with:
       description: 'See all incoming attacks before they happen. Your prescience allows you to anticipate every strike, every spell, every threat. Enemies find it nearly impossible to hit you as you dodge attacks that haven\'t even been made yet.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_elunesgrace',
+      icon: 'Nature/Ethereal Bird',
       specialization: 'seer',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_elunesgrace',
+        icon: 'Nature/Ethereal Bird',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1798,12 +1798,12 @@ Many players enhance the Oracle experience with:
       description: 'Read the hidden truths in a creature\'s past. Your vision pierces through time, revealing every secret, every weakness, every moment of vulnerability. Once exposed, they cannot hide from you, and all attacks against them find their mark with unerring precision.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindtwisting',
+      icon: 'Psychic/Mind Roar',
       specialization: 'truthseeker',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_shadow_mindtwisting',
+        icon: 'Psychic/Mind Roar',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1883,12 +1883,12 @@ Many players enhance the Oracle experience with:
       description: 'Manipulate the threads of destiny connecting multiple creatures. Link their fates together.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       specialization: 'fateweaver',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1936,12 +1936,12 @@ Many players enhance the Oracle experience with:
       description: 'Gain perfect knowledge of the immediate future. Know exactly what will happen in the next round.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
       specialization: 'seer',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1988,12 +1988,12 @@ Many players enhance the Oracle experience with:
       description: 'Assault a target\'s mind with visions of their darkest truths, dealing massive psychic damage.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_psychicscream',
+      icon: 'Psychic/Agonizing Scream',
       specialization: 'truthseeker',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_psychicscream',
+        icon: 'Psychic/Agonizing Scream',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2052,12 +2052,12 @@ Many players enhance the Oracle experience with:
       description: 'Fundamentally alter a creature\'s destiny. Change the outcome of any action they take.',
       level: 8,
       spellType: 'REACTION',
-      icon: 'spell_holy_borrowedtime',
+      icon: 'Arcane/Rewind Time',
       specialization: 'fateweaver',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_borrowedtime',
+        icon: 'Arcane/Rewind Time',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2104,12 +2104,12 @@ Many players enhance the Oracle experience with:
       description: 'Split the timeline, creating two versions of yourself that act simultaneously.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_arcane_portals',
+      icon: 'Arcane/Open Portal',
       specialization: 'seer',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_portals',
+        icon: 'Arcane/Open Portal',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2168,13 +2168,13 @@ Many players enhance the Oracle experience with:
       name: 'Omniscience',
       description: 'Briefly tap into omniscient knowledge. Learn any piece of information you desire.',
       level: 9,
-      spellType: 'RITUAL',
-      icon: 'spell_holy_surgeoflight',
+      spellType: 'ACTION',
+      icon: 'Radiant/Radiant Glow',
       specialization: 'truthseeker',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 10,
         castTimeType: 'RITUAL'
       },
@@ -2218,12 +2218,12 @@ Many players enhance the Oracle experience with:
       description: 'Take complete control of fate for a brief moment. Determine the outcome of any situation.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
       specialization: 'fateweaver',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2271,18 +2271,18 @@ Many players enhance the Oracle experience with:
       description: 'Summon your future self - a version of you from a timeline where you reached godlike power.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       specialization: 'seer',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -2339,12 +2339,12 @@ Many players enhance the Oracle experience with:
       description: 'Reveal the absolute truth of reality, forcing all creatures to confront their deepest fears and truths.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
+      icon: 'Radiant/Divine Blessing',
       specialization: 'truthseeker',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2409,12 +2409,12 @@ Many players enhance the Oracle experience with:
       description: 'Become the absolute master of fate itself. For 1 minute, you control destiny.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
       specialization: 'fateweaver',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2473,7 +2473,7 @@ Many players enhance the Oracle experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['buff', 'insight', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2535,7 +2535,7 @@ Many players enhance the Oracle experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['buff', 'defense', 'prophecy', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2594,7 +2594,7 @@ Many players enhance the Oracle experience with:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         tags: ['damage', 'force', 'guaranteed', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2643,7 +2643,7 @@ Many players enhance the Oracle experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divinepurpose',
+        icon: 'Radiant/Divine Halo',
         tags: ['buff', 'destiny', 'advantage', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

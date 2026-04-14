@@ -11,6 +11,7 @@ import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import LootTab from './LootTab';
 import CombatTab from './CombatTab';
+import TravelTab from './TravelTab';
 import { getIconUrl } from '../../utils/assetManager';
 
 const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
@@ -471,6 +472,11 @@ const TabbedChat = () => {
     // Combat tab
     if (activeTab === 'combat') {
       return <CombatTab />;
+    }
+
+    // Travel tab
+    if (activeTab === 'travel') {
+      return <TravelTab />;
     }
 
     // Chat tabs (Global, Whisper, Party)

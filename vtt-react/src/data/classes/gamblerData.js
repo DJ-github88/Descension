@@ -685,7 +685,7 @@ Playing Gambler in person is uniquely satisfying because:
     // Shared passive for all Gambler specializations
     sharedPassive: {
       name: 'Loaded Dice',
-      icon: 'inv_misc_dice_01',
+      icon: 'Social/Dice Roll',
       description: 'Choose a number between 2 and 19 at the start of each day. Whenever you roll that exact number on any die (for any purpose), you may spend 1 Fortune Point to reroll that die and use the new result. This effect applies to attack rolls, damage rolls, saving throws, and ability checks.',
       mechanicsNote: 'This passive gives Gamblers a way to turn unlucky rolls into second chances. Choose your number based on common roll targets (e.g., 10 for average rolls, 15 for important hits, 7 for lucky number superstition).'
     },
@@ -694,7 +694,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'fortunes-favor',
         name: "Fortune's Favor",
-        icon: 'inv_misc_coin_17',
+        icon: 'Utility/Utility',
         color: '#c9aa71',
         theme: 'Luck Manipulation',
 
@@ -719,7 +719,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         uniquePassive: {
           name: "Lucky Streak",
-          icon: 'spell_holy_blessedrecovery',
+          icon: 'Healing/Renewal',
           description: 'After successfully landing 3 attacks or spells in a row, your next coin flip ability automatically succeeds on the favorable outcome without needing to flip. This effect resets after use or after missing an attack/spell.',
           mechanicsNote: 'Rewards consistent play and reduces variance during hot streaks. Pairs well with low-risk attacks to build up guaranteed coin flip successes.'
         },
@@ -736,7 +736,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'high-roller',
         name: 'High Roller',
-        icon: 'inv_misc_gem_diamond_01',
+        icon: 'Utility/Glowing Shard',
         color: '#7a3b2e',
         theme: 'High Stakes Betting',
 
@@ -762,7 +762,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         uniquePassive: {
           name: "Double Down",
-          icon: 'ability_rogue_rollthebones',
+          icon: 'Social/Dice Roll',
           description: 'Whenever you successfully land a damaging ability, you may immediately spend 2 Fortune Points to "double down" and repeat the ability at half mana cost. If the second cast also succeeds, gain 3 Fortune Points. If it fails, lose 2 Fortune Points.',
           mechanicsNote: 'High-risk passive that can chain successes into devastating combos or turn wins into losses. Best used when you have Fortune Points to spare and can afford the mana cost.'
         },
@@ -779,7 +779,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'card-sharp',
         name: 'Card Sharp',
-        icon: 'inv_misc_platnumdisks',
+        icon: 'Utility/Utility',
         color: '#daa520',
         theme: 'Strategic Gambling',
 
@@ -805,7 +805,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         uniquePassive: {
           name: "Card Counting",
-          icon: 'inv_misc_book_11',
+          icon: 'Utility/Ornate Staff',
           description: 'You mentally track the "deck" of d20 results. After seeing 5 d20 rolls in combat (from any source), you gain advantage on predicting the next d20 result. This gives you advantage on abilities that require guessing or predicting rolls (Taunt the Odds, Evens and Odds, etc.).',
           mechanicsNote: 'Represents the Card Sharp\'s ability to read patterns and predict outcomes. Resets after each prediction or at the end of combat.'
         },
@@ -826,7 +826,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'lucky-strike',
         name: 'Lucky Strike',
-        icon: 'spell_holy_blessedrecovery',
+        icon: 'Healing/Renewal',
         spellType: 'ACTION',
         school: 'Luck Manipulation',
         level: 2,
@@ -912,7 +912,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'fates-coin',
         name: "Fate's Coin",
-        icon: 'inv_misc_coin_17',
+        icon: 'Utility/Utility',
         spellType: 'ACTION',
         school: 'Luck Manipulation',
         level: 3,
@@ -1029,7 +1029,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'jackpot',
         name: 'Jackpot',
-        icon: 'inv_misc_platnumdisks',
+        icon: 'Utility/Utility',
         spellType: 'ACTION',
         school: 'Strategic Gambling',
         level: 8,
@@ -1126,7 +1126,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'all-in',
         name: 'All-In',
-        icon: 'ability_rogue_rollthebones',
+        icon: 'Social/Dice Roll',
         spellType: 'ACTION',
         school: 'High Stakes Betting',
         level: 10,
@@ -1207,7 +1207,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'death-roll',
         name: 'Death Roll',
-        icon: 'spell_shadow_demonicempathy',
+        icon: 'Necrotic/Demonic Empowerment',
         spellType: 'ACTION',
         school: 'Strategic Gambling',
         level: 7,
@@ -1265,7 +1265,7 @@ Playing Gambler in person is uniquely satisfying because:
             name: 'Stunned',
             description: 'Loser is stunned for 1 round, unable to take actions or reactions',
             config: {
-              durationType: 'temporary',
+              durationType: 'rounds',
               recoveryMethod: 'automatic'
             }
           }]
@@ -1294,7 +1294,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'double-or-nothing',
         name: 'Double or Nothing',
-        icon: 'ability_warrior_intensifyrage',
+        icon: 'Utility/Empowered Warrior',
         spellType: 'ACTION',
         school: 'High Stakes Betting',
         level: 4,
@@ -1352,7 +1352,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'taunt-the-odds',
         name: 'Taunt the Odds',
-        icon: 'spell_holy_righteousfury',
+        icon: 'Radiant/Radiant Warrior',
         spellType: 'ACTION',
         school: 'Strategic Gambling',
         level: 3,
@@ -1413,7 +1413,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'coin-toss',
         name: 'Coin Toss',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         spellType: 'ACTION',
         school: 'Luck Manipulation',
         level: 2,
@@ -1431,7 +1431,7 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         durationConfig: {
-          durationType: 'timed',
+          durationType: 'rounds',
           duration: 1,
           durationUnit: 'hour'
         },
@@ -1497,7 +1497,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'gamblers-insight',
         name: "Gambler's Insight",
-        icon: 'spell_holy_sealofwisdom',
+        icon: 'Psychic/Focused Mind',
         spellType: 'ACTION',
         school: 'Utility',
         level: 2,
@@ -1516,7 +1516,7 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         durationConfig: {
-          durationType: 'timed',
+          durationType: 'rounds',
           duration: 10,
           durationUnit: 'minute'
         },
@@ -1566,7 +1566,7 @@ Playing Gambler in person is uniquely satisfying because:
       {
         id: 'fools-gold',
         name: "Fool's Gold",
-        icon: 'inv_misc_coin_02',
+        icon: 'Utility/Utility',
         spellType: 'ACTION',
         school: 'Illusion',
         level: 2,
@@ -1579,12 +1579,12 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         targetingConfig: {
-          targetingType: 'point',
+          targetingType: 'area',
           rangeType: 'touch'
         },
 
         durationConfig: {
-          durationType: 'timed_or_until_touched',
+          durationType: 'rounds',
           duration: 1,
           durationUnit: 'hour'
         },
@@ -1636,11 +1636,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Toss a coin and channel luck into a minor attack. Heads deals damage, tails provides a small buff.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'inv_misc_coin_01',
+      icon: 'Utility/Utility',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1698,11 +1698,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Channel the power of fortune to grant yourself advantage on your next ability check or attack roll.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'inv_misc_dice_01',
+      icon: 'Social/Dice Roll',
 
       typeConfig: {
         school: 'divination',
-        icon: 'inv_misc_dice_01',
+        icon: 'Social/Dice Roll',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1731,7 +1731,7 @@ Playing Gambler in person is uniquely satisfying because:
           description: 'Gain advantage on your next ability check or attack roll'
         }],
         durationValue: 1,
-        durationType: 'uses',
+        durationType: 'rounds',
         durationUnit: 'uses'
       },
 
@@ -1749,11 +1749,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Throw a magically enchanted die that deals damage based on the roll.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'inv_misc_dice_02',
+      icon: 'Social/Dice Roll',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_dice_02',
+        icon: 'Social/Dice Roll',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1794,11 +1794,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'When fortune favors you, ride the wave! Each successful attack this turn grants bonus damage on the next.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_immolation',
+      icon: 'Fire/Enveloping Fire',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_fire_immolation',
+        icon: 'Fire/Enveloping Fire',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1845,11 +1845,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Gamble big! Double your next spell or attack damage on heads, or deal nothing on tails.',
       level: 5,
       spellType: 'REACTION',
-      icon: 'inv_misc_coin_05',
+      icon: 'Utility/Utility',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'inv_misc_coin_05',
+        icon: 'Utility/Utility',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1901,11 +1901,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Subtly manipulate the odds. Reroll any dice you roll this turn and take the better result.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'inv_misc_dice_02',
+      icon: 'Social/Dice Roll',
 
       typeConfig: {
         school: 'divination',
-        icon: 'inv_misc_dice_02',
+        icon: 'Social/Dice Roll',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1955,11 +1955,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'The house always wins. Steal luck from enemies, imposing disadvantage on them while granting yourself advantage.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindtwisting',
+      icon: 'Psychic/Mind Roar',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_mindtwisting',
+        icon: 'Psychic/Mind Roar',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2026,11 +2026,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Draw from your magical deck to unleash one of four powerful effects based on the suit.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_madness',
+      icon: 'Psychic/Mental Chaos',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_ticket_tarot_madness',
+        icon: 'Psychic/Mental Chaos',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2051,7 +2051,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'DICE',
-      effectTypes: ['variable'],
+      effectTypes: ['utility'],
 
       rollableTable: {
         diceFormula: '1d4',
@@ -2093,11 +2093,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Project an aura of unreadability, becoming immune to charm, fear, and mind-reading effects.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
+      icon: 'General/Fiery Rage',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -2147,11 +2147,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Make the ultimate gamble. Roll a d20 - on a 15+, deal devastating damage. On a 1-5, take that damage yourself.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'inv_misc_dice_01',
+      icon: 'Social/Dice Roll',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_dice_01',
+        icon: 'Social/Dice Roll',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2204,11 +2204,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Hit the ultimate jackpot! Roll multiple dice and if any match, multiply your damage exponentially.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2270,11 +2270,11 @@ Playing Gambler in person is uniquely satisfying because:
       description: 'Reverse the fortunes of battle. Swap your current HP percentage with a target enemy.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_reverseentropy',
+      icon: 'Arcane/Rewind Time',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_reverseentropy',
+        icon: 'Arcane/Rewind Time',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2324,7 +2324,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         tags: ['damage', 'coin-flip', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2372,7 +2372,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'enhancement',
-        icon: 'inv_misc_dice_02',
+        icon: 'Social/Dice Roll',
         tags: ['buff', 'coin-flip', 'risky', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2429,7 +2429,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_02',
+        icon: 'Utility/Utility',
         tags: ['damage', 'coin-flip', 'high-risk', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2478,7 +2478,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['buff', 'coin-flip', 'fortune', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2535,7 +2535,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         tags: ['damage', 'coin-flip', 'jackpot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2589,7 +2589,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_02',
+        icon: 'Utility/Utility',
         tags: ['damage', 'aoe', 'coin-flip', 'ultimate', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2643,7 +2643,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_dice_01',
+        icon: 'Social/Dice Roll',
         tags: ['damage', 'guaranteed', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2697,7 +2697,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         tags: ['damage', 'coin-flip', 'ultimate', 'jackpot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

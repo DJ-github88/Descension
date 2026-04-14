@@ -672,7 +672,7 @@ Use a die or paper to track companion HP:
     
     sharedPassive: {
       name: 'Hunter\'s Instinct',
-      icon: 'ability_hunter_mastermarksman',
+      icon: 'Piercing/On the Mark',
       description: 'You have advantage on Perception and Survival checks. Additionally, you and your companion can communicate telepathically within 100 feet.'
     },
 
@@ -680,7 +680,7 @@ Use a die or paper to track companion HP:
       {
         id: 'bladestorm',
         name: 'Bladestorm',
-        icon: 'ability_rogue_fanofknives',
+        icon: 'Piercing/Dagger Rain',
         color: '#DC143C',
         theme: 'Multi-Target Devastation',
         
@@ -705,12 +705,12 @@ Use a die or paper to track companion HP:
         passiveAbilities: [
           {
             name: 'Whirling Blades',
-            icon: 'ability_rogue_slicedice',
+            icon: 'Slashing/Quick Slash',
             description: 'Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 → 1d6 → 1d4 → 1d2 → 1d2). This does not cost Quarry Marks.'
           },
           {
             name: 'Momentum',
-            icon: 'ability_warrior_intensifyrage',
+            icon: 'Utility/Empowered Warrior',
             description: 'Each successful chain attack grants you +1 to your next attack roll. This bonus stacks up to +3 and resets if you miss an attack.'
           }
         ],
@@ -725,7 +725,7 @@ Use a die or paper to track companion HP:
       {
         id: 'beastmaster',
         name: 'Beastmaster',
-        icon: 'ability_hunter_beastcall',
+        icon: 'Nature/Spawn',
         color: '#228B22',
         theme: 'Companion Synergy',
         
@@ -750,12 +750,12 @@ Use a die or paper to track companion HP:
         passiveAbilities: [
           {
             name: 'Primal Bond',
-            icon: 'ability_druid_primalprecision',
+            icon: 'Nature/Claw Marks',
             description: 'Your companion deals +1d4 damage on all attacks. Additionally, your companion\'s maximum HP is increased by 50%.'
           },
           {
             name: 'Pack Tactics',
-            icon: 'ability_hunter_aspectoftheviper',
+            icon: 'Nature/Sense',
             description: 'When you and your companion attack the same target, both of you gain advantage on attack rolls against that target until the end of your turn.'
           }
         ],
@@ -770,7 +770,7 @@ Use a die or paper to track companion HP:
       {
         id: 'shadowdancer',
         name: 'Shadowdancer',
-        icon: 'ability_rogue_shadowdance',
+        icon: 'Utility/Phantom Dash',
         color: '#4B0082',
         theme: 'Stealth & Mobility',
         
@@ -795,12 +795,12 @@ Use a die or paper to track companion HP:
         passiveAbilities: [
           {
             name: 'Shadow Veil',
-            icon: 'ability_stealth',
+            icon: 'Utility/Hide',
             description: 'After using Shadowstep, you gain +2 AC and advantage on Stealth checks for 1 round. You can hide for 1 AP during this time.'
           },
           {
             name: 'Lethal Precision',
-            icon: 'ability_rogue_deadlybrew',
+            icon: 'Poison/Poison Concoction',
             description: 'Attacks made from stealth or immediately after using Shadowstep deal an additional 2d6 damage. This bonus applies to both glaive and companion attacks.'
           }
         ],
@@ -823,7 +823,7 @@ Use a die or paper to track companion HP:
       name: 'Glaive Toss',
       description: 'Throw your Shadow Glaive at a target, chaining to additional enemies within 5 feet of each other.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_fanofknives',
+      icon: 'Piercing/Dagger Rain',
       school: 'Physical',
       level: 1,
       specialization: 'bladestorm',
@@ -897,7 +897,7 @@ Use a die or paper to track companion HP:
       name: 'Whirling Death',
       description: 'Spin your Shadow Glaive in a deadly circle, striking all enemies within 10 feet.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_slicedice',
+      icon: 'Slashing/Quick Slash',
       school: 'Physical',
       level: 3,
       specialization: 'bladestorm',
@@ -954,7 +954,7 @@ Use a die or paper to track companion HP:
       name: 'Blade Fury',
       description: 'Unleash a devastating flurry of glaive strikes, hitting multiple targets in rapid succession.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
       school: 'Physical',
       level: 5,
       specialization: 'bladestorm',
@@ -1025,7 +1025,7 @@ Use a die or paper to track companion HP:
       name: 'Companion Strike',
       description: 'Command your companion to attack a target with enhanced ferocity.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_beastcall',
+      icon: 'Nature/Spawn',
       school: 'Physical',
       level: 1,
       specialization: 'beastmaster',
@@ -1055,7 +1055,7 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'proficiency'
       },
 
@@ -1091,7 +1091,7 @@ Use a die or paper to track companion HP:
       name: 'Coordinated Assault',
       description: 'You and your companion attack the same target simultaneously, overwhelming them with coordinated strikes.',
       spellType: 'ACTION',
-      icon: 'ability_druid_primalprecision',
+      icon: 'Nature/Claw Marks',
       school: 'Physical',
       level: 3,
       specialization: 'beastmaster',
@@ -1123,7 +1123,7 @@ Use a die or paper to track companion HP:
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'none'
       },
 
@@ -1162,7 +1162,7 @@ Use a die or paper to track companion HP:
       name: 'Primal Rage',
       description: 'Your companion enters a primal rage, gaining enhanced stats and attacking with savage fury.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_aspectoftheviper',
+      icon: 'Nature/Sense',
       school: 'Physical',
       level: 5,
       specialization: 'beastmaster',
@@ -1232,7 +1232,7 @@ Use a die or paper to track companion HP:
       name: 'Shadowstep',
       description: 'Teleport through shadows to a nearby location, gaining advantage on your next attack.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_shadowdance',
+      icon: 'Utility/Phantom Dash',
       school: 'Shadow',
       level: 1,
       specialization: 'shadowdancer',
@@ -1243,7 +1243,7 @@ Use a die or paper to track companion HP:
       },
 
       targetingConfig: {
-        targetingType: 'location',
+        targetingType: 'area',
         rangeType: 'teleport',
         rangeDistance: 30
       },
@@ -1291,7 +1291,7 @@ Use a die or paper to track companion HP:
       name: 'Shadow Strike',
       description: 'Strike from the shadows with devastating force, dealing massive damage to an unsuspecting target.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_deadlybrew',
+      icon: 'Poison/Poison Concoction',
       school: 'Shadow',
       level: 3,
       specialization: 'shadowdancer',
@@ -1362,7 +1362,7 @@ Use a die or paper to track companion HP:
       name: 'Phantom Blades',
       description: 'Create shadow copies of your glaive that strike multiple targets simultaneously.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstrike',
+      icon: 'Piercing/Night Dagger',
       school: 'Shadow',
       level: 5,
       specialization: 'shadowdancer',
@@ -1433,7 +1433,7 @@ Use a die or paper to track companion HP:
       name: 'Moonlit Strike',
       description: 'Empower your Shadow Glaive with lunar energy, dealing enhanced damage and potentially blinding your target.',
       spellType: 'ACTION',
-      icon: 'spell_nature_starfall',
+      icon: 'Arcane/Star Trail Path',
       school: 'Arcane',
       level: 2,
       specialization: 'universal',
@@ -1526,7 +1526,7 @@ Use a die or paper to track companion HP:
       name: 'Evasion',
       description: 'Use your agility to avoid incoming attacks, increasing your defenses.',
       spellType: 'REACTION',
-      icon: 'ability_rogue_feint',
+      icon: 'Utility/Parry',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1586,7 +1586,7 @@ Use a die or paper to track companion HP:
       name: 'Mark Quarry',
       description: 'Focus your hunter\'s instinct on a target, marking them as your quarry.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       school: 'Physical',
       level: 1,
       specialization: 'universal',
@@ -1645,7 +1645,7 @@ Use a die or paper to track companion HP:
       name: 'Swift Assault',
       description: 'Perform a rapid series of glaive strikes against multiple nearby enemies.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_decisivestrike',
+      icon: 'Slashing/Sword Strike',
       school: 'Physical',
       level: 3,
       specialization: 'universal',
@@ -1718,7 +1718,7 @@ Use a die or paper to track companion HP:
       name: "Hunter's Mark",
       description: 'Mark a target, making it easier for you and your companion to hunt.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_snipershot',
+      icon: 'Piercing/Focused Arrow Shot',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1778,7 +1778,7 @@ Use a die or paper to track companion HP:
       name: 'Shadow Assault',
       description: 'Dash to a target and strike with overwhelming force.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstep',
+      icon: 'Utility/Phantom Dash',
       school: 'Physical',
       level: 4,
       specialization: 'universal',
@@ -1838,7 +1838,7 @@ Use a die or paper to track companion HP:
       name: 'Feral Bond',
       description: 'Strengthen your bond with your companion, enhancing both of your combat abilities.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_beastcall',
+      icon: 'Nature/Spawn',
       school: 'Nature',
       level: 4,
       specialization: 'universal',
@@ -1898,7 +1898,7 @@ Use a die or paper to track companion HP:
       name: 'Glaive Dance',
       description: 'Spin through enemies in a deadly dance, striking all in your path.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_bladefurry',
+      icon: 'Slashing/Dual Blades',
       school: 'Physical',
       level: 4,
       specialization: 'universal',
@@ -1960,7 +1960,7 @@ Use a die or paper to track companion HP:
       name: 'Apex Predator',
       description: 'Transform into the ultimate hunter, enhancing all your abilities.',
       spellType: 'ACTION',
-      icon: 'ability_druid_catform',
+      icon: 'Nature/Cat Face',
       school: 'Nature',
       level: 6,
       specialization: 'universal',
@@ -2012,7 +2012,7 @@ Use a die or paper to track companion HP:
       name: 'Death From Above',
       description: 'Leap high into the air and crash down on enemies with devastating force.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_pet_cat',
+      icon: 'Nature/Cat Face',
       school: 'Physical',
       level: 6,
       specialization: 'universal',
@@ -2023,7 +2023,7 @@ Use a die or paper to track companion HP:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         areaType: 'circle',
@@ -2075,7 +2075,7 @@ Use a die or paper to track companion HP:
       name: 'Pack Tactics',
       description: 'Coordinate a devastating assault with your companion.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_pet_wolf',
+      icon: 'Nature/Wolf Dash',
       school: 'Nature',
       level: 6,
       specialization: 'universal',
@@ -2142,7 +2142,7 @@ Use a die or paper to track companion HP:
       name: 'Shadow Glaive Mastery',
       description: 'Master the Shadow Glaive, unlocking its full devastating potential.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_deadlybrew',
+      icon: 'Poison/Poison Concoction',
       school: 'Physical',
       level: 7,
       specialization: 'universal',
@@ -2193,7 +2193,7 @@ Use a die or paper to track companion HP:
       name: 'Savage Roar',
       description: 'Your companion unleashes a terrifying roar that frightens all enemies.',
       spellType: 'ACTION',
-      icon: 'ability_druid_challangingroar',
+      icon: 'Nature/Roar',
       school: 'Nature',
       level: 7,
       specialization: 'universal',
@@ -2257,7 +2257,7 @@ Use a die or paper to track companion HP:
       name: "Hunter's Fury",
       description: 'Channel all your fury into a devastating flurry of glaive strikes.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
       school: 'Physical',
       level: 7,
       specialization: 'universal',
@@ -2314,7 +2314,7 @@ Use a die or paper to track companion HP:
       name: 'Shadow Storm',
       description: 'Create a storm of shadow energy that devastates all enemies.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
+      icon: 'Psychic/Mind Strike',
       school: 'Shadow',
       level: 8,
       specialization: 'universal',
@@ -2387,7 +2387,7 @@ Use a die or paper to track companion HP:
       name: 'Primal Bond',
       description: 'Merge your essence with your companion, becoming one unstoppable force.',
       spellType: 'ACTION',
-      icon: 'ability_druid_ferociousbite',
+      icon: 'Nature/Claw Marks',
       school: 'Nature',
       level: 8,
       specialization: 'universal',
@@ -2442,7 +2442,7 @@ Use a die or paper to track companion HP:
       name: 'Glaive Storm',
       description: 'Summon a storm of shadow glaives that strike all enemies repeatedly.',
       spellType: 'CHANNELED',
-      icon: 'ability_rogue_fanofknives',
+      icon: 'Piercing/Dagger Rain',
       school: 'Physical',
       level: 8,
       specialization: 'universal',
@@ -2515,7 +2515,7 @@ Use a die or paper to track companion HP:
       name: 'Ultimate Hunter',
       description: 'Become the ultimate hunter, transcending mortal limitations.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_pet_bear',
+      icon: 'Nature/Roaring Bear',
       school: 'Nature',
       level: 9,
       specialization: 'universal',
@@ -2569,7 +2569,7 @@ Use a die or paper to track companion HP:
       name: "Death's Embrace",
       description: 'Channel the essence of death through your glaive, instantly killing weak enemies.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_deathanddecay',
+      icon: 'Necrotic/Necrotic Death',
       school: 'Shadow',
       level: 9,
       specialization: 'universal',
@@ -2638,7 +2638,7 @@ Use a die or paper to track companion HP:
       name: 'Eternal Hunt',
       description: 'Begin an eternal hunt that never ends until your quarry falls.',
       spellType: 'PASSIVE',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       school: 'Nature',
       level: 9,
       specialization: 'universal',
@@ -2690,7 +2690,7 @@ Use a die or paper to track companion HP:
       name: 'Godslayer',
       description: 'Strike with enough force to slay even gods.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_decisivestrike',
+      icon: 'Slashing/Sword Strike',
       school: 'Physical',
       level: 10,
       specialization: 'universal',
@@ -2757,7 +2757,7 @@ Use a die or paper to track companion HP:
       name: 'Primal Apocalypse',
       description: 'Summon the primal fury of nature itself to devastate the battlefield.',
       spellType: 'ACTION',
-      icon: 'spell_nature_earthquake',
+      icon: 'Nature/Earth Shatter',
       school: 'Nature',
       level: 10,
       specialization: 'universal',
@@ -2837,7 +2837,7 @@ Use a die or paper to track companion HP:
       name: 'Perfect Hunt',
       description: 'Achieve the perfect hunt - unlimited power, unlimited fury.',
       spellType: 'PASSIVE',
-      icon: 'ability_hunter_mastermarksman',
+      icon: 'Piercing/On the Mark',
       school: 'Nature',
       level: 10,
       specialization: 'universal',

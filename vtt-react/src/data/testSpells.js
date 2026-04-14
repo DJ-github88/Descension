@@ -158,7 +158,7 @@ export const RESOLUTION_TEST_SPELLS = [
     },
     damageConfig: {
       formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)',
-      damageTypes: ['cold'],
+      damageTypes: ['frost'],
       resolution: 'COINS',
       coinConfig: {
         flipCount: 7,
@@ -1477,7 +1477,7 @@ export const TARGETING_TEST_SPELLS = [
     },
     damageConfig: {
       formula: '2d6+STR',
-      damageTypes: ['physical'],
+      damageTypes: ['bludgeoning'],
       resolution: 'DICE'
     },
     resourceCost: {

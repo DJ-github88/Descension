@@ -756,7 +756,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       {
         id: 'voidcaller',
         name: 'Voidcaller',
-        icon: 'spell_shadow_twilight',
+        icon: 'Void/Consumed by Void',
         color: '#9400D3',
         theme: 'Aggressive Madness',
 
@@ -799,7 +799,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       {
         id: 'deceiver',
         name: 'Deceiver',
-        icon: 'spell_shadow_charm',
+        icon: 'Psychic/Mind Control',
         color: '#8B008B',
         theme: 'Mind Control & Manipulation',
 
@@ -842,7 +842,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       {
         id: 'cultist',
         name: 'Cultist',
-        icon: 'spell_shadow_deathcoil',
+        icon: 'Necrotic/Death Mark',
         color: '#4B0082',
         theme: 'Corruption & Curses',
 
@@ -892,7 +892,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Dark Whisper',
       description: 'Send haunting whispers from the void to shatter a target\'s mind, dealing psychic damage.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_siphonmana',
+      icon: 'Arcane/Orb Manipulation',
       school: 'Psychic',
       level: 1,
 
@@ -959,7 +959,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'psychic',
-        icon: 'spell_shadow_mindsteal',
+        icon: 'Psychic/Mind Control',
         tags: ['control', 'confusion', 'psychic', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1017,7 +1017,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'psychic',
-        icon: 'spell_shadow_shadowwordpain',
+        icon: 'Psychic/Mind Strike',
         tags: ['damage', 'psychic', 'dot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1067,7 +1067,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Corrupt Mind',
       description: 'Corrupt a target\'s mind with dark whispers, forcing them to attack their own allies.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_possession',
+      icon: 'Psychic/Mind Control',
       school: 'Mind Control',
       level: 5,
 
@@ -1131,7 +1131,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Maddening Scripture',
       description: 'Recite eldritch scripture that drives all who hear it toward madness and confusion.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
+      icon: 'General/Fiery Rage',
       school: 'Psychic',
       level: 4,
 
@@ -1141,7 +1141,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'radius',
         aoeSize: 20
@@ -1194,7 +1194,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Abyssal Command',
       description: 'Command creatures from the abyss to rise and fight for you.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_demonicempathy',
+      icon: 'Necrotic/Demonic Empowerment',
       school: 'Summoning',
       level: 6,
 
@@ -1204,7 +1204,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -1249,7 +1249,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Dark Bidding',
       description: 'Channel Madness Points into raw power, boosting combat abilities temporarily.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_unholystrength',
+      icon: 'General/Increase Strength',
       school: 'Enhancement',
       level: 3,
 
@@ -1301,7 +1301,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Feeding Darkness',
       description: 'Feed on the darkness within, converting Madness Points into healing.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_lifedrain',
+      icon: 'Necrotic/Drain Soul',
       school: 'Restoration',
       level: 4,
 
@@ -1361,7 +1361,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Maddening Wrath',
       description: 'Channel accumulated madness into a devastating attack of pure chaos.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowbolt',
+      icon: 'Void/Black Hole',
       school: 'Evocation',
       level: 5,
 
@@ -1423,7 +1423,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Enslave',
       description: 'Spend Madness to completely enslave a target\'s mind, making them your thrall.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindshear',
+      icon: 'Psychic/Psionic Strike',
       school: 'Mind Control',
       level: 6,
 
@@ -1487,7 +1487,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Reality Twist',
       description: 'Twist reality itself, creating a zone of chaotic and unpredictable effects.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_twilight',
+      icon: 'Void/Consumed by Void',
       school: 'Transmutation',
       level: 7,
 
@@ -1497,7 +1497,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeType: 'radius',
@@ -1548,7 +1548,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Veil of Shadows',
       description: 'Cloak yourself in shadows, becoming invisible. Requires 6 Madness Points. Adds 1d4 Madness.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Psychic/Mind Control',
       school: 'Illusion',
       level: 4,
 
@@ -1605,7 +1605,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Eldritch Vision',
       description: 'See through walls and detect hidden enemies with void-touched sight. Requires 9 Madness. Adds 1d6 Madness.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_soulleech_3',
+      icon: 'Necrotic/Drain Soul',
       school: 'Divination',
       level: 5,
 
@@ -1663,7 +1663,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Apocalyptic Revelation',
       description: 'Unleash a massive wave of psychic energy. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk).',
       spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
+      icon: 'Psychic/Mind Strike',
       school: 'Evocation',
       level: 8,
 
@@ -1673,7 +1673,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'self',
         aoeType: 'radius',
         aoeSize: 30
@@ -1743,7 +1743,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Curse of Flesh',
       description: 'Curse a target, causing their flesh to decay and rot over time.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofachimonde',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Necromancy',
       level: 4,
 
@@ -1806,7 +1806,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Twisted Sermon',
       description: 'Deliver a dark sermon that inflicts psychic damage and causes paranoia.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_psychicscream',
+      icon: 'Psychic/Agonizing Scream',
       school: 'Psychic',
       level: 5,
 
@@ -1816,7 +1816,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'cone',
         aoeSize: 30
       },
@@ -1878,7 +1878,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Befoul',
       description: 'Befoul an area with dark energy, creating hazardous terrain.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_plaguecloud',
+      icon: 'Poison/Poison Plague',
       school: 'Conjuration',
       level: 3,
 
@@ -1888,7 +1888,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeType: 'radius',
@@ -1943,7 +1943,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Black Oath',
       description: 'Swear a black oath that curses an enemy, reducing their effectiveness.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofmannoroth',
+      icon: 'Necrotic/Necrotic Decay 1',
       school: 'Curse',
       level: 4,
 
@@ -2001,7 +2001,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Isolate',
       description: 'Sever a target\'s connections, preventing them from receiving healing or buffs.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       school: 'Curse',
       level: 3,
 
@@ -2060,7 +2060,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       name: 'Devouring Omen',
       description: 'Summon a terrifying apparition that frightens enemies and marks them for doom.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_demonicfortitude',
+      icon: 'Utility/Resistance',
       school: 'Illusion',
       level: 6,
 
@@ -2070,7 +2070,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'radius',
@@ -2133,7 +2133,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         tags: ['control', 'charm', 'deception', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2192,7 +2192,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_charm',
+        icon: 'Psychic/Mind Control',
         tags: ['debuff', 'lies', 'spirit-reduction', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2255,7 +2255,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_shadow_mindsteal',
+        icon: 'Psychic/Mind Control',
         tags: ['damage', 'psychic', 'illusion', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2304,7 +2304,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_holy_heal',
+        icon: 'Healing/Golden Heart',
         tags: ['utility', 'deception', 'illusion', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2359,7 +2359,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_shadow_shadowwordpain',
+        icon: 'Psychic/Mind Strike',
         tags: ['damage', 'psychic', 'control', 'confusion', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2425,7 +2425,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_shadow_charm',
+        icon: 'Psychic/Mind Control',
         tags: ['control', 'confusion', 'aoe', 'deception', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2485,7 +2485,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_shadow_twilight',
+        icon: 'Void/Consumed by Void',
         tags: ['damage', 'psychic', 'debuff', 'distortion', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2566,7 +2566,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_mindsteal',
+        icon: 'Psychic/Mind Control',
         tags: ['control', 'manipulation', 'mind-control', 'mass', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2627,7 +2627,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_shadow_charm',
+        icon: 'Psychic/Mind Control',
         tags: ['damage', 'psychic', 'ultimate', 'deception', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2692,7 +2692,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         tags: ['transformation', 'ultimate', 'god-form', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

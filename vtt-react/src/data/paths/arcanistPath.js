@@ -6,7 +6,7 @@ export const ARCANIST_PATH = {
     overview: 'Arcanists are scholars of the arcane arts, having spent years studying magical theory and practice. Their deep understanding of spellcraft and magical phenomena makes them invaluable in matters of mystical importance.',
 
     mechanicalBenefits: [
-        { name: 'Spell Efficiency', description: 'Reduce mana costs by 5 for all spells', type: 'passive' }
+        { name: 'Spell Efficiency', description: 'Every 3rd spell cast is cast again at no additional cost', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -32,8 +32,8 @@ export const ARCANIST_PATH = {
         {
             id: 'arcane_mastery',
             name: 'Arcane Mastery',
-            description: '"Magic flows through me like breath." Your deep understanding of arcane principles reduces spell costs and enhances your magical defenses.',
-            icon: 'spell_arcane_arcanepotency',
+            description: '"Magic flows through me like breath." Your deep understanding of arcane principles enhances your magical damage and defenses.',
+            icon: 'Arcane/Wizard Spell Casting',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'arcane', 'efficiency', 'resistance'],
@@ -42,7 +42,7 @@ export const ARCANIST_PATH = {
 
             typeConfig: {
                 school: 'arcane',
-                icon: 'spell_arcane_arcanepotency',
+                icon: 'Arcane/Wizard Spell Casting',
                 tags: ['passive', 'arcane', 'efficiency', 'resistance']
             },
 
@@ -50,11 +50,11 @@ export const ARCANIST_PATH = {
                 buffType: 'statEnhancement',
                 effects: [
                     {
-                        id: 'spell_efficiency',
-                        name: 'Spell Efficiency',
-                        description: 'All spells cost 5 less mana (minimum 1). Your arcane knowledge allows you to channel magic more efficiently.',
+                        id: 'arcane_power',
+                        name: 'Arcane Power',
+                        description: 'Your arcane mastery adds +5 damage to all arcane spells. Raw magical energy amplifies your spellwork.',
                         statModifier: {
-                            stat: 'mana_cost_reduction',
+                            stat: 'arcane_spell_power',
                             magnitude: 5,
                             magnitudeType: 'flat'
                         }
@@ -90,32 +90,28 @@ export const ARCANIST_PATH = {
         {
             id: 'spell_shield',
             name: 'Spell Shield',
-            description: '"Your magic cannot touch me!" When targeted by a spell, create an arcane barrier that absorbs the magical energy and potentially reflects it back.',
-            icon: 'spell_arcane_arcane04',
+            description: '"Your magic cannot touch me!" When targeted by a spell, create an arcane barrier. Flip two coins — if both land on heads, the spell is reflected back at the caster with full effect.',
+            icon: 'Arcane/Magical Sword',
             level: 1,
             spellType: 'REACTION',
-            tags: ['reaction', 'defensive', 'arcane', 'counterspell'],
-            effectTypes: ['buff'],
+            tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin-flip'],
+            effectTypes: ['buff', 'utility'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'arcane',
-                icon: 'spell_arcane_arcane04',
-                tags: ['reaction', 'defensive', 'arcane', 'counterspell']
+                icon: 'Arcane/Magical Sword',
+                tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin-flip']
             },
 
             buffConfig: {
-                buffType: 'statEnhancement',
+                buffType: 'statusEffect',
                 effects: [
                     {
                         id: 'arcane_shield',
                         name: 'Arcane Shield',
-                        description: 'Gain +5 to your saving throw against the triggering spell. If you succeed by 5 or more, the spell is reflected back at the caster.',
-                        statModifier: {
-                            stat: 'spell_save_bonus',
-                            magnitude: 5,
-                            magnitudeType: 'flat'
-                        }
+                        description: 'An arcane barrier absorbs the incoming spell. Flip two coins — on two heads, the spell is reflected back at the caster at full power.',
+                        statusType: 'reflect'
                     }
                 ],
                 durationValue: 1,
@@ -166,7 +162,7 @@ export const ARCANIST_PATH = {
                 recovery: 1
             },
 
-            resolution: 'DICE',
+            resolution: 'COIN',
             visualTheme: 'arcane'
         },
         // ACTION - Elemental Blast
@@ -174,7 +170,7 @@ export const ARCANIST_PATH = {
             id: 'elemental_blast',
             name: 'Elemental Blast',
             description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy in a 10-foot radius sphere, dealing massive damage to all enemies caught within.',
-            icon: 'spell_fire_elementaldevastation',
+            icon: 'Arcane/Conjure Elements',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'damage', 'elemental', 'blast', 'aoe'],
@@ -183,7 +179,7 @@ export const ARCANIST_PATH = {
 
             typeConfig: {
                 school: 'fire',
-                icon: 'spell_fire_elementaldevastation',
+                icon: 'Arcane/Conjure Elements',
                 tags: ['action', 'damage', 'elemental', 'blast', 'aoe']
             },
 
@@ -251,7 +247,7 @@ export const ARCANIST_PATH = {
                     id: 'elemental_blast',
                     name: 'Elemental Blast',
                     description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy.',
-                    icon: 'spell_fire_elementaldevastation',
+                    icon: 'Arcane/Conjure Elements',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['damage', 'elemental', 'blast', 'aoe'],
@@ -319,7 +315,7 @@ export const ARCANIST_PATH = {
                     id: 'elemental_mastery',
                     name: 'Elemental Mastery',
                     description: '"Command the elements!" Gain temporary mastery over all elements.',
-                    icon: 'spell_nature_wispsplode',
+                    icon: 'Arcane/Orb Manipulation',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['buff', 'elemental', 'mastery', 'versatility'],
@@ -414,7 +410,7 @@ export const ARCANIST_PATH = {
                     id: 'time_stop',
                     name: 'Time Stop',
                     description: '"Time bends to my will." Briefly freeze time to take extra actions.',
-                    icon: 'spell_arcane_blink',
+                    icon: 'Arcane/Rewind Time',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['utility', 'time', 'buff', 'extra-actions'],
@@ -485,7 +481,7 @@ export const ARCANIST_PATH = {
                     id: 'temporal_rewind',
                     name: 'Temporal Rewind',
                     description: '"Turn back the clock." Rewind time to undo recent damage.',
-                    icon: 'spell_arcane_blink',
+                    icon: 'Arcane/Sands of Time',
                     level: 2,
                     spellType: 'REACTION',
                     tags: ['healing', 'time', 'rewind', 'defensive'],
@@ -583,7 +579,7 @@ export const ARCANIST_PATH = {
                     id: 'arcane_surge',
                     name: 'Arcane Surge',
                     description: '"Power overwhelming!" Empower your next spell for increased effect.',
-                    icon: 'spell_arcane_arcanepotency',
+                    icon: 'Arcane/Ebon Blaze',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'spell-power', 'enhancement', 'metamagic'],
@@ -663,7 +659,7 @@ export const ARCANIST_PATH = {
                     id: 'spell_steal',
                     name: 'Spell Steal',
                     description: '"Your magic is mine now." Steal a beneficial effect from an enemy.',
-                    icon: 'spell_arcane_arcane04',
+                    icon: 'Arcane/Magical Duel',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['utility', 'dispel', 'steal', 'tactical'],

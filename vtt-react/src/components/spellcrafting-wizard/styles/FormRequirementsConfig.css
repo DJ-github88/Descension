@@ -89,7 +89,7 @@
   gap: var(--pf-space-5);
 }
 
-.form-section {
+.form-content .form-section {
   background: var(--pf-gradient-parchment-dark);
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);

@@ -6,7 +6,7 @@ export const MERCENARY_PATH = {
     overview: 'Mercenaries are professional warriors who have honed their skills through countless battles. They are pragmatic, versatile, and always ready for the next contract.',
     
     mechanicalBenefits: [
-        { name: 'Tactical Mind', description: '+1 to armor when fighting multiple enemies', type: 'passive' }
+        { name: 'Professional Training', description: '+1 to Strength and +1 to Agility', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -33,7 +33,7 @@ export const MERCENARY_PATH = {
             id: 'tactical_mind',
             name: 'Tactical Mind',
             description: '"I\'ve seen every trick in the book." Your extensive combat experience grants you enhanced tactical awareness and defensive bonuses when outnumbered.',
-            icon: 'ability_warrior_vigilance',
+            icon: 'Utility/Steadfast Bulwark',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'tactical', 'defense', 'awareness'],
@@ -42,7 +42,7 @@ export const MERCENARY_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_vigilance',
+                icon: 'Utility/Steadfast Bulwark',
                 tags: ['passive', 'tactical', 'defense', 'awareness']
             },
 
@@ -91,7 +91,7 @@ export const MERCENARY_PATH = {
             id: 'parry_riposte',
             name: 'Parry and Riposte',
             description: '"Amateur move." When an enemy misses you with a melee attack, immediately parry and counter with a precise strike.',
-            icon: 'ability_rogue_riposte',
+            icon: 'Utility/Strike',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'damage', 'counter', 'melee'],
@@ -100,7 +100,7 @@ export const MERCENARY_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_rogue_riposte',
+                icon: 'Utility/Strike',
                 tags: ['reaction', 'damage', 'counter', 'melee']
             },
 
@@ -168,7 +168,7 @@ export const MERCENARY_PATH = {
             id: 'exploit_weakness',
             name: 'Exploit Weakness',
             description: '"I see your weakness." Mark an enemy\'s vulnerable points, reducing their armor by 3 and causing you to deal 25% more damage to them for 8 rounds.',
-            icon: 'ability_hunter_snipershot',
+            icon: 'Necrotic/Eagle Eye',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark'],
@@ -177,7 +177,7 @@ export const MERCENARY_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_hunter_snipershot',
+                icon: 'Necrotic/Eagle Eye',
                 tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark']
             },
 
@@ -230,7 +230,7 @@ export const MERCENARY_PATH = {
             id: 'precision_strike',
             name: 'Precision Strike',
             description: '"A perfect shot." Make a devastatingly precise attack that ignores armor.',
-            icon: 'ability_rogue_surpriseattack',
+            icon: 'Utility/Sniper',
             level: 1,
             spellType: 'ACTION',
             tags: ['damage', 'melee', 'precision', 'armor-piercing'],
@@ -294,7 +294,7 @@ export const MERCENARY_PATH = {
             id: 'tactical_retreat',
             name: 'Tactical Retreat',
             description: '"Live to fight another day." Quickly withdraw from danger while maintaining defenses.',
-            icon: 'ability_rogue_feint',
+            icon: 'Utility/Speed Dash',
             level: 1,
             spellType: 'ACTION',
             tags: ['utility', 'movement', 'tactical', 'defensive'],
@@ -371,7 +371,7 @@ export const MERCENARY_PATH = {
                     id: 'exploit_weakness',
                     name: 'Exploit Weakness',
                     description: '"I see your weakness." Mark an enemy, dealing increased damage to them.',
-                    icon: 'ability_hunter_snipershot',
+                    icon: 'Necrotic/Eagle Eye',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'tactical', 'damage-amplification', 'mark'],
@@ -452,7 +452,7 @@ export const MERCENARY_PATH = {
                     id: 'tactical_retreat',
                     name: 'Tactical Retreat',
                     description: '"Live to fight another day." Quickly disengage and reposition.',
-                    icon: 'ability_rogue_sprint',
+                    icon: 'Utility/Swift Boot',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['utility', 'movement', 'disengage', 'tactical'],
@@ -529,7 +529,7 @@ export const MERCENARY_PATH = {
                     id: 'riposte',
                     name: 'Riposte',
                     description: '"Your mistake!" Counter an enemy attack with a swift strike.',
-                    icon: 'ability_warrior_punishingblow',
+                    icon: 'Utility/Bound Warrior',
                     level: 1,
                     spellType: 'REACTION',
                     tags: ['damage', 'counter', 'physical', 'precision'],
@@ -614,7 +614,7 @@ export const MERCENARY_PATH = {
                     id: 'parry',
                     name: 'Parry',
                     description: '"Deflected!" Deflect an incoming attack and gain a brief opening.',
-                    icon: 'ability_parry',
+                    icon: 'Utility/Bound Shield',
                     level: 2,
                     spellType: 'REACTION',
                     tags: ['defensive', 'counter', 'parry', 'buff'],
@@ -732,7 +732,7 @@ export const MERCENARY_PATH = {
                     id: 'headshot',
                     name: 'Headshot',
                     description: '"One shot, one kill." A precise shot aimed at a vital point.',
-                    icon: 'ability_hunter_assassinate',
+                    icon: 'Utility/Vampiric Bite',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['damage', 'ranged', 'precision', 'critical'],
@@ -796,7 +796,7 @@ export const MERCENARY_PATH = {
                     id: 'steady_aim',
                     name: 'Steady Aim',
                     description: '"Breathe... focus... fire." Take careful aim for guaranteed critical hit.',
-                    icon: 'ability_hunter_focusedaim',
+                    icon: 'Necrotic/Eagle Eye',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'precision', 'critical', 'focus'],

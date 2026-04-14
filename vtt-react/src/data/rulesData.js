@@ -2505,6 +2505,585 @@ Both dice use the weapon type to pick the correct outcome text.`
             }
           ]
         }
+      },
+      {
+        id: 'advanced-travel',
+        name: 'Advanced Travel System',
+        icon: 'fas fa-compass',
+        useCustomComponent: true,
+        content: {
+          title: 'Advanced Travel System',
+          description: 'Biome-based travel mechanics with weather, hourly checklists, encounters, and survival rules for immersive overland journeys',
+          tabs: [
+            {
+              id: 'travel-workflow',
+              name: 'Travel Workflow',
+              sections: [
+                {
+                  title: 'Overview',
+                  content: `The Advanced Travel System provides a structured, hour-by-hour procedure for running overland journeys. Each travel day is broken into discrete hours, and the GM works through a checklist for each one. The system is designed around six biomes — Arctic, Desert, Forest, Swamp, Ocean, and Underdark — each with their own weather tables, environmental hazards, and encounter pools.
+
+Use the **Travel Tracker** tool (press W in-game, GM only) to automate rolling, tracking, and broadcasting. The rules below serve as the reference for what the tool does under the hood.`
+                },
+                {
+                  title: 'Step-by-Step Procedure',
+                  content: `Each travel day follows this workflow:
+
+**1. Roll Weather** — Roll d20 + d8. The d20 determines the weather condition from the biome's weather table. The d8 sets how many hours that condition lasts. When the duration expires, roll again.
+
+**2. Set Transport & Conditions** — Choose the party's transport mode (on foot, mounted, vehicle, etc.), the terrain subtype, and note any current exhaustion levels. These together determine the party's speed in miles per hour.
+
+**3. Select a Travel Hour** — A standard travel day is 8 hours (hours 1-8). Hours 9-14 are overmarching territory — possible, but increasingly dangerous. Click an hour in the tracker to open its checklist.
+
+**4. Resolve the Hourly Checklist** — For each hour:
+- **Navigator's Check** — Survival vs the weather's navigation difficulty die. On Track = normal progress. Lost = no distance gained, hour still consumed.
+- **Environmental Save** — Constitution save vs the weather's environmental difficulty die. Failure = 1 exhaustion level. Proper gear may grant advantage or auto-success depending on biome and weather severity.
+- **Ration Check** — Every 4 hours of travel (hours 4 and 8), each character consumes 1 ration. No ration = Constitution vs moderate die (d8) or 1 exhaustion.
+- **Rest Point** — Every 4 hours, a 1-hour short rest is recommended. Skipping it triggers Constitution saves starting the next hour.
+- **Encounter Check** — Check for random encounters at hours 2, 4, 6, and 8. In severe weather, also check odd hours.`
+                },
+                {
+                  title: 'The Travel Tracker Tool',
+                  content: `The in-game Travel Tracker tool (keyboard shortcut **W**, GM-only) automates this entire workflow. It provides:
+
+- A biome selector that changes the window's theme and loads the correct tables
+- One-click weather rolling with automatic duration tracking
+- Transport, terrain, and exhaustion controls that calculate speed in real-time
+- An hour-by-hour checklist with navigation, environmental, ration, rest, and encounter sections
+- A journey distance tracker with a progress bar
+- Atmospheric description generation for each hour (broadcastable to players via the typewriter system)
+- Configurable auto-broadcast toggles for atmosphere, weather changes, encounters, journey milestones, and exhaustion results
+
+Players do not interact with the Travel Tracker directly. They experience travel through GM broadcasts and narrative description.`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Hourly Checklist Summary',
+                  description: 'What to check at each hour of the travel day.',
+                  headers: ['Hour', 'Encounter', 'Rations', 'Rest', 'Overmarching', 'Notes'],
+                  rows: [
+                    ['1', 'No', 'No', 'No', 'No', 'Confirm cold/weather gear. No encounter (just left settlement).'],
+                    ['2', 'Yes', 'No', 'No', 'No', 'First encounter check.'],
+                    ['3', 'No', 'No', 'No', 'No', 'Check if anyone at exhaustion level 2+ (speed halved).'],
+                    ['4', 'Yes', 'Yes', 'Yes', 'No', 'First ration tick. Recommended short rest.'],
+                    ['5', 'No', 'No', 'No', 'No', 'If rest was skipped at hour 4: Constitution vs moderate die (d8) or exhaustion.'],
+                    ['6', 'Yes', 'No', 'No', 'No', 'Good moment for fatigue roleplay.'],
+                    ['7', 'No', 'No', 'No', 'No', 'Decision point: push for hour 8 or make camp?'],
+                    ['8', 'Yes', 'Yes', 'No', 'No', 'End of standard travel day. Second ration.'],
+                    ['9+', 'Yes', 'No', 'No', 'Yes', 'Beyond safe travel. Constitution vs challenging die (d10) per 2-hour block, difficulty increases. Speed halved at hour 10+.']
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'biome-weather',
+              name: 'Biome Weather',
+              sections: [
+                {
+                  title: 'Weather System',
+                  content: `Each biome has its own weather table. Roll **d20** to determine the condition, then roll **d8** for how many hours it lasts. When the duration expires, roll again. Weather affects navigation difficulty, environmental saves, visibility, and movement speed.
+
+The weather table uses the difficulty die system — navigation and environmental columns list which die to roll, not flat DCs. A "d4" entry means the check is very easy; a "d20" means it is very difficult.`
+                },
+                {
+                  title: 'Weather Severity Scale',
+                  content: `All biomes share a 5-tier severity scale that determines how weather interacts with gear and movement:
+
+- **Severity 0 (Clear)** — No penalties. Gear auto-passes environmental saves.
+- **Severity 1 (Mild)** — Minor navigation impact. Gear still auto-passes.
+- **Severity 2 (Moderate)** — Visibility reduced. Gear grants advantage on environmental saves instead of auto-pass.
+- **Severity 3 (Severe)** — Significant penalties. Speed may be reduced. Gear only grants advantage.
+- **Severity 4 (Extreme)** — Dangerous. Shelter strongly recommended. Gear grants advantage, no auto-pass. Overmarching doubles exhaustion risk.`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Arctic Weather',
+                  description: 'Frozen tundra, glaciers, and snowfields. Cold is the primary threat.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Clear & Cold', '0', 'd6', 'd4', 'Auto-pass', 'Unlimited visibility'],
+                    ['5-9', 'Overcast & Windy', '1', 'd8', 'd4', 'Auto-pass', 'Gusts extinguish torches'],
+                    ['10-14', 'Light Blizzard', '2', 'd10', 'd4', 'Advantage only', 'Visibility 60 ft, difficult terrain'],
+                    ['15-17', 'Heavy Blizzard', '3', 'd12', 'd8', 'Advantage only', 'Visibility 30 ft, speed halved'],
+                    ['18-19', 'Whiteout', '4', 'd20', 'd10', 'Advantage only', 'Visibility 10 ft, shelter or exposure risk'],
+                    ['20', 'Killing Cold', '4', 'd20', 'd12', 'Advantage only', 'Even on success, d4 roll of 1 = 1 exhaustion']
+                  ]
+                },
+                {
+                  title: 'Desert Weather',
+                  description: 'Scorching sands, dust storms, and dehydration risk.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Clear & Hot', '0', 'd4', 'd6', 'Auto-pass', 'Bright sun, easy navigation'],
+                    ['5-9', 'Hazy & Windy', '1', 'd8', 'd6', 'Auto-pass', 'Dust in the air, reduced landmarks'],
+                    ['10-14', 'Sandstorm (Light)', '2', 'd10', 'd8', 'Advantage only', 'Visibility 60 ft, stinging sand'],
+                    ['15-17', 'Sandstorm (Heavy)', '3', 'd12', 'd10', 'Advantage only', 'Visibility 30 ft, speed halved'],
+                    ['18-19', 'Haboon (Blackout)', '4', 'd20', 'd12', 'Advantage only', 'Visibility 0, burying sand, disorientation'],
+                    ['20', 'Killing Heat', '4', 'd20', 'd20', 'Advantage only', 'Metal burns to touch, water consumption doubled']
+                  ]
+                },
+                {
+                  title: 'Forest Weather',
+                  description: 'Dense canopy, mud, fog, and the risk of getting turned around.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Clear Canopy', '0', 'd4', 'd4', 'Auto-pass', 'Dappled light, birdsong'],
+                    ['5-9', 'Overcast & Damp', '1', 'd8', 'd4', 'Auto-pass', 'Mist between trees, muddy ground'],
+                    ['10-14', 'Heavy Rain / Fog', '2', 'd10', 'd8', 'Advantage only', 'Visibility 60 ft, trails wash out'],
+                    ['15-17', 'Thunderstorm', '3', 'd12', 'd10', 'Advantage only', 'Visibility 30 ft, lightning risk, speed halved'],
+                    ['18-19', 'Dense Fog / Mist', '4', 'd20', 'd8', 'Advantage only', 'Visibility 10 ft, sounds muffled, easy to get lost'],
+                    ['20', 'Ancient Storm', '4', 'd20', 'd12', 'Advantage only', 'Trees fall, flash flooding, magical overtones']
+                  ]
+                },
+                {
+                  title: 'Swamp Weather',
+                  description: 'Fetid bogs, standing water, disease-carrying insects, and deceptive paths.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Still & Humid', '0', 'd6', 'd4', 'Auto-pass', 'Oppressive heat, buzzing insects'],
+                    ['5-9', 'Drizzle & Mist', '1', 'd8', 'd6', 'Auto-pass', 'Ground softens, visibility reduced'],
+                    ['10-14', 'Heavy Rain', '2', 'd10', 'd8', 'Advantage only', 'Water rises, paths flood, leeches active'],
+                    ['15-17', 'Monsoon', '3', 'd12', 'd10', 'Advantage only', 'Standing water knee-deep, speed halved'],
+                    ['18-19', 'Toxic Miasma', '4', 'd20', 'd12', 'Advantage only', 'Poisonous gas, disease save each hour'],
+                    ['20', 'Will-o-Wisp Night', '4', 'd20', 'd10', 'Advantage only', 'Deceptive lights, false paths, supernatural dread']
+                  ]
+                },
+                {
+                  title: 'Ocean Weather',
+                  description: 'Open water, storms, becalming, and the relentless motion of the sea.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Calm Seas', '0', 'd4', 'd4', 'Auto-pass', 'Following winds, clear horizons'],
+                    ['5-9', 'Choppy & Breezy', '1', 'd8', 'd6', 'Auto-pass', 'Rolling waves, spray on deck'],
+                    ['10-14', 'Rough Seas', '2', 'd10', 'd8', 'Advantage only', 'Large swells, difficult to hold course'],
+                    ['15-17', 'Gale', '3', 'd12', 'd10', 'Advantage only', 'Ship pitches, speed halved, man overboard risk'],
+                    ['18-19', 'Tempest', '4', 'd20', 'd12', 'Advantage only', 'Mountainous waves, structural damage risk'],
+                    ['20', 'Maelstrom', '4', 'd20', 'd20', 'Advantage only', 'Whirlpool or hurricane, supernatural fury']
+                  ]
+                },
+                {
+                  title: 'Underdark Weather',
+                  description: 'Subterranean caverns, fungal spores, cave-ins, and unnatural darkness.',
+                  headers: ['d20', 'Condition', 'Severity', 'Nav Die', 'Env Die', 'Gear Effect', 'Special'],
+                  rows: [
+                    ['1-4', 'Stable Cavern', '0', 'd4', 'd4', 'Auto-pass', 'Even temperature, mapped passages'],
+                    ['5-9', 'Dripping & Drafty', '1', 'd8', 'd6', 'Auto-pass', 'Water seepage, distant rumbling'],
+                    ['10-14', 'Spore Cloud', '2', 'd10', 'd8', 'Advantage only', 'Fungal haze, visibility 60 ft, hallucination risk'],
+                    ['15-17', 'Cave Tremor', '3', 'd12', 'd10', 'Advantage only', 'Falling debris, speed halved, new passages open'],
+                    ['18-19', 'Gas Pocket', '4', 'd20', 'd12', 'Advantage only', 'Toxic atmosphere, no breathable air, dizziness'],
+                    ['20', 'Underdark Collapse', '4', 'd20', 'd20', 'Advantage only', 'Tunnel cave-in, lava seep, or far realm incursion']
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'exhaustion-survival',
+              name: 'Exhaustion & Survival',
+              sections: [
+                {
+                  title: 'Exhaustion Mechanics',
+                  content: `Exhaustion is the primary threat during extended travel. Characters gain exhaustion levels from failing environmental saves, missing rations, skipping rest, overmarching, and biome-specific hazards (disease in swamps, altitude in mountains, etc.).
+
+Exhaustion is cumulative and dangerous. At level 5 a character is severely compromised. At level 6, death occurs.
+
+**Recovery:** 1 exhaustion level per long rest, provided the character has warmth (or shade in desert), food, and water. A long rest without these conditions does not remove exhaustion.`
+                },
+                {
+                  title: 'Environmental Saves',
+                  content: `Each hour of travel in severe weather requires every character to make a Constitution save against the weather's environmental difficulty die. The die varies by biome and weather severity (see Biome Weather tab).
+
+**Gear interaction:**
+- In **Severity 0-1** weather: appropriate environmental gear (cold-weather clothing, sun protection, waterproof layers, etc.) grants an automatic success — no roll needed.
+- In **Severity 2-4** weather: gear no longer auto-passes. It grants **advantage** on the save instead.
+- Without appropriate gear: roll normally (no advantage, no auto-pass).
+- Characters with relevant **resistance or immunity** always auto-pass.`
+                },
+                {
+                  title: 'Overmarching',
+                  content: `Pushing past 8 hours of travel in a day is called overmarching. It is possible but dangerous:
+
+- **Hours 9-10:** Constitution vs challenging die (d10) or 1 exhaustion per character.
+- **Hours 11-12:** Constitution vs difficult die (d12) or 1 exhaustion. Speed halved for the party.
+- **Hours 13-14:** Constitution vs d20 or 1 exhaustion. This is survival territory — legendary endurance required.
+- Beyond hour 14 is not recommended. The risk of total incapacitation is extreme.
+
+Overmarching exhaustion saves are in addition to any weather-related environmental saves.`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Exhaustion Levels',
+                  description: 'Cumulative penalties from extreme exposure, lack of food, or pushing beyond safe travel limits.',
+                  headers: ['Level', 'Penalty', 'Impact'],
+                  rows: [
+                    ['1', 'Speed -10 ft', 'Fatigued but functional'],
+                    ['2', 'Disadvantage on ability checks', 'Skills and tools suffer'],
+                    ['3', 'Speed halved', 'Severely slowed, affects whole party pace'],
+                    ['4', 'Disadvantage on attacks and saves', 'Combat and resistance degraded'],
+                    ['5', 'HP maximum halved', 'Critically weakened'],
+                    ['6', 'Death', 'The body gives out']
+                  ]
+                },
+                {
+                  title: 'Exhaustion Sources',
+                  description: 'All the ways a character can gain exhaustion during travel.',
+                  headers: ['Source', 'Condition', 'Check'],
+                  rows: [
+                    ['Environmental save fail', 'Hourly in severe weather', 'Constitution vs weather env die'],
+                    ['No rations', 'Every 4 hours without food', 'Constitution vs moderate die (d8)'],
+                    ['No water', 'After day 1 without water', 'Constitution vs difficult die (d12)'],
+                    ['No warmth overnight', 'Cold biome, no fire/shelter', 'Constitution vs moderate die (d8)'],
+                    ['No shade overnight', 'Hot biome, no protection', 'Constitution vs moderate die (d8)'],
+                    ['Skip rest point', 'After 4+ hours without rest', 'Constitution vs moderate die (d8), +1 die step per extra hour'],
+                    ['Overmarching (hrs 9-10)', 'Past 8-hour travel day', 'Constitution vs challenging die (d10)'],
+                    ['Overmarching (hrs 11-12)', 'Extended overmarching', 'Constitution vs difficult die (d12), speed halved'],
+                    ['Overmarching (hrs 13-14)', 'Extreme overmarching', 'Constitution vs d20'],
+                    ['Disease (swamp)', 'Failed disease save', 'Constitution vs difficult die (d12) each day until cured'],
+                    ['Altitude (mountains)', 'Above 15,000 ft without acclimation', 'Constitution vs challenging die (d10) each hour']
+                  ]
+                },
+                {
+                  title: 'Exhaustion Recovery',
+                  description: 'How to recover from exhaustion levels during travel.',
+                  headers: ['Method', 'Recovery', 'Requirements'],
+                  rows: [
+                    ['Long rest with provisions', '1 level', 'Warmth/shade + rations + water + 8 hours'],
+                    ['Long rest without provisions', '0 levels', 'Does not remove exhaustion'],
+                    ['Lesser Restoration', '1 level', 'Spell or equivalent'],
+                    ['Greater Restoration', 'All levels', 'Spell or equivalent'],
+                    ['Healer\'s kit + Medicine', '1 level', 'Medicine vs moderate die (d8), consumes 2 uses']
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'provisions-rest',
+              name: 'Provisions & Rest',
+              sections: [
+                {
+                  title: 'Rations & Water',
+                  content: `Managing supplies is critical during extended travel. The party must track rations and water for each character.
+
+**Rations:** Each character consumes 1 ration every 4 hours of active travel (typically at hours 4 and 8 of a travel day). Without a ration, the character must make a Constitution save vs moderate die (d8) or gain 1 exhaustion. Rations are consumed whether the party is traveling, sheltering, or waiting — only resting at a settlement with food supply pauses the timer.
+
+**Water:** Characters need 1 water skin (or equivalent) per day in temperate biomes. In desert conditions, water consumption doubles. In arctic conditions, snow must be melted (10 minutes + fire source). After the first day without water, Constitution vs difficult die (d12) each day or 1 exhaustion.`
+                },
+                {
+                  title: 'Foraging',
+                  content: `A character can spend 1 hour foraging instead of traveling. That character does not contribute to navigation or distance progress for that hour. The forager makes a Survival check. The difficulty die varies by biome.`
+                },
+                {
+                  title: 'Rest During Travel',
+                  content: `The travel day includes built-in rest points:
+
+- **Short Rest (1 hour):** Recommended at hours 4 and optionally hour 8. Characters can spend hit dice. No exhaustion recovery.
+- **Long Rest (8 hours):** Typically done at camp after the travel day. Requires warmth/shade + rations + water. Recovers full HP, spell slots, and removes 1 exhaustion level (if conditions met).
+- **Shelter:** A Survival vs challenging die (d10) check, 1 hour. Grants advantage on overnight environmental saves. Essential in severity 3-4 weather.
+
+**Skipping Rest:** If the party skips the short rest at hour 4, all characters must make Constitution vs moderate die (d8) starting at hour 5, with the die stepping up once per additional hour without rest (d8 at hour 5, d10 at hour 6, etc.).`
+                },
+                {
+                  title: 'Camp & Night',
+                  content: `At the end of the travel day, the party makes camp. This is when long rests occur, watches are set, and overnight encounters are checked.
+
+- **Setting camp:** Choose a location. Sheltered areas grant advantage on environmental saves.
+- **Watch order:** Set a rotation. Each watch is 2 hours. Perception checks during watch determine if the party is surprised by overnight encounters.
+- **Overnight encounter:** Roll once per night (1 on d8 in most biomes, 1-2 in hostile territory).
+- **Dawn:** Weather roll resets at dawn (or when the previous weather duration expires). Ration and rest timers reset.`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Foraging by Biome',
+                  description: 'Difficulty die and yield for foraging in each biome. The forager skips navigation and distance progress for that hour.',
+                  headers: ['Biome', 'Difficulty Die', 'Success', 'Beat by 5+', 'Failure'],
+                  rows: [
+                    ['Arctic', 'd12', '1d4 rations', 'Whole party fed', 'Half ration on miss by 1-4'],
+                    ['Desert', 'd20', '1d4 rations + water', 'Whole party fed + water', 'Nothing — desert is unforgiving'],
+                    ['Forest', 'd8', '1d4+1 rations', 'Whole party fed + herbs', 'Half ration on miss by 1-4'],
+                    ['Swamp', 'd10', '1d4 rations', 'Whole party fed', 'Half ration, but disease risk (Con vs d8)'],
+                    ['Ocean', 'd8 (fishing)', '1d4+1 rations', 'Whole crew fed', 'Half ration, thin ice risk arctic fishing'],
+                    ['Underdark', 'd12', '1d4 rations (fungus)', 'Whole party fed', 'Nothing — spore cloud on miss by 5+']
+                  ]
+                },
+                {
+                  title: 'Water Requirements by Biome',
+                  description: 'Daily water needs and sources by biome.',
+                  headers: ['Biome', 'Daily Need', 'Source', 'Time to Procure'],
+                  rows: [
+                    ['Arctic', '1 skin', 'Melt snow', '10 min + fire'],
+                    ['Desert', '2 skins', 'Oases (rare), foraging', '1 hour (if found)'],
+                    ['Forest', '1 skin', 'Streams, dew, foraging', '30 min near water'],
+                    ['Swamp', '1 skin (boiled)', 'Standing water (must boil)', '20 min + fire'],
+                    ['Ocean', '1 skin (fresh)', 'Rain catchment, land stops', 'Variable'],
+                    ['Underdark', '1 skin', 'Underground streams', '30 min if stream found']
+                  ]
+                },
+                {
+                  title: 'Rest Summary',
+                  description: 'Types of rest available during travel and their effects.',
+                  headers: ['Rest Type', 'Duration', 'Effect', 'Limitation'],
+                  rows: [
+                    ['Short Rest', '1 hour', 'Spend hit dice', 'No exhaustion recovery'],
+                    ['Long Rest (with provisions)', '8 hours', 'Full HP, spell slots, -1 exhaustion', 'Requires food, water, shelter'],
+                    ['Long Rest (without provisions)', '8 hours', 'Full HP, spell slots', 'No exhaustion recovery'],
+                    ['Shelter Construction', '1 hour', 'Advantage on overnight env saves', 'Survival vs challenging die (d10)'],
+                    ['Watch (overnight)', '2 hours each', 'Perception check to avoid surprise', 'No recovery for watcher']
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'travel-encounters',
+              name: 'Encounters',
+              sections: [
+                {
+                  title: 'Encounter Checks',
+                  content: `Encounters are checked at specific hours during travel. Not all encounters are combat — many are opportunities for roleplay, discovery, or resource management.
+
+**When to check:**
+- Standard: hours 2, 4, 6, and 8 of the travel day.
+- Severe weather (severity 3-4): also check odd hours (1, 3, 5, 7).
+- A roll of 18-20 on the encounter die always triggers, regardless of the table entry.
+
+**Encounter types:** Combat, Social, Hazard, Discovery, or None. Each biome's encounter table specifies the type and provides notes for the GM.`
+                },
+                {
+                  title: 'Encounter Tables',
+                  content: `Each biome has its own encounter table with d20 entries. The tables are designed as starting points — GMs should customize them using the Travel Tracker tool's encounter table editor, adding creatures from their creature library and tailoring the results to their campaign.
+
+Encounter entries include:
+- **Range** — The d20 values that trigger this encounter.
+- **Type** — Combat, Social, Hazard, Discovery, or None.
+- **Name** — What the party encounters.
+- **Note** — GM guidance for running the encounter.
+- **Creature Links** — When using the Travel Tracker tool, these reference creatures from the GM's creature library with hoverable tooltips.`
+                },
+                {
+                  title: 'Encounter Frequency by Activity',
+                  content: `How often to check for encounters depends on what the party is doing:`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Encounter Frequency',
+                  headers: ['Activity', 'Check Frequency', 'Chance'],
+                  rows: [
+                    ['Normal Travel', 'Every 4 hours (hrs 2, 4, 6, 8)', 'Roll d20 on encounter table'],
+                    ['Severe Weather Travel', 'Every hour', 'Roll d20 on encounter table'],
+                    ['Slow / Stealthy Travel', 'Every 6 hours', 'Roll d20, only 1-3 trigger'],
+                    ['Fast Travel', 'Every 3 hours', 'Roll d20, 1-3 and 18-20 trigger'],
+                    ['Camping / Resting', 'Once per rest', 'Roll d8, only 1 triggers'],
+                    ['Lost', 'Every 2 hours', 'Roll d20 on encounter table']
+                  ]
+                },
+                {
+                  title: 'Arctic Encounters (d20)',
+                  description: 'Sample encounter table for arctic travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful travel', 'Describe the frozen landscape — tundra, distant peaks, eerie silence.'],
+                    ['7', 'Discovery', 'Tracks in Snow', 'Survival vs moderate die (d8) to identify: wolf pack, herd, humanoid, or lone predator.'],
+                    ['8', 'Combat', 'Wolf Pack', 'Pack tactics. Animal Handling vs moderate die (d8) + fire source may cause retreat.'],
+                    ['9', 'Social', 'Nomad Patrol', 'Disposition varies. Persuasion vs challenging die (d10). May know local routes.'],
+                    ['10', 'Social', 'Stranded Traveller', 'Exhaustion 2-4. Medicine vs moderate die (d8) to stabilise. May offer information.'],
+                    ['11', 'Combat', 'Frost Predator', 'Regeneration stopped by fire. Hunts by smell — severe weather grants it advantage.'],
+                    ['12', 'Combat', 'Yeti', 'Chilling Gaze: Constitution vs moderate die (d8) or paralysed. Fire causes fear.'],
+                    ['13', 'Hazard', 'Crevasse Field', 'Perception vs challenging die (d10) or nearest character falls.'],
+                    ['14', 'Hazard', 'Avalanche', 'Agility save vs challenging die (d10) or buried. Athletics vs moderate die (d8) to extract.'],
+                    ['15', 'Combat', 'Ice Drake', 'Cold breath weapon. Can be bribed with Persuasion vs challenging die (d10) + shiny offering.'],
+                    ['16', 'Combat', 'Apex Predator', 'Area affect chilling ability. Cold immunity. May track party for hours.'],
+                    ['17', 'Discovery', 'Elemental Spirit', 'Perception vs challenging die (d10) to spot. May gift a trinket or temporary resistance.'],
+                    ['18', 'Social', 'Rival Expedition', 'Disposition varies — hostile, competitive, desperate, or potential allies.'],
+                    ['19', 'Combat', 'Winter Wolf Pack', 'Cold breath, pack tactics. Hunts silently in blizzards.'],
+                    ['20', 'Combat', 'Burrower', 'Burrows under snow — Perception vs difficult die (d12) or surprised. Heated body on contact.']
+                  ]
+                },
+                {
+                  title: 'Desert Encounters (d20)',
+                  description: 'Sample encounter table for desert travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful travel', 'Endless dunes, shimmering heat, distant mirages.'],
+                    ['7', 'Discovery', 'Ancient Tracks', 'Survival vs moderate die (d8) to identify: caravan, beast, or war party.'],
+                    ['8', 'Combat', 'Scorpion Swarm', 'Poison stings. Fire or area effects disperse them.'],
+                    ['9', 'Social', 'Nomad Traders', 'Will trade water and shade for goods. Persuasion vs moderate die (d8) for better prices.'],
+                    ['10', 'Social', 'Lost Caravan', 'Dehydrated, desperate. Medicine vs moderate die (d8) to help. May share oasis location.'],
+                    ['11', 'Combat', 'Sand Wurm', 'Tremorsense. Burrows beneath. Survival vs challenging die (d10) to detect early.'],
+                    ['12', 'Combat', 'Mummy Patrol', 'Undead. Fire and radiant vulnerability. Does not stop pursuing.'],
+                    ['13', 'Hazard', 'Quicksand', 'Survival vs challenging die (d10) to detect. Strength vs moderate die (d8) to escape.'],
+                    ['14', 'Hazard', 'Flash Flood', 'Perception vs challenging die (d10) to hear coming. Agility vs challenging die (d10) to reach high ground.'],
+                    ['15', 'Combat', 'Djinn', 'Powerful air elemental. May bargain — Persuasion vs difficult die (d12).'],
+                    ['16', 'Combat', 'Desert Drake', 'Fire breath, sand camouflage. Hunts at midday when visibility is worst.'],
+                    ['17', 'Discovery', 'Buried Ruin', 'Perception vs challenging die (d10) to spot exposed stone. Ancient treasures within.'],
+                    ['18', 'Social', 'Rival Tribespeople', 'Water dispute. Intimidation or Persuasion vs challenging die (d10).'],
+                    ['19', 'Combat', 'Giant Scorpion', 'Armoured carapace, venomous sting. Nest may contain eggs.'],
+                    ['20', 'Combat', 'Sand Lord', 'Legendary desert predator. Controls sand itself. Retreat is wise.']
+                  ]
+                },
+                {
+                  title: 'Forest Encounters (d20)',
+                  description: 'Sample encounter table for forest travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful travel', 'Birdsong, dappled light, the creak of old growth.'],
+                    ['7', 'Discovery', 'Animal Tracks', 'Survival vs easy die (d6) to identify: deer, boar, bear, or something larger.'],
+                    ['8', 'Combat', 'Wolf Pack', 'Forest wolves are territorial. Pack tactics, howling summons reinforcements.'],
+                    ['9', 'Social', 'Woodcutter / Ranger', 'Knows the local area. May share trail information for supplies.'],
+                    ['10', 'Social', 'Lost Traveller', 'Disoriented, grateful. May know a shortcut or hidden danger.'],
+                    ['11', 'Combat', 'Forest Predator', 'Ambush hunter. Stealth vs challenging die (d10) to detect.'],
+                    ['12', 'Combat', 'Animated Trees', 'Guardians of old growth. Fire is effective. May negotiate with Nature vs moderate die (d8).'],
+                    ['13', 'Hazard', 'Wasp Nest / Thorn Thicket', 'Perception vs moderate die (d8) to avoid. Constitution vs moderate die (d8) or poisoned.'],
+                    ['14', 'Hazard', 'Root Trip / Sinkhole', 'Perception vs moderate die (d8) or fall. Investigation vs moderate die (d8) to assess stability.'],
+                    ['15', 'Combat', 'Bandit Ambush', 'Stealth vs challenging die (d10). Demands toll. May flee if half their number fall.'],
+                    ['16', 'Combat', 'Giant Spider', 'Web traps, venom. Survival vs moderate die (d8) to spot webs before walking in.'],
+                    ['17', 'Discovery', 'Fairy Ring / Shrine', 'Arcana vs moderate die (d8) to understand. May grant boon or request.'],
+                    ['18', 'Social', 'Druid Circle', 'Neutral unless provoked. Nature vs challenging die (d10) to gain safe passage.'],
+                    ['19', 'Combat', 'Corrupted Beast', 'Diseased or magically warped. Unpredictable. Medicine vs challenging die (d10) to identify weakness.'],
+                    ['20', 'Combat', 'Ancient Forest Guardian', 'Legendary protector of the deep woods. Tests the party\'s worthiness.']
+                  ]
+                },
+                {
+                  title: 'Swamp Encounters (d20)',
+                  description: 'Sample encounter table for swamp travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful travel', 'Standing water, cypress knees, the drone of insects.'],
+                    ['7', 'Discovery', 'Bubbling Mud Pot', 'Nature vs moderate die (d8) — natural hot spring or volcanic vent.'],
+                    ['8', 'Combat', 'Snake Swarm', 'Venomous. Fire or area effects scatter them. Medicine vs moderate die (d8) to treat bites.'],
+                    ['9', 'Social', 'Hermit / Witch', 'Lives alone in the bog. Knowledgeable but eccentric. Trades for rare ingredients.'],
+                    ['10', 'Social', 'Fleeing Refugees', 'Running from something deeper in. May warn of upcoming hazard.'],
+                    ['11', 'Combat', 'Bog Undead', 'Rise from the muck. Resist slashing. Fire or radiant effective.'],
+                    ['12', 'Combat', 'Lurker', 'Camouflaged ambush predator. Perception vs difficult die (d12) to detect.'],
+                    ['13', 'Hazard', 'Quicksand / Bog Hole', 'Survival vs challenging die (d10) to spot. Strength vs moderate die (d8) to escape.'],
+                    ['14', 'Hazard', 'Disease Cloud', 'Constitution vs challenging die (d10) or disease. Wind direction matters.'],
+                    ['15', 'Combat', 'Hag Covey', 'Three hags, territorial. Deceptive — may offer bargains. Insight vs challenging die (d10).'],
+                    ['16', 'Combat', 'Swamp Drake', 'Acid spit, amphibious. Retreats to water when wounded.'],
+                    ['17', 'Discovery', 'Sunken Ruin', 'Perception vs challenging die (d10) to spot structure beneath water. Ancient artefacts.'],
+                    ['18', 'Social', 'Lizardfolk Hunting Party', 'Cautious. Intimidation vs challenging die (d10) or they circle the party.'],
+                    ['19', 'Combat', 'Will-o-Wisps', 'Lead the party into hazards. Immune to most damage. Nature vs difficult die (d12) to resist.'],
+                    ['20', 'Combat', 'Swamp Ancient', 'Primordial bog guardian. Controls vines, water, and disease. Impossible to surprise.']
+                  ]
+                },
+                {
+                  title: 'Ocean Encounters (d20)',
+                  description: 'Sample encounter table for ocean travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful voyage', 'Rolling waves, salt spray, seabirds overhead.'],
+                    ['7', 'Discovery', 'Flotsam / Wreckage', 'Perception vs moderate die (d8). May contain survivors, cargo, or clues.'],
+                    ['8', 'Combat', 'Sahuagin Raiding Party', 'Board from below. Multiple attackers. Fire and thunder effective.'],
+                    ['9', 'Social', 'Merchant Vessel', 'Will trade supplies. Persuasion vs moderate die (d8) for better rates.'],
+                    ['10', 'Social', 'Castaway on Driftwood', 'Exhaustion 3+. Medicine vs moderate die (d8) to stabilise. Knows nearby island.'],
+                    ['11', 'Combat', 'Sea Serpent', 'Constricting coils, crushing bite. Fire from ship\'s ballista effective.'],
+                    ['12', 'Combat', 'Water Elemental', 'Whirlpool attack. Cannot be surprised in water. Flees if dispelled.'],
+                    ['13', 'Hazard', 'Sargasso / Seaweed Tangle', 'Survival vs challenging die (d10) to navigate through. Entangled ships are sitting targets.'],
+                    ['14', 'Hazard', 'Reef / Shallows', 'Perception vs challenging die (d10) to spot. Navigation vs moderate die (d8) to avoid grounding.'],
+                    ['15', 'Combat', 'Pirate Vessel', 'Grappling hooks, boarding action. Intimidation vs challenging die (d10) to bluff.'],
+                    ['16', 'Combat', 'Merfolk War Band', 'Territorial. May demand toll. Nature vs moderate die (d8) to parley.'],
+                    ['17', 'Discovery', 'Uncharted Island', 'Nature vs moderate die (d8) to assess. May contain fresh water, fruit, or ruins.'],
+                    ['18', 'Social', 'Smuggler\'s Cutter', 'Evasive. Intimidation vs challenging die (d10) to board. May have useful contraband.'],
+                    ['19', 'Combat', 'Kraken Tentacles', 'Grapple and drag. Athletics vs difficult die (d12) to break free. The main body may surface.'],
+                    ['20', 'Combat', 'Leviathan', 'Legendary sea creature. Controls currents and weather locally. Pray and run.']
+                  ]
+                },
+                {
+                  title: 'Underdark Encounters (d20)',
+                  description: 'Sample encounter table for Underdark travel. GMs should customize with creatures from their library.',
+                  headers: ['d20', 'Type', 'Encounter', 'Note'],
+                  rows: [
+                    ['1-6', 'None', 'Uneventful travel', 'Echoing drip of water, bioluminescent fungi, the weight of stone above.'],
+                    ['7', 'Discovery', 'Crystal Formation', 'Arcana vs moderate die (d8). May have magical properties or resonance.'],
+                    ['8', 'Combat', 'Underdark Vermin Swarm', 'Spider or insect swarm. Fire and area effects disperse.'],
+                    ['9', 'Social', 'Deep Dwarf Patrol', 'Suspicious of outsiders. Persuasion vs challenging die (d10) to avoid conflict.'],
+                    ['10', 'Social', 'Fugitive', 'Escaped slave or prisoner. Desperate, may bargain knowledge for protection.'],
+                    ['11', 'Combat', 'Hook Horror', 'Echolocation — blind but accurate. Thunder damage disrupts their tracking.'],
+                    ['12', 'Combat', 'Mind Flayer Scout', 'Psionic blast. Intelligence vs challenging die (d10) to resist. Does not fight alone — others are near.'],
+                    ['13', 'Hazard', 'Fungal Spore Cloud', 'Constitution vs challenging die (d10) or hallucinating. Nature vs moderate die (d8) to identify safe path.'],
+                    ['14', 'Hazard', 'Unstable Ceiling', 'Perception vs challenging die (d10) to hear cracking. Agility vs moderate die (d8) to dodge collapse.'],
+                    ['15', 'Combat', 'Drow Raiding Party', 'Poisoned weapons, dark magic. May take prisoners rather than kill.'],
+                    ['16', 'Combat', 'Purple Worm', 'Burrows through stone. Survival vs difficult die (d12) to detect tremors early.'],
+                    ['17', 'Discovery', 'Abandoned Duergar Forge', 'Investigation vs moderate die (d8). Rare metals, forgotten constructs.'],
+                    ['18', 'Social', 'Myconid Circle', 'Pacifistic unless threatened. Spore communication. May share safe routes for tribute.'],
+                    ['19', 'Combat', 'Aboleth Servants', 'Dominated thralls. The aboleth itself watches from a pool. Enslave on hit — Will vs difficult die (d12).'],
+                    ['20', 'Combat', 'Underdark Tyrant', 'Ancient evil — beholder, lich, or worse. Its lair shapes the tunnels around it. Retreat is survival.']
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'transport-speed',
+              name: 'Transport & Speed',
+              sections: [
+                {
+                  title: 'Transport Modes',
+                  content: `The party's speed depends on their transport mode, terrain, and exhaustion levels. The Travel Tracker tool calculates speed automatically based on these inputs.
+
+Transport modes vary by biome — not all modes are available everywhere. Ocean travel requires a vessel. Underdark travel is almost always on foot. Arctic travel may include sled dogs.`
+                },
+                {
+                  title: 'Speed Calculation',
+                  content: `Effective speed = Base Speed x Terrain Modifier x Exhaustion Modifier
+
+- **Base Speed** is set by the transport mode.
+- **Terrain Modifier** is set by the terrain subtype within the biome.
+- **Exhaustion Modifier** applies when party members have exhaustion levels:
+  - No exhaustion: x1.0
+  - Exhaustion 1: x1.0 (speed -10 ft, but travel pace unaffected)
+  - Exhaustion 2: x1.0 (disadvantage on checks, pace unaffected)
+  - Exhaustion 3+: x0.5 (speed halved — affects the entire party)
+  - Exhaustion 5: x0 (character cannot travel)`
+                }
+              ],
+              tables: [
+                {
+                  title: 'Transport Modes by Biome',
+                  description: 'Available transport modes and their base speeds per biome.',
+                  headers: ['Mode', 'Speed (mi/hr)', 'Available In', 'Rest Requirement', 'Notes'],
+                  rows: [
+                    ['On Foot', '1', 'All biomes', 'Every 4 hours', 'Standard pace. Affected by terrain.'],
+                    ['Snowshoes', '1', 'Arctic', 'Every 4 hours', 'Negates deep snow penalty. Useless on ice.'],
+                    ['Dog Sled', '2', 'Arctic', '1 hr rest every 4 hrs', 'Dogs must rest. Cannot cross steep terrain.'],
+                    ['Horse', '4', 'Arctic, Desert, Forest, Swamp', '30 min every 2 hrs', 'Cannot navigate deep snow without barding. Leg injury risk on ice.'],
+                    ['Camel', '3', 'Desert', '1 hr rest every 4 hrs', 'Water storage. Endures heat better than horse.'],
+                    ['Canoe / Kayak', '2', 'Forest, Swamp, Ocean (coast)', 'Every 4 hours', 'River and coast only. Portage required for overland.'],
+                    ['Sailing Ship', '3', 'Ocean', 'Crew rotates', 'Wind-dependent. Halved speed in calm. Doubled in gale (with risk).'],
+                    ['Galley / Warship', '2', 'Ocean', 'Crew rotates', 'Oar-powered. Independent of wind. Faster in combat.'],
+                    ['Mine Cart', '3', 'Underdark', 'Track only', 'Fixed routes only. No steering. Derailment hazard.'],
+                    ['Cave Beast (Ridden)', '2', 'Underdark', 'Every 4 hours', 'Climbs walls. Darkvision. Requires Animal Handling vs moderate die (d8).']
+                  ]
+                },
+                {
+                  title: 'Terrain Speed Modifiers',
+                  description: 'Speed multipliers applied based on the terrain subtype within each biome.',
+                  headers: ['Biome', 'Terrain', 'Modifier', 'Special'],
+                  rows: [
+                    ['Arctic', 'Frozen Tundra', 'x1.0', 'Flat, open. Wind exposure.'],
+                    ['Arctic', 'Deep Snow', 'x0.5', 'Snowshoes negate this penalty.'],
+                    ['Arctic', 'Ice Sheet', 'x0.75', 'Agility vs easy die (d6) or prone. Crampons negate.'],
+                    ['Desert', 'Hardpack / Dunes', 'x1.0', 'Firm sand, easy walking.'],
+                    ['Desert', 'Soft Sand', 'x0.5', 'Exhausting. Every step sinks.'],
+                    ['Desert', 'Rocky Badlands', 'x0.75', 'Scrambling, canyon navigation.'],
+                    ['Forest', 'Open Woodland', 'x1.0', 'Spaced trees, clear trails.'],
+                    ['Forest', 'Dense Undergrowth', 'x0.5', 'Bushwhacking, thorns, low visibility.'],
+                    ['Forest', 'Rainforest Floor', 'x0.75', 'Roots, mud, canopy blocks light.'],
+                    ['Swamp', 'Firm Ground', 'x1.0', 'Raised hummocks, boardwalks.'],
+                    ['Swamp', 'Shallow Water', 'x0.5', 'Wading knee-to-waist deep.'],
+                    ['Swamp', 'Deep Bog', 'x0.25', 'Swimming or boat required.'],
+                    ['Ocean', 'Open Water', 'x1.0', 'Full sail speed.'],
+                    ['Ocean', 'Coastal / Reef', 'x0.5', 'Navigation required. Grounding risk.'],
+                    ['Ocean', 'Storm-tossed', 'x0.25', 'Bare steerage way. Survival priority.'],
+                    ['Underdark', 'Carved Tunnel', 'x1.0', 'Stable, mapped passage.'],
+                    ['Underdark', 'Rough Cavern', 'x0.75', 'Uneven floor, stalactites, narrow sections.'],
+                    ['Underdark', 'Squeeze / Crevice', 'x0.25', 'Single file only. Cannot use large weapons.']
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },

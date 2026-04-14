@@ -33,7 +33,7 @@ export const HEXER_PATH = {
             id: 'dark_pact',
             name: 'Dark Pact',
             description: '"I have bargained with powers beyond your comprehension." Your pact with dark forces grants you resistance to necrotic damage and the ability to sense magical curses.',
-            icon: 'spell_shadow_ritualofsacrifice',
+            icon: 'Void/Demonic Possesion',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'dark', 'resistance', 'detection'],
@@ -42,7 +42,7 @@ export const HEXER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'spell_shadow_ritualofsacrifice',
+                icon: 'Void/Demonic Possesion',
                 tags: ['passive', 'dark', 'resistance', 'detection']
             },
 
@@ -91,7 +91,7 @@ export const HEXER_PATH = {
             id: 'curse_backlash',
             name: 'Curse Backlash',
             description: '"Your curse returns to you tenfold!" When an enemy tries to curse, hex, or debuff you, redirect the effect back at them.',
-            icon: 'spell_shadow_curse',
+            icon: 'Void/Maw Gripping Fear',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'defensive', 'curse', 'reflect'],
@@ -100,7 +100,7 @@ export const HEXER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'spell_shadow_curse',
+                icon: 'Void/Maw Gripping Fear',
                 tags: ['reaction', 'defensive', 'curse', 'reflect']
             },
 
@@ -174,7 +174,7 @@ export const HEXER_PATH = {
             id: 'hex',
             name: 'Hex',
             description: '"You are cursed." Place a debilitating hex on an enemy, causing them to take 20% increased damage from all sources for 10 rounds.',
-            icon: 'spell_shadow_curseofachimonde',
+            icon: 'Necrotic/Cursed Entities',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification'],
@@ -183,7 +183,7 @@ export const HEXER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'spell_shadow_curseofachimonde',
+                icon: 'Necrotic/Cursed Entities',
                 tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification']
             },
 
@@ -236,7 +236,7 @@ export const HEXER_PATH = {
             id: 'spirit_ward_legacy',
             name: 'Spirit Ward',
             description: '"My spirits protect me." Summon protective spirits to shield you from harm.',
-            icon: 'spell_shadow_antimagicshell',
+            icon: 'Radiant/Radiant Golden Shield',
             level: 1,
             spellType: 'ACTION',
             tags: ['buff', 'defensive', 'spirit', 'ward'],
@@ -316,7 +316,7 @@ export const HEXER_PATH = {
             id: 'voodoo_bolt',
             name: 'Voodoo Bolt',
             description: '"The spirits strike!" Launch a bolt of dark spiritual energy.',
-            icon: 'spell_shadow_shadowbolt',
+            icon: 'Void/Red Energy Burst',
             level: 1,
             spellType: 'ACTION',
             tags: ['damage', 'curse', 'spirit', 'ranged'],
@@ -394,7 +394,7 @@ export const HEXER_PATH = {
                     id: 'hex',
                     name: 'Hex',
                     description: '"You are cursed." Place a debilitating hex on an enemy.',
-                    icon: 'spell_shadow_curseofachimonde',
+                    icon: 'Necrotic/Cursed Entities',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'curse', 'hex', 'damage-amplification'],
@@ -474,7 +474,7 @@ export const HEXER_PATH = {
                     id: 'spirit_link',
                     name: 'Spirit Link',
                     description: '"The spirits protect us." Link allies together, sharing damage between them.',
-                    icon: 'spell_shaman_spiritlink',
+                    icon: 'Healing/Renewal',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['buff', 'protection', 'spirit', 'damage-sharing'],
@@ -548,7 +548,7 @@ export const HEXER_PATH = {
                     id: 'voodoo_doll',
                     name: 'Voodoo Doll',
                     description: '"Feel my pain." Create a voodoo doll linked to an enemy - damage you take is reflected to them.',
-                    icon: 'spell_shadow_twistedfaith',
+                    icon: 'Void/Shadowy Potion',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['debuff', 'curse', 'damage-reflect', 'voodoo'],
@@ -635,7 +635,7 @@ export const HEXER_PATH = {
                     id: 'beast_form',
                     name: 'Beast Form',
                     description: '"Embrace the beast within!" Transform into a powerful beast.',
-                    icon: 'ability_druid_catform',
+                    icon: 'Utility/Crouching Beast',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'transformation', 'beast', 'physical'],
@@ -725,7 +725,7 @@ export const HEXER_PATH = {
                     id: 'primal_fury',
                     name: 'Primal Fury',
                     description: '"Unleash the beast!" Enter a feral rage, gaining attack speed and damage.',
-                    icon: 'ability_druid_ferociousbite',
+                    icon: 'Utility/Snarling Beast',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['buff', 'rage', 'attack-speed', 'damage'],
@@ -829,7 +829,7 @@ export const HEXER_PATH = {
                     id: 'totem_summon',
                     name: 'Totem Summon',
                     description: '"Spirits, heed my call!" Summon a totem that buffs nearby allies.',
-                    icon: 'spell_nature_natureguardian',
+                    icon: 'Utility/Ornate Staff',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['summon', 'totem', 'buff', 'aoe'],
@@ -892,7 +892,7 @@ export const HEXER_PATH = {
                     id: 'ancestral_guidance',
                     name: 'Ancestral Guidance',
                     description: '"The ancestors watch over us." Call upon ancestral spirits to heal and protect allies.',
-                    icon: 'spell_shaman_ancestralguidance',
+                    icon: 'Healing/Golden Heart',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['healing', 'buff', 'ancestral', 'aoe'],

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useChatStore from '../../store/chatStore';
+import SocialEncounterGenerator from './SocialEncounterGenerator';
 import './GMToolsPanel.css';
 
 const GMToolsPanel = ({ isVisible, onClose }) => {
@@ -518,10 +519,11 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   );
 
   const tabs = [
-    { id: 'players', label: 'Players', icon: '👥' },
-    { id: 'combat', label: 'Combat', icon: '⚔️' },
-    { id: 'world', label: 'World', icon: '🌍' },
-    { id: 'settings', label: 'Settings', icon: '⚙️' }
+    { id: 'players', label: 'Players', icon: '/assets/icons/abilities/Social/GroupGathering.png' },
+    { id: 'combat', label: 'Combat', icon: '/assets/icons/Status/combat/concentric-target.png' },
+    { id: 'world', label: 'World', icon: '/assets/icons/Status/utility/forking-path.png' },
+    { id: 'encounters', label: 'Encounters', icon: '/assets/icons/Status/social/bardic-note.png' },
+    { id: 'settings', label: 'Settings', icon: '/assets/icons/Status/utility/gear-cog-turns.png' }
   ];
 
   if (!isVisible || !isGMMode) return null;
@@ -540,7 +542,9 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             className={`gm-tab ${activeTab === tab.id ? 'active' : ''}`}
             onClick={() => setActiveTab(tab.id)}
           >
-            <span className="gm-tab-icon">{tab.icon}</span>
+            <span className="gm-tab-icon">
+              <img src={tab.icon} alt="" draggable={false} style={{ width: 20, height: 20, objectFit: 'contain', pointerEvents: 'none' }} />
+            </span>
             <span className="gm-tab-label">{tab.label}</span>
           </button>
         ))}
@@ -550,6 +554,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
         {activeTab === 'players' && renderPlayersTab()}
         {activeTab === 'combat' && renderCombatTab()}
         {activeTab === 'world' && renderWorldTab()}
+        {activeTab === 'encounters' && <SocialEncounterGenerator />}
         {activeTab === 'settings' && renderSettingsTab()}
       </div>
     </div>

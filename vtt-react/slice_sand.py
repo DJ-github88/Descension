@@ -48,17 +48,7 @@ def final_slice():
             # Crop the segment
             tile = img.crop((left, top, right, bottom))
             
-            # Strict final autocrop on each 
-            def final_clean(im):
-                data = np.array(im)
-                m = np.max(data, axis=2) > 60
-                rm = np.any(m, axis=1); cm = np.any(m, axis=0)
-                if not np.any(rm): return im
-                tm_y, bm_y = np.where(rm)[0][[0, -1]]
-                lm_x, rm_x = np.where(cm)[0][[0, -1]]
-                return im.crop((lm_x, tm_y, rm_x + 1, bm_y + 1))
-            
-            tile = final_clean(tile)
+            # Strict final autocrop on each is REMOVED to maintain proper grid bounding box scales
             tile.save(os.path.join(out_dir, f'Sand{count}.png'))
             
     print(f'Slicing complete. Created {count} borderless tiles from the detected area.')

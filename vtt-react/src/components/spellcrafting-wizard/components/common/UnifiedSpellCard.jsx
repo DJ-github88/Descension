@@ -6356,7 +6356,11 @@ const UnifiedSpellCard = ({
           } else {
             // Special handling for damage_reduction stat
             if (stat.stat === 'damage_reduction' || statName.includes('damage_reduction') || statName.includes('damage reduction')) {
-              statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
+              if (stat.magnitudeType === 'dice' && stat.formula) {
+                statDisplay.value = `Reduces incoming damage by ${stat.formula}`;
+              } else {
+                statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
+              }
               statDisplay.class = 'damage-reduction';
             } else if (stat.stat === 'armor' || statName.includes('armor')) {
               // Special handling for armor
@@ -10731,6 +10735,7 @@ const UnifiedSpellCard = ({
                                        (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
                       const magnitude = statMod.magnitude || 0;
                       const magnitudeType = statMod.magnitudeType || 'flat';
+                      const isDiceFormula = magnitudeType === 'dice' && statMod.formula;
                       const typeText = magnitudeType === 'percentage' ? '%' : '';
 
                       // Check if this is a resistance stat (from statModifier category or stat name)
@@ -10785,9 +10790,12 @@ const UnifiedSpellCard = ({
                         const suppressMechanicsText = (isRageGeneration && descriptionMentionsRage) || hasStatInDescription;
                         
                         if (!suppressMechanicsText && !isResistanceStat) {
-                          // Generate formatted stat modifier: "+2 Armor" or "+50% Damage"
-                          const sign = magnitude >= 0 ? '+' : '';
-                          mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                          if (isDiceFormula) {
+                            mechanicsText = statMod.formula;
+                          } else {
+                            const sign = magnitude >= 0 ? '+' : '';
+                            mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                          }
                         }
                       }
 
@@ -10817,7 +10825,7 @@ const UnifiedSpellCard = ({
                         }
                         
                         // Use the thematic description if description doesn't already have it
-                        if (!cleanDescription || cleanDescription.toLowerCase().includes('resistance') || cleanDescription.toLowerCase().includes('damage reduction')) {
+                        if (!cleanDescription || (cleanDescription.length < 40 && (cleanDescription.toLowerCase().includes('resistance') || cleanDescription.toLowerCase().includes('damage reduction')))) {
                           cleanDescription = resistanceText;
                         }
                       }
@@ -10992,7 +11000,11 @@ const UnifiedSpellCard = ({
                             } else {
                               // Special handling for damage_reduction stat
                               if (modifier.stat === 'damage_reduction' || modifierName.includes('damage_reduction') || modifierName.includes('damage reduction')) {
-                                statModifierTexts.push(`Reduces incoming damage by ${value}`);
+                                if (modifier.magnitudeType === 'dice' && modifier.formula) {
+                                  statModifierTexts.push(`Reduces incoming damage by ${modifier.formula}`);
+                                } else {
+                                  statModifierTexts.push(`Reduces incoming damage by ${value}`);
+                                }
                               } else if (modifier.stat === 'armor' || modifierName.includes('armor')) {
                                 // Special handling for armor
                                 statModifierTexts.push(`+${value} Armor`);

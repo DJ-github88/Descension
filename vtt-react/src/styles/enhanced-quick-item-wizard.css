@@ -119,7 +119,7 @@
 .form-group select:focus { outline: none; border-color: #7a3b2e; }
 
 /* Sections - minimal, just a top border separator */
-.form-section {
+.enhanced-quick-item-wizard .form-section {
     margin-top: 6px;
     padding: 8px 0;
     border-top: 1px solid #e0d5c0;

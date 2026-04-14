@@ -341,9 +341,6 @@ const useBuffStore = create(
                 const { activeBuffs } = get();
                 const effects = {};
 
-                console.log('[buffStore] getActiveEffects called with targetId:', targetId);
-                console.log('[buffStore] activeBuffs:', activeBuffs.map(b => ({ name: b.name, targetId: b.targetId, effects: b.effects })));
-
                 // IMPROVED: When looking for 'player', also include 'current-player' buffs
                 const targetIds = targetId === 'player' 
                     ? ['player', 'current-player'] 

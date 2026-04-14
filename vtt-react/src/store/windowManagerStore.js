@@ -26,6 +26,10 @@ const useWindowManagerStore = create((set, get) => ({
   nextWindowZ: Z_INDEX_RANGES.BASE_WINDOW,
   nextModalZ: Z_INDEX_RANGES.MODAL,
   
+  // Tracking dragging/resizing state
+  draggingWindowId: null,
+  resizingWindowId: null,
+  
   /**
    * Register a new window or modal
    * @param {string} id - Unique identifier for the window
@@ -137,7 +141,17 @@ const useWindowManagerStore = create((set, get) => ({
    */
   getAllWindowIds: () => {
     return Array.from(get().windows.keys());
-  }
+  },
+
+  /**
+   * Set the ID of the window being dragged
+   */
+  setDraggingWindowId: (id) => set({ draggingWindowId: id }),
+
+  /**
+   * Set the ID of the window being resized
+   */
+  setResizingWindowId: (id) => set({ resizingWindowId: id }),
 }));
 
 export default useWindowManagerStore;

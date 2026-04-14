@@ -86,68 +86,40 @@ const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/
 
 
 // Track dynamically loaded stylesheets for cleanup
-let gameStylesheets = [];
+let preGameStyleCount = 0;
+let gameStyleElements = [];
 
 // Lazy load game-specific styles with cleanup tracking
 const loadGameStyles = () => {
-    // Only load if not already loaded
-    if (gameStylesheets.length > 0) return;
+    // Snapshot all existing style/link elements BEFORE loading game styles
+    // so we can identify and remove any that are injected during game mode
+    if (preGameStyleCount === 0) {
+        preGameStyleCount = document.querySelectorAll('style, link[rel="stylesheet"]').length;
+        console.log(`📝 Pre-game style count: ${preGameStyleCount}`);
+    }
 
-    // Load essential game styles that are properly scoped or necessary for functionality
-    // Exclude problematic CSS files that contain global selectors
+    // Load essential game styles
     const stylePromises = [
-        // DISABLED - contains global * selector that pollutes landing page:
-        // import('./components/spellcrafting-wizard/styles/pathfinder/main.css'),
-        // import('./components/spellcrafting-wizard/styles/pathfinder/collections.css'),
-
-        // Note: Grid.css, character-sheet-isolation.css, character-sheet.css,
-        // game-screen.css, grid-item.css, party-hud.css, creature-token.css,
-        // item-wizard.css, MultiplayerApp.css, RoomLobby.css, ChatWindow.css,
-        // RoomManager.css, multiplayer-button.css, and AccountDashboardIsolation.css
-        // are now preloaded above to prevent layout shifts
-
-        // Load component-specific CSS that was causing pollution
         import('./components/creature-wizard/styles/CreatureWindow.css'),
-
-        // NOTE: ClassResourceBar.css is now preloaded above since it's used in rules section
-
-        // Load UI component CSS files that were removed from components
-        // NOTE: ActionBar.css is now preloaded above to prevent multiplayer timing issues
         import('./components/combat/FloatingCombatText.css'),
         import('./styles/combat-system.css'),
-
-        // Load icon-related CSS files that might be needed for proper icon display
         import('./styles/item-icon-selector.css'),
         import('./styles/dropdown-fix.css'),
         import('./components/spellcrafting-wizard/styles/IconSelector.css'),
         import('./styles/inventory.css'),
-
-        // Load item wizard CSS only when in game mode to prevent global input pollution
         import('./styles/item-wizard.css'),
-
-        // Load react-resizable styles (needed for Navigation and HUD components)
         import('react-resizable/css/styles.css')
     ];
 
-    // Track the loaded stylesheets for potential cleanup
+    // Mark all newly injected stylesheets for cleanup
     Promise.all(stylePromises).then(() => {
-        // Find the newly added stylesheets (excluding preloaded ones)
-        const allStylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'));
-        gameStylesheets = allStylesheets.filter(sheet =>
-            sheet.href && (
-                sheet.href.includes('CreatureWindow.css') ||
-                sheet.href.includes('buff-container.css') ||
-                sheet.href.includes('CombatSelectionOverlay.css') ||
-                sheet.href.includes('FloatingCombatText.css') ||
-                sheet.href.includes('combat-selection-window.css') ||
-                sheet.href.includes('combat-system.css') ||
-                sheet.href.includes('item-icon-selector.css') ||
-                sheet.href.includes('dropdown-fix.css') ||
-                sheet.href.includes('IconSelector.css') ||
-                sheet.href.includes('inventory.css') ||
-                sheet.href.includes('react-resizable')
-            )
-        );
+        const allElements = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'));
+        gameStyleElements = allElements.slice(preGameStyleCount);
+        // Tag each element so cleanup can find them even if DOM order changes
+        gameStyleElements.forEach(el => {
+            el.setAttribute('data-game-style', 'true');
+        });
+        console.log(`🎮 Tagged ${gameStyleElements.length} game-injected stylesheets`);
     });
 };
 
@@ -155,30 +127,38 @@ const loadGameStyles = () => {
 const cleanupGameStyles = () => {
     // Remove game mode class and add landing mode class
     document.body.classList.remove('game-mode');
+    document.body.classList.add('landing-mode');
 
-    // CRITICAL: Remove dynamically loaded game stylesheets
-    if (gameStylesheets.length > 0) {
-        console.log(`🧹 Removing ${gameStylesheets.length} game stylesheets...`);
-        gameStylesheets.forEach(sheet => {
+    // CRITICAL: Remove ALL stylesheets injected during game mode
+    // These include both explicit loadGameStyles() imports AND CSS injected
+    // by lazy-loaded React components (Grid, ActionBar, CombatTimeline, etc.)
+    const gameStyles = document.querySelectorAll('[data-game-style="true"]');
+    if (gameStyles.length > 0) {
+        console.log(`🧹 Removing ${gameStyles.length} game stylesheets...`);
+        gameStyles.forEach(sheet => {
             if (sheet && sheet.parentNode) {
                 sheet.parentNode.removeChild(sheet);
             }
         });
-        gameStylesheets = [];
     }
-    document.body.classList.add('landing-mode');
 
-    // Force reset any global styles that might have been applied
-    // Remove any dynamically added style elements that might contain global rules
-    const dynamicStyles = document.querySelectorAll('style[data-styled], style[data-emotion]');
-    dynamicStyles.forEach(style => {
-        if (style.textContent && (style.textContent.includes('*') || style.textContent.includes('body.game-mode'))) {
-            // Remove styles that contain global selectors
-            style.remove();
-        }
-    });
+    // Also remove any style/link elements that were added beyond our pre-game snapshot
+    // (catches any styles injected by lazy components that weren't tagged)
+    const allElements = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'));
+    if (allElements.length > preGameStyleCount) {
+        const extraElements = allElements.slice(preGameStyleCount);
+        console.log(`🧹 Removing ${extraElements.length} untagged game stylesheets...`);
+        extraElements.forEach(el => {
+            if (el && el.parentNode) {
+                el.parentNode.removeChild(el);
+            }
+        });
+    }
 
-    // Reset any box-sizing that might have been globally applied
+    gameStyleElements = [];
+    preGameStyleCount = 0;
+
+    // Reset any inline box-sizing that might have been globally applied
     document.documentElement.style.boxSizing = '';
     document.body.style.boxSizing = '';
 };

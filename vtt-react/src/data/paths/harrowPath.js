@@ -33,7 +33,7 @@ export const HARROW_PATH = {
             id: 'survivors_grit',
             name: "Survivor's Grit",
             description: '"I\'ve walked through worse." Your experiences have hardened your body and mind against death and despair.',
-            icon: 'spell_shadow_unholyfrenzy',
+            icon: 'Utility/Steadfast Bulwark',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'survival', 'resistance', 'endurance'],
@@ -42,7 +42,7 @@ export const HARROW_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'spell_shadow_unholyfrenzy',
+                icon: 'Utility/Steadfast Bulwark',
                 tags: ['passive', 'survival', 'resistance', 'endurance']
             },
 
@@ -91,7 +91,7 @@ export const HARROW_PATH = {
             id: 'defiant_stand',
             name: 'Defiant Stand',
             description: '"I will not fall!" When reduced to below 25% health, your survival instincts kick in, granting temporary hit points and reducing incoming damage.',
-            icon: 'ability_warrior_laststand',
+            icon: 'Utility/Bound Warrior',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'defensive', 'survival', 'buff'],
@@ -100,7 +100,7 @@ export const HARROW_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'ability_warrior_laststand',
+                icon: 'Utility/Bound Warrior',
                 tags: ['reaction', 'defensive', 'survival', 'buff']
             },
 
@@ -110,11 +110,11 @@ export const HARROW_PATH = {
                     {
                         id: 'defiant_resolve',
                         name: 'Defiant Resolve',
-                        description: 'Gain 2d8 + Constitution temporary hit points and reduce all incoming damage by 3 (flat reduction) for 2 rounds.',
+                        description: 'Gain 2d8 + Constitution temporary hit points and reduce all incoming damage by 1d6 × level (flat reduction) for 2 rounds.',
                         statModifier: {
                             stat: 'damage_reduction',
-                            magnitude: 3,
-                            magnitudeType: 'flat'
+                            magnitudeType: 'dice',
+                            formula: '1d6 * level'
                         }
                     }
                 ],
@@ -161,7 +161,7 @@ export const HARROW_PATH = {
             },
 
             resourceCost: {
-                actionPoints: 0
+                actionPoints: 1
             },
 
             cooldownConfig: {
@@ -179,7 +179,7 @@ export const HARROW_PATH = {
             id: 'terrifying_presence',
             name: 'Terrifying Presence',
             description: '"Fear me!" Unleash an aura of dread that frightens all enemies within 30 feet. Frightened creatures have disadvantage on attacks and must move away from you.',
-            icon: 'spell_shadow_psychicscream',
+            icon: 'Psychic/Hypnotic Eye',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'debuff', 'fear', 'aura', 'mental'],
@@ -188,7 +188,7 @@ export const HARROW_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'spell_shadow_psychicscream',
+                icon: 'Psychic/Hypnotic Eye',
                 tags: ['action', 'debuff', 'fear', 'aura', 'mental']
             },
 
@@ -243,7 +243,7 @@ export const HARROW_PATH = {
             id: 'plague_touch',
             name: 'Plague Touch',
             description: '"Rot and decay." Infect an enemy with a virulent disease.',
-            icon: 'spell_shadow_plaguecloud',
+            icon: 'Necrotic/Necrotic Skull',
             level: 1,
             spellType: 'ACTION',
             tags: ['damage', 'disease', 'dot', 'necrotic'],
@@ -308,7 +308,7 @@ export const HARROW_PATH = {
             id: 'deaths_door',
             name: "Death's Door",
             description: '"Not yet." When reduced to 0 HP, automatically stabilize and gain temporary HP.',
-            icon: 'spell_shadow_demonicfortitude',
+            icon: 'Utility/Grim Reaper',
             level: 2,
             spellType: 'REACTION',
             tags: ['defensive', 'survival', 'reaction', 'passive'],
@@ -407,7 +407,7 @@ export const HARROW_PATH = {
                     id: 'terrifying_presence',
                     name: 'Terrifying Presence',
                     description: '"Fear me!" Unleash an aura of dread that frightens nearby enemies.',
-                    icon: 'spell_shadow_psychicscream',
+                    icon: 'Psychic/Hypnotic Eye',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'fear', 'aoe', 'control'],
@@ -490,7 +490,7 @@ export const HARROW_PATH = {
                     id: 'grim_harvest',
                     name: 'Grim Harvest',
                     description: '"Death fuels me." Gain temporary HP when you kill an enemy.',
-                    icon: 'spell_shadow_soulleech_3',
+                    icon: 'Necrotic/Drain Soul',
                     level: 2,
                     spellType: 'REACTION',
                     tags: ['healing', 'passive', 'death', 'temporary-hp'],
@@ -568,7 +568,7 @@ export const HARROW_PATH = {
                     id: 'dark_pact',
                     name: 'Dark Pact',
                     description: '"Power demands sacrifice." Sacrifice health to deal massive shadow damage.',
-                    icon: 'spell_shadow_deathpact',
+                    icon: 'Void/Corrupted Eye',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['damage', 'shadow', 'sacrifice', 'high-damage'],
@@ -646,7 +646,7 @@ export const HARROW_PATH = {
                     id: 'plague_touch',
                     name: 'Plague Touch',
                     description: '"Rot and decay." Infect an enemy with a virulent disease.',
-                    icon: 'spell_shadow_plaguecloud',
+                    icon: 'Necrotic/Necrotic Skull',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['damage', 'disease', 'dot', 'debuff'],
@@ -749,7 +749,7 @@ export const HARROW_PATH = {
                     id: 'epidemic',
                     name: 'Epidemic',
                     description: '"Spread the sickness." Your plague spreads to nearby enemies.',
-                    icon: 'spell_shadow_plaguecloud',
+                    icon: 'Necrotic/Necrotic Skull',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['damage', 'disease', 'spread', 'aoe'],
@@ -837,7 +837,7 @@ export const HARROW_PATH = {
                     id: 'deaths_door',
                     name: "Death's Door",
                     description: '"Not yet." When reduced to 0 HP, automatically stabilize and gain temporary HP.',
-                    icon: 'spell_shadow_demonicfortitude',
+                    icon: 'Utility/Grim Reaper',
                     level: 2,
                     spellType: 'REACTION',
                     tags: ['healing', 'survival', 'death-save', 'passive'],

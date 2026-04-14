@@ -98,6 +98,20 @@ class GameStateManager {
       }
     });
 
+    // Listen for travel state changes
+    const useTravelStore = require('../store/travelStore').default;
+    this.unsubscribeTravel = useTravelStore.subscribe((state, prevState) => {
+      const travelKeys = [
+        'currentBiome', 'weather', 'weatherRoll', 'weatherDuration', 'weatherRemaining',
+        'transportMode', 'terrainType', 'partyExhaustion', 'clock', 'activeHour',
+        'navStatus', 'journeyGoal', 'hourLog', 'encounterLog', 'lastEncounter'
+      ];
+      const changed = travelKeys.some(k => state[k] !== prevState[k]);
+      if (changed) {
+        this.markChanged('travel');
+      }
+    });
+
   }
 
   /**
@@ -207,8 +221,10 @@ class GameStateManager {
 
       // Apply inventory/grid items
       if (gameState.inventory) {
-        const useGridItemStore = require('../store/gridItemStore').default;
-        const gridItemStore = useGridItemStore.getState();
+      const useGridItemStore = require('../store/gridItemStore').default;
+      const useTravelStore = require('../store/travelStore').default;
+      const gridItemStore = useGridItemStore.getState();
+      const travelStore = useTravelStore.getState();
         if (gameState.inventory.droppedItems) {
           // Convert dropped items back to grid items
           const gridItems = Object.values(gameState.inventory.droppedItems);
@@ -231,6 +247,13 @@ class GameStateManager {
         const levelEditorStore = useLevelEditorStore.getState();
         if (gameState.exploredAreas) levelEditorStore.setExploredAreas(gameState.exploredAreas);
         // Note: exploredCircles and exploredPolygons are stored in playerMemories now
+      }
+
+      // Apply travel state
+      if (gameState.travel) {
+        const useTravelStore = require('../store/travelStore').default;
+        const travelStore = useTravelStore.getState();
+        travelStore.importState(gameState.travel);
       }
 
     } catch (error) {
@@ -339,7 +362,10 @@ class GameStateManager {
           gmNotes: [],
           playerNotes: [],
           sharedNotes: []
-        }
+        },
+
+        // Travel tracker state
+        travel: travelStore.getExportState()
       };
 
       return gameState;
@@ -446,6 +472,10 @@ class GameStateManager {
     if (this.unsubscribeGridItems) {
       this.unsubscribeGridItems();
       this.unsubscribeGridItems = null;
+    }
+    if (this.unsubscribeTravel) {
+      this.unsubscribeTravel();
+      this.unsubscribeTravel = null;
     }
 
     this.stopAutoSave();

@@ -1,9 +1,5 @@
 import React, { memo } from 'react';
 
-/**
- * Optimized grid tile component with React.memo to prevent unnecessary re-renders
- * Only re-renders when props actually change
- */
 const OptimizedGridTile = memo(({
     tile,
     tileSize,
@@ -17,7 +13,7 @@ const OptimizedGridTile = memo(({
     onContextMenu,
     children
 }) => {
-    const isHovered = hoveredTile === tile;
+    const isHovered = hoveredTile && tile && hoveredTile.key === tile.key;
     
     return (
         <div

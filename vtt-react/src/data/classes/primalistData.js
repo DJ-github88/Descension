@@ -755,7 +755,7 @@ BATTLE MAP:
       {
         id: 'earthwarden',
         name: 'Earthwarden',
-        icon: 'spell_nature_stoneclawtotem',
+        icon: 'Nature/Roots',
         color: '#8B4513',
         theme: 'Healing & Protection',
         
@@ -790,7 +790,7 @@ BATTLE MAP:
       {
         id: 'stormbringer',
         name: 'Stormbringer',
-        icon: 'spell_nature_callstorm',
+        icon: 'Lightning/Lightning Storm',
         color: '#4169E1',
         theme: 'Elemental Damage & Offense',
         
@@ -825,7 +825,7 @@ BATTLE MAP:
       {
         id: 'spiritcaller',
         name: 'Spiritcaller',
-        icon: 'spell_nature_invisibilitytotem',
+        icon: 'Utility/Hide',
         color: '#9370DB',
         theme: 'Crowd Control & Utility',
         
@@ -868,7 +868,7 @@ BATTLE MAP:
       name: 'Healing Totem',
       description: 'Place a sacred totem that channels healing energy to all allies within range, restoring health each turn.',
       spellType: 'ACTION',
-      icon: 'spell_nature_healingwavegreater',
+      icon: 'Healing/Heart Ripple',
       school: 'Nature',
       level: 2,
       specialization: 'healing-totems',
@@ -935,7 +935,7 @@ BATTLE MAP:
       name: 'Rejuvenation Totem',
       description: 'Place a totem that grants regeneration to all allies within range, healing them at the start of their turns.',
       spellType: 'ACTION',
-      icon: 'spell_nature_rejuvenation',
+      icon: 'Healing/Renewal',
       school: 'Nature',
       level: 2,
       specialization: 'healing-totems',
@@ -1003,7 +1003,7 @@ BATTLE MAP:
       name: 'Guardian Totem',
       description: 'Place a protective totem that shields all allies within range, absorbing incoming damage.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneskintotem',
+      icon: 'Nature/Earth Shield',
       school: 'Nature',
       level: 3,
       specialization: 'defensive-totems',
@@ -1070,7 +1070,7 @@ BATTLE MAP:
       name: 'Earth Totem',
       description: 'Place a totem of solid earth that increases allies\' armor and grants resistance to physical damage.',
       spellType: 'ACTION',
-      icon: 'spell_nature_strengthofearthtotem02',
+      icon: 'General/Increase Strength',
       school: 'Earth',
       level: 3,
       specialization: 'defensive-totems',
@@ -1109,7 +1109,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'resistance',
-            damageType: 'NON_MAGICAL',
+            damageType: 'bludgeoning',
             description: 'Grants resistance to non-magical damage'
           },
           {
@@ -1144,7 +1144,7 @@ BATTLE MAP:
       name: 'Flamecaller Totem',
       description: 'Place a totem wreathed in flames that enhances allies\' weapons with fire damage.',
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
       school: 'Fire',
       level: 3,
       specialization: 'elemental-totems',
@@ -1177,7 +1177,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'weaponDamage',
-            damageType: 'FIRE',
+            damageType: 'fire',
             amount: '1d6',
             description: 'Adds 1d6 fire damage to weapon attacks'
           },
@@ -1216,7 +1216,7 @@ BATTLE MAP:
       name: 'Storm Totem',
       description: 'Place a crackling totem that enhances allies\' spellcasting with storm energy.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stormreach',
+      icon: 'Lightning/Thunder',
       school: 'Lightning',
       level: 3,
       specialization: 'elemental-totems',
@@ -1289,7 +1289,7 @@ BATTLE MAP:
       name: 'Frost Totem',
       description: 'Place a freezing totem that slows enemies and reduces their attack speed.',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostshock',
+      icon: 'Frost/Inflicted Ice Shard',
       school: 'Frost',
       level: 3,
       specialization: 'elemental-totems',
@@ -1361,7 +1361,7 @@ BATTLE MAP:
       name: 'Wind Totem',
       description: 'Place a totem that channels swift winds, increasing allies\' movement and reflexes.',
       spellType: 'ACTION',
-      icon: 'spell_nature_windfury',
+      icon: 'Nature/Wind Gust',
       school: 'Air',
       level: 2,
       specialization: 'elemental-totems',
@@ -1435,7 +1435,7 @@ BATTLE MAP:
       name: 'Healing Sanctuary',
       description: 'Activate a powerful synergy when Healing, Rejuvenation, Guardian, and Earth totems are active, creating a sanctuary of protection and healing.',
       spellType: 'REACTION',
-      icon: 'spell_holy_prayerofhealing',
+      icon: 'Healing/Prayer',
       school: 'Nature',
       level: 5,
       specialization: 'synergy-effects',
@@ -1501,7 +1501,7 @@ BATTLE MAP:
       name: 'Elemental Fury',
       description: 'Unleash a devastating elemental storm for 3 rounds when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with bonus fire, lightning, and frost damage to attacks, plus increased attack speed and movement speed.',
       spellType: 'REACTION',
-      icon: 'spell_nature_wispheal',
+      icon: 'Healing/Heart Ripple',
       school: 'Elemental',
       level: 6,
       specialization: 'synergy-effects',
@@ -1535,7 +1535,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'weaponDamage',
-            damageType: 'FIRE',
+            damageType: 'fire',
             amount: '2d6',
             description: 'Adds bonus fire damage to attacks',
             damageFormula: '2d6'
@@ -1543,7 +1543,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'weaponDamage',
-            damageType: 'LIGHTNING',
+            damageType: 'lightning',
             amount: '2d6',
             description: 'Adds bonus lightning damage to attacks',
             damageFormula: '2d6'
@@ -1551,7 +1551,7 @@ BATTLE MAP:
           {
             type: 'BUFF',
             stat: 'weaponDamage',
-            damageType: 'FROST',
+            damageType: 'frost',
             amount: '2d6',
             description: 'Adds bonus frost damage to attacks',
             damageFormula: '2d6'
@@ -1590,7 +1590,7 @@ BATTLE MAP:
       name: 'Totemic Call',
       description: 'Summon all eight sacred totems at once in a powerful ritual for 1 minute (concentration), creating a complete totemic circle. Places all 8 totems simultaneously in optimal positions.',
       spellType: 'ACTION',
-      icon: 'spell_nature_nullward',
+      icon: 'Nature/Earth Shield',
       school: 'Nature',
       level: 7,
       specialization: 'utility',
@@ -1648,7 +1648,7 @@ BATTLE MAP:
       name: 'Totemic Recall',
       description: 'Instantly reposition all active totems to your current location, maintaining their effects.',
       spellType: 'ACTION',
-      icon: 'spell_shaman_dropall',
+      icon: 'Nature/Earth Shield',
       school: 'Nature',
       level: 3,
       specialization: 'utility',
@@ -1704,7 +1704,7 @@ BATTLE MAP:
       name: 'Earthquake',
       description: 'Channel the fury of the earth to create a massive tremor that shakes the ground and devastates enemies.',
       spellType: 'ACTION',
-      icon: 'spell_nature_earthquake',
+      icon: 'Nature/Earth Shatter',
       school: 'Earth',
       level: 8,
       specialization: 'utility',
@@ -1775,7 +1775,7 @@ BATTLE MAP:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_stoneclawtotem',
+        icon: 'Nature/Roots',
         tags: ['attack', 'damage', 'earth', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1818,7 +1818,7 @@ BATTLE MAP:
       effectTypes: ['healing', 'summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_healingtouch',
+        icon: 'Healing/Heal Wound',
         tags: ['healing', 'totem', 'support', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1863,7 +1863,7 @@ BATTLE MAP:
         controlType: 'autonomous'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -1897,7 +1897,7 @@ BATTLE MAP:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_natureguardian',
+        icon: 'Nature/Nature Natural',
         tags: ['buff', 'support', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1954,7 +1954,7 @@ BATTLE MAP:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthquake',
+        icon: 'Nature/Earth Shatter',
         tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2021,7 +2021,7 @@ BATTLE MAP:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_hunter_pet_wolf',
+        icon: 'Nature/Wolf Dash',
         tags: ['summoning', 'spirit', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2057,7 +2057,7 @@ BATTLE MAP:
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: [],
@@ -2089,7 +2089,7 @@ BATTLE MAP:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_shamanrage',
+        icon: 'General/Rage',
         tags: ['buff', 'damage', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2146,7 +2146,7 @@ BATTLE MAP:
       effectTypes: ['utility', 'damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_thorns',
+        icon: 'Nature/Thorned Flower',
         tags: ['utility', 'damage', 'terrain', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2170,7 +2170,7 @@ BATTLE MAP:
         power: 'moderate'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'wall',
@@ -2204,7 +2204,7 @@ BATTLE MAP:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_guardianward',
+        icon: 'Nature/Earth Shield',
         tags: ['summoning', 'spirit', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2240,7 +2240,7 @@ BATTLE MAP:
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: [],
@@ -2273,7 +2273,7 @@ BATTLE MAP:
       effectTypes: ['damage', 'summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_wrathv2',
+        icon: 'Nature/Claw Marks',
         tags: ['damage', 'totem', 'elemental', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2316,7 +2316,7 @@ BATTLE MAP:
         controlType: 'autonomous'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2350,7 +2350,7 @@ BATTLE MAP:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_stoneskintotem',
+        icon: 'Nature/Earth Shield',
         tags: ['buff', 'defense', 'earth', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2401,7 +2401,7 @@ BATTLE MAP:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_fire_selfdestruct',
+        icon: 'Utility/Explosive Detonation',
         tags: ['attack', 'damage', 'aoe', 'fire', 'primalist'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2421,7 +2421,7 @@ BATTLE MAP:
         }
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 100,
         aoeShape: 'circle',
@@ -2456,7 +2456,7 @@ BATTLE MAP:
       effectTypes: ['damage', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_naturetouchgrow',
+        icon: 'Nature/Growth',
         tags: ['damage', 'buff', 'totem', 'nature', 'primalist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2520,7 +2520,7 @@ BATTLE MAP:
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthbind',
+        icon: 'Nature/Entangled',
         tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2551,7 +2551,7 @@ BATTLE MAP:
         power: 'major'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 120,
         aoeShape: 'circle',
@@ -2586,7 +2586,7 @@ BATTLE MAP:
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_reincarnation',
+        icon: 'Necrotic/Resurrect',
         tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2693,7 +2693,7 @@ BATTLE MAP:
         canBeDispelled: false
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2728,7 +2728,7 @@ BATTLE MAP:
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_tranquility',
+        icon: 'Healing/Heart Ripple',
         tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -2807,7 +2807,7 @@ BATTLE MAP:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthquake',
+        icon: 'Nature/Earth Shatter',
         tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
@@ -2841,7 +2841,7 @@ BATTLE MAP:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 80 },
@@ -2875,7 +2875,7 @@ BATTLE MAP:
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_strengthofearth',
+        icon: 'General/Increase Strength',
         tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2930,7 +2930,7 @@ BATTLE MAP:
         canBeDispelled: false
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2966,7 +2966,7 @@ BATTLE MAP:
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_wispheal',
+        icon: 'Healing/Heart Ripple',
         tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist'],
         toggleable: true
       },
@@ -3027,7 +3027,7 @@ BATTLE MAP:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthbind',
+        icon: 'Nature/Entangled',
         tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
@@ -3080,7 +3080,7 @@ BATTLE MAP:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_naturetouchgrow',
+        icon: 'Nature/Growth',
         tags: ['summoning', 'nature', 'legendary', 'primalist'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
@@ -3150,7 +3150,7 @@ BATTLE MAP:
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
         aoeShape: 'circle',

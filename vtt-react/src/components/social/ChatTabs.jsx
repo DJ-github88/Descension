@@ -1,8 +1,9 @@
 /**
  * Chat Tabs Component
  *
- * Tabbed interface for Global, Whisper, Party, Loot, and Combat chat
+ * Tabbed interface for Global, Whisper, Party, Loot, Combat, and Travel chat
  * Loot and Combat tabs only visible when in a game session (local or multiplayer)
+ * Travel tab only visible in multiplayer
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -19,6 +20,7 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
   const globalChatMessages = usePresenceStore((state) => state.globalChatMessages);
   const partyChatMessages = usePresenceStore((state) => state.partyChatMessages);
   const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
+  const travelChatUnreadCount = usePresenceStore((state) => state.travelChatUnreadCount);
   const isInParty = usePartyStore((state) => state.isInParty);
 
   // Check if in game session (local or multiplayer)
@@ -48,6 +50,7 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
   const prevMessageCounts = useRef({
     global: 0,
     party: 0,
+    travel: 0,
     whispers: new Map()
   });
 
@@ -81,26 +84,21 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
     }
     prevMessageCounts.current.party = partyChatMessages.length;
 
-    // Check whisper messages
-    whisperTabs.forEach((tabData, userId) => {
-      const prevCount = prevMessageCounts.current.whispers.get(userId) || 0;
-      const currentCount = tabData.messages.length;
-
-      if (currentCount > prevCount && activeTab !== `whisper_${userId}`) {
-        newPulseTabs.add(`whisper_${userId}`);
-        setTimeout(() => {
-          setPulseTabs(prev => {
-            const updated = new Set(prev);
-            updated.delete(`whisper_${userId}`);
-            return updated;
-          });
-        }, 1000);
-      }
-      prevMessageCounts.current.whispers.set(userId, currentCount);
-    });
+    // Check travel messages (pulse when unread count increases and not on travel tab)
+    if (travelChatUnreadCount > prevMessageCounts.current.travel && activeTab !== 'travel') {
+      newPulseTabs.add('travel');
+      setTimeout(() => {
+        setPulseTabs(prev => {
+          const updated = new Set(prev);
+          updated.delete('travel');
+          return updated;
+        });
+      }, 1000);
+    }
+    prevMessageCounts.current.travel = travelChatUnreadCount;
 
     setPulseTabs(newPulseTabs);
-  }, [globalChatMessages, partyChatMessages, whisperTabs, activeTab]);
+  }, [globalChatMessages, partyChatMessages, whisperTabs, activeTab, travelChatUnreadCount]);
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -270,6 +268,20 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
             >
               <i className="fas fa-trash"></i>
             </button>
+          )}
+        </div>
+      )}
+
+      {/* Travel Tab (only visible in multiplayer) */}
+      {isInMultiplayer && (
+        <div
+          className={`chat-tab travel-tab ${activeTab === 'travel' ? 'active' : ''} ${pulseTabs.has('travel') ? 'pulse' : ''}`}
+          onClick={() => handleTabClick('travel')}
+        >
+          <i className="fas fa-route"></i>
+          <span>Travel</span>
+          {travelChatUnreadCount > 0 && (
+            <span className="unread-badge">{travelChatUnreadCount}</span>
           )}
         </div>
       )}

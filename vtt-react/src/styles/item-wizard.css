@@ -1268,7 +1268,7 @@
 
 /* Removed duplicate wizard-step rule - consolidated above */
 
-.wizard-step::before {
+.item-wizard-modal .wizard-step::before {
     display: none !important;
 }
 

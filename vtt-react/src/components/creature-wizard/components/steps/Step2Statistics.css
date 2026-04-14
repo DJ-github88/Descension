@@ -1,7 +1,7 @@
 /* Statistics Step Styling - D&D/Pathfinder Theme with Tabs */
 
 /* Ensure no gaps in wizard step */
-.wizard-step {
+.creature-wizard-layout .wizard-step {
   margin: 0;
   padding: 0;
 }

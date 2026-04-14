@@ -33,7 +33,7 @@ export const MYSTIC_PATH = {
             id: 'spiritual_attunement',
             name: 'Spiritual Attunement',
             description: '"The universe speaks to those who listen." Your deep connection to spiritual energy grants you enhanced perception and resistance to mental intrusion.',
-            icon: 'spell_holy_spiritualguidence',
+            icon: 'Psychic/Focused Mind',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'spiritual', 'perception', 'resistance'],
@@ -42,7 +42,7 @@ export const MYSTIC_PATH = {
 
             typeConfig: {
                 school: 'spiritual',
-                icon: 'spell_holy_spiritualguidence',
+                icon: 'Psychic/Focused Mind',
                 tags: ['passive', 'spiritual', 'perception', 'resistance']
             },
 
@@ -91,7 +91,7 @@ export const MYSTIC_PATH = {
             id: 'spirit_ward',
             name: 'Spirit Ward',
             description: '"My spirit shields me!" When you or an ally within 30 feet takes damage, instantly manifest a protective barrier of spiritual energy to reduce the damage.',
-            icon: 'spell_holy_powerwordbarrier',
+            icon: 'Radiant/Radiant Golden Shield',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'defensive', 'protection', 'spiritual'],
@@ -100,7 +100,7 @@ export const MYSTIC_PATH = {
 
             typeConfig: {
                 school: 'spiritual',
-                icon: 'spell_holy_powerwordbarrier',
+                icon: 'Radiant/Radiant Golden Shield',
                 tags: ['reaction', 'defensive', 'protection', 'spiritual']
             },
 
@@ -110,11 +110,11 @@ export const MYSTIC_PATH = {
                     {
                         id: 'spirit_shield',
                         name: 'Spirit Shield',
-                        description: 'Reduces incoming damage by 2d6 + Spirit modifier (flat reduction applied before damage is taken).',
+                        description: 'Reduces incoming damage by 1d6 × caster level (flat reduction applied before damage is taken).',
                         statModifier: {
                             stat: 'damage_reduction',
-                            magnitude: 10,
-                            magnitudeType: 'flat'
+                            magnitudeType: 'dice',
+                            formula: '1d6 * level'
                         }
                     }
                 ],
@@ -176,7 +176,7 @@ export const MYSTIC_PATH = {
             id: 'soul_drain',
             name: 'Soul Drain',
             description: '"Your essence is mine." Drain the life force from an enemy, dealing necrotic damage and healing yourself for the same amount.',
-            icon: 'spell_shadow_lifedrain02',
+            icon: 'Necrotic/Drain Soul',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'damage', 'healing', 'drain', 'soul'],
@@ -185,7 +185,7 @@ export const MYSTIC_PATH = {
 
             typeConfig: {
                 school: 'necrotic',
-                icon: 'spell_shadow_lifedrain02',
+                icon: 'Necrotic/Drain Soul',
                 tags: ['action', 'damage', 'healing', 'drain', 'soul']
             },
 

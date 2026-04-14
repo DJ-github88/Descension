@@ -87,9 +87,19 @@ const ZEALOT_PATH = {
                         {
                             id: 'mental_fortitude',
                             name: 'Mental Fortitude',
-                            description: 'You have advantage on saving throws against fear and charm effects. Your faith protects your mind from manipulation.',
+                            description: 'Advantage on saving throws against fear and charm effects. Your unwavering faith shields your mind from manipulation and coercion.',
                             statModifier: {
-                                stat: 'saving_throws',
+                                stat: 'constitution_saving_throws',
+                                magnitude: 2,
+                                magnitudeType: 'flat'
+                            }
+                        },
+                        {
+                            id: 'spiritual_resilience',
+                            name: 'Spiritual Resilience',
+                            description: 'Your divine conviction fortifies your spirit against external influence and corrupting forces.',
+                            statModifier: {
+                                stat: 'spirit_saving_throws',
                                 magnitude: 2,
                                 magnitudeType: 'flat'
                             }
@@ -126,7 +136,7 @@ const ZEALOT_PATH = {
                 id: 'martyrs_sacrifice',
                 name: "Martyr's Sacrifice",
                 description: '"Greater love hath no one than this." When an ally within 30 feet drops below 25% health, sacrifice your own vitality to heal them instantly.',
-                icon: 'spell_holy_prayerofhealing',
+                icon: 'Healing/Heart Shield',
                 level: 1,
                 spellType: 'REACTION',
                 tags: ['reaction', 'healing', 'divine', 'sacrifice'],
@@ -135,7 +145,7 @@ const ZEALOT_PATH = {
 
                 typeConfig: {
                     school: 'holy',
-                    icon: 'spell_holy_prayerofhealing',
+                    icon: 'Healing/Heart Shield',
                     tags: ['reaction', 'healing', 'divine', 'sacrifice']
                 },
 
@@ -201,7 +211,7 @@ const ZEALOT_PATH = {
                 id: 'zealous_fervor',
                 name: 'Zealous Fervor',
                 description: '"For my faith, I fear nothing!" Inspire yourself and nearby allies with unshakeable faith, granting combat bonuses and fear immunity.',
-                icon: 'spell_holy_innerfire',
+                icon: 'Radiant/Radiant Divinity',
                 level: 1,
                 spellType: 'ACTION',
                 tags: ['action', 'buff', 'inspiration', 'divine', 'aura'],
@@ -210,7 +220,7 @@ const ZEALOT_PATH = {
 
                 typeConfig: {
                     school: 'holy',
-                    icon: 'spell_holy_innerfire',
+                    icon: 'Radiant/Radiant Divinity',
                     tags: ['action', 'buff', 'inspiration', 'divine', 'aura']
                 },
 
@@ -272,7 +282,7 @@ const ZEALOT_PATH = {
                         id: 'martyrs_sacrifice',
                         name: "Martyr's Sacrifice",
                         description: '"Greater love hath no one than this, that one lay down their life for their friends." When an ally within 30 feet drops below 25% health, sacrifice your own vitality to heal them.',
-                        icon: 'spell_holy_prayerofhealing',
+                        icon: 'Healing/Heart Shield',
                         level: 1,
                         spellType: 'REACTION',
                         tags: ['healing', 'divine', 'sacrifice', 'reaction'],
@@ -455,7 +465,7 @@ const ZEALOT_PATH = {
                         id: 'zealous_fervor',
                         name: 'Zealous Fervor',
                         description: '"My conviction burns brighter than any flame - let it ignite your courage!" Inspire allies within 15 feet with unwavering faith, granting them enhanced combat prowess and immunity to fear.',
-                        icon: 'spell_holy_crusade',
+                        icon: 'Radiant/Radiant Divinity',
                         level: 2,
                         spellType: 'ACTION',
                         tags: ['buff', 'aura', 'divine', 'inspiration'],

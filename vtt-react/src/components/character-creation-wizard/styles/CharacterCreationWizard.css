@@ -7741,10 +7741,10 @@ button.gender-option.selected {
     gap: 0.25rem;
 }
 
-.race-card:hover .race-view-btn,
-.subrace-card:hover .subrace-view-btn,
-.class-card:hover .class-view-btn,
-.background-card:hover .background-view-btn {
+.character-wizard-container .race-card:hover .race-view-btn,
+.character-wizard-container .subrace-card:hover .subrace-view-btn,
+.character-wizard-container .class-card:hover .class-view-btn,
+.character-wizard-container .background-card:hover .background-view-btn {
     opacity: 1;
 }
 
@@ -7826,7 +7826,7 @@ button.gender-option.selected {
     gap: 1rem;
 }
 
-.background-card {
+.character-wizard-container .background-card {
     position: relative;
     padding-bottom: 2.5rem;
 }

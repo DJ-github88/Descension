@@ -620,7 +620,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       {
         id: 'shadow-priest',
         name: 'Shadow Priest',
-        icon: 'spell_shadow_raisedead',
+        icon: 'Necrotic/Arise',
         color: '#8B008B',
         theme: 'Necromancy & Resurrection',
 
@@ -657,7 +657,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       {
         id: 'spirit-healer',
         name: 'Spirit Healer',
-        icon: 'spell_nature_healingtouch',
+        icon: 'Healing/Heal Wound',
         color: '#20B2AA',
         theme: 'Healing & Protection',
         
@@ -694,7 +694,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       {
         id: 'war-priest',
         name: 'War Priest',
-        icon: 'ability_warrior_innerrage',
+        icon: 'General/Rage',
         color: '#DC143C',
         theme: 'Combat Enhancement & Spirits',
         
@@ -738,7 +738,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Curse of Agony',
       description: 'Inflict a painful curse on the target, causing them to writhe in pain and take necrotic damage each turn.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofsargeras',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Necromancy',
       level: 2,
       specialization: 'shadow-priest',
@@ -824,7 +824,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Ritual of Death',
       description: 'Perform a dark ritual that curses an area, dealing necrotic damage and frightening enemies within.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_darkritual',
+      icon: 'Necrotic/Ritual',
       school: 'Necromancy',
       level: 3,
       specialization: 'shadow-priest',
@@ -920,7 +920,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Invoke Baron Samedi',
       description: 'Channel the power of Baron Samedi, the loa of death and resurrection. Resurrect one fallen ally with full HP and curse all enemies within 30 feet.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_raisedead',
+      icon: 'Necrotic/Arise',
       school: 'Necromancy',
       level: 7,
       specialization: 'shadow-priest',
@@ -931,7 +931,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       targetingConfig: {
-        targetingType: 'special',
+        targetingType: 'smart',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'circle',
@@ -1028,7 +1028,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Totem of Healing',
       description: 'Place a healing totem that restores hit points to all allies within 10 feet each turn.',
       spellType: 'ACTION',
-      icon: 'spell_nature_healingtouch',
+      icon: 'Healing/Heal Wound',
       school: 'Conjuration',
       level: 2,
       specialization: 'spirit-healer',
@@ -1039,7 +1039,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'circle',
@@ -1113,7 +1113,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Ritual of Cleansing',
       description: 'Perform a purifying ritual that removes all curses, diseases, and poisons from an ally.',
       spellType: 'ACTION',
-      icon: 'spell_holy_purify',
+      icon: 'Healing/Cure Within',
       school: 'Abjuration',
       level: 3,
       specialization: 'spirit-healer',
@@ -1173,7 +1173,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Invoke Erzulie',
       description: 'Channel the power of Erzulie, goddess of love and protection. Create a protective aura granting AC bonus, fear immunity, and healing to all allies within 30 feet.',
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing',
+      icon: 'Healing/Prayer',
       school: 'Abjuration',
       level: 6,
       specialization: 'spirit-healer',
@@ -1263,7 +1263,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Venomous Weapon',
       description: 'Apply a potent poison to your weapon, adding poison damage to your attacks for 1 hour.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_dualweild',
+      icon: 'Slashing/Dual Blades',
       school: 'Transmutation',
       level: 2,
       specialization: 'war-priest',
@@ -1334,7 +1334,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Poison Cloud',
       description: 'Create a toxic cloud that explodes in a 10-foot radius, dealing poison damage and poisoning enemies.',
       spellType: 'ACTION',
-      icon: 'spell_nature_nullifypoison_02',
+      icon: 'Healing/Cure Within',
       school: 'Evocation',
       level: 3,
       specialization: 'war-priest',
@@ -1410,7 +1410,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Invoke Ogoun',
       description: 'Channel the power of Ogoun, god of war and iron. Imbue yourself and allies within 30 feet with fierce combat prowess.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_innerrage',
+      icon: 'General/Rage',
       school: 'Transmutation',
       level: 7,
       specialization: 'war-priest',
@@ -1491,7 +1491,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Invoke Simbi',
       description: 'Channel the power of Simbi, spirit of healing and rivers. Summon a healing rain that falls over a 30-foot radius.',
       spellType: 'ACTION',
-      icon: 'spell_nature_tranquility',
+      icon: 'Healing/Heart Ripple',
       school: 'Conjuration',
       level: 5,
       specialization: 'spirit-healer',
@@ -1573,7 +1573,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Invoke Papa Legba',
       description: 'Channel the power of Papa Legba, guardian of the crossroads. Grant telepathy and teleport allies across great distances.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_portalironforge',
+      icon: 'Arcane/Portal Archway',
       school: 'Conjuration',
       level: 6,
       specialization: 'war-priest',
@@ -1584,7 +1584,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       targetingConfig: {
-        targetingType: 'special',
+        targetingType: 'smart',
         rangeType: 'special',
         rangeDistance: 5280
       },
@@ -1646,7 +1646,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Hex of Weakness',
       description: 'Reduce the target\'s Strength and Agility, making them vulnerable to physical attacks.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofachimonde',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Necromancy',
       level: 2,
       specialization: 'shadow-priest',
@@ -1710,8 +1710,8 @@ Ogoun: ✓ (poison applied, ally nearby)
       id: 'wd_spirit_communion',
       name: 'Spirit Communion',
       description: 'Speak with spirits to gain insight about a location, object, or person. The spirits provide cryptic but useful information.',
-      spellType: 'RITUAL',
-      icon: 'spell_shadow_soulleech_3',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Drain Soul',
       school: 'Divination',
       level: 3,
       specialization: 'all',
@@ -1722,7 +1722,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       targetingConfig: {
-        targetingType: 'special',
+        targetingType: 'smart',
         rangeType: 'self'
       },
 
@@ -1770,7 +1770,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Totem of Courage',
       description: 'Place a totem that grants allies immunity to fear effects and a bonus to attack rolls.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneskintotem',
+      icon: 'Nature/Earth Shield',
       school: 'Conjuration',
       level: 3,
       specialization: 'war-priest',
@@ -1781,7 +1781,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeType: 'circle',
@@ -1852,7 +1852,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_darkritual',
+        icon: 'Necrotic/Ritual',
         tags: ['attack', 'damage', 'curse', 'necrotic', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1902,7 +1902,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowbolt',
+        icon: 'Void/Black Hole',
         tags: ['attack', 'damage', 'necrotic', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1945,7 +1945,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_ancestralguardian',
+        icon: 'Nature/Ethereal Bear Spirit',
         tags: ['buff', 'support', 'spirit', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1998,7 +1998,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_deathanddecay',
+        icon: 'Necrotic/Necrotic Death',
         tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2048,7 +2048,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'inv_misc_bone_humanskull_02',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['damage', 'utility', 'voodoo', 'witch-doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2105,7 +2105,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['healing', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_healingwavegreater',
+        icon: 'Healing/Heart Ripple',
         tags: ['healing', 'buff', 'loa', 'support', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2171,7 +2171,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadetruesight',
+        icon: 'Utility/All Seeing Eye',
         tags: ['debuff', 'curse', 'hex', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2225,7 +2225,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_raisedead',
+        icon: 'Necrotic/Arise',
         tags: ['summoning', 'undead', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2261,7 +2261,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: [],
@@ -2295,7 +2295,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_shadow_deathanddecay',
+        icon: 'Necrotic/Necrotic Death',
         tags: ['buff', 'defense', 'protection', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2348,7 +2348,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_warrior_battleshout',
+        icon: 'Utility/Powerful Warrior',
         tags: ['damage', 'buff', 'loa', 'war', 'witch-doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2381,7 +2381,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         canBeDispelled: true
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2416,7 +2416,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_deathcoil',
+        icon: 'Necrotic/Death Mark',
         tags: ['damage', 'loa', 'death', 'epic', 'witch-doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2462,7 +2462,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['healing', 'restoration'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_holy_prayerofhealing02',
+        icon: 'Healing/Prayer',
         tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch-doctor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2518,11 +2518,11 @@ Ogoun: ✓ (poison applied, ally nearby)
       name: 'Plague Storm',
       description: 'Summon a storm of disease and decay that ravages all enemies.',
       level: 8,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_plaguecloud',
+        icon: 'Poison/Poison Plague',
         tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch-doctor'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
@@ -2546,7 +2546,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
         aoeShape: 'circle',
@@ -2582,7 +2582,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['buff', 'healing'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_holy_layonhands',
+        icon: 'Healing/Reaching Hand',
         tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch-doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2649,7 +2649,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_painandsuffering',
+        icon: 'Psychic/Twist Pain',
         tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch-doctor'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
@@ -2721,7 +2721,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_astralrecal',
+        icon: 'Nature/Teleport',
         tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch-doctor'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -2801,7 +2801,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_shadow_sealofkings',
+        icon: 'Radiant/Golden Ring',
         tags: ['buff', 'passive', 'loa', 'legendary', 'witch-doctor'],
         toggleable: true
       },
@@ -2847,7 +2847,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['utility', 'control'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthbindtotem',
+        icon: 'Nature/Root Network',
         tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch-doctor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2877,7 +2877,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 100 },
@@ -2911,7 +2911,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_deathscream',
+        icon: 'Necrotic/Screaming Skull',
         tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch-doctor'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'

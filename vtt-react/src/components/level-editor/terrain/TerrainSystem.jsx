@@ -25,10 +25,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         category: 'natural',
         color: '#4a7c59',
         tileVariations: [
-            '/assets/tiles/Grass1.png',
-            '/assets/tiles/Grass2.png',
-            '/assets/tiles/Grass3.png',
-            '/assets/tiles/Grass4.png'
+            '/assets/tiles/Grass1.png'
         ],
         movementCost: 1,
         description: 'Natural grassland'
@@ -39,10 +36,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         category: 'natural',
         color: '#8b6914',
         tileVariations: [
-            '/assets/tiles/Dirt1.png',
-            '/assets/tiles/Dirt2.png',
-            '/assets/tiles/Dirt3.png',
-            '/assets/tiles/Dirt4.png'
+            '/assets/tiles/Dirt1.png'
         ],
         movementCost: 1,
         description: 'Bare earth and soil'
@@ -52,6 +46,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Stone',
         category: 'natural',
         color: '#6b6b6b',
+        tileVariations: ['/assets/tiles/Stone1.png'],
         movementCost: 1,
         description: 'Natural stone surface'
     },
@@ -61,14 +56,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         category: 'natural',
         color: '#c2b280',
         tileVariations: [
-            '/assets/tiles/Sand1.png', '/assets/tiles/Sand2.png', '/assets/tiles/Sand3.png', '/assets/tiles/Sand4.png',
-            '/assets/tiles/Sand5.png', '/assets/tiles/Sand6.png', '/assets/tiles/Sand7.png', '/assets/tiles/Sand8.png',
-            '/assets/tiles/Sand9.png', '/assets/tiles/Sand10.png', '/assets/tiles/Sand11.png', '/assets/tiles/Sand12.png',
-            '/assets/tiles/Sand13.png', '/assets/tiles/Sand14.png', '/assets/tiles/Sand15.png', '/assets/tiles/Sand16.png',
-            '/assets/tiles/Sand17.png', '/assets/tiles/Sand18.png', '/assets/tiles/Sand19.png', '/assets/tiles/Sand20.png',
-            '/assets/tiles/Sand21.png', '/assets/tiles/Sand22.png', '/assets/tiles/Sand23.png', '/assets/tiles/Sand24.png',
-            '/assets/tiles/Sand25.png', '/assets/tiles/Sand26.png', '/assets/tiles/Sand27.png', '/assets/tiles/Sand28.png',
-            '/assets/tiles/Sand29.png', '/assets/tiles/Sand30.png', '/assets/tiles/Sand31.png', '/assets/tiles/Sand32.png'
+            '/assets/tiles/Sand2.png'
         ],
         movementCost: 2,
         description: 'Sandy terrain'
@@ -127,10 +115,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         category: 'natural',
         color: '#8a8a8a',
         tileVariations: [
-            '/assets/tiles/Cobble1.png',
-            '/assets/tiles/Cobble2.png',
-            '/assets/tiles/Cobble3.png',
-            '/assets/tiles/Cobble4.png'
+            '/assets/tiles/Cobble1.png'
         ],
         movementCost: 1,
         description: 'Cobblestone path or road'
@@ -169,7 +154,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Snow',
         category: 'natural',
         color: '#ffffff',
-        texture: '/assets/terrain/snow.png',
+        tileVariations: ['/assets/tiles/Snow1.png'],
         movementCost: 2,
         description: 'Fresh, powdery snow'
     },
@@ -565,14 +550,12 @@ const TerrainSystem = () => {
                         const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                         // Deterministic shuffle based on coordinates
                         variationIndex = terrain?.tileVariations?.length > 0 
-                            ? Math.abs(Math.floor(q / 3) ^ Math.floor(r / 3)) % terrain.tileVariations.length 
+                            ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length 
                             : 0;
                     } else {
                         terrainType = terrainData_tile.type;
                         const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                        variationIndex = terrainData_tile.variation !== undefined 
-                            ? terrainData_tile.variation 
-                            : (terrain?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length : 0);
+                        variationIndex = terrain?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length : 0;
                     }
 
                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
@@ -614,7 +597,7 @@ const TerrainSystem = () => {
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
                             img.onload = () => setTerrainDataVersion(v => v + 1);
-                            img.src = tileVariationPath;
+                            img.src = `${tileVariationPath}?v=26`;
                             imageCache[tileVariationPath] = img;
                         }
                         const img = imageCache[tileVariationPath];
@@ -649,14 +632,12 @@ const TerrainSystem = () => {
                         const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                         // Deterministic shuffle based on coordinates
                         variationIndex = terrain?.tileVariations?.length > 0 
-                            ? Math.abs(Math.floor(gridX / 4) ^ Math.floor(gridY / 4)) % terrain.tileVariations.length 
+                            ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrain.tileVariations.length 
                             : 0;
                     } else {
                         terrainType = terrainData_tile.type;
                         const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                        variationIndex = terrainData_tile.variation !== undefined 
-                            ? terrainData_tile.variation 
-                            : (terrain?.tileVariations?.length > 0 ? Math.abs(Math.floor(gridX / 4) ^ Math.floor(gridY / 4)) % terrain.tileVariations.length : 0);
+                        variationIndex = terrain?.tileVariations?.length > 0 ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrain.tileVariations.length : 0;
                     }
 
                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
@@ -682,7 +663,7 @@ const TerrainSystem = () => {
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
                             img.onload = () => setTerrainDataVersion(v => v + 1);
-                            img.src = tileVariationPath;
+                            img.src = `${tileVariationPath}?v=26`;
                             imageCache[tileVariationPath] = img;
                         }
                         const img = imageCache[tileVariationPath];

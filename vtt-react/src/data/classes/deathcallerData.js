@@ -799,7 +799,7 @@ Keep a note of which curses are affecting you:
       {
         id: 'blood-reaver',
         name: 'Blood Reaver',
-        icon: 'spell_shadow_lifedrain',
+        icon: 'Necrotic/Drain Soul',
         color: '#8B0000',
         theme: 'Aggressive Life Drain',
 
@@ -823,7 +823,7 @@ Keep a note of which curses are affecting you:
 
         passiveAbility: {
           name: 'Sanguine Hunger',
-          icon: 'spell_shadow_lifedrain02',
+          icon: 'Necrotic/Drain Soul',
           description: 'Your life drain effects are 25% more effective. Additionally, when you drop below 25% health, your next life drain spell is cast instantly and costs no mana.'
         },
 
@@ -837,7 +837,7 @@ Keep a note of which curses are affecting you:
       {
         id: 'spectral-master',
         name: 'Spectral Master',
-        icon: 'spell_shadow_raisedead',
+        icon: 'Necrotic/Arise',
         color: '#4B0082',
         theme: 'Summoning and Control',
 
@@ -861,7 +861,7 @@ Keep a note of which curses are affecting you:
 
         passiveAbility: {
           name: 'Spectral Dominion',
-          icon: 'spell_shadow_raisedead',
+          icon: 'Necrotic/Arise',
           description: 'Your spectral allies have +25% health and deal additional necrotic damage. The speed penalty from Spectral Command is reduced by 10 feet per summon.',
           damageFormula: '1d4'
         },
@@ -876,7 +876,7 @@ Keep a note of which curses are affecting you:
       {
         id: 'void-caller',
         name: 'Void Caller',
-        icon: 'spell_shadow_shadowwordpain',
+        icon: 'Psychic/Mind Strike',
         color: '#1C1C1C',
         theme: 'Psychic Devastation',
 
@@ -900,7 +900,7 @@ Keep a note of which curses are affecting you:
 
         passiveAbility: {
           name: 'Void Touched',
-          icon: 'spell_shadow_shadowwordpain',
+          icon: 'Psychic/Mind Strike',
           description: 'Your psychic damage spells ignore resistance. Additionally, when you activate Deep Void to negate a spell, you gain a stack of Void Power (max 3), increasing your next psychic spell damage per stack.',
           damageFormula: '2d6'
         },
@@ -925,7 +925,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowbolt',
+        icon: 'Void/Black Hole',
         tags: ['damage', 'ranged', 'blood-magic']
       },
       targetingConfig: {
@@ -981,11 +981,11 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_rogue_shadowstep',
+        icon: 'Utility/Phantom Dash',
         tags: ['teleport', 'mobility', 'necrotic', 'blood-magic']
       },
       targetingConfig: {
-        targetingType: 'location',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: ['location'],
@@ -1033,7 +1033,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['protection', 'ward', 'blood-magic']
       },
       targetingConfig: {
@@ -1079,7 +1079,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'healing'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_lifedrain',
+        icon: 'Necrotic/Drain Soul',
         tags: ['damage', 'healing', 'life-drain', 'blood-magic']
       },
       targetingConfig: {
@@ -1166,7 +1166,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['shield', 'absorption', 'healing', 'blood-magic']
       },
       targetingConfig: {
@@ -1211,7 +1211,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_rogue_sprint',
+        icon: 'Utility/Speed Boot',
         tags: ['mobility', 'speed', 'utility']
       },
       targetingConfig: {
@@ -1257,7 +1257,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowfury',
+        icon: 'Void/Black Hole',
         tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
       },
       targetingConfig: {
@@ -1323,11 +1323,11 @@ Keep a note of which curses are affecting you:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_soulleech_3',
+        icon: 'Necrotic/Drain Soul',
         tags: ['summon', 'spectral', 'blood-magic']
       },
       targetingConfig: {
-        targetingType: 'location',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: ['location'],
@@ -1394,7 +1394,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['debuff', 'damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_curseofsargeras',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['debuff', 'curse', 'dot', 'anti-magic']
       },
       targetingConfig: {
@@ -1469,7 +1469,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'healing'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_lifedrain02',
+        icon: 'Necrotic/Drain Soul',
         tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'ascension-synergy']
       },
       targetingMode: 'effect',
@@ -1556,11 +1556,11 @@ Keep a note of which curses are affecting you:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'ability_hunter_pet_bat',
+        icon: 'Nature/Ethereal Bird',
         tags: ['summon', 'spectral', 'ranged', 'blood-magic']
       },
       targetingConfig: {
-        targetingType: 'location',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: ['location'],
@@ -1628,7 +1628,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['control'],
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_blackplague',
+        icon: 'Necrotic/Corruption',
         tags: ['crowd-control', 'root', 'control']
       },
       targetingConfig: {
@@ -1682,7 +1682,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_demonicempathy',
+        icon: 'Necrotic/Demonic Empowerment',
         tags: ['aura', 'necrotic', 'debuff', 'area']
       },
       targetingConfig: {
@@ -1739,7 +1739,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         tags: ['support', 'protection', 'link', 'damage-sharing']
       },
       targetingConfig: {
@@ -1780,7 +1780,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['control'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'ability_warrior_execute',
+        icon: 'Slashing/Execution',
         tags: ['execute', 'control', 'melee']
       },
       targetingConfig: {
@@ -1831,7 +1831,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_plaguecloud',
+        icon: 'Poison/Poison Plague',
         tags: ['aoe', 'damage', 'stun', 'ultimate']
       },
       targetingConfig: {
@@ -1892,7 +1892,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_painandsuffering',
+        icon: 'Psychic/Twist Pain',
         tags: ['crowd-control', 'paralysis', 'necrotic', 'area']
       },
       targetingConfig: {
@@ -1953,7 +1953,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_curseofsargeras',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic']
       },
       targetingConfig: {
@@ -2015,7 +2015,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowbolt',
+        icon: 'Void/Black Hole',
         tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
       },
       targetingConfig: {
@@ -2082,7 +2082,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_hunter_beastmastery',
+        icon: 'Nature/Tiger Spirit',
         tags: ['transformation', 'stealth', 'buff']
       },
       targetingConfig: {
@@ -2129,7 +2129,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'ability_hunter_snipershot',
+        icon: 'Piercing/Focused Arrow Shot',
         tags: ['transformation', 'damage', 'mobility']
       },
       targetingConfig: {
@@ -2214,7 +2214,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'healing'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_holy_divineintervention',
+        icon: 'Radiant/Divine Ascension',
         tags: ['aoe', 'damage', 'healing', 'necrotic']
       },
       targetingConfig: {
@@ -2272,7 +2272,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation', 'buff', 'utility'],
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_shadesofdarkness',
+        icon: 'Void/Consumed by Void',
         tags: ['transformation', 'mobility', 'damage', 'defensive']
       },
       targetingConfig: {
@@ -2360,7 +2360,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antimagic',
+        icon: 'Arcane/Magical Cross Emblem 2',
         tags: ['aoe', 'anti-magic', 'suppression', 'concentration']
       },
       targetingConfig: {
@@ -2419,7 +2419,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowfury',
+        icon: 'Void/Black Hole',
         tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
       },
       targetingConfig: {
@@ -2493,7 +2493,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_nethercloak',
+        icon: 'Void/Consumed by Void',
         tags: ['transformation', 'mobility', 'damage']
       },
       targetingConfig: {
@@ -2535,7 +2535,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_holy_righteousfury',
+        icon: 'Radiant/Radiant Warrior',
         tags: ['transformation', 'damage', 'mobility']
       },
       targetingConfig: {
@@ -2578,7 +2578,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadowfury',
+        icon: 'Void/Black Hole',
         tags: ['aoe', 'damage', 'permanent', 'anti-magic']
       },
       targetingConfig: {
@@ -2640,7 +2640,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_nethercloak',
+        icon: 'Void/Consumed by Void',
         tags: ['transformation', 'permanent', 'godlike']
       },
       targetingConfig: {
@@ -2684,7 +2684,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_shadesofdarkness',
+        icon: 'Void/Consumed by Void',
         tags: ['transformation', 'permanent', 'godlike']
       },
       targetingConfig: {

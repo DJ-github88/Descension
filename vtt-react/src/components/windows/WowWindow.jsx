@@ -202,6 +202,9 @@ const WowWindow = forwardRef((props, ref) => {
     // Handle resize start - disable transitions for smooth resizing
     const handleResizeStart = useCallback((event) => {
         setIsResizing(true);
+        // Sync resizing state to store
+        useWindowManagerStore.getState().setResizingWindowId(windowId);
+        
         // Store initial size
         resizeSizeRef.current = { width: windowSize.width, height: windowSize.height };
         // Bring window to front when resize starts
@@ -227,6 +230,9 @@ const WowWindow = forwardRef((props, ref) => {
     // Handle resize stop - notify parent only once when done
     const handleResizeStop = useCallback((event, { size }) => {
         setIsResizing(false);
+        // Clear resizing state in store
+        useWindowManagerStore.getState().setResizingWindowId(null);
+        
         // Final size update to local state
         setWindowSize({
             width: size.width,
@@ -246,6 +252,9 @@ const WowWindow = forwardRef((props, ref) => {
         }
 
         setIsDragging(true);
+        // Sync dragging state to store
+        useWindowManagerStore.getState().setDraggingWindowId(windowId);
+        
         // Bring window to front when drag starts
         const newZIndex = bringToFront(windowId);
         if (newZIndex) {
@@ -255,6 +264,9 @@ const WowWindow = forwardRef((props, ref) => {
 
     const handleDragStop = useCallback((position) => {
         setIsDragging(false);
+        // Clear dragging state in store
+        useWindowManagerStore.getState().setDraggingWindowId(null);
+        
         if (onDrag) {
             onDrag(position);
         }

@@ -673,7 +673,7 @@ Many players enhance the warden experience with:
     
     sharedPassive: {
       name: 'Relentless Hunter',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       description: 'You have advantage on Survival and Perception checks to track creatures. Additionally, you can move at full speed while tracking without penalty.'
     },
 
@@ -681,7 +681,7 @@ Many players enhance the warden experience with:
       {
         id: 'shadowblade',
         name: 'Shadowblade',
-        icon: 'ability_rogue_shadowstrike',
+        icon: 'Piercing/Night Dagger',
         color: '#2E0854',
         theme: 'Stealth Assassin',
 
@@ -706,12 +706,12 @@ Many players enhance the warden experience with:
         passiveAbilities: [
           {
             name: 'Shadow Strike',
-            icon: 'ability_stealth',
+            icon: 'Utility/Hide',
             description: 'Attacks made from stealth generate +1 VP (total 3 VP: 1 base + 2 from stealth bonus) and deal +1d8 damage. You can hide using action points after attacking.'
           },
           {
             name: 'Umbral Veil',
-            icon: 'spell_shadow_charm',
+            icon: 'Psychic/Mind Control',
             description: 'After spending 3 or more VP on an ability, you become invisible for 1 round. This invisibility breaks if you attack or cast a spell.'
           }
         ],
@@ -726,7 +726,7 @@ Many players enhance the warden experience with:
       {
         id: 'jailer',
         name: 'Jailer',
-        icon: 'spell_shadow_shackleundead',
+        icon: 'Necrotic/Crossed Bones',
         color: '#4A5568',
         theme: 'Cage Master',
 
@@ -751,12 +751,12 @@ Many players enhance the warden experience with:
         passiveAbilities: [
           {
             name: 'Master Jailer',
-            icon: 'spell_shadow_mindsteal',
+            icon: 'Psychic/Mind Control',
             description: 'Cage of Vengeance costs -2 VP (3 VP instead of 5). Additionally, you can maintain up to 2 cages simultaneously instead of 1.'
           },
           {
             name: 'Condemned',
-            icon: 'spell_shadow_curseofachimonde',
+            icon: 'Necrotic/Necrotic Skull',
             description: 'Enemies trapped in your cages take +1d6 damage from all sources. If a caged enemy is marked by Mark of the Hunt, they take an additional +1d6 damage (total +2d6).'
           }
         ],
@@ -771,7 +771,7 @@ Many players enhance the warden experience with:
       {
         id: 'vengeance-seeker',
         name: 'Vengeance Seeker',
-        icon: 'ability_warrior_revenge',
+        icon: 'Slashing/Cross Slash',
         color: '#8B0000',
         theme: 'Relentless Pursuit',
 
@@ -796,12 +796,12 @@ Many players enhance the warden experience with:
         passiveAbilities: [
           {
             name: 'Inexorable Pursuit',
-            icon: 'ability_hunter_aspectoftheviper',
+            icon: 'Nature/Sense',
             description: 'Marked targets cannot hide from you or become invisible. Additionally, dashing to a marked target costs no action points.'
           },
           {
             name: 'Endless Vengeance',
-            icon: 'spell_shadow_unholyfrenzy',
+            icon: 'General/Fiery Rage',
             description: 'Avatar of Vengeance lasts +2 rounds (total 6 rounds instead of 4). While in Avatar form, attacks against marked targets generate +1 VP (total 3 VP per hit).'
           }
         ],
@@ -824,7 +824,7 @@ Many players enhance the warden experience with:
       name: 'Blink Strike',
       description: 'Teleport behind your target and strike from the shadows with deadly precision.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstrike',
+      icon: 'Piercing/Night Dagger',
       school: 'Shadow',
       level: 2,
       specialization: 'shadowblade',
@@ -901,7 +901,7 @@ Many players enhance the warden experience with:
       name: 'Shadow Strike',
       description: 'Strike from the shadows with enhanced power, dealing massive damage and generating Vengeance Points.',
       spellType: 'ACTION',
-      icon: 'ability_stealth',
+      icon: 'Utility/Hide',
       school: 'Shadow',
       level: 1,
       specialization: 'shadowblade',
@@ -931,7 +931,7 @@ Many players enhance the warden experience with:
 
       damageConfig: {
         formula: '3d6',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'none'
       },
 
@@ -975,7 +975,7 @@ Many players enhance the warden experience with:
       name: 'Umbral Assault',
       description: 'Become one with the shadows, gaining invisibility and unleashing a devastating series of strikes.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Psychic/Mind Control',
       school: 'Shadow',
       level: 5,
       specialization: 'shadowblade',
@@ -1053,7 +1053,7 @@ Many players enhance the warden experience with:
       name: 'Cage of Vengeance',
       description: 'Summon a spectral cage around your target for 3 rounds, trapping them and preventing escape. Target must save or be trapped for the full duration (save reduces to 1 round).',
       spellType: 'ACTION',
-      icon: 'spell_shadow_shackleundead',
+      icon: 'Necrotic/Crossed Bones',
       school: 'Shadow',
       level: 3,
       specialization: 'jailer',
@@ -1148,7 +1148,7 @@ Many players enhance the warden experience with:
       name: 'Chain Lightning',
       description: 'Throw your glaive in an arc that chains between caged enemies, dealing devastating damage.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindsteal',
+      icon: 'Psychic/Mind Control',
       school: 'Shadow',
       level: 4,
       specialization: 'jailer',
@@ -1225,7 +1225,7 @@ Many players enhance the warden experience with:
       name: 'Prison of Eternity',
       description: 'Create a massive spectral prison that traps all enemies in a large area.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofachimonde',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Shadow',
       level: 5,
       specialization: 'jailer',
@@ -1327,7 +1327,7 @@ Many players enhance the warden experience with:
       name: 'Relentless Pursuit',
       description: 'Dash towards your marked target and unleash a series of rapid strikes.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_aspectoftheviper',
+      icon: 'Nature/Sense',
       school: 'Physical',
       level: 2,
       specialization: 'vengeance-seeker',
@@ -1358,7 +1358,7 @@ Many players enhance the warden experience with:
 
       damageConfig: {
         formula: '3d6',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'none'
       },
 
@@ -1408,7 +1408,7 @@ Many players enhance the warden experience with:
       name: 'Hunter\'s Fury',
       description: 'Channel your vengeance into a devastating attack against your marked prey.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_revenge',
+      icon: 'Slashing/Cross Slash',
       school: 'Physical',
       level: 3,
       specialization: 'vengeance-seeker',
@@ -1440,7 +1440,7 @@ Many players enhance the warden experience with:
 
       damageConfig: {
         formula: '4d8',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'marked_target'
       },
 
@@ -1483,7 +1483,7 @@ Many players enhance the warden experience with:
       name: 'Avatar of Vengeance',
       description: 'Transform into the ultimate embodiment of vengeance, gaining massive power for a limited time.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
+      icon: 'General/Fiery Rage',
       school: 'Shadow',
       level: 5,
       specialization: 'vengeance-seeker',
@@ -1543,7 +1543,7 @@ Many players enhance the warden experience with:
       name: 'Mark of the Hunt',
       description: 'Mark a target as your prey, increasing damage dealt and generating bonus Vengeance Points.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       school: 'Physical',
       level: 1,
       specialization: 'universal',
@@ -1560,7 +1560,7 @@ Many players enhance the warden experience with:
       },
 
       durationConfig: {
-        durationType: 'special',
+        durationType: 'rounds',
         duration: 'Until target dies or new target marked'
       },
 
@@ -1606,7 +1606,7 @@ Many players enhance the warden experience with:
       name: 'Whirling Glaive',
       description: 'Throw your glaive in a sweeping arc, hitting multiple enemies and slowing them for 1 round. Enemies hit have movement speed reduced by 10 feet.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_fanofknives',
+      icon: 'Piercing/Dagger Rain',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1639,7 +1639,7 @@ Many players enhance the warden experience with:
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'physical',
+        damageType: 'bludgeoning',
         scalingType: 'none'
       },
 
@@ -1694,7 +1694,7 @@ Many players enhance the warden experience with:
       name: 'Hunter\'s Resolve',
       description: 'Call upon your inner strength to heal yourself and gain defensive bonuses. If marked targets are within sight, effects are doubled.',
       spellType: 'ACTION',
-      icon: 'spell_holy_restoration',
+      icon: 'Healing/Renewal',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1780,7 +1780,7 @@ Many players enhance the warden experience with:
       name: 'Vengeful Strike',
       description: 'Empower your next attack with vengeance, dealing bonus damage.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_savageblow',
+      icon: 'Bludgeoning/Mortal Strike',
       school: 'Physical',
       level: 1,
       specialization: 'universal',
@@ -1796,7 +1796,7 @@ Many players enhance the warden experience with:
       },
 
       durationConfig: {
-        durationType: 'special',
+        durationType: 'rounds',
         duration: 'Next attack'
       },
 
@@ -1837,7 +1837,7 @@ Many players enhance the warden experience with:
       name: 'Evasive Maneuvers',
       description: 'Use your agility to evade an incoming attack, generating Vengeance Points.',
       spellType: 'REACTION',
-      icon: 'ability_rogue_feint',
+      icon: 'Utility/Parry',
       school: 'Physical',
       level: 1,
       specialization: 'universal',
@@ -1909,7 +1909,7 @@ Many players enhance the warden experience with:
       name: 'Glaive Mastery',
       description: 'Your mastery of glaive combat grants you enhanced accuracy and versatility.',
       spellType: 'PASSIVE',
-      icon: 'inv_weapon_glaive_01',
+      icon: 'Slashing/Curved Blade',
       school: 'Physical',
       level: 1,
       specialization: 'universal',
@@ -1974,7 +1974,7 @@ Many players enhance the warden experience with:
       
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_rogue_shadowstrike',
+        icon: 'Piercing/Night Dagger',
         tags: ['damage', 'shadow', 'armor-penetration', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2023,7 +2023,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_shackleundead',
+        icon: 'Necrotic/Crossed Bones',
         tags: ['control', 'trap', 'cage', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE',
@@ -2033,7 +2033,7 @@ Many players enhance the warden experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -2086,7 +2086,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_hunter_aspectoftheviper',
+        icon: 'Nature/Sense',
         tags: ['damage', 'mobility', 'marked-synergy', 'vengeance-seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2150,7 +2150,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_fanofknives',
+        icon: 'Piercing/Dagger Rain',
         tags: ['damage', 'aoe', 'glaive', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2199,7 +2199,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_mindsteal',
+        icon: 'Psychic/Mind Control',
         tags: ['damage', 'cage-synergy', 'shadow', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2248,7 +2248,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_hunter_markedfordeath',
+        icon: 'Piercing/Targeted Strike',
         tags: ['damage', 'execute', 'marked-synergy', 'vengeance-seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2310,7 +2310,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_curseofachimonde',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['control', 'cage', 'anti-teleport', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2372,7 +2372,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_revenge',
+        icon: 'Slashing/Cross Slash',
         tags: ['damage', 'multi-strike', 'vengeance', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2421,7 +2421,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         tags: ['buff', 'transformation', 'enhancement', 'vengeance-seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2479,7 +2479,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_curseofachimonde',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['control', 'cage', 'ultimate', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2540,7 +2540,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_savageblow',
+        icon: 'Bludgeoning/Mortal Strike',
         tags: ['damage', 'multi-strike', 'vp-generation', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2589,7 +2589,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_revenge',
+        icon: 'Slashing/Cross Slash',
         tags: ['damage', 'marked-synergy', 'execute', 'vengeance-seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2637,7 +2637,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_shackleundead',
+        icon: 'Necrotic/Crossed Bones',
         tags: ['control', 'cage', 'mass', 'aoe', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2699,7 +2699,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'ability_rogue_shadowstrike',
+        icon: 'Piercing/Night Dagger',
         tags: ['damage', 'teleport', 'stealth', 'shadowblade'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2762,7 +2762,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         tags: ['damage', 'ultimate', 'finisher', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2810,7 +2810,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_curseofachimonde',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['control', 'cage', 'ultimate', 'mass', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2872,7 +2872,7 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         school: 'shadow',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance-seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

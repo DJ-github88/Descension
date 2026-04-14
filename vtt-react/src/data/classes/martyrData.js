@@ -802,7 +802,7 @@ INTERVENE COUNT: 1
       {
         id: 'redemption',
         name: 'Redemption',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         color: '#FFD700',
         theme: 'Healing Through Sacrifice',
         
@@ -845,7 +845,7 @@ INTERVENE COUNT: 1
       {
         id: 'zealot',
         name: 'Zealot',
-        icon: 'spell_holy_crusaderstrike',
+        icon: 'Radiant/Divine Downward Sword',
         color: '#DC143C',
         theme: 'Righteous Fury',
         
@@ -888,7 +888,7 @@ INTERVENE COUNT: 1
       {
         id: 'ascetic',
         name: 'Ascetic',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         color: '#4169E1',
         theme: 'Enduring Faith',
         
@@ -970,11 +970,11 @@ INTERVENE COUNT: 1
       description: 'You clasp your hands together in prayer, feeling the divine power flow through you as your devotion to your cause strengthens. A warm, golden light emanates from your clasped hands, growing brighter as you speak the words of healing. The prayer is more than just words—it is a channel for divine mercy, a bridge between the mortal realm and the source of all healing. As you complete the prayer, a beam of gentle golden light extends from your hands to your target, carrying with it the power to mend wounds, close cuts, and restore vitality. The healing feels warm and comforting, like being bathed in the first rays of morning sunlight. With each use, your devotion grows, and the prayer becomes more powerful, allowing you to channel even greater healing energy.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_heal',
+      icon: 'Healing/Golden Heart',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_heal',
+        icon: 'Healing/Golden Heart',
         tags: ['healing', 'basic', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1024,11 +1024,11 @@ INTERVENE COUNT: 1
       description: 'Step in front of an ally to intercept an attack, taking the damage yourself.',
       level: 1,
       spellType: 'REACTION',
-      icon: 'ability_warrior_shieldwall',
+      icon: 'Utility/Shield',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'ability_warrior_shieldwall',
+        icon: 'Utility/Shield',
         tags: ['protection', 'reaction', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'REACTION'
@@ -1083,11 +1083,11 @@ INTERVENE COUNT: 1
       description: 'You press your hand to one of your own wounds, feeling the pain intensify as you channel it through your body. This is the essence of the Martyr\'s path—suffering transformed into salvation. The pain doesn\'t diminish; instead, it becomes a conduit for divine power. You can feel your own life force being drawn from your wounds, but rather than being lost, it is transformed into healing energy that flows from your fingertips. The process is excruciating—every moment of channeling brings fresh agony as your pain is literally converted into life-giving power. But the result is worth it: your ally feels their wounds close, their pain fade, and their strength return, all paid for with your own suffering. This act of self-sacrifice strengthens your devotion, proving your commitment to protecting others at any cost.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_penance',
+      icon: 'Radiant/Radiant Beam',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_penance',
+        icon: 'Radiant/Radiant Beam',
         tags: ['healing', 'sacrificial', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1137,11 +1137,11 @@ INTERVENE COUNT: 1
       description: 'Release a burst of radiant energy that damages undead and heals the living.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
+      icon: 'Radiant/Radiant Bolt',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         tags: ['damage', 'healing', 'radiant', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1218,11 +1218,11 @@ INTERVENE COUNT: 1
       description: 'Strike an enemy with radiant power, dealing damage and healing yourself through devotion.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'ability_paladin_blessedhands',
+      icon: 'Healing/Reaching Hand',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'ability_paladin_blessedhands',
+        icon: 'Healing/Reaching Hand',
         tags: ['damage', 'melee', 'radiant', 'healing', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1275,7 +1275,7 @@ INTERVENE COUNT: 1
       name: 'Divine Shield',
       description: 'Grant protective divine energy to all allies within range. Golden light flows from your hands, forming shimmering shields around each ally. The divine protection absorbs incoming damage, protecting their actual health with a barrier of holy energy.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       school: 'Abjuration',
       level: 2,
 
@@ -1400,7 +1400,7 @@ INTERVENE COUNT: 1
       name: 'Sanctuary Aura',
       description: 'Surround an ally with a protective aura of divine energy. Golden light envelops them, creating a barrier that significantly reduces all incoming damage. The divine protection makes them nearly impervious to harm.',
       spellType: 'ACTION',
-      icon: 'spell_holy_divineshield',
+      icon: 'Radiant/Radiant Golden Shield',
       school: 'Abjuration',
       level: 2,
 
@@ -1416,7 +1416,7 @@ INTERVENE COUNT: 1
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'minutes'
       },
@@ -1468,11 +1468,11 @@ INTERVENE COUNT: 1
       description: 'Bless allies with divine resilience, granting bonuses to saving throws and reducing damage taken.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_holy_blessingofprotection',
+      icon: 'Radiant/Divine Blessing',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_blessingofprotection',
+        icon: 'Radiant/Divine Blessing',
         tags: ['buff', 'saving-throws', 'damage-reduction', 'aoe', 'devotion-amplifiable', 'level-2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1547,11 +1547,11 @@ INTERVENE COUNT: 1
       description: 'Create a sacred bond with an ally. While active, you take half of the damage they would receive.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         tags: ['buff', 'protection', 'sacrifice', 'level-3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1607,11 +1607,11 @@ INTERVENE COUNT: 1
       description: 'Sacrifice your own life force to deal radiant damage to enemies around you.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_holy_holyfire',
+      icon: 'Fire/Sun Symbol',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holyfire',
+        icon: 'Fire/Sun Symbol',
         tags: ['damage', 'self-damage', 'radiant', 'aoe', 'level-3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1665,11 +1665,11 @@ INTERVENE COUNT: 1
       description: 'Remove negative conditions from an ally by taking the affliction upon yourself briefly.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_holy_purify',
+      icon: 'Healing/Cure Within',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_purify',
+        icon: 'Healing/Cure Within',
         tags: ['purification', 'sacrifice', 'utility', 'level-3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1720,11 +1720,11 @@ INTERVENE COUNT: 1
       description: 'Create a divine shield around an ally that absorbs damage until broken.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprotection',
+      icon: 'Radiant/Radiant Golden Shield',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_divineprotection',
+        icon: 'Radiant/Radiant Golden Shield',
         tags: ['buff', 'shield', 'protection', 'level-4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1784,11 +1784,11 @@ INTERVENE COUNT: 1
       description: 'Transfer your own health to heal an ally for twice the amount sacrificed.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_flashheal',
+      icon: 'Healing/Golden Heart',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_holy_flashheal',
+        icon: 'Healing/Golden Heart',
         tags: ['healing', 'sacrifice', 'self-damage', 'level-4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1835,11 +1835,11 @@ INTERVENE COUNT: 1
       description: 'Mark an enemy. Allies attacking the marked target heal for a portion of damage dealt.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_sealofblood',
+      icon: 'Necrotic/Blood Scroll',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_sealofblood',
+        icon: 'Necrotic/Blood Scroll',
         tags: ['debuff', 'utility', 'healing', 'mark', 'level-4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1895,11 +1895,11 @@ INTERVENE COUNT: 1
       description: 'Embrace suffering to become immune to crowd control while slowly healing allies around you.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         tags: ['buff', 'healing', 'immunity', 'aoe', 'level-5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1962,11 +1962,11 @@ INTERVENE COUNT: 1
       description: 'Forge a blood pact with allies. All party members share damage equally.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_shadow_bloodboil',
+      icon: 'Necrotic/Blood Skull',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_bloodboil',
+        icon: 'Necrotic/Blood Skull',
         tags: ['buff', 'protection', 'sacrifice', 'party', 'level-5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2023,11 +2023,11 @@ INTERVENE COUNT: 1
       description: 'When you take damage, store it as holy energy. Release it all as a burst of radiant damage.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_holy_avengersshield',
+      icon: 'Radiant/Radiant Golden Shield',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_avengersshield',
+        icon: 'Radiant/Radiant Golden Shield',
         tags: ['damage', 'radiant', 'aoe', 'stored-damage', 'level-5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2091,18 +2091,18 @@ INTERVENE COUNT: 1
       description: 'Create a zone of holy ground that pulses with divine energy. The ground itself glows with golden light, healing allies who stand upon it while burning undead and demons with the same sacred power. The zone persists, becoming a sanctuary of healing and destruction.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_holy_holynova',
+      icon: 'Radiant/Bright Explosion',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holynova',
+        icon: 'Radiant/Bright Explosion',
         tags: ['healing', 'damage', 'zone', 'aoe', 'level-6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2119,7 +2119,7 @@ INTERVENE COUNT: 1
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing', 'damage', 'zone'],
+      effectTypes: ['healing', 'damage', 'utility'],
 
       healingConfig: {
         formula: '2d8 + spirit',
@@ -2161,11 +2161,11 @@ INTERVENE COUNT: 1
       description: 'Become a vessel for divine energy. Redirect all ally damage to yourself and gain massive damage reduction.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['buff', 'protection', 'sacrifice', 'tank', 'level-6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2221,11 +2221,11 @@ INTERVENE COUNT: 1
       description: 'Strike an enemy with holy might. The lower your health, the more damage this deals.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_holy_crusaderstrike',
+      icon: 'Radiant/Divine Downward Sword',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_crusaderstrike',
+        icon: 'Radiant/Divine Downward Sword',
         tags: ['damage', 'radiant', 'single-target', 'level-6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2283,11 +2283,11 @@ INTERVENE COUNT: 1
       description: 'Channel divine energy to restore all fallen allies to consciousness with partial health.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_resurrection',
+      icon: 'Healing/Ressusitate',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_holy_resurrection',
+        icon: 'Healing/Ressusitate',
         tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level-7'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2336,11 +2336,11 @@ INTERVENE COUNT: 1
       description: 'Place a guardian spirit on an ally. If they would die, the spirit sacrifices itself to restore them.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_guardianspirit',
+      icon: 'Radiant/Winged Angel',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_holy_guardianspirit',
+        icon: 'Radiant/Winged Angel',
         tags: ['buff', 'protection', 'cheat-death', 'level-7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2396,11 +2396,11 @@ INTERVENE COUNT: 1
       description: 'Unleash all accumulated devotion as radiant damage to all enemies within range. Every moment of suffering, every wound taken, every sacrifice made is channeled into a cataclysmic burst of holy power that consumes your foes in divine fire.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_holywrath',
+      icon: 'Radiant/Radiant Sunburst',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holywrath',
+        icon: 'Radiant/Radiant Sunburst',
         tags: ['damage', 'radiant', 'aoe', 'devotion-spend', 'level-7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2473,11 +2473,11 @@ INTERVENE COUNT: 1
       description: 'Call upon divine power to completely negate one incoming attack or spell against any ally.',
       level: 8,
       spellType: 'REACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['protection', 'reaction', 'negate', 'level-8'],
         castTime: 1,
         castTimeType: 'REACTION'
@@ -2499,7 +2499,7 @@ INTERVENE COUNT: 1
       },
 
       resolution: 'NONE',
-      effectTypes: ['protection'],
+      effectTypes: ['buff'],
 
       specialMechanics: {
         negate: {
@@ -2525,11 +2525,11 @@ INTERVENE COUNT: 1
       description: 'Link an enemy to yourself. When you take damage, they take the same amount as psychic damage.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_curseofsargeras',
+      icon: 'Necrotic/Necrotic Skull',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_curseofsargeras',
+        icon: 'Necrotic/Necrotic Skull',
         tags: ['debuff', 'damage', 'link', 'psychic', 'level-8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2586,11 +2586,11 @@ INTERVENE COUNT: 1
       description: 'Sacrifice a massive amount of health to fully heal all allies in range.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_layonhands',
+      icon: 'Healing/Reaching Hand',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_holy_layonhands',
+        icon: 'Healing/Reaching Hand',
         tags: ['healing', 'sacrifice', 'self-damage', 'aoe', 'level-8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2641,11 +2641,11 @@ INTERVENE COUNT: 1
       description: 'Transform into an Avatar of Sacrifice, gaining immense power and the ability to absorb all party damage.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         tags: ['transformation', 'buff', 'protection', 'ultimate', 'level-9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2703,11 +2703,11 @@ INTERVENE COUNT: 1
       description: 'Call down divine judgment. Heal all allies to full and deal massive damage to all enemies.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_reckoning',
+      icon: 'Radiant/Radiant Warrior',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_reckoning',
+        icon: 'Radiant/Radiant Warrior',
         tags: ['damage', 'healing', 'aoe', 'ultimate', 'level-9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2776,11 +2776,11 @@ INTERVENE COUNT: 1
       description: 'Create unbreakable bonds with all allies. As long as one linked ally lives, none can truly die.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         tags: ['buff', 'protection', 'party', 'immortality', 'level-9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2814,7 +2814,7 @@ INTERVENE COUNT: 1
           description: 'Linked allies cannot die unless all linked allies would die simultaneously'
         }],
         durationValue: 1,
-        durationType: 'combat',
+        durationType: 'rounds',
         durationUnit: 'combat',
         concentrationRequired: false,
         canBeDispelled: false
@@ -2840,11 +2840,11 @@ INTERVENE COUNT: 1
       description: 'The ultimate act of martyrdom. Sacrifice yourself to fully resurrect and empower all fallen allies.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_resurrection',
+      icon: 'Healing/Ressusitate',
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'spell_holy_resurrection',
+        icon: 'Healing/Ressusitate',
         tags: ['resurrection', 'sacrifice', 'ultimate', 'level-10'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2867,7 +2867,7 @@ INTERVENE COUNT: 1
       },
 
       resolution: 'NONE',
-      effectTypes: ['resurrection', 'buff'],
+      effectTypes: ['restoration', 'buff'],
 
       healingConfig: {
         formula: 'max_hp',
@@ -2911,11 +2911,11 @@ INTERVENE COUNT: 1
       description: 'Transcend mortality and become one with the divine. Gain godlike power for a brief time.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         tags: ['transformation', 'buff', 'ultimate', 'level-10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2976,11 +2976,11 @@ INTERVENE COUNT: 1
       description: 'Bestow your final blessing upon allies. They become immune to death for the rest of the encounter.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_greaterblessingofkings',
+      icon: 'Radiant/Golden Ring',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_greaterblessingofkings',
+        icon: 'Radiant/Golden Ring',
         tags: ['buff', 'protection', 'ultimate', 'party', 'level-10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -3014,7 +3014,7 @@ INTERVENE COUNT: 1
           description: 'Allies cannot be reduced below 1 HP for the rest of the encounter.'
         }],
         durationValue: 1,
-        durationType: 'combat',
+        durationType: 'rounds',
         durationUnit: 'combat',
         concentrationRequired: false,
         canBeDispelled: false

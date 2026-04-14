@@ -1032,11 +1032,11 @@ Many players enhance the stance-dancing experience with:
       description: 'A precise strike that builds your combat rhythm, channeling your Momentum into devastating force.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'inv_sword_04',
+      icon: 'Slashing/Sword Pierce',
 
       typeConfig: {
         school: 'physical',
-        icon: 'inv_sword_04',
+        icon: 'Slashing/Sword Pierce',
         tags: ['melee', 'damage', 'momentum_generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1088,11 +1088,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Flow between combat stances, adapting your fighting style to any situation. Each stance offers unique abilities and passive effects.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'ability_druid_catform',
+      icon: 'Nature/Cat Face',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_catform',
+        icon: 'Nature/Cat Face',
         tags: ['utility', 'stance', 'transition', 'starter'],
         castTime: 0,
         castTimeType: 'FREE'
@@ -1139,11 +1139,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Flow into a defensive stance, gaining enhanced evasion and counter-attack opportunities.',
       level: 1,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_defensivestance',
+      icon: 'Utility/Deflecting Shield',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_defensivestance',
+        icon: 'Utility/Deflecting Shield',
         tags: ['passive', 'defense', 'counter', 'toggleable', 'starter'],
         toggleable: true
       },
@@ -1195,11 +1195,11 @@ Many players enhance the stance-dancing experience with:
       description: 'A swift repositioning technique that allows you to move quickly and strike from unexpected angles.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'ability_rogue_sprint',
+      icon: 'Utility/Speed Boot',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_sprint',
+        icon: 'Utility/Speed Boot',
         tags: ['movement', 'damage', 'mobility', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1250,11 +1250,11 @@ Many players enhance the stance-dancing experience with:
       description: 'A fluid attack that transitions between stances, dealing bonus damage based on your current Momentum level.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_rogue_slicedice',
+      icon: 'Slashing/Quick Slash',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_slicedice',
+        icon: 'Slashing/Quick Slash',
         tags: ['melee', 'damage', 'stance-transition', 'momentum_scaling'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1316,11 +1316,11 @@ Many players enhance the stance-dancing experience with:
       description: 'A mesmerizing series of strikes that flows between different attack patterns, building Momentum with each hit.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['melee', 'damage', 'multi-attack', 'momentum_generation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1367,11 +1367,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Rapidly transition through multiple stances, gaining brief bonuses from each before returning to your original form.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_druid_challangingroar',
+      icon: 'Nature/Roar',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_challangingroar',
+        icon: 'Nature/Roar',
         tags: ['utility', 'stance', 'transition', 'buff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1426,11 +1426,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Unleash a rapid series of strikes, each building on the momentum of the last for devastating damage.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_weaponmastery',
+      icon: 'Slashing/Crossed Swords',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_weaponmastery',
+        icon: 'Slashing/Crossed Swords',
         tags: ['melee', 'damage', 'multi-attack', 'momentum_scaling'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1477,11 +1477,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Flow through multiple stances in rapid succession, unleashing a devastating combo of attacks from each combat form.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['melee', 'damage', 'multi-attack', 'stance-transition', 'flourish_generation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1539,11 +1539,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Parry an incoming attack and counter with a devastating strike that generates extra Momentum.',
       level: 3,
       spellType: 'REACTION',
-      icon: 'ability_parry',
+      icon: 'Utility/Parry',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_parry',
+        icon: 'Utility/Parry',
         tags: ['reaction', 'parry', 'counter', 'momentum_generation'],
         castTime: 0,
         castTimeType: 'REACTION'
@@ -1593,11 +1593,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Spin with blinding speed, creating a defensive vortex that deflects incoming attacks and damages nearby enemies.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_warrior_cleave',
+      icon: 'Slashing/Cleave',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_cleave',
+        icon: 'Slashing/Cleave',
         tags: ['defense', 'damage', 'aoe', 'mobility'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1646,11 +1646,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Reaction: When targeted by an attack, gain +4 Dodge for 1 round. Stacks with your base Dodge stat. Successful dodges grant +1 Momentum.',
       level: 3,
       spellType: 'REACTION',
-      icon: 'ability_rogue_feint',
+      icon: 'Utility/Phantom Dash',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_feint',
+        icon: 'Utility/Phantom Dash',
         tags: ['reaction', 'defense', 'mobility', 'counter'],
         castTime: 0,
         castTimeType: 'REACTION'
@@ -1704,11 +1704,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Demonstrate mastery of your current stance, pushing it to its absolute limit. Every aspect of your combat form is amplified, making you a true master of that fighting style. Your movements become perfect, your strikes more precise, and your defenses impenetrable.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_warrior_innerrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_innerrage',
+        icon: 'General/Rage',
         tags: ['buff', 'stance', 'mastery', 'enhancement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1763,11 +1763,11 @@ Many players enhance the stance-dancing experience with:
       description: 'A perfectly aimed strike that targets a vital point, dealing massive damage and applying a bleeding wound.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_backstab',
+      icon: 'Piercing/Backstab',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_backstab',
+        icon: 'Piercing/Backstab',
         tags: ['melee', 'damage', 'bleed', 'critical', 'flourish_generation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1836,11 +1836,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Weave through multiple enemies in a deadly dance, striking each with precision and building unstoppable momentum.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_rogue_sprint',
+      icon: 'Utility/Speed Boot',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_sprint',
+        icon: 'Utility/Speed Boot',
         tags: ['melee', 'damage', 'multi-target', 'momentum_generation', 'mobility'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1889,11 +1889,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Teleport behind your target and strike from the shadows with devastating force, gaining advantage on the attack.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstrike',
+      icon: 'Piercing/Night Dagger',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_shadowstrike',
+        icon: 'Piercing/Night Dagger',
         tags: ['melee', 'damage', 'teleport', 'advantage', 'stance-transition'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1979,11 +1979,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Create a whirling barrier of blades around yourself, damaging enemies that approach and gaining defensive bonuses.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['defense', 'damage', 'aoe', 'concentration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2048,11 +2048,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Release all your stored Momentum in a single devastating explosion of speed and power.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bloodnova',
+      icon: 'Bludgeoning/Blood Punch',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bloodnova',
+        icon: 'Bludgeoning/Blood Punch',
         tags: ['damage', 'aoe', 'momentum_spend', 'burst'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2105,11 +2105,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Fade into invisibility for 1 round and strike with a devastating attack. The invisibility grants advantage on the attack.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'ability_vanish',
+      icon: 'Utility/Hide',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_vanish',
+        icon: 'Utility/Hide',
         tags: ['melee', 'damage', 'critical', 'invisibility', 'flourish_generation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2179,11 +2179,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Achieve perfect harmony between all stances, allowing you to draw power from multiple fighting styles simultaneously. You flow seamlessly between forms, combining their strengths into a unified combat style that transcends any single stance. This perfect balance requires intense concentration to maintain.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'ability_druid_treeoflife',
+      icon: 'Nature/Tree',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_treeoflife',
+        icon: 'Nature/Tree',
         tags: ['buff', 'stance', 'harmony', 'concentration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2238,11 +2238,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Your blades move with such speed and precision that they can deflect projectiles and reflect spells back at attackers.',
       level: 6,
       spellType: 'REACTION',
-      icon: 'ability_parry',
+      icon: 'Utility/Parry',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_parry',
+        icon: 'Utility/Parry',
         tags: ['reaction', 'defense', 'reflection', 'counter'],
         castTime: 0,
         castTimeType: 'REACTION'
@@ -2294,11 +2294,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Master the flow between stances, transitioning instantly and gaining enhanced Momentum generation.',
       level: 7,
       spellType: 'PASSIVE',
-      icon: 'ability_druid_starfall',
+      icon: 'Arcane/Star Trail Path',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_starfall',
+        icon: 'Arcane/Star Trail Path',
         tags: ['passive', 'stance', 'momentum_generation', 'flow_master'],
         toggleable: false
       },
@@ -2359,11 +2359,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Execute a devastating combo that flows seamlessly between stances, dealing massive damage with perfect timing.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'ability_warrior_unrelentingassault',
+      icon: 'Slashing/Crossed Swords',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_unrelentingassault',
+        icon: 'Slashing/Crossed Swords',
         tags: ['melee', 'damage', 'multi-attack', 'combo', 'flow_master'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2411,11 +2411,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Release a wave of pure momentum energy that damages enemies and boosts allies in a wide area.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'ability_warrior_shockwave',
+      icon: 'Force/Sonic Boom',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_shockwave',
+        icon: 'Force/Sonic Boom',
         tags: ['damage', 'buff', 'aoe', 'momentum_spend'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2484,11 +2484,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Achieve true mastery of all stances, allowing transitions to any stance and enhanced abilities.',
       level: 8,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['passive', 'stance', 'mastery', 'universal'],
         toggleable: false
       },
@@ -2549,11 +2549,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Perform an intricate dance of blades, teleporting between enemies and striking them with deadly precision.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'ability_rogue_fleetfooted',
+      icon: 'Utility/Speed Boot',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_rogue_fleetfooted',
+        icon: 'Utility/Speed Boot',
         tags: ['damage', 'teleport', 'multi-target', 'mobility'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2602,11 +2602,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Your mastery creates echoes of your stance transitions, allowing you to maintain benefits from recently used stances.',
       level: 8,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_secondwind',
+      icon: 'Healing/Renewal',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_secondwind',
+        icon: 'Healing/Renewal',
         tags: ['passive', 'stance', 'echo', 'mastery'],
         toggleable: false
       },
@@ -2662,11 +2662,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Expend all your Flourish tokens to unleash a devastating storm of attacks through all 6 stances simultaneously.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'ability_warrior_savageblow',
+      icon: 'Slashing/Cross Slash',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_savageblow',
+        icon: 'Slashing/Cross Slash',
         tags: ['aoe', 'damage', 'multi-attack', 'flourish_spend', 'ultimate'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2721,11 +2721,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Spend Flourish tokens to perform a single devastating attack that embodies the power of all six stances.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'ability_warrior_endlessrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_endlessrage',
+        icon: 'General/Rage',
         tags: ['damage', 'critical', 'flourish_spend', 'stance_power'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2774,11 +2774,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Achieve perfect synchronization with all combat stances, gaining enhanced abilities and flawless transitions.',
       level: 9,
       spellType: 'PASSIVE',
-      icon: 'ability_druid_enrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_enrage',
+        icon: 'General/Rage',
         tags: ['passive', 'stance', 'harmony', 'mastery'],
         toggleable: false
       },
@@ -2834,11 +2834,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Enter a state of perfect martial focus, embodying all six stances simultaneously for a brief but devastating duration.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'ability_druid_earthandsky',
+      icon: 'Nature/Nature Primal',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_druid_earthandsky',
+        icon: 'Nature/Nature Primal',
         tags: ['transformation', 'ultimate', 'stance', 'transcendent'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2903,11 +2903,11 @@ Many players enhance the stance-dancing experience with:
       description: 'Achieve the ultimate pinnacle of blade mastery, where every strike becomes a work of art and every stance a perfect expression of combat.',
       level: 10,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'physical',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['passive', 'mastery', 'ultimate', 'stance'],
         toggleable: false
       },

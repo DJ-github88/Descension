@@ -3,7 +3,7 @@
 
 export const CHAOS_WEAVER_DOCS = {
   className: 'Chaos Weaver',
-  icon: 'spell_shadow_possession',
+  icon: 'Psychic/Mind Control',
   specializations: ['reality_bending', 'entropy_control', 'chaos_dice'],
 
   // Example spells showcasing the class's capabilities
@@ -13,12 +13,12 @@ export const CHAOS_WEAVER_DOCS = {
       name: 'Chaos Bolt',
       description: 'Launch a bolt of pure chaotic energy that deals force damage to a target.',
       level: 1,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage']
       },
       damageTypes: ['force'],
@@ -55,12 +55,12 @@ export const CHAOS_WEAVER_DOCS = {
       name: 'Prismatic Chaos',
       description: 'Unleash a storm of prismatic energy with wildly unpredictable effects.',
       level: 3,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'area', 'rollable_table']
       },
       rollableTable: {
@@ -71,20 +71,20 @@ export const CHAOS_WEAVER_DOCS = {
         resolutionConfig: { diceType: 'd33', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 3 }, customName: 'Red Prism', effect: 'Fire damage - 4d6 fire damage in 20ft radius', effectConfig: { damageFormula: '4d6', damageType: 'fire', areaShape: 'circle', areaRadius: 20 } },
-          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'acid', armorReduction: 3, debuffDuration: 2 } },
+          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
           { range: { min: 7, max: 9 }, customName: 'Yellow Prism', effect: 'Lightning damage - 4d6 lightning damage, chains to 2 additional targets', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTargets: 2 } },
           { range: { min: 10, max: 12 }, customName: 'Green Prism', effect: 'Poison damage - 4d6 poison damage, targets poisoned for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'poison', poisonDuration: 1 } },
           { range: { min: 13, max: 15 }, customName: 'Blue Prism', effect: 'Frost damage - 4d6 frost damage, slows targets by 50% for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'frost', slowAmount: 0.5, slowDuration: 2 } },
           { range: { min: 16, max: 18 }, customName: 'Indigo Prism', effect: 'Force damage - 4d6 force damage, knocks targets back 15 feet', effectConfig: { damageFormula: '4d6', damageType: 'force', knockbackDistance: 15 } },
           { range: { min: 19, max: 21 }, customName: 'Violet Prism', effect: 'Necrotic damage - 4d6 necrotic damage, heals caster for half damage dealt', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', lifestealPercent: 0.5 } },
           { range: { min: 22, max: 24 }, customName: 'White Prism', effect: 'Radiant damage - 4d6 radiant damage, blinds targets for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'radiant', blindDuration: 1 } },
-          { range: { min: 25, max: 27 }, customName: 'Black Prism', effect: 'Necrotic damage - 4d6 necrotic damage, creates 20ft radius darkness for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'shadow', darknessRadius: 20, darknessDuration: 2 } },
+          { range: { min: 25, max: 27 }, customName: 'Black Prism', effect: 'Necrotic damage - 4d6 necrotic damage, creates 20ft radius darkness for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', darknessRadius: 20, darknessDuration: 2 } },
           { range: { min: 28, max: 30 }, customName: 'Silver Prism', effect: 'Psychic damage - 4d6 psychic damage, confuses targets for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'psychic', confuseDuration: 1 } },
           { range: { min: 31, max: 33 }, customName: 'Golden Prism', effect: 'Ultimate Chaos - Roll twice more and combine effects', effectConfig: { rollTwice: true } }
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -108,12 +108,12 @@ export const CHAOS_WEAVER_DOCS = {
       name: 'Chaos Storm',
       description: 'Unleash a storm of chaotic energy that rolls on a d20 table for unpredictable effects.',
       level: 6,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'chaos_dice', 'rollable_table']
       },
       rollableTable: {
@@ -133,7 +133,7 @@ export const CHAOS_WEAVER_DOCS = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -274,12 +274,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Bolt',
       description: 'Launch a bolt of pure chaotic energy that deals force damage to a target.',
       level: 1,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage']
       },
       damageTypes: ['force'],
@@ -316,12 +316,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Reality Flicker',
       description: 'Briefly phase out of reality for 1 round, making yourself incorporeal. You can move through objects and are immune to non-magical attacks.',
       level: 1,
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         tags: ['chaos', 'defense']
       },
       buffConfig: {
@@ -355,12 +355,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Entropic Touch',
       description: 'Infuse a target with entropic decay. The chaotic energy eats away at their defenses, causing their armor to weaken and crumble as the entropy spreads through their form.',
       level: 1,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['entropy', 'debuff', 'necrotic']
       },
       damageTypes: ['necrotic'],
@@ -416,12 +416,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaotic Bolt',
       description: 'Unleash a bolt of chaotic energy that rolls on a d20 table for unpredictable effects.',
       level: 2,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'rollable_table']
       },
       rollableTable: {
@@ -465,12 +465,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Dimensional Rift',
       description: 'Tear open a rift to another dimension, allowing you to manipulate reality.',
       level: 2,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
       effectTypes: ['control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'control', 'reality_bending']
       },
       controlConfig: {
@@ -517,12 +517,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaotic Decay',
       description: 'Accelerate the decay of matter around your target.',
       level: 2,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy']
       },
       damageTypes: ['necrotic'],
@@ -606,12 +606,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Prismatic Chaos',
       description: 'Unleash a storm of prismatic energy with wildly unpredictable effects.',
       level: 3,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'area', 'rollable_table']
       },
       rollableTable: {
@@ -622,20 +622,20 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd33', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 3 }, customName: 'Red Prism', effect: 'Fire damage - 4d6 fire damage in 20ft radius', effectConfig: { damageFormula: '4d6', damageType: 'fire', areaShape: 'circle', areaRadius: 20 } },
-          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'acid', armorReduction: 3, debuffDuration: 2 } },
+          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
           { range: { min: 7, max: 9 }, customName: 'Yellow Prism', effect: 'Lightning damage - 4d6 lightning damage, chains to 2 additional targets', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTargets: 2 } },
           { range: { min: 10, max: 12 }, customName: 'Green Prism', effect: 'Poison damage - 4d6 poison damage, targets poisoned for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'poison', poisonDuration: 1 } },
           { range: { min: 13, max: 15 }, customName: 'Blue Prism', effect: 'Frost damage - 4d6 frost damage, slows targets by 50% for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'frost', slowAmount: 0.5, slowDuration: 2 } },
           { range: { min: 16, max: 18 }, customName: 'Indigo Prism', effect: 'Force damage - 4d6 force damage, knocks targets back 15 feet', effectConfig: { damageFormula: '4d6', damageType: 'force', knockbackDistance: 15 } },
           { range: { min: 19, max: 21 }, customName: 'Violet Prism', effect: 'Necrotic damage - 4d6 necrotic damage, heals caster for half damage dealt', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', lifestealPercent: 0.5 } },
           { range: { min: 22, max: 24 }, customName: 'White Prism', effect: 'Radiant damage - 4d6 radiant damage, blinds targets for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'radiant', blindDuration: 1 } },
-          { range: { min: 25, max: 27 }, customName: 'Black Prism', effect: 'Necrotic damage - 4d6 necrotic damage, creates 20ft radius darkness for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'shadow', darknessRadius: 20, darknessDuration: 2 } },
+          { range: { min: 25, max: 27 }, customName: 'Black Prism', effect: 'Necrotic damage - 4d6 necrotic damage, creates 20ft radius darkness for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', darknessRadius: 20, darknessDuration: 2 } },
           { range: { min: 28, max: 30 }, customName: 'Silver Prism', effect: 'Psychic damage - 4d6 psychic damage, confuses targets for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'psychic', confuseDuration: 1 } },
           { range: { min: 31, max: 33 }, customName: 'Golden Prism', effect: 'Ultimate Chaos - Roll twice more and combine effects', effectConfig: { rollTwice: true } }
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -659,12 +659,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Fractured Realms',
       description: 'Shatter the boundaries between realities, creating rifts with random planar effects.',
       level: 3,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
       effectTypes: ['control', 'damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'control', 'reality_bending', 'rollable_table']
       },
       rollableTable: {
@@ -683,7 +683,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -707,12 +707,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Burst',
       description: 'Release a burst of entropic energy that randomly damages and debuffs targets.',
       level: 3,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'rollable_table']
       },
       rollableTable: {
@@ -723,9 +723,9 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd12', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 2 }, customName: 'Necrotic Burst', effect: '5d6 necrotic damage, reduces strength by 3 for 2 rounds', effectConfig: { damageFormula: '5d6', damageType: 'necrotic', statReduction: 'strength', reductionAmount: 3, debuffDuration: 2 } },
-          { range: { min: 3, max: 4 }, customName: 'Acid Burst', effect: '5d6 acid damage, reduces armor by 4 for 3 rounds', effectConfig: { damageFormula: '5d6', damageType: 'acid', statReduction: 'armor', reductionAmount: 4, debuffDuration: 3 } },
+          { range: { min: 3, max: 4 }, customName: 'Acid Burst', effect: '5d6 acid damage, reduces armor by 4 for 3 rounds', effectConfig: { damageFormula: '5d6', damageType: 'poison', statReduction: 'armor', reductionAmount: 4, debuffDuration: 3 } },
           { range: { min: 5, max: 6 }, customName: 'Poison Burst', effect: '4d6 poison damage, poisons targets (2d6 poison damage per turn for 3 rounds)', effectConfig: { damageFormula: '4d6', damageType: 'poison', dotFormula: '2d6', dotDuration: 3 } },
-          { range: { min: 7, max: 8 }, customName: 'Shadow Burst', effect: '5d6 necrotic damage, blinds targets for 2 rounds', effectConfig: { damageFormula: '5d6', damageType: 'shadow', blindDuration: 2 } },
+          { range: { min: 7, max: 8 }, customName: 'Shadow Burst', effect: '5d6 necrotic damage, blinds targets for 2 rounds', effectConfig: { damageFormula: '5d6', damageType: 'necrotic', blindDuration: 2 } },
           { range: { min: 9, max: 10 }, customName: 'Chaos Burst', effect: '4d6 random damage type, random debuff (roll d4: 1=slow, 2=weaken, 3=confuse, 4=stun)', effectConfig: { damageFormula: '4d6', damageType: 'random', randomDebuff: true } },
           { range: { min: 11, max: 12 }, customName: 'Void Burst', effect: '6d6 necrotic damage, targets make Constitution save or take double damage', effectConfig: { damageFormula: '6d6', damageType: 'necrotic', saveType: 'constitution', doubleDamage: true } }
         ]
@@ -759,12 +759,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Reality Swap',
       description: 'Swap positions with random creatures in the area, creating utter confusion.',
       level: 4,
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
       effectTypes: ['control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         tags: ['chaos', 'control', 'reality_bending']
       },
       controlConfig: {
@@ -811,12 +811,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Entropy Wave',
       description: 'Send a wave of entropic decay that damages and weakens all in its path.',
       level: 4,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy_control']
       },
       damageTypes: ['necrotic'],
@@ -896,12 +896,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Storm',
       description: 'Summon a raging storm of chaotic energy that rolls on a massive d100 table.',
       level: 4,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'storm', 'rollable_table']
       },
       rollableTable: {
@@ -925,7 +925,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -953,12 +953,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Discordant Strike',
       description: 'Infuse your weapon with chaotic energy for random damage effects.',
       level: 5,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'weapon', 'entropy_control', 'rollable_table']
       },
       rollableTable: {
@@ -969,7 +969,7 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd10', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 2 }, customName: 'Necrotic Strike', effect: 'Weapon deals +4d6 necrotic damage, target poisoned', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', poisonEffect: true } },
-          { range: { min: 3, max: 4 }, customName: 'Acid Strike', effect: 'Weapon deals +4d6 acid damage, reduces armor by 3', effectConfig: { damageFormula: '4d6', damageType: 'acid', armorReduction: 3 } },
+          { range: { min: 3, max: 4 }, customName: 'Acid Strike', effect: 'Weapon deals +4d6 acid damage, reduces armor by 3', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3 } },
           { range: { min: 5, max: 6 }, customName: 'Lightning Strike', effect: 'Weapon deals +4d6 lightning damage, chains to nearby enemy', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTarget: true } },
           { range: { min: 7, max: 8 }, customName: 'Fire Strike', effect: 'Weapon deals +4d6 fire damage, target burns for 2d6 per turn', effectConfig: { damageFormula: '4d6', damageType: 'fire', burnDamage: '2d6' } },
           { range: { min: 9, max: 10 }, customName: 'Chaos Strike', effect: 'Weapon deals +6d6 random damage type, random secondary effect', effectConfig: { damageFormula: '6d6', damageType: 'random', secondaryEffect: 'random' } }
@@ -999,12 +999,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Pandemonic Pulse',
       description: 'Send out a pulse of demonic chaos that rolls on a d20 table for varying properties.',
       level: 5,
-      icon: 'spell_fire_felrainoffire',
+      icon: 'Fire/Hellfire',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_fire_felrainoffire',
+        icon: 'Fire/Hellfire',
         tags: ['chaos', 'damage', 'pulse', 'chaos_dice', 'rollable_table']
       },
       rollableTable: {
@@ -1015,7 +1015,7 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd20', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 3 }, customName: 'Fire Pulse', effect: '8d6 fire damage in 30ft radius, leaves burning ground', effectConfig: { damageFormula: '8d6', damageType: 'fire', areaShape: 'circle', areaRadius: 30, burningGround: true } },
-          { range: { min: 4, max: 6 }, customName: 'Shadow Pulse', effect: '7d6 necrotic damage, creates darkness in 40ft radius', effectConfig: { damageFormula: '7d6', damageType: 'shadow', darknessRadius: 40 } },
+          { range: { min: 4, max: 6 }, customName: 'Shadow Pulse', effect: '7d6 necrotic damage, creates darkness in 40ft radius', effectConfig: { damageFormula: '7d6', damageType: 'necrotic', darknessRadius: 40 } },
           { range: { min: 7, max: 9 }, customName: 'Chaos Pulse', effect: '6d6 random damage type, random debuff applied', effectConfig: { damageFormula: '6d6', damageType: 'random', randomDebuff: true } },
           { range: { min: 10, max: 12 }, customName: 'Void Pulse', effect: '9d6 necrotic damage, heals caster for 50% of damage dealt', effectConfig: { damageFormula: '9d6', damageType: 'necrotic', lifestealPercent: 0.5 } },
           { range: { min: 13, max: 15 }, customName: 'Reality Pulse', effect: '7d6 force damage, teleports all affected creatures 20 feet', effectConfig: { damageFormula: '7d6', damageType: 'force', teleportDistance: 20 } },
@@ -1025,7 +1025,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1049,12 +1049,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaotic Reflection',
       description: 'Create a mirror of chaotic energy that reflects spells back at their casters.',
       level: 5,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'REACTION',
       effectTypes: ['utility'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'utility', 'defense', 'reality_bending']
       },
       utilityConfig: {
@@ -1099,12 +1099,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Reality Storm',
       description: 'Unleash a storm that warps reality itself, affecting all creatures in the area with random effects.',
       level: 6,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'reality', 'chaos_dice', 'rollable_table']
       },
       rollableTable: {
@@ -1128,7 +1128,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1152,12 +1152,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaotic Eruption',
       description: 'Cause a massive eruption of wild magic that can reshape the battlefield.',
       level: 6,
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         tags: ['chaos', 'damage', 'control', 'wild_magic', 'eruption']
       },
       rollableTable: {
@@ -1176,7 +1176,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1200,12 +1200,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Decay Cascade',
       description: 'Trigger a cascade of entropic decay that spreads through multiple targets. The chaotic energy flows from one victim to the next, weakening their bodies and defenses as the entropy consumes them. The decay spreads like a plague, leaving destruction in its wake.',
       level: 6,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'cascade']
       },
       damageTypes: ['necrotic'],
@@ -1289,12 +1289,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Armageddon',
       description: 'Unleash the ultimate chaos spell that rolls on a massive d100 table for apocalyptic effects.',
       level: 6,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos_dice', 'rollable_table']
       },
       rollableTable: {
@@ -1317,7 +1317,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1345,12 +1345,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Nova',
       description: 'Detonate a nova of pure wild magic that affects everything in the area.',
       level: 7,
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         tags: ['chaos', 'damage', 'control', 'nova', 'wild_magic']
       },
       rollableTable: {
@@ -1369,7 +1369,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1391,12 +1391,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Gate',
       description: 'Open a massive gate to the chaos realm, flooding the area with chaotic entities.',
       level: 7,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
       effectTypes: ['control', 'summoning'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'control', 'summoning', 'reality_bending']
       },
       summoningConfig: {
@@ -1407,7 +1407,7 @@ export const CHAOS_WEAVER_DATA = {
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         aoeShape: 'circle',
@@ -1429,12 +1429,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Ultimate Chaos',
       description: 'Channel the ultimate expression of chaos magic with unimaginable power.',
       level: 7,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice']
       },
       rollableTable: {
@@ -1455,7 +1455,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1481,12 +1481,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Entropy Plague',
       description: 'Inflict a spreading plague of entropy that corrupts and weakens enemies.',
       level: 8,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'plague']
       },
       damageTypes: ['necrotic'],
@@ -1514,7 +1514,7 @@ export const CHAOS_WEAVER_DATA = {
         saveType: 'constitution'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         aoeShape: 'circle',
@@ -1537,12 +1537,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Cascade',
       description: 'Create a cascade of wild magic that triggers two chaotic effects in sequence.',
       level: 8,
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         tags: ['chaos', 'damage', 'control', 'cascade', 'wild_magic']
       },
       rollableTable: {
@@ -1563,7 +1563,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1587,12 +1587,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Greater Chaos',
       description: 'Channel greater chaotic energies for powerful but unpredictable effects.',
       level: 8,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'chaos_dice']
       },
       rollableTable: {
@@ -1615,7 +1615,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1641,12 +1641,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Cataclysm',
       description: 'Unleash a devastating surge of chaotic energy with powerful but unpredictable effects.',
       level: 9,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'chaos_dice']
       },
       rollableTable: {
@@ -1667,7 +1667,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1691,12 +1691,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Conduit',
       description: 'Become a living conduit for chaotic energy, gaining immense but unstable power. The raw chaos flows through you, amplifying your spells to devastating levels, but the uncontrolled energy tears at your body with each passing moment. The power is intoxicating but dangerous.',
       level: 9,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
       effectTypes: ['buff', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'buff', 'control', 'reality_bending']
       },
       buffConfig: {
@@ -1733,12 +1733,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Entropy Wave',
       description: 'Unleash a devastating wave of entropy that decays and weakens everything it touches. The chaotic energy spreads outward in a destructive tide, consuming strength, vitality, and defenses. Those caught in the wave feel their very essence being eroded away.',
       level: 9,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'damage', 'debuff', 'entropy_control']
       },
       damageTypes: ['necrotic'],
@@ -1783,7 +1783,7 @@ export const CHAOS_WEAVER_DATA = {
         saveOutcome: 'half'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1810,12 +1810,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Ultimate Chaos',
       description: 'Channel the most powerful expression of chaos magic, unleashing devastating and unpredictable effects.',
       level: 10,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_arcanepower',
+        icon: 'Arcane/Spellcasting Aura',
         tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice']
       },
       rollableTable: {
@@ -1838,7 +1838,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1860,12 +1860,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Chaos Avatar',
       description: 'Transform into a living avatar of chaos, gaining tremendous but volatile power.',
       level: 10,
-      icon: 'spell_arcane_portalorgrimmar',
+      icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_arcane_portalorgrimmar',
+        icon: 'Arcane/Open Portal',
         tags: ['chaos', 'transformation', 'reality_bending']
       },
       transformationConfig: {
@@ -1914,12 +1914,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Storm of Chaos',
       description: 'Unleash a devastating storm of wild magic that tears through the battlefield.',
       level: 10,
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         tags: ['chaos', 'damage', 'control', 'wild_magic']
       },
       rollableTable: {
@@ -1938,7 +1938,7 @@ export const CHAOS_WEAVER_DATA = {
         ]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1960,12 +1960,12 @@ export const CHAOS_WEAVER_DATA = {
       name: 'Entropy Master',
       description: 'Become a master of entropy, causing decay and corruption with every action.',
       level: 10,
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       spellType: 'PASSIVE',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'chaos',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['chaos', 'buff', 'entropy_control', 'passive']
       },
       buffConfig: {
@@ -2518,7 +2518,7 @@ TABLE SAFETY GUIDELINES:
       {
         id: 'reality-bending',
         name: 'Reality Bending',
-        icon: 'spell_arcane_polymorphchicken',
+        icon: 'Arcane/Conjure Elements',
         color: '#9B59B6',
         theme: 'Spatial Manipulation',
         
@@ -2543,13 +2543,13 @@ TABLE SAFETY GUIDELINES:
         passiveAbility: {
           name: 'Chaos Attunement',
           description: 'All Chaos Weavers gain +1 Mayhem Modifier whenever they roll a natural 1 or natural 20 on any d20 roll.',
-          icon: 'spell_shadow_charm'
+          icon: 'Psychic/Mind Control'
         },
         
         specPassive: {
           name: 'Reality Anchor',
           description: 'When you use a spell that transforms terrain or teleports creatures, gain +2 Mayhem Modifiers. Additionally, you can spend 3 Mayhem Modifiers to choose the exact location of teleportation effects instead of them being random.',
-          icon: 'spell_arcane_portalorgrimmar'
+          icon: 'Arcane/Open Portal'
         },
         
         keyAbilities: [
@@ -2562,7 +2562,7 @@ TABLE SAFETY GUIDELINES:
       {
         id: 'wild-magic',
         name: 'Wild Magic',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         color: '#E74C3C',
         theme: 'Pure Chaos',
 
@@ -2587,13 +2587,13 @@ TABLE SAFETY GUIDELINES:
         passiveAbility: {
           name: 'Chaos Attunement',
           description: 'All Chaos Weavers gain +1 Mayhem Modifier whenever they roll a natural 1 or natural 20 on any d20 roll.',
-          icon: 'spell_shadow_charm'
+          icon: 'Psychic/Mind Control'
         },
 
         specPassive: {
           name: 'Wild Surge',
           description: 'Whenever you cast a spell, roll a d20. On a 1, trigger a Wild Magic Surge (roll on the Wild Magic Surge table). On a 20, your spell deals double damage or has double duration. Additionally, you generate +1 Mayhem Modifier whenever a Wild Magic Surge occurs.',
-          icon: 'spell_fire_felrainoffire'
+          icon: 'Fire/Hellfire'
         },
 
         keyAbilities: [
@@ -2606,7 +2606,7 @@ TABLE SAFETY GUIDELINES:
       {
         id: 'entropy',
         name: 'Entropy',
-        icon: 'spell_shadow_shadetruesight',
+        icon: 'Utility/All Seeing Eye',
         color: '#2C3E50',
         theme: 'Decay and Destruction',
 
@@ -2631,13 +2631,13 @@ TABLE SAFETY GUIDELINES:
         passiveAbility: {
           name: 'Chaos Attunement',
           description: 'All Chaos Weavers gain +1 Mayhem Modifier whenever they roll a natural 1 or natural 20 on any d20 roll.',
-          icon: 'spell_shadow_charm'
+          icon: 'Psychic/Mind Control'
         },
 
         specPassive: {
           name: 'Entropic Decay',
           description: 'Your chaos damage ignores 25% of enemy armor. Additionally, enemies damaged by your chaos spells have their armor reduced by 1 (stacking up to 5) for the rest of combat. When an enemy reaches 5 stacks, gain +3 Mayhem Modifiers.',
-          icon: 'spell_shadow_antishadow'
+          icon: 'Radiant/Radiant Divinity'
         },
 
         keyAbilities: [

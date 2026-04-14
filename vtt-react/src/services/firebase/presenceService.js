@@ -305,7 +305,10 @@ class PresenceService {
             users.push(userData);
           }
         });
-        console.log('👥 Online users updated:', users.length, 'users');
+        if (users.length !== this._lastOnlineCount) {
+            console.log('👥 Online users updated:', users.length, 'users');
+            this._lastOnlineCount = users.length;
+        }
         callback(users);
       }, (error) => {
         console.error('❌ Failed to subscribe to online users:', error);

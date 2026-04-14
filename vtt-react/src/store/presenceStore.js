@@ -82,6 +82,9 @@ const usePresenceStore = create((set, get) => ({
   partyChatMessages: [],
   partyChatUnreadCount: 0,
 
+  // Travel chat state
+  travelChatUnreadCount: 0,
+
   // Community window state (for cross-component sync)
   isCommunityWindowOpen: false,
 
@@ -153,14 +156,16 @@ const usePresenceStore = create((set, get) => ({
    * Set the active chat tab
    */
   setActiveTab: (tabId) => {
-    const { partyChatUnreadCount } = get();
+    const { partyChatUnreadCount, travelChatUnreadCount } = get();
 
-    // Clear party unread when switching to party tab
+    const updates = { activeTab: tabId };
     if (tabId === 'party' && partyChatUnreadCount > 0) {
-      set({ activeTab: tabId, partyChatUnreadCount: 0 });
-    } else {
-      set({ activeTab: tabId });
+      updates.partyChatUnreadCount = 0;
     }
+    if (tabId === 'travel' && travelChatUnreadCount > 0) {
+      updates.travelChatUnreadCount = 0;
+    }
+    set(updates);
   },
 
   /**

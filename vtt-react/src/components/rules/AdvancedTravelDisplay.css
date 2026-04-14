@@ -1,0 +1,986 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Advanced Travel Display — Interactive rules page component
+   Inherits the rules page dark parchment aesthetic with accents from biome data
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.atd-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0;
+  font-family: 'Bookman Old Style', 'Garamond', Georgia, serif;
+  font-size: 13px;
+  color: #4a3728;
+  line-height: 1.6;
+}
+
+/* ─── Intro ──────────────────────────────────────────────────────────────── */
+
+.atd-intro {
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid rgba(139, 69, 19, 0.4);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.atd-intro p {
+  margin: 0 0 6px 0;
+}
+
+.atd-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.atd-intro kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 3px;
+  color: #8b4513;
+}
+
+.atd-intro-sub {
+  opacity: 0.7;
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* ─── Biome Selector ─────────────────────────────────────────────────────── */
+
+.atd-biome-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.atd-biome-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  color: rgba(74, 55, 40, 0.7);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.atd-biome-pill:hover {
+  background: rgba(255, 255, 255, 0.8);
+  color: rgba(74, 55, 40, 0.9);
+  border-color: rgba(139, 69, 19, 0.4);
+}
+
+.atd-biome-pill.active {
+  background: rgba(139, 69, 19, 0.1);
+  color: #8b4513;
+  border-color: rgba(139, 69, 19, 0.5);
+  box-shadow: 0 0 8px rgba(139, 69, 19, 0.1);
+}
+
+.atd-biome-pill-icon {
+  font-size: 12px;
+}
+
+/* ─── Biome Header ───────────────────────────────────────────────────────── */
+
+.atd-biome-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 6px;
+}
+
+.atd-biome-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #8b4513;
+  letter-spacing: 0.5px;
+}
+
+.atd-biome-header-icon {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.atd-biome-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.atd-meta-sep {
+  opacity: 0.3;
+}
+
+/* ─── Collapsible Sections ───────────────────────────────────────────────── */
+
+.atd-collapsible {
+  border: 1px solid rgba(139, 69, 19, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.atd-collapsible.open {
+  border-color: rgba(139, 69, 19, 0.25);
+}
+
+.atd-collapsible-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.02);
+  border: none;
+  color: #4a3728;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-align: left;
+}
+
+.atd-collapsible-header:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.atd-collapsible-icon {
+  font-size: 14px;
+  color: var(--section-accent, #8b4513);
+  opacity: 0.8;
+}
+
+.atd-chevron {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.5;
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+
+.atd-chevron.open {
+  transform: rotate(90deg);
+}
+
+.atd-collapsible-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 14px;
+}
+
+.atd-collapsible-body.open {
+  max-height: 3000px;
+  padding: 12px 14px 16px;
+}
+
+/* ─── Dice Roller ────────────────────────────────────────────────────────── */
+
+.atd-dice-roller {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.atd-dice-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(74, 55, 40, 0.8);
+  min-width: 120px;
+}
+
+.atd-dice-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  background: rgba(139, 69, 19, 0.08);
+  color: #8b4513;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.atd-dice-btn:hover {
+  background: rgba(139, 69, 19, 0.16);
+  border-color: rgba(139, 69, 19, 0.5);
+  box-shadow: 0 0 8px rgba(139, 69, 19, 0.15);
+}
+
+.atd-dice-btn:active {
+  transform: scale(0.96);
+}
+
+.atd-dice-icon {
+  font-size: 14px;
+}
+
+.atd-dice-result {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  color: #8b4513;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.atd-dice-roller.danger .atd-dice-btn {
+  border-color: rgba(168, 50, 50, 0.3);
+  background: rgba(168, 50, 50, 0.08);
+  color: #a83232;
+}
+
+.atd-dice-roller.danger .atd-dice-btn:hover {
+  background: rgba(168, 50, 50, 0.16);
+  border-color: rgba(168, 50, 50, 0.5);
+  box-shadow: 0 0 8px rgba(168, 50, 50, 0.15);
+}
+
+.atd-dice-roller.danger .atd-dice-result {
+  background: rgba(168, 50, 50, 0.05);
+  border-color: rgba(168, 50, 50, 0.25);
+  color: #a83232;
+}
+
+.atd-duration-result {
+  font-size: 12px;
+  color: rgba(74, 55, 40, 0.6);
+  margin-left: 4px;
+}
+
+/* ─── Weather Card ───────────────────────────────────────────────────────── */
+
+.atd-weather-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.atd-weather-roller {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atd-roller-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.atd-weather-card {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.atd-weather-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.atd-weather-name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #4a3728;
+}
+
+.atd-weather-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.atd-weather-desc {
+  font-size: 12px;
+  font-style: italic;
+  color: #6a5040;
+  margin: 0;
+}
+
+.atd-weather-dice-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ─── Die Tags ───────────────────────────────────────────────────────────── */
+
+.atd-die-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.atd-die-tag.nav {
+  background: rgba(50, 90, 168, 0.08);
+  color: #325aa8;
+  border: 1px solid rgba(50, 90, 168, 0.2);
+}
+
+.atd-die-tag.env {
+  background: rgba(74, 122, 74, 0.08);
+  color: #4a7a4a;
+  border: 1px solid rgba(74, 122, 74, 0.2);
+}
+
+.atd-die-tag.gear-auto {
+  background: rgba(74, 122, 74, 0.08);
+  color: #4a7a4a;
+  border: 1px solid rgba(74, 122, 74, 0.2);
+}
+
+.atd-die-tag.gear-advantage {
+  background: rgba(139, 69, 19, 0.08);
+  color: #8b4513;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+/* ─── Severity ───────────────────────────────────────────────────────────── */
+
+.atd-severity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  background: var(--severity-bg);
+  color: var(--severity-color);
+  border: 1px solid color-mix(in srgb, var(--severity-color) 30%, transparent);
+}
+
+.atd-mini-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 20px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.atd-severity-scale {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  font-size: 11px;
+}
+
+.atd-severity-scale-label {
+  font-weight: bold;
+  margin-right: 4px;
+  opacity: 0.7;
+}
+
+.atd-severity-pip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  border: 1px solid;
+}
+
+/* ─── Tables ─────────────────────────────────────────────────────────────── */
+
+.atd-table-wrapper {
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.atd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.atd-table thead th {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b4513;
+  background: rgba(139, 69, 19, 0.08);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.15);
+  white-space: nowrap;
+}
+
+.atd-table tbody td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.08);
+  color: #4a3728;
+  vertical-align: top;
+}
+
+.atd-table tbody tr:hover {
+  background: rgba(139, 69, 19, 0.04);
+}
+
+.atd-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.atd-table.atd-table-compact td {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.atd-table.atd-table-compact th {
+  padding: 5px 8px;
+}
+
+.atd-row-highlight {
+  background: rgba(212, 175, 55, 0.12) !important;
+  box-shadow: inset 3px 0 0 #d4af37;
+}
+
+.atd-row-danger {
+  background: rgba(168, 50, 50, 0.04);
+}
+
+.atd-cell-range {
+  font-weight: bold;
+  color: #8b4513 !important;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.atd-cell-name {
+  font-weight: 600;
+  color: #2a1a0f !important;
+}
+
+.atd-cell-die {
+  font-weight: bold;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.atd-cell-desc {
+  font-size: 11px;
+  opacity: 0.85;
+  max-width: 300px;
+}
+
+/* ─── Grid Layout ────────────────────────────────────────────────────────── */
+
+.atd-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 700px) {
+  .atd-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.atd-sub-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #8b4513;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  padding-bottom: 4px;
+}
+
+/* ─── Info Cards ──────────────────────────────────────────────────────────── */
+
+.atd-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.atd-info-card {
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 5px;
+  transition: all 0.15s ease;
+}
+
+.atd-info-card:hover {
+  border-color: rgba(139, 69, 19, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(4px);
+}
+
+.atd-info-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.atd-info-card-name {
+  font-weight: bold;
+  font-size: 12px;
+  color: #4a3728;
+}
+
+.atd-info-card-stat {
+  font-size: 12px;
+  font-weight: bold;
+  color: #8b4513;
+}
+
+.atd-info-card-body {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.atd-info-card-desc {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* ─── Encounter Cards ────────────────────────────────────────────────────── */
+
+.atd-encounter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.atd-encounter-roller {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atd-encounter-card {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.atd-encounter-danger {
+  border-color: rgba(168, 50, 50, 0.25);
+  background: rgba(168, 50, 50, 0.05);
+}
+
+.atd-encounter-green {
+  border-color: rgba(74, 122, 74, 0.25);
+  background: rgba(74, 122, 74, 0.05);
+}
+
+.atd-encounter-warn {
+  border-color: rgba(200, 122, 46, 0.25);
+  background: rgba(200, 122, 46, 0.05);
+}
+
+.atd-encounter-accent {
+  border-color: rgba(50, 90, 168, 0.25);
+  background: rgba(50, 90, 168, 0.05);
+}
+
+.atd-encounter-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.atd-encounter-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2d1810;
+}
+
+.atd-encounter-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.atd-encounter-type-badge.danger {
+  background: rgba(168, 50, 50, 0.1);
+  color: #a83232;
+  border: 1px solid rgba(168, 50, 50, 0.2);
+}
+
+.atd-encounter-type-badge.green {
+  background: rgba(74, 122, 74, 0.1);
+  color: #4a7a4a;
+  border: 1px solid rgba(74, 122, 74, 0.2);
+}
+
+.atd-encounter-type-badge.warn {
+  background: rgba(139, 69, 19, 0.1);
+  color: #8b4513;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.atd-encounter-type-badge.accent {
+  background: rgba(50, 90, 168, 0.1);
+  color: #325aa8;
+  border: 1px solid rgba(50, 90, 168, 0.2);
+}
+
+.atd-encounter-type-badge.muted {
+  background: rgba(0, 0, 0, 0.05);
+  color: #6a5040;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.atd-encounter-note {
+  font-size: 12px;
+  font-style: italic;
+  color: #5a4738;
+  margin: 0;
+}
+
+/* ─── Atmosphere Quote ───────────────────────────────────────────────────── */
+
+.atd-atmosphere-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #8b4513;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  align-self: flex-start;
+}
+
+.atd-atmosphere-btn:hover {
+  background: #fff;
+  border-color: rgba(139, 69, 19, 0.5);
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.1);
+}
+
+.atd-atmosphere-quote {
+  margin: 0;
+  padding: 10px 16px;
+  border-left: 3px solid #8b4513;
+  background: rgba(139, 69, 19, 0.05);
+  border-radius: 0 5px 5px 0;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4a3728;
+}
+
+/* ─── Hourly Checklist ───────────────────────────────────────────────────── */
+
+.atd-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atd-checklist-intro {
+  font-size: 12px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.atd-hour-strip {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.atd-hour-cell {
+  width: 40px;
+  height: 36px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #5a4738;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.atd-hour-cell:hover {
+  background: rgba(139, 69, 19, 0.1);
+  border-color: rgba(139, 69, 19, 0.4);
+  color: #8b4513;
+}
+
+.atd-hour-cell.active {
+  background: rgba(139, 69, 19, 0.15);
+  border-color: #8b4513;
+  color: #8b4513;
+  box-shadow: 0 0 8px rgba(139, 69, 19, 0.1);
+}
+
+.atd-hour-cell.overmarch {
+  border-color: rgba(168, 50, 50, 0.3);
+  color: #a83232;
+}
+
+.atd-hour-cell.overmarch:hover,
+.atd-hour-cell.overmarch.active {
+  background: rgba(168, 50, 50, 0.1);
+  border-color: #a83232;
+  color: #a83232;
+}
+
+.atd-checklist-detail {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.atd-checklist-hour-title {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #8b4513;
+}
+
+.atd-checklist-flags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.atd-checklist-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.atd-checklist-flag.on {
+  background: rgba(74, 122, 74, 0.1);
+  color: #4a7a4a;
+  border: 1px solid rgba(74, 122, 74, 0.2);
+}
+
+.atd-checklist-flag.on.danger {
+  background: rgba(168, 50, 50, 0.1);
+  color: #a83232;
+  border: 1px solid rgba(168, 50, 50, 0.2);
+}
+
+.atd-checklist-flag.off {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.atd-checklist-notes {
+  font-size: 12px;
+  font-style: italic;
+  color: #5a4738;
+  margin: 0;
+}
+
+/* ─── Exhaustion ─────────────────────────────────────────────────────────── */
+
+.atd-exhaustion-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.atd-exhaustion-intro p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.atd-exhaustion-track-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.atd-exhaustion-level {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border-left: 4px solid rgba(139, 69, 19, 0.3);
+  transition: all 0.15s ease;
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-left-width: 4px;
+}
+
+.atd-exhaustion-level:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateX(4px);
+  border-color: rgba(139, 69, 19, 0.3);
+}
+
+.atd-exhaustion-level.critical {
+  border-left-color: #a83232;
+  background: rgba(168, 50, 50, 0.03);
+}
+
+.atd-exhaustion-level.death {
+  border-left-color: #701010;
+  background: rgba(168, 50, 50, 0.08);
+}
+
+.atd-exhaustion-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(139, 69, 19, 0.15);
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.atd-exhaustion-level.critical .atd-exhaustion-num {
+  background: rgba(168, 50, 50, 0.15);
+  color: #a83232;
+}
+
+.atd-exhaustion-level.death .atd-exhaustion-num {
+  background: rgba(168, 50, 50, 0.25);
+  color: #701010;
+}
+
+.atd-exhaustion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.atd-exhaustion-penalty {
+  font-size: 12px;
+  font-weight: bold;
+  color: #2d1810;
+}
+
+.atd-exhaustion-impact {
+  font-size: 11px;
+  color: #6a5040;
+}
+
+/* ─── Rules Block ────────────────────────────────────────────────────────── */
+
+.atd-rules-block {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.atd-rules-block p {
+  margin: 0 0 6px 0;
+}
+
+.atd-rules-block p:last-child {
+  margin-bottom: 0;
+}
+
+.atd-rules-block ul {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+
+.atd-rules-block li {
+  margin-bottom: 3px;
+  font-size: 12px;
+  color: #4a3728;
+}
+
+/* ─── Animation ──────────────────────────────────────────────────────────── */
+
+.atd-fade-in {
+  animation: atd-fade-in 0.3s ease;
+}
+
+@keyframes atd-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

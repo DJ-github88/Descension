@@ -820,7 +820,7 @@ Many players enhance the Fate Weaver experience with:
 
     sharedPassive: {
       name: 'Destiny\'s Insight',
-      icon: 'spell_holy_divinepurpose',
+      icon: 'Radiant/Divine Halo',
       description: 'You can see the top card of your deck at all times. Additionally, whenever you would draw a card, you may spend 1 Thread of Destiny to look at the top 3 cards and choose which one to draw (the others go to the bottom of the deck in any order).'
     },
 
@@ -828,7 +828,7 @@ Many players enhance the Fate Weaver experience with:
       {
         id: 'fortune-teller',
         name: 'Fortune Teller',
-        icon: 'inv_misc_tarot_01',
+        icon: 'Utility/Utility',
         color: '#9370DB',
         theme: 'Divination & Prediction',
 
@@ -852,7 +852,7 @@ Many players enhance the Fate Weaver experience with:
 
         passiveAbility: {
           name: 'Prophetic Vision',
-          icon: 'spell_holy_sealofwisdom',
+          icon: 'Psychic/Focused Mind',
           description: 'At the start of each turn, you may look at the top 5 cards of your deck and rearrange them in any order. Additionally, whenever an ally within 30 feet makes an attack roll or saving throw, you may spend 1 Thread of Destiny to grant them advantage on that roll (you must see the top card of your deck to use this ability).'
         },
 
@@ -868,7 +868,7 @@ Many players enhance the Fate Weaver experience with:
       {
         id: 'card-master',
         name: 'Card Master',
-        icon: 'inv_misc_platnumdisks',
+        icon: 'Utility/Utility',
         color: '#FFD700',
         theme: 'Deck Manipulation & Control',
 
@@ -892,7 +892,7 @@ Many players enhance the Fate Weaver experience with:
 
         passiveAbility: {
           name: 'Master of the Deck',
-          icon: 'inv_misc_book_11',
+          icon: 'Utility/Ornate Staff',
           description: 'You may hold up to 7 cards in your hand (instead of the normal 5). Additionally, whenever you spend Threads of Destiny to call a specific card, you may call 2 cards instead of 1 for the same cost. Once per turn, you may discard a card and draw a new one for 0 AP (free).'
         },
 
@@ -908,7 +908,7 @@ Many players enhance the Fate Weaver experience with:
       {
         id: 'thread-weaver',
         name: 'Thread Weaver',
-        icon: 'spell_arcane_prismaticcloak',
+        icon: 'Arcane/Ebon Blaze',
         color: '#FF1493',
         theme: 'Thread Generation & Manipulation',
 
@@ -932,7 +932,7 @@ Many players enhance the Fate Weaver experience with:
 
         passiveAbility: {
           name: 'Weaver of Fate',
-          icon: 'spell_shadow_soulleech_3',
+          icon: 'Necrotic/Drain Soul',
           description: 'You generate +1 additional Thread whenever you would gain Threads (1 becomes 2, 2 becomes 3). Additionally, you can spend 5 Threads of Destiny to force any spell to automatically succeed with maximum effect, or spend 3 Threads to force any spell to fail and gain its maximum Thread generation.'
         },
 
@@ -952,7 +952,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'hand-of-fate',
       name: 'Hand of Fate',
-      icon: 'inv_misc_tarot_01',
+      icon: 'Utility/Utility',
       spellType: 'ACTION',
       // Use rollable table as the primary effect renderer; omit generic sections
       effectTypes: [],
@@ -1036,7 +1036,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'draw-of-the-damned',
       name: 'Draw of the Damned',
-      icon: 'spell_shadow_demonicempathy',
+      icon: 'Necrotic/Demonic Empowerment',
       spellType: 'ACTION',
       effectTypes: ['buff'],
       school: 'Abjuration',
@@ -1050,13 +1050,13 @@ Many players enhance the Fate Weaver experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ally',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'AC bonus lasts for rest of combat'
       },
 
@@ -1117,7 +1117,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'hearts-gamble',
       name: "Heart's Gamble",
-      icon: 'inv_valentinescard02',
+      icon: 'Social/Social',
       spellType: 'ACTION',
       effectTypes: ['damage', 'buff'],
       school: 'Evocation',
@@ -1198,7 +1198,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'war-of-wills',
       name: 'War of Wills',
-      icon: 'ability_warrior_battleshout',
+      icon: 'Utility/Powerful Warrior',
       spellType: 'ACTION',
       effectTypes: ['damage', 'healing'],
       school: 'Evocation',
@@ -1277,7 +1277,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'solitaires-shield',
       name: "Solitaire's Shield",
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       spellType: 'ACTION',
       effectTypes: ['healing', 'utility'],
       school: 'Abjuration',
@@ -1351,7 +1351,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'echo-of-fate',
       name: 'Echo of Fate',
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'Arcane/Ebon Blaze',
       spellType: 'ACTION',
       effectTypes: ['buff'],
       school: 'Divination',
@@ -1365,13 +1365,13 @@ Many players enhance the Fate Weaver experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ally',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30
       },
 
       durationConfig: {
-        durationType: 'next_spell',
+        durationType: 'rounds',
         description: 'Affects your next spell cast'
       },
 
@@ -1426,7 +1426,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fates-exchange',
       name: "Fate's Exchange",
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
       effectTypes: ['utility'],
       school: 'Conjuration',
@@ -1440,7 +1440,7 @@ Many players enhance the Fate Weaver experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ally',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -1481,7 +1481,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'echoes-of-the-past',
       name: 'Echoes of the Past',
-      icon: 'spell_holy_sealofwisdom',
+      icon: 'Psychic/Focused Mind',
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
       school: 'Divination',
@@ -1500,7 +1500,7 @@ Many players enhance the Fate Weaver experience with:
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'hour'
       },
@@ -1524,7 +1524,7 @@ Many players enhance the Fate Weaver experience with:
       buffConfig: {
         type: 'proficiency',
         target: 'self',
-        durationType: 'timed',
+        durationType: 'rounds',
         durationValue: 1,
         durationUnit: 'hour',
         grant: {
@@ -1550,7 +1550,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'destiny-bond',
       name: 'Destiny Bond',
-      icon: 'spell_holy_prayerofhealing',
+      icon: 'Healing/Prayer',
       spellType: 'ACTION',
       school: 'Necromancy',
       level: 4,
@@ -1563,13 +1563,13 @@ Many players enhance the Fate Weaver experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ally',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30
       },
 
       durationConfig: {
-        durationType: 'timed',
+        durationType: 'rounds',
         duration: 1,
         durationUnit: 'minute'
       },
@@ -1615,11 +1615,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Manipulate probability to ensure your next three attacks or spells automatically hit.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_madness',
+      icon: 'Psychic/Mental Chaos',
 
       typeConfig: {
         school: 'divination',
-        icon: 'inv_misc_ticket_tarot_madness',
+        icon: 'Psychic/Mental Chaos',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -1648,7 +1648,7 @@ Many players enhance the Fate Weaver experience with:
           description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)'
         }],
         durationValue: 3,
-        durationType: 'uses',
+        durationType: 'rounds',
         durationUnit: 'attacks'
       },
 
@@ -1666,11 +1666,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Draw five magical cards. If they form a poker hand, gain scaling effects based on the hand.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_vengeance',
+      icon: 'Slashing/Crossed Swords',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_ticket_tarot_vengeance',
+        icon: 'Slashing/Crossed Swords',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1729,11 +1729,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Rewrite destiny itself. Force a creature to reroll any roll and take the result you choose.',
       level: 5,
       spellType: 'REACTION',
-      icon: 'spell_holy_reverseentropy',
+      icon: 'Arcane/Rewind Time',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_reverseentropy',
+        icon: 'Arcane/Rewind Time',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1780,11 +1780,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Deal magical cards to all creatures in range. You choose who gets beneficial or harmful effects.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_ascension',
+      icon: 'Radiant/Divine Ascension',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'inv_misc_ticket_tarot_ascension',
+        icon: 'Radiant/Divine Ascension',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1849,11 +1849,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Draw cards trying to get as close to 21 as possible. Higher hands deal more damage, but bust deals damage to you.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_blessings',
+      icon: 'Radiant/Divine Blessing',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_ticket_tarot_blessings',
+        icon: 'Radiant/Divine Blessing',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1904,11 +1904,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Fold the fabric of reality like a deck of cards, teleporting yourself and allies to a seen location.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_arcane_portals',
+      icon: 'Arcane/Open Portal',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_portals',
+        icon: 'Arcane/Open Portal',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1966,11 +1966,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Impose your own rules on reality. For the next minute, dice work differently in your favor.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerinfusion',
+      icon: 'Radiant/Radiant Divinity',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_powerinfusion',
+        icon: 'Radiant/Radiant Divinity',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2014,11 +2014,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Go all in on a massive attack. Bet your own life force for devastating damage.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_burnout',
+      icon: 'Fire/Rising Inferno',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_fire_burnout',
+        icon: 'Fire/Rising Inferno',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2068,11 +2068,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Rewrite a recent event as if it never happened. Reverse one action taken in the last round.',
       level: 7,
       spellType: 'REACTION',
-      icon: 'spell_holy_reverseentropy',
+      icon: 'Arcane/Rewind Time',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_reverseentropy',
+        icon: 'Arcane/Rewind Time',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2117,17 +2117,17 @@ Many players enhance the Fate Weaver experience with:
       description: 'Draw the ultimate wild card. Roll on a table of powerful random effects.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_stack',
+      icon: 'Utility/Utility',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_ticket_tarot_stack',
+        icon: 'Utility/Utility',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'variable',
+        targetingType: 'smart',
         rangeType: 'ranged',
         rangeDistance: 120
       },
@@ -2141,7 +2141,7 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resolution: 'DICE',
-      effectTypes: ['variable'],
+      effectTypes: ['utility'],
 
       rollableTable: {
         diceFormula: '1d10',
@@ -2173,11 +2173,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Seal an enemy\'s fate. They cannot avoid the next attack or effect that targets them.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindtwisting',
+      icon: 'Psychic/Mind Roar',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_mindtwisting',
+        icon: 'Psychic/Mind Roar',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2229,11 +2229,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Double the effect of your next spell. Also doubles any negative consequences.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -2262,7 +2262,7 @@ Many players enhance the Fate Weaver experience with:
           description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects'
         }],
         durationValue: 1,
-        durationType: 'spell',
+        durationType: 'instant',
         durationUnit: 'spell'
       },
 
@@ -2283,11 +2283,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'The ultimate gamble. Flip a coin for each enemy in range. Heads eliminates them, tails fully heals them.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'inv_misc_coin_18',
+      icon: 'Utility/Utility',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'inv_misc_coin_18',
+        icon: 'Utility/Utility',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2334,11 +2334,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Become the master of fate itself. For 1 minute, you can set any die result to the number of your choice.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2385,11 +2385,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Hit the ultimate jackpot. Deal massive damage that multiplies based on matching dice.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2453,11 +2453,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Completely rewrite the destiny of one creature. Choose their fate: victory, defeat, or transformation.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_borrowedtime',
+      icon: 'Arcane/Rewind Time',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_borrowedtime',
+        icon: 'Arcane/Rewind Time',
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -2505,11 +2505,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Summon the legendary Deck of Many Things. Draw cards for incredibly powerful but unpredictable effects.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'inv_misc_ticket_tarot_stack',
+      icon: 'Utility/Utility',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'inv_misc_ticket_tarot_stack',
+        icon: 'Utility/Utility',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2528,7 +2528,7 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resolution: 'DICE',
-      effectTypes: ['variable'],
+      effectTypes: ['utility'],
 
       rollableTable: {
         diceFormula: '1d22',
@@ -2573,11 +2573,11 @@ Many players enhance the Fate Weaver experience with:
       description: 'Transform the battlefield into a grand casino. All attacks, spells, and abilities become gambles with chance-based outcomes.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
         school: 'illusion',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2599,7 +2599,7 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['zone', 'control'],
+      effectTypes: ['utility', 'control'],
 
       zoneConfig: {
         duration: 1,
@@ -2641,7 +2641,7 @@ Many players enhance the Fate Weaver experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'inv_misc_dice_01',
+        icon: 'Social/Dice Roll',
         tags: ['damage', 'buff', 'luck', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2708,7 +2708,7 @@ Many players enhance the Fate Weaver experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['debuff', 'fate', 'reroll', 'universal'],
         castTime: 1,
         castTimeType: 'REACTION'
@@ -2767,7 +2767,7 @@ Many players enhance the Fate Weaver experience with:
 
       typeConfig: {
         school: 'divination',
-        icon: 'inv_misc_coin_01',
+        icon: 'Utility/Utility',
         tags: ['buff', 'fortune', 'advantage', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2791,7 +2791,7 @@ Many players enhance the Fate Weaver experience with:
           }
         }],
         durationValue: 3,
-        durationType: 'rolls',
+        durationType: 'rounds',
         durationUnit: 'rolls',
         concentrationRequired: false,
         canBeDispelled: false

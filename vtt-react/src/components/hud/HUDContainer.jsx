@@ -103,7 +103,7 @@ const HUDContainer = () => {
     // Store data
     const { hudSettings, partyMembers } = usePartyStore();
     const { currentTarget } = useTargetingStore();
-    const { restOverlayOpen, restOverlayType, hideRestOverlay } = useGameStore();
+    const { restOverlayOpen, restOverlayType, restOverlayText, hideRestOverlay } = useGameStore();
 
     // Listen for character sheet open events from tokens
     useEffect(() => {
@@ -184,6 +184,7 @@ const HUDContainer = () => {
             <RestOverlay
                 isOpen={restOverlayOpen}
                 restType={restOverlayType}
+                customText={restOverlayText}
                 onClose={hideRestOverlay}
             />
 

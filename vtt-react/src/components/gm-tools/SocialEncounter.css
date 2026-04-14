@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700&family=Inter:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+@keyframes enc-shimmer { 
+    0% { background-position: 220% } 
+    100% { background-position: -220% } 
+}
+
+@keyframes enc-fade-in-up { 
+    from { opacity: 0; transform: translateY(18px) } 
+    to { opacity: 1; transform: translateY(0) } 
+}
+
+@keyframes enc-machine-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg) } 
+    10% { transform: translateX(-3px) rotate(-0.3deg) }
+    20% { transform: translateX(4px) rotate(0.4deg) } 
+    30% { transform: translateX(-4px) rotate(-0.3deg) }
+    40% { transform: translateX(3px) rotate(0.2deg) } 
+    50% { transform: translateX(-2px) rotate(-0.1deg) }
+    60% { transform: translateX(2px) rotate(0.1deg) } 
+    70% { transform: translateX(-1px) } 
+    80% { transform: translateX(1px) }
+}
+
+@keyframes enc-btn-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px #5a3810, 0 7px 24px rgba(120,70,10,0.5), inset 0 2px 0 rgba(255,235,120,0.35), inset 0 -2px 0 rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 0 0 2px #5a3810, 0 7px 32px rgba(220,160,50,0.8), inset 0 2px 0 rgba(255,250,180,0.6), inset 0 -2px 0 rgba(0,0,0,0.3); }
+}
+
+.enc-animate { 
+    animation: enc-fade-in-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; 
+}
+
+.enc-delay-1 { animation-delay: 100ms !important; } 
+.enc-delay-2 { animation-delay: 200ms !important; } 
+.enc-delay-3 { animation-delay: 300ms !important; }
+
+.enc-shake { 
+    animation: enc-machine-shake 0.55s ease-out !important; 
+}
+
+.enc-btn-spin:active { 
+    transform: translateY(4px) !important; 
+    box-shadow: none !important; 
+}
+
+.enc-btn-idle { 
+    box-shadow: 0 0 0 2px #5a3810, 0 7px 24px rgba(120,70,10,0.5), inset 0 2px 0 rgba(255,235,120,0.35), inset 0 -2px 0 rgba(0,0,0,0.3) !important; 
+}
+
+/* Custom Scrollbar for the Dossier */
+#gm-encounter-dossier {
+    scrollbar-width: thin;
+    scrollbar-color: #cda65a #f9f7f1;
+}
+
+#gm-encounter-dossier::-webkit-scrollbar {
+    width: 6px;
+}
+
+#gm-encounter-dossier::-webkit-scrollbar-track {
+    background: #f9f7f1;
+}
+
+#gm-encounter-dossier::-webkit-scrollbar-thumb {
+    background-color: #cda65a;
+    border-radius: 10px;
+}

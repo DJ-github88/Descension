@@ -414,7 +414,7 @@ Many players enhance the experience by adding thematic elements:
       {
         id: 'inferno',
         name: 'Inferno',
-        icon: 'spell_fire_fireball02',
+        icon: 'Fire/Swirling Fireball',
         color: '#FF4500',
         theme: 'Pure Destruction',
         
@@ -457,7 +457,7 @@ Many players enhance the experience by adding thematic elements:
       {
         id: 'wildfire',
         name: 'Wildfire',
-        icon: 'spell_fire_flameshock',
+        icon: 'Fire/Scorching Rune',
         color: '#FF8C00',
         theme: 'Spreading Chaos',
         
@@ -500,7 +500,7 @@ Many players enhance the experience by adding thematic elements:
       {
         id: 'hellfire',
         name: 'Hellfire',
-        icon: 'spell_shadow_shadowwordpain',
+        icon: 'Psychic/Mind Strike',
         color: '#8B0000',
         theme: 'Demonic Resilience',
         
@@ -621,11 +621,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'You channel a tiny fragment of demonic fire, feeling the infernal energy course through your veins as your Inferno Level rises. A small, malevolent spark forms at your fingertips—it glows with an unnatural red-orange light that seems to pulse with dark intent. When you launch it forward, the spark streaks through the air like a tiny comet, leaving a trail of black smoke in its wake. Upon impact, the spark doesn\'t just burn—it burrows into the target\'s flesh, where it continues to smolder and burn with demonic fire. The flames are persistent and hungry, refusing to be extinguished easily. Each time the fire flares up, it causes fresh pain as the demonic energy continues to consume the target from within.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_flamebolt',
+      icon: 'Fire/Flame Burst',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flamebolt',
+        icon: 'Fire/Flame Burst',
         tags: ['fire', 'damage', 'dot', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -640,7 +640,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 1 },
+        resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -648,27 +648,32 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Snap fingers together, a malevolent red-orange spark forming and launching forward'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d3',
-        elementType: 'fire',
-        damageType: 'direct',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 2,
+          enabled: true,
+          damagePerTick: '1d4',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '1d4',
-          isProgressiveDot: false,
-          description: 'The demonic spark continues to burn within the target\'s flesh, causing persistent pain as the infernal fire refuses to be extinguished. Each flare-up brings fresh agony as the dark flames consume tissue and spread deeper.'
-        },
-        description: 'The ember spark strikes with immediate heat, causing instant burns as it burrows into the target. The demonic fire feels different from normal flames—it burns with a cold heat that seems to consume the very essence of life.'
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
+        }
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 2,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'dot', 'starter']
@@ -680,11 +685,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Your hand glows with heat as you touch an enemy, dealing instant damage and leaving a lingering smolder.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_firebolt',
+      icon: 'Fire/Fire Bolt',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_firebolt',
+        icon: 'Fire/Fire Bolt',
         tags: ['fire', 'damage', 'touch', 'dot', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -698,7 +703,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 5, inferno_ascend: 1, inferno_required: 1 },
+        resourceValues: { mana: 5, inferno_ascend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -706,25 +711,32 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Touch with glowing hand'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d4 + intelligence/3',
-        elementType: 'fire',
-        damageType: 'direct',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 1,
+          enabled: true,
+          damagePerTick: '1',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '1',
-          isProgressiveDot: false
+          duration: 1,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'rounds'
+      },
+
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'touch', 'dot', 'starter']
@@ -736,11 +748,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. A basic spell perfect for quick attacks.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_sealoffire',
+        icon: 'Fire/Fiery Symbol',
         tags: ['fire', 'damage', 'starter'],
         castTime: 0,
         castTimeType: 'IMMEDIATE'
@@ -755,25 +767,24 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 2, inferno_ascend: 1, inferno_required: 1 },
+        resourceValues: { mana: 2, inferno_ascend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Flicker!'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d3 + intelligence/4',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'starter']
@@ -785,11 +796,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A calming spell that soothes the infernal fire raging within you. The cooling ember draws away excess heat, restoring your body and helping you maintain control over your demonic corruption. Essential for managing the dangerous power you wield.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_twilightflamebreath',
+      icon: 'Fire/Dragon Breath',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_twilightflamebreath',
+        icon: 'Fire/Dragon Breath',
         tags: ['fire', 'healing', 'utility', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -802,7 +813,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
-        resourceValues: { mana: 5, inferno_descend: 2, inferno_required: 1 },
+        resourceValues: { mana: 5, inferno_descend: 2, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -810,18 +821,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Place hand over heart'
       },
 
-      resolution: 'DICE',
       effectTypes: ['healing'],
 
       healingConfig: {
         formula: '1d6 + spirit/3',
         healingType: 'direct',
-        hasHotEffect: false
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'healing', 'utility', 'starter']
@@ -833,11 +843,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Create a barrier of heat around yourself. The shimmering air distorts vision as waves of heat radiate outward, absorbing and dispersing incoming attacks. The shield glows with inner fire, protecting you from harm.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['fire', 'buff', 'defensive', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -850,7 +860,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
-        resourceValues: { mana: 6, inferno_descend: 1, inferno_required: 1 },  // Heat Shield - minor descend
+        resourceValues: { mana: 6, inferno_descend: 1, inferno_required: 0 },  // Heat Shield - minor descend
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -858,7 +868,6 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Raise hands to create barrier'
       },
 
-      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -866,7 +875,8 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'heat_shield_damage_reduction',
           name: 'Heat Shield',
-          description: 'The heat shield absorbs and disperses incoming attacks, reducing the damage that reaches you. The shimmering barrier glows brighter as it absorbs more energy.',
+          description: '+2 Damage Reduction for 2 rounds. The heat shield absorbs and disperses incoming attacks, reducing the damage that reaches you.',
+          mechanicsText: '',
           statModifier: {
             stat: 'damage_reduction',
             magnitude: 2,
@@ -881,8 +891,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'buff', 'defensive', 'starter']
@@ -897,11 +907,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Flames envelop your hand as you reach for your enemy. The searing heat burns through armor and flesh on contact, leaving scorched marks where your hand touches. The fire clings to the target, continuing to burn.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_fire_flameshock',
+      icon: 'Fire/Scorching Rune',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flameshock',
+        icon: 'Fire/Scorching Rune',
         tags: ['fire', 'damage', 'touch'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -923,18 +933,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Grasp with burning hand'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d8 + intelligence/2',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'touch']
@@ -946,11 +955,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A whip of fire lashes out, pulling your enemy closer while burning them.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_fire_flare',
+      icon: 'Fire/Sun Symbol',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flare',
+        icon: 'Fire/Sun Symbol',
         tags: ['fire', 'damage', 'control'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -973,13 +982,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Whip hand forward'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
         formula: '1d6 + intelligence/3',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       controlConfig: {
@@ -1003,8 +1011,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'control']
@@ -1016,11 +1024,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A bolt of cinders that explodes on impact, dealing fire damage in a small area.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball',
+      icon: 'Fire/Swirling Fireball',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_fireball',
+        icon: 'Fire/Swirling Fireball',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1045,18 +1053,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Hurl cinder bolt'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d6 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1071,11 +1078,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A classic explosive ball of fire that detonates on impact, damaging all nearby enemies.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Fire/Swirling Fireball',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_fireball02',
+        icon: 'Fire/Swirling Fireball',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1100,13 +1107,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Hurl ball of flame'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1124,8 +1130,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1137,11 +1143,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A cone of fire erupts from your hands, scorching enemies in front of you.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_fire_flamebolt',
+      icon: 'Fire/Flame Burst',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flamebolt',
+        icon: 'Fire/Flame Burst',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1165,13 +1171,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Spread fingers wide'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d8 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         chanceOnHitConfig: {
           enabled: true,
           procType: 'dice',
@@ -1189,8 +1194,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1202,11 +1207,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Teleport a short distance in a burst of fire, leaving flames at your departure and arrival points.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_mage_firestarter',
+      icon: 'Fire/Burning Ember',
       
       typeConfig: {
         school: 'fire',
-        icon: 'ability_mage_firestarter',
+        icon: 'Fire/Burning Ember',
         tags: ['fire', 'utility', 'teleport'],
         castTime: 0,
         castTimeType: 'IMMEDIATE'
@@ -1226,11 +1231,10 @@ Many players enhance the experience by adding thematic elements:
         verbalText: 'Saltus Ignis!'
       },
 
-      resolution: 'DICE',
       effectTypes: ['utility', 'damage'],
 
       utilityConfig: {
-        utilityType: 'Teleport',
+        utilityType: 'movement',
         selectedEffects: [{
           id: 'teleport',
           name: 'Teleport',
@@ -1245,8 +1249,8 @@ Many players enhance the experience by adding thematic elements:
 
       damageConfig: {
         formula: '1d6',
-        elementType: 'fire',
-        damageType: 'area',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         triggerCondition: 'area_entry',
         triggerDescription: 'Creatures that enter or start their turn in flame areas take 1d6 fire damage',
         areaShape: 'circle',
@@ -1256,8 +1260,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
       tags: ['fire', 'utility', 'teleport']
@@ -1272,11 +1276,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A concentrated blast of demonic fire that erupts from your hands. The infernal energy burns with intense heat, searing through defenses and leaving nothing but ash in its wake. The blast is focused and devastating.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_fire_incinerate',
+      icon: 'Fire/Infernal Fire',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_incinerate',
+        icon: 'Fire/Infernal Fire',
         tags: ['fire', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1299,18 +1303,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Thrust palm forward'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '4d6 + intelligence * 1.5',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage']
@@ -1322,11 +1325,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A focused ray of intense heat that burns through your target.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_fire_flameshock',
+      icon: 'Fire/Scorching Rune',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flameshock',
+        icon: 'Fire/Scorching Rune',
         tags: ['fire', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1349,18 +1352,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Point finger'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d8 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage']
@@ -1372,14 +1374,19 @@ Many players enhance the experience by adding thematic elements:
       description: 'Surround yourself with an aura of heat that damages nearby enemies.',
       level: 4,
       spellType: 'CHANNELED',
-      icon: 'spell_fire_masterofelements',
+      icon: 'Fire/Fire Orb',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_masterofelements',
-        tags: ['fire', 'damage', 'buff'],
+        icon: 'Fire/Fire Orb',
+        tags: ['fire', 'damage', 'channeled'],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        maxChannelDuration: 3,
+        durationUnit: 'ROUNDS',
+        interruptible: true,
+        movementAllowed: true,
+        tickFrequency: 'START_OF_TURN'
       },
 
       targetingConfig: {
@@ -1397,26 +1404,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Spread arms wide'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
-
-      typeConfig: {
-        school: 'fire',
-        icon: 'spell_fire_masterofelements',
-        tags: ['fire', 'damage', 'channeled'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE',
-        maxChannelDuration: 3,
-        durationUnit: 'ROUNDS',
-        interruptible: true,
-        movementAllowed: true,
-        tickFrequency: 'START_OF_TURN'
-      },
 
       damageConfig: {
         formula: '1d6',
-        elementType: 'fire',
-        damageType: 'area',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         triggerCondition: 'area_entry',
         triggerDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns',
         areaShape: 'circle',
@@ -1431,8 +1424,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'buff']
@@ -1447,11 +1440,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A wave of hellish fire sweeps over your enemies, burning them intensely.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_sealoffire',
+        icon: 'Fire/Fiery Symbol',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1475,18 +1468,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Sweep arms forward'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '4d8 + intelligence * 1.5',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1498,11 +1490,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Engulf your target in flames that burn over time.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_immolation',
+      icon: 'Fire/Enveloping Fire',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_immolation',
+        icon: 'Fire/Enveloping Fire',
         tags: ['fire', 'damage', 'dot'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1525,25 +1517,26 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Clench fist'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d8 + intelligence/2',
-        elementType: 'fire',
-        damageType: 'dot',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 3,
+          enabled: true,
+          damagePerTick: '1d6 + intelligence/4',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '1d6 + intelligence/4',
-          isProgressiveDot: false
+          duration: 3,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'dot']
@@ -1555,11 +1548,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A whip of pure fire lashes out, dealing damage and potentially stunning your target.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_flare',
+      icon: 'Fire/Sun Symbol',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_flare',
+        icon: 'Fire/Sun Symbol',
         tags: ['fire', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1582,13 +1575,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Crack whip motion'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         chanceOnHitConfig: {
           enabled: true,
           procType: 'dice',
@@ -1612,8 +1604,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
       tags: ['fire', 'damage']
@@ -1628,11 +1620,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'A burst of molten lava erupts from the ground, dealing massive damage in an area.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_shaman_lavaburst',
+      icon: 'Fire/Dripping Lava',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_shaman_lavaburst',
+        icon: 'Fire/Dripping Lava',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1658,13 +1650,12 @@ Many players enhance the experience by adding thematic elements:
         materialComponents: 'A piece of volcanic rock'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '6d6 + intelligence * 2',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1682,8 +1673,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1695,11 +1686,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Create a swirling storm of fire that damages all enemies in a large area over time.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Fire/Swirling Fireball',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_fireball02',
+        icon: 'Fire/Swirling Fireball',
         tags: ['fire', 'damage', 'aoe', 'dot'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1724,25 +1715,26 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Raise arms and swirl'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d8 + intelligence',
-        elementType: 'fire',
-        damageType: 'dot',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 3,
+          enabled: true,
+          damagePerTick: '2d6 + intelligence/2',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '2d6 + intelligence/2',
-          isProgressiveDot: false
+          duration: 3,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
       tags: ['fire', 'damage', 'aoe', 'dot']
@@ -1754,11 +1746,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Mark your enemy with a burning brand that sears into their flesh. The infernal sigil glows with inner fire, continuing to burn and weaken them over time. The searing mark saps their strength as the flames consume them.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_sealoffire',
+        icon: 'Fire/Fiery Symbol',
         tags: ['fire', 'damage', 'dot', 'debuff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1781,28 +1773,30 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Draw burning sigil'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '1d4 + intelligence/3',
-        elementType: 'fire',
-        damageType: 'dot',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 4,
+          enabled: true,
+          damagePerTick: '2d6 + intelligence/2',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '2d6 + intelligence/2',
-          isProgressiveDot: false
+          duration: 4,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       debuffConfig: {
-        debuffType: 'statReduction',
+        debuffType: 'statPenalty',
         effects: [{
           id: 'weakened',
           name: 'Weakened',
           description: 'The target\'s physical power is diminished by the searing heat, making them weaker and less effective in combat. The infernal brand saps their strength as it burns.',
+          mechanicsText: '',
           statModifier: {
             stat: 'strength',
             magnitude: 2,
@@ -1816,8 +1810,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        cooldownType: 'turn_based',
+        cooldownValue: 0
       },
 
       tags: ['fire', 'damage', 'dot', 'debuff']
@@ -1832,11 +1826,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Cause the ground to erupt with volcanic fire, dealing massive damage in a large area.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_lavasplash',
+      icon: 'Fire/Flowing Lava',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_lavasplash',
+        icon: 'Fire/Flowing Lava',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1862,13 +1856,12 @@ Many players enhance the experience by adding thematic elements:
         materialComponents: 'Volcanic ash'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '8d6 + intelligence * 2.5',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1928,8 +1921,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -1941,11 +1934,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Breathe a cone of hellfire that incinerates everything in its path.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_fire_fire',
+      icon: 'Fire/Flame Burst',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_fire',
+        icon: 'Fire/Flame Burst',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1969,13 +1962,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Inhale deeply and exhale'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '6d8 + intelligence * 2',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1994,8 +1986,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -2007,11 +1999,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Channel demonic power to enhance your fire damage. Your connection to infernal flames intensifies, allowing you to deal +5 fire damage on all fire-based attacks for 5 rounds.',
       level: 7,
       spellType: 'CHANNELED',
-      icon: 'spell_shadow_demonictactics',
+      icon: 'Utility/Powerful Warrior',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_shadow_demonictactics',
+        icon: 'Utility/Powerful Warrior',
         tags: ['fire', 'buff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2032,7 +2024,6 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Clench fists and channel'
       },
 
-      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -2041,8 +2032,9 @@ Many players enhance the experience by adding thematic elements:
           id: 'fireDamageBoost',
           name: 'Fire Damage Boost',
           description: 'Fire damage increased by +5 for 5 rounds. All fire-based attacks deal additional damage as demonic power flows through your spells and abilities.',
+          mechanicsText: '',
           statModifier: {
-            stat: 'fireDamage',
+            stat: 'fire_spell_power',
             magnitude: 5,
             magnitudeType: 'flat'
           }
@@ -2055,8 +2047,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['fire', 'buff']
@@ -2071,11 +2063,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Summon a shower of flaming meteors from the sky. The meteors streak downward in a devastating rain of fire, crashing into the ground with explosive force. The impact creates waves of heat and flame that engulf everything in the area. On particularly devastating impacts, the meteors leave behind lingering flames and send enemies flying.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_fire_meteorstorm',
+      icon: 'Fire/Fiery Comet',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_meteorstorm',
+        icon: 'Fire/Fiery Comet',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2100,13 +2092,12 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Raise arms to the sky'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '8d6 + intelligence * 2.5',
-        elementType: 'fire',
-        damageType: 'direct',
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2128,8 +2119,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -2141,11 +2132,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Release a massive explosion of infernal fire in all directions.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
+      icon: 'Fire/Swirling Fireball',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_fireball02',
+        icon: 'Fire/Swirling Fireball',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2169,18 +2160,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Spread arms wide and explode'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '10d6 + intelligence * 3',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -2192,11 +2182,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Summon the essence of a phoenix, dealing massive fire damage and leaving burning ground.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_fire_burnout',
+      icon: 'Fire/Rising Inferno',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_burnout',
+        icon: 'Fire/Rising Inferno',
         tags: ['fire', 'damage', 'aoe', 'dot'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2221,25 +2211,26 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Summon phoenix gesture'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '6d10 + intelligence * 2',
-        elementType: 'fire',
-        damageType: 'dot',
-        hasDotEffect: true,
+        damageTypes: ['fire'],
+        resolution: 'DICE',
         dotConfig: {
-          duration: 4,
+          enabled: true,
+          damagePerTick: '3d6 + intelligence/2',
+          damageType: 'fire',
           tickFrequency: 'round',
-          dotFormula: '3d6 + intelligence/2',
-          isProgressiveDot: false
+          duration: 4,
+          canStack: false,
+          maxStacks: 1
         }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 6
+        cooldownType: 'turn_based',
+        cooldownValue: 6
       },
 
       tags: ['fire', 'damage', 'aoe', 'dot']
@@ -2254,11 +2245,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Transform into a being of pure fire, gaining immense power and immunity to fire damage.',
       level: 9,
       spellType: 'CHANNELED',
-      icon: 'spell_fire_elemental_totem',
+      icon: 'Fire/Fire Demon',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_elemental_totem',
+        icon: 'Fire/Fire Demon',
         tags: ['fire', 'transformation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2279,7 +2270,6 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Spread arms wide'
       },
 
-      resolution: 'NONE',
       effectTypes: ['transformation'],
 
       transformationConfig: {
@@ -2306,8 +2296,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 10
+        cooldownType: 'turn_based',
+        cooldownValue: 10
       },
 
       tags: ['fire', 'transformation']
@@ -2319,11 +2309,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Unleash the full power of demonic fire, creating a cataclysmic explosion that devastates everything.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_fire_selfdestruct',
+      icon: 'Utility/Explosive Detonation',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_selfdestruct',
+        icon: 'Utility/Explosive Detonation',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2348,18 +2338,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Raise arms and channel all power'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '12d10 + intelligence * 4',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 10
+        cooldownType: 'turn_based',
+        cooldownValue: 10
       },
 
       tags: ['fire', 'damage', 'aoe']
@@ -2371,11 +2360,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Perform a ritual that channels infernal power, dramatically increasing your fire damage for a short time.',
       level: 9,
       spellType: 'CHANNELED',
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         tags: ['fire', 'buff'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2397,7 +2386,6 @@ Many players enhance the experience by adding thematic elements:
         materialComponents: 'Demonic essence'
       },
 
-      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -2405,8 +2393,10 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'massiveFireBoost',
           name: 'Massive Fire Boost',
+          description: '+10 Fire Spell Power for 3 rounds. A ritual of infernal power dramatically surges through your fire magic.',
+          mechanicsText: '',
           statModifier: {
-            stat: 'fireDamage',
+            stat: 'fire_spell_power',
             magnitude: 10,
             magnitudeType: 'flat'
           }
@@ -2419,8 +2409,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 12
+        cooldownType: 'turn_based',
+        cooldownValue: 12
       },
 
       tags: ['fire', 'buff']
@@ -2435,11 +2425,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Teleport through hellfire, appearing in a burst of flames and dealing damage to nearby enemies.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'ability_mage_firestarter',
+      icon: 'Fire/Burning Ember',
       
       typeConfig: {
         school: 'fire',
-        icon: 'ability_mage_firestarter',
+        icon: 'Fire/Burning Ember',
         tags: ['fire', 'utility', 'teleport', 'damage'],
         castTime: 0,
         castTimeType: 'IMMEDIATE'
@@ -2459,23 +2449,26 @@ Many players enhance the experience by adding thematic elements:
         verbalText: 'Teleportatio Infernus!'
       },
 
-      resolution: 'DICE',
       effectTypes: ['utility', 'damage'],
 
       utilityConfig: {
-        utilityType: 'Teleport',
+        utilityType: 'movement',
         selectedEffects: [{
+          id: 'brimstone_teleport',
+          name: 'Brimstone Teleport',
+          description: 'Teleport up to 60 feet through hellfire, appearing in a burst of flames.',
+          mechanicsText: '',
           duration: 0,
-        durationUnit: 'instant',
-        concentration: false,
-        power: 'major'
+          durationUnit: 'instant',
+          concentration: false,
+          power: 'major'
         }]
       },
 
       damageConfig: {
         formula: '4d6 + intelligence * 1.5',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       triggerConfig: {
@@ -2497,8 +2490,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
       tags: ['fire', 'utility', 'teleport', 'damage']
@@ -2510,11 +2503,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Reach the pinnacle of demonic power, transforming into a true demon of fire with overwhelming power.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_elemental_totem',
+      icon: 'Fire/Fire Demon',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_elemental_totem',
+        icon: 'Fire/Fire Demon',
         tags: ['fire', 'buff', 'transformation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2535,7 +2528,6 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Channel ultimate power'
       },
 
-      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -2543,8 +2535,8 @@ Many players enhance the experience by adding thematic elements:
         effects: [{
           id: 'demonicAscension',
           name: 'Demonic Ascension',
-          description: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn',
-          customDescription: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.'
+          description: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.',
+          mechanicsText: ''
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2554,8 +2546,8 @@ Many players enhance the experience by adding thematic elements:
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 15
+        cooldownType: 'turn_based',
+        cooldownValue: 15
       },
 
       tags: ['fire', 'buff', 'transformation']
@@ -2567,11 +2559,11 @@ Many players enhance the experience by adding thematic elements:
       description: 'Master the art of infernal fire, unleashing a massive inferno that consumes everything in its path. This ultimate display of pyromantic power demonstrates complete control over flame, creating a cataclysmic explosion of fire that leaves nothing but ash and cinders.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_masterofelements',
+      icon: 'Fire/Fire Orb',
       
       typeConfig: {
         school: 'fire',
-        icon: 'spell_fire_masterofelements',
+        icon: 'Fire/Fire Orb',
         tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2596,18 +2588,17 @@ Many players enhance the experience by adding thematic elements:
         somaticText: 'Command all fire'
       },
 
-      resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '15d10 + intelligence * 5',
-        elementType: 'fire',
-        damageType: 'direct'
+        damageTypes: ['fire'],
+        resolution: 'DICE'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 12
+        cooldownType: 'turn_based',
+        cooldownValue: 12
       },
 
       tags: ['fire', 'damage', 'aoe']

@@ -745,7 +745,7 @@ Many players enhance the Inscriptor experience with:
       {
         id: 'runebinder',
         name: 'Runebinder',
-        icon: 'spell_arcane_arcaneorb',
+        icon: 'Arcane/Orb Manipulation',
         color: '#4169E1',
         theme: 'Battlefield Zone Control',
 
@@ -790,7 +790,7 @@ Many players enhance the Inscriptor experience with:
       {
         id: 'enchanter',
         name: 'Enchanter',
-        icon: 'spell_arcane_arcanetorrent',
+        icon: 'Arcane/Empowering Growth',
         color: '#6495ED',
         theme: 'Equipment Enhancement Master',
 
@@ -835,7 +835,7 @@ Many players enhance the Inscriptor experience with:
       {
         id: 'glyphweaver',
         name: 'Glyphweaver',
-        icon: 'spell_fire_selfdestruct',
+        icon: 'Utility/Explosive Detonation',
         color: '#DC143C',
         theme: 'Explosive Trap Master',
 
@@ -890,7 +890,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Rune of Destruction',
       description: 'Place a rune of destruction that radiates with fiery energy. The rune creates a zone of volatile magic where fire damage is amplified for both allies and enemies. When multiple runes are connected, the entire zone becomes a crucible of destruction, dramatically intensifying all fire damage.',
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
+      icon: 'Fire/Fiery Symbol',
       school: 'Evocation',
       level: 2,
 
@@ -900,7 +900,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeType: 'circle',
@@ -957,7 +957,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Rune of Vitality',
       description: 'Place a rune of vitality that pulses with healing energy. The rune creates a zone of restoration where wounds mend over time. When multiple runes are connected, the entire zone becomes a sanctuary of healing, dramatically increasing the restorative power.',
       spellType: 'ACTION',
-      icon: 'spell_holy_heal',
+      icon: 'Healing/Golden Heart',
       school: 'Abjuration',
       level: 2,
 
@@ -967,7 +967,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeType: 'circle',
@@ -1024,7 +1024,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Rune of Earth',
       description: 'Place a rune of earth that conjures a 5 ft pillar (30 HP). If connected to another rune, forms a wall up to 10 ft long and 15 ft high.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneclawtotem',
+      icon: 'Nature/Roots',
       school: 'Conjuration',
       level: 3,
 
@@ -1034,7 +1034,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeType: 'special',
@@ -1097,7 +1097,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Flame Inscription',
       description: 'Inscribe your weapon with the power of fire. The runic symbols glow with inner heat, causing the weapon to burn with magical flames. Each strike leaves trails of fire and scorches your enemies.',
       spellType: 'ACTION',
-      icon: 'spell_fire_flameblades',
+      icon: 'Fire/Flame Fist',
       school: 'Transmutation',
       level: 1,
 
@@ -1113,7 +1113,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1154,7 +1154,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Lightning Inscription',
       description: 'Inscribe your weapon with the power of lightning. Deals +1d6 lightning damage and has a 1-in-8 chance to stun (DC 15).',
       spellType: 'ACTION',
-      icon: 'spell_nature_lightning',
+      icon: 'Lightning/Lightning Bolt',
       school: 'Transmutation',
       level: 2,
 
@@ -1170,7 +1170,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1232,7 +1232,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Thorn Inscription',
       description: 'Inscribe your armor with the power of thorns. Attackers take 1d6 piercing damage whenever they hit you.',
       spellType: 'ACTION',
-      icon: 'spell_nature_thorns',
+      icon: 'Nature/Thorned Flower',
       school: 'Transmutation',
       level: 1,
 
@@ -1248,7 +1248,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1289,7 +1289,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Stone Skin Inscription',
       description: 'Inscribe your armor with the toughness of stone. Gain temporary HP equal to your Constitution modifier at the start of each turn.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneskintotem',
+      icon: 'Nature/Earth Shield',
       school: 'Transmutation',
       level: 2,
 
@@ -1305,7 +1305,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1348,7 +1348,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Flight Inscription',
       description: 'Inscribe your boots with the power of flight. Gain the ability to fly at 20 feet speed for 1 minute.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_levitate',
+      icon: 'Arcane/Channeling Stance',
       school: 'Transmutation',
       level: 2,
 
@@ -1407,7 +1407,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Blink Inscription',
       description: 'Inscribe your cape with teleportation magic. Gain the ability to teleport up to 30 feet for 1 AP.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       school: 'Transmutation',
       level: 3,
 
@@ -1423,7 +1423,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1464,7 +1464,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Camouflage Inscription',
       description: 'Inscribe your cape with the power of invisibility. Gain invisibility for 1 minute.',
       spellType: 'ACTION',
-      icon: 'ability_stealth',
+      icon: 'Utility/Hide',
       school: 'Illusion',
       level: 3,
 
@@ -1523,7 +1523,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Regeneration Inscription',
       description: 'Inscribe your belt with regenerative energy. Regain 1d4 hit points at the start of each turn.',
       spellType: 'ACTION',
-      icon: 'spell_nature_rejuvenation',
+      icon: 'Healing/Renewal',
       school: 'Transmutation',
       level: 2,
 
@@ -1539,7 +1539,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'combat',
+        durationType: 'rounds',
         description: 'Lasts until end of combat'
       },
 
@@ -1584,7 +1584,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Runic Explosion',
       description: 'Inscribe a rune on a surface that explodes when triggered, dealing 4d8 force damage in a 15-foot radius.',
       spellType: 'ACTION',
-      icon: 'spell_fire_selfdestruct',
+      icon: 'Utility/Explosive Detonation',
       school: 'Evocation',
       level: 3,
 
@@ -1594,7 +1594,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeType: 'circle',
@@ -1602,7 +1602,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       durationConfig: {
-        durationType: 'triggered',
+        durationType: 'rounds',
         description: 'Explodes when creature enters the space'
       },
 
@@ -1654,7 +1654,7 @@ Many players enhance the Inscriptor experience with:
       name: 'Inkbound Servant',
       description: 'Summon a servant made of magical ink that can assist you in combat or tasks. The servant has AC 12 and 10 hit points.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Psychic/Mind Control',
       school: 'Conjuration',
       level: 2,
 
@@ -1664,7 +1664,7 @@ Many players enhance the Inscriptor experience with:
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
       },
@@ -1725,7 +1725,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'inv_inscription_tarot_repose',
+        icon: 'Utility/Rest',
         tags: ['buff', 'support', 'inscription', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1785,7 +1785,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['control', 'damage'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_holyguidance',
+        icon: 'Radiant/Enlightened Vision',
         tags: ['control', 'damage', 'glyph', 'aoe', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1813,7 +1813,7 @@ Many players enhance the Inscriptor experience with:
         damageType: 'direct'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -1847,7 +1847,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['healing'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['protection', 'shield', 'rune', 'support', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1890,11 +1890,11 @@ Many players enhance the Inscriptor experience with:
       name: 'Sigil of Power',
       description: 'Place a sigil that empowers allies who stand within it.',
       level: 4,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_prismaticcloak',
+        icon: 'Arcane/Ebon Blaze',
         tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
@@ -1919,7 +1919,7 @@ Many players enhance the Inscriptor experience with:
         canBeDispelled: true
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -1954,7 +1954,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_fire_selfdestruct',
+        icon: 'Utility/Explosive Detonation',
         tags: ['damage', 'trap', 'rune', 'aoe', 'inscriptor'],
         placementTime: 1,
         visibility: 'magical',
@@ -1989,7 +1989,7 @@ Many players enhance the Inscriptor experience with:
         resetTime: 0
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         aoeShape: 'circle',
@@ -2024,7 +2024,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         tags: ['buff', 'enhancement', 'glyph', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2070,7 +2070,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_sealofprotection',
+        icon: 'Radiant/Radiant Golden Shield',
         tags: ['buff', 'protection', 'inscription', 'support', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2127,7 +2127,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Magical Sword',
         tags: ['damage', 'control', 'rune', 'aoe', 'inscriptor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2193,11 +2193,11 @@ Many players enhance the Inscriptor experience with:
       name: 'Sigil of Power (Greater)',
       description: 'Place a powerful sigil that greatly enhances allies within.',
       level: 6,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcanepotency',
+        icon: 'Arcane/Empowering Growth',
         tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor'],
         zoneDuration: 6,
         zoneDurationUnit: 'rounds',
@@ -2234,7 +2234,7 @@ Many players enhance the Inscriptor experience with:
         canBeDispelled: true
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
         aoeShape: 'circle',
@@ -2268,7 +2268,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff', 'utility'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_powerwordfortitude',
+        icon: 'Radiant/Radiant Light 1',
         tags: ['buff', 'utility', 'glyph', 'network', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2315,7 +2315,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcanetorrent',
+        icon: 'Arcane/Empowering Growth',
         tags: ['damage', 'rune', 'ancient', 'aoe', 'inscriptor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2347,7 +2347,7 @@ Many players enhance the Inscriptor experience with:
         }
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2378,11 +2378,11 @@ Many players enhance the Inscriptor experience with:
       name: 'Inscribed Fortress',
       description: 'Transform the battlefield into a fortress of protective inscriptions.',
       level: 7,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['buff', 'healing'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_innerfire',
+        icon: 'Radiant/Radiant Aura',
         tags: ['buff', 'healing', 'zone', 'fortress', 'inscriptor'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
@@ -2415,7 +2415,7 @@ Many players enhance the Inscriptor experience with:
         isProgressiveHot: false
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'square',
@@ -2449,7 +2449,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_holyprotection',
+        icon: 'Radiant/Radiant Golden Shield',
         tags: ['buff', 'enhancement', 'mastery', 'inscriptor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2496,7 +2496,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_holynova',
+        icon: 'Radiant/Bright Explosion',
         tags: ['damage', 'control', 'glyph', 'primordial', 'aoe', 'epic', 'inscriptor'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
@@ -2528,7 +2528,7 @@ Many players enhance the Inscriptor experience with:
           name: 'Stunned by Primordial Power',
           description: 'Target is stunned, unable to act or react for 3 rounds',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -2568,7 +2568,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_fire_fireball',
+        icon: 'Fire/Swirling Fireball',
         tags: ['damage', 'rune', 'aoe', 'detonation', 'epic', 'inscriptor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2621,7 +2621,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff', 'utility'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_greaterheal',
+        icon: 'Healing/Golden Heart',
         tags: ['buff', 'utility', 'inscription', 'permanent', 'epic', 'inscriptor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2665,11 +2665,11 @@ Many players enhance the Inscriptor experience with:
       name: 'Worldscript',
       description: 'Inscribe reality itself with runes that reshape the battlefield.',
       level: 9,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['buff', 'control', 'damage'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcane04',
+        icon: 'Arcane/Magical Sword',
         tags: ['buff', 'control', 'damage', 'zone', 'reality', 'legendary', 'inscriptor'],
         zoneDuration: 10,
         zoneDurationUnit: 'rounds',
@@ -2702,7 +2702,7 @@ Many players enhance the Inscriptor experience with:
         }
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 60 },
@@ -2736,7 +2736,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         tags: ['buff', 'passive', 'mastery', 'legendary', 'inscriptor'],
         toggleable: true
       },
@@ -2782,7 +2782,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_spiritualguidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['buff', 'eternal', 'inscription', 'legendary', 'inscriptor'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
@@ -2830,11 +2830,11 @@ Many players enhance the Inscriptor experience with:
       name: 'Omniscript',
       description: 'Inscribe the entire battlefield with omnipotent runes.',
       level: 10,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['damage', 'control', 'buff'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_arcane_arcane01',
+        icon: 'Arcane/Enchanted Sword',
         tags: ['damage', 'control', 'buff', 'zone', 'omnipotent', 'legendary', 'inscriptor'],
         zoneDuration: 15,
         zoneDurationUnit: 'rounds',
@@ -2866,7 +2866,7 @@ Many players enhance the Inscriptor experience with:
           name: 'Paralyzed by Omniscript',
           description: 'Target is paralyzed, unable to move or act for 5 rounds',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -2886,7 +2886,7 @@ Many players enhance the Inscriptor experience with:
         canBeDispelled: false
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 200 },
@@ -2920,7 +2920,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['summoning', 'utility'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         tags: ['summoning', 'utility', 'creation', 'legendary', 'inscriptor'],
         castTime: 10,
         castTimeType: 'IMMEDIATE'
@@ -2956,7 +2956,7 @@ Many players enhance the Inscriptor experience with:
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 100,
         aoeShape: 'circle',
@@ -2991,7 +2991,7 @@ Many players enhance the Inscriptor experience with:
       effectTypes: ['buff', 'utility'],
       typeConfig: {
         school: 'arcane',
-        icon: 'spell_holy_holybolt',
+        icon: 'Radiant/Radiant Bolt',
         tags: ['buff', 'utility', 'passive', 'universal', 'legendary', 'inscriptor'],
         toggleable: true
       },

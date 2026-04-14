@@ -782,7 +782,7 @@ Many players enhance the Lichborne experience with:
 
     sharedPassive: {
       name: 'Undying Frost',
-      icon: 'spell_frost_frostarmor02',
+      icon: 'Frost/Frozen in Ice',
       description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.'
     },
 
@@ -790,7 +790,7 @@ Many players enhance the Lichborne experience with:
       {
         id: 'frostbound_tyrant',
         name: 'Frostbound Tyrant',
-        icon: 'spell_frost_frostarmor',
+        icon: 'Frost/Frozen in Ice',
         color: '#4A90E2',
         description: 'Masters of freezing enemies and controlling the battlefield',
         theme: 'Control and crowd control through freezing',
@@ -841,7 +841,7 @@ Many players enhance the Lichborne experience with:
       {
         id: 'spectral_reaper',
         name: 'Spectral Reaper',
-        icon: 'spell_shadow_soulleech_3',
+        icon: 'Necrotic/Drain Soul',
         color: '#9370DB',
         description: 'Combines frost and necrotic damage for devastating hybrid attacks',
         theme: 'Frost/necrotic hybrid damage',
@@ -892,7 +892,7 @@ Many players enhance the Lichborne experience with:
       {
         id: 'phylactery_guardian',
         name: 'Phylactery Guardian',
-        icon: 'spell_frost_frozencore',
+        icon: 'Frost/Frost Manipulation',
         color: '#2D1B69',
         description: 'Enhanced phylactery mechanics and survivability',
         theme: 'Improved resurrection and HP management',
@@ -952,7 +952,7 @@ Many players enhance the Lichborne experience with:
       description: 'A spectral chill that deals damage and chills the target. If target is Frozen, deals additional damage.',
       category: 'basic_frost',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
+      icon: 'Frost/Ice Orb',
       school: 'Necromancy',
 
       resourceCost: {
@@ -1035,7 +1035,7 @@ Many players enhance the Lichborne experience with:
       description: 'Summon a spectral spear of ice that pierces through enemies, potentially freezing them.',
       category: 'freeze_control',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostblast',
+      icon: 'Frost/Frostbite Effect',
       school: 'Evocation',
 
       resourceCost: {
@@ -1113,7 +1113,7 @@ Many players enhance the Lichborne experience with:
       description: 'Emit a burst of cold energy, damaging and freezing nearby enemies.',
       category: 'freeze_control',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostnova',
+      icon: 'Frost/Frozen AoE',
       school: 'Evocation',
 
       resourceCost: {
@@ -1192,7 +1192,7 @@ Many players enhance the Lichborne experience with:
       description: 'Encase yourself in ice, reducing damage taken and chilling attackers.',
       category: 'utility_support',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostarmor',
+      icon: 'Frost/Frozen in Ice',
       school: 'Abjuration',
 
       resourceCost: {
@@ -1249,7 +1249,7 @@ Many players enhance the Lichborne experience with:
       description: 'Create a wall of ice that blocks movement and projectiles.',
       category: 'utility_support',
       spellType: 'ACTION',
-      icon: 'spell_frost_icewall',
+      icon: 'Frost/Icey wall',
       school: 'Conjuration',
 
       resourceCost: {
@@ -1309,7 +1309,7 @@ Many players enhance the Lichborne experience with:
       description: 'Summon a spinning orb of ice that damages and chills enemies in its path.',
       category: 'aoe_devastation',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt02',
+      icon: 'Frost/Frozen in Ice',
       school: 'Evocation',
 
       resourceCost: {
@@ -1396,7 +1396,7 @@ Many players enhance the Lichborne experience with:
       description: 'Call forth a storm of necrotic ice shards that rains down in a designated area.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
-      icon: 'spell_frost_icestorm',
+      icon: 'Frost/Frozen Wave',
       school: 'Necromancy',
 
       resourceCost: {
@@ -1479,7 +1479,7 @@ Many players enhance the Lichborne experience with:
       description: 'Inflict a painful frostbite on a target, causing damage and reducing their effectiveness in combat.',
       category: 'basic_frost',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostshock',
+      icon: 'Frost/Inflicted Ice Shard',
       school: 'Necromancy',
 
       resourceCost: {
@@ -1567,7 +1567,7 @@ Many players enhance the Lichborne experience with:
       description: 'Summon spikes of necrotic ice from the ground, impaling enemies and creating difficult terrain.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
-      icon: 'spell_deathknight_frostfever',
+      icon: 'Frost/Frostbite Effect',
       school: 'Necromancy',
 
       resourceCost: {
@@ -1656,7 +1656,7 @@ Many players enhance the Lichborne experience with:
       description: 'Release a chilling wind that damages and pushes back enemies.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
-      icon: 'spell_shadow_soulleech_3',
+      icon: 'Necrotic/Drain Soul',
       school: 'Necromancy',
 
       resourceCost: {
@@ -1742,7 +1742,7 @@ Many players enhance the Lichborne experience with:
       description: 'Place yourself or an ally in a protective ice block, healing and shielding them from harm.',
       category: 'utility_support',
       spellType: 'ACTION',
-      icon: 'spell_frost_frozencore',
+      icon: 'Frost/Frost Manipulation',
       school: 'Abjuration',
 
       resourceCost: {
@@ -1821,7 +1821,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostbolt02',
+        icon: 'Frost/Frozen in Ice',
         tags: ['attack', 'damage', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1885,7 +1885,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostarmor02',
+        icon: 'Frost/Frozen in Ice',
         tags: ['buff', 'defense', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1935,7 +1935,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_lifedrain',
+        icon: 'Necrotic/Drain Soul',
         tags: ['utility', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1980,7 +1980,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_iceshard',
+        icon: 'Frost/Ice Shards',
         tags: ['attack', 'damage', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2030,7 +2030,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_freezingbreath',
+        icon: 'Frost/Dripping Ice',
         tags: ['control', 'cold', 'stun', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2048,7 +2048,7 @@ Many players enhance the Lichborne experience with:
           name: 'Frozen',
           description: 'Target is frozen solid and cannot move or take actions for 1 round',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -2085,7 +2085,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostward',
+        icon: 'Frost/Icy Shield',
         tags: ['buff', 'defense', 'shield', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2142,7 +2142,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frozenorb',
+        icon: 'Frost/Ice Orb',
         tags: ['attack', 'damage', 'aoe', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2167,7 +2167,7 @@ Many players enhance the Lichborne experience with:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2201,7 +2201,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostblast',
+        icon: 'Frost/Frostbite Effect',
         tags: ['attack', 'damage', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2249,11 +2249,11 @@ Many players enhance the Lichborne experience with:
       name: 'Permafrost',
       description: 'Create an area of permanent ice that slows all enemies who enter.',
       level: 3,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['control', 'utility'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frost',
+        icon: 'Frost/Frozen in Ice',
         tags: ['control', 'terrain', 'cold', 'zone', 'lichborne'],
         zoneDuration: 3,
         zoneDurationUnit: 'rounds',
@@ -2277,7 +2277,7 @@ Many players enhance the Lichborne experience with:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2312,7 +2312,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostshock',
+        icon: 'Frost/Inflicted Ice Shard',
         tags: ['attack', 'damage', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2365,7 +2365,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['control', 'damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostnova',
+        icon: 'Frost/Frozen AoE',
         tags: ['control', 'damage', 'aoe', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2426,7 +2426,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['buff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antimagicshell',
+        icon: 'Necrotic/Protective Aura',
         tags: ['buff', 'defense', 'shield', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2474,7 +2474,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_icestorm',
+        icon: 'Frost/Frozen Wave',
         tags: ['channeled', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
         maxChannelDuration: 3,
         durationUnit: 'ROUNDS',
@@ -2512,7 +2512,7 @@ Many players enhance the Lichborne experience with:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2553,7 +2553,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['utility', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_icewall',
+        icon: 'Frost/Icey wall',
         tags: ['utility', 'control', 'terrain', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2571,7 +2571,7 @@ Many players enhance the Lichborne experience with:
         power: 'major'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'wall',
@@ -2605,7 +2605,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['utility', 'buff'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_iceshards',
+        icon: 'Frost/Ice Shards',
         tags: ['utility', 'buff', 'defense', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2656,7 +2656,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_glacier',
+        icon: 'Frost/Frozen Area',
         tags: ['attack', 'damage', 'chain', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2710,7 +2710,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostshock',
+        icon: 'Frost/Inflicted Ice Shard',
         tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2741,13 +2741,13 @@ Many players enhance the Lichborne experience with:
           name: 'Frozen Solid',
           description: 'Target is frozen solid and cannot take actions or reactions for 2 rounds',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2782,7 +2782,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['healing', 'utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_darkritual',
+        icon: 'Necrotic/Ritual',
         tags: ['healing', 'utility', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2829,11 +2829,11 @@ Many players enhance the Lichborne experience with:
       name: 'Eternal Winter',
       description: 'Summon an eternal winter storm that engulfs the battlefield.',
       level: 7,
-      spellType: 'ZONE',
+      spellType: 'STATE',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_icestorm',
+        icon: 'Frost/Frozen Wave',
         tags: ['damage', 'control', 'aoe', 'zone', 'cold', 'lichborne'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
@@ -2880,7 +2880,7 @@ Many players enhance the Lichborne experience with:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
         aoeShape: 'circle',
@@ -2915,7 +2915,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostbolt',
+        icon: 'Frost/Ice Orb',
         tags: ['control', 'multi-target', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2971,7 +2971,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'necrotic',
         secondaryElement: 'frost',
-        icon: 'spell_shadow_deathanddecay',
+        icon: 'Necrotic/Necrotic Death',
         tags: ['attack', 'damage', 'necrotic', 'cold', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -3017,7 +3017,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_frostbolt02',
+        icon: 'Frost/Frozen in Ice',
         tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -3053,7 +3053,7 @@ Many players enhance the Lichborne experience with:
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 100,
         aoeShape: 'circle',
@@ -3088,7 +3088,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_icewall',
+        icon: 'Frost/Icey wall',
         tags: ['control', 'single-target', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -3106,7 +3106,7 @@ Many players enhance the Lichborne experience with:
           name: 'Frozen Tomb',
           description: 'Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'save_or_break'
           }
         }]
@@ -3145,7 +3145,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         secondaryElement: 'necrotic',
-        icon: 'spell_frost_frostarmor',
+        icon: 'Frost/Frozen in Ice',
         tags: ['buff', 'damage', 'aura', 'cold', 'necrotic', 'lichborne'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -3212,7 +3212,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_arcticwinds',
+        icon: 'Frost/Frozen Wave',
         tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'epic', 'lichborne'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -3243,13 +3243,13 @@ Many players enhance the Lichborne experience with:
           name: 'Frozen by Ice Age',
           description: 'Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'save'
           }
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 150,
         aoeShape: 'circle',
@@ -3285,7 +3285,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'necrotic',
         secondaryElement: 'frost',
-        icon: 'spell_shadow_shadesofdarkness',
+        icon: 'Void/Consumed by Void',
         tags: ['buff', 'transformation', 'phylactery', 'epic', 'lichborne'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -3364,7 +3364,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'necrotic',
         secondaryElement: 'frost',
-        icon: 'spell_shadow_shadowwordpain',
+        icon: 'Psychic/Mind Strike',
         tags: ['attack', 'damage', 'aoe', 'necrotic', 'cold', 'phylactery', 'epic', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -3411,7 +3411,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['control'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_freezing',
+        icon: 'Frost/Frost Freeze 1',
         tags: ['control', 'aoe', 'cold', 'time', 'legendary', 'lichborne'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -3429,7 +3429,7 @@ Many players enhance the Lichborne experience with:
           name: 'Time Frozen',
           description: 'All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -3469,7 +3469,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['utility', 'buff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'spell_shadow_antimagicshell',
+        icon: 'Necrotic/Protective Aura',
         tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne'],
         toggleable: true
       },
@@ -3527,7 +3527,7 @@ Many players enhance the Lichborne experience with:
       effectTypes: ['damage', 'control', 'utility'],
       typeConfig: {
         school: 'frost',
-        icon: 'spell_frost_wizardmark',
+        icon: 'Frost/Ice Crystal Rune',
         tags: ['attack', 'damage', 'control', 'terrain', 'cold', 'legendary', 'lichborne'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
@@ -3558,7 +3558,7 @@ Many players enhance the Lichborne experience with:
           name: 'World Freeze',
           description: 'All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.',
           config: {
-            durationType: 'extended',
+            durationType: 'hours',
             recoveryMethod: 'save'
           }
         }]
@@ -3576,7 +3576,7 @@ Many players enhance the Lichborne experience with:
         power: 'major'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 200 },

@@ -641,7 +641,7 @@ When you cross a Rage State threshold, announce it dramatically:
       {
         id: 'savage',
         name: 'Savage',
-        icon: 'ability_warrior_intensifyrage',
+        icon: 'Utility/Empowered Warrior',
         color: '#8B0000',
         theme: 'Relentless Aggression',
         
@@ -677,7 +677,7 @@ When you cross a Rage State threshold, announce it dramatically:
       {
         id: 'juggernaut',
         name: 'Juggernaut',
-        icon: 'ability_warrior_shieldmastery',
+        icon: 'Utility/Shield',
         color: '#4169E1',
         theme: 'Immovable Force',
 
@@ -713,7 +713,7 @@ When you cross a Rage State threshold, announce it dramatically:
       {
         id: 'warlord',
         name: 'Warlord',
-        icon: 'ability_warrior_battleshout',
+        icon: 'Utility/Powerful Warrior',
         color: '#DAA520',
         theme: 'Tactical Fury',
         
@@ -761,11 +761,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'You channel the first stirrings of your inner fury into a devastating melee attack. As you swing, you can feel the rage building within you—a heat that starts in your chest and spreads through your arms, making every muscle burn with power. The strike itself is deceptively simple, but it carries the weight of your growing fury. With each successful hit, you feel the beast within you grow stronger, hungrier. Your vision begins to tinge red at the edges, and you can hear your own heartbeat thundering in your ears. This is the foundation of your power—every swing is a step closer to unleashing the full force of your rage.',
       level: 1,
       spellType: 'ACTION',
-      icon: 'ability_warrior_savageblow',
+      icon: 'Slashing/Cross Slash',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_savageblow',
+        icon: 'Slashing/Cross Slash',
         tags: ['melee', 'damage', 'rage_generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -809,11 +809,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Brace yourself in an unbreakable defensive posture. Your fury hardens your resolve, turning every attack against you into fuel for your rage. Only one stance can be active at a time.',
       level: 1,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_defensivestance',
+      icon: 'Utility/Deflecting Shield',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_defensivestance',
+        icon: 'Utility/Deflecting Shield',
         tags: ['defense', 'buff', 'rage_generation', 'stance', 'toggleable', 'starter'],
         toggleable: true
       },
@@ -874,11 +874,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Plunge deep into your primal fury, awakening the beast within. Your attacks become more ferocious, and every strike feeds the growing storm of rage inside you. Only one stance can be active at a time.',
       level: 1,
       spellType: 'PASSIVE',
-      icon: 'ability_warrior_bloodbath',
+      icon: 'Slashing/Bloody Slash',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_bloodbath',
+        icon: 'Slashing/Bloody Slash',
         tags: ['buff', 'rage_generation', 'damage', 'stance', 'toggleable', 'starter'],
         toggleable: true
       },
@@ -944,11 +944,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your rage has reached the Frenzied state, and now the beast within you breaks free. Your vision completely tints red, and the world narrows to nothing but your target. You unleash a whirlwind of savage strikes, each one faster and more brutal than the last. Your weapon becomes an extension of your fury, moving with impossible speed as you strike again and again. The strikes are not controlled—they are pure, unadulterated violence, driven by the primal need to destroy. Blood sprays with each hit, and you can feel the rage surging through your veins like liquid fire. On critical hits, the force of your fury is so overwhelming that it sends enemies flying backward, their bodies unable to withstand the raw power of your unleashed rage.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_cleave',
+      icon: 'Slashing/Cleave',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_cleave',
+        icon: 'Slashing/Cleave',
         tags: ['melee', 'damage', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1015,11 +1015,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'You draw in a massive breath, feeling your rage build in your chest like a gathering storm. When you unleash your war cry, your voice becomes something more than human—it is the thunder of charging hordes, the roar of ancient beasts, the battle hymn of warriors long dead. The sound is so powerful it creates visible shockwaves in the air, and enemies within range are physically battered by the concussive force of your voice. Your allies feel their own fighting spirit ignite, their blood heating with the same primal fury that drives you. The war cry doesn\'t just inspire—it transforms, turning fear into courage and hesitation into action. The very air seems to vibrate with your fury, and for a moment, everyone within earshot shares in your rage.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_warcry',
+      icon: 'Utility/Overlords Command',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_warcry',
+        icon: 'Utility/Overlords Command',
         tags: ['buff', 'aoe', 'support', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1094,11 +1094,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your hunger becomes something primal and insatiable. As you strike your foe, you don\'t just damage them—you drink deep of their life essence, feeling their vitality flow into you like a dark river. The sensation is intoxicating: with each drop of blood spilled, you feel your own wounds close, your muscles strengthen, and your rage burn brighter. Your weapon seems to pulse with dark energy as it tears into flesh, and you can actually see the life force being drawn from your enemy, visible as a red mist that flows into your body. The more damage you deal, the more you heal, creating a vicious cycle of destruction and renewal. On critical hits, the life drain is so powerful that it visibly weakens your enemy, their movements becoming sluggish as their vitality is consumed.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'spell_shadow_lifedrain',
+      icon: 'Necrotic/Drain Soul',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_lifedrain',
+        icon: 'Necrotic/Drain Soul',
         tags: ['healing', 'self_sustain', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1175,11 +1175,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Flood your body with adrenaline, gaining an extra action point immediately.',
       level: 2,
       spellType: 'ACTION',
-      icon: 'ability_rogue_sprint',
+      icon: 'Utility/Speed Boot',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_rogue_sprint',
+        icon: 'Utility/Speed Boot',
         tags: ['buff', 'speed', 'rage_management', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1238,11 +1238,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'The ancient fury of your ancestors erupts in a deafening roar that shakes the earth and breaks the spirit. Enemies within range are battered by thunderous force and flee in terror from the awakening beast.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_warrior_warcry',
+      icon: 'Utility/Overlords Command',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_warcry',
+        icon: 'Utility/Overlords Command',
         tags: ['aoe', 'damage', 'control', 'primal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1311,11 +1311,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'The ancient blood of predators courses through your veins, awakening regenerative powers that mend your wounds with primal fury. Your very life force becomes a weapon of endurance.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'spell_shadow_lifedrain',
+      icon: 'Necrotic/Drain Soul',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_lifedrain',
+        icon: 'Necrotic/Drain Soul',
         tags: ['healing', 'hot', 'self_sustain', 'primal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1375,11 +1375,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Leap through the air with primal fury, crashing down on enemies in a devastating impact that stuns those caught in the blast.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_heroicleap',
+      icon: 'Utility/Upward Jump',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_heroicleap',
+        icon: 'Utility/Upward Jump',
         tags: ['movement', 'damage', 'aoe', 'primal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1447,11 +1447,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Charge forward with unstoppable momentum, plowing through enemies and knocking them aside with overwhelming force.',
       level: 3,
       spellType: 'ACTION',
-      icon: 'ability_warrior_charge',
+      icon: 'Utility/Dash',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_charge',
+        icon: 'Utility/Dash',
         tags: ['movement', 'damage', 'control', 'primal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1526,11 +1526,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Carnage incarnate flows through your veins as you unleash a strike of apocalyptic violence. The battlefield becomes your slaughterhouse, where every swing paints the ground red and leaves your enemies broken and bleeding.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_warrior_decisivestrike',
+      icon: 'Slashing/Sword Strike',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_decisivestrike',
+        icon: 'Slashing/Sword Strike',
         tags: ['melee', 'damage', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1613,11 +1613,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your fury becomes a shield. Gain resistance to all damage and regenerate Rage when attacked.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_warrior_shieldwall',
+      icon: 'Utility/Shield',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_shieldwall',
+        icon: 'Utility/Shield',
         tags: ['defense', 'resistance', 'buff', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1683,11 +1683,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your terrifying aura causes enemies to flee and allies to fight harder.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'spell_shadow_deathscream',
+      icon: 'Necrotic/Screaming Skull',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_deathscream',
+        icon: 'Necrotic/Screaming Skull',
         tags: ['control', 'aoe', 'fear', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1745,11 +1745,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Enter a trance-like state of perfect combat awareness, where time seems to slow and every movement becomes predictable. Your heightened reflexes allow you to dodge attacks with supernatural precision.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'ability_warrior_focusedrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_focusedrage',
+        icon: 'General/Rage',
         tags: ['buff', 'dodge', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1808,11 +1808,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Gather the destructive force of a collapsing star in your fist and unleash it upon your foe. The impact can shatter stone, crumple armor, and leave even the mightiest warriors stunned and broken.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'ability_warrior_titansgrip',
+      icon: 'Bludgeoning/Mortal Strike',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_titansgrip',
+        icon: 'Bludgeoning/Mortal Strike',
         tags: ['melee', 'damage', 'control', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1870,7 +1870,7 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Cataclysmic Impact',
           description: 'Target is stunned by the devastating blow',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }],
@@ -1895,11 +1895,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your rage makes you immune to all conditions and forced movement for one round.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_nature_shamanrage',
+      icon: 'General/Fiery Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_nature_shamanrage',
+        icon: 'General/Fiery Rage',
         tags: ['buff', 'immunity', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1952,11 +1952,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'A powerful shout that rallies allies and demoralizes enemies for 2 rounds. Allies gain +2 attack bonus, enemies must save or suffer -2 attack penalty.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'ability_warrior_commandingshout',
+      icon: 'Utility/Powerful Warrior',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_commandingshout',
+        icon: 'Utility/Powerful Warrior',
         tags: ['buff', 'debuff', 'aoe', 'support', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2034,11 +2034,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Explode with uncontrollable fury, damaging all nearby enemies but risking self-harm.',
       level: 5,
       spellType: 'ACTION',
-      icon: 'spell_fire_volcano',
+      icon: 'Fire/Volcanic Erupt',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_fire_volcano',
+        icon: 'Fire/Volcanic Erupt',
         tags: ['aoe', 'damage', 'self_damage', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2096,11 +2096,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'The culmination of your rage erupts in a cataclysmic explosion of pure destructive force. Reality itself warps around your strike as you channel the entropy of a dying universe. Must be used immediately or risk Overheat.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'ability_warrior_rampage',
+      icon: 'Utility/Empowered Warrior',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_rampage',
+        icon: 'Utility/Empowered Warrior',
         tags: ['aoe', 'damage', 'ultimate', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2176,11 +2176,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'The ultimate expression of fury, channeling the full power of your rage into every strike for 3 rounds. Gain +5 damage bonus and advantage on all attack rolls.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'ability_warrior_innerrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_innerrage',
+        icon: 'General/Rage',
         tags: ['buff', 'advantage', 'damage', 'ultimate', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2236,11 +2236,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Make a last stand against overwhelming odds for 2 rounds, becoming nearly invincible but unable to move.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'ability_warrior_laststand',
+      icon: 'Utility/Resistance',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_laststand',
+        icon: 'Utility/Resistance',
         tags: ['buff', 'invulnerability', 'ultimate'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2300,11 +2300,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Embrace the full power of your fury, transforming into an unstoppable force of destruction. Your body swells with primal energy, your muscles bulge with supernatural strength, and your eyes burn with pure rage.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_nature_bloodlust',
+      icon: 'General/Fiery Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_nature_bloodlust',
+        icon: 'General/Fiery Rage',
         tags: ['transformation', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2371,11 +2371,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'The spirits of ancient berserkers possess your form as you transform into a living cyclone of primal fury. Blades of ancestral rage whirl around you, tearing through flesh and bone, leaving only devastation in your wake.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
+      icon: 'Slashing/Whirl',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_bladestorm',
+        icon: 'Slashing/Whirl',
         tags: ['aoe', 'damage', 'movement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2449,11 +2449,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Enter a blood-fueled frenzy, healing 20 hit points for each enemy you defeat. Your bloodlust becomes a source of life-giving energy.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_shadow_bloodboil',
+      icon: 'Necrotic/Blood Skull',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_bloodboil',
+        icon: 'Necrotic/Blood Skull',
         tags: ['buff', 'healing'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2513,12 +2513,12 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Unleash apocalyptic rage that shatters the earth and consumes everything in flames.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_fire_ragnaros_lavabolt',
+      icon: 'Fire/Dripping Lava',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_fire_ragnaros_lavabolt',
-        tags: ['aoe', 'damage', 'destruction'],
+        icon: 'Fire/Dripping Lava',
+        tags: ['aoe', 'damage', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2563,7 +2563,7 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Apocalyptic Shock',
           description: 'Enemies are stunned by the apocalyptic force',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }],
@@ -2579,7 +2579,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 7
       },
 
-      tags: ['aoe', 'damage', 'destruction', 'obliteration', 'berserker']
+      tags: ['aoe', 'damage', 'damage', 'obliteration', 'berserker']
     },
 
     {
@@ -2588,11 +2588,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_deathscream',
+      icon: 'Necrotic/Screaming Skull',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_deathscream',
+        icon: 'Necrotic/Screaming Skull',
         tags: ['buff', 'immortality'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2645,11 +2645,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Tear open a rift to another dimension, pulling enemies through and dealing chaotic damage.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_arcane_portalironforge',
+      icon: 'Arcane/Portal Archway',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_arcane_portalironforge',
+        icon: 'Arcane/Portal Archway',
         tags: ['aoe', 'damage', 'control'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2724,11 +2724,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Channel all your accumulated fury into a devastating ground-shaking impact. The sheer violence of the attack strains your body as much as it devastates your enemies.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_arcane_starfire',
+      icon: 'Arcane/Missile',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_arcane_starfire',
+        icon: 'Arcane/Missile',
         tags: ['aoe', 'damage', 'primal', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2805,11 +2805,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Draw upon years of brutal combat experience, hardening your strikes with deadly precision for 3 rounds. This focused fury demands you remain aggressive - if you do not attack on your turn, the effect ends immediately.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'ability_warrior_endlessrage',
+      icon: 'General/Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_endlessrage',
+        icon: 'General/Rage',
         tags: ['buff', 'damage', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2865,12 +2865,12 @@ When you cross a Rage State threshold, announce it dramatically:
       name: 'Bloodrage Frenzy',
       description: 'Toggle a blood-soaked frenzy where every wound you inflict heals your body. The longer you maintain this savage state, the more it exhausts you - each round increases the toll taken when you finally emerge.',
       level: 9,
-      spellType: 'TOGGLE',
-      icon: 'spell_shadow_bloodboil',
+      spellType: 'STATE',
+      icon: 'Necrotic/Blood Skull',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_bloodboil',
+        icon: 'Necrotic/Blood Skull',
         tags: ['buff', 'healing', 'lifesteal', 'toggle', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE',
@@ -2934,11 +2934,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Release every ounce of accumulated rage in a devastating explosion of primal violence. The sheer force of the attack takes a severe toll on your body - you emerge victorious but badly shaken.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_fire_meteorstorm',
+      icon: 'Fire/Fiery Comet',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_fire_meteorstorm',
+        icon: 'Fire/Fiery Comet',
         tags: ['aoe', 'damage', 'ultimate', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2997,11 +2997,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Become a living engine of war, your every movement optimized for destruction. This state of perfect violence demands total commitment - you cannot retreat or defend, only attack.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'ability_warrior_bloodnova',
+      icon: 'Bludgeoning/Blood Punch',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'ability_warrior_bloodnova',
+        icon: 'Bludgeoning/Blood Punch',
         tags: ['transformation', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -3066,11 +3066,11 @@ When you cross a Rage State threshold, announce it dramatically:
       description: 'Reach the absolute pinnacle of berserker rage - a state of pure, unthinking violence that few warriors ever achieve. The transformation is overwhelming, leaving you temporarily drained when it ends.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
+      icon: 'General/Fiery Rage',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_shadow_unholyfrenzy',
+        icon: 'General/Fiery Rage',
         tags: ['transformation', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

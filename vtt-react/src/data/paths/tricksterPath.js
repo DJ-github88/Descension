@@ -6,7 +6,7 @@ export const TRICKSTER_PATH = {
     overview: 'Tricksters live by their wits and charm, using cunning and deception to navigate the world. Whether through sleight of hand, clever words, or elaborate schemes, they always find a way to come out ahead.',
     
     mechanicalBenefits: [
-        { name: 'Quick Reflexes', description: '+2 to initiative rolls', type: 'passive' }
+        { name: 'Quick Reflexes', description: '+2 to Initiative Rolls', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -33,7 +33,7 @@ export const TRICKSTER_PATH = {
             id: 'cunning_instincts',
             name: 'Cunning Instincts',
             description: '"I always see it coming." Your honed instincts grant you enhanced awareness and make you difficult to surprise or deceive.',
-            icon: 'ability_rogue_quickrecovery',
+            icon: 'Psychic/Mind Radiance',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'perception', 'initiative', 'deception'],
@@ -42,7 +42,7 @@ export const TRICKSTER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'ability_rogue_quickrecovery',
+                icon: 'Psychic/Mind Radiance',
                 tags: ['passive', 'perception', 'initiative', 'deception']
             },
 
@@ -62,9 +62,9 @@ export const TRICKSTER_PATH = {
                     {
                         id: 'silver_tongue',
                         name: 'Silver Tongue',
-                        description: 'You have advantage on Deception and Insight checks. Your quick wit makes you hard to fool.',
+                        description: 'Your quick wit and street-smarts help you anticipate danger. You have advantage on Deception and Insight checks.',
                         statModifier: {
-                            stat: 'deception',
+                            stat: 'dodge',
                             magnitude: 2,
                             magnitudeType: 'flat'
                         }
@@ -91,7 +91,7 @@ export const TRICKSTER_PATH = {
             id: 'evasive_maneuver',
             name: 'Evasive Maneuver',
             description: '"You missed!" When targeted by an attack, use your quick reflexes to dodge and reposition, reducing damage and moving to safety.',
-            icon: 'ability_rogue_feint',
+            icon: 'Utility/Ducking Figure',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'defensive', 'mobility', 'evasion'],
@@ -100,7 +100,7 @@ export const TRICKSTER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'ability_rogue_feint',
+                icon: 'Utility/Ducking Figure',
                 tags: ['reaction', 'defensive', 'mobility', 'evasion']
             },
 
@@ -166,7 +166,7 @@ export const TRICKSTER_PATH = {
             },
 
             resourceCost: {
-                actionPoints: 0
+                actionPoints: 1
             },
 
             cooldownConfig: {
@@ -184,7 +184,7 @@ export const TRICKSTER_PATH = {
             id: 'shadow_step',
             name: 'Shadow Step',
             description: '"Now you see me..." Teleport through shadows to any location you can see within 60 feet that is in dim light or darkness.',
-            icon: 'ability_rogue_shadowstep',
+            icon: 'Utility/Hide',
             level: 1,
             spellType: 'ACTION',
             tags: ['action', 'utility', 'teleport', 'shadow', 'mobility'],
@@ -193,7 +193,7 @@ export const TRICKSTER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'ability_rogue_shadowstep',
+                icon: 'Utility/Hide',
                 tags: ['action', 'utility', 'teleport', 'shadow', 'mobility']
             },
 
@@ -251,7 +251,7 @@ export const TRICKSTER_PATH = {
                     id: 'shadow_step',
                     name: 'Shadow Step',
                     description: '"Now you see me..." Teleport through shadows to a nearby location.',
-                    icon: 'ability_rogue_shadowstep',
+                    icon: 'Utility/Hide',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['utility', 'teleport', 'shadow', 'mobility'],

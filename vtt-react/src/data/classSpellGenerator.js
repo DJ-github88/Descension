@@ -211,7 +211,7 @@ const SPELL_ARCHETYPES = {
       }
     },
     targetingConfig: {
-      targetingType: 'aoe',
+      targetingType: 'area',
       aoeType: 'cone',
       aoeSize: 30,
       range: 30,

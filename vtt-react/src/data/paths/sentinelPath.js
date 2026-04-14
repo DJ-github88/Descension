@@ -6,7 +6,7 @@ export const SENTINEL_PATH = {
     overview: 'Sentinels are stalwart defenders who stand between danger and those they protect. They excel at absorbing damage, controlling the battlefield, and keeping allies safe.',
     
     mechanicalBenefits: [
-        { name: 'Unwavering', description: 'Advantage on saves against being moved or knocked prone', type: 'passive' }
+        { name: 'Vigilance', description: '+2 to Constitution', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -33,7 +33,7 @@ export const SENTINEL_PATH = {
             id: 'unwavering_stance',
             name: 'Unwavering Stance',
             description: '"I will not be moved." Your training as a guardian grants you unshakeable stability and enhanced defensive capabilities.',
-            icon: 'ability_warrior_defensivestance',
+            icon: 'Utility/Deflecting Shield',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'defense', 'stability', 'protection'],
@@ -42,7 +42,7 @@ export const SENTINEL_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_defensivestance',
+                icon: 'Utility/Deflecting Shield',
                 tags: ['passive', 'defense', 'stability', 'protection']
             },
 
@@ -54,8 +54,8 @@ export const SENTINEL_PATH = {
                         name: 'Immovable',
                         description: 'You have advantage on saving throws against being moved, pushed, or knocked prone. You cannot be forcibly moved against your will.',
                         statModifier: {
-                            stat: 'stability',
-                            magnitude: 5,
+                            stat: 'armor',
+                            magnitude: 2,
                             magnitudeType: 'flat'
                         }
                     },
@@ -91,7 +91,7 @@ export const SENTINEL_PATH = {
             id: 'intercept',
             name: 'Intercept',
             description: '"Get behind me!" When an ally within 10 feet is attacked, throw yourself in the way, taking the hit instead.',
-            icon: 'ability_warrior_safeguard',
+            icon: 'Utility/Golden Shield',
             level: 1,
             spellType: 'REACTION',
             tags: ['reaction', 'defensive', 'protection', 'ally'],
@@ -100,7 +100,7 @@ export const SENTINEL_PATH = {
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_safeguard',
+                icon: 'Utility/Golden Shield',
                 tags: ['reaction', 'defensive', 'protection', 'ally']
             },
 
@@ -110,11 +110,11 @@ export const SENTINEL_PATH = {
                     {
                         id: 'intercept_damage',
                         name: 'Intercept Damage',
-                        description: 'You take the damage instead of your ally. The damage is reduced by 5 (flat reduction) due to your prepared stance.',
+                        description: 'You take the damage instead of your ally. The intercepted damage is reduced by a roll of 1d4 × 25% of the damage taken.',
                         statModifier: {
                             stat: 'damage_reduction',
-                            magnitude: 5,
-                            magnitudeType: 'flat'
+                            magnitudeType: 'dice',
+                            formula: '1d4 × 25% damage taken'
                         }
                     }
                 ],
@@ -156,7 +156,9 @@ export const SENTINEL_PATH = {
             },
 
             resourceCost: {
-                actionPoints: 0
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 10 },
+                actionPoints: 1
             },
 
             cooldownConfig: {
@@ -171,17 +173,17 @@ export const SENTINEL_PATH = {
         {
             id: 'shield_wall',
             name: 'Shield Wall',
-            description: '"None shall pass!" Raise your shield in a defensive stance, gaining +5 armor and 10 damage reduction for 6 rounds.',
-            icon: 'ability_warrior_shieldwall',
+            description: '"None shall pass!" Raise your shield in a defensive stance, reducing all incoming damage by 50%. Lasts for 6 rounds or until you have absorbed level × 4d8 damage. While channeling, you cannot attack.',
+            icon: 'Utility/Bound Shield',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['action', 'buff', 'defense', 'shield', 'damage-reduction'],
+            spellType: 'CHANNELED',
+            tags: ['channeled', 'buff', 'defense', 'shield', 'damage-reduction'],
             effectTypes: ['buff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'physical',
-                icon: 'ability_warrior_shieldwall',
+                icon: 'Utility/Bound Shield',
                 tags: ['action', 'buff', 'defense', 'shield', 'damage-reduction']
             },
 
@@ -191,13 +193,19 @@ export const SENTINEL_PATH = {
                     {
                         id: 'shield_wall',
                         name: 'Shield Wall',
-                        description: 'Gain +5 armor and 10 damage reduction (flat) for 6 rounds. Your movement speed is reduced by half while in this stance.'
+                        description: 'Reduce all incoming damage by 50%. Lasts for 6 rounds or until level × 4d8 damage has been absorbed. While channeling, you cannot attack or cast other spells.',
+                        statModifier: {
+                            stat: 'damage_reduction',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
                     }
                 ],
                 durationValue: 6,
                 durationType: 'rounds',
                 durationUnit: 'rounds',
-                canBeDispelled: false
+                canBeDispelled: false,
+                concentration: true
             },
 
             targetingConfig: {
@@ -228,7 +236,7 @@ export const SENTINEL_PATH = {
             id: 'taunt',
             name: 'Taunt',
             description: '"Face me!" Force enemies to attack you instead of allies.',
-            icon: 'spell_nature_reincarnation',
+                    icon: 'Utility/Overlords Command',
             level: 1,
             spellType: 'ACTION',
             tags: ['control', 'taunt', 'aggro', 'forced'],
@@ -306,7 +314,7 @@ export const SENTINEL_PATH = {
             id: 'last_stand',
             name: 'Last Stand',
             description: '"Not while I draw breath!" When health drops critically low, become unkillable temporarily.',
-            icon: 'ability_warrior_defensivestance',
+            icon: 'Utility/Steadfast Bulwark',
             level: 2,
             spellType: 'REACTION',
             tags: ['defensive', 'survival', 'reaction', 'immortal'],
@@ -424,7 +432,7 @@ export const SENTINEL_PATH = {
                     id: 'shield_wall',
                     name: 'Shield Wall',
                     description: '"None shall pass!" Raise your shield, massively increasing your defenses.',
-                    icon: 'ability_warrior_shieldwall',
+                    icon: 'Utility/Bound Shield',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['buff', 'defense', 'shield', 'damage-reduction'],
@@ -515,7 +523,7 @@ export const SENTINEL_PATH = {
                     id: 'taunt',
                     name: 'Taunt',
                     description: '"Face me, coward!" Force enemies to attack you instead of your allies.',
-                    icon: 'spell_nature_reincarnation',
+            icon: 'Utility/Overlords Command',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'taunt', 'control', 'threat'],
@@ -596,7 +604,7 @@ export const SENTINEL_PATH = {
             icon: 'fas fa-hands-helping',
 
             mechanicalBenefits: [
-                { name: 'Guardian', description: 'Allies within 10 feet gain +1 armor', type: 'passive' }
+                { name: 'Shield Ally', description: 'Reduce damage taken by adjacent allies by 2', type: 'passive' }
             ],
 
             abilities: [
@@ -604,7 +612,7 @@ export const SENTINEL_PATH = {
                     id: 'guardian_angel',
                     name: 'Guardian Angel',
                     description: '"I\'ve got you!" Intercept an attack meant for an ally.',
-                    icon: 'spell_holy_guardianspirit',
+                    icon: 'Radiant/Divine Blessing',
                     level: 2,
                     spellType: 'REACTION',
                     tags: ['protection', 'intercept', 'ally-save', 'selfless'],
@@ -689,7 +697,7 @@ export const SENTINEL_PATH = {
                     id: 'sacrifice',
                     name: 'Sacrifice',
                     description: '"Take me instead!" Redirect all damage from an ally to yourself for a short time.',
-                    icon: 'spell_holy_sealofsacrifice',
+                    icon: 'Radiant/Radiant Divinity',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['protection', 'sacrifice', 'redirect', 'ally-save'],
@@ -776,7 +784,7 @@ export const SENTINEL_PATH = {
                     id: 'lockdown',
                     name: 'Lockdown',
                     description: '"You\'re not going anywhere!" Root enemies in place around you.',
-                    icon: 'spell_frost_chainsofice',
+                    icon: 'Utility/Paralyzed',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'control', 'root', 'aoe'],
@@ -850,7 +858,7 @@ export const SENTINEL_PATH = {
                     id: 'unbreakable',
                     name: 'Unbreakable',
                     description: '"I will not fall!" Become immune to crowd control effects.',
-                    icon: 'spell_holy_ardentdefender',
+                    icon: 'Radiant/Radiant Golden Shield',
                     level: 2,
                     spellType: 'ACTION',
                     tags: ['buff', 'immunity', 'crowd-control', 'defensive'],

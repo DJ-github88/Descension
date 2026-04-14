@@ -591,7 +591,7 @@ START: Always New Moon
     
     sharedPassive: {
       name: 'Lunar Empowerment',
-      icon: 'spell_nature_starfall',
+      icon: 'Arcane/Star Trail Path',
       description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.'
     },
 
@@ -599,7 +599,7 @@ START: Always New Moon
       {
         id: 'moonlight-sentinel',
         name: 'Moonlight Sentinel',
-        icon: 'ability_hunter_sentinelowl',
+        icon: 'Nature/Owl',
         color: '#C0C0C0',
         theme: 'Precision Archer',
         
@@ -631,14 +631,14 @@ START: Always New Moon
           {
             name: 'Lunar Precision',
             tier: 'Specialization Passive',
-            icon: 'ability_hunter_mastermarksman',
+            icon: 'Piercing/On the Mark',
             description: 'Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.',
             uniqueTo: 'Moonlight Sentinel'
           },
           {
             name: "Sentinel's Mark",
             tier: 'Specialization Ability',
-            icon: 'ability_hunter_markedfordeath',
+            icon: 'Piercing/Targeted Strike',
             description: 'When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.',
             uniqueTo: 'Moonlight Sentinel'
           }
@@ -654,7 +654,7 @@ START: Always New Moon
       {
         id: 'starfall-invoker',
         name: 'Starfall Invoker',
-        icon: 'spell_arcane_starfire',
+        icon: 'Arcane/Missile',
         color: '#4B0082',
         theme: 'Celestial Bombardment',
         
@@ -686,14 +686,14 @@ START: Always New Moon
           {
             name: 'Celestial Cascade',
             tier: 'Specialization Passive',
-            icon: 'spell_nature_starfall',
+            icon: 'Arcane/Star Trail Path',
             description: 'Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.',
             uniqueTo: 'Starfall Invoker'
           },
           {
             name: 'Stellar Guidance',
             tier: 'Specialization Passive',
-            icon: 'spell_arcane_arcane04',
+            icon: 'Arcane/Magical Sword',
             description: 'During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.',
             uniqueTo: 'Starfall Invoker'
           }
@@ -709,7 +709,7 @@ START: Always New Moon
       {
         id: 'moonwell-guardian',
         name: 'Moonwell Guardian',
-        icon: 'spell_holy_elunesgrace',
+        icon: 'Nature/Ethereal Bird',
         color: '#20B2AA',
         theme: 'Lunar Healer',
         
@@ -741,14 +741,14 @@ START: Always New Moon
           {
             name: "Elune's Grace",
             tier: 'Specialization Passive',
-            icon: 'spell_holy_holyprotection',
+            icon: 'Radiant/Radiant Golden Shield',
             description: 'Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.',
             uniqueTo: 'Lunar Guardian'
           },
           {
             name: 'Lunar Sanctuary',
             tier: 'Specialization Passive',
-            icon: 'spell_holy_prayerofhealing02',
+            icon: 'Healing/Prayer',
             description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 AC. This bonus is lost if you move more than 15 feet away from them.',
             uniqueTo: 'Lunar Guardian'
           }
@@ -772,7 +772,7 @@ START: Always New Moon
       name: 'Lunar Arrow',
       description: 'Fire an arrow infused with moonlight. The arrow glows with the power of the current lunar phase, its intensity and properties shifting with the moon\'s cycle. In New Moon, it strikes from shadows with deadly precision. In Waxing Moon, it burns brighter. In Full Moon, it becomes a beacon of radiant destruction. In Waning Moon, it costs less to cast as the moon\'s power wanes.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_sentinelowl',
+      icon: 'Nature/Owl',
       school: 'Evocation',
       level: 1,
       specialization: 'moonlight-sentinel',
@@ -825,7 +825,7 @@ START: Always New Moon
       name: "Sentinel's Shot",
       description: 'Fire an arrow that strikes with unerring accuracy, leaving a glowing mark on your target. The mark pulses with lunar energy, making the target vulnerable to your next spell. The mark\'s power intensifies during Full Moon, lasting longer and amplifying your magic more effectively.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Targeted Strike',
       school: 'Evocation',
       level: 3,
       specialization: 'moonlight-sentinel',
@@ -894,7 +894,7 @@ START: Always New Moon
       name: 'Moonfire Barrage',
       description: 'Unleash a volley of moonfire-infused arrows that rain down on multiple targets.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_rapidkilling',
+      icon: 'Piercing/Rapid Arrows',
       school: 'Evocation',
       level: 5,
       specialization: 'moonlight-sentinel',
@@ -959,7 +959,7 @@ START: Always New Moon
       name: 'Starfall',
       description: 'Call down a shower of falling stars that crash into a target area, dealing radiant damage to all enemies within.',
       spellType: 'ACTION',
-      icon: 'spell_nature_starfall',
+      icon: 'Arcane/Star Trail Path',
       school: 'Evocation',
       level: 2,
       specialization: 'starfall-invoker',
@@ -1033,7 +1033,7 @@ START: Always New Moon
       name: 'Celestial Beam',
       description: 'Channel a concentrated beam of celestial energy in a line, dealing radiant damage. Targets must save or be blinded for 1 round.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_starfire',
+      icon: 'Arcane/Missile',
       school: 'Evocation',
       level: 4,
       specialization: 'starfall-invoker',
@@ -1128,7 +1128,7 @@ START: Always New Moon
       name: 'Lunar Eclipse',
       description: 'Channel the power of both the New Moon and Full Moon simultaneously, creating a perfect balance of light and shadow. The eclipse grants you both the defensive power of the New Moon and the offensive might of the Full Moon, while a radiant aura of lunar energy surrounds you, burning enemies who come too close.',
       spellType: 'ACTION',
-      icon: 'spell_nature_nullifydisease',
+      icon: 'Healing/Cure Within',
       school: 'Transmutation',
       level: 6,
       specialization: 'starfall-invoker',
@@ -1194,7 +1194,7 @@ START: Always New Moon
       name: 'Moonwell',
       description: 'Create a sacred pool of lunar energy that heals all allies who stand within it.',
       spellType: 'ACTION',
-      icon: 'spell_holy_elunesgrace',
+      icon: 'Nature/Ethereal Bird',
       school: 'Conjuration',
       level: 2,
       specialization: 'moonwell-guardian',
@@ -1265,7 +1265,7 @@ START: Always New Moon
       name: 'Lunar Blessing',
       description: 'Bestow a protective shield of lunar energy upon an ally, absorbing incoming damage.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       school: 'Abjuration',
       level: 3,
       specialization: 'moonwell-guardian',
@@ -1325,7 +1325,7 @@ START: Always New Moon
       name: "Elune's Grace",
       description: 'Channel the moon goddess\'s blessing to heal an ally and cleanse them of harmful effects.',
       spellType: 'ACTION',
-      icon: 'spell_holy_holyprotection',
+      icon: 'Radiant/Radiant Golden Shield',
       school: 'Evocation',
       level: 5,
       specialization: 'moonwell-guardian',
@@ -1390,7 +1390,7 @@ START: Always New Moon
       name: 'Phase Shift',
       description: 'Manually shift to any lunar phase of your choice, resetting the natural cycle.',
       spellType: 'ACTION',
-      icon: 'spell_nature_timestop',
+      icon: 'Arcane/Rewind Time',
       school: 'Transmutation',
       level: 1,
       specialization: 'universal',
@@ -1444,7 +1444,7 @@ START: Always New Moon
       name: 'Moonbeam',
       description: 'Create a beam of moonlight that follows a target, dealing damage that changes based on your current phase.',
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing02',
+      icon: 'Healing/Prayer',
       school: 'Evocation',
       level: 3,
       specialization: 'universal',
@@ -1514,7 +1514,7 @@ START: Always New Moon
       name: 'Lunar Cycle',
       description: 'Rapidly cycle through all four lunar phases in sequence, gaining brief benefits from each.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
+      icon: 'Arcane/Magical Sword',
       school: 'Transmutation',
       level: 4,
       specialization: 'universal',
@@ -1574,12 +1574,12 @@ START: Always New Moon
       description: 'Fire a volley of moonlight arrows that rain down on enemies in a wide area.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcanetorrent',
+      icon: 'Arcane/Empowering Growth',
       specialization: 'moonlight-sentinel',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_arcanetorrent',
+        icon: 'Arcane/Empowering Growth',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1631,18 +1631,18 @@ START: Always New Moon
       description: 'Detonate a star above enemies, dealing massive damage and blinding those who fail their save.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
+      icon: 'Radiant/Radiant Glow',
       specialization: 'starfall-invoker',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_surgeoflight',
+        icon: 'Radiant/Radiant Glow',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 90,
         aoeShape: 'circle',
@@ -1697,12 +1697,12 @@ START: Always New Moon
       description: 'Create a surge of healing moonlight that washes over your allies. The silver light flows like liquid, mending wounds and cleansing their bodies of harmful effects. The healing continues to pulse through them, restoring vitality over time as the moonlight\'s power lingers.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_holy_holynova',
+      icon: 'Radiant/Bright Explosion',
       specialization: 'moonwell-guardian',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holynova',
+        icon: 'Radiant/Bright Explosion',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1760,12 +1760,12 @@ START: Always New Moon
       description: 'Fire an arrow that phases through all obstacles and enemies, dealing damage to everything in its path.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       specialization: 'universal',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1810,12 +1810,12 @@ START: Always New Moon
       description: 'Summon a constellation that fires beams of starlight at multiple targets simultaneously.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
+      icon: 'Arcane/Magical Sword',
       specialization: 'starfall-invoker',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_arcane04',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1861,12 +1861,12 @@ START: Always New Moon
       description: 'Create a barrier of eclipse energy that absorbs damage and reflects attacks.',
       level: 8,
       spellType: 'REACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
       specialization: 'moonwell-guardian',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1925,12 +1925,12 @@ START: Always New Moon
       description: 'Call down a rain of moonfire that scorches the battlefield. The sky fills with streaks of silver-white fire that crash down in a devastating deluge. The moonfire continues to burn on the ground, creating a zone of radiant destruction that lingers and continues to damage those caught within.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_nature_starfall',
+      icon: 'Arcane/Star Trail Path',
       specialization: 'moonlight-sentinel',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_starfall',
+        icon: 'Arcane/Star Trail Path',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -1989,12 +1989,12 @@ START: Always New Moon
       description: 'Enter a state of perfect celestial archery, making every shot count.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_elunesgrace',
+      icon: 'Nature/Ethereal Bird',
       specialization: 'universal',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_elunesgrace',
+        icon: 'Nature/Ethereal Bird',
         castTime: 1,
         castTimeType: 'BONUS'
       },
@@ -2043,12 +2043,12 @@ START: Always New Moon
       description: 'Invoke the full power of the full moon to massively empower all allies.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
       specialization: 'moonwell-guardian',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2110,12 +2110,12 @@ START: Always New Moon
       description: 'Transform into an avatar of the moon itself, gaining godlike power over moonlight and shadows.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerinfusion',
+      icon: 'Radiant/Radiant Divinity',
       specialization: 'universal',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_powerinfusion',
+        icon: 'Radiant/Radiant Divinity',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2170,12 +2170,12 @@ START: Always New Moon
       description: 'Fire the ultimate arrow - a bolt of pure moonlight that annihilates everything in its path.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
+      icon: 'Radiant/Divine Blessing',
       specialization: 'moonlight-sentinel',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_holy_holysmite',
+        icon: 'Radiant/Divine Blessing',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2226,18 +2226,18 @@ START: Always New Moon
       description: 'Create an eternal moonwell that pulses with lunar energy. The sacred pool glows with silver light, continuously healing allies who stand within its radiance while burning enemies with the same divine power. The moonwell persists throughout the entire combat, becoming a permanent fixture of healing and destruction.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_nature_tranquility',
+      icon: 'Healing/Heart Ripple',
       specialization: 'moonwell-guardian',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_nature_tranquility',
+        icon: 'Healing/Heart Ripple',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -2254,7 +2254,7 @@ START: Always New Moon
       },
 
       resolution: 'DICE',
-      effectTypes: ['zone', 'healing', 'damage'],
+      effectTypes: ['utility', 'healing', 'damage'],
 
       zoneConfig: {
         duration: 0,
@@ -2300,7 +2300,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_starfall',
+        icon: 'Arcane/Star Trail Path',
         tags: ['damage', 'radiant', 'moonlight', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2348,7 +2348,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'restoration',
-        icon: 'spell_holy_prayerofhealing',
+        icon: 'Healing/Prayer',
         tags: ['healing', 'blessing', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2397,7 +2397,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_nature_moonkey',
+        icon: 'Nature/Ethereal Bird',
         tags: ['utility', 'teleport', 'movement', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2450,7 +2450,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_nature_abolishmagic',
+        icon: 'Arcane/Magical Cross Emblem 2',
         tags: ['damage', 'radiant', 'crescent', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2499,7 +2499,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_frost_stun',
+        icon: 'Frost/Confused',
         tags: ['control', 'restrain', 'moonlight', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2559,7 +2559,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'restoration',
-        icon: 'spell_nature_starfall',
+        icon: 'Arcane/Star Trail Path',
         tags: ['healing', 'aoe', 'full-moon', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2608,7 +2608,7 @@ START: Always New Moon
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_shadow_twilight',
+        icon: 'Void/Consumed by Void',
         tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

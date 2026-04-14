@@ -746,7 +746,7 @@ Many players enhance the Spellguard experience with:
       {
         id: 'arcane_warden',
         name: 'Arcane Warden',
-        icon: 'spell_holy_powerwordshield',
+        icon: 'Force/Force Shield',
         color: '#4169E1',
         theme: 'Defensive Tank',
 
@@ -774,13 +774,13 @@ Many players enhance the Spellguard experience with:
         passiveAbility: {
           name: 'Arcane Absorption',
           description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
-          icon: 'spell_arcane_prismaticcloak'
+          icon: 'Arcane/Ebon Blaze'
         },
 
         specPassive: {
           name: 'Arcane Fortitude',
           description: 'Your absorption is enhanced. Gain 1.5x AEP for every point of magical damage absorbed (3 AEP per damage instead of 2). Additionally, while you have an active shield, gain +2 armor and +10% to all resistances.',
-          icon: 'spell_holy_devotionaura'
+          icon: 'Radiant/Divine Blessing'
         },
 
         keyAbilities: [
@@ -793,7 +793,7 @@ Many players enhance the Spellguard experience with:
       {
         id: 'spell_breaker',
         name: 'Spell Breaker',
-        icon: 'spell_holy_dispelmagic',
+        icon: 'Arcane/Magical Cross Emblem 2',
         color: '#9370DB',
         theme: 'Disruption Specialist',
 
@@ -821,13 +821,13 @@ Many players enhance the Spellguard experience with:
         passiveAbility: {
           name: 'Arcane Absorption',
           description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
-          icon: 'spell_arcane_prismaticcloak'
+          icon: 'Arcane/Ebon Blaze'
         },
 
         specPassive: {
           name: 'Spell Reflection Mastery',
           description: 'Whenever you successfully reflect a spell, gain +5 AEP. Additionally, reflected spells deal 25% increased damage. Your Reflective Barrier and Spell Reflection abilities have their cooldowns reduced by 1 turn.',
-          icon: 'spell_holy_dispelmagic'
+          icon: 'Arcane/Magical Cross Emblem 2'
         },
 
         keyAbilities: [
@@ -840,7 +840,7 @@ Many players enhance the Spellguard experience with:
       {
         id: 'mana_reaver',
         name: 'Mana Reaver',
-        icon: 'spell_shadow_manafeed',
+        icon: 'Arcane/Orb Manipulation',
         color: '#8B008B',
         theme: 'Offensive Drain',
 
@@ -868,13 +868,13 @@ Many players enhance the Spellguard experience with:
         passiveAbility: {
           name: 'Arcane Absorption',
           description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
-          icon: 'spell_arcane_prismaticcloak'
+          icon: 'Arcane/Ebon Blaze'
         },
 
         specPassive: {
           name: 'Mana Vampirism',
           description: 'Your melee attacks drain 2x mana (double the damage dealt). Additionally, for every 10 mana drained, your next melee attack deals +1d6 arcane damage (stacks up to 5 times). Empowered Strike and Arcane Strike cost -5 AEP.',
-          icon: 'spell_shadow_manafeed'
+          icon: 'Arcane/Orb Manipulation'
         },
 
         keyAbilities: [
@@ -894,7 +894,7 @@ Many players enhance the Spellguard experience with:
       name: 'Arcane Shield',
       description: 'Create a shield of absorbed arcane energy that protects you from incoming damage. The shield absorbs damage and grants bonus armor.',
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Force/Force Shield',
       school: 'Abjuration',
       level: 1,
 
@@ -965,7 +965,7 @@ Many players enhance the Spellguard experience with:
       name: 'Reflective Barrier',
       description: 'Create a barrier that reflects the next spell cast at you back at the caster. The reflected spell deals full damage and uses the original caster\'s spell save DC.',
       spellType: 'REACTION',
-      icon: 'spell_holy_dispelmagic',
+      icon: 'Arcane/Magical Cross Emblem 2',
       school: 'Abjuration',
       level: 2,
 
@@ -1022,7 +1022,7 @@ Many players enhance the Spellguard experience with:
       name: 'Barrier of Protection',
       description: 'Create a protective barrier around all allies within range. The arcane energy forms shimmering shields that envelop each ally, absorbing incoming damage and protecting them from harm. The barriers pulse with protective magic.',
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing',
+      icon: 'Healing/Prayer',
       school: 'Abjuration',
       level: 3,
 
@@ -1086,7 +1086,7 @@ Many players enhance the Spellguard experience with:
       name: 'Empowered Strike',
       description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional arcane damage. The strike also drains additional mana from the target.',
       spellType: 'ACTION',
-      icon: 'ability_warrior_innerrage',
+      icon: 'General/Rage',
       school: 'Evocation',
       level: 1,
 
@@ -1147,7 +1147,7 @@ Many players enhance the Spellguard experience with:
       name: 'Arcane Nova',
       description: 'Release stored arcane energy in a devastating burst around you. The accumulated magical power explodes outward in a wave of pure arcane force, damaging enemies and disrupting their spellcasting. The burst leaves a lingering field that weakens magical attacks.',
       spellType: 'ACTION',
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Magical Sword',
       school: 'Evocation',
       level: 4,
 
@@ -1218,7 +1218,7 @@ Many players enhance the Spellguard experience with:
       name: 'Arcane Strike',
       description: 'Channel massive arcane energy into your weapon for a devastating melee strike. Deals heavy arcane damage and silences the target for 1 turn.',
       spellType: 'ACTION',
-      icon: 'spell_holy_blessingofstrength',
+      icon: 'Radiant/Radiant Warrior',
       school: 'Evocation',
       level: 3,
 
@@ -1282,7 +1282,7 @@ Many players enhance the Spellguard experience with:
       name: 'Arcane Rejuvenation',
       description: 'Convert absorbed arcane energy into healing power. Heal yourself or an ally, restoring hit points based on your stored AEP.',
       spellType: 'ACTION',
-      icon: 'spell_holy_heal',
+      icon: 'Healing/Golden Heart',
       school: 'Abjuration',
       level: 2,
 
@@ -1338,7 +1338,7 @@ Many players enhance the Spellguard experience with:
       name: 'Elemental Resistance',
       description: 'Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, cold, lightning, or necrotic) for 1 minute.',
       spellType: 'ACTION',
-      icon: 'spell_nature_resistnature',
+      icon: 'Nature/Centered',
       school: 'Abjuration',
       level: 1,
 
@@ -1391,7 +1391,7 @@ Many players enhance the Spellguard experience with:
       name: 'Spell Disruption',
       description: 'Disrupt an enemy spell being cast, causing it to fail. You sense the magical energy gathering and strike at the perfect moment, severing the connection between the caster and their spell. The disrupted magic fizzles harmlessly.',
       spellType: 'REACTION',
-      icon: 'spell_shadow_curseofachimonde',
+      icon: 'Necrotic/Necrotic Skull',
       school: 'Abjuration',
       level: 3,
 
@@ -1441,7 +1441,7 @@ Many players enhance the Spellguard experience with:
       name: 'Reflective Aura',
       description: 'Create an aura around yourself that reflects spell damage back at attackers. The reflective field shimmers with arcane energy, catching incoming spells and turning them back against their casters. The aura has a limited capacity before it dissipates.',
       spellType: 'ACTION',
-      icon: 'spell_holy_holyprotection',
+      icon: 'Radiant/Radiant Golden Shield',
       school: 'Abjuration',
       level: 2,
 
@@ -1493,7 +1493,7 @@ Many players enhance the Spellguard experience with:
       name: 'Arcane Fortress',
       description: 'Create an impenetrable fortress of arcane energy around yourself, granting complete immunity to all magical damage for 1 turn. This is your ultimate defensive ability.',
       spellType: 'ACTION',
-      icon: 'spell_holy_divineshield',
+      icon: 'Radiant/Radiant Golden Shield',
       school: 'Abjuration',
       level: 5,
 
@@ -1549,7 +1549,7 @@ Many players enhance the Spellguard experience with:
       name: 'Magic Nullification',
       description: 'Create an anti-magic zone centered on yourself. The area becomes a void of magical energy, suppressing all spells and magical effects. Enemies within the zone find their magic completely nullified, unable to cast spells or benefit from magical effects.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_antimagicshell',
+      icon: 'Necrotic/Protective Aura',
       school: 'Abjuration',
       level: 5,
 
@@ -1611,7 +1611,7 @@ Many players enhance the Spellguard experience with:
       name: 'Spell Reflection',
       description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The magical energy is caught and amplified, turning the caster\'s own spell against them with devastating force. The reflection cannot be countered.',
       spellType: 'REACTION',
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
       school: 'Abjuration',
       level: 4,
 
@@ -1667,7 +1667,7 @@ Many players enhance the Spellguard experience with:
       name: 'Control Magic',
       description: 'Take control of a newly summoned creature or magical construct. You seize the magical bonds that hold the creature, twisting them to serve you instead. The creature becomes your servant, following your commands until the control is broken or dismissed.',
       spellType: 'REACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Psychic/Mind Control',
       school: 'Enchantment',
       level: 4,
 
@@ -1736,11 +1736,11 @@ Many players enhance the Spellguard experience with:
       description: 'Steal a spell from an enemy spellcaster, gaining the ability to cast it yourself.',
       level: 6,
       spellType: 'REACTION',
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1785,11 +1785,11 @@ Many players enhance the Spellguard experience with:
       description: 'Create a fortress of magical energy that protects all allies within from magical attacks.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1842,11 +1842,11 @@ Many players enhance the Spellguard experience with:
       description: 'Release a pulse that drains mana from all enemies in range and restores your own.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_arcane_arcane04',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1907,17 +1907,17 @@ Many players enhance the Spellguard experience with:
       description: 'Create a zone where all magic is suppressed. No spells can be cast within.',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_shadow_antishadow',
+      icon: 'Radiant/Radiant Divinity',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_shadow_antishadow',
+        icon: 'Radiant/Radiant Divinity',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -1934,7 +1934,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['zone', 'control'],
+      effectTypes: ['utility', 'control'],
 
       zoneConfig: {
         duration: 5,
@@ -1965,11 +1965,11 @@ Many players enhance the Spellguard experience with:
       description: 'Create a barrier that reflects spells back at their casters.',
       level: 7,
       spellType: 'REACTION',
-      icon: 'spell_frost_frost_shock',
+      icon: 'Frost/Circular Frost Explosion',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_frost_frost_shock',
+        icon: 'Frost/Circular Frost Explosion',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1998,7 +1998,7 @@ Many players enhance the Spellguard experience with:
           description: 'The next spell targeting you is reflected back at the caster with full effect'
         }],
         durationValue: 1,
-        durationType: 'uses',
+        durationType: 'rounds',
         durationUnit: 'uses'
       },
 
@@ -2016,11 +2016,11 @@ Many players enhance the Spellguard experience with:
       description: 'Overload a spellcaster with arcane energy, causing them to take 8d10 + intelligence force damage (plus bonus damage equal to target\'s remaining mana, max 50).',
       level: 7,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcanetorrent',
+      icon: 'Arcane/Empowering Growth',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_arcanetorrent',
+        icon: 'Arcane/Empowering Growth',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2082,11 +2082,11 @@ Many players enhance the Spellguard experience with:
       description: 'Mark an enemy spellcaster. They take 5d10 force damage whenever they cast a spell.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_shadow_mindtwisting',
+      icon: 'Psychic/Mind Roar',
 
       typeConfig: {
         school: 'enchantment',
-        icon: 'spell_shadow_mindtwisting',
+        icon: 'Psychic/Mind Roar',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2139,11 +2139,11 @@ Many players enhance the Spellguard experience with:
       description: 'Create an absolutely impenetrable magical ward that blocks all damage and effects.',
       level: 8,
       spellType: 'REACTION',
-      icon: 'spell_holy_divineprovidence',
+      icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_divineprovidence',
+        icon: 'Radiant/Divine Radiance',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2192,11 +2192,11 @@ Many players enhance the Spellguard experience with:
       description: 'Unleash devastating arcane power that destroys magical defenses and deals 12d8 + intelligence × 2 force damage.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blast',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'spell_arcane_blast',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2261,11 +2261,11 @@ Many players enhance the Spellguard experience with:
       description: 'Counter any spell, regardless of level, and prevent the caster from casting for 1 round.',
       level: 9,
       spellType: 'REACTION',
-      icon: 'spell_frost_iceshock',
+      icon: 'Frost/Frost Phonix',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_frost_iceshock',
+        icon: 'Frost/Frost Phonix',
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2309,11 +2309,11 @@ Many players enhance the Spellguard experience with:
       description: 'Trap an enemy in an arcane prison where they cannot act or be harmed.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blink',
+      icon: 'Arcane/Quick Step',
 
       typeConfig: {
         school: 'conjuration',
-        icon: 'spell_arcane_blink',
+        icon: 'Arcane/Quick Step',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2366,11 +2366,11 @@ Many players enhance the Spellguard experience with:
       description: 'Consume all magic in a massive area, gaining power from every spell destroyed.',
       level: 9,
       spellType: 'ACTION',
-      icon: 'spell_shadow_soulleech',
+      icon: 'Necrotic/Drain Soul',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_shadow_soulleech',
+        icon: 'Necrotic/Drain Soul',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2417,11 +2417,11 @@ Many players enhance the Spellguard experience with:
       description: 'Transform into an avatar of anti-magic, becoming immune to all magic and negating all spells near you.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_holy_divineillumination',
+        icon: 'Radiant/Divine Illumination',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2475,11 +2475,11 @@ Many players enhance the Spellguard experience with:
       description: 'Anchor reality itself, preventing all magical teleportation and dimensional travel in a massive area.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Force/Force Field',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2501,7 +2501,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['zone'],
+      effectTypes: ['utility'],
 
       zoneConfig: {
         duration: 10,
@@ -2525,11 +2525,11 @@ Many players enhance the Spellguard experience with:
       description: 'Dispel every magical effect on the battlefield, regardless of power level.',
       level: 10,
       spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
+      icon: 'Arcane/Magical Sword',
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_arcane_arcane04',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2580,7 +2580,7 @@ Many players enhance the Spellguard experience with:
 
       typeConfig: {
         school: 'abjuration',
-        icon: 'spell_holy_powerwordbarrier',
+        icon: 'Force/Force Field',
         tags: ['buff', 'shield', 'reflection', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'

@@ -83,7 +83,8 @@ const initialState = {
 
     // Rest overlay state
     restOverlayOpen: false,
-    restOverlayType: null, // 'short' or 'long'
+    restOverlayType: null, // 'short', 'long', or 'travel'
+    restOverlayText: null, // custom text for travel broadcasts
 
     // Multi-player current user identification
     currentPlayer: null, // Stores current user's player object in multiplayer
@@ -805,12 +806,12 @@ const useGameStore = create((set, get) => ({
     },
 
     // Rest overlay management
-    showRestOverlay: (restType) => {
-        set({ restOverlayOpen: true, restOverlayType: restType });
+    showRestOverlay: (restType, customText = null) => {
+        set({ restOverlayOpen: true, restOverlayType: restType, restOverlayText: customText });
     },
 
     hideRestOverlay: () => {
-        set({ restOverlayOpen: false, restOverlayType: null });
+        set({ restOverlayOpen: false, restOverlayType: null, restOverlayText: null });
     },
 
     // GM/Player mode toggle

@@ -147,7 +147,7 @@ export const SKILL_QUESTS = {
             id: 'retreat_tactics',
             name: 'Tactical Retreat',
             description: 'Execute a controlled retreat to regroup and counter-attack',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'JOURNEYMAN',
             completed: false,
             unlocks: ['Retreat maneuvers']
@@ -250,7 +250,7 @@ export const SKILL_QUESTS = {
             id: 'follow_trail',
             name: 'Follow the Trail',
             description: 'Track down a suspect or missing person',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'ADEPT',
             completed: false,
             unlocks: ['Pursuit skills']
@@ -344,7 +344,7 @@ export const SKILL_QUESTS = {
             id: 'hostile_negotiation',
             name: 'Hostile Negotiation',
             description: 'Successfully negotiate with a hostile party',
-            icon: 'Void Scream',
+            icon: 'General/Void Scream',
             rank: 'ADEPT',
             completed: false,
             unlocks: ['Crisis negotiation']
@@ -384,7 +384,7 @@ export const SKILL_QUESTS = {
             id: 'first_tumble',
             name: 'First Tumble',
             description: 'Successfully perform a basic tumble or roll to avoid damage from a fall',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic tumbling']
@@ -393,7 +393,7 @@ export const SKILL_QUESTS = {
             id: 'balance_test',
             name: 'Balance Test',
             description: 'Walk across a narrow beam or ledge without falling',
-            icon: 'Stealth',
+            icon: 'General/Stealth',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Improved balance']
@@ -429,7 +429,7 @@ export const SKILL_QUESTS = {
             id: 'precision_landing',
             name: 'Precision Landing',
             description: 'Land in a specific small area after jumping or falling from height',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'JOURNEYMAN',
             completed: false,
             unlocks: ['Controlled falling']
@@ -478,7 +478,7 @@ export const SKILL_QUESTS = {
             id: 'calm_beast',
             name: 'Calm the Beast',
             description: 'Successfully calm an agitated animal',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Animal calming techniques']
@@ -487,7 +487,7 @@ export const SKILL_QUESTS = {
             id: 'mount_training',
             name: 'Mount Training',
             description: 'Train a mount to follow basic commands',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Mount handling skills']
@@ -514,7 +514,7 @@ export const SKILL_QUESTS = {
             id: 'train_trick',
             name: 'Train a Trick',
             description: 'Teach an animal a new trick or command',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'APPRENTICE',
             completed: false,
             unlocks: ['Animal training']
@@ -550,7 +550,7 @@ export const SKILL_QUESTS = {
             id: 'beast_master',
             name: 'Beast Master',
             description: 'Command multiple animals simultaneously',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'EXPERT',
             completed: false,
             unlocks: ['Multi-animal control']
@@ -854,7 +854,7 @@ export const SKILL_QUESTS = {
             id: 'first_threat',
             name: 'First Threat',
             description: 'Successfully intimidate someone into compliance',
-            icon: 'Void Scream',
+            icon: 'General/Void Scream',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic intimidation']
@@ -872,7 +872,7 @@ export const SKILL_QUESTS = {
             id: 'verbal_threat',
             name: 'Verbal Threat',
             description: 'Intimidate through words alone',
-            icon: 'Void Scream',
+            icon: 'General/Void Scream',
             rank: 'TRAINED',
             completed: false,
             unlocks: ['Verbal intimidation']
@@ -917,7 +917,7 @@ export const SKILL_QUESTS = {
             id: 'psychological_warfare',
             name: 'Psychological Warfare',
             description: 'Use psychological tactics to demoralize enemies',
-            icon: 'Void Scream',
+            icon: 'General/Void Scream',
             rank: 'ADEPT',
             completed: false,
             unlocks: ['Psychological tactics']
@@ -1163,7 +1163,7 @@ export const SKILL_QUESTS = {
             id: 'track_movement',
             name: 'Track Movement',
             description: 'Notice and track subtle movement',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'TRAINED',
             completed: false,
             unlocks: ['Movement tracking']
@@ -1418,7 +1418,7 @@ export const SKILL_QUESTS = {
             id: 'first_trick',
             name: 'First Trick',
             description: 'Successfully perform a sleight of hand trick',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic tricks']
@@ -1427,7 +1427,7 @@ export const SKILL_QUESTS = {
             id: 'pickpocket',
             name: 'Pickpocket',
             description: 'Successfully pickpocket someone without being noticed',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Pickpocketing skills']
@@ -1445,7 +1445,7 @@ export const SKILL_QUESTS = {
             id: 'plant_evidence',
             name: 'Plant Evidence',
             description: 'Plant an object on someone without them noticing',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'TRAINED',
             completed: false,
             unlocks: ['Evidence planting']
@@ -1454,7 +1454,7 @@ export const SKILL_QUESTS = {
             id: 'disable_device',
             name: 'Disable Device',
             description: 'Disable a lock or trap mechanism',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'APPRENTICE',
             completed: false,
             unlocks: ['Lock picking']
@@ -1463,7 +1463,7 @@ export const SKILL_QUESTS = {
             id: 'master_thief',
             name: 'Master Thief',
             description: 'Steal something valuable from a well-guarded target',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'APPRENTICE',
             completed: false,
             unlocks: ['Advanced thievery']
@@ -1490,7 +1490,7 @@ export const SKILL_QUESTS = {
             id: 'impossible_theft',
             name: 'Impossible Theft',
             description: 'Steal something that seems impossible to steal',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'EXPERT',
             completed: false,
             unlocks: ['Legendary thievery']
@@ -1499,20 +1499,20 @@ export const SKILL_QUESTS = {
             id: 'perfect_sleight',
             name: 'Perfect Sleight',
             description: 'Perform sleight of hand that defies explanation',
-            icon: 'Lockpick',
+            icon: 'General/Lockpick',
             rank: 'MASTER',
             completed: false,
             unlocks: ['Perfect agility']
         }
     ],
 
-    // Stealth Quests
+    // General/Stealth Quests
     stealth: [
         {
             id: 'first_sneak',
             name: 'First Sneak',
             description: 'Successfully sneak past an enemy',
-            icon: 'Stealth',
+            icon: 'General/Stealth',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic stealth']
@@ -1539,7 +1539,7 @@ export const SKILL_QUESTS = {
             id: 'blend_in',
             name: 'Blend In',
             description: 'Blend into a crowd or environment',
-            icon: 'Stealth',
+            icon: 'General/Stealth',
             rank: 'TRAINED',
             completed: false,
             unlocks: ['Environmental blending']
@@ -1582,7 +1582,7 @@ export const SKILL_QUESTS = {
         },
         {
             id: 'perfect_stealth',
-            name: 'Perfect Stealth',
+            name: 'Perfect General/Stealth',
             description: 'Remain undetected in plain sight',
             icon: 'Shadowy Mist',
             rank: 'EXPERT',
@@ -1606,7 +1606,7 @@ export const SKILL_QUESTS = {
             id: 'find_food',
             name: 'Find Food',
             description: 'Successfully forage or hunt for food in the wild',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Foraging skills']
@@ -1615,7 +1615,7 @@ export const SKILL_QUESTS = {
             id: 'track_prey',
             name: 'Track Prey',
             description: 'Track and follow an animal\'s trail',
-            icon: 'Glowing Paw Prints',
+            icon: 'General/Glowing Paw Prints',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Tracking abilities']
@@ -1700,7 +1700,7 @@ export const SKILL_QUESTS = {
             id: 'first_lie',
             name: 'First Lie',
             description: 'Successfully deceive someone with a convincing lie',
-            icon: 'Stealth',
+            icon: 'General/Stealth',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic deception']
@@ -1745,7 +1745,7 @@ export const SKILL_QUESTS = {
             id: 'false_identity',
             name: 'False Identity',
             description: 'Create and maintain a completely false identity',
-            icon: 'Stealth',
+            icon: 'General/Stealth',
             rank: 'APPRENTICE',
             completed: false,
             unlocks: ['Identity creation']
@@ -1897,7 +1897,7 @@ export const SKILL_QUESTS = {
             id: 'long_jump',
             name: 'Long Jump',
             description: 'Jump across a gap or obstacle using a running start',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Jumping techniques']
@@ -1915,7 +1915,7 @@ export const SKILL_QUESTS = {
             id: 'endurance_run',
             name: 'Endurance Run',
             description: 'Run or march for an extended period without rest',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'APPRENTICE',
             completed: false,
             unlocks: ['Improved stamina']
@@ -1942,7 +1942,7 @@ export const SKILL_QUESTS = {
             id: 'high_jump',
             name: 'High Jump',
             description: 'Jump to reach a high ledge or grab onto something overhead',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'ADEPT',
             completed: false,
             unlocks: ['Vertical leap']
@@ -1951,7 +1951,7 @@ export const SKILL_QUESTS = {
             id: 'underwater_endurance',
             name: 'Underwater Endurance',
             description: 'Hold your breath underwater for an extended period',
-            icon: 'Void Scream',
+            icon: 'General/Void Scream',
             rank: 'ADEPT',
             completed: false,
             unlocks: ['Breath control']
@@ -1969,7 +1969,7 @@ export const SKILL_QUESTS = {
             id: 'impossible_climb',
             name: 'Impossible Climb',
             description: 'Climb a surface that seems impossible (ice, smooth stone, overhang)',
-            icon: 'Leap Mountain',
+            icon: 'General/Leap Mountain',
             rank: 'EXPERT',
             completed: false,
             unlocks: ['Supernatural climbing']
@@ -2170,7 +2170,7 @@ export const SKILL_QUESTS = {
             id: 'first_ritual',
             name: 'First Ritual',
             description: 'Successfully perform your first magical ritual',
-            icon: 'Ritual Outfit',
+            icon: 'General/Ritual Outfit',
             rank: 'NOVICE',
             completed: false,
             unlocks: ['Basic ritual magic']
@@ -2242,7 +2242,7 @@ export const SKILL_QUESTS = {
             id: 'ancient_ritual',
             name: 'Ancient Ritual',
             description: 'Perform an ancient ritual lost to time',
-            icon: 'Ritual Outfit',
+            icon: 'General/Ritual Outfit',
             rank: 'EXPERT',
             completed: false,
             unlocks: ['Ancient ritual knowledge']

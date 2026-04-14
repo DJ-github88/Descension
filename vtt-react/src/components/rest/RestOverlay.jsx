@@ -16,10 +16,17 @@ const REST_MESSAGES = {
         "After a day filled with trials and triumphs, you find rest. The darkness brings healing and renewal.",
         "The party makes camp, and as the hours pass, deep rest restores your strength and clears your mind.",
         "You rest after a long day of adventures, the quiet of the night bringing peace and restoration."
+    ],
+    travel: [
+        "The road stretches on before you, each step carrying the party deeper into the unknown.",
+        "Wind whispers through the landscape as the party presses forward on their journey.",
+        "The terrain shifts beneath your feet, a reminder of the vast world that awaits beyond the horizon.",
+        "Miles fade behind you as the party marches onward, united by purpose and determination.",
+        "The journey continues \u2014 every mile brings new sights, new sounds, new stories yet to unfold."
     ]
 };
 
-const RestOverlay = ({ isOpen, restType, onClose }) => {
+const RestOverlay = ({ isOpen, restType, customText, onClose }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
@@ -29,9 +36,13 @@ const RestOverlay = ({ isOpen, restType, onClose }) => {
 
     useEffect(() => {
         if (isOpen && restType) {
-            // Select a random message for this rest type
-            const messages = REST_MESSAGES[restType] || REST_MESSAGES.short;
-            const selectedMessage = messages[Math.floor(Math.random() * messages.length)];
+            let selectedMessage;
+            if (customText) {
+                selectedMessage = customText;
+            } else {
+                const messages = REST_MESSAGES[restType] || REST_MESSAGES.short;
+                selectedMessage = messages[Math.floor(Math.random() * messages.length)];
+            }
             setFullText(selectedMessage);
             setDisplayedText('');
             setIsTyping(true);
@@ -79,7 +90,7 @@ const RestOverlay = ({ isOpen, restType, onClose }) => {
             setIsFadingOut(false);
             setFullText('');
         }
-    }, [isOpen, restType, onClose]);
+    }, [isOpen, restType, customText, onClose]);
 
     if (!isOpen) return null;
 

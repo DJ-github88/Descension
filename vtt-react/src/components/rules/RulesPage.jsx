@@ -13,6 +13,7 @@ import LanguagesDisplay from './LanguagesDisplay';
 import ClassDetailDisplay from './ClassDetailDisplay';
 import SpellIconTooltip from './SpellIconTooltip';
 import SkillAbilityIconTooltip from './SkillAbilityIconTooltip';
+import AdvancedTravelDisplay from './AdvancedTravelDisplay';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
@@ -557,6 +558,9 @@ const RulesPage = () => {
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'languages' && (
           <LanguagesDisplay />
         )}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'advanced-travel' && (
+          <AdvancedTravelDisplay />
+        )}
 
         {/* Render tables */}
         {currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx))}
@@ -775,7 +779,23 @@ const RulesPage = () => {
             <span className="rules-breadcrumb">{breadcrumbs.category}</span>
           )}
           <i className="fas fa-chevron-right"></i>
-          <span className="rules-breadcrumb active">{breadcrumbs.subcategory}</span>
+          {selectedClassDetail && selectedSubcategory === 'classes' ? (
+            <button
+              className="rules-breadcrumb rules-breadcrumb-link"
+              onClick={handleBackToClasses}
+              aria-label="Navigate to Classes list"
+            >
+              {breadcrumbs.subcategory}
+            </button>
+          ) : (
+            <span className="rules-breadcrumb active">{breadcrumbs.subcategory}</span>
+          )}
+          {selectedClassDetail && selectedSubcategory === 'classes' && (
+            <>
+              <i className="fas fa-chevron-right"></i>
+              <span className="rules-breadcrumb active">{selectedClassDetail}</span>
+            </>
+          )}
         </div>
 
         {/* Content */}

@@ -28,7 +28,9 @@ const GridContainer = ({ gridItem }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [localPosition, setLocalPosition] = useState(null); // Local position for smooth dragging
+  const [localPosition, setLocalPosition] = useState(null);
+  const dragRafRef = useRef(null);
+  const pendingWorldPosRef = useRef(null);
   
   const containerRef = useRef(null);
   const contextMenuRef = useRef(null);
@@ -170,24 +172,35 @@ const GridContainer = ({ gridItem }) => {
       }
 
       if (isDraggingRef.current) {
-        // Convert screen to world
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // Calculate new screen position
         const screenX = e.clientX - dragOffset.x;
         const screenY = e.clientY - dragOffset.y;
         
         const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-        setLocalPosition(worldPos);
+        pendingWorldPosRef.current = worldPos;
+
+        if (!dragRafRef.current) {
+          dragRafRef.current = requestAnimationFrame(() => {
+            if (pendingWorldPosRef.current) {
+              setLocalPosition(pendingWorldPosRef.current);
+            }
+            dragRafRef.current = null;
+          });
+        }
       }
     };
 
     const handleGlobalMouseUp = (e) => {
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+        dragRafRef.current = null;
+      }
+
       if (!isMouseDownRef.current) return;
 
       if (isDraggingRef.current) {
-        // Snap to grid
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         const screenX = e.clientX - dragOffset.x;
@@ -221,6 +234,10 @@ const GridContainer = ({ gridItem }) => {
     return () => {
       window.removeEventListener('mousemove', handleGlobalMouseMove);
       window.removeEventListener('mouseup', handleGlobalMouseUp);
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current);
+        dragRafRef.current = null;
+      }
     };
   }, [isMouseDown, dragOffset, gridSystem, gridItem.id, isGMMode, updateItemPosition, gridSize]);
 

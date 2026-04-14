@@ -615,7 +615,7 @@ Frostfang
       {
         id: 'metamorph',
         name: 'Metamorph',
-        icon: 'ability_hunter_pet_chimera',
+        icon: 'Nature/Ethereal Bird',
         color: '#9932CC',
         theme: 'Chimeric Hybrid Forms & Adaptive Evolution',
 
@@ -654,7 +654,7 @@ Frostfang
       {
         id: 'form-thief',
         name: 'Form Thief',
-        icon: 'spell_shadow_possession',
+        icon: 'Psychic/Mind Control',
         color: '#8B0000',
         theme: 'Form Theft & Enemy Mimicry',
 
@@ -693,7 +693,7 @@ Frostfang
       {
         id: 'primordial',
         name: 'Primordial',
-        icon: 'spell_fire_elementaldevastation',
+        icon: 'Fire/Eruption',
         color: '#FF4500',
         theme: 'Ancient Elemental Transformations',
 
@@ -740,7 +740,7 @@ Frostfang
       name: 'Ambush Strike',
       description: 'Strike from the shadows with devastating precision. Damage and effects scale with Wild Instinct spent (1-5 WI). Must be used from stealth for full effect.',
       spellType: 'ACTION',
-      icon: 'ability_rogue_ambush',
+      icon: 'Piercing/Backstab',
       school: 'Physical',
       level: 3,
       specialization: 'nightstalker',
@@ -806,7 +806,7 @@ Frostfang
           name: 'Stun',
           description: 'Target is stunned for 1 round (Tier 3: Stun, Tier 5: Paralyze)',
           config: {
-            durationType: 'temporary',
+            durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
         }]
@@ -845,7 +845,7 @@ Frostfang
       name: 'Shadowmeld',
       description: 'Blend into the shadows, becoming invisible and creating illusionary duplicates at higher tiers. Broken by attacking or taking damage.',
       spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
+      icon: 'Psychic/Mind Control',
       school: 'Illusion',
       level: 2,
       specialization: 'nightstalker',
@@ -978,7 +978,7 @@ Frostfang
       name: 'Roaring Assault',
       description: 'Unleash a devastating roar that damages and controls enemies. Effects scale with Wild Instinct.',
       spellType: 'ACTION',
-      icon: 'ability_druid_demoralizingroar',
+      icon: 'Nature/Roar',
       school: 'Physical',
       level: 4,
       specialization: 'ironhide',
@@ -1017,7 +1017,7 @@ Frostfang
         baseDamage: {
           diceCount: 1,
           diceType: 6,
-          damageType: 'thunder',
+          damageType: 'force',
           scaling: 'per_wi_spent'
         }
       },
@@ -1070,7 +1070,7 @@ Frostfang
       name: 'Fortress of Fur',
       description: 'Harden your hide to absorb damage and gain defensive bonuses. Ultimate tier grants temporary invulnerability.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stoneclawtotem',
+      icon: 'Nature/Roots',
       school: 'Abjuration',
       level: 3,
       specialization: 'ironhide',
@@ -1147,7 +1147,7 @@ Frostfang
       name: 'Talon Dive',
       description: 'Dive from above with razor-sharp talons, grappling and stunning enemies.',
       spellType: 'ACTION',
-      icon: 'ability_druid_flightform',
+      icon: 'Nature/Ethereal Bird',
       school: 'Physical',
       level: 3,
       specialization: 'skyhunter',
@@ -1232,7 +1232,7 @@ Frostfang
       name: 'Wind\'s Grace',
       description: 'Harness the power of wind for enhanced perception, flight, and devastating wind attacks.',
       spellType: 'ACTION',
-      icon: 'spell_nature_cyclone',
+      icon: 'Nature/Tornado Vortex',
       school: 'Evocation',
       level: 4,
       specialization: 'skyhunter',
@@ -1309,7 +1309,7 @@ Frostfang
       name: 'Frostbite Strike',
       description: 'Bite with frost-infused fangs, dealing cold damage and applying slowing effects.',
       spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
+      icon: 'Frost/Ice Orb',
       school: 'Evocation',
       level: 3,
       specialization: 'frostfang',
@@ -1394,7 +1394,7 @@ Frostfang
       name: 'Pack Leader\'s Call',
       description: 'Summon spectral wolves to fight alongside you and empower your allies.',
       spellType: 'ACTION',
-      icon: 'spell_nature_spiritwolf',
+      icon: 'Nature/Wolf Dash',
       school: 'Conjuration',
       level: 4,
       specialization: 'frostfang',
@@ -1475,7 +1475,7 @@ Frostfang
       name: 'Nature\'s Grasp',
       description: 'Vines erupt from the ground to restrain a target.',
       spellType: 'ACTION',
-      icon: 'spell_nature_stranglevines',
+      icon: 'Nature/Thorny Entanglement',
       school: 'Conjuration',
       level: 1,
       specialization: 'universal',
@@ -1528,7 +1528,7 @@ Frostfang
       name: 'Healing Touch',
       description: 'Channel nature\'s healing energy to restore an ally\'s health.',
       spellType: 'ACTION',
-      icon: 'spell_nature_healingtouch',
+      icon: 'Healing/Heal Wound',
       school: 'Evocation',
       level: 2,
       specialization: 'universal',
@@ -1577,7 +1577,7 @@ Frostfang
       name: 'Wild Shape (Partial)',
       description: 'Transform part of your body into an animal feature, gaining temporary abilities.',
       spellType: 'ACTION',
-      icon: 'ability_druid_wildmark',
+      icon: 'Nature/Beast Mark',
       school: 'Transmutation',
       level: 2,
       specialization: 'universal',
@@ -1649,7 +1649,7 @@ Frostfang
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_druid_ferociousbite',
+        icon: 'Nature/Claw Marks',
         tags: ['attack', 'damage', 'physical', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1701,7 +1701,7 @@ Frostfang
       effectTypes: ['healing'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_rejuvenation',
+        icon: 'Healing/Renewal',
         tags: ['healing', 'support', 'nature', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1744,7 +1744,7 @@ Frostfang
       name: 'Beast Claws',
       description: 'Grow razor-sharp claws that enhance your natural attacks.',
       spellType: 'ACTION',
-      icon: 'ability_druid_rake',
+      icon: 'Nature/Claw Marks',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1803,7 +1803,7 @@ Frostfang
       name: 'Primal Senses',
       description: 'Heighten your senses to detect hidden threats and track prey.',
       spellType: 'ACTION',
-      icon: 'ability_druid_supriseattack',
+      icon: 'Piercing/Backstab',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1862,7 +1862,7 @@ Frostfang
       name: 'Wild Leap',
       description: 'Leap incredible distances, using primal strength to cover ground quickly.',
       spellType: 'ACTION',
-      icon: 'ability_druid_dash',
+      icon: 'Utility/Dash',
       school: 'Physical',
       level: 2,
       specialization: 'universal',
@@ -1874,7 +1874,7 @@ Frostfang
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         targetRestrictions: [],
@@ -1922,7 +1922,7 @@ Frostfang
       name: 'Feral Rage',
       description: 'Tap into primal fury, gaining temporary strength and ferocity.',
       spellType: 'ACTION',
-      icon: 'ability_druid_berserk',
+      icon: 'Nature/Roaring Bear',
       school: 'Physical',
       level: 3,
       specialization: 'universal',
@@ -1981,7 +1981,7 @@ Frostfang
       name: 'Nature\'s Armor',
       description: 'Grow thick natural armor that protects you from harm.',
       spellType: 'ACTION',
-      icon: 'spell_nature_spiritarmor',
+      icon: 'Nature/Earth Shield',
       school: 'Physical',
       level: 3,
       specialization: 'universal',
@@ -2040,7 +2040,7 @@ Frostfang
       name: 'Hunt Call',
       description: 'Call forth spectral hunters to aid you in tracking and pursuing prey.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_beastcall',
+      icon: 'Nature/Spawn',
       school: 'Physical',
       level: 3,
       specialization: 'universal',
@@ -2052,7 +2052,7 @@ Frostfang
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: [],
@@ -2118,7 +2118,7 @@ Frostfang
       name: 'Savage Charge',
       description: 'Charge forward with primal fury, dealing massive damage and knocking down enemies for 1 round. Targets must save or be knocked prone.',
       spellType: 'ACTION',
-      icon: 'ability_hunter_charge',
+      icon: 'Utility/Dash',
       school: 'Physical',
       level: 4,
       specialization: 'universal',
@@ -2189,7 +2189,7 @@ Frostfang
       name: 'Primal Healing',
       description: 'Channel the restorative power of nature to heal wounds and remove afflictions.',
       spellType: 'ACTION',
-      icon: 'spell_nature_healingwavegreater',
+      icon: 'Healing/Heart Ripple',
       school: 'Physical',
       level: 4,
       specialization: 'universal',
@@ -2246,7 +2246,7 @@ Frostfang
       name: 'Beast Form (Partial)',
       description: 'Take on aspects of one of your forms for 1 minute without fully transforming. Gain benefits of one form aspect: Nightstalker (stealth), Ironhide (armor), Skyhunter (flight), or Frostfang (pack tactics).',
       spellType: 'ACTION',
-      icon: 'ability_druid_supriseattack',
+      icon: 'Piercing/Backstab',
       school: 'Physical',
       level: 4,
       specialization: 'universal',
@@ -2305,7 +2305,7 @@ Frostfang
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_hunter_pet_wolf',
+        icon: 'Nature/Wolf Dash',
         tags: ['summoning', 'buff', 'pack', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2359,7 +2359,7 @@ Frostfang
         canBeDispelled: true
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         targetRestrictions: [],
@@ -2391,7 +2391,7 @@ Frostfang
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_druid_ravage',
+        icon: 'Nature/Claw Marks',
         tags: ['attack', 'damage', 'physical', 'multi-hit', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2434,7 +2434,7 @@ Frostfang
       effectTypes: ['buff', 'utility'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_druid_catform',
+        icon: 'Nature/Cat Face',
         tags: ['buff', 'utility', 'transformation', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2481,7 +2481,7 @@ Frostfang
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_reincarnation',
+        icon: 'Necrotic/Resurrect',
         tags: ['transformation', 'size', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2529,7 +2529,7 @@ Frostfang
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_hunter_pet_cat',
+        icon: 'Nature/Cat Face',
         tags: ['attack', 'damage', 'control', 'aoe', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2563,7 +2563,7 @@ Frostfang
         }]
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 40,
         aoeShape: 'circle',
@@ -2597,7 +2597,7 @@ Frostfang
       effectTypes: ['healing'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_healingtouch',
+        icon: 'Healing/Heal Wound',
         tags: ['healing', 'support', 'nature', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2645,7 +2645,7 @@ Frostfang
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_forceofnature',
+        icon: 'Nature/Nature Primal',
         tags: ['transformation', 'buff', 'primal', 'formbender'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -2712,7 +2712,7 @@ Frostfang
       effectTypes: ['control', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_druid_challangingroar',
+        icon: 'Nature/Roar',
         tags: ['control', 'buff', 'fear', 'aoe', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2785,7 +2785,7 @@ Frostfang
       effectTypes: ['buff', 'damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_druid_primalprecision',
+        icon: 'Nature/Claw Marks',
         tags: ['buff', 'damage', 'predator', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2836,7 +2836,7 @@ Frostfang
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_cyclone',
+        icon: 'Nature/Tornado Vortex',
         tags: ['attack', 'damage', 'aoe', 'transformation', 'epic', 'formbender'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2882,7 +2882,7 @@ Frostfang
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_natureguardian',
+        icon: 'Nature/Nature Natural',
         tags: ['buff', 'transformation', 'defense', 'epic', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2959,7 +2959,7 @@ Frostfang
       effectTypes: ['summoning', 'damage'],
       typeConfig: {
         school: 'nature',
-        icon: 'ability_hunter_pet_dragonhawk',
+        icon: 'Nature/Ethereal Bird',
         tags: ['summoning', 'damage', 'spirit', 'epic', 'formbender'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -3001,7 +3001,7 @@ Frostfang
         description: 'Wild Hunt spirits deal this damage to enemies they catch'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
@@ -3036,7 +3036,7 @@ Frostfang
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_wispsplode',
+        icon: 'Nature/Nature Wild 1',
         tags: ['transformation', 'buff', 'primordial', 'legendary', 'formbender'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
@@ -3104,7 +3104,7 @@ Frostfang
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_earthquake',
+        icon: 'Nature/Earth Shatter',
         tags: ['attack', 'damage', 'control', 'aoe', 'legendary', 'formbender'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
@@ -3172,7 +3172,7 @@ Frostfang
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_tranquility',
+        icon: 'Healing/Heart Ripple',
         tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender'],
         toggleable: true
       },
@@ -3219,7 +3219,7 @@ Frostfang
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_unyeildingstamina',
+        icon: 'Utility/Resistance',
         tags: ['transformation', 'ultimate', 'formbender'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -3269,7 +3269,7 @@ Frostfang
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_starfall',
+        icon: 'Arcane/Star Trail Path',
         tags: ['summoning', 'legendary', 'formbender'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
@@ -3321,7 +3321,7 @@ Frostfang
         controlType: 'mental'
       },
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
         aoeShape: 'circle',
@@ -3356,7 +3356,7 @@ Frostfang
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
-        icon: 'spell_nature_naturetouchgrow',
+        icon: 'Nature/Growth',
         tags: ['transformation', 'passive', 'mastery', 'formbender'],
         toggleable: true
       },
