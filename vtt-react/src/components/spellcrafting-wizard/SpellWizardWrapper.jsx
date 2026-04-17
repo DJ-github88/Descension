@@ -1,6 +1,5 @@
 import React from 'react';
 import ErrorBoundary from '../common/ErrorBoundary';
-import './styles/pathfinder/main.css';
 import { SpellLibraryProvider } from './context/SpellLibraryContext';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext.js';
 import SpellwizardApp from './SpellwizardApp';

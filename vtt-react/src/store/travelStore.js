@@ -95,7 +95,10 @@ const useTravelStore = create((set, get) => ({
 
   setActiveTab: (tab) => set({ activeTab: tab }),
 
-  setBiome: (biomeId) => set({ currentBiome: biomeId, lastEncounter: null, selectedEncounterRow: null, editingEncounterRow: null }),
+  setBiome: (biomeId) => {
+    set({ currentBiome: biomeId, lastEncounter: null, selectedEncounterRow: null, editingEncounterRow: null });
+    get()._broadcastToPlayers('travel_update', { currentBiome: biomeId, speed: get().getSpeed() });
+  },
 
   getSpeed: () => {
     const state = get();
@@ -133,9 +136,18 @@ const useTravelStore = create((set, get) => ({
     return schedule;
   },
 
-  setTransportMode: (mode) => set({ transportMode: mode }),
-  setTerrainType: (t) => set({ terrainType: t }),
-  setExhaustion: (e) => set({ partyExhaustion: e }),
+  setTransportMode: (mode) => {
+    set({ transportMode: mode });
+    get()._broadcastToPlayers('travel_update', { transportMode: mode, speed: get().getSpeed() });
+  },
+  setTerrainType: (t) => {
+    set({ terrainType: t });
+    get()._broadcastToPlayers('travel_update', { terrainType: t, speed: get().getSpeed() });
+  },
+  setExhaustion: (e) => {
+    set({ partyExhaustion: e });
+    get()._broadcastToPlayers('travel_update', { partyExhaustion: e, speed: get().getSpeed() });
+  },
 
   clockTick: (n = 1) => set(s => {
     let { tenday, day, hour } = s.clock;
@@ -153,7 +165,10 @@ const useTravelStore = create((set, get) => ({
     return { clock: { tenday, day, hour } };
   }),
 
-  resetClock: () => set({ clock: { tenday: 1, day: 1, hour: 6 } }),
+  resetClock: () => {
+    set({ clock: { tenday: 1, day: 1, hour: 6 } });
+    get()._broadcastToPlayers('travel_update', { clock: { tenday: 1, day: 1, hour: 6 } });
+  },
 
   rollWeather: () => {
     const d20 = Math.floor(Math.random() * 20) + 1;
@@ -167,6 +182,7 @@ const useTravelStore = create((set, get) => ({
       weatherRemaining: d8,
       weatherPrediction: null
     });
+    get()._broadcastToPlayers('travel_update', { weather, weatherRoll: d20, weatherDuration: d8, weatherRemaining: d8, atmosphereText: get().getAtmosphereText() });
     return { weather, d20, d8 };
   },
 
@@ -177,7 +193,10 @@ const useTravelStore = create((set, get) => ({
 
   selectHour: (i) => set(s => ({ activeHour: i, navStatus: s.navStatus || 'on-track' })),
 
-  setNavStatus: (status) => set({ navStatus: status }),
+  setNavStatus: (status) => {
+    set({ navStatus: status });
+    get()._broadcastToPlayers('travel_update', { navStatus: status });
+  },
 
   advanceHour: () => {
     const state = get();
@@ -212,7 +231,10 @@ const useTravelStore = create((set, get) => ({
     });
   },
 
-  setJourneyGoal: (goal) => set({ journeyGoal: goal }),
+  setJourneyGoal: (goal) => {
+    set({ journeyGoal: goal });
+    get()._broadcastToPlayers('travel_update', { journeyGoal: goal, progress: get().getJourneyProgress() });
+  },
 
   getJourneyProgress: () => {
     const state = get();
@@ -226,6 +248,7 @@ const useTravelStore = create((set, get) => ({
     const state = get();
     const encounter = getBiomeEncounter(state.currentBiome, d20);
     set({ lastEncounter: { ...encounter, roll: d20 } });
+    get()._broadcastToPlayers('travel_update', { lastEncounter: { ...encounter, roll: d20 } });
     return { encounter, d20 };
   },
 
@@ -237,6 +260,7 @@ const useTravelStore = create((set, get) => ({
     const d20 = row.range[0];
     const encounter = { ...row };
     set({ lastEncounter: { ...encounter, roll: d20 } });
+    get()._broadcastToPlayers('travel_update', { lastEncounter: { ...encounter, roll: d20 } });
     return { encounter, d20 };
   },
 
@@ -313,15 +337,19 @@ const useTravelStore = create((set, get) => ({
 
   initPlayerTravelListener: (socket) => {
     if (!socket) return;
+    console.log('🗺️ [TravelStore] Registering player travel listeners on socket');
     socket.on('travel_sync', (data) => {
+      console.log('🗺️ [TravelStore] Received travel_sync:', Object.keys(data));
       set({ playerTravelState: data });
     });
     socket.on('travel_update', (data) => {
+      console.log('🗺️ [TravelStore] Received travel_update:', Object.keys(data));
       set(s => ({
         playerTravelState: { ...s.playerTravelState, ...data }
       }));
     });
     socket.on('travel_broadcast', (data) => {
+      console.log('🗺️ [TravelStore] Received travel_broadcast:', data.text?.substring(0, 50));
       set(s => ({
         playerTravelState: {
           ...s.playerTravelState,
@@ -332,18 +360,28 @@ const useTravelStore = create((set, get) => ({
           ].slice(-50)
         }
       }));
+      const { showRestOverlay } = require('./gameStore').default.getState();
+      if (showRestOverlay && data?.text) {
+        showRestOverlay('travel', data.text);
+      }
     });
     set({ travelSocket: socket });
   },
 
   _broadcastToPlayers: (event, data) => {
-    const socket = get().travelSocket;
-    if (!socket) return;
     const { multiplayerRoom, multiplayerSocket } = require('./gameStore').default.getState();
-    const activeSocket = multiplayerSocket || socket;
+    const socket = multiplayerSocket || get().travelSocket;
+    if (!socket) {
+      console.warn('🗺️ [TravelStore] Cannot broadcast - no socket available');
+      return;
+    }
     const roomId = multiplayerRoom?.id;
-    if (!roomId) return;
-    activeSocket.emit(event, { ...data, roomId });
+    if (!roomId) {
+      console.warn('🗺️ [TravelStore] Cannot broadcast - no room ID');
+      return;
+    }
+    console.log('🗺️ [TravelStore] Broadcasting', event, 'to room', roomId);
+    socket.emit(event, { ...data, roomId });
   },
 
   broadcastTravelState: () => {

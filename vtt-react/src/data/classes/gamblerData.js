@@ -10,6 +10,7 @@ export const GAMBLER_DATA = {
   name: 'Gambler',
   icon: 'fas fa-dice',
   role: 'Damage/Utility',
+  damageTypes: ['force', 'psychic'],
 
   // Overview section
   overview: {

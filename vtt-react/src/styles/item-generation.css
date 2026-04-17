@@ -36,7 +36,7 @@
 }
 
 /* Item Library Styles */
-.item-library {
+.item-generation .item-library {
     display: flex;
     gap: 8px;
     height: calc(100% - 40px);
@@ -44,7 +44,7 @@
     flex: 1;
 }
 
-.item-grid {
+.item-generation .item-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(32px, 32px));
     gap: 4px;
@@ -57,7 +57,7 @@
     min-width: 0;
 }
 
-.item-tile {
+.item-generation .item-tile {
     width: 32px;
     height: 32px;
     background: rgba(49, 50, 68, 0.6);
@@ -179,7 +179,7 @@
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 800px;
+    width: 100%;
 }
 
 .control-button {

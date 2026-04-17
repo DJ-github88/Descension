@@ -1,5 +1,5 @@
 import React, { memo, useState, useRef, useEffect } from 'react';
-import '../../styles/item-tooltip.css';
+
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
 import useItemStore from '../../store/itemStore';
@@ -507,6 +507,7 @@ const getStatDescription = (stat, value, isPercentage = false) => {
         healthRegen: `Restores ${formattedValue} health at the end of each round.`,
         maxMana: `Increases your maximum mana by ${formattedValue}.`,
         manaRegen: `Restores ${formattedValue} mana at the end of each round.`,
+        apRestore: `Restores ${formattedValue} action points.`,
         maxAP: `Increases your maximum action points by ${formattedValue}.`,
 
         // Combat effectiveness
@@ -1059,12 +1060,17 @@ function ItemTooltip({ item }) {
                                 <>
                                     {resultItem.combatStats?.healthRestore && (
                                         <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
-                                            Restores <span style={{ fontWeight: '700', color: '#2d5016', textShadow: 'none' }}>{resultItem.combatStats.healthRestore.value}</span> Health
+                                            {resultItem.combatStats.healthRestore.value >= 0 ? 'Restores' : 'Drains'} <span style={{ fontWeight: '700', color: resultItem.combatStats.healthRestore.value >= 0 ? '#2d5016' : '#8b0000', textShadow: 'none' }}>{Math.abs(resultItem.combatStats.healthRestore.value)}</span> Health
                                         </div>
                                     )}
                                     {resultItem.combatStats?.manaRestore && (
                                         <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
-                                            Restores <span style={{ fontWeight: '700', color: '#2d5016', textShadow: 'none' }}>{resultItem.combatStats.manaRestore.value}</span> Mana
+                                            {resultItem.combatStats.manaRestore.value >= 0 ? 'Restores' : 'Drains'} <span style={{ fontWeight: '700', color: resultItem.combatStats.manaRestore.value >= 0 ? '#2d5016' : '#8b0000', textShadow: 'none' }}>{Math.abs(resultItem.combatStats.manaRestore.value)}</span> Mana
+                                        </div>
+                                    )}
+                                    {(resultItem.combatStats?.apRestore || resultItem.combatStats?.actionPointRestore) && (
+                                        <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
+                                            {((resultItem.combatStats.apRestore?.value || resultItem.combatStats.actionPointRestore?.value) >= 0) ? 'Restores' : 'Drains'} <span style={{ fontWeight: '700', color: (resultItem.combatStats.apRestore?.value || resultItem.combatStats.actionPointRestore?.value) >= 0 ? '#2d5016' : '#8b0000', textShadow: 'none' }}>{Math.abs(resultItem.combatStats.apRestore?.value || resultItem.combatStats.actionPointRestore?.value || 0)}</span> Action Points
                                         </div>
                                     )}
                                     {resultItem.combatStats?.maxHealth && (
@@ -1505,6 +1511,8 @@ function ItemTooltip({ item }) {
             stat !== 'armor' &&
             stat !== 'healthRestore' &&
             stat !== 'manaRestore' &&
+            stat !== 'apRestore' &&
+            stat !== 'actionPointRestore' &&
             getStatValue(data) !== 0
         )
         .map(([stat, data]) => ({
@@ -1723,9 +1731,13 @@ function ItemTooltip({ item }) {
     const hasEffects = otherStats.length > 0 || utilityStats.length > 0 || spellDamageStats.length > 0 || hasCarryingCapacity || hasOnHitEffects || conditionModifiers.length > 0;
 
     // Get consumable effects
+    const healthRestoreValue = getStatValue(item.combatStats?.healthRestore);
+    const manaRestoreValue = getStatValue(item.combatStats?.manaRestore);
+    const apRestoreValue = getStatValue(item.combatStats?.apRestore) || getStatValue(item.combatStats?.actionPointRestore);
     const hasImmediateEffects = item.type === 'consumable' && (
-        getStatValue(item.combatStats?.healthRestore) > 0 ||
-        getStatValue(item.combatStats?.manaRestore) > 0
+        healthRestoreValue !== 0 ||
+        manaRestoreValue !== 0 ||
+        apRestoreValue !== 0
     );
 
     const hasDurationEffects = item.type === 'consumable' && (
@@ -2088,14 +2100,19 @@ function ItemTooltip({ item }) {
                         fontFamily: 'Bookman Old Style, Garamond, serif',
                         textAlign: 'left'
                     }}>On Immediate Use:</div>
-                    {getStatValue(item.combatStats?.healthRestore) > 0 && (
+                    {healthRestoreValue !== 0 && (
                         <div className="base-stat" style={{ marginLeft: '0', paddingLeft: '0', textAlign: 'left' }}>
-                            Restore <span style={{ fontWeight: 'normal' }}>{getStatValue(item.combatStats.healthRestore)}{isPercentage(item.combatStats.healthRestore) ? '%' : ''}</span> Health
+                            {healthRestoreValue > 0 ? 'Restore' : 'Drain'} <span style={{ fontWeight: 'normal' }}>{Math.abs(healthRestoreValue)}{isPercentage(item.combatStats.healthRestore) ? '%' : ''}</span> Health
                         </div>
                     )}
-                    {getStatValue(item.combatStats?.manaRestore) > 0 && (
+                    {manaRestoreValue !== 0 && (
                         <div className="base-stat" style={{ marginLeft: '0', paddingLeft: '0', textAlign: 'left' }}>
-                            Restore <span style={{ fontWeight: 'normal' }}>{getStatValue(item.combatStats.manaRestore)}{isPercentage(item.combatStats.manaRestore) ? '%' : ''}</span> Mana
+                            {manaRestoreValue > 0 ? 'Restore' : 'Drain'} <span style={{ fontWeight: 'normal' }}>{Math.abs(manaRestoreValue)}{isPercentage(item.combatStats.manaRestore) ? '%' : ''}</span> Mana
+                        </div>
+                    )}
+                    {apRestoreValue !== 0 && (
+                        <div className="base-stat" style={{ marginLeft: '0', paddingLeft: '0', textAlign: 'left' }}>
+                            {apRestoreValue > 0 ? 'Restore' : 'Drain'} <span style={{ fontWeight: 'normal' }}>{Math.abs(apRestoreValue)}{isPercentage(item.combatStats.apRestore || item.combatStats.actionPointRestore) ? '%' : ''}</span> Action Points
                         </div>
                     )}
                     {hasRange && (
@@ -2117,7 +2134,7 @@ function ItemTooltip({ item }) {
                         fontFamily: 'Bookman Old Style, Garamond, serif',
                         textAlign: 'left'
                     }}>
-                        For the duration of <span style={{ color: '#ffffff !important', textShadow: '1px 1px 2px rgba(0,0,0,0.8)', fontWeight: 'bold' }}>{getStatValue(item.utilityStats?.duration) || 1}</span> <span style={{ color: '#ffffff !important', textShadow: '1px 1px 2px rgba(0,0,0,0.8)', fontWeight: 'bold' }}>{
+                        For the duration of <span style={{ color: '#2d1810', fontWeight: '700' }}>{getStatValue(item.utilityStats?.duration) || 1}</span> <span style={{ color: '#2d1810', fontWeight: '700' }}>{
                             (item.utilityStats?.duration?.type === 'ROUNDS' ? 'rounds' : 'minutes')
                         }</span> you gain the following:
                     </div>

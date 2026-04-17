@@ -191,6 +191,10 @@ export async function getItemCategories() {
     const categoriesRef = collection(db, COLLECTIONS.CATEGORIES);
     const snapshot = await getDocs(categoriesRef);
 
+    if (snapshot.empty) {
+      return MOCK_CATEGORIES;
+    }
+
     return snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -322,6 +326,55 @@ export async function getFeaturedItems(pageSize = 10) {
   } catch (error) {
     console.error('Error fetching featured items:', error);
     return MOCK_FEATURED_ITEMS.slice(0, pageSize);
+  }
+}
+
+/**
+ * Get recent items
+ */
+export async function getRecentItems(pageSize = 10) {
+  try {
+    if (!checkFirebaseAvailable()) {
+      return MOCK_FEATURED_ITEMS.slice(0, pageSize);
+    }
+
+    const itemsRef = collection(db, COLLECTIONS.ITEMS);
+    
+    // First try with full criteria
+    try {
+      const q = query(
+        itemsRef,
+        where('isPublic', '==', true),
+        orderBy('createdAt', 'desc'),
+        limit(pageSize)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      }
+    } catch (e) {
+      console.warn('Initial recent items query failed, trying fallback:', e);
+    }
+
+    // Fallback 1: Just public items without strict ordering (sometimes ordering fails without index)
+    const qFallback = query(
+      itemsRef,
+      where('isPublic', '==', true),
+      limit(pageSize)
+    );
+    const fallbackSnapshot = await getDocs(qFallback);
+    if (!fallbackSnapshot.empty) {
+      return fallbackSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }
+
+    // Fallback 2: Any items (if even isPublic is missing or all false)
+    const qAny = query(itemsRef, limit(pageSize));
+    const anySnapshot = await getDocs(qAny);
+    return anySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  } catch (error) {
+    console.error('Error fetching recent items:', error);
+    return [];
   }
 }
 

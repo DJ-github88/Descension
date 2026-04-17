@@ -469,30 +469,29 @@ const Step10EquipmentSelection = () => {
 
     // Tooltip handlers
     const handleItemMouseEnter = (e, item) => {
+        const rect = e.currentTarget.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        const tooltipWidth = 300; // Item tooltip width
-        const tooltipHeight = 400; // Item tooltip height (approximate)
+        const tooltipWidth = 280;
+        const tooltipHeight = 250;
         const margin = 15;
 
-        // Start at mouse position
-        let x = e.clientX + 15;
-        let y = e.clientY - 10;
+        let x = rect.right + margin;
+        let y = rect.top;
 
-        // Check if tooltip fits at mouse position
         const fitsRight = (x + tooltipWidth) <= viewportWidth;
         const fitsBelow = (y + tooltipHeight) <= viewportHeight;
 
         if (!fitsRight) {
-            x = e.clientX - tooltipWidth - 15;
+            x = rect.left - tooltipWidth - margin;
             if (x < margin) {
                 x = (viewportWidth - tooltipWidth) / 2;
             }
         }
 
         if (!fitsBelow) {
-            y = e.clientY - tooltipHeight - 15;
+            y = rect.top - tooltipHeight - margin;
             if (y < margin) {
                 y = Math.max(margin, viewportHeight - tooltipHeight - margin);
             }
@@ -511,30 +510,29 @@ const Step10EquipmentSelection = () => {
 
     const handleItemMouseMove = (e) => {
         if (tooltip.show) {
+            const rect = e.currentTarget.getBoundingClientRect();
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
 
-            const tooltipWidth = 300; // Item tooltip width
-            const tooltipHeight = 400; // Item tooltip height (approximate)
+            const tooltipWidth = 280;
+            const tooltipHeight = 250;
             const margin = 15;
 
-            // Start at mouse position
-            let x = e.clientX + 15;
-            let y = e.clientY - 10;
+            let x = rect.right + margin;
+            let y = rect.top;
 
-            // Check if tooltip fits at mouse position
             const fitsRight = (x + tooltipWidth) <= viewportWidth;
             const fitsBelow = (y + tooltipHeight) <= viewportHeight;
 
             if (!fitsRight) {
-                x = e.clientX - tooltipWidth - 15;
+                x = rect.left - tooltipWidth - margin;
                 if (x < margin) {
                     x = (viewportWidth - tooltipWidth) / 2;
                 }
             }
 
             if (!fitsBelow) {
-                y = e.clientY - tooltipHeight - 15;
+                y = rect.top - tooltipHeight - margin;
                 if (y < margin) {
                     y = Math.max(margin, viewportHeight - tooltipHeight - margin);
                 }

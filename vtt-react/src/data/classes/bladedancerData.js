@@ -10,6 +10,7 @@ export const BLADEDANCER_DATA = {
   name: 'Bladedancer',
   icon: 'fas fa-wind',
   role: 'Damage',
+  damageTypes: ['slashing', 'piercing'],
 
   // Overview section
   overview: {

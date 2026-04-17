@@ -112,31 +112,25 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
 
             if (isLocked) {
                 onShowUnlockModal(item);
-                onClose(); // Close context menu immediately since modal is handled by parent
+                onClose();
             } else {
-                // Safely toggle container open state
                 try {
-                    toggleContainerOpen(item.id);
-                    // Delay closing the context menu slightly to allow container opening to complete
+                    if (!openContainersSet.has(item.id)) {
+                        toggleContainerOpen(item.id);
+                    }
                     setTimeout(() => {
                         onClose();
                     }, 100);
                 } catch (toggleError) {
                     console.error('Error opening container:', toggleError);
-                    // Fallback implementation if the store function fails
                     const newOpenContainers = new Set(
                         Array.isArray(openContainers) ? openContainers : Array.from(openContainersSet)
                     );
 
-                    if (newOpenContainers.has(item.id)) {
-                        newOpenContainers.delete(item.id);
-                    } else {
+                    if (!newOpenContainers.has(item.id)) {
                         newOpenContainers.add(item.id);
+                        useItemStore.setState({ openContainers: newOpenContainers });
                     }
-
-                    // Update the store manually
-                    useItemStore.setState({ openContainers: newOpenContainers });
-                    // Delay closing the context menu slightly to allow container opening to complete
                     setTimeout(() => {
                         onClose();
                     }, 100);

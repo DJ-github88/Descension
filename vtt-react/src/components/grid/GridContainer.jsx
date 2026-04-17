@@ -9,6 +9,7 @@ import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
+import LockSettingsModal from '../item-generation/LockSettingsModal';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
@@ -23,6 +24,7 @@ const GridContainer = ({ gridItem }) => {
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [isContainerOpen, setIsContainerOpen] = useState(false);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
+  const [showLockSettings, setShowLockSettings] = useState(false);
   
   // Dragging state
   const [isDragging, setIsDragging] = useState(false);
@@ -83,6 +85,25 @@ const GridContainer = ({ gridItem }) => {
   const removeItemFromGrid = useGridItemStore(state => state.removeItemFromGrid);
   const updateItemPosition = useGridItemStore(state => state.updateItemPosition);
   const setGridItemHidden = useGridItemStore(state => state.setGridItemHidden);
+  const updateGridItemProperties = useGridItemStore(state => state.updateGridItemProperties);
+
+  // Use gridItem as fallback when originalItem isn't available in the player's itemStore
+  // Compute the combined display item properties
+  const displayItem = useMemo(() => {
+    if (!originalItem) return gridItem;
+    
+    // Merge original item properties with grid item overrides
+    // Instanced grid item properties (loot, locks, visibility) must take precedence
+    return {
+      ...originalItem,
+      ...gridItem,
+      id: gridItem.id, // Always use the unique grid item ID
+      containerProperties: {
+         ...(originalItem.containerProperties || {}),
+         ...(gridItem.containerProperties || {})
+      }
+    };
+  }, [originalItem, gridItem]);
 
   // Initialize localPosition from gridItem.position
   useEffect(() => {
@@ -90,6 +111,16 @@ const GridContainer = ({ gridItem }) => {
       setLocalPosition(gridItem.position);
     }
   }, [gridItem.position, isDragging, isMouseDown]);
+
+  // Cleanup openContainers on unmount to prevent stale state
+  useEffect(() => {
+    return () => {
+      const { openContainers: currentOpen, toggleContainerOpen: toggle } = useItemStore.getState();
+      if (currentOpen.has(gridItem.id)) {
+        toggle(gridItem.id);
+      }
+    };
+  }, [gridItem.id]);
 
   // Simple tooltip handlers (matching character sheet pattern)
   const handleMouseEnter = (e) => {
@@ -254,23 +285,25 @@ const GridContainer = ({ gridItem }) => {
     // Prevent propagation
     e.stopPropagation();
 
-    // Loot the container on click - matches standard loot orb behavior
-    // This allows clicking a dropped backpack/chest to loot it entirely
-    lootItem(gridItem.id);
+    // Open the container on click - matches standard container behavior and respects locks
+    handleOpenContainer();
   };
 
   // Handle opening the container
   const handleOpenContainer = () => {
     // Check if the container is locked
-    const isLocked = originalItem.containerProperties?.isLocked;
+    const isLocked = displayItem.containerProperties?.isLocked;
 
-    if (isLocked) {
+    // GM always bypasses locks
+    if (isLocked && !isGMMode) {
       // Show the unlock modal
       setShowUnlockModal(true);
     } else {
-      // Open the container if it's not locked
+      // Open the container if it's not locked or user is GM
       setIsContainerOpen(true);
-      toggleContainerOpen(originalItem.id);
+      if (!openContainers.has(displayItem.id)) {
+        toggleContainerOpen(displayItem.id);
+      }
     }
 
     // Close the context menu
@@ -284,14 +317,30 @@ const GridContainer = ({ gridItem }) => {
 
     // Open the container
     setIsContainerOpen(true);
-    toggleContainerOpen(originalItem.id);
+
+    // Update the container properties on the grid so other players see it unlocked
+    updateGridItemProperties(gridItem.id, {
+      containerProperties: {
+        ...(displayItem.containerProperties || {}),
+        isLocked: false
+      }
+    });
+
+    toggleContainerOpen(displayItem.id);
   };
 
-  // Handle looting the container
-  const handleLootContainer = () => {
-    lootItem(gridItem.id);
-    setShowContextMenu(false);
+  // Handle saving lock settings
+  const handleLockSettingsSave = (settings) => {
+    updateGridItemProperties(gridItem.id, {
+      containerProperties: {
+        ...(displayItem.containerProperties || {}),
+        ...settings
+      }
+    });
+    setShowLockSettings(false);
   };
+
+
 
   // Handle removing the container
   const handleRemoveContainer = () => {
@@ -318,7 +367,7 @@ const GridContainer = ({ gridItem }) => {
       };
     }
 
-    if (!gridItem.gridPosition || !originalItem) return { x: 0, y: 0 };
+    if (!gridItem.gridPosition) return { x: 0, y: 0 };
 
     // Convert grid position to world coordinates first
     const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
@@ -421,9 +470,6 @@ const GridContainer = ({ gridItem }) => {
     return { visible: true, greyedOut: false };
   }, [isGMMode, viewingFromToken, dynamicFogEnabled, itemWorldPosition, visibleAreaSet, visibilityPolygon, gridSystem, fogOfWarPaths, fogOfWarData]);
 
-  // If the original item doesn't exist, don't render anything (early return after all hooks)
-  if (!originalItem) return null;
-
   // Visibility logic
   if (gridItem.isHidden && !isGMMode) return null;
   if (!containerVisibilityState.visible) return null;
@@ -442,10 +488,10 @@ const GridContainer = ({ gridItem }) => {
           width: `${containerDimensions.width}px`,
           height: `${containerDimensions.height}px`,
           transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
-          border: `${Math.max(1, containerDimensions.width * 0.04)}px solid ${getQualityColor(originalItem.quality)}`,
-          boxShadow: `0 0 ${containerDimensions.width * 0.2}px ${getQualityColor(originalItem.quality)}80`,
-          backgroundImage: originalItem.imageUrl ? `url(${originalItem.imageUrl})` :
-            (originalItem.iconId ? `url(${getIconUrl(originalItem.iconId, 'items')})` :
+          border: `${Math.max(1, containerDimensions.width * 0.04)}px solid ${getQualityColor(displayItem.quality)}`,
+          boxShadow: `0 0 ${containerDimensions.width * 0.2}px ${getQualityColor(displayItem.quality)}80`,
+          backgroundImage: displayItem.imageUrl ? `url(${displayItem.imageUrl})` :
+            (displayItem.iconId ? `url(${getIconUrl(displayItem.iconId, 'items')})` :
               `url(${getIconUrl('brown-backpack-sleeping-bag', 'items')})`),
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -526,7 +572,7 @@ const GridContainer = ({ gridItem }) => {
               zIndex: 999999999
             }}
           >
-            <ItemTooltip item={originalItem} />
+            <ItemTooltip item={displayItem} />
           </div>
         </TooltipPortal>
       )}
@@ -538,14 +584,10 @@ const GridContainer = ({ gridItem }) => {
           y={contextMenuPosition.y}
           onClose={() => setShowContextMenu(false)}
           items={[
-            {
-              icon: <i className="fas fa-hand-holding-medical"></i>,
-              label: 'Loot Container',
-              onClick: handleLootContainer
-            },
+
             {
               icon: <i className="fas fa-box-open"></i>,
-              label: originalItem.containerProperties?.isLocked ? 'Unlock Container' : 'Open Container',
+              label: displayItem.containerProperties?.isLocked ? 'Unlock Container' : 'Open Container',
               onClick: handleOpenContainer
             },
             isGMMode && {
@@ -553,7 +595,15 @@ const GridContainer = ({ gridItem }) => {
               label: gridItem.isHidden ? 'Show to Players' : 'Hide from Players',
               onClick: handleToggleVisibility
             },
-            {
+            isGMMode && {
+              icon: <i className="fas fa-lock"></i>,
+              label: 'Lock Settings',
+              onClick: () => {
+                setShowLockSettings(true);
+                setShowContextMenu(false);
+              }
+            },
+            isGMMode && {
               icon: <i className="fas fa-trash-alt"></i>,
               label: 'Remove Container',
               onClick: handleRemoveContainer,
@@ -564,22 +614,33 @@ const GridContainer = ({ gridItem }) => {
         document.body
       )}
 
-      {isContainerOpen && openContainers.has(originalItem.id) && (
+      {isContainerOpen && displayItem && openContainers.has(displayItem.id) && (
         <ContainerWindow
-          container={originalItem}
+          container={displayItem}
           onClose={() => {
             setIsContainerOpen(false);
-            toggleContainerOpen(originalItem.id);
+            if (openContainers.has(displayItem.id)) {
+              toggleContainerOpen(displayItem.id);
+            }
           }}
         />
       )}
 
       {/* Unlock Container Modal */}
-      {showUnlockModal && (
+      {showUnlockModal && displayItem && (
         <UnlockContainerModal
-          container={originalItem}
+          container={displayItem}
           onSuccess={handleUnlockSuccess}
           onClose={() => setShowUnlockModal(false)}
+        />
+      )}
+
+      {/* Lock Settings Modal (GM only) */}
+      {showLockSettings && isGMMode && (
+        <LockSettingsModal
+          container={displayItem}
+          onSave={handleLockSettingsSave}
+          onClose={() => setShowLockSettings(false)}
         />
       )}
     </>

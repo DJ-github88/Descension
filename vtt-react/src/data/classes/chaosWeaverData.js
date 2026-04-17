@@ -245,6 +245,7 @@ export const CHAOS_WEAVER_DATA = {
   name: 'Chaos Weaver',
   icon: 'fas fa-dice',
   role: 'Damage',
+  damageTypes: ['force', 'necrotic', 'chaos'],
 
   // Spell Pools - organized by character level
   spellPools: {

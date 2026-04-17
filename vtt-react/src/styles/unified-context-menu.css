@@ -521,17 +521,7 @@
   position: relative;
 }
 
-.context-menu-separator::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 3px;
-  background: linear-gradient(135deg, rgba(160, 140, 112, 0.4), rgba(139, 115, 85, 0.4));
-  border-radius: 2px;
-}
+
 
 /* Simple context menu items (for social menus) */
 .context-menu-item {

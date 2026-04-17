@@ -10,6 +10,7 @@ export const SPELLGUARD_DATA = {
   name: 'Spellguard',
   icon: 'fas fa-shield-alt',
   role: 'Tank/Anti-Mage',
+  damageTypes: ['arcane', 'force'],
 
   // Overview section
   overview: {

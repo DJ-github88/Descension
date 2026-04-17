@@ -578,6 +578,9 @@ const ActionBar = () => {
                 } else if (result.pendingOverheal) {
                     pendingOverheals.push(result.pendingOverheal);
                 }
+            } else if (healAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('health', healAmount, item);
             }
         }
 
@@ -591,6 +594,9 @@ const ActionBar = () => {
                 } else if (result.pendingOverheal) {
                     pendingOverheals.push(result.pendingOverheal);
                 }
+            } else if (manaAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
             }
         }
 
@@ -604,6 +610,9 @@ const ActionBar = () => {
                 } else if (result.pendingOverheal) {
                     pendingOverheals.push(result.pendingOverheal);
                 }
+            } else if (apAmount < 0) {
+                hasInstantEffects = true;
+                applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
             }
         }
 

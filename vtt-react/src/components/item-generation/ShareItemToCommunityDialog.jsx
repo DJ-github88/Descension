@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import '../../styles/confirmation-dialog.css';
+
 
 /**
  * ShareItemToCommunityDialog - Dialog for sharing an item to the community

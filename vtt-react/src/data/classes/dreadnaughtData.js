@@ -10,6 +10,7 @@ export const DREADNAUGHT_DATA = {
   name: 'Dreadnaught',
   icon: 'fas fa-shield',
   role: 'Tank',
+  damageTypes: ['necrotic', 'poison', 'psychic'],
 
   // Overview section
   overview: {

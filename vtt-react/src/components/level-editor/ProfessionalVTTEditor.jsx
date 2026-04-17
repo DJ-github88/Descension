@@ -1108,20 +1108,21 @@ const ProfessionalVTTEditor = () => {
 
                     // Initialize GM Notes data
                     if (objectType === 'gmNotes') {
+                        const sectionId = `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                         objectData.gmNotesData = {
                             title: '',
                             description: '',
-                            notes: '', // Keep for backward compatibility
+                            notes: '',
+                            noteIcon: 'scroll',
                             structuredNotes: {
-                                readAloud: '',
                                 sensoryDetails: { smell: '', sound: '', touch: '', additional: '' },
-                                dynamicState: '',
-                                keyFeatures: '',
-                                gmHidden: { clues: '', triggers: '', consequences: '' }
+                                sections: [{ id: sectionId, title: 'Scene Overview', blocks: [] }],
+                                tags: []
                             },
                             handouts: [],
                             items: [],
-                            creatures: []
+                            creatures: [],
+                            npcs: []
                         };
                         console.log('🎯 GM Notes placement data:', {
                             gridX: objCoords.gridX,

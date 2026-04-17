@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/category-dialog.css';
+
 
 const WOW_ICONS = [
     'inv_misc_bag_08',

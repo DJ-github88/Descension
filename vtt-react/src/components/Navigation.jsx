@@ -422,7 +422,7 @@ const NAVIGATION_BUTTONS = [
 
     {
         id: 'travel',
-        title: 'Travel Tracker',
+        title: 'Travel',
         shortcut: 'W',
         svg: <>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" />
@@ -747,7 +747,6 @@ export default function Navigation({ onReturnToLanding }) {
         'creatures',
         'maplibrary',
         'campaign',
-        'travel',
         'itemgen',
         'combat',
         'encounters'
@@ -1106,16 +1105,19 @@ export default function Navigation({ onReturnToLanding }) {
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
-                            <TravelTrackerWindow
-                                key={`${button.id}-gm`}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                            />
-                            <PlayerTravelDashboard
-                                key={`${button.id}-player`}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                            />
+                            {isGMMode ? (
+                                <TravelTrackerWindow
+                                    key={`${button.id}-gm`}
+                                    isOpen={true}
+                                    onClose={() => handleButtonClick(button.id)}
+                                />
+                            ) : (
+                                <PlayerTravelDashboard
+                                    key={`${button.id}-player`}
+                                    isOpen={true}
+                                    onClose={() => handleButtonClick(button.id)}
+                                />
+                            )}
                         </Suspense>
                     </ErrorBoundary>
                 );

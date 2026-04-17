@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import { getIconUrl } from '../../utils/assetManager';
-import './CategorizeModal.css';
 
 const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onClose, x, y }) => {
     const [hoveredCategory, setHoveredCategory] = useState(null);

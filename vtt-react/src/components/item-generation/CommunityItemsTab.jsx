@@ -11,14 +11,14 @@ import useItemStore from '../../store/itemStore';
 import useAuthStore from '../../store/authStore';
 import ItemCard from './ItemCard';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/community-tabs-shared.css';
-import './CommunityItemsTab.css';
+
 
 const CommunityItemsTab = () => {
   const {
     categories,
     items,
     featuredItems,
+    recentItems,
     loading,
     error,
     selectedCategory,
@@ -32,7 +32,9 @@ const CommunityItemsTab = () => {
     voteCommunityItem,
     fetchUserVote,
     addCommunityComment,
-    fetchComments
+    fetchComments,
+    refreshCategories,
+    refreshRecent
   } = useCommunityItems();
 
   const { addItem } = useItemStore();
@@ -289,82 +291,101 @@ const CommunityItemsTab = () => {
       </div>
 
       <div className="community-content">
-        {/* Loading State */}
-        {loading && items.length === 0 && (
-          <div className="loading-state">
-            <i className="fas fa-spinner fa-spin"></i>
-            <p>Loading items...</p>
+        {/* Simplified Header */}
+        {!selectedCategory && !searchTerm && (
+          <div className="community-minimal-header">
+            <div className="minimal-header-content">
+              <h1>Community Library</h1>
+              <div className="header-stats">
+                <div className="header-stat">
+                  <i className="fas fa-box-open"></i>
+                  <span>{categories.reduce((acc, cat) => acc + (cat.itemCount || 0), 0)} Items</span>
+                </div>
+                <div className="header-stat">
+                  <i className="fas fa-layer-group"></i>
+                  <span>{categories.length} Categories</span>
+                </div>
+                <button 
+                  className="refresh-community-btn" 
+                  onClick={() => {
+                    refreshCategories();
+                    refreshRecent();
+                  }}
+                  title="Refresh Community Data"
+                >
+                  <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`}></i>
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
-      {/* Error State */}
-      {error && (
-        <div className="community-error-state">
-          <div className="error-icon">
-            <i className="fas fa-exclamation-triangle"></i>
-          </div>
-          <h3>Unable to Connect to Community</h3>
-          <p>
-            We're having trouble connecting to the community item database.
-            This might be due to network issues or the service being temporarily unavailable.
-          </p>
-          <p className="error-details">
-            <strong>Don't worry!</strong> You can still use the item designer to create your own items,
-            and they'll be saved to your local library.
-          </p>
-          <div className="error-actions">
-            <button
-              onClick={() => window.location.reload()}
-              className="retry-btn"
-            >
-              <i className="fas fa-redo"></i> Try Again
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Categories */}
-      {!selectedCategory && !searchTerm && (
-        <div className="community-categories">
-          <h3>Browse by Category</h3>
-          <div className="categories-grid">
-            {categories.map(category => (
-              <div
-                key={category.id}
-                className="category-card"
-                onClick={() => selectCategory(category.id)}
-                style={{
-                  '--category-color': category.color
-                }}
-              >
-                <div className="category-icon">
-                  <img
-                    src={getIconUrl(category.icon, 'items')}
-                    alt={category.name}
-                    onError={(e) => {
-                      e.target.onerror = null; // Prevent infinite loop
-                      e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                    }}
-                  />
-                </div>
-                <h4>{category.name}</h4>
-                <p>{category.description}</p>
-                {category.itemCount !== undefined && (
-                  <div className="category-item-count">
-                    <i className="fas fa-box"></i>
-                    {category.itemCount} items
-                  </div>
-                )}
+        {/* Recent Discoveries (NOW AT THE TOP) */}
+        {!selectedCategory && !searchTerm && (
+          <div className="recent-items-section top-section">
+            <div className="section-header">
+              <i className="fas fa-sparkles"></i>
+              <h3>Recent Discoveries</h3>
+            </div>
+            {recentItems.length > 0 ? (
+              <div className="items-grid horizontal-snap">
+                {recentItems.map(renderItemCard)}
               </div>
-            ))}
+            ) : !loading ? (
+              <div className="no-items-placeholder">
+                <i className="fas fa-ghost"></i>
+                <p>No items shared yet. Be the first to grace this library!</p>
+              </div>
+            ) : (
+              <div className="loading-placeholder">
+                <i className="fas fa-spinner fa-spin"></i>
+                <p>Gazing into the void...</p>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Categories (SMALLER TILES) */}
+        {!selectedCategory && !searchTerm && (
+          <div className="community-categories browse-section">
+            <div className="section-header">
+              <i className="fas fa-th-large"></i>
+              <h3>Browse by Category</h3>
+            </div>
+            <div className="categories-grid compact-grid">
+              {categories.map(category => (
+                <div
+                  key={category.id}
+                  className="category-tile"
+                  onClick={() => selectCategory(category.id)}
+                >
+                  <div className="tile-icon">
+                    <img
+                      src={getIconUrl(category.icon, 'items')}
+                      alt={category.name}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
+                      }}
+                    />
+                  </div>
+                  <div className="tile-info">
+                    <h4>{category.name}</h4>
+                    <span className="tile-count">{category.itemCount || 0} items</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
       {/* Featured Items */}
       {!selectedCategory && !searchTerm && featuredItems.length > 0 && (
-        <div className="featured-items">
-          <h3>Featured Items</h3>
+        <div className="featured-items-section">
+          <div className="section-header">
+            <i className="fas fa-star"></i>
+            <h3>Featured Items</h3>
+          </div>
           <div className="items-grid">
             {featuredItems.map(renderItemCard)}
           </div>

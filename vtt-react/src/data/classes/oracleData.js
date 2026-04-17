@@ -10,7 +10,8 @@ export const ORACLE_DATA = {
   name: 'Oracle',
   icon: 'fas fa-eye',
   role: 'Support/Utility (Divination & Fate Manipulation)',
-  
+  damageTypes: ['psychic', 'force'],
+
   // Overview section
   overview: {
     title: 'The Oracle',

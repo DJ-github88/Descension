@@ -31,6 +31,7 @@ const TabbedSelectionModal = ({
     tabs = [],
     width = '900px',
     hideSelectButton = false,
+    disableSelect = false,
     defaultTab = null,
     icon = null,
     gradient = null
@@ -46,12 +47,19 @@ const TabbedSelectionModal = ({
     useEffect(() => {
         if (isOpen) {
             setActiveTab(defaultTab || (tabs.length > 0 ? tabs[0].id : null));
-            document.addEventListener('keydown', handleKeyDown);
             document.body.style.overflow = 'hidden';
         }
         return () => {
-            document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
         };
     }, [isOpen, handleKeyDown]);
 
@@ -153,7 +161,7 @@ const TabbedSelectionModal = ({
                         <button 
                             className="tabbed-selection-modal-btn tabbed-selection-modal-btn-select" 
                             onClick={handleSelect}
-                            disabled={!selectedItem}
+                            disabled={!selectedItem || disableSelect}
                         >
                             <i className="fas fa-check"></i>
                             Select {selectedItem?.name || selectionType}

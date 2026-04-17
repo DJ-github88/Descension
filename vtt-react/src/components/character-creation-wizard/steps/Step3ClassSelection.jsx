@@ -117,11 +117,11 @@ const Step3ClassSelection = () => {
                 )
             },
             {
-                id: 'damage',
+                id: 'damage-types',
                 label: 'Damage Types',
                 content: (
                     <DamageTypesTab 
-                        className={viewingClass.name}
+                        damageTypes={fullClassData?.damageTypes || []}
                     />
                 )
             }

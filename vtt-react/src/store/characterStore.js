@@ -120,6 +120,7 @@ const useCharacterStore = create((set, get) => ({
     path: '', // Character path ID (e.g., 'mystic', 'zealot')
     pathDisplayName: '', // Display name for path (e.g., 'Mystic', 'Zealot')
     pathPassives: [], // Passive abilities from the selected path/discipline
+    selectedAbility: '', // ID of the chosen discipline ability
     level: 1,
     experience: 0, // Current XP
     alignment: 'Neutral Good',
@@ -476,6 +477,7 @@ const useCharacterStore = create((set, get) => ({
                     class_spells: state.class_spells,
                     path: state.path,
                     pathDisplayName: state.pathDisplayName,
+                    selectedAbility: state.selectedAbility,
                     background: state.background,
                     backgroundDisplayName: state.backgroundDisplayName,
                     talents: state.talents
@@ -2789,6 +2791,7 @@ const useCharacterStore = create((set, get) => ({
                 path: character.path || '',
                 pathDisplayName: character.pathDisplayName || '',
                 pathPassives: character.pathPassives || [],
+                selectedAbility: character.selectedAbility || '',
                 level: character.level || 1,
                 experience: character.experience || 0,
                 alignment: character.alignment || 'Neutral Good',
@@ -3100,7 +3103,8 @@ const useCharacterStore = create((set, get) => ({
                                 background: character.background,
                                 backgroundDisplayName: backgroundDisplayName,
                                 path: character.path,
-                                pathDisplayName: character.pathDisplayName
+                                pathDisplayName: character.pathDisplayName,
+                                selectedAbility: character.selectedAbility || ''
                             }
                         });
                     }
@@ -4356,6 +4360,8 @@ const useCharacterStore = create((set, get) => ({
             get().saveCurrentCharacter();
         }
 
+        get().syncWithMultiplayer();
+
     },
 
     // Reverse level-up bonuses when leveling down
@@ -4402,6 +4408,7 @@ const useCharacterStore = create((set, get) => ({
         // Recalculate derived stats (this will now exclude the removed level-up bonuses)
         get().initializeCharacter();
 
+        get().syncWithMultiplayer();
     }
 }));
 

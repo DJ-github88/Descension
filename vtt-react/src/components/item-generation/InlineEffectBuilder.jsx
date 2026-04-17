@@ -4,7 +4,7 @@ import {
   faFire, faHeart, faShieldAlt, faSkullCrossbones, faBolt,
   faPlus, faTrash, faChevronDown, faChevronUp
 } from '@fortawesome/free-solid-svg-icons';
-import '../../styles/item-wizard.css';
+
 
 // Default configurations for each effect type
 const DEFAULT_CONFIGS = {

@@ -14,6 +14,7 @@ import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
+import { setCombatSyncSocket, clearCombatSyncSocket } from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -27,6 +28,7 @@ import useQuestStore from '../../store/questStore';
 import useSettingsStore from '../../store/settingsStore';
 import useMapStore from '../../store/mapStore';
 import useTargetingStore from '../../store/targetingStore';
+import useTravelStore from '../../store/travelStore';
 import QuestShareDialog from '../quest-log/QuestShareDialog';
 import QuestRewardDeliveryDialog from '../quest-log/QuestRewardDeliveryDialog';
 import { showPlayerJoinNotification, showPlayerLeaveNotification, showGMDisconnectedNotification } from '../../utils/playerNotifications';
@@ -1770,6 +1772,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data && data.position) {
         // CRITICAL: Pass mapId for proper map isolation
         addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
+      }
+    });
+
+    socket.on('request_travel_sync', () => {
+      console.log('🗺️ [Travel] GM received request_travel_sync, isGM:', isGMRef.current);
+      if (isGMRef.current) {
+        useTravelStore.getState().broadcastTravelState();
       }
     });
 
@@ -3625,6 +3634,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Update item - server sends 'updates' object
           if (data.updates.position || data.updates.gridPosition) {
             gridItemStore.updateItemPosition(data.itemId, data.updates.position || data.updates.gridPosition, false, itemMapId);
+          } else {
+            // Handle other property updates (like container properties, visibility, etc.)
+            gridItemStore.updateGridItemProperties(data.itemId, data.updates, false);
           }
           // Could also handle other property updates here if needed
         } else if (data.action === 'remove' && data.itemId) {
@@ -4569,6 +4581,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           abilityData: data,
           timestamp: data.timestamp || new Date().toISOString()
         });
+      }
+    });
+
+    // Sync combat log notifications from other players
+    socket.on('combat_log', (data) => {
+      if (data.playerId !== currentPlayer?.id) {
+        const notification = {
+          ...data.notification,
+          id: data.notification?.id || crypto.randomUUID(),
+          timestamp: data.notification?.timestamp || data.timestamp || new Date().toISOString(),
+          fromNetwork: true
+        };
+        addNotification('combat', notification);
       }
     });
 
@@ -6145,6 +6170,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('combat_turn_changed');
       socket.off('spell_cast'); // IMPROVEMENT: Clean up spell cast handler
       socket.off('ability_used'); // IMPROVEMENT: Clean up ability use handler
+      socket.off('combat_log');
       socket.off('dice_rolled'); // IMPROVEMENT: Clean up dice roll handler
       socket.off('dice_update'); // IMPROVEMENT: Clean up dice update handler
       socket.off('item_update'); // IMPROVEMENT: Clean up item update handler
@@ -6744,6 +6770,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     try {
       // Simple: Room creator = GM, others = players
       setGMMode(isGameMaster);
+
+      if (!isGameMaster && socketConnection) {
+        console.log('🗺️ [Travel] Initializing player travel listener');
+        useTravelStore.getState().initPlayerTravelListener(socketConnection);
+      }
 
       // ==========================================
       // CRITICAL FIX: MAP ISOLATION & INITIAL LOAD
@@ -7392,6 +7423,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Set multiplayer state in game store with socket
       setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection, currentPlayerData);
 
+      if (!isGameMaster) {
+        console.log('🗺️ [Travel] Requesting travel sync from GM, roomId:', room?.id);
+        socketConnection.emit('request_travel_sync', { roomId: room?.id });
+      }
+
       // Set up chat integration for multiplayer
       const sendChatMessage = (message) => {
         if (socketConnection && socketConnection.connected) {
@@ -7449,6 +7485,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Set current room after all initialization is complete
       setCurrentRoom(room);
+      setCombatSyncSocket(socket, room.id);
 
       // Show successful join notification
       if (!skipSetJoiningFalse) {
@@ -7509,6 +7546,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setCurrentRoom(null);
     setCurrentPlayer(null);
     window.currentPlayerId = null;
+    clearCombatSyncSocket();
 
     setIsGM(false);
     setConnectedPlayers([]);

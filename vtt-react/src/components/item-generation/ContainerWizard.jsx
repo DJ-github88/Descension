@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { getIconUrl } from '../../utils/assetManager';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../../styles/container-wizard.css';
 
 function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingContainer, isEditing: isEditingProp }) {
     const resolvedOnCancel = onCancel || onClose;

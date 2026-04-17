@@ -1,7 +1,7 @@
 import React from 'react';
 import ChanceOnBeingHitConfig from '../ChanceOnBeingHitConfig';
 import { FaShieldAlt } from 'react-icons/fa';
-import '../../../styles/item-wizard.css';
+
 
 /**
  * StepChanceOnHit component

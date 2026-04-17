@@ -7,21 +7,97 @@
 import React, { useState, useMemo } from 'react';
 import { UnifiedSpellCard } from '../../../spellcrafting-wizard/components/common';
 import { normalizeDisciplineAbility } from '../../../../utils/raceDisciplineSpellUtils';
+import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
-const getPassiveSummary = (ability = {}) => {
+const getPassiveSummary = (benefit = {}) => {
     const parts = [];
 
-    if (ability.description) {
-        const firstSentence = ability.description.split(/[.!?]+/)[0].trim();
+    if (benefit.description) {
+        const firstSentence = benefit.description.split(/[.!?]+/)[0].trim();
         if (firstSentence) parts.push(firstSentence + '.');
     }
 
-    return parts.length ? parts.join(' ') : 'No description available';
-};
+    let conditionText = '';
+    if (benefit.triggerConfig?.global?.compoundTriggers) {
+        const healthTrigger = benefit.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
+        if (healthTrigger?.parameters) {
+            const percentage = healthTrigger.parameters.percentage;
+            const comparison = healthTrigger.parameters.comparison;
+            if (percentage && comparison) {
+                if (comparison === 'less_than' || comparison === 'below') {
+                    conditionText = `when below ${percentage}% HP`;
+                } else if (comparison === 'greater_than' || comparison === 'above') {
+                    conditionText = `when above ${percentage}% HP`;
+                }
+            }
+        }
+    }
 
-const getAbilityIconUrl = (iconId) => {
-    if (!iconId) return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-    return `https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg`;
+    const formatStatMod = (mod = {}) => {
+        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+        let mag;
+        if (mod.magnitudeType === 'dice' && mod.formula) {
+            mag = mod.formula;
+        } else if (mod.magnitudeType === 'percentage') {
+            mag = `${mod.magnitude}%`;
+        } else {
+            mag = `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        }
+        return `${stat} ${mag}`;
+    };
+
+    const statMods = [];
+    const otherEffects = [];
+
+    if (benefit.buffConfig?.effects) {
+        benefit.buffConfig.effects.forEach(effect => {
+            if (effect.statModifier) {
+                statMods.push(formatStatMod(effect.statModifier));
+            } else if (effect.statusEffect) {
+                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            }
+        });
+    }
+
+    if (benefit.buffConfig?.statModifiers) {
+        benefit.buffConfig.statModifiers.forEach(mod => {
+            statMods.push(formatStatMod(mod));
+        });
+    }
+
+    if (benefit.debuffConfig?.effects) {
+        benefit.debuffConfig.effects.forEach(effect => {
+            if (effect.statModifier) {
+                statMods.push(formatStatMod(effect.statModifier));
+            } else if (effect.statusEffect) {
+                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            }
+        });
+    }
+
+    if (benefit.healingConfig) {
+        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = benefit.healingConfig;
+        const intervalText = hotTickInterval
+            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+            : '';
+        const durationText = hotDuration
+            ? ` while ${hotDuration}`
+            : durationType === 'permanent'
+                ? ' continuously'
+                : '';
+        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    }
+
+    if (statMods.length > 0) {
+        const modText = statMods.join(', ');
+        parts.push(conditionText ? `${modText} ${conditionText}` : modText);
+    }
+
+    if (otherEffects.length > 0) {
+        parts.push(otherEffects.join(', '));
+    }
+
+    return parts.length ? parts.join(' ') : 'No description available';
 };
 
 const AbilitiesTab = ({
@@ -64,6 +140,12 @@ const AbilitiesTab = ({
                 <span className="ability-count-badge">({normalizedAbilities.length})</span>
             </h5>
             
+            {!selectedAbilityId && (
+                <p className="selected-ability-hint" style={{ color: '#d4af37' }}>
+                    Click an ability to select it
+                </p>
+            )}
+
             {selectedAbilityId && (
                 <p className="selected-ability-hint">
                     Selected: <strong>{
@@ -88,7 +170,6 @@ const AbilitiesTab = ({
                                 <img
                                     src={getAbilityIconUrl(ability.icon)}
                                     alt={ability.name}
-                                    onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
                                 />
                             </div>
                             <div className="ability-icon-name">{ability.name}</div>
@@ -109,15 +190,14 @@ const AbilitiesTab = ({
 
                             if (isPassive) {
                                 const description = getPassiveSummary(viewingAbility);
-                                const icon = viewingAbility.icon || 'spell_holy_devotion';
+                                const icon = viewingAbility.icon || 'Radiant/Divine Blessing';
                                 return (
                                     <div className="passive-summary-item">
                                         <div className="passive-summary-icon-wrapper">
                                             <img
-                                                src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
+                                                src={getAbilityIconUrl(icon)}
                                                 alt={viewingAbility.name}
                                                 className="passive-summary-icon"
-                                                onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
                                             />
                                         </div>
                                         <div className="passive-summary-details">

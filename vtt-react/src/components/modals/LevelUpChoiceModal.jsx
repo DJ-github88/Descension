@@ -11,6 +11,9 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { getSafePortalTarget } from '../../utils/portalUtils';
+
 // Import all class data
 import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
 import { BERSERKER_DATA } from '../../data/classes/berserkerData';
@@ -293,6 +296,9 @@ const LevelUpChoiceModal = ({
 
     if (!isOpen) return null;
 
+    const portalTarget = getSafePortalTarget();
+    if (!portalTarget) return null;
+
     const currentSpell = viewingSpell ? availableSpellPool.find(s => s.id === viewingSpell) : null;
 
     console.log('🎉 Level-Up Modal Opened:', {
@@ -302,7 +308,7 @@ const LevelUpChoiceModal = ({
         knownSpellsCount: knownSpells.length
     });
 
-    return (
+    return createPortal(
         <div className="level-up-modal-overlay">
             <div className="level-up-modal">
                 <div className="level-up-header">
@@ -538,8 +544,10 @@ const LevelUpChoiceModal = ({
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        portalTarget
     );
+
 };
 
 export default LevelUpChoiceModal;

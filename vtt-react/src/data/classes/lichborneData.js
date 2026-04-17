@@ -10,6 +10,7 @@ export const LICHBORNE_DATA = {
   name: 'Lichborne',
   icon: 'fas fa-skull',
   role: 'Damage/Control',
+  damageTypes: ['necrotic', 'frost'],
 
   // Overview section
   overview: {

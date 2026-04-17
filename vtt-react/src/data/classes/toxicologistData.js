@@ -10,6 +10,7 @@ export const TOXICOLOGIST_DATA = {
   name: 'Toxicologist',
   icon: 'fas fa-flask',
   role: 'Damage/Support',
+  damageTypes: ['poison', 'necrotic'],
 
   // Overview Section
   overview: {

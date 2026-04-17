@@ -918,7 +918,12 @@ const useGridItemStore = create((set, get) => ({
   },
 
   // Set grid item visibility hidden status
-  setGridItemHidden: (gridItemId, isHidden, sendToServer = true) => set((state) => {
+  setGridItemHidden: (gridItemId, isHidden, sendToServer = true) => {
+    return get().updateGridItemProperties(gridItemId, { isHidden: !!isHidden }, sendToServer);
+  },
+
+  // Update generic grid item properties
+  updateGridItemProperties: (gridItemId, updates, sendToServer = true) => set((state) => {
     const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
     const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
 
@@ -932,14 +937,14 @@ const useGridItemStore = create((set, get) => ({
 
     updatedItems[itemIndex] = {
       ...existingItem,
-      isHidden: !!isHidden,
+      ...updates,
       lastModified: Date.now()
     };
 
     if (sendToServer) {
-      get().syncGridItemUpdate('grid_item_hidden_updated', {
+      get().syncGridItemUpdate('grid_item_properties_updated', {
         gridItemId,
-        isHidden: !!isHidden,
+        updates,
         targetMapId: existingItem.mapId
       });
     }
@@ -1001,14 +1006,12 @@ const useGridItemStore = create((set, get) => ({
           },
           targetMapId: data.targetMapId || currentMapId
         });
-      } else if (updateType === 'grid_item_hidden_updated') {
+      } else if (updateType === 'grid_item_hidden_updated' || updateType === 'grid_item_properties_updated') {
         gameStore.multiplayerSocket.emit('grid_item_update', {
           roomId,
           action: 'update',
           itemId: data.gridItemId || data.itemId,
-          updates: {
-            isHidden: data.isHidden
-          },
+          updates: data.updates || { isHidden: data.isHidden },
           targetMapId: data.targetMapId || currentMapId
         });
       } else {

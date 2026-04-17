@@ -109,6 +109,13 @@ const mapSpellIcon = (wowIconId) => {
     // Trap icons
     'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
     
+    // Nature icons
+    'spell_nature_naturetouchgrow': 'Nature/Gnarled Roots',
+    'spell_nature_naturesblessing': 'Nature/Growth',
+    
+    // Shadow icons
+    'spell_shadow_charm': 'Utility/Glowing Hooded Figure',
+    
     // Wild magic icons
     'spell_arcane_arcane04': 'Arcane/Magical Sword'
   };
@@ -144,8 +151,7 @@ const getSpellIconUrl = (iconId) => {
     if (mappedIcon) {
       return getCustomIconUrl(mappedIcon, 'abilities');
     }
-    // If no mapping found, use default instead of getAbilityIconUrl (which adds creature- prefix)
-    return getCustomIconUrl('Utility/Utility', 'abilities');
+    return getAbilityIconUrl(iconId);
   }
 
   // Default fallback

@@ -58,6 +58,38 @@ import './components/ui/ActionBar.css';
 import './components/account/styles/AccountDashboardIsolation.css';
 import './components/character-creation-wizard/styles/CharacterCreationWizard.css';
 import './components/hud/styles/ClassResourceBar.css';
+import './styles/item-library.css';
+import './styles/item-card.css';
+import './styles/quick-item-wizard.css';
+import './styles/enhanced-quick-item-wizard.css';
+import './styles/item-generation.css';
+import './styles/community-tabs-shared.css';
+import './components/item-generation/CommunityItemsTab.css';
+import './styles/step-tooltip.css';
+import './styles/item-tooltip.css';
+import './styles/container-wizard.css';
+import './styles/container.css';
+import './styles/container-window.css';
+import './styles/category-dialog.css';
+import './styles/confirmation-dialog.css';
+import './styles/currency-withdraw-modal.css';
+import './styles/quick-item-generator-modal.css';
+import './styles/lock-settings-modal.css';
+import './styles/unlock-container-modal.css';
+import './components/item-generation/CategorizeModal.css';
+import './styles/recipe-wizard.css';
+
+// Essential Game Mode Styles (Consolidated here to prevent "shredding" on re-entry)
+import './components/creature-wizard/styles/CreatureWindow.css';
+import './components/combat/FloatingCombatText.css';
+import './styles/combat-system.css';
+import './styles/item-icon-selector.css';
+import './styles/dropdown-fix.css';
+import './components/spellcrafting-wizard/styles/IconSelector.css';
+import './styles/inventory.css';
+import './styles/item-wizard.css';
+import './components/spellcrafting-wizard/styles/pathfinder/main.css';
+import 'react-resizable/css/styles.css';
 
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
@@ -86,41 +118,28 @@ const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/
 
 
 // Track dynamically loaded stylesheets for cleanup
-let preGameStyleCount = 0;
-let gameStyleElements = [];
+let gameStyleObserver = null;
 
 // Lazy load game-specific styles with cleanup tracking
 const loadGameStyles = () => {
-    // Snapshot all existing style/link elements BEFORE loading game styles
-    // so we can identify and remove any that are injected during game mode
-    if (preGameStyleCount === 0) {
-        preGameStyleCount = document.querySelectorAll('style, link[rel="stylesheet"]').length;
-        console.log(`📝 Pre-game style count: ${preGameStyleCount}`);
-    }
+    // Start observing head for new style injections
+    // Core game styles (Inventory, Combat, etc.) have been moved to static imports
+    // to prevent being caught by cleanupGameStyles and failing to re-inject properly on re-entry.
 
-    // Load essential game styles
-    const stylePromises = [
-        import('./components/creature-wizard/styles/CreatureWindow.css'),
-        import('./components/combat/FloatingCombatText.css'),
-        import('./styles/combat-system.css'),
-        import('./styles/item-icon-selector.css'),
-        import('./styles/dropdown-fix.css'),
-        import('./components/spellcrafting-wizard/styles/IconSelector.css'),
-        import('./styles/inventory.css'),
-        import('./styles/item-wizard.css'),
-        import('react-resizable/css/styles.css')
-    ];
-
-    // Mark all newly injected stylesheets for cleanup
-    Promise.all(stylePromises).then(() => {
-        const allElements = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'));
-        gameStyleElements = allElements.slice(preGameStyleCount);
-        // Tag each element so cleanup can find them even if DOM order changes
-        gameStyleElements.forEach(el => {
-            el.setAttribute('data-game-style', 'true');
+    // Start observing head for new style injections
+    if (typeof window !== 'undefined' && !gameStyleObserver) {
+        gameStyleObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.tagName === 'STYLE' || (node.tagName === 'LINK' && node.rel === 'stylesheet')) {
+                        node.setAttribute('data-game-style', 'true');
+                    }
+                });
+            });
         });
-        console.log(`🎮 Tagged ${gameStyleElements.length} game-injected stylesheets`);
-    });
+
+        gameStyleObserver.observe(document.head, { childList: true });
+    }
 };
 
 // Clean up game-specific styles when leaving game mode
@@ -129,9 +148,13 @@ const cleanupGameStyles = () => {
     document.body.classList.remove('game-mode');
     document.body.classList.add('landing-mode');
 
-    // CRITICAL: Remove ALL stylesheets injected during game mode
-    // These include both explicit loadGameStyles() imports AND CSS injected
-    // by lazy-loaded React components (Grid, ActionBar, CombatTimeline, etc.)
+    // Disconnect observer
+    if (gameStyleObserver) {
+        gameStyleObserver.disconnect();
+        gameStyleObserver = null;
+    }
+
+    // CRITICAL: Remove ONLY stylesheets tagged as game styles
     const gameStyles = document.querySelectorAll('[data-game-style="true"]');
     if (gameStyles.length > 0) {
         console.log(`🧹 Removing ${gameStyles.length} game stylesheets...`);
@@ -141,22 +164,6 @@ const cleanupGameStyles = () => {
             }
         });
     }
-
-    // Also remove any style/link elements that were added beyond our pre-game snapshot
-    // (catches any styles injected by lazy components that weren't tagged)
-    const allElements = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'));
-    if (allElements.length > preGameStyleCount) {
-        const extraElements = allElements.slice(preGameStyleCount);
-        console.log(`🧹 Removing ${extraElements.length} untagged game stylesheets...`);
-        extraElements.forEach(el => {
-            if (el && el.parentNode) {
-                el.parentNode.removeChild(el);
-            }
-        });
-    }
-
-    gameStyleElements = [];
-    preGameStyleCount = 0;
 
     // Reset any inline box-sizing that might have been globally applied
     document.documentElement.style.boxSizing = '';

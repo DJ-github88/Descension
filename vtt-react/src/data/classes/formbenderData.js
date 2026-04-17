@@ -10,7 +10,8 @@ export const FORMBENDER_DATA = {
   name: 'Formbender',
   icon: 'fas fa-paw',
   role: 'Hybrid (Tank/Damage/Support)',
-  
+  damageTypes: ['nature', 'bludgeoning'],
+
   // Overview section
   overview: {
     title: 'The Formbender',

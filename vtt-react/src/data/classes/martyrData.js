@@ -10,6 +10,7 @@ export const MARTYR_DATA = {
   name: 'Martyr',
   icon: 'fas fa-cross',
   role: 'Support/Tank',
+  damageTypes: ['radiant', 'fire'],
 
   // Overview section
   overview: {

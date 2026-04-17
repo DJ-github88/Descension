@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import '../../styles/lock-settings-modal.css';
+import '../../styles/container-wizard.css';
+import { getIconUrl } from '../../utils/assetManager';
+
 
 const LockSettingsModal = ({ container, onSave, onClose }) => {
     // Ensure we have default values if containerProperties is undefined
@@ -49,273 +51,204 @@ const LockSettingsModal = ({ container, onSave, onClose }) => {
         }));
     };
 
+    const updateSettings = (updates) => setLockSettings(prev => ({ ...prev, ...updates }));
+
+    const updateFailureDetails = (updates) => setLockSettings(prev => ({
+        ...prev,
+        failureActionDetails: { ...prev.failureActionDetails, ...updates }
+    }));
+
     return createPortal(
-        <div className="lock-settings-overlay" onClick={onClose}>
-            <div className="lock-settings-modal" onClick={e => e.stopPropagation()}>
-                <div className="modal-header">
-                    <h3>Lock Settings</h3>
-                    <button className="close-button" onClick={onClose}>×</button>
-                </div>
-                <div className="modal-content">
-                    <div className="form-group">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={lockSettings.isLocked}
-                                onChange={(e) => setLockSettings({
-                                    ...lockSettings,
-                                    isLocked: e.target.checked,
-                                    // Reset values when unlocking
-                                    lockType: e.target.checked ? 'thievery' : 'none',
-                                    lockDC: e.target.checked ? lockSettings.lockDC : 0,
-                                    lockCode: e.target.checked ? lockSettings.lockCode : '',
-                                    flavorText: e.target.checked ? lockSettings.flavorText : '',
-                                    maxAttempts: e.target.checked ? lockSettings.maxAttempts : 3,
-                                    failureAction: e.target.checked ? lockSettings.failureAction : 'none',
-                                    failureActionDetails: e.target.checked ? lockSettings.failureActionDetails : {
-                                        removeItems: false,
-                                        removePercentage: 50,
-                                        destroyContainer: false,
-                                        triggerTrap: false,
-                                        trapDetails: '',
-                                        transformIntoCreature: false,
-                                        creatureType: ''
-                                    }
-                                })}
+        <>
+            <div className="cw-overlay" onClick={onClose} />
+            <div className="cw-overlay cw-overlay--modal">
+                <div className="cw-modal" onClick={e => e.stopPropagation()}>
+                    <div className="cw-header">
+                        <div className="cw-header-left">
+                            <img
+                                src={getIconUrl(container.iconId || 'inv_box_01', 'items', true)}
+                                alt=""
+                                className="cw-header-icon"
+                                onError={e => { e.target.onerror = null; e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true); }}
                             />
-                            <i className={`fas fa-${lockSettings.isLocked ? 'lock' : 'lock-open'}`}></i>
-                            <span>Lock Container</span>
-                        </label>
+                            <h2>Lock Settings: {container.name || 'Container'}</h2>
+                        </div>
+                        <button className="cw-close" onClick={onClose}>
+                            <i className="fas fa-times" />
+                        </button>
                     </div>
 
-                    {lockSettings.isLocked && (
-                        <>
-                            <div className="form-group lock-type-selection">
-                                <label>Lock Type:</label>
-                                <div className="lock-type-options">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value="thievery"
-                                            checked={lockSettings.lockType === 'thievery'}
-                                            onChange={(e) => setLockSettings({
-                                                ...lockSettings,
-                                                lockType: e.target.value,
-                                                lockCode: ''
-                                            })}
-                                        />
-                                        <span>Thievery Check</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value="code"
-                                            checked={lockSettings.lockType === 'code'}
-                                            onChange={(e) => setLockSettings({
-                                                ...lockSettings,
-                                                lockType: e.target.value,
-                                                lockDC: 0
-                                            })}
-                                        />
-                                        <span>Word Code</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value="numeric"
-                                            checked={lockSettings.lockType === 'numeric'}
-                                            onChange={(e) => setLockSettings({
-                                                ...lockSettings,
-                                                lockType: e.target.value,
-                                                lockDC: 0
-                                            })}
-                                        />
-                                        <span>Numeric Code</span>
-                                    </label>
+                    <div className="cw-body">
+                        <div className="cw-panel">
+                            <label className="cw-toggle-row">
+                                <div className="cw-toggle-info">
+                                    <i className={`fas fa-${lockSettings.isLocked ? 'lock' : 'lock-open'}`} />
+                                    <span>Lock this container</span>
                                 </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label>
-                                    <i className="fas fa-book"></i>
-                                    <span>Lock Description</span>
-                                </label>
-                                <textarea
-                                    value={lockSettings.flavorText}
-                                    onChange={(e) => setLockSettings({
-                                        ...lockSettings,
-                                        flavorText: e.target.value
-                                    })}
-                                    placeholder={lockSettings.lockType === 'code' ? 
-                                        "Describe the lock mechanism or any clues about the word code..." :
-                                        lockSettings.lockType === 'numeric' ?
-                                        "Describe the lock mechanism or any clues about the numeric code..." :
-                                        "Describe the lock's appearance and any notable features..."}
-                                    rows={3}
-                                />
-                            </div>
-
-                            {lockSettings.lockType === 'thievery' && (
-                                <div className="form-group">
-                                    <label>
-                                        <i className="fas fa-dice-d20"></i>
-                                        <span>DC:</span>
-                                    </label>
-                                    <input
-                                        type="number"
-                                        min="5"
-                                        max="30"
-                                        value={lockSettings.lockDC}
-                                        onChange={(e) => setLockSettings({
-                                            ...lockSettings,
-                                            lockDC: Math.min(30, Math.max(5, parseInt(e.target.value) || 5))
-                                        })}
-                                        autoComplete="off"
-                                        autoCorrect="off"
-                                        autoCapitalize="off"
-                                        spellCheck="false"
-                                        data-form-type="other"
-                                    />
+                                <div className={`cw-switch ${lockSettings.isLocked ? 'on' : ''}`} onClick={() => updateSettings({
+                                    isLocked: !lockSettings.isLocked,
+                                    lockType: !lockSettings.isLocked ? 'thievery' : 'none'
+                                })}>
+                                    <div className="cw-switch-thumb" />
                                 </div>
-                            )}
+                            </label>
 
-                            {(lockSettings.lockType === 'code' || lockSettings.lockType === 'numeric') && (
-                                <div className="form-group">
-                                    <label>
-                                        <i className="fas fa-key"></i>
-                                        <span>Code:</span>
-                                    </label>
-                                    <input
-                                        type={lockSettings.lockType === 'numeric' ? "number" : "text"}
-                                        maxLength={lockSettings.lockType === 'numeric' ? "8" : "20"}
-                                        value={lockSettings.lockCode}
-                                        onChange={(e) => setLockSettings({
-                                            ...lockSettings,
-                                            lockCode: lockSettings.lockType === 'numeric' 
-                                                ? e.target.value.replace(/[^0-9]/g, '').slice(0, 8)
-                                                : e.target.value
-                                        })}
-                                        placeholder={lockSettings.lockType === 'numeric' ? "Enter numeric code..." : "Enter word code..."}
-                                        autoComplete="off"
-                                        autoCorrect="off"
-                                        autoCapitalize="off"
-                                        spellCheck="false"
-                                        data-form-type="other"
-                                    />
-                                </div>
-                            )}
-                            <div className="form-group">
-                                <label>
-                                    <i className="fas fa-shield-alt"></i>
-                                    <span>Security Settings</span>
-                                </label>
-                                <div className="security-settings">
-                                    <div className="max-attempts">
-                                        <label>Maximum Attempts:</label>
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            max="10"
-                                            value={lockSettings.maxAttempts}
-                                            onChange={(e) => setLockSettings({
-                                                ...lockSettings,
-                                                maxAttempts: Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
-                                            })}
+                            {lockSettings.isLocked && (
+                                <div className="cw-lock-section">
+                                    <div className="cw-lock-types">
+                                        {[
+                                            { value: 'thievery', icon: 'fa-dice-d20', label: 'Thievery' },
+                                            { value: 'code', icon: 'fa-font', label: 'Word Lock' },
+                                            { value: 'numeric', icon: 'fa-hashtag', label: 'Number Lock' }
+                                        ].map(lt => (
+                                            <button
+                                                key={lt.value}
+                                                className={`cw-lock-type ${lockSettings.lockType === lt.value ? 'active' : ''}`}
+                                                onClick={() => updateSettings({
+                                                    lockType: lt.value,
+                                                    lockDC: lt.value === 'thievery' ? 10 : 0,
+                                                    lockCode: ''
+                                                })}
+                                            >
+                                                <i className={`fas ${lt.icon}`} />
+                                                <span>{lt.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {lockSettings.lockType === 'thievery' && (
+                                        <div className="cw-field">
+                                            <label>Thievery DC</label>
+                                            <div className="cw-number-input">
+                                                <button onClick={() => updateSettings({ lockDC: Math.max(1, lockSettings.lockDC - 1) })}>-</button>
+                                                <span>{lockSettings.lockDC}</span>
+                                                <button onClick={() => updateSettings({ lockDC: Math.min(30, lockSettings.lockDC + 1) })}>+</button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {lockSettings.lockType === 'code' && (
+                                        <div className="cw-field">
+                                            <label>Secret Word</label>
+                                            <input
+                                                type="text"
+                                                value={lockSettings.lockCode}
+                                                onChange={e => updateSettings({ lockCode: e.target.value.replace(/[^a-zA-Z\s]/g, '').toUpperCase().slice(0, 20) })}
+                                                placeholder="Word or phrase"
+                                                autoComplete="off"
+                                                data-form-type="other"
+                                            />
+                                            <div className="cw-hint">Hangman-style puzzle — spaces preserved</div>
+                                        </div>
+                                    )}
+
+                                    {lockSettings.lockType === 'numeric' && (
+                                        <div className="cw-field">
+                                            <label>Secret Number</label>
+                                            <input
+                                                type="text"
+                                                value={lockSettings.lockCode}
+                                                onChange={e => updateSettings({ lockCode: e.target.value.replace(/[^0-9]/g, '').slice(0, 8) })}
+                                                placeholder="Up to 8 digits"
+                                                autoComplete="off"
+                                                data-form-type="other"
+                                            />
+                                            <div className="cw-hint">Players must enter the exact number</div>
+                                        </div>
+                                    )}
+
+                                    <div className="cw-field">
+                                        <label>Lock Appearance</label>
+                                        <textarea
+                                            value={lockSettings.flavorText}
+                                            onChange={(e) => updateSettings({ flavorText: e.target.value })}
+                                            placeholder="What does the lock look like?"
+                                            rows={2}
                                         />
                                     </div>
-                                    
-                                    <div className="failure-action">
-                                        <label>On Final Failure:</label>
-                                        <select
-                                            value={lockSettings.failureAction}
-                                            onChange={(e) => handleFailureActionChange(e.target.value)}
-                                        >
-                                            <option value="none">Nothing Special</option>
-                                            <option value="remove_items">Remove Some Items</option>
-                                            <option value="destroy">Destroy Container</option>
-                                            <option value="trap">Trigger Trap</option>
-                                            <option value="transform">Transform into Creature</option>
-                                        </select>
+
+                                    <div className="cw-row">
+                                        <div className="cw-field cw-field--sm">
+                                            <label>Max Attempts</label>
+                                            <div className="cw-number-input">
+                                                <button onClick={() => updateSettings({ maxAttempts: Math.max(1, lockSettings.maxAttempts - 1) })}>-</button>
+                                                <span>{lockSettings.maxAttempts}</span>
+                                                <button onClick={() => updateSettings({ maxAttempts: Math.min(10, lockSettings.maxAttempts + 1) })}>+</button>
+                                            </div>
+                                        </div>
+                                        <div className="cw-field">
+                                            <label>On Final Failure</label>
+                                            <select
+                                                value={lockSettings.failureAction}
+                                                onChange={(e) => handleFailureActionChange(e.target.value)}
+                                            >
+                                                <option value="none">Nothing</option>
+                                                <option value="remove_items">Remove Items</option>
+                                                <option value="destroy">Destroy Container</option>
+                                                <option value="trap">Trigger Trap</option>
+                                                <option value="transform">Transform to Creature</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     {lockSettings.failureAction === 'remove_items' && (
-                                        <div className="failure-details">
-                                            <label>Remove Percentage:</label>
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                max="100"
-                                                value={lockSettings.failureActionDetails.removePercentage}
-                                                onChange={(e) => setLockSettings(prev => ({
-                                                    ...prev,
-                                                    failureActionDetails: {
-                                                        ...prev.failureActionDetails,
-                                                        removePercentage: Math.min(100, Math.max(1, parseInt(e.target.value) || 1))
-                                                    }
-                                                }))}
-                                            />
-                                            <span>%</span>
+                                        <div className="cw-field cw-field--inline">
+                                            <label>Remove %</label>
+                                            <div className="cw-number-input">
+                                                <button onClick={() => updateFailureDetails({ removePercentage: Math.max(1, lockSettings.failureActionDetails.removePercentage - 10) })}>-</button>
+                                                <span>{lockSettings.failureActionDetails.removePercentage}%</span>
+                                                <button onClick={() => updateFailureDetails({ removePercentage: Math.min(100, lockSettings.failureActionDetails.removePercentage + 10) })}>+</button>
+                                            </div>
                                         </div>
                                     )}
 
                                     {lockSettings.failureAction === 'trap' && (
-                                        <div className="failure-details">
-                                            <label>Trap Description:</label>
+                                        <div className="cw-field">
+                                            <label>Trap Description</label>
                                             <textarea
                                                 value={lockSettings.failureActionDetails.trapDetails}
-                                                onChange={(e) => setLockSettings(prev => ({
-                                                    ...prev,
-                                                    failureActionDetails: {
-                                                        ...prev.failureActionDetails,
-                                                        trapDetails: e.target.value
-                                                    }
-                                                }))}
-                                                placeholder="Describe what happens when the trap triggers..."
+                                                onChange={(e) => updateFailureDetails({ trapDetails: e.target.value })}
+                                                placeholder="What happens..."
                                                 rows={2}
                                             />
                                         </div>
                                     )}
 
                                     {lockSettings.failureAction === 'transform' && (
-                                        <div className="failure-details">
-                                            <label>Creature Type:</label>
+                                        <div className="cw-field">
+                                            <label>Creature Type</label>
                                             <input
                                                 type="text"
                                                 value={lockSettings.failureActionDetails.creatureType}
-                                                onChange={(e) => setLockSettings(prev => ({
-                                                    ...prev,
-                                                    failureActionDetails: {
-                                                        ...prev.failureActionDetails,
-                                                        creatureType: e.target.value
-                                                    }
-                                                }))}
+                                                onChange={(e) => updateFailureDetails({ creatureType: e.target.value })}
                                                 placeholder="e.g., Mimic, Animated Armor..."
                                             />
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        </>
-                    )}
-                </div>
-                <div className="modal-footer">
-                    <button className="cancel-button" onClick={onClose}>
-                        Cancel
-                    </button>
-                    <button 
-                        className="save-button"
-                        onClick={handleSave}
-                        disabled={lockSettings.isLocked && (
-                            (lockSettings.lockType === 'thievery' && !lockSettings.lockDC) ||
-                            (lockSettings.lockType === 'code' && !lockSettings.lockCode) ||
-                            (lockSettings.lockType === 'numeric' && !lockSettings.lockCode)
-                        )}
-                    >
-                        Save Changes
-                    </button>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="cw-footer">
+                        <button className="cw-btn cw-btn--cancel" onClick={onClose}>
+                            Cancel
+                        </button>
+                        <button
+                            className="cw-btn cw-btn--create"
+                            onClick={handleSave}
+                            disabled={lockSettings.isLocked && (
+                                (lockSettings.lockType === 'thievery' && !lockSettings.lockDC) ||
+                                (lockSettings.lockType === 'code' && !lockSettings.lockCode) ||
+                                (lockSettings.lockType === 'numeric' && !lockSettings.lockCode)
+                            )}
+                        >
+                            Save Changes
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>,
+        </>,
         document.body
     );
 };

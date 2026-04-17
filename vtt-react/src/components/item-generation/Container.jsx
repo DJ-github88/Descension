@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useContainerStore from '../../store/containerStore';
 import useItemStore from '../../store/itemStore';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/container.css';
+
 
 const Container = ({ container }) => {
     const { toggleLock, toggleOpen, removeContainer, updateContainerPosition } = useContainerStore();

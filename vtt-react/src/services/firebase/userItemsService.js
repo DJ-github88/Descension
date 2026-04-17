@@ -489,9 +489,21 @@ export async function shareItemToCommunity(userId, itemId) {
     // Import community service to add item
     const { uploadItem } = await import('./communityItemService');
 
+    // Map item types to community categories
+    const typeToCategory = {
+      'weapon': 'weapons',
+      'armor': 'armor',
+      'consumable': 'consumables',
+      'reagent': 'materials',
+      'recipe': 'materials',
+      'container': 'tools',
+      'miscellaneous': 'tools'
+    };
+
     // Prepare item for community (remove folder references, add community metadata)
     const communityItem = {
       ...itemData,
+      categoryId: typeToCategory[itemData.type] || 'tools',
       originalItemId: itemId, // Reference back to user's item
       originalUserId: userId,
       isPublic: true,

@@ -696,33 +696,49 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             >
                 {/* Portrait */}
                 <div className="party-portrait">
-                    <div
-                        className="portrait-image"
-                        style={{
-                            backgroundImage: member.character?.tokenSettings?.customIcon
-                                ? `url(${member.character.tokenSettings.customIcon})`
-                                : member.character?.lore?.characterImage
-                                    ? `url(${member.character.lore.characterImage})`
-                                    : member.character?.lore?.characterIcon
-                                        ? `url(getIconUrl('${member.character.lore.characterIcon}', 'items'))`
+                    {(() => {
+                        const customIcon = member.character?.tokenSettings?.customIcon;
+                        const charImage = member.character?.lore?.characterImage;
+                        const charIcon = member.character?.lore?.characterIcon;
+                        const transformations = member.character?.lore?.imageTransformations;
+                        const borderColor = member.character?.tokenSettings?.borderColor;
+                        const hasImage = !!(customIcon || charImage || charIcon);
+
+                        let bgImage = 'none';
+                        if (customIcon) {
+                            bgImage = `url(${customIcon})`;
+                        } else if (charImage) {
+                            bgImage = `url(${charImage})`;
+                        } else if (charIcon) {
+                            bgImage = `url(${getIconUrl(charIcon, 'items')})`;
+                        }
+
+                        return (
+                            <div
+                                className={`portrait-image ${!hasImage ? 'portrait-placeholder' : ''}`}
+                                style={{
+                                    backgroundImage: bgImage,
+                                    backgroundSize: transformations
+                                        ? `${(transformations.scale || 1) * 150}%`
+                                        : 'cover',
+                                    backgroundPosition: transformations
+                                        ? `${50 + (transformations.positionX || 0) / 2}% ${50 - (transformations.positionY || 0) / 2}%`
+                                        : 'center center',
+                                    backgroundRepeat: 'no-repeat',
+                                    transform: transformations
+                                        ? `rotate(${transformations.rotation || 0}deg)`
                                         : 'none',
-                            backgroundSize: member.character?.lore?.imageTransformations
-                                ? `${(member.character.lore.imageTransformations.scale || 1) * 150}%`
-                                : 'cover',
-                            backgroundPosition: member.character?.lore?.imageTransformations
-                                ? `${50 + (member.character.lore.imageTransformations.positionX || 0) / 2}% ${50 - (member.character.lore.imageTransformations.positionY || 0) / 2}%`
-                                : 'center center',
-                            backgroundRepeat: 'no-repeat',
-                            transform: member.character?.lore?.imageTransformations
-                                ? `rotate(${member.character.lore.imageTransformations.rotation || 0}deg)`
-                                : 'none'
-                        }}
-                    >
-                        {/* Show default icon only if no character image */}
-                        {!member.character?.tokenSettings?.customIcon && !member.character?.lore?.characterImage && !member.character?.lore?.characterIcon && (
-                            <i className="fas fa-user"></i>
-                        )}
-                    </div>
+                                    borderColor: hasImage && borderColor ? borderColor : undefined
+                                }}
+                            >
+                                {!hasImage && (
+                                    <div className="portrait-placeholder-icon">
+                                        <i className="fas fa-user-slash"></i>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })()}
                     {/* GM/Leader Crown */}
                     {/* CRITICAL FIX: Show crown only for actual GM or real leaderId match */}
                     {/* Avoid 'current-player' fallback triggering crown on non-GM players */}
@@ -2439,12 +2455,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const socket = window.multiplayerSocket;
             if (socket && socket.connected) {
                 const member = findMemberById(memberId, partyMembers);
+                const roomId = useGameStore.getState().multiplayerRoom?.id;
                 socket.emit('gm_action', {
                     type: 'award_xp',
                     amount: xpAmount,
-                    targetPlayerId: memberId, // Specific target
-                    targetUserId: member?.userId || memberId, // Stable identifier
-                    playerName: characterName
+                    targetPlayerId: memberId,
+                    targetUserId: member?.userId || memberId,
+                    playerName: characterName,
+                    roomId
                 });
                 console.log(`💰 Emitted 'award_xp' gm_action for ${characterName}: ${xpAmount} XP`);
             } else {
@@ -2492,12 +2510,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const socket = window.multiplayerSocket;
             if (socket && socket.connected) {
                 const member = findMemberById(memberId, partyMembers);
+                const roomId = useGameStore.getState().multiplayerRoom?.id;
                 socket.emit('gm_action', {
                     type: 'adjust_level',
                     amount: levelChange,
-                    targetPlayerId: memberId, // Specific target
-                    targetUserId: member?.userId || memberId, // Stable identifier
-                    playerName: characterName
+                    targetPlayerId: memberId,
+                    targetUserId: member?.userId || memberId,
+                    playerName: characterName,
+                    roomId
                 });
                 console.log(`📊 Emitted 'adjust_level' gm_action for ${characterName}: ${levelChange} level(s)`);
             } else {

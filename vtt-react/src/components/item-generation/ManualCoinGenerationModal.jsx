@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { WOW_ICON_BASE_URL } from './wowIcons';
 import { CURRENCY_TYPES } from './itemConstants';
-import '../../styles/currency-withdraw-modal.css';
+
 
 const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
     const modalRef = useRef(null);

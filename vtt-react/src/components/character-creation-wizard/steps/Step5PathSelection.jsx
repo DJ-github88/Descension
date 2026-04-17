@@ -4,7 +4,7 @@
  * Choose from character disciplines with tabbed modal for viewing details
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { ENHANCED_PATHS } from '../../../data/enhancedPathData';
 import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
@@ -24,42 +24,45 @@ const Step5PathSelection = () => {
     
     const [showModal, setShowModal] = useState(false);
     const [viewingDiscipline, setViewingDiscipline] = useState(null);
+    const [modalSelectedAbility, setModalSelectedAbility] = useState(null);
 
     const paths = Object.values(ENHANCED_PATHS);
     const { validationErrors } = state;
 
-    const handlePathSelect = (pathId) => {
+    const handlePathSelect = (pathId, abilityId) => {
         removeSpellsByCategory(spellLibraryDispatch, 'Discipline Abilities', spellLibrary.spells);
         setSelectedPath(pathId);
-        setSelectedAbility(null);
+        setSelectedAbility(abilityId);
         setViewingAbilityId(null);
         dispatch(wizardActionCreators.setPath(pathId));
-        dispatch(wizardActionCreators.setSelectedAbility(null));
+        dispatch(wizardActionCreators.setSelectedAbility(abilityId));
         const disciplineSpells = getDisciplineSpells(pathId);
-        if (disciplineSpells.length > 0) {
-            const choices = { passive: 1, reaction: 1, action: 1 };
-            const selectedSpells = selectRandomSpells(disciplineSpells, choices);
-            addSpellsToLibrary(spellLibraryDispatch, selectedSpells, 'Discipline Abilities');
+        if (abilityId && disciplineSpells.length > 0) {
+            const chosenSpell = disciplineSpells.find(s => s.id === abilityId);
+            if (chosenSpell) {
+                addSpellsToLibrary(spellLibraryDispatch, [chosenSpell], 'Discipline Abilities');
+            }
         }
         setShowModal(false);
         setViewingDiscipline(null);
+        setModalSelectedAbility(null);
     };
 
     const handleDisciplineCardClick = (pathId) => {
         const discipline = ENHANCED_PATHS[pathId];
         setViewingDiscipline(discipline);
+        setModalSelectedAbility(selectedAbility || null);
         setShowModal(true);
         setViewingAbilityId(null);
     };
 
     const handleAbilitySelect = (abilityId) => {
-        const newSelectedAbility = selectedAbility === abilityId ? null : abilityId;
-        setSelectedAbility(newSelectedAbility);
+        const newSelectedAbility = modalSelectedAbility === abilityId ? null : abilityId;
+        setModalSelectedAbility(newSelectedAbility);
         setViewingAbilityId(newSelectedAbility);
-        dispatch(wizardActionCreators.setSelectedAbility(newSelectedAbility));
     };
 
-    const getDisciplineIcon = (pathId) => {
+    const getDisciplineIcon = useCallback((pathId) => {
         const icons = {
             'mystic': 'fas fa-hat-wizard',
             'trickster': 'fas fa-mask',
@@ -71,9 +74,9 @@ const Step5PathSelection = () => {
             'sentinel': 'fas fa-shield-alt'
         };
         return icons[pathId] || 'fas fa-star';
-    };
+    }, []);
 
-    const getDisciplineGradient = (pathId) => {
+    const getDisciplineGradient = useCallback((pathId) => {
         const gradients = {
             'mystic': 'linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%)',
             'trickster': 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)',
@@ -85,9 +88,9 @@ const Step5PathSelection = () => {
             'sentinel': 'linear-gradient(135deg, #27ae60 0%, #1e8449 100%)'
         };
         return gradients[pathId] || 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)';
-    };
+    }, []);
 
-    const buildModalTabs = () => {
+    const modalTabs = useMemo(() => {
         if (!viewingDiscipline) return [];
 
         const normalizedAbilities = (viewingDiscipline.abilities || []).map(normalizeDisciplineAbility);
@@ -116,19 +119,31 @@ const Step5PathSelection = () => {
             },
             {
                 id: 'abilities',
-                label: 'Abilities',
+                label: 'Choose Ability',
                 badge: normalizedAbilities.length.toString(),
                 content: (
                     <AbilitiesTab
                         abilities={normalizedAbilities}
-                        selectedAbilityId={null}
-                        onSelectAbility={() => {}}
-                        title="Discipline Abilities"
+                        selectedAbilityId={modalSelectedAbility}
+                        onSelectAbility={handleAbilitySelect}
+                        title="Choose 1 Discipline Ability"
                     />
                 )
             }
         ];
-    };
+    }, [viewingDiscipline]);
+
+    const handleCloseModal = useCallback(() => {
+        setShowModal(false);
+        setViewingDiscipline(null);
+        setViewingAbilityId(null);
+    }, []);
+
+    const handleModalSelect = useCallback(() => {
+        if (viewingDiscipline) {
+            handlePathSelect(viewingDiscipline.id, modalSelectedAbility);
+        }
+    }, [viewingDiscipline, modalSelectedAbility]);
 
     return (
         <div className="wizard-step-content">
@@ -197,16 +212,13 @@ const Step5PathSelection = () => {
 
             <TabbedSelectionModal
                 isOpen={showModal}
-                onClose={() => {
-                    setShowModal(false);
-                    setViewingDiscipline(null);
-                    setViewingAbilityId(null);
-                }}
-                onSelect={() => viewingDiscipline && handlePathSelect(viewingDiscipline.id)}
+                onClose={handleCloseModal}
+                onSelect={handleModalSelect}
                 selectedItem={viewingDiscipline}
                 selectionType="Discipline"
-                tabs={buildModalTabs()}
+                tabs={modalTabs}
                 width="950px"
+                disableSelect={!modalSelectedAbility}
                 icon={viewingDiscipline ? getDisciplineIcon(viewingDiscipline.id) : null}
                 gradient={viewingDiscipline ? getDisciplineGradient(viewingDiscipline.id) : null}
             />

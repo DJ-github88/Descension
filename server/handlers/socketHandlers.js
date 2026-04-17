@@ -2223,6 +2223,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const { room } = validation;
+        const effectiveRoomId = data.roomId || room.id;
         const actionType = data.action || data.type;
 
         // Handle various GM actions that require server-side state mutation
@@ -2255,14 +2256,14 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         // Standardized broadcast for client compatibility
         // We emit BOTH 'action' and 'type' to satisfy various client listeners
-        io.to(data.roomId).emit('gm_action', {
+        io.to(effectiveRoomId).emit('gm_action', {
           ...data,
           type: actionType,
           action: actionType
         });
 
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(effectiveRoomId, room.gameState);
 
       } catch (error) {
         logger.error('[gm_action] Error:', { error: error.message });
@@ -2312,11 +2313,28 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== TRAVEL HANDLERS ====================
 
+    socket.on('request_travel_sync', (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId, false);
+        if (!validation.valid) {
+          logger.info('[request_travel_sync] Validation failed', { socketId: socket.id, roomId: data.roomId });
+          return;
+        }
+        logger.info('[request_travel_sync] Relaying to room', { socketId: socket.id, roomId: data.roomId });
+        socket.to(data.roomId).emit('request_travel_sync', data);
+      } catch (error) {
+        logger.error('[request_travel_sync] Error:', { error: error.message });
+      }
+    });
+
     socket.on('travel_sync', (data) => {
       try {
         const validation = validateRoomMembership(socket, data.roomId, true);
-        if (!validation.valid) return;
-
+        if (!validation.valid) {
+          logger.info('[travel_sync] Validation failed', { socketId: socket.id, roomId: data.roomId });
+          return;
+        }
+        logger.info('[travel_sync] Relaying to room', { socketId: socket.id, roomId: data.roomId });
         socket.to(data.roomId).emit('travel_sync', data);
       } catch (error) {
         logger.error('[travel_sync] Error:', { error: error.message });
@@ -2328,6 +2346,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const validation = validateRoomMembership(socket, data.roomId, true);
         if (!validation.valid) return;
 
+        logger.info('[travel_update] Relaying', { socketId: socket.id, roomId: data.roomId, keys: Object.keys(data) });
         socket.to(data.roomId).emit('travel_update', data);
       } catch (error) {
         logger.error('[travel_update] Error:', { error: error.message });
@@ -2393,6 +2412,24 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
       } catch (error) {
         logger.error('[combat_ended] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('combat_log', (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId);
+        if (!validation.valid) return;
+
+        const sanitized = {
+          playerId: socket.player?.id || socket.id,
+          playerName: data.playerName || socket.player?.name || 'Unknown',
+          notification: data.notification,
+          timestamp: data.timestamp || new Date().toISOString()
+        };
+
+        socket.to(data.roomId).emit('combat_log', sanitized);
+      } catch (error) {
+        logger.error('[combat_log] Error:', { error: error.message });
       }
     });
 
@@ -4099,12 +4136,11 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         partyInvitations.set(invitationId, invitation);
 
-        const targetSocketId = Array.from(onlineSocialUsers.entries())
-          .find(([_, user]) => user.userId === toUserId || user.originalUserId === toUserId)?.[0];
+        const targetSockets = getSocketsByUserId(toUserId);
 
-        if (targetSocketId) {
+        if (targetSockets.length > 0) {
           const inviterData = onlineSocialUsers.get(socket.id) || {};
-          io.to(targetSocketId).emit('party_invitation_received', {
+          const invitationPayload = {
             ...invitation,
             partyName: party.name,
             fromUserName: inviterData.name || 'Unknown',
@@ -4114,8 +4150,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             fromUserId,
             targetAlreadyInParty,
             targetExistingPartyId
-          });
-          logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, targetSocketId });
+          };
+          targetSockets.forEach(s => s.emit('party_invitation_received', invitationPayload));
+          logger.info('📢 [invite_to_party] Invitation delivered', { invitationId, toUserId, socketCount: targetSockets.length });
         } else {
           logger.warn('📢 [invite_to_party] Target user not found in onlineSocialUsers', {
             toUserId,

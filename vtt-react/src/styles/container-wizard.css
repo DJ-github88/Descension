@@ -504,6 +504,128 @@
     white-space: nowrap;
 }
 
+
+/* ── Word Lock Interaction ── */
+.cw-word-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(122, 59, 46, 0.04);
+    border-radius: 8px;
+    border: 1px dashed rgba(122, 59, 46, 0.2);
+}
+
+.cw-word-part {
+    display: flex;
+    gap: 6px;
+}
+
+.cw-letter-box {
+    width: 32px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 3px solid var(--cw-brown);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--cw-brown);
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.cw-keyboard-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.cw-keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.cw-keyboard-row {
+    display: flex;
+    gap: 6px;
+}
+
+.cw-key {
+    min-width: 34px;
+    height: 40px;
+    padding: 0 8px;
+    background: white;
+    border: 1px solid rgba(122, 59, 46, 0.3);
+    border-radius: 6px;
+    color: var(--cw-brown);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 0 rgba(122, 59, 46, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cw-key:hover:not(:disabled) {
+    background: var(--cw-parchment-lt);
+    border-color: var(--cw-brown);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 rgba(122, 59, 46, 0.2);
+}
+
+.cw-key:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 0 0 transparent;
+}
+
+.cw-key--guessed {
+    background: rgba(122, 59, 46, 0.08);
+    border-color: transparent;
+    color: rgba(122, 59, 46, 0.4);
+    cursor: default;
+    box-shadow: none;
+}
+
+.cw-key--correct {
+    background: #e7f3e7;
+    border-color: #4a934a;
+    color: #3a7a3a;
+    box-shadow: 0 2px 0 rgba(74, 147, 74, 0.2);
+}
+
+.cw-keyboard-status {
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+}
+
+.cw-progress-badge {
+    background: var(--cw-gold-bg);
+    border: 1px solid var(--cw-gold);
+    color: var(--cw-brown);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cw-progress-badge i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
 /* ── Scrollbar ── */
 .cw-body::-webkit-scrollbar {
     width: 5px;

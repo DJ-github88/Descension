@@ -3402,7 +3402,10 @@ function GridComponent({
                     const uniqueKey = gridItem.id;
 
                     // If it's a container, render it as a container
-                    if (originalItem && originalItem.type === 'container') {
+                    // Check both the itemStore lookup (for the placing player) and
+                    // gridItem.type directly (for other players who don't have the item in their itemStore)
+                    const isContainer = (originalItem && originalItem.type === 'container') || gridItem.type === 'container';
+                    if (isContainer) {
                         return <GridContainer key={uniqueKey} gridItem={gridItem} />;
                     }
 

@@ -10,6 +10,7 @@ export const HUNTRESS_DATA = {
   name: 'Huntress',
   icon: 'fas fa-moon',
   role: 'Damage',
+  damageTypes: ['piercing', 'slashing'],
 
   // Overview section
   overview: {

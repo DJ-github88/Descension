@@ -519,7 +519,7 @@
 .spellbook-layout .unified-spell-card .spell-card-header,
 .spell-library-tab .unified-spell-card .unified-spell-card-header,
 .spell-library-tab .unified-spell-card .spell-card-header {
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -831,7 +831,7 @@
 /* Additional protection for unified spell card headers */
 .spellbook-layout .unified-spell-card .unified-spell-card-header,
 .spellbook-layout .unified-spell-card .spell-card-header {
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -1708,7 +1708,7 @@ body .pf-spell-card .spell-card-header,
 body .wow-spell-card .spell-card-header,
 html .unified-spell-card .unified-spell-card-header,
 html .unified-spell-card .spell-card-header {
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -1721,7 +1721,7 @@ html .unified-spell-card .spell-card-header {
 .spellbook-tab-headers + * .unified-spell-card-header,
 .spellbook-tab ~ * .unified-spell-card-header,
 .spellbook-tab + * .unified-spell-card-header {
-  background: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
 }

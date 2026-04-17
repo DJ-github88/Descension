@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
-import '../../styles/unlock-container-modal.css';
+import '../../styles/container-wizard.css';
+import { getIconUrl } from '../../utils/assetManager';
+
 
 const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose }) => {
 
@@ -104,11 +106,12 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     const checkWordProgress = (newLetter) => {
         if (!container?.containerProperties) return;
 
-        const targetWord = container.containerProperties.lockCode;
-        const newGuessedLetters = new Set([...guessedLetters, newLetter]);
+        const targetWord = container.containerProperties.lockCode.toUpperCase();
+        const upperLetter = newLetter.toUpperCase();
+        const newGuessedLetters = new Set([...guessedLetters, upperLetter]);
 
         // Check if the new letter is in the word (ignoring spaces)
-        if (!targetWord.replace(/\s/g, '').includes(newLetter)) {
+        if (!targetWord.replace(/\s/g, '').includes(upperLetter)) {
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
 
@@ -200,17 +203,17 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
 
         const word = container.containerProperties.lockCode;
         return (
-            <div className="word-display">
+            <div className="cw-word-display">
                 {word.split(' ').map((wordPart, wordIndex, wordArray) => (
                     <React.Fragment key={wordIndex}>
-                        <div className="word-part">
+                        <div className="cw-word-part">
                             {[...wordPart].map((letter, index) => (
-                                <div key={index} className="letter-box">
-                                    {guessedLetters.has(letter) ? letter : '_'}
+                                <div key={index} className="cw-letter-box">
+                                    {guessedLetters.has(letter.toUpperCase()) ? letter.toUpperCase() : '_'}
                                 </div>
                             ))}
                         </div>
-                        {wordIndex < wordArray.length - 1 && <div className="word-space"></div>}
+                        {wordIndex < wordArray.length - 1 && <div className="cw-word-space"></div>}
                     </React.Fragment>
                 ))}
             </div>
@@ -220,34 +223,47 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     const renderGuessedLetters = () => {
         if (!container?.containerProperties) return null;
 
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const uniqueLetters = new Set([...container.containerProperties.lockCode.replace(/\s/g, '')]);
+        const rows = [
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+            ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+        ];
+        
+        const lockCode = container.containerProperties.lockCode.toUpperCase();
+        const uniqueLetters = new Set([...lockCode.replace(/\s/g, '')]);
 
         return (
-            <div className="letter-status">
-                <div className="letter-grid">
-                    {[...alphabet].map((letter) => {
-                        const isInWord = uniqueLetters.has(letter);
-                        const isGuessed = guessedLetters.has(letter);
-                        return (
-                            <button
-                                key={letter}
-                                className={`letter-button ${isGuessed ? 'guessed' : ''} ${isGuessed && isInWord ? 'correct' : ''}`}
-                                onClick={() => {
-                                    if (!guessedLetters.has(letter)) {
-                                        setGuessedLetters(new Set([...guessedLetters, letter]));
-                                        checkWordProgress(letter);
-                                    }
-                                }}
-                                disabled={guessedLetters.has(letter)}
-                            >
-                                {letter}
-                            </button>
-                        );
-                    })}
+            <div className="cw-keyboard-section">
+                <div className="cw-keyboard">
+                    {rows.map((row, rowIndex) => (
+                        <div key={rowIndex} className="cw-keyboard-row">
+                            {row.map((letter) => {
+                                const isInWord = uniqueLetters.has(letter);
+                                const isGuessed = guessedLetters.has(letter);
+                                return (
+                                    <button
+                                        key={letter}
+                                        className={`cw-key ${isGuessed ? 'cw-key--guessed' : ''} ${isGuessed && isInWord ? 'cw-key--correct' : ''}`}
+                                        onClick={() => {
+                                            if (!guessedLetters.has(letter)) {
+                                                setGuessedLetters(new Set([...guessedLetters, letter]));
+                                                checkWordProgress(letter);
+                                            }
+                                        }}
+                                        disabled={isGuessed}
+                                    >
+                                        {letter}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    ))}
                 </div>
-                <div className="letter-count">
-                    <span>Letters Found: {[...guessedLetters].filter(l => uniqueLetters.has(l)).length} / {uniqueLetters.size}</span>
+                <div className="cw-keyboard-status">
+                    <div className="cw-progress-badge">
+                        <i className="fas fa-search" />
+                        <span>Letters Found: {[...guessedLetters].filter(l => uniqueLetters.has(l)).length} / {uniqueLetters.size}</span>
+                    </div>
                 </div>
             </div>
         );
@@ -273,143 +289,153 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     }
 
     return createPortal(
-        <div className="unlock-container-overlay" onClick={onClose}>
-            <div className="unlock-container-modal" onClick={e => e.stopPropagation()}>
-                <div className="modal-header">
-                    <h3>Unlock {container.name}</h3>
-                    <button className="close-button" onClick={onClose}>×</button>
-                </div>
-                <div className="modal-content">
-                    {container.containerProperties.flavorText && (
-                        <div className="flavor-text">
-                            <i className="fas fa-scroll"></i>
-                            <p>{container.containerProperties.flavorText}</p>
+        <>
+            <div className="cw-overlay" onClick={onClose} />
+            <div className="cw-overlay cw-overlay--modal">
+                <div className="cw-modal" onClick={e => e.stopPropagation()} style={{ width: '400px' }}>
+                    <div className="cw-header">
+                        <div className="cw-header-left">
+                            <img
+                                src={getIconUrl(container.iconId || 'inv_box_01', 'items', true)}
+                                alt=""
+                                className="cw-header-icon"
+                                onError={e => { e.target.onerror = null; e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true); }}
+                            />
+                            <h2>Unlock {container.name}</h2>
                         </div>
-                    )}
-
-                    <div className="attempts-remaining">
-                        <i className="fas fa-shield-alt"></i>
-                        <span>Attempts Remaining: {container.containerProperties.maxAttempts - attempts}</span>
+                        <button className="cw-close" onClick={onClose}>
+                            <i className="fas fa-times" />
+                        </button>
                     </div>
 
-                    {container.containerProperties.lockType === 'code' && (
-                        <>
-                            {renderWordDisplay()}
-                            {renderGuessedLetters()}
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                onKeyDown={handleKeyPress}
-                                style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
-                            />
-                        </>
-                    )}
+                    <div className="cw-body">
+                        <div className="cw-panel">
+                            {container.containerProperties.flavorText && (
+                                <div className="cw-toggle-row" style={{ cursor: 'default', background: 'rgba(122, 59, 46, 0.04)', flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                                    <div className="cw-toggle-info">
+                                        <i className="fas fa-scroll" />
+                                        <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--cw-brown)' }}>Description</span>
+                                    </div>
+                                    <p style={{ margin: 0, fontSize: '0.85rem', fontStyle: 'italic', lineHeight: '1.4' }}>
+                                        {container.containerProperties.flavorText}
+                                    </p>
+                                </div>
+                            )}
 
-                    {container.containerProperties.lockType === 'numeric' && (
-                        <div className="numeric-input">
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                value={input}
-                                onChange={(e) => {
-                                    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
-                                    setInput(value);
-                                    setError('');
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        handleNumericSubmit();
-                                    }
-                                }}
-                                placeholder="Enter numeric code"
-                                maxLength={8}
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoCapitalize="off"
-                                spellCheck="false"
-                            />
-                            <button
-                                className="submit-button"
-                                onClick={handleNumericSubmit}
-                                disabled={!input}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    )}
+                            <div className="cw-selected-info" style={{ justifyContent: 'center', padding: '10px 0', borderBottom: '1px solid rgba(122, 59, 46, 0.1)' }}>
+                                <i className="fas fa-shield-alt" style={{ color: 'var(--cw-brown)' }} />
+                                <span className="cw-selected-name">Attempts Remaining: {container.containerProperties.maxAttempts - attempts}</span>
+                            </div>
 
-                    {container.containerProperties.lockType === 'thievery' && (
-                        <div className="form-group">
-                            <label>
-                                <i className="fas fa-dice-d20"></i>
-                                <span>Thievery Check (DC {container.containerProperties.lockDC})</span>
-                            </label>
-                            <div className="thievery-input">
-                                <span className="dice-roll">
-                                    d20 {diceRoll ? `(${diceRoll})` : ''}
-                                </span>
-                                <span className="plus">+</span>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    max="30"
-                                    value={input}
-                                    onChange={(e) => {
-                                        setInput(e.target.value);
-                                        setError('');
-                                    }}
-                                    placeholder="Modifier"
-                                    autoFocus
-                                />
+                            <div className="cw-lock-section" style={{ background: 'transparent', border: 'none', padding: 0 }}>
+                                {container.containerProperties.lockType === 'code' && (
+                                    <div className="cw-panel">
+                                        {renderWordDisplay()}
+                                        {renderGuessedLetters()}
+                                        <input
+                                            ref={inputRef}
+                                            type="text"
+                                            onKeyDown={handleKeyPress}
+                                            style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+                                        />
+                                    </div>
+                                )}
+
+                                {container.containerProperties.lockType === 'numeric' && (
+                                    <div className="cw-field">
+                                        <label>Enter Code</label>
+                                        <div className="cw-row">
+                                            <input
+                                                ref={inputRef}
+                                                type="text"
+                                                value={input}
+                                                className="cw-field"
+                                                style={{ textAlign: 'center', fontSize: '1.2rem', letterSpacing: '4px', height: '44px' }}
+                                                onChange={(e) => {
+                                                    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
+                                                    setInput(value);
+                                                    setError('');
+                                                }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') handleNumericSubmit();
+                                                }}
+                                                placeholder="••••"
+                                                maxLength={8}
+                                            />
+                                            <button
+                                                className="cw-btn cw-btn--create"
+                                                style={{ height: '44px' }}
+                                                onClick={handleNumericSubmit}
+                                                disabled={!input}
+                                            >
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+
+                                {container.containerProperties.lockType === 'thievery' && (
+                                    <div className="cw-field">
+                                        <label>Thievery Check (DC {container.containerProperties.lockDC})</label>
+                                        <div className="cw-row" style={{ background: 'rgba(122, 59, 46, 0.06)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(122, 59, 46, 0.1)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                                <i className="fas fa-dice-d20" style={{ color: 'var(--cw-brown)', fontSize: '1.2rem' }} />
+                                                <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>
+                                                    {diceRoll !== null ? diceRoll : '?'}
+                                                </span>
+                                                <span style={{ opacity: 0.6 }}>+</span>
+                                                <input
+                                                    type="number"
+                                                    className="cw-field"
+                                                    style={{ width: '60px', padding: '4px 8px', background: 'white', border: '1px solid var(--cw-brown-lt)', borderRadius: '4px' }}
+                                                    value={input}
+                                                    onChange={(e) => { setInput(e.target.value); setError(''); }}
+                                                    placeholder="Mod"
+                                                />
+                                            </div>
+                                            <button
+                                                className="cw-btn cw-btn--create"
+                                                onClick={handleSubmit}
+                                                disabled={!input}
+                                            >
+                                                <i className="fas fa-unlock" style={{ marginRight: '6px' }} />
+                                                Pick
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {error && (
+                                    <div className="cw-toggle-row" style={{ background: 'rgba(122, 59, 46, 0.08)', borderColor: 'var(--cw-brown)', cursor: 'default' }}>
+                                        <div className="cw-toggle-info" style={{ color: 'var(--cw-brown)', fontSize: '0.8rem' }}>
+                                            <i className="fas fa-exclamation-circle" />
+                                            <span>{error}</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    )}
+                    </div>
 
-                    {error && (
-                        <div className="error-message">
-                            <i className="fas fa-exclamation-circle"></i>
-                            {error}
-                        </div>
-                    )}
-                </div>
-                <div className="modal-footer">
-                    <button className="cancel-button" onClick={onClose}>
-                        Cancel
-                    </button>
-                    {container.containerProperties.lockType === 'thievery' && (
-                        <>
+                    <div className="cw-footer">
+                        <button className="cw-btn cw-btn--cancel" onClick={onClose}>
+                            Cancel
+                        </button>
+                        {container.containerProperties.lockType === 'thievery' && (
                             <button
-                                className="unlock-button"
-                                onClick={handleSubmit}
-                                disabled={!input}
-                            >
-                                <i className="fas fa-unlock"></i>
-                                Pick Lock
-                            </button>
-                            <button
-                                className="success-button"
+                                className="cw-btn cw-btn--create"
+                                style={{ background: 'linear-gradient(135deg, #4a934a, #3a7a3a)' }}
                                 onClick={onSuccess}
-                                style={{
-                                    backgroundColor: '#4CAF50',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '8px 16px',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    marginLeft: '8px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px'
-                                }}
                             >
-                                <i className="fas fa-check"></i>
+                                <i className="fas fa-check" style={{ marginRight: '6px' }} />
                                 Success
                             </button>
-                        </>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>,
+        </>,
         document.body
     );
 };

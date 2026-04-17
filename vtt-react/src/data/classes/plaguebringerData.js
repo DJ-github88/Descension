@@ -10,6 +10,7 @@ export const PLAGUEBRINGER_DATA = {
   name: 'Plaguebringer',
   icon: 'fas fa-biohazard',
   role: 'Damage/Control',
+  damageTypes: ['poison', 'necrotic'],
 
   // Overview section
   overview: {

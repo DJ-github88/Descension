@@ -15,6 +15,7 @@ import {
     canDecreaseStat,
     calculateAvailablePoints,
     getStatBreakdown,
+    getStatPointCost,
     calculateAbilityModifier,
     getTotalBonusPoints
 } from '../../../utils/pointBuySystem';
@@ -101,6 +102,10 @@ const Step6StatAllocation = () => {
                                 const breakdown = statBreakdown[ability.id];
                                 const canIncrease = canIncreaseStat(baseStats, ability.id, bonusPoints);
                                 const canDecrease = canDecreaseStat(baseStats, ability.id);
+                                const currentBase = baseStats[ability.id] || POINT_BUY_CONFIG.BASE_STAT_VALUE;
+                                const nextCost = currentBase < POINT_BUY_CONFIG.MAX_STAT_VALUE
+                                    ? getStatPointCost(currentBase + 1) - getStatPointCost(currentBase)
+                                    : 0;
 
                                 return (
                                     <div key={ability.id} className="stat-control-row">
@@ -139,10 +144,13 @@ const Step6StatAllocation = () => {
                                                     className="stat-btn increase"
                                                     onClick={() => handleIncreaseStat(ability.id)}
                                                     disabled={!canIncrease}
-                                                    title="Increase stat"
+                                                    title={canIncrease ? `Increase ${ability.shortName} (costs ${nextCost} pt${nextCost !== 1 ? 's' : ''})` : currentBase >= POINT_BUY_CONFIG.MAX_STAT_VALUE ? 'Max stat value' : 'Not enough points'}
                                                 >
                                                     <i className="fas fa-plus"></i>
                                                 </button>
+                                            </div>
+                                            <div className="stat-increase-cost">
+                                                {canIncrease ? `+1 costs ${nextCost} pt${nextCost !== 1 ? 's' : ''}` : currentBase >= POINT_BUY_CONFIG.MAX_STAT_VALUE ? 'Max' : ''}
                                             </div>
 
                                             <div className="stat-breakdown">

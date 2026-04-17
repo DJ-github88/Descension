@@ -57,6 +57,12 @@ const getPassiveSummary = (benefit = {}) => {
         });
     }
 
+    if (benefit.buffConfig?.statModifiers) {
+        benefit.buffConfig.statModifiers.forEach(mod => {
+            statMods.push(formatStatMod(mod));
+        });
+    }
+
     if (benefit.debuffConfig?.effects) {
         benefit.debuffConfig.effects.forEach(effect => {
             if (effect.statModifier) {

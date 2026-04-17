@@ -10,6 +10,7 @@ export const LUNARCH_DATA = {
   name: 'Lunarch',
   icon: 'fas fa-moon',
   role: 'Support/Control',
+  damageTypes: ['arcane', 'radiant'],
 
   // Overview section
   overview: {

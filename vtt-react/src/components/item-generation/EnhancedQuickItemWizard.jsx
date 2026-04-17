@@ -4,7 +4,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from './wowIcons';
 import ItemTooltip from './ItemTooltip';
 import ItemIconSelector from './ItemIconSelector';
-import '../../styles/enhanced-quick-item-wizard.css';
+
 
 // Weapon slots and hand options
 const WEAPON_SLOTS = {
@@ -474,6 +474,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
     const [stableDescription, setStableDescription] = useState('');
     const [lastType, setLastType] = useState(type);
     const [lastSubtype, setLastSubtype] = useState(subtype);
+    const [selectedIcon, setSelectedIcon] = useState('');
+    const [showIconSelector, setShowIconSelector] = useState(false);
 
     // Generate items for container filling
     const generateContainerItems = useCallback((containerOpts) => {
@@ -587,7 +589,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 quality: containerOpts.itemQuality,
                 description: generateItemDescription(randomType, itemSubtype, containerOpts.itemQuality),
                 type: randomType,
-                subtype: itemSubtype,
+            subtype: subtype,
                 iconId: getRandomIconForType(randomType, itemSubtype),
                 imageUrl: `getIconUrl('${getRandomIconForType(randomType, itemSubtype)}', 'items')`,
                 value: (() => {
@@ -759,7 +761,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 const combatStats = {};
                 const utilityStats = {};
 
-                if (itemSubtype === 'POTION' || !itemSubtype) {
+            if (subtype === 'POTION' || !subtype) {
                     // Potions primarily restore health
                     combatStats.healthRestore = {
                         value: Math.max(10, Math.floor(powerMultiplier * getRandomInt(15, 35))),
@@ -772,7 +774,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                             isPercentage: false
                         };
                     }
-                } else if (itemSubtype === 'ELIXIR') {
+            } else if (subtype === 'ELIXIR') {
                     // Elixirs primarily restore mana
                     combatStats.manaRestore = {
                         value: Math.max(10, Math.floor(powerMultiplier * getRandomInt(15, 30))),
@@ -785,7 +787,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                             isPercentage: false
                         };
                     }
-                } else if (itemSubtype === 'FOOD') {
+            } else if (subtype === 'FOOD') {
                     // Food restores both but smaller amounts
                     combatStats.healthRestore = {
                         value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(8, 18))),
@@ -1123,7 +1125,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             setLastSubtype(subtype);
         }
 
-        const nameToUse = needsNewName ? stableName : (stableName || generateItemName(type, itemSubtype, RARITY_LEVELS[rarityLevel], weaponSlot, weaponHand, null, armorSlot));
+        const nameToUse = needsNewName ? stableName : (stableName || generateItemName(type, subtype, RARITY_LEVELS[rarityLevel], weaponSlot, weaponHand, null, armorSlot));
         let finalName = nameToUse || '';
         const quality = RARITY_LEVELS[rarityLevel];
 
@@ -1148,7 +1150,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             finalName = displayName.trim() || '1c';
         }
 
-        const finalDescription = needsNewName ? currentDescription : (stableDescription || generateItemDescription(type, itemSubtype, quality));
+        const finalDescription = needsNewName ? currentDescription : (stableDescription || generateItemDescription(type, subtype, quality));
 
         // Generate item icon based on type and subtype, or use selected icon
         const iconId = selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_questionmark';
@@ -1204,13 +1206,13 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         let slots = [];
         if (type === 'armor') {
             // Use the selected armor slot, or handle shield special case
-            if (itemSubtype === 'SHIELD' || armorSlot === 'offHand') {
+            if (subtype === 'SHIELD' || armorSlot === 'offHand') {
                 slots = ['off_hand']; // Use snake_case for consistency with ItemTooltip
             } else {
                 slots = [armorSlot];
             }
         } else if (type === 'accessory') {
-            switch (itemSubtype) {
+            switch (subtype) {
                 case 'RING':
                     slots = ['finger'];
                     break;
@@ -1252,7 +1254,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 }
             } else {
                 // If no weapon slot is selected, get default from subtype
-                const subtypeInfo = itemSubtype ? ITEM_SUBTYPES.weapon[itemSubtype] : null;
+                const subtypeInfo = subtype ? ITEM_SUBTYPES.weapon[subtype] : null;
 
                 if (subtypeInfo) {
                     if (subtypeInfo.slot === 'TWO_HANDED') {
@@ -1310,8 +1312,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 physicalDamageType = selectedDamageType;
             }
             // Otherwise get damage type from the subtype definition if available
-            else if (itemSubtype && ITEM_SUBTYPES.weapon[itemSubtype]?.damageType) {
-                physicalDamageType = ITEM_SUBTYPES.weapon[itemSubtype].damageType;
+            else if (subtype && ITEM_SUBTYPES.weapon[subtype]?.damageType) {
+                physicalDamageType = ITEM_SUBTYPES.weapon[subtype].damageType;
             }
             // Fallback to default damage types based on weapon category
             else {
@@ -1331,9 +1333,9 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             }
 
             // Adjust based on weapon type
-            if (itemSubtype === 'DAGGER') {
+            if (subtype === 'DAGGER') {
                 diceType = 'd4';
-            } else if (itemSubtype === 'STAFF' || itemSubtype === 'POLEARM') {
+            } else if (subtype === 'STAFF' || subtype === 'POLEARM') {
                 if (diceType === 'd4') diceType = 'd6';
                 if (diceType === 'd6') diceType = 'd8';
             }
@@ -1463,7 +1465,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         // Add health/mana restore for consumables
         if (type === 'consumable') {
             // Always give consumables immediate effects based on subtype
-            if (itemSubtype === 'POTION' || !itemSubtype) {
+            if (subtype === 'POTION' || !subtype) {
                 // Potions primarily restore health
                 combatStats.healthRestore = {
                     value: Math.max(10, Math.floor(powerMultiplier * getRandomInt(15, 35))),
@@ -1476,7 +1478,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                         isPercentage: false
                     };
                 }
-            } else if (itemSubtype === 'ELIXIR') {
+            } else if (subtype === 'ELIXIR') {
                 // Elixirs primarily restore mana
                 combatStats.manaRestore = {
                     value: Math.max(10, Math.floor(powerMultiplier * getRandomInt(15, 30))),
@@ -1489,7 +1491,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                         isPercentage: false
                     };
                 }
-            } else if (itemSubtype === 'FOOD') {
+            } else if (subtype === 'FOOD') {
                 // Food restores both but smaller amounts
                 combatStats.healthRestore = {
                     value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(8, 18))),
@@ -1542,7 +1544,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             quality,
             description: finalDescription,
             type,
-            subtype: itemSubtype,
+            subtype: subtype,
             iconId,
             imageUrl: getIconUrl(iconId),
             baseStats,
@@ -1578,7 +1580,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             } : {}),
 
             // Add specialized properties based on item type
-            ...(type === 'miscellaneous' && itemSubtype === 'QUEST' ? {
+            ...(type === 'miscellaneous' && subtype === 'QUEST' ? {
                 questGiver: miscOptions.questGiver || 'Unknown',
                 questObjectives: miscOptions.questObjectives || 'Bring this item to its rightful owner.',
                 requiredLevel: miscOptions.requiredLevel,
@@ -1586,7 +1588,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 questChain: miscOptions.questChain
             } : {}),
 
-            ...(type === 'miscellaneous' && itemSubtype === 'REAGENT' ? {
+            ...(type === 'miscellaneous' && subtype === 'REAGENT' ? {
                 reagentType: miscOptions.reagentType,
                 magicType: miscOptions.magicType,
                 reagentState: miscOptions.reagentState,
@@ -1597,7 +1599,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 source: miscOptions.source
             } : {}),
 
-            ...(type === 'miscellaneous' && itemSubtype === 'CRAFTING' ? {
+            ...(type === 'miscellaneous' && subtype === 'CRAFTING' ? {
                 materialType: miscOptions.materialType,
                 professions: miscOptions.professions,
                 gatheringMethod: miscOptions.gatheringMethod,
@@ -1606,7 +1608,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 specialProperties: miscOptions.specialProperties
             } : {}),
 
-            ...(type === 'miscellaneous' && itemSubtype === 'TRADE_GOODS' ? {
+            ...(type === 'miscellaneous' && subtype === 'TRADE_GOODS' ? {
                 tradeCategory: miscOptions.tradeCategory,
                 origin: miscOptions.origin,
                 demandLevel: miscOptions.demandLevel,
@@ -1614,7 +1616,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 merchantNotes: miscOptions.merchantNotes
             } : {}),
 
-            ...(type === 'miscellaneous' && itemSubtype === 'KEY' ? {
+            ...(type === 'miscellaneous' && subtype === 'KEY' ? {
                 unlocks: miscOptions.unlocks,
                 location: miscOptions.location,
                 securityLevel: miscOptions.securityLevel,
@@ -1622,7 +1624,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 specialInstructions: miscOptions.specialInstructions
             } : {}),
 
-            ...(type === 'miscellaneous' && itemSubtype === 'JUNK' ? {
+            ...(type === 'miscellaneous' && subtype === 'JUNK' ? {
                 junkType: miscOptions.junkType,
                 condition: miscOptions.condition,
                 origin: miscOptions.origin,

@@ -36,6 +36,7 @@ const ObjectSystem = () => {
     const [initialScale, setInitialScale] = useState(1);
     const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
     const [hoveredHandle, setHoveredHandle] = useState(null);
+    const dragStateRef = useRef({ isDragging: false, dragObjectId: null, dragOffsetX: 0, dragOffsetY: 0 });
     const [isOverConnection, setIsOverConnection] = useState(false);
     const connectionElementRef = useRef(null);
 
@@ -219,7 +220,7 @@ const ObjectSystem = () => {
 
         switch (objectDef.category) {
             case 'gm':
-                renderGMObject(ctx, objectDef, screenPos, width, height);
+                renderGMObject(ctx, objectDef, screenPos, width, height, obj);
                 break;
             default:
                 renderGenericObject(ctx, objectDef, screenPos, width, height);
@@ -233,22 +234,27 @@ const ObjectSystem = () => {
 
 
 
-    const renderGMObject = (ctx, objectDef, screenPos, width, height) => {
-        // Center the object at the screen position (like other objects)
+    const FA_ICON_UNICODES = {
+        'scroll': '\uf70e', 'location': '\uf3c5', 'npc': '\uf0c0',
+        'encounter': '\uf714', 'trap': '\uf071', 'quest': '\uf024',
+        'puzzle': '\uf12e', 'treasure': '\uf3a5', 'lore': '\uf518',
+        'shop': '\uf54e', 'secret': '\uf070', 'monster': '\uf6d1',
+        'puzzle-door': '\uf6d5', 'event': '\uf0e7', 'read-aloud': '\uf5da',
+        'safe-rest': '\uf6bb',
+    };
+
+    const renderGMObject = (ctx, objectDef, screenPos, width, height, obj) => {
         const left = screenPos.x - width / 2;
         const top = screenPos.y - height / 2;
 
-        // Render GM Notes as a parchment-style note with quill
-        ctx.fillStyle = '#f8f4e6'; // Parchment color
+        ctx.fillStyle = '#f8f4e6';
         ctx.fillRect(left, top, width, height);
 
-        // Add parchment border
-        ctx.strokeStyle = '#8B4513'; // Brown border
+        ctx.strokeStyle = '#8B4513';
         ctx.lineWidth = 2;
         ctx.strokeRect(left, top, width, height);
 
-        // Add note lines
-        ctx.strokeStyle = '#d4af37'; // Gold lines
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
         ctx.lineWidth = 1;
         const lineSpacing = height / 5;
         for (let i = 1; i < 5; i++) {
@@ -258,9 +264,17 @@ const ObjectSystem = () => {
             ctx.stroke();
         }
 
-        // Add quill icon in corner
-        ctx.fillStyle = '#8B4513';
-        ctx.fillRect(screenPos.x + width * 0.7, screenPos.y + height * 0.1, width * 0.2, height * 0.1);
+        const noteIcon = (obj?.gmNotesData?.noteIcon) || 'scroll';
+        const unicode = FA_ICON_UNICODES[noteIcon] || FA_ICON_UNICODES['scroll'];
+        const iconSize = Math.min(width, height) * 0.45;
+
+        ctx.save();
+        ctx.fillStyle = '#5a1e12';
+        ctx.font = `900 ${iconSize}px "Font Awesome 6 Free"`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(unicode, screenPos.x, screenPos.y);
+        ctx.restore();
     };
 
     const renderGenericObject = (ctx, objectDef, screenPos, width, height) => {
@@ -323,9 +337,18 @@ const ObjectSystem = () => {
 
     // Convert screen coordinates to world coordinates
     const screenToWorld = useCallback((screenX, screenY) => {
-        const worldX = (screenX / effectiveZoom) + cameraX;
-        const worldY = (screenY / effectiveZoom) + cameraY;
-        return { x: worldX, y: worldY };
+        try {
+            const gridSystem = getGridSystem();
+            const viewport = gridSystem.getViewportDimensions();
+            return gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
+        } catch (error) {
+            const canvasWidth = canvasRef.current?.width || window.innerWidth;
+            const canvasHeight = canvasRef.current?.height || window.innerHeight;
+            return {
+                x: ((screenX - canvasWidth / 2) / effectiveZoom) + cameraX,
+                y: ((screenY - canvasHeight / 2) / effectiveZoom) + cameraY
+            };
+        }
     }, [effectiveZoom, cameraX, cameraY]);
 
     // Find object at screen position
@@ -577,17 +600,74 @@ const ObjectSystem = () => {
                         setResizeHandle(handle);
                         setInitialScale(clickedObject.scale || 1);
                         setInitialMousePos({ x: screenX, y: screenY });
+                        e.stopPropagation();
                     } else {
                         // Start dragging if object is draggable
                         const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
                         if (objectDef && objectDef.draggable) {
                             setIsDragging(true);
                             const worldPos = screenToWorld(screenX, screenY);
-                            setDragOffset({
-                                x: worldPos.x - clickedObject.worldX,
-                                y: worldPos.y - clickedObject.worldY
-                            });
+                            const offsetX = worldPos.x - clickedObject.worldX;
+                            const offsetY = worldPos.y - clickedObject.worldY;
+                            setDragOffset({ x: offsetX, y: offsetY });
+                            dragStateRef.current = {
+                                isDragging: true,
+                                dragObjectId: clickedObject.id,
+                                dragOffsetX: offsetX,
+                                dragOffsetY: offsetY
+                            };
+                            e.preventDefault();
+
+                            const handleDocMouseMove = (moveEvent) => {
+                                const canvasRect = canvasRef.current?.getBoundingClientRect();
+                                if (!canvasRect) return;
+                                const mx = moveEvent.clientX - canvasRect.left;
+                                const my = moveEvent.clientY - canvasRect.top;
+
+                                let moveWorldPos;
+                                try {
+                                    const gridSystem = getGridSystem();
+                                    const viewport = gridSystem.getViewportDimensions();
+                                    moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
+                                } catch (error) {
+                                    const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+                                    const cx = useGameStore.getState().cameraX;
+                                    const cy = useGameStore.getState().cameraY;
+                                    const cw = canvasRect.width || window.innerWidth;
+                                    const ch = canvasRect.height || window.innerHeight;
+                                    moveWorldPos = {
+                                        x: ((mx - cw / 2) / zoom) + cx,
+                                        y: ((my - ch / 2) / zoom) + cy
+                                    };
+                                }
+
+                                const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
+                                const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
+                                const mapId = useMapStore.getState().currentMapId || 'default';
+                                const currentObjects = useLevelEditorStore.getState().environmentalObjects;
+                                const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
+                                if (targetObj) {
+                                    useLevelEditorStore.getState().updateEnvironmentalObject(
+                                        dragStateRef.current.dragObjectId,
+                                        { ...targetObj, worldX: newWorldX, worldY: newWorldY },
+                                        mapId
+                                    );
+                                }
+                            };
+
+                            const handleDocMouseUp = () => {
+                                document.removeEventListener('mousemove', handleDocMouseMove);
+                                document.removeEventListener('mouseup', handleDocMouseUp);
+                                dragStateRef.current.isDragging = false;
+                                dragStateRef.current.dragObjectId = null;
+                                setIsDragging(false);
+                                setDragOffset({ x: 0, y: 0 });
+                            };
+
+                            document.addEventListener('mousemove', handleDocMouseMove);
+                            document.addEventListener('mouseup', handleDocMouseUp);
                         }
+                        e.stopPropagation();
                     }
                 }
             }
@@ -841,6 +921,7 @@ const ObjectSystem = () => {
             }, getExplicitCurrentMapId());
         } else if (isDragging) {
             // Handle dragging
+            e.stopPropagation();
             const worldPos = screenToWorld(screenX, screenY);
             const newWorldX = worldPos.x - dragOffset.x;
             const newWorldY = worldPos.y - dragOffset.y;
@@ -865,6 +946,8 @@ const ObjectSystem = () => {
         setDragOffset({ x: 0, y: 0 });
         setInitialScale(1);
         setInitialMousePos({ x: 0, y: 0 });
+        dragStateRef.current.isDragging = false;
+        dragStateRef.current.dragObjectId = null;
 
         // Reset connection tracking
         setIsOverConnection(false);
@@ -900,6 +983,166 @@ const ObjectSystem = () => {
             document.removeEventListener('mousemove', handleGlobalMouseMove, true);
         };
     }, [isOverConnection, isEditorMode, isGMMode, isConnectionElement, hoveredGMNote, getObjectAtScreenPosition]);
+
+    // Document-level mouse listeners for GM note dragging in play mode
+    // This ensures dragging works even when overlays or z-index issues prevent
+    // the canvas from receiving mouse events directly
+    useEffect(() => {
+        if (!isGMMode) return;
+
+        const handleDocMouseDown = (e) => {
+            if (e.button !== 0) return;
+            if (window.multiplayerDragState && window.multiplayerDragState.size > 0) return;
+
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+
+            const canvasRect = canvas.getBoundingClientRect();
+            const screenX = e.clientX - canvasRect.left;
+            const screenY = e.clientY - canvasRect.top;
+
+            const currentZoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+            const camX = useGameStore.getState().cameraX;
+            const camY = useGameStore.getState().cameraY;
+            const objects = useLevelEditorStore.getState().environmentalObjects;
+
+            let clickedObject = null;
+            for (const obj of objects) {
+                const objectDef = PROFESSIONAL_OBJECTS[obj.type];
+                if (!objectDef) continue;
+                if (obj.type !== 'gmNotes') continue;
+                if (objectDef.gmOnly && !useGameStore.getState().isGMMode) continue;
+
+                let screenPos;
+                if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                    try {
+                        const gridSystem = getGridSystem();
+                        const viewport = gridSystem.getViewportDimensions();
+                        screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
+                    } catch (error) {
+                        const cw = canvas.width || window.innerWidth;
+                        const ch = canvas.height || window.innerHeight;
+                        screenPos = {
+                            x: (obj.worldX - camX) * currentZoom + cw / 2,
+                            y: (obj.worldY - camY) * currentZoom + ch / 2
+                        };
+                    }
+                } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
+                    continue;
+                } else {
+                    continue;
+                }
+
+                const gridSize = useGameStore.getState().gridSize;
+                const tileSize = gridSize * currentZoom;
+                const scale = obj.scale || 1;
+                const objWidth = objectDef.size.width * tileSize * scale;
+                const objHeight = objectDef.size.height * tileSize * scale;
+                const padding = Math.max(10, tileSize * 0.1);
+                const left = screenPos.x - objWidth / 2 - padding;
+                const right = screenPos.x + objWidth / 2 + padding;
+                const top = screenPos.y - objHeight / 2 - padding;
+                const bottom = screenPos.y + objHeight / 2 + padding;
+
+                if (screenX >= left && screenX <= right && screenY >= top && screenY <= bottom) {
+                    clickedObject = obj;
+                    break;
+                }
+            }
+
+            if (!clickedObject) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            useLevelEditorStore.getState().selectEnvironmentalObject(clickedObject.id);
+
+            const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
+            if (!objectDef || !objectDef.draggable) return;
+
+            let worldPos;
+            try {
+                const gridSystem = getGridSystem();
+                const viewport = gridSystem.getViewportDimensions();
+                worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
+            } catch (error) {
+                const cw = canvas.width || window.innerWidth;
+                const ch = canvas.height || window.innerHeight;
+                worldPos = {
+                    x: ((screenX - cw / 2) / currentZoom) + camX,
+                    y: ((screenY - ch / 2) / currentZoom) + camY
+                };
+            }
+
+            const offsetX = worldPos.x - clickedObject.worldX;
+            const offsetY = worldPos.y - clickedObject.worldY;
+
+            setIsDragging(true);
+            dragStateRef.current = {
+                isDragging: true,
+                dragObjectId: clickedObject.id,
+                dragOffsetX: offsetX,
+                dragOffsetY: offsetY
+            };
+
+            const handleDocMouseMove = (moveEvent) => {
+                if (!dragStateRef.current.isDragging) return;
+                moveEvent.preventDefault();
+
+                const cr = canvasRef.current?.getBoundingClientRect();
+                if (!cr) return;
+                const mx = moveEvent.clientX - cr.left;
+                const my = moveEvent.clientY - cr.top;
+
+                let moveWorldPos;
+                try {
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
+                } catch (error) {
+                    const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+                    const cx = useGameStore.getState().cameraX;
+                    const cy = useGameStore.getState().cameraY;
+                    const cw = cr.width || window.innerWidth;
+                    const ch = cr.height || window.innerHeight;
+                    moveWorldPos = {
+                        x: ((mx - cw / 2) / zoom) + cx,
+                        y: ((my - ch / 2) / zoom) + cy
+                    };
+                }
+
+                const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
+                const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
+                const mapId = useMapStore.getState().currentMapId || 'default';
+                const currentObjects = useLevelEditorStore.getState().environmentalObjects;
+                const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
+                if (targetObj) {
+                    useLevelEditorStore.getState().updateEnvironmentalObject(
+                        dragStateRef.current.dragObjectId,
+                        { ...targetObj, worldX: newWorldX, worldY: newWorldY },
+                        mapId
+                    );
+                }
+            };
+
+            const handleDocMouseUp = () => {
+                document.removeEventListener('mousemove', handleDocMouseMove);
+                document.removeEventListener('mouseup', handleDocMouseUp);
+                dragStateRef.current.isDragging = false;
+                dragStateRef.current.dragObjectId = null;
+                setIsDragging(false);
+                setDragOffset({ x: 0, y: 0 });
+            };
+
+            document.addEventListener('mousemove', handleDocMouseMove);
+            document.addEventListener('mouseup', handleDocMouseUp);
+        };
+
+        document.addEventListener('mousedown', handleDocMouseDown, true);
+        return () => {
+            document.removeEventListener('mousedown', handleDocMouseDown, true);
+        };
+    }, [isGMMode]);
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);

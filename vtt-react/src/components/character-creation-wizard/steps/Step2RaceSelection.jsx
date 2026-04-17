@@ -264,13 +264,18 @@ const Step2RaceSelection = () => {
                 label: 'Overview',
                 content: (
                     <OverviewTab
-                        description={viewingRace.description}
+                        flavorText={viewingRace.description}
                         culturalBackground={raceData?.culturalBackground}
                         basicInfo={raceData?.baseTraits ? {
                             'Size': raceData.baseTraits.size,
                             'Speed': `${raceData.baseTraits.baseSpeed} feet`,
                             'Lifespan': raceData.baseTraits.lifespan,
                             'Languages': raceData.baseTraits.languages?.join(', ')
+                        } : null}
+                        subrace={currentSubrace ? {
+                            name: currentSubrace.name,
+                            description: currentSubrace.description,
+                            culturalBackground: currentSubrace.culturalBackground
                         } : null}
                     />
                 )

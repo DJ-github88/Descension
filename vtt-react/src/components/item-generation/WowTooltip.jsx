@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/wow-tooltip.css';
+
 
 export default function WowTooltip({ item, onSave, onClose, position }) {
     const handleSubmit = (e) => {

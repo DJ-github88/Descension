@@ -5,7 +5,6 @@ import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizar
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
 import CommunityCreaturesTab from '../creature-wizard/components/library/CommunityCreaturesTab';
 import useAuthStore from '../../store/authStore';
-import '../creature-wizard/styles/CreatureWindow.css';
 
 // Lazy load the wizard
 const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));

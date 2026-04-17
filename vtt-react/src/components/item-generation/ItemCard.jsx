@@ -4,7 +4,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/item-card.css';
+
 
 const LazyItemTooltip = lazy(() => import('./ItemTooltip'));
 

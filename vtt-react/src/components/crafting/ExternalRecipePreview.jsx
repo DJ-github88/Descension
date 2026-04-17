@@ -1,9 +1,8 @@
-﻿import React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useSettingsStore from '../../store/settingsStore';
 import { SKILL_LEVELS, PROFESSIONS } from '../../store/craftingStore';
-import '../../styles/item-tooltip.css';
 
 // External Recipe Preview Component that renders outside the recipe wizard window
 const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen }) => {

@@ -10,6 +10,7 @@ export const CHRONARCH_DATA = {
   name: 'Chronarch',
   icon: 'fas fa-clock',
   role: 'Control',
+  damageTypes: ['force', 'arcane'],
 
   // Overview section
   overview: {

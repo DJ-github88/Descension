@@ -16,7 +16,7 @@ import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { ENHANCED_PATHS, getAllEnhancedPaths } from '../../data/enhancedPathData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
-import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
+    import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory, normalizeDisciplineAbility } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
 import { getBackgroundData } from '../../data/backgroundData';
 import '../../styles/character-sheet.css';
@@ -360,6 +360,7 @@ export default function CharacterPanel() {
         class: state.class,
         path: state.path,
         pathDisplayName: state.pathDisplayName,
+        selectedAbility: state.selectedAbility,
         level: state.level,
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
@@ -396,6 +397,7 @@ export default function CharacterPanel() {
         class: characterClass,
         path,
         pathDisplayName,
+        selectedAbility = '',
         level,
         alignment,
         exhaustionLevel,
@@ -670,21 +672,17 @@ export default function CharacterPanel() {
                     availableSpells = pathData.abilities;
                 }
 
-                // If we have spells available, select randomly based on spell types
-                if (availableSpells.length > 0) {
-                    // Select 1 of each spell type (passive, reaction, action)
-                    const choices = { passive: 1, reaction: 1, action: 1 };
-                    const selectedSpells = selectRandomSpells(availableSpells, choices);
-
-                    // Filter out spells that are already in the library
-                    const newSpells = filterNewSpells(selectedSpells, spellLibrary.spells);
-
-                    // Add new spells to library
-                    newSpells.forEach(spell => {
-                        if (spell && spell.id) {
-                            libraryDispatch(libraryActionCreators.addSpell(spell));
-                        }
-                    });
+                if (availableSpells.length > 0 && selectedAbility) {
+                    const chosenSpell = availableSpells.find(s => s.id === selectedAbility);
+                    if (chosenSpell) {
+                        const normalized = normalizeDisciplineAbility(chosenSpell);
+                        const newSpells = filterNewSpells([normalized], spellLibrary.spells);
+                        newSpells.forEach(spell => {
+                            if (spell && spell.id) {
+                                libraryDispatch(libraryActionCreators.addSpell(spell));
+                            }
+                        });
+                    }
                 }
 
                 // Store passives from path and convert non-stat passives to spell cards
@@ -709,10 +707,10 @@ export default function CharacterPanel() {
                             tags: ['passive', 'discipline'],
                             effectTypes: ['utility'],
                             damageTypes: [],
-                            icon: 'spell_holy_devotion',
+                            icon: passive.icon || 'Radiant/Divine Blessing',
                             typeConfig: {
                                 school: 'divine',
-                                icon: 'spell_holy_devotion',
+                                icon: passive.icon || 'Radiant/Divine Blessing',
                                 tags: ['passive', 'discipline']
                             },
                             targetingConfig: {
@@ -1483,7 +1481,7 @@ export default function CharacterPanel() {
                         </div>
                         <div className="passive-summary-list">
                             {group.passives.map((passive, idx) => {
-                                const icon = passive?.icon || 'spell_holy_devotion';
+                                const icon = passive?.icon || 'Radiant/Divine Blessing';
                                 const name = passive?.name || 'Passive Ability';
                                 const description = getPassiveSummary(passive);
                                 // Use 'abilities' category for all passives (racial, discipline, background) since they're all abilities

@@ -24,7 +24,6 @@ const ConnectionContextMenu = memo(({
     const [showConnectionDialog, setShowConnectionDialog] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-    // Close all dialogs when context menu closes
     useEffect(() => {
         if (!visible) {
             setShowRenameDialog(false);
@@ -33,7 +32,6 @@ const ConnectionContextMenu = memo(({
         }
     }, [visible]);
 
-    // PERFORMANCE: Early return if not visible - prevents unnecessary renders during drag
     if (!visible || !connection) {
         return null;
     }
@@ -44,20 +42,20 @@ const ConnectionContextMenu = memo(({
         {
             label: connection.properties?.portalName || 'Unnamed Connection',
             disabled: true,
-            icon: '◉',
+            icon: <i className="fas fa-circle" style={{ fontSize: '8px' }}></i>,
             className: 'connection-menu-header-item'
         },
         { type: 'separator' },
         {
             label: 'Rename',
-            icon: '✏',
+            icon: <i className="fas fa-pen"></i>,
             onClick: () => {
                 setShowRenameDialog(true);
             }
         },
         {
             label: connection.properties?.isHidden ? 'Make Visible' : 'Hide from Players',
-            icon: connection.properties?.isHidden ? '👁' : '👁‍🗨',
+            icon: <i className={`fas ${connection.properties?.isHidden ? 'fa-eye' : 'fa-eye-slash'}`}></i>,
             onClick: () => {
                 onToggleVisibility(connection);
                 onClose();
@@ -65,14 +63,14 @@ const ConnectionContextMenu = memo(({
         },
         {
             label: 'Connect to...',
-            icon: '🔗',
+            icon: <i className="fas fa-link"></i>,
             onClick: () => {
                 setShowConnectionDialog(true);
             }
         },
         {
             label: 'Jump to Destination',
-            icon: '✨',
+            icon: <i className="fas fa-bolt"></i>,
             disabled: !hasDestination,
             onClick: () => {
                 if (onJump) {
@@ -84,8 +82,8 @@ const ConnectionContextMenu = memo(({
         },
         { type: 'separator' },
         {
-            label: 'Sever Connection',
-            icon: '🗑',
+            label: 'Remove Connection',
+            icon: <i className="fas fa-trash-alt"></i>,
             onClick: () => {
                 setShowDeleteConfirm(true);
             },
@@ -100,14 +98,13 @@ const ConnectionContextMenu = memo(({
                 x={x}
                 y={y}
                 onClose={() => {
-                    // Close all dialogs when context menu closes
                     setShowRenameDialog(false);
                     setShowConnectionDialog(false);
                     setShowDeleteConfirm(false);
                     onClose();
                 }}
                 items={menuItems}
-                title="Mystical Anchor"
+                title="Connection"
                 className="connection-menu-container"
             />
             {showRenameDialog && (
@@ -138,7 +135,7 @@ const ConnectionContextMenu = memo(({
             )}
             {showDeleteConfirm && (
                 <ConfirmationDialog
-                    message={`Are you sure you want to sever the connection "${connection.properties?.portalName || 'Unnamed Connection'}"? This anchor point will be lost to the void.`}
+                    message={`Remove connection "${connection.properties?.portalName || 'Unnamed Connection'}"?`}
                     onConfirm={() => {
                         onDelete(connection);
                         setShowDeleteConfirm(false);
@@ -152,17 +149,13 @@ const ConnectionContextMenu = memo(({
         </>
     );
 }, (prevProps, nextProps) => {
-    // PERFORMANCE: Custom comparison to prevent re-renders during drag
-    // Only re-render if visible state changes or connection changes
     if (prevProps.visible !== nextProps.visible) return false;
-    if (!nextProps.visible) return true; // Don't re-render if not visible
+    if (!nextProps.visible) return true;
     if (prevProps.connection?.id !== nextProps.connection?.id) return false;
     if (prevProps.x !== nextProps.x || prevProps.y !== nextProps.y) return false;
-    // All other props can change without causing re-render when visible
-    return true; // Skip re-render
+    return true;
 });
 
 ConnectionContextMenu.displayName = 'ConnectionContextMenu';
 
 export default ConnectionContextMenu;
-

@@ -10,6 +10,7 @@ export const WARDEN_DATA = {
   name: 'Warden',
   icon: 'fas fa-gavel',
   role: 'Damage/Control',
+  damageTypes: ['slashing', 'force', 'nature'],
 
   // Overview section
   overview: {

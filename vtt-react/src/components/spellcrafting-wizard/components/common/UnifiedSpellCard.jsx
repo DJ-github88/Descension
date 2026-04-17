@@ -449,8 +449,8 @@ const UnifiedSpellCard = ({
       if (mappedIcon) {
         return getCustomIconUrl(mappedIcon, 'abilities');
       }
-      // If no mapping found, use default instead of getAbilityIconUrl (which adds creature- prefix)
-      return getCustomIconUrl('Utility/Utility', 'abilities');
+      // Fall back to assetManager's comprehensive mapping
+      return getAbilityIconUrl(iconId);
     }
     // Default fallback
     return getCustomIconUrl('Utility/Utility', 'abilities');
@@ -10629,6 +10629,45 @@ const UnifiedSpellCard = ({
                       mechanicsText: `Redirects damage from ${from} to ${to}`
                     });
                   }
+
+                  // Handle generic buff types (stealth_bonus, speed_bonus, etc.)
+                  if (actualLegacyBuff.type && !actualLegacyBuff.resistance && !actualLegacyBuff.temporaryHP && !actualLegacyBuff.immunity && !actualLegacyBuff.damageRedirection && !actualLegacyBuff.actionPoints && !actualLegacyBuff.attackBonus && !actualLegacyBuff.armorClass && !actualLegacyBuff.statModifiers) {
+                    const buffTypeLabels = {
+                      'stealth_bonus': 'Stealth Bonus',
+                      'speed_bonus': 'Speed Bonus',
+                      'damage_bonus': 'Damage Bonus',
+                      'defense_bonus': 'Defense Bonus',
+                      'initiative_bonus': 'Initiative Bonus',
+                      'perception_bonus': 'Perception Bonus',
+                      'saving_throw_bonus': 'Saving Throw Bonus',
+                      'skill_bonus': 'Skill Bonus',
+                      'flight': 'Flight',
+                      'water_breathing': 'Water Breathing',
+                      'water_walking': 'Water Walking',
+                      'darkvision': 'Darkvision',
+                      'truesight': 'Truesight',
+                      'telepathy': 'Telepathy',
+                      'ethereal': 'Ethereal',
+                      'freedom_of_movement': 'Freedom of Movement'
+                    };
+
+                    const buffLabel = buffTypeLabels[actualLegacyBuff.type] || actualLegacyBuff.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                    const duration = actualLegacyBuff.duration || spell?.durationConfig?.durationAmount || spell?.durationConfig?.duration || 1;
+                    const durationUnit = actualLegacyBuff.durationUnit || spell?.durationConfig?.durationType || 'minutes';
+                    const unitMap = { 'rounds': 'rounds', 'minutes': 'min', 'hours': 'hrs', 'days': 'days' };
+                    const durationText = `${duration} ${unitMap[durationUnit] || durationUnit}`;
+
+                    let mechanicsText = `Grants ${buffLabel.toLowerCase()}`;
+                    if (actualLegacyBuff.value) {
+                      mechanicsText += ` +${actualLegacyBuff.value}`;
+                    }
+
+                    buffEffectsToRender.push({
+                      name: buffLabel,
+                      description: durationText,
+                      mechanicsText: mechanicsText
+                    });
+                  }
                 }
                 
                 // Handle buffConfig.effects array (new structure with statModifier)
@@ -11365,17 +11404,14 @@ const UnifiedSpellCard = ({
 
                 if (!hasDebuffType && !hasAnyDebuffConfiguration) return null;
 
-                // For rules variant (racial traits), only show debuff effects if they provide unique information
-                // Hide them if they would just duplicate the description
+                const legacyDebuff = spell?.effects?.debuff || spellProp?.effects?.debuff;
+
                 if (variant === 'rules' && spell?.description && (
                   spell.description.toLowerCase().includes('frailty') ||
                   spell.description.toLowerCase().includes('vulnerability') ||
                   spell.description.toLowerCase().includes('weakness')
                 )) {
-                  // For traits like "surface frailty", show the effects as they provide specific mechanical details
-                  // Continue to show effects
                 } else if (variant === 'rules') {
-                  // For other racial traits, hide detailed effects to avoid duplication with description
                   return null;
                 }
 
@@ -11384,7 +11420,7 @@ const UnifiedSpellCard = ({
                     <div className="healing-effects-section">
                       {(() => {
                         const debuffData = spell?.debuffConfig;
-                        if (!debuffData && !hasDebuffType) return null;
+                        if (!debuffData && !hasDebuffType && !legacyDebuff) return null;
 
                         // Helper function for debuff triggers and formulas
                         const getDebuffTriggersAndFormulas = (effectSubType) => {
@@ -11898,9 +11934,53 @@ const UnifiedSpellCard = ({
                         }
 
                         // REMOVED: Always show duration/save info - now handled by individual effects
-                        // This was causing duplicate save/duration display
 
                         // REMOVED: Fallback debuff effects - individual effects should handle all cases
+
+                        // Handle legacy effects.debuff format (e.g. { type: 'speed_reduction', value: -10, duration: 2 })
+                        if (legacyDebuff && effects.length === 0) {
+                          const debuffTypeLabels = {
+                            'speed_reduction': 'Speed Reduction',
+                            'slow': 'Slow',
+                            'attack_penalty': 'Attack Penalty',
+                            'defense_penalty': 'Defense Penalty',
+                            'accuracy_reduction': 'Accuracy Reduction',
+                            'damage_reduction': 'Damage Reduction',
+                            'blind': 'Blind',
+                            'deafen': 'Deafen',
+                            'silence': 'Silence',
+                            'paralyze': 'Paralyze',
+                            'stun': 'Stun',
+                            'restrain': 'Restrain',
+                            'prone': 'Prone',
+                            'frighten': 'Frighten',
+                            'charm': 'Charm',
+                            'confusion': 'Confusion',
+                            'poison': 'Poison',
+                            'disease': 'Disease',
+                            'exhaustion': 'Exhaustion',
+                            'weaken': 'Weaken',
+                            'vulnerability': 'Vulnerability'
+                          };
+
+                          const debuffLabel = debuffTypeLabels[legacyDebuff.type] || legacyDebuff.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                          const duration = legacyDebuff.duration || spell?.durationConfig?.durationAmount || spell?.durationConfig?.duration || 1;
+                          const durationUnit = spell?.durationConfig?.durationType || 'rounds';
+                          const unitMap = { 'rounds': 'rounds', 'minutes': 'min', 'hours': 'hrs', 'days': 'days' };
+                          const durationText = `${duration} ${unitMap[durationUnit] || durationUnit}`;
+
+                          let mechanicsText = `Applies ${debuffLabel.toLowerCase()}`;
+                          if (legacyDebuff.value) {
+                            const absVal = Math.abs(legacyDebuff.value);
+                            mechanicsText = `Target speed reduced by ${absVal} ft`;
+                          }
+
+                          effects.push({
+                            name: debuffLabel,
+                            description: durationText,
+                            mechanicsText: mechanicsText
+                          });
+                        }
 
                         return effects.length > 0 ? (
                           <div className="healing-formula-line">
@@ -12567,6 +12647,88 @@ const UnifiedSpellCard = ({
                     </div>
                   </div>
                 );
+              })()}
+              {/* Terrain Effects Section */}
+              {(() => {
+                const hasTerrainType = spell?.effectTypes?.includes('terrain');
+                const terrainData = spell?.terrainConfig;
+                const legacyTerrain = spell?.effects?.terrain || spellProp?.effects?.terrain;
+                const hasTerrainConfig = !!terrainData;
+
+                if (!hasTerrainType && !hasTerrainConfig && !legacyTerrain) return null;
+
+                const effects = [];
+                const durationConfig = spell?.durationConfig || terrainData?.durationConfig;
+
+                if (legacyTerrain) {
+                  const terrainType = legacyTerrain.type || 'difficult_terrain';
+                  const terrainDuration = legacyTerrain.duration || durationConfig?.durationAmount || durationConfig?.duration;
+                  const durationUnit = durationConfig?.durationType || 'minutes';
+
+                  const terrainTypeLabels = {
+                    'difficult_terrain': 'Difficult Terrain',
+                    'difficult': 'Difficult Terrain',
+                    'rough': 'Rough Terrain',
+                    'hazardous': 'Hazardous Terrain',
+                    'obstructed': 'Obstructed Terrain',
+                    'entangling': 'Entangling Terrain',
+                    'concealing': 'Concealing Terrain'
+                  };
+
+                  const label = terrainTypeLabels[terrainType] || terrainType.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+                  let durationText = '';
+                  if (terrainDuration) {
+                    const unitMap = { 'rounds': 'rounds', 'minutes': 'min', 'hours': 'hrs', 'days': 'days' };
+                    durationText = `${terrainDuration} ${unitMap[durationUnit] || durationUnit}`;
+                  }
+
+                  effects.push({
+                    name: label,
+                    description: `Area becomes ${label.toLowerCase()}`,
+                    mechanicsText: durationText ? `Creatures in area have halved movement (${durationText})` : 'Creatures in area have halved movement'
+                  });
+                }
+
+                if (terrainData?.effects?.length > 0) {
+                  terrainData.effects.forEach(effect => {
+                    effects.push({
+                      name: effect.name || 'Terrain Effect',
+                      description: effect.description || '',
+                      mechanicsText: effect.mechanicsText || ''
+                    });
+                  });
+                }
+
+                return effects.length > 0 ? (
+                  <div className="healing-effects">
+                    <div className="healing-effects-section">
+                      <div className="healing-formula-line">
+                        <div className="healing-effects-list">
+                          {effects.map((effect, index) => (
+                            <div key={`terrain-${index}`} className="healing-effect-item">
+                              <div className="healing-effect">
+                                <span className="healing-effect-name">{effect.name}</span>
+                                {effect.description && (
+                                  <div className="healing-effect-description">
+                                    {effect.description}
+                                  </div>
+                                )}
+                                {effect.mechanicsText && (
+                                  <div className="healing-effect-details">
+                                    <div className="healing-effect-mechanics">
+                                      {effect.mechanicsText}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null;
               })()}
               {/* Summoning Effects Section */}
               {(() => {

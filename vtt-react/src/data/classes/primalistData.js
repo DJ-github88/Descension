@@ -3,7 +3,8 @@ export const PRIMALIST_DATA = {
   name: 'Primalist',
   icon: 'fas fa-mountain',
   role: 'Support/Control',
-  
+  damageTypes: ['nature', 'lightning', 'fire'],
+
   // Overview section
   overview: {
     title: 'Primalist Overview',

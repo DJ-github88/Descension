@@ -153,11 +153,15 @@ service cloud.firestore {
         request.auth.uid == resource.data.userId;
     }
 
-    // Community items - allow public read access
+    // Community items - allow public read access and community updates for counts
     match /community_items/{itemId} {
-      allow read: if resource.data.isPublic == true;
+      allow read: if true; // Allow all to see public items (service handles isPublic filter)
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.userId || 
+        request.resource.data.diff(resource.data).affectedKeys().hasAny(['upvotes', 'downvotes', 'commentCount', 'downloadCount'])
+      );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Item categories - allow public read access
@@ -168,8 +172,19 @@ service cloud.firestore {
 
     // Item ratings - allow users to manage their own ratings
     match /item_ratings/{ratingId} {
-      allow read, write: if request.auth != null &&
-        request.auth.uid == resource.data.userId;
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (
+        // For composite keys like itemId_userId, we check if the doc belongs to user
+        ratingId.size() > 28 ? ratingId.endsWith(request.auth.uid) : resource.data.userId == request.auth.uid
+      );
+    }
+
+    // Item comments - allow public read and authenticated create
+    match /item_comments/{commentId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
 
     // Community creatures - allow public read access

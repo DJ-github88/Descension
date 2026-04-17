@@ -483,14 +483,26 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
 
     if (combatStats.healthRestore) {
         const healAmount = combatStats.healthRestore.value || 0;
-        if (healAmount > 0) {
-            const result = calculateResourceAdjustment({
-                resourceType: 'health',
-                amount: healAmount,
-                currentResource: charState.health,
-                item
-            });
-            if (result.applied) {
+        if (healAmount !== 0) {
+            if (healAmount > 0) {
+                const result = calculateResourceAdjustment({
+                    resourceType: 'health',
+                    amount: healAmount,
+                    currentResource: charState.health,
+                    item
+                });
+                if (result.applied) {
+                    hasInstantEffects = true;
+                    applyResourceChange({
+                        resourceType: 'health',
+                        amount: healAmount,
+                        asTemporary: false,
+                        stores: { characterStore, partyStore, gameStore }
+                    });
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else {
                 hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'health',
@@ -498,22 +510,32 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     asTemporary: false,
                     stores: { characterStore, partyStore, gameStore }
                 });
-            } else if (result.pendingOverheal) {
-                pendingOverheals.push(result.pendingOverheal);
             }
         }
     }
 
     if (combatStats.manaRestore) {
         const manaAmount = combatStats.manaRestore.value || 0;
-        if (manaAmount > 0) {
-            const result = calculateResourceAdjustment({
-                resourceType: 'mana',
-                amount: manaAmount,
-                currentResource: charState.mana,
-                item
-            });
-            if (result.applied) {
+        if (manaAmount !== 0) {
+            if (manaAmount > 0) {
+                const result = calculateResourceAdjustment({
+                    resourceType: 'mana',
+                    amount: manaAmount,
+                    currentResource: charState.mana,
+                    item
+                });
+                if (result.applied) {
+                    hasInstantEffects = true;
+                    applyResourceChange({
+                        resourceType: 'mana',
+                        amount: manaAmount,
+                        asTemporary: false,
+                        stores: { characterStore, partyStore, gameStore }
+                    });
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else {
                 hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'mana',
@@ -521,22 +543,32 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     asTemporary: false,
                     stores: { characterStore, partyStore, gameStore }
                 });
-            } else if (result.pendingOverheal) {
-                pendingOverheals.push(result.pendingOverheal);
             }
         }
     }
 
     if (combatStats.actionPointRestore || combatStats.apRestore) {
         const apAmount = combatStats.actionPointRestore?.value || combatStats.apRestore?.value || 0;
-        if (apAmount > 0) {
-            const result = calculateResourceAdjustment({
-                resourceType: 'actionPoints',
-                amount: apAmount,
-                currentResource: charState.actionPoints,
-                item
-            });
-            if (result.applied) {
+        if (apAmount !== 0) {
+            if (apAmount > 0) {
+                const result = calculateResourceAdjustment({
+                    resourceType: 'actionPoints',
+                    amount: apAmount,
+                    currentResource: charState.actionPoints,
+                    item
+                });
+                if (result.applied) {
+                    hasInstantEffects = true;
+                    applyResourceChange({
+                        resourceType: 'actionPoints',
+                        amount: apAmount,
+                        asTemporary: false,
+                        stores: { characterStore, partyStore, gameStore }
+                    });
+                } else if (result.pendingOverheal) {
+                    pendingOverheals.push(result.pendingOverheal);
+                }
+            } else {
                 hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'actionPoints',
@@ -544,8 +576,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     asTemporary: false,
                     stores: { characterStore, partyStore, gameStore }
                 });
-            } else if (result.pendingOverheal) {
-                pendingOverheals.push(result.pendingOverheal);
             }
         }
     }

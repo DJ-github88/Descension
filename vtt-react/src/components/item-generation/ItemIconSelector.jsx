@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { WOW_ICONS, getIconUrl } from './wowIcons';
 import { ITEM_TYPES } from './itemConstants';
-import '../../styles/item-icon-selector.css';
+
 
 /**
  * ItemIconSelector component for choosing item icons

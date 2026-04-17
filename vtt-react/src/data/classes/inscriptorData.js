@@ -10,6 +10,7 @@ export const INSCRIPTOR_DATA = {
   name: 'Inscriptor',
   icon: 'fas fa-scroll',
   role: 'Control/Support',
+  damageTypes: ['force', 'arcane'],
 
   // Overview section
   overview: {

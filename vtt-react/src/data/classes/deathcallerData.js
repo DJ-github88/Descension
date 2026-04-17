@@ -10,6 +10,7 @@ export const DEATHCALLER_DATA = {
   name: 'Deathcaller',
   icon: 'fas fa-skull',
   role: 'Damage/Support',
+  damageTypes: ['necrotic', 'psychic'],
 
   // Overview section
   overview: {

@@ -255,7 +255,7 @@ const BackgroundSelector = () => {
 
                                             if (isPassive) {
                                                 const description = getPassiveSummary(ability);
-                                                const icon = ability.icon || 'spell_holy_devotion';
+                                                const icon = ability.icon || 'Radiant/Divine Blessing';
                                                 return (
                                                     <div className="passive-summary-item">
                                                         <div className="passive-summary-icon-wrapper">

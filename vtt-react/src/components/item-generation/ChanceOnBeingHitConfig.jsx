@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaDiceD20, FaClone, FaCoins, FaPlus, FaTable } from 'react-icons/fa';
-import '../../styles/item-wizard.css';
+
 import InlineEffectBuilder from './InlineEffectBuilder';
 
 /**

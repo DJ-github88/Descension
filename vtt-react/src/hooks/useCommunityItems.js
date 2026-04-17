@@ -11,6 +11,7 @@ import {
   getItemsByCategory,
   searchItems,
   getFeaturedItems,
+  getRecentItems,
   downloadItem,
   rateItem,
   uploadItem,
@@ -25,6 +26,7 @@ export function useCommunityItems() {
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [featuredItems, setFeaturedItems] = useState([]);
+  const [recentItems, setRecentItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -36,27 +38,48 @@ export function useCommunityItems() {
   useEffect(() => {
     loadCategories();
     loadFeaturedItems();
+    loadRecentItems();
   }, []);
 
   const loadCategories = useCallback(async () => {
     try {
+      setLoading(true);
       setError(null);
       const categoriesData = await getItemCategories();
       setCategories(categoriesData);
     } catch (err) {
       setError(err.message);
       console.error('Failed to load item categories:', err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   const loadFeaturedItems = useCallback(async () => {
     try {
+      setLoading(true);
       setError(null);
       const featuredData = await getFeaturedItems(10);
       setFeaturedItems(featuredData);
     } catch (err) {
       setError(err.message);
       console.error('Failed to load featured items:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const loadRecentItems = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const recentData = await getRecentItems(10);
+      setRecentItems(recentData);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to load recent items:', err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -209,6 +232,7 @@ export function useCommunityItems() {
       });
       setItems(prev => updateVoteCount(prev));
       setFeaturedItems(prev => updateVoteCount(prev));
+      setRecentItems(prev => updateVoteCount(prev));
     } catch (err) {
       console.error('Failed to vote:', err);
       throw err;
@@ -232,6 +256,7 @@ export function useCommunityItems() {
       );
       setItems(prev => appendComment(prev));
       setFeaturedItems(prev => appendComment(prev));
+      setRecentItems(prev => appendComment(prev));
       return comment;
     } catch (err) {
       console.error('Failed to add comment:', err);
@@ -253,6 +278,7 @@ export function useCommunityItems() {
     categories,
     items,
     featuredItems,
+    recentItems,
     
     // State
     loading,
@@ -276,7 +302,8 @@ export function useCommunityItems() {
     
     // Refresh functions
     refreshCategories: loadCategories,
-    refreshFeatured: loadFeaturedItems
+    refreshFeatured: loadFeaturedItems,
+    refreshRecent: loadRecentItems
   };
 }
 

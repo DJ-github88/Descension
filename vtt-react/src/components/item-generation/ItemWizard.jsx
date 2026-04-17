@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import '../../styles/item-wizard.css';
-import '../../styles/step-tooltip.css';
+
 import { WOW_ICONS } from './wowIcons';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import ItemTooltip from './ItemTooltip';
@@ -657,12 +656,17 @@ const COMBAT_STATS = {
     healthRestore: {
         name: 'Health Restore',
         icon: 'Healing/Golden Heart',
-        description: 'Amount of health restored'
+        description: 'Amount of health restored (negative = drain)'
     },
     manaRestore: {
         name: 'Mana Restore',
         icon: 'Arcane/Orb Manipulation',
-        description: 'Amount of mana restored'
+        description: 'Amount of mana restored (negative = drain)'
+    },
+    apRestore: {
+        name: 'AP Restore',
+        icon: 'Arcane/Enchanted Sword 2',
+        description: 'Amount of action points restored (negative = drain)'
     },
     piercingDamage: {
         name: 'Piercing Damage',
@@ -826,12 +830,12 @@ const UTILITY_STATS = {
     },
     swimSpeed: {
         name: 'Swim Speed',
-        icon: getIconUrl('utility/underwater-bubbles', 'abilities'),
+        icon: getIconUrl('Utility/Swirling Current', 'abilities'),
         suffix: '%'
     },
     carryingCapacity: {
         name: 'Carrying Capacity',
-        icon: getIconUrl('utility/atlas-burden', 'abilities'),
+        icon: getIconUrl('Utility/Scaled Armor General', 'abilities'),
         suffix: 'slots'
     }
 };
@@ -1264,6 +1268,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             combatStats: {
                 healthRestore: { value: 0, isPercentage: false },
                 manaRestore: { value: 0, isPercentage: false },
+                apRestore: { value: 0, isPercentage: false },
                 piercingDamage: { value: 0, isPercentage: false },
                 bludgeoningDamage: { value: 0, isPercentage: false },
                 slashingDamage: { value: 0, isPercentage: false },
@@ -1420,6 +1425,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 updatedData.combatStats = {
                     healthRestore: { value: 0, isPercentage: false },
                     manaRestore: { value: 0, isPercentage: false },
+                    apRestore: { value: 0, isPercentage: false },
                     piercingDamage: { value: 0, isPercentage: false },
                     bludgeoningDamage: { value: 0, isPercentage: false },
                     slashingDamage: { value: 0, isPercentage: false },
@@ -1536,6 +1542,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             combatStats: {
                                                 healthRestore: { value: 0, isPercentage: false },
                                                 manaRestore: { value: 0, isPercentage: false },
+                                                apRestore: { value: 0, isPercentage: false },
                                                 piercingDamage: { value: 0, isPercentage: false },
                                                 bludgeoningDamage: { value: 0, isPercentage: false },
                                                 slashingDamage: { value: 0, isPercentage: false },
@@ -2084,7 +2091,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'items')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Quest Objectives"
                                             className="property-icon"
                                         />
@@ -2103,7 +2110,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/interlocking-chains', 'items')}
+                                            src={getIconUrl('Utility/Metal Chain', 'abilities')}
                                             alt="Quest Chain"
                                             className="property-icon"
                                         />
@@ -2122,7 +2129,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/hourglass', 'items')}
+                                            src={getIconUrl('Utility/Slow Speed', 'abilities')}
                                             alt="Time Limit"
                                             className="property-icon"
                                         />
@@ -2379,7 +2386,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-map', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Source"
                                             className="property-icon"
                                         />
@@ -2398,7 +2405,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            src={getIconUrl('Utility/Utility Tool', 'abilities')}
                                             alt="Preservation"
                                             className="property-icon"
                                         />
@@ -2493,11 +2500,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Craft leather goods and armor'
                         },
                         Tailoring: {
-                            icon: 'utility/robed-tunic',
+                            icon: 'Utility/Utility Item',
                             description: 'Create cloth items and garments'
                         },
                         Engineering: {
-                            icon: 'utility/utility_interlocking-gears',
+                            icon: 'Utility/Golden Toothed Gear',
                             description: 'Build mechanical devices'
                         },
                         Enchanting: {
@@ -2509,7 +2516,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Cut and socket precious gems'
                         },
                         Inscription: {
-                            icon: 'utility/parchment-scroll',
+                            icon: 'Utility/Winding Path',
                             description: 'Create magical scrolls and glyphs'
                         },
                         Woodworking: {
@@ -2537,22 +2544,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         logging: {
                             name: 'Logging',
-                            icon: 'utility/stylized-tree',
+                            icon: 'Utility/Spiral Shell',
                             description: 'Cut from trees and plants'
                         },
                         scavenging: {
                             name: 'Scavenging',
-                            icon: 'utility/treasure-cave',
+                            icon: 'Utility/Utility Item',
                             description: 'Found in the wilderness'
                         },
                         fishing: {
                             name: 'Fishing',
-                            icon: 'utility/underwater-bubbles',
+                            icon: 'Utility/Swirling Current',
                             description: 'Caught in waters'
                         },
                         quarrying: {
                             name: 'Quarrying',
-                            icon: 'utility/stone-tile',
+                            icon: 'Utility/Scaled Armor General',
                             description: 'Extracted from stone deposits'
                         }
                     };
@@ -2596,7 +2603,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/utility_interlocking-gears', 'abilities')}
+                                            src={getIconUrl('Utility/Golden Toothed Gear', 'abilities')}
                                             alt="Required Professions"
                                             className="property-icon"
                                         />
@@ -2638,7 +2645,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/mining-pickaxe', 'abilities')}
+                                            src={getIconUrl('Utility/Jigsaw Saw Tool', 'abilities')}
                                             alt="Gathering Method"
                                             className="property-icon"
                                         />
@@ -2669,7 +2676,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Recipes"
                                             className="property-icon"
                                         />
@@ -2688,7 +2695,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-map', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Source Locations"
                                             className="property-icon"
                                         />
@@ -2707,7 +2714,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('magic/magical-cross-emblem', 'abilities')}
+                                            src={getIconUrl('Arcane/Magical Cross Emblem 2', 'abilities')}
                                             alt="Special Properties"
                                             className="property-icon"
                                         />
@@ -2748,17 +2755,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         food: {
                             name: 'Food & Beverages',
-                            icon: 'utility/hot-food',
+                            icon: 'Utility/Strange Brew',
                             description: 'Exotic foods and drinks'
                         },
                         art: {
                             name: 'Art & Artifacts',
-                            icon: 'utility/ornate-vase',
+                            icon: 'Utility/Alchemical Symbol',
                             description: 'Cultural treasures and artwork'
                         },
                         exotic: {
                             name: 'Exotic Goods',
-                            icon: 'utility/woven-basket-pattern',
+                            icon: 'Utility/Gem And Gold Chains',
                             description: 'Rare and unusual items'
                         },
                         luxury: {
@@ -2786,12 +2793,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         very_high: {
                             name: 'Very High Demand',
-                            icon: 'utility/golden-trophy',
+                            icon: 'Utility/Summit Victory',
                             description: 'Exceptional market demand'
                         },
                         extreme: {
                             name: 'Extreme Demand',
-                            icon: 'utility/golden-bell',
+                            icon: 'Utility/Golden Shield',
                             description: 'Overwhelming market demand'
                         }
                     };
@@ -2799,7 +2806,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     const QUALITY_GRADES = {
                         poor: {
                             name: 'Poor',
-                            icon: 'utility/broken-gear',
+                            icon: 'Utility/Broken Shield',
                             description: 'Below market standard'
                         },
                         standard: {
@@ -2809,12 +2816,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         fine: {
                             name: 'Fine',
-                            icon: 'utility/cave-crystal',
+                            icon: 'Utility/Melting Crystal Shard',
                             description: 'Above average quality'
                         },
                         superior: {
                             name: 'Superior',
-                            icon: 'utility/faceted-diamond',
+                            icon: 'Utility/Golden Toothed Gear',
                             description: 'Exceptional quality'
                         },
                         masterwork: {
@@ -2832,7 +2839,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/gold-bar', 'abilities')}
+                                            src={getIconUrl('Utility/Golden Toothed Gear', 'abilities')}
                                             alt="Trade Category"
                                             className="property-icon"
                                         />
@@ -2865,7 +2872,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-map', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Origin"
                                             className="property-icon"
                                         />
@@ -2884,7 +2891,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/gold-nuggets', 'abilities')}
+                                            src={getIconUrl('Utility/Golden Shield', 'abilities')}
                                             alt="Demand Level"
                                             className="property-icon"
                                         />
@@ -2915,7 +2922,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/faceted-diamond', 'abilities')}
+                                            src={getIconUrl('Utility/Melting Crystal Shard', 'abilities')}
                                             alt="Quality Grade"
                                             className="property-icon"
                                         />
@@ -2946,7 +2953,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Merchant Notes"
                                             className="property-icon"
                                         />
@@ -3010,7 +3017,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         },
                         master: {
                             name: 'Master Security',
-                            icon: 'utility/utility_interlocking-gears',
+                            icon: 'Utility/Golden Toothed Gear',
                             description: 'Highly sophisticated security'
                         },
                         magical: {
@@ -3033,7 +3040,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-key', 'abilities')}
+                                            src={getIconUrl('Utility/Blue Door', 'abilities')}
                                             alt="Key Type"
                                             className="property-icon"
                                         />
@@ -3064,7 +3071,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/skeleton-key', 'abilities')}
+                                            src={getIconUrl('Utility/Blue Door', 'abilities')}
                                             alt="Unlocks"
                                             className="property-icon"
                                         />
@@ -3083,7 +3090,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-map', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Location"
                                             className="property-icon"
                                         />
@@ -3133,7 +3140,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/stylized-key', 'abilities')}
+                                            src={getIconUrl('Utility/Blue Door', 'abilities')}
                                             alt="Key Usage"
                                             className="property-icon"
                                         />
@@ -3170,7 +3177,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="property-section">
                                     <div className="property-header">
                                         <img
-                                            src={getIconUrl('utility/parchment-scroll', 'abilities')}
+                                            src={getIconUrl('Utility/Winding Path', 'abilities')}
                                             alt="Special Instructions"
                                             className="property-icon"
                                         />
@@ -3440,8 +3447,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
                             {Object.entries(COMBAT_STATS)
                                 .filter(([stat, _]) => {
-                                    // Only show health and mana restore for consumables
-                                    if ((stat === 'healthRestore' || stat === 'manaRestore') && itemData.type !== 'consumable') {
+                                    // Only show health, mana, and AP restore for consumables
+                                    if ((stat === 'healthRestore' || stat === 'manaRestore' || stat === 'apRestore') && itemData.type !== 'consumable') {
                                         return false;
                                     }
                                     return true;
@@ -4193,7 +4200,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     <div className="stat-item">
                                         <div className="stat-header">
                                             <img
-                                                src={getIconUrl('holy-cross', 'spells')}
+                                                src={getIconUrl('Radiant/Holy Cross', 'abilities')}
                                                 alt="Duration Type"
                                                 className="stat-icon"
                                             />
@@ -4228,7 +4235,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     <div className="stat-item">
                                         <div className="stat-header">
                                             <img
-                                                src={getIconUrl('inv_misc_pocketwatch_01', 'items')}
+                                                src={getIconUrl('Utility/Utility Tool', 'abilities')}
                                                 alt="Duration Value"
                                                 className="stat-icon"
                                             />

@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
 import { getSafePortalTarget } from '../../utils/portalUtils';
-import '../../styles/quick-item-generator-modal.css';
+
 
 const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
     const [isDragging, setIsDragging] = useState(false);

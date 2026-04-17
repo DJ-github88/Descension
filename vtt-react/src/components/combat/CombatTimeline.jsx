@@ -8,7 +8,6 @@ import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import { createPortal } from 'react-dom';
 import TurnTimer from './TurnTimer';
 import CombatConfigModal from './CombatConfigModal';
-import '../../styles/combat-system.css';
 
 const CombatTimeline = () => {
     const {

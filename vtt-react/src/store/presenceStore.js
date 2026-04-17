@@ -2617,7 +2617,8 @@ const usePresenceStore = create((set, get) => ({
       pendingPartyInvites: [],
       socket: null,
       isConnected: false,
-      presenceUnsubscribe: null
+      presenceUnsubscribe: null,
+      _boundSocketId: null
     });
   }
 }));

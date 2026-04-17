@@ -10,6 +10,7 @@ export const BERSERKER_DATA = {
   name: 'Berserker',
   icon: 'fas fa-skull',
   role: 'Damage',
+  damageTypes: ['slashing', 'bludgeoning'],
 
   // Overview section
   overview: {

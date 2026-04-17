@@ -8,7 +8,6 @@ import useDebuffStore from '../../store/debuffStore';
 import useCraftingStore from '../../store/craftingStore';
 import usePartyStore from '../../store/partyStore';
 import useGameStore from '../../store/gameStore';
-import '../../styles/inventory.css';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { getItemById } from '../../data/itemLibraryData';
@@ -673,6 +672,9 @@ const InventoryWindow = memo(() => {
                     } else {
                         pendingOverheal = true;
                     }
+                } else if (healAmount < 0) {
+                    hasInstantEffects = true;
+                    applyResourceAdjustmentWithOverheal('health', healAmount, item);
                 }
             }
 
@@ -686,6 +688,9 @@ const InventoryWindow = memo(() => {
                     } else {
                         pendingOverheal = true;
                     }
+                } else if (manaAmount < 0) {
+                    hasInstantEffects = true;
+                    applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
                 }
             }
 
@@ -699,6 +704,9 @@ const InventoryWindow = memo(() => {
                     } else {
                         pendingOverheal = true;
                     }
+                } else if (apAmount < 0) {
+                    hasInstantEffects = true;
+                    applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
                 }
             }
 

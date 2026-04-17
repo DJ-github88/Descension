@@ -30,7 +30,7 @@ const WowWindow = forwardRef((props, ref) => {
         className = "",
         resizable = true,
         minConstraints = [300, 400],
-        maxConstraints = [1200, 1000],
+        maxConstraints = [2560, 1600],
         modal = false,
         centerTitle = false
     } = props;

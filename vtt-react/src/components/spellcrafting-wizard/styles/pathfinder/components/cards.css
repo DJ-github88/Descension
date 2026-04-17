@@ -2532,10 +2532,39 @@
   margin-top: 0;
 }
 
-/* Remove header border for wizard variant to eliminate unwanted line */
-.unified-spell-card.wizard .unified-spell-card-header,
-.unified-spell-card.wizard .spell-card-header {
-  border-bottom: none !important;
+/* Ultimate "Rustic Red" override for Spell Wizard Preview Headers */
+/* This specific high-specificity selector is designed to beat global cleanup rules and beige-themed defaults */
+html body .pf-spellbook .pf-spell-card.wizard .pf-spell-card-header,
+html body .pf-spellbook .pf-spell-card.wizard .wow-spell-card-header,
+html body .pf-spell-card.wizard .pf-spell-card-header,
+html body .pf-spell-card.wizard .wow-spell-card-header,
+body .pf-spell-card.wizard .pf-spell-card-header,
+body .pf-spell-card.wizard .wow-spell-card-header,
+.pf-spell-card.wizard .pf-spell-card-header,
+.pf-spell-card.wizard .wow-spell-card-header {
+  background: linear-gradient(135deg, #5a1e12 0%, #8B4513 50%, #2d1810 100%) !important;
+  border-bottom: 3px solid #3a1e12 !important;
+  color: #f0ead6 !important; /* Parchment white text for high contrast */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Explicitly restore black text for badges (Action, 60 ft, Targeting) to maintain clarity */
+.pf-spell-card.wizard .pf-spell-card-header .pf-action-type-badge,
+.pf-spell-card.wizard .pf-spell-card-header .pf-range-badge,
+.pf-spell-card.wizard .pf-spell-card-header .pf-targeting-badge,
+.pf-spell-card.wizard .wow-spell-card-header .pf-action-type-badge,
+.pf-spell-card.wizard .wow-spell-card-header .pf-range-badge,
+.pf-spell-card.wizard .wow-spell-card-header .pf-targeting-badge {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+/* Ensure child elements (name, icons, costs) in the red header also have proper contrast */
+.pf-spell-card.wizard .pf-spell-card-header .pf-spell-name,
+.pf-spell-card.wizard .pf-spell-card-header .wow-spell-card-title,
+.pf-spell-card.wizard .pf-spell-card-header .pf-spell-icon {
+  color: #f0ead6 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
 }
 
 .unified-spell-card.wizard .unified-spell-resource-costs,

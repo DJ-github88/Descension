@@ -2,6 +2,19 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
+let _multiplayerSocket = null;
+let _roomId = null;
+
+export function setCombatSyncSocket(socket, roomId) {
+  _multiplayerSocket = socket;
+  _roomId = roomId;
+}
+
+export function clearCombatSyncSocket() {
+  _multiplayerSocket = null;
+  _roomId = null;
+}
+
 // Initial state for the store
 const initialState = {
   // Active tab
@@ -129,6 +142,22 @@ const useChatStore = create(
       addCombatNotification: (notification) => {
         const { addNotification } = get();
         addNotification('combat', notification);
+
+        if (_multiplayerSocket && _multiplayerSocket.connected && _roomId) {
+          try {
+            const presenceStore = require('./presenceStore').default;
+            const presenceState = presenceStore.getState();
+            const playerName = presenceState.currentUser?.name || presenceState.displayName || 'Player';
+            _multiplayerSocket.emit('combat_log', {
+              roomId: _roomId,
+              playerName,
+              notification,
+              timestamp: new Date().toISOString()
+            });
+          } catch (e) {
+            // Not in multiplayer or store unavailable
+          }
+        }
       },
 
       // Add a social notification

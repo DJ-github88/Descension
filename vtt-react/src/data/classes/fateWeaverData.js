@@ -10,6 +10,7 @@ export const FATE_WEAVER_DATA = {
   name: 'Fate Weaver',
   icon: 'fas fa-magic',
   role: 'Support/Control',
+  damageTypes: ['psychic', 'force'],
 
   // Level-based spell pools for starter/auto-assignment
   // Used when switching class to immediately grant known spells

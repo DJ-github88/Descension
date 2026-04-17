@@ -166,6 +166,7 @@ function normalizeEffectTypes(spell) {
     if (spell.effects.control) types.push('control');
     if (spell.effects.utility) types.push('utility');
     if (spell.effects.summoning) types.push('summoning');
+    if (spell.effects.terrain) types.push('terrain');
     if (types.length > 0) return types;
   }
 
@@ -178,6 +179,7 @@ function normalizeEffectTypes(spell) {
   if (spell.utilityConfig) types.push('utility');
   if (spell.controlConfig) types.push('control');
   if (spell.summoningConfig) types.push('summoning');
+  if (spell.terrainConfig) types.push('terrain');
 
   return types.length > 0 ? types : ['utility'];
 }

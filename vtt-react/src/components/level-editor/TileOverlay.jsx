@@ -19,7 +19,7 @@ import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
 import './styles/TileOverlay.css';
 
-const DEFAULT_GM_NOTES_DATA = { title: '', description: '', notes: '', items: [], creatures: [] };
+const DEFAULT_GM_NOTES_DATA = { title: '', description: '', notes: '', noteIcon: 'scroll', items: [], creatures: [], npcs: [] };
 const DEFAULT_GM_NOTES_POSITION = { x: 300, y: 200 };
 
 const TileOverlay = () => {
@@ -43,6 +43,15 @@ const TileOverlay = () => {
     const [hoveredGMNote, setHoveredGMNote] = useState(null);
     const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    const [draggingConnection, setDraggingConnection] = useState(null);
+    const [dragScreenPos, setDragScreenPos] = useState({ x: 0, y: 0 });
+    const draggingConnectionRef = useRef(null);
+    const dragOffsetRef = useRef({ x: 0, y: 0 });
+    const dragStartClientRef = useRef({ x: 0, y: 0 });
+    const dragRafRef = useRef(null);
+    const pendingScreenPosRef = useRef(null);
+    const hasDraggedRef = useRef(false);
 
     // Debug connection context menu state
     useEffect(() => {
@@ -734,6 +743,107 @@ const TileOverlay = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    const handleConnectionDragStart = (e, element) => {
+        if (!isGMMode || e.button !== 0) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        draggingConnectionRef.current = element;
+        dragStartClientRef.current = { x: e.clientX, y: e.clientY };
+        hasDraggedRef.current = false;
+
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+        const elemX = element.gridX ?? (element.position?.x) ?? 0;
+        const elemY = element.gridY ?? (element.position?.y) ?? 0;
+        const worldPos = gridSystem.gridToWorld(elemX, elemY);
+        const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
+
+        dragOffsetRef.current = {
+            x: e.clientX - screenPos.x,
+            y: e.clientY - screenPos.y
+        };
+
+        const initialScreenPos = {
+            x: e.clientX - dragOffsetRef.current.x,
+            y: e.clientY - dragOffsetRef.current.y
+        };
+        pendingScreenPosRef.current = initialScreenPos;
+        setDragScreenPos(initialScreenPos);
+    };
+
+    useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+            if (!draggingConnectionRef.current) return;
+
+            const dx = e.clientX - dragStartClientRef.current.x;
+            const dy = e.clientY - dragStartClientRef.current.y;
+            if (!hasDraggedRef.current && Math.sqrt(dx * dx + dy * dy) > 3) {
+                hasDraggedRef.current = true;
+                setDraggingConnection(draggingConnectionRef.current);
+                setHoveredConnection(null);
+            }
+
+            if (!hasDraggedRef.current) return;
+
+            const newScreenPos = {
+                x: e.clientX - dragOffsetRef.current.x,
+                y: e.clientY - dragOffsetRef.current.y
+            };
+            pendingScreenPosRef.current = newScreenPos;
+
+            if (!dragRafRef.current) {
+                dragRafRef.current = requestAnimationFrame(() => {
+                    if (pendingScreenPosRef.current) {
+                        setDragScreenPos(pendingScreenPosRef.current);
+                    }
+                    dragRafRef.current = null;
+                });
+            }
+        };
+
+        const handleGlobalMouseUp = (e) => {
+            if (dragRafRef.current) {
+                cancelAnimationFrame(dragRafRef.current);
+                dragRafRef.current = null;
+            }
+
+            const element = draggingConnectionRef.current;
+            if (!element) return;
+
+            if (hasDraggedRef.current) {
+                const gridSystem = getGridSystem();
+                const viewport = gridSystem.getViewportDimensions();
+                const screenX = e.clientX - dragOffsetRef.current.x;
+                const screenY = e.clientY - dragOffsetRef.current.y;
+                const worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
+                const snappedPos = gridSystem.snapToGrid(worldPos.x, worldPos.y);
+                const gridCoords = gridSystem.worldToGrid(snappedPos.x + gridSize / 2, snappedPos.y + gridSize / 2);
+
+                updateDndElement(element.id, {
+                    gridX: gridCoords.x,
+                    gridY: gridCoords.y,
+                    position: { x: gridCoords.x, y: gridCoords.y }
+                });
+            }
+
+            draggingConnectionRef.current = null;
+            hasDraggedRef.current = false;
+            setDraggingConnection(null);
+        };
+
+        window.addEventListener('mousemove', handleGlobalMouseMove);
+        window.addEventListener('mouseup', handleGlobalMouseUp);
+        return () => {
+            window.removeEventListener('mousemove', handleGlobalMouseMove);
+            window.removeEventListener('mouseup', handleGlobalMouseUp);
+            if (dragRafRef.current) {
+                cancelAnimationFrame(dragRafRef.current);
+                dragRafRef.current = null;
+            }
+        };
+    }, [isGMMode, gridSize, updateDndElement]);
 
     // Get all tiles that have content within the visible area
     const getContentTiles = () => {
@@ -1732,6 +1842,8 @@ const TileOverlay = () => {
                                         // Allow connections/portals to render even if not in DND_ELEMENTS
                                         if (!elementType && !isPortal) return null;
 
+                                        if (isPortal && draggingConnection && draggingConnection.id === element.id) return null;
+
                                         // Check if this D&D element is under fog of war
                                         const elemX = element.gridX ?? (element.position?.x);
                                         const elemY = element.gridY ?? (element.position?.y);
@@ -1789,7 +1901,7 @@ const TileOverlay = () => {
                                                     // CRITICAL: Override parent's pointer-events: none to allow connections to receive mouse events
                                                     // Allow pointer events for portals: GM always, players when not hidden
                                                     pointerEvents: (isPortal && (isGMMode || !isHidden)) ? 'auto' : 'none',
-                                                    cursor: (isPortal && (isGMMode || !isHidden)) ? 'pointer' : 'default',
+                                                    cursor: (isPortal && (isGMMode || !isHidden)) ? (isGMMode ? 'grab' : 'pointer') : 'default',
                                                     // Ensure connection is above everything else in its stacking context
                                                     isolation: 'isolate', // Create new stacking context
                                                     opacity: isPortal
@@ -1802,15 +1914,13 @@ const TileOverlay = () => {
                                                     userSelect: 'none'
                                                 }}
                                                 onClick={canInteract ? (e) => {
-                                                    console.log('🔗 Connection onClick FIRED!', { elementId: element.id });
                                                     e.preventDefault();
                                                     e.stopPropagation();
+                                                    if (hasDraggedRef.current) return;
                                                     if (isPortal) {
                                                         handlePortalClick(element, e);
                                                     }
-                                                } : (e) => {
-                                                    console.log('🔗 Connection onClick FIRED! (Cannot interact)', { elementId: element.id, canInteract });
-                                                }}
+                                                } : (e) => {}}
                                                 onContextMenu={canInteract ? (e) => {
                                                     // Handle context menu like creature tokens do - prevent all propagation
                                                     console.log('🔗 Connection context menu handler called', {
@@ -1864,8 +1974,10 @@ const TileOverlay = () => {
                                                     }
                                                 }}
                                                 onMouseDown={(e) => {
-                                                    console.log('🔗 Connection onMouseDown FIRED!', { elementId: element.id });
                                                     e.stopPropagation();
+                                                    if (isPortal && isGMMode) {
+                                                        handleConnectionDragStart(e, element);
+                                                    }
                                                 }}
                                                 onMouseMove={(e) => {
                                                     e.stopPropagation();
@@ -2477,26 +2589,116 @@ const TileOverlay = () => {
                 );
             })()}
 
-            {/* GM Note Tooltip - styled like connection tooltip */}
+            {/* Dragging Connection Floating Element */}
+            {draggingConnection && (() => {
+                const elemProps = draggingConnection.properties || {};
+                const color = elemProps.color || '#4a90e2';
+                const connSize = Math.max(20, tileSize * effectiveZoom * 0.6);
+                const bw = Math.max(2, connSize * 0.1);
+                return createPortal(
+                    <div style={{
+                        position: 'fixed',
+                        left: dragScreenPos.x,
+                        top: dragScreenPos.y,
+                        transform: 'translate(-50%, -50%)',
+                        width: `${connSize}px`,
+                        height: `${connSize}px`,
+                        borderRadius: '50%',
+                        border: `${bw}px solid ${color}`,
+                        backgroundColor: `${color}40`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 999999,
+                        pointerEvents: 'none',
+                        boxShadow: `0 0 ${connSize * 0.6}px ${color}AA, inset 0 0 ${connSize * 0.3}px ${color}60`,
+                        cursor: 'grabbing',
+                        opacity: 0.85,
+                        transform: 'translate(-50%, -50%) scale(1.15)',
+                        transition: 'none'
+                    }}>
+                        <svg
+                            width={`${connSize * 0.6}px`}
+                            height={`${connSize * 0.6}px`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            style={{ pointerEvents: 'none', userSelect: 'none' }}
+                        >
+                            <circle cx="12" cy="12" r="8" stroke={color} strokeWidth="2" fill="none" />
+                            <circle cx="12" cy="12" r="4" fill={color} opacity="0.6" />
+                            <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={color} strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    </div>,
+                    document.body
+                );
+            })()}
+
+            {/* GM Note Tooltip - Enhanced Preview */}
             {hoveredGMNote && (() => {
-                const gmNotesData = hoveredGMNote.gmNotesData || { title: '', description: '', notes: '', items: [], creatures: [] };
+                const gmNotesData = hoveredGMNote.gmNotesData || { title: '', description: '', notes: '', noteIcon: 'scroll', items: [], creatures: [], npcs: [] };
                 const title = gmNotesData.title || 'GM Notes';
                 const description = gmNotesData.description || '';
                 const storedItems = gmNotesData.items || [];
                 const storedCreatures = gmNotesData.creatures || [];
+                const storedNpcs = gmNotesData.npcs || [];
+                const noteIcon = gmNotesData.noteIcon || 'scroll';
+                const structuredNotes = gmNotesData.structuredNotes;
+                const tags = (structuredNotes && structuredNotes.tags) || [];
+                const sections = (structuredNotes && structuredNotes.sections) || [];
 
-                // Calculate summary
+                const iconMap = {
+                    'scroll': 'fa-scroll', 'location': 'fa-map-marker-alt', 'npc': 'fa-users',
+                    'encounter': 'fa-skull-crossbones', 'trap': 'fa-exclamation-triangle', 'quest': 'fa-flag',
+                    'puzzle': 'fa-puzzle-piece', 'treasure': 'fa-gem', 'lore': 'fa-book-open',
+                    'shop': 'fa-store', 'secret': 'fa-eye-slash', 'monster': 'fa-dragon',
+                    'puzzle-door': 'fa-dungeon', 'event': 'fa-bolt', 'read-aloud': 'fa-book-reader',
+                    'safe-rest': 'fa-campground',
+                };
+                const iconClass = iconMap[noteIcon] || 'fa-scroll';
+
+                const TAG_TOOLTIP_COLORS = {
+                    'Trap': { bg: 'rgba(155,34,38,0.12)', border: 'rgba(155,34,38,0.3)', text: '#9b2226' },
+                    'Mystery': { bg: 'rgba(69,123,157,0.12)', border: 'rgba(69,123,157,0.3)', text: '#457b9d' },
+                    'Combat': { bg: 'rgba(194,88,40,0.12)', border: 'rgba(194,88,40,0.3)', text: '#c25828' },
+                    'Social': { bg: 'rgba(106,76,147,0.12)', border: 'rgba(106,76,147,0.3)', text: '#6a4c93' },
+                    'Ambush': { bg: 'rgba(180,74,30,0.12)', border: 'rgba(180,74,30,0.3)', text: '#b44a1e' },
+                    'Puzzle': { bg: 'rgba(42,110,122,0.12)', border: 'rgba(42,110,122,0.3)', text: '#2a6e7a' },
+                    'Lore': { bg: 'rgba(90,24,154,0.12)', border: 'rgba(90,24,154,0.3)', text: '#5a189a' },
+                    'Quest': { bg: 'rgba(38,70,83,0.12)', border: 'rgba(38,70,83,0.3)', text: '#264653' },
+                    'Treasure': { bg: 'rgba(181,131,141,0.12)', border: 'rgba(181,131,141,0.3)', text: '#b5838d' },
+                    'Moral Quandary': { bg: 'rgba(106,76,147,0.15)', border: 'rgba(106,76,147,0.35)', text: '#6a4c93' },
+                    'Sanctuary': { bg: 'rgba(42,157,143,0.12)', border: 'rgba(42,157,143,0.3)', text: '#2a9d8f' },
+                    'Shop': { bg: 'rgba(96,108,56,0.12)', border: 'rgba(96,108,56,0.3)', text: '#606c38' },
+                    'Job': { bg: 'rgba(180,130,30,0.12)', border: 'rgba(180,130,30,0.3)', text: '#b4821e' },
+                    'NPC': { bg: 'rgba(106,76,147,0.12)', border: 'rgba(106,76,147,0.3)', text: '#6a4c93' },
+                    'Environmental': { bg: 'rgba(42,157,143,0.12)', border: 'rgba(42,157,143,0.3)', text: '#2a9d8f' },
+                    'Stealth': { bg: 'rgba(74,78,105,0.12)', border: 'rgba(74,78,105,0.3)', text: '#4a4e69' },
+                    'Boss': { bg: 'rgba(107,15,26,0.12)', border: 'rgba(107,15,26,0.3)', text: '#6b0f1a' },
+                };
+
+                const allBlocks = sections.flatMap(s => s.blocks || []);
+                const blockCounts = {
+                    readAloud: allBlocks.filter(b => b.type === 'read-aloud').length,
+                    obvious: allBlocks.filter(b => b.type === 'obvious').length,
+                    hidden: allBlocks.filter(b => b.type === 'hidden').length,
+                    conditional: allBlocks.filter(b => b.type === 'conditional').length,
+                };
+                const firstReadAloud = allBlocks.find(b => b.type === 'read-aloud' && b.text);
+                const firstNpc = storedNpcs.find(n => n.name);
+                const npcCount = storedNpcs.filter(n => n.name).length;
                 const itemCount = storedItems.length;
                 const creatureCount = storedCreatures.length;
 
-                const summaryParts = [];
-                if (creatureCount > 0) {
-                    summaryParts.push(`${creatureCount} ${creatureCount === 1 ? 'Creature' : 'Creatures'}`);
-                }
-                if (itemCount > 0) {
-                    summaryParts.push(`${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}`);
-                }
-                const summary = summaryParts.length > 0 ? summaryParts.join(', ') : 'Empty';
+                const blockParts = [];
+                if (blockCounts.readAloud > 0) blockParts.push(`${blockCounts.readAloud} Read-Aloud`);
+                if (blockCounts.obvious > 0) blockParts.push(`${blockCounts.obvious} Obvious`);
+                if (blockCounts.hidden > 0) blockParts.push(`${blockCounts.hidden} Hidden`);
+                if (blockCounts.conditional > 0) blockParts.push(`${blockCounts.conditional} If/Then`);
+
+                const resourceParts = [];
+                if (npcCount > 0) resourceParts.push(`${npcCount} ${npcCount === 1 ? 'NPC' : 'NPCs'}`);
+                if (creatureCount > 0) resourceParts.push(`${creatureCount} ${creatureCount === 1 ? 'Creature' : 'Creatures'}`);
+                if (itemCount > 0) resourceParts.push(`${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}`);
 
                 return createPortal(
                     <div
@@ -2508,21 +2710,56 @@ const TileOverlay = () => {
                             transform: 'translate(10px, -50%)',
                             pointerEvents: 'none',
                             zIndex: 99999999,
-                            whiteSpace: 'pre-line'
+                            whiteSpace: 'pre-line',
+                            maxWidth: '320px'
                         }}
                     >
                         <div className="tooltip-header">
+                            <i className={`fas ${iconClass}`} style={{ marginRight: '6px' }}></i>
                             {title}
                         </div>
+                        {tags.length > 0 && (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '6px' }}>
+                                {tags.map(tag => {
+                                    const tc = TAG_TOOLTIP_COLORS[tag] || { bg: 'rgba(139,69,19,0.12)', border: 'rgba(139,69,19,0.25)', text: '#8B4513' };
+                                    return (
+                                        <span key={tag} style={{
+                                            fontSize: '10px',
+                                            padding: '2px 8px',
+                                            borderRadius: '10px',
+                                            background: tc.bg,
+                                            border: `1px solid ${tc.border}`,
+                                            color: tc.text,
+                                            fontWeight: '700',
+                                            letterSpacing: '0.3px'
+                                        }}>{tag}</span>
+                                    );
+                                })}
+                            </div>
+                        )}
                         <div style={{ marginTop: '8px', fontSize: '13px', lineHeight: '1.6' }}>
                             {description && (
-                                <div style={{ color: '#5a1e12', marginBottom: '6px' }}>
-                                    {description}
+                                <div style={{ color: '#5a1e12', marginBottom: '6px', fontStyle: 'italic' }}>
+                                    {description.length > 120 ? description.substring(0, 120) + '...' : description}
                                 </div>
                             )}
-                            <div style={{ color: '#7a3b2e', fontStyle: 'italic' }}>
-                                {summary}
-                            </div>
+                            {firstReadAloud && (
+                                <div style={{ color: '#6b4c00', fontStyle: 'italic', fontSize: '12px', marginBottom: '6px', padding: '4px 6px', background: 'rgba(212,175,55,0.08)', borderRadius: '3px', border: '1px solid rgba(212,175,55,0.15)' }}>
+                                    <i className="fas fa-scroll" style={{ color: '#d4af37', marginRight: '4px', fontSize: '10px' }}></i>
+                                    {firstReadAloud.text.length > 80 ? `"${firstReadAloud.text.substring(0, 80)}..."` : `"${firstReadAloud.text}"`}
+                                </div>
+                            )}
+                            {blockParts.length > 0 && (
+                                <div style={{ color: '#5a1e12', fontSize: '11px', fontWeight: '600', marginBottom: '4px' }}>
+                                    {blockParts.join(' · ')}
+                                </div>
+                            )}
+                            {resourceParts.length > 0 && (
+                                <div style={{ color: '#7a3b2e', fontStyle: 'italic', fontSize: '12px' }}>
+                                    {resourceParts.join(', ')}
+                                    {firstNpc && <span> — <strong>{firstNpc.name}</strong></span>}
+                                </div>
+                            )}
                         </div>
                     </div>,
                     document.body

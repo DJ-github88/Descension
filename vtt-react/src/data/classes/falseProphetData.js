@@ -10,6 +10,7 @@ export const FALSE_PROPHET_DATA = {
   name: 'False Prophet',
   icon: 'fas fa-eye',
   role: 'Caster/Controller',
+  damageTypes: ['psychic', 'void', 'necrotic'],
 
   // Overview section
   overview: {

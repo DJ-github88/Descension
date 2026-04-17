@@ -10,6 +10,7 @@ export const ARCANONEER_DATA = {
   name: 'Arcanoneer',
   icon: 'fas fa-atom',
   role: 'Damage/Utility',
+  damageTypes: ['arcane', 'fire', 'frost', 'lightning', 'force', 'chaos'],
 
   // Overview section
   overview: {

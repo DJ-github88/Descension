@@ -24,10 +24,7 @@ import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
 import ExternalRecipePreview from '../crafting/ExternalRecipePreview';
 import SmartTabButton from '../common/SmartTabButton';
-import '../../styles/item-library.css';
-import '../../styles/quick-item-wizard.css';
-import '../../styles/enhanced-quick-item-wizard.css';
-import '../../styles/item-card.css';
+
 import { STEPS, getStepOrder } from './wizardSteps';
 import { WEAPON_SUBTYPES } from './weaponTypes';
 import { RARITY_COLORS } from '../../constants/itemConstants';
@@ -314,15 +311,30 @@ const VirtualizedItemGrid = memo(({
 }) => {
     const gridRef = useRef(null);
     const containerRef = useRef(null);
-    const [dimensions, setDimensions] = useState(null);
+    const [dimensions, setDimensions] = useState(() => {
+        // Try to get initial dimensions if window is available
+        if (typeof window !== 'undefined') {
+            return { width: 800, height: 600 }; // Better default than null
+        }
+        return null;
+    });
 
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
 
+        // Try to get actual dimensions immediately
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+            setDimensions({ width: Math.floor(rect.width), height: Math.floor(rect.height) });
+        }
+
         const observer = new ResizeObserver((entries) => {
             for (const entry of entries) {
-                const { width, height } = entry.contentRect;
+                // Use borderBoxSize for more accurate measurement of the container
+                const width = entry.borderBoxSize?.[0]?.inlineSize || entry.contentRect.width;
+                const height = entry.borderBoxSize?.[0]?.blockSize || entry.contentRect.height;
+                
                 if (width > 0 && height > 0) {
                     setDimensions({ width: Math.floor(width), height: Math.floor(height) });
                 }
@@ -570,6 +582,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 combatStats: {
                     healthRestore: { value: parseInt(itemToEdit.combatStats?.healthRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.healthRestore?.isPercentage || false },
                     manaRestore: { value: parseInt(itemToEdit.combatStats?.manaRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.manaRestore?.isPercentage || false },
+                    apRestore: { value: parseInt(itemToEdit.combatStats?.apRestore?.value) || 0, isPercentage: itemToEdit.combatStats?.apRestore?.isPercentage || false },
                     piercingDamage: { value: parseInt(itemToEdit.combatStats?.piercingDamage?.value) || 0, isPercentage: itemToEdit.combatStats?.piercingDamage?.isPercentage || false },
                     bludgeoningDamage: { value: parseInt(itemToEdit.combatStats?.bludgeoningDamage?.value) || 0, isPercentage: itemToEdit.combatStats?.bludgeoningDamage?.isPercentage || false },
                     slashingDamage: { value: parseInt(itemToEdit.combatStats?.slashingDamage?.value) || 0, isPercentage: itemToEdit.combatStats?.slashingDamage?.isPercentage || false },
@@ -626,7 +639,9 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     };
 
     const handleUnlockSuccess = (item) => {
-        toggleContainerOpen(item.id);
+        if (!openContainers.has(item.id)) {
+            toggleContainerOpen(item.id);
+        }
         setShowUnlockModal(false);
         setUnlockModalItem(null);
     };
@@ -1353,6 +1368,18 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 />,
                 document.body
             )}
+
+            {Array.from(openContainers instanceof Set ? openContainers : new Set(Array.isArray(openContainers) ? openContainers : [])).map(containerId => {
+                const container = items.find(item => item.id === containerId);
+                if (!container || container.type !== 'container') return null;
+                return (
+                    <ContainerWindow
+                        key={containerId}
+                        container={container}
+                        onClose={() => toggleContainerOpen(containerId)}
+                    />
+                );
+            })}
         </WowWindow>
     );
 };

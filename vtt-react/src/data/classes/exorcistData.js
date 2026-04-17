@@ -10,6 +10,7 @@ export const EXORCIST_DATA = {
   name: 'Exorcist',
   icon: 'fas fa-cross',
   role: 'Summoner/Controller',
+  damageTypes: ['radiant', 'force'],
 
   // Overview section
   overview: {

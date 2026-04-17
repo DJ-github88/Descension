@@ -3,7 +3,7 @@ import useItemStore from '../../store/itemStore';
 import ItemWizard from './ItemWizard';
 import ManualCoinGenerationModal from './ManualCoinGenerationModal';
 import { createCustomShape } from '../../utils/itemShapeUtils';
-import '../../styles/item-generation.css';
+
 
 // Base grid size - will be adjusted based on available space
 const BASE_GRID_SIZE = {

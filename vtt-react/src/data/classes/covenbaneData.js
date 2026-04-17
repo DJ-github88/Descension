@@ -4,6 +4,7 @@ export const COVENBANE_DATA = {
   icon: 'fas fa-crosshairs',
   color: '#8B4513',
   role: 'Anti-Magic Hunter',
+  damageTypes: ['radiant', 'force', 'slashing'],
 
   // Overview section
   overview: {

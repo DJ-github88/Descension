@@ -10,6 +10,7 @@ export const TITAN_DATA = {
   name: 'Titan',
   icon: 'fas fa-sun',
   role: 'Melee/Tank',
+  damageTypes: ['bludgeoning', 'radiant', 'force'],
 
   // Overview section
   overview: {

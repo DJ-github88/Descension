@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import '../../styles/item-wizard.css';
-import '../../styles/step-tooltip.css';
+
 import { WOW_ICONS, getIconUrl } from './wowIcons';
 import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS } from './itemConstants';
 

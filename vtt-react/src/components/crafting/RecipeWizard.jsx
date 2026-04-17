@@ -5,7 +5,6 @@ import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftin
 import TooltipPortal from '../tooltips/TooltipPortal';
 import ExternalRecipePreview from './ExternalRecipePreview';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/recipe-wizard.css';
 
 const LazyItemTooltip = React.lazy(() => import('../item-generation/ItemTooltip'));
 

@@ -10,6 +10,7 @@ export const MINSTREL_DATA = {
   name: 'Minstrel',
   icon: 'fas fa-music',
   role: 'Support',
+  damageTypes: ['psychic', 'force'],
 
   // Overview section
   overview: {

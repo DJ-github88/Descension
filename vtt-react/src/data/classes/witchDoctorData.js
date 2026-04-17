@@ -11,6 +11,7 @@ export const WITCH_DOCTOR_DATA = {
   name: 'Witch Doctor',
   icon: 'fas fa-skull',
   role: 'Support/Damage',
+  damageTypes: ['necrotic', 'nature', 'poison'],
 
   // Overview section
   overview: {

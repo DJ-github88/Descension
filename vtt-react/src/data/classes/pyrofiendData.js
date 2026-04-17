@@ -10,6 +10,7 @@ export const PYROFIEND_DATA = {
   name: 'Pyrofiend',
   icon: 'fas fa-fire',
   role: 'Damage',
+  damageTypes: ['fire'],
 
   // Overview section
   overview: {

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import Draggable from 'react-draggable';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
+import useGridItemStore from '../../store/gridItemStore';
 import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import LockSettingsModal from './LockSettingsModal';
@@ -13,8 +14,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import DraggableWindow from '../windows/DraggableWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/container-window.css';
-import '../../styles/draggable-window.css';
+
 
 // Helper function to get display name (custom name or original name)
 const getDisplayName = (item) => {
@@ -71,10 +71,20 @@ const ContainerWindow = ({ container, onClose }) => {
     // Get store functions
     const updateItem = useItemStore(state => state.updateItem);
     const updateInventoryItem = useInventoryStore(state => state.updateItem);
+    const updateGridItemProperties = useGridItemStore(state => state.updateGridItemProperties);
     const addItemToInventory = useInventoryStore(state => state.addItemFromLibrary);
 
     // Helper function to update container in the correct store
     const updateContainer = (containerId, updates) => {
+        // Check if container is in grid store (highest priority for grid items)
+        const gridItems = useGridItemStore.getState().gridItems;
+        const isInGrid = gridItems.some(item => item.id === containerId);
+
+        if (isInGrid) {
+            updateGridItemProperties(containerId, updates);
+            return;
+        }
+
         // Check if container is in inventory store
         const inventoryItems = useInventoryStore.getState().items;
         const isInInventory = inventoryItems.some(item => item.id === containerId);
@@ -86,13 +96,22 @@ const ContainerWindow = ({ container, onClose }) => {
         }
     };
 
-    // Subscribe to the item store to get live updates to the container
+    // Subscribe to all relevant stores to get live updates for the container
+    // This ensures that if a GM adds an item to a grid container, players see it immediately
     const containerFromStore = useItemStore(state =>
         state.items.find(item => item.id === container.id)
     );
 
-    // Use the store version if available, otherwise fall back to the prop
-    const currentContainer = containerFromStore || container;
+    const containerFromGrid = useGridItemStore(state =>
+        state.gridItems.find(item => item.id === container.id)
+    );
+
+    const containerFromInventory = useInventoryStore(state =>
+        state.items.find(item => item.id === container.id)
+    );
+
+    // Use the most specific store version if available, otherwise fall back to the prop
+    const currentContainer = containerFromGrid || containerFromStore || containerFromInventory || container;
 
     const containerRef = useRef(null);
     const draggableRef = useRef(null);
